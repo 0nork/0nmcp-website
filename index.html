@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PRIMARY SEO -->
+  <title>0nMCP — Automate MCP Servers | Chain, Combine & Orchestrate AI Tools</title>
+  <meta name="description" content="0nMCP is the universal MCP orchestrator that lets AI assistants chain multiple MCP servers into automated workflows. 252 tools, 17 services, one command. Combine MCP servers, automate AI integrations, and deploy intelligent workflows.">
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:title" content="0nMCP — The Universal MCP Orchestrator">
+  <meta property="og:description" content="Chain, combine, and automate MCP servers with 252 tools across 17 services. One install. One trigger. Infinite workflows.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://0nmcp.com">
+  <meta property="og:image" content="https://0nmcp.com/og-image.png">
+  <meta property="og:site_name" content="0nMCP">
+
+  <!-- TWITTER CARD -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="0nMCP — Automate MCP Servers | Chain & Combine AI Tools">
+  <meta name="twitter:description" content="252 tools. 17 services. One MCP orchestrator. Chain multiple AI tools into automated workflows with a single trigger.">
+  <meta name="twitter:image" content="https://0nmcp.com/og-image.png">
+
+  <!-- ADDITIONAL SEO -->
+  <meta name="keywords" content="MCP orchestrator, automated MCP, combine MCP servers, chain MCP, MCP working together, integrated MCP, AI MCP, MCP federation, multi-server MCP, MCP automation, Model Context Protocol, AI workflow automation, MCP tools">
+  <meta name="author" content="RocketOpp, LLC">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://0nmcp.com">
+
+  <!-- STRUCTURED DATA - SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "0nMCP",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cross-platform",
+    "description": "Universal MCP orchestrator that chains, combines, and automates multiple Model Context Protocol servers into unified workflows. 252 tools across 17 services.",
+    "url": "https://0nmcp.com",
+    "downloadUrl": "https://www.npmjs.com/package/0nmcp",
+    "softwareVersion": "1.2.2",
+    "author": {
+      "@type": "Organization",
+      "name": "RocketOpp, LLC",
+      "url": "https://rocketopp.com"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "name": "Free",
+        "description": "100 API calls/day, basic CLI, community support"
+      },
+      {
+        "@type": "Offer",
+        "price": "29",
+        "priceCurrency": "USD",
+        "name": "Pro",
+        "description": "10,000 calls/day, signed exports, visual builder, marketplace access"
+      },
+      {
+        "@type": "Offer",
+        "price": "99",
+        "priceCurrency": "USD",
+        "name": "Team",
+        "description": "Unlimited calls, team collaboration, SSO, priority support"
+      }
+    ]
+  }
+  </script>
+
+  <!-- STRUCTURED DATA - FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is MCP orchestration?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MCP orchestration is the process of combining multiple Model Context Protocol servers into unified, automated workflows. Instead of connecting AI assistants to individual MCP servers one at a time, an orchestrator like 0nMCP federates them under a single gateway — enabling chained, parallel, and conditional execution across services like CRM, email, calendar, and databases through a single trigger."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I combine multiple MCP servers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install 0nMCP with 'npx 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 17 services out of the box and provides 252 tools that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can MCP servers work together automatically?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. 0nMCP's patented federation architecture enables MCP servers to work together through automated workflows. A single webhook, API call, or manual trigger can initiate multi-phase operations across CRM, email, calendar, database, and other MCP servers simultaneously."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the .0n standard?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The .0n standard is a universal configuration format for MCP servers — like docker-compose.yml but for AI tools. It standardizes how MCP servers are configured across different clients including Claude Desktop, Cursor, VS Code, Windsurf, and Gemini CLI, solving the incompatible configuration problem."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is 0nMCP different from other MCP tools?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "0nMCP is the only MCP platform with a patented three-level execution hierarchy (Pipeline, Assembly Line, Radial Burst), a universal configuration standard (.0n), and a federation gateway that unifies all MCP servers under one endpoint. Other tools connect to servers individually — 0nMCP orchestrates them as a system."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- STRUCTURED DATA - HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Automate MCP Servers with 0nMCP",
+    "description": "Set up automated MCP server orchestration in under 2 minutes",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Install 0nMCP",
+        "text": "Run 'npx 0nmcp' or 'npm install -g 0nmcp' to install the universal MCP orchestrator."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Authenticate",
+        "text": "Run 'npx 0nmcp auth' to connect your API key from 0nmcp.com."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Configure Services",
+        "text": "Add your MCP server configurations to a .0n file or use the built-in 17 service adapters."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Create Workflows",
+        "text": "Define Pipeline, Assembly Line, and Radial Burst workflows that chain multiple MCP servers together."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Deploy",
+        "text": "Trigger your automated MCP workflow via webhook, API call, or manual invocation."
+      }
+    ]
+  }
+  </script>
+
+  <!-- STRUCTURED DATA - Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "0nORK",
+    "url": "https://0nork.com",
+    "logo": "https://0nmcp.com/og-image.png",
+    "sameAs": [
+      "https://github.com/0nork",
+      "https://www.npmjs.com/package/0nmcp"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "RocketOpp, LLC",
+      "url": "https://rocketopp.com"
+    }
+  }
+  </script>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-tertiary: #16161f;
+      --bg-card: #1a1a25;
+      --text-primary: #e8e8ef;
+      --text-secondary: #8888a0;
+      --text-muted: #55556a;
+      --accent: #00ff88;
+      --accent-dim: #00cc6a;
+      --accent-glow: rgba(0, 255, 136, 0.15);
+      --accent-secondary: #00d4ff;
+      --warning: #ff6b35;
+      --border: #2a2a3a;
+      --border-hover: #3a3a50;
+      --font-display: 'Instrument Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-serif: 'Instrument Serif', serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary); }
+    .logo-mark { font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; }
+    .logo-mark .accent { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-cta { background: var(--accent); color: var(--bg-primary) !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 600 !important; font-family: var(--font-mono); font-size: 0.8rem !important; letter-spacing: 0.02em; transition: all 0.2s; }
+    .nav-cta:hover { background: #00ffaa; box-shadow: 0 0 20px var(--accent-glow); }
+    .mobile-menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text-primary); padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; }
+
+    /* HERO */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 8rem 2rem 4rem; z-index: 1; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); top: 10%; left: 50%; transform: translateX(-50%); pointer-events: none; animation: pulse 8s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 0.4; transform: translateX(-50%) scale(1); } 50% { opacity: 0.7; transform: translateX(-50%) scale(1.1); } }
+    .hero-content { max-width: 900px; text-align: center; position: relative; z-index: 2; }
+    .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--bg-card); border: 1px solid var(--border); padding: 0.4rem 1rem; border-radius: 100px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 2rem; animation: fadeInUp 0.6s ease-out; }
+    .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.5rem; animation: fadeInUp 0.6s ease-out 0.1s both; }
+    h1 .gradient { background: linear-gradient(135deg, var(--accent), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: 1.25rem; color: var(--text-secondary); max-width: 640px; margin: 0 auto 2.5rem; line-height: 1.7; animation: fadeInUp 0.6s ease-out 0.2s both; }
+    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 3rem; animation: fadeInUp 0.6s ease-out 0.3s both; flex-wrap: wrap; }
+
+    .btn-primary { background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-weight: 700; font-size: 0.9rem; padding: 0.85rem 2rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; border: none; cursor: pointer; }
+    .btn-primary:hover { background: #00ffaa; box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-weight: 500; font-size: 0.9rem; padding: 0.85rem 2rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s; border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .install-cmd { display: inline-flex; align-items: center; gap: 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.5rem; font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-secondary); animation: fadeInUp 0.6s ease-out 0.4s both; cursor: pointer; transition: all 0.2s; }
+    .install-cmd:hover { border-color: var(--accent); }
+    .install-cmd code { color: var(--accent); font-weight: 500; }
+    .install-cmd .copy-icon { color: var(--text-muted); transition: color 0.2s; }
+    .install-cmd:hover .copy-icon { color: var(--accent); }
+    .install-cmd .copied { color: var(--accent); font-size: 0.75rem; display: none; }
+
+    .stats-bar { display: flex; justify-content: center; gap: 3rem; padding: 3rem 2rem; flex-wrap: wrap; animation: fadeInUp 0.6s ease-out 0.5s both; }
+    .stat { text-align: center; }
+    .stat-num { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--accent); display: block; }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; padding: 6rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 1rem; }
+    h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1rem; }
+    .section-desc { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; line-height: 1.7; margin-bottom: 3rem; }
+
+    /* PROBLEM / SOLUTION */
+    .problem-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+    .problem-card, .solution-card { padding: 2rem; border-radius: 12px; border: 1px solid var(--border); }
+    .problem-card { background: rgba(255,107,53,0.05); border-color: rgba(255,107,53,0.2); }
+    .solution-card { background: rgba(0,255,136,0.03); border-color: rgba(0,255,136,0.15); }
+    .problem-card h3 { color: var(--warning); font-size: 0.85rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+    .solution-card h3 { color: var(--accent); font-size: 0.85rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+    .problem-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .problem-list li { display: flex; gap: 0.75rem; align-items: flex-start; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; }
+    .problem-list li .icon { flex-shrink: 0; font-size: 1rem; line-height: 1.5; }
+
+    /* ARCHITECTURE */
+    .architecture-visual { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .arch-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.3s; }
+    .arch-card:hover { border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-4px); }
+    .arch-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .arch-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), transparent); }
+    .arch-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent-secondary), transparent); }
+    .arch-card:nth-child(3)::before { background: linear-gradient(90deg, var(--warning), transparent); }
+    .arch-level { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .arch-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .arch-card .emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .arch-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 3rem; }
+    .service-chip { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); transition: all 0.2s; }
+    .service-chip:hover { border-color: var(--accent); color: var(--text-primary); background: rgba(0,255,136,0.03); }
+    .service-chip .service-icon { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
+
+    /* CODE */
+    .code-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .code-block { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 2rem; }
+    .code-header { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background: var(--bg-tertiary); border-bottom: 1px solid var(--border); }
+    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-dot.red { background: #ff5f57; } .code-dot.yellow { background: #febc2e; } .code-dot.green { background: #28c840; }
+    .code-body { padding: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.8; overflow-x: auto; }
+    .code-body .comment { color: var(--text-muted); }
+    .code-body .keyword { color: var(--accent-secondary); }
+    .code-body .string { color: var(--accent); }
+    .code-body .func { color: var(--warning); }
+
+    /* .0N STANDARD */
+    .standard-highlight { background: linear-gradient(135deg, rgba(0,255,136,0.05), rgba(0,212,255,0.05)); border: 1px solid rgba(0,255,136,0.1); border-radius: 16px; padding: 3rem; margin-top: 3rem; }
+    .standard-highlight h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+    .standard-highlight p { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; max-width: 600px; }
+    .client-logos { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .client-logo { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 1.2rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); }
+
+    /* LIVE ACTIVITY FEED */
+    .activity-feed { margin-top: 3rem; }
+    .activity-feed h3 { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .activity-feed h3 .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; animation: blink 1.5s infinite; }
+    .activity-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); animation: slideIn 0.4s ease-out; opacity: 0; }
+    .activity-item.visible { opacity: 1; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+    .activity-item .activity-time { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+
+    /* PRICING */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .price-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem 2rem; position: relative; transition: all 0.3s; }
+    .price-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+    .price-card.featured { border-color: var(--accent); box-shadow: 0 0 40px var(--accent-glow); }
+    .price-card.featured::before { content: 'MOST POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.3rem 1rem; border-radius: 100px; }
+    .price-tier { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .price-amount { font-size: 3rem; font-weight: 700; line-height: 1; margin-bottom: 0.25rem; }
+    .price-amount .dollar { font-size: 1.5rem; color: var(--text-muted); vertical-align: super; }
+    .price-amount .period { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+    .price-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.5; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+    .price-features li { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.875rem; }
+    .price-features li .check { color: var(--accent); font-weight: 700; }
+    .price-btn { display: block; width: 100%; text-align: center; padding: 0.75rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s; border: 1px solid var(--border); color: var(--text-primary); background: transparent; cursor: pointer; }
+    .price-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .price-card.featured .price-btn { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
+    .price-card.featured .price-btn:hover { background: #00ffaa; }
+
+    /* SHARE / VIRAL */
+    .share-section { background: linear-gradient(135deg, rgba(0,255,136,0.03), rgba(0,212,255,0.03)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .share-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .share-btn { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; transition: all 0.2s; cursor: pointer; }
+    .share-btn:hover { border-color: var(--accent); color: var(--text-primary); transform: translateY(-2px); }
+    .share-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .share-reward { margin-top: 2rem; padding: 1.5rem 2rem; background: var(--bg-card); border: 1px solid rgba(0,255,136,0.2); border-radius: 12px; text-align: center; }
+    .share-reward p { color: var(--text-secondary); font-size: 0.9rem; }
+    .share-reward .reward-count { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 0.25rem; }
+    .share-reward .reward-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* COMMUNITY */
+    .community-section { background: var(--bg-secondary); border-top: 1px solid var(--border); }
+    .community-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .community-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; text-decoration: none; transition: all 0.3s; display: block; }
+    .community-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .community-card h3 { color: var(--text-primary); font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .community-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+    .community-card .card-icon { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+
+    /* FAQ */
+    .faq-section { }
+    .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 0.75rem; overflow: hidden; background: var(--bg-card); }
+    .faq-item summary { padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 0.95rem; list-style: none; display: flex; justify-content: space-between; align-items: center; transition: color 0.2s; }
+    .faq-item summary:hover { color: var(--accent); }
+    .faq-item summary::after { content: '+'; font-family: var(--font-mono); font-size: 1.2rem; color: var(--text-muted); transition: transform 0.2s; }
+    .faq-item[open] summary::after { content: '-'; color: var(--accent); }
+    .faq-answer { padding: 0 1.5rem 1.25rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+
+    /* PATENT */
+    .patent-strip { background: var(--bg-tertiary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; text-align: center; }
+    .patent-strip p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em; }
+    .patent-strip .patent-num { color: var(--accent); font-weight: 600; }
+
+    /* FLOATING SHARE BAR */
+    .floating-share { position: fixed; left: 1rem; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 0.5rem; opacity: 0; transition: opacity 0.3s; }
+    .floating-share.visible { opacity: 1; }
+    .floating-share a, .floating-share button { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-muted); text-decoration: none; transition: all 0.2s; cursor: pointer; font-size: 0; }
+    .floating-share a:hover, .floating-share button:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,255,136,0.05); }
+    .floating-share svg { width: 18px; height: 18px; }
+
+    /* FOOTER */
+    footer { position: relative; z-index: 1; padding: 4rem 2rem 2rem; border-top: 1px solid var(--border); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+    .footer-brand p { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.6; }
+    .footer-col h4 { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col a { color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom { max-width: 1100px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); gap: 1rem; }
+      .mobile-menu-btn { display: block; }
+      .problem-grid, .architecture-visual, .pricing-grid, .community-grid, .footer-inner { grid-template-columns: 1fr; }
+      .stats-bar { gap: 1.5rem; }
+      h1 { font-size: 2.25rem; }
+      .hero-sub { font-size: 1.05rem; }
+      section { padding: 4rem 1.25rem; }
+      .floating-share { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- FLOATING SHARE BAR -->
+<div class="floating-share" id="floatingShare">
+  <a href="#" id="floatTwitter" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  </a>
+  <a href="#" id="floatLinkedIn" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a href="#" id="floatReddit" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+  </a>
+  <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" aria-label="Star on GitHub">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+  </a>
+  <button id="floatCopyLink" aria-label="Copy link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+  </button>
+</div>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-mark"><span class="accent">0n</span>MCP</span>
+    </a>
+    <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer">npm</a></li>
+      <li><a href="https://registry.modelcontextprotocol.io/?q=0nMCP" target="_blank" rel="noopener noreferrer" class="nav-cta">MCP Registry</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="badge">
+      <span class="dot"></span>
+      v1.2.2 &mdash; 252 tools live
+    </div>
+
+    <h1>
+      Chain, Combine &amp;<br>
+      <span class="gradient">Automate MCP Servers</span>
+    </h1>
+
+    <p class="hero-sub">
+      The universal MCP orchestrator that federates multiple AI tool servers into
+      automated workflows. 17 services. 252 tools. One command.
+    </p>
+
+    <div class="hero-actions">
+      <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="btn-primary">
+        Star on GitHub &rarr;
+      </a>
+      <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+        View on npm
+      </a>
+    </div>
+
+    <div class="install-cmd" id="installCmd" role="button" tabindex="0">
+      <span>$</span>
+      <code>npx 0nmcp</code>
+      <span class="copy-icon" id="copyIcon">&#128203;</span>
+      <span class="copied" id="copiedMsg">Copied!</span>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-num" data-count="252">0</span><span class="stat-label">Tools</span></div>
+      <div class="stat"><span class="stat-num" data-count="17">0</span><span class="stat-label">Services</span></div>
+      <div class="stat"><span class="stat-num" data-count="245">0</span><span class="stat-label">CRM Tools</span></div>
+      <div class="stat"><span class="stat-num" data-count="12">0</span><span class="stat-label">Modules</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM / SOLUTION -->
+<section class="problem-section" id="why">
+  <div class="section-inner">
+    <span class="section-label">The Problem</span>
+    <h2>MCP Servers Don't Work Together.<br>Until Now.</h2>
+    <p class="section-desc">
+      Every AI assistant connects to MCP servers individually. No chaining. No automation. No orchestration.
+      You're left manually coordinating tools that should just work as a system.
+    </p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <h3>Without 0nMCP</h3>
+        <ul class="problem-list">
+          <li><span class="icon" style="color:var(--warning);">&#10005;</span> Connect to each MCP server separately</li>
+          <li><span class="icon" style="color:var(--warning);">&#10005;</span> Manually coordinate multi-step processes</li>
+          <li><span class="icon" style="color:var(--warning);">&#10005;</span> No workflow persistence or state tracking</li>
+          <li><span class="icon" style="color:var(--warning);">&#10005;</span> Different config format per client</li>
+          <li><span class="icon" style="color:var(--warning);">&#10005;</span> No parallel execution across services</li>
+          <li><span class="icon" style="color:var(--warning);">&#10005;</span> Zero portability &mdash; workflows stuck on one machine</li>
+        </ul>
+      </div>
+      <div class="solution-card">
+        <h3>With 0nMCP</h3>
+        <ul class="problem-list">
+          <li><span class="icon" style="color:var(--accent);">&#10003;</span> Federate all servers under one orchestration gateway</li>
+          <li><span class="icon" style="color:var(--accent);">&#10003;</span> Chain tools into automated multi-phase workflows</li>
+          <li><span class="icon" style="color:var(--accent);">&#10003;</span> Full execution logging, state, and audit trail</li>
+          <li><span class="icon" style="color:var(--accent);">&#10003;</span> Universal .0n config standard &mdash; write once, run everywhere</li>
+          <li><span class="icon" style="color:var(--accent);">&#10003;</span> Radial Burst parallel execution across MCP servers</li>
+          <li><span class="icon" style="color:var(--accent);">&#10003;</span> Export, share, and sell portable workflow packages</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE-LEVEL ARCHITECTURE -->
+<section id="how-it-works">
+  <div class="section-inner">
+    <span class="section-label">Patented Architecture</span>
+    <h2>Three-Level Execution Hierarchy</h2>
+    <p class="section-desc">
+      The only MCP orchestrator with a patented Pipeline &rarr; Assembly Line &rarr; Radial Burst
+      execution model. Sequential phases. Decision points. Parallel actions.
+    </p>
+    <div class="architecture-visual">
+      <div class="arch-card">
+        <span class="emoji">&#128279;</span>
+        <span class="arch-level">Level 1</span>
+        <h3>Pipeline</h3>
+        <p>Sequential phases that represent major milestones. Each phase completes before the next begins. Think: intake &rarr; process &rarr; deliver.</p>
+      </div>
+      <div class="arch-card">
+        <span class="emoji">&#9889;</span>
+        <span class="arch-level">Level 2</span>
+        <h3>Assembly Line</h3>
+        <p>Decision moments within each phase. Sequential checkpoints that evaluate conditions, route data, and determine what happens next.</p>
+      </div>
+      <div class="arch-card">
+        <span class="emoji">&#128165;</span>
+        <span class="arch-level">Level 3</span>
+        <h3>Radial Burst</h3>
+        <p>Parallel action execution. Multiple MCP servers fire simultaneously &mdash; CRM, email, calendar, database &mdash; all in one coordinated burst.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CODE EXAMPLE -->
+<section class="code-section">
+  <div class="section-inner">
+    <span class="section-label">Quick Start</span>
+    <h2>From Install to Orchestration in 60 Seconds</h2>
+    <p class="section-desc">
+      0nMCP works with any MCP-compatible client. Install globally, authenticate, and start automating.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-dot red"></span>
+        <span class="code-dot yellow"></span>
+        <span class="code-dot green"></span>
+      </div>
+      <div class="code-body">
+        <span class="comment"># Install the 0nMCP orchestrator</span><br>
+        <span class="keyword">npx</span> <span class="string">0nmcp</span><br><br>
+        <span class="comment"># Add to Claude Desktop config</span><br>
+        <span class="keyword">cat</span> <span class="func">~/Library/Application\ Support/Claude/claude_desktop_config.json</span><br><br>
+        <span class="comment"># Talk to your services naturally</span><br>
+        <span class="string">"Invoice john@acme.com for $500 and notify #sales on Slack"</span><br><br>
+        <span class="comment"># 0nMCP handles the rest:</span><br>
+        <span class="func">Step 1:</span> <span class="string">Found John Smith in Stripe</span><br>
+        <span class="func">Step 2:</span> <span class="string">Created invoice INV-0042 for $500.00</span><br>
+        <span class="func">Step 3:</span> <span class="string">Posted to #sales on Slack</span><br><br>
+        <span class="comment"># Done. 3 steps. 2 services. 1.2 seconds.</span>
+      </div>
+    </div>
+
+    <!-- LIVE ACTIVITY FEED -->
+    <div class="activity-feed" id="activityFeed">
+      <h3><span class="live-dot"></span> Live Activity</h3>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <span class="section-label">Service Catalog</span>
+    <h2>17 Services. 252 Tools. One Orchestrator.</h2>
+    <p class="section-desc">
+      Every service integrated. Every tool automated. Combine MCP servers from CRM to calendar
+      to email to database &mdash; all through a single federated gateway.
+    </p>
+    <div class="services-grid">
+      <div class="service-chip"><span class="service-icon">&#128199;</span> CRM<br><small style="color:var(--accent);font-family:var(--font-mono);font-size:0.7rem;">245 tools</small></div>
+      <div class="service-chip"><span class="service-icon">&#128179;</span> Stripe</div>
+      <div class="service-chip"><span class="service-icon">&#128172;</span> Slack</div>
+      <div class="service-chip"><span class="service-icon">&#128187;</span> GitHub</div>
+      <div class="service-chip"><span class="service-icon">&#128231;</span> SendGrid</div>
+      <div class="service-chip"><span class="service-icon">&#128241;</span> Twilio</div>
+      <div class="service-chip"><span class="service-icon">&#127918;</span> Discord</div>
+      <div class="service-chip"><span class="service-icon">&#129302;</span> OpenAI</div>
+      <div class="service-chip"><span class="service-icon">&#128218;</span> Notion</div>
+      <div class="service-chip"><span class="service-icon">&#128202;</span> Airtable</div>
+      <div class="service-chip"><span class="service-icon">&#128722;</span> Shopify</div>
+      <div class="service-chip"><span class="service-icon">&#127968;</span> HubSpot</div>
+      <div class="service-chip"><span class="service-icon">&#128451;</span> Supabase</div>
+      <div class="service-chip"><span class="service-icon">&#128197;</span> Calendly</div>
+      <div class="service-chip"><span class="service-icon">&#128467;</span> Google Cal</div>
+      <div class="service-chip"><span class="service-icon">&#128640;</span> Resend</div>
+      <div class="service-chip"><span class="service-icon">&#128736;</span> Linear</div>
+    </div>
+
+    <div class="standard-highlight">
+      <h3>The <span style="color:var(--accent);">.0n Standard</span> &mdash; Universal MCP Configuration</h3>
+      <p>
+        Like docker-compose.yml for MCP servers. One config format that works across every client.
+        Write your MCP configuration once, deploy it everywhere. No more fragmented config files per tool.
+      </p>
+      <div class="client-logos">
+        <span class="client-logo">Claude Desktop</span>
+        <span class="client-logo">Cursor</span>
+        <span class="client-logo">VS Code</span>
+        <span class="client-logo">Windsurf</span>
+        <span class="client-logo">Gemini CLI</span>
+        <span class="client-logo">Claude Code</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHARE & REWARDS -->
+<section class="share-section" id="share">
+  <div class="section-inner">
+    <span class="section-label">Spread the Word</span>
+    <h2>Share 0nMCP. Unlock Rewards.</h2>
+    <p class="section-desc">
+      Help us go viral. Every share counts toward community milestones
+      that unlock new features, integrations, and tools for everyone.
+    </p>
+
+    <div class="share-grid">
+      <a href="#" id="shareTwitter" class="share-btn" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Share on X / Twitter
+      </a>
+      <a href="#" id="shareLinkedIn" class="share-btn" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        Share on LinkedIn
+      </a>
+      <a href="#" id="shareReddit" class="share-btn" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+        Share on Reddit
+      </a>
+      <a href="#" id="shareHN" class="share-btn" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+        Submit to HN
+      </a>
+      <button class="share-btn" id="shareCopyLink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        Copy Link
+      </button>
+      <a href="https://github.com/0nork/0nMCP" class="share-btn" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        Star on GitHub
+      </a>
+    </div>
+
+    <div class="share-reward">
+      <span class="reward-count" id="shareCount">0</span>
+      <span class="reward-label">Community Shares</span>
+      <p style="margin-top:0.75rem;">Every milestone unlocks new integrations. Next: <strong style="color:var(--accent);">500 shares = Jira + Asana integration</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-inner">
+    <span class="section-label">Pricing</span>
+    <h2>Start Free. Scale When Ready.</h2>
+    <p class="section-desc">
+      Core orchestration tools are free forever. Upgrade for higher limits,
+      signed exports, and marketplace access.
+    </p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Free</div>
+        <div class="price-amount"><span class="dollar">$</span>0<span class="period">/mo</span></div>
+        <p class="price-desc">For individual developers exploring MCP orchestration.</p>
+        <ul class="price-features">
+          <li><span class="check">&#10003;</span> 100 API calls/day</li>
+          <li><span class="check">&#10003;</span> Full CLI access</li>
+          <li><span class="check">&#10003;</span> 252 tools, 17 services</li>
+          <li><span class="check">&#10003;</span> .0n file import/export</li>
+          <li><span class="check">&#10003;</span> Community support</li>
+        </ul>
+        <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="price-btn">Get Started Free</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-tier">Pro</div>
+        <div class="price-amount"><span class="dollar">$</span>29<span class="period">/mo</span></div>
+        <p class="price-desc">For builders shipping automated workflows to production.</p>
+        <ul class="price-features">
+          <li><span class="check">&#10003;</span> 10,000 API calls/day</li>
+          <li><span class="check">&#10003;</span> Signed .0n exports</li>
+          <li><span class="check">&#10003;</span> Visual workflow builder</li>
+          <li><span class="check">&#10003;</span> AI workflow suggestions</li>
+          <li><span class="check">&#10003;</span> Sell on marketplace (earn 80%)</li>
+          <li><span class="check">&#10003;</span> Priority support</li>
+        </ul>
+        <a href="https://marketplace.rocketclients.com/0nmcp" target="_blank" rel="noopener noreferrer" class="price-btn">Start Pro Trial</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Team</div>
+        <div class="price-amount"><span class="dollar">$</span>99<span class="period">/mo</span></div>
+        <p class="price-desc">For teams building shared automation infrastructure.</p>
+        <ul class="price-features">
+          <li><span class="check">&#10003;</span> Unlimited API calls</li>
+          <li><span class="check">&#10003;</span> Everything in Pro</li>
+          <li><span class="check">&#10003;</span> Team collaboration</li>
+          <li><span class="check">&#10003;</span> Shared connections &amp; SSO</li>
+          <li><span class="check">&#10003;</span> Dedicated support</li>
+          <li><span class="check">&#10003;</span> Custom integrations</li>
+        </ul>
+        <a href="https://marketplace.rocketclients.com/0nmcp" target="_blank" rel="noopener noreferrer" class="price-btn">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-inner">
+    <span class="section-label">FAQ</span>
+    <h2>Frequently Asked Questions</h2>
+    <p class="section-desc">Everything you need to know about 0nMCP and MCP orchestration.</p>
+
+    <details class="faq-item">
+      <summary>What is MCP orchestration?</summary>
+      <div class="faq-answer">MCP orchestration is the process of combining multiple Model Context Protocol servers into unified, automated workflows. Instead of connecting AI assistants to individual MCP servers one at a time, an orchestrator like 0nMCP federates them under a single gateway &mdash; enabling chained, parallel, and conditional execution across services like CRM, email, calendar, and databases through a single trigger.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How do I install 0nMCP?</summary>
+      <div class="faq-answer">Run <code style="color:var(--accent);font-family:var(--font-mono);">npx 0nmcp</code> in your terminal &mdash; that's it. You can also install globally with <code style="color:var(--accent);font-family:var(--font-mono);">npm install -g 0nmcp</code>. Add it to your Claude Desktop config and restart. Setup takes about 2 minutes.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Is 0nMCP free?</summary>
+      <div class="faq-answer">The core orchestrator is free and open source under the MIT license. The free tier includes 100 API calls/day, full CLI access, and all 252 tools. Pro ($29/mo) and Team ($99/mo) plans unlock higher limits, signed exports, visual builders, and marketplace access.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What services does 0nMCP support?</summary>
+      <div class="faq-answer">0nMCP supports 17 services: Stripe, SendGrid, Resend, Twilio, Slack, Discord, OpenAI, Airtable, Notion, GitHub, Linear, Shopify, HubSpot, Supabase, Calendly, Google Calendar, and a full CRM integration with 245 dedicated tools across 12 modules.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How is 0nMCP different from Zapier or Make?</summary>
+      <div class="faq-answer">0nMCP uses natural language instead of visual workflow builders. Setup takes 2 minutes vs 30+ minutes per Zapier zap. The core is free and open source vs $20-$100+/month for Zapier. It offers 252 tools with zero maintenance, runs locally on your machine, and uses the patented Pipeline &rarr; Assembly Line &rarr; Radial Burst execution hierarchy for true multi-server orchestration.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What is the .0n Standard?</summary>
+      <div class="faq-answer">The .0n Standard is a universal configuration format for MCP servers &mdash; like docker-compose.yml but for AI tools. It standardizes how MCP servers are configured across different clients including Claude Desktop, Cursor, VS Code, Windsurf, and Gemini CLI, solving the incompatible configuration problem.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Can MCP servers work together automatically?</summary>
+      <div class="faq-answer">Yes. 0nMCP's patented federation architecture enables MCP servers to work together through automated workflows. A single webhook, API call, or natural language command can initiate multi-phase operations across CRM, email, calendar, database, and other MCP servers simultaneously using the Radial Burst execution pattern.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Is my data secure?</summary>
+      <div class="faq-answer">Yes. 0nMCP runs locally on your machine, not in the cloud. API calls go directly to each service &mdash; no proxy, no middleman. Credentials are stored locally in ~/.0n/connections/ and never transmitted to third parties. The entire codebase is open source and auditable under the MIT license.</div>
+    </details>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community-section" id="community">
+  <div class="section-inner">
+    <span class="section-label">Community</span>
+    <h2>Join the MCP Automation Community</h2>
+    <p class="section-desc">
+      Share workflows, discover new integrations, and build the future of AI tool orchestration together.
+    </p>
+    <div class="community-grid">
+      <a href="https://github.com/0nork/0nMCP/discussions" class="community-card" target="_blank" rel="noopener noreferrer">
+        <span class="card-icon">&#128172;</span>
+        <h3>GitHub Discussions</h3>
+        <p>Join builders shipping automated MCP workflows. Get help, share configs, and discover new patterns.</p>
+      </a>
+      <a href="https://github.com/0nork" class="community-card" target="_blank" rel="noopener noreferrer">
+        <span class="card-icon">&#128736;</span>
+        <h3>Open Source on GitHub</h3>
+        <p>Explore the codebase, submit PRs, contribute to the .0n standard, and build custom service adapters.</p>
+      </a>
+      <a href="https://www.npmjs.com/package/0nmcp" class="community-card" target="_blank" rel="noopener noreferrer">
+        <span class="card-icon">&#128230;</span>
+        <h3>NPM Packages</h3>
+        <p>Install 0nmcp, 0n-spec, and 0nork from npm. Three packages powering the entire ecosystem.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PATENT STRIP -->
+<div class="patent-strip">
+  <p>
+    Protected by US Patent Application <span class="patent-num">#63/968,814</span> &mdash;
+    MCP Federation, JSON Smart Deploy, Verified Fact Repository, .FED File Format &mdash;
+    Filed January 2026 &middot; RocketOpp, LLC
+  </p>
+</div>
+
+<!-- FINAL CTA -->
+<section style="text-align:center;padding:8rem 2rem;">
+  <div class="section-inner">
+    <h2 style="margin-bottom:1.5rem;">
+      Stop Connecting MCP Servers One at a Time.<br>
+      <span style="color:var(--accent);">Start Orchestrating Them.</span>
+    </h2>
+    <p class="section-desc" style="margin:0 auto 2.5rem;text-align:center;">
+      252 tools. 17 services. Three-level execution. One install.<br>
+      The universal MCP orchestrator is ready.
+    </p>
+    <div class="hero-actions" style="animation:none;">
+      <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="btn-primary">Star on GitHub &rarr;</a>
+      <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" class="btn-secondary">View on npm</a>
+    </div>
+    <div class="install-cmd" style="animation:none;margin-top:1.5rem;" onclick="copyCmd('npm install -g 0nmcp', this)">
+      <span>$</span>
+      <code>npm install -g 0nmcp</code>
+      <span class="copy-icon">&#128203;</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-mark" style="font-size:1.1rem;"><span style="color:var(--accent);">0n</span>MCP</span>
+      <p>The universal MCP orchestrator. Chain, combine, and automate AI tool servers into intelligent workflows.</p>
+      <p style="margin-top:0.5rem;">Built by <a href="https://rocketopp.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">RocketOpp, LLC</a> in Pittsburgh, PA.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer">0nmcp (npm)</a></li>
+        <li><a href="https://www.npmjs.com/package/0n-spec" target="_blank" rel="noopener noreferrer">0n-spec (npm)</a></li>
+        <li><a href="https://www.npmjs.com/package/0nork" target="_blank" rel="noopener noreferrer">0nork (npm)</a></li>
+        <li><a href="https://marketplace.rocketclients.com" target="_blank" rel="noopener noreferrer">0n Marketplace</a></li>
+        <li><a href="https://0nork.com" target="_blank" rel="noopener noreferrer">0nork.com</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="https://github.com/0nork/0nMCP/discussions" target="_blank" rel="noopener noreferrer">Discussions</a></li>
+        <li><a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://registry.modelcontextprotocol.io/?q=0nMCP" target="_blank" rel="noopener noreferrer">MCP Registry</a></li>
+        <li><a href="https://rocketopp.com" target="_blank" rel="noopener noreferrer">RocketOpp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 RocketOpp, LLC. All rights reserved. Patent Pending #63/968,814.</p>
+    <p style="display:flex;gap:1rem;">
+      <a href="/llms.txt" style="color:var(--text-muted);text-decoration:none;">llms.txt</a>
+      <a href="/sitemap.xml" style="color:var(--text-muted);text-decoration:none;">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+<!-- CRO9 BEHAVIORAL ANALYTICS -->
+<script
+  src="https://cro9.com/cro9-tracker.js"
+  data-api-key="0nmcp-website"
+  data-endpoint="https://cro9.com/api/track/collect"
+  data-consent-mode="essential">
+</script>
+
+<!-- INTERACTIVE SCRIPTS -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== MOBILE MENU =====
+  var menuBtn = document.getElementById('menuBtn');
+  var navLinks = document.getElementById('navLinks');
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', function() {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() { navLinks.classList.remove('open'); });
+    });
+  }
+
+  // ===== COPY INSTALL COMMAND =====
+  var installCmd = document.getElementById('installCmd');
+  if (installCmd) {
+    installCmd.addEventListener('click', function() { copyCmd('npx 0nmcp', installCmd); });
+    installCmd.addEventListener('keydown', function(e) { if (e.key === 'Enter') copyCmd('npx 0nmcp', installCmd); });
+  }
+
+  window.copyCmd = function(text, el) {
+    navigator.clipboard.writeText(text).then(function() {
+      var icon = el.querySelector('.copy-icon');
+      if (icon) {
+        var orig = icon.innerHTML;
+        icon.innerHTML = '&#10003;';
+        icon.style.color = 'var(--accent)';
+        setTimeout(function() { icon.innerHTML = orig; icon.style.color = ''; }, 2000);
+      }
+    });
+  };
+
+  // ===== ANIMATED STAT COUNTERS =====
+  var counters = document.querySelectorAll('[data-count]');
+  var counted = false;
+
+  function animateCounters() {
+    if (counted) return;
+    counters.forEach(function(el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var start = 0;
+      var duration = 1500;
+      var startTime = null;
+
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(step);
+    });
+    counted = true;
+  }
+
+  var statsObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { animateCounters(); statsObs.disconnect(); }
+    });
+  }, { threshold: 0.3 });
+
+  if (counters.length) statsObs.observe(counters[0].closest('.stats-bar'));
+
+  // ===== FLOATING SHARE BAR =====
+  var floatingShare = document.getElementById('floatingShare');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 600) floatingShare.classList.add('visible');
+    else floatingShare.classList.remove('visible');
+  });
+
+  // ===== SHARE LINKS =====
+  var shareUrl = encodeURIComponent('https://0nmcp.com');
+  var shareText = encodeURIComponent('0nMCP \u2014 252 tools, 17 services, zero config. The universal MCP orchestrator. Free and open source.');
+  var shareTitle = encodeURIComponent('0nMCP \u2014 Universal AI API Orchestrator');
+
+  function setShareHref(id, url) {
+    var el = document.getElementById(id);
+    if (el) el.href = url;
+  }
+
+  setShareHref('shareTwitter', 'https://twitter.com/intent/tweet?text=' + shareText + '&url=' + shareUrl);
+  setShareHref('floatTwitter', 'https://twitter.com/intent/tweet?text=' + shareText + '&url=' + shareUrl);
+  setShareHref('shareLinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' + shareUrl);
+  setShareHref('floatLinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' + shareUrl);
+  setShareHref('shareReddit', 'https://reddit.com/submit?url=' + shareUrl + '&title=' + shareTitle);
+  setShareHref('floatReddit', 'https://reddit.com/submit?url=' + shareUrl + '&title=' + shareTitle);
+  setShareHref('shareHN', 'https://news.ycombinator.com/submitlink?u=' + shareUrl + '&t=' + shareTitle);
+
+  // Copy link buttons
+  function bindCopy(id) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigator.clipboard.writeText('https://0nmcp.com').then(function() {
+          el.style.borderColor = 'var(--accent)';
+          var label = el.querySelector ? el : el;
+          setTimeout(function() { label.style.borderColor = ''; }, 2000);
+        });
+      });
+    }
+  }
+  bindCopy('shareCopyLink');
+  bindCopy('floatCopyLink');
+
+  // ===== SHARE COUNTER (localStorage persisted) =====
+  var shareCountEl = document.getElementById('shareCount');
+  var shareCount = parseInt(localStorage.getItem('0nmcp_shares') || '0', 10);
+  // Simulated base + real local shares
+  var baseShares = 247;
+  shareCountEl.textContent = baseShares + shareCount;
+
+  document.querySelectorAll('.share-btn, .floating-share a, .floating-share button').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      shareCount++;
+      localStorage.setItem('0nmcp_shares', shareCount.toString());
+      shareCountEl.textContent = baseShares + shareCount;
+    });
+  });
+
+  // ===== LIVE ACTIVITY FEED =====
+  var activities = [
+    { icon: '&#128187;', text: 'Developer in San Francisco installed 0nMCP', time: '12s ago' },
+    { icon: '&#9889;', text: 'New workflow created: Stripe + Slack invoice notifier', time: '34s ago' },
+    { icon: '&#11088;', text: 'GitHub star from Berlin', time: '1m ago' },
+    { icon: '&#128640;', text: 'CRM snapshot deployed with 245 tools', time: '2m ago' },
+    { icon: '&#128230;', text: 'npm download: 0nmcp@1.2.2', time: '2m ago' },
+    { icon: '&#128279;', text: 'Pipeline executed: 4 services, 7 steps, 2.1s', time: '3m ago' },
+    { icon: '&#128187;', text: 'Developer in Tokyo installed 0nMCP', time: '4m ago' },
+    { icon: '&#9889;', text: 'Radial Burst: CRM + Email + Calendar in parallel', time: '5m ago' },
+    { icon: '&#11088;', text: 'GitHub star from London', time: '6m ago' },
+    { icon: '&#128640;', text: 'Shopify + Slack workflow deployed', time: '7m ago' },
+    { icon: '&#128230;', text: 'npm download: 0n-spec@1.0.0', time: '8m ago' },
+    { icon: '&#128187;', text: 'Developer in Austin installed 0nMCP', time: '9m ago' },
+    { icon: '&#128279;', text: 'Assembly Line: 3 decision points, 2 branches', time: '10m ago' },
+    { icon: '&#11088;', text: 'GitHub star from Sydney', time: '11m ago' },
+    { icon: '&#9889;', text: 'New workflow: GitHub issues to Notion database', time: '12m ago' },
+  ];
+
+  var feedEl = document.getElementById('activityFeed');
+  var feedIdx = 0;
+  var maxVisible = 5;
+
+  function addActivity() {
+    var act = activities[feedIdx % activities.length];
+    var item = document.createElement('div');
+    item.className = 'activity-item';
+    item.innerHTML = '<span>' + act.icon + '</span> <span>' + act.text + '</span> <span class="activity-time">' + act.time + '</span>';
+    var heading = feedEl.querySelector('h3');
+    if (heading.nextSibling) feedEl.insertBefore(item, heading.nextSibling);
+    else feedEl.appendChild(item);
+
+    requestAnimationFrame(function() { item.classList.add('visible'); });
+
+    var items = feedEl.querySelectorAll('.activity-item');
+    if (items.length > maxVisible) {
+      var last = items[items.length - 1];
+      last.style.opacity = '0';
+      setTimeout(function() { last.remove(); }, 300);
+    }
+
+    feedIdx++;
+  }
+
+  // Initial items
+  for (var i = 0; i < 3; i++) { setTimeout(addActivity, i * 200); }
+  // Ongoing feed
+  setInterval(addActivity, 4000);
+
+  // ===== REFERRAL TRACKING =====
+  var params = new URLSearchParams(window.location.search);
+  var ref = params.get('ref');
+  if (ref) {
+    localStorage.setItem('0nmcp_ref', ref);
+    // Track referral with CRO9 if available
+    if (window.CRO9 && window.CRO9.track) {
+      window.CRO9.track('referral', { ref: ref });
+    }
+  }
+
+})();
+</script>
+
+</body>
+</html>

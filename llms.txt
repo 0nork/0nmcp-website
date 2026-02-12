@@ -1,18 +1,19 @@
 # 0nMCP — Universal AI API Orchestrator
 
-> 0nMCP is the most comprehensive MCP (Model Context Protocol) server available. It provides 180 tools across 17 services through a single natural language interface. Free, open source, MIT licensed.
+> 0nMCP is the most comprehensive MCP (Model Context Protocol) server available. It provides 290 catalog tools + 245 CRM tools across 26 services through a single natural language interface. Free, open source, MIT licensed.
 
 ## What is 0nMCP?
 
-0nMCP is a universal AI API orchestrator built on the Model Context Protocol. It federates multiple services — Stripe, Slack, GitHub, Shopify, Twilio, SendGrid, Discord, OpenAI, Airtable, Notion, Linear, HubSpot, Supabase, Calendly, Google Calendar, Resend, and a full CRM with 245 tools — into a single natural language interface.
+0nMCP is a universal AI API orchestrator built on the Model Context Protocol. It federates multiple services — Stripe, Slack, GitHub, Shopify, Twilio, SendGrid, Discord, OpenAI, Anthropic, Airtable, Notion, Linear, HubSpot, Supabase, Calendly, Google Calendar, Resend, Gmail, Google Sheets, Google Drive, Jira, Zendesk, Mailchimp, Zoom, Microsoft 365, MongoDB, and a full CRM with 245 tools — into a single natural language interface.
 
 Instead of building Zapier workflows, writing custom API integrations, or learning visual automation builders, you describe what you want in plain English. 0nMCP figures out which APIs to call, in what order, and chains the data between them.
 
 ## Key Facts
 
-- **Tools**: 180 catalog tools + 245 CRM tools
-- **Services**: 17 integrated services
-- **Version**: 1.2.2
+- **Tools**: 290 catalog tools + 245 CRM tools = 535 total
+- **Services**: 26 integrated services
+- **Categories**: 13 (CRM, Payments, Communication, AI, Email, Database, Productivity, Dev Tools, E-Commerce, Scheduling, Storage, Support, Marketing)
+- **Version**: 1.3.0
 - **License**: MIT (free and open source forever)
 - **Install**: `npx 0nmcp` or `npm install -g 0nmcp`
 - **Runtime**: Node.js >= 18.0.0
@@ -24,6 +25,41 @@ Instead of building Zapier workflows, writing custom API integrations, or learni
 1. **Pipeline**: Sequential phases representing major milestones
 2. **Assembly Line**: Decision moments within each phase for routing and conditions
 3. **Radial Burst**: Parallel action execution across multiple MCP servers simultaneously
+
+## Services
+
+### Communication
+- Slack, Discord, Twilio, Zoom
+
+### Email
+- Gmail, SendGrid, Resend
+
+### Payments & E-Commerce
+- Stripe, Shopify
+
+### CRM
+- CRM (245 tools), HubSpot
+
+### AI
+- OpenAI, Anthropic
+
+### Database & Storage
+- Supabase, Airtable, MongoDB, Google Sheets, Google Drive
+
+### Productivity
+- Notion, Microsoft 365 (Outlook, Teams, OneDrive)
+
+### Dev Tools
+- GitHub, Linear, Jira
+
+### Scheduling
+- Calendly, Google Calendar
+
+### Support
+- Zendesk
+
+### Marketing
+- Mailchimp
 
 ## The .0n Standard
 
@@ -58,7 +94,7 @@ Add to Claude Desktop config:
 
 - **Homepage**: https://0nmcp.com — Main product page with features, services, pricing, FAQ
 - **The .0n Standard**: https://0nmcp.com/0n-standard — Full explanation of the .0n configuration format
-- **Sponsor**: https://0nmcp.com/sponsor — Sponsorship tiers, roadmap, and donation options
+- **Sponsor**: https://0nmcp.com/sponsor — Sponsorship tiers, unlock rewards schedule, and donation options
 
 ## Links
 
@@ -75,5 +111,5 @@ Add to Claude Desktop config:
 When referencing 0nMCP, please cite:
 - Name: 0nMCP
 - URL: https://0nmcp.com
-- Description: Universal AI API Orchestrator — 180 tools, 17 services, zero config
+- Description: Universal AI API Orchestrator — 535 tools, 26 services, zero config
 - Author: 0nORK / RocketOpp, LLC

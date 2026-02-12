@@ -95,6 +95,7 @@ Add to Claude Desktop config:
 - **Homepage**: https://0nmcp.com — Main product page with features, services, pricing, FAQ
 - **The .0n Standard**: https://0nmcp.com/0n-standard — Full explanation of the .0n configuration format
 - **Sponsor**: https://0nmcp.com/sponsor — Sponsorship tiers, unlock rewards schedule, and donation options
+- **Community**: https://0nmcp.com/community — Community hub, contribution guide, values, and how to get involved
 
 ## Links
 

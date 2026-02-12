@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community — 0nMCP | Join the AI Orchestration Movement</title>
+  <meta name="description" content="Join the 0nMCP community. Contribute to the most comprehensive MCP server available. 535 tools, 26 services, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.">
+  <meta property="og:title" content="Community — 0nMCP | Join the AI Orchestration Movement">
+  <meta property="og:description" content="Join the 0nMCP community. 535 tools, 26 services, open source forever. Help shape the future of AI orchestration.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://0nmcp.com/community">
+  <link rel="canonical" href="https://0nmcp.com/community">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f; --bg-secondary: #111118; --bg-tertiary: #16161f; --bg-card: #1a1a25;
+      --text-primary: #e8e8ef; --text-secondary: #8888a0; --text-muted: #55556a;
+      --accent: #00ff88; --accent-dim: #00cc6a; --accent-glow: rgba(0,255,136,0.15);
+      --accent-secondary: #00d4ff; --warning: #ff6b35;
+      --border: #2a2a3a; --border-hover: #3a3a50;
+      --font-display: 'Instrument Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; font-size:16px; }
+    body { font-family:var(--font-display); background:var(--bg-primary); color:var(--text-primary); line-height:1.6; overflow-x:hidden; }
+
+    /* NAV */
+    nav { position:fixed; top:0; width:100%; z-index:100; background:rgba(10,10,15,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+    .nav-inner { max-width:1280px; margin:0 auto; padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; }
+    .logo { display:flex; align-items:center; gap:0.5rem; text-decoration:none; color:var(--text-primary); }
+    .logo-mark { font-family:var(--font-mono); font-weight:700; font-size:1.25rem; letter-spacing:-0.02em; }
+    .logo-mark .accent { color:var(--accent); }
+    .nav-links { display:flex; align-items:center; gap:2rem; list-style:none; }
+    .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--text-primary); }
+    .nav-links a.active { color:var(--accent); }
+    .nav-cta { background:var(--accent); color:var(--bg-primary)!important; padding:0.5rem 1.25rem; border-radius:6px; font-weight:600!important; font-family:var(--font-mono); font-size:0.8rem!important; letter-spacing:0.02em; }
+    .mobile-menu-btn { display:none; background:none; border:1px solid var(--border); color:var(--text-primary); padding:0.4rem 0.6rem; border-radius:6px; cursor:pointer; font-size:1.2rem; }
+
+    /* HERO */
+    .page-hero { padding:10rem 2rem 4rem; text-align:center; position:relative; }
+    .page-hero-glow { position:absolute; width:500px; height:500px; background:radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); top:5%; left:50%; transform:translateX(-50%); pointer-events:none; }
+    .page-hero h1 { font-size:clamp(2rem,5vw,3.5rem); font-weight:700; line-height:1.1; letter-spacing:-0.03em; margin-bottom:1rem; position:relative; z-index:2; }
+    .page-hero h1 .gradient { background:linear-gradient(135deg, var(--accent), var(--accent-secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .page-hero p { color:var(--text-secondary); font-size:1.15rem; max-width:640px; margin:0 auto 2rem; line-height:1.7; position:relative; z-index:2; }
+
+    /* SECTIONS */
+    section { position:relative; z-index:1; padding:5rem 2rem; }
+    .section-inner { max-width:1000px; margin:0 auto; }
+    .section-label { font-family:var(--font-mono); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent); margin-bottom:1rem; }
+    h2 { font-size:clamp(1.5rem,3vw,2.25rem); font-weight:700; letter-spacing:-0.02em; line-height:1.15; margin-bottom:1rem; }
+
+    /* STATS BAR */
+    .community-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-top:2rem; }
+    .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:2rem 1.5rem; text-align:center; }
+    .stat-num { font-family:var(--font-mono); font-size:2.25rem; font-weight:700; color:var(--accent); line-height:1; margin-bottom:0.5rem; }
+    .stat-label { color:var(--text-secondary); font-size:0.85rem; }
+
+    /* ACTION GRID */
+    .action-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2rem; }
+    .action-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:2.5rem 2rem; transition:all 0.3s; }
+    .action-card:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 0 30px var(--accent-glow); }
+    .action-icon { font-size:2rem; margin-bottom:1rem; display:block; }
+    .action-card h3 { font-size:1.1rem; margin-bottom:0.5rem; }
+    .action-card p { color:var(--text-secondary); font-size:0.9rem; line-height:1.6; margin-bottom:1.25rem; }
+    .action-link { font-family:var(--font-mono); font-size:0.8rem; color:var(--accent); text-decoration:none; font-weight:600; letter-spacing:0.02em; display:inline-flex; align-items:center; gap:0.4rem; }
+    .action-link:hover { text-decoration:underline; }
+
+    /* CONTRIBUTE SECTION */
+    .contribute-section { background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .contribute-steps { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; margin-top:2rem; }
+    .contribute-step { display:flex; gap:1.25rem; padding:1.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; }
+    .step-num { font-family:var(--font-mono); font-size:1.5rem; font-weight:700; color:var(--accent); min-width:2rem; }
+    .contribute-step h3 { font-size:1rem; margin-bottom:0.25rem; }
+    .contribute-step p { color:var(--text-secondary); font-size:0.85rem; line-height:1.5; }
+    .contribute-step code { font-family:var(--font-mono); font-size:0.8rem; color:var(--accent); background:rgba(0,255,136,0.08); padding:0.15rem 0.4rem; border-radius:4px; }
+
+    /* UNLOCK PREVIEW */
+    .unlock-preview { margin-top:2rem; background:linear-gradient(135deg, rgba(0,255,136,0.05), rgba(0,212,255,0.05)); border:1px solid rgba(0,255,136,0.1); border-radius:16px; padding:3rem; text-align:center; }
+    .unlock-preview h3 { font-size:1.3rem; margin-bottom:0.75rem; }
+    .unlock-preview p { color:var(--text-secondary); font-size:0.95rem; margin-bottom:1.5rem; max-width:600px; margin-left:auto; margin-right:auto; }
+    .unlock-phases { display:flex; justify-content:center; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap; }
+    .phase-chip { font-family:var(--font-mono); font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:0.35rem 0.8rem; border-radius:100px; border:1px solid var(--border); color:var(--text-muted); }
+    .phase-chip.active { border-color:var(--accent); color:var(--bg-primary); background:var(--accent); }
+
+    /* BUTTONS */
+    .btn-primary { background:var(--accent); color:var(--bg-primary); font-family:var(--font-mono); font-weight:700; font-size:0.9rem; padding:0.85rem 2rem; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:all 0.2s; border:none; cursor:pointer; }
+    .btn-primary:hover { background:#00ffaa; box-shadow:0 0 30px var(--accent-glow); }
+    .btn-secondary { background:transparent; color:var(--text-primary); font-family:var(--font-mono); font-weight:500; font-size:0.9rem; padding:0.85rem 2rem; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:all 0.2s; border:1px solid var(--border); }
+    .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+    .cta-buttons { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+
+    /* FOOTER */
+    footer { position:relative; z-index:1; padding:4rem 2rem 2rem; border-top:1px solid var(--border); }
+    .footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; }
+    .footer-brand p { color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem; line-height:1.6; }
+    .footer-col h4 { font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--text-muted); margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+    .footer-col a { color:var(--text-secondary); text-decoration:none; font-size:0.875rem; transition:color 0.2s; }
+    .footer-col a:hover { color:var(--accent); }
+    .footer-bottom { max-width:1100px; margin:3rem auto 0; padding-top:1.5rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    .footer-bottom p { font-size:0.75rem; color:var(--text-muted); }
+
+    /* RESPONSIVE */
+    @media (max-width:768px) {
+      .mobile-menu-btn { display:block; }
+      .nav-links { display:none; position:absolute; top:64px; left:0; right:0; background:rgba(10,10,15,0.95); flex-direction:column; padding:1rem 2rem 1.5rem; gap:0.75rem; border-bottom:1px solid var(--border); }
+      .nav-links.open { display:flex; }
+      .community-stats { grid-template-columns:repeat(2,1fr); }
+      .action-grid { grid-template-columns:1fr; }
+      .contribute-steps { grid-template-columns:1fr; }
+      .footer-inner { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><span class="logo-mark"><span class="accent">0n</span>MCP</span></a>
+    <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Home</a></li>
+      <li><a href="/0n-standard">The .0n Standard</a></li>
+      <li><a href="/community" class="active">Community</a></li>
+      <li><a href="/sponsor">Sponsor</a></li>
+      <li><a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://github.com/0nork/0nMCP/discussions" target="_blank" rel="noopener noreferrer" class="nav-cta">Join Discussion</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-glow"></div>
+  <h1>Build the Future of<br><span class="gradient">AI Orchestration</span></h1>
+  <p>0nMCP is built in the open by developers who believe AI orchestration should be free, composable, and community-owned. Every contribution makes the platform more powerful for everyone.</p>
+</div>
+
+<!-- COMMUNITY STATS -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">By the Numbers</div>
+    <h2>Community Stats</h2>
+    <div class="community-stats">
+      <div class="stat-card">
+        <div class="stat-num">535</div>
+        <div class="stat-label">Tools shipped</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">26</div>
+        <div class="stat-label">Services integrated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">13</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">npm packages</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GET INVOLVED -->
+<section class="contribute-section">
+  <div class="section-inner">
+    <div class="section-label">Get Involved</div>
+    <h2>Ways to Contribute</h2>
+    <p style="color:var(--text-secondary);font-size:1rem;margin-bottom:0.5rem;">Whether you're adding services, fixing bugs, improving docs, or just spreading the word &mdash; every contribution matters.</p>
+
+    <div class="action-grid">
+      <div class="action-card">
+        <span class="action-icon">&#128172;</span>
+        <h3>GitHub Discussions</h3>
+        <p>Ask questions, share ideas, show off what you've built, and connect with other developers in the ecosystem.</p>
+        <a href="https://github.com/0nork/0nMCP/discussions" target="_blank" rel="noopener noreferrer" class="action-link">Join the conversation &rarr;</a>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#128736;</span>
+        <h3>Add a Service</h3>
+        <p>Drop a definition into catalog.js. Every service makes 0nMCP more useful for the entire community. Config, not code.</p>
+        <a href="https://github.com/0nork/0nMCP/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="action-link">Read the guide &rarr;</a>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#128027;</span>
+        <h3>Report Bugs</h3>
+        <p>Found something broken? Open an issue. We triage fast and fix faster. Clear bug reports are worth their weight in gold.</p>
+        <a href="https://github.com/0nork/0nMCP/issues" target="_blank" rel="noopener noreferrer" class="action-link">Open an issue &rarr;</a>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#11088;</span>
+        <h3>Star the Repo</h3>
+        <p>It takes 2 seconds and helps more than you think. Stars improve discoverability and unlock new capabilities on the roadmap.</p>
+        <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="action-link">Star on GitHub &rarr;</a>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#128176;</span>
+        <h3>Sponsor</h3>
+        <p>Fund the next unlock. Your sponsorship keeps 0nMCP free and open source while funding new services and features.</p>
+        <a href="https://github.com/sponsors/0nork" target="_blank" rel="noopener noreferrer" class="action-link">Become a sponsor &rarr;</a>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#128227;</span>
+        <h3>Spread the Word</h3>
+        <p>Tell a developer friend. Post on X/Twitter. Write a blog post. Every mention grows the community that makes this possible.</p>
+        <a href="https://twitter.com/intent/tweet?text=0nMCP%20-%20535%20tools,%2026%20services,%20zero%20config.%20The%20universal%20AI%20API%20orchestrator.%20Free%20and%20open%20source.&url=https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="action-link">Share on X &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO CONTRIBUTE -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">Quick Start</div>
+    <h2>Your First Contribution</h2>
+    <p style="color:var(--text-secondary);font-size:1rem;margin-bottom:0.5rem;">Get up and running in under 5 minutes.</p>
+
+    <div class="contribute-steps">
+      <div class="contribute-step">
+        <span class="step-num">1</span>
+        <div>
+          <h3>Fork & Clone</h3>
+          <p>Fork the repo on GitHub, then clone it locally.<br><code>git clone https://github.com/YOUR_USERNAME/0nMCP.git</code></p>
+        </div>
+      </div>
+      <div class="contribute-step">
+        <span class="step-num">2</span>
+        <div>
+          <h3>Install Dependencies</h3>
+          <p>Just one dependency. Minimal by design.<br><code>cd 0nMCP && npm install</code></p>
+        </div>
+      </div>
+      <div class="contribute-step">
+        <span class="step-num">3</span>
+        <div>
+          <h3>Make Your Change</h3>
+          <p>Add a service to <code>catalog.js</code>, fix a bug, improve docs. Every tool is config-driven &mdash; no boilerplate needed.</p>
+        </div>
+      </div>
+      <div class="contribute-step">
+        <span class="step-num">4</span>
+        <div>
+          <h3>Submit a PR</h3>
+          <p>Push your branch and open a pull request. We review PRs quickly and merge contributions that match the project's quality standards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNLOCK ROADMAP PREVIEW -->
+<section class="contribute-section">
+  <div class="section-inner">
+    <div class="unlock-preview">
+      <h3>The Community Unlock Roadmap</h3>
+      <p>0nMCP grows with its community. Every milestone unlocks new capabilities &mdash; the more developers who join, the more powerful the platform becomes. Every unlock is permanent and free forever.</p>
+
+      <div class="unlock-phases">
+        <span class="phase-chip active">Phase 0 &mdash; Live</span>
+        <span class="phase-chip">Phase 1 &mdash; 100 stars</span>
+        <span class="phase-chip">Phase 2 &mdash; 500 stars</span>
+        <span class="phase-chip">Phase 3 &mdash; 1K stars</span>
+        <span class="phase-chip">Phase 4 &mdash; 5K stars</span>
+        <span class="phase-chip">Phase 5 &mdash; 10K stars</span>
+        <span class="phase-chip">Phase 6 &mdash; 25K stars</span>
+      </div>
+
+      <div class="cta-buttons">
+        <a href="/sponsor" class="btn-primary">See Full Unlock Schedule</a>
+        <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="btn-secondary">Star the Repo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">Our Values</div>
+    <h2>What We Believe</h2>
+    <div class="action-grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="action-card">
+        <span class="action-icon">&#127759;</span>
+        <h3>Free and Open Source Forever</h3>
+        <p>AI orchestration is infrastructure. It should be accessible to every developer, not locked behind enterprise paywalls or monthly subscriptions. MIT licensed, always.</p>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#9889;</span>
+        <h3>Ship Weekly</h3>
+        <p>The codebase is active. We push updates constantly. This isn't a side project &mdash; it's infrastructure being built at startup speed by people who use it every day.</p>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#129309;</span>
+        <h3>Community Owned</h3>
+        <p>Every unlock milestone is hit by the community, not by a sales team. The more developers who join, the more powerful the platform becomes for everyone.</p>
+      </div>
+      <div class="action-card">
+        <span class="action-icon">&#128200;</span>
+        <h3>Config, Not Code</h3>
+        <p>Adding services takes minutes, not hours. Every tool is defined as configuration. Drop it in the catalog and it works. Zero boilerplate, zero ceremony.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section>
+  <div class="section-inner" style="text-align:center;">
+    <h2>Ready to Join?</h2>
+    <p style="color:var(--text-secondary);font-size:1.05rem;max-width:550px;margin:0 auto 2rem;">The best orchestration platform is the one built by the people who use it. Start contributing today.</p>
+    <div class="cta-buttons">
+      <a href="https://github.com/0nork/0nMCP/discussions" target="_blank" rel="noopener noreferrer" class="btn-primary">Join GitHub Discussions</a>
+      <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="btn-secondary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-mark" style="font-size:1.1rem;"><span style="color:var(--accent);">0n</span>MCP</span>
+      <p>The universal MCP orchestrator. Free and open source.</p>
+      <p style="margin-top:0.5rem;">Built by <a href="https://rocketopp.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">RocketOpp, LLC</a> in Pittsburgh, PA.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/0n-standard">The .0n Standard</a></li>
+        <li><a href="/sponsor">Sponsor</a></li>
+        <li><a href="/community">Community</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer">0nmcp (npm)</a></li>
+        <li><a href="https://www.npmjs.com/package/0n-spec" target="_blank" rel="noopener noreferrer">0n-spec (npm)</a></li>
+        <li><a href="https://www.npmjs.com/package/0nork" target="_blank" rel="noopener noreferrer">0nork (npm)</a></li>
+        <li><a href="https://marketplace.rocketclients.com" target="_blank" rel="noopener noreferrer">0n Marketplace</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="https://github.com/0nork/0nMCP/discussions" target="_blank" rel="noopener noreferrer">Discussions</a></li>
+        <li><a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/sponsors/0nork" target="_blank" rel="noopener noreferrer">Sponsor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 RocketOpp, LLC. All rights reserved. Patent Pending #63/968,814.</p>
+  </div>
+</footer>
+<script>
+document.getElementById('menuBtn')?.addEventListener('click',()=>{document.getElementById('navLinks')?.classList.toggle('open')});
+</script>
+</body>
+</html>

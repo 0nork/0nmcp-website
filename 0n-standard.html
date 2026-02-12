@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The .0n Standard — Universal Configuration for AI Orchestration</title>
+  <meta name="description" content="The .0n Standard is the universal configuration format for AI orchestration. Like .env for environment variables, .0n is for AI config. One format, every client, zero fragmentation.">
+  <meta property="og:title" content="The .0n Standard — Universal AI Config Format">
+  <meta property="og:description" content="Like docker-compose.yml for MCP servers. One config format that works across Claude Desktop, Cursor, VS Code, Windsurf, and Gemini CLI.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://0nmcp.com/0n-standard">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The .0n Standard — Universal AI Config Format">
+  <meta name="twitter:description" content="Like .env for environment variables, .0n is for AI config. One format, every client, zero fragmentation.">
+  <meta name="keywords" content=".0n standard, 0n spec, MCP configuration, AI orchestration config, universal MCP config, Model Context Protocol configuration, 0nMCP config, AI config format">
+  <link rel="canonical" href="https://0nmcp.com/0n-standard">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "name": "The .0n Standard",
+    "headline": "The .0n Standard — Universal Configuration for AI Orchestration",
+    "description": "The universal configuration format for AI orchestration. Like .env for environment variables, .0n is for AI config.",
+    "url": "https://0nmcp.com/0n-standard",
+    "author": {
+      "@type": "Organization",
+      "name": "0nORK",
+      "url": "https://github.com/0nork"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "RocketOpp, LLC",
+      "url": "https://rocketopp.com"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0f; --bg-secondary: #111118; --bg-tertiary: #16161f; --bg-card: #1a1a25;
+      --text-primary: #e8e8ef; --text-secondary: #8888a0; --text-muted: #55556a;
+      --accent: #00ff88; --accent-dim: #00cc6a; --accent-glow: rgba(0,255,136,0.15);
+      --accent-secondary: #00d4ff; --warning: #ff6b35;
+      --border: #2a2a3a; --border-hover: #3a3a50;
+      --font-display: 'Instrument Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; font-size:16px; }
+    body { font-family:var(--font-display); background:var(--bg-primary); color:var(--text-primary); line-height:1.6; overflow-x:hidden; }
+
+    body::before {
+      content:''; position:fixed; inset:0;
+      background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:9999;
+    }
+    .grid-bg { position:fixed; inset:0; background-image:linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+
+    nav { position:fixed; top:0; width:100%; z-index:100; background:rgba(10,10,15,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+    .nav-inner { max-width:1280px; margin:0 auto; padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; }
+    .logo { display:flex; align-items:center; gap:0.5rem; text-decoration:none; color:var(--text-primary); }
+    .logo-mark { font-family:var(--font-mono); font-weight:700; font-size:1.25rem; letter-spacing:-0.02em; }
+    .logo-mark .accent { color:var(--accent); }
+    .nav-links { display:flex; align-items:center; gap:2rem; list-style:none; }
+    .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--text-primary); }
+    .nav-links a.active { color:var(--accent); }
+    .nav-cta { background:var(--accent); color:var(--bg-primary)!important; padding:0.5rem 1.25rem; border-radius:6px; font-weight:600!important; font-family:var(--font-mono); font-size:0.8rem!important; letter-spacing:0.02em; transition:all 0.2s; }
+    .nav-cta:hover { background:#00ffaa; box-shadow:0 0 20px var(--accent-glow); }
+    .mobile-menu-btn { display:none; background:none; border:1px solid var(--border); color:var(--text-primary); padding:0.4rem 0.6rem; border-radius:6px; cursor:pointer; font-size:1.2rem; }
+
+    .page-hero { padding:10rem 2rem 4rem; text-align:center; position:relative; z-index:1; }
+    .page-hero-glow { position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%); top:5%; left:50%; transform:translateX(-50%); pointer-events:none; }
+    .page-hero h1 { font-size:clamp(2rem,5vw,3.5rem); font-weight:700; line-height:1.1; letter-spacing:-0.03em; margin-bottom:1rem; position:relative; z-index:2; }
+    .page-hero h1 .gradient { background:linear-gradient(135deg, var(--accent), var(--accent-secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .page-hero p { color:var(--text-secondary); font-size:1.15rem; max-width:680px; margin:0 auto; line-height:1.7; position:relative; z-index:2; }
+    .hero-badges { display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap; margin-top:2rem; position:relative; z-index:2; }
+    .hero-badge { display:inline-flex; align-items:center; gap:0.4rem; background:var(--bg-card); border:1px solid var(--border); padding:0.4rem 1rem; border-radius:100px; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-secondary); }
+    .hero-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
+
+    section { position:relative; z-index:1; padding:5rem 2rem; }
+    .section-inner { max-width:1000px; margin:0 auto; }
+    .section-label { font-family:var(--font-mono); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent); margin-bottom:1rem; }
+    h2 { font-size:clamp(1.5rem,3vw,2.25rem); font-weight:700; letter-spacing:-0.02em; line-height:1.15; margin-bottom:1rem; }
+    .section-desc { color:var(--text-secondary); font-size:1.05rem; max-width:600px; line-height:1.7; margin-bottom:2.5rem; }
+
+    /* ANALOGY SECTION */
+    .analogy-section { background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .analogy-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2rem; }
+    .analogy-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:2rem; text-align:center; transition:all 0.3s; }
+    .analogy-card:hover { border-color:var(--accent); transform:translateY(-3px); }
+    .analogy-card .mono { font-family:var(--font-mono); font-size:1.5rem; font-weight:700; color:var(--accent); margin-bottom:0.75rem; display:block; }
+    .analogy-card h3 { font-size:1rem; margin-bottom:0.5rem; }
+    .analogy-card p { color:var(--text-secondary); font-size:0.85rem; line-height:1.5; }
+
+    /* DIRECTORY TREE */
+    .tree-section { }
+    .tree-block { background:var(--bg-primary); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:2rem; }
+    .tree-header { display:flex; align-items:center; gap:0.5rem; padding:0.75rem 1.25rem; background:var(--bg-tertiary); border-bottom:1px solid var(--border); }
+    .tree-dot { width:10px; height:10px; border-radius:50%; }
+    .tree-dot.red { background:#ff5f57; } .tree-dot.yellow { background:#febc2e; } .tree-dot.green { background:#28c840; }
+    .tree-body { padding:1.5rem; font-family:var(--font-mono); font-size:0.85rem; line-height:2; overflow-x:auto; }
+    .tree-body .dir { color:var(--accent-secondary); }
+    .tree-body .file { color:var(--text-secondary); }
+    .tree-body .comment { color:var(--text-muted); font-style:italic; }
+
+    /* FILE TYPE TABLE */
+    .type-table { width:100%; border-collapse:collapse; margin-top:2rem; }
+    .type-table th { text-align:left; font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); padding:0.75rem 1rem; border-bottom:2px solid var(--border); }
+    .type-table td { padding:1rem; border-bottom:1px solid var(--border); font-size:0.9rem; color:var(--text-secondary); vertical-align:top; }
+    .type-table tr:hover td { background:rgba(0,255,136,0.02); }
+    .type-table .type-name { font-family:var(--font-mono); color:var(--accent); font-weight:600; font-size:0.85rem; }
+
+    /* CODE BLOCK */
+    .code-block { background:var(--bg-primary); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:1.5rem; }
+    .code-header { display:flex; align-items:center; justify-content:space-between; padding:0.75rem 1.25rem; background:var(--bg-tertiary); border-bottom:1px solid var(--border); }
+    .code-header .code-dots { display:flex; gap:0.5rem; }
+    .code-dot { width:10px; height:10px; border-radius:50%; }
+    .code-dot.red { background:#ff5f57; } .code-dot.yellow { background:#febc2e; } .code-dot.green { background:#28c840; }
+    .code-filename { font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted); }
+    .code-body { padding:1.5rem; font-family:var(--font-mono); font-size:0.82rem; line-height:1.8; overflow-x:auto; white-space:pre; }
+    .code-body .key { color:var(--accent-secondary); }
+    .code-body .str { color:var(--accent); }
+    .code-body .comment { color:var(--text-muted); }
+    .code-body .punct { color:var(--text-muted); }
+    .code-body .val { color:var(--warning); }
+
+    /* CLIENTS */
+    .clients-section { background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .clients-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2rem; }
+    .client-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:1.75rem; transition:all 0.3s; }
+    .client-card:hover { border-color:var(--accent); transform:translateY(-3px); }
+    .client-card h3 { font-size:1rem; margin-bottom:0.35rem; }
+    .client-card p { color:var(--text-secondary); font-size:0.85rem; line-height:1.5; }
+    .client-card .status { font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; margin-top:0.75rem; display:inline-block; padding:0.2rem 0.6rem; border-radius:4px; }
+    .client-card .status.supported { color:var(--accent); background:rgba(0,255,136,0.1); }
+    .client-card .status.planned { color:var(--warning); background:rgba(255,107,53,0.1); }
+
+    /* TEMPLATE SYNTAX */
+    .template-grid { display:grid; grid-template-columns:auto 1fr; gap:0; margin-top:2rem; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .template-row { display:contents; }
+    .template-row:hover .template-syntax,
+    .template-row:hover .template-desc { background:rgba(0,255,136,0.02); }
+    .template-syntax { font-family:var(--font-mono); font-size:0.85rem; color:var(--accent); padding:1rem 1.25rem; border-bottom:1px solid var(--border); white-space:nowrap; }
+    .template-desc { font-size:0.9rem; color:var(--text-secondary); padding:1rem 1.25rem; border-bottom:1px solid var(--border); }
+    .template-row:last-child .template-syntax,
+    .template-row:last-child .template-desc { border-bottom:none; }
+
+    /* COMPARE TABLE */
+    .compare-section { }
+    .compare-table { width:100%; border-collapse:collapse; margin-top:2rem; }
+    .compare-table th { text-align:left; font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); padding:0.75rem 1rem; border-bottom:2px solid var(--border); }
+    .compare-table td { padding:0.85rem 1rem; border-bottom:1px solid var(--border); font-size:0.9rem; color:var(--text-secondary); }
+    .compare-table .problem { color:var(--warning); }
+    .compare-table .solution { color:var(--accent); }
+
+    /* CTA */
+    .cta-section { text-align:center; padding:6rem 2rem; }
+    .cta-section h2 { margin-bottom:1rem; }
+    .cta-section p { color:var(--text-secondary); font-size:1.05rem; max-width:550px; margin:0 auto 2rem; line-height:1.7; }
+    .cta-buttons { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+    .btn-primary { background:var(--accent); color:var(--bg-primary); font-family:var(--font-mono); font-weight:700; font-size:0.9rem; padding:0.85rem 2rem; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:all 0.2s; border:none; cursor:pointer; }
+    .btn-primary:hover { background:#00ffaa; box-shadow:0 0 30px var(--accent-glow); transform:translateY(-1px); }
+    .btn-secondary { background:transparent; color:var(--text-primary); font-family:var(--font-mono); font-weight:500; font-size:0.9rem; padding:0.85rem 2rem; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; transition:all 0.2s; border:1px solid var(--border); }
+    .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+
+    .install-cmd { display:inline-flex; align-items:center; gap:1rem; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1.5rem; font-family:var(--font-mono); font-size:0.9rem; color:var(--text-secondary); cursor:pointer; transition:all 0.2s; margin-top:1.5rem; }
+    .install-cmd:hover { border-color:var(--accent); }
+    .install-cmd code { color:var(--accent); font-weight:500; }
+    .install-cmd .copy-icon { color:var(--text-muted); transition:color 0.2s; }
+    .install-cmd:hover .copy-icon { color:var(--accent); }
+
+    /* ECOSYSTEM */
+    .ecosystem-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2rem; }
+    .eco-card { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:2rem; text-decoration:none; display:block; transition:all 0.3s; }
+    .eco-card:hover { border-color:var(--accent); transform:translateY(-3px); }
+    .eco-card .eco-mono { font-family:var(--font-mono); font-size:0.85rem; color:var(--accent); font-weight:600; margin-bottom:0.5rem; }
+    .eco-card h3 { color:var(--text-primary); font-size:1rem; margin-bottom:0.35rem; }
+    .eco-card p { color:var(--text-secondary); font-size:0.85rem; line-height:1.5; }
+
+    /* FOOTER */
+    footer { position:relative; z-index:1; padding:4rem 2rem 2rem; border-top:1px solid var(--border); }
+    .footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; }
+    .footer-brand p { color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem; line-height:1.6; }
+    .footer-col h4 { font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--text-muted); margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+    .footer-col a { color:var(--text-secondary); text-decoration:none; font-size:0.875rem; transition:color 0.2s; }
+    .footer-col a:hover { color:var(--accent); }
+    .footer-bottom { max-width:1100px; margin:3rem auto 0; padding-top:1.5rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    .footer-bottom p { font-size:0.75rem; color:var(--text-muted); }
+
+    @media (max-width:768px) {
+      .nav-links { display:none; }
+      .nav-links.open { display:flex; flex-direction:column; position:absolute; top:64px; left:0; right:0; background:rgba(10,10,15,0.95); backdrop-filter:blur(20px); padding:1.5rem 2rem; border-bottom:1px solid var(--border); gap:1rem; }
+      .mobile-menu-btn { display:block; }
+      .analogy-grid, .clients-grid, .ecosystem-grid, .footer-inner { grid-template-columns:1fr; }
+      .template-grid { grid-template-columns:1fr; }
+      .template-syntax { border-right:none; }
+      section { padding:4rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><span class="logo-mark"><span class="accent">0n</span>MCP</span></a>
+    <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Home</a></li>
+      <li><a href="/0n-standard" class="active">The .0n Standard</a></li>
+      <li><a href="/sponsor">Sponsor</a></li>
+      <li><a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer">npm</a></li>
+      <li><a href="https://github.com/sponsors/0nork" target="_blank" rel="noopener noreferrer" class="nav-cta">Sponsor</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-glow"></div>
+  <h1>The <span class="gradient">.0n Standard</span></h1>
+  <p>
+    The universal configuration format for AI orchestration.
+    Like <code style="color:var(--accent);font-family:var(--font-mono);">.env</code> for environment variables,
+    <code style="color:var(--accent);font-family:var(--font-mono);">.0n</code> is for AI config.
+    One format. Every client. Zero fragmentation.
+  </p>
+  <div class="hero-badges">
+    <span class="hero-badge"><span class="dot"></span> Spec v1.0.0</span>
+    <span class="hero-badge">CC BY 4.0 License</span>
+    <span class="hero-badge">JSON Schema Validated</span>
+    <span class="hero-badge">CLI + Library</span>
+  </div>
+</div>
+
+<!-- THE ANALOGY -->
+<section class="analogy-section">
+  <div class="section-inner">
+    <span class="section-label">The Idea</span>
+    <h2>Every revolution starts with a standard format.</h2>
+    <p class="section-desc">
+      The best infrastructure is invisible. Just like <code style="color:var(--accent);font-family:var(--font-mono);">.git</code> made version control universal,
+      <code style="color:var(--accent);font-family:var(--font-mono);">.0n</code> makes AI orchestration config portable and universal.
+    </p>
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <span class="mono">.git</span>
+        <h3>Version Control</h3>
+        <p>Standardized how code is tracked, branched, and shared. Before Git, every team had their own system.</p>
+      </div>
+      <div class="analogy-card">
+        <span class="mono">.env</span>
+        <h3>Environment Config</h3>
+        <p>Standardized how apps read configuration. One file, every framework, every language.</p>
+      </div>
+      <div class="analogy-card" style="border-color:var(--accent);box-shadow:0 0 30px var(--accent-glow);">
+        <span class="mono">.0n</span>
+        <h3>AI Orchestration</h3>
+        <p>Standardizes how AI tools are configured, connected, and automated. One format, every client.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS .0n -->
+<section>
+  <div class="section-inner">
+    <span class="section-label">Directory Structure</span>
+    <h2>Everything lives in <code style="color:var(--accent);font-family:var(--font-mono);font-size:inherit;">~/.0n/</code></h2>
+    <p class="section-desc">
+      A single directory on your machine holds all your AI orchestration configuration.
+      Portable. Sharable. Version-controllable.
+    </p>
+    <div class="tree-block">
+      <div class="tree-header">
+        <span class="tree-dot red"></span>
+        <span class="tree-dot yellow"></span>
+        <span class="tree-dot green"></span>
+      </div>
+      <div class="tree-body">
+<span class="dir">~/.0n/</span>
+<span class="dir">&#9500;&#9472;&#9472; config.json</span>           <span class="comment"># Global settings</span>
+<span class="dir">&#9500;&#9472;&#9472; connections/</span>          <span class="comment"># Service credentials</span>
+<span class="file">&#9474;   &#9500;&#9472;&#9472; stripe.0n</span>
+<span class="file">&#9474;   &#9500;&#9472;&#9472; slack.0n</span>
+<span class="file">&#9474;   &#9492;&#9472;&#9472; openai.0n</span>
+<span class="dir">&#9500;&#9472;&#9472; workflows/</span>            <span class="comment"># Automation definitions</span>
+<span class="file">&#9474;   &#9492;&#9472;&#9472; invoice-notify.0n</span>
+<span class="dir">&#9500;&#9472;&#9472; snapshots/</span>            <span class="comment"># System state captures</span>
+<span class="file">&#9474;   &#9492;&#9472;&#9472; crm-setup.0n</span>
+<span class="dir">&#9500;&#9472;&#9472; history/</span>              <span class="comment"># Execution logs</span>
+<span class="dir">&#9492;&#9472;&#9472; cache/</span>                <span class="comment"># Response cache</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILE TYPES -->
+<section class="analogy-section">
+  <div class="section-inner">
+    <span class="section-label">File Types</span>
+    <h2>Five types. One header. Infinite possibilities.</h2>
+    <p class="section-desc">
+      Every <code style="color:var(--accent);font-family:var(--font-mono);">.0n</code> file starts with a standard <code style="color:var(--accent);font-family:var(--font-mono);">$0n</code> header that declares its type, version, and name.
+    </p>
+    <table class="type-table">
+      <thead>
+        <tr><th>Type</th><th>Purpose</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="type-name">connection</span></td>
+          <td>Service credentials and authentication. Store API keys, OAuth tokens, and connection settings.</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">stripe.0n</td>
+        </tr>
+        <tr>
+          <td><span class="type-name">workflow</span></td>
+          <td>Multi-step automations. Define inputs, steps with service calls, and output mappings.</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">invoice-notify.0n</td>
+        </tr>
+        <tr>
+          <td><span class="type-name">snapshot</span></td>
+          <td>System state captures. Export your entire CRM setup, pipeline config, or service state.</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">crm-setup.0n</td>
+        </tr>
+        <tr>
+          <td><span class="type-name">execution</span></td>
+          <td>Task run history. JSONL logs of every workflow execution with timestamps and results.</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">2026-02-11.jsonl</td>
+        </tr>
+        <tr>
+          <td><span class="type-name">config</span></td>
+          <td>Global settings. AI provider, default service preferences, rate limits.</td>
+          <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">config.json</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CODE EXAMPLES -->
+<section>
+  <div class="section-inner">
+    <span class="section-label">Examples</span>
+    <h2>See the .0n format in action</h2>
+    <p class="section-desc">
+      Clean JSON with a standard header. Machine-readable. Human-friendly. Schema-validated.
+    </p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
+        <span class="code-filename">connections/stripe.0n</span>
+      </div>
+      <div class="code-body"><span class="punct">{</span>
+  <span class="key">"$0n"</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="key">"type"</span><span class="punct">:</span> <span class="str">"connection"</span><span class="punct">,</span>
+    <span class="key">"version"</span><span class="punct">:</span> <span class="str">"1.0.0"</span><span class="punct">,</span>
+    <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Production Stripe"</span>
+  <span class="punct">},</span>
+  <span class="key">"service"</span><span class="punct">:</span> <span class="str">"stripe"</span><span class="punct">,</span>
+  <span class="key">"auth"</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="key">"type"</span><span class="punct">:</span> <span class="str">"api_key"</span><span class="punct">,</span>
+    <span class="key">"credentials"</span><span class="punct">:</span> <span class="punct">{</span> <span class="key">"api_key"</span><span class="punct">:</span> <span class="str">"{{env.STRIPE_SECRET_KEY}}"</span> <span class="punct">}</span>
+  <span class="punct">}</span>
+<span class="punct">}</span></div>
+    </div>
+
+    <div class="code-block" style="margin-top:1.5rem;">
+      <div class="code-header">
+        <div class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></div>
+        <span class="code-filename">workflows/invoice-notify.0n</span>
+      </div>
+      <div class="code-body"><span class="punct">{</span>
+  <span class="key">"$0n"</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="key">"type"</span><span class="punct">:</span> <span class="str">"workflow"</span><span class="punct">,</span>
+    <span class="key">"version"</span><span class="punct">:</span> <span class="str">"1.0.0"</span><span class="punct">,</span>
+    <span class="key">"name"</span><span class="punct">:</span> <span class="str">"Invoice and Notify"</span>
+  <span class="punct">},</span>
+  <span class="key">"inputs"</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="key">"email"</span><span class="punct">:</span> <span class="punct">{</span> <span class="key">"type"</span><span class="punct">:</span> <span class="str">"string"</span><span class="punct">,</span> <span class="key">"required"</span><span class="punct">:</span> <span class="val">true</span> <span class="punct">},</span>
+    <span class="key">"amount"</span><span class="punct">:</span> <span class="punct">{</span> <span class="key">"type"</span><span class="punct">:</span> <span class="str">"number"</span><span class="punct">,</span> <span class="key">"required"</span><span class="punct">:</span> <span class="val">true</span> <span class="punct">}</span>
+  <span class="punct">},</span>
+  <span class="key">"steps"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="punct">{</span> <span class="key">"id"</span><span class="punct">:</span> <span class="str">"find"</span><span class="punct">,</span>   <span class="key">"tool"</span><span class="punct">:</span> <span class="str">"stripe_get_customer"</span><span class="punct">,</span> <span class="key">"input"</span><span class="punct">:</span> <span class="punct">{</span> <span class="key">"email"</span><span class="punct">:</span> <span class="str">"{{inputs.email}}"</span> <span class="punct">}</span> <span class="punct">},</span>
+    <span class="punct">{</span> <span class="key">"id"</span><span class="punct">:</span> <span class="str">"invoice"</span><span class="punct">,</span> <span class="key">"tool"</span><span class="punct">:</span> <span class="str">"stripe_create_invoice"</span><span class="punct">,</span> <span class="key">"input"</span><span class="punct">:</span> <span class="punct">{</span> <span class="key">"customer"</span><span class="punct">:</span> <span class="str">"{{find.output.id}}"</span> <span class="punct">}</span> <span class="punct">},</span>
+    <span class="punct">{</span> <span class="key">"id"</span><span class="punct">:</span> <span class="str">"notify"</span><span class="punct">,</span>  <span class="key">"tool"</span><span class="punct">:</span> <span class="str">"slack_send_message"</span><span class="punct">,</span> <span class="key">"input"</span><span class="punct">:</span> <span class="punct">{</span> <span class="key">"channel"</span><span class="punct">:</span> <span class="str">"#billing"</span><span class="punct">,</span> <span class="key">"text"</span><span class="punct">:</span> <span class="str">"Invoice sent to {{inputs.email}}"</span> <span class="punct">}</span> <span class="punct">}</span>
+  <span class="punct">]</span>
+<span class="punct">}</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLATE SYNTAX -->
+<section class="analogy-section">
+  <div class="section-inner">
+    <span class="section-label">Template Syntax</span>
+    <h2>Dynamic values with double-brace templates</h2>
+    <p class="section-desc">Reference inputs, step outputs, environment variables, and built-in values using a simple template syntax.</p>
+    <div class="template-grid">
+      <div class="template-row">
+        <div class="template-syntax">{{inputs.name}}</div>
+        <div class="template-desc">Reference a workflow input parameter</div>
+      </div>
+      <div class="template-row">
+        <div class="template-syntax">{{step_id.output.field}}</div>
+        <div class="template-desc">Reference the output of a previous step</div>
+      </div>
+      <div class="template-row">
+        <div class="template-syntax">{{env.VAR_NAME}}</div>
+        <div class="template-desc">Reference an environment variable</div>
+      </div>
+      <div class="template-row">
+        <div class="template-syntax">{{now}}</div>
+        <div class="template-desc">Current ISO 8601 timestamp</div>
+      </div>
+      <div class="template-row">
+        <div class="template-syntax">{{uuid}}</div>
+        <div class="template-desc">Generate a unique identifier</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORTED CLIENTS -->
+<section class="clients-section">
+  <div class="section-inner">
+    <span class="section-label">Compatibility</span>
+    <h2>Write once, run on every MCP client</h2>
+    <p class="section-desc">
+      The whole point: stop writing different config files for every AI client. One
+      <code style="color:var(--accent);font-family:var(--font-mono);">.0n</code> file works everywhere.
+    </p>
+    <div class="clients-grid">
+      <div class="client-card">
+        <h3>Claude Desktop</h3>
+        <p>Anthropic's desktop app for Claude. First-class MCP support via claude_desktop_config.json.</p>
+        <span class="status supported">Supported</span>
+      </div>
+      <div class="client-card">
+        <h3>Claude Code</h3>
+        <p>CLI-based Claude for developers. MCP servers configured via CLAUDE.md or settings.</p>
+        <span class="status supported">Supported</span>
+      </div>
+      <div class="client-card">
+        <h3>Cursor</h3>
+        <p>AI-first code editor. MCP configuration through settings.json.</p>
+        <span class="status supported">Supported</span>
+      </div>
+      <div class="client-card">
+        <h3>VS Code</h3>
+        <p>Microsoft's editor with Copilot. MCP support via extensions and settings.</p>
+        <span class="status supported">Supported</span>
+      </div>
+      <div class="client-card">
+        <h3>Windsurf</h3>
+        <p>Codeium's AI IDE. Native MCP support for tool integration.</p>
+        <span class="status supported">Supported</span>
+      </div>
+      <div class="client-card">
+        <h3>Gemini CLI</h3>
+        <p>Google's CLI for Gemini models. MCP server configuration support.</p>
+        <span class="status supported">Supported</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY .0n vs STATUS QUO -->
+<section class="compare-section">
+  <div class="section-inner">
+    <span class="section-label">The Problem</span>
+    <h2>Before .0n, configuration was chaos</h2>
+    <p class="section-desc">Every orchestrator invented its own format. Credentials were scattered. Workflows were trapped.</p>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Problem</th><th>.0n Solution</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="problem">Every orchestrator invents its own config format</td>
+          <td class="solution">One standard format for all</td>
+        </tr>
+        <tr>
+          <td class="problem">Credentials scattered across env files, JSON, YAML</td>
+          <td class="solution">~/.0n/connections/ &mdash; one place</td>
+        </tr>
+        <tr>
+          <td class="problem">Workflows trapped in proprietary tools</td>
+          <td class="solution">Portable .0n workflow files</td>
+        </tr>
+        <tr>
+          <td class="problem">No execution history standard</td>
+          <td class="solution">~/.0n/history/ &mdash; JSONL by date</td>
+        </tr>
+        <tr>
+          <td class="problem">System configs can't be shared or exported</td>
+          <td class="solution">Shareable snapshots with .0n format</td>
+        </tr>
+        <tr>
+          <td class="problem">Different config format per MCP client</td>
+          <td class="solution">Write once, deploy everywhere</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 0n ECOSYSTEM -->
+<section class="analogy-section">
+  <div class="section-inner">
+    <span class="section-label">Ecosystem</span>
+    <h2>Three packages. One standard.</h2>
+    <p class="section-desc">
+      The .0n Standard is part of an open ecosystem of AI orchestration tools, all MIT licensed.
+    </p>
+    <div class="ecosystem-grid">
+      <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" class="eco-card">
+        <div class="eco-mono">0nmcp</div>
+        <h3>The Orchestrator</h3>
+        <p>Universal MCP orchestrator with 180 tools across 17 services. The engine that runs .0n workflows.</p>
+      </a>
+      <a href="https://www.npmjs.com/package/0n-spec" target="_blank" rel="noopener noreferrer" class="eco-card" style="border-color:var(--accent);">
+        <div class="eco-mono">0n-spec</div>
+        <h3>The Standard</h3>
+        <p>Specification, JSON schemas, CLI validator, and Node.js library for the .0n format. This is the spec.</p>
+      </a>
+      <a href="https://www.npmjs.com/package/0nork" target="_blank" rel="noopener noreferrer" class="eco-card">
+        <div class="eco-mono">0nork</div>
+        <h3>The Namespace</h3>
+        <p>Parent package for the 0n ecosystem. Discovery, version alignment, and ecosystem metadata.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <h2>
+      Start using the <span style="color:var(--accent);">.0n Standard</span> today.
+    </h2>
+    <p>
+      Install the spec package to validate .0n files, or install 0nMCP to start orchestrating immediately.
+    </p>
+    <div class="cta-buttons">
+      <a href="https://github.com/0nork/0n-spec" target="_blank" rel="noopener noreferrer" class="btn-primary">
+        View Spec on GitHub
+      </a>
+      <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+        Get 0nMCP
+      </a>
+      <a href="/sponsor" class="btn-secondary">
+        Sponsor Development
+      </a>
+    </div>
+    <div class="install-cmd" onclick="copyCmd(this)" role="button" tabindex="0">
+      <span>$</span>
+      <code>npm install -g 0n-spec</code>
+      <span class="copy-icon">&#128203;</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-mark" style="font-size:1.1rem;"><span style="color:var(--accent);">0n</span>MCP</span>
+      <p>The universal MCP orchestrator. Chain, combine, and automate AI tool servers into intelligent workflows.</p>
+      <p style="margin-top:0.5rem;">Built by <a href="https://rocketopp.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">RocketOpp, LLC</a> in Pittsburgh, PA.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/0n-standard">The .0n Standard</a></li>
+        <li><a href="/sponsor">Sponsor</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li><a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer">0nmcp (npm)</a></li>
+        <li><a href="https://www.npmjs.com/package/0n-spec" target="_blank" rel="noopener noreferrer">0n-spec (npm)</a></li>
+        <li><a href="https://www.npmjs.com/package/0nork" target="_blank" rel="noopener noreferrer">0nork (npm)</a></li>
+        <li><a href="https://marketplace.rocketclients.com" target="_blank" rel="noopener noreferrer">0n Marketplace</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="https://github.com/0nork/0nMCP/discussions" target="_blank" rel="noopener noreferrer">Discussions</a></li>
+        <li><a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/sponsors/0nork" target="_blank" rel="noopener noreferrer">Sponsor</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 RocketOpp, LLC. All rights reserved. Patent Pending #63/968,814.</p>
+    <p style="display:flex;gap:1rem;">
+      <a href="/llms.txt" style="color:var(--text-muted);text-decoration:none;">llms.txt</a>
+      <a href="/sitemap.xml" style="color:var(--text-muted);text-decoration:none;">Sitemap</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+  var menuBtn = document.getElementById('menuBtn');
+  var navLinks = document.getElementById('navLinks');
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+    navLinks.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() { navLinks.classList.remove('open'); });
+    });
+  }
+  window.copyCmd = function(el) {
+    navigator.clipboard.writeText('npm install -g 0n-spec').then(function() {
+      var icon = el.querySelector('.copy-icon');
+      if (icon) {
+        var orig = icon.innerHTML;
+        icon.innerHTML = '&#10003;';
+        icon.style.color = 'var(--accent)';
+        setTimeout(function() { icon.innerHTML = orig; icon.style.color = ''; }, 2000);
+      }
+    });
+  };
+})();
+</script>
+
+</body>
+</html>

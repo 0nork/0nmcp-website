@@ -104,11 +104,45 @@
     .footer-bottom { max-width:1100px; margin:3rem auto 0; padding-top:1.5rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
     .footer-bottom p { font-size:0.75rem; color:var(--text-muted); }
 
+    /* ═══ UNLOCK SCHEDULE ═══ */
+    .unlock-track { position:relative; margin-top:2.5rem; }
+    .unlock-track::before { content:''; position:absolute; left:20px; top:0; bottom:0; width:2px; background:linear-gradient(180deg, var(--accent) 0%, var(--border) 18%, var(--border) 100%); }
+    .unlock-phase { position:relative; padding-left:56px; margin-bottom:2.5rem; }
+    .unlock-phase:last-child { margin-bottom:0; }
+    .phase-dot { position:absolute; left:12px; top:2px; width:18px; height:18px; border-radius:50%; border:2px solid var(--border); background:var(--bg-primary); z-index:2; transition:all 0.3s; }
+    .unlock-phase.current .phase-dot { border-color:var(--accent); background:var(--accent); box-shadow:0 0 12px var(--accent-glow); }
+    .unlock-phase.current .phase-dot::after { content:''; position:absolute; inset:-6px; border-radius:50%; border:1px solid rgba(0,255,136,0.3); animation:pulseDot 2s ease-out infinite; }
+    @keyframes pulseDot { 0%{transform:scale(0.8);opacity:0.6} 100%{transform:scale(2);opacity:0} }
+    .phase-hdr { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; flex-wrap:wrap; }
+    .phase-badge { font-family:var(--font-mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:0.2rem 0.65rem; border-radius:100px; white-space:nowrap; }
+    .unlock-phase.current .phase-badge { background:var(--accent); color:var(--bg-primary); }
+    .unlock-phase:not(.current) .phase-badge { background:var(--bg-card); color:var(--text-muted); border:1px solid var(--border); }
+    .phase-title { font-size:1.15rem; font-weight:700; }
+    .phase-trigger { font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted); padding:0.15rem 0.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:4px; }
+    .phase-desc { color:var(--text-secondary); font-size:0.88rem; margin-bottom:0.75rem; line-height:1.5; }
+    .unlock-row { margin-bottom:0.6rem; }
+    .unlock-row-label { font-family:var(--font-mono); font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-dim); margin-bottom:0.4rem; display:block; }
+    .unlock-row-label.feat-l { color:var(--accent-secondary); }
+    .tag-wrap { display:flex; gap:0.5rem; flex-wrap:wrap; }
+    .svc-tag { display:inline-flex; align-items:center; gap:0.3rem; padding:0.25rem 0.6rem; background:var(--bg-card); border:1px solid var(--border); border-radius:6px; font-family:var(--font-mono); font-size:0.68rem; color:var(--text-secondary); white-space:nowrap; }
+    .unlock-phase.current .svc-tag { border-color:rgba(0,255,136,0.2); color:var(--text-primary); }
+    .feat-tag { display:inline-flex; align-items:center; gap:0.3rem; padding:0.25rem 0.6rem; background:rgba(0,212,255,0.04); border:1px solid rgba(0,212,255,0.15); border-radius:6px; font-family:var(--font-mono); font-size:0.68rem; color:var(--accent-secondary); white-space:nowrap; }
+    .phase-stats { font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted); margin-top:0.6rem; padding-top:0.5rem; border-top:1px solid var(--border); }
+    .phase-stats b { color:var(--accent); font-weight:700; }
+    .missing-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin-top:1.5rem; }
+    .missing-card { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:1.25rem; display:flex; gap:0.75rem; align-items:flex-start; }
+    .missing-card .pri { font-family:var(--font-mono); font-size:0.55rem; text-transform:uppercase; letter-spacing:0.1em; padding:0.15rem 0.45rem; border-radius:4px; white-space:nowrap; flex-shrink:0; margin-top:0.15rem; }
+    .pri.crit { background:rgba(255,107,53,0.15); color:var(--warning); border:1px solid rgba(255,107,53,0.3); }
+    .pri.high { background:rgba(0,255,136,0.08); color:var(--accent); border:1px solid rgba(0,255,136,0.2); }
+    .pri.med { background:rgba(0,212,255,0.08); color:var(--accent-secondary); border:1px solid rgba(0,212,255,0.2); }
+    .missing-card h4 { font-size:0.9rem; margin-bottom:0.2rem; }
+    .missing-card p { font-size:0.78rem; color:var(--text-secondary); line-height:1.4; }
+
     @media (max-width:768px) {
       .nav-links { display:none; }
       .nav-links.open { display:flex; flex-direction:column; position:absolute; top:64px; left:0; right:0; background:rgba(10,10,15,0.95); backdrop-filter:blur(20px); padding:1.5rem 2rem; border-bottom:1px solid var(--border); gap:1rem; }
       .mobile-menu-btn { display:block; }
-      .sponsor-grid, .why-grid, .footer-inner { grid-template-columns:1fr; }
+      .sponsor-grid, .why-grid, .footer-inner, .missing-grid { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -225,51 +259,372 @@
   </div>
 </section>
 
-<!-- ROADMAP -->
+<!-- MISSING SERVICES -->
 <section>
   <div class="section-inner">
-    <div class="section-label">Roadmap</div>
-    <h2>What We're Building Next</h2>
-    <p style="color:var(--text-secondary);font-size:1rem;margin-bottom:1rem;">Your sponsorship directly funds these milestones.</p>
+    <div class="section-label">Gap Analysis</div>
+    <h2>What We Need to Win</h2>
+    <p style="color:var(--text-secondary);font-size:1rem;margin-bottom:0.5rem;">These are the services we need to add immediately to become the undisputed standard. Your sponsorship directly funds their development.</p>
 
-    <div class="roadmap-list">
-      <div class="roadmap-item">
-        <span class="milestone">Q1 2026</span>
+    <div class="missing-grid">
+      <div class="missing-card">
+        <span class="pri crit">Critical</span>
         <div>
-          <h3>Visual Workflow Builder</h3>
-          <p>Drag-and-drop interface for creating Pipeline, Assembly Line, and Radial Burst workflows without writing code.</p>
+          <h4>Google Workspace</h4>
+          <p>Gmail, Sheets, Drive, Docs. Everyone uses it. Not having it is a dealbreaker for adoption.</p>
         </div>
       </div>
-      <div class="roadmap-item">
-        <span class="milestone">Q2 2026</span>
+      <div class="missing-card">
+        <span class="pri crit">Critical</span>
         <div>
-          <h3>0n Marketplace Launch</h3>
-          <p>Community marketplace for sharing, discovering, and installing pre-built MCP workflows and service packages.</p>
+          <h4>Jira / Atlassian</h4>
+          <p>Enterprise project management. Required for any B2B adoption play.</p>
         </div>
       </div>
-      <div class="roadmap-item">
-        <span class="milestone">Q2 2026</span>
+      <div class="missing-card">
+        <span class="pri crit">Critical</span>
         <div>
-          <h3>20+ New Services</h3>
-          <p>Mailchimp, Zendesk, Jira, AWS, Vercel, Cloudflare, Resend, Plaid, Square, and more based on community votes.</p>
+          <h4>Zendesk</h4>
+          <p>Customer support is the #1 automation use case. This is table stakes.</p>
         </div>
       </div>
-      <div class="roadmap-item">
-        <span class="milestone">Q3 2026</span>
+      <div class="missing-card">
+        <span class="pri crit">Critical</span>
         <div>
-          <h3>Self-Hosted Enterprise</h3>
-          <p>Docker image for running 0nMCP on your own infrastructure with private service connections and audit logging.</p>
+          <h4>Mailchimp</h4>
+          <p>Email marketing powers the entire CRM-to-revenue pipeline.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri high">High</span>
+        <div>
+          <h4>Zoom</h4>
+          <p>Meeting scheduling, recording, and management. Pairs with Calendly.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri high">High</span>
+        <div>
+          <h4>AWS (S3, SES, Lambda)</h4>
+          <p>File storage, email delivery, serverless functions. The cloud backbone.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri high">High</span>
+        <div>
+          <h4>Microsoft 365</h4>
+          <p>Outlook, Teams, OneDrive. The enterprise world runs on Microsoft.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri high">High</span>
+        <div>
+          <h4>MongoDB</h4>
+          <p>NoSQL database. Fills the gap alongside Supabase for data-heavy workflows.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri med">Medium</span>
+        <div>
+          <h4>Vercel</h4>
+          <p>Deployment platform. Our own stack, plus a massive developer community.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri med">Medium</span>
+        <div>
+          <h4>Cloudflare</h4>
+          <p>DNS, CDN, Workers. The infrastructure layer every serious project needs.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri med">Medium</span>
+        <div>
+          <h4>Figma</h4>
+          <p>Design handoff and asset management. Dev workflow essential.</p>
+        </div>
+      </div>
+      <div class="missing-card">
+        <span class="pri med">Medium</span>
+        <div>
+          <h4>Firebase</h4>
+          <p>Auth, Firestore, Cloud Messaging. Google's full app platform.</p>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
+<!-- UNLOCK REWARDS SCHEDULE -->
+<section style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-label">Unlock Rewards Schedule</div>
+    <h2>The Road to Total Dominance</h2>
+    <p style="color:var(--text-secondary);font-size:1rem;margin-bottom:0.5rem;">Every milestone unlocks new services, features, and capabilities. Your sponsorship accelerates this timeline. We&rsquo;re just getting started.</p>
+
+    <div class="unlock-track">
+
+      <!-- ── PHASE 0: CURRENT ── -->
+      <div class="unlock-phase current">
+        <div class="phase-dot"></div>
+        <div class="phase-hdr">
+          <span class="phase-badge">Phase 0</span>
+          <span class="phase-title">Foundation</span>
+          <span class="phase-trigger">WE ARE HERE</span>
+        </div>
+        <p class="phase-desc">The core is live. Pipeline, Assembly Line, and Radial Burst execution. 17 services wired. The .0n Standard published. Open source, MIT licensed, zero config.</p>
+        <div class="unlock-row">
+          <span class="unlock-row-label">Live Services</span>
+          <div class="tag-wrap">
+            <span class="svc-tag">Stripe</span>
+            <span class="svc-tag">Slack</span>
+            <span class="svc-tag">GitHub</span>
+            <span class="svc-tag">Shopify</span>
+            <span class="svc-tag">Twilio</span>
+            <span class="svc-tag">SendGrid</span>
+            <span class="svc-tag">Discord</span>
+            <span class="svc-tag">OpenAI</span>
+            <span class="svc-tag">Airtable</span>
+            <span class="svc-tag">Notion</span>
+            <span class="svc-tag">Linear</span>
+            <span class="svc-tag">HubSpot</span>
+            <span class="svc-tag">Supabase</span>
+            <span class="svc-tag">Calendly</span>
+            <span class="svc-tag">Google Cal</span>
+            <span class="svc-tag">Resend</span>
+            <span class="svc-tag">CRM (245)</span>
+          </div>
+        </div>
+        <div class="unlock-row">
+          <span class="unlock-row-label feat-l">Live Features</span>
+          <div class="tag-wrap">
+            <span class="feat-tag">3-Level Execution</span>
+            <span class="feat-tag">.0n Standard</span>
+            <span class="feat-tag">CLI Interface</span>
+            <span class="feat-tag">0n Marketplace</span>
+            <span class="feat-tag">Signed Exports</span>
+          </div>
+        </div>
+        <div class="phase-stats"><b>17</b> services &middot; <b>252</b> tools &middot; <b>245</b> CRM tools &middot; <b>12</b> modules</div>
+      </div>
+
+      <!-- ── PHASE 1: ESSENTIAL EXPANSION ── -->
+      <div class="unlock-phase">
+        <div class="phase-dot"></div>
+        <div class="phase-hdr">
+          <span class="phase-badge">Phase 1</span>
+          <span class="phase-title">Essential Expansion</span>
+          <span class="phase-trigger">100 Stars &middot; $500 MRR</span>
+        </div>
+        <p class="phase-desc">Close the critical gaps. Every tool people expect from day one. This is the phase that turns early adopters into evangelists.</p>
+        <div class="unlock-row">
+          <span class="unlock-row-label">Unlock Services (+5)</span>
+          <div class="tag-wrap">
+            <span class="svc-tag">Gmail</span>
+            <span class="svc-tag">Google Sheets</span>
+            <span class="svc-tag">Google Drive</span>
+            <span class="svc-tag">Jira</span>
+            <span class="svc-tag">Zendesk</span>
+          </div>
+        </div>
+        <div class="unlock-row">
+          <span class="unlock-row-label feat-l">Unlock Features</span>
+          <div class="tag-wrap">
+            <span class="feat-tag">Workflow Templates Library</span>
+            <span class="feat-tag">Interactive Docs</span>
+            <span class="feat-tag">Error Recovery</span>
+          </div>
+        </div>
+        <div class="phase-stats"><b>22</b> services &middot; <b>~320</b> tools &middot; Estimated unlock: <b>Q2 2026</b></div>
+      </div>
+
+      <!-- ── PHASE 2: FULL STACK ── -->
+      <div class="unlock-phase">
+        <div class="phase-dot"></div>
+        <div class="phase-hdr">
+          <span class="phase-badge">Phase 2</span>
+          <span class="phase-title">Full Stack</span>
+          <span class="phase-trigger">500 Stars &middot; $2K MRR</span>
+        </div>
+        <p class="phase-desc">Enterprise readiness. Cloud infrastructure, email marketing, meetings, and databases. The tools that make companies switch from Zapier permanently.</p>
+        <div class="unlock-row">
+          <span class="unlock-row-label">Unlock Services (+7)</span>
+          <div class="tag-wrap">
+            <span class="svc-tag">Mailchimp</span>
+            <span class="svc-tag">Zoom</span>
+            <span class="svc-tag">AWS S3</span>
+            <span class="svc-tag">AWS SES</span>
+            <span class="svc-tag">AWS Lambda</span>
+            <span class="svc-tag">MongoDB</span>
+            <span class="svc-tag">Google Docs</span>
+          </div>
+        </div>
+        <div class="unlock-row">
+          <span class="unlock-row-label feat-l">Unlock Features</span>
+          <div class="tag-wrap">
+            <span class="feat-tag">Visual Workflow Builder</span>
+            <span class="feat-tag">Team Collaboration</span>
+            <span class="feat-tag">Audit Logging</span>
+            <span class="feat-tag">Webhook Triggers</span>
+          </div>
+        </div>
+        <div class="phase-stats"><b>29</b> services &middot; <b>~420</b> tools &middot; Estimated unlock: <b>Q3 2026</b></div>
+      </div>
+
+      <!-- ── PHASE 3: PLATFORM ── -->
+      <div class="unlock-phase">
+        <div class="phase-dot"></div>
+        <div class="phase-hdr">
+          <span class="phase-badge">Phase 3</span>
+          <span class="phase-title">Platform</span>
+          <span class="phase-trigger">1,000 Stars &middot; $5K MRR</span>
+        </div>
+        <p class="phase-desc">From tool to platform. Microsoft enters the chat. Design, deployment, and customer support fully automated. Community-driven marketplace goes public.</p>
+        <div class="unlock-row">
+          <span class="unlock-row-label">Unlock Services (+8)</span>
+          <div class="tag-wrap">
+            <span class="svc-tag">Outlook</span>
+            <span class="svc-tag">MS Teams</span>
+            <span class="svc-tag">OneDrive</span>
+            <span class="svc-tag">Salesforce</span>
+            <span class="svc-tag">Vercel</span>
+            <span class="svc-tag">Cloudflare</span>
+            <span class="svc-tag">Figma</span>
+            <span class="svc-tag">Intercom</span>
+          </div>
+        </div>
+        <div class="unlock-row">
+          <span class="unlock-row-label feat-l">Unlock Features</span>
+          <div class="tag-wrap">
+            <span class="feat-tag">Marketplace (Public)</span>
+            <span class="feat-tag">Workflow Sharing</span>
+            <span class="feat-tag">Community Packages</span>
+            <span class="feat-tag">SSO / SAML</span>
+          </div>
+        </div>
+        <div class="phase-stats"><b>37</b> services &middot; <b>~530</b> tools &middot; Estimated unlock: <b>Q4 2026</b></div>
+      </div>
+
+      <!-- ── PHASE 4: INDUSTRY PACKS ── -->
+      <div class="unlock-phase">
+        <div class="phase-dot"></div>
+        <div class="phase-hdr">
+          <span class="phase-badge">Phase 4</span>
+          <span class="phase-title">Industry Packs</span>
+          <span class="phase-trigger">5,000 Stars &middot; $15K MRR</span>
+        </div>
+        <p class="phase-desc">Vertical domination. Pre-built industry solutions that deploy in seconds. FinTech, E-commerce, Content, and DevOps packs with curated service bundles.</p>
+        <div class="unlock-row">
+          <span class="unlock-row-label">Unlock Services (+8)</span>
+          <div class="tag-wrap">
+            <span class="svc-tag">Firebase</span>
+            <span class="svc-tag">DocuSign</span>
+            <span class="svc-tag">Plaid</span>
+            <span class="svc-tag">Square</span>
+            <span class="svc-tag">QuickBooks</span>
+            <span class="svc-tag">Twitch</span>
+            <span class="svc-tag">ConvertKit</span>
+            <span class="svc-tag">Webflow</span>
+          </div>
+        </div>
+        <div class="unlock-row">
+          <span class="unlock-row-label feat-l">Unlock Features</span>
+          <div class="tag-wrap">
+            <span class="feat-tag">FinTech Pack</span>
+            <span class="feat-tag">E-Commerce Pack</span>
+            <span class="feat-tag">Content Creator Pack</span>
+            <span class="feat-tag">DevOps Pack</span>
+            <span class="feat-tag">Self-Hosted Docker</span>
+            <span class="feat-tag">Private Cloud</span>
+          </div>
+        </div>
+        <div class="phase-stats"><b>45</b> services &middot; <b>~650</b> tools &middot; Estimated unlock: <b>Q1 2027</b></div>
+      </div>
+
+      <!-- ── PHASE 5: ECOSYSTEM DOMINANCE ── -->
+      <div class="unlock-phase">
+        <div class="phase-dot"></div>
+        <div class="phase-hdr">
+          <span class="phase-badge">Phase 5</span>
+          <span class="phase-title">Ecosystem Dominance</span>
+          <span class="phase-trigger">10,000 Stars &middot; $50K MRR</span>
+        </div>
+        <p class="phase-desc">Enterprise-grade everything. The services Fortune 500 companies need. Custom MCP server SDK so anyone can build and publish their own integrations.</p>
+        <div class="unlock-row">
+          <span class="unlock-row-label">Unlock Services (+8)</span>
+          <div class="tag-wrap">
+            <span class="svc-tag">SAP</span>
+            <span class="svc-tag">ServiceNow</span>
+            <span class="svc-tag">Workday</span>
+            <span class="svc-tag">Snowflake</span>
+            <span class="svc-tag">Databricks</span>
+            <span class="svc-tag">PagerDuty</span>
+            <span class="svc-tag">Datadog</span>
+            <span class="svc-tag">Splunk</span>
+          </div>
+        </div>
+        <div class="unlock-row">
+          <span class="unlock-row-label feat-l">Unlock Features</span>
+          <div class="tag-wrap">
+            <span class="feat-tag">MCP Server Builder SDK</span>
+            <span class="feat-tag">Plugin Marketplace</span>
+            <span class="feat-tag">Enterprise SLA</span>
+            <span class="feat-tag">SOC 2 Compliance</span>
+            <span class="feat-tag">Dedicated Support</span>
+          </div>
+        </div>
+        <div class="phase-stats"><b>53</b> services &middot; <b>~800</b> tools &middot; Estimated unlock: <b>Q3 2027</b></div>
+      </div>
+
+      <!-- ── PHASE 6: THE SINGULARITY ── -->
+      <div class="unlock-phase">
+        <div class="phase-dot"></div>
+        <div class="phase-hdr">
+          <span class="phase-badge">Phase 6</span>
+          <span class="phase-title">The Singularity</span>
+          <span class="phase-trigger">25,000+ Stars &middot; $100K+ MRR</span>
+        </div>
+        <p class="phase-desc">The endgame. Multi-model orchestration across Claude, GPT, and Gemini. Autonomous workflow generation. Self-healing pipelines. Real-time multi-user collaboration. 0nMCP becomes the operating system for AI.</p>
+        <div class="unlock-row">
+          <span class="unlock-row-label">Unlock Services (+7)</span>
+          <div class="tag-wrap">
+            <span class="svc-tag">Anthropic Claude</span>
+            <span class="svc-tag">Google Gemini</span>
+            <span class="svc-tag">OpenAI GPT</span>
+            <span class="svc-tag">Cohere</span>
+            <span class="svc-tag">Mistral</span>
+            <span class="svc-tag">Perplexity</span>
+            <span class="svc-tag">Any Custom MCP</span>
+          </div>
+        </div>
+        <div class="unlock-row">
+          <span class="unlock-row-label feat-l">Unlock Features</span>
+          <div class="tag-wrap">
+            <span class="feat-tag">Multi-Model Orchestration</span>
+            <span class="feat-tag">Autonomous Workflow Gen</span>
+            <span class="feat-tag">Self-Healing Pipelines</span>
+            <span class="feat-tag">Real-Time Collaboration</span>
+            <span class="feat-tag">White-Label Licensing</span>
+            <span class="feat-tag">AI-to-AI Delegation</span>
+          </div>
+        </div>
+        <div class="phase-stats"><b>60+</b> services &middot; <b>1,000+</b> tools &middot; The entire MCP ecosystem, unified</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section>
+  <div class="section-inner">
     <div class="github-cta">
-      <h3>Not ready to sponsor? You can still help.</h3>
-      <p>Star the repo, join discussions, submit issues, or share 0nMCP with your network. Every contribution matters.</p>
+      <h3>Every star, every sponsor, every share accelerates the timeline.</h3>
+      <p>We&rsquo;re at Phase 0. Help us get to Phase 1. Then nothing stops us.</p>
       <div class="cta-buttons">
-        <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="btn-primary">Star on GitHub</a>
+        <a href="https://github.com/sponsors/0nork" target="_blank" rel="noopener noreferrer" class="btn-primary">Become a Sponsor</a>
+        <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" class="btn-secondary">Star on GitHub</a>
         <a href="https://github.com/0nork/0nMCP/discussions" target="_blank" rel="noopener noreferrer" class="btn-secondary">Join Discussions</a>
-        <a href="https://github.com/0nork/0nMCP/issues" target="_blank" rel="noopener noreferrer" class="btn-secondary">Report Issues</a>
       </div>
     </div>
   </div>

@@ -1,0 +1,10 @@
+{
+  "name": "0nmcp-website",
+  "version": "1.0.0",
+  "description": "0nMCP - Official website for the Model Context Protocol implementation",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  },
+  "author": "",
+  "license": "MIT"
+}

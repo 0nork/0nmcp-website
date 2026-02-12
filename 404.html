@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found | 0nMCP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f; --bg-card: #1a1a25;
+      --text-primary: #e8e8ef; --text-secondary: #8888a0; --text-muted: #55556a;
+      --accent: #00ff88; --accent-glow: rgba(0,255,136,0.15);
+      --accent-secondary: #00d4ff;
+      --border: #2a2a3a;
+      --font-display: 'Instrument Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:var(--font-display); background:var(--bg-primary); color:var(--text-primary); min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
+    .glow { position:fixed; width:400px; height:400px; background:radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); top:30%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+    .content { position:relative; z-index:1; max-width:500px; }
+    .code { font-family:var(--font-mono); font-size:8rem; font-weight:700; line-height:1; color:var(--accent); letter-spacing:-0.05em; margin-bottom:1rem; }
+    h1 { font-size:1.5rem; font-weight:600; margin-bottom:0.75rem; }
+    p { color:var(--text-secondary); font-size:1rem; line-height:1.6; margin-bottom:2rem; }
+    .links { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+    .links a { font-family:var(--font-mono); font-size:0.85rem; font-weight:600; padding:0.7rem 1.5rem; border-radius:8px; text-decoration:none; transition:all 0.2s; }
+    .links a.primary { background:var(--accent); color:var(--bg-primary); }
+    .links a.primary:hover { background:#00ffaa; box-shadow:0 0 30px var(--accent-glow); }
+    .links a.secondary { border:1px solid var(--border); color:var(--text-primary); }
+    .links a.secondary:hover { border-color:var(--accent); color:var(--accent); }
+    .logo { position:absolute; top:2rem; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-weight:700; font-size:1.25rem; text-decoration:none; color:var(--text-primary); }
+    .logo .accent { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <a href="/" class="logo"><span class="accent">0n</span>MCP</a>
+  <div class="content">
+    <div class="code">404</div>
+    <h1>Page not found</h1>
+    <p>The page you're looking for doesn't exist or has been moved. Try one of these instead.</p>
+    <div class="links">
+      <a href="/" class="primary">Go Home</a>
+      <a href="/community" class="secondary">Community</a>
+      <a href="https://github.com/0nork/0nMCP" class="secondary">GitHub</a>
+    </div>
+  </div>
+</body>
+</html>

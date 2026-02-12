@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://0nmcp.com/sitemap.xml
+
+# AI/LLM context
+# https://0nmcp.com/llms.txt

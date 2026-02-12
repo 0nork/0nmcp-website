@@ -1,4 +1,9 @@
 {
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/(.*)",
@@ -6,17 +11,46 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
       ]
     },
     {
       "source": "/llms.txt",
       "headers": [
         { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
+      ]
+    },
+    {
+      "source": "/(.*).html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400" }
       ]
     }
   ],
-  "trailingSlash": false,
-  "cleanUrls": true
+  "redirects": [
+    { "source": "/docs", "destination": "https://github.com/0nork/0nMCP", "permanent": false },
+    { "source": "/github", "destination": "https://github.com/0nork/0nMCP", "permanent": false },
+    { "source": "/npm", "destination": "https://www.npmjs.com/package/0nmcp", "permanent": false },
+    { "source": "/discussions", "destination": "https://github.com/0nork/0nMCP/discussions", "permanent": false },
+    { "source": "/issues", "destination": "https://github.com/0nork/0nMCP/issues", "permanent": false },
+    { "source": "/spec", "destination": "/0n-standard", "permanent": true },
+    { "source": "/standard", "destination": "/0n-standard", "permanent": true }
+  ]
 }

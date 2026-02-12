@@ -413,6 +413,108 @@
     .footer-bottom { max-width: 1100px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
     .footer-bottom p { font-size: 0.75rem; color: var(--text-muted); }
 
+    /* ═══════════════════════════════════════════════════════════
+       ORCHESTRATION DEMO
+       ═══════════════════════════════════════════════════════════ */
+    .demo { max-width: 960px; margin: 3.5rem auto 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--bg-secondary); animation: fadeInUp 0.8s ease-out 0.6s both; position: relative; }
+    .demo::before { content: ''; position: absolute; inset: -1px; border-radius: 16px; background: linear-gradient(135deg, rgba(0,255,136,0.15), transparent 40%, transparent 60%, rgba(0,212,255,0.1)); z-index: -1; pointer-events: none; }
+
+    /* Tabs */
+    .demo-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--bg-tertiary); }
+    .demo-tab { flex: 1; padding: 0.8rem 0.5rem; text-align: center; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); cursor: default; border-right: 1px solid var(--border); position: relative; transition: all 0.3s; }
+    .demo-tab:last-child { border-right: none; }
+    .demo-tab.active { color: var(--accent); background: rgba(0,255,136,0.03); }
+    .demo-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+    .demo-tab .tnum { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--border); font-size: 0.6rem; margin-right: 0.4rem; vertical-align: middle; transition: all 0.3s; }
+    .demo-tab.active .tnum { background: var(--accent); color: var(--bg-primary); }
+    .demo-tab.done .tnum { background: var(--accent-dim); color: var(--bg-primary); }
+    .demo-tab.done { color: var(--text-secondary); }
+
+    /* Viewport */
+    .demo-vp { position: relative; height: 320px; overflow: hidden; }
+    .demo-sc { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+    .demo-sc.active { opacity: 1; pointer-events: auto; }
+
+    /* ─── PIPELINE ─── */
+    .pipe { display: flex; align-items: center; gap: 0; width: 85%; max-width: 680px; }
+    .pipe-n { flex-shrink: 0; width: 130px; text-align: center; }
+    .pipe-orb { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.6rem; transition: all 0.6s cubic-bezier(0.16,1,0.3,1); position: relative; }
+    .pipe-n.on .pipe-orb { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(0,255,136,0.08); transform: scale(1.08); }
+    .pipe-n.on .pipe-orb::after { content: ''; position: absolute; inset: -10px; border-radius: 50%; border: 1px solid rgba(0,255,136,0.3); animation: orbRing 2s ease-out infinite; }
+    @keyframes orbRing { 0% { transform: scale(0.85); opacity: 0.6; } 100% { transform: scale(1.5); opacity: 0; } }
+    .pipe-lbl { display: block; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); transition: color 0.3s; }
+    .pipe-n.on .pipe-lbl { color: var(--accent); }
+    .pipe-sub { display: block; font-size: 0.68rem; color: var(--text-muted); margin-top: 0.15rem; opacity: 0; transition: opacity 0.4s; }
+    .pipe-n.on .pipe-sub { opacity: 1; }
+    .pipe-c { flex: 1; height: 2px; background: var(--border); position: relative; min-width: 50px; overflow: visible; }
+    .pipe-c .beam { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-dim)); box-shadow: 0 0 8px var(--accent-glow); transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+    .pipe-c.on .beam { transform: scaleX(1); }
+    .pipe-c .dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent-glow); top: -3px; left: -8px; opacity: 0; }
+    .pipe-c.on .dot { opacity: 1; animation: dotRun 0.9s cubic-bezier(0.22,1,0.36,1) forwards; }
+    @keyframes dotRun { 0% { left: -8px; } 100% { left: calc(100% - 0px); } }
+
+    /* ─── ASSEMBLY LINE ─── */
+    .asm { display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .asm-dia { width: 84px; height: 84px; background: var(--bg-card); border: 2px solid var(--border); transform: rotate(45deg); display: flex; align-items: center; justify-content: center; transition: all 0.5s; }
+    .asm-dia.on { border-color: var(--accent-secondary); box-shadow: 0 0 24px rgba(0,212,255,0.2), 0 0 48px rgba(0,212,255,0.05); }
+    .asm-dia span { transform: rotate(-45deg); font-family: var(--font-mono); font-size: 0.62rem; text-align: center; color: var(--text-secondary); line-height: 1.3; }
+    .asm-vc { width: 2px; height: 28px; background: var(--border); position: relative; }
+    .asm-vc .vb { position: absolute; inset: 0; background: var(--accent-secondary); box-shadow: 0 0 6px rgba(0,212,255,0.3); transform: scaleY(0); transform-origin: 50% 0; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
+    .asm-vc.on .vb { transform: scaleY(1); }
+    .asm-br { display: flex; gap: 2.5rem; margin: 0.5rem 0; }
+    .asm-b { text-align: center; opacity: 0.25; transition: all 0.5s; }
+    .asm-b.on { opacity: 1; }
+    .asm-b-lbl { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.4rem; display: block; }
+    .asm-b.yes .asm-b-lbl { color: var(--accent); }
+    .asm-b.no .asm-b-lbl { color: var(--warning); }
+    .asm-b-node { padding: 0.5rem 0.9rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); transition: all 0.4s; white-space: nowrap; }
+    .asm-b.pick .asm-b-node { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 16px var(--accent-glow); }
+    .asm-res { padding: 0.65rem 1.3rem; background: var(--bg-card); border: 2px solid var(--border); border-radius: 10px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); text-align: center; transition: all 0.5s; }
+    .asm-res.on { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 24px var(--accent-glow); }
+    .asm-res strong { display: block; font-size: 1.15rem; color: var(--text-primary); margin-top: 0.2rem; font-weight: 700; }
+
+    /* ─── RADIAL BURST ─── */
+    .burst { position: relative; width: 420px; height: 300px; }
+    .burst-hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 68px; height: 68px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; z-index: 10; transition: all 0.6s; }
+    .burst-hub span { font-family: var(--font-mono); font-weight: 700; font-size: 0.68rem; color: var(--text-muted); transition: color 0.3s; }
+    .burst-hub.on { border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(0,255,136,0.08); }
+    .burst-hub.on span { color: var(--accent); }
+    .burst-wave { position: absolute; left: 50%; top: 50%; width: 68px; height: 68px; border: 2px solid var(--accent); border-radius: 50%; transform: translate(-50%,-50%) scale(0); opacity: 0; z-index: 5; pointer-events: none; }
+    .burst.go .burst-wave { animation: bwave 1.2s ease-out forwards; }
+    .burst.go .burst-wave:nth-child(3) { animation-delay: 0.15s; border-color: var(--accent-secondary); }
+    @keyframes bwave { 0% { transform: translate(-50%,-50%) scale(0); opacity: 0.6; } 100% { transform: translate(-50%,-50%) scale(5.5); opacity: 0; } }
+    .burst svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .burst .bl { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; filter: drop-shadow(0 0 3px rgba(0,255,136,0.4)); stroke-dasharray: 180; stroke-dashoffset: 180; transition: stroke-dashoffset 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .burst.go .bl { stroke-dashoffset: 0; }
+    .burst .bl:nth-child(2) { transition-delay: 0.05s; } .burst .bl:nth-child(3) { transition-delay: 0.1s; }
+    .burst .bl:nth-child(4) { transition-delay: 0.15s; } .burst .bl:nth-child(5) { transition-delay: 0.2s; }
+    .burst .bl:nth-child(6) { transition-delay: 0.25s; } .burst .bl:nth-child(7) { transition-delay: 0.3s; }
+    .burst .bl:nth-child(8) { transition-delay: 0.35s; }
+    .bsvc { position: absolute; transform: translate(-50%,-50%); font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; opacity: 0; transition: all 0.4s ease; padding: 0.25rem 0.55rem; background: rgba(26,26,37,0.9); border: 1px solid var(--border); border-radius: 6px; backdrop-filter: blur(4px); }
+    .burst.go .bsvc { opacity: 1; color: var(--text-primary); border-color: rgba(0,255,136,0.3); }
+    .bsvc .ck { color: var(--accent); font-weight: 700; opacity: 0; margin-left: 0.3rem; transition: opacity 0.2s; }
+    .burst.go .bsvc .ck { opacity: 1; transition-delay: 0.8s; }
+    .burst.go .bsvc:nth-child(4) { transition-delay: 0.15s; } .burst.go .bsvc:nth-child(5) { transition-delay: 0.2s; }
+    .burst.go .bsvc:nth-child(6) { transition-delay: 0.25s; } .burst.go .bsvc:nth-child(7) { transition-delay: 0.3s; }
+    .burst.go .bsvc:nth-child(8) { transition-delay: 0.35s; } .burst.go .bsvc:nth-child(9) { transition-delay: 0.4s; }
+    .burst.go .bsvc:nth-child(10) { transition-delay: 0.45s; } .burst.go .bsvc:nth-child(11) { transition-delay: 0.5s; }
+
+    /* ─── TERMINAL ─── */
+    .demo-term { border-top: 1px solid var(--border); background: var(--bg-primary); }
+    .demo-term-h { display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1rem; border-bottom: 1px solid var(--border); background: var(--bg-tertiary); }
+    .demo-term-h .td { width: 8px; height: 8px; border-radius: 50%; }
+    .td.r { background: #ff5f57; } .td.y { background: #febc2e; } .td.g { background: #28c840; }
+    .demo-term-h .tt { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); margin-left: 0.4rem; }
+    .demo-log { padding: 0.65rem 1rem; font-family: var(--font-mono); font-size: 0.68rem; line-height: 1.75; color: var(--text-secondary); height: 165px; overflow: hidden; }
+    .dlog { opacity: 0; transform: translateY(5px); transition: all 0.3s ease; }
+    .dlog.v { opacity: 1; transform: translateY(0); }
+    .dlog .ok { color: var(--accent); } .dlog .wrn { color: var(--warning); } .dlog .dim { color: var(--text-muted); } .dlog .tm { color: var(--text-muted); float: right; }
+
+    /* Summary */
+    .demo-sum { padding: 0.85rem 1rem; border-top: 1px solid var(--border); text-align: center; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); opacity: 0; transition: opacity 0.6s; background: rgba(0,255,136,0.02); }
+    .demo-sum.v { opacity: 1; }
+    .demo-sum b { color: var(--accent); font-weight: 700; }
+
     /* RESPONSIVE */
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -424,6 +526,12 @@
       .hero-sub { font-size: 1.05rem; }
       section { padding: 4rem 1.25rem; }
       .floating-share { display: none; }
+      .demo-vp { height: 260px; }
+      .pipe-orb { width: 50px; height: 50px; font-size: 1.2rem; }
+      .pipe-n { width: 100px; }
+      .burst { transform: scale(0.72); transform-origin: center; }
+      .demo-log { height: 130px; font-size: 0.6rem; }
+      .demo-tab { font-size: 0.58rem; padding: 0.65rem 0.3rem; }
     }
   </style>
 </head>
@@ -501,6 +609,90 @@
       <code>npx 0nmcp</code>
       <span class="copy-icon" id="copyIcon">&#128203;</span>
       <span class="copied" id="copiedMsg">Copied!</span>
+    </div>
+
+    <!-- ═══ ORCHESTRATION DEMO ═══ -->
+    <div class="demo" id="orchDemo">
+      <div class="demo-tabs">
+        <div class="demo-tab active" id="dtab0"><span class="tnum">1</span>Pipeline</div>
+        <div class="demo-tab" id="dtab1"><span class="tnum">2</span>Assembly Line</div>
+        <div class="demo-tab" id="dtab2"><span class="tnum">3</span>Radial Burst</div>
+      </div>
+      <div class="demo-vp">
+        <!-- Scene 1: Pipeline -->
+        <div class="demo-sc active" id="dsc0">
+          <div class="pipe">
+            <div class="pipe-n" id="pn0">
+              <div class="pipe-orb">&#9889;</div>
+              <span class="pipe-lbl">Intake</span>
+              <span class="pipe-sub">Parse trigger</span>
+            </div>
+            <div class="pipe-c" id="pc0"><div class="beam"></div><div class="dot"></div></div>
+            <div class="pipe-n" id="pn1">
+              <div class="pipe-orb">&#9881;&#65039;</div>
+              <span class="pipe-lbl">Process</span>
+              <span class="pipe-sub">Route &amp; transform</span>
+            </div>
+            <div class="pipe-c" id="pc1"><div class="beam"></div><div class="dot"></div></div>
+            <div class="pipe-n" id="pn2">
+              <div class="pipe-orb">&#128640;</div>
+              <span class="pipe-lbl">Deliver</span>
+              <span class="pipe-sub">Execute actions</span>
+            </div>
+          </div>
+        </div>
+        <!-- Scene 2: Assembly Line -->
+        <div class="demo-sc" id="dsc1">
+          <div class="asm">
+            <div class="asm-dia" id="asmDia"><span>Customer<br>exists?</span></div>
+            <div class="asm-vc" id="asmVc1"><div class="vb"></div></div>
+            <div class="asm-br">
+              <div class="asm-b yes" id="brY"><span class="asm-b-lbl">YES</span><div class="asm-b-node">Get Customer</div></div>
+              <div class="asm-b no" id="brN"><span class="asm-b-lbl">NO</span><div class="asm-b-node">Create Customer</div></div>
+            </div>
+            <div class="asm-vc" id="asmVc2"><div class="vb"></div></div>
+            <div class="asm-res" id="asmRes">Create Invoice<strong>$500.00</strong></div>
+          </div>
+        </div>
+        <!-- Scene 3: Radial Burst -->
+        <div class="demo-sc" id="dsc2">
+          <div class="burst" id="burstEl">
+            <svg viewBox="0 0 420 300" fill="none">
+              <line class="bl" x1="210" y1="150" x2="340" y2="150"/>
+              <line class="bl" x1="210" y1="150" x2="300" y2="62"/>
+              <line class="bl" x1="210" y1="150" x2="210" y2="25"/>
+              <line class="bl" x1="210" y1="150" x2="120" y2="62"/>
+              <line class="bl" x1="210" y1="150" x2="80" y2="150"/>
+              <line class="bl" x1="210" y1="150" x2="120" y2="238"/>
+              <line class="bl" x1="210" y1="150" x2="210" y2="275"/>
+              <line class="bl" x1="210" y1="150" x2="300" y2="238"/>
+            </svg>
+            <div class="burst-hub" id="bHub"><span>0nMCP</span></div>
+            <div class="burst-wave"></div>
+            <div class="burst-wave"></div>
+            <div class="bsvc" style="left:83%;top:48%">Slack<span class="ck">&#10003;</span></div>
+            <div class="bsvc" style="left:74%;top:16%">SendGrid<span class="ck">&#10003;</span></div>
+            <div class="bsvc" style="left:50%;top:4%">CRM<span class="ck">&#10003;</span></div>
+            <div class="bsvc" style="left:26%;top:16%">Calendar<span class="ck">&#10003;</span></div>
+            <div class="bsvc" style="left:16%;top:48%">GitHub<span class="ck">&#10003;</span></div>
+            <div class="bsvc" style="left:26%;top:83%">Supabase<span class="ck">&#10003;</span></div>
+            <div class="bsvc" style="left:50%;top:95%">Stripe<span class="ck">&#10003;</span></div>
+            <div class="bsvc" style="left:74%;top:83%">Discord<span class="ck">&#10003;</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Terminal Log -->
+      <div class="demo-term">
+        <div class="demo-term-h">
+          <div class="td r"></div><div class="td y"></div><div class="td g"></div>
+          <span class="tt">0nmcp &mdash; execution log</span>
+        </div>
+        <div class="demo-log" id="demoLog"></div>
+      </div>
+      <!-- Summary -->
+      <div class="demo-sum" id="demoSum">
+        Pipeline <b>3</b> phases &nbsp;&middot;&nbsp; Assembly <b>2</b> branches &nbsp;&middot;&nbsp; Burst <b>8</b> services &nbsp;&middot;&nbsp; Total <b>1.74s</b>
+      </div>
     </div>
 
     <div class="stats-bar">
@@ -1106,6 +1298,150 @@
     }
   }
 
+})();
+</script>
+
+<!-- ORCHESTRATION DEMO ENGINE -->
+<script>
+(function() {
+  'use strict';
+
+  var tabs = [document.getElementById('dtab0'), document.getElementById('dtab1'), document.getElementById('dtab2')];
+  var scenes = [document.getElementById('dsc0'), document.getElementById('dsc1'), document.getElementById('dsc2')];
+  var log = document.getElementById('demoLog');
+  var sum = document.getElementById('demoSum');
+
+  var pn = [document.getElementById('pn0'), document.getElementById('pn1'), document.getElementById('pn2')];
+  var pc = [document.getElementById('pc0'), document.getElementById('pc1')];
+
+  var dia = document.getElementById('asmDia');
+  var vc1 = document.getElementById('asmVc1');
+  var vc2 = document.getElementById('asmVc2');
+  var brY = document.getElementById('brY');
+  var brN = document.getElementById('brN');
+  var asmRes = document.getElementById('asmRes');
+
+  var burst = document.getElementById('burstEl');
+  var hub = document.getElementById('bHub');
+
+  if (!tabs[0] || !scenes[0] || !log) return;
+
+  var timers = [];
+  var running = false;
+
+  function t(fn, ms) { timers.push(setTimeout(fn, ms)); }
+
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+
+  function addLog(html) {
+    var d = document.createElement('div');
+    d.className = 'dlog';
+    d.innerHTML = html;
+    log.appendChild(d);
+    requestAnimationFrame(function() { d.classList.add('v'); });
+    var lines = log.querySelectorAll('.dlog');
+    if (lines.length > 8) lines[0].remove();
+  }
+
+  function setScene(idx) {
+    scenes.forEach(function(s, i) { s.classList.toggle('active', i === idx); });
+    tabs.forEach(function(tb, i) {
+      tb.classList.remove('active');
+      if (i < idx) tb.classList.add('done');
+      else tb.classList.remove('done');
+    });
+    tabs[idx].classList.add('active');
+  }
+
+  function resetAll() {
+    clearTimers();
+    log.innerHTML = '';
+    sum.classList.remove('v');
+    pn.forEach(function(n) { n.classList.remove('on'); });
+    pc.forEach(function(c) { c.classList.remove('on'); });
+    dia.classList.remove('on');
+    vc1.classList.remove('on');
+    vc2.classList.remove('on');
+    brY.className = 'asm-b yes';
+    brN.className = 'asm-b no';
+    asmRes.classList.remove('on');
+    burst.classList.remove('go');
+    hub.classList.remove('on');
+    tabs.forEach(function(tb) { tb.classList.remove('done', 'active'); });
+    tabs[0].classList.add('active');
+    scenes.forEach(function(s, i) { s.classList.toggle('active', i === 0); });
+  }
+
+  function runCycle() {
+    resetAll();
+
+    // ─── SCENE 1: PIPELINE ───
+    t(function() { pn[0].classList.add('on'); }, 300);
+    t(function() { addLog('<span class="ok">&#9654;</span> Pipeline started &mdash; <span class="dim">3 phases queued</span>'); }, 300);
+
+    t(function() { pc[0].classList.add('on'); }, 1000);
+    t(function() { addLog('&nbsp;&nbsp;&#9889; Intake: parsing trigger event&hellip; <span class="tm">0.12s</span>'); }, 1100);
+
+    t(function() { pn[1].classList.add('on'); }, 1800);
+    t(function() { addLog('&nbsp;&nbsp;<span class="ok">&#10003;</span> Intake complete &mdash; payload validated'); }, 1900);
+
+    t(function() { pc[1].classList.add('on'); }, 2500);
+    t(function() { addLog('&nbsp;&nbsp;&#9881;&#65039; Process: routing to 2 services&hellip; <span class="tm">0.34s</span>'); }, 2600);
+
+    t(function() { pn[2].classList.add('on'); }, 3300);
+    t(function() { addLog('&nbsp;&nbsp;<span class="ok">&#10003;</span> Process complete &mdash; data transformed'); }, 3400);
+
+    t(function() { addLog('&nbsp;&nbsp;&#128640; Deliver: executing <b>8</b> parallel actions'); }, 4100);
+    t(function() { addLog('&nbsp;&nbsp;<span class="ok">&#10003;</span> Pipeline complete &mdash; <span class="ok">3/3 phases</span>'); }, 4700);
+
+    // ─── SCENE 2: ASSEMBLY LINE ───
+    t(function() { setScene(1); }, 5500);
+    t(function() { dia.classList.add('on'); }, 5800);
+    t(function() { addLog('<span class="ok">&#9654;</span> Assembly Line &mdash; <span class="dim">evaluating conditions</span>'); }, 5800);
+
+    t(function() { vc1.classList.add('on'); }, 6300);
+    t(function() { brY.classList.add('on'); brN.classList.add('on'); }, 6700);
+    t(function() { addLog('&nbsp;&nbsp;&#128269; Decision: Customer exists? &rarr; <span class="dim">checking Stripe&hellip;</span>'); }, 6800);
+
+    t(function() { brY.classList.add('pick'); }, 7500);
+    t(function() { addLog('&nbsp;&nbsp;<span class="ok">&#10003;</span> <span class="ok">YES</span> &mdash; existing customer found <span class="dim">(cus_Lx9&hellip;)</span>'); }, 7600);
+
+    t(function() { vc2.classList.add('on'); }, 8200);
+    t(function() { asmRes.classList.add('on'); }, 8700);
+    t(function() { addLog('&nbsp;&nbsp;&#128203; Result: Create Invoice <b>$500.00</b>'); }, 8800);
+    t(function() { addLog('&nbsp;&nbsp;<span class="ok">&#10003;</span> Assembly complete &mdash; <span class="ok">1 decision, YES branch</span>'); }, 9400);
+
+    // ─── SCENE 3: RADIAL BURST ───
+    t(function() { setScene(2); }, 10200);
+    t(function() { hub.classList.add('on'); }, 10500);
+    t(function() { addLog('<span class="ok">&#9654;</span> Radial Burst &mdash; <span class="dim">8 services targeted</span>'); }, 10500);
+
+    t(function() { burst.classList.add('go'); }, 11000);
+    t(function() { addLog('&nbsp;&nbsp;&#9889; <span class="ok">BURST &rarr;</span> Slack, SendGrid, CRM, Calendar&hellip;'); }, 11100);
+    t(function() { addLog('&nbsp;&nbsp;&#9889; <span class="ok">BURST &rarr;</span> GitHub, Supabase, Stripe, Discord'); }, 11700);
+
+    t(function() { addLog('&nbsp;&nbsp;<span class="ok">&#10003;</span> <span class="ok">8/8</span> services reached &mdash; all confirmed'); }, 12700);
+    t(function() { sum.classList.add('v'); }, 13400);
+    t(function() { addLog('&nbsp;&nbsp;<span class="ok">&#10003;</span> Orchestration complete &mdash; <span class="ok"><b>1.74s</b> total</span>'); }, 13500);
+    t(function() { tabs[2].classList.add('done'); }, 14200);
+
+    // Loop
+    t(runCycle, 16500);
+  }
+
+  // Start when demo scrolls into view
+  var demoObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !running) {
+        running = true;
+        runCycle();
+        demoObs.disconnect();
+      }
+    });
+  }, { threshold: 0.15 });
+
+  var demoEl = document.getElementById('orchDemo');
+  if (demoEl) demoObs.observe(demoEl);
 })();
 </script>
 

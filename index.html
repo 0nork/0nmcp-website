@@ -395,6 +395,24 @@
     .patent-strip p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em; }
     .patent-strip .patent-num { color: var(--accent); font-weight: 600; }
 
+    /* IP PROTECTION BANNER */
+    .ip-banner { background: linear-gradient(135deg, rgba(0,255,136,0.06), rgba(255,107,53,0.04)); border-top: 1px solid rgba(0,255,136,0.15); border-bottom: 1px solid rgba(0,255,136,0.15); padding: 1rem 2rem; text-align: center; position: relative; z-index: 1; }
+    .ip-banner-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .ip-shield { font-size: 1.1rem; }
+    .ip-banner p { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); letter-spacing: 0.03em; line-height: 1.5; }
+    .ip-banner a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .ip-banner a:hover { text-decoration: underline; }
+
+    /* LEGAL NOTICE SECTION */
+    .legal-notice { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 3rem 2rem; }
+    .legal-notice .section-inner { max-width: 900px; }
+    .legal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    .legal-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+    .legal-card h4 { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--warning); margin-bottom: 0.75rem; }
+    .legal-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+    .legal-card a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    @media (max-width: 768px) { .legal-grid { grid-template-columns: 1fr; } }
+
     /* FLOATING SHARE BAR */
     .floating-share { position: fixed; left: 1rem; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 0.5rem; opacity: 0; transition: opacity 0.3s; }
     .floating-share.visible { opacity: 1; }
@@ -404,7 +422,7 @@
 
     /* FOOTER */
     footer { position: relative; z-index: 1; padding: 4rem 2rem 2rem; border-top: 1px solid var(--border); }
-    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 2rem; }
     .footer-brand p { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.6; }
     .footer-col h4 { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 1rem; }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
@@ -575,6 +593,18 @@
     </ul>
   </div>
 </nav>
+
+<!-- IP PROTECTION BANNER -->
+<div class="ip-banner">
+  <div class="ip-banner-inner">
+    <span class="ip-shield">&#128737;</span>
+    <p>
+      <strong style="color:var(--accent);">Patent Pending</strong> &mdash; US Application #63/968,814 &nbsp;|&nbsp;
+      <strong>0nMCP&trade;</strong>, <strong>0nORK&trade;</strong>, and the <strong>.0n Standard&trade;</strong> are trademarks of RocketOpp, LLC &nbsp;|&nbsp;
+      <a href="/legal">Legal</a> &nbsp;&middot;&nbsp; <a href="/report">Report Infringement</a>
+    </p>
+  </div>
+</div>
 
 <!-- HERO -->
 <header class="hero" id="top">
@@ -1036,14 +1066,49 @@
   </div>
 </section>
 
-<!-- PATENT STRIP -->
+<!-- PATENT & TRADEMARK STRIP -->
 <div class="patent-strip">
   <p>
     Protected by US Patent Application <span class="patent-num">#63/968,814</span> &mdash;
-    MCP Federation, JSON Smart Deploy, Verified Fact Repository, .FED File Format &mdash;
+    Three-Level Execution Hierarchy, MCP Federation, JSON Smart Deploy, Verified Fact Repository, .FED File Format &mdash;
     Filed January 2026 &middot; RocketOpp, LLC
   </p>
+  <p style="margin-top:0.5rem;">
+    0nMCP&trade;, 0nORK&trade;, .0n Standard&trade;, and all associated marks are trademarks of RocketOpp, LLC.
+    Unauthorized use is strictly prohibited. &nbsp;
+    <a href="/legal" style="color:var(--accent);text-decoration:none;font-weight:600;">Full Legal Notice &rarr;</a>
+  </p>
 </div>
+
+<!-- TRADEMARK & IP NOTICE -->
+<section class="legal-notice">
+  <div class="section-inner">
+    <span class="section-label" style="color:var(--warning);">Intellectual Property Notice</span>
+    <h2>This Technology Is Protected</h2>
+    <p class="section-desc">
+      0nMCP and the 0n ecosystem are protected by US patent law, trademark rights, and copyright.
+      We actively monitor for unauthorized use and will pursue enforcement without hesitation.
+    </p>
+    <div class="legal-grid">
+      <div class="legal-card">
+        <h4>&#128737; Patent Protected</h4>
+        <p>US Provisional Patent Application #63/968,814 covers the Three-Level Execution Hierarchy (Pipeline &rarr; Assembly Line &rarr; Radial Burst), MCP Federation architecture, JSON Smart Deploy, Verified Fact Repository, and .FED File Format. Any reproduction, imitation, or derivative implementation of these technologies without license is subject to legal action.</p>
+      </div>
+      <div class="legal-card">
+        <h4>&#9888; Trademark Protected</h4>
+        <p>The names <strong>0nMCP</strong>, <strong>0nORK</strong>, <strong>0n-spec</strong>, <strong>0nork</strong>, the <strong>.0n Standard</strong>, and all associated logos, trade dress, and branding are the exclusive property of RocketOpp, LLC. No person or entity may use these marks for commercial purposes without express written consent.</p>
+      </div>
+      <div class="legal-card">
+        <h4>&#128680; Report Impersonators</h4>
+        <p>If you encounter anyone impersonating 0nMCP, 0nORK, or any 0n-branded product &mdash; including unauthorized forks, clones, or competing products using our marks &mdash; report it immediately. We respond within 24 hours. <a href="/report">Report now &rarr;</a></p>
+      </div>
+      <div class="legal-card">
+        <h4>&#9878; Active Enforcement</h4>
+        <p>RocketOpp, LLC retains legal counsel for intellectual property enforcement. We have filed formal complaints with GitHub, npm, and domain registrars. DMCA takedown notices, cease-and-desist letters, and federal court filings are standard procedure for infringers.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FINAL CTA -->
 <section style="text-align:center;padding:8rem 2rem;">
@@ -1105,10 +1170,21 @@
         <li><a href="https://registry.modelcontextprotocol.io/?q=0nMCP" target="_blank" rel="noopener noreferrer">MCP Registry</a></li>
       </ul>
     </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/legal">Legal Notice</a></li>
+        <li><a href="/legal#trademark">Trademark Policy</a></li>
+        <li><a href="/legal#patent">Patent Notice</a></li>
+        <li><a href="/report">Report Infringement</a></li>
+      </ul>
+    </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2026 RocketOpp, LLC. All rights reserved. Patent Pending #63/968,814.</p>
-    <p style="display:flex;gap:1rem;">
+    <p>&copy; 2026 RocketOpp, LLC. All rights reserved. Patent Pending #63/968,814. 0nMCP&trade;, 0nORK&trade;, .0n Standard&trade; are trademarks of RocketOpp, LLC.</p>
+    <p style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="/legal" style="color:var(--text-muted);text-decoration:none;">Legal</a>
+      <a href="/report" style="color:var(--text-muted);text-decoration:none;">Report Infringement</a>
       <a href="/llms.txt" style="color:var(--text-muted);text-decoration:none;">llms.txt</a>
       <a href="/sitemap.xml" style="color:var(--text-muted);text-decoration:none;">Sitemap</a>
     </p>

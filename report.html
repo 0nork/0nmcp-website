@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Report Infringement — 0nMCP Brand Impersonation &amp; IP Violation Reporting</title>
+  <meta name="description" content="Report unauthorized use of the 0nMCP, 0nORK, or 0n brand. Impersonation, trademark infringement, patent violations, and brand abuse are actively investigated and prosecuted.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://0nmcp.com/report">
+
+  <meta property="og:title" content="Report Infringement — 0nMCP IP Violation Reporting">
+  <meta property="og:description" content="Report impersonators, trademark infringement, and IP violations against 0nMCP and the 0n ecosystem.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://0nmcp.com/report">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111118;
+      --bg-tertiary: #16161f;
+      --bg-card: #1a1a25;
+      --text-primary: #e8e8ef;
+      --text-secondary: #8888a0;
+      --text-muted: #55556a;
+      --accent: #00ff88;
+      --accent-dim: #00cc6a;
+      --accent-glow: rgba(0, 255, 136, 0.15);
+      --accent-secondary: #00d4ff;
+      --warning: #ff6b35;
+      --danger: #ef4444;
+      --border: #2a2a3a;
+      --border-hover: #3a3a50;
+      --font-display: 'Instrument Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none; z-index: 0;
+    }
+
+    nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-primary); }
+    .logo-mark { font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; }
+    .logo-mark .accent { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-cta { background: var(--warning); color: var(--bg-primary) !important; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 600 !important; font-family: var(--font-mono); font-size: 0.8rem !important; letter-spacing: 0.02em; transition: all 0.2s; }
+    .nav-cta:hover { background: #ff8855; box-shadow: 0 0 20px rgba(255,107,53,0.3); }
+    .mobile-menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text-primary); padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer; font-size: 1.2rem; }
+
+    .page-hero { padding: 10rem 2rem 4rem; text-align: center; position: relative; z-index: 1; }
+    .hero-glow { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(239,68,68,0.1) 0%, transparent 70%); top: 5%; left: 50%; transform: translateX(-50%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem; position: relative; z-index: 2; }
+    .gradient { background: linear-gradient(135deg, var(--warning), var(--danger)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero p { color: var(--text-secondary); font-size: 1.1rem; max-width: 680px; margin: 0 auto; line-height: 1.7; position: relative; z-index: 2; }
+
+    .content { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 6rem; position: relative; z-index: 1; }
+
+    .alert-banner { background: rgba(239,68,68,0.08); border: 2px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; text-align: center; }
+    .alert-banner h2 { font-size: 1.25rem; color: var(--danger); margin-bottom: 0.75rem; }
+    .alert-banner p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+
+    .section-label { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--warning); margin-bottom: 1rem; display: block; }
+    h2.section-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .section-desc { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; margin-bottom: 2rem; }
+
+    /* INFRINGEMENT TYPES */
+    .infringement-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 3rem; }
+    .infringement-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; transition: border-color 0.2s; }
+    .infringement-card:hover { border-color: var(--warning); }
+    .infringement-card .card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; display: block; }
+    .infringement-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .infringement-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    .infringement-card .example { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+    .infringement-card .example strong { color: var(--danger); }
+
+    /* REPORT FORM */
+    .report-form { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 3rem; margin-bottom: 3rem; }
+    .report-form h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .report-form .form-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .form-group textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+    .form-group select { cursor: pointer; }
+    .form-group select option { background: var(--bg-primary); color: var(--text-primary); }
+    .form-group .hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+    .submit-btn {
+      background: var(--warning);
+      color: var(--bg-primary);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .submit-btn:hover { background: #ff8855; box-shadow: 0 0 20px rgba(255,107,53,0.3); transform: translateY(-1px); }
+
+    .success-msg { display: none; background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.2); border-radius: 10px; padding: 2rem; text-align: center; margin-top: 1.5rem; }
+    .success-msg h3 { color: var(--accent); margin-bottom: 0.5rem; }
+    .success-msg p { color: var(--text-secondary); font-size: 0.9rem; }
+
+    /* PROCESS TIMELINE */
+    .process-section { margin-bottom: 3rem; }
+    .process-steps { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
+    .process-step { display: flex; gap: 1.5rem; position: relative; padding-bottom: 2rem; }
+    .process-step:last-child { padding-bottom: 0; }
+    .step-marker { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; background: var(--bg-card); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem; color: var(--text-muted); position: relative; z-index: 2; }
+    .process-step:not(:last-child)::before { content: ''; position: absolute; left: 23px; top: 48px; width: 2px; height: calc(100% - 48px); background: var(--border); z-index: 1; }
+    .step-content { padding-top: 0.5rem; }
+    .step-content h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .step-content p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+    .step-content .timeline { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); margin-top: 0.25rem; }
+
+    /* PROTECTED MARKS */
+    .marks-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin: 1.5rem 0 3rem; }
+    .mark-chip { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary); font-weight: 600; text-align: center; }
+    .mark-chip small { display: block; font-weight: 400; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    /* ALTERNATIVE METHODS */
+    .alt-methods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-top: 2rem; }
+    .alt-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; }
+    .alt-card .alt-icon { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; }
+    .alt-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .alt-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+    .alt-card a { color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.85rem; display: inline-block; margin-top: 0.5rem; }
+    .alt-card a:hover { text-decoration: underline; }
+
+    footer { position: relative; z-index: 1; padding: 3rem 2rem 2rem; border-top: 1px solid var(--border); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-inner p { font-size: 0.75rem; color: var(--text-muted); }
+    .footer-inner a { color: var(--text-muted); text-decoration: none; font-size: 0.75rem; }
+    .footer-inner a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); gap: 1rem; }
+      .mobile-menu-btn { display: block; }
+      .page-hero { padding: 8rem 1.25rem 3rem; }
+      .content { padding: 2rem 1.25rem 4rem; }
+      .infringement-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .alt-methods { grid-template-columns: 1fr; }
+      .report-form { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-mark"><span class="accent">0n</span>MCP</span>
+    </a>
+    <button class="mobile-menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Home</a></li>
+      <li><a href="/legal">Legal Notice</a></li>
+      <li><a href="/community">Community</a></li>
+      <li><a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="/report" class="nav-cta">Report Infringement</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="hero-glow"></div>
+  <h1>
+    Report Brand Impersonation<br>
+    <span class="gradient">&amp; Intellectual Property Violations</span>
+  </h1>
+  <p>
+    If you have encountered any person, organization, repository, package, domain, or service
+    impersonating 0nMCP&trade;, 0nORK&trade;, or any component of the 0n ecosystem, report it here.
+    We investigate every report and respond within 24 hours.
+  </p>
+</header>
+
+<div class="content">
+
+  <!-- ALERT -->
+  <div class="alert-banner">
+    <h2>&#128680; We Are Aware of Active Impersonators</h2>
+    <p>
+      RocketOpp, LLC has identified unauthorized use of our brand and technology within 24 hours of launch.
+      Enforcement actions are underway. If you have information about impersonators, your report directly
+      supports our legal proceedings. All reporters are kept confidential.
+    </p>
+  </div>
+
+  <!-- WHAT CONSTITUTES INFRINGEMENT -->
+  <span class="section-label">What to Report</span>
+  <h2 class="section-title">Types of Infringement</h2>
+  <p class="section-desc">
+    The following activities violate our intellectual property rights. If you see any of these, please report it immediately.
+  </p>
+
+  <div class="infringement-grid">
+    <div class="infringement-card">
+      <span class="card-icon">&#128100;</span>
+      <h3>Brand Impersonation</h3>
+      <p>Creating accounts, profiles, or websites that claim to be 0nMCP, 0nORK, or any 0n-affiliated entity.</p>
+      <div class="example"><strong>Example:</strong> A Twitter/X account named "@0nmcp_official" not operated by RocketOpp</div>
+    </div>
+    <div class="infringement-card">
+      <span class="card-icon">&#128230;</span>
+      <h3>Package Squatting</h3>
+      <p>Publishing packages on npm, PyPI, or other registries using names that are identical or confusingly similar to 0n marks.</p>
+      <div class="example"><strong>Example:</strong> An npm package named "0nmcp-pro" or "onmcp" not published by 0nork</div>
+    </div>
+    <div class="infringement-card">
+      <span class="card-icon">&#127760;</span>
+      <h3>Domain Cybersquatting</h3>
+      <p>Registering domain names containing "0nmcp", "0nork", or variations to profit from brand confusion.</p>
+      <div class="example"><strong>Example:</strong> Domains like "0nmcp.io", "0nork.app", "0nmcp-download.com"</div>
+    </div>
+    <div class="infringement-card">
+      <span class="card-icon">&#128736;</span>
+      <h3>Code Rebranding</h3>
+      <p>Forking the open-source code and redistributing it under a confusingly similar name or with 0n branding intact.</p>
+      <div class="example"><strong>Example:</strong> A GitHub repo called "0nMCP-Enhanced" or "0nMCP-Fork" used commercially</div>
+    </div>
+    <div class="infringement-card">
+      <span class="card-icon">&#9878;</span>
+      <h3>Patent Infringement</h3>
+      <p>Implementing the patented Three-Level Execution Hierarchy or MCP Federation architecture without license.</p>
+      <div class="example"><strong>Example:</strong> A competing product using Pipeline &rarr; Assembly Line &rarr; Radial Burst terminology</div>
+    </div>
+    <div class="infringement-card">
+      <span class="card-icon">&#128176;</span>
+      <h3>Unauthorized Commercial Use</h3>
+      <p>Using 0n marks, technology, or branding to promote, sell, or market products or services without written consent.</p>
+      <div class="example"><strong>Example:</strong> An agency advertising "Powered by 0nMCP" without a partnership agreement</div>
+    </div>
+  </div>
+
+  <!-- PROTECTED MARKS -->
+  <span class="section-label">Protected Marks</span>
+  <h2 class="section-title">Marks Owned by RocketOpp, LLC</h2>
+  <p class="section-desc">
+    These marks are claimed as trademarks under US common law. Any unauthorized use may constitute infringement.
+  </p>
+  <div class="marks-list">
+    <div class="mark-chip">0nMCP&trade;<small>Software</small></div>
+    <div class="mark-chip">0nORK&trade;<small>Parent Brand</small></div>
+    <div class="mark-chip">0n-spec&trade;<small>Config Standard</small></div>
+    <div class="mark-chip">.0n Standard&trade;<small>File Format</small></div>
+    <div class="mark-chip">0nData&trade;<small>CRM Backend</small></div>
+    <div class="mark-chip">0n Apps&trade;<small>Marketplace</small></div>
+    <div class="mark-chip">0nork&trade;<small>Namespace</small></div>
+    <div class="mark-chip">0n [prefix]<small>Trade Dress</small></div>
+  </div>
+
+  <!-- REPORT FORM -->
+  <div class="report-form" id="reportForm">
+    <h2>&#128680; Submit an Infringement Report</h2>
+    <p class="form-desc">
+      All reports are investigated by our legal team. You will receive a confirmation within 24 hours.
+      Your identity will be kept confidential unless disclosure is required by law.
+    </p>
+
+    <form id="infrForm" action="https://formspree.io/f/legal@rocketopp.com" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="reporter-name">Your Name</label>
+          <input type="text" id="reporter-name" name="name" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+          <label for="reporter-email">Your Email</label>
+          <input type="email" id="reporter-email" name="email" placeholder="you@example.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="infr-type">Type of Infringement</label>
+        <select id="infr-type" name="type" required>
+          <option value="">Select a category...</option>
+          <option value="impersonation">Brand Impersonation</option>
+          <option value="package-squatting">Package Squatting (npm, PyPI, etc.)</option>
+          <option value="domain-squatting">Domain Cybersquatting</option>
+          <option value="code-rebranding">Code Rebranding / Unauthorized Fork</option>
+          <option value="patent">Patent Infringement</option>
+          <option value="commercial">Unauthorized Commercial Use</option>
+          <option value="social-media">Social Media Impersonation</option>
+          <option value="other">Other / Multiple Violations</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="infr-url">URL of Infringing Content</label>
+        <input type="url" id="infr-url" name="url" placeholder="https://..." required>
+        <div class="hint">GitHub repo, npm package, domain, social profile, etc.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="infr-desc">Description of Infringement</label>
+        <textarea id="infr-desc" name="description" placeholder="Describe what you found, when you found it, and how it infringes on 0n IP. Include any additional URLs or evidence." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="infr-evidence">Additional Evidence (URLs, Screenshots)</label>
+        <textarea id="infr-evidence" name="evidence" placeholder="Paste additional URLs, screenshot links (Imgur, Google Drive), or other evidence. Separate multiple items with line breaks." rows="3"></textarea>
+      </div>
+
+      <input type="hidden" name="_subject" value="[0nMCP INFRINGEMENT REPORT] New report submitted">
+      <input type="hidden" name="_next" value="https://0nmcp.com/report#success">
+
+      <button type="submit" class="submit-btn">&#128680; Submit Infringement Report</button>
+    </form>
+
+    <div class="success-msg" id="successMsg">
+      <h3>&#10003; Report Received</h3>
+      <p>Thank you. Your report has been submitted and will be reviewed by our legal team within 24 hours. You will receive a confirmation email.</p>
+    </div>
+  </div>
+
+  <!-- PROCESS TIMELINE -->
+  <div class="process-section">
+    <span class="section-label">What Happens Next</span>
+    <h2 class="section-title">Our Enforcement Process</h2>
+    <p class="section-desc">
+      Every report is taken seriously. Here is our standard enforcement timeline after receiving a valid report.
+    </p>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-marker">1</div>
+        <div class="step-content">
+          <h3>Report Received &amp; Triaged</h3>
+          <p>Your report is logged in our legal tracking system and assigned to an investigator. You receive a confirmation email.</p>
+          <div class="timeline">Within 24 hours</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-marker">2</div>
+        <div class="step-content">
+          <h3>Investigation &amp; Documentation</h3>
+          <p>We capture evidence including screenshots, WHOIS records, archived pages (Wayback Machine), and technical analysis. All evidence is preserved for potential litigation.</p>
+          <div class="timeline">24 &ndash; 48 hours</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-marker">3</div>
+        <div class="step-content">
+          <h3>Cease-and-Desist Issued</h3>
+          <p>A formal cease-and-desist letter is sent to the infringer (and their hosting provider, if applicable) demanding immediate removal of infringing content.</p>
+          <div class="timeline">48 &ndash; 72 hours</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-marker">4</div>
+        <div class="step-content">
+          <h3>Platform Takedown Requests</h3>
+          <p>DMCA notices filed with GitHub, npm, hosting providers, and domain registrars. Abuse reports submitted to social media platforms.</p>
+          <div class="timeline">72 hours &ndash; 1 week</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-marker">5</div>
+        <div class="step-content">
+          <h3>Legal Escalation</h3>
+          <p>If the infringement is not resolved through cease-and-desist and takedown notices, the matter is referred to legal counsel for federal court filing, UDRP proceedings, or other appropriate judicial action.</p>
+          <div class="timeline">1 &ndash; 2 weeks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALTERNATIVE CONTACT -->
+  <span class="section-label">Other Ways to Report</span>
+  <h2 class="section-title">Contact Us Directly</h2>
+  <p class="section-desc">
+    If you prefer not to use the form above, you can report infringement through any of these channels.
+  </p>
+
+  <div class="alt-methods">
+    <div class="alt-card">
+      <span class="alt-icon">&#9993;</span>
+      <h3>Email</h3>
+      <p>Send details to our legal team for fastest response.</p>
+      <a href="mailto:legal@rocketopp.com">legal@rocketopp.com</a>
+    </div>
+    <div class="alt-card">
+      <span class="alt-icon">&#128187;</span>
+      <h3>GitHub</h3>
+      <p>Open an issue in our main repository for public reports.</p>
+      <a href="https://github.com/0nork/0nMCP/issues" target="_blank" rel="noopener noreferrer">0nork/0nMCP Issues</a>
+    </div>
+    <div class="alt-card">
+      <span class="alt-icon">&#128172;</span>
+      <h3>General Contact</h3>
+      <p>Reach the founder directly for urgent matters.</p>
+      <a href="mailto:mike@rocketopp.com">mike@rocketopp.com</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <p>&copy; 2026 RocketOpp, LLC. All rights reserved. Patent Pending #63/968,814. 0nMCP&trade;, 0nORK&trade;, .0n Standard&trade; are trademarks of RocketOpp, LLC.</p>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/legal">Legal Notice</a>
+      <a href="/report">Report Infringement</a>
+      <a href="/community">Community</a>
+      <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  var menuBtn = document.getElementById('menuBtn');
+  var navLinks = document.getElementById('navLinks');
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+    navLinks.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() { navLinks.classList.remove('open'); });
+    });
+  }
+
+  // Show success message if redirected back with #success
+  if (window.location.hash === '#success') {
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('infrForm').style.display = 'none';
+  }
+
+  // Form submission handler (mailto fallback since no backend)
+  var form = document.getElementById('infrForm');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var name = document.getElementById('reporter-name').value;
+    var email = document.getElementById('reporter-email').value;
+    var type = document.getElementById('infr-type').value;
+    var url = document.getElementById('infr-url').value;
+    var desc = document.getElementById('infr-desc').value;
+    var evidence = document.getElementById('infr-evidence').value;
+
+    var subject = encodeURIComponent('[0nMCP INFRINGEMENT REPORT] ' + type);
+    var body = encodeURIComponent(
+      'INFRINGEMENT REPORT\n' +
+      '==================\n\n' +
+      'Reporter: ' + name + '\n' +
+      'Email: ' + email + '\n' +
+      'Type: ' + type + '\n' +
+      'Infringing URL: ' + url + '\n\n' +
+      'Description:\n' + desc + '\n\n' +
+      'Additional Evidence:\n' + (evidence || 'None provided') + '\n\n' +
+      'Submitted: ' + new Date().toISOString()
+    );
+
+    window.location.href = 'mailto:legal@rocketopp.com?subject=' + subject + '&body=' + body;
+
+    // Show success after brief delay
+    setTimeout(function() {
+      document.getElementById('successMsg').style.display = 'block';
+      form.reset();
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>

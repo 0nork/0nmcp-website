@@ -5,9 +5,9 @@ const footerColumns = [
     title: 'Product',
     links: [
       { label: 'Turn it 0n', href: '/turn-it-on' },
+      { label: 'Examples', href: '/examples' },
       { label: 'Store', href: 'https://marketplace.rocketclients.com', external: true },
       { label: 'Builder', href: 'https://marketplace.rocketclients.com/builder', external: true },
-      { label: 'Pricing', href: '/turn-it-on#pricing' },
     ],
   },
   {

@@ -5,10 +5,10 @@ import Link from 'next/link'
 
 const navLinks = [
   { label: 'Turn it 0n', href: '/turn-it-on' },
+  { label: 'Examples', href: '/examples' },
   { label: 'Standard', href: '/0n-standard' },
   { label: 'Community', href: '/community' },
   { label: 'Sponsor', href: '/sponsor' },
-  { label: 'Legal', href: '/legal' },
 ]
 
 export default function Nav() {

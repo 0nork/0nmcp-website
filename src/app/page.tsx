@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import CopyButton from '@/components/CopyButton'
 
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator | 59 Services, 1,385+ Capabilities',
@@ -215,15 +216,7 @@ export default function HomePage() {
             <Link href="/turn-it-on" className="btn-accent no-underline text-base px-8 py-3">
               Turn it 0n &rarr;
             </Link>
-            <button
-              className="btn-ghost text-base px-8 py-3"
-              onClick={undefined}
-              title="Copy to clipboard: npm i 0nmcp"
-            >
-              <code className="font-mono" style={{ color: 'var(--accent)' }}>
-                npm i 0nmcp
-              </code>
-            </button>
+            <CopyButton text="npm i 0nmcp" display="npm i 0nmcp" />
           </div>
 
           {/* Stats */}

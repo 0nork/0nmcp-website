@@ -243,7 +243,7 @@ export default function ReportPage() {
           </p>
 
           <form
-            action="https://formspree.io/f/PLACEHOLDER"
+            action="https://formspree.io/f/xwpkjvwq"
             method="POST"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">

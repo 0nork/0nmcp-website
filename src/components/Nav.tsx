@@ -61,14 +61,12 @@ export default function Nav() {
           >
             Store
           </a>
-          <a
-            href="https://marketplace.rocketclients.com/builder"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/builder"
             className="btn-accent"
           >
             Builder
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
@@ -139,14 +137,13 @@ export default function Nav() {
               >
                 Store
               </a>
-              <a
-                href="https://marketplace.rocketclients.com/builder"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/builder"
                 className="btn-accent text-center justify-center"
+                onClick={() => setMobileOpen(false)}
               >
                 Builder
-              </a>
+              </Link>
             </div>
           </div>
         </div>

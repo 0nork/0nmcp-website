@@ -15,6 +15,7 @@ import {
   getActionServiceId,
   isServiceSlug,
 } from '@/lib/sxo-helpers'
+import ServiceLogo from '@/components/ServiceLogo'
 import CapabilityHero from '@/components/turn-it-on/CapabilityHero'
 import WorkflowDiagram from '@/components/turn-it-on/WorkflowDiagram'
 import ComparisonTable from '@/components/turn-it-on/ComparisonTable'
@@ -180,8 +181,8 @@ function ServicePage({ slug }: { slug: string }) {
             </span>
           </div>
 
-          <span className="text-6xl mb-6 block" role="img" aria-label={service.name}>
-            {service.icon}
+          <span className="mb-6 block">
+            <ServiceLogo src={service.logo} alt={service.name} size={64} />
           </span>
 
           <h1
@@ -269,18 +270,14 @@ function ServicePage({ slug }: { slug: string }) {
                     style={{ textDecoration: 'none' }}
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-lg" role="img" aria-label={trigger?.name}>
-                        {trigger?.icon || ''}
-                      </span>
+                      <ServiceLogo src={trigger?.logo} alt={trigger?.name ?? ''} size={20} />
                       <span
                         className="text-xs"
                         style={{ color: 'var(--text-muted)' }}
                       >
                         &rarr;
                       </span>
-                      <span className="text-lg" role="img" aria-label={action?.name}>
-                        {action?.icon || ''}
-                      </span>
+                      <ServiceLogo src={action?.logo} alt={action?.name ?? ''} size={20} />
                     </div>
                     <span
                       className="text-sm font-medium block mb-1"
@@ -359,9 +356,7 @@ function ServicePage({ slug }: { slug: string }) {
                   className="glow-box flex items-center gap-3"
                   style={{ textDecoration: 'none' }}
                 >
-                  <span className="text-2xl" role="img" aria-label={s.name}>
-                    {s.icon}
-                  </span>
+                  <ServiceLogo src={s.logo} alt={s.name} size={28} />
                   <div>
                     <span
                       className="text-sm font-semibold block"
@@ -436,8 +431,8 @@ function CapabilityPage({ slug }: { slug: string }) {
   const actionService = actionServiceId ? getServiceById(actionServiceId) : undefined
   const triggerName = triggerService?.name || capability.trigger_service
   const actionName = actionService?.name || ''
-  const triggerIcon = triggerService?.icon || ''
-  const actionIcon = actionService?.icon || ''
+  const triggerLogo = triggerService?.logo || null
+  const actionLogo = actionService?.logo || null
 
   // Related capabilities
   const relatedByTrigger = getRelatedByTrigger(
@@ -534,9 +529,9 @@ function CapabilityPage({ slug }: { slug: string }) {
       {/* Section 3: WorkflowDiagram */}
       {actionName && (
         <WorkflowDiagram
-          triggerIcon={triggerIcon}
+          triggerLogo={triggerLogo}
           triggerName={triggerName}
-          actionIcon={actionIcon}
+          actionLogo={actionLogo}
           actionName={actionName}
         />
       )}

@@ -1,16 +1,18 @@
 'use client'
 
+import ServiceLogo from '@/components/ServiceLogo'
+
 interface WorkflowDiagramProps {
-  triggerIcon: string
+  triggerLogo: string | null
   triggerName: string
-  actionIcon: string
+  actionLogo: string | null
   actionName: string
 }
 
 export default function WorkflowDiagram({
-  triggerIcon,
+  triggerLogo,
   triggerName,
-  actionIcon,
+  actionLogo,
   actionName,
 }: WorkflowDiagramProps) {
   return (
@@ -29,8 +31,8 @@ export default function WorkflowDiagram({
             className="glow-box flex flex-col items-center justify-center w-48 h-48 text-center"
             style={{ flexShrink: 0 }}
           >
-            <span className="text-4xl mb-3" role="img" aria-label={triggerName}>
-              {triggerIcon}
+            <span className="mb-3">
+              <ServiceLogo src={triggerLogo} alt={triggerName} size={48} />
             </span>
             <span
               className="text-sm font-semibold"
@@ -154,8 +156,8 @@ export default function WorkflowDiagram({
             className="glow-box flex flex-col items-center justify-center w-48 h-48 text-center"
             style={{ flexShrink: 0 }}
           >
-            <span className="text-4xl mb-3" role="img" aria-label={actionName}>
-              {actionIcon}
+            <span className="mb-3">
+              <ServiceLogo src={actionLogo} alt={actionName} size={48} />
             </span>
             <span
               className="text-sm font-semibold"

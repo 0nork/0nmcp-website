@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     '0n Standard',
   ],
   authors: [{ name: 'RocketOpp LLC', url: 'https://rocketopp.com' }],
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon',
+  },
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
@@ -27,12 +31,14 @@ export const metadata: Metadata = {
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
       '545 tools across 59 services and 1,385 capabilities. The universal MCP server that connects AI to everything.',
+    creator: '@0nork',
   },
   metadataBase: new URL('https://0nmcp.com'),
 }

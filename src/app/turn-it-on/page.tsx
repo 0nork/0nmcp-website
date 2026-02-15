@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import servicesData from '@/data/services.json'
 import { getAllCategories, getServicesInCategory } from '@/lib/sxo-helpers'
+import ServiceLogo from '@/components/ServiceLogo'
 
 export const metadata: Metadata = {
   title: 'Turn it 0n — 59 Services, 1,385+ Capabilities | 0nMCP',
@@ -122,13 +123,12 @@ export default function TurnItOnPage() {
                     className="glow-box group flex items-start gap-4"
                     style={{ textDecoration: 'none' }}
                   >
-                    <span
-                      className="text-3xl flex-shrink-0 mt-0.5"
-                      role="img"
-                      aria-label={service.name}
-                    >
-                      {service.icon}
-                    </span>
+                    <ServiceLogo
+                      src={service.logo}
+                      alt={service.name}
+                      size={36}
+                      className="flex-shrink-0 mt-0.5"
+                    />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span

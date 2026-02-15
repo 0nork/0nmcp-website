@@ -6,8 +6,8 @@ const footerColumns = [
     links: [
       { label: 'Turn it 0n', href: '/turn-it-on' },
       { label: 'Examples', href: '/examples' },
-      { label: 'Store', href: 'https://marketplace.rocketclients.com', external: true },
-      { label: 'Builder', href: 'https://marketplace.rocketclients.com/builder', external: true },
+      { label: 'Store', href: 'https://rocketopp.com', external: true },
+      { label: 'Builder', href: '/builder' },
     ],
   },
   {
@@ -65,8 +65,8 @@ export default function Footer() {
               className="text-sm leading-relaxed max-w-xs"
               style={{ color: 'var(--text-secondary)' }}
             >
-              The universal AI API orchestrator. 545 tools, 26 services,
-              1,385 capabilities. Stop building workflows. Start describing
+              The universal AI API orchestrator. 550 tools, 26 services,
+              1,385+ capabilities. Stop building workflows. Start describing
               outcomes.
             </p>
 

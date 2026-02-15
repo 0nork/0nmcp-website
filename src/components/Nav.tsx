@@ -54,7 +54,7 @@ export default function Nav() {
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="https://marketplace.rocketclients.com"
+            href="https://rocketopp.com"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-ghost"
@@ -130,7 +130,7 @@ export default function Nav() {
               style={{ borderTop: '1px solid var(--border)' }}
             >
               <a
-                href="https://marketplace.rocketclients.com"
+                href="https://rocketopp.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-ghost text-center justify-center"

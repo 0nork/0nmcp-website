@@ -699,12 +699,12 @@ export default function HomePage() {
                 ))}
               </ul>
               <a
-                href="https://marketplace.rocketclients.com"
+                href="https://rocketopp.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-accent w-full text-center justify-center no-underline"
               >
-                Launch Builder
+                Launch Marketplace
               </a>
             </div>
 

@@ -1,0 +1,14 @@
+# 0nMCP — Universal AI API Orchestrator
+> 59 services. 1,385+ capabilities. Turn it 0n.
+
+0nMCP is an open-source MCP server that connects AI to 59 services through a single interface.
+Install: npx 0nmcp
+npm: https://npmjs.com/package/0nmcp
+GitHub: https://github.com/0nork/0nMCP
+Website: https://0nmcp.com
+
+## Services (59)
+Gmail, Slack, Google Calendar, Google Sheets, Google Drive, Zoom, Microsoft 365, Notion, Discord, Twilio, WhatsApp Business, Facebook, Instagram, LinkedIn, X (Twitter), TikTok, Pinterest, Mailchimp, SendGrid, Resend, Typeform, Google Forms, JotForm, Stripe, Shopify, QuickBooks, Xero, Square, FreshBooks, 0nMCP CRM (245 tools), HubSpot, Salesforce, Pipedrive, Trello, Asana, Monday.com, ClickUp, Airtable, Calendly, Google Tasks, Todoist, Canva, DocuSign, Dropbox, Zendesk, Intercom, Freshdesk, WordPress, Webflow, Wix, Google Ads, Facebook Ads, OpenAI, Anthropic (Claude), GitHub, Supabase, MongoDB, Linear, Jira
+
+## Built by
+RocketOpp LLC (mike@rocketopp.com)

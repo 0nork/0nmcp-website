@@ -1,0 +1,1078 @@
+{
+  "meta": {
+    "version": "2.0.0",
+    "generated": "2026-02-14",
+    "total_capabilities": 126,
+    "schema": "0n-capabilities-v2",
+    "pricing_note": "Pre-configured combos are one-time purchase. Per-use execution fees apply on 0nmcp.com."
+  },
+  "pricing_tiers": {
+    "starter": {
+      "label": "Starter",
+      "combo_price": 1.99,
+      "per_use_price": 0.01,
+      "description": "Simple 2-service automations",
+      "applies_to": "2-service capabilities with basic triggers"
+    },
+    "pro": {
+      "label": "Pro",
+      "combo_price": 3.99,
+      "per_use_price": 0.03,
+      "description": "Advanced 2-service automations with AI",
+      "applies_to": "2-service capabilities with AI processing or complex logic"
+    },
+    "burst": {
+      "label": "Burst",
+      "combo_price": 4.99,
+      "per_use_price": 0.05,
+      "description": "Multi-service Radial Burst workflows (3+ services)",
+      "applies_to": "3+ service Radial Burst capabilities"
+    }
+  },
+  "capabilities": [
+
+    {
+      "id": "CAP-001",
+      "name": "Form Submission to CRM Lead",
+      "slug": "typeform-to-crm",
+      "description": "When a Typeform is submitted, automatically create a new lead in your CRM with all form data mapped to contact fields.",
+      "trigger_service": "typeform",
+      "action_service": "crm",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "sxo_queries": ["typeform to crm", "connect typeform to crm", "typeform crm integration", "form submission to crm automation"],
+      "example_trigger": "New Typeform submission received",
+      "example_action": "Create CRM contact with name, email, phone, and custom fields",
+      "dot_0n_config": "{ \"trigger\": \"typeform.response_submitted\", \"action\": \"crm.lead_create\", \"map\": { \"name\": \"{{response.name}}\", \"email\": \"{{response.email}}\" } }"
+    },
+    {
+      "id": "CAP-002",
+      "name": "Form Submission to Welcome Email",
+      "slug": "google-forms-to-gmail",
+      "trigger_service": "google_forms",
+      "action_service": "gmail",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Google Form is submitted, automatically send a personalized welcome email via Gmail.",
+      "sxo_queries": ["google forms to gmail", "form submission send email", "google forms email automation"],
+      "example_trigger": "New Google Form response",
+      "example_action": "Send personalized Gmail to respondent",
+      "dot_0n_config": "{ \"trigger\": \"google_forms.response_submitted\", \"action\": \"gmail.send\", \"map\": { \"to\": \"{{response.email}}\", \"subject\": \"Thanks for reaching out!\" } }"
+    },
+    {
+      "id": "CAP-003",
+      "name": "Form Submission to Slack Notification",
+      "slug": "typeform-to-slack",
+      "trigger_service": "typeform",
+      "action_service": "slack",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Typeform is submitted, instantly notify your team in a Slack channel with the response details.",
+      "sxo_queries": ["typeform to slack", "form submission slack notification", "typeform slack integration"],
+      "example_trigger": "New Typeform submission",
+      "example_action": "Post formatted message to #leads Slack channel",
+      "dot_0n_config": "{ \"trigger\": \"typeform.response_submitted\", \"action\": \"slack.send_message\", \"map\": { \"channel\": \"#leads\", \"text\": \"New lead: {{response.name}} - {{response.email}}\" } }"
+    },
+    {
+      "id": "CAP-004",
+      "name": "Form Submission to HubSpot Deal",
+      "slug": "jotform-to-hubspot",
+      "trigger_service": "jotform",
+      "action_service": "hubspot",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a JotForm is submitted, create a new deal in HubSpot with contact details and deal value.",
+      "sxo_queries": ["jotform to hubspot", "form to hubspot deal", "jotform hubspot integration"],
+      "example_trigger": "New JotForm submission",
+      "example_action": "Create HubSpot deal with contact association",
+      "dot_0n_config": "{ \"trigger\": \"jotform.submission_created\", \"actions\": [\"hubspot.contact_create\", \"hubspot.deal_create\"] }"
+    },
+    {
+      "id": "CAP-005",
+      "name": "Form Submission to Meeting Booking",
+      "slug": "typeform-to-calendly",
+      "trigger_service": "typeform",
+      "action_service": "calendly",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Typeform is submitted, send the respondent a Calendly scheduling link via email.",
+      "sxo_queries": ["typeform to calendly", "form submission schedule meeting", "typeform calendly integration"],
+      "example_trigger": "New Typeform submission",
+      "example_action": "Email Calendly link to respondent",
+      "dot_0n_config": "{ \"trigger\": \"typeform.response_submitted\", \"action\": \"gmail.send\", \"map\": { \"to\": \"{{response.email}}\", \"body\": \"Book a time: {{calendly.event_type_url}}\" } }"
+    },
+    {
+      "id": "CAP-006",
+      "name": "Form Submission to Email List",
+      "slug": "google-forms-to-mailchimp",
+      "trigger_service": "google_forms",
+      "action_service": "mailchimp",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Google Form is submitted, add the respondent to a Mailchimp email list with tags.",
+      "sxo_queries": ["google forms to mailchimp", "form to email list", "google forms mailchimp integration"],
+      "example_trigger": "New Google Form response",
+      "example_action": "Add subscriber to Mailchimp list with tags",
+      "dot_0n_config": "{ \"trigger\": \"google_forms.response_submitted\", \"action\": \"mailchimp.subscriber_add\", \"map\": { \"email\": \"{{response.email}}\", \"list\": \"newsletter\" } }"
+    },
+    {
+      "id": "CAP-007",
+      "name": "Form Submission to Invoice",
+      "slug": "typeform-to-stripe",
+      "trigger_service": "typeform",
+      "action_service": "stripe",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Typeform is submitted, automatically create and send a Stripe invoice to the respondent.",
+      "sxo_queries": ["typeform to stripe", "form to invoice", "typeform stripe invoice automation"],
+      "example_trigger": "New Typeform service request",
+      "example_action": "Create and send Stripe invoice for selected service",
+      "dot_0n_config": "{ \"trigger\": \"typeform.response_submitted\", \"actions\": [\"stripe.customer_create\", \"stripe.invoice_create\", \"stripe.invoice_send\"] }"
+    },
+    {
+      "id": "CAP-008",
+      "name": "Form Submission to Trello Card",
+      "slug": "jotform-to-trello",
+      "trigger_service": "jotform",
+      "action_service": "trello",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a JotForm is submitted, create a Trello card with all submission details in the right list.",
+      "sxo_queries": ["jotform to trello", "form to trello card", "jotform trello integration"],
+      "example_trigger": "New JotForm submission",
+      "example_action": "Create Trello card in 'New Requests' list",
+      "dot_0n_config": "{ \"trigger\": \"jotform.submission_created\", \"action\": \"trello.card_create\", \"map\": { \"list\": \"New Requests\", \"name\": \"{{submission.name}}\" } }"
+    },
+    {
+      "id": "CAP-009",
+      "name": "Form Submission to Asana Task",
+      "slug": "typeform-to-asana",
+      "trigger_service": "typeform",
+      "action_service": "asana",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Typeform is submitted, create an Asana task assigned to the right team member.",
+      "sxo_queries": ["typeform to asana", "form to asana task", "typeform asana integration"],
+      "example_trigger": "New Typeform submission",
+      "example_action": "Create Asana task in project with assignee",
+      "dot_0n_config": "{ \"trigger\": \"typeform.response_submitted\", \"action\": \"asana.task_create\", \"map\": { \"project\": \"Incoming Requests\", \"name\": \"{{response.subject}}\" } }"
+    },
+    {
+      "id": "CAP-010",
+      "name": "Form Submission to SMS Confirmation",
+      "slug": "google-forms-to-twilio",
+      "trigger_service": "google_forms",
+      "action_service": "twilio",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Google Form is submitted, send an SMS confirmation to the respondent's phone number.",
+      "sxo_queries": ["google forms to sms", "form submission sms confirmation", "google forms twilio integration"],
+      "example_trigger": "New Google Form response",
+      "example_action": "Send SMS confirmation via Twilio",
+      "dot_0n_config": "{ \"trigger\": \"google_forms.response_submitted\", \"action\": \"twilio.sms_send\", \"map\": { \"to\": \"{{response.phone}}\", \"body\": \"We received your submission. We'll be in touch!\" } }"
+    },
+    {
+      "id": "CAP-011",
+      "name": "Form Submission to Spreadsheet Row",
+      "slug": "typeform-to-google-sheets",
+      "trigger_service": "typeform",
+      "action_service": "gsheets",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Typeform is submitted, add all response data as a new row in Google Sheets.",
+      "sxo_queries": ["typeform to google sheets", "form to spreadsheet", "typeform google sheets integration"],
+      "example_trigger": "New Typeform response",
+      "example_action": "Append row to Google Sheet with all fields",
+      "dot_0n_config": "{ \"trigger\": \"typeform.response_submitted\", \"action\": \"gsheets.append_row\", \"map\": { \"sheet\": \"Form Responses\", \"values\": \"{{response.all_fields}}\" } }"
+    },
+    {
+      "id": "CAP-012",
+      "name": "Form Submission to Notion Page",
+      "slug": "jotform-to-notion",
+      "trigger_service": "jotform",
+      "action_service": "notion",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a JotForm is submitted, create a Notion database entry with all submission data.",
+      "sxo_queries": ["jotform to notion", "form to notion page", "jotform notion integration"],
+      "example_trigger": "New JotForm submission",
+      "example_action": "Create Notion database item with mapped fields",
+      "dot_0n_config": "{ \"trigger\": \"jotform.submission_created\", \"action\": \"notion.db_item_create\", \"map\": { \"database\": \"Submissions\", \"properties\": \"{{submission.fields}}\" } }"
+    },
+    {
+      "id": "CAP-013",
+      "name": "Form Submission to WhatsApp Message",
+      "slug": "typeform-to-whatsapp",
+      "trigger_service": "typeform",
+      "action_service": "whatsapp",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Typeform is submitted, send a WhatsApp confirmation message to the respondent.",
+      "sxo_queries": ["typeform to whatsapp", "form to whatsapp message", "typeform whatsapp automation"],
+      "example_trigger": "New Typeform response",
+      "example_action": "Send WhatsApp template message to respondent",
+      "dot_0n_config": "{ \"trigger\": \"typeform.response_submitted\", \"action\": \"whatsapp.send_template\", \"map\": { \"to\": \"{{response.phone}}\", \"template\": \"form_confirmation\" } }"
+    },
+    {
+      "id": "CAP-014",
+      "name": "Form Submission to Salesforce Lead",
+      "slug": "google-forms-to-salesforce",
+      "trigger_service": "google_forms",
+      "action_service": "salesforce",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a Google Form is submitted, create a Salesforce lead with all form field data.",
+      "sxo_queries": ["google forms to salesforce", "form to salesforce lead", "google forms salesforce integration"],
+      "example_trigger": "New Google Form response",
+      "example_action": "Create Salesforce lead record",
+      "dot_0n_config": "{ \"trigger\": \"google_forms.response_submitted\", \"action\": \"salesforce.lead_create\", \"map\": { \"FirstName\": \"{{response.first_name}}\", \"Email\": \"{{response.email}}\" } }"
+    },
+    {
+      "id": "CAP-015",
+      "name": "Form Submission to Pipedrive Deal",
+      "slug": "jotform-to-pipedrive",
+      "trigger_service": "jotform",
+      "action_service": "pipedrive",
+      "category": "form_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a JotForm is submitted, create a Pipedrive deal with contact and deal value.",
+      "sxo_queries": ["jotform to pipedrive", "form to pipedrive", "jotform pipedrive integration"],
+      "example_trigger": "New JotForm submission",
+      "example_action": "Create Pipedrive person and deal",
+      "dot_0n_config": "{ \"trigger\": \"jotform.submission_created\", \"actions\": [\"pipedrive.person_create\", \"pipedrive.deal_create\"] }"
+    },
+
+    {
+      "id": "CAP-016",
+      "name": "New CRM Lead to Welcome Email",
+      "slug": "crm-to-gmail",
+      "trigger_service": "crm",
+      "action_service": "gmail",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a new lead is created in your CRM, send a personalized welcome email via Gmail.",
+      "sxo_queries": ["crm to gmail", "new lead welcome email", "crm email automation"],
+      "example_trigger": "New CRM lead created",
+      "example_action": "Send personalized welcome email",
+      "dot_0n_config": "{ \"trigger\": \"crm.lead_created\", \"action\": \"gmail.send\", \"map\": { \"to\": \"{{lead.email}}\", \"subject\": \"Welcome, {{lead.first_name}}!\" } }"
+    },
+    {
+      "id": "CAP-017",
+      "name": "Deal Closed to Invoice",
+      "slug": "crm-to-stripe",
+      "trigger_service": "crm",
+      "action_service": "stripe",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a deal is marked as won in your CRM, automatically create and send a Stripe invoice.",
+      "sxo_queries": ["crm to stripe invoice", "deal closed create invoice", "crm stripe automation"],
+      "example_trigger": "CRM deal status changed to 'Won'",
+      "example_action": "Create Stripe customer and send invoice",
+      "dot_0n_config": "{ \"trigger\": \"crm.deal_won\", \"actions\": [\"stripe.customer_create\", \"stripe.invoice_create\", \"stripe.invoice_send\"] }"
+    },
+    {
+      "id": "CAP-018",
+      "name": "Deal Closed to Slack Alert",
+      "slug": "crm-to-slack",
+      "trigger_service": "crm",
+      "action_service": "slack",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a deal is closed in your CRM, celebrate with a Slack notification to the team.",
+      "sxo_queries": ["crm to slack", "deal closed slack notification", "crm slack integration"],
+      "example_trigger": "CRM deal closed",
+      "example_action": "Post celebration message to #wins channel",
+      "dot_0n_config": "{ \"trigger\": \"crm.deal_won\", \"action\": \"slack.send_message\", \"map\": { \"channel\": \"#wins\", \"text\": \"🎉 Deal won: {{deal.name}} - ${{deal.value}}\" } }"
+    },
+    {
+      "id": "CAP-019",
+      "name": "Deal Closed to Google Sheets Log",
+      "slug": "crm-to-google-sheets",
+      "trigger_service": "crm",
+      "action_service": "gsheets",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a deal closes, log it to a Google Sheet for tracking and reporting.",
+      "sxo_queries": ["crm to google sheets", "deal log spreadsheet", "crm google sheets integration"],
+      "example_trigger": "CRM deal closed",
+      "example_action": "Append deal data as new row",
+      "dot_0n_config": "{ \"trigger\": \"crm.deal_closed\", \"action\": \"gsheets.append_row\" }"
+    },
+    {
+      "id": "CAP-020",
+      "name": "New Lead to SMS Notification",
+      "slug": "crm-to-twilio",
+      "trigger_service": "crm",
+      "action_service": "twilio",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a new lead enters your CRM, send an SMS alert to your sales team.",
+      "sxo_queries": ["crm to sms", "new lead sms alert", "crm twilio integration"],
+      "example_trigger": "New CRM lead",
+      "example_action": "SMS alert to sales rep",
+      "dot_0n_config": "{ \"trigger\": \"crm.lead_created\", \"action\": \"twilio.sms_send\" }"
+    },
+    {
+      "id": "CAP-021",
+      "name": "Deal Closed to QuickBooks Invoice",
+      "slug": "crm-to-quickbooks",
+      "trigger_service": "crm",
+      "action_service": "quickbooks",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a deal is won, create a QuickBooks invoice automatically for accounting.",
+      "sxo_queries": ["crm to quickbooks", "deal to quickbooks invoice", "crm quickbooks automation"],
+      "example_trigger": "CRM deal won",
+      "example_action": "Create QuickBooks invoice",
+      "dot_0n_config": "{ \"trigger\": \"crm.deal_won\", \"action\": \"quickbooks.invoice_create\" }"
+    },
+    {
+      "id": "CAP-022",
+      "name": "New Contact to Mailchimp List",
+      "slug": "crm-to-mailchimp",
+      "trigger_service": "crm",
+      "action_service": "mailchimp",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a new contact is added to CRM, add them to a Mailchimp email list.",
+      "sxo_queries": ["crm to mailchimp", "crm email list sync", "crm mailchimp integration"],
+      "example_trigger": "New CRM contact",
+      "example_action": "Add to Mailchimp list with tags",
+      "dot_0n_config": "{ \"trigger\": \"crm.contact_created\", \"action\": \"mailchimp.subscriber_add\" }"
+    },
+    {
+      "id": "CAP-023",
+      "name": "Lead Status Change to Notion Update",
+      "slug": "crm-to-notion",
+      "trigger_service": "crm",
+      "action_service": "notion",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a lead status changes in CRM, update the corresponding Notion database entry.",
+      "sxo_queries": ["crm to notion", "crm notion sync", "lead status notion update"],
+      "example_trigger": "CRM lead status changed",
+      "example_action": "Update Notion database property",
+      "dot_0n_config": "{ \"trigger\": \"crm.lead_updated\", \"action\": \"notion.db_item_update\" }"
+    },
+    {
+      "id": "CAP-024",
+      "name": "Deal Won to WhatsApp Confirmation",
+      "slug": "crm-to-whatsapp",
+      "trigger_service": "crm",
+      "action_service": "whatsapp",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a deal is won, send a WhatsApp confirmation to the client.",
+      "sxo_queries": ["crm to whatsapp", "deal won whatsapp", "crm whatsapp automation"],
+      "example_trigger": "CRM deal won",
+      "example_action": "Send WhatsApp template to client",
+      "dot_0n_config": "{ \"trigger\": \"crm.deal_won\", \"action\": \"whatsapp.send_template\" }"
+    },
+    {
+      "id": "CAP-025",
+      "name": "CRM Contact to HubSpot Sync",
+      "slug": "crm-to-hubspot",
+      "trigger_service": "crm",
+      "action_service": "hubspot",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a contact is updated in 0nMCP CRM, sync the changes to HubSpot.",
+      "sxo_queries": ["crm to hubspot sync", "crm hubspot integration", "sync crm hubspot"],
+      "example_trigger": "CRM contact updated",
+      "example_action": "Update HubSpot contact record",
+      "dot_0n_config": "{ \"trigger\": \"crm.contact_updated\", \"action\": \"hubspot.contact_update\" }"
+    },
+    {
+      "id": "CAP-026",
+      "name": "Lead Assigned to Trello Card",
+      "slug": "crm-to-trello",
+      "trigger_service": "crm",
+      "action_service": "trello",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a lead is assigned in CRM, create a Trello card for follow-up tracking.",
+      "sxo_queries": ["crm to trello", "lead to trello card", "crm trello integration"],
+      "example_trigger": "CRM lead assigned",
+      "example_action": "Create Trello card in 'Follow Up' list",
+      "dot_0n_config": "{ \"trigger\": \"crm.lead_assigned\", \"action\": \"trello.card_create\" }"
+    },
+    {
+      "id": "CAP-027",
+      "name": "Deal Closed to DocuSign Contract",
+      "slug": "crm-to-docusign",
+      "trigger_service": "crm",
+      "action_service": "docusign",
+      "category": "crm_to_everything",
+      "pricing_tier": "pro",
+      "description": "When a deal closes, automatically send a DocuSign contract for signature.",
+      "sxo_queries": ["crm to docusign", "deal to contract", "crm docusign automation"],
+      "example_trigger": "CRM deal closed",
+      "example_action": "Send DocuSign envelope from template",
+      "dot_0n_config": "{ \"trigger\": \"crm.deal_won\", \"action\": \"docusign.envelope_create\" }"
+    },
+    {
+      "id": "CAP-028",
+      "name": "New Lead to Discord Alert",
+      "slug": "crm-to-discord",
+      "trigger_service": "crm",
+      "action_service": "discord",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a new lead enters CRM, post an alert to your Discord server.",
+      "sxo_queries": ["crm to discord", "new lead discord alert", "crm discord notification"],
+      "example_trigger": "New CRM lead",
+      "example_action": "Post to Discord #sales channel",
+      "dot_0n_config": "{ \"trigger\": \"crm.lead_created\", \"action\": \"discord.send_message\" }"
+    },
+    {
+      "id": "CAP-029",
+      "name": "Lead Score Change to Salesforce Update",
+      "slug": "crm-to-salesforce",
+      "trigger_service": "crm",
+      "action_service": "salesforce",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a lead score changes in 0nMCP CRM, sync the update to Salesforce.",
+      "sxo_queries": ["crm to salesforce sync", "lead score salesforce", "crm salesforce integration"],
+      "example_trigger": "CRM lead score changed",
+      "example_action": "Update Salesforce lead record",
+      "dot_0n_config": "{ \"trigger\": \"crm.lead_score_changed\", \"action\": \"salesforce.lead_update\" }"
+    },
+    {
+      "id": "CAP-030",
+      "name": "Deal Closed to LinkedIn Post",
+      "slug": "crm-to-linkedin",
+      "trigger_service": "crm",
+      "action_service": "linkedin",
+      "category": "crm_to_everything",
+      "pricing_tier": "starter",
+      "description": "When a deal closes, share a win announcement on your LinkedIn company page.",
+      "sxo_queries": ["crm to linkedin post", "deal won linkedin", "crm linkedin automation"],
+      "example_trigger": "CRM deal won",
+      "example_action": "Create LinkedIn company post",
+      "dot_0n_config": "{ \"trigger\": \"crm.deal_won\", \"action\": \"linkedin.post_create\" }"
+    },
+
+    {
+      "id": "CAP-031", "name": "Stripe Payment to Gmail Receipt", "slug": "stripe-to-gmail",
+      "trigger_service": "stripe", "action_service": "gmail", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Stripe payment is received, send a receipt email via Gmail.",
+      "sxo_queries": ["stripe to gmail", "payment receipt email", "stripe gmail automation"]
+    },
+    {
+      "id": "CAP-032", "name": "Stripe Payment to Slack Notification", "slug": "stripe-to-slack",
+      "trigger_service": "stripe", "action_service": "slack", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a payment is received, notify your team in Slack.",
+      "sxo_queries": ["stripe to slack", "payment slack notification", "stripe slack integration"]
+    },
+    {
+      "id": "CAP-033", "name": "Stripe Payment to Google Sheets Log", "slug": "stripe-to-google-sheets",
+      "trigger_service": "stripe", "action_service": "gsheets", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a payment is received, log it to Google Sheets for tracking.",
+      "sxo_queries": ["stripe to google sheets", "payment log spreadsheet", "stripe google sheets integration"]
+    },
+    {
+      "id": "CAP-034", "name": "Stripe Payment to QuickBooks Entry", "slug": "stripe-to-quickbooks",
+      "trigger_service": "stripe", "action_service": "quickbooks", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Stripe payment is received, create a QuickBooks income entry.",
+      "sxo_queries": ["stripe to quickbooks", "payment to accounting", "stripe quickbooks automation"]
+    },
+    {
+      "id": "CAP-035", "name": "Shopify Order to Stripe Invoice", "slug": "shopify-to-stripe",
+      "trigger_service": "shopify", "action_service": "stripe", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Shopify order is placed, create a Stripe invoice for B2B billing.",
+      "sxo_queries": ["shopify to stripe", "shopify order invoice", "shopify stripe integration"]
+    },
+    {
+      "id": "CAP-036", "name": "Shopify Order Shipped to SMS", "slug": "shopify-to-twilio",
+      "trigger_service": "shopify", "action_service": "twilio", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Shopify order ships, send an SMS notification to the customer.",
+      "sxo_queries": ["shopify to sms", "shopify shipping notification", "shopify twilio integration"]
+    },
+    {
+      "id": "CAP-037", "name": "Shopify Order to WhatsApp Update", "slug": "shopify-to-whatsapp",
+      "trigger_service": "shopify", "action_service": "whatsapp", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Shopify order ships, send a WhatsApp update to the customer.",
+      "sxo_queries": ["shopify to whatsapp", "shopify whatsapp notification", "order whatsapp automation"]
+    },
+    {
+      "id": "CAP-038", "name": "Failed Payment to Dunning Email", "slug": "stripe-to-sendgrid",
+      "trigger_service": "stripe", "action_service": "sendgrid", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Stripe payment fails, send a dunning email via SendGrid.",
+      "sxo_queries": ["stripe failed payment email", "dunning email automation", "stripe sendgrid integration"]
+    },
+    {
+      "id": "CAP-039", "name": "New Subscription to CRM Contact", "slug": "stripe-to-crm",
+      "trigger_service": "stripe", "action_service": "crm", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Stripe subscription is created, add the customer to your CRM.",
+      "sxo_queries": ["stripe to crm", "subscription to crm", "stripe crm integration"]
+    },
+    {
+      "id": "CAP-040", "name": "Square Payment to Xero Entry", "slug": "square-to-xero",
+      "trigger_service": "square", "action_service": "xero", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Square payment is processed, log it in Xero accounting.",
+      "sxo_queries": ["square to xero", "pos to accounting", "square xero integration"]
+    },
+    {
+      "id": "CAP-041", "name": "FreshBooks Invoice Paid to Slack", "slug": "freshbooks-to-slack",
+      "trigger_service": "freshbooks", "action_service": "slack", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a FreshBooks invoice is paid, notify your team in Slack.",
+      "sxo_queries": ["freshbooks to slack", "invoice paid notification", "freshbooks slack integration"]
+    },
+    {
+      "id": "CAP-042", "name": "Stripe Payment to Airtable Record", "slug": "stripe-to-airtable",
+      "trigger_service": "stripe", "action_service": "airtable", "category": "payment_to_everything", "pricing_tier": "starter",
+      "description": "When a Stripe payment is received, create an Airtable record for tracking.",
+      "sxo_queries": ["stripe to airtable", "payment airtable record", "stripe airtable integration"]
+    },
+
+    {
+      "id": "CAP-043", "name": "Email Open to CRM Lead Score", "slug": "mailchimp-to-crm",
+      "trigger_service": "mailchimp", "action_service": "crm", "category": "email_to_everything", "pricing_tier": "starter",
+      "description": "When someone opens a Mailchimp email, update their lead score in CRM.",
+      "sxo_queries": ["mailchimp to crm", "email open lead score", "mailchimp crm integration"]
+    },
+    {
+      "id": "CAP-044", "name": "Email Click to Slack Alert", "slug": "mailchimp-to-slack",
+      "trigger_service": "mailchimp", "action_service": "slack", "category": "email_to_everything", "pricing_tier": "starter",
+      "description": "When someone clicks a link in your email, send a Slack alert.",
+      "sxo_queries": ["mailchimp to slack", "email click slack alert", "mailchimp slack integration"]
+    },
+    {
+      "id": "CAP-045", "name": "Unsubscribe to Google Sheets Log", "slug": "mailchimp-to-google-sheets",
+      "trigger_service": "mailchimp", "action_service": "gsheets", "category": "email_to_everything", "pricing_tier": "starter",
+      "description": "When someone unsubscribes from Mailchimp, log it to Google Sheets.",
+      "sxo_queries": ["mailchimp to google sheets", "unsubscribe log", "mailchimp google sheets integration"]
+    },
+    {
+      "id": "CAP-046", "name": "Campaign Sent to Notion Log", "slug": "sendgrid-to-notion",
+      "trigger_service": "sendgrid", "action_service": "notion", "category": "email_to_everything", "pricing_tier": "starter",
+      "description": "When a SendGrid campaign is sent, log it to your Notion content calendar.",
+      "sxo_queries": ["sendgrid to notion", "email campaign log", "sendgrid notion integration"]
+    },
+    {
+      "id": "CAP-047", "name": "Email Bounce to HubSpot Update", "slug": "mailchimp-to-hubspot",
+      "trigger_service": "mailchimp", "action_service": "hubspot", "category": "email_to_everything", "pricing_tier": "starter",
+      "description": "When a Mailchimp email bounces, update the HubSpot contact record.",
+      "sxo_queries": ["mailchimp to hubspot", "email bounce crm update", "mailchimp hubspot sync"]
+    },
+    {
+      "id": "CAP-048", "name": "New Subscriber to SMS Welcome", "slug": "mailchimp-to-twilio",
+      "trigger_service": "mailchimp", "action_service": "twilio", "category": "email_to_everything", "pricing_tier": "starter",
+      "description": "When a new subscriber joins your Mailchimp list, send a welcome SMS.",
+      "sxo_queries": ["mailchimp to sms", "new subscriber sms", "mailchimp twilio integration"]
+    },
+    {
+      "id": "CAP-049", "name": "Subscriber Tag to Salesforce Sync", "slug": "mailchimp-to-salesforce",
+      "trigger_service": "mailchimp", "action_service": "salesforce", "category": "email_to_everything", "pricing_tier": "starter",
+      "description": "When subscriber tags change in Mailchimp, sync to Salesforce.",
+      "sxo_queries": ["mailchimp to salesforce", "email tag salesforce sync", "mailchimp salesforce integration"]
+    },
+
+    {
+      "id": "CAP-050", "name": "Blog Post to Facebook", "slug": "wordpress-to-facebook",
+      "trigger_service": "wordpress", "action_service": "facebook", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a WordPress blog post is published, share it on Facebook.",
+      "sxo_queries": ["wordpress to facebook", "blog post facebook share", "wordpress facebook automation"]
+    },
+    {
+      "id": "CAP-051", "name": "New Product to Instagram Post", "slug": "shopify-to-instagram",
+      "trigger_service": "shopify", "action_service": "instagram", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a new Shopify product launches, create an Instagram post.",
+      "sxo_queries": ["shopify to instagram", "product launch instagram", "shopify instagram automation"]
+    },
+    {
+      "id": "CAP-052", "name": "Notion Page to LinkedIn Post", "slug": "notion-to-linkedin",
+      "trigger_service": "notion", "action_service": "linkedin", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a Notion page is published, share it as a LinkedIn post.",
+      "sxo_queries": ["notion to linkedin", "notion linkedin share", "notion linkedin automation"]
+    },
+    {
+      "id": "CAP-053", "name": "GitHub Release to X Post", "slug": "github-to-x-twitter",
+      "trigger_service": "github", "action_service": "x_twitter", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a GitHub release is published, tweet about it on X.",
+      "sxo_queries": ["github to twitter", "release announcement tweet", "github x automation"]
+    },
+    {
+      "id": "CAP-054", "name": "Canva Design to TikTok", "slug": "canva-to-tiktok",
+      "trigger_service": "canva", "action_service": "tiktok", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a Canva video design is completed, upload to TikTok.",
+      "sxo_queries": ["canva to tiktok", "design to tiktok", "canva tiktok automation"]
+    },
+    {
+      "id": "CAP-055", "name": "Shopify Product to Pinterest Pin", "slug": "shopify-to-pinterest",
+      "trigger_service": "shopify", "action_service": "pinterest", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a new Shopify product is added, create a Pinterest pin.",
+      "sxo_queries": ["shopify to pinterest", "product pinterest pin", "shopify pinterest automation"]
+    },
+    {
+      "id": "CAP-056", "name": "Facebook Lead Ad to CRM", "slug": "facebook-to-crm",
+      "trigger_service": "facebook", "action_service": "crm", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Lead Ad is submitted, create a CRM lead.",
+      "sxo_queries": ["facebook lead ads to crm", "fb lead ad crm", "facebook to crm automation"]
+    },
+    {
+      "id": "CAP-057", "name": "Facebook Lead Ad to Email", "slug": "facebook-to-gmail",
+      "trigger_service": "facebook", "action_service": "gmail", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Lead Ad is submitted, send a follow-up email.",
+      "sxo_queries": ["facebook lead ad to email", "fb lead ad email", "facebook gmail automation"]
+    },
+    {
+      "id": "CAP-058", "name": "Facebook Lead Ad to Slack", "slug": "facebook-to-slack",
+      "trigger_service": "facebook", "action_service": "slack", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Lead Ad is submitted, alert your team in Slack.",
+      "sxo_queries": ["facebook lead ad to slack", "fb lead slack alert", "facebook slack integration"]
+    },
+    {
+      "id": "CAP-059", "name": "Facebook Lead Ad to Mailchimp", "slug": "facebook-to-mailchimp",
+      "trigger_service": "facebook", "action_service": "mailchimp", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Lead Ad is submitted, add the lead to Mailchimp.",
+      "sxo_queries": ["facebook lead ad to mailchimp", "fb lead email list", "facebook mailchimp automation"]
+    },
+    {
+      "id": "CAP-060", "name": "Instagram DM to Zendesk Ticket", "slug": "instagram-to-zendesk",
+      "trigger_service": "instagram", "action_service": "zendesk", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When an Instagram DM is received, create a Zendesk support ticket.",
+      "sxo_queries": ["instagram to zendesk", "instagram dm support ticket", "instagram zendesk automation"]
+    },
+    {
+      "id": "CAP-061", "name": "LinkedIn Connection to CRM", "slug": "linkedin-to-crm",
+      "trigger_service": "linkedin", "action_service": "crm", "category": "social_to_everything", "pricing_tier": "starter",
+      "description": "When a LinkedIn connection is made, add to CRM as a new contact.",
+      "sxo_queries": ["linkedin to crm", "linkedin connection crm", "linkedin crm automation"]
+    },
+    {
+      "id": "CAP-062", "name": "Cross-Post to All Social Platforms", "slug": "all-social-radial-burst",
+      "trigger_service": "crm",
+      "action_services": ["facebook", "instagram", "linkedin", "x_twitter", "pinterest", "tiktok"],
+      "category": "social_to_everything", "pricing_tier": "burst",
+      "description": "Post content to Facebook, Instagram, LinkedIn, X, Pinterest, and TikTok simultaneously.",
+      "sxo_queries": ["cross post all social media", "post to all social platforms", "social media automation all platforms"]
+    },
+
+    {
+      "id": "CAP-063", "name": "Calendly Booking to Google Calendar", "slug": "calendly-to-google-calendar",
+      "trigger_service": "calendly", "action_service": "gcal", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Calendly meeting is booked, create a Google Calendar event.",
+      "sxo_queries": ["calendly to google calendar", "calendly google calendar sync", "calendly calendar integration"]
+    },
+    {
+      "id": "CAP-064", "name": "Calendly Booking to Slack Alert", "slug": "calendly-to-slack",
+      "trigger_service": "calendly", "action_service": "slack", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Calendly meeting is booked, notify your team in Slack.",
+      "sxo_queries": ["calendly to slack", "meeting booked slack alert", "calendly slack integration"]
+    },
+    {
+      "id": "CAP-065", "name": "Calendly Booking to CRM Activity", "slug": "calendly-to-crm",
+      "trigger_service": "calendly", "action_service": "crm", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Calendly meeting is booked, create a CRM activity record.",
+      "sxo_queries": ["calendly to crm", "meeting booked crm", "calendly crm integration"]
+    },
+    {
+      "id": "CAP-066", "name": "Zoom Meeting End to Summary Email", "slug": "zoom-to-gmail",
+      "trigger_service": "zoom", "action_service": "gmail", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Zoom meeting ends, send a summary email to all participants.",
+      "sxo_queries": ["zoom to gmail", "zoom meeting summary email", "zoom gmail automation"]
+    },
+    {
+      "id": "CAP-067", "name": "Zoom Meeting End to Follow-Up Task", "slug": "zoom-to-trello",
+      "trigger_service": "zoom", "action_service": "trello", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Zoom meeting ends, create a follow-up Trello card.",
+      "sxo_queries": ["zoom to trello", "meeting follow up task", "zoom trello automation"]
+    },
+    {
+      "id": "CAP-068", "name": "Zoom Meeting to SMS Reminder", "slug": "zoom-to-twilio",
+      "trigger_service": "zoom", "action_service": "twilio", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Zoom meeting is scheduled, send an SMS reminder to participants.",
+      "sxo_queries": ["zoom to sms", "meeting sms reminder", "zoom twilio integration"]
+    },
+    {
+      "id": "CAP-069", "name": "Zoom Meeting to Notion Recap", "slug": "zoom-to-notion",
+      "trigger_service": "zoom", "action_service": "notion", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Zoom meeting ends, create a Notion page with meeting recap.",
+      "sxo_queries": ["zoom to notion", "meeting notes notion", "zoom notion automation"]
+    },
+    {
+      "id": "CAP-070", "name": "Calendar Event to WhatsApp Reminder", "slug": "google-calendar-to-whatsapp",
+      "trigger_service": "gcal", "action_service": "whatsapp", "category": "scheduling_to_everything", "pricing_tier": "starter",
+      "description": "When a Google Calendar event is created, send a WhatsApp reminder.",
+      "sxo_queries": ["google calendar to whatsapp", "calendar whatsapp reminder", "google calendar whatsapp automation"]
+    },
+
+    {
+      "id": "CAP-071", "name": "Zendesk Ticket to Slack", "slug": "zendesk-to-slack",
+      "trigger_service": "zendesk", "action_service": "slack", "category": "support_to_everything", "pricing_tier": "starter",
+      "description": "When a Zendesk ticket is created, notify your team in Slack.",
+      "sxo_queries": ["zendesk to slack", "support ticket slack notification", "zendesk slack integration"]
+    },
+    {
+      "id": "CAP-072", "name": "Zendesk Resolved to Survey Email", "slug": "zendesk-to-gmail",
+      "trigger_service": "zendesk", "action_service": "gmail", "category": "support_to_everything", "pricing_tier": "starter",
+      "description": "When a Zendesk ticket is resolved, send a satisfaction survey email.",
+      "sxo_queries": ["zendesk to gmail", "support survey email", "zendesk gmail automation"]
+    },
+    {
+      "id": "CAP-073", "name": "Intercom Chat to CRM Activity", "slug": "intercom-to-crm",
+      "trigger_service": "intercom", "action_service": "crm", "category": "support_to_everything", "pricing_tier": "starter",
+      "description": "When an Intercom chat starts, create a CRM activity record.",
+      "sxo_queries": ["intercom to crm", "chat to crm", "intercom crm integration"]
+    },
+    {
+      "id": "CAP-074", "name": "Freshdesk Escalation to SMS Alert", "slug": "freshdesk-to-twilio",
+      "trigger_service": "freshdesk", "action_service": "twilio", "category": "support_to_everything", "pricing_tier": "starter",
+      "description": "When a Freshdesk ticket is escalated, send an SMS alert to the manager.",
+      "sxo_queries": ["freshdesk to sms", "support escalation alert", "freshdesk twilio integration"]
+    },
+    {
+      "id": "CAP-075", "name": "Billing Ticket to Stripe Alert", "slug": "zendesk-to-stripe",
+      "trigger_service": "zendesk", "action_service": "stripe", "category": "support_to_everything", "pricing_tier": "pro",
+      "description": "When a support ticket mentions billing, pull the customer's Stripe data.",
+      "sxo_queries": ["zendesk to stripe", "billing support stripe", "zendesk stripe integration"]
+    },
+    {
+      "id": "CAP-076", "name": "Ticket Closed to Knowledge Base", "slug": "zendesk-to-notion",
+      "trigger_service": "zendesk", "action_service": "notion", "category": "support_to_everything", "pricing_tier": "starter",
+      "description": "When a ticket is closed, create a Notion knowledge base entry.",
+      "sxo_queries": ["zendesk to notion", "support to knowledge base", "zendesk notion automation"]
+    },
+    {
+      "id": "CAP-077", "name": "Intercom Chat to Asana Task", "slug": "intercom-to-asana",
+      "trigger_service": "intercom", "action_service": "asana", "category": "support_to_everything", "pricing_tier": "starter",
+      "description": "When an Intercom chat ends, create a follow-up Asana task.",
+      "sxo_queries": ["intercom to asana", "chat follow up task", "intercom asana automation"]
+    },
+
+    {
+      "id": "CAP-078", "name": "Trello Card Done to Slack", "slug": "trello-to-slack",
+      "trigger_service": "trello", "action_service": "slack", "category": "project_to_everything", "pricing_tier": "starter",
+      "description": "When a Trello card moves to Done, notify Slack.",
+      "sxo_queries": ["trello to slack", "trello done slack notification", "trello slack integration"]
+    },
+    {
+      "id": "CAP-079", "name": "Asana Task Complete to Email", "slug": "asana-to-gmail",
+      "trigger_service": "asana", "action_service": "gmail", "category": "project_to_everything", "pricing_tier": "starter",
+      "description": "When an Asana task is completed, send an email update.",
+      "sxo_queries": ["asana to gmail", "task complete email", "asana gmail automation"]
+    },
+    {
+      "id": "CAP-080", "name": "Monday.com Status to Google Sheets", "slug": "monday-to-google-sheets",
+      "trigger_service": "monday", "action_service": "gsheets", "category": "project_to_everything", "pricing_tier": "starter",
+      "description": "When a Monday.com status changes, update Google Sheets.",
+      "sxo_queries": ["monday to google sheets", "monday status spreadsheet", "monday google sheets integration"]
+    },
+    {
+      "id": "CAP-081", "name": "ClickUp Task Assigned to Discord", "slug": "clickup-to-discord",
+      "trigger_service": "clickup", "action_service": "discord", "category": "project_to_everything", "pricing_tier": "starter",
+      "description": "When a ClickUp task is assigned, send a Discord alert.",
+      "sxo_queries": ["clickup to discord", "task assigned discord alert", "clickup discord integration"]
+    },
+    {
+      "id": "CAP-082", "name": "Trello Card to Calendar Event", "slug": "trello-to-google-calendar",
+      "trigger_service": "trello", "action_service": "gcal", "category": "project_to_everything", "pricing_tier": "starter",
+      "description": "When a Trello card is created with a due date, create a Google Calendar event.",
+      "sxo_queries": ["trello to google calendar", "trello card calendar event", "trello calendar integration"]
+    },
+    {
+      "id": "CAP-083", "name": "Asana Project Complete to Invoice", "slug": "asana-to-stripe",
+      "trigger_service": "asana", "action_service": "stripe", "category": "project_to_everything", "pricing_tier": "pro",
+      "description": "When an Asana project is marked complete, create a Stripe invoice.",
+      "sxo_queries": ["asana to stripe", "project complete invoice", "asana stripe automation"]
+    },
+    {
+      "id": "CAP-084", "name": "Todoist Due Task to SMS Reminder", "slug": "todoist-to-twilio",
+      "trigger_service": "todoist", "action_service": "twilio", "category": "project_to_everything", "pricing_tier": "starter",
+      "description": "When a Todoist task is due, send an SMS reminder.",
+      "sxo_queries": ["todoist to sms", "task due sms reminder", "todoist twilio automation"]
+    },
+    {
+      "id": "CAP-085", "name": "Google Task Complete to Notion", "slug": "google-tasks-to-notion",
+      "trigger_service": "gtasks", "action_service": "notion", "category": "project_to_everything", "pricing_tier": "starter",
+      "description": "When a Google Task is completed, update a Notion database entry.",
+      "sxo_queries": ["google tasks to notion", "task complete notion update", "google tasks notion integration"]
+    },
+
+    {
+      "id": "CAP-086", "name": "WordPress Post to Social Burst", "slug": "wordpress-social-burst",
+      "trigger_service": "wordpress",
+      "action_services": ["facebook", "x_twitter", "linkedin", "pinterest"],
+      "category": "website_to_everything", "pricing_tier": "burst",
+      "description": "When a WordPress post is published, share on all social platforms.",
+      "sxo_queries": ["wordpress to social media", "blog post all social platforms", "wordpress social media automation"]
+    },
+    {
+      "id": "CAP-087", "name": "WordPress Post to Email Campaign", "slug": "wordpress-to-mailchimp",
+      "trigger_service": "wordpress", "action_service": "mailchimp", "category": "website_to_everything", "pricing_tier": "starter",
+      "description": "When a WordPress post is published, notify your Mailchimp email list.",
+      "sxo_queries": ["wordpress to mailchimp", "blog post email notification", "wordpress mailchimp automation"]
+    },
+    {
+      "id": "CAP-088", "name": "WordPress Form to CRM Lead", "slug": "wordpress-to-crm",
+      "trigger_service": "wordpress", "action_service": "crm", "category": "website_to_everything", "pricing_tier": "starter",
+      "description": "When a WordPress form is submitted, add the lead to your CRM.",
+      "sxo_queries": ["wordpress to crm", "wordpress form crm", "wordpress crm automation"]
+    },
+    {
+      "id": "CAP-089", "name": "Webflow Form to Slack Alert", "slug": "webflow-to-slack",
+      "trigger_service": "webflow", "action_service": "slack", "category": "website_to_everything", "pricing_tier": "starter",
+      "description": "When a Webflow form is submitted, send a Slack alert.",
+      "sxo_queries": ["webflow to slack", "webflow form slack notification", "webflow slack integration"]
+    },
+    {
+      "id": "CAP-090", "name": "Wix Order to Stripe Invoice", "slug": "wix-to-stripe",
+      "trigger_service": "wix", "action_service": "stripe", "category": "website_to_everything", "pricing_tier": "starter",
+      "description": "When a Wix order is placed, create a Stripe invoice.",
+      "sxo_queries": ["wix to stripe", "wix order invoice", "wix stripe automation"]
+    },
+    {
+      "id": "CAP-091", "name": "Canva Design to WordPress Post", "slug": "canva-to-wordpress",
+      "trigger_service": "canva", "action_service": "wordpress", "category": "website_to_everything", "pricing_tier": "starter",
+      "description": "When a Canva design is finished, create a WordPress post with the image.",
+      "sxo_queries": ["canva to wordpress", "design to blog post", "canva wordpress automation"]
+    },
+    {
+      "id": "CAP-092", "name": "WordPress Post to Notion Archive", "slug": "wordpress-to-notion",
+      "trigger_service": "wordpress", "action_service": "notion", "category": "website_to_everything", "pricing_tier": "starter",
+      "description": "When a blog post is published, archive it in Notion.",
+      "sxo_queries": ["wordpress to notion", "blog archive notion", "wordpress notion automation"]
+    },
+
+    {
+      "id": "CAP-093", "name": "Google Ads Lead to CRM", "slug": "google-ads-to-crm",
+      "trigger_service": "google_ads", "action_service": "crm", "category": "advertising_to_everything", "pricing_tier": "starter",
+      "description": "When a Google Ads lead comes in, add to CRM.",
+      "sxo_queries": ["google ads to crm", "google ads lead crm", "google ads crm automation"]
+    },
+    {
+      "id": "CAP-094", "name": "Google Ads Lead to Slack Alert", "slug": "google-ads-to-slack",
+      "trigger_service": "google_ads", "action_service": "slack", "category": "advertising_to_everything", "pricing_tier": "starter",
+      "description": "When a Google Ads lead comes in, alert your team in Slack.",
+      "sxo_queries": ["google ads to slack", "google ads lead slack", "google ads slack notification"]
+    },
+    {
+      "id": "CAP-095", "name": "Google Ads Lead to Welcome Email", "slug": "google-ads-to-gmail",
+      "trigger_service": "google_ads", "action_service": "gmail", "category": "advertising_to_everything", "pricing_tier": "starter",
+      "description": "When a Google Ads lead comes in, send a welcome email.",
+      "sxo_queries": ["google ads to gmail", "google ads lead email", "google ads email automation"]
+    },
+    {
+      "id": "CAP-096", "name": "Facebook Ad Lead to CRM", "slug": "facebook-ads-to-crm",
+      "trigger_service": "fb_ads", "action_service": "crm", "category": "advertising_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Ad lead comes in, add to CRM.",
+      "sxo_queries": ["facebook ads to crm", "fb ads lead crm", "facebook ads crm automation"]
+    },
+    {
+      "id": "CAP-097", "name": "Facebook Ad Lead to Mailchimp", "slug": "facebook-ads-to-mailchimp",
+      "trigger_service": "fb_ads", "action_service": "mailchimp", "category": "advertising_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Ad lead comes in, add to Mailchimp email list.",
+      "sxo_queries": ["facebook ads to mailchimp", "fb ads email list", "facebook ads mailchimp automation"]
+    },
+    {
+      "id": "CAP-098", "name": "Facebook Ad Lead to WhatsApp", "slug": "facebook-ads-to-whatsapp",
+      "trigger_service": "fb_ads", "action_service": "whatsapp", "category": "advertising_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Ad lead comes in, send a WhatsApp message.",
+      "sxo_queries": ["facebook ads to whatsapp", "fb ads whatsapp", "facebook ads whatsapp automation"]
+    },
+    {
+      "id": "CAP-099", "name": "Ad Spend Alert to Slack", "slug": "google-ads-spend-to-slack",
+      "trigger_service": "google_ads", "action_service": "slack", "category": "advertising_to_everything", "pricing_tier": "pro",
+      "description": "When ad spend exceeds a threshold, send a Slack alert.",
+      "sxo_queries": ["google ads spend alert", "ad budget slack notification", "google ads budget automation"]
+    },
+    {
+      "id": "CAP-100", "name": "Campaign Report to Google Sheets", "slug": "facebook-ads-to-google-sheets",
+      "trigger_service": "fb_ads", "action_service": "gsheets", "category": "advertising_to_everything", "pricing_tier": "starter",
+      "description": "When a Facebook Ads campaign ends, export the report to Google Sheets.",
+      "sxo_queries": ["facebook ads to google sheets", "ad report spreadsheet", "facebook ads google sheets automation"]
+    },
+
+    {
+      "id": "CAP-101", "name": "DocuSign Signed to Stripe Invoice", "slug": "docusign-to-stripe",
+      "trigger_service": "docusign", "action_service": "stripe", "category": "docs_to_everything", "pricing_tier": "pro",
+      "description": "When a DocuSign contract is signed, create a Stripe invoice.",
+      "sxo_queries": ["docusign to stripe", "contract signed invoice", "docusign stripe automation"]
+    },
+    {
+      "id": "CAP-102", "name": "DocuSign Signed to Slack Alert", "slug": "docusign-to-slack",
+      "trigger_service": "docusign", "action_service": "slack", "category": "docs_to_everything", "pricing_tier": "starter",
+      "description": "When a contract is signed, notify your team in Slack.",
+      "sxo_queries": ["docusign to slack", "contract signed slack", "docusign slack integration"]
+    },
+    {
+      "id": "CAP-103", "name": "DocuSign Signed to CRM Update", "slug": "docusign-to-crm",
+      "trigger_service": "docusign", "action_service": "crm", "category": "docs_to_everything", "pricing_tier": "starter",
+      "description": "When a DocuSign contract is signed, update the CRM deal stage.",
+      "sxo_queries": ["docusign to crm", "contract signed crm update", "docusign crm automation"]
+    },
+    {
+      "id": "CAP-104", "name": "DocuSign Signed to Google Drive", "slug": "docusign-to-google-drive",
+      "trigger_service": "docusign", "action_service": "gdrive", "category": "docs_to_everything", "pricing_tier": "starter",
+      "description": "When a contract is signed, save it to Google Drive.",
+      "sxo_queries": ["docusign to google drive", "contract to drive", "docusign google drive automation"]
+    },
+    {
+      "id": "CAP-105", "name": "Dropbox File to Slack Notification", "slug": "dropbox-to-slack",
+      "trigger_service": "dropbox", "action_service": "slack", "category": "docs_to_everything", "pricing_tier": "starter",
+      "description": "When a file is added to Dropbox, notify your team in Slack.",
+      "sxo_queries": ["dropbox to slack", "file upload slack notification", "dropbox slack integration"]
+    },
+    {
+      "id": "CAP-106", "name": "Dropbox Share to Google Sheets Log", "slug": "dropbox-to-google-sheets",
+      "trigger_service": "dropbox", "action_service": "gsheets", "category": "docs_to_everything", "pricing_tier": "starter",
+      "description": "When a Dropbox file is shared, log it to Google Sheets.",
+      "sxo_queries": ["dropbox to google sheets", "file share log", "dropbox google sheets automation"]
+    },
+
+    {
+      "id": "CAP-107", "name": "AI-Draft Email from Support Ticket", "slug": "zendesk-openai-gmail",
+      "trigger_service": "zendesk", "ai_service": "openai", "action_service": "gmail",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "When a support ticket comes in, AI drafts a response email.",
+      "sxo_queries": ["ai support email", "ai draft email from ticket", "zendesk ai email automation"]
+    },
+    {
+      "id": "CAP-108", "name": "AI-Generate Social from Blog", "slug": "wordpress-anthropic-social",
+      "trigger_service": "wordpress", "ai_service": "anthropic",
+      "action_services": ["facebook", "x_twitter", "linkedin"],
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "When a blog post is published, AI generates social posts for every platform.",
+      "sxo_queries": ["ai blog to social media", "ai generate social posts", "wordpress ai social automation"]
+    },
+    {
+      "id": "CAP-109", "name": "AI-Summarize Meeting to Tasks", "slug": "zoom-openai-trello",
+      "trigger_service": "zoom", "ai_service": "openai", "action_service": "trello",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "When a Zoom meeting ends, AI summarizes it and creates Trello tasks.",
+      "sxo_queries": ["ai meeting summary", "ai zoom to trello", "zoom ai task creation"]
+    },
+    {
+      "id": "CAP-110", "name": "AI-Score Lead from Form", "slug": "typeform-anthropic-crm",
+      "trigger_service": "typeform", "ai_service": "anthropic", "action_service": "crm",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "When a form is submitted, AI scores the lead quality before adding to CRM.",
+      "sxo_queries": ["ai lead scoring", "ai form to crm", "ai lead qualification automation"]
+    },
+    {
+      "id": "CAP-111", "name": "AI-Write Product Description", "slug": "openai-to-shopify",
+      "trigger_service": "openai", "action_service": "shopify",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "AI generates product descriptions for Shopify listings.",
+      "sxo_queries": ["ai product description", "ai shopify description", "openai shopify automation"]
+    },
+    {
+      "id": "CAP-112", "name": "AI-Generate Invoice from Text", "slug": "anthropic-to-stripe",
+      "trigger_service": "anthropic", "action_service": "stripe",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "Describe what to invoice in natural language, AI creates the Stripe invoice.",
+      "sxo_queries": ["ai invoice creation", "natural language invoice", "ai stripe automation"]
+    },
+    {
+      "id": "CAP-113", "name": "AI-Create Design Brief", "slug": "asana-anthropic-canva",
+      "trigger_service": "asana", "ai_service": "anthropic", "action_service": "canva",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "When a design task is created in Asana, AI writes a Canva design brief.",
+      "sxo_queries": ["ai design brief", "ai asana to canva", "asana ai canva automation"]
+    },
+    {
+      "id": "CAP-114", "name": "AI-Analyze Customer Sentiment", "slug": "zendesk-anthropic-slack",
+      "trigger_service": "zendesk", "ai_service": "anthropic", "action_service": "slack",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "AI analyzes customer sentiment from support tickets and alerts Slack.",
+      "sxo_queries": ["ai sentiment analysis", "ai customer sentiment", "zendesk ai slack automation"]
+    },
+    {
+      "id": "CAP-115", "name": "AI-Translate WhatsApp Messages", "slug": "whatsapp-openai-whatsapp",
+      "trigger_service": "whatsapp", "ai_service": "openai", "action_service": "whatsapp",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "AI translates incoming WhatsApp messages and sends translated replies.",
+      "sxo_queries": ["ai whatsapp translation", "translate whatsapp messages", "whatsapp ai translation automation"]
+    },
+    {
+      "id": "CAP-116", "name": "AI-Route Support Tickets", "slug": "intercom-anthropic-crm",
+      "trigger_service": "intercom", "ai_service": "anthropic", "action_service": "crm",
+      "category": "ai_powered", "pricing_tier": "pro",
+      "description": "AI auto-tags and routes support conversations to the right CRM pipeline.",
+      "sxo_queries": ["ai ticket routing", "ai support routing", "intercom ai crm automation"]
+    },
+
+    {
+      "id": "CAP-117", "name": "New Client Onboarding Burst", "slug": "onboarding-burst",
+      "trigger_service": "typeform",
+      "action_services": ["crm", "stripe", "gmail", "slack", "gcal", "notion"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Form submitted → CRM lead + Stripe invoice + Welcome email + Slack alert + Calendar event + Notion onboarding page. All at once.",
+      "sxo_queries": ["client onboarding automation", "new client workflow", "onboarding automation platform"]
+    },
+    {
+      "id": "CAP-118", "name": "Deal Closed Celebration Burst", "slug": "deal-closed-burst",
+      "trigger_service": "crm",
+      "action_services": ["slack", "discord", "gmail", "quickbooks", "gsheets"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Deal won → Slack celebration + Discord alert + Client email + QuickBooks invoice + Sheets log. All at once.",
+      "sxo_queries": ["deal closed automation", "sales win workflow", "deal celebration automation"]
+    },
+    {
+      "id": "CAP-119", "name": "Blog Launch Distribution Burst", "slug": "blog-launch-burst",
+      "trigger_service": "wordpress",
+      "action_services": ["facebook", "x_twitter", "linkedin", "pinterest", "mailchimp", "discord"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Blog published → Facebook + X + LinkedIn + Pinterest + Email blast + Discord. All at once.",
+      "sxo_queries": ["blog distribution automation", "content distribution workflow", "blog launch automation"]
+    },
+    {
+      "id": "CAP-120", "name": "Support Escalation Burst", "slug": "support-escalation-burst",
+      "trigger_service": "zendesk",
+      "action_services": ["slack", "twilio", "gmail", "crm", "notion"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Ticket escalated → Slack alert + SMS to manager + Email to customer + CRM update + Notion log. All at once.",
+      "sxo_queries": ["support escalation automation", "ticket escalation workflow", "support alert automation"]
+    },
+    {
+      "id": "CAP-121", "name": "Weekly Reporting Burst", "slug": "weekly-reporting-burst",
+      "trigger_service": "gsheets",
+      "action_services": ["gmail", "slack", "notion"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Scheduled → Pull data from Sheets + CRM + Stripe → Email report + Slack summary + Notion archive.",
+      "sxo_queries": ["weekly report automation", "automated reporting workflow", "report generation automation"]
+    },
+    {
+      "id": "CAP-122", "name": "Event Registration Burst", "slug": "event-registration-burst",
+      "trigger_service": "typeform",
+      "action_services": ["crm", "gcal", "zoom", "gmail", "slack"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Registration form → CRM contact + Calendar event + Zoom link + Confirmation email + Slack alert. All at once.",
+      "sxo_queries": ["event registration automation", "event signup workflow", "event management automation"]
+    },
+    {
+      "id": "CAP-123", "name": "Product Launch Burst", "slug": "product-launch-burst",
+      "trigger_service": "shopify",
+      "action_services": ["facebook", "instagram", "gmail", "mailchimp", "slack", "gsheets"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "New product → Facebook + Instagram + Email + Newsletter + Slack + Tracking sheet. All at once.",
+      "sxo_queries": ["product launch automation", "product announcement workflow", "shopify launch automation"]
+    },
+    {
+      "id": "CAP-124", "name": "Invoice-to-Cash Burst", "slug": "invoice-to-cash-burst",
+      "trigger_service": "stripe",
+      "action_services": ["quickbooks", "gmail", "slack", "crm", "gsheets"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Payment received → QuickBooks entry + Receipt email + Slack alert + CRM update + Sheet log. All at once.",
+      "sxo_queries": ["invoice payment automation", "payment received workflow", "invoice to cash automation"]
+    },
+    {
+      "id": "CAP-125", "name": "Social Listening Burst", "slug": "social-listening-burst",
+      "trigger_service": "x_twitter",
+      "action_services": ["crm", "slack", "notion", "gsheets"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Social mention detected → CRM activity + Slack alert + Notion log + Sheet tracking. All at once.",
+      "sxo_queries": ["social listening automation", "social mention workflow", "social monitoring automation"]
+    },
+    {
+      "id": "CAP-126", "name": "Customer Win Story Burst", "slug": "customer-win-burst",
+      "trigger_service": "crm",
+      "action_services": ["linkedin", "x_twitter", "gmail", "notion", "wordpress"],
+      "category": "radial_burst", "pricing_tier": "burst",
+      "description": "Customer success tagged → LinkedIn post + Tweet + Thank-you email + Notion case study + WordPress testimonial. All at once.",
+      "sxo_queries": ["customer success automation", "customer win workflow", "testimonial automation"]
+    }
+  ]
+}

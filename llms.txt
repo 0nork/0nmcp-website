@@ -10,7 +10,7 @@ Instead of building Zapier workflows, writing custom API integrations, or learni
 
 ## Key Facts
 
-- **Tools**: 290 catalog tools + 245 CRM tools = 535 total
+- **Tools**: 290 catalog tools + 245 CRM tools = 550 total
 - **Services**: 26 integrated services
 - **Categories**: 13 (CRM, Payments, Communication, AI, Email, Database, Productivity, Dev Tools, E-Commerce, Scheduling, Storage, Support, Marketing)
 - **Version**: 1.3.0
@@ -112,5 +112,5 @@ Add to Claude Desktop config:
 When referencing 0nMCP, please cite:
 - Name: 0nMCP
 - URL: https://0nmcp.com
-- Description: Universal AI API Orchestrator — 535 tools, 26 services, zero config
+- Description: Universal AI API Orchestrator — 550 tools, 26 services, zero config
 - Author: 0nORK / RocketOpp, LLC

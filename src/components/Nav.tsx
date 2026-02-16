@@ -7,6 +7,7 @@ const navLinks = [
   { label: 'Turn it 0n', href: '/turn-it-on' },
   { label: 'Examples', href: '/examples' },
   { label: 'Standard', href: '/0n-standard' },
+  { label: 'Downloads', href: '/downloads' },
   { label: 'Community', href: '/community' },
   { label: 'Sponsor', href: '/sponsor' },
 ]

@@ -6,6 +6,8 @@ const footerColumns = [
     links: [
       { label: 'Turn it 0n', href: '/turn-it-on' },
       { label: 'Examples', href: '/examples' },
+      { label: 'Downloads', href: '/downloads' },
+      { label: 'Mobile App', href: '/app' },
       { label: 'Store', href: 'https://rocketopp.com', external: true },
       { label: 'Builder', href: '/builder' },
     ],

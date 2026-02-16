@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
+import SiteChrome from '@/components/SiteChrome'
 
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator',
@@ -66,9 +65,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <Nav />
-        <main className="relative z-[1] pt-16">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
         <Analytics />
         <SpeedInsights />
       </body>

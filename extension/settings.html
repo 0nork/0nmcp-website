@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="settings.css">
+  <title>0nMCP Settings</title>
+</head>
+<body>
+  <div class="settings">
+    <div class="header">
+      <span class="logo">0nMCP</span>
+      <span class="subtitle">Settings</span>
+    </div>
+
+    <div class="section">
+      <label class="label">Execution Mode</label>
+      <div class="radio-group">
+        <button class="radio active" id="modeAnthropic" data-mode="anthropic">Anthropic API</button>
+        <button class="radio" id="modeLocal" data-mode="local">Local Server</button>
+      </div>
+    </div>
+
+    <div class="section" id="anthropicSection">
+      <label class="label">API Key</label>
+      <input type="password" class="input" id="apiKey" placeholder="sk-ant-...">
+    </div>
+
+    <div class="section hidden" id="localSection">
+      <label class="label">Server URL</label>
+      <input type="text" class="input" id="serverUrl" placeholder="http://localhost:3939">
+    </div>
+
+    <div class="section">
+      <button class="test-btn" id="testBtn">Test Connection</button>
+    </div>
+
+    <div class="section hidden" id="statusSection">
+      <div class="status" id="statusMsg"></div>
+    </div>
+
+    <div class="section">
+      <button class="save-btn" id="saveBtn">Save</button>
+    </div>
+  </div>
+  <script src="settings.js"></script>
+</body>
+</html>

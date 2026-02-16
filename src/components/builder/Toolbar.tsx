@@ -6,7 +6,12 @@ import { exportWorkflow } from './exportWorkflow'
 import { importWorkflow } from './importWorkflow'
 import type { DotOnWorkflow } from './types'
 
-export default function Toolbar() {
+interface ToolbarProps {
+  aiChatOpen: boolean
+  onToggleAIChat: () => void
+}
+
+export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
   const { nodes, edges, settings } = useBuilder()
   const dispatch = useBuilderDispatch()
   const fileRef = useRef<HTMLInputElement>(null)
@@ -75,6 +80,12 @@ export default function Toolbar() {
         <span className="builder-step-count">
           {nodes.length} step{nodes.length !== 1 ? 's' : ''}
         </span>
+        <button
+          className={`builder-toolbar-btn ai ${aiChatOpen ? 'active' : ''}`}
+          onClick={onToggleAIChat}
+        >
+          AI Builder
+        </button>
         <button
           className="builder-toolbar-btn"
           onClick={() => dispatch({ type: 'TOGGLE_SETTINGS' })}

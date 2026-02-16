@@ -6,7 +6,7 @@ import ServicePaletteItem from './ServicePaletteItem'
 
 export default function ServicePalette() {
   const [search, setSearch] = useState('')
-  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set(['everyday']))
+  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set(['logic', 'everyday']))
 
   const categories = useMemo(() => getAllCategories(), [])
 

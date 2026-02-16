@@ -2,9 +2,9 @@
   "meta": {
     "version": "2.0.0",
     "generated": "2026-02-14",
-    "total_services": 59,
-    "total_base_tools": 1259,
-    "total_capabilities": 1385,
+    "total_services": 67,
+    "total_base_tools": 1289,
+    "total_capabilities": 1415,
     "schema": "0n-services-v2"
   },
   "categories": [
@@ -103,6 +103,14 @@
       "display_order": 12,
       "description": "For the builders.",
       "icon": "💻"
+    },
+    {
+      "id": "logic",
+      "label": "Logic & Control Flow",
+      "slug": "logic-control-flow",
+      "display_order": 0,
+      "description": "Delays, conditions, branching, loops, and workflow control.",
+      "icon": "🔀"
     }
   ],
   "services": [
@@ -5754,6 +5762,289 @@
         {
           "id": "jira_user_list",
           "name": "List Users"
+        }
+      ]
+    },
+    {
+      "id": "delay",
+      "name": "Delay",
+      "slug": "delay",
+      "icon": "⏱",
+      "logo": "",
+      "category_id": "logic",
+      "display_order": 1,
+      "status": "live",
+      "federation_source": "internal",
+      "mcp_package": null,
+      "adapter_file": null,
+      "description_short": "Pause workflow execution for a specified duration.",
+      "description_long": "Add timed pauses between workflow steps. Wait for seconds, minutes, or hours before continuing to the next step. Essential for rate limiting, API cooldowns, and timed sequences.",
+      "sxo_keywords": ["delay", "wait", "pause", "sleep", "timer", "cooldown"],
+      "tool_count": 3,
+      "tools": [
+        {
+          "id": "delay_wait",
+          "name": "Wait",
+          "description": "Pause execution for a fixed duration (seconds, minutes, or hours)"
+        },
+        {
+          "id": "delay_until",
+          "name": "Wait Until",
+          "description": "Pause execution until a specific date/time is reached"
+        },
+        {
+          "id": "delay_random",
+          "name": "Random Delay",
+          "description": "Pause for a random duration within a range (for natural timing)"
+        }
+      ]
+    },
+    {
+      "id": "schedule",
+      "name": "Schedule",
+      "slug": "schedule",
+      "icon": "📅",
+      "logo": "",
+      "category_id": "logic",
+      "display_order": 2,
+      "status": "live",
+      "federation_source": "internal",
+      "mcp_package": null,
+      "adapter_file": null,
+      "description_short": "Trigger workflows on a schedule or at specific times.",
+      "description_long": "Run workflows on cron schedules, at specific times, or on recurring intervals. Combine with conditions for business-hours-only execution, weekend skipping, and timezone-aware scheduling.",
+      "sxo_keywords": ["schedule", "cron", "recurring", "timed", "interval", "calendar trigger"],
+      "tool_count": 4,
+      "tools": [
+        {
+          "id": "schedule_cron",
+          "name": "Cron Schedule",
+          "description": "Trigger on a cron expression (e.g., every Monday at 9am)"
+        },
+        {
+          "id": "schedule_interval",
+          "name": "Recurring Interval",
+          "description": "Trigger every N minutes, hours, or days"
+        },
+        {
+          "id": "schedule_once",
+          "name": "Run Once At",
+          "description": "Schedule a one-time execution at a specific date/time"
+        },
+        {
+          "id": "schedule_business_hours",
+          "name": "Business Hours Only",
+          "description": "Only execute during specified business hours and days"
+        }
+      ]
+    },
+    {
+      "id": "condition",
+      "name": "If / Else",
+      "slug": "if-else",
+      "icon": "🔀",
+      "logo": "",
+      "category_id": "logic",
+      "display_order": 3,
+      "status": "live",
+      "federation_source": "internal",
+      "mcp_package": null,
+      "adapter_file": null,
+      "description_short": "Branch workflow based on conditions and logic.",
+      "description_long": "Add conditional branching to your workflows. Evaluate expressions, compare values, check data existence, and route execution down different paths. The foundation of intelligent automation.",
+      "sxo_keywords": ["if else", "condition", "branch", "logic", "decision", "conditional", "routing"],
+      "tool_count": 5,
+      "tools": [
+        {
+          "id": "condition_if",
+          "name": "If / Else",
+          "description": "Branch based on a true/false condition expression"
+        },
+        {
+          "id": "condition_switch",
+          "name": "Switch / Case",
+          "description": "Route to different branches based on a value matching multiple cases"
+        },
+        {
+          "id": "condition_exists",
+          "name": "Data Exists",
+          "description": "Check if a value exists, is not null/empty, and branch accordingly"
+        },
+        {
+          "id": "condition_compare",
+          "name": "Compare Values",
+          "description": "Compare two values (equals, greater than, less than, contains, matches regex)"
+        },
+        {
+          "id": "condition_gate",
+          "name": "Gate / Approval",
+          "description": "Pause workflow and wait for manual approval or external signal before continuing"
+        }
+      ]
+    },
+    {
+      "id": "loop",
+      "name": "Loop",
+      "slug": "loop",
+      "icon": "🔁",
+      "logo": "",
+      "category_id": "logic",
+      "display_order": 4,
+      "status": "live",
+      "federation_source": "internal",
+      "mcp_package": null,
+      "adapter_file": null,
+      "description_short": "Iterate over lists, repeat actions, and batch process data.",
+      "description_long": "Process arrays and lists by running steps for each item. Supports for-each iteration, while loops with exit conditions, batch processing with configurable chunk sizes, and parallel iteration for maximum throughput.",
+      "sxo_keywords": ["loop", "iterate", "for each", "repeat", "batch", "while", "map"],
+      "tool_count": 4,
+      "tools": [
+        {
+          "id": "loop_foreach",
+          "name": "For Each",
+          "description": "Execute steps once for each item in an array or list"
+        },
+        {
+          "id": "loop_while",
+          "name": "While Loop",
+          "description": "Repeat steps while a condition remains true (with max iteration safety)"
+        },
+        {
+          "id": "loop_batch",
+          "name": "Batch Process",
+          "description": "Process items in configurable batch sizes with optional delay between batches"
+        },
+        {
+          "id": "loop_parallel_each",
+          "name": "Parallel For Each",
+          "description": "Process all items simultaneously using Radial Burst parallel execution"
+        }
+      ]
+    },
+    {
+      "id": "transform",
+      "name": "Transform",
+      "slug": "transform",
+      "icon": "🔧",
+      "logo": "",
+      "category_id": "logic",
+      "display_order": 5,
+      "status": "live",
+      "federation_source": "internal",
+      "mcp_package": null,
+      "adapter_file": null,
+      "description_short": "Map, filter, reshape, and transform data between steps.",
+      "description_long": "Transform data as it flows through your workflow. Map fields between services, filter arrays, merge objects, extract values with JSONPath, and format data for downstream steps. The glue that connects incompatible APIs.",
+      "sxo_keywords": ["transform", "map", "filter", "reshape", "convert", "format", "parse", "extract"],
+      "tool_count": 6,
+      "tools": [
+        {
+          "id": "transform_map",
+          "name": "Map Fields",
+          "description": "Rename, rearrange, and reshape object fields from one format to another"
+        },
+        {
+          "id": "transform_filter",
+          "name": "Filter Array",
+          "description": "Keep only items that match a condition from an array"
+        },
+        {
+          "id": "transform_merge",
+          "name": "Merge Objects",
+          "description": "Combine multiple objects or arrays into one"
+        },
+        {
+          "id": "transform_extract",
+          "name": "Extract Value",
+          "description": "Pull a specific value from nested data using a path expression"
+        },
+        {
+          "id": "transform_format",
+          "name": "Format Text",
+          "description": "Build formatted strings using templates and variable interpolation"
+        },
+        {
+          "id": "transform_compute",
+          "name": "Compute",
+          "description": "Perform math operations, string manipulation, or date calculations"
+        }
+      ]
+    },
+    {
+      "id": "trigger",
+      "name": "Trigger",
+      "slug": "trigger",
+      "icon": "⚡",
+      "logo": "",
+      "category_id": "logic",
+      "display_order": 6,
+      "status": "live",
+      "federation_source": "internal",
+      "mcp_package": null,
+      "adapter_file": null,
+      "description_short": "Start workflows from webhooks, events, or manual triggers.",
+      "description_long": "Define how your workflow starts. Listen for incoming webhooks, respond to service events, accept manual triggers, or start from form submissions. Every workflow needs a trigger — this is where it begins.",
+      "sxo_keywords": ["trigger", "webhook", "event", "start", "manual", "form", "inbound"],
+      "tool_count": 4,
+      "tools": [
+        {
+          "id": "trigger_webhook",
+          "name": "Webhook Trigger",
+          "description": "Start workflow when an HTTP webhook is received"
+        },
+        {
+          "id": "trigger_manual",
+          "name": "Manual Trigger",
+          "description": "Start workflow manually with optional input parameters"
+        },
+        {
+          "id": "trigger_event",
+          "name": "Event Listener",
+          "description": "Start workflow when a specific event fires from another service"
+        },
+        {
+          "id": "trigger_form",
+          "name": "Form Submission",
+          "description": "Start workflow when a form is submitted with captured data"
+        }
+      ]
+    },
+    {
+      "id": "error_handling",
+      "name": "Error Handling",
+      "slug": "error-handling",
+      "icon": "🛡",
+      "logo": "",
+      "category_id": "logic",
+      "display_order": 7,
+      "status": "live",
+      "federation_source": "internal",
+      "mcp_package": null,
+      "adapter_file": null,
+      "description_short": "Catch errors, retry failures, and handle edge cases.",
+      "description_long": "Make your workflows resilient. Catch and handle errors from any step, set up automatic retries with exponential backoff, define fallback paths, and send alerts when things go wrong.",
+      "sxo_keywords": ["error", "catch", "retry", "fallback", "try catch", "error handling", "resilience"],
+      "tool_count": 4,
+      "tools": [
+        {
+          "id": "error_try_catch",
+          "name": "Try / Catch",
+          "description": "Wrap steps in error handling — catch failures and run fallback steps"
+        },
+        {
+          "id": "error_retry",
+          "name": "Retry with Backoff",
+          "description": "Automatically retry a failed step with configurable delay and max attempts"
+        },
+        {
+          "id": "error_alert",
+          "name": "Error Alert",
+          "description": "Send a notification (email, Slack, webhook) when an error occurs"
+        },
+        {
+          "id": "error_stop",
+          "name": "Stop Workflow",
+          "description": "Immediately halt the entire workflow with a status message"
         }
       ]
     }

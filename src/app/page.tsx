@@ -138,15 +138,6 @@ export default function HomePage() {
           HERO
           ============================================ */}
       <section className="relative min-h-screen flex items-center justify-center px-8 pt-32 pb-16">
-        {/* Glow */}
-        <div
-          className="absolute w-[600px] h-[600px] top-[10%] left-1/2 -translate-x-1/2 pointer-events-none animate-pulse-glow rounded-full"
-          style={{
-            background:
-              'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
-          }}
-        />
-
         <div className="max-w-[900px] text-center relative z-[2]">
           {/* Badge */}
           <div
@@ -248,48 +239,31 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Trust Seals */}
-        <div className="trust-seals" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
-          <div className="trust-seal">
-            <div className="trust-seal-icon" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-            </div>
-            <span className="trust-seal-label">AES-256 Encrypted</span>
-            <span className="trust-seal-sub">Client-Side Vault</span>
-          </div>
-          <div className="trust-seal">
-            <div className="trust-seal-icon" style={{ background: 'rgba(0,212,255,0.1)', color: '#00d4ff' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <span className="trust-seal-label">HMAC Signed</span>
-            <span className="trust-seal-sub">.0n File Integrity</span>
-          </div>
-          <div className="trust-seal">
-            <div className="trust-seal-icon" style={{ background: 'rgba(255,107,53,0.1)', color: '#ff6b35' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            </div>
-            <span className="trust-seal-label">MIT Licensed</span>
-            <span className="trust-seal-sub">Open Source</span>
-          </div>
-          <div className="trust-seal">
-            <div className="trust-seal-icon" style={{ background: 'rgba(124,58,237,0.1)', color: '#a78bfa' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>
-            </div>
-            <span className="trust-seal-label">Patent Pending</span>
-            <span className="trust-seal-sub">Three-Level Execution</span>
-          </div>
-          <div className="trust-seal">
-            <div className="trust-seal-icon" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg>
-            </div>
-            <span className="trust-seal-label">Free Forever</span>
-            <span className="trust-seal-sub">No Credit Card</span>
-          </div>
+        {/* Compact trust bar */}
+        <div
+          className="flex flex-wrap justify-center gap-6 mt-4 animate-fade-in-up"
+          style={{ animationDelay: '0.6s', animationFillMode: 'both' }}
+        >
+          {[
+            { label: 'AES-256 Encrypted', color: '#00ff88' },
+            { label: 'HMAC Signed', color: '#00d4ff' },
+            { label: 'MIT Licensed', color: '#a78bfa' },
+            { label: 'Free Forever', color: '#00ff88' },
+          ].map((t) => (
+            <span
+              key={t.label}
+              className="flex items-center gap-2 text-xs"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: t.color }} />
+              {t.label}
+            </span>
+          ))}
         </div>
       </section>
 
       {/* ============================================
-          PROBLEM / SOLUTION
+          WHAT 0nMCP DOES
           ============================================ */}
       <section
         className="py-24 px-8"
@@ -304,7 +278,7 @@ export default function HomePage() {
             className="font-mono text-xs uppercase tracking-[0.15em] block mb-4"
             style={{ color: 'var(--accent)' }}
           >
-            The Problem
+            The Problem &amp; Solution
           </span>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
             Too Many APIs. Too Many Connectors.
@@ -314,90 +288,136 @@ export default function HomePage() {
             </span>
           </h2>
           <p
-            className="text-lg max-w-[600px] leading-relaxed mb-12"
+            className="text-lg max-w-[700px] leading-relaxed mb-12"
             style={{ color: 'var(--text-secondary)' }}
           >
             Every AI assistant connects to services individually. No chaining.
-            No automation. No orchestration. You are left manually coordinating
-            tools that should just work as a system.
+            No automation. No orchestration. 0nMCP changes that -- one orchestrator
+            that federates 26 services into a single, automated system.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Problem */}
-            <div
-              className="p-8 rounded-xl"
-              style={{
-                background: 'rgba(255,107,53,0.05)',
-                border: '1px solid rgba(255,107,53,0.2)',
-              }}
-            >
-              <h3
-                className="font-mono text-sm uppercase tracking-wide mb-6"
-                style={{ color: '#ff6b35' }}
-              >
-                Without 0nMCP
-              </h3>
-              <ul className="flex flex-col gap-3 list-none">
-                {[
-                  'Connect to each API separately',
-                  'Manually coordinate multi-step processes',
-                  'No workflow persistence or state tracking',
-                  'Different config format per client',
-                  'No parallel execution across services',
-                  'Workflows stuck on one machine',
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm leading-relaxed"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    <span style={{ color: '#ff6b35' }} className="flex-shrink-0">
-                      &#10005;
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Hero image: connected services dashboard */}
+          <div className="mb-12 rounded-xl overflow-hidden" style={{ border: '1px solid var(--border)' }}>
+            <img
+              src="/images/hero-network.jpg"
+              alt="Network of connected API services and automation pipelines representing 0nMCP's orchestration layer"
+              width={1100}
+              height={500}
+              className="w-full h-auto object-cover"
+              style={{ maxHeight: '400px' }}
+              loading="eager"
+            />
+          </div>
 
-            {/* Solution */}
-            <div
-              className="p-8 rounded-xl"
-              style={{
-                background: 'rgba(0,255,136,0.03)',
-                border: '1px solid rgba(0,255,136,0.15)',
-              }}
-            >
-              <h3
-                className="font-mono text-sm uppercase tracking-wide mb-6"
-                style={{ color: 'var(--accent)' }}
+          {/* What changes: before vs after as stacked list */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
+            {[
+              { before: 'Connect to each API separately', after: 'Describe what you want, 0nMCP handles the rest' },
+              { before: 'Manually coordinate multi-step processes', after: 'Chain tools into automated multi-phase workflows' },
+              { before: 'No workflow persistence or state tracking', after: 'Full execution logging, state, and audit trail' },
+              { before: 'Different config format per client', after: 'Universal .0n config -- write once, run everywhere' },
+              { before: 'No parallel execution across services', after: 'Radial Burst parallel execution across services' },
+              { before: 'Workflows stuck on one machine', after: 'Export, share, and sell portable workflow packages' },
+            ].map((row) => (
+              <div
+                key={row.before}
+                className="p-5 rounded-lg"
+                style={{
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                }}
               >
-                With 0nMCP
-              </h3>
-              <ul className="flex flex-col gap-3 list-none">
-                {[
-                  'Describe what you want, 0nMCP handles the rest',
-                  'Chain tools into automated multi-phase workflows',
-                  'Full execution logging, state, and audit trail',
-                  'Universal .0n config standard -- write once, run everywhere',
-                  'Radial Burst parallel execution across services',
-                  'Export, share, and sell portable workflow packages',
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm leading-relaxed"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    <span
-                      style={{ color: 'var(--accent)' }}
-                      className="flex-shrink-0"
-                    >
-                      &#10003;
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+                <div className="flex items-start gap-3 mb-2">
+                  <span style={{ color: '#ff6b35' }} className="flex-shrink-0 text-sm">&#10005;</span>
+                  <span className="text-sm line-through" style={{ color: 'var(--text-muted)' }}>{row.before}</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span style={{ color: 'var(--accent)' }} className="flex-shrink-0 text-sm">&#10003;</span>
+                  <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{row.after}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Security & Trust */}
+          <div className="pt-8" style={{ borderTop: '1px solid var(--border)' }}>
+            <span
+              className="font-mono text-xs uppercase tracking-[0.15em] block mb-4"
+              style={{ color: 'var(--accent)' }}
+            >
+              Security &amp; Trust
+            </span>
+            <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+              Enterprise-grade security. Zero compromise.
+            </h3>
+            <p
+              className="text-base max-w-[600px] leading-relaxed mb-8"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Your API keys never leave your machine unencrypted. Every workflow file
+              is cryptographically signed. Full audit trail on every execution.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+              {/* Security image */}
+              <div className="rounded-xl overflow-hidden sm:col-span-2 lg:col-span-1 lg:row-span-2" style={{ border: '1px solid var(--border)' }}>
+                <img
+                  src="/images/security-lock.jpg"
+                  alt="Encrypted security infrastructure protecting API credentials and workflow data"
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover"
+                  style={{ minHeight: '200px' }}
+                  loading="lazy"
+                />
+              </div>
+              {[
+                {
+                  title: 'AES-256 Encrypted Vault',
+                  desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk.',
+                  color: '#00ff88',
+                },
+                {
+                  title: 'HMAC-Signed .0n Files',
+                  desc: 'Every workflow file is signed on export. Tampered or unauthorized files are rejected on import.',
+                  color: '#00d4ff',
+                },
+                {
+                  title: 'MIT Licensed & Open Source',
+                  desc: 'Fully auditable code. No vendor lock-in. Inspect every line of the orchestrator yourself.',
+                  color: '#a78bfa',
+                },
+                {
+                  title: 'Patent-Pending Architecture',
+                  desc: 'Three-Level Execution Hierarchy is patent-pending. Pipeline, Assembly Line, and Radial Burst.',
+                  color: '#ff6b35',
+                },
+                {
+                  title: 'Free Forever',
+                  desc: 'All 26 services, all 80+ automations, unlimited local use. No credit card. No trial period.',
+                  color: '#00ff88',
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="p-5 rounded-xl"
+                  style={{
+                    backgroundColor: 'var(--bg-card)',
+                    border: '1px solid var(--border)',
+                  }}
+                >
+                  <div
+                    className="w-2 h-2 rounded-full mb-3"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <h4 className="text-sm font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                    {item.title}
+                  </h4>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -408,23 +428,37 @@ export default function HomePage() {
           ============================================ */}
       <section className="py-24 px-8" id="how-it-works">
         <div className="max-w-[1100px] mx-auto">
-          <span
-            className="font-mono text-xs uppercase tracking-[0.15em] block mb-4"
-            style={{ color: 'var(--accent)' }}
-          >
-            Patented Architecture
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            Three-Level Execution Hierarchy
-          </h2>
-          <p
-            className="text-lg max-w-[600px] leading-relaxed mb-12"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            The only AI API orchestrator with a patented Pipeline &rarr; Assembly
-            Line &rarr; Radial Burst execution model. Sequential phases.
-            Decision points. Parallel actions.
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+            <div>
+              <span
+                className="font-mono text-xs uppercase tracking-[0.15em] block mb-4"
+                style={{ color: 'var(--accent)' }}
+              >
+                Patented Architecture
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                Three-Level Execution Hierarchy
+              </h2>
+              <p
+                className="text-lg leading-relaxed"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                The only AI API orchestrator with a patented Pipeline &rarr; Assembly
+                Line &rarr; Radial Burst execution model. Sequential phases.
+                Decision points. Parallel actions.
+              </p>
+            </div>
+            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--border)' }}>
+              <img
+                src="/images/dashboard-analytics.jpg"
+                alt="Data analytics dashboard showing real-time workflow execution metrics and automation performance"
+                width={550}
+                height={350}
+                className="w-full h-auto object-cover"
+                loading="lazy"
+              />
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -536,15 +570,36 @@ export default function HomePage() {
           ============================================ */}
       <section className="py-24 px-8">
         <div className="max-w-[1100px] mx-auto">
-          <span
-            className="font-mono text-xs uppercase tracking-[0.15em] block mb-4"
-            style={{ color: 'var(--accent)' }}
-          >
-            Quick Start
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12">
-            Three Steps. That&apos;s It.
-          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+            <div className="rounded-xl overflow-hidden order-2 lg:order-1" style={{ border: '1px solid var(--border)' }}>
+              <img
+                src="/images/team-collaboration.jpg"
+                alt="Team of developers collaborating on AI-powered workflow automation using laptops"
+                width={550}
+                height={350}
+                className="w-full h-auto object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div className="order-1 lg:order-2">
+              <span
+                className="font-mono text-xs uppercase tracking-[0.15em] block mb-4"
+                style={{ color: 'var(--accent)' }}
+              >
+                Quick Start
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                Three Steps. That&apos;s It.
+              </h2>
+              <p
+                className="text-base leading-relaxed"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Install in seconds, connect your services, and describe what you need.
+                0nMCP handles the orchestration across all 26 services automatically.
+              </p>
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[

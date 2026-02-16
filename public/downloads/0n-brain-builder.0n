@@ -1,0 +1,451 @@
+{
+  "name": "0n-brain-builder",
+  "version": "0.2",
+  "description": "THE BRAIN BUILDER — Imports credentials, scans your CRM, AI-analyzes your business, generates operations, deploys native CRM automations, bundles everything into an encrypted portable AI brain, and launches across all channels. 23 steps, 13 services, 3 radial bursts. The 10% that connects everything.",
+  "author": "RocketOpp LLC",
+  "env": {
+    "ANTHROPIC_API_KEY": "{{env.ANTHROPIC_API_KEY}}",
+    "CRM_API_KEY": "{{env.CRM_API_KEY}}",
+    "CRM_LOCATION_ID": "{{env.CRM_LOCATION_ID}}",
+    "SUPABASE_URL": "{{env.SUPABASE_URL}}",
+    "SUPABASE_ANON_KEY": "{{env.SUPABASE_ANON_KEY}}",
+    "STRIPE_SECRET_KEY": "{{env.STRIPE_SECRET_KEY}}",
+    "GMAIL_CREDENTIALS": "{{env.GMAIL_CREDENTIALS}}",
+    "TWILIO_ACCOUNT_SID": "{{env.TWILIO_ACCOUNT_SID}}",
+    "TWILIO_AUTH_TOKEN": "{{env.TWILIO_AUTH_TOKEN}}",
+    "TWILIO_PHONE_NUMBER": "{{env.TWILIO_PHONE_NUMBER}}",
+    "SLACK_BOT_TOKEN": "{{env.SLACK_BOT_TOKEN}}",
+    "DISCORD_BOT_TOKEN": "{{env.DISCORD_BOT_TOKEN}}",
+    "GITHUB_TOKEN": "{{env.GITHUB_TOKEN}}",
+    "FACEBOOK_PAGE_TOKEN": "{{env.FACEBOOK_PAGE_TOKEN}}",
+    "VAULT_PASSPHRASE": "{{env.VAULT_PASSPHRASE}}",
+    "BRAIN_NAME": "{{env.BRAIN_NAME}}"
+  },
+  "variables": {
+    "business_name": "",
+    "business_type": "",
+    "owner_email": "",
+    "brain_version": "1.0.0",
+    "pipeline_name": "{{variables.business_name}} — AI Pipeline",
+    "export_path": "~/.0n/brains/{{variables.business_name}}"
+  },
+  "on_complete": "webhook",
+  "metadata": {
+    "pipeline": "brain-builder",
+    "environment": "production",
+    "tags": ["brain-builder", "franchise", "autonomous-ai", "0n-network", "patent-pending"]
+  },
+  "steps": [
+    {
+      "id": "import-credentials",
+      "name": "0nMCP Engine",
+      "mcp_server": "openai",
+      "tool": "oai_chat_complete",
+      "inputs": {
+        "source": "{{variables.export_path}}/.env",
+        "format": "auto",
+        "description": "Import all API credentials from .env, CSV, or JSON source. Auto-detect format and map to 26 services."
+      },
+      "outputs": {
+        "connections": "{{step.output.mapped_services}}",
+        "service_count": "{{step.output.total_mapped}}"
+      }
+    },
+    {
+      "id": "verify-connections",
+      "name": "0nMCP Engine",
+      "mcp_server": "openai",
+      "tool": "oai_complete",
+      "inputs": {
+        "connections": "{{step.import-credentials.output.connections}}",
+        "mode": "verify-all",
+        "description": "Verify every imported API key against its service. Report healthy vs failed connections."
+      },
+      "outputs": {
+        "healthy": "{{step.output.verified_services}}",
+        "failed": "{{step.output.failed_services}}",
+        "health_report": "{{step.output.report}}"
+      },
+      "depends_on": ["import-credentials"],
+      "on_fail": "skip"
+    },
+    {
+      "id": "scan-contacts",
+      "name": "HubSpot",
+      "mcp_server": "hubspot",
+      "tool": "hs_contact_list",
+      "inputs": {
+        "limit": "100",
+        "properties": "email,firstname,lastname,lifecyclestage,hs_lead_status",
+        "description": "Pull all CRM contacts — names, emails, lifecycle stages, lead status. This is the business's customer universe."
+      },
+      "outputs": {
+        "contacts": "{{step.output.results}}",
+        "total_contacts": "{{step.output.total}}"
+      },
+      "depends_on": ["verify-connections"],
+      "parallel_group": "crm-scan"
+    },
+    {
+      "id": "scan-pipelines",
+      "name": "Pipedrive",
+      "mcp_server": "pipedrive",
+      "tool": "pd_deal_list",
+      "inputs": {
+        "description": "Pull all CRM pipelines, stages, and opportunity data. Map the business's current sales process."
+      },
+      "outputs": {
+        "pipelines": "{{step.output.results}}",
+        "stage_map": "{{step.output.stages}}"
+      },
+      "depends_on": ["verify-connections"],
+      "parallel_group": "crm-scan"
+    },
+    {
+      "id": "scan-calendars",
+      "name": "Google Calendar",
+      "mcp_server": "gcal",
+      "tool": "gcal_event_list",
+      "inputs": {
+        "calendar_id": "primary",
+        "time_min": "{{system.date}}",
+        "max_results": "50",
+        "description": "Pull all calendar configurations — appointment types, availability windows, booking links."
+      },
+      "outputs": {
+        "calendars": "{{step.output.results}}",
+        "availability": "{{step.output.summary}}"
+      },
+      "depends_on": ["verify-connections"],
+      "parallel_group": "crm-scan"
+    },
+    {
+      "id": "scan-conversations",
+      "name": "Slack",
+      "mcp_server": "slack",
+      "tool": "slack_channel_list",
+      "inputs": {
+        "description": "Pull recent conversation threads — identify communication patterns, response times, sentiment."
+      },
+      "outputs": {
+        "conversations": "{{step.output.results}}",
+        "response_metrics": "{{step.output.analytics}}"
+      },
+      "depends_on": ["verify-connections"],
+      "parallel_group": "crm-scan"
+    },
+    {
+      "id": "analyze-business",
+      "name": "Anthropic (Claude)",
+      "mcp_server": "anthropic",
+      "tool": "ant_message_create",
+      "inputs": {
+        "model": "claude-sonnet-4-5-20250929",
+        "max_tokens": "4096",
+        "system": "You are the 0n Brain Builder. Analyze this business data and produce a complete Business Intelligence Profile. Include: business type, customer segments, sales cycle stages, communication channels used, revenue patterns, automation opportunities, and recommended operations. Output as structured JSON.",
+        "message": "CONTACTS: {{step.scan-contacts.output.contacts}}\nPIPELINES: {{step.scan-pipelines.output.pipelines}}\nCALENDARS: {{step.scan-calendars.output.calendars}}\nCONVERSATIONS: {{step.scan-conversations.output.conversations}}\nHEALTH: {{step.verify-connections.output.health_report}}"
+      },
+      "outputs": {
+        "business_profile": "{{step.output.content}}",
+        "segments": "{{step.output.segments}}",
+        "opportunities": "{{step.output.automation_opportunities}}"
+      },
+      "depends_on": ["scan-contacts", "scan-pipelines", "scan-calendars", "scan-conversations"]
+    },
+    {
+      "id": "generate-operations",
+      "name": "Anthropic (Claude)",
+      "mcp_server": "anthropic",
+      "tool": "ant_message_create",
+      "inputs": {
+        "model": "claude-sonnet-4-5-20250929",
+        "max_tokens": "8192",
+        "system": "You are the 0n Brain Builder. Given this Business Intelligence Profile, generate a complete set of Federated Operating Procedures (FOPs). Each operation must follow the three-level hierarchy: Phase (Pipeline) → Moment (Assembly Line) → Action (Radial Burst). Output as .fed JSON format with operations array, each containing phases, moments, and actions. Include: lead-capture, lead-nurture, appointment-booking, follow-up-sequence, payment-collection, onboarding, retention, and win-back operations.",
+        "message": "BUSINESS PROFILE:\n{{step.analyze-business.output.business_profile}}\n\nAVAILABLE SERVICES: {{step.verify-connections.output.healthy}}\n\nBUSINESS: {{variables.business_name}} ({{variables.business_type}})"
+      },
+      "outputs": {
+        "operations": "{{step.output.content}}",
+        "operation_count": "{{step.output.operation_count}}",
+        "fed_blueprint": "{{step.output.fed_json}}"
+      },
+      "depends_on": ["analyze-business"]
+    },
+    {
+      "id": "store-blueprint",
+      "name": "Supabase",
+      "mcp_server": "supabase",
+      "tool": "sb_insert",
+      "inputs": {
+        "table": "brain_blueprints",
+        "data": "{\"business_name\": \"{{variables.business_name}}\", \"business_type\": \"{{variables.business_type}}\", \"profile\": {{step.analyze-business.output.business_profile}}, \"operations\": {{step.generate-operations.output.operations}}, \"version\": \"{{variables.brain_version}}\", \"created_by\": \"{{variables.owner_email}}\"}",
+        "description": "Persist the complete blueprint to Supabase — business profile + all generated operations. This is the brain's permanent memory."
+      },
+      "outputs": {
+        "blueprint_id": "{{step.output.id}}",
+        "stored_at": "{{step.output.created_at}}"
+      },
+      "depends_on": ["generate-operations"]
+    },
+    {
+      "id": "create-pipeline",
+      "name": "Pipedrive",
+      "mcp_server": "pipedrive",
+      "tool": "pd_deal_create",
+      "inputs": {
+        "name": "{{variables.pipeline_name}}",
+        "stages": "{{step.generate-operations.output.operations}}",
+        "description": "Create the master CRM pipeline with stages mapped from MCPFED phases. Each phase becomes a pipeline stage: Capture → Qualify → Nurture → Close → Onboard → Retain."
+      },
+      "outputs": {
+        "pipeline_id": "{{step.output.id}}",
+        "stage_ids": "{{step.output.stages}}"
+      },
+      "depends_on": ["store-blueprint"]
+    },
+    {
+      "id": "create-workflows",
+      "name": "HubSpot",
+      "mcp_server": "hubspot",
+      "tool": "hs_workflow_create",
+      "inputs": {
+        "pipeline_id": "{{step.create-pipeline.output.pipeline_id}}",
+        "operations": "{{step.generate-operations.output.operations}}",
+        "description": "Create CRM workflow automations from MCPFED moments. Each moment becomes a workflow trigger with conditions. Map actions to CRM automation steps: send email, send SMS, add tag, move stage, create task, book appointment."
+      },
+      "outputs": {
+        "workflow_ids": "{{step.output.ids}}",
+        "automation_count": "{{step.output.total}}"
+      },
+      "depends_on": ["create-pipeline"]
+    },
+    {
+      "id": "deploy-email",
+      "name": "Gmail",
+      "mcp_server": "gmail",
+      "tool": "gmail_draft_create",
+      "inputs": {
+        "to": "{{variables.owner_email}}",
+        "subject": "[0n Brain] Email templates ready — {{variables.business_name}}",
+        "body": "{{step.generate-operations.output.operations}}",
+        "description": "Create email templates for every operation that requires email actions. Nurture sequences, follow-ups, appointment confirmations, payment receipts, onboarding welcome, win-back campaigns."
+      },
+      "outputs": {
+        "template_ids": "{{step.output.draft_ids}}",
+        "template_count": "{{step.output.total}}"
+      },
+      "depends_on": ["create-workflows"],
+      "parallel_group": "channel-deploy"
+    },
+    {
+      "id": "deploy-sms",
+      "name": "Twilio",
+      "mcp_server": "twilio",
+      "tool": "twilio_sms_send",
+      "inputs": {
+        "to": "{{variables.owner_email}}",
+        "from": "{{env.TWILIO_PHONE_NUMBER}}",
+        "body": "0n Brain Builder: SMS channel configured for {{variables.business_name}}. {{step.create-workflows.output.automation_count}} automations deployed.",
+        "description": "Configure SMS templates for every operation that requires text actions. Appointment reminders, quick follow-ups, payment links, two-way conversations."
+      },
+      "outputs": {
+        "sms_templates": "{{step.output.template_ids}}",
+        "channel_status": "active"
+      },
+      "depends_on": ["create-workflows"],
+      "parallel_group": "channel-deploy"
+    },
+    {
+      "id": "deploy-social",
+      "name": "Facebook",
+      "mcp_server": "facebook",
+      "tool": "fb_page_post",
+      "inputs": {
+        "page_id": "{{env.FACEBOOK_PAGE_ID}}",
+        "message": "{{step.generate-operations.output.operations}}",
+        "description": "Configure social media posting templates for operations that require social actions. Lead magnets, testimonials, engagement posts, retargeting content."
+      },
+      "outputs": {
+        "social_templates": "{{step.output.template_ids}}",
+        "channel_status": "active"
+      },
+      "depends_on": ["create-workflows"],
+      "parallel_group": "channel-deploy"
+    },
+    {
+      "id": "configure-booking",
+      "name": "Google Calendar",
+      "mcp_server": "gcal",
+      "tool": "gcal_event_create",
+      "inputs": {
+        "calendar_id": "primary",
+        "summary": "{{variables.business_name}} — AI-Managed Booking",
+        "description": "Configure calendar booking automation. Map appointment types from operations, set availability windows, create booking confirmation and reminder sequences."
+      },
+      "outputs": {
+        "calendar_config": "{{step.output.id}}",
+        "booking_link": "{{step.output.link}}"
+      },
+      "depends_on": ["create-workflows"],
+      "parallel_group": "channel-deploy"
+    },
+    {
+      "id": "setup-payments",
+      "name": "Stripe",
+      "mcp_server": "stripe",
+      "tool": "stripe_product_create",
+      "inputs": {
+        "name": "{{variables.business_name}} — Services",
+        "description": "AI-managed payment product for {{variables.business_type}}",
+        "metadata": "{\"brain_id\": \"{{step.store-blueprint.output.blueprint_id}}\", \"managed_by\": \"0n-brain-builder\"}"
+      },
+      "outputs": {
+        "product_id": "{{step.output.id}}",
+        "payment_links": "{{step.output.links}}"
+      },
+      "depends_on": ["create-workflows"],
+      "parallel_group": "channel-deploy"
+    },
+    {
+      "id": "export-brain",
+      "name": "Airtable",
+      "mcp_server": "airtable",
+      "tool": "at_record_create",
+      "inputs": {
+        "name": "{{variables.business_name}}",
+        "format": "0nbrain",
+        "include_workflows": "true",
+        "include_operations": "true",
+        "include_credentials": "true",
+        "include_templates": "true",
+        "output_path": "{{variables.export_path}}/{{variables.business_name}}.0nbrain",
+        "description": "Package everything into a single encrypted .0nbrain bundle: .0n workflows + .fed operations + encrypted credentials + email/SMS/social templates + CRM pipeline config + payment products + calendar settings."
+      },
+      "outputs": {
+        "brain_path": "{{step.output.path}}",
+        "brain_size": "{{step.output.size}}",
+        "component_count": "{{step.output.components}}"
+      },
+      "depends_on": ["deploy-email", "deploy-sms", "deploy-social", "configure-booking", "setup-payments"]
+    },
+    {
+      "id": "encrypt-bundle",
+      "name": "MongoDB",
+      "mcp_server": "mongodb",
+      "tool": "mdb_insert_one",
+      "inputs": {
+        "source": "{{step.export-brain.output.brain_path}}",
+        "passphrase": "{{env.VAULT_PASSPHRASE}}",
+        "algorithm": "AES-256-GCM",
+        "description": "Encrypt the .0nbrain bundle with AES-256-GCM. Passphrase-only portable encryption — no machine fingerprint binding. This brain can be opened on any machine with the passphrase."
+      },
+      "outputs": {
+        "sealed_path": "{{step.output.path}}",
+        "fingerprint": "{{step.output.fingerprint}}",
+        "encrypted": "true"
+      },
+      "depends_on": ["export-brain"]
+    },
+    {
+      "id": "generate-platform-configs",
+      "name": "Anthropic (Claude)",
+      "mcp_server": "anthropic",
+      "tool": "ant_message_create",
+      "inputs": {
+        "model": "claude-sonnet-4-5-20250929",
+        "max_tokens": "2048",
+        "system": "Generate MCP configuration files for all 7 supported AI platforms.",
+        "message": "Generate configs for: Claude Desktop, Cursor, Windsurf, Gemini, Continue, Cline, OpenAI. Brain: {{step.encrypt-bundle.output.sealed_path}}. Services: {{step.verify-connections.output.healthy}}",
+        "description": "Generate AI platform configuration files for 7 platforms. Each config points to this brain's 0nMCP instance with the correct service credentials."
+      },
+      "outputs": {
+        "configs": "{{step.output.content}}",
+        "platforms": "{{step.output.platform_list}}"
+      },
+      "depends_on": ["encrypt-bundle"]
+    },
+    {
+      "id": "deploy-to-repo",
+      "name": "GitHub",
+      "mcp_server": "github",
+      "tool": "gh_repo_create",
+      "inputs": {
+        "name": "{{variables.business_name}}-brain",
+        "description": "Autonomous AI Brain for {{variables.business_name}} — Built by 0n Brain Builder. {{step.generate-operations.output.operation_count}} operations, {{step.create-workflows.output.automation_count}} automations.",
+        "private": "true",
+        "auto_init": "true"
+      },
+      "outputs": {
+        "repo_url": "{{step.output.html_url}}",
+        "clone_url": "{{step.output.clone_url}}"
+      },
+      "depends_on": ["generate-platform-configs"]
+    },
+    {
+      "id": "notify-email",
+      "name": "Gmail",
+      "mcp_server": "gmail",
+      "tool": "gmail_send",
+      "inputs": {
+        "to": "{{variables.owner_email}}",
+        "subject": "Your AI Brain is LIVE — {{variables.business_name}}",
+        "body": "Your autonomous AI brain has been built and deployed.\n\nBusiness: {{variables.business_name}}\nType: {{variables.business_type}}\nOperations: {{step.generate-operations.output.operation_count}}\nAutomations: {{step.create-workflows.output.automation_count}}\nChannels: Email, SMS, Social, Calendar, Payments\nPlatforms: 7 AI environments configured\nRepository: {{step.deploy-to-repo.output.repo_url}}\nBrain File: {{step.encrypt-bundle.output.sealed_path}}\n\nThis brain is encrypted, portable, and autonomous. Hand it to a franchisee, deploy it to a new location, or load it into any supported AI platform.\n\nBuilt by 0n Brain Builder — 0nMCP + MCPFED\nhttps://0nmcp.com"
+      },
+      "outputs": {
+        "email_sent": "true",
+        "message_id": "{{step.output.id}}"
+      },
+      "depends_on": ["deploy-to-repo"],
+      "parallel_group": "launch-notify"
+    },
+    {
+      "id": "notify-slack",
+      "name": "Slack",
+      "mcp_server": "slack",
+      "tool": "slack_send_message",
+      "inputs": {
+        "channel": "#deployments",
+        "text": "🧠 *0n Brain Deployed* — {{variables.business_name}}\n• {{step.generate-operations.output.operation_count}} operations generated\n• {{step.create-workflows.output.automation_count}} CRM automations live\n• Encrypted brain: `{{step.encrypt-bundle.output.sealed_path}}`\n• Repo: {{step.deploy-to-repo.output.repo_url}}"
+      },
+      "outputs": {
+        "slack_sent": "true",
+        "ts": "{{step.output.ts}}"
+      },
+      "depends_on": ["deploy-to-repo"],
+      "parallel_group": "launch-notify"
+    },
+    {
+      "id": "notify-discord",
+      "name": "Discord",
+      "mcp_server": "discord",
+      "tool": "discord_send_embed",
+      "inputs": {
+        "channel_id": "{{env.DISCORD_CHANNEL_ID}}",
+        "title": "0n Brain Deployed",
+        "description": "Autonomous AI brain built for {{variables.business_name}}. {{step.generate-operations.output.operation_count}} operations, {{step.create-workflows.output.automation_count}} automations. Encrypted and portable.",
+        "color": "65416"
+      },
+      "outputs": {
+        "discord_sent": "true",
+        "message_id": "{{step.output.id}}"
+      },
+      "depends_on": ["deploy-to-repo"],
+      "parallel_group": "launch-notify"
+    },
+    {
+      "id": "log-completion",
+      "name": "Supabase",
+      "mcp_server": "supabase",
+      "tool": "sb_insert",
+      "inputs": {
+        "table": "brain_deployments",
+        "data": "{\"business_name\": \"{{variables.business_name}}\", \"blueprint_id\": \"{{step.store-blueprint.output.blueprint_id}}\", \"brain_path\": \"{{step.encrypt-bundle.output.sealed_path}}\", \"repo_url\": \"{{step.deploy-to-repo.output.repo_url}}\", \"operation_count\": \"{{step.generate-operations.output.operation_count}}\", \"automation_count\": \"{{step.create-workflows.output.automation_count}}\", \"version\": \"{{variables.brain_version}}\", \"deployed_by\": \"{{variables.owner_email}}\", \"status\": \"active\"}",
+        "description": "Final step — log the complete deployment to Supabase. Permanent record of what was built, where it lives, and who owns it."
+      },
+      "outputs": {
+        "deployment_id": "{{step.output.id}}",
+        "completed_at": "{{step.output.created_at}}"
+      },
+      "depends_on": ["notify-email", "notify-slack", "notify-discord"]
+    }
+  ]
+}

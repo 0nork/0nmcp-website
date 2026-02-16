@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import QRCode from '@/components/QRCode'
 
 export const metadata: Metadata = {
   title: 'Downloads — 0nMCP',
@@ -13,75 +14,6 @@ export const metadata: Metadata = {
     siteName: '0nMCP',
     type: 'website',
   },
-}
-
-function QRCodeSVG() {
-  // Simplified QR code for https://0nmcp.com/app
-  // 25x25 module QR code
-  return (
-    <svg
-      viewBox="0 0 250 250"
-      width="160"
-      height="160"
-      style={{ background: '#fff', borderRadius: 8, padding: 8 }}
-    >
-      {/* Finder patterns */}
-      <rect x="10" y="10" width="70" height="70" fill="#000" />
-      <rect x="20" y="20" width="50" height="50" fill="#fff" />
-      <rect x="30" y="30" width="30" height="30" fill="#000" />
-
-      <rect x="170" y="10" width="70" height="70" fill="#000" />
-      <rect x="180" y="20" width="50" height="50" fill="#fff" />
-      <rect x="190" y="30" width="30" height="30" fill="#000" />
-
-      <rect x="10" y="170" width="70" height="70" fill="#000" />
-      <rect x="20" y="180" width="50" height="50" fill="#fff" />
-      <rect x="30" y="190" width="30" height="30" fill="#000" />
-
-      {/* Timing patterns */}
-      {[90, 110, 130, 150].map((x) => (
-        <rect key={`th${x}`} x={x} y="50" width="10" height="10" fill="#000" />
-      ))}
-      {[90, 110, 130, 150].map((y) => (
-        <rect key={`tv${y}`} x="50" y={y} width="10" height="10" fill="#000" />
-      ))}
-
-      {/* Alignment pattern */}
-      <rect x="160" y="160" width="30" height="30" fill="#000" />
-      <rect x="165" y="165" width="20" height="20" fill="#fff" />
-      <rect x="170" y="170" width="10" height="10" fill="#000" />
-
-      {/* Data modules (simplified representation) */}
-      {[
-        [90, 10], [110, 10], [130, 10],
-        [90, 90], [100, 100], [110, 110],
-        [130, 90], [150, 100], [130, 130],
-        [90, 130], [100, 150], [120, 150],
-        [140, 140], [150, 150], [100, 170],
-        [120, 170], [140, 170], [160, 90],
-        [170, 100], [180, 110], [190, 130],
-        [200, 150], [210, 170], [90, 170],
-        [110, 190], [130, 200], [150, 210],
-        [170, 130], [190, 90], [210, 90],
-      ].map(([x, y], i) => (
-        <rect key={i} x={x} y={y} width="10" height="10" fill="#000" />
-      ))}
-
-      {/* Center accent - 0n brand mark */}
-      <rect x="105" y="105" width="40" height="40" rx="4" fill="#00ff88" />
-      <text
-        x="125"
-        y="131"
-        textAnchor="middle"
-        fontFamily="monospace"
-        fontWeight="bold"
-        fontSize="22"
-        fill="#0a0a0f"
-      >
-        0n
-      </text>
-    </svg>
-  )
 }
 
 export default function DownloadsPage() {
@@ -290,7 +222,7 @@ export default function DownloadsPage() {
             </div>
 
             <div className="flex flex-col items-center gap-4 flex-shrink-0">
-              <QRCodeSVG />
+              <QRCode />
               <p className="text-xs" style={{ color: 'var(--text-muted)', textAlign: 'center' }}>
                 Scan to open on your phone
               </p>
@@ -384,7 +316,7 @@ export default function DownloadsPage() {
             </div>
 
             <div className="flex flex-col items-center gap-4 flex-shrink-0">
-              <QRCodeSVG />
+              <QRCode />
               <p className="text-xs" style={{ color: 'var(--text-muted)', textAlign: 'center' }}>
                 Same app — builder unlocks on tablet
               </p>

@@ -47,7 +47,21 @@ export function exportWorkflow(
     steps,
   }
 
-  if (Object.keys(settings.env).length > 0) workflow.env = { ...settings.env }
+  // Only include env entries that are template references (never actual values)
+  if (Object.keys(settings.env).length > 0) {
+    const safeEnv: Record<string, string> = {}
+    for (const [key, value] of Object.entries(settings.env)) {
+      // Force all env values to be template references
+      if (/^\{\{.*\}\}$/.test(value)) {
+        safeEnv[key] = value
+      } else {
+        // Replace hardcoded values with template reference
+        safeEnv[key] = `{{env.${key}}}`
+      }
+    }
+    if (Object.keys(safeEnv).length > 0) workflow.env = safeEnv
+  }
+
   if (Object.keys(settings.variables).length > 0)
     workflow.variables = { ...settings.variables }
   if (settings.onComplete !== 'log') workflow.on_complete = settings.onComplete

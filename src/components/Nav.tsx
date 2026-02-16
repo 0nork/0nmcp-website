@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 const navLinks = [
   { label: 'Turn it 0n', href: '/turn-it-on' },
@@ -14,6 +15,18 @@ const navLinks = [
 
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [user, setUser] = useState<{ email?: string } | null>(null)
+
+  useEffect(() => {
+    const supabase = createSupabaseBrowser()
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user ? { email: data.user.email ?? undefined } : null)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ? { email: session.user.email ?? undefined } : null)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <nav
@@ -68,6 +81,15 @@ export default function Nav() {
           >
             Builder
           </Link>
+          {user ? (
+            <Link href="/account" className="btn-ghost" style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+              Account
+            </Link>
+          ) : (
+            <Link href="/login" className="btn-ghost">
+              Sign in
+            </Link>
+          )}
         </div>
 
         {/* Mobile Hamburger */}
@@ -145,6 +167,24 @@ export default function Nav() {
               >
                 Builder
               </Link>
+              {user ? (
+                <Link
+                  href="/account"
+                  className="btn-ghost text-center justify-center"
+                  style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Account
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="btn-ghost text-center justify-center"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Sign in
+                </Link>
+              )}
             </div>
           </div>
         </div>

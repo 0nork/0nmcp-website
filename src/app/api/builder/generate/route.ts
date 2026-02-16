@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 import servicesData from '@/data/services.json'
 
 const SERVICE_CATALOG = servicesData.services
@@ -72,21 +73,41 @@ ${SERVICE_CATALOG}
 10. Respond conversationally first, then provide the .0n file in a json code fence`
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
+  // BYOK: Require authenticated user
+  const supabase = await createSupabaseServer()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
     return Response.json(
-      { error: 'AI builder not configured on this server' },
-      { status: 503 }
+      { error: 'Sign in required. Your Anthropic API key from your vault is used to power the builder.' },
+      { status: 401 }
     )
   }
 
-  // Validate enterprise key
-  const enterpriseKey = request.headers.get('x-enterprise-key')
-  const validKeys = (process.env.ENTERPRISE_KEYS || '').split(',').filter(Boolean)
-  if (validKeys.length > 0 && !validKeys.includes(enterpriseKey || '')) {
+  // Get user's Anthropic key from vault
+  const { data: vaultEntry } = await supabase
+    .from('user_vaults')
+    .select('encrypted_key, iv, salt')
+    .eq('user_id', user.id)
+    .eq('service_name', 'anthropic')
+    .single()
+
+  if (!vaultEntry) {
     return Response.json(
-      { error: 'Enterprise access required' },
-      { status: 403 }
+      { error: 'No Anthropic key found. Add your Anthropic API key in Account > Credentials with service name "anthropic".' },
+      { status: 400 }
+    )
+  }
+
+  // Decrypt the API key server-side using user ID as key material
+  // The client encrypted with PBKDF2(userId) + AES-256-GCM
+  // We need the client to pass the decrypted key, since server can't decrypt PBKDF2(userId) keys
+  // Instead, accept the key from the client header (already decrypted client-side)
+  const clientApiKey = request.headers.get('x-api-key')
+  if (!clientApiKey) {
+    return Response.json(
+      { error: 'API key required. Your browser decrypts the key from your vault before sending.' },
+      { status: 400 }
     )
   }
 
@@ -111,7 +132,7 @@ export async function POST(request: NextRequest) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
+      'x-api-key': clientApiKey,
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
@@ -123,8 +144,14 @@ export async function POST(request: NextRequest) {
     }),
   })
 
+  if (response.status === 401) {
+    return Response.json(
+      { error: 'Invalid Anthropic API key. Update your key in Account > Credentials.' },
+      { status: 401 }
+    )
+  }
+
   if (!response.ok) {
-    const error = await response.text()
     return Response.json(
       { error: `AI service error: ${response.status}` },
       { status: 502 }

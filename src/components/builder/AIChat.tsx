@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { useBuilderDispatch } from './BuilderContext'
 import { importWorkflow } from './importWorkflow'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 import type { DotOnWorkflow } from './types'
 
 interface Message {
@@ -32,40 +34,85 @@ function extractWorkflowJSON(text: string): DotOnWorkflow | null {
   return null
 }
 
-const ENTERPRISE_KEY_STORAGE = '0nmcp-enterprise-key'
+type AuthState = 'loading' | 'unauthenticated' | 'no-key' | 'ready'
 
 export default function AIChat({ open, onClose }: { open: boolean; onClose: () => void }) {
   const dispatch = useBuilderDispatch()
+  const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [streaming, setStreaming] = useState(false)
-  const [enterpriseKey, setEnterpriseKey] = useState('')
-  const [keyError, setKeyError] = useState('')
-  const [authenticated, setAuthenticated] = useState(false)
+  const [authState, setAuthState] = useState<AuthState>('loading')
+  const [decryptedKey, setDecryptedKey] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem(ENTERPRISE_KEY_STORAGE)
-    if (stored) {
-      setEnterpriseKey(stored)
-      setAuthenticated(true)
-    }
+    checkAuth()
   }, [])
+
+  async function checkAuth() {
+    const supabase = createSupabaseBrowser()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      setAuthState('unauthenticated')
+      return
+    }
+
+    // Check for Anthropic vault entry
+    const { data: vaultEntry } = await supabase
+      .from('user_vaults')
+      .select('encrypted_key, iv, salt')
+      .eq('user_id', user.id)
+      .eq('service_name', 'anthropic')
+      .single()
+
+    if (!vaultEntry) {
+      setAuthState('no-key')
+      return
+    }
+
+    // Decrypt the key client-side
+    try {
+      const enc = new TextEncoder()
+      const keyMaterial = await crypto.subtle.importKey(
+        'raw',
+        enc.encode(user.id),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+      )
+
+      const salt = Uint8Array.from(atob(vaultEntry.salt), (c) => c.charCodeAt(0))
+      const iv = Uint8Array.from(atob(vaultEntry.iv), (c) => c.charCodeAt(0))
+      const encrypted = Uint8Array.from(atob(vaultEntry.encrypted_key), (c) => c.charCodeAt(0))
+
+      const derivedKey = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['decrypt']
+      )
+
+      const decrypted = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv },
+        derivedKey,
+        encrypted
+      )
+
+      const apiKey = new TextDecoder().decode(decrypted)
+      setDecryptedKey(apiKey)
+      setAuthState('ready')
+    } catch {
+      setAuthState('no-key')
+    }
+  }
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
-
-  const handleAuth = useCallback(() => {
-    if (!enterpriseKey.trim()) {
-      setKeyError('Enter your enterprise key')
-      return
-    }
-    localStorage.setItem(ENTERPRISE_KEY_STORAGE, enterpriseKey.trim())
-    setAuthenticated(true)
-    setKeyError('')
-  }, [enterpriseKey])
 
   const handleImport = useCallback(
     (workflow: DotOnWorkflow) => {
@@ -79,7 +126,7 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const text = input.trim()
-    if (!text || streaming) return
+    if (!text || streaming || !decryptedKey) return
 
     setInput('')
     const userMsg: Message = { role: 'user', content: text }
@@ -97,7 +144,7 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-enterprise-key': enterpriseKey,
+          'x-api-key': decryptedKey,
         },
         body: JSON.stringify({
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
@@ -105,11 +152,9 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
         signal: abortRef.current.signal,
       })
 
-      if (response.status === 403) {
-        assistantMsg.content = 'Invalid enterprise key. Check your key in settings or contact support.'
+      if (response.status === 401) {
+        assistantMsg.content = 'Your Anthropic API key is invalid or expired. Update it in Account > Credentials.'
         setMessages((prev) => [...prev.slice(0, -1), { ...assistantMsg }])
-        setAuthenticated(false)
-        localStorage.removeItem(ENTERPRISE_KEY_STORAGE)
         return
       }
 
@@ -173,26 +218,52 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
         </button>
       </div>
 
-      {!authenticated ? (
+      {authState === 'loading' && (
         <div className="ai-chat-auth">
           <div className="ai-chat-auth-icon">0n</div>
-          <h3>Enterprise Access</h3>
-          <p>Enter your enterprise key to use the AI workflow builder.</p>
-          <input
-            type="password"
-            className="ai-chat-auth-input"
-            value={enterpriseKey}
-            onChange={(e) => setEnterpriseKey(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleAuth()}
-            placeholder="Enter enterprise key..."
-            autoFocus
-          />
-          {keyError && <p className="ai-chat-auth-error">{keyError}</p>}
-          <button className="ai-chat-auth-btn" onClick={handleAuth}>
-            Unlock
+          <p>Checking authentication...</p>
+        </div>
+      )}
+
+      {authState === 'unauthenticated' && (
+        <div className="ai-chat-auth">
+          <div className="ai-chat-auth-icon">0n</div>
+          <h3>Sign in required</h3>
+          <p>The AI Builder uses your own Anthropic API key from your credential vault.</p>
+          <button
+            className="ai-chat-auth-btn"
+            onClick={() => router.push('/login?redirect=/builder')}
+          >
+            Sign in
+          </button>
+          <button
+            className="ai-chat-auth-btn"
+            style={{ marginTop: '0.5rem', background: 'none', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
+            onClick={() => router.push('/signup?redirect=/builder')}
+          >
+            Create account
           </button>
         </div>
-      ) : (
+      )}
+
+      {authState === 'no-key' && (
+        <div className="ai-chat-auth">
+          <div className="ai-chat-auth-icon">0n</div>
+          <h3>Anthropic key required</h3>
+          <p>
+            Add your Anthropic API key to your credential vault with service name
+            <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent)' }}> anthropic</strong>.
+          </p>
+          <button
+            className="ai-chat-auth-btn"
+            onClick={() => router.push('/account')}
+          >
+            Go to Account
+          </button>
+        </div>
+      )}
+
+      {authState === 'ready' && (
         <>
           <div className="ai-chat-messages">
             {messages.length === 0 && (

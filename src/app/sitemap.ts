@@ -19,6 +19,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/downloads',
     '/app',
     '/turn-it-on',
+    '/login',
+    '/signup',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),

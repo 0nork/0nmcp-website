@@ -42,7 +42,7 @@ type ActiveTab = 'profile' | 'vault' | 'files' | 'licenses'
 
 export default function AccountPage() {
   const router = useRouter()
-  const supabase = createSupabaseBrowser()
+  const supabase = createSupabaseBrowser()!  // Protected route — middleware guarantees auth
 
   const [profile, setProfile] = useState<Profile | null>(null)
   const [vault, setVault] = useState<VaultEntry[]>([])

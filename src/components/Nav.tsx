@@ -19,6 +19,7 @@ export default function Nav() {
 
   useEffect(() => {
     const supabase = createSupabaseBrowser()
+    if (!supabase) return
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user ? { email: data.user.email ?? undefined } : null)
     })

@@ -25,6 +25,7 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
 
   useEffect(() => {
     const supabase = createSupabaseBrowser()
+    if (!supabase) return
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user ? { id: data.user.id } : null)
     })
@@ -44,7 +45,7 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
 
   function handleLoginSuccess() {
     const supabase = createSupabaseBrowser()
-    supabase.auth.getUser().then(({ data }) => {
+    supabase?.auth.getUser().then(({ data }) => {
       if (data.user) setUser({ id: data.user.id })
     })
     // Execute the pending action

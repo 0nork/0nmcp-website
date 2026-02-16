@@ -25,7 +25,7 @@ function LoginForm() {
   const [error, setError] = useState(errorParam === 'auth_failed' ? 'Authentication failed. Try again.' : '')
   const [magicLinkSent, setMagicLinkSent] = useState(false)
 
-  const supabase = createSupabaseBrowser()
+  const supabase = createSupabaseBrowser()!
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()

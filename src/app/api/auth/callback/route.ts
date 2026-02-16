@@ -8,9 +8,11 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     const supabase = await createSupabaseServer()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) {
-      return NextResponse.redirect(`${origin}${redirect}`)
+    if (supabase) {
+      const { error } = await supabase.auth.exchangeCodeForSession(code)
+      if (!error) {
+        return NextResponse.redirect(`${origin}${redirect}`)
+      }
     }
   }
 

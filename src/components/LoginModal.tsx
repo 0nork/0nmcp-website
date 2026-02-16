@@ -21,7 +21,7 @@ export default function LoginModal({ open, onClose, onSuccess, message, redirect
   const [error, setError] = useState('')
   const [magicLinkSent, setMagicLinkSent] = useState(false)
 
-  const supabase = createSupabaseBrowser()
+  const supabase = createSupabaseBrowser()!
 
   useEffect(() => {
     if (open) {

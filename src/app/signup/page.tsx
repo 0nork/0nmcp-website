@@ -57,7 +57,7 @@ function SignupForm() {
   const [confirmSent, setConfirmSent] = useState(false)
   const [passwordStrength, setPasswordStrength] = useState(0)
 
-  const supabase = createSupabaseBrowser()
+  const supabase = createSupabaseBrowser()!
 
   function checkStrength(pw: string) {
     let s = 0

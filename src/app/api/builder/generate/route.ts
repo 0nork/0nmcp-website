@@ -75,6 +75,9 @@ ${SERVICE_CATALOG}
 export async function POST(request: NextRequest) {
   // BYOK: Require authenticated user
   const supabase = await createSupabaseServer()
+  if (!supabase) {
+    return Response.json({ error: 'Auth not configured' }, { status: 503 })
+  }
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {

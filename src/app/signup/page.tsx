@@ -57,7 +57,7 @@ function SignupForm() {
   const [confirmSent, setConfirmSent] = useState(false)
   const [passwordStrength, setPasswordStrength] = useState(0)
 
-  const supabase = createSupabaseBrowser()!
+  const supabase = createSupabaseBrowser()
 
   function checkStrength(pw: string) {
     let s = 0
@@ -75,6 +75,11 @@ function SignupForm() {
 
     if (password.length < 8) {
       setError('Password must be at least 8 characters')
+      return
+    }
+
+    if (!supabase) {
+      setError('Authentication service is not configured. Please contact support.')
       return
     }
 

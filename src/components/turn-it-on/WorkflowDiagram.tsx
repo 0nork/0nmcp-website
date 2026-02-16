@@ -7,6 +7,8 @@ interface WorkflowDiagramProps {
   triggerName: string
   actionLogo: string | null
   actionName: string
+  triggerIcon?: string
+  actionIcon?: string
 }
 
 export default function WorkflowDiagram({
@@ -14,6 +16,8 @@ export default function WorkflowDiagram({
   triggerName,
   actionLogo,
   actionName,
+  triggerIcon,
+  actionIcon,
 }: WorkflowDiagramProps) {
   return (
     <section className="py-16">
@@ -32,7 +36,7 @@ export default function WorkflowDiagram({
             style={{ flexShrink: 0 }}
           >
             <span className="mb-3">
-              <ServiceLogo src={triggerLogo} alt={triggerName} size={48} />
+              <ServiceLogo src={triggerLogo} alt={triggerName} size={48} icon={triggerIcon} />
             </span>
             <span
               className="text-sm font-semibold"
@@ -157,7 +161,7 @@ export default function WorkflowDiagram({
             style={{ flexShrink: 0 }}
           >
             <span className="mb-3">
-              <ServiceLogo src={actionLogo} alt={actionName} size={48} />
+              <ServiceLogo src={actionLogo} alt={actionName} size={48} icon={actionIcon} />
             </span>
             <span
               className="text-sm font-semibold"

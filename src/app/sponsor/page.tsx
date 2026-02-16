@@ -3,11 +3,11 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Sponsor 0nMCP -- Fund Open Source AI Orchestration',
   description:
-    'Support 0nMCP development. Your sponsorship keeps the universal AI API orchestrator free and open source. 59 services, 1,385+ capabilities. Fund the future of AI orchestration.',
+    'Support 0nMCP development. Your sponsorship keeps the universal AI API orchestrator free and open source. 26 services, 80+ pre-built automations. Fund the future of AI orchestration.',
   openGraph: {
     title: 'Sponsor 0nMCP -- Fund Open Source AI Orchestration',
     description:
-      'Help us keep 0nMCP free and open source. 59 services, 1,385+ capabilities, zero config. Your support makes it possible.',
+      'Help us keep 0nMCP free and open source. 26 services, 80+ pre-built automations, zero config. Your support makes it possible.',
     url: 'https://0nmcp.com/sponsor',
     type: 'website',
   },
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sponsor 0nMCP',
     description:
-      'Fund the future of AI orchestration. 59 services, 1,385+ capabilities, open source forever.',
+      'Fund the future of AI orchestration. 26 services, 80+ pre-built automations, open source forever.',
   },
   alternates: { canonical: 'https://0nmcp.com/sponsor' },
 }
@@ -106,7 +106,7 @@ export default function SponsorPage() {
           className="text-lg max-w-[640px] mx-auto leading-relaxed relative z-[2]"
           style={{ color: 'var(--text-secondary)' }}
         >
-          0nMCP is free and open source. 59 services across 1,385+ capabilities.
+          0nMCP is free and open source. 26 services across 80+ pre-built automations.
           Your sponsorship keeps it that way while funding new integrations,
           better documentation, and a growing community. Every dollar goes
           directly to development.
@@ -274,7 +274,7 @@ export default function SponsorPage() {
             {[
               {
                 title: 'New Service Integrations',
-                desc: 'Every month we add new services to the catalog. Sponsors vote on what gets built next. Currently: 59 services, 1,385+ capabilities, 13 categories.',
+                desc: 'Every month we add new services to the catalog. Sponsors vote on what gets built next. Currently: 26 services, 80+ pre-built automations, 13 categories.',
               },
               {
                 title: 'Documentation & Guides',

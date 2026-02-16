@@ -32,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === '' ? 1.0 : path === '/turn-it-on' ? 0.95 : 0.7,
   }))
 
-  // Service hub pages (59)
+  // Service hub pages (26)
   const servicePages = servicesData.services.map((s) => ({
     url: `${base}/turn-it-on/${s.slug}`,
     lastModified: new Date(),

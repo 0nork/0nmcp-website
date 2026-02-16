@@ -67,7 +67,7 @@ export function importWorkflow(workflow: DotOnWorkflow): ImportResult {
       serviceId: service?.id ?? step.mcp_server ?? '',
       serviceName: service?.name ?? step.name ?? step.mcp_server ?? 'Unknown',
       serviceIcon: service?.icon ?? '?',
-      serviceLogo: service?.logo ?? '',
+      serviceLogo: (service as Record<string, unknown> | undefined)?.logo as string ?? '',
       toolId: step.tool ?? '',
       toolName: tool?.name ?? step.tool ?? '',
       inputs: step.inputs ?? {},

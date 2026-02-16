@@ -762,7 +762,7 @@ export default function ExamplesPage() {
             className="text-lg mb-8 max-w-lg mx-auto"
             style={{ color: 'var(--text-secondary)' }}
           >
-            Create .0n files that orchestrate any of our 59 services.
+            Create .0n files that orchestrate any of our 26 services.
             Describe outcomes, not steps.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">

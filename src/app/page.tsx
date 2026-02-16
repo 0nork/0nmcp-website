@@ -3,9 +3,9 @@ import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
 
 export const metadata: Metadata = {
-  title: '0nMCP — Universal AI API Orchestrator | 59 Services, 1,385+ Capabilities',
+  title: '0nMCP — Universal AI API Orchestrator | 26 Services, 80+ Pre-Built Automations',
   description:
-    '0nMCP is the universal AI API orchestrator. 59 services, 1,385+ capabilities, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+    '0nMCP is the universal AI API orchestrator. 26 services, 80+ pre-built automations, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
   keywords: [
     '0nMCP',
     'MCP',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '59 services. 1,385+ capabilities. One install. Stop building workflows. Start describing outcomes.',
+      '26 services. 80+ pre-built automations. One install. Stop building workflows. Start describing outcomes.',
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '59 services. 1,385+ capabilities. One install. The universal AI API orchestrator.',
+      '26 services. 80+ pre-built automations. One install. The universal AI API orchestrator.',
   },
   alternates: { canonical: 'https://0nmcp.com' },
 }
@@ -58,7 +58,7 @@ const faqItems = [
   },
   {
     q: 'How do I combine multiple MCP servers?',
-    a: "Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 59 services out of the box and provides 1,385+ capabilities that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.",
+    a: "Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 26 services out of the box and provides 80+ pre-built automations that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.",
   },
   {
     q: 'Can MCP servers work together automatically?',
@@ -95,7 +95,7 @@ export default function HomePage() {
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Cross-platform',
     description:
-      'Universal AI API orchestrator with 59 services and 1,385+ capabilities. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+      'Universal AI API orchestrator with 26 services and 80+ pre-built automations. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
     url: 'https://0nmcp.com',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
     softwareVersion: '1.7.0',
@@ -111,7 +111,7 @@ export default function HomePage() {
         priceCurrency: 'USD',
         name: 'Free (Open Source)',
         description:
-          'Unlimited local use, all 59 services, MIT licensed, community support',
+          'Unlimited local use, all 26 services, MIT licensed, community support',
       },
       {
         '@type': 'Offer',
@@ -164,7 +164,7 @@ export default function HomePage() {
                 animation: 'pulseGlow 2s infinite',
               }}
             />
-            v1.7.0 -- 59 services live
+            v1.7.0 -- 26 services live
           </div>
 
           {/* Headline */}
@@ -172,7 +172,7 @@ export default function HomePage() {
             className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-6 animate-fade-in-up"
             style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
           >
-            59 Services.{' '}
+            26 Services.{' '}
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -180,7 +180,7 @@ export default function HomePage() {
                   'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
               }}
             >
-              1,385+ Capabilities.
+              80+ Pre-Built Automations.
             </span>
           </h1>
 
@@ -225,8 +225,8 @@ export default function HomePage() {
             style={{ animationDelay: '0.5s', animationFillMode: 'both' }}
           >
             {[
-              { num: '59', label: 'Services' },
-              { num: '1,385+', label: 'Capabilities' },
+              { num: '26', label: 'Services' },
+              { num: '80+', label: 'Automations' },
               { num: '13', label: 'Categories' },
               { num: '3', label: 'npm Packages' },
             ].map((stat) => (
@@ -493,7 +493,7 @@ export default function HomePage() {
             className="font-mono text-xs uppercase tracking-[0.15em] block mb-4"
             style={{ color: 'var(--accent)' }}
           >
-            59 Services
+            26 Services
           </span>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
             13 Categories. Every Tool You Need.
@@ -645,8 +645,8 @@ export default function HomePage() {
               </p>
               <ul className="flex flex-col gap-3 list-none mb-8">
                 {[
-                  'All 59 services',
-                  '1,385+ capabilities',
+                  'All 26 services',
+                  '80+ pre-built automations',
                   'MIT licensed',
                   'Community support',
                   'CLI and MCP interface',

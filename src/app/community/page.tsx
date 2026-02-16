@@ -3,11 +3,11 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Community -- Join the AI Orchestration Movement',
   description:
-    'Join the 0nMCP community. Contribute to the most comprehensive MCP server available. 59 services, 1,385+ capabilities, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.',
+    'Join the 0nMCP community. Contribute to the most comprehensive MCP server available. 26 services, 80+ pre-built automations, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.',
   openGraph: {
     title: 'Community -- 0nMCP | Join the AI Orchestration Movement',
     description:
-      'Join the 0nMCP community. 59 services, 1,385+ capabilities, open source forever. Help shape the future of AI orchestration.',
+      'Join the 0nMCP community. 26 services, 80+ pre-built automations, open source forever. Help shape the future of AI orchestration.',
     url: 'https://0nmcp.com/community',
     type: 'website',
   },
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Community -- 0nMCP',
     description:
-      '59 services. 1,385+ capabilities. Open source forever. Join the movement.',
+      '26 services. 80+ pre-built automations. Open source forever. Join the movement.',
   },
   alternates: { canonical: 'https://0nmcp.com/community' },
 }
@@ -83,8 +83,8 @@ export default function CommunityPage() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { num: '59', label: 'Services integrated' },
-              { num: '1,385+', label: 'Capabilities' },
+              { num: '26', label: 'Services integrated' },
+              { num: '80+', label: 'Automations' },
               { num: '13', label: 'Categories' },
               { num: '3', label: 'npm packages' },
             ].map((stat) => (
@@ -174,7 +174,7 @@ export default function CommunityPage() {
               {
                 title: 'Spread the Word',
                 desc: 'Tell a developer friend. Post on X/Twitter. Write a blog post. Every mention grows the community.',
-                link: 'https://twitter.com/intent/tweet?text=0nMCP%20-%2059%20services,%201385%20capabilities,%20zero%20config.%20The%20universal%20AI%20API%20orchestrator.&url=https://0nmcp.com',
+                link: 'https://twitter.com/intent/tweet?text=0nMCP%20-%2026%20services,%2080%20automations,%20zero%20config.%20The%20universal%20AI%20API%20orchestrator.&url=https://0nmcp.com',
                 cta: 'Share on X',
               },
             ].map((card) => (

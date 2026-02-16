@@ -23,7 +23,7 @@ import ConfigSnippet from '@/components/turn-it-on/ConfigSnippet'
 import RelatedCapabilities from '@/components/turn-it-on/RelatedCapabilities'
 import FAQSection from '@/components/turn-it-on/FAQSection'
 
-// Generate static params for both services (59) and capabilities (126) = 185 pages
+// Generate static params for both services (26) and capabilities (126) = 152 pages
 export function generateStaticParams() {
   const serviceParams = servicesData.services.map((s) => ({ slug: s.slug }))
   const capParams = capabilitiesData.capabilities.map((c) => ({ slug: c.slug }))
@@ -106,7 +106,7 @@ export default async function SlugPage({
 }
 
 // ============================================================
-// SERVICE PAGE (59 pages)
+// SERVICE PAGE (26 pages)
 // ============================================================
 
 function ServicePage({ slug }: { slug: string }) {
@@ -182,7 +182,7 @@ function ServicePage({ slug }: { slug: string }) {
           </div>
 
           <span className="mb-6 block">
-            <ServiceLogo src={service.logo} alt={service.name} size={64} />
+            <ServiceLogo src={(service as Record<string, unknown>).logo as string | undefined} alt={service.name} size={64} icon={service.icon} />
           </span>
 
           <h1
@@ -270,14 +270,14 @@ function ServicePage({ slug }: { slug: string }) {
                     style={{ textDecoration: 'none' }}
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <ServiceLogo src={trigger?.logo} alt={trigger?.name ?? ''} size={20} />
+                      <ServiceLogo src={(trigger as Record<string, unknown> | undefined)?.logo as string | undefined} alt={trigger?.name ?? ''} size={20} icon={trigger?.icon} />
                       <span
                         className="text-xs"
                         style={{ color: 'var(--text-muted)' }}
                       >
                         &rarr;
                       </span>
-                      <ServiceLogo src={action?.logo} alt={action?.name ?? ''} size={20} />
+                      <ServiceLogo src={(action as Record<string, unknown> | undefined)?.logo as string | undefined} alt={action?.name ?? ''} size={20} icon={action?.icon} />
                     </div>
                     <span
                       className="text-sm font-medium block mb-1"
@@ -356,7 +356,7 @@ function ServicePage({ slug }: { slug: string }) {
                   className="glow-box flex items-center gap-3"
                   style={{ textDecoration: 'none' }}
                 >
-                  <ServiceLogo src={s.logo} alt={s.name} size={28} />
+                  <ServiceLogo src={(s as Record<string, unknown>).logo as string | undefined} alt={s.name} size={28} icon={s.icon} />
                   <div>
                     <span
                       className="text-sm font-semibold block"
@@ -431,8 +431,10 @@ function CapabilityPage({ slug }: { slug: string }) {
   const actionService = actionServiceId ? getServiceById(actionServiceId) : undefined
   const triggerName = triggerService?.name || capability.trigger_service
   const actionName = actionService?.name || ''
-  const triggerLogo = triggerService?.logo || null
-  const actionLogo = actionService?.logo || null
+  const triggerLogo = (triggerService as Record<string, unknown> | undefined)?.logo as string | null ?? null
+  const actionLogo = (actionService as Record<string, unknown> | undefined)?.logo as string | null ?? null
+  const triggerIcon = triggerService?.icon
+  const actionIcon = actionService?.icon
 
   // Related capabilities
   const relatedByTrigger = getRelatedByTrigger(
@@ -533,6 +535,8 @@ function CapabilityPage({ slug }: { slug: string }) {
           triggerName={triggerName}
           actionLogo={actionLogo}
           actionName={actionName}
+          triggerIcon={triggerIcon}
+          actionIcon={actionIcon}
         />
       )}
 

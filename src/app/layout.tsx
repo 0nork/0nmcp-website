@@ -7,7 +7,7 @@ import SiteChrome from '@/components/SiteChrome'
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator',
   description:
-    '545 tools across 59 services and 1,385 capabilities. The universal MCP server that connects AI to everything. Stop building workflows. Start describing outcomes.',
+    '545 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything. Stop building workflows. Start describing outcomes.',
   keywords: [
     '0nMCP',
     'MCP',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '545 tools across 59 services and 1,385 capabilities. The universal MCP server that connects AI to everything.',
+      '545 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '545 tools across 59 services and 1,385 capabilities. The universal MCP server that connects AI to everything.',
+      '545 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
     creator: '@0nork',
   },
   metadataBase: new URL('https://0nmcp.com'),

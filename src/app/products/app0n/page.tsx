@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const FEATURES = [
   { title: 'App Templates', desc: 'Production-ready Next.js templates with auth, payments, and dashboard pre-configured.' },
-  { title: '0nMCP Integration', desc: 'Every template comes wired to 0nMCP. Your app can orchestrate 59 services from day one.' },
+  { title: '0nMCP Integration', desc: 'Every template comes wired to 0nMCP. Your app can orchestrate 26 services from day one.' },
   { title: 'AI Components', desc: 'Drop-in chat interfaces, content generators, and AI-powered form builders.' },
   { title: 'Auth & Payments', desc: 'Supabase auth and Stripe billing baked in. Users, subscriptions, and invoices handled.' },
   { title: 'One-Click Deploy', desc: 'Deploy to Vercel with a single command. Environment variables auto-configured.' },

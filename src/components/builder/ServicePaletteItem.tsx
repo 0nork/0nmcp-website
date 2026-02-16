@@ -13,12 +13,14 @@ export default function ServicePaletteItem({ service }: Props) {
       serviceId: service.id,
       serviceName: service.name,
       serviceIcon: service.icon,
-      serviceLogo: service.logo,
-      tools: service.tools,
+      serviceLogo: (service as Record<string, unknown>).logo ?? '',
+      tools: 'tools' in service ? service.tools : [],
     })
     e.dataTransfer.setData('application/0n-service', payload)
     e.dataTransfer.effectAllowed = 'move'
   }
+
+  const logo = (service as Record<string, unknown>).logo as string | undefined
 
   return (
     <div
@@ -27,8 +29,8 @@ export default function ServicePaletteItem({ service }: Props) {
       onDragStart={onDragStart}
     >
       <div className="builder-service-icon">
-        {service.logo ? (
-          <img src={service.logo} alt={service.name} width={20} height={20} />
+        {logo ? (
+          <img src={logo} alt={service.name} width={20} height={20} />
         ) : (
           service.icon
         )}

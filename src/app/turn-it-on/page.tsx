@@ -1,17 +1,18 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import servicesData from '@/data/services.json'
+import capabilitiesData from '@/data/capabilities.json'
 import { getAllCategories, getServicesInCategory } from '@/lib/sxo-helpers'
 import ServiceLogo from '@/components/ServiceLogo'
 
 export const metadata: Metadata = {
-  title: 'Turn it 0n — 59 Services, 1,385+ Capabilities | 0nMCP',
+  title: 'Turn it 0n — 26 Services, 450 Tools | 0nMCP',
   description:
-    'Connect 59 services with 1,385+ automation capabilities. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.',
+    'Connect 26 services with 450 tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.',
   openGraph: {
-    title: 'Turn it 0n — 59 Services, 1,385+ Capabilities | 0nMCP',
+    title: 'Turn it 0n — 26 Services, 80+ Pre-Built Automations | 0nMCP',
     description:
-      'Connect 59 services with 1,385+ automation capabilities. No monthly fees, no drag-and-drop. Just describe what you want.',
+      'Connect 26 services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.',
     url: 'https://0nmcp.com/turn-it-on',
   },
   alternates: {
@@ -21,8 +22,8 @@ export const metadata: Metadata = {
 
 export default function TurnItOnPage() {
   const categories = getAllCategories()
-  const totalTools = servicesData.meta.total_base_tools
-  const totalCapabilities = servicesData.meta.total_capabilities
+  const totalTools = servicesData.meta.total_tools
+  const totalCapabilities = capabilitiesData.meta.total_capabilities
   const totalServices = servicesData.meta.total_services
 
   return (
@@ -124,10 +125,11 @@ export default function TurnItOnPage() {
                     style={{ textDecoration: 'none' }}
                   >
                     <ServiceLogo
-                      src={service.logo}
+                      src={(service as Record<string, unknown>).logo as string | undefined}
                       alt={service.name}
                       size={36}
                       className="flex-shrink-0 mt-0.5"
+                      icon={service.icon}
                     />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">

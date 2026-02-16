@@ -22,6 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/login',
     '/signup',
     '/store/onork-mini',
+    '/products/social0n',
+    '/products/app0n',
+    '/products/web0n',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),

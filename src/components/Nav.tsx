@@ -31,8 +31,9 @@ export default function Nav() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50"
+      className="fixed left-0 right-0 z-50"
       style={{
+        top: '2rem',
         backgroundColor: 'rgba(10, 10, 15, 0.85)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
@@ -43,13 +44,21 @@ export default function Nav() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-xl font-bold tracking-tight"
-          style={{
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--accent)',
-          }}
+          className="flex items-center gap-2 no-underline"
         >
-          0nMCP
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none" className="flex-shrink-0">
+            <rect width="40" height="40" rx="8" fill="#0a0a0f" stroke="#00ff88" strokeWidth="1.5" strokeOpacity="0.4"/>
+            <text x="20" y="27" textAnchor="middle" fill="#00ff88" fontSize="20" fontWeight="700" fontFamily="monospace">0n</text>
+          </svg>
+          <span
+            className="text-lg font-bold tracking-tight"
+            style={{
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--accent)',
+            }}
+          >
+            MCP
+          </span>
         </Link>
 
         {/* Desktop Links */}

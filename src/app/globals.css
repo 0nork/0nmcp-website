@@ -1158,6 +1158,153 @@ a:hover {
 }
 
 /* ============================================
+   Top Product Bar
+   ============================================ */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 51;
+  height: 2rem;
+  background: #000;
+  border-bottom: 1px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+}
+
+.topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.topbar-brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: #555;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.topbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.topbar-link {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+  letter-spacing: 0.02em;
+}
+
+.topbar-link:hover {
+  opacity: 1;
+}
+
+.topbar-github {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.topbar-github:hover {
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .topbar-links {
+    gap: 0.75rem;
+  }
+  .topbar-link {
+    font-size: 0.6rem;
+  }
+}
+
+/* ============================================
+   Credibility Seals
+   ============================================ */
+
+.trust-seals {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 3rem 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.trust-seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 140px;
+  transition: border-color 0.2s ease;
+}
+
+.trust-seal:hover {
+  border-color: var(--border-hover);
+}
+
+.trust-seal-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+.trust-seal-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.trust-seal-sub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .trust-seals {
+    gap: 0.75rem;
+  }
+  .trust-seal {
+    min-width: 100px;
+    padding: 1rem;
+  }
+}
+
+/* ============================================
    0nork Mini — Floating Widget
    ============================================ */
 

@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import OnorkWidget from '@/components/onork-mini/OnorkWidget'
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -17,6 +18,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       <Nav />
       <main className="relative z-[1] pt-16">{children}</main>
       <Footer />
+      <OnorkWidget />
     </>
   )
 }

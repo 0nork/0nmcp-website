@@ -67,14 +67,12 @@ export default function Nav() {
 
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="https://rocketopp.com"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/store/onork-mini"
             className="btn-ghost"
           >
             Store
-          </a>
+          </Link>
           <Link
             href="/builder"
             className="btn-accent"
@@ -152,14 +150,13 @@ export default function Nav() {
               className="flex flex-col gap-3 pt-3 mt-2"
               style={{ borderTop: '1px solid var(--border)' }}
             >
-              <a
-                href="https://rocketopp.com"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/store/onork-mini"
                 className="btn-ghost text-center justify-center"
+                onClick={() => setMobileOpen(false)}
               >
                 Store
-              </a>
+              </Link>
               <Link
                 href="/builder"
                 className="btn-accent text-center justify-center"

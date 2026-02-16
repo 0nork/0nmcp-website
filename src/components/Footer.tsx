@@ -8,7 +8,7 @@ const footerColumns = [
       { label: 'Examples', href: '/examples' },
       { label: 'Downloads', href: '/downloads' },
       { label: 'Mobile App', href: '/app' },
-      { label: 'Store', href: 'https://rocketopp.com', external: true },
+      { label: 'Store', href: '/store/onork-mini' },
       { label: 'Builder', href: '/builder' },
     ],
   },

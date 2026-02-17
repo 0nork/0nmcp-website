@@ -3470,3 +3470,309 @@ a:hover {
   visibility: hidden;
   pointer-events: none;
 }
+
+/* ============================================
+   Composer — .0n File Packager
+   ============================================ */
+
+.composer-files {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.composer-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.composer-card:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.05);
+}
+
+.composer-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.composer-card-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.composer-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.composer-card-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.composer-card-filename {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.composer-card-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.composer-card-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.composer-card-remove:hover {
+  border-color: #ff4444;
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+}
+
+.composer-card-error {
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(255, 68, 68, 0.1);
+  border-radius: 0.5rem;
+  color: #ff6666;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.composer-card-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+
+.composer-service-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-secondary);
+}
+
+.composer-card-version {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Drop zone */
+.composer-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem 1.5rem;
+  border: 2px dashed var(--border);
+  border-radius: 0.75rem;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.composer-dropzone:hover {
+  border-color: var(--accent-dim);
+  background: rgba(0, 255, 136, 0.03);
+}
+
+.composer-dropzone.dragging {
+  border-color: var(--accent);
+  background: rgba(0, 255, 136, 0.08);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+}
+
+.composer-dropzone-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.composer-dropzone-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.composer-dropzone-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Paste option */
+.composer-alt-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.composer-paste-toggle {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.composer-paste-toggle:hover {
+  color: var(--accent);
+}
+
+.composer-paste-area {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.composer-paste-import {
+  align-self: flex-end;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.composer-paste-import:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.composer-paste-import:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* Summary bar */
+.composer-summary {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+.composer-summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.composer-summary-num {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+/* Visual composition diagram */
+.composer-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+.composer-visual-files {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.composer-visual-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.composer-visual-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-glow);
+}
+
+.composer-visual-master {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-dim);
+  border-radius: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.composer-visual-master-icon {
+  font-size: 1.25rem;
+}

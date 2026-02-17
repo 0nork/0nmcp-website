@@ -1,8 +1,20 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import ServiceIcon, { ALL_SERVICES } from '@/components/ServiceLogos'
+
+/* ── Types ── */
+type ImportedFile = {
+  id: string
+  filename: string
+  type: string        // connection, workflow, run, switch, config, unknown
+  name: string
+  version: string
+  services: string[]
+  data: Record<string, unknown>
+  error?: string
+}
 
 /* ── Step definitions ── */
 const STEPS = [
@@ -11,6 +23,7 @@ const STEPS = [
   { id: 'services', label: 'Services' },
   { id: 'goal', label: 'Your Goal' },
   { id: 'build', label: 'Build RUN' },
+  { id: 'compose', label: 'Compose' },
   { id: 'switch', label: 'Your SWITCH' },
 ]
 
@@ -101,6 +114,47 @@ const GOALS = [
   },
 ]
 
+/* ── Type icons and colors ── */
+const TYPE_META: Record<string, { icon: string; color: string; label: string }> = {
+  connection: { icon: '🔌', color: '#00d4ff', label: 'Connection' },
+  workflow:   { icon: '⚡', color: '#ff8800', label: 'Workflow' },
+  run:        { icon: '▶', color: '#00ff88', label: 'RUN' },
+  switch:     { icon: '🔀', color: '#ff00ff', label: 'SWITCH' },
+  config:     { icon: '⚙', color: '#8888ff', label: 'Config' },
+  unknown:    { icon: '📄', color: '#666688', label: 'File' },
+}
+
+/* ── Parse a .0n file ── */
+function parseOnFile(raw: string, filename: string): ImportedFile {
+  const id = Math.random().toString(36).slice(2, 10)
+  try {
+    const data = JSON.parse(raw)
+    const meta = data['$0n'] || data['0n'] || {}
+    const type = meta.type || (data.pipeline ? 'run' : data.service ? 'connection' : data.connections ? 'switch' : 'unknown')
+    const name = meta.name || data.name || data.identity?.brand || filename.replace(/\.0n$/, '')
+    const version = meta.version || data.version || '1.0.0'
+
+    // Extract service names from various structures
+    const services: string[] = []
+    if (data.service) services.push(data.service)
+    if (data.services) {
+      if (Array.isArray(data.services)) services.push(...data.services)
+      else Object.keys(data.services).forEach(s => services.push(s))
+    }
+    if (data.connections && Array.isArray(data.connections)) services.push(...data.connections)
+    if (data.pipeline && Array.isArray(data.pipeline)) {
+      data.pipeline.forEach((phase: Record<string, unknown>) => {
+        const assembly = phase.assembly as Array<Record<string, string>> | undefined
+        if (assembly) assembly.forEach(step => { if (step.service) services.push(step.service) })
+      })
+    }
+
+    return { id, filename, type, name, version, services: [...new Set(services)], data }
+  } catch {
+    return { id, filename, type: 'unknown', name: filename, version: '', services: [], data: {}, error: 'Invalid JSON' }
+  }
+}
+
 /* ── Main component ── */
 export default function DemoBuilder() {
   const [step, setStep] = useState(0)
@@ -113,6 +167,14 @@ export default function DemoBuilder() {
   const [buildProgress, setBuildProgress] = useState(0)
   const [buildComplete, setBuildComplete] = useState(false)
   const [customGoal, setCustomGoal] = useState('')
+
+  // Composer state
+  const [importedFiles, setImportedFiles] = useState<ImportedFile[]>([])
+  const [isDragging, setIsDragging] = useState(false)
+  const [pasteMode, setPasteMode] = useState(false)
+  const [pasteContent, setPasteContent] = useState('')
+  const [pasteFilename, setPasteFilename] = useState('')
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const goal = GOALS.find((g) => g.id === selectedGoal)
 
@@ -134,11 +196,30 @@ export default function DemoBuilder() {
     return () => clearInterval(id)
   }, [step, goal])
 
+  /* Auto-add the built RUN to composer when entering compose step */
+  useEffect(() => {
+    if (step !== 5) return
+    const runAlreadyAdded = importedFiles.some(f => f.id === 'built-run')
+    if (!runAlreadyAdded && goal) {
+      const builtRun: ImportedFile = {
+        id: 'built-run',
+        filename: `${(businessName || 'my-first').toLowerCase().replace(/\s+/g, '-')}-run.0n`,
+        type: 'run',
+        name: `${businessName || 'My'} ${goal.label} RUN`,
+        version: '1.0.0',
+        services: goal.services.length > 0 ? goal.services : selectedServices,
+        data: JSON.parse(generateRunFile()),
+      }
+      setImportedFiles(prev => [builtRun, ...prev.filter(f => f.id !== 'built-run')])
+    }
+  }, [step]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const canAdvance = () => {
     if (step === 1) return industry && teamSize
     if (step === 2) return selectedServices.length >= 2
     if (step === 3) return selectedGoal !== ''
     if (step === 4) return buildComplete
+    if (step === 5) return importedFiles.length >= 1
     return true
   }
 
@@ -155,16 +236,60 @@ export default function DemoBuilder() {
     )
   }
 
-  /* Generate .0n SWITCH file content */
-  const generateSwitchFile = () => {
-    const switchData = {
-      '0n': '1.0',
-      name: `${businessName || 'My'} ${goal?.label || 'Custom'} RUN`,
+  /* ── File handling ── */
+  const processFiles = useCallback((files: FileList | File[]) => {
+    Array.from(files).forEach(file => {
+      if (!file.name.endsWith('.0n') && !file.name.endsWith('.json')) return
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const raw = e.target?.result as string
+        const parsed = parseOnFile(raw, file.name)
+        setImportedFiles(prev => [...prev, parsed])
+      }
+      reader.readAsText(file)
+    })
+  }, [])
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    if (e.dataTransfer.files.length) processFiles(e.dataTransfer.files)
+  }, [processFiles])
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }, [])
+
+  const handleDragLeave = useCallback(() => setIsDragging(false), [])
+
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) processFiles(e.target.files)
+    e.target.value = ''
+  }, [processFiles])
+
+  const handlePasteImport = useCallback(() => {
+    if (!pasteContent.trim()) return
+    const fname = pasteFilename.trim() || 'pasted-file.0n'
+    const parsed = parseOnFile(pasteContent, fname.endsWith('.0n') ? fname : fname + '.0n')
+    setImportedFiles(prev => [...prev, parsed])
+    setPasteContent('')
+    setPasteFilename('')
+    setPasteMode(false)
+  }, [pasteContent, pasteFilename])
+
+  const removeFile = useCallback((id: string) => {
+    setImportedFiles(prev => prev.filter(f => f.id !== id))
+  }, [])
+
+  /* Generate .0n RUN file (just the run, not the master switch) */
+  const generateRunFile = () => {
+    const runData = {
+      '$0n': { type: 'run', name: `${businessName || 'My'} ${goal?.label || 'Custom'} RUN`, version: '1.0.0' },
       description: goal?.desc || customGoal || 'Custom automation',
-      version: '1.0.0',
       trigger: { type: 'webhook', event: goal?.steps[0]?.action || 'manual' },
       services: (goal?.services || selectedServices).reduce(
-        (acc, s) => ({ ...acc, [s]: { connected: false, api_key: '{{vault.' + s + '}}' } }),
+        (acc: Record<string, unknown>, s: string) => ({ ...acc, [s]: { connected: false, api_key: '{{vault.' + s + '}}' } }),
         {}
       ),
       pipeline: [
@@ -186,6 +311,76 @@ export default function DemoBuilder() {
         source: 'demo-builder',
       },
     }
+    return JSON.stringify(runData, null, 2)
+  }
+
+  /* Generate master SWITCH file containing all imported .0n files */
+  const generateSwitchFile = () => {
+    // Collect all unique services across all files
+    const allServices = [...new Set(importedFiles.flatMap(f => f.services))]
+
+    // Separate by type
+    const connections = importedFiles.filter(f => f.type === 'connection')
+    const runs = importedFiles.filter(f => f.type === 'run' || f.type === 'workflow')
+    const switches = importedFiles.filter(f => f.type === 'switch')
+    const configs = importedFiles.filter(f => f.type === 'config' || f.type === 'unknown')
+
+    const switchData: Record<string, unknown> = {
+      '$0n': {
+        type: 'switch',
+        name: `${businessName || 'My'} Master SWITCH`,
+        version: '1.0.0',
+        description: `Master orchestration packaging ${importedFiles.length} file${importedFiles.length !== 1 ? 's' : ''} into one SWITCH.`,
+        created: new Date().toISOString(),
+        source: 'demo-builder-composer',
+      },
+      identity: {
+        business: businessName || undefined,
+        industry: industry || undefined,
+        team_size: teamSize || undefined,
+        email: email || undefined,
+      },
+      services: allServices.reduce(
+        (acc: Record<string, unknown>, s: string) => ({ ...acc, [s]: { connected: false, api_key: '{{vault.' + s + '}}' } }),
+        {}
+      ),
+      includes: importedFiles.map(f => ({
+        filename: f.filename,
+        type: f.type,
+        name: f.name,
+        version: f.version,
+      })),
+    }
+
+    // Embed connections
+    if (connections.length > 0) {
+      switchData.connections = connections.map(f => f.data)
+    }
+
+    // Embed runs/workflows
+    if (runs.length > 0) {
+      switchData.runs = runs.map(f => f.data)
+    }
+
+    // Embed nested switches
+    if (switches.length > 0) {
+      switchData.nested_switches = switches.map(f => f.data)
+    }
+
+    // Embed configs
+    if (configs.length > 0) {
+      switchData.configs = configs.map(f => f.data)
+    }
+
+    // Build a combined pipeline from all runs
+    const allPipelines = runs.flatMap(f => {
+      const d = f.data as Record<string, unknown>
+      return (d.pipeline as Array<Record<string, unknown>>) || []
+    })
+    if (allPipelines.length > 0) {
+      switchData.pipeline = allPipelines
+    }
+
     return JSON.stringify(switchData, null, 2)
   }
 
@@ -195,7 +390,7 @@ export default function DemoBuilder() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${(businessName || 'my-first').toLowerCase().replace(/\s+/g, '-')}-run.0n`
+    a.download = `${(businessName || 'my-master').toLowerCase().replace(/\s+/g, '-')}-switch.0n`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -460,27 +655,199 @@ export default function DemoBuilder() {
           </div>
         )}
 
-        {/* ── STEP 5: SWITCH file ── */}
+        {/* ── STEP 5: Compose ── */}
         {step === 5 && (
+          <div className="demo-step">
+            <h2 className="demo-step-title">
+              Compose your{' '}
+              <span style={{ color: 'var(--accent)' }}>SWITCH</span>
+            </h2>
+            <p className="demo-step-desc">
+              Your RUN is loaded. Add more <code>.0n</code> files &mdash; connections,
+              workflows, configs &mdash; and package them all into one master SWITCH.
+            </p>
+
+            {/* File cards */}
+            <div className="composer-files">
+              {importedFiles.map((f) => {
+                const meta = TYPE_META[f.type] || TYPE_META.unknown
+                return (
+                  <div key={f.id} className="composer-card" style={{ borderColor: meta.color + '40' }}>
+                    <div className="composer-card-header">
+                      <span className="composer-card-icon" style={{ color: meta.color }}>{meta.icon}</span>
+                      <div className="composer-card-info">
+                        <span className="composer-card-name">{f.name}</span>
+                        <span className="composer-card-filename">{f.filename}</span>
+                      </div>
+                      <span className="composer-card-badge" style={{ background: meta.color + '20', color: meta.color }}>
+                        {meta.label}
+                      </span>
+                      {f.id !== 'built-run' && (
+                        <button className="composer-card-remove" onClick={() => removeFile(f.id)} title="Remove">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                    {f.error && (
+                      <div className="composer-card-error">{f.error}</div>
+                    )}
+                    {f.services.length > 0 && (
+                      <div className="composer-card-services">
+                        {f.services.slice(0, 8).map(sid => (
+                          <span key={sid} className="composer-service-tag">{sid}</span>
+                        ))}
+                        {f.services.length > 8 && (
+                          <span className="composer-service-tag">+{f.services.length - 8}</span>
+                        )}
+                      </div>
+                    )}
+                    {f.version && (
+                      <span className="composer-card-version">v{f.version}</span>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Drop zone */}
+            <div
+              className={`composer-dropzone${isDragging ? ' dragging' : ''}`}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".0n,.json"
+                multiple
+                onChange={handleFileSelect}
+                style={{ display: 'none' }}
+              />
+              <div className="composer-dropzone-icon">
+                {isDragging ? '📥' : '➕'}
+              </div>
+              <span className="composer-dropzone-text">
+                {isDragging
+                  ? 'Drop .0n files here'
+                  : 'Drag & drop .0n files, or click to browse'}
+              </span>
+              <span className="composer-dropzone-hint">
+                Supports .0n and .json files
+              </span>
+            </div>
+
+            {/* Paste option */}
+            <div className="composer-alt-actions">
+              <button
+                className="composer-paste-toggle"
+                onClick={() => setPasteMode(!pasteMode)}
+              >
+                {pasteMode ? 'Cancel' : 'Or paste JSON directly'}
+              </button>
+            </div>
+
+            {pasteMode && (
+              <div className="composer-paste-area">
+                <input
+                  type="text"
+                  value={pasteFilename}
+                  onChange={e => setPasteFilename(e.target.value)}
+                  placeholder="Filename (e.g., my-connection.0n)"
+                  className="demo-input"
+                  style={{ marginBottom: '0.5rem' }}
+                />
+                <textarea
+                  value={pasteContent}
+                  onChange={e => setPasteContent(e.target.value)}
+                  placeholder={'Paste your .0n JSON here...\n\n{\n  "$0n": { "type": "connection", ... },\n  "service": "stripe",\n  ...\n}'}
+                  className="demo-input demo-textarea"
+                  rows={6}
+                />
+                <button
+                  className="composer-paste-import"
+                  onClick={handlePasteImport}
+                  disabled={!pasteContent.trim()}
+                >
+                  Import File
+                </button>
+              </div>
+            )}
+
+            {/* Summary */}
+            {importedFiles.length > 0 && (
+              <div className="composer-summary">
+                <div className="composer-summary-stat">
+                  <span className="composer-summary-num">{importedFiles.length}</span>
+                  <span>file{importedFiles.length !== 1 ? 's' : ''}</span>
+                </div>
+                <div className="composer-summary-stat">
+                  <span className="composer-summary-num">
+                    {[...new Set(importedFiles.flatMap(f => f.services))].length}
+                  </span>
+                  <span>service{[...new Set(importedFiles.flatMap(f => f.services))].length !== 1 ? 's' : ''}</span>
+                </div>
+                <div className="composer-summary-stat">
+                  <span className="composer-summary-num">
+                    {[...new Set(importedFiles.map(f => f.type))].length}
+                  </span>
+                  <span>type{[...new Set(importedFiles.map(f => f.type))].length !== 1 ? 's' : ''}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── STEP 6: SWITCH file ── */}
+        {step === 6 && (
           <div className="demo-step demo-step-switch">
             <div className="demo-switch-glow" />
             <h2 className="demo-step-title">
-              Your <span style={{ color: 'var(--accent)' }}>SWITCH</span> file
+              Your Master{' '}
+              <span style={{ color: 'var(--accent)' }}>SWITCH</span>{' '}
               is ready
             </h2>
             <p className="demo-step-desc">
-              This is your portable automation &mdash; a <code>.0n</code> file.
-              Download it, then import it into 0nMCP to{' '}
+              {importedFiles.length} file{importedFiles.length !== 1 ? 's' : ''} packaged
+              into one portable <code>.0n</code> SWITCH.
+              Download it, then import into 0nMCP to{' '}
               <strong style={{ color: 'var(--accent)' }}>Turn it 0n</strong>.
             </p>
+
+            {/* Composition visual */}
+            <div className="composer-visual">
+              <div className="composer-visual-files">
+                {importedFiles.map(f => {
+                  const meta = TYPE_META[f.type] || TYPE_META.unknown
+                  return (
+                    <div key={f.id} className="composer-visual-chip" style={{ borderColor: meta.color + '60' }}>
+                      <span style={{ color: meta.color }}>{meta.icon}</span>
+                      <span>{f.filename}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <div className="composer-visual-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14m0 0l-4-4m4 4l4-4" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <div className="composer-visual-master">
+                <span className="composer-visual-master-icon">🔀</span>
+                <span>{(businessName || 'my-master').toLowerCase().replace(/\s+/g, '-')}-switch.0n</span>
+              </div>
+            </div>
 
             {/* File preview */}
             <div className="demo-switch-preview">
               <div className="demo-switch-header">
                 <span className="demo-switch-filename">
-                  {(businessName || 'my-first').toLowerCase().replace(/\s+/g, '-')}-run.0n
+                  {(businessName || 'my-master').toLowerCase().replace(/\s+/g, '-')}-switch.0n
                 </span>
-                <span className="demo-switch-badge">SWITCH FILE</span>
+                <span className="demo-switch-badge">MASTER SWITCH</span>
               </div>
               <pre className="demo-switch-code">
                 <code>{generateSwitchFile()}</code>
@@ -490,7 +857,7 @@ export default function DemoBuilder() {
             {/* Actions */}
             <div className="demo-switch-actions">
               <button onClick={downloadSwitch} className="demo-switch-download">
-                Download SWITCH File
+                Download Master SWITCH
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                   <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -510,11 +877,11 @@ export default function DemoBuilder() {
                 </div>
                 <div className="demo-next-card">
                   <span className="demo-next-num">02</span>
-                  <span>Import your SWITCH: <code>0nmcp engine import</code></span>
+                  <span>Import your SWITCH: <code>0nmcp engine open my-switch.0n</code></span>
                 </div>
                 <div className="demo-next-card">
                   <span className="demo-next-num">03</span>
-                  <span>Add API keys for your services</span>
+                  <span>Verify connections: <code>0nmcp engine verify</code></span>
                 </div>
                 <div className="demo-next-card">
                   <span className="demo-next-num">04</span>
@@ -539,7 +906,13 @@ export default function DemoBuilder() {
           disabled={!canAdvance()}
           className={`demo-nav-next${step === STEPS.length - 1 ? ' hidden' : ''}`}
         >
-          {step === 0 ? "Let's Go" : step === 4 ? 'See Your SWITCH' : 'Continue'} →
+          {step === 0
+            ? "Let's Go"
+            : step === 4
+              ? 'See Your SWITCH'
+              : step === 5
+                ? 'Generate Master SWITCH'
+                : 'Continue'} →
         </button>
       </div>
     </div>

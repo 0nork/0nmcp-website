@@ -2301,6 +2301,10 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem;
 }
 
 .mega-nav-bar {
@@ -2309,7 +2313,9 @@ a:hover {
   justify-content: space-between;
   height: 56px;
   padding: 0 2rem;
-  margin: 0.5rem 1rem 0;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 72rem;
   background: rgba(10, 10, 15, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -2477,7 +2483,9 @@ a:hover {
 
 /* ── Mega dropdown ── */
 .mega-dropdown {
-  margin: 0.25rem 1rem 0;
+  margin-top: 0.25rem;
+  width: 100%;
+  max-width: 72rem;
   border: 1px solid var(--border);
   border-radius: 1rem;
   background: rgba(10, 10, 15, 0.95);

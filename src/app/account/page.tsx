@@ -11,6 +11,8 @@ interface Profile {
   company: string | null
   plan: string
   mfa_enrolled: boolean
+  sponsor_tier: string | null
+  stripe_customer_id: string | null
   created_at: string
 }
 
@@ -55,6 +57,7 @@ export default function AccountPage() {
   // Editable profile fields
   const [editName, setEditName] = useState('')
   const [editCompany, setEditCompany] = useState('')
+  const [portalLoading, setPortalLoading] = useState(false)
 
   // Vault add form
   const [newService, setNewService] = useState('')
@@ -177,6 +180,22 @@ export default function AccountPage() {
     }
   }
 
+  async function handleManageSubscription() {
+    setPortalLoading(true)
+    try {
+      const res = await fetch('/api/stripe/portal', { method: 'POST' })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setMessage(data.error || 'Failed to open billing portal')
+      }
+    } catch {
+      setMessage('Network error')
+    }
+    setPortalLoading(false)
+  }
+
   async function handleSignOut() {
     await supabase.auth.signOut()
     router.push('/login')
@@ -208,6 +227,11 @@ export default function AccountPage() {
           <h1 className="account-title">{profile?.full_name || profile?.email}</h1>
           <p className="account-plan">
             <span className="account-plan-badge">{profile?.plan || 'free'}</span>
+            {profile?.sponsor_tier && (
+              <span className="account-plan-badge" style={{ backgroundColor: 'rgba(0,255,136,0.15)', color: 'var(--accent)', borderColor: 'rgba(0,255,136,0.3)' }}>
+                {profile.sponsor_tier} sponsor
+              </span>
+            )}
             {profile?.mfa_enrolled && <span className="account-mfa-badge">2FA</span>}
           </p>
         </div>
@@ -275,6 +299,34 @@ export default function AccountPage() {
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
                 Member since {profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : '—'}
               </p>
+            </div>
+
+            <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
+              <h3 style={{ fontSize: '0.9375rem', marginBottom: '0.5rem' }}>Sponsorship</h3>
+              {profile?.sponsor_tier ? (
+                <div>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+                    You are a <strong style={{ color: 'var(--accent)' }}>{profile.sponsor_tier}</strong> sponsor. Thank you for supporting 0nMCP!
+                  </p>
+                  <button
+                    className="btn-ghost"
+                    onClick={handleManageSubscription}
+                    disabled={portalLoading}
+                    style={{ fontSize: '0.8125rem' }}
+                  >
+                    {portalLoading ? 'Loading...' : 'Manage subscription'}
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+                    Not currently sponsoring. Your support keeps 0nMCP free and open source.
+                  </p>
+                  <a href="/sponsor" className="btn-ghost no-underline" style={{ fontSize: '0.8125rem' }}>
+                    Become a sponsor
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         )}

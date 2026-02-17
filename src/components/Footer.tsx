@@ -24,6 +24,8 @@ const footerColumns = [
   {
     title: 'Community',
     links: [
+      { label: 'Forum', href: '/forum' },
+      { label: 'Learn', href: '/learn' },
       { label: 'Discord', href: 'https://discord.gg/0nork', external: true },
       { label: 'Sponsor', href: '/sponsor' },
       { label: 'Report', href: '/report' },

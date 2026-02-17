@@ -40,18 +40,19 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
         title: 'Connect',
         links: [
           { label: 'Community Hub', href: '/community', desc: 'Discussion & updates' },
+          { label: 'Forum', href: '/forum', desc: 'Ask questions & discuss', accent: true },
           { label: 'Discord', href: 'https://discord.gg/0nork', desc: 'Join the conversation', external: true },
           { label: 'GitHub', href: 'https://github.com/0nork/0nMCP', desc: 'Star & contribute', external: true },
           { label: 'Sponsor', href: '/sponsor', desc: 'Support development' },
         ],
       },
       {
-        title: 'Resources',
+        title: 'Learn',
         links: [
+          { label: 'All Courses', href: '/learn', desc: 'Free & premium courses', accent: true },
           { label: 'Documentation', href: 'https://github.com/0nork/0nMCP#readme', desc: 'Full API reference', external: true },
           { label: 'npm Package', href: 'https://www.npmjs.com/package/0nmcp', desc: '0nmcp on npm', external: true },
           { label: 'Report an Issue', href: '/report', desc: 'Bug reports & feedback' },
-          { label: 'Legal', href: '/legal', desc: 'Terms & privacy' },
         ],
       },
     ],

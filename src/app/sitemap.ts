@@ -23,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/signup',
     '/store/onork-mini',
     '/partners',
+    '/learn',
+    '/forum',
     '/products/social0n',
     '/products/app0n',
     '/products/web0n',

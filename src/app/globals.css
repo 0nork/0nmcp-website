@@ -1639,3 +1639,654 @@ a:hover {
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
+
+/* ============================================
+   HERO SECTION — Animated
+   ============================================ */
+
+.hero-section {
+  position: relative;
+  min-height: calc(100vh - 6rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4rem 2rem 6rem;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Animated grid overlay */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 255, 136, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 50% at 50% 40%, black 10%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 40%, black 10%, transparent 70%);
+  animation: heroGridPulse 5s ease-in-out infinite;
+}
+
+@keyframes heroGridPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Central radial glow */
+.hero-radial {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: 1400px;
+  height: 1400px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 136, 0.1) 0%,
+    rgba(0, 212, 255, 0.05) 25%,
+    rgba(167, 139, 250, 0.02) 45%,
+    transparent 65%
+  );
+  animation: heroRadialPulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes heroRadialPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+/* Expanding rings */
+.hero-rings {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  pointer-events: none;
+}
+
+.hero-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 255, 136, 0.08);
+  animation: heroRingExpand 5s ease-out infinite;
+}
+
+.hero-ring-2 { animation-delay: 1.7s; }
+.hero-ring-3 { animation-delay: 3.4s; }
+
+@keyframes heroRingExpand {
+  0% { transform: scale(0.2); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Floating particles */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-particle {
+  position: absolute;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+  animation: heroParticleFloat linear infinite;
+}
+
+@keyframes heroParticleFloat {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  15% { opacity: 0.6; transform: scale(1); }
+  85% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-120px) translateX(30px) scale(0.3); }
+}
+
+/* Scan line */
+.hero-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.12), transparent);
+  animation: heroScanDown 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes heroScanDown {
+  0% { top: -1px; }
+  100% { top: 100%; }
+}
+
+/* Orbital ring with service dots */
+.hero-orbit {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 700px;
+  height: 700px;
+  transform: translate(-50%, -50%);
+  animation: heroOrbitSpin 60s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes heroOrbitSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.hero-orbit-dot {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--dot-color, var(--accent));
+  top: 50%;
+  left: 50%;
+  transform: rotate(var(--angle)) translateX(350px) rotate(calc(-1 * var(--angle)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.25;
+  animation: heroOrbitDotGlow 4s ease-in-out infinite;
+  animation-delay: calc(var(--angle) / 360 * 4s);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--dot-color, var(--accent)) 40%, transparent);
+}
+
+/* Counter-rotate labels */
+.hero-orbit-dot .hero-orbit-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #000;
+  animation: heroOrbitSpin 60s linear infinite reverse;
+}
+
+@keyframes heroOrbitDotGlow {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.45; }
+}
+
+@media (max-width: 768px) {
+  .hero-orbit { width: 450px; height: 450px; }
+  .hero-orbit-dot {
+    width: 20px;
+    height: 20px;
+    transform: rotate(var(--angle)) translateX(225px) rotate(calc(-1 * var(--angle)));
+  }
+  .hero-orbit-label { font-size: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .hero-orbit { display: none; }
+}
+
+/* ── Hero content ── */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 860px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 1rem;
+  border-radius: 999px;
+  background: rgba(0, 255, 136, 0.06);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: heroBadgePulse 2s ease-in-out infinite;
+}
+
+@keyframes heroBadgePulse {
+  0%, 100% { box-shadow: 0 0 4px var(--accent); transform: scale(1); }
+  50% { box-shadow: 0 0 16px var(--accent), 0 0 32px rgba(0, 255, 136, 0.3); transform: scale(1.2); }
+}
+
+.hero-headline {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem;
+}
+
+.hero-gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 50%, #a78bfa 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: heroGradientShift 4s ease-in-out infinite;
+}
+
+@keyframes heroGradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-glow-line {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  text-shadow:
+    0 0 20px rgba(0, 255, 136, 0.5),
+    0 0 40px rgba(0, 255, 136, 0.25),
+    0 0 80px rgba(0, 255, 136, 0.1);
+  animation: heroGlowPulse 3s ease-in-out infinite;
+}
+
+@keyframes heroGlowPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 20px rgba(0, 255, 136, 0.5),
+      0 0 40px rgba(0, 255, 136, 0.25),
+      0 0 80px rgba(0, 255, 136, 0.1);
+  }
+  50% {
+    text-shadow:
+      0 0 30px rgba(0, 255, 136, 0.7),
+      0 0 60px rgba(0, 255, 136, 0.35),
+      0 0 120px rgba(0, 255, 136, 0.15);
+  }
+}
+
+.hero-tagline {
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  min-height: 1.5em;
+  font-family: var(--font-mono);
+}
+
+.hero-cursor {
+  color: var(--accent);
+  animation: heroCursorBlink 0.75s step-end infinite;
+  font-weight: 300;
+}
+
+@keyframes heroCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* CTAs */
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.hero-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2.25rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-cta-primary::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.25) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.5s ease;
+}
+
+.hero-cta-primary:hover {
+  color: var(--bg-primary);
+  box-shadow:
+    0 0 30px rgba(0, 255, 136, 0.4),
+    0 0 60px rgba(0, 255, 136, 0.15);
+  transform: translateY(-2px);
+}
+
+.hero-cta-primary:hover::before {
+  transform: translateX(120%);
+}
+
+.hero-cta-arrow {
+  transition: transform 0.3s ease;
+}
+
+.hero-cta-primary:hover .hero-cta-arrow {
+  transform: translateX(4px);
+}
+
+/* Stats strip */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  padding: 1.25rem 2.5rem;
+  background: rgba(10, 10, 15, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+}
+
+.hero-stat { text-align: center; }
+
+.hero-stat-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.2;
+}
+
+.hero-stat-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+/* Trust bar */
+.hero-trust {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.hero-trust-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.hero-scroll-mouse {
+  width: 20px;
+  height: 32px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  position: relative;
+  opacity: 0.5;
+}
+
+.hero-scroll-dot {
+  width: 3px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  transform: translateX(-50%);
+  animation: heroScrollDot 2s ease-in-out infinite;
+}
+
+@keyframes heroScrollDot {
+  0%, 100% { top: 6px; opacity: 1; }
+  50% { top: 18px; opacity: 0.3; }
+}
+
+/* ============================================
+   SECTION POLISH — Common Overrides
+   ============================================ */
+
+.section-accent-line {
+  display: block;
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  margin-bottom: 1rem;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.section-heading {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 640px;
+}
+
+/* Architecture cards with animated top bar */
+.arch-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.arch-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--accent));
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.arch-card:hover {
+  border-color: var(--card-accent, var(--accent));
+  box-shadow: 0 0 30px color-mix(in srgb, var(--card-accent, var(--accent)) 15%, transparent);
+  transform: translateY(-4px);
+}
+
+.arch-card:hover::before {
+  opacity: 1;
+}
+
+/* Step cards */
+.step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.step-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.step-number {
+  font-family: var(--font-mono);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.2;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.step-card:hover .step-number {
+  opacity: 0.5;
+}
+
+/* Pricing highlight card */
+.pricing-featured {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 50px rgba(0, 255, 136, 0.08), 0 0 100px rgba(0, 255, 136, 0.04);
+}
+
+/* Before/After comparison cards */
+.compare-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.compare-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+/* Category grid items */
+.cat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.cat-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-3px);
+}
+
+/* Security feature cards */
+.sec-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.sec-card:hover {
+  border-color: var(--border-hover);
+}
+
+/* FAQ items */
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.faq-item:hover,
+.faq-item[open] {
+  border-color: var(--border-hover);
+}
+
+.faq-item[open] {
+  border-color: rgba(0, 255, 136, 0.2);
+}
+
+.faq-item summary {
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.faq-item summary:hover {
+  color: var(--accent);
+}
+
+.faq-item summary .faq-toggle {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-left: 1rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.faq-item[open] summary .faq-toggle {
+  transform: rotate(45deg);
+  color: var(--accent);
+}
+
+.faq-item .faq-answer {
+  padding: 0 1.5rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}

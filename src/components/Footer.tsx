@@ -31,6 +31,14 @@ const footerColumns = [
     ],
   },
   {
+    title: 'Ecosystem',
+    links: [
+      { label: 'Partners', href: '/partners' },
+      { label: 'MCPFED', href: 'https://mcpfed.com', external: true },
+      { label: 'Marketplace', href: 'https://marketplace.rocketclients.com', external: true },
+    ],
+  },
+  {
     title: 'Company',
     links: [
       { label: 'RocketOpp LLC', href: 'https://rocketopp.com', external: true },

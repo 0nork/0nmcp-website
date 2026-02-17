@@ -69,6 +69,14 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
           { label: 'Web0n', href: '/products/web0n', desc: 'Website generation' },
         ],
       },
+      {
+        title: 'Ecosystem',
+        links: [
+          { label: 'Partners', href: '/partners', desc: 'Partner products & integrations' },
+          { label: 'MCPFED', href: 'https://mcpfed.com', desc: 'AI Automation Marketplace', external: true },
+          { label: 'Marketplace', href: 'https://marketplace.rocketclients.com', desc: '0n Marketplace', external: true },
+        ],
+      },
     ],
   },
 }

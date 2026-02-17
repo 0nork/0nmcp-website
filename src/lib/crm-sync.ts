@@ -59,7 +59,7 @@ export async function syncNewUser(record: Record<string, unknown>): Promise<stri
       await createOpportunity({
         name: `${email} — 0nMCP User`,
         pipelineId: PIPELINE_ID,
-        stageId: STAGE_IDS.free,
+        pipelineStageId: STAGE_IDS.free,
         contactId: contact.id,
         monetaryValue: 0,
       })
@@ -107,7 +107,7 @@ export async function syncTierChange(
       const opp = await findOpportunityByContact(contact.id, PIPELINE_ID)
       if (opp) {
         await updateOpportunity(opp.id, {
-          stageId: STAGE_IDS[newTier],
+          pipelineStageId: STAGE_IDS[newTier],
           monetaryValue: TIER_VALUES[newTier] || 0,
         })
       }

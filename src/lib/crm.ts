@@ -189,7 +189,7 @@ export interface CrmOpportunity {
 export async function createOpportunity(data: {
   name: string
   pipelineId: string
-  stageId: string
+  pipelineStageId: string
   contactId: string
   monetaryValue?: number
   status?: string
@@ -207,7 +207,7 @@ export async function createOpportunity(data: {
  */
 export async function updateOpportunity(
   opportunityId: string,
-  data: Partial<{ stageId: string; status: string; monetaryValue: number; name: string }>
+  data: Partial<{ pipelineStageId: string; status: string; monetaryValue: number; name: string }>
 ): Promise<CrmOpportunity> {
   const result = await crmRequest<{ opportunity: CrmOpportunity }>('PUT', `/opportunities/${opportunityId}`, data)
   return result.opportunity
@@ -222,7 +222,7 @@ export async function findOpportunityByContact(
 ): Promise<CrmOpportunity | null> {
   const result = await crmRequest<{ opportunities: CrmOpportunity[] }>(
     'GET',
-    `/opportunities/search?location_id=${getLocationId()}&contact_id=${contactId}&pipeline_id=${pipelineId}`
+    `/opportunities/search?locationId=${getLocationId()}&contactId=${contactId}&pipelineId=${pipelineId}`
   )
   return result.opportunities?.[0] || null
 }

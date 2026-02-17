@@ -80,6 +80,7 @@ export default function ContentDashboard() {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null)
   const [editBody, setEditBody] = useState('')
   const [editTitle, setEditTitle] = useState('')
+  const [posting, setPosting] = useState(false)
   const [message, setMessage] = useState('')
 
   // Generate form
@@ -172,6 +173,56 @@ export default function ContentDashboard() {
     }
   }
 
+  async function handlePost(id: string) {
+    setPosting(true)
+    setMessage('')
+    try {
+      const res = await fetch('/api/admin/content/post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setMessage(`Posted to ${data.platform}${data.url ? ` — ${data.url}` : ''}`)
+        loadContent()
+        if (selectedItem?.id === id) {
+          setSelectedItem({ ...selectedItem, status: 'posted', posted_url: data.url })
+        }
+      } else {
+        setMessage(`Post failed: ${data.error || 'Unknown error'}`)
+      }
+    } catch {
+      setMessage('Network error posting content')
+    }
+    setPosting(false)
+  }
+
+  async function handlePostAll() {
+    const approved = items.filter(i => i.status === 'approved')
+    if (approved.length === 0) {
+      setMessage('No approved content to post')
+      return
+    }
+    if (!confirm(`Post ${approved.length} approved item${approved.length !== 1 ? 's' : ''}?`)) return
+
+    setPosting(true)
+    setMessage('')
+    try {
+      const res = await fetch('/api/admin/content/post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: approved.map(i => i.id) }),
+      })
+      const data = await res.json()
+      setMessage(`Batch complete: ${data.posted} posted, ${data.failed} failed`)
+      loadContent()
+    } catch {
+      setMessage('Network error during batch post')
+    }
+    setPosting(false)
+  }
+
   async function handleDelete(id: string) {
     if (!confirm('Delete this content permanently?')) return
     const res = await fetch(`/api/admin/content/${id}`, { method: 'DELETE' })
@@ -204,9 +255,25 @@ export default function ContentDashboard() {
         <div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 900, letterSpacing: '-0.02em' }}>Content Pipeline</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            AI-generated marketing content — review, edit, approve, schedule.
+            AI-generated marketing content — review, edit, approve, post.
           </p>
         </div>
+        <button
+          onClick={handlePostAll}
+          disabled={posting || items.filter(i => i.status === 'approved').length === 0}
+          style={{
+            padding: '8px 20px',
+            borderRadius: 10,
+            background: posting ? 'var(--bg-card)' : '#9945ff18',
+            color: posting ? 'var(--text-muted)' : '#9945ff',
+            border: 'none',
+            fontWeight: 700,
+            fontSize: '0.8125rem',
+            cursor: posting ? 'wait' : 'pointer',
+          }}
+        >
+          {posting ? 'Posting...' : `Post All Approved (${items.filter(i => i.status === 'approved').length})`}
+        </button>
       </div>
 
       {/* Message */}
@@ -505,8 +572,20 @@ export default function ContentDashboard() {
               {selectedItem.status !== 'rejected' && (
                 <button onClick={() => handleAction(selectedItem.id, 'rejected')} style={btnStyle('#ff3d3d')}>Reject</button>
               )}
+              {(selectedItem.status === 'approved' || selectedItem.status === 'scheduled') && (
+                <button
+                  onClick={() => handlePost(selectedItem.id)}
+                  disabled={posting}
+                  style={btnStyle('#9945ff')}
+                >
+                  {posting ? 'Posting...' : 'Post Now'}
+                </button>
+              )}
               {selectedItem.status === 'approved' && (
                 <button onClick={() => handleAction(selectedItem.id, 'scheduled', { scheduled_for: new Date(Date.now() + 86400000).toISOString() })} style={btnStyle('#00d4ff')}>Schedule +1d</button>
+              )}
+              {selectedItem.posted_url && (
+                <a href={selectedItem.posted_url} target="_blank" rel="noopener noreferrer" style={{ ...btnStyle('#00ff88'), textDecoration: 'none', display: 'inline-block' }}>View Post</a>
               )}
               <button onClick={() => handleDelete(selectedItem.id)} style={btnStyle('#ff3d3d', true)}>Delete</button>
             </div>

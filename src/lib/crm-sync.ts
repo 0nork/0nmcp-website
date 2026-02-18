@@ -119,6 +119,45 @@ export async function syncTierChange(
   }
 }
 
+// ==================== ONBOARDING SYNC ====================
+
+/**
+ * Sync onboarding completion to CRM
+ * Called on: profiles UPDATE webhook (when onboarding_completed flips to true)
+ * Tags contact with role and interest tags for segmented marketing
+ */
+export async function syncOnboardingComplete(record: Record<string, unknown>): Promise<void> {
+  try {
+    const email = record.email as string
+    if (!email) return
+
+    const contact = await findContactByEmail(email)
+    if (!contact) {
+      console.warn(`[crm-sync] Contact not found for onboarding complete: ${email}`)
+      return
+    }
+
+    const tags: string[] = ['onboarded']
+
+    // Add role tag
+    const role = record.role as string
+    if (role) tags.push(`role-${role}`)
+
+    // Add interest tags
+    const interests = record.interests as string[] | null
+    if (interests && interests.length > 0) {
+      interests.forEach(interest => {
+        tags.push(`interest-${interest.toLowerCase().replace(/[^a-z0-9]/g, '-')}`)
+      })
+    }
+
+    await addContactTags(contact.id, tags)
+    console.log(`[crm-sync] Onboarding complete: ${email} tagged with ${tags.join(', ')}`)
+  } catch (err) {
+    console.error('[crm-sync] syncOnboardingComplete error:', err)
+  }
+}
+
 // ==================== ENROLLMENT SYNC ====================
 
 /**

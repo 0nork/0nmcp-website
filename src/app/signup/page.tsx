@@ -46,7 +46,7 @@ const STATS = [
 function SignupForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') || '/account'
+  const redirect = searchParams.get('redirect') || '/0nboarding'
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

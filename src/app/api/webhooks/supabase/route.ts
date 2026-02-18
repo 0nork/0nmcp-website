@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { syncNewUser, syncTierChange, syncEnrollment, sendWelcomeEmail } from '@/lib/crm-sync'
+import { syncNewUser, syncTierChange, syncEnrollment, syncOnboardingComplete, sendWelcomeEmail } from '@/lib/crm-sync'
 import { findContactByEmail, addContactTags } from '@/lib/crm'
 import {
   syncCommunityMember,
@@ -62,6 +62,10 @@ export async function POST(request: NextRequest) {
           if (record.sponsor_tier !== old_record.sponsor_tier) {
             await syncTierChange(record, old_record)
           }
+          // Onboarding completed → CRM tags with role + interests
+          if (record.onboarding_completed === true && old_record.onboarding_completed === false) {
+            await syncOnboardingComplete(record)
+          }
           // Reputation level change → community CRM
           if (record.reputation_level !== old_record.reputation_level) {
             await syncEngagementLevel({
@@ -99,6 +103,10 @@ export async function POST(request: NextRequest) {
       case 'community_posts':
         if (type === 'INSERT' && record) {
           await handleNewReply(record)
+          // Persona reply chain — queue AI follow-up if thread has persona activity
+          await handlePersonaReplyChain(record).catch(err =>
+            console.error('[webhook] persona chain error:', err)
+          )
         }
         break
 
@@ -332,6 +340,53 @@ async function handleGroupLeave(record: Record<string, unknown>) {
     if (!group) return
     await syncGroupLeft({ email: user.email, groupSlug: group.slug })
   } catch { /* non-critical */ }
+}
+
+async function handlePersonaReplyChain(record: Record<string, unknown>) {
+  const threadId = record.thread_id as string
+  const userId = record.user_id as string
+  if (!threadId) return
+
+  try {
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+
+    // Check if this thread has any persona activity
+    const { count: personaActivity } = await supabase
+      .from('persona_conversations')
+      .select('*', { count: 'exact', head: true })
+      .eq('thread_id', threadId)
+
+    if (!personaActivity || personaActivity === 0) return // Not an AI thread — skip
+
+    // Check depth limit (max 5 AI replies per thread)
+    if (personaActivity >= 5) return
+
+    // Check if the person who just posted is a persona
+    const { data: poster } = await supabase
+      .from('profiles')
+      .select('is_persona')
+      .eq('id', userId)
+      .single()
+
+    if (poster?.is_persona) return // Last reply was a persona — don't chain immediately
+
+    // Thread has persona activity + last reply was a real user → trigger async persona reply
+    // We call the converse endpoint to generate a reply (fire-and-forget)
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000'
+
+    fetch(`${baseUrl}/api/personas/converse`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'reply', thread_id: threadId }),
+    }).catch(() => { /* fire and forget */ })
+
+    console.log(`[webhook] Queued persona reply for thread=${threadId}`)
+  } catch (err) {
+    console.error('[webhook] handlePersonaReplyChain error:', err)
+  }
 }
 
 async function handleNewSponsor(record: Record<string, unknown>) {

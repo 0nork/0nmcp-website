@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/cron/personas",
+      "schedule": "0 */2 * * *"
+    }
+  ],
   "redirects": [
     { "source": "/docs", "destination": "https://github.com/0nork/0nMCP", "permanent": false },
     { "source": "/github", "destination": "https://github.com/0nork/0nMCP", "permanent": false },

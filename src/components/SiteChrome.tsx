@@ -7,9 +7,9 @@ import OnorkWidget from '@/components/onork-mini/OnorkWidget'
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const isPWA = pathname.startsWith('/app')
+  const isChromeless = pathname.startsWith('/app') || pathname.startsWith('/0nboarding') || pathname.startsWith('/oauth')
 
-  if (isPWA) {
+  if (isChromeless) {
     return <>{children}</>
   }
 

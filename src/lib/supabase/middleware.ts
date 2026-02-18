@@ -33,24 +33,22 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  const pathname = request.nextUrl.pathname
+
   // Protected routes — redirect to login if not authenticated
-  const protectedPaths = ['/account', '/vault', '/app', '/store']
-  const isProtected = protectedPaths.some((p) =>
-    request.nextUrl.pathname.startsWith(p)
-  )
+  const protectedPaths = ['/account', '/vault', '/app', '/store', '/0nboarding', '/oauth']
+  const isProtected = protectedPaths.some((p) => pathname.startsWith(p))
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    url.searchParams.set('redirect', request.nextUrl.pathname)
+    url.searchParams.set('redirect', pathname)
     return NextResponse.redirect(url)
   }
 
   // Redirect authenticated users away from login/signup
   const authPaths = ['/login', '/signup']
-  const isAuthPage = authPaths.some((p) =>
-    request.nextUrl.pathname.startsWith(p)
-  )
+  const isAuthPage = authPaths.some((p) => pathname.startsWith(p))
 
   if (isAuthPage && user) {
     const redirect = request.nextUrl.searchParams.get('redirect') || '/account'
@@ -58,6 +56,49 @@ export async function updateSession(request: NextRequest) {
     url.pathname = redirect
     url.search = ''
     return NextResponse.redirect(url)
+  }
+
+  // Onboarding gate — authenticated users only
+  if (user) {
+    // Skip onboarding check for API routes
+    if (pathname.startsWith('/api/')) {
+      return supabaseResponse
+    }
+
+    // Check onboarding status for protected non-API routes
+    const skipOnboardingCheck = pathname.startsWith('/0nboarding') || pathname.startsWith('/oauth/consent')
+
+    if (isProtected && !skipOnboardingCheck) {
+      // Query onboarding status
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('onboarding_completed')
+        .eq('id', user.id)
+        .single()
+
+      if (profile && profile.onboarding_completed === false) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/0nboarding'
+        url.search = ''
+        return NextResponse.redirect(url)
+      }
+    }
+
+    // If already onboarded and visiting /0nboarding, redirect to /account
+    if (pathname.startsWith('/0nboarding')) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('onboarding_completed')
+        .eq('id', user.id)
+        .single()
+
+      if (profile && profile.onboarding_completed === true) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/account'
+        url.search = ''
+        return NextResponse.redirect(url)
+      }
+    }
   }
 
   return supabaseResponse

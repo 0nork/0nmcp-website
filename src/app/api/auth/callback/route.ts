@@ -4,7 +4,7 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const redirect = searchParams.get('redirect') || '/account'
+  const redirect = searchParams.get('redirect') || '/0nboarding'
 
   if (code) {
     const supabase = await createSupabaseServer()

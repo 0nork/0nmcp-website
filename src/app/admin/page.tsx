@@ -11,6 +11,13 @@ const sections = [
     color: '#00ff88',
   },
   {
+    title: 'AI Personas',
+    description: 'Forum agents — generate characters, seed threads, build organic activity.',
+    href: '/admin/personas',
+    icon: '🤖',
+    color: '#ff69b4',
+  },
+  {
     title: 'Community Forum',
     description: 'Moderate threads, manage groups, view reported content.',
     href: '/forum',

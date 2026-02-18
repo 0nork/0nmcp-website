@@ -35,6 +35,23 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
+  // Admin routes — restricted to admin emails only
+  const ADMIN_EMAILS = ['mike@rocketopp.com']
+  if (pathname.startsWith('/admin')) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      url.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(url)
+    }
+    if (!ADMIN_EMAILS.includes(user.email || '')) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      url.search = ''
+      return NextResponse.redirect(url)
+    }
+  }
+
   // Protected routes — redirect to login if not authenticated
   const protectedPaths = ['/account', '/vault', '/app', '/store', '/0nboarding', '/oauth']
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p))

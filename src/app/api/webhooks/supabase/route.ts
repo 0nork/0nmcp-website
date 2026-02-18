@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { syncNewUser, syncTierChange, syncEnrollment, sendWelcomeEmail } from '@/lib/crm-sync'
 import { findContactByEmail, addContactTags } from '@/lib/crm'
+import {
+  syncCommunityMember,
+  syncThreadCreated,
+  syncReplyCreated,
+  syncVoteActivity,
+  syncEngagementLevel,
+  syncBadgeAwarded,
+  syncGroupJoined,
+  syncGroupLeft,
+} from '@/lib/crm-community-sync'
+import { createSupabaseServer } from '@/lib/supabase/server'
 
 const WEBHOOK_SECRET = process.env.SUPABASE_DB_WEBHOOK_SECRET || ''
 
@@ -28,22 +39,43 @@ export async function POST(request: NextRequest) {
 
   try {
     switch (table) {
+      // ==================== USER EVENTS ====================
       case 'profiles':
         if (type === 'INSERT' && record) {
-          // New user → sync to CRM + send welcome email
+          // Sync to main CRM location
           await syncNewUser(record)
           const email = record.email as string
           const name = record.full_name as string | undefined
-          if (email) await sendWelcomeEmail(email, name)
+          if (email) {
+            await sendWelcomeEmail(email, name)
+            // Also register in community sub-location
+            await syncCommunityMember({
+              email,
+              fullName: name,
+              company: record.company as string | undefined,
+              userId: record.id as string,
+            })
+          }
         }
         if (type === 'UPDATE' && record && old_record) {
-          // Check for tier change
+          // Tier change → main CRM
           if (record.sponsor_tier !== old_record.sponsor_tier) {
             await syncTierChange(record, old_record)
+          }
+          // Reputation level change → community CRM
+          if (record.reputation_level !== old_record.reputation_level) {
+            await syncEngagementLevel({
+              email: record.email as string,
+              fullName: record.full_name as string | undefined,
+              newLevel: record.reputation_level as string,
+              oldLevel: (old_record.reputation_level as string) || 'newcomer',
+              karma: (record.karma as number) || 0,
+            })
           }
         }
         break
 
+      // ==================== ENROLLMENT EVENTS ====================
       case 'enrollments':
         if (type === 'INSERT' && record) {
           await handleNewEnrollment(record)
@@ -57,6 +89,7 @@ export async function POST(request: NextRequest) {
         }
         break
 
+      // ==================== COMMUNITY EVENTS ====================
       case 'community_threads':
         if (type === 'INSERT' && record) {
           await handleNewThread(record)
@@ -69,6 +102,28 @@ export async function POST(request: NextRequest) {
         }
         break
 
+      case 'community_votes':
+        if (type === 'INSERT' && record) {
+          await handleNewVote(record)
+        }
+        break
+
+      case 'community_user_badges':
+        if (type === 'INSERT' && record) {
+          await handleBadgeAwarded(record)
+        }
+        break
+
+      case 'community_memberships':
+        if (type === 'INSERT' && record) {
+          await handleGroupJoin(record)
+        }
+        if (type === 'DELETE' && old_record) {
+          await handleGroupLeave(old_record)
+        }
+        break
+
+      // ==================== SPONSOR EVENTS ====================
       case 'sponsor_subscriptions':
         if (type === 'INSERT' && record) {
           await handleNewSponsor(record)
@@ -83,23 +138,38 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// --- Event Handlers ---
+// ==================== HELPER: Look up user email from user_id ====================
+
+async function lookupUserEmail(userId: string): Promise<{ email: string; fullName?: string } | null> {
+  try {
+    const supabase = await createSupabaseServer()
+    if (!supabase) return null
+    const { data } = await supabase
+      .from('profiles')
+      .select('email, full_name')
+      .eq('id', userId)
+      .single()
+    return data ? { email: data.email, fullName: data.full_name || undefined } : null
+  } catch {
+    return null
+  }
+}
+
+// ==================== EVENT HANDLERS ====================
 
 async function handleNewEnrollment(record: Record<string, unknown>) {
-  console.log(`[webhook] New enrollment: user=${record.user_id} course=${record.course_id}`)
-  // Tag contact in CRM with course enrollment
+  const userId = record.user_id as string
+  const courseId = record.course_id as string
+  console.log(`[webhook] New enrollment: user=${userId} course=${courseId}`)
   try {
-    // Look up user email from enrollment user_id — we'd need a DB query here
-    // For now, just tag if we have the contact
-    const userId = record.user_id as string
-    if (userId) {
-      // The enrollment webhook doesn't include email, so we log it
-      // The full sync happens in syncEnrollment which can be enhanced
-      console.log(`[webhook] Enrollment logged for CRM sync: ${userId}`)
+    const user = await lookupUserEmail(userId)
+    if (user) {
+      await addContactTags(
+        (await findContactByEmail(user.email))?.id || '',
+        [`enrolled-${courseId}`, 'learner'],
+      )
     }
-  } catch {
-    // Non-critical
-  }
+  } catch { /* non-critical */ }
 }
 
 async function handleLessonComplete(record: Record<string, unknown>) {
@@ -108,18 +178,160 @@ async function handleLessonComplete(record: Record<string, unknown>) {
 }
 
 async function handleNewThread(record: Record<string, unknown>) {
-  console.log(`[webhook] New thread: "${record.title}" by user=${record.user_id}`)
-  // Tag the CRM contact as community-active
+  const userId = record.user_id as string
+  const title = record.title as string
+  const slug = record.slug as string
+  console.log(`[webhook] New thread: "${title}" by user=${userId}`)
+
   try {
-    // We don't have email from thread record, but we could look it up
-    // For now, log for monitoring
-  } catch {
-    // Non-critical
+    const user = await lookupUserEmail(userId)
+    if (!user) return
+
+    // Look up group name
+    let groupSlug = 'general'
+    if (record.group_id) {
+      try {
+        const supabase = await createSupabaseServer()
+        if (supabase) {
+          const { data } = await supabase
+            .from('community_groups')
+            .select('slug')
+            .eq('id', record.group_id)
+            .single()
+          if (data) groupSlug = data.slug
+        }
+      } catch { /* use default */ }
+    }
+
+    await syncThreadCreated({
+      email: user.email,
+      fullName: user.fullName,
+      threadTitle: title,
+      threadSlug: slug,
+      group: groupSlug,
+    })
+  } catch (err) {
+    console.error('[webhook] handleNewThread error:', err)
   }
 }
 
 async function handleNewReply(record: Record<string, unknown>) {
-  console.log(`[webhook] New reply in thread=${record.thread_id} by user=${record.user_id}`)
+  const userId = record.user_id as string
+  const threadId = record.thread_id as string
+  console.log(`[webhook] New reply in thread=${threadId} by user=${userId}`)
+
+  try {
+    const user = await lookupUserEmail(userId)
+    if (!user) return
+
+    // Look up thread info
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+    const { data: thread } = await supabase
+      .from('community_threads')
+      .select('title, slug')
+      .eq('id', threadId)
+      .single()
+
+    if (!thread) return
+
+    await syncReplyCreated({
+      email: user.email,
+      fullName: user.fullName,
+      threadTitle: thread.title,
+      threadSlug: thread.slug,
+      replyPreview: (record.body as string) || '',
+    })
+  } catch (err) {
+    console.error('[webhook] handleNewReply error:', err)
+  }
+}
+
+async function handleNewVote(record: Record<string, unknown>) {
+  const userId = record.user_id as string
+  try {
+    const user = await lookupUserEmail(userId)
+    if (!user) return
+    await syncVoteActivity({ voterEmail: user.email, voterName: user.fullName })
+  } catch { /* non-critical */ }
+}
+
+async function handleBadgeAwarded(record: Record<string, unknown>) {
+  const userId = record.user_id as string
+  const badgeId = record.badge_id as string
+
+  try {
+    const user = await lookupUserEmail(userId)
+    if (!user) return
+
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+    const { data: badge } = await supabase
+      .from('community_badges')
+      .select('name, slug, tier')
+      .eq('id', badgeId)
+      .single()
+
+    if (!badge) return
+
+    await syncBadgeAwarded({
+      email: user.email,
+      fullName: user.fullName,
+      badgeName: badge.name,
+      badgeSlug: badge.slug,
+      badgeTier: badge.tier,
+    })
+  } catch (err) {
+    console.error('[webhook] handleBadgeAwarded error:', err)
+  }
+}
+
+async function handleGroupJoin(record: Record<string, unknown>) {
+  const userId = record.user_id as string
+  const groupId = record.group_id as string
+
+  try {
+    const user = await lookupUserEmail(userId)
+    if (!user) return
+
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+    const { data: group } = await supabase
+      .from('community_groups')
+      .select('slug, name')
+      .eq('id', groupId)
+      .single()
+
+    if (!group) return
+
+    await syncGroupJoined({
+      email: user.email,
+      fullName: user.fullName,
+      groupSlug: group.slug,
+      groupName: group.name,
+    })
+  } catch { /* non-critical */ }
+}
+
+async function handleGroupLeave(record: Record<string, unknown>) {
+  const userId = record.user_id as string
+  const groupId = record.group_id as string
+
+  try {
+    const user = await lookupUserEmail(userId)
+    if (!user) return
+
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+    const { data: group } = await supabase
+      .from('community_groups')
+      .select('slug')
+      .eq('id', groupId)
+      .single()
+
+    if (!group) return
+    await syncGroupLeft({ email: user.email, groupSlug: group.slug })
+  } catch { /* non-critical */ }
 }
 
 async function handleNewSponsor(record: Record<string, unknown>) {
@@ -133,8 +345,6 @@ async function handleNewSponsor(record: Record<string, unknown>) {
       if (contact) {
         await addContactTags(contact.id, [`sponsor`, `${tier}-tier`, 'paying-customer'])
       }
-    } catch {
-      // Non-critical
-    }
+    } catch { /* non-critical */ }
   }
 }

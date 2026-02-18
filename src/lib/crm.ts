@@ -1,15 +1,21 @@
 /**
  * CRM API Client for 0nmcp.com
- * Wraps the CRM REST API for contacts, conversations, opportunities
+ * Multi-location support: main account + community sub-location
+ * Same PIT serves both — differentiated by location ID only
  *
  * Env vars:
- *   CRM_API_KEY       — Sub-account Private Integration Token (PIT)
- *   CRM_LOCATION_ID   — Sub-account location ID
- *   CRM_AGENCY_KEY    — Agency-level API key (for agency operations)
+ *   CRM_API_KEY                — PIT (serves all locations)
+ *   CRM_LOCATION_ID            — Main sub-account location ID
+ *   CRM_COMMUNITY_LOCATION_ID  — Community sub-location ID (nphConTwfHcVE1oA0uep)
+ *   CRM_AGENCY_KEY             — Agency-level API key (for agency operations)
  */
 
 const API_BASE = 'https://services.leadconnectorhq.com'
 const API_VERSION = '2021-07-28'
+
+// ==================== LOCATION TYPES ====================
+
+export type CrmLocation = 'main' | 'community'
 
 function getHeaders(useAgencyKey = false): Record<string, string> {
   const key = useAgencyKey
@@ -25,9 +31,12 @@ function getHeaders(useAgencyKey = false): Record<string, string> {
   }
 }
 
-function getLocationId(): string {
-  const id = process.env.CRM_LOCATION_ID
-  if (!id) throw new Error('CRM_LOCATION_ID not configured')
+export function getLocationId(location: CrmLocation = 'main'): string {
+  const id = location === 'community'
+    ? (process.env.CRM_COMMUNITY_LOCATION_ID || 'nphConTwfHcVE1oA0uep')
+    : process.env.CRM_LOCATION_ID
+
+  if (!id) throw new Error(`CRM location ID not configured for ${location}`)
   return id
 }
 
@@ -79,9 +88,9 @@ export async function upsertContact(data: {
   tags?: string[]
   source?: string
   companyName?: string
-}): Promise<CrmContact> {
+}, location: CrmLocation = 'main'): Promise<CrmContact> {
   const result = await crmRequest<{ contact: CrmContact }>('POST', '/contacts/upsert', {
-    locationId: getLocationId(),
+    locationId: getLocationId(location),
     ...data,
   })
   return result.contact
@@ -90,9 +99,9 @@ export async function upsertContact(data: {
 /**
  * Search contacts by email
  */
-export async function findContactByEmail(email: string): Promise<CrmContact | null> {
+export async function findContactByEmail(email: string, location: CrmLocation = 'main'): Promise<CrmContact | null> {
   const result = await crmRequest<{ contacts: CrmContact[] }>('POST', '/contacts/search', {
-    locationId: getLocationId(),
+    locationId: getLocationId(location),
     filters: [{ field: 'email', operator: 'eq', value: email }],
     pageLimit: 1,
   })
@@ -127,6 +136,16 @@ export async function addContactTags(contactId: string, tags: string[]): Promise
  */
 export async function removeContactTags(contactId: string, tags: string[]): Promise<void> {
   await crmRequest('DELETE', `/contacts/${contactId}/tags`, { tags })
+}
+
+/**
+ * Add a note to a contact
+ */
+export async function addContactNote(contactId: string, body: string): Promise<void> {
+  await crmRequest('POST', `/contacts/${contactId}/notes`, {
+    body,
+    userId: contactId,
+  })
 }
 
 // ==================== CONVERSATIONS / EMAIL ====================
@@ -164,9 +183,9 @@ export async function sendEmail(params: {
 /**
  * Create a conversation for a contact
  */
-export async function createConversation(contactId: string): Promise<{ id: string }> {
+export async function createConversation(contactId: string, location: CrmLocation = 'main'): Promise<{ id: string }> {
   return crmRequest('POST', '/conversations/', {
-    locationId: getLocationId(),
+    locationId: getLocationId(location),
     contactId,
   })
 }
@@ -193,9 +212,9 @@ export async function createOpportunity(data: {
   contactId: string
   monetaryValue?: number
   status?: string
-}): Promise<CrmOpportunity> {
+}, location: CrmLocation = 'main'): Promise<CrmOpportunity> {
   const result = await crmRequest<{ opportunity: CrmOpportunity }>('POST', '/opportunities/', {
-    locationId: getLocationId(),
+    locationId: getLocationId(location),
     ...data,
     status: data.status || 'open',
   })
@@ -218,11 +237,77 @@ export async function updateOpportunity(
  */
 export async function findOpportunityByContact(
   contactId: string,
-  pipelineId: string
+  pipelineId: string,
+  location: CrmLocation = 'main'
 ): Promise<CrmOpportunity | null> {
   const result = await crmRequest<{ opportunities: CrmOpportunity[] }>(
     'GET',
-    `/opportunities/search?locationId=${getLocationId()}&contactId=${contactId}&pipelineId=${pipelineId}`
+    `/opportunities/search?locationId=${getLocationId(location)}&contactId=${contactId}&pipelineId=${pipelineId}`
   )
   return result.opportunities?.[0] || null
+}
+
+// ==================== COURSES (Read-only) ====================
+
+export interface CrmCourse {
+  id: string
+  title: string
+  description?: string
+  status?: string
+}
+
+export interface CrmCourseProgress {
+  contactId: string
+  courseId: string
+  completionPercentage: number
+  completedAt?: string
+}
+
+/**
+ * List courses available in the community sub-location
+ */
+export async function listCourses(location: CrmLocation = 'community'): Promise<CrmCourse[]> {
+  const result = await crmRequest<{ courses: CrmCourse[] }>(
+    'GET',
+    `/courses/?locationId=${getLocationId(location)}`
+  )
+  return result.courses || []
+}
+
+// ==================== TAGS ====================
+
+/**
+ * List all tags in a location
+ */
+export async function listTags(location: CrmLocation = 'main'): Promise<Array<{ id: string; name: string }>> {
+  const result = await crmRequest<{ tags: Array<{ id: string; name: string }> }>(
+    'GET',
+    `/locations/${getLocationId(location)}/tags`
+  )
+  return result.tags || []
+}
+
+/**
+ * Create a tag in a location
+ */
+export async function createTag(name: string, location: CrmLocation = 'main'): Promise<{ id: string; name: string }> {
+  const result = await crmRequest<{ tag: { id: string; name: string } }>(
+    'POST',
+    `/locations/${getLocationId(location)}/tags`,
+    { name }
+  )
+  return result.tag
+}
+
+// ==================== CUSTOM FIELDS ====================
+
+/**
+ * List custom fields for a location
+ */
+export async function listCustomFields(location: CrmLocation = 'main'): Promise<Array<{ id: string; name: string; fieldKey: string }>> {
+  const result = await crmRequest<{ customFields: Array<{ id: string; name: string; fieldKey: string }> }>(
+    'GET',
+    `/locations/${getLocationId(location)}/customFields`
+  )
+  return result.customFields || []
 }

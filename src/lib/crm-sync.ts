@@ -218,6 +218,167 @@ export async function sendTransactionalEmail(params: {
   }
 }
 
+// ==================== EMAIL TEMPLATE SYSTEM ====================
+
+/**
+ * Shared email layout — 0nMCP branded with CAN-SPAM compliant footer
+ * All transactional emails go through this wrapper for consistent branding.
+ */
+function emailLayout(params: {
+  preheader?: string
+  heading: string
+  body: string
+  ctaText?: string
+  ctaUrl?: string
+  footnote?: string
+  reason: string // CAN-SPAM: why they received this email
+}): string {
+  const cta = params.ctaUrl && params.ctaText
+    ? `<div style="text-align:center;margin:28px 0;">
+        <a href="${params.ctaUrl}" style="display:inline-block;padding:14px 36px;background:#00ff88;color:#0a0a0f;font-weight:800;font-size:15px;border-radius:10px;text-decoration:none;letter-spacing:-0.01em;mso-padding-alt:14px 36px;">
+          ${params.ctaText}
+        </a>
+      </div>`
+    : ''
+
+  const footnote = params.footnote
+    ? `<p style="font-size:12px;color:#777;line-height:1.6;margin:0 0 20px;">${params.footnote}</p>`
+    : ''
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="supported-color-schemes" content="dark" />
+  <title>0nMCP</title>
+  <!--[if mso]>
+  <style>body{font-family:Arial,sans-serif!important;}</style>
+  <![endif]-->
+</head>
+<body style="margin:0;padding:0;background:#06060a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;">
+  ${params.preheader ? `<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">${params.preheader}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>` : ''}
+
+  <!-- Outer wrapper -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#06060a;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table role="presentation" width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding:0 0 8px;text-align:center;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:24px 32px 20px;background:#0c0c14;border-radius:16px 16px 0 0;border:1px solid #1a1a2e;border-bottom:none;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" style="padding-bottom:6px;">
+                          <span style="font-size:32px;font-weight:900;color:#00ff88;font-family:'Courier New',Courier,monospace;letter-spacing:-0.03em;">0n</span><span style="font-size:22px;font-weight:700;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin-left:3px;">MCP</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center">
+                          <span style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Universal AI API Orchestrator</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:28px 32px 32px;background:#0c0c14;border:1px solid #1a1a2e;border-top:none;border-bottom:none;">
+                    <h1 style="font-size:20px;font-weight:800;color:#e8e8e8;margin:0 0 12px;letter-spacing:-0.02em;">${params.heading}</h1>
+                    ${params.body}
+                    ${cta}
+                    ${footnote}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding:0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:0 32px;background:#0c0c14;border:1px solid #1a1a2e;border-top:none;border-bottom:none;">
+                    <div style="border-top:1px solid #1a1a2e;"></div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Social + Links -->
+          <tr>
+            <td style="padding:0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:20px 32px;background:#0c0c14;border:1px solid #1a1a2e;border-top:none;border-bottom:none;text-align:center;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" align="center">
+                      <tr>
+                        <td style="padding:0 8px;"><a href="https://0nmcp.com" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Website</a></td>
+                        <td style="color:#333;font-size:11px;">&middot;</td>
+                        <td style="padding:0 8px;"><a href="https://0nmcp.com/forum" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Forum</a></td>
+                        <td style="color:#333;font-size:11px;">&middot;</td>
+                        <td style="padding:0 8px;"><a href="https://github.com/0nork/0nMCP" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">GitHub</a></td>
+                        <td style="color:#333;font-size:11px;">&middot;</td>
+                        <td style="padding:0 8px;"><a href="https://discord.gg/0nork" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Discord</a></td>
+                        <td style="color:#333;font-size:11px;">&middot;</td>
+                        <td style="padding:0 8px;"><a href="https://npmjs.com/package/0nmcp" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">npm</a></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CAN-SPAM Footer -->
+          <tr>
+            <td style="padding:0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:20px 32px 28px;background:#0a0a10;border-radius:0 0 16px 16px;border:1px solid #1a1a2e;border-top:none;text-align:center;">
+                    <p style="font-size:11px;color:#555;line-height:1.6;margin:0 0 8px;">
+                      ${params.reason}
+                    </p>
+                    <p style="font-size:11px;color:#444;line-height:1.6;margin:0 0 8px;">
+                      <strong style="color:#555;">RocketOpp LLC</strong> d/b/a 0nMCP<br />
+                      651 N Broad St, Suite 201, Middletown, DE 19709
+                    </p>
+                    <p style="font-size:10px;color:#444;line-height:1.6;margin:0;">
+                      <a href="https://0nmcp.com/account" style="color:#00ff88;text-decoration:none;">Manage preferences</a>
+                      &nbsp;&middot;&nbsp;
+                      <a href="https://0nmcp.com/unsubscribe" style="color:#888;text-decoration:none;">Unsubscribe</a>
+                    </p>
+                    <p style="font-size:10px;color:#333;margin:12px 0 0;">
+                      &copy; ${new Date().getFullYear()} RocketOpp LLC. All rights reserved.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+}
+
 // ==================== AUTH EMAIL TEMPLATES ====================
 
 /**
@@ -227,31 +388,19 @@ export async function sendMagicLinkEmail(email: string, magicLink: string): Prom
   return sendTransactionalEmail({
     to: email,
     subject: 'Your 0nMCP Login Link',
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #0a0a0f; color: #e0e0e0; border-radius: 16px;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <span style="font-size: 24px; font-weight: 900; color: #00ff88; font-family: monospace;">0n</span>
-          <span style="font-size: 18px; font-weight: 700; margin-left: 4px;">MCP</span>
-        </div>
-        <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Login Link</h2>
-        <p style="font-size: 14px; color: #999; line-height: 1.6; margin-bottom: 24px;">
-          Click the button below to sign in to your 0nMCP account. This link expires in 1 hour.
+    html: emailLayout({
+      preheader: 'Click to sign in to your 0nMCP account',
+      heading: 'Sign in to 0nMCP',
+      body: `
+        <p style="font-size:14px;color:#999;line-height:1.7;margin:0 0 4px;">
+          Click the button below to sign in to your account. This link is valid for <strong style="color:#e0e0e0;">1 hour</strong> and can only be used once.
         </p>
-        <div style="text-align: center; margin-bottom: 24px;">
-          <a href="${magicLink}" style="display: inline-block; padding: 12px 32px; background: #00ff88; color: #0a0a0f; font-weight: 700; font-size: 14px; border-radius: 10px; text-decoration: none;">
-            Sign In to 0nMCP
-          </a>
-        </div>
-        <p style="font-size: 12px; color: #666; line-height: 1.5;">
-          If you didn't request this link, you can safely ignore this email.
-        </p>
-        <hr style="border: none; border-top: 1px solid #1a1a2e; margin: 24px 0;" />
-        <p style="font-size: 11px; color: #444; text-align: center;">
-          0nMCP — Universal AI API Orchestrator<br />
-          <a href="https://0nmcp.com" style="color: #00ff88;">0nmcp.com</a>
-        </p>
-      </div>
-    `,
+      `,
+      ctaText: 'Sign In to 0nMCP',
+      ctaUrl: magicLink,
+      footnote: 'If you didn\'t request this link, you can safely ignore this email. Your account is secure.',
+      reason: 'You received this email because a sign-in was requested for this email address on 0nmcp.com.',
+    }),
   })
 }
 
@@ -262,31 +411,19 @@ export async function sendPasswordResetEmail(email: string, resetLink: string): 
   return sendTransactionalEmail({
     to: email,
     subject: 'Reset Your 0nMCP Password',
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #0a0a0f; color: #e0e0e0; border-radius: 16px;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <span style="font-size: 24px; font-weight: 900; color: #00ff88; font-family: monospace;">0n</span>
-          <span style="font-size: 18px; font-weight: 700; margin-left: 4px;">MCP</span>
-        </div>
-        <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Password Reset</h2>
-        <p style="font-size: 14px; color: #999; line-height: 1.6; margin-bottom: 24px;">
-          Click the button below to reset your password. This link expires in 1 hour.
+    html: emailLayout({
+      preheader: 'Reset your 0nMCP password',
+      heading: 'Reset your password',
+      body: `
+        <p style="font-size:14px;color:#999;line-height:1.7;margin:0 0 4px;">
+          We received a request to reset the password for your 0nMCP account. Click the button below to choose a new password. This link expires in <strong style="color:#e0e0e0;">1 hour</strong>.
         </p>
-        <div style="text-align: center; margin-bottom: 24px;">
-          <a href="${resetLink}" style="display: inline-block; padding: 12px 32px; background: #00ff88; color: #0a0a0f; font-weight: 700; font-size: 14px; border-radius: 10px; text-decoration: none;">
-            Reset Password
-          </a>
-        </div>
-        <p style="font-size: 12px; color: #666; line-height: 1.5;">
-          If you didn't request a password reset, you can safely ignore this email.
-        </p>
-        <hr style="border: none; border-top: 1px solid #1a1a2e; margin: 24px 0;" />
-        <p style="font-size: 11px; color: #444; text-align: center;">
-          0nMCP — Universal AI API Orchestrator<br />
-          <a href="https://0nmcp.com" style="color: #00ff88;">0nmcp.com</a>
-        </p>
-      </div>
-    `,
+      `,
+      ctaText: 'Reset Password',
+      ctaUrl: resetLink,
+      footnote: 'If you didn\'t request a password reset, no action is needed. Your password will remain unchanged and your account is secure.',
+      reason: 'You received this email because a password reset was requested for this email address on 0nmcp.com.',
+    }),
   })
 }
 
@@ -297,31 +434,25 @@ export async function sendConfirmationEmail(email: string, confirmLink: string):
   return sendTransactionalEmail({
     to: email,
     subject: 'Confirm Your 0nMCP Account',
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #0a0a0f; color: #e0e0e0; border-radius: 16px;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <span style="font-size: 24px; font-weight: 900; color: #00ff88; font-family: monospace;">0n</span>
-          <span style="font-size: 18px; font-weight: 700; margin-left: 4px;">MCP</span>
-        </div>
-        <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Welcome to 0nMCP!</h2>
-        <p style="font-size: 14px; color: #999; line-height: 1.6; margin-bottom: 24px;">
-          Thanks for signing up. Confirm your email to access 550 tools across 26 services — free forever.
+    html: emailLayout({
+      preheader: 'Confirm your email to activate your 0nMCP account',
+      heading: 'Confirm your email',
+      body: `
+        <p style="font-size:14px;color:#999;line-height:1.7;margin:0 0 8px;">
+          Thanks for signing up for 0nMCP! Confirm your email address to activate your account and get access to:
         </p>
-        <div style="text-align: center; margin-bottom: 24px;">
-          <a href="${confirmLink}" style="display: inline-block; padding: 12px 32px; background: #00ff88; color: #0a0a0f; font-weight: 700; font-size: 14px; border-radius: 10px; text-decoration: none;">
-            Confirm Email
-          </a>
-        </div>
-        <p style="font-size: 12px; color: #666; line-height: 1.5;">
-          After confirming, check out the <a href="https://0nmcp.com/learn" style="color: #00ff88;">free courses</a> to get started.
-        </p>
-        <hr style="border: none; border-top: 1px solid #1a1a2e; margin: 24px 0;" />
-        <p style="font-size: 11px; color: #444; text-align: center;">
-          0nMCP — Universal AI API Orchestrator<br />
-          <a href="https://0nmcp.com" style="color: #00ff88;">0nmcp.com</a>
-        </p>
-      </div>
-    `,
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;">
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> 545 tools across 26 services</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Free interactive courses</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Community forum access</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Workflow builder</td></tr>
+        </table>
+      `,
+      ctaText: 'Confirm Email Address',
+      ctaUrl: confirmLink,
+      footnote: 'If you didn\'t create an account on 0nmcp.com, you can safely ignore this email.',
+      reason: 'You received this email because an account was registered with this email address on 0nmcp.com.',
+    }),
   })
 }
 
@@ -329,39 +460,53 @@ export async function sendConfirmationEmail(email: string, confirmLink: string):
  * Send a welcome email (after confirmation) via CRM
  */
 export async function sendWelcomeEmail(email: string, name?: string): Promise<boolean> {
+  const greeting = name ? `Welcome, ${name}!` : 'Welcome to 0nMCP!'
   return sendTransactionalEmail({
     to: email,
-    subject: 'You\'re in! Here\'s how to get started with 0nMCP',
-    html: `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #0a0a0f; color: #e0e0e0; border-radius: 16px;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <span style="font-size: 24px; font-weight: 900; color: #00ff88; font-family: monospace;">0n</span>
-          <span style="font-size: 18px; font-weight: 700; margin-left: 4px;">MCP</span>
+    subject: "You're in! Here's how to get started with 0nMCP",
+    html: emailLayout({
+      preheader: 'Your 0nMCP account is ready. Here\'s how to get started.',
+      heading: greeting,
+      body: `
+        <p style="font-size:14px;color:#999;line-height:1.7;margin:0 0 20px;">
+          Your account is confirmed. You now have access to the most comprehensive MCP server available &mdash; 545 tools, 26 services, zero boilerplate.
+        </p>
+        <div style="background:#111118;border:1px solid #1a1a2e;border-radius:10px;padding:16px 20px;margin:0 0 20px;">
+          <p style="font-size:12px;color:#00ff88;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 10px;">Quick Start</p>
+          <div style="background:#0a0a10;border-radius:6px;padding:12px 16px;font-family:'Courier New',Courier,monospace;font-size:13px;color:#e0e0e0;">
+            npm install -g 0nmcp<br />
+            0nmcp --version
+          </div>
         </div>
-        <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Welcome${name ? `, ${name}` : ''}!</h2>
-        <p style="font-size: 14px; color: #999; line-height: 1.6; margin-bottom: 16px;">
-          You now have access to the most comprehensive MCP server available — 550 tools, 26 services, zero boilerplate.
-        </p>
-        <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #00ff88;">Quick Start</h3>
-        <div style="background: #111; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-family: monospace; font-size: 13px;">
-          npm install -g 0nmcp<br />
-          0nmcp --version
-        </div>
-        <p style="font-size: 14px; color: #999; line-height: 1.6; margin-bottom: 16px;">
-          <strong style="color: #e0e0e0;">Next steps:</strong>
-        </p>
-        <ul style="font-size: 13px; color: #999; line-height: 1.8; padding-left: 20px; margin-bottom: 24px;">
-          <li><a href="https://0nmcp.com/learn/getting-started" style="color: #00ff88;">Take the Getting Started course</a> (free, 15 min)</li>
-          <li><a href="https://0nmcp.com/builder" style="color: #00ff88;">Build your first workflow</a></li>
-          <li><a href="https://0nmcp.com/forum" style="color: #00ff88;">Join the community forum</a></li>
-          <li><a href="https://discord.gg/0nork" style="color: #00ff88;">Jump into Discord</a></li>
-        </ul>
-        <hr style="border: none; border-top: 1px solid #1a1a2e; margin: 24px 0;" />
-        <p style="font-size: 11px; color: #444; text-align: center;">
-          0nMCP — Stop building workflows. Start describing outcomes.<br />
-          <a href="https://0nmcp.com" style="color: #00ff88;">0nmcp.com</a>
-        </p>
-      </div>
-    `,
+        <p style="font-size:14px;font-weight:700;color:#e0e0e0;margin:0 0 12px;">Next steps:</p>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;">
+          <tr>
+            <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
+              <a href="https://0nmcp.com/learn/getting-started" style="color:#00ff88;text-decoration:none;font-weight:600;">Take the Getting Started course</a>
+              <span style="color:#555;margin-left:6px;">(free, 15 min)</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
+              <a href="https://0nmcp.com/turn-it-on" style="color:#00ff88;text-decoration:none;font-weight:600;">Turn it 0n</a>
+              <span style="color:#555;margin-left:6px;">&mdash; connect your services</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
+              <a href="https://0nmcp.com/forum" style="color:#00ff88;text-decoration:none;font-weight:600;">Join the community forum</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;font-size:13px;color:#999;">
+              <a href="https://discord.gg/0nork" style="color:#00ff88;text-decoration:none;font-weight:600;">Jump into Discord</a>
+            </td>
+          </tr>
+        </table>
+      `,
+      ctaText: 'Go to Your Dashboard',
+      ctaUrl: 'https://0nmcp.com/account',
+      reason: 'You received this email because you confirmed your account on 0nmcp.com.',
+    }),
   })
 }

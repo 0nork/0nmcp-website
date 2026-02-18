@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
@@ -13,6 +13,14 @@ interface Group {
 }
 
 export default function NewThreadPage() {
+  return (
+    <Suspense fallback={<div className="pt-28 pb-24 px-4 text-center" style={{ color: 'var(--text-muted)' }}>Loading...</div>}>
+      <NewThreadForm />
+    </Suspense>
+  )
+}
+
+function NewThreadForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const preselectedGroup = searchParams.get('group') || ''

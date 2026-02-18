@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import ForumHome from './ForumHome'
 
 export const metadata: Metadata = {
@@ -13,5 +14,9 @@ export const metadata: Metadata = {
 }
 
 export default function ForumPage() {
-  return <ForumHome />
+  return (
+    <Suspense fallback={<div style={{ padding: '120px 32px', textAlign: 'center', color: 'var(--text-muted)' }}>Loading forum...</div>}>
+      <ForumHome />
+    </Suspense>
+  )
 }

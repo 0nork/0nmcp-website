@@ -265,20 +265,38 @@ $$ LANGUAGE plpgsql;
 
 -- ==================== TRIGGERS ====================
 
--- Thread vote triggers
+-- Thread vote triggers (split INSERT/UPDATE and DELETE to avoid NEW reference in DELETE WHEN)
 DROP TRIGGER IF EXISTS trg_thread_vote_score ON community_votes;
-CREATE TRIGGER trg_thread_vote_score
-  AFTER INSERT OR UPDATE OR DELETE ON community_votes
+DROP TRIGGER IF EXISTS trg_thread_vote_score_insert ON community_votes;
+DROP TRIGGER IF EXISTS trg_thread_vote_score_delete ON community_votes;
+
+CREATE TRIGGER trg_thread_vote_score_insert
+  AFTER INSERT OR UPDATE ON community_votes
   FOR EACH ROW
-  WHEN (COALESCE(NEW.thread_id, OLD.thread_id) IS NOT NULL)
+  WHEN (NEW.thread_id IS NOT NULL)
   EXECUTE FUNCTION update_thread_score();
 
--- Post vote triggers
-DROP TRIGGER IF EXISTS trg_post_vote_score ON community_votes;
-CREATE TRIGGER trg_post_vote_score
-  AFTER INSERT OR UPDATE OR DELETE ON community_votes
+CREATE TRIGGER trg_thread_vote_score_delete
+  AFTER DELETE ON community_votes
   FOR EACH ROW
-  WHEN (COALESCE(NEW.post_id, OLD.post_id) IS NOT NULL)
+  WHEN (OLD.thread_id IS NOT NULL)
+  EXECUTE FUNCTION update_thread_score();
+
+-- Post vote triggers (split INSERT/UPDATE and DELETE to avoid NEW reference in DELETE WHEN)
+DROP TRIGGER IF EXISTS trg_post_vote_score ON community_votes;
+DROP TRIGGER IF EXISTS trg_post_vote_score_insert ON community_votes;
+DROP TRIGGER IF EXISTS trg_post_vote_score_delete ON community_votes;
+
+CREATE TRIGGER trg_post_vote_score_insert
+  AFTER INSERT OR UPDATE ON community_votes
+  FOR EACH ROW
+  WHEN (NEW.post_id IS NOT NULL)
+  EXECUTE FUNCTION update_post_score();
+
+CREATE TRIGGER trg_post_vote_score_delete
+  AFTER DELETE ON community_votes
+  FOR EACH ROW
+  WHEN (OLD.post_id IS NOT NULL)
   EXECUTE FUNCTION update_post_score();
 
 -- Karma trigger

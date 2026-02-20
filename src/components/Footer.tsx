@@ -10,6 +10,7 @@ const footerColumns = [
       { label: 'Mobile App', href: '/app' },
       { label: 'Store', href: '/store/onork-mini' },
       { label: 'Builder', href: '/builder' },
+      { label: 'Convert', href: '/convert' },
     ],
   },
   {

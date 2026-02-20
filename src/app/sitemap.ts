@@ -28,11 +28,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/products/social0n',
     '/products/app0n',
     '/products/web0n',
+    '/convert',
+    '/convert/openai',
+    '/convert/gemini',
+    '/convert/openclaw',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
-    priority: path === '' ? 1.0 : path === '/turn-it-on' ? 0.95 : 0.7,
+    priority: path === '' ? 1.0 : path === '/turn-it-on' ? 0.95 : path.startsWith('/convert') ? 0.9 : 0.7,
   }))
 
   // Service hub pages (26)

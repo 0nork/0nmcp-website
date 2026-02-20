@@ -20,6 +20,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
           { label: 'Interactive Demo', href: '/demo', desc: 'Build your first RUN', accent: true },
           { label: 'Examples', href: '/examples', desc: 'Real-world use cases' },
           { label: 'Downloads', href: '/downloads', desc: 'Chrome extension & more' },
+          { label: 'Convert', href: '/convert', desc: 'Migrate from any AI platform', accent: true },
         ],
       },
       {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -30,6 +30,7 @@ interface Thread {
   hot_score: number
   last_reply_at: string | null
   created_at: string
+  user_id: string
   profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string }
   community_groups?: { name: string; slug: string; icon: string | null; color: string } | null
 }
@@ -49,14 +50,22 @@ const TIMEFRAMES = [
   { value: 'all', label: 'All Time' },
 ]
 
-export default function ForumHome() {
+export default function ForumClient({
+  initialThreads,
+  initialGroups,
+  initialTotal,
+}: {
+  initialThreads: Thread[]
+  initialGroups: Group[]
+  initialTotal: number
+}) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const [threads, setThreads] = useState<Thread[]>([])
-  const [groups, setGroups] = useState<Group[]>([])
-  const [total, setTotal] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [threads, setThreads] = useState<Thread[]>(initialThreads)
+  const [groups, setGroups] = useState<Group[]>(initialGroups)
+  const [total, setTotal] = useState(initialTotal)
+  const [loading, setLoading] = useState(false)
   const [userVotes, setUserVotes] = useState<Record<string, number>>({})
 
   const group = searchParams.get('group') || 'all'
@@ -73,14 +82,9 @@ export default function ForumHome() {
     router.push(`/forum?${params.toString()}`)
   }, [searchParams, router])
 
-  // Load groups
-  useEffect(() => {
-    fetch('/api/community/groups')
-      .then(r => r.json())
-      .then(d => setGroups(d.groups || []))
-  }, [])
+  // Track whether component has mounted — skip initial fetch since server data is used
+  const isInitialMount = useRef(true)
 
-  // Load threads
   const loadThreads = useCallback(async () => {
     setLoading(true)
     const params = new URLSearchParams({ sort, timeframe })
@@ -95,7 +99,25 @@ export default function ForumHome() {
     setLoading(false)
   }, [group, sort, timeframe])
 
-  useEffect(() => { loadThreads() }, [loadThreads])
+  // Refetch when sort/filter changes (skip initial render — server data is used)
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
+    }
+    loadThreads()
+  }, [loadThreads])
+
+  // Fetch user votes for initial threads (client-side, needs auth cookies)
+  useEffect(() => {
+    if (initialThreads.length > 0) {
+      fetch('/api/community/threads?sort=hot&limit=1')
+        .then(r => r.json())
+        .then(d => { if (d.userVotes) setUserVotes(d.userVotes) })
+        .catch(() => {})
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function handleVote(threadId: string, vote: 1 | -1) {
     const res = await fetch('/api/community/votes', {
@@ -105,7 +127,6 @@ export default function ForumHome() {
     })
     if (res.ok) {
       const data = await res.json()
-      // Optimistic update
       setUserVotes(prev => ({ ...prev, [threadId]: data.vote }))
       setThreads(prev => prev.map(t => {
         if (t.id !== threadId) return t
@@ -172,10 +193,10 @@ export default function ForumHome() {
                   className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-left text-sm transition-all"
                   style={{
                     background: group === 'all' ? 'rgba(255,255,255,0.06)' : 'transparent',
-                    color: group === 'all' ? 'var(--text)' : 'var(--text-secondary)',
+                    color: group === 'all' ? 'var(--text-primary)' : 'var(--text-secondary)',
                   }}
                 >
-                  <span className="text-sm">🏠</span>
+                  <span className="text-sm">&#127968;</span>
                   <span className="font-medium">All</span>
                 </button>
                 {groups.map(g => (
@@ -188,7 +209,7 @@ export default function ForumHome() {
                       color: group === g.slug ? g.color : 'var(--text-secondary)',
                     }}
                   >
-                    <span className="text-sm">{g.icon || '💬'}</span>
+                    <span className="text-sm">{g.icon || '&#128172;'}</span>
                     <span className="font-medium flex-1 truncate">{g.name}</span>
                     <span className="text-[10px] opacity-50">{g.thread_count}</span>
                   </button>
@@ -204,11 +225,11 @@ export default function ForumHome() {
               <div className="flex flex-col gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
                 <div className="flex justify-between">
                   <span>Threads</span>
-                  <span className="font-bold" style={{ color: 'var(--text)' }}>{total}</span>
+                  <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{total}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Groups</span>
-                  <span className="font-bold" style={{ color: 'var(--text)' }}>{groups.length}</span>
+                  <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{groups.length}</span>
                 </div>
               </div>
               <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
@@ -219,7 +240,7 @@ export default function ForumHome() {
                   className="text-[11px] font-semibold no-underline hover:underline"
                   style={{ color: 'var(--accent)' }}
                 >
-                  Join Community Portal →
+                  Join Community Portal &rarr;
                 </a>
               </div>
             </div>
@@ -234,7 +255,7 @@ export default function ForumHome() {
               className="rounded-xl p-5 mb-4 flex items-center gap-4"
               style={{ background: activeGroup.color + '08', border: `1px solid ${activeGroup.color}20` }}
             >
-              <span className="text-3xl">{activeGroup.icon || '💬'}</span>
+              <span className="text-3xl">{activeGroup.icon || '&#128172;'}</span>
               <div>
                 <h1 className="text-xl font-bold" style={{ color: activeGroup.color }}>{activeGroup.name}</h1>
                 {activeGroup.description && (
@@ -242,7 +263,7 @@ export default function ForumHome() {
                 )}
               </div>
               <div className="ml-auto text-right text-xs" style={{ color: 'var(--text-muted)' }}>
-                <div className="font-bold" style={{ color: 'var(--text)' }}>{activeGroup.member_count}</div>
+                <div className="font-bold" style={{ color: 'var(--text-primary)' }}>{activeGroup.member_count}</div>
                 <div>members</div>
               </div>
             </div>
@@ -276,7 +297,7 @@ export default function ForumHome() {
                     className="text-[10px] font-semibold px-2 py-1 rounded transition-all"
                     style={{
                       background: timeframe === t.value ? 'rgba(255,255,255,0.06)' : 'transparent',
-                      color: timeframe === t.value ? 'var(--text)' : 'var(--text-muted)',
+                      color: timeframe === t.value ? 'var(--text-primary)' : 'var(--text-muted)',
                     }}
                   >
                     {t.label}
@@ -332,7 +353,7 @@ export default function ForumHome() {
                         }}
                         title="Upvote"
                       >
-                        ▲
+                        &#9650;
                       </button>
                       <span
                         className="text-xs font-bold tabular-nums"
@@ -351,7 +372,7 @@ export default function ForumHome() {
                         }}
                         title="Downvote"
                       >
-                        ▼
+                        &#9660;
                       </button>
                     </div>
 
@@ -385,14 +406,14 @@ export default function ForumHome() {
                           {thread.profiles?.karma ? (
                             <span className="ml-1 opacity-50">({thread.profiles.karma} karma)</span>
                           ) : null}
-                          <span className="mx-1">·</span>
+                          <span className="mx-1">&middot;</span>
                           <span>{timeAgo(thread.created_at)}</span>
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: 'var(--text)' }}>
-                        {thread.is_locked && <span className="mr-1 opacity-50">🔒</span>}
+                      <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
+                        {thread.is_locked && <span className="mr-1 opacity-50">&#128274;</span>}
                         {thread.title}
                       </h3>
 
@@ -403,8 +424,8 @@ export default function ForumHome() {
 
                       {/* Actions bar */}
                       <div className="flex items-center gap-4 text-[11px]" style={{ color: 'var(--text-muted)' }}>
-                        <span>💬 {thread.reply_count} {thread.reply_count === 1 ? 'reply' : 'replies'}</span>
-                        <span>👁 {thread.view_count}</span>
+                        <span>&#128172; {thread.reply_count} {thread.reply_count === 1 ? 'reply' : 'replies'}</span>
+                        <span>&#128065; {thread.view_count}</span>
                       </div>
                     </Link>
                   </div>

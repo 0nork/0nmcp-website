@@ -1,9 +1,17 @@
 import { MetadataRoute } from 'next'
+import { createClient } from '@supabase/supabase-js'
 import servicesData from '@/data/services.json'
 import capabilitiesData from '@/data/capabilities.json'
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
-export default function sitemap(): MetadataRoute.Sitemap {
+function getAdmin() {
+  if (!supabaseUrl || !serviceRoleKey) return null
+  return createClient(supabaseUrl, serviceRoleKey)
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = 'https://0nmcp.com'
 
   // Static pages
@@ -55,5 +63,57 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  return [...staticPages, ...servicePages, ...capabilityPages]
+  // Dynamic forum threads + profiles + groups
+  let threadPages: MetadataRoute.Sitemap = []
+  let profilePages: MetadataRoute.Sitemap = []
+  let groupPages: MetadataRoute.Sitemap = []
+
+  const admin = getAdmin()
+  if (admin) {
+    const [threadsResult, profilesResult, groupsResult] = await Promise.all([
+      admin
+        .from('community_threads')
+        .select('slug, last_reply_at, created_at')
+        .order('created_at', { ascending: false })
+        .limit(5000),
+      admin
+        .from('profiles')
+        .select('id, created_at')
+        .eq('onboarding_completed', true)
+        .limit(5000),
+      admin
+        .from('community_groups')
+        .select('slug')
+        .order('thread_count', { ascending: false }),
+    ])
+
+    if (threadsResult.data) {
+      threadPages = threadsResult.data.map((t) => ({
+        url: `${base}/forum/${t.slug}`,
+        lastModified: t.last_reply_at ? new Date(t.last_reply_at) : new Date(t.created_at),
+        changeFrequency: 'daily' as const,
+        priority: 0.6,
+      }))
+    }
+
+    if (profilesResult.data) {
+      profilePages = profilesResult.data.map((p) => ({
+        url: `${base}/u/${p.id}`,
+        lastModified: new Date(p.created_at),
+        changeFrequency: 'weekly' as const,
+        priority: 0.5,
+      }))
+    }
+
+    if (groupsResult.data) {
+      groupPages = groupsResult.data.map((g) => ({
+        url: `${base}/forum?group=${g.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      }))
+    }
+  }
+
+  return [...staticPages, ...servicePages, ...capabilityPages, ...groupPages, ...threadPages, ...profilePages]
 }

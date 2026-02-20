@@ -4726,6 +4726,25 @@ a:hover {
   animation: scaleIn 0.25s ease-out;
 }
 
+/* ============================================
+   Profile Page
+   ============================================ */
+
+.profile-card:hover {
+  border-color: var(--border-hover);
+}
+
+/* Forum breadcrumb nav */
+nav[aria-label="Breadcrumb"] a:hover {
+  color: var(--accent);
+}
+
+/* Thread card hover in forum index */
+.forum-thread-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -1,0 +1,310 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "generated": "2026-02-20",
+    "total_comparisons": 12,
+    "schema": "0n-comparisons-v1"
+  },
+  "comparisons": [
+    {
+      "slug": "0nmcp-vs-zapier",
+      "competitor": "Zapier",
+      "tagline": "AI-native orchestration vs visual workflow builder",
+      "description": "Zapier popularized no-code automation with its trigger-action model. 0nMCP takes a fundamentally different approach: instead of clicking through visual builders, you describe outcomes in natural language and AI handles the orchestration.",
+      "competitor_summary": "Zapier is the largest iPaaS platform with 7,000+ app integrations and a visual Zap builder. It's designed for non-technical users who want point-and-click automation between web apps.",
+      "pricing_compare": "Zapier starts at $19.99/mo for 750 tasks. 0nMCP is open source and free for local use, with marketplace executions at $0.10 each — no monthly commitment.",
+      "key_differences": [
+        { "feature": "Interface", "onmcp": "Natural language + AI reasoning", "competitor": "Visual drag-and-drop builder" },
+        { "feature": "Pricing model", "onmcp": "Free open source + $0.10/execution", "competitor": "$19.99-$799/mo subscription" },
+        { "feature": "Tool count", "onmcp": "545 tools, 26 services", "competitor": "7,000+ apps (basic actions)" },
+        { "feature": "Execution model", "onmcp": "Pipeline + Assembly Line + Radial Burst", "competitor": "Sequential Zap chains" },
+        { "feature": "Self-hosted", "onmcp": "Yes — runs locally or on your server", "competitor": "No — cloud only" },
+        { "feature": "AI integration", "onmcp": "Native — AI decides tool selection", "competitor": "Add-on — AI as a step in Zaps" },
+        { "feature": "Custom logic", "onmcp": "Full JavaScript + .0n templates", "competitor": "Limited code steps, Paths" },
+        { "feature": "Data privacy", "onmcp": "Your data stays on your machine", "competitor": "Data processed on Zapier servers" }
+      ],
+      "best_for_onmcp": "Developers and technical teams who want AI-native automation, self-hosted execution, and pay-per-use pricing without monthly subscription lock-in.",
+      "best_for_competitor": "Non-technical users who prefer visual builders and need the widest possible app coverage without writing any code.",
+      "faq": [
+        { "q": "Can 0nMCP replace Zapier?", "a": "For most automation use cases, yes. 0nMCP covers 26 of the most popular services with 545 tools. If you need niche app integrations that Zapier supports, you may need both." },
+        { "q": "Is 0nMCP harder to use than Zapier?", "a": "Different, not harder. Instead of clicking through a visual builder, you describe what you want in plain English. AI handles the complexity of connecting services and mapping data." },
+        { "q": "How does pricing compare?", "a": "0nMCP is dramatically cheaper for most users. Zapier's Starter plan ($19.99/mo) gives you 750 tasks. With 0nMCP, 750 executions would cost $75 total with no monthly fee — and local execution is completely free." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-make",
+      "competitor": "Make",
+      "tagline": "AI orchestration vs visual scenario builder",
+      "description": "Make (formerly Integromat) offers powerful visual automation with a canvas-based scenario builder. 0nMCP replaces visual building entirely with AI-driven orchestration — describe the outcome, not the process.",
+      "competitor_summary": "Make is a visual automation platform known for its flexible scenario builder and advanced data manipulation. It offers more complex routing than Zapier but requires more technical understanding of data structures.",
+      "pricing_compare": "Make starts free (1,000 ops/mo) then $9-$16/mo for more operations. 0nMCP is free for local use with $0.10/execution on the marketplace — no operation limits locally.",
+      "key_differences": [
+        { "feature": "Interface", "onmcp": "Natural language + AI", "competitor": "Visual canvas builder" },
+        { "feature": "Pricing", "onmcp": "Free local + $0.10/execution", "competitor": "Free tier then $9-$299/mo" },
+        { "feature": "Complexity handling", "onmcp": "AI manages complexity automatically", "competitor": "Manual routing and error handling" },
+        { "feature": "Execution patterns", "onmcp": "3 patterns: Pipeline, Assembly Line, Radial Burst", "competitor": "Sequential with routers and iterators" },
+        { "feature": "Self-hosted", "onmcp": "Yes — full local execution", "competitor": "No — cloud only" },
+        { "feature": "Learning curve", "onmcp": "Describe what you want in English", "competitor": "Visual but requires data structure knowledge" },
+        { "feature": "Open source", "onmcp": "Yes — MIT licensed", "competitor": "No — proprietary" },
+        { "feature": "AI-native", "onmcp": "Built for AI from day one", "competitor": "AI as optional module" }
+      ],
+      "best_for_onmcp": "Teams wanting AI-native automation without learning a visual builder's specific paradigm. Ideal for complex multi-service workflows where AI reasoning adds value.",
+      "best_for_competitor": "Visual thinkers who prefer seeing their automations as flowcharts and need Make's specific app integrations.",
+      "faq": [
+        { "q": "Is Make more powerful than 0nMCP?", "a": "Make has more app integrations (1,800+), but 0nMCP has deeper tool coverage per service (545 tools vs basic CRUD operations) and AI-driven orchestration that handles complexity automatically." },
+        { "q": "Can I migrate from Make to 0nMCP?", "a": "Yes. 0nMCP's Engine can import your API credentials and the .0n Standard can express any automation Make scenarios can build, often more concisely." },
+        { "q": "Which is better for complex workflows?", "a": "0nMCP. Its Three-Level Execution system and AI reasoning handle complex multi-step workflows more naturally than visual routers and iterators." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-n8n",
+      "competitor": "n8n",
+      "tagline": "AI-native MCP server vs self-hosted workflow automation",
+      "description": "n8n is the leading open-source workflow automation tool with a visual editor. 0nMCP is an AI-native MCP server — both are self-hostable, but 0nMCP is designed for AI agents while n8n is designed for human operators.",
+      "competitor_summary": "n8n is a fair-code workflow automation tool with 400+ integrations and a visual node editor. It can be self-hosted or used as a cloud service, making it popular with developers who want control over their automation infrastructure.",
+      "pricing_compare": "n8n is free to self-host (fair-code license) with cloud plans starting at $20/mo. 0nMCP is MIT licensed (truly open source) and free for all local use.",
+      "key_differences": [
+        { "feature": "Primary user", "onmcp": "AI agents and developers", "competitor": "Human operators via visual editor" },
+        { "feature": "License", "onmcp": "MIT — truly open source", "competitor": "Sustainable Use License (fair-code)" },
+        { "feature": "Interface", "onmcp": "AI-native (natural language)", "competitor": "Visual node editor" },
+        { "feature": "Protocol", "onmcp": "Model Context Protocol (MCP)", "competitor": "Custom workflow engine" },
+        { "feature": "AI compatibility", "onmcp": "Works with Claude, ChatGPT, Gemini, Cursor", "competitor": "AI nodes as workflow steps" },
+        { "feature": "Tool depth", "onmcp": "545 tools with deep API coverage", "competitor": "400+ integrations, basic operations" },
+        { "feature": "Execution model", "onmcp": "Pipeline + Assembly Line + Radial Burst", "competitor": "Sequential node execution" },
+        { "feature": "Credential management", "onmcp": "Encrypted Vault with hardware binding", "competitor": "Database-stored credentials" }
+      ],
+      "best_for_onmcp": "AI-first teams building agent-powered automations. Developers who want their AI to directly orchestrate services via MCP rather than building visual workflows.",
+      "best_for_competitor": "Teams who prefer visual workflow building and need n8n's specific integrations or its established community and ecosystem.",
+      "faq": [
+        { "q": "Is 0nMCP a replacement for n8n?", "a": "They serve different paradigms. n8n is for humans building visual workflows. 0nMCP is for AI agents orchestrating services. Many teams use both — n8n for scheduled workflows, 0nMCP for AI-driven automation." },
+        { "q": "Which has better self-hosting?", "a": "Both self-host well. n8n requires Docker and a database. 0nMCP is a single npm install with no external dependencies — just 'npm install -g 0nmcp' and you're running." },
+        { "q": "Can 0nMCP and n8n work together?", "a": "Yes. n8n can trigger 0nMCP workflows via webhooks, and 0nMCP can call n8n's API to trigger scenarios. They complement each other." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-power-automate",
+      "competitor": "Power Automate",
+      "tagline": "Universal AI orchestrator vs Microsoft ecosystem automation",
+      "description": "Power Automate excels within the Microsoft ecosystem. 0nMCP is platform-agnostic, working with any AI client and any API — not locked into a single vendor's ecosystem.",
+      "competitor_summary": "Microsoft Power Automate is a cloud-based automation service deeply integrated with Microsoft 365, Dynamics 365, and Azure. It offers desktop automation (RPA), cloud flows, and business process flows.",
+      "pricing_compare": "Power Automate starts at $15/user/mo. 0nMCP is free for local use with no per-user licensing — one install serves your entire team.",
+      "key_differences": [
+        { "feature": "Ecosystem", "onmcp": "Platform-agnostic, 26 services", "competitor": "Microsoft-centric with connectors" },
+        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "$15/user/mo minimum" },
+        { "feature": "AI integration", "onmcp": "AI-native via MCP", "competitor": "Copilot as add-on feature" },
+        { "feature": "Self-hosted", "onmcp": "Yes — MIT licensed", "competitor": "Cloud only (desktop agent available)" },
+        { "feature": "RPA support", "onmcp": "API-based automation only", "competitor": "Full desktop RPA capabilities" },
+        { "feature": "Learning curve", "onmcp": "Natural language instructions", "competitor": "Power Platform knowledge required" },
+        { "feature": "Vendor lock-in", "onmcp": "None — open source, portable", "competitor": "Heavy Microsoft ecosystem dependency" },
+        { "feature": "Team scaling", "onmcp": "Single install, unlimited users", "competitor": "Per-user licensing" }
+      ],
+      "best_for_onmcp": "Teams using diverse tools beyond Microsoft who want AI-native automation without per-user licensing costs or vendor lock-in.",
+      "best_for_competitor": "Organizations deeply invested in the Microsoft ecosystem who need desktop RPA automation alongside cloud workflows.",
+      "faq": [
+        { "q": "Can 0nMCP connect to Microsoft 365?", "a": "Yes. 0nMCP includes Microsoft 365 tools for Outlook, Teams, OneDrive, and more — without requiring a Power Automate license." },
+        { "q": "Does 0nMCP support RPA?", "a": "No. 0nMCP focuses on API-based automation. If you need desktop automation (clicking UI elements, filling forms), Power Automate's desktop flows are the better choice." },
+        { "q": "Which is cheaper for a team of 10?", "a": "0nMCP. Power Automate would cost $150/mo minimum. 0nMCP's local execution is free, and marketplace usage is pay-per-execution with no per-seat fees." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-ifttt",
+      "competitor": "IFTTT",
+      "tagline": "545-tool AI orchestrator vs simple if-this-then-that",
+      "description": "IFTTT pioneered simple automation with its if-this-then-that model. 0nMCP goes far beyond single trigger-action pairs with AI-driven multi-step orchestration across 26 services.",
+      "competitor_summary": "IFTTT (If This Then That) is the simplest automation platform, connecting services with single trigger-action pairs called Applets. It's designed for consumers and smart home automation.",
+      "pricing_compare": "IFTTT offers 2 free Applets, then $3.49/mo for unlimited. 0nMCP is free for unlimited local use with far more capability per automation.",
+      "key_differences": [
+        { "feature": "Complexity", "onmcp": "Multi-step, multi-service workflows", "competitor": "Single trigger → single action" },
+        { "feature": "AI integration", "onmcp": "AI-native orchestration", "competitor": "No AI capabilities" },
+        { "feature": "Tool depth", "onmcp": "545 tools with full API coverage", "competitor": "Basic actions per service" },
+        { "feature": "Self-hosted", "onmcp": "Yes — runs locally", "competitor": "Cloud only" },
+        { "feature": "Target audience", "onmcp": "Developers and AI teams", "competitor": "Consumers and smart home users" },
+        { "feature": "Execution patterns", "onmcp": "3 patterns including parallel", "competitor": "Sequential only" },
+        { "feature": "Data transformation", "onmcp": "Full template engine + mapping", "competitor": "Minimal — filter and format only" },
+        { "feature": "Open source", "onmcp": "Yes — MIT licensed", "competitor": "No — proprietary" }
+      ],
+      "best_for_onmcp": "Anyone who's outgrown IFTTT's single trigger-action model and needs multi-step, AI-powered automation across business services.",
+      "best_for_competitor": "Consumers wanting dead-simple smart home automation and basic app connections without any technical knowledge.",
+      "faq": [
+        { "q": "Is 0nMCP overkill compared to IFTTT?", "a": "If you only need simple single-step automations between consumer apps and smart home devices, IFTTT is simpler. If you need business automation, multi-step workflows, or AI-driven orchestration, 0nMCP is the right tool." },
+        { "q": "Does 0nMCP work with smart home devices?", "a": "Not directly. 0nMCP focuses on SaaS API integration. For smart home automation, IFTTT or Home Assistant are better choices." },
+        { "q": "Can I migrate IFTTT Applets to 0nMCP?", "a": "Simple Applets can be recreated as 0nMCP workflows with richer functionality. Most IFTTT trigger-action pairs map to a single .0n SWITCH file." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-pipedream",
+      "competitor": "Pipedream",
+      "tagline": "AI-native MCP server vs developer workflow platform",
+      "description": "Pipedream is a developer-focused automation platform with code-first workflows. 0nMCP takes a different approach — instead of writing workflow code, AI agents orchestrate services through the Model Context Protocol.",
+      "competitor_summary": "Pipedream is a developer automation platform that combines visual building with code steps (Node.js, Python). It offers event-driven workflows, a generous free tier, and deep GitHub integration.",
+      "pricing_compare": "Pipedream offers a generous free tier (10K invocations/mo) then $29/mo. 0nMCP is completely free for local execution with no invocation limits.",
+      "key_differences": [
+        { "feature": "Approach", "onmcp": "AI orchestrates via MCP protocol", "competitor": "Developer writes workflow code" },
+        { "feature": "Free tier", "onmcp": "Unlimited local execution", "competitor": "10K invocations/mo" },
+        { "feature": "AI integration", "onmcp": "Native — AI is the orchestrator", "competitor": "Code steps can call AI APIs" },
+        { "feature": "Protocol", "onmcp": "Model Context Protocol standard", "competitor": "Proprietary workflow engine" },
+        { "feature": "Portability", "onmcp": ".0n Standard — works anywhere", "competitor": "Locked to Pipedream platform" },
+        { "feature": "Self-hosted", "onmcp": "Yes — single npm install", "competitor": "No — cloud only" },
+        { "feature": "Language", "onmcp": "JavaScript/ESM", "competitor": "Node.js and Python" },
+        { "feature": "Open source", "onmcp": "MIT licensed", "competitor": "Source available (not OSS)" }
+      ],
+      "best_for_onmcp": "Developers building AI-powered applications who want their AI models to directly orchestrate APIs without writing explicit workflow code.",
+      "best_for_competitor": "Developers who prefer writing automation code directly and want Pipedream's event-driven architecture and generous free tier.",
+      "faq": [
+        { "q": "Is 0nMCP more or less developer-friendly than Pipedream?", "a": "Both are developer-oriented. Pipedream lets you write code steps; 0nMCP lets AI write and execute the orchestration. Choose based on whether you want to code workflows manually or let AI handle them." },
+        { "q": "Can they work together?", "a": "Yes. Pipedream workflows can call 0nMCP's HTTP server, and 0nMCP can trigger Pipedream workflows via webhooks." },
+        { "q": "Which scales better?", "a": "Pipedream handles scaling automatically in the cloud. 0nMCP scales based on your infrastructure — locally it's limited to your machine, but the HTTP server can be deployed to any cloud provider." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-activepieces",
+      "competitor": "Activepieces",
+      "tagline": "AI MCP server vs open-source automation builder",
+      "description": "Activepieces is an open-source alternative to Zapier with a visual builder. 0nMCP is also open source but fundamentally different — it's an MCP server designed for AI agents, not a visual workflow builder for humans.",
+      "competitor_summary": "Activepieces is an open-source, self-hostable automation platform with a Zapier-like visual interface. It focuses on being a community-driven alternative to proprietary automation tools.",
+      "pricing_compare": "Both are open source and free to self-host. Activepieces Cloud starts at $5/mo. 0nMCP marketplace executions are $0.10 each with no subscription.",
+      "key_differences": [
+        { "feature": "Architecture", "onmcp": "MCP server for AI agents", "competitor": "Visual workflow builder" },
+        { "feature": "License", "onmcp": "MIT", "competitor": "MIT" },
+        { "feature": "AI approach", "onmcp": "AI is the primary interface", "competitor": "AI as optional pieces" },
+        { "feature": "Protocol", "onmcp": "Model Context Protocol", "competitor": "Custom workflow engine" },
+        { "feature": "Tool depth", "onmcp": "545 tools, deep API coverage", "competitor": "Growing piece library" },
+        { "feature": "Execution model", "onmcp": "3 execution patterns", "competitor": "Sequential flow execution" },
+        { "feature": "Setup", "onmcp": "npm install -g 0nmcp", "competitor": "Docker compose required" },
+        { "feature": "Community", "onmcp": "npm + GitHub + Discord", "competitor": "Active open-source community" }
+      ],
+      "best_for_onmcp": "Teams building AI agent systems who need their AI to directly call APIs. Developers wanting the simplest possible setup (npm install vs Docker).",
+      "best_for_competitor": "Teams wanting an open-source Zapier alternative with a familiar visual builder and growing integration ecosystem.",
+      "faq": [
+        { "q": "Which is easier to self-host?", "a": "0nMCP. It's a single npm install with no Docker or database requirements. Activepieces requires Docker Compose with PostgreSQL and Redis." },
+        { "q": "Can they complement each other?", "a": "Yes. Use Activepieces for scheduled visual workflows and 0nMCP for AI-driven dynamic orchestration. They serve different use cases." },
+        { "q": "Which has more integrations?", "a": "0nMCP has deeper coverage per service (545 tools across 26 services). Activepieces has a wider but shallower integration library that's growing rapidly." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-workato",
+      "competitor": "Workato",
+      "tagline": "Open source AI orchestrator vs enterprise iPaaS",
+      "description": "Workato is an enterprise-grade iPaaS with complex workflow capabilities. 0nMCP delivers similar orchestration power through AI-native design at a fraction of the cost — open source and free for local use.",
+      "competitor_summary": "Workato is an enterprise integration and automation platform with 1,200+ connectors, complex recipe logic, and enterprise security features. It targets large organizations with dedicated IT teams.",
+      "pricing_compare": "Workato pricing starts at ~$10,000/year for enterprise plans. 0nMCP is free for local use, MIT licensed, with no enterprise tax.",
+      "key_differences": [
+        { "feature": "Target market", "onmcp": "Developers and AI teams of any size", "competitor": "Enterprise IT departments" },
+        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "~$10,000+/year enterprise pricing" },
+        { "feature": "AI approach", "onmcp": "AI-native — describe outcomes", "competitor": "Recipe-based with AI assistants" },
+        { "feature": "Setup time", "onmcp": "Minutes (npm install)", "competitor": "Weeks to months (enterprise onboarding)" },
+        { "feature": "Open source", "onmcp": "Yes — MIT licensed", "competitor": "No — proprietary" },
+        { "feature": "Self-hosted", "onmcp": "Yes", "competitor": "Cloud only" },
+        { "feature": "Governance", "onmcp": "Community-driven", "competitor": "Enterprise RBAC and audit logs" },
+        { "feature": "Support", "onmcp": "Community + GitHub", "competitor": "Dedicated enterprise support" }
+      ],
+      "best_for_onmcp": "Startups and growing companies who need powerful automation without enterprise pricing. Teams who want AI-native orchestration and open-source flexibility.",
+      "best_for_competitor": "Large enterprises requiring SOC 2 compliance, dedicated support, complex RBAC, audit logging, and enterprise vendor management.",
+      "faq": [
+        { "q": "Can 0nMCP handle enterprise workflows?", "a": "Yes — the orchestration engine is equally capable. What 0nMCP doesn't have (yet) is enterprise features like RBAC, audit logs, and SOC 2 compliance. These are on the roadmap for Phase 5." },
+        { "q": "Is Workato worth the price premium?", "a": "For large enterprises with compliance requirements and need for dedicated support, Workato's premium is justified. For everyone else, 0nMCP provides comparable automation power at zero cost." },
+        { "q": "How many services does each support?", "a": "Workato has 1,200+ connectors with varying depth. 0nMCP covers 26 services with 545 deep tools. Quality over quantity — 0nMCP's per-service coverage is significantly deeper." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-tray-io",
+      "competitor": "Tray.io",
+      "tagline": "AI-native MCP vs enterprise automation platform",
+      "description": "Tray.io offers enterprise automation with a visual builder and universal connector. 0nMCP achieves similar results through AI-native orchestration — no visual builder needed, just describe what you want.",
+      "competitor_summary": "Tray.io (now Tray.ai) is an enterprise automation platform with a visual General Automation Platform, universal connector for any API, and AI-powered process automation features.",
+      "pricing_compare": "Tray.io pricing is custom enterprise (typically $5,000+/year). 0nMCP is free for local use with MIT licensing.",
+      "key_differences": [
+        { "feature": "Architecture", "onmcp": "MCP server + AI orchestration", "competitor": "General Automation Platform" },
+        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "Custom enterprise pricing" },
+        { "feature": "AI integration", "onmcp": "AI is the core interface", "competitor": "AI features as add-ons" },
+        { "feature": "Universal connector", "onmcp": "26 services, extensible", "competitor": "Connect to any API visually" },
+        { "feature": "Open source", "onmcp": "MIT licensed", "competitor": "Proprietary" },
+        { "feature": "Self-hosted", "onmcp": "Yes", "competitor": "Cloud only" },
+        { "feature": "Developer experience", "onmcp": "npm install + natural language", "competitor": "Visual builder + connectors" },
+        { "feature": "Data residency", "onmcp": "Your infrastructure", "competitor": "Tray.io cloud" }
+      ],
+      "best_for_onmcp": "Teams wanting enterprise-grade automation without enterprise pricing. Developers who prefer AI-native interfaces over visual builders.",
+      "best_for_competitor": "Large enterprises needing Tray.io's universal connector for complex legacy system integration and enterprise support.",
+      "faq": [
+        { "q": "Can 0nMCP connect to any API like Tray.io?", "a": "0nMCP covers 26 popular services deeply. For APIs not in the catalog, you can extend 0nMCP with custom tools or use the HTTP tools for any REST API." },
+        { "q": "Which handles more complex workflows?", "a": "Both handle complex workflows well. 0nMCP's Three-Level Execution and AI reasoning can manage complexity that would require extensive visual routing in Tray.io." },
+        { "q": "Is 0nMCP enterprise-ready?", "a": "For automation capability, yes. For enterprise compliance features (SOC 2, RBAC, audit logs), these are planned for Phase 5 of the roadmap." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-windmill",
+      "competitor": "Windmill",
+      "tagline": "AI MCP orchestrator vs developer workflow engine",
+      "description": "Windmill is a developer-first workflow engine supporting multiple languages. 0nMCP takes a different approach — rather than writing scripts, AI agents orchestrate services directly through MCP.",
+      "competitor_summary": "Windmill is an open-source developer platform for building internal tools, workflows, and scripts. It supports TypeScript, Python, Go, Bash, and SQL with a focus on developer productivity.",
+      "pricing_compare": "Windmill is free to self-host with a cloud plan starting at $10/mo. 0nMCP is MIT licensed and free for all local use.",
+      "key_differences": [
+        { "feature": "Focus", "onmcp": "AI-native API orchestration", "competitor": "Developer scripts and internal tools" },
+        { "feature": "Languages", "onmcp": "JavaScript/ESM", "competitor": "TypeScript, Python, Go, Bash, SQL" },
+        { "feature": "AI approach", "onmcp": "AI orchestrates via MCP", "competitor": "AI code generation assistant" },
+        { "feature": "Protocol", "onmcp": "Model Context Protocol", "competitor": "Custom workflow runtime" },
+        { "feature": "Setup", "onmcp": "npm install -g 0nmcp", "competitor": "Docker Compose" },
+        { "feature": "UI building", "onmcp": "No (API orchestration only)", "competitor": "Built-in app builder" },
+        { "feature": "Scheduling", "onmcp": "Via cron or triggers", "competitor": "Built-in scheduler" },
+        { "feature": "Open source", "onmcp": "MIT", "competitor": "AGPLv3" }
+      ],
+      "best_for_onmcp": "AI-first teams who want models to orchestrate APIs directly. Teams focused purely on API automation without needing internal tool building.",
+      "best_for_competitor": "Developer teams building internal tools and workflows who need multi-language support and a built-in app builder.",
+      "faq": [
+        { "q": "Are they in the same category?", "a": "Partially. Windmill is broader (internal tools + workflows + scripts). 0nMCP is focused specifically on AI-native API orchestration via MCP. They overlap on workflow automation." },
+        { "q": "Which license is better?", "a": "For commercial use, 0nMCP's MIT license is more permissive. Windmill's AGPLv3 requires sharing modifications if you offer it as a service." },
+        { "q": "Can I use both?", "a": "Yes. Windmill can orchestrate 0nMCP via its HTTP server, combining Windmill's scheduling and UI capabilities with 0nMCP's AI-native tool orchestration." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-langchain",
+      "competitor": "LangChain",
+      "tagline": "Ready-to-use MCP server vs AI framework",
+      "description": "LangChain is a framework for building AI applications. 0nMCP is a ready-to-use MCP server with 545 pre-built tools. LangChain requires you to build; 0nMCP works out of the box.",
+      "competitor_summary": "LangChain is a popular open-source framework for building applications powered by language models. It provides abstractions for chains, agents, memory, and tool use, requiring developers to assemble components.",
+      "pricing_compare": "Both are open source. LangChain requires significant development time to build what 0nMCP provides out of the box. LangSmith (monitoring) starts at $39/mo.",
+      "key_differences": [
+        { "feature": "Type", "onmcp": "Ready-to-use MCP server", "competitor": "Development framework" },
+        { "feature": "Setup", "onmcp": "npm install + immediate use", "competitor": "Build your application from components" },
+        { "feature": "Tools included", "onmcp": "545 pre-built tools", "competitor": "Build or import your own" },
+        { "feature": "Protocol", "onmcp": "Model Context Protocol", "competitor": "Custom tool abstraction" },
+        { "feature": "AI client support", "onmcp": "Any MCP client (Claude, Cursor, etc.)", "competitor": "OpenAI, Anthropic, and other LLM APIs" },
+        { "feature": "Development time", "onmcp": "Minutes to first automation", "competitor": "Days to weeks for custom apps" },
+        { "feature": "Flexibility", "onmcp": "Pre-built tools + extensible", "competitor": "Maximum flexibility (framework)" },
+        { "feature": "Use case", "onmcp": "API orchestration and automation", "competitor": "Custom AI applications" }
+      ],
+      "best_for_onmcp": "Teams who need working API automation now, not a framework to build it themselves. Anyone wanting AI-powered orchestration without writing application code.",
+      "best_for_competitor": "Developers building custom AI applications that need fine-grained control over prompts, memory, chains, and the full LLM interaction lifecycle.",
+      "faq": [
+        { "q": "Is 0nMCP a LangChain alternative?", "a": "Not exactly. LangChain is a framework for building AI apps; 0nMCP is a finished MCP server for AI orchestration. You might use LangChain to build an app that connects to 0nMCP." },
+        { "q": "Can LangChain use 0nMCP tools?", "a": "Yes. LangChain applications can connect to 0nMCP's HTTP server or use it as an MCP server, getting instant access to 545 tools without building custom integrations." },
+        { "q": "Which should I choose?", "a": "If you want to orchestrate APIs with AI: 0nMCP. If you want to build a custom AI application with complex chains, memory, and retrieval: LangChain. They're complementary." }
+      ]
+    },
+    {
+      "slug": "0nmcp-vs-relay",
+      "competitor": "Relay.app",
+      "tagline": "Open source AI orchestrator vs human-in-the-loop automation",
+      "description": "Relay.app combines automation with human approval steps. 0nMCP is fully AI-driven but supports human-in-the-loop via its workflow engine — and it's open source.",
+      "competitor_summary": "Relay.app is a modern automation platform that emphasizes human-in-the-loop workflows. It combines AI assistance with mandatory human approval steps for sensitive operations.",
+      "pricing_compare": "Relay.app starts free then $9.99/mo. 0nMCP is MIT licensed and free for all local execution.",
+      "key_differences": [
+        { "feature": "Philosophy", "onmcp": "AI-autonomous with optional oversight", "competitor": "Human-in-the-loop by design" },
+        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "Free tier then $9.99-$39.99/mo" },
+        { "feature": "AI role", "onmcp": "AI is the orchestrator", "competitor": "AI assists, humans approve" },
+        { "feature": "Protocol", "onmcp": "Model Context Protocol", "competitor": "Proprietary workflow engine" },
+        { "feature": "Open source", "onmcp": "MIT licensed", "competitor": "Proprietary" },
+        { "feature": "Self-hosted", "onmcp": "Yes", "competitor": "Cloud only" },
+        { "feature": "Approval flows", "onmcp": "Configurable via workflows", "competitor": "Built-in human approval steps" },
+        { "feature": "Collaboration", "onmcp": "Developer-focused", "competitor": "Team collaboration features" }
+      ],
+      "best_for_onmcp": "Developers and AI teams who want autonomous AI orchestration with optional human oversight. Teams needing self-hosted, open-source automation.",
+      "best_for_competitor": "Teams where human approval is mandatory for every automation — finance, HR, legal workflows where a person must sign off before actions execute.",
+      "faq": [
+        { "q": "Does 0nMCP support human approval steps?", "a": "Yes, via the workflow engine's condition and checkpoint steps. However, it's not as seamlessly integrated as Relay.app's purpose-built approval system." },
+        { "q": "Which is more trustworthy for sensitive operations?", "a": "Relay.app enforces human approval by design. 0nMCP gives you the choice — full autonomy or human-in-the-loop. The right answer depends on your risk tolerance." },
+        { "q": "Is Relay.app's AI better than 0nMCP's?", "a": "Different focus. Relay.app uses AI to draft content for human review. 0nMCP uses AI to orchestrate APIs directly. 0nMCP's AI integration is deeper and more autonomous." }
+      ]
+    }
+  ]
+}

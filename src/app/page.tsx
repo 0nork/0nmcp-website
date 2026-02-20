@@ -75,6 +75,40 @@ const faqItems = [
 ]
 
 export default function HomePage() {
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'RocketOpp, LLC',
+    url: 'https://0nmcp.com',
+    logo: 'https://0nmcp.com/icon.svg',
+    sameAs: [
+      'https://github.com/0nork/0nMCP',
+      'https://npmjs.com/package/0nmcp',
+      'https://discord.gg/0nork',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'mike@rocketopp.com',
+      contactType: 'technical support',
+    },
+  }
+
+  const webSiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: '0nMCP',
+    url: 'https://0nmcp.com',
+    description: 'Universal AI API Orchestrator — 545 tools across 26 services',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://0nmcp.com/forum?search={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  }
+
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -121,14 +155,10 @@ export default function HomePage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
 
       {/* ── HERO ── */}
       <HeroSection />

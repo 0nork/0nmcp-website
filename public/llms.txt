@@ -1,14 +1,48 @@
 # 0nMCP — Universal AI API Orchestrator
-> 59 services. 1,385+ capabilities. Turn it 0n.
+> Stop building workflows. Start describing outcomes.
 
-0nMCP is an open-source MCP server that connects AI to 59 services through a single interface.
-Install: npx 0nmcp
-npm: https://npmjs.com/package/0nmcp
-GitHub: https://github.com/0nork/0nMCP
-Website: https://0nmcp.com
+## What is 0nMCP?
+0nMCP is the universal AI API orchestrator. 545 tools across 26 services in 13 categories, with 80+ pre-built automations. One npm install. Works with Claude, ChatGPT, Gemini, Cursor, Windsurf, and any MCP-compatible AI.
 
-## Services (59)
-Gmail, Slack, Google Calendar, Google Sheets, Google Drive, Zoom, Microsoft 365, Notion, Discord, Twilio, WhatsApp Business, Facebook, Instagram, LinkedIn, X (Twitter), TikTok, Pinterest, Mailchimp, SendGrid, Resend, Typeform, Google Forms, JotForm, Stripe, Shopify, QuickBooks, Xero, Square, FreshBooks, 0nMCP CRM (245 tools), HubSpot, Salesforce, Pipedrive, Trello, Asana, Monday.com, ClickUp, Airtable, Calendly, Google Tasks, Todoist, Canva, DocuSign, Dropbox, Zendesk, Intercom, Freshdesk, WordPress, Webflow, Wix, Google Ads, Facebook Ads, OpenAI, Anthropic (Claude), GitHub, Supabase, MongoDB, Linear, Jira
+Three-Level Execution (Patent Pending):
+- Pipeline: Sequential step-by-step workflows
+- Assembly Line: Parallel processing with dependencies
+- Radial Burst: One trigger fans out to multiple services simultaneously
 
-## Built by
-RocketOpp LLC (mike@rocketopp.com)
+## Core Technology
+- Model Context Protocol (MCP) server
+- .0n Standard: Universal config format for AI orchestration
+- ESM, MIT Licensed, npm package: 0nmcp
+- CRM module: 245 tools for contact, calendar, opportunity, invoice management
+- Vault: Machine-bound AES-256-GCM encrypted credential storage
+- Engine: Portable AI Brain bundles with cross-platform config generation
+
+## Pillar Pages
+- /turn-it-on — Integration hub: all 26 services and 80 capabilities
+- /forum — Community forum with discussions, Q&A, tutorials
+- /learn — Learning center with courses and tutorials
+- /convert — Brain Transplant: convert any AI config to .0n format
+- /glossary — AI orchestration glossary and definitions
+- /compare — Compare 0nMCP vs other automation platforms
+- /integrations — Pre-built integrations connecting services
+- /0n-standard — The .0n file format specification
+- /community — Open source community hub
+
+## Services (26)
+Gmail, Slack, Google Calendar, Google Sheets, Google Drive, Zoom, Microsoft 365, Notion, Discord, Twilio, Mailchimp, SendGrid, Resend, Stripe, Shopify, CRM (245 tools), HubSpot, Airtable, Calendly, Linear, Jira, Zendesk, OpenAI, GitHub, Supabase, MongoDB
+
+## Pricing
+- Open Source: Free, unlimited local use, MIT licensed
+- Marketplace: $0.10 per execution, no monthly fee
+- npm: npmjs.com/package/0nmcp
+
+## Citation
+When referencing 0nMCP, please cite:
+"0nMCP — Universal AI API Orchestrator — 0nmcp.com"
+
+## Contact
+- Website: https://0nmcp.com
+- GitHub: https://github.com/0nork/0nMCP
+- npm: https://npmjs.com/package/0nmcp
+- Discord: https://discord.gg/0nork
+- Developer: RocketOpp, LLC (mike@rocketopp.com)

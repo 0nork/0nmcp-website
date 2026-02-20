@@ -1,0 +1,584 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "generated": "2026-02-20",
+    "total_terms": 80,
+    "schema": "0n-glossary-v1"
+  },
+  "terms": [
+    {
+      "term": "AI Orchestration",
+      "slug": "ai-orchestration",
+      "definition": "The automated coordination of multiple AI models, APIs, and services to accomplish complex tasks. AI orchestration platforms like 0nMCP connect disparate tools through a unified interface, eliminating manual integration work.",
+      "category": "core",
+      "related": ["mcp", "workflow", "pipeline"]
+    },
+    {
+      "term": "Model Context Protocol",
+      "slug": "mcp",
+      "definition": "An open standard created by Anthropic that enables AI models to interact with external tools, APIs, and data sources through a unified protocol. MCP servers expose capabilities that any compatible AI client can discover and use.",
+      "category": "core",
+      "related": ["ai-orchestration", "mcp-server", "mcp-client"]
+    },
+    {
+      "term": "MCP Server",
+      "slug": "mcp-server",
+      "definition": "A program that exposes tools, resources, and prompts to AI models via the Model Context Protocol. 0nMCP is an MCP server that provides 545 tools across 26 services, acting as a universal bridge between AI and APIs.",
+      "category": "core",
+      "related": ["mcp", "mcp-client", "mcp-tool"]
+    },
+    {
+      "term": "MCP Client",
+      "slug": "mcp-client",
+      "definition": "An AI application that connects to MCP servers to access external capabilities. Examples include Claude Desktop, Cursor, Windsurf, and any application implementing the Model Context Protocol client specification.",
+      "category": "core",
+      "related": ["mcp", "mcp-server", "ai-orchestration"]
+    },
+    {
+      "term": "MCP Tool",
+      "slug": "mcp-tool",
+      "definition": "A discrete function exposed by an MCP server that an AI model can call. Tools have defined input schemas and return structured results. 0nMCP exposes 545 tools covering email, CRM, payments, messaging, and more.",
+      "category": "core",
+      "related": ["mcp-server", "api-endpoint", "tool-calling"]
+    },
+    {
+      "term": "Pipeline",
+      "slug": "pipeline",
+      "definition": "A sequential execution pattern where steps run one after another, each using the output of the previous step. Pipelines are ideal for linear processes like data transformation chains or approval workflows.",
+      "category": "execution",
+      "related": ["assembly-line", "radial-burst", "workflow"]
+    },
+    {
+      "term": "Assembly Line",
+      "slug": "assembly-line",
+      "definition": "A parallel execution pattern with dependency management. Multiple steps run simultaneously where possible, with the system automatically resolving dependencies between them. More efficient than pipelines for complex multi-step processes.",
+      "category": "execution",
+      "related": ["pipeline", "radial-burst", "parallel-execution"]
+    },
+    {
+      "term": "Radial Burst",
+      "slug": "radial-burst",
+      "definition": "An execution pattern where a single trigger fans out to multiple services simultaneously. One event triggers parallel actions across many destinations at once. Part of 0nMCP's Three-Level Execution system (Patent Pending).",
+      "category": "execution",
+      "related": ["pipeline", "assembly-line", "fan-out"]
+    },
+    {
+      "term": "Three-Level Execution",
+      "slug": "three-level-execution",
+      "definition": "0nMCP's patent-pending execution architecture combining Pipeline (sequential), Assembly Line (parallel with dependencies), and Radial Burst (fan-out) patterns. This allows any workflow complexity to be expressed optimally.",
+      "category": "execution",
+      "related": ["pipeline", "assembly-line", "radial-burst"]
+    },
+    {
+      "term": ".0n Standard",
+      "slug": "0n-standard",
+      "definition": "A universal configuration format for AI orchestration. .0n files (pronounced 'dot-on') define connections, workflows, and automation rules in a portable, human-readable format that works across all MCP-compatible AI platforms.",
+      "category": "core",
+      "related": ["switch-file", "run", "workflow"]
+    },
+    {
+      "term": "SWITCH File",
+      "slug": "switch-file",
+      "definition": "A .0n configuration file that defines service connections and orchestration rules. SWITCH files are portable across machines and AI platforms, containing encrypted credentials and workflow definitions.",
+      "category": "core",
+      "related": ["0n-standard", "run", "turn-it-on"]
+    },
+    {
+      "term": "RUN",
+      "slug": "run",
+      "definition": "The 0nMCP term for a workflow execution. A RUN is triggered by an event or command and executes a sequence of steps defined in a SWITCH file, coordinating actions across multiple services.",
+      "category": "core",
+      "related": ["switch-file", "workflow", "trigger"]
+    },
+    {
+      "term": "Turn It 0n",
+      "slug": "turn-it-on",
+      "definition": "The process of importing existing API credentials and configurations into the .0n Standard format. Turn It 0n converts .env files, CSV exports, or JSON configs into encrypted, portable SWITCH files.",
+      "category": "core",
+      "related": ["switch-file", "0n-standard", "engine"]
+    },
+    {
+      "term": "Workflow",
+      "slug": "workflow",
+      "definition": "A defined sequence of automated steps that execute in response to a trigger. In AI orchestration, workflows connect multiple services and can include conditions, loops, data transformations, and human-in-the-loop checkpoints.",
+      "category": "automation",
+      "related": ["pipeline", "trigger", "action"]
+    },
+    {
+      "term": "Trigger",
+      "slug": "trigger",
+      "definition": "An event that initiates a workflow execution. Triggers can be webhooks (real-time), polling (scheduled checks), manual commands, or AI-initiated actions. 0nMCP supports 93 triggers across 26 services.",
+      "category": "automation",
+      "related": ["webhook", "action", "workflow"]
+    },
+    {
+      "term": "Action",
+      "slug": "action",
+      "definition": "A discrete operation performed as part of a workflow. Actions include sending emails, creating records, posting messages, processing payments, and any other API operation. 0nMCP provides 65 actions across 26 services.",
+      "category": "automation",
+      "related": ["trigger", "workflow", "api-endpoint"]
+    },
+    {
+      "term": "Webhook",
+      "slug": "webhook",
+      "definition": "An HTTP callback that delivers real-time event notifications from one service to another. When an event occurs (like a new payment), the source service sends an HTTP POST request to a configured URL with event data.",
+      "category": "integration",
+      "related": ["trigger", "api-endpoint", "event-driven"]
+    },
+    {
+      "term": "API Endpoint",
+      "slug": "api-endpoint",
+      "definition": "A specific URL path that accepts requests and returns responses from a web service. RESTful APIs organize endpoints by resource (e.g., /contacts, /invoices) with HTTP methods (GET, POST, PUT, DELETE) defining operations.",
+      "category": "integration",
+      "related": ["rest-api", "webhook", "api-key"]
+    },
+    {
+      "term": "REST API",
+      "slug": "rest-api",
+      "definition": "Representational State Transfer API — an architectural style for web services that uses HTTP methods and URLs to perform operations on resources. Most modern SaaS platforms expose REST APIs for programmatic access.",
+      "category": "integration",
+      "related": ["api-endpoint", "api-key", "oauth"]
+    },
+    {
+      "term": "API Key",
+      "slug": "api-key",
+      "definition": "A secret token used to authenticate requests to an API. API keys identify the calling application and authorize access to specific resources. Proper key management includes encryption at rest and rotation policies.",
+      "category": "security",
+      "related": ["oauth", "api-endpoint", "vault"]
+    },
+    {
+      "term": "OAuth 2.0",
+      "slug": "oauth",
+      "definition": "An authorization framework that allows third-party applications to access user resources without exposing credentials. OAuth uses access tokens with defined scopes, supporting flows like authorization code, client credentials, and refresh tokens.",
+      "category": "security",
+      "related": ["api-key", "access-token", "scope"]
+    },
+    {
+      "term": "Access Token",
+      "slug": "access-token",
+      "definition": "A credential that grants temporary, scoped access to an API. Access tokens are typically short-lived (minutes to hours) and must be refreshed using a refresh token. They carry permissions defining what operations the holder can perform.",
+      "category": "security",
+      "related": ["oauth", "refresh-token", "api-key"]
+    },
+    {
+      "term": "Refresh Token",
+      "slug": "refresh-token",
+      "definition": "A long-lived credential used to obtain new access tokens without requiring the user to re-authenticate. Refresh tokens are stored securely and exchanged for fresh access tokens when the current one expires.",
+      "category": "security",
+      "related": ["access-token", "oauth", "token-rotation"]
+    },
+    {
+      "term": "Vault",
+      "slug": "vault",
+      "definition": "A secure credential storage system that encrypts API keys and secrets at rest. 0nMCP's Vault module uses AES-256-GCM encryption with PBKDF2-SHA512 key derivation and optional machine-bound hardware fingerprinting.",
+      "category": "security",
+      "related": ["api-key", "encryption", "aes-256"]
+    },
+    {
+      "term": "AES-256-GCM",
+      "slug": "aes-256",
+      "definition": "Advanced Encryption Standard with 256-bit keys in Galois/Counter Mode. A symmetric encryption algorithm that provides both confidentiality and authenticity. Used by 0nMCP's Vault and Engine for credential protection.",
+      "category": "security",
+      "related": ["vault", "encryption", "pbkdf2"]
+    },
+    {
+      "term": "Tool Calling",
+      "slug": "tool-calling",
+      "definition": "The ability of an AI model to invoke external functions during a conversation. The model generates structured arguments matching a tool's schema, the tool executes, and results are returned to the model for further reasoning.",
+      "category": "ai",
+      "related": ["mcp-tool", "function-calling", "ai-agent"]
+    },
+    {
+      "term": "Function Calling",
+      "slug": "function-calling",
+      "definition": "A capability of large language models to generate structured function invocations. The model outputs JSON matching a defined schema, which the host application executes. Tool calling in MCP extends this concept across service boundaries.",
+      "category": "ai",
+      "related": ["tool-calling", "json-schema", "llm"]
+    },
+    {
+      "term": "AI Agent",
+      "slug": "ai-agent",
+      "definition": "An autonomous AI system that can plan, execute actions, and iterate toward goals using available tools. Agents combine LLM reasoning with tool calling to accomplish complex multi-step tasks without human intervention at each step.",
+      "category": "ai",
+      "related": ["tool-calling", "multi-agent", "llm"]
+    },
+    {
+      "term": "Multi-Agent System",
+      "slug": "multi-agent",
+      "definition": "An architecture where multiple AI agents collaborate, each specializing in different domains or tasks. Agents communicate, delegate, and coordinate to solve problems that exceed any single agent's capabilities.",
+      "category": "ai",
+      "related": ["ai-agent", "orchestration", "swarm"]
+    },
+    {
+      "term": "Large Language Model",
+      "slug": "llm",
+      "definition": "A neural network trained on vast text data that can understand and generate human language. LLMs like Claude, GPT, and Gemini power AI agents and can reason about when and how to use external tools via protocols like MCP.",
+      "category": "ai",
+      "related": ["ai-agent", "tool-calling", "prompt"]
+    },
+    {
+      "term": "Prompt Engineering",
+      "slug": "prompt-engineering",
+      "definition": "The practice of crafting inputs to AI models to elicit desired outputs. In AI orchestration, prompt engineering includes designing system prompts that guide tool selection, structuring context for multi-step reasoning, and optimizing token usage.",
+      "category": "ai",
+      "related": ["llm", "system-prompt", "context-window"]
+    },
+    {
+      "term": "Context Window",
+      "slug": "context-window",
+      "definition": "The maximum amount of text (measured in tokens) that an AI model can process in a single interaction. Larger context windows allow more complex orchestration tasks but increase cost. Modern models support 100K-200K+ tokens.",
+      "category": "ai",
+      "related": ["llm", "token", "prompt-engineering"]
+    },
+    {
+      "term": "Token",
+      "slug": "token",
+      "definition": "The basic unit of text processing for AI models. A token is roughly 4 characters or 0.75 words in English. API pricing, context limits, and rate limits are typically measured in tokens.",
+      "category": "ai",
+      "related": ["context-window", "llm", "rate-limiting"]
+    },
+    {
+      "term": "Rate Limiting",
+      "slug": "rate-limiting",
+      "definition": "A mechanism that controls the frequency of API requests to prevent abuse and ensure fair usage. Rate limits are typically expressed as requests per minute/hour. 0nMCP implements token bucket rate limiting with exponential backoff per service.",
+      "category": "integration",
+      "related": ["token-bucket", "exponential-backoff", "api-endpoint"]
+    },
+    {
+      "term": "Token Bucket",
+      "slug": "token-bucket",
+      "definition": "A rate limiting algorithm where tokens accumulate in a bucket at a fixed rate. Each API request consumes a token. If the bucket is empty, requests are queued or rejected. This allows burst traffic while maintaining average rate limits.",
+      "category": "integration",
+      "related": ["rate-limiting", "exponential-backoff", "throttling"]
+    },
+    {
+      "term": "Exponential Backoff",
+      "slug": "exponential-backoff",
+      "definition": "A retry strategy where the wait time between retries increases exponentially (1s, 2s, 4s, 8s...) with optional jitter. This prevents thundering herd problems when multiple clients retry simultaneously after a service failure.",
+      "category": "integration",
+      "related": ["rate-limiting", "retry-strategy", "circuit-breaker"]
+    },
+    {
+      "term": "Fan-Out",
+      "slug": "fan-out",
+      "definition": "A messaging pattern where a single event is distributed to multiple consumers simultaneously. In 0nMCP, the Radial Burst execution pattern implements fan-out, sending one trigger event to multiple services at once.",
+      "category": "execution",
+      "related": ["radial-burst", "event-driven", "pub-sub"]
+    },
+    {
+      "term": "Event-Driven Architecture",
+      "slug": "event-driven",
+      "definition": "A software design pattern where the flow of the program is determined by events such as user actions, sensor outputs, or messages from other services. Webhooks, message queues, and pub/sub systems implement event-driven patterns.",
+      "category": "architecture",
+      "related": ["webhook", "pub-sub", "trigger"]
+    },
+    {
+      "term": "Pub/Sub",
+      "slug": "pub-sub",
+      "definition": "Publish/Subscribe — a messaging pattern where publishers send messages to topics without knowing who will receive them, and subscribers receive messages from topics they're interested in. Decouples producers from consumers.",
+      "category": "architecture",
+      "related": ["event-driven", "message-queue", "fan-out"]
+    },
+    {
+      "term": "Idempotency",
+      "slug": "idempotency",
+      "definition": "The property of an operation where executing it multiple times produces the same result as executing it once. Critical in distributed systems where network failures may cause duplicate requests. Achieved via unique request IDs or conditional operations.",
+      "category": "architecture",
+      "related": ["distributed-systems", "retry-strategy", "api-endpoint"]
+    },
+    {
+      "term": "Data Mapping",
+      "slug": "data-mapping",
+      "definition": "The process of transforming data from one format to another between systems. In AI orchestration, data mapping connects output fields from one service to input fields of another, often using template expressions like {{contact.email}}.",
+      "category": "automation",
+      "related": ["data-transformation", "template-engine", "etl"]
+    },
+    {
+      "term": "Template Engine",
+      "slug": "template-engine",
+      "definition": "A system that resolves dynamic expressions within templates. 0nMCP's template engine processes {{expressions}} including variable lookups, math operations, conditions, and deep path access within workflow configurations.",
+      "category": "automation",
+      "related": ["data-mapping", "variable-resolution", "0n-standard"]
+    },
+    {
+      "term": "Variable Resolution",
+      "slug": "variable-resolution",
+      "definition": "The process of replacing template variables with actual values at runtime. 0nMCP resolves variables in priority order: system > launch > inputs > step.output, allowing dynamic configuration of workflow parameters.",
+      "category": "automation",
+      "related": ["template-engine", "data-mapping", "0n-standard"]
+    },
+    {
+      "term": "ESM",
+      "slug": "esm",
+      "definition": "ECMAScript Modules — the official JavaScript module system using import/export syntax. ESM enables tree-shaking, static analysis, and top-level await. 0nMCP is built as a pure ESM package for modern Node.js environments.",
+      "category": "development",
+      "related": ["nodejs", "npm", "javascript"]
+    },
+    {
+      "term": "npm",
+      "slug": "npm",
+      "definition": "Node Package Manager — the default package manager for Node.js and the world's largest software registry. 0nMCP is distributed as the 'onmcp' npm package, installable with a single command: npm install -g 0nmcp.",
+      "category": "development",
+      "related": ["esm", "nodejs", "package-json"]
+    },
+    {
+      "term": "CLI",
+      "slug": "cli",
+      "definition": "Command Line Interface — a text-based interface for interacting with software. 0nMCP provides a CLI with commands like 'onmcp serve' (start HTTP server), 'onmcp run' (execute workflow), and 'onmcp engine' (manage credentials).",
+      "category": "development",
+      "related": ["npm", "terminal", "shell"]
+    },
+    {
+      "term": "JSON Schema",
+      "slug": "json-schema",
+      "definition": "A vocabulary for annotating and validating JSON documents. In MCP, each tool defines its input parameters using JSON Schema, enabling AI models to generate correctly structured function calls and clients to validate inputs.",
+      "category": "development",
+      "related": ["json", "mcp-tool", "validation"]
+    },
+    {
+      "term": "CRM",
+      "slug": "crm",
+      "definition": "Customer Relationship Management — software for managing interactions with customers and prospects. 0nMCP's CRM module provides 245 tools covering contacts, calendars, opportunities, invoices, conversations, and more.",
+      "category": "services",
+      "related": ["contacts", "opportunities", "sales-pipeline"]
+    },
+    {
+      "term": "iPaaS",
+      "slug": "ipaas",
+      "definition": "Integration Platform as a Service — cloud-based platforms that connect different applications and automate workflows between them. Traditional iPaaS tools (Zapier, Make) use visual builders; 0nMCP uses AI-native orchestration instead.",
+      "category": "architecture",
+      "related": ["ai-orchestration", "workflow", "saas"]
+    },
+    {
+      "term": "SaaS",
+      "slug": "saas",
+      "definition": "Software as a Service — cloud-hosted applications accessed via web browsers or APIs. SaaS products like Gmail, Slack, and Stripe expose APIs that orchestration platforms connect to automate cross-application workflows.",
+      "category": "architecture",
+      "related": ["ipaas", "api-endpoint", "cloud"]
+    },
+    {
+      "term": "No-Code",
+      "slug": "no-code",
+      "definition": "Software development approaches that require no programming. Traditional automation platforms use visual no-code builders. AI orchestration platforms like 0nMCP go beyond no-code — you describe what you want in natural language.",
+      "category": "automation",
+      "related": ["low-code", "ai-orchestration", "visual-builder"]
+    },
+    {
+      "term": "Low-Code",
+      "slug": "low-code",
+      "definition": "Development platforms that minimize hand-coding through visual interfaces and pre-built components. Low-code sits between no-code and traditional development, allowing customization through simple expressions or scripts.",
+      "category": "automation",
+      "related": ["no-code", "visual-builder", "ipaas"]
+    },
+    {
+      "term": "Middleware",
+      "slug": "middleware",
+      "definition": "Software that acts as a bridge between different applications or services. In API orchestration, middleware handles authentication, rate limiting, data transformation, and error handling between the orchestrator and target services.",
+      "category": "architecture",
+      "related": ["api-gateway", "proxy", "integration"]
+    },
+    {
+      "term": "Serverless",
+      "slug": "serverless",
+      "definition": "A cloud execution model where the provider manages server infrastructure. Functions run on-demand, scaling automatically, and you pay only for execution time. Ideal for webhook handlers, API endpoints, and event-driven workflows.",
+      "category": "architecture",
+      "related": ["edge-function", "cloud", "lambda"]
+    },
+    {
+      "term": "Edge Function",
+      "slug": "edge-function",
+      "definition": "Code that runs at CDN edge locations close to the user, providing ultra-low latency. Edge functions are ideal for request routing, authentication checks, and lightweight data transformations in distributed applications.",
+      "category": "architecture",
+      "related": ["serverless", "cdn", "latency"]
+    },
+    {
+      "term": "Portable Text",
+      "slug": "portable-text",
+      "definition": "A JSON-based specification for rich text content that can be serialized to any format (HTML, React components, Markdown, etc.). Used by Sanity CMS and other systems for structured content that's presentation-agnostic.",
+      "category": "development",
+      "related": ["json", "cms", "structured-content"]
+    },
+    {
+      "term": "GROQ",
+      "slug": "groq",
+      "definition": "Graph-Relational Object Queries — a query language for JSON documents used by Sanity CMS. GROQ combines filtering, projection, and joining in a concise syntax. Not related to Groq (the AI inference chip company).",
+      "category": "development",
+      "related": ["json", "graphql", "query-language"]
+    },
+    {
+      "term": "HMAC",
+      "slug": "hmac",
+      "definition": "Hash-based Message Authentication Code — a method for verifying both data integrity and authenticity using a cryptographic hash function and a secret key. Used to verify webhook payloads from services like Stripe, GitHub, and Shopify.",
+      "category": "security",
+      "related": ["webhook", "signature-verification", "sha-256"]
+    },
+    {
+      "term": "Webhook Verification",
+      "slug": "webhook-verification",
+      "definition": "The process of confirming that an incoming webhook request genuinely originated from the claimed service. Typically involves HMAC signature validation using a shared secret. 0nMCP supports verification for Stripe, Slack, GitHub, Twilio, Shopify, and generic HMAC.",
+      "category": "security",
+      "related": ["hmac", "webhook", "signature-verification"]
+    },
+    {
+      "term": "Circuit Breaker",
+      "slug": "circuit-breaker",
+      "definition": "A design pattern that prevents cascading failures in distributed systems. When a service fails repeatedly, the circuit 'opens' and subsequent requests fail immediately without attempting the call, giving the service time to recover.",
+      "category": "architecture",
+      "related": ["exponential-backoff", "retry-strategy", "fault-tolerance"]
+    },
+    {
+      "term": "ETL",
+      "slug": "etl",
+      "definition": "Extract, Transform, Load — a data integration pattern where data is extracted from sources, transformed to fit target requirements, and loaded into a destination. AI orchestration can automate ETL pipelines across SaaS applications.",
+      "category": "automation",
+      "related": ["data-mapping", "data-transformation", "pipeline"]
+    },
+    {
+      "term": "Scope",
+      "slug": "scope",
+      "definition": "In OAuth and API authorization, a scope defines the specific permissions granted to an access token. Scopes like 'read:contacts' or 'write:invoices' limit what operations a token can perform, following the principle of least privilege.",
+      "category": "security",
+      "related": ["oauth", "access-token", "permissions"]
+    },
+    {
+      "term": "Cron Job",
+      "slug": "cron-job",
+      "definition": "A time-based task scheduler that runs commands at specified intervals (e.g., every hour, daily at midnight). In AI orchestration, cron jobs trigger periodic workflows like data syncs, report generation, or automated content creation.",
+      "category": "automation",
+      "related": ["trigger", "scheduling", "automation"]
+    },
+    {
+      "term": "JSON-LD",
+      "slug": "json-ld",
+      "definition": "JavaScript Object Notation for Linked Data — a method of encoding structured data in JSON format for search engines and AI systems. JSON-LD schema markup helps Google understand page content and display rich search results.",
+      "category": "development",
+      "related": ["seo", "structured-data", "schema-org"]
+    },
+    {
+      "term": "Schema.org",
+      "slug": "schema-org",
+      "definition": "A collaborative vocabulary for structured data markup on web pages. Schema.org types like Organization, Product, FAQPage, and HowTo help search engines understand content and generate rich snippets in search results.",
+      "category": "development",
+      "related": ["json-ld", "seo", "structured-data"]
+    },
+    {
+      "term": "Structured Data",
+      "slug": "structured-data",
+      "definition": "Organized data that follows a predefined schema, making it machine-readable. On the web, structured data (via JSON-LD or microdata) tells search engines and AI systems what your content means, not just what it says.",
+      "category": "development",
+      "related": ["json-ld", "schema-org", "seo"]
+    },
+    {
+      "term": "GEO",
+      "slug": "geo",
+      "definition": "Generative Engine Optimization — the practice of optimizing content to be surfaced and cited by AI systems like ChatGPT, Claude, and Perplexity. GEO extends traditional SEO to target AI-generated answers and recommendations.",
+      "category": "seo",
+      "related": ["seo", "aeo", "llms-txt"]
+    },
+    {
+      "term": "AEO",
+      "slug": "aeo",
+      "definition": "Answer Engine Optimization — optimizing content to appear in AI-powered answer engines and featured snippets. AEO focuses on question-format content, concise definitions, and structured data that AI systems can easily extract.",
+      "category": "seo",
+      "related": ["geo", "seo", "featured-snippet"]
+    },
+    {
+      "term": "SXO",
+      "slug": "sxo",
+      "definition": "Search Experience Optimization — a holistic approach combining SEO, UX, and CRO into a unified strategy. SXO recognizes that rankings alone don't drive revenue; the complete search-to-conversion journey must be optimized.",
+      "category": "seo",
+      "related": ["seo", "geo", "aeo"]
+    },
+    {
+      "term": "llms.txt",
+      "slug": "llms-txt",
+      "definition": "A proposed web standard (similar to robots.txt) that provides structured information about a website specifically for large language models. llms.txt declares capabilities, citation formats, and key content for AI systems to reference.",
+      "category": "seo",
+      "related": ["geo", "robots-txt", "ai-agent"]
+    },
+    {
+      "term": "Automation",
+      "slug": "automation",
+      "definition": "The use of technology to perform tasks with minimal human intervention. In the context of AI orchestration, automation connects triggers to actions across multiple services, executing complex business processes automatically.",
+      "category": "automation",
+      "related": ["workflow", "trigger", "action"]
+    },
+    {
+      "term": "Integration",
+      "slug": "integration",
+      "definition": "The process of connecting two or more software systems so they can share data and functionality. API integrations enable workflows that span multiple services, like syncing CRM contacts to email marketing platforms.",
+      "category": "integration",
+      "related": ["api-endpoint", "ipaas", "middleware"]
+    },
+    {
+      "term": "Zap",
+      "slug": "zap",
+      "definition": "The term used by Zapier for an automated workflow connecting two or more apps. A Zap consists of a trigger and one or more actions. 0nMCP's equivalent concepts — RUNs and SWITCH files — offer more flexibility through AI-native orchestration.",
+      "category": "automation",
+      "related": ["workflow", "run", "ipaas"]
+    },
+    {
+      "term": "Scenario",
+      "slug": "scenario",
+      "definition": "The term used by Make (formerly Integromat) for an automated workflow. Scenarios use a visual canvas to connect modules. Unlike visual-builder platforms, 0nMCP uses natural language and AI reasoning to construct and execute workflows.",
+      "category": "automation",
+      "related": ["workflow", "run", "ipaas"]
+    },
+    {
+      "term": "Brain Bundle",
+      "slug": "brain-bundle",
+      "definition": "A portable, encrypted package created by 0nMCP's Engine module. Brain Bundles contain credential mappings and AI platform configurations that can be imported on any machine using a passphrase, enabling instant setup.",
+      "category": "core",
+      "related": ["engine", "turn-it-on", "vault"]
+    },
+    {
+      "term": "Engine",
+      "slug": "engine",
+      "definition": "0nMCP's credential conversion module that imports API keys from .env files, CSV, or JSON, auto-maps them to 26 services, verifies connectivity, and generates configurations for 7 AI platforms (Claude, Cursor, Windsurf, etc.).",
+      "category": "core",
+      "related": ["brain-bundle", "turn-it-on", "vault"]
+    },
+    {
+      "term": "Parallel Execution",
+      "slug": "parallel-execution",
+      "definition": "Running multiple operations simultaneously rather than sequentially. Parallel execution dramatically reduces total workflow time when steps are independent. 0nMCP's Assembly Line and Radial Burst patterns leverage parallelism.",
+      "category": "execution",
+      "related": ["assembly-line", "radial-burst", "concurrency"]
+    },
+    {
+      "term": "Data Transformation",
+      "slug": "data-transformation",
+      "definition": "The process of converting data from one structure or format to another. In workflows, transformations reshape API responses to match the input requirements of the next step, handling type conversion, field renaming, and value mapping.",
+      "category": "automation",
+      "related": ["data-mapping", "etl", "template-engine"]
+    },
+    {
+      "term": "Conditional Logic",
+      "slug": "conditional-logic",
+      "definition": "Decision points in a workflow where different paths are taken based on data values or conditions. If/else branches, switch statements, and filter conditions allow workflows to handle different scenarios dynamically.",
+      "category": "automation",
+      "related": ["workflow", "branching", "pipeline"]
+    },
+    {
+      "term": "Error Handling",
+      "slug": "error-handling",
+      "definition": "Strategies for managing failures in automated workflows. Robust error handling includes retry logic, fallback actions, error notifications, and graceful degradation. Critical for production workflows that must be reliable.",
+      "category": "automation",
+      "related": ["retry-strategy", "circuit-breaker", "fault-tolerance"]
+    },
+    {
+      "term": "Retry Strategy",
+      "slug": "retry-strategy",
+      "definition": "A pattern for automatically re-attempting failed operations. Strategies include immediate retry, fixed delay, exponential backoff, and exponential backoff with jitter. The choice depends on the failure type and service characteristics.",
+      "category": "architecture",
+      "related": ["exponential-backoff", "circuit-breaker", "error-handling"]
+    },
+    {
+      "term": "API Gateway",
+      "slug": "api-gateway",
+      "definition": "A server that acts as a single entry point for API requests, handling routing, authentication, rate limiting, and monitoring. API gateways simplify client interactions by providing a unified interface to multiple backend services.",
+      "category": "architecture",
+      "related": ["middleware", "rate-limiting", "proxy"]
+    }
+  ]
+}

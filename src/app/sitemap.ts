@@ -2,9 +2,13 @@ import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import servicesData from '@/data/services.json'
 import capabilitiesData from '@/data/capabilities.json'
+import glossaryData from '@/data/glossary.json'
+import comparisonsData from '@/data/comparisons.json'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+
+const logicServices = ['delay', 'schedule', 'condition', 'loop', 'transform', 'trigger', 'error_handling']
 
 function getAdmin() {
   if (!supabaseUrl || !serviceRoleKey) return null
@@ -40,6 +44,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/convert/openai',
     '/convert/gemini',
     '/convert/openclaw',
+    '/glossary',
+    '/compare',
+    '/integrations',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
@@ -55,13 +62,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }))
 
-  // Capability pages (126)
+  // Capability pages (80+)
   const capabilityPages = capabilitiesData.capabilities.map((c) => ({
     url: `${base}/turn-it-on/${c.slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }))
+
+  // Glossary term pages (80)
+  const glossaryPages = glossaryData.terms.map((t) => ({
+    url: `${base}/glossary/${t.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  // Comparison pages (12)
+  const comparisonPages = comparisonsData.comparisons.map((c) => ({
+    url: `${base}/compare/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
+  }))
+
+  // Integration pages (26)
+  const integrationPages = servicesData.services
+    .filter((s) => !logicServices.includes(s.id))
+    .map((s) => ({
+      url: `${base}/integrations/${s.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.75,
+    }))
 
   // Dynamic forum threads + profiles + groups
   let threadPages: MetadataRoute.Sitemap = []
@@ -107,7 +140,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     if (groupsResult.data) {
       groupPages = groupsResult.data.map((g) => ({
-        url: `${base}/forum?group=${g.slug}`,
+        url: `${base}/forum/c/${g.slug}`,
         lastModified: new Date(),
         changeFrequency: 'daily' as const,
         priority: 0.7,
@@ -115,5 +148,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  return [...staticPages, ...servicePages, ...capabilityPages, ...groupPages, ...threadPages, ...profilePages]
+  return [
+    ...staticPages,
+    ...servicePages,
+    ...capabilityPages,
+    ...glossaryPages,
+    ...comparisonPages,
+    ...integrationPages,
+    ...groupPages,
+    ...threadPages,
+    ...profilePages,
+  ]
 }

@@ -40,7 +40,17 @@ interface WorkflowFile {
   updated_at: string
 }
 
-type ActiveTab = 'profile' | 'vault' | 'files' | 'licenses'
+interface ConvertedWorkflow {
+  id: string
+  name: string
+  source_platform: string
+  source_format: string | null
+  workflow: Record<string, unknown>
+  stats: Record<string, unknown>
+  created_at: string
+}
+
+type ActiveTab = 'profile' | 'vault' | 'files' | 'convert' | 'licenses'
 
 export default function AccountPage() {
   const router = useRouter()
@@ -64,6 +74,14 @@ export default function AccountPage() {
   const [newApiKey, setNewApiKey] = useState('')
   const [newKeyHint, setNewKeyHint] = useState('')
 
+  // Convert state
+  const [convertedWorkflows, setConvertedWorkflows] = useState<ConvertedWorkflow[]>([])
+  const [convertText, setConvertText] = useState('')
+  const [convertFilename, setConvertFilename] = useState('')
+  const [convertLoading, setConvertLoading] = useState(false)
+  const [convertError, setConvertError] = useState('')
+  const [convertResult, setConvertResult] = useState<{ workflow: Record<string, unknown>; platform: string; format: string; stats: { tools: number; prompts: number; settings: number } } | null>(null)
+
   const loadData = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
@@ -71,10 +89,11 @@ export default function AccountPage() {
       return
     }
 
-    const [profileRes, vaultRes, filesRes] = await Promise.all([
+    const [profileRes, vaultRes, filesRes, convertRes] = await Promise.all([
       supabase.from('profiles').select('*').eq('id', user.id).single(),
       supabase.from('user_vaults').select('id, service_name, key_hint, created_at, updated_at').eq('user_id', user.id).order('service_name'),
       supabase.from('workflow_files').select('*').eq('owner_id', user.id).order('updated_at', { ascending: false }),
+      supabase.from('user_workflows').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
     ])
 
     if (profileRes.data) {
@@ -84,6 +103,7 @@ export default function AccountPage() {
     }
     if (vaultRes.data) setVault(vaultRes.data)
     if (filesRes.data) setFiles(filesRes.data)
+    if (convertRes.data) setConvertedWorkflows(convertRes.data)
     setLoading(false)
   }, [supabase, router])
 
@@ -196,6 +216,59 @@ export default function AccountPage() {
     setPortalLoading(false)
   }
 
+  function handleConvertFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setConvertFilename(file.name)
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const text = ev.target?.result as string
+      setConvertText(text)
+      setConvertError('')
+      setConvertResult(null)
+    }
+    reader.readAsText(file)
+  }
+
+  async function handleConvert() {
+    if (!convertText.trim()) return
+    setConvertLoading(true)
+    setConvertError('')
+    setConvertResult(null)
+
+    try {
+      const res = await fetch('/api/convert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: convertText, filename: convertFilename || 'upload.json' }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setConvertError(data.error || 'Conversion failed')
+      } else {
+        setConvertResult(data)
+        loadData() // Refresh the converted workflows list
+      }
+    } catch {
+      setConvertError('Network error — please try again')
+    } finally {
+      setConvertLoading(false)
+    }
+  }
+
+  function handleConvertDownload() {
+    if (!convertResult) return
+    const content = JSON.stringify(convertResult.workflow, null, 2)
+    const name = ((convertResult.workflow.name as string) || 'converted').toLowerCase().replace(/[^a-z0-9]+/g, '-')
+    const blob = new Blob([content], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${name}.0n.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   async function handleSignOut() {
     await supabase.auth.signOut()
     router.push('/login')
@@ -217,6 +290,7 @@ export default function AccountPage() {
     { key: 'profile', label: 'Profile' },
     { key: 'vault', label: 'Credentials', count: vault.length },
     { key: 'files', label: '.0n Files', count: files.length },
+    { key: 'convert', label: 'Convert', count: convertedWorkflows.length },
     { key: 'licenses', label: 'Licenses' },
   ]
 
@@ -448,6 +522,133 @@ export default function AccountPage() {
                     )}
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab === 'convert' && (
+          <div className="account-section">
+            <h2 className="account-section-title">Brain Transplant</h2>
+            <p className="account-section-desc">
+              Convert AI configs from OpenAI, Gemini, OpenClaw, or Claude Code into portable .0n workflows.
+            </p>
+
+            {/* Upload area */}
+            <div style={{ maxWidth: '560px', marginTop: '1.5rem' }}>
+              <label
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  cursor: 'pointer',
+                  borderRadius: '0.75rem',
+                  border: '2px dashed var(--border)',
+                  padding: '2rem',
+                  textAlign: 'center',
+                  transition: 'border-color 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--accent)')}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
+              >
+                <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>0n</div>
+                <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                  {convertFilename || 'Click to upload AI config file (.json, .md, .claw)'}
+                </span>
+                <input
+                  type="file"
+                  accept=".json,.md,.claw,.yaml,.yml"
+                  onChange={handleConvertFileUpload}
+                  style={{ display: 'none' }}
+                />
+              </label>
+
+              <div style={{ margin: '1rem 0', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                or paste config below
+              </div>
+
+              <textarea
+                value={convertText}
+                onChange={(e) => { setConvertText(e.target.value); setConvertError(''); setConvertResult(null) }}
+                placeholder='Paste your OpenAI, Gemini, OpenClaw, or Claude config here...'
+                style={{
+                  width: '100%',
+                  height: '12rem',
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '0.5rem',
+                  padding: '0.75rem',
+                  fontSize: '0.75rem',
+                  fontFamily: 'var(--font-mono)',
+                  color: 'var(--text-primary)',
+                  resize: 'vertical',
+                }}
+              />
+
+              {convertError && (
+                <p style={{ color: '#f87171', fontSize: '0.8125rem', marginTop: '0.5rem' }}>{convertError}</p>
+              )}
+
+              <button
+                className="auth-btn primary"
+                onClick={handleConvert}
+                disabled={convertLoading || !convertText.trim()}
+                style={{ marginTop: '1rem', maxWidth: '240px' }}
+              >
+                {convertLoading ? 'Converting...' : 'Convert to .0n'}
+              </button>
+            </div>
+
+            {/* Result */}
+            {convertResult && (
+              <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                  <div>
+                    <h3 style={{ fontSize: '0.9375rem', marginBottom: '0.25rem' }}>Conversion Complete</h3>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
+                      {convertResult.platform} &middot; {convertResult.format} &middot; {convertResult.stats.tools} tools &middot; {convertResult.stats.prompts} prompts &middot; {convertResult.stats.settings} settings
+                    </p>
+                  </div>
+                  <button className="btn-accent" onClick={handleConvertDownload} style={{ fontSize: '0.8125rem' }}>
+                    Download .0n
+                  </button>
+                </div>
+                <pre style={{
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '0.5rem',
+                  padding: '1rem',
+                  fontSize: '0.7rem',
+                  fontFamily: 'var(--font-mono)',
+                  color: 'var(--text-secondary)',
+                  overflow: 'auto',
+                  maxHeight: '24rem',
+                  whiteSpace: 'pre-wrap',
+                }}>
+                  {JSON.stringify(convertResult.workflow, null, 2)}
+                </pre>
+              </div>
+            )}
+
+            {/* Previous conversions */}
+            {convertedWorkflows.length > 0 && (
+              <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
+                <h3 style={{ fontSize: '0.9375rem', marginBottom: '1rem' }}>Previous Conversions</h3>
+                <div className="files-list">
+                  {convertedWorkflows.map((cw) => (
+                    <div key={cw.id} className="file-card">
+                      <div className="file-card-header">
+                        <span className="file-card-name">{cw.name}</span>
+                        <span className="file-card-status active" style={{ backgroundColor: 'rgba(0,255,136,0.1)', color: 'var(--accent)' }}>
+                          {cw.source_platform}
+                        </span>
+                      </div>
+                      <div className="file-card-meta">
+                        <span>{cw.source_format || 'Auto-detected'}</span>
+                        <span>{new Date(cw.created_at).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>

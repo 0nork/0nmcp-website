@@ -9,6 +9,7 @@ import {
   addEdge,
   applyNodeChanges,
   applyEdgeChanges,
+  useReactFlow,
   type OnNodesChange,
   type OnEdgesChange,
   type OnConnect,
@@ -23,6 +24,7 @@ const nodeTypes = { stepNode: WorkflowNode }
 export default function Canvas() {
   const { nodes, edges, stepCounter } = useBuilder()
   const dispatch = useBuilderDispatch()
+  const { screenToFlowPosition } = useReactFlow()
 
   const onNodesChange: OnNodesChange<StepNode> = useCallback(
     (changes) => {
@@ -81,14 +83,8 @@ export default function Canvas() {
       const stepNum = String(stepCounter).padStart(3, '0')
       const stepId = `step_${stepNum}`
 
-      // Get the position relative to the React Flow canvas
-      const bounds = (e.target as HTMLElement).closest('.react-flow')?.getBoundingClientRect()
-      if (!bounds) return
-
-      const position = {
-        x: e.clientX - bounds.left,
-        y: e.clientY - bounds.top,
-      }
+      // Convert screen coordinates to flow coordinates (accounts for zoom + pan)
+      const position = screenToFlowPosition({ x: e.clientX, y: e.clientY })
 
       const data: StepNodeData = {
         stepId,
@@ -115,7 +111,7 @@ export default function Canvas() {
 
       dispatch({ type: 'ADD_NODE', node: newNode })
     },
-    [stepCounter, dispatch]
+    [stepCounter, dispatch, screenToFlowPosition]
   )
 
   const defaultEdgeOptions = useMemo(

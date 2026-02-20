@@ -134,15 +134,17 @@ a:hover {
   border-radius: 0.75rem;
   padding: 1.5rem;
   position: relative;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .glow-box:hover {
   border-color: var(--accent);
+  transform: translateY(-2px);
   box-shadow:
     0 0 20px var(--accent-glow),
     0 0 60px rgba(0, 255, 136, 0.05),
-    inset 0 0 20px rgba(0, 255, 136, 0.03);
+    inset 0 0 20px rgba(0, 255, 136, 0.03),
+    0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* Accent text */
@@ -200,7 +202,7 @@ a:hover {
   font-weight: 600;
   font-size: 0.875rem;
   border-radius: 0.5rem;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
   border: none;
   cursor: pointer;
 }
@@ -208,7 +210,13 @@ a:hover {
 .btn-accent:hover {
   background-color: var(--accent-dim);
   color: var(--bg-primary);
-  box-shadow: 0 0 20px var(--accent-glow);
+  box-shadow: 0 0 20px var(--accent-glow), 0 4px 16px rgba(0, 255, 136, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-accent:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 /* Ghost button */
@@ -224,13 +232,19 @@ a:hover {
   font-size: 0.875rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border);
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   cursor: pointer;
 }
 
 .btn-ghost:hover {
   border-color: var(--accent);
   color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-ghost:active {
+  transform: translateY(0);
 }
 
 /* Glow text */
@@ -4374,5 +4388,349 @@ a:hover {
     width: 28px;
     height: 28px;
     font-size: 0.7rem;
+  }
+}
+
+/* ============================================
+   Enhanced Animations & Micro-Interactions
+   ============================================ */
+
+/* Staggered fade-in for lists and grids */
+@keyframes fadeInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-stagger > * {
+  opacity: 0;
+  animation: fadeInStagger 0.4s ease-out forwards;
+}
+
+.animate-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.animate-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.animate-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.animate-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+.animate-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.animate-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+.animate-stagger > *:nth-child(7) { animation-delay: 0.35s; }
+.animate-stagger > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* Slide-in from left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+/* Slide-in from right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+/* Scale entrance */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+/* Shimmer loading effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--bg-tertiary) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Gradient text shimmer */
+@keyframes textShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-text-shimmer {
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent-secondary),
+    var(--accent),
+    var(--accent-secondary)
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 4s ease-in-out infinite;
+}
+
+/* Floating animation for hero elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Accent border sweep */
+@keyframes borderSweep {
+  0% { border-image-source: linear-gradient(0deg, var(--accent), transparent 50%); }
+  25% { border-image-source: linear-gradient(90deg, var(--accent), transparent 50%); }
+  50% { border-image-source: linear-gradient(180deg, var(--accent), transparent 50%); }
+  75% { border-image-source: linear-gradient(270deg, var(--accent), transparent 50%); }
+  100% { border-image-source: linear-gradient(360deg, var(--accent), transparent 50%); }
+}
+
+/* Card hover lift + glow for file cards, vault entries */
+.file-card,
+.vault-entry {
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.file-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px var(--accent-glow), 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.vault-entry:hover {
+  border-color: var(--accent-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Tab active indicator slide */
+.account-tab {
+  position: relative;
+}
+
+.account-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.account-tab:hover::after {
+  width: 60%;
+  left: 20%;
+}
+
+.account-tab.active::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Auth card entrance */
+.auth-card {
+  animation: scaleIn 0.4s ease-out;
+}
+
+/* Input focus glow */
+.auth-field input:focus,
+.builder-field-input:focus,
+.builder-palette-search:focus {
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.08);
+}
+
+/* Smooth section reveals on scroll (for future IntersectionObserver use) */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Badge bounce-in */
+@keyframes bounceIn {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.4s ease-out forwards;
+}
+
+/* Status dot pulse */
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+/* Enhanced social icon hover */
+.social-icon {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-icon:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Footer link underline slide */
+.footer-link {
+  position: relative;
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
+/* Navbar link dot indicator */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.25s ease, left 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 20px;
+  left: calc(50% - 10px);
+}
+
+/* Smooth page transition wrapper */
+.page-enter {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Tooltip (reusable) */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  padding: 4px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 50;
+}
+
+[data-tooltip]:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Service palette drag hint */
+.builder-service-item {
+  transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.builder-service-item:hover {
+  transform: translateX(4px);
+}
+
+/* Step node entrance */
+.step-node {
+  animation: scaleIn 0.25s ease-out;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

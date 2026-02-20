@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { useBuilder, useBuilderDispatch } from './BuilderContext'
 import { exportWorkflow } from './exportWorkflow'
 import { importWorkflow } from './importWorkflow'
@@ -15,9 +15,11 @@ interface ToolbarProps {
 }
 
 export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
-  const { nodes, edges, settings } = useBuilder()
+  const { nodes, edges, settings, canUndo, canRedo } = useBuilder()
   const dispatch = useBuilderDispatch()
   const fileRef = useRef<HTMLInputElement>(null)
+  const [saving, setSaving] = useState(false)
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle')
   const [loginOpen, setLoginOpen] = useState(false)
   const [loginMessage, setLoginMessage] = useState('')
   const [pendingAction, setPendingAction] = useState<'export' | 'import' | 'ai' | null>(null)
@@ -34,6 +36,28 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
     })
     return () => subscription.unsubscribe()
   }, [])
+
+  // Keyboard shortcuts for undo/redo
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    const mod = e.metaKey || e.ctrlKey
+    if (mod && e.key === 'z' && !e.shiftKey) {
+      e.preventDefault()
+      if (canUndo) dispatch({ type: 'UNDO' })
+    }
+    if (mod && e.key === 'z' && e.shiftKey) {
+      e.preventDefault()
+      if (canRedo) dispatch({ type: 'REDO' })
+    }
+    if (mod && e.key === 'y') {
+      e.preventDefault()
+      if (canRedo) dispatch({ type: 'REDO' })
+    }
+  }, [canUndo, canRedo, dispatch])
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [handleKeyDown])
 
   function requireAuth(action: 'export' | 'import' | 'ai', message: string) {
     if (user) return true
@@ -53,6 +77,42 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
     else if (pendingAction === 'import') fileRef.current?.click()
     else if (pendingAction === 'ai') onToggleAIChat()
     setPendingAction(null)
+  }
+
+  async function handleSaveToCloud() {
+    if (!requireAuth('export', 'Sign in to save workflows to the cloud.')) return
+    if (nodes.length === 0) return
+    setSaving(true)
+    setSaveStatus('idle')
+    try {
+      const supabase = createSupabaseBrowser()
+      if (!supabase || !user) throw new Error('Not authenticated')
+      const workflow = exportWorkflow(nodes, edges, settings)
+      const name = settings.name || 'Untitled Workflow'
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+
+      await supabase.from('workflow_files').upsert({
+        owner_id: user.id,
+        file_key: slug,
+        name,
+        description: settings.description || '',
+        version: '1.0.0',
+        step_count: nodes.length,
+        services_used: [...new Set(nodes.map(n => n.data.serviceId))],
+        tags: settings.metadata?.tags || [],
+        status: 'draft',
+        workflow_data: workflow,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'file_key' })
+
+      setSaveStatus('saved')
+      setTimeout(() => setSaveStatus('idle'), 3000)
+    } catch {
+      setSaveStatus('error')
+      setTimeout(() => setSaveStatus('idle'), 3000)
+    } finally {
+      setSaving(false)
+    }
   }
 
   async function doExport() {
@@ -145,11 +205,35 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
     <>
       <div className="builder-toolbar">
         <div className="builder-toolbar-group">
+          <button
+            className="builder-toolbar-btn"
+            onClick={() => dispatch({ type: 'UNDO' })}
+            disabled={!canUndo}
+            title="Undo (Ctrl+Z)"
+          >
+            Undo
+          </button>
+          <button
+            className="builder-toolbar-btn"
+            onClick={() => dispatch({ type: 'REDO' })}
+            disabled={!canRedo}
+            title="Redo (Ctrl+Shift+Z)"
+          >
+            Redo
+          </button>
+          <div style={{ width: 1, height: 20, background: 'var(--border)', margin: '0 4px' }} />
           <button className="builder-toolbar-btn" onClick={handleImport}>
             Import .0n
           </button>
           <button className="builder-toolbar-btn accent" onClick={handleExport}>
             Export .0n
+          </button>
+          <button
+            className={`builder-toolbar-btn ${saveStatus === 'saved' ? 'saved' : saveStatus === 'error' ? 'danger' : ''}`}
+            onClick={handleSaveToCloud}
+            disabled={saving || nodes.length === 0}
+          >
+            {saving ? 'Saving...' : saveStatus === 'saved' ? 'Saved!' : saveStatus === 'error' ? 'Error' : 'Save'}
           </button>
           <button className="builder-toolbar-btn danger" onClick={handleClear}>
             Clear

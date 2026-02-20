@@ -210,6 +210,17 @@
   color: #ff4444;
 }
 
+.builder-toolbar-btn.saved {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.builder-toolbar-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .builder-step-count {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -305,13 +316,20 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   font-family: var(--font-display);
+}
+
+.step-node:hover {
+  border-color: var(--border-hover);
+  transform: scale(1.02);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .step-node.selected {
   border-color: var(--accent);
   box-shadow: 0 0 16px var(--accent-glow), 0 0 40px rgba(0, 255, 136, 0.06);
+  transform: scale(1.02);
 }
 
 .step-node-header {
@@ -559,6 +577,12 @@ select.builder-field-input {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: modalOverlayIn 0.2s ease-out;
+}
+
+@keyframes modalOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .builder-modal {
@@ -570,6 +594,18 @@ select.builder-field-input {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .builder-modal-header {

@@ -1001,8 +1001,8 @@ a:hover {
 
 .signup-name-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  grid-template-columns: 1fr;
+  gap: 0;
 }
 
 .password-strength {
@@ -1111,6 +1111,7 @@ a:hover {
 
   .signup-name-row {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 

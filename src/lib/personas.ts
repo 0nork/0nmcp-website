@@ -107,13 +107,22 @@ Key features: CLI tool, Vault (encrypted credentials), Engine (portable AI Brain
 Forum groups: general, help, showcase, feature-requests, bug-reports, tutorials, workflows, integrations, off-topic.
 The community is technical — developers, agency owners, founders, automation builders.`
 
-// ==================== CRM Community Cross-Post ====================
+// ==================== CRM Community Cross-Post (Direct API) ====================
 
-const COMMUNITY_POST_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nphConTwfHcVE1oA0uep/webhook-trigger/d523fafd-e35d-47a3-ac34-070edd728ff7'
+import {
+  upsertContact,
+  addContactTags,
+  addContactNote,
+} from './crm'
+
+function slugify(text: string): string {
+  return (text || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
 
 /**
- * Cross-post a persona's thread to the CRM community "the-0nboard"
- * Fires the inbound webhook which triggers the community post workflow
+ * Cross-post a persona's thread to the CRM — direct API calls.
+ * Creates/finds the persona contact, adds tags, stores post as note.
+ * No webhooks, no workflow custom code.
  */
 export async function crossPostToCommunity(data: {
   title: string
@@ -123,32 +132,40 @@ export async function crossPostToCommunity(data: {
   forumUrl?: string
 }): Promise<boolean> {
   try {
-    // Append forum link to content if available
-    const fullContent = data.forumUrl
-      ? `${data.content}\n\n---\nDiscuss on the forum: https://0nmcp.com/forum/${data.forumUrl}`
-      : data.content
+    const personaEmail = `persona-${slugify(data.author)}@0nmcp.internal`
+    const nameParts = data.author.split(' ')
 
-    const res = await fetch(COMMUNITY_POST_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: data.title,
-        content: fullContent,
-        author: data.author,
-        group: data.group || 'the-0nboard',
-        channel: 'general',
-        type: 'community_post',
-        source: 'persona_engine',
-        timestamp: new Date().toISOString(),
-      }),
-    })
+    // 1. Create/find persona contact
+    const contact = await upsertContact({
+      email: personaEmail,
+      firstName: nameParts[0] || data.author,
+      lastName: nameParts.slice(1).join(' ') || undefined,
+      source: '0nmcp.com/personas',
+      tags: ['ai-persona', 'community-member', 'the-0nboard', 'content-creator', '0nmcp'],
+    }, 'community')
 
-    if (res.ok) {
-      console.log(`[personas] Cross-posted to community: "${data.title}" by ${data.author}`)
-      return true
-    }
-    console.warn(`[personas] Community cross-post returned ${res.status}`)
-    return false
+    // 2. Add activity tags
+    await addContactTags(contact.id, [
+      'community-active',
+      'content-creator',
+      `group-${data.group || 'the-0nboard'}`,
+    ])
+
+    // 3. Store post as note
+    const forumLink = data.forumUrl ? `\nForum: https://0nmcp.com/forum/${data.forumUrl}` : ''
+    await addContactNote(contact.id, [
+      `[Community Post] ${data.title}`,
+      '',
+      data.content,
+      '',
+      '---',
+      `Group: ${data.group || 'the-0nboard'}${forumLink}`,
+      `Posted: ${new Date().toISOString()}`,
+      'Source: AI Persona Engine',
+    ].join('\n'))
+
+    console.log(`[personas] Cross-posted to CRM: "${data.title}" by ${data.author} → ${contact.id}`)
+    return true
   } catch (err) {
     console.error('[personas] crossPostToCommunity error:', err)
     return false

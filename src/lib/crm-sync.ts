@@ -7,6 +7,7 @@ import {
   upsertContact,
   findContactByEmail,
   addContactTags,
+  addContactNote,
   removeContactTags,
   sendEmail,
   createOpportunity,
@@ -30,42 +31,64 @@ const TIER_VALUES: Record<string, number> = {
   enterprise: 1200,    // $100/mo × 12
 }
 
-// ==================== COMMUNITY ENROLLMENT ====================
-
-const COMMUNITY_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/nphConTwfHcVE1oA0uep/webhook-trigger/45345fec-2d97-4c7b-9de3-e3c190cf0847'
+// ==================== COMMUNITY ENROLLMENT (DIRECT API) ====================
 
 /**
- * Trigger CRM workflow to auto-enroll user into "the-0nboard" community
- * Fires the inbound webhook which triggers the community grant workflow
+ * Enroll a user into the 0nBoard community — direct CRM API calls.
+ * No webhooks, no workflow custom code. Just API.
+ *
+ * The ONLY thing we can't do via API is grant community group access.
+ * For that, create ONE simple CRM workflow:
+ *   Trigger: "Tag Added = community-member"
+ *   Action: "Grant Community Access → the-0nboard"
+ *
+ * This function handles everything else: contact, tags, notes, email.
  */
-async function triggerCommunityEnrollment(data: {
+async function enrollInCommunity(data: {
   email: string
   firstName?: string
   lastName?: string
   source?: string
-}): Promise<void> {
+}): Promise<string | null> {
   try {
-    const res = await fetch(COMMUNITY_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: data.email,
-        firstName: data.firstName || data.email.split('@')[0],
-        lastName: data.lastName || '',
-        source: data.source || '0nmcp.com',
-        tags: ['0nmcp-signup', 'website-signup'],
-        action: 'community_enroll',
-        timestamp: new Date().toISOString(),
-      }),
-    })
+    // 1. Upsert contact in community location
+    const contact = await upsertContact({
+      email: data.email,
+      firstName: data.firstName || data.email.split('@')[0],
+      lastName: data.lastName || undefined,
+      source: data.source || '0nmcp.com',
+      tags: ['0nmcp-signup', 'website-signup', 'community-member', 'the-0nboard'],
+    }, 'community')
 
-    if (res.ok) {
-      console.log(`[crm-sync] Community enrollment triggered for ${data.email}`)
-    } else {
-      console.warn(`[crm-sync] Community webhook returned ${res.status}`)
-    }
+    // 2. Add enrollment-specific tags (the "community-member" tag triggers the CRM workflow)
+    await addContactTags(contact.id, [
+      '0nboard-member',
+      'community-enrolled',
+      'active-member',
+      '0nmcp-user',
+      `enrolled-${new Date().toISOString().slice(0, 7)}`,
+    ])
+
+    // 3. Add enrollment note
+    await addContactNote(contact.id, [
+      '[0nBoard Enrollment]',
+      '',
+      `Member: ${data.firstName || ''} ${data.lastName || ''} (${data.email})`,
+      `Source: ${data.source || '0nmcp.com'}`,
+      `Date: ${new Date().toISOString()}`,
+      '',
+      'Access granted:',
+      '- 0nBoard Community (via tag-triggered workflow)',
+      '- Forum (0nmcp.com/forum)',
+      '- Builder (0nmcp.com/builder)',
+      '- Turn it 0n (0nmcp.com/turn-it-on)',
+    ].join('\n'))
+
+    console.log(`[crm-sync] Community enrollment complete: ${data.email} → ${contact.id}`)
+    return contact.id
   } catch (err) {
-    console.error('[crm-sync] triggerCommunityEnrollment error:', err)
+    console.error('[crm-sync] enrollInCommunity error:', err)
+    return null
   }
 }
 
@@ -104,8 +127,8 @@ export async function syncNewUser(record: Record<string, unknown>): Promise<stri
       })
     }
 
-    // Auto-enroll in the 0nBoard community
-    await triggerCommunityEnrollment({
+    // Auto-enroll in the 0nBoard community (direct API — no webhooks)
+    await enrollInCommunity({
       email,
       firstName: firstName || email.split('@')[0],
       lastName: lastParts.join(' ') || undefined,

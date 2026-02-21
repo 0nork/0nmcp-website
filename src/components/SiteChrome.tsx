@@ -3,7 +3,6 @@
 import { usePathname } from 'next/navigation'
 import MegaNav from '@/components/MegaNav'
 import Footer from '@/components/Footer'
-import OnorkWidget from '@/components/onork-mini/OnorkWidget'
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -18,7 +17,6 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       <MegaNav />
       <main className="relative z-[1] pt-[72px]">{children}</main>
       <Footer />
-      <OnorkWidget />
     </>
   )
 }

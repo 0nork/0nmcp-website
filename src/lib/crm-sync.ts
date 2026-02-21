@@ -329,11 +329,11 @@ function emailLayout(params: {
                       <tr>
                         <td style="padding:0 8px;"><a href="https://0nmcp.com" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Website</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
+                        <td style="padding:0 8px;"><a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">0nBoard</a></td>
+                        <td style="color:#333;font-size:11px;">&middot;</td>
                         <td style="padding:0 8px;"><a href="https://0nmcp.com/forum" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Forum</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
                         <td style="padding:0 8px;"><a href="https://github.com/0nork/0nMCP" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">GitHub</a></td>
-                        <td style="color:#333;font-size:11px;">&middot;</td>
-                        <td style="padding:0 8px;"><a href="https://discord.gg/0nork" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Discord</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
                         <td style="padding:0 8px;"><a href="https://npmjs.com/package/0nmcp" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">npm</a></td>
                       </tr>
@@ -494,12 +494,13 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<bo
           </tr>
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
-              <a href="https://0nmcp.com/forum" style="color:#00ff88;text-decoration:none;font-weight:600;">Join the community forum</a>
+              <a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" style="color:#00ff88;text-decoration:none;font-weight:600;">Join the 0nBoard</a>
+              <span style="color:#555;margin-left:6px;">&mdash; our community hub</span>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;">
-              <a href="https://discord.gg/0nork" style="color:#00ff88;text-decoration:none;font-weight:600;">Jump into Discord</a>
+              <a href="https://0nmcp.com/forum" style="color:#00ff88;text-decoration:none;font-weight:600;">Browse the forum</a>
             </td>
           </tr>
         </table>

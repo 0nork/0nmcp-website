@@ -493,6 +493,21 @@ export default function OnboardingPage() {
             Connect with builders, ask questions, and share workflows.
           </p>
 
+          <a
+            href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="onboarding-group-card selected"
+            style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.25rem', marginBottom: '1.5rem', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+          >
+            <div className="onboarding-group-icon" style={{ fontSize: '1.5rem', flexShrink: 0 }}>0n</div>
+            <div className="onboarding-group-info">
+              <div className="onboarding-group-name">The 0nBoard</div>
+              <div className="onboarding-group-desc">Our official community hub — announcements, support, and direct access to the team</div>
+            </div>
+            <span style={{ marginLeft: 'auto', color: 'var(--accent)', fontWeight: 700, fontSize: '0.85rem', flexShrink: 0 }}>Join &rarr;</span>
+          </a>
+
           {groups.length > 0 ? (
             <div className="onboarding-group-grid">
               {groups.map(g => (
@@ -578,9 +593,14 @@ export default function OnboardingPage() {
             </Link>
             <Link href="/forum" className="onboarding-path-card">
               <div className="onboarding-path-icon">&#x1F4AC;</div>
-              <div className="onboarding-path-title">Join Discussion</div>
+              <div className="onboarding-path-title">Browse Forum</div>
               <div className="onboarding-path-desc">Ask questions, share tips, earn reputation</div>
             </Link>
+            <a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" target="_blank" rel="noopener noreferrer" className="onboarding-path-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="onboarding-path-icon" style={{ color: 'var(--accent)' }}>0n</div>
+              <div className="onboarding-path-title">The 0nBoard</div>
+              <div className="onboarding-path-desc">Our community hub — real-time support &amp; announcements</div>
+            </a>
           </div>
 
           <div className="onboarding-sponsor-cta">

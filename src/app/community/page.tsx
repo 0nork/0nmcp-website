@@ -65,6 +65,81 @@ export default function CommunityPage() {
           should be free, composable, and community-owned. Every contribution
           makes the platform more powerful for everyone.
         </p>
+        <div className="flex justify-center gap-4 flex-wrap mt-8 relative z-[2]">
+          <a
+            href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-accent no-underline"
+          >
+            Join the 0nBoard
+          </a>
+          <a href="/forum" className="btn-ghost no-underline">
+            Browse the Forum
+          </a>
+        </div>
+      </section>
+
+      {/* ============================================
+          THE 0nBOARD — CRM COMMUNITY
+          ============================================ */}
+      <section className="py-20 px-8">
+        <div className="max-w-[1000px] mx-auto">
+          <div
+            className="rounded-2xl p-10 md:p-12"
+            style={{
+              background: 'linear-gradient(135deg, rgba(0,255,136,0.06), rgba(0,212,255,0.04))',
+              border: '1px solid rgba(0,255,136,0.15)',
+            }}
+          >
+            <div className="flex flex-col md:flex-row gap-8 items-center">
+              <div className="flex-1">
+                <span
+                  className="font-mono text-xs uppercase tracking-[0.15em] block mb-3"
+                  style={{ color: 'var(--accent)' }}
+                >
+                  Official Community
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+                  The 0nBoard
+                </h2>
+                <p
+                  className="text-base leading-relaxed mb-6"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  Our home base for real-time discussion, announcements, support threads,
+                  and direct access to the team building 0nMCP. Get onboarded, share
+                  workflows, request features, and connect with other builders.
+                </p>
+                <div className="flex gap-4 flex-wrap">
+                  <a
+                    href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-accent no-underline"
+                  >
+                    Join the 0nBoard
+                  </a>
+                  <a href="/signup" className="btn-ghost no-underline">
+                    Create Account First
+                  </a>
+                </div>
+              </div>
+              <div
+                className="flex-shrink-0 w-[200px] h-[200px] rounded-2xl flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,212,255,0.1))',
+                  border: '1px solid rgba(0,255,136,0.2)',
+                }}
+              >
+                <div className="text-center">
+                  <div className="font-mono text-4xl font-bold" style={{ color: 'var(--accent)' }}>0n</div>
+                  <div className="text-xs font-bold mt-1" style={{ color: 'var(--text-muted)' }}>BOARD</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ============================================
@@ -419,12 +494,15 @@ export default function CommunityPage() {
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
             <a
-              href="https://github.com/0nork/0nMCP/discussions"
+              href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-accent no-underline"
             >
-              Join GitHub Discussions
+              Join the 0nBoard
+            </a>
+            <a href="/forum" className="btn-ghost no-underline">
+              Browse the Forum
             </a>
             <a
               href="https://github.com/0nork/0nMCP"

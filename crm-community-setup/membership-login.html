@@ -1,0 +1,271 @@
+<!--
+  0nBoard Membership Login — Custom Login Page
+  Paste into: CRM Community > Settings > Custom Code > Login Page
+  Or: Memberships > Login Page > Custom Code
+
+  This replaces the default login with the 0nMCP-branded experience.
+-->
+
+<style>
+  /* Override the default login page */
+  body,
+  [class*="login-page"],
+  [class*="auth-page"] {
+    background: #0a0a0f !important;
+    min-height: 100vh;
+  }
+
+  /* Custom login wrapper */
+  .on-login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    position: relative;
+  }
+
+  .on-login-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .on-login-logo {
+    text-align: center;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .on-login-logo-text {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 3px;
+    margin-bottom: 8px;
+  }
+
+  .on-login-logo .logo-0n {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 48px;
+    font-weight: 900;
+    color: #00ff88;
+    letter-spacing: -0.03em;
+  }
+
+  .on-login-logo .logo-mcp {
+    font-size: 32px;
+    font-weight: 700;
+    color: #e0e0e0;
+  }
+
+  .on-login-logo .logo-tagline {
+    font-size: 12px;
+    color: #55556a;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+
+  .on-login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #1a1a25;
+    border: 1px solid #2a2a3a;
+    border-radius: 16px;
+    padding: 36px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .on-login-card h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #e8e8ef;
+    margin: 0 0 6px;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+
+  .on-login-card .subtitle {
+    font-size: 14px;
+    color: #8888a0;
+    text-align: center;
+    margin: 0 0 28px;
+  }
+
+  .on-login-field {
+    margin-bottom: 20px;
+  }
+
+  .on-login-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #8888a0;
+    margin-bottom: 6px;
+  }
+
+  .on-login-field input {
+    width: 100%;
+    padding: 12px 16px;
+    background: #111118;
+    border: 1px solid #2a2a3a;
+    border-radius: 10px;
+    color: #e8e8ef;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+
+  .on-login-field input:focus {
+    border-color: #00ff88;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+  }
+
+  .on-login-field input::placeholder {
+    color: #55556a;
+  }
+
+  .on-login-submit {
+    width: 100%;
+    padding: 12px;
+    background: #00ff88;
+    color: #0a0a0f;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+
+  .on-login-submit:hover {
+    background: #00cc6a;
+  }
+
+  .on-login-footer {
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .on-login-footer a {
+    color: #00ff88;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .on-login-footer a:hover {
+    color: #00cc6a;
+  }
+
+  .on-login-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .on-login-stat {
+    text-align: center;
+  }
+
+  .on-login-stat-value {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    font-weight: 900;
+    color: #00ff88;
+    display: block;
+  }
+
+  .on-login-stat-label {
+    font-size: 11px;
+    color: #55556a;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
+  /* Powered by footer */
+  .on-powered-by {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #1a1a25;
+    position: relative;
+    z-index: 2;
+  }
+
+  .on-powered-by span {
+    font-size: 11px;
+    color: #33334a;
+    letter-spacing: 0.05em;
+  }
+
+  .on-powered-by a {
+    color: #55556a;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .on-powered-by a:hover {
+    color: #00ff88;
+  }
+</style>
+
+<script>
+  // Wait for login form to load, then style it
+  document.addEventListener('DOMContentLoaded', function() {
+    // Find the default login form elements and add our classes
+    const inputs = document.querySelectorAll('input[type="email"], input[type="password"], input[type="text"]');
+    inputs.forEach(function(input) {
+      input.style.background = '#111118';
+      input.style.border = '1px solid #2a2a3a';
+      input.style.borderRadius = '10px';
+      input.style.color = '#e8e8ef';
+      input.style.padding = '12px 16px';
+      input.style.fontSize = '14px';
+      input.style.width = '100%';
+      input.style.boxSizing = 'border-box';
+
+      input.addEventListener('focus', function() {
+        this.style.borderColor = '#00ff88';
+        this.style.boxShadow = '0 0 0 3px rgba(0, 255, 136, 0.1)';
+      });
+      input.addEventListener('blur', function() {
+        this.style.borderColor = '#2a2a3a';
+        this.style.boxShadow = 'none';
+      });
+    });
+
+    // Style submit buttons
+    const buttons = document.querySelectorAll('button[type="submit"], input[type="submit"], .btn-primary');
+    buttons.forEach(function(btn) {
+      btn.style.background = '#00ff88';
+      btn.style.color = '#0a0a0f';
+      btn.style.border = 'none';
+      btn.style.borderRadius = '10px';
+      btn.style.fontWeight = '700';
+      btn.style.fontSize = '14px';
+      btn.style.padding = '12px 24px';
+      btn.style.cursor = 'pointer';
+      btn.style.width = '100%';
+    });
+  });
+</script>

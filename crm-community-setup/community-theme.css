@@ -1,0 +1,514 @@
+/*
+ * 0nBoard Community Theme — CRM Community Portal Override
+ *
+ * Paste into: CRM Community > Settings > Custom Code > CSS
+ *
+ * Transforms the default CRM community portal to match the
+ * 0nmcp.com dark theme with green accent (#00ff88).
+ */
+
+/* ============================================
+   ROOT OVERRIDES — Color System
+   ============================================ */
+:root {
+  --community-bg: #0a0a0f !important;
+  --community-bg-secondary: #111118 !important;
+  --community-bg-card: #1a1a25 !important;
+  --community-text: #e8e8ef !important;
+  --community-text-secondary: #8888a0 !important;
+  --community-text-muted: #55556a !important;
+  --community-accent: #00ff88 !important;
+  --community-accent-hover: #00cc6a !important;
+  --community-border: #2a2a3a !important;
+  --community-border-hover: #3a3a50 !important;
+}
+
+/* ============================================
+   GLOBAL OVERRIDES
+   ============================================ */
+
+/* Body / Main Background */
+body,
+.client-portal-container,
+.community-container,
+.community-layout,
+.main-content,
+[class*="layout"],
+[class*="container"],
+[class*="wrapper"] {
+  background-color: #0a0a0f !important;
+  color: #e8e8ef !important;
+}
+
+/* Subtle pixel grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.sidebar,
+[class*="sidebar"],
+[class*="side-nav"],
+nav[class*="nav"],
+aside {
+  background-color: #111118 !important;
+  border-right: 1px solid #2a2a3a !important;
+}
+
+.sidebar a,
+[class*="sidebar"] a,
+[class*="nav-item"] {
+  color: #8888a0 !important;
+  transition: color 0.2s, background 0.2s;
+}
+
+.sidebar a:hover,
+[class*="sidebar"] a:hover,
+[class*="nav-item"]:hover {
+  color: #e8e8ef !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.sidebar a.active,
+[class*="sidebar"] a.active,
+[class*="nav-item"].active,
+[class*="nav-item"][aria-current] {
+  color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.08) !important;
+}
+
+/* ============================================
+   CARDS / POSTS / THREADS
+   ============================================ */
+[class*="card"],
+[class*="post-card"],
+[class*="thread"],
+[class*="feed-item"],
+.post,
+.thread,
+article {
+  background-color: #1a1a25 !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 12px !important;
+  color: #e8e8ef !important;
+  transition: border-color 0.2s !important;
+}
+
+[class*="card"]:hover,
+[class*="post-card"]:hover,
+[class*="thread"]:hover,
+[class*="feed-item"]:hover {
+  border-color: #3a3a50 !important;
+}
+
+/* Post titles */
+[class*="post-title"],
+[class*="thread-title"],
+h1, h2, h3, h4 {
+  color: #e8e8ef !important;
+  font-weight: 700 !important;
+}
+
+/* Post body text */
+[class*="post-body"],
+[class*="post-content"],
+[class*="thread-body"],
+p, span {
+  color: #8888a0 !important;
+}
+
+/* ============================================
+   BUTTONS — Primary (Green Accent)
+   ============================================ */
+button[class*="primary"],
+[class*="btn-primary"],
+.btn-primary,
+button[type="submit"],
+a[class*="primary-btn"] {
+  background: #00ff88 !important;
+  color: #0a0a0f !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  padding: 10px 24px !important;
+  transition: background 0.2s !important;
+  letter-spacing: -0.01em !important;
+}
+
+button[class*="primary"]:hover,
+[class*="btn-primary"]:hover,
+.btn-primary:hover,
+button[type="submit"]:hover {
+  background: #00cc6a !important;
+  color: #0a0a0f !important;
+}
+
+/* Secondary / Ghost Buttons */
+button[class*="secondary"],
+[class*="btn-secondary"],
+[class*="btn-ghost"],
+button[class*="outline"] {
+  background: transparent !important;
+  color: #e8e8ef !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  transition: border-color 0.2s, background 0.2s !important;
+}
+
+button[class*="secondary"]:hover,
+[class*="btn-secondary"]:hover,
+[class*="btn-ghost"]:hover {
+  border-color: #3a3a50 !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ============================================
+   INPUTS / FORMS
+   ============================================ */
+input,
+textarea,
+select,
+[class*="input"],
+[class*="text-area"],
+[class*="editor"] {
+  background-color: #111118 !important;
+  color: #e8e8ef !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  transition: border-color 0.2s !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+[class*="input"]:focus {
+  border-color: #00ff88 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #55556a !important;
+}
+
+label {
+  color: #8888a0 !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+/* ============================================
+   MODALS / DIALOGS
+   ============================================ */
+[class*="modal"],
+[class*="dialog"],
+[class*="popup"],
+[role="dialog"] {
+  background-color: #1a1a25 !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 16px !important;
+  color: #e8e8ef !important;
+}
+
+[class*="modal-overlay"],
+[class*="backdrop"] {
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* ============================================
+   AVATARS
+   ============================================ */
+[class*="avatar"],
+.avatar,
+img[class*="avatar"] {
+  border-radius: 50% !important;
+  border: 2px solid #2a2a3a !important;
+}
+
+/* Default avatar placeholder */
+[class*="avatar-placeholder"],
+[class*="avatar-fallback"] {
+  background: linear-gradient(135deg, #00ff88, #00d4ff) !important;
+  color: #0a0a0f !important;
+  font-weight: 700 !important;
+}
+
+/* ============================================
+   BADGES / TAGS / PILLS
+   ============================================ */
+[class*="badge"],
+[class*="tag"],
+[class*="pill"],
+[class*="chip"] {
+  background: rgba(0, 255, 136, 0.1) !important;
+  color: #00ff88 !important;
+  border: 1px solid rgba(0, 255, 136, 0.2) !important;
+  border-radius: 20px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+/* ============================================
+   REACTIONS / LIKES / VOTES
+   ============================================ */
+[class*="reaction"],
+[class*="like-btn"],
+[class*="vote"] {
+  color: #55556a !important;
+  transition: color 0.2s !important;
+}
+
+[class*="reaction"]:hover,
+[class*="like-btn"]:hover,
+[class*="vote"]:hover {
+  color: #00ff88 !important;
+}
+
+[class*="reaction"].active,
+[class*="liked"],
+[class*="vote"].active {
+  color: #00ff88 !important;
+}
+
+/* ============================================
+   COMMENTS / REPLIES
+   ============================================ */
+[class*="comment"],
+[class*="reply"] {
+  border-left: 2px solid #2a2a3a !important;
+  padding-left: 16px !important;
+}
+
+[class*="comment"]:hover,
+[class*="reply"]:hover {
+  border-left-color: #00ff88 !important;
+}
+
+/* ============================================
+   TIMESTAMPS / META
+   ============================================ */
+[class*="time"],
+[class*="date"],
+[class*="meta"],
+time {
+  color: #55556a !important;
+  font-size: 12px !important;
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+a {
+  color: #00ff88 !important;
+  text-decoration: none !important;
+  transition: color 0.2s !important;
+}
+
+a:hover {
+  color: #00cc6a !important;
+}
+
+/* ============================================
+   DIVIDERS / SEPARATORS
+   ============================================ */
+hr,
+[class*="divider"],
+[class*="separator"] {
+  border-color: #2a2a3a !important;
+  opacity: 1 !important;
+}
+
+/* ============================================
+   HEADER / TOP BAR OVERRIDES
+   ============================================ */
+header,
+[class*="header"],
+[class*="top-bar"],
+[class*="navbar"] {
+  background-color: rgba(10, 10, 15, 0.92) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid #2a2a3a !important;
+}
+
+/* ============================================
+   DROPDOWNS / MENUS
+   ============================================ */
+[class*="dropdown"],
+[class*="menu"],
+[class*="popover"],
+[role="menu"] {
+  background-color: #1a1a25 !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+[class*="dropdown-item"],
+[class*="menu-item"],
+[role="menuitem"] {
+  color: #8888a0 !important;
+  transition: color 0.2s, background 0.2s !important;
+}
+
+[class*="dropdown-item"]:hover,
+[class*="menu-item"]:hover,
+[role="menuitem"]:hover {
+  color: #e8e8ef !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a3a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a50;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+[class*="skeleton"],
+[class*="loading"],
+[class*="placeholder"] {
+  background: linear-gradient(90deg, #1a1a25 25%, #2a2a3a 50%, #1a1a25 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite !important;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================
+   NOTIFICATIONS
+   ============================================ */
+[class*="notification"],
+[class*="toast"],
+[class*="alert"] {
+  background-color: #1a1a25 !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 12px !important;
+  color: #e8e8ef !important;
+}
+
+[class*="notification"][class*="success"],
+[class*="toast"][class*="success"] {
+  border-color: rgba(0, 255, 136, 0.3) !important;
+}
+
+/* ============================================
+   MEMBERSHIP / LOGIN PAGE
+   ============================================ */
+[class*="login"],
+[class*="auth"],
+[class*="sign-in"],
+[class*="membership-login"] {
+  background-color: #0a0a0f !important;
+}
+
+[class*="login-card"],
+[class*="auth-card"],
+[class*="login-form"] {
+  background-color: #1a1a25 !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Login page logo area */
+[class*="login-header"],
+[class*="auth-header"],
+[class*="login-logo"] {
+  text-align: center !important;
+}
+
+/* ============================================
+   EMPTY STATES
+   ============================================ */
+[class*="empty"],
+[class*="no-data"],
+[class*="placeholder-text"] {
+  color: #55556a !important;
+}
+
+/* ============================================
+   PROFILE PAGES
+   ============================================ */
+[class*="profile"],
+[class*="member-profile"] {
+  background-color: #111118 !important;
+}
+
+[class*="profile-header"],
+[class*="cover"] {
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 212, 255, 0.08)) !important;
+  border-bottom: 1px solid #2a2a3a !important;
+}
+
+/* ============================================
+   COURSE / LESSON PAGES
+   ============================================ */
+[class*="course"],
+[class*="lesson"],
+[class*="curriculum"] {
+  background-color: #0a0a0f !important;
+}
+
+[class*="lesson-card"],
+[class*="course-card"] {
+  background-color: #1a1a25 !important;
+  border: 1px solid #2a2a3a !important;
+  border-radius: 12px !important;
+}
+
+[class*="progress-bar"] {
+  background-color: #2a2a3a !important;
+}
+
+[class*="progress-fill"],
+[class*="progress-bar"] > div {
+  background: linear-gradient(90deg, #00ff88, #00d4ff) !important;
+  border-radius: 4px !important;
+}
+
+/* ============================================
+   FOOTER OVERRIDE
+   ============================================ */
+footer,
+[class*="footer"] {
+  background-color: #0a0a0f !important;
+  border-top: 1px solid #2a2a3a !important;
+  color: #55556a !important;
+}

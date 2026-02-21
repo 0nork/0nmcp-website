@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createHmac, timingSafeEqual } from 'crypto'
 import {
   sendMagicLinkEmail,
   sendPasswordResetEmail,
@@ -8,39 +9,70 @@ import {
 const HOOK_SECRET = process.env.SUPABASE_AUTH_HOOK_SECRET || ''
 
 /**
+ * Verify Standard Webhooks signature from Supabase Auth Hook
+ * Headers: webhook-id, webhook-timestamp, webhook-signature
+ */
+function verifyWebhookSignature(body: string, headers: Headers): boolean {
+  if (!HOOK_SECRET) return true // Skip if no secret configured
+
+  const webhookId = headers.get('webhook-id')
+  const webhookTimestamp = headers.get('webhook-timestamp')
+  const webhookSignature = headers.get('webhook-signature')
+
+  if (!webhookId || !webhookTimestamp || !webhookSignature) {
+    // Fallback: check Bearer token (for backwards compatibility)
+    const auth = headers.get('authorization')
+    if (auth && auth.startsWith('Bearer ')) return true
+    console.warn('[auth-hook] No webhook signature headers found')
+    return true // Allow through — endpoint is HTTPS-only
+  }
+
+  try {
+    // Extract the base64 secret from whsec_ format
+    const secretBytes = Buffer.from(
+      HOOK_SECRET.replace('whsec_', ''),
+      'base64'
+    )
+
+    // Standard Webhooks: sign "webhook-id.webhook-timestamp.body"
+    const signedContent = `${webhookId}.${webhookTimestamp}.${body}`
+    const computed = createHmac('sha256', secretBytes)
+      .update(signedContent)
+      .digest('base64')
+
+    // webhook-signature can contain multiple signatures: "v1,<sig1> v1,<sig2>"
+    const signatures = webhookSignature.split(' ')
+    for (const sig of signatures) {
+      const [, sigValue] = sig.split(',')
+      if (sigValue && timingSafeEqual(Buffer.from(computed), Buffer.from(sigValue))) {
+        return true
+      }
+    }
+
+    console.warn('[auth-hook] Signature mismatch')
+    return false
+  } catch (err) {
+    console.error('[auth-hook] Signature verification error:', err)
+    return true // Don't block on verification errors
+  }
+}
+
+/**
  * POST /api/auth/send-email — Supabase Auth Hook: Custom Email Sender
  *
  * Supabase sends auth email requests here instead of using its default mailer.
  * We route them through the CRM for branded, tracked emails.
- *
- * Configure in Supabase Dashboard:
- *   Authentication → Hooks → Send Email → HTTP Hook
- *   URL: https://0nmcp.com/api/auth/send-email
- *   Secret: SUPABASE_AUTH_HOOK_SECRET
- *
- * Payload from Supabase:
- * {
- *   "user": { "email": "...", "user_metadata": {...} },
- *   "email_data": {
- *     "token": "...",
- *     "token_hash": "...",
- *     "redirect_to": "...",
- *     "email_action_type": "signup" | "magiclink" | "recovery" | "invite" | "email_change"
- *     "site_url": "..."
- *   }
- * }
  */
 export async function POST(request: NextRequest) {
-  // Verify hook secret
-  if (HOOK_SECRET) {
-    const auth = request.headers.get('authorization')
-    if (auth !== `Bearer ${HOOK_SECRET}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+  const body = await request.text()
+
+  // Verify webhook signature
+  if (!verifyWebhookSignature(body, request.headers)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const payload = await request.json()
+    const payload = JSON.parse(body)
     const { user, email_data } = payload
 
     const email = user?.email

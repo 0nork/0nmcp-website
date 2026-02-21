@@ -107,6 +107,54 @@ Key features: CLI tool, Vault (encrypted credentials), Engine (portable AI Brain
 Forum groups: general, help, showcase, feature-requests, bug-reports, tutorials, workflows, integrations, off-topic.
 The community is technical — developers, agency owners, founders, automation builders.`
 
+// ==================== CRM Community Cross-Post ====================
+
+const COMMUNITY_POST_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nphConTwfHcVE1oA0uep/webhook-trigger/d523fafd-e35d-47a3-ac34-070edd728ff7'
+
+/**
+ * Cross-post a persona's thread to the CRM community "the-0nboard"
+ * Fires the inbound webhook which triggers the community post workflow
+ */
+export async function crossPostToCommunity(data: {
+  title: string
+  content: string
+  author: string
+  group?: string
+  forumUrl?: string
+}): Promise<boolean> {
+  try {
+    // Append forum link to content if available
+    const fullContent = data.forumUrl
+      ? `${data.content}\n\n---\nDiscuss on the forum: https://0nmcp.com/forum/${data.forumUrl}`
+      : data.content
+
+    const res = await fetch(COMMUNITY_POST_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: data.title,
+        content: fullContent,
+        author: data.author,
+        group: data.group || 'the-0nboard',
+        channel: 'general',
+        type: 'community_post',
+        source: 'persona_engine',
+        timestamp: new Date().toISOString(),
+      }),
+    })
+
+    if (res.ok) {
+      console.log(`[personas] Cross-posted to community: "${data.title}" by ${data.author}`)
+      return true
+    }
+    console.warn(`[personas] Community cross-post returned ${res.status}`)
+    return false
+  } catch (err) {
+    console.error('[personas] crossPostToCommunity error:', err)
+    return false
+  }
+}
+
 // ==================== Core Functions ====================
 
 /**

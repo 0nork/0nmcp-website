@@ -13,6 +13,7 @@ import {
   getThreadsNeedingReplies,
   getThreadPosts,
   getThreadPersonaIds,
+  crossPostToCommunity,
   type Persona,
 } from '@/lib/personas'
 
@@ -88,6 +89,15 @@ export async function GET(request: NextRequest) {
 
         if (topicSeed) await markTopicUsed(topicSeed.id, topicSeed.used_count)
 
+        // Cross-post to CRM community "the-0nboard"
+        await crossPostToCommunity({
+          title,
+          content: body,
+          author: persona.name,
+          group: group_slug,
+          forumUrl: thread.slug,
+        })
+
         results.threads.push(`${persona.name}: "${title}" → /forum/${thread.slug}`)
       } catch (err) {
         results.errors.push(`Thread seed error: ${err instanceof Error ? err.message : 'unknown'}`)
@@ -140,6 +150,15 @@ export async function GET(request: NextRequest) {
         )
 
         await insertPersonaReply(persona, profileId, thread.id, body)
+
+        // Cross-post reply to CRM community
+        await crossPostToCommunity({
+          title: `Re: ${thread.title}`,
+          content: body,
+          author: persona.name,
+          forumUrl: thread.slug,
+        })
+
         results.replies.push(`${persona.name} replied to "${thread.title.slice(0, 50)}"`)
       } catch (err) {
         results.errors.push(`Reply error: ${err instanceof Error ? err.message : 'unknown'}`)

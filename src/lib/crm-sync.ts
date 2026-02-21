@@ -30,6 +30,45 @@ const TIER_VALUES: Record<string, number> = {
   enterprise: 1200,    // $100/mo × 12
 }
 
+// ==================== COMMUNITY ENROLLMENT ====================
+
+const COMMUNITY_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/nphConTwfHcVE1oA0uep/webhook-trigger/45345fec-2d97-4c7b-9de3-e3c190cf0847'
+
+/**
+ * Trigger CRM workflow to auto-enroll user into "the-0nboard" community
+ * Fires the inbound webhook which triggers the community grant workflow
+ */
+async function triggerCommunityEnrollment(data: {
+  email: string
+  firstName?: string
+  lastName?: string
+  source?: string
+}): Promise<void> {
+  try {
+    const res = await fetch(COMMUNITY_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        firstName: data.firstName || data.email.split('@')[0],
+        lastName: data.lastName || '',
+        source: data.source || '0nmcp.com',
+        tags: ['0nmcp-signup', 'website-signup'],
+        action: 'community_enroll',
+        timestamp: new Date().toISOString(),
+      }),
+    })
+
+    if (res.ok) {
+      console.log(`[crm-sync] Community enrollment triggered for ${data.email}`)
+    } else {
+      console.warn(`[crm-sync] Community webhook returned ${res.status}`)
+    }
+  } catch (err) {
+    console.error('[crm-sync] triggerCommunityEnrollment error:', err)
+  }
+}
+
 // ==================== USER SYNC ====================
 
 /**
@@ -64,6 +103,13 @@ export async function syncNewUser(record: Record<string, unknown>): Promise<stri
         monetaryValue: 0,
       })
     }
+
+    // Auto-enroll in the 0nBoard community
+    await triggerCommunityEnrollment({
+      email,
+      firstName: firstName || email.split('@')[0],
+      lastName: lastParts.join(' ') || undefined,
+    })
 
     console.log(`[crm-sync] New user synced: ${email} → contact ${contact.id}`)
     return contact.id

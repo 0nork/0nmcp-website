@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/pre-deploy.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "zip:extension": "cd extension && zip -r ../public/downloads/0nmcp-chrome-extension.zip . -x '*.DS_Store'"

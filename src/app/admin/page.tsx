@@ -37,6 +37,20 @@ interface RecentThread {
 
 const sections = [
   {
+    title: 'Blog Engine',
+    description: 'CRO9 auto-blogging — SEO analysis, content generation, adaptive weights.',
+    href: '/admin/blog',
+    icon: '📊',
+    color: '#ff6b35',
+  },
+  {
+    title: 'QA Distribution',
+    description: 'Multi-platform content generation and distribution.',
+    href: '/admin/qa',
+    icon: '📡',
+    color: '#ff6b35',
+  },
+  {
     title: 'Content Pipeline',
     description: 'AI marketing — review, edit, approve, post.',
     href: '/admin/content',

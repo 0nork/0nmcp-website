@@ -47,6 +47,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/glossary',
     '/compare',
     '/integrations',
+    '/security',
+    '/security/vault',
+    '/security/layers',
+    '/security/escrow',
+    '/security/seal-of-truth',
+    '/security/transfer',
+    '/security/patent',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),

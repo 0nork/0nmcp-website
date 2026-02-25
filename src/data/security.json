@@ -1,0 +1,340 @@
+{
+  "meta": {
+    "title": "0nVault Security System",
+    "version": "1.0.0",
+    "patent_application": "63/990,046",
+    "patent_filed": "2026-02-24",
+    "inventor": "Michael A Mento Jr.",
+    "prior_patent": "63/968,814",
+    "prior_patent_title": "Seal of Truth",
+    "prior_patent_date": "2025-12-01",
+    "container_format": ".0nv"
+  },
+  "overview": {
+    "title": "0nVault Security System",
+    "tagline": "Military-grade encryption for AI orchestration credentials and configurations.",
+    "description": "0nVault is a patent-pending encrypted container system that protects every layer of your AI orchestration stack. Seven semantic layers, multi-party escrow, tamper-proof seals, and secure transfer -- all in a single .0nv binary container.",
+    "stats": [
+      { "value": "7", "label": "semantic layers" },
+      { "value": "AES-256", "label": "encryption" },
+      { "value": "Ed25519", "label": "signatures" },
+      { "value": "SHA3-256", "label": "integrity" }
+    ],
+    "features": [
+      {
+        "title": "7 Semantic Layers",
+        "description": "Workflows, credentials, env vars, MCP configs, site profiles, AI brain, and audit trail -- each encrypted independently with its own access controls."
+      },
+      {
+        "title": "Multi-Party Escrow",
+        "description": "X25519 ECDH key agreement enables up to 8 parties to share encrypted containers with granular per-layer access control."
+      },
+      {
+        "title": "Seal of Truth",
+        "description": "SHA3-256 content-addressed integrity verification. Verify any container without decrypting it. Tamper-proof by design."
+      },
+      {
+        "title": "Secure Transfer",
+        "description": "Transfer registry with replay prevention, transfer ID tracking, and cryptographic chain of custody."
+      },
+      {
+        "title": "Patent-Pending",
+        "description": "US Patent Application #63/990,046, filed February 24, 2026. Building on prior patent #63/968,814 (Seal of Truth, December 2025)."
+      },
+      {
+        "title": "Binary Container Format",
+        "description": "The .0nv format is a compact binary container that bundles encrypted layers, signatures, metadata, and seals into a single portable file."
+      }
+    ],
+    "faq": [
+      {
+        "q": "What is 0nVault?",
+        "a": "0nVault is a patent-pending encrypted container system designed specifically for AI orchestration. It protects credentials, workflows, configurations, and audit trails using military-grade encryption (AES-256-GCM) with Ed25519 digital signatures and SHA3-256 integrity verification."
+      },
+      {
+        "q": "How does 0nVault differ from a password manager?",
+        "a": "Unlike password managers that store individual credentials, 0nVault encrypts entire orchestration contexts -- 7 semantic layers including workflows, MCP configs, site profiles, and AI brain states. It supports multi-party escrow, tamper-proof seals, and secure transfer with replay prevention."
+      },
+      {
+        "q": "Is 0nVault open source?",
+        "a": "The 0nVault specification and reference implementation are part of the 0nMCP ecosystem (MIT licensed). The patent-pending innovations (container format, semantic layers, escrow protocol) are protected under US Patent Application #63/990,046."
+      },
+      {
+        "q": "What encryption does 0nVault use?",
+        "a": "AES-256-GCM for symmetric encryption, Ed25519 for digital signatures, X25519 ECDH for key agreement in multi-party escrow, Argon2id for credential key derivation, and SHA3-256 for content-addressed integrity seals."
+      },
+      {
+        "q": "Can I verify a container without decrypting it?",
+        "a": "Yes. The Seal of Truth uses SHA3-256 content hashing to produce a verification fingerprint. Anyone with the seal can verify the container has not been tampered with, without needing the decryption key."
+      }
+    ]
+  },
+  "pages": {
+    "vault": {
+      "title": "0nVault Container System",
+      "tagline": "A single .0nv file that holds your entire AI orchestration context.",
+      "description": "The .0nv container format is a compact binary that bundles encrypted semantic layers, digital signatures, integrity seals, and metadata into one portable file. Create, open, verify, and transfer containers with cryptographic guarantees.",
+      "format": {
+        "extension": ".0nv",
+        "type": "binary",
+        "magic_bytes": "0NV1",
+        "sections": [
+          { "name": "Header", "description": "Magic bytes, version, flags, timestamp, creator ID" },
+          { "name": "Manifest", "description": "Layer index with types, sizes, encryption parameters, and access control lists" },
+          { "name": "Layers", "description": "7 encrypted semantic layers, each independently encrypted with AES-256-GCM" },
+          { "name": "Signatures", "description": "Ed25519 digital signatures from creator and any escrow parties" },
+          { "name": "Seal", "description": "SHA3-256 Seal of Truth for tamper-proof integrity verification" },
+          { "name": "Transfer Log", "description": "Append-only transfer registry with chain of custody" }
+        ]
+      },
+      "operations": [
+        { "name": "Create", "command": "0nmcp vault seal", "description": "Encrypt and package layers into a .0nv container" },
+        { "name": "Open", "command": "0nmcp vault unseal", "description": "Decrypt and extract layers from a .0nv container" },
+        { "name": "Verify", "command": "0nmcp vault verify", "description": "Verify the Seal of Truth without decrypting" },
+        { "name": "Fingerprint", "command": "0nmcp vault fingerprint", "description": "Generate hardware-bound fingerprint for machine locking" }
+      ],
+      "faq": [
+        {
+          "q": "What is the .0nv file format?",
+          "a": "The .0nv format is a binary container that packages 7 encrypted semantic layers, digital signatures, integrity seals, and transfer logs into a single portable file. It starts with the magic bytes '0NV1' followed by versioned sections."
+        },
+        {
+          "q": "How large is a typical .0nv container?",
+          "a": "A typical container with all 7 layers populated ranges from 2KB to 50KB depending on the complexity of your workflows and number of credentials. The binary format is significantly more compact than equivalent JSON."
+        },
+        {
+          "q": "Can I version control .0nv files?",
+          "a": "While .0nv files are binary and not ideal for line-by-line diffs, they work well with Git LFS. Each container includes a version field and timestamp, and the Seal of Truth provides content-addressed identification."
+        },
+        {
+          "q": "What happens if a .0nv file is corrupted?",
+          "a": "The Seal of Truth verification will immediately detect any corruption. AES-256-GCM authenticated encryption also provides per-layer integrity checking, so even partial corruption is detected before any data is returned."
+        }
+      ]
+    },
+    "layers": {
+      "title": "7 Semantic Layers",
+      "tagline": "Independent encryption for every aspect of your AI orchestration stack.",
+      "description": "0nVault organizes your AI orchestration context into 7 semantic layers. Each layer is encrypted independently with its own AES-256-GCM key, enabling granular access control in multi-party scenarios. Credentials receive double-encryption with Argon2id key derivation.",
+      "layers": [
+        {
+          "id": "workflows",
+          "name": "Workflows",
+          "icon": "flow",
+          "description": "Your .0n SWITCH files -- the orchestration logic that connects services, defines pipelines, and automates processes. Includes step definitions, conditions, transforms, and execution parameters.",
+          "encryption": "AES-256-GCM",
+          "access": "Owner + authorized parties"
+        },
+        {
+          "id": "credentials",
+          "name": "Credentials",
+          "icon": "key",
+          "description": "API keys, OAuth tokens, service passwords, and authentication secrets for all 26 connected services. Double-encrypted: first with Argon2id-derived key, then with the layer key.",
+          "encryption": "AES-256-GCM + Argon2id",
+          "access": "Owner only (default)"
+        },
+        {
+          "id": "env_vars",
+          "name": "Environment Variables",
+          "icon": "terminal",
+          "description": "Runtime configuration values, feature flags, endpoint URLs, and deployment-specific settings. Separated from credentials for different access control needs.",
+          "encryption": "AES-256-GCM",
+          "access": "Owner + DevOps"
+        },
+        {
+          "id": "mcp_configs",
+          "name": "MCP Configurations",
+          "icon": "settings",
+          "description": "AI platform configurations for Claude Desktop, Cursor, Windsurf, Gemini, Continue, Cline, and OpenAI. Includes server definitions, tool registrations, and platform-specific settings.",
+          "encryption": "AES-256-GCM",
+          "access": "Owner + authorized platforms"
+        },
+        {
+          "id": "site_profiles",
+          "name": "Site Profiles",
+          "icon": "globe",
+          "description": "Website and application configurations, domain settings, deployment targets, and environment mappings. Links orchestration contexts to specific deployments.",
+          "encryption": "AES-256-GCM",
+          "access": "Owner + DevOps"
+        },
+        {
+          "id": "ai_brain",
+          "name": "AI Brain",
+          "icon": "brain",
+          "description": "Trained context, prompt templates, model preferences, fine-tuning parameters, and AI behavior configurations. The intelligence layer that makes your orchestration context-aware.",
+          "encryption": "AES-256-GCM",
+          "access": "Owner + AI systems"
+        },
+        {
+          "id": "audit_trail",
+          "name": "Audit Trail",
+          "icon": "shield",
+          "description": "Immutable execution logs, access records, modification history, and compliance data. Append-only by design -- entries can be added but never modified or deleted.",
+          "encryption": "AES-256-GCM",
+          "access": "Owner + auditors (read-only)"
+        }
+      ]
+    },
+    "escrow": {
+      "title": "Multi-Party Escrow",
+      "tagline": "Share encrypted containers with granular per-layer access control.",
+      "description": "0nVault multi-party escrow uses X25519 Elliptic Curve Diffie-Hellman key agreement to enable up to 8 parties to share a single encrypted container. Each party receives access only to the layers they need, with cryptographic enforcement.",
+      "max_parties": 8,
+      "key_agreement": "X25519 ECDH",
+      "features": [
+        {
+          "title": "Per-Layer Access Matrix",
+          "description": "Define exactly which layers each party can decrypt. A DevOps team member might access env_vars and site_profiles but not credentials or AI brain."
+        },
+        {
+          "title": "Key Agreement Without Key Sharing",
+          "description": "X25519 ECDH derives shared secrets between party pairs without ever transmitting private keys. Each party generates their own keypair."
+        },
+        {
+          "title": "Revocable Access",
+          "description": "Re-key individual layers to revoke access for specific parties without affecting other participants. The container is re-sealed with updated access controls."
+        },
+        {
+          "title": "Audit Visibility",
+          "description": "The audit trail layer can be made visible to all parties regardless of other access controls, ensuring transparency and compliance."
+        }
+      ],
+      "access_matrix_example": [
+        { "party": "Owner", "workflows": true, "credentials": true, "env_vars": true, "mcp_configs": true, "site_profiles": true, "ai_brain": true, "audit_trail": true },
+        { "party": "DevOps", "workflows": false, "credentials": false, "env_vars": true, "mcp_configs": true, "site_profiles": true, "ai_brain": false, "audit_trail": true },
+        { "party": "AI Platform", "workflows": true, "credentials": false, "env_vars": false, "mcp_configs": true, "site_profiles": false, "ai_brain": true, "audit_trail": true },
+        { "party": "Auditor", "workflows": false, "credentials": false, "env_vars": false, "mcp_configs": false, "site_profiles": false, "ai_brain": false, "audit_trail": true }
+      ],
+      "faq": [
+        {
+          "q": "How does multi-party escrow work?",
+          "a": "Each party generates an X25519 keypair. When creating a shared container, the owner performs ECDH key agreement with each party's public key to derive unique shared secrets. These secrets encrypt per-layer keys, so each party can only decrypt the layers they're authorized for."
+        },
+        {
+          "q": "What is the maximum number of parties?",
+          "a": "Up to 8 parties can share a single .0nv container. This limit balances security (minimizing key material in the container) with practical team collaboration needs."
+        },
+        {
+          "q": "Can I revoke a party's access?",
+          "a": "Yes. Re-key the affected layers with new AES-256-GCM keys and re-perform ECDH key agreement with the remaining authorized parties. The revoked party's derived keys will no longer decrypt the updated layers."
+        },
+        {
+          "q": "Is the escrow protocol auditable?",
+          "a": "Yes. All escrow operations are logged in the audit trail layer. Access grants, revocations, key rotations, and container opens are recorded with timestamps and party identifiers."
+        }
+      ]
+    },
+    "seal_of_truth": {
+      "title": "Seal of Truth",
+      "tagline": "Tamper-proof integrity verification without decryption.",
+      "description": "The Seal of Truth is a SHA3-256 content-addressed integrity fingerprint embedded in every .0nv container. It allows anyone to verify that a container has not been tampered with, without needing the decryption key.",
+      "algorithm": "SHA3-256",
+      "formula": "SHA3-256(header || manifest || sorted_layer_hashes || signatures)",
+      "formula_explanation": [
+        { "component": "header", "description": "Container header bytes including version, flags, and timestamp" },
+        { "component": "manifest", "description": "Layer index with types, sizes, and encryption parameters" },
+        { "component": "sorted_layer_hashes", "description": "SHA3-256 hash of each encrypted layer, sorted by layer ID for deterministic ordering" },
+        { "component": "signatures", "description": "All Ed25519 digital signatures from creator and escrow parties" }
+      ],
+      "properties": [
+        {
+          "title": "Content-Addressed",
+          "description": "The seal is derived from the container's actual content, not metadata. Two containers with identical content produce identical seals."
+        },
+        {
+          "title": "Tamper-Evident",
+          "description": "Any modification to any byte in the container -- header, layers, signatures, or metadata -- produces a completely different seal."
+        },
+        {
+          "title": "Public Verification",
+          "description": "Verification requires only the container file and the published seal. No decryption keys, no private information, no network access."
+        },
+        {
+          "title": "Collision Resistant",
+          "description": "SHA3-256 provides 128-bit collision resistance. Finding two different containers that produce the same seal is computationally infeasible."
+        }
+      ],
+      "prior_patent": {
+        "number": "63/968,814",
+        "title": "Seal of Truth: Content-Addressed Integrity Verification for Encrypted Containers",
+        "filed": "December 2025",
+        "status": "Filed"
+      }
+    },
+    "transfer": {
+      "title": "Secure Transfer Protocol",
+      "tagline": "Cryptographic chain of custody for .0nv containers.",
+      "description": "The 0nVault secure transfer protocol provides replay prevention, transfer ID tracking, and an immutable chain of custody for every container transfer. Each transfer is cryptographically signed and logged.",
+      "features": [
+        {
+          "title": "Transfer Registry",
+          "description": "Every transfer is registered with a unique Transfer ID, sender signature, recipient public key, timestamp, and layer access grants. The registry is append-only."
+        },
+        {
+          "title": "Replay Prevention",
+          "description": "Each transfer includes a nonce and timestamp. The recipient verifies the nonce has not been seen before and the timestamp is within an acceptable window, preventing replay attacks."
+        },
+        {
+          "title": "Transfer ID Tracking",
+          "description": "A UUID v7 Transfer ID is generated for each transfer operation. This ID is embedded in the container's transfer log and can be used to trace the complete chain of custody."
+        },
+        {
+          "title": "Sender Verification",
+          "description": "The sender signs the transfer with their Ed25519 private key. The recipient can verify the sender's identity using the published public key, ensuring transfers are not forged."
+        },
+        {
+          "title": "Layer Re-encryption",
+          "description": "During transfer, layers are re-encrypted for the recipient using X25519 ECDH key agreement. The sender's copy remains encrypted with the original keys."
+        },
+        {
+          "title": "Immutable Transfer Log",
+          "description": "The container's transfer log section is append-only. Each entry includes the Transfer ID, parties involved, layers transferred, and cryptographic proofs."
+        }
+      ]
+    },
+    "patent": {
+      "title": "Patent-Pending Technology",
+      "tagline": "Pioneering the future of secure AI orchestration.",
+      "description": "0nVault is protected by patent-pending technology, representing novel innovations in encrypted container systems for AI orchestration. The patent covers the semantic layer architecture, multi-party escrow protocol, and content-addressed integrity verification.",
+      "current_patent": {
+        "number": "63/990,046",
+        "title": "Encrypted Semantic Container System for AI Orchestration with Multi-Party Escrow and Content-Addressed Integrity Verification",
+        "filed": "February 24, 2026",
+        "inventor": "Michael A Mento Jr.",
+        "assignee": "RocketOpp LLC",
+        "status": "Patent Pending",
+        "claims": [
+          "Seven semantic layers with independent encryption and access control",
+          "Multi-party escrow using X25519 ECDH with per-layer access matrices",
+          "Content-addressed integrity verification (Seal of Truth) using SHA3-256",
+          "Binary container format with append-only transfer registry",
+          "Double-encryption of credential layers using Argon2id key derivation",
+          "Secure transfer protocol with replay prevention and chain of custody"
+        ]
+      },
+      "prior_patent": {
+        "number": "63/968,814",
+        "title": "Seal of Truth: Content-Addressed Integrity Verification for Encrypted Containers",
+        "filed": "December 2025",
+        "inventor": "Michael A Mento Jr.",
+        "assignee": "RocketOpp LLC",
+        "status": "Filed",
+        "description": "The foundational patent covering the Seal of Truth integrity verification system. Uses SHA3-256 content hashing to produce tamper-proof fingerprints for encrypted containers, enabling public verification without decryption."
+      },
+      "innovations": [
+        {
+          "title": "Semantic Layer Architecture",
+          "description": "The first encrypted container system to organize AI orchestration data into 7 independently-encrypted semantic layers, enabling granular access control without compromising the integrity of the whole."
+        },
+        {
+          "title": "AI-Native Escrow",
+          "description": "A novel multi-party escrow protocol designed specifically for AI orchestration contexts, where different stakeholders (developers, DevOps, AI platforms, auditors) need different levels of access."
+        },
+        {
+          "title": "Three-Level Execution Security",
+          "description": "Integration with 0nMCP's patent-pending Three-Level Execution model (Pipeline, Assembly Line, Radial Burst) to provide end-to-end encrypted execution contexts."
+        }
+      ]
+    }
+  }
+}

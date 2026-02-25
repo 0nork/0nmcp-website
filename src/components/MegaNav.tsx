@@ -81,9 +81,31 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
       },
     ],
   },
+  security: {
+    label: 'Security',
+    columns: [
+      {
+        title: '0nVault',
+        links: [
+          { label: 'Security Overview', href: '/security', desc: 'Encrypted AI orchestration' },
+          { label: 'Vault Container', href: '/security/vault', desc: '.0nv binary container format' },
+          { label: '7 Semantic Layers', href: '/security/layers', desc: 'Independent encryption per layer' },
+          { label: 'Multi-Party Escrow', href: '/security/escrow', desc: 'X25519 ECDH key agreement' },
+        ],
+      },
+      {
+        title: 'Verification',
+        links: [
+          { label: 'Seal of Truth', href: '/security/seal-of-truth', desc: 'SHA3-256 integrity verification' },
+          { label: 'Secure Transfer', href: '/security/transfer', desc: 'Replay prevention & chain of custody' },
+          { label: 'Patent-Pending', href: '/security/patent', desc: 'US Application #63/990,046', badge: 'Patent Pending' },
+        ],
+      },
+    ],
+  },
 }
 
-type MenuKey = 'product' | 'community' | 'products'
+type MenuKey = 'product' | 'community' | 'products' | 'security'
 
 /* ── Service logo strip (top 12) ── */
 const TOP_SERVICES = ALL_SERVICES.slice(0, 12)

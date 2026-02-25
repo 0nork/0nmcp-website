@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/personas",
       "schedule": "0 */2 * * *"
+    },
+    {
+      "path": "/api/cron/blog-seo",
+      "schedule": "0 6 * * *"
     }
   ],
   "redirects": [

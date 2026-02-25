@@ -52,6 +52,17 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
+  // Auth-walled routes — redirect to login if not authenticated
+  const authWalledPaths = ['/builder', '/convert']
+  const isAuthWalled = authWalledPaths.some((p) => pathname === p || pathname.startsWith(p + '/'))
+
+  if (isAuthWalled && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.searchParams.set('redirect', pathname)
+    return NextResponse.redirect(url)
+  }
+
   // Protected routes — redirect to login if not authenticated
   const protectedPaths = ['/account', '/vault', '/app', '/store', '/0nboarding', '/oauth']
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p))

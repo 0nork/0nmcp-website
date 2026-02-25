@@ -77,6 +77,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
           { label: 'Partners', href: '/partners', desc: 'Partner products & integrations' },
           { label: 'MCPFED', href: 'https://mcpfed.com', desc: 'AI Automation Marketplace', external: true },
           { label: 'Marketplace', href: 'https://marketplace.rocketclients.com', desc: '0n Marketplace', external: true },
+          { label: 'Connect', href: '/connect', desc: 'Partnerships & investment', accent: true },
         ],
       },
     ],

@@ -89,7 +89,7 @@ const sections = [
   {
     title: 'Supabase',
     description: 'Database, auth, storage.',
-    href: 'https://supabase.com/dashboard/project/pwujhhmlrtxjmjzyttwn',
+    href: 'https://supabase.com/dashboard/project/yaehbwimocvvnnlojkxe',
     icon: '🗄️',
     color: '#3ECF8E',
     external: true,

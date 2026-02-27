@@ -90,7 +90,7 @@ function SignupForm() {
       password,
       options: {
         data: { full_name: fullName, company },
-        emailRedirectTo: `${window.location.origin}/api/auth/callback?redirect=${encodeURIComponent(redirect)}`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/api/auth/callback?redirect=${encodeURIComponent(redirect)}`,
       },
     })
 

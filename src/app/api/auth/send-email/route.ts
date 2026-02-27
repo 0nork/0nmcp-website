@@ -82,12 +82,18 @@ export async function POST(request: NextRequest) {
 
     const actionType = email_data?.email_action_type
     const token = email_data?.token_hash || email_data?.token
-    const redirectTo = email_data?.redirect_to || 'https://0nmcp.com/account'
-    const siteUrl = email_data?.site_url || 'https://0nmcp.com'
+    const PRODUCTION_URL = 'https://0nmcp.com'
+
+    // Sanitize redirect — NEVER allow localhost or non-production URLs in emails
+    let redirectTo = email_data?.redirect_to || `${PRODUCTION_URL}/account`
+    if (redirectTo.includes('localhost') || redirectTo.includes('127.0.0.1')) {
+      const path = new URL(redirectTo).pathname + new URL(redirectTo).search
+      redirectTo = `${PRODUCTION_URL}${path}`
+    }
 
     // Build the action link
-    // Supabase expects: {site_url}/auth/v1/verify?token={token_hash}&type={action_type}&redirect_to={redirect_to}
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || siteUrl
+    // Supabase expects: {supabase_url}/auth/v1/verify?token={token_hash}&type={action_type}&redirect_to={redirect_to}
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://yaehbwimocvvnnlojkxe.supabase.co'
     const actionLink = `${supabaseUrl}/auth/v1/verify?token=${token}&type=${actionType === 'recovery' ? 'recovery' : actionType === 'magiclink' ? 'magiclink' : 'signup'}&redirect_to=${encodeURIComponent(redirectTo)}`
 
     let sent = false

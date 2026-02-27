@@ -70,7 +70,7 @@ export default function LoginModal({ open, onClose, onSuccess, message, redirect
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/api/auth/callback?redirect=${encodeURIComponent(redirectAfter || '/account')}`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/api/auth/callback?redirect=${encodeURIComponent(redirectAfter || '/account')}`,
       },
     })
 

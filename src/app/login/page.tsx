@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import SwitchShowcase from '@/components/SwitchShowcase'
 
 export default function LoginPage() {
   return (
@@ -105,72 +106,80 @@ function LoginForm() {
   }
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <div className="auth-logo">0n</div>
-        <h1 className="auth-title">Sign in</h1>
-        <p className="auth-subtitle">
-          Access your .0n files, credentials, and workflow builder.
-        </p>
+    <div className="auth-container" style={{ flexDirection: 'column', gap: '2rem', paddingTop: '3rem', paddingBottom: '3rem' }}>
+      <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', justifyContent: 'center', flexWrap: 'wrap', width: '100%', maxWidth: '880px' }}>
+        {/* Login form */}
+        <div className="auth-card" style={{ flex: '1 1 340px', maxWidth: '420px' }}>
+          <div className="auth-logo">0n</div>
+          <h1 className="auth-title">Sign in</h1>
+          <p className="auth-subtitle">
+            Access your .0n files, credentials, and workflow builder.
+          </p>
 
-        {error && <div className="auth-error">{error}</div>}
+          {error && <div className="auth-error">{error}</div>}
 
-        <form onSubmit={handleLogin} className="auth-form">
-          <div className="auth-field">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@company.com"
-              required
-              autoFocus
-              autoComplete="email"
-            />
-          </div>
-
-          <div className="auth-field">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-              <label htmlFor="password">Password</label>
-              <Link href="/forgot-password" style={{ fontSize: '0.75rem', color: 'var(--accent)', textDecoration: 'none' }}>
-                Forgot password?
-              </Link>
+          <form onSubmit={handleLogin} className="auth-form">
+            <div className="auth-field">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@company.com"
+                required
+                autoFocus
+                autoComplete="email"
+              />
             </div>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Your password"
-              required
-              autoComplete="current-password"
-            />
+
+            <div className="auth-field">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <label htmlFor="password">Password</label>
+                <Link href="/forgot-password" style={{ fontSize: '0.75rem', color: 'var(--accent)', textDecoration: 'none' }}>
+                  Forgot password?
+                </Link>
+              </div>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Your password"
+                required
+                autoComplete="current-password"
+              />
+            </div>
+
+            <button type="submit" className="auth-btn primary" disabled={loading}>
+              {loading ? 'Signing in...' : 'Sign in'}
+            </button>
+          </form>
+
+          <div className="auth-divider">
+            <span>or</span>
           </div>
 
-          <button type="submit" className="auth-btn primary" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign in'}
+          <button
+            className="auth-btn secondary"
+            onClick={handleMagicLink}
+            disabled={loading}
+          >
+            Send magic link
           </button>
-        </form>
 
-        <div className="auth-divider">
-          <span>or</span>
+          <p className="auth-footer">
+            No account?{' '}
+            <Link href={`/signup${redirect !== '/account' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`}>
+              Create one
+            </Link>
+          </p>
         </div>
 
-        <button
-          className="auth-btn secondary"
-          onClick={handleMagicLink}
-          disabled={loading}
-        >
-          Send magic link
-        </button>
-
-        <p className="auth-footer">
-          No account?{' '}
-          <Link href={`/signup${redirect !== '/account' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`}>
-            Create one
-          </Link>
-        </p>
+        {/* SWITCH file showcase */}
+        <div style={{ flex: '1 1 340px', maxWidth: '440px' }}>
+          <SwitchShowcase />
+        </div>
       </div>
     </div>
   )

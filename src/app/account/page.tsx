@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import SwitchImporter from '@/components/SwitchImporter'
 
 interface Profile {
   id: string
@@ -50,7 +51,7 @@ interface ConvertedWorkflow {
   created_at: string
 }
 
-type ActiveTab = 'profile' | 'vault' | 'files' | 'convert' | 'licenses'
+type ActiveTab = 'profile' | 'vault' | 'files' | 'import' | 'convert' | 'licenses'
 
 export default function AccountPage() {
   const router = useRouter()
@@ -290,6 +291,7 @@ export default function AccountPage() {
     { key: 'profile', label: 'Profile' },
     { key: 'vault', label: 'Credentials', count: vault.length },
     { key: 'files', label: '.0n Files', count: files.length },
+    { key: 'import', label: 'Import' },
     { key: 'convert', label: 'Convert', count: convertedWorkflows.length },
     { key: 'licenses', label: 'Licenses' },
   ]
@@ -524,6 +526,16 @@ export default function AccountPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {tab === 'import' && profile && (
+          <div className="account-section">
+            <h2 className="account-section-title">Import .0n SWITCH File</h2>
+            <p className="account-section-desc">
+              Import a .0n SWITCH file to preview connections, products, and workflows. Convert it to a Claude Code skill or save to your cloud vault.
+            </p>
+            <SwitchImporter userId={profile.id} onImportComplete={loadData} />
           </div>
         )}
 

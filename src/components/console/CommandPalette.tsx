@@ -17,6 +17,7 @@ import {
   Share2,
   BarChart3,
   ArrowRightLeft,
+  TerminalSquare,
 } from 'lucide-react'
 
 interface CommandPaletteProps {
@@ -29,6 +30,7 @@ const COMMANDS = [
   { cmd: '/chat', desc: 'Open chat', icon: MessageSquare, group: 'Navigate' },
   { cmd: '/community', desc: 'The 0nBoard', icon: Users, group: 'Navigate' },
   { cmd: '/builder', desc: 'Workflow builder', icon: Blocks, group: 'Navigate' },
+  { cmd: '/terminal', desc: 'Browser-native web terminal', icon: TerminalSquare, group: 'Navigate' },
   { cmd: '/vault', desc: 'Manage credentials', icon: Shield, group: 'Navigate' },
   { cmd: '/flows', desc: 'Create workflow', icon: Workflow, group: 'Navigate' },
   { cmd: '/operations', desc: 'Manage active workflows', icon: Activity, group: 'Navigate' },

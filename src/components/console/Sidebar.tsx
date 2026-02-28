@@ -16,6 +16,7 @@ import {
   Share2,
   BarChart3,
   ArrowRightLeft,
+  TerminalSquare,
   ChevronRight,
   PanelLeftClose,
 } from 'lucide-react'
@@ -37,6 +38,7 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] 
   { key: 'chat', label: 'Chat', icon: MessageSquare },
   { key: 'community', label: 'Community', icon: Users },
   { key: 'builder', label: 'Builder', icon: Blocks },
+  { key: 'terminal', label: 'Terminal', icon: TerminalSquare },
   { key: 'vault', label: 'Vault', icon: Shield },
   { key: 'flows', label: 'Create', icon: Workflow },
   { key: 'operations', label: 'Operations', icon: Activity },

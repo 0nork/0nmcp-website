@@ -12,9 +12,11 @@ import type { DotOnWorkflow } from './types'
 interface ToolbarProps {
   aiChatOpen: boolean
   onToggleAIChat: () => void
+  terminalOpen?: boolean
+  onToggleTerminal?: () => void
 }
 
-export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
+export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal }: ToolbarProps) {
   const { nodes, edges, settings, canUndo, canRedo } = useBuilder()
   const dispatch = useBuilderDispatch()
   const fileRef = useRef<HTMLInputElement>(null)
@@ -257,6 +259,16 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat }: ToolbarProps) {
           >
             AI Builder
           </button>
+          {onToggleTerminal && (
+            <button
+              className={`builder-toolbar-btn ${terminalOpen ? 'active' : ''}`}
+              onClick={onToggleTerminal}
+              title="Toggle terminal panel"
+              style={terminalOpen ? { borderColor: 'rgba(0,255,102,0.3)', color: '#00ff66' } : {}}
+            >
+              Terminal
+            </button>
+          )}
           <button
             className="builder-toolbar-btn"
             onClick={() => dispatch({ type: 'TOGGLE_SETTINGS' })}

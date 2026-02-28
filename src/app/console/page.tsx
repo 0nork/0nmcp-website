@@ -35,6 +35,11 @@ const OnTerminal = dynamic(
   { ssr: false }
 )
 
+const CodeTerminal = dynamic(
+  () => import('@/components/console/CodeTerminal').then(m => ({ default: m.CodeTerminal })),
+  { ssr: false }
+)
+
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
 import { useStore } from '@/lib/console/useStore'
@@ -43,7 +48,7 @@ import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn' | 'code'
 
 interface McpHealth {
   version?: string
@@ -287,6 +292,9 @@ export default function ConsolePage() {
           break
         case '/learn':
           setView('learn')
+          break
+        case '/code':
+          setView('code')
           break
         case '/history':
           setView('history')
@@ -646,6 +654,13 @@ export default function ConsolePage() {
         return (
           <div className="flex-1 min-h-0">
             <LearnView />
+          </div>
+        )
+
+      case 'code':
+        return (
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <CodeTerminal />
           </div>
         )
 

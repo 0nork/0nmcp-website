@@ -20,6 +20,7 @@ import {
   GraduationCap,
   ChevronRight,
   PanelLeftClose,
+  Code2,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
@@ -40,6 +41,7 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] 
   { key: 'community', label: 'Community', icon: Users },
   { key: 'builder', label: 'Builder', icon: Blocks },
   { key: 'terminal', label: 'Terminal', icon: TerminalSquare },
+  { key: 'code', label: '0n Code', icon: Code2 },
   { key: 'vault', label: 'Vault', icon: Shield },
   { key: 'flows', label: 'Create', icon: Workflow },
   { key: 'operations', label: 'Operations', icon: Activity },

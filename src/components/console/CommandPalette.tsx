@@ -13,6 +13,7 @@ import {
   Blocks,
   ShoppingBag,
   Linkedin,
+  PlusCircle,
 } from 'lucide-react'
 
 interface CommandPaletteProps {
@@ -29,6 +30,7 @@ const COMMANDS = [
   { cmd: '/flows', desc: 'View workflows', icon: Workflow, group: 'Navigate' },
   { cmd: '/store', desc: 'Browse premium workflows', icon: ShoppingBag, group: 'Navigate' },
   { cmd: '/linkedin', desc: 'LinkedIn onboarding & posts', icon: Linkedin, group: 'Navigate' },
+  { cmd: '/request', desc: 'Request a new integration', icon: PlusCircle, group: 'Navigate' },
   { cmd: '/history', desc: 'Activity log', icon: Clock, group: 'Navigate' },
   { cmd: '/help', desc: 'Show all commands', icon: HelpCircle, group: 'Actions' },
   { cmd: '/status', desc: 'Check 0nMCP status', icon: Activity, group: 'Actions' },

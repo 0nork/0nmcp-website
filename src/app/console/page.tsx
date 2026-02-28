@@ -19,6 +19,7 @@ import { StoreView } from '@/components/console/StoreView'
 import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionModal'
 import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { LinkedInView } from '@/components/console/LinkedInView'
+import { RequestIntegrationView } from '@/components/console/RequestIntegrationView'
 import BuilderApp from '@/components/builder/BuilderApp'
 
 // Hooks & data
@@ -28,7 +29,7 @@ import { useLinkedIn } from '@/lib/console/useLinkedIn'
 import { getIdeas } from '@/lib/console/ideas'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request'
 
 interface McpHealth {
   version?: string
@@ -251,6 +252,9 @@ export default function ConsolePage() {
         case '/linkedin':
           setView('linkedin')
           break
+        case '/request':
+          setView('request')
+          break
         case '/history':
           setView('history')
           break
@@ -467,6 +471,13 @@ export default function ConsolePage() {
         return (
           <div className="flex-1 min-h-0">
             <LinkedInView linkedin={linkedin} />
+          </div>
+        )
+
+      case 'request':
+        return (
+          <div className="flex-1 overflow-y-auto">
+            <RequestIntegrationView />
           </div>
         )
 

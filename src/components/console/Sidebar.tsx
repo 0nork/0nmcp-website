@@ -11,6 +11,7 @@ import {
   Blocks,
   ShoppingBag,
   Linkedin,
+  PlusCircle,
   ChevronRight,
   PanelLeftClose,
 } from 'lucide-react'
@@ -36,6 +37,7 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] 
   { key: 'flows', label: 'Flows', icon: Workflow },
   { key: 'store', label: 'Store', icon: ShoppingBag },
   { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
+  { key: 'request', label: 'Request', icon: PlusCircle },
   { key: 'history', label: 'History', icon: History },
 ]
 

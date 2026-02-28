@@ -84,7 +84,7 @@ export default function FAQSection({
     {
       question: 'Is this better than Zapier?',
       answer:
-        '0nMCP has no monthly fees, runs locally on your machine (your data never touches our servers), supports 545+ tools across 26 services, and lets you describe workflows in plain English instead of building multi-step automations by hand.',
+        '0nMCP has no monthly fees, runs locally on your machine (your data never touches our servers), supports 564+ tools across 26 services, and lets you describe workflows in plain English instead of building multi-step automations by hand.',
     },
     {
       question: `Does it work with my existing ${triggerName} account?`,

@@ -7,7 +7,7 @@ import SiteChrome from '@/components/SiteChrome'
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator',
   description:
-    '545 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything. Stop building workflows. Start describing outcomes.',
+    '564 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything. Stop building workflows. Start describing outcomes.',
   keywords: [
     '0nMCP',
     'MCP',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '545 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
+      '564 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '545 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
+      '564 tools across 26 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
     creator: '@0nork',
   },
   metadataBase: new URL('https://0nmcp.com'),
@@ -72,6 +72,11 @@ export default function RootLayout({
           src="https://api.rocketclients.com/js/external-tracking.js"
           data-tracking-id="tk_f9c5376df66c45e69941dd3f3bbe22a2"
           async
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('8028a660-0194-4077-b084-ca551a110f10');`,
+          }}
         />
       </body>
     </html>

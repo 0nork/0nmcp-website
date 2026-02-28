@@ -74,7 +74,7 @@ export default function TwitterImage() {
         </span>
 
         <span style={{ fontSize: 20, color: '#55556a' }}>
-          545 tools &middot; 26 services &middot; 80+ automations
+          564 tools &middot; 26 services &middot; 80+ automations
         </span>
 
         {/* Top accent line */}

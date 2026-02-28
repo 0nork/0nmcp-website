@@ -1,375 +1,404 @@
-export interface WizardTemplate {
+// Wizard template definitions for the 0nmcp.com flow builder
+// Powers the WizardLanding grid, WizardContext state, and category filters
+
+export type Category =
+  | 'Sales'
+  | 'Marketing'
+  | 'Support'
+  | 'Operations'
+  | 'Development'
+  | 'Social'
+  | 'Finance'
+  | 'HR'
+
+export const CATEGORIES: Category[] = [
+  'Sales',
+  'Marketing',
+  'Support',
+  'Operations',
+  'Development',
+  'Social',
+  'Finance',
+  'HR',
+]
+
+export interface WorkflowTemplate {
   id: string
   name: string
   description: string
+  /** Lucide icon name — mapped to a component in WizardLanding */
   icon: string
-  category: 'Marketing' | 'Sales' | 'Operations' | 'Developer' | 'Support' | 'AI'
+  category: Category
+  /** Service keys from the 0nMCP 26-service catalog */
   services: string[]
+  /** Popularity score 0–100, drives badge display and default sort */
   popularity: number
-  defaults: {
-    trigger: string
-    actions: string
-  }
-  /** Premium templates get special onboarding flow */
+  /** Premium templates get a special onboarding overlay */
   premium?: boolean
-  /** Onboarding flow identifier for premium templates */
-  onboardingFlow?: string
-  /** @deprecated Use `defaults.trigger` — kept for backward compat */
-  defaultTrigger?: string
-  /** @deprecated Use `services` — kept for backward compat */
+  /** If true, the premium template has its own guided onboarding flow */
+  onboardingFlow?: boolean
+  /** Pre-populated action service keys when template is selected */
   defaultActions?: string[]
-  /** @deprecated Use `notifications` field in wizard state — kept for backward compat */
+  /** Pre-populated notification channels when template is selected */
   defaultNotifications?: string[]
+  /** Suggested default trigger id for the trigger step */
+  defaultTrigger?: string
 }
 
-/** Backward-compatible alias used by existing consumers */
-export type WorkflowTemplate = WizardTemplate
+/** Backward-compatible alias used by WizardContext */
+export type WizardTemplate = WorkflowTemplate
 
-export const CATEGORIES = [
-  'Marketing',
-  'Sales',
-  'Operations',
-  'Developer',
-  'Support',
-  'AI',
-] as const
-
-export type Category = (typeof CATEGORIES)[number]
-
-export const WIZARD_TEMPLATES: WizardTemplate[] = [
+export const WIZARD_TEMPLATES: WorkflowTemplate[] = [
+  // ── Sales ────────────────────────────────────────────
   {
-    id: 'qa-distribution',
-    name: 'QA Distribution Engine',
+    id: 'linkedin-lead-generator',
+    name: 'LinkedIn Lead Generator',
     description:
-      'Generate, score, and distribute quality content across 12 platforms simultaneously with AI-powered creation and engagement tracking.',
-    icon: 'Zap',
-    category: 'Marketing',
-    services: ['openai', 'anthropic', 'slack', 'discord'],
-    popularity: 98,
-    premium: true,
-    onboardingFlow: 'qa-distribution',
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Generate content with AI, quality score, format per platform, distribute to 12 channels, track metrics',
-    },
-    defaultTrigger: 'schedule',
-    defaultActions: ['openai', 'anthropic', 'slack'],
-    defaultNotifications: ['slack', 'email'],
-  },
-  {
-    id: 'linkedin-auto-post',
-    name: 'LinkedIn Auto-Poster',
-    description:
-      'Generate and publish AI-crafted LinkedIn posts on a schedule to maintain consistent thought leadership.',
+      'Scrape LinkedIn engagement signals, enrich contacts via CRM, and send personalized outreach emails through SendGrid.',
     icon: 'Linkedin',
-    category: 'Marketing',
-    services: ['crm', 'openai'],
+    category: 'Sales',
+    services: ['crm', 'sendgrid'],
     popularity: 92,
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Generate post with OpenAI, publish via CRM social module',
-    },
+    defaultActions: ['crm', 'sendgrid'],
+    defaultNotifications: ['email', 'slack'],
     defaultTrigger: 'schedule',
-    defaultActions: ['crm', 'openai'],
-    defaultNotifications: ['slack'],
   },
   {
-    id: 'lead-capture',
-    name: 'Lead Capture Pipeline',
+    id: 'new-contact-onboarding',
+    name: 'New Contact Onboarding',
     description:
-      'Capture form submissions, create CRM contacts, and fire off welcome emails automatically.',
+      'Welcome new CRM contacts with a drip email sequence via SendGrid and alert your team in Slack.',
     icon: 'UserPlus',
     category: 'Sales',
-    services: ['crm', 'sendgrid'],
-    popularity: 88,
-    defaults: {
-      trigger: 'form_submission',
-      actions: 'Create CRM contact, send welcome email via SendGrid',
-    },
-    defaultTrigger: 'form_submission',
-    defaultActions: ['crm', 'sendgrid'],
-    defaultNotifications: ['sendgrid'],
-  },
-  {
-    id: 'blog-generator',
-    name: 'AI Blog Generator',
-    description:
-      'Draft, refine, and commit blog posts to your repo using AI — fully hands-off content creation.',
-    icon: 'PenTool',
-    category: 'Marketing',
-    services: ['openai', 'github'],
-    popularity: 85,
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Generate article with OpenAI, commit to GitHub repo',
-    },
-    defaultTrigger: 'schedule',
-    defaultActions: ['openai', 'github'],
-    defaultNotifications: ['slack'],
-  },
-  {
-    id: 'invoice-automation',
-    name: 'Invoice Automation',
-    description:
-      'Auto-generate Stripe invoices when deals close and update the CRM record with payment status.',
-    icon: 'DollarSign',
-    category: 'Operations',
-    services: ['stripe', 'crm'],
-    popularity: 82,
-    defaults: {
-      trigger: 'payment_received',
-      actions: 'Create Stripe invoice, update CRM opportunity',
-    },
-    defaultTrigger: 'payment_received',
-    defaultActions: ['stripe', 'crm'],
-    defaultNotifications: ['sendgrid', 'slack'],
-  },
-  {
-    id: 'customer-onboarding',
-    name: 'Customer Onboarding',
-    description:
-      'Welcome new customers with emails, CRM pipeline updates, and team Slack notifications.',
-    icon: 'Users',
-    category: 'Sales',
     services: ['crm', 'sendgrid', 'slack'],
-    popularity: 80,
-    defaults: {
-      trigger: 'new_contact',
-      actions: 'Send onboarding email, update CRM pipeline, notify Slack',
-    },
-    defaultTrigger: 'new_contact',
+    popularity: 88,
     defaultActions: ['crm', 'sendgrid', 'slack'],
-    defaultNotifications: ['slack', 'sendgrid'],
-  },
-  {
-    id: 'social-scheduler',
-    name: 'Social Media Scheduler',
-    description:
-      'Schedule and distribute AI-generated content across social channels on autopilot.',
-    icon: 'Calendar',
-    category: 'Marketing',
-    services: ['crm', 'openai'],
-    popularity: 78,
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Generate content with OpenAI, post via CRM social module',
-    },
-    defaultTrigger: 'schedule',
-    defaultActions: ['crm', 'openai'],
-    defaultNotifications: ['slack'],
-  },
-  {
-    id: 'support-ticket',
-    name: 'Support Ticket Router',
-    description:
-      'Route incoming support requests to the right Slack channel based on type and priority.',
-    icon: 'Headphones',
-    category: 'Support',
-    services: ['crm', 'slack'],
-    popularity: 76,
-    defaults: {
-      trigger: 'webhook',
-      actions: 'Classify ticket, route to Slack channel, update CRM',
-    },
-    defaultTrigger: 'webhook',
-    defaultActions: ['crm', 'slack'],
-    defaultNotifications: ['slack'],
-  },
-  {
-    id: 'code-review',
-    name: 'Code Review Bot',
-    description:
-      'Automatically review pull requests with AI and post summaries to Slack for your team.',
-    icon: 'GitBranch',
-    category: 'Developer',
-    services: ['github', 'openai', 'slack'],
-    popularity: 74,
-    defaults: {
-      trigger: 'github_event',
-      actions: 'Analyze PR with OpenAI, post review to Slack',
-    },
-    defaultTrigger: 'github_event',
-    defaultActions: ['github', 'openai', 'slack'],
-    defaultNotifications: ['slack'],
-  },
-  {
-    id: 'crm-sync',
-    name: 'CRM Data Sync',
-    description:
-      'Keep your CRM and HubSpot contacts, deals, and companies in perfect sync bidirectionally.',
-    icon: 'Activity',
-    category: 'Operations',
-    services: ['crm', 'hubspot'],
-    popularity: 72,
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Fetch CRM changes, push to HubSpot, reconcile conflicts',
-    },
-    defaultTrigger: 'schedule',
-    defaultActions: ['crm', 'hubspot'],
-    defaultNotifications: ['slack'],
-  },
-  {
-    id: 'email-nurture',
-    name: 'Email Nurture Sequence',
-    description:
-      'Drip AI-personalized emails to new leads over days to warm them up before sales outreach.',
-    icon: 'Send',
-    category: 'Marketing',
-    services: ['crm', 'sendgrid', 'openai'],
-    popularity: 70,
-    defaults: {
-      trigger: 'new_contact',
-      actions: 'Generate email with OpenAI, send via SendGrid, log in CRM',
-    },
+    defaultNotifications: ['slack', 'email'],
     defaultTrigger: 'new_contact',
-    defaultActions: ['crm', 'sendgrid', 'openai'],
-    defaultNotifications: ['sendgrid'],
   },
   {
-    id: 'appointment-reminder',
-    name: 'Appointment Reminders',
+    id: 'lead-score-calculator',
+    name: 'Lead Score Calculator',
     description:
-      'Send SMS reminders before scheduled appointments to reduce no-shows.',
-    icon: 'Clock',
-    category: 'Operations',
-    services: ['crm', 'twilio'],
-    popularity: 68,
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Check upcoming CRM appointments, send Twilio SMS reminders',
-    },
-    defaultTrigger: 'schedule',
-    defaultActions: ['crm', 'twilio'],
-    defaultNotifications: ['sms'],
-  },
-  {
-    id: 'deal-closer',
-    name: 'Deal Stage Automator',
-    description:
-      'Automatically advance CRM deal stages and notify your team in Slack when milestones are hit.',
+      'Use AI to analyze CRM contact activity, engagement signals, and firmographic data to assign lead scores automatically.',
     icon: 'TrendingUp',
     category: 'Sales',
-    services: ['crm', 'slack'],
-    popularity: 66,
-    defaults: {
-      trigger: 'webhook',
-      actions: 'Update CRM deal stage, notify Slack channel',
-    },
-    defaultTrigger: 'webhook',
-    defaultActions: ['crm', 'slack'],
+    services: ['crm', 'anthropic'],
+    popularity: 91,
+    defaultActions: ['crm', 'anthropic'],
     defaultNotifications: ['slack'],
-  },
-  {
-    id: 'content-repurposer',
-    name: 'Content Repurposer',
-    description:
-      'Transform long-form content into social posts, summaries, and threads using multiple AI models.',
-    icon: 'Bot',
-    category: 'AI',
-    services: ['openai', 'anthropic'],
-    popularity: 64,
-    defaults: {
-      trigger: 'manual',
-      actions: 'Chunk content, repurpose with OpenAI and Anthropic',
-    },
-    defaultTrigger: 'manual',
-    defaultActions: ['openai', 'anthropic'],
-    defaultNotifications: ['slack'],
-  },
-  {
-    id: 'webhook-relay',
-    name: 'Webhook Relay',
-    description:
-      'Receive webhooks from any source and forward transformed payloads to Slack and GitHub.',
-    icon: 'Globe',
-    category: 'Developer',
-    services: ['github', 'slack'],
-    popularity: 62,
-    defaults: {
-      trigger: 'webhook',
-      actions: 'Transform payload, post to Slack, create GitHub issue',
-    },
-    defaultTrigger: 'webhook',
-    defaultActions: ['github', 'slack'],
-    defaultNotifications: ['slack'],
-  },
-  {
-    id: 'data-enrichment',
-    name: 'Data Enrichment',
-    description:
-      'Enrich CRM contacts with AI-generated company and role insights to improve lead scoring.',
-    icon: 'Sparkles',
-    category: 'Sales',
-    services: ['crm', 'openai'],
-    popularity: 60,
-    defaults: {
-      trigger: 'new_contact',
-      actions: 'Research contact with OpenAI, enrich CRM record',
-    },
     defaultTrigger: 'new_contact',
-    defaultActions: ['crm', 'openai'],
-    defaultNotifications: ['slack'],
   },
+
+  // ── Marketing ────────────────────────────────────────
   {
-    id: 'meeting-notes',
-    name: 'Meeting Notes AI',
+    id: 'content-writer',
+    name: 'Content Writer',
     description:
-      'Summarize meeting transcripts with AI and distribute notes to Slack and Google Drive.',
-    icon: 'FileText',
-    category: 'AI',
-    services: ['openai', 'slack', 'gdrive'],
-    popularity: 58,
-    defaults: {
-      trigger: 'webhook',
-      actions: 'Summarize with OpenAI, post to Slack, save to Drive',
-    },
-    defaultTrigger: 'webhook',
-    defaultActions: ['openai', 'slack', 'gdrive'],
+      'Generate SEO-optimized blog posts and articles with AI, then log them in Google Sheets for editorial review.',
+    icon: 'PenTool',
+    category: 'Marketing',
+    services: ['anthropic', 'google_sheets'],
+    popularity: 86,
+    defaultActions: ['anthropic', 'google_sheets'],
     defaultNotifications: ['slack'],
-  },
-  {
-    id: 'inventory-alerts',
-    name: 'Inventory Alerts',
-    description:
-      'Monitor Stripe product inventory and alert your team in Slack when stock runs low.',
-    icon: 'ShoppingCart',
-    category: 'Operations',
-    services: ['stripe', 'slack'],
-    popularity: 56,
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Check Stripe inventory levels, alert Slack if low',
-    },
     defaultTrigger: 'schedule',
-    defaultActions: ['stripe', 'slack'],
-    defaultNotifications: ['slack'],
   },
   {
-    id: 'feedback-collector',
-    name: 'Feedback Collector',
+    id: 'email-campaign-builder',
+    name: 'Email Campaign Builder',
     description:
-      'Send automated feedback request emails and log responses back into your CRM.',
+      'Build AI-written email campaigns in Mailchimp, segment audiences from CRM data, and A/B test subject lines.',
+    icon: 'Mail',
+    category: 'Marketing',
+    services: ['mailchimp', 'crm', 'anthropic'],
+    popularity: 84,
+    defaultActions: ['mailchimp', 'crm', 'anthropic'],
+    defaultNotifications: ['email', 'slack'],
+    defaultTrigger: 'schedule',
+  },
+  {
+    id: 'sms-campaign',
+    name: 'SMS Campaign',
+    description:
+      'Send targeted SMS blasts to CRM contact segments using Twilio with delivery tracking and opt-out handling.',
+    icon: 'Smartphone',
+    category: 'Marketing',
+    services: ['twilio', 'crm'],
+    popularity: 74,
+    defaultActions: ['twilio', 'crm'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'schedule',
+  },
+
+  // ── Support ──────────────────────────────────────────
+  {
+    id: 'support-ticket-router',
+    name: 'Support Ticket Router',
+    description:
+      'Classify incoming Zendesk tickets by priority and topic, then route to the right Slack channel and update CRM.',
+    icon: 'Headphones',
+    category: 'Support',
+    services: ['zendesk', 'slack', 'crm'],
+    popularity: 80,
+    defaultActions: ['zendesk', 'slack', 'crm'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
+  },
+  {
+    id: 'customer-feedback-loop',
+    name: 'Customer Feedback Loop',
+    description:
+      'Collect Zendesk satisfaction scores, analyze sentiment with AI, and surface insights in Slack for product teams.',
     icon: 'Star',
     category: 'Support',
-    services: ['crm', 'sendgrid'],
-    popularity: 54,
-    defaults: {
-      trigger: 'schedule',
-      actions: 'Send feedback email via SendGrid, log response in CRM',
-    },
+    services: ['zendesk', 'slack', 'anthropic'],
+    popularity: 77,
+    defaultActions: ['zendesk', 'slack', 'anthropic'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
+  },
+
+  // ── Operations ───────────────────────────────────────
+  {
+    id: 'invoice-on-payment',
+    name: 'Invoice on Payment',
+    description:
+      'Automatically generate a Stripe invoice when a payment succeeds, update the CRM deal, and notify your finance channel in Slack.',
+    icon: 'Receipt',
+    category: 'Operations',
+    services: ['stripe', 'crm', 'slack'],
+    popularity: 85,
+    defaultActions: ['stripe', 'crm', 'slack'],
+    defaultNotifications: ['slack', 'email'],
+    defaultTrigger: 'payment_received',
+  },
+  {
+    id: 'shopify-order-sync',
+    name: 'Shopify Order Sync',
+    description:
+      'Sync new Shopify orders into your CRM as deals, tag contacts, and alert fulfillment teams in Slack.',
+    icon: 'ShoppingCart',
+    category: 'Operations',
+    services: ['shopify', 'crm', 'slack'],
+    popularity: 82,
+    defaultActions: ['shopify', 'crm', 'slack'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
+  },
+  {
+    id: 'meeting-scheduler',
+    name: 'Meeting Scheduler',
+    description:
+      'Coordinate availability across Google Calendar and Calendly, auto-book meetings, and post confirmations to Slack.',
+    icon: 'Calendar',
+    category: 'Operations',
+    services: ['google_calendar', 'calendly', 'slack'],
+    popularity: 76,
+    defaultActions: ['google_calendar', 'calendly', 'slack'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
+  },
+  {
+    id: 'zoom-meeting-followup',
+    name: 'Zoom Meeting Follow-up',
+    description:
+      'After a Zoom meeting ends, auto-send a summary email via Gmail with action items and update the CRM contact record.',
+    icon: 'Mic',
+    category: 'Operations',
+    services: ['zoom', 'gmail', 'crm'],
+    popularity: 75,
+    defaultActions: ['zoom', 'gmail', 'crm'],
+    defaultNotifications: ['email'],
+    defaultTrigger: 'webhook',
+  },
+  {
+    id: 'microsoft-teams-alerts',
+    name: 'Microsoft Teams Alerts',
+    description:
+      'Push CRM pipeline changes and deal updates as formatted cards to Microsoft Teams channels in real time.',
+    icon: 'Bell',
+    category: 'Operations',
+    services: ['microsoft', 'crm'],
+    popularity: 72,
+    defaultActions: ['microsoft', 'crm'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
+  },
+  {
+    id: 'invoice-generator',
+    name: 'Invoice Generator',
+    description:
+      'Create Stripe invoices from CRM deal data, email the PDF via Gmail, and log the transaction in the CRM timeline.',
+    icon: 'DollarSign',
+    category: 'Operations',
+    services: ['stripe', 'gmail', 'crm'],
+    popularity: 83,
+    defaultActions: ['stripe', 'gmail', 'crm'],
+    defaultNotifications: ['email'],
+    defaultTrigger: 'webhook',
+  },
+
+  // ── Development ──────────────────────────────────────
+  {
+    id: 'github-pr-notifier',
+    name: 'GitHub PR Notifier',
+    description:
+      'Post rich PR summaries to Slack and Discord when pull requests are opened, reviewed, or merged on GitHub.',
+    icon: 'GitBranch',
+    category: 'Development',
+    services: ['github', 'slack', 'discord'],
+    popularity: 78,
+    defaultActions: ['github', 'slack', 'discord'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'github_event',
+  },
+  {
+    id: 'bug-tracker-sync',
+    name: 'Bug Tracker Sync',
+    description:
+      'Keep Jira and Linear issues in sync bidirectionally, with status changes mirrored and Slack notifications on updates.',
+    icon: 'RefreshCw',
+    category: 'Development',
+    services: ['jira', 'linear', 'slack'],
+    popularity: 73,
+    defaultActions: ['jira', 'linear', 'slack'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
+  },
+  {
+    id: 'data-backup-pipeline',
+    name: 'Data Backup Pipeline',
+    description:
+      'Export Supabase tables on a schedule and upload compressed snapshots to Google Drive for disaster recovery.',
+    icon: 'Database',
+    category: 'Development',
+    services: ['supabase', 'google_drive'],
+    popularity: 70,
+    defaultActions: ['supabase', 'google_drive'],
+    defaultNotifications: ['slack'],
     defaultTrigger: 'schedule',
-    defaultActions: ['crm', 'sendgrid'],
-    defaultNotifications: ['sendgrid'],
+  },
+  {
+    id: 'mongodb-data-pipeline',
+    name: 'MongoDB Data Pipeline',
+    description:
+      'Replicate MongoDB collections to Supabase tables on a schedule for analytics and reporting.',
+    icon: 'Repeat',
+    category: 'Development',
+    services: ['mongodb', 'supabase'],
+    popularity: 68,
+    defaultActions: ['mongodb', 'supabase'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'schedule',
+  },
+
+  // ── Social ───────────────────────────────────────────
+  {
+    id: 'social-media-manager',
+    name: 'Social Media Manager',
+    description:
+      'AI-generate platform-specific posts, schedule across channels via Slack approvals, and track engagement metrics.',
+    icon: 'Globe',
+    category: 'Social',
+    services: ['slack', 'anthropic'],
+    popularity: 89,
+    defaultActions: ['slack', 'anthropic'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'schedule',
+  },
+  {
+    id: 'discord-community-bot',
+    name: 'Discord Community Bot',
+    description:
+      'AI-moderated Discord bot that answers questions, welcomes members, and escalates complex queries with context.',
+    icon: 'MessageCircle',
+    category: 'Social',
+    services: ['discord', 'anthropic'],
+    popularity: 79,
+    defaultActions: ['discord', 'anthropic'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'message_received',
+  },
+  {
+    id: 'ai-chatbot-builder',
+    name: 'AI Chatbot Builder',
+    description:
+      'Deploy a conversational AI chatbot powered by Anthropic that syncs interactions to CRM and escalates via Slack.',
+    icon: 'Bot',
+    category: 'Social',
+    services: ['anthropic', 'crm', 'slack'],
+    popularity: 90,
+    defaultActions: ['anthropic', 'crm', 'slack'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
+  },
+
+  // ── Finance ──────────────────────────────────────────
+  {
+    id: 'ecommerce-analytics',
+    name: 'E-commerce Analytics',
+    description:
+      'Pull Shopify sales data into Google Sheets dashboards and post daily revenue summaries to Slack.',
+    icon: 'BarChart3',
+    category: 'Finance',
+    services: ['shopify', 'google_sheets', 'slack'],
+    popularity: 80,
+    defaultActions: ['shopify', 'google_sheets', 'slack'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'schedule',
+  },
+  {
+    id: 'airtable-data-sync',
+    name: 'Airtable Data Sync',
+    description:
+      'Bidirectional sync between Airtable bases and Google Sheets, keeping reporting data fresh across both platforms.',
+    icon: 'Activity',
+    category: 'Finance',
+    services: ['airtable', 'google_sheets'],
+    popularity: 71,
+    defaultActions: ['airtable', 'google_sheets'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'schedule',
+  },
+
+  // ── HR ───────────────────────────────────────────────
+  {
+    id: 'notion-knowledge-base',
+    name: 'Notion Knowledge Base',
+    description:
+      'Auto-generate and update Notion wiki pages from source documents using AI summarization and categorization.',
+    icon: 'Package',
+    category: 'HR',
+    services: ['notion', 'anthropic'],
+    popularity: 81,
+    defaultActions: ['notion', 'anthropic'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'schedule',
+  },
+
+  // ── Premium ──────────────────────────────────────────
+  {
+    id: 'qa-distribution-pipeline',
+    name: 'QA Distribution Pipeline',
+    description:
+      'AI-powered content generation, quality scoring, platform formatting, and multi-channel distribution with engagement tracking.',
+    icon: 'Sparkles',
+    category: 'Marketing',
+    services: ['crm', 'sendgrid', 'slack', 'anthropic'],
+    popularity: 95,
+    premium: true,
+    onboardingFlow: true,
+    defaultActions: ['crm', 'sendgrid', 'slack', 'anthropic'],
+    defaultNotifications: ['slack', 'email'],
+    defaultTrigger: 'schedule',
   },
 ]
 
 /**
  * Return templates filtered by category, sorted by popularity descending.
  */
-export function getTemplatesByCategory(
-  category: Category
-): WizardTemplate[] {
+export function getTemplatesByCategory(category: Category): WorkflowTemplate[] {
   return WIZARD_TEMPLATES
     .filter((t) => t.category === category)
     .sort((a, b) => b.popularity - a.popularity)

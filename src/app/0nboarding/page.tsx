@@ -7,7 +7,7 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 const PRODUCTS = [
   { name: '0ncore', color: '#a855f7', desc: 'Core infrastructure — vault, signing, execution engine' },
-  { name: '0nmcp', color: '#00d4ff', desc: 'Universal API Protocol — 545 tools, 26 services' },
+  { name: '0nmcp', color: '#00d4ff', desc: 'Universal API Protocol — 564 tools, 26 services' },
   { name: 'app0n', color: '#00ff88', desc: 'Application Layer — workflows, builder, marketplace' },
   { name: 'social0n', color: '#ff8c00', desc: 'Community Platform — forum, groups, reputation' },
   { name: '0nork', color: '#ef4444', desc: 'Parent company — orchestration infrastructure' },
@@ -313,7 +313,7 @@ export default function OnboardingPage() {
           </div>
 
           <div className="onboarding-stat-row">
-            <div className="onboarding-stat"><span className="onboarding-stat-value">545</span><span className="onboarding-stat-label">Tools</span></div>
+            <div className="onboarding-stat"><span className="onboarding-stat-value">564</span><span className="onboarding-stat-label">Tools</span></div>
             <div className="onboarding-stat"><span className="onboarding-stat-value">26</span><span className="onboarding-stat-label">Services</span></div>
             <div className="onboarding-stat"><span className="onboarding-stat-value">AES-256</span><span className="onboarding-stat-label">Encrypted Vault</span></div>
             <div className="onboarding-stat"><span className="onboarding-stat-value">$0</span><span className="onboarding-stat-label">Free Forever</span></div>

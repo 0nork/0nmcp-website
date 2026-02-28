@@ -23,7 +23,7 @@
     {
       "term": "MCP Server",
       "slug": "mcp-server",
-      "definition": "A program that exposes tools, resources, and prompts to AI models via the Model Context Protocol. 0nMCP is an MCP server that provides 545 tools across 26 services, acting as a universal bridge between AI and APIs.",
+      "definition": "A program that exposes tools, resources, and prompts to AI models via the Model Context Protocol. 0nMCP is an MCP server that provides 564 tools across 26 services, acting as a universal bridge between AI and APIs.",
       "category": "core",
       "related": ["mcp", "mcp-client", "mcp-tool"]
     },
@@ -37,7 +37,7 @@
     {
       "term": "MCP Tool",
       "slug": "mcp-tool",
-      "definition": "A discrete function exposed by an MCP server that an AI model can call. Tools have defined input schemas and return structured results. 0nMCP exposes 545 tools covering email, CRM, payments, messaging, and more.",
+      "definition": "A discrete function exposed by an MCP server that an AI model can call. Tools have defined input schemas and return structured results. 0nMCP exposes 564 tools covering email, CRM, payments, messaging, and more.",
       "category": "core",
       "related": ["mcp-server", "api-endpoint", "tool-calling"]
     },

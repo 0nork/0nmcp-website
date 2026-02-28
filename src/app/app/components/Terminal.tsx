@@ -57,7 +57,7 @@ export default function Terminal() {
           <div className="terminal-empty">
             <div className="logo">0n</div>
             <p>Describe a task to execute</p>
-            <p style={{ fontSize: 12 }}>545 tools across 26 services</p>
+            <p style={{ fontSize: 12 }}>564 tools across 26 services</p>
           </div>
         )}
         {messages.map((msg, i) => (

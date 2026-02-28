@@ -16,7 +16,7 @@
       "key_differences": [
         { "feature": "Interface", "onmcp": "Natural language + AI reasoning", "competitor": "Visual drag-and-drop builder" },
         { "feature": "Pricing model", "onmcp": "Free open source + $0.10/execution", "competitor": "$19.99-$799/mo subscription" },
-        { "feature": "Tool count", "onmcp": "545 tools, 26 services", "competitor": "7,000+ apps (basic actions)" },
+        { "feature": "Tool count", "onmcp": "564 tools, 26 services", "competitor": "7,000+ apps (basic actions)" },
         { "feature": "Execution model", "onmcp": "Pipeline + Assembly Line + Radial Burst", "competitor": "Sequential Zap chains" },
         { "feature": "Self-hosted", "onmcp": "Yes — runs locally or on your server", "competitor": "No — cloud only" },
         { "feature": "AI integration", "onmcp": "Native — AI decides tool selection", "competitor": "Add-on — AI as a step in Zaps" },
@@ -26,7 +26,7 @@
       "best_for_onmcp": "Developers and technical teams who want AI-native automation, self-hosted execution, and pay-per-use pricing without monthly subscription lock-in.",
       "best_for_competitor": "Non-technical users who prefer visual builders and need the widest possible app coverage without writing any code.",
       "faq": [
-        { "q": "Can 0nMCP replace Zapier?", "a": "For most automation use cases, yes. 0nMCP covers 26 of the most popular services with 545 tools. If you need niche app integrations that Zapier supports, you may need both." },
+        { "q": "Can 0nMCP replace Zapier?", "a": "For most automation use cases, yes. 0nMCP covers 26 of the most popular services with 564 tools. If you need niche app integrations that Zapier supports, you may need both." },
         { "q": "Is 0nMCP harder to use than Zapier?", "a": "Different, not harder. Instead of clicking through a visual builder, you describe what you want in plain English. AI handles the complexity of connecting services and mapping data." },
         { "q": "How does pricing compare?", "a": "0nMCP is dramatically cheaper for most users. Zapier's Starter plan ($19.99/mo) gives you 750 tasks. With 0nMCP, 750 executions would cost $75 total with no monthly fee — and local execution is completely free." }
       ]
@@ -51,7 +51,7 @@
       "best_for_onmcp": "Teams wanting AI-native automation without learning a visual builder's specific paradigm. Ideal for complex multi-service workflows where AI reasoning adds value.",
       "best_for_competitor": "Visual thinkers who prefer seeing their automations as flowcharts and need Make's specific app integrations.",
       "faq": [
-        { "q": "Is Make more powerful than 0nMCP?", "a": "Make has more app integrations (1,800+), but 0nMCP has deeper tool coverage per service (545 tools vs basic CRUD operations) and AI-driven orchestration that handles complexity automatically." },
+        { "q": "Is Make more powerful than 0nMCP?", "a": "Make has more app integrations (1,800+), but 0nMCP has deeper tool coverage per service (564 tools vs basic CRUD operations) and AI-driven orchestration that handles complexity automatically." },
         { "q": "Can I migrate from Make to 0nMCP?", "a": "Yes. 0nMCP's Engine can import your API credentials and the .0n Standard can express any automation Make scenarios can build, often more concisely." },
         { "q": "Which is better for complex workflows?", "a": "0nMCP. Its Three-Level Execution system and AI reasoning handle complex multi-step workflows more naturally than visual routers and iterators." }
       ]
@@ -69,7 +69,7 @@
         { "feature": "Interface", "onmcp": "AI-native (natural language)", "competitor": "Visual node editor" },
         { "feature": "Protocol", "onmcp": "Model Context Protocol (MCP)", "competitor": "Custom workflow engine" },
         { "feature": "AI compatibility", "onmcp": "Works with Claude, ChatGPT, Gemini, Cursor", "competitor": "AI nodes as workflow steps" },
-        { "feature": "Tool depth", "onmcp": "545 tools with deep API coverage", "competitor": "400+ integrations, basic operations" },
+        { "feature": "Tool depth", "onmcp": "564 tools with deep API coverage", "competitor": "400+ integrations, basic operations" },
         { "feature": "Execution model", "onmcp": "Pipeline + Assembly Line + Radial Burst", "competitor": "Sequential node execution" },
         { "feature": "Credential management", "onmcp": "Encrypted Vault with hardware binding", "competitor": "Database-stored credentials" }
       ],
@@ -109,14 +109,14 @@
     {
       "slug": "0nmcp-vs-ifttt",
       "competitor": "IFTTT",
-      "tagline": "545-tool AI orchestrator vs simple if-this-then-that",
+      "tagline": "564-tool AI orchestrator vs simple if-this-then-that",
       "description": "IFTTT pioneered simple automation with its if-this-then-that model. 0nMCP goes far beyond single trigger-action pairs with AI-driven multi-step orchestration across 26 services.",
       "competitor_summary": "IFTTT (If This Then That) is the simplest automation platform, connecting services with single trigger-action pairs called Applets. It's designed for consumers and smart home automation.",
       "pricing_compare": "IFTTT offers 2 free Applets, then $3.49/mo for unlimited. 0nMCP is free for unlimited local use with far more capability per automation.",
       "key_differences": [
         { "feature": "Complexity", "onmcp": "Multi-step, multi-service workflows", "competitor": "Single trigger → single action" },
         { "feature": "AI integration", "onmcp": "AI-native orchestration", "competitor": "No AI capabilities" },
-        { "feature": "Tool depth", "onmcp": "545 tools with full API coverage", "competitor": "Basic actions per service" },
+        { "feature": "Tool depth", "onmcp": "564 tools with full API coverage", "competitor": "Basic actions per service" },
         { "feature": "Self-hosted", "onmcp": "Yes — runs locally", "competitor": "Cloud only" },
         { "feature": "Target audience", "onmcp": "Developers and AI teams", "competitor": "Consumers and smart home users" },
         { "feature": "Execution patterns", "onmcp": "3 patterns including parallel", "competitor": "Sequential only" },
@@ -168,7 +168,7 @@
         { "feature": "License", "onmcp": "MIT", "competitor": "MIT" },
         { "feature": "AI approach", "onmcp": "AI is the primary interface", "competitor": "AI as optional pieces" },
         { "feature": "Protocol", "onmcp": "Model Context Protocol", "competitor": "Custom workflow engine" },
-        { "feature": "Tool depth", "onmcp": "545 tools, deep API coverage", "competitor": "Growing piece library" },
+        { "feature": "Tool depth", "onmcp": "564 tools, deep API coverage", "competitor": "Growing piece library" },
         { "feature": "Execution model", "onmcp": "3 execution patterns", "competitor": "Sequential flow execution" },
         { "feature": "Setup", "onmcp": "npm install -g 0nmcp", "competitor": "Docker compose required" },
         { "feature": "Community", "onmcp": "npm + GitHub + Discord", "competitor": "Active open-source community" }
@@ -178,7 +178,7 @@
       "faq": [
         { "q": "Which is easier to self-host?", "a": "0nMCP. It's a single npm install with no Docker or database requirements. Activepieces requires Docker Compose with PostgreSQL and Redis." },
         { "q": "Can they complement each other?", "a": "Yes. Use Activepieces for scheduled visual workflows and 0nMCP for AI-driven dynamic orchestration. They serve different use cases." },
-        { "q": "Which has more integrations?", "a": "0nMCP has deeper coverage per service (545 tools across 26 services). Activepieces has a wider but shallower integration library that's growing rapidly." }
+        { "q": "Which has more integrations?", "a": "0nMCP has deeper coverage per service (564 tools across 26 services). Activepieces has a wider but shallower integration library that's growing rapidly." }
       ]
     },
     {
@@ -203,7 +203,7 @@
       "faq": [
         { "q": "Can 0nMCP handle enterprise workflows?", "a": "Yes — the orchestration engine is equally capable. What 0nMCP doesn't have (yet) is enterprise features like RBAC, audit logs, and SOC 2 compliance. These are on the roadmap for Phase 5." },
         { "q": "Is Workato worth the price premium?", "a": "For large enterprises with compliance requirements and need for dedicated support, Workato's premium is justified. For everyone else, 0nMCP provides comparable automation power at zero cost." },
-        { "q": "How many services does each support?", "a": "Workato has 1,200+ connectors with varying depth. 0nMCP covers 26 services with 545 deep tools. Quality over quantity — 0nMCP's per-service coverage is significantly deeper." }
+        { "q": "How many services does each support?", "a": "Workato has 1,200+ connectors with varying depth. 0nMCP covers 26 services with 564 deep tools. Quality over quantity — 0nMCP's per-service coverage is significantly deeper." }
       ]
     },
     {
@@ -260,13 +260,13 @@
       "slug": "0nmcp-vs-langchain",
       "competitor": "LangChain",
       "tagline": "Ready-to-use MCP server vs AI framework",
-      "description": "LangChain is a framework for building AI applications. 0nMCP is a ready-to-use MCP server with 545 pre-built tools. LangChain requires you to build; 0nMCP works out of the box.",
+      "description": "LangChain is a framework for building AI applications. 0nMCP is a ready-to-use MCP server with 564 pre-built tools. LangChain requires you to build; 0nMCP works out of the box.",
       "competitor_summary": "LangChain is a popular open-source framework for building applications powered by language models. It provides abstractions for chains, agents, memory, and tool use, requiring developers to assemble components.",
       "pricing_compare": "Both are open source. LangChain requires significant development time to build what 0nMCP provides out of the box. LangSmith (monitoring) starts at $39/mo.",
       "key_differences": [
         { "feature": "Type", "onmcp": "Ready-to-use MCP server", "competitor": "Development framework" },
         { "feature": "Setup", "onmcp": "npm install + immediate use", "competitor": "Build your application from components" },
-        { "feature": "Tools included", "onmcp": "545 pre-built tools", "competitor": "Build or import your own" },
+        { "feature": "Tools included", "onmcp": "564 pre-built tools", "competitor": "Build or import your own" },
         { "feature": "Protocol", "onmcp": "Model Context Protocol", "competitor": "Custom tool abstraction" },
         { "feature": "AI client support", "onmcp": "Any MCP client (Claude, Cursor, etc.)", "competitor": "OpenAI, Anthropic, and other LLM APIs" },
         { "feature": "Development time", "onmcp": "Minutes to first automation", "competitor": "Days to weeks for custom apps" },
@@ -277,7 +277,7 @@
       "best_for_competitor": "Developers building custom AI applications that need fine-grained control over prompts, memory, chains, and the full LLM interaction lifecycle.",
       "faq": [
         { "q": "Is 0nMCP a LangChain alternative?", "a": "Not exactly. LangChain is a framework for building AI apps; 0nMCP is a finished MCP server for AI orchestration. You might use LangChain to build an app that connects to 0nMCP." },
-        { "q": "Can LangChain use 0nMCP tools?", "a": "Yes. LangChain applications can connect to 0nMCP's HTTP server or use it as an MCP server, getting instant access to 545 tools without building custom integrations." },
+        { "q": "Can LangChain use 0nMCP tools?", "a": "Yes. LangChain applications can connect to 0nMCP's HTTP server or use it as an MCP server, getting instant access to 564 tools without building custom integrations." },
         { "q": "Which should I choose?", "a": "If you want to orchestrate APIs with AI: 0nMCP. If you want to build a custom AI application with complex chains, memory, and retrieval: LangChain. They're complementary." }
       ]
     },

@@ -78,7 +78,7 @@ export default function Footer() {
               className="text-sm leading-relaxed max-w-xs"
               style={{ color: 'var(--text-secondary)' }}
             >
-              The universal AI API orchestrator. 545 tools, 26 services,
+              The universal AI API orchestrator. 564 tools, 26 services,
               80+ pre-built automations. Stop building workflows. Start describing
               outcomes.
             </p>

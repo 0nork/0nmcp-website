@@ -36,7 +36,7 @@ export default function DownloadsPage() {
           style={{ color: 'var(--text-secondary)' }}
         >
           Chrome Extension, Mobile App, and Tablet App with visual builder.
-          545 tools across 26 services — on any device.
+          564 tools across 26 services — on any device.
         </p>
       </div>
 

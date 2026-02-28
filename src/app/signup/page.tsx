@@ -37,7 +37,7 @@ const FEATURES = [
 ]
 
 const STATS = [
-  { value: '545', label: 'Tools' },
+  { value: '564', label: 'Tools' },
   { value: '26', label: 'Services' },
   { value: 'AES-256', label: 'Encryption' },
   { value: 'HMAC', label: 'File Signing' },

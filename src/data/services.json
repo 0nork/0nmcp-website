@@ -3,9 +3,9 @@
     "version": "3.0.0",
     "generated": "2026-02-16",
     "source": "0nMCP v1.6.0 catalog.js + crm/ + vault/ + engine/",
-    "total_services": 33,
-    "total_tools": 450,
-    "catalog_services": 26,
+    "total_services": 34,
+    "total_tools": 464,
+    "catalog_services": 27,
     "crm_module_tools": 245,
     "logic_primitives": 7,
     "schema": "0n-services-v3"
@@ -631,6 +631,37 @@
         { "id": "hubspot_create_company", "name": "Create Company", "description": "Create a new company." },
         { "id": "hubspot_create_deal", "name": "Create Deal", "description": "Create a new deal." },
         { "id": "hubspot_list_deals", "name": "List Deals", "description": "List all deals." }
+      ]
+    },
+    {
+      "id": "pipedrive",
+      "name": "Pipedrive",
+      "slug": "pipedrive",
+      "icon": "🏁",
+      "category_id": "crm_sales",
+      "display_order": 52,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "access_token",
+      "description_short": "Sales CRM — deals, persons, organizations, leads, activities, pipelines.",
+      "description_long": "Connect Pipedrive to 0nMCP to manage your entire sales pipeline. Create and search deals, manage contacts and organizations, track leads, schedule activities, and navigate pipeline stages.",
+      "sxo_keywords": ["pipedrive automation", "pipedrive integration", "pipedrive crm automation", "pipedrive deals automation"],
+      "tool_count": 14,
+      "tools": [
+        { "id": "pipedrive_create_deal", "name": "Create Deal", "description": "Create a new deal in a pipeline." },
+        { "id": "pipedrive_get_deal", "name": "Get Deal", "description": "Get deal details by ID." },
+        { "id": "pipedrive_update_deal", "name": "Update Deal", "description": "Update an existing deal." },
+        { "id": "pipedrive_search_deals", "name": "Search Deals", "description": "Search deals by title, notes, or custom fields." },
+        { "id": "pipedrive_create_person", "name": "Create Person", "description": "Create a new contact person." },
+        { "id": "pipedrive_search_persons", "name": "Search Persons", "description": "Search persons by name, email, or phone." },
+        { "id": "pipedrive_create_organization", "name": "Create Organization", "description": "Create a new organization." },
+        { "id": "pipedrive_search_organizations", "name": "Search Organizations", "description": "Search organizations by name or custom fields." },
+        { "id": "pipedrive_create_lead", "name": "Create Lead", "description": "Create a new lead in the Leads Inbox." },
+        { "id": "pipedrive_list_leads", "name": "List Leads", "description": "List non-archived leads." },
+        { "id": "pipedrive_create_activity", "name": "Create Activity", "description": "Schedule a new activity (call, meeting, task)." },
+        { "id": "pipedrive_list_activities", "name": "List Activities", "description": "List activities with optional filtering." },
+        { "id": "pipedrive_list_pipelines", "name": "List Pipelines", "description": "List all sales pipelines." },
+        { "id": "pipedrive_list_stages", "name": "List Stages", "description": "List stages of a pipeline." }
       ]
     },
 

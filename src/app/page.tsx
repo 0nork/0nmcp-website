@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
+import LogoBanner from '@/components/LogoBanner'
 
 export const metadata: Metadata = {
-  title: '0nMCP — Universal AI API Orchestrator | 545 Tools, 26 Services',
+  title: '0nMCP — Universal AI API Orchestrator | 564 Tools, 26 Services',
   description:
-    '0nMCP is the universal AI API orchestrator. 545 tools across 26 services, 80+ pre-built automations, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+    '0nMCP is the universal AI API orchestrator. 564 tools across 26 services, 80+ pre-built automations, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
   keywords: [
     '0nMCP',
     'MCP',
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '545 tools across 26 services. 80+ pre-built automations. One install. Stop building workflows. Start describing outcomes.',
+      '564 tools across 26 services. 80+ pre-built automations. One install. Stop building workflows. Start describing outcomes.',
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '545 tools across 26 services. 80+ pre-built automations. One install. The universal AI API orchestrator.',
+      '564 tools across 26 services. 80+ pre-built automations. One install. The universal AI API orchestrator.',
   },
   alternates: { canonical: 'https://0nmcp.com' },
 }
@@ -98,7 +99,7 @@ export default function HomePage() {
     '@type': 'WebSite',
     name: '0nMCP',
     url: 'https://0nmcp.com',
-    description: 'Universal AI API Orchestrator — 545 tools across 26 services',
+    description: 'Universal AI API Orchestrator — 564 tools across 26 services',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -126,10 +127,10 @@ export default function HomePage() {
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Cross-platform',
     description:
-      'Universal AI API orchestrator with 545 tools across 26 services and 80+ pre-built automations. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+      'Universal AI API orchestrator with 564 tools across 26 services and 80+ pre-built automations. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
     url: 'https://0nmcp.com',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
-    softwareVersion: '1.7.0',
+    softwareVersion: '2.1.0',
     author: {
       '@type': 'Organization',
       name: 'RocketOpp, LLC',
@@ -162,6 +163,9 @@ export default function HomePage() {
 
       {/* ── HERO ── */}
       <HeroSection />
+
+      {/* ── LOGO BANNER ── */}
+      <LogoBanner />
 
       {/* ── PROBLEM & SOLUTION ── */}
       <section
@@ -719,7 +723,7 @@ export default function HomePage() {
             className="text-base mb-8"
             style={{ color: 'var(--text-secondary)' }}
           >
-            545 tools. 26 services. One install. Free forever.
+            564 tools. 26 services. One install. Free forever.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link

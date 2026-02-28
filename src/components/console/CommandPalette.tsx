@@ -10,6 +10,7 @@ import {
   Clock,
   MessageSquare,
   Users,
+  Blocks,
 } from 'lucide-react'
 
 interface CommandPaletteProps {
@@ -21,6 +22,7 @@ interface CommandPaletteProps {
 const COMMANDS = [
   { cmd: '/chat', desc: 'Open chat', icon: MessageSquare, group: 'Navigate' },
   { cmd: '/community', desc: 'The 0nBoard', icon: Users, group: 'Navigate' },
+  { cmd: '/builder', desc: 'Workflow builder', icon: Blocks, group: 'Navigate' },
   { cmd: '/vault', desc: 'Manage credentials', icon: Shield, group: 'Navigate' },
   { cmd: '/flows', desc: 'View workflows', icon: Workflow, group: 'Navigate' },
   { cmd: '/history', desc: 'Activity log', icon: Clock, group: 'Navigate' },

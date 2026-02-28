@@ -7,6 +7,7 @@ const VIEW_LABELS: Record<string, string> = {
   dashboard: 'Dashboard',
   chat: 'Chat',
   community: 'Community',
+  builder: 'Builder',
   vault: 'Vault',
   flows: 'Flows',
   history: 'History',

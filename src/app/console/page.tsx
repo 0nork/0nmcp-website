@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 
 // Components
-import { Sidebar } from '@/components/console/Sidebar'
+import { Sidebar, type SidebarMode } from '@/components/console/Sidebar'
 import { Header } from '@/components/console/Header'
 import { Chat, type ChatMessage } from '@/components/console/Chat'
 import { ChatInput } from '@/components/console/ChatInput'
@@ -15,12 +15,13 @@ import { FlowsOverlay } from '@/components/console/FlowsOverlay'
 import { HistoryOverlay } from '@/components/console/HistoryOverlay'
 import { IdeasTicker } from '@/components/console/IdeasTicker'
 import { CommunityView } from '@/components/console/CommunityView'
+import BuilderApp from '@/components/builder/BuilderApp'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
 import { getIdeas } from '@/lib/console/ideas'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder'
 
 interface McpHealth {
   version?: string
@@ -40,7 +41,7 @@ interface McpWorkflow {
 export default function ConsolePage() {
   // ─── View State ───────────────────────────────────────────────
   const [view, setView] = useState<View>('dashboard')
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [sidebarMode, setSidebarMode] = useState<SidebarMode>('open')
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -65,6 +66,15 @@ export default function ConsolePage() {
   // ─── Derived ──────────────────────────────────────────────────
   const connectedKeys = vault.connectedServices
   const ideas = useMemo(() => getIdeas(connectedKeys), [connectedKeys])
+
+  // ─── Sidebar Mode Toggle ───────────────────────────────────
+  const handleToggleSidebarMode = useCallback(() => {
+    setSidebarMode((prev) => {
+      if (prev === 'open') return 'hidden'
+      if (prev === 'hidden') return 'icons'
+      return 'open'
+    })
+  }, [])
 
   // ─── Initialization ───────────────────────────────────────────
   useEffect(() => {
@@ -192,6 +202,9 @@ export default function ConsolePage() {
           break
         case '/community':
           setView('community')
+          break
+        case '/builder':
+          setView('builder')
           break
         case '/history':
           setView('history')
@@ -366,6 +379,13 @@ export default function ConsolePage() {
           </div>
         )
 
+      case 'builder':
+        return (
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <BuilderApp />
+          </div>
+        )
+
       case 'history':
         return (
           <div className="flex-1 overflow-y-auto">
@@ -401,8 +421,8 @@ export default function ConsolePage() {
         <Sidebar
           view={view}
           setView={handleSetView}
-          collapsed={sidebarCollapsed}
-          setCollapsed={setSidebarCollapsed}
+          mode={sidebarMode}
+          onToggleMode={handleToggleSidebarMode}
           connectedCount={vault.connectedCount}
           mcpOnline={mcpOnline}
         />

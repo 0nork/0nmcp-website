@@ -94,7 +94,7 @@ const faqItems = [
   },
   {
     q: 'Is 0nMCP free?',
-    a: '0nMCP is free and open source under the MIT license. All 819 tools, 48 services, and 80+ pre-built automations are available for unlimited local use with no credit card required. A paid marketplace option ($0.10/execution) is available for cloud execution and visual workflow building.',
+    a: '0nMCP is free and open source under the MIT license. All 819 tools, 48 services, and 80+ pre-built automations are available for unlimited local use via the CLI with no credit card required. The 0nMCP Console offers a free tier with 25 executions per month, a Pro plan at $19/month for unlimited executions and the visual workflow builder, and a Team plan at $49/month with 5 seats and shared workflows.',
   },
 ]
 
@@ -164,15 +164,29 @@ export default function HomePage() {
         '@type': 'Offer',
         price: '0',
         priceCurrency: 'USD',
-        name: 'Free (Open Source)',
-        description: 'Unlimited local use, all 48 services, MIT licensed, community support',
+        name: 'Free (CLI)',
+        description: 'All 819 tools, 48 services, unlimited local use, MIT licensed',
       },
       {
         '@type': 'Offer',
-        price: '0.10',
+        price: '0',
         priceCurrency: 'USD',
-        name: 'Marketplace',
-        description: 'Pay-per-execution, $0.10 per run, no monthly fee',
+        name: 'Console Free',
+        description: 'Console access, 25 executions per month, 1 saved workflow',
+      },
+      {
+        '@type': 'Offer',
+        price: '19',
+        priceCurrency: 'USD',
+        name: 'Console Pro',
+        description: 'Unlimited executions, visual workflow builder, marketplace access, vault sync',
+      },
+      {
+        '@type': 'Offer',
+        price: '49',
+        priceCurrency: 'USD',
+        name: 'Console Team',
+        description: '5 seats, shared workflows, team vault, API access, priority support',
       },
     ],
     aggregateRating: {
@@ -472,25 +486,28 @@ export default function HomePage() {
           PRICING — Elevated
           ══════════════════════════════════════════ */}
       <section className="section-elevated py-24 px-8" id="pricing">
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-accent-line mx-auto" />
             <span className="section-label">Pricing</span>
             <h2 className="section-heading">
-              Free forever. Pay only when you scale.
+              Free CLI forever. Console plans for teams that scale.
             </h2>
+            <p className="section-desc mx-auto">
+              The full 0nMCP npm package is free and open source. The Console adds a visual interface, cloud execution, and collaboration.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Free */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {/* Free CLI */}
             <div className="float-card float-card-lg">
-              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Free</span>
+              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Free CLI</span>
               <div className="text-4xl font-bold mb-1">
                 <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>$</span>0
               </div>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>Open source, unlimited local use</p>
-              <ul className="flex flex-col gap-3 list-none mb-8">
-                {['All 48 services', '80+ pre-built automations', 'MIT licensed', 'Community support', 'CLI and MCP interface'].map((f) => (
+              <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>Open source, unlimited local use</p>
+              <ul className="flex flex-col gap-2.5 list-none mb-6">
+                {['All 819 tools', '48 services', '80+ automations', 'MIT licensed', 'CLI + MCP interface', 'Community support'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">+</span>{f}
                   </li>
@@ -499,7 +516,24 @@ export default function HomePage() {
               <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" className="btn-ghost w-full text-center justify-center no-underline">Install Free</a>
             </div>
 
-            {/* Marketplace */}
+            {/* Console Free */}
+            <div className="float-card float-card-lg">
+              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Console Free</span>
+              <div className="text-4xl font-bold mb-1">
+                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>$</span>0
+              </div>
+              <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>Try the Console, no card required</p>
+              <ul className="flex flex-col gap-2.5 list-none mb-6">
+                {['Everything in Free CLI', 'Console web access', '25 executions / month', '1 saved workflow', 'Execution history', 'Email support'].map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">+</span>{f}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/console" className="btn-ghost w-full text-center justify-center no-underline">Open Console</Link>
+            </div>
+
+            {/* Console Pro */}
             <div className="float-card float-card-lg float-card-featured relative">
               <span
                 className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full font-mono text-[0.6rem] font-bold tracking-wider"
@@ -507,35 +541,49 @@ export default function HomePage() {
               >
                 MOST POPULAR
               </span>
-              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Marketplace</span>
+              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Console Pro</span>
               <div className="text-4xl font-bold mb-1">
-                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>$</span>0.10
-                <span className="text-base font-normal" style={{ color: 'var(--text-muted)' }}>/execution</span>
+                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>$</span>19
+                <span className="text-base font-normal" style={{ color: 'var(--text-muted)' }}>/mo</span>
               </div>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>Pay only for what you use. No monthly fee.</p>
-              <ul className="flex flex-col gap-3 list-none mb-8">
-                {['Everything in Free', 'Cloud execution', 'Visual workflow builder', 'Workflow marketplace', 'Priority execution queue'].map((f) => (
+              <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>Unlimited power for solo builders</p>
+              <ul className="flex flex-col gap-2.5 list-none mb-6">
+                {['Everything in Console Free', 'Unlimited executions', 'Visual workflow builder', 'Marketplace access', 'Vault sync across devices', 'Priority support'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">+</span>{f}
                   </li>
                 ))}
               </ul>
-              <a href="https://rocketopp.com" target="_blank" rel="noopener noreferrer" className="btn-accent w-full text-center justify-center no-underline">Launch Marketplace</a>
+              <Link href="/console" className="btn-accent w-full text-center justify-center no-underline">Start Pro</Link>
             </div>
 
-            {/* Enterprise */}
+            {/* Console Team */}
             <div className="float-card float-card-lg">
-              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Enterprise</span>
-              <div className="text-4xl font-bold mb-1">Custom</div>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>Dedicated infrastructure and support</p>
-              <ul className="flex flex-col gap-3 list-none mb-8">
-                {['Everything in Marketplace', 'SSO / SAML', 'Custom integrations', 'SLA guarantee', 'Dedicated support channel'].map((f) => (
+              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Console Team</span>
+              <div className="text-4xl font-bold mb-1">
+                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>$</span>49
+                <span className="text-base font-normal" style={{ color: 'var(--text-muted)' }}>/mo</span>
+              </div>
+              <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>Collaborate with your whole team</p>
+              <ul className="flex flex-col gap-2.5 list-none mb-6">
+                {['Everything in Console Pro', '5 team seats', 'Shared workflows', 'Team vault', 'API access', 'Priority support'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span style={{ color: '#a78bfa' }} className="font-bold text-xs">+</span>{f}
                   </li>
                 ))}
               </ul>
-              <a href="mailto:mike@rocketopp.com?subject=0nMCP%20Enterprise%20Inquiry" className="btn-ghost w-full text-center justify-center no-underline">Contact Us</a>
+              <Link href="/console" className="btn-accent w-full text-center justify-center no-underline" style={{ background: 'linear-gradient(135deg, #a78bfa, var(--accent))' }}>Start Team</Link>
+            </div>
+          </div>
+
+          {/* Enterprise callout */}
+          <div className="float-card mt-8" style={{ textAlign: 'center', padding: '2rem' }}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+              <div>
+                <span className="font-mono text-xs uppercase tracking-wide block mb-1" style={{ color: 'var(--text-muted)' }}>Enterprise</span>
+                <span className="text-lg font-bold">Need SSO, SLA, or dedicated infra?</span>
+              </div>
+              <a href="mailto:mike@rocketopp.com?subject=0nMCP%20Enterprise%20Inquiry" className="btn-ghost no-underline whitespace-nowrap">Contact Us &rarr;</a>
             </div>
           </div>
         </div>

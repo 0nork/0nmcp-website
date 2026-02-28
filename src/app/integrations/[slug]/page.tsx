@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const total = caps.asTrigger.length + caps.asAction.length
 
   const title = `${service.name} Integration — Connect with AI | 0nMCP`
-  const description = `Connect ${service.name} to ${total > 0 ? total + ' automations across ' : ''}26 services using AI-powered orchestration. No code required — describe what you want and 0nMCP handles the rest.`
+  const description = `Connect ${service.name} to ${total > 0 ? total + ' automations across ' : ''}48 services using AI-powered orchestration. No code required — describe what you want and 0nMCP handles the rest.`
 
   return {
     title,

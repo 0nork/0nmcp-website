@@ -97,7 +97,7 @@ export default function ConnectPage() {
           <section className="connect-section">
             <h2>Investment Opportunities</h2>
             <p>
-              0nORK is actively accepting strategic investment from qualified partners who understand the trajectory of AI infrastructure. With a patent-pending orchestration architecture spanning 558 tools across 26 services, a fully operational SaaS marketplace generating metered revenue, and a proprietary vault encryption system under US Patent Application #63/990,046 &mdash; we are not a startup searching for product-market fit. We are an infrastructure company executing on a proven thesis. Our technology is live, our intellectual property is protected, and our growth metrics speak for themselves. We engage with investors who bring more than capital: domain expertise in AI, enterprise SaaS, or developer tooling is valued. If you operate at the intersection of venture capital and technical conviction, we should be in conversation.
+              0nORK is actively accepting strategic investment from qualified partners who understand the trajectory of AI infrastructure. With a patent-pending orchestration architecture spanning 819 tools across 48 services, a fully operational SaaS marketplace generating metered revenue, and a proprietary vault encryption system under US Patent Application #63/990,046 &mdash; we are not a startup searching for product-market fit. We are an infrastructure company executing on a proven thesis. Our technology is live, our intellectual property is protected, and our growth metrics speak for themselves. We engage with investors who bring more than capital: domain expertise in AI, enterprise SaaS, or developer tooling is valued. If you operate at the intersection of venture capital and technical conviction, we should be in conversation.
             </p>
           </section>
 
@@ -118,11 +118,11 @@ export default function ConnectPage() {
             <h2>By the Numbers</h2>
             <div className="connect-stats">
               <div className="connect-stat">
-                <div className="connect-stat-value">558</div>
+                <div className="connect-stat-value">819</div>
                 <div className="connect-stat-label">Production Tools</div>
               </div>
               <div className="connect-stat">
-                <div className="connect-stat-value">26</div>
+                <div className="connect-stat-value">48</div>
                 <div className="connect-stat-label">Integrated Services</div>
               </div>
               <div className="connect-stat">

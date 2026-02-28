@@ -102,7 +102,7 @@ const PLATFORM_GUIDELINES: Record<string, string> = {
 }
 
 const PRODUCT_CONTEXT = `
-0nMCP is the Universal AI API Orchestrator — 550 tools across 26 services in 13 categories.
+0nMCP is the Universal AI API Orchestrator — 819 tools across 48 services in 21 categories.
 One npm install, one config file, zero boilerplate.
 
 Key facts:
@@ -110,9 +110,9 @@ Key facts:
 - GitHub: github.com/0nork/0nMCP
 - Website: 0nmcp.com
 - App: app.0nmcp.com
-- 550 tools: 290 catalog + 245 CRM + 4 vault + 6 engine + 5 app
-- 26 services: Stripe, Slack, Discord, OpenAI, Supabase, Airtable, Notion, GitHub, Shopify, Twilio, SendGrid, and more
-- 13 categories: Payments, Email, SMS, Communication, AI, Database, Code, Project Mgmt, E-Commerce, CRM, Scheduling, Storage, Support
+- 819 tools: 290 catalog + 245 CRM + 4 vault + 6 engine + 5 app
+- 48 services: Stripe, Slack, Discord, OpenAI, Supabase, Airtable, Notion, GitHub, Shopify, Twilio, SendGrid, and more
+- 21 categories: Payments, Email, SMS, Communication, AI, Database, Code, Project Mgmt, E-Commerce, CRM, Scheduling, Storage, Support
 - Three-Level Execution: Pipeline > Assembly Line > Radial Burst (Patent Pending)
 - .0n Standard: Universal config format — SWITCH files, connections, workflows
 - CLI: \`0nmcp\` with named runs/hotkeys, shell/REPL mode

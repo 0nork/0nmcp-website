@@ -5,11 +5,11 @@ import SponsorClient from './SponsorClient'
 export const metadata: Metadata = {
   title: 'Sponsor 0nMCP -- Fund Open Source AI Orchestration',
   description:
-    'Support 0nMCP development. Your sponsorship keeps the universal AI API orchestrator free and open source. 26 services, 550+ tools. Fund the future of AI orchestration.',
+    'Support 0nMCP development. Your sponsorship keeps the universal AI API orchestrator free and open source. 48 services, 819+ tools. Fund the future of AI orchestration.',
   openGraph: {
     title: 'Sponsor 0nMCP -- Fund Open Source AI Orchestration',
     description:
-      'Help us keep 0nMCP free and open source. 26 services, 550+ tools, zero config. Your support makes it possible.',
+      'Help us keep 0nMCP free and open source. 48 services, 819+ tools, zero config. Your support makes it possible.',
     url: 'https://0nmcp.com/sponsor',
     type: 'website',
   },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sponsor 0nMCP',
     description:
-      'Fund the future of AI orchestration. 26 services, 550+ tools, open source forever.',
+      'Fund the future of AI orchestration. 48 services, 819+ tools, open source forever.',
   },
   alternates: { canonical: 'https://0nmcp.com/sponsor' },
 }

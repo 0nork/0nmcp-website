@@ -6,13 +6,13 @@ import { getAllCategories, getServicesInCategory } from '@/lib/sxo-helpers'
 import ServiceLogo from '@/components/ServiceLogo'
 
 export const metadata: Metadata = {
-  title: 'Turn it 0n — 26 Services, 450 Tools | 0nMCP',
+  title: 'Turn it 0n — 48 Services, 819 Tools | 0nMCP',
   description:
-    'Connect 26 services with 450 tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.',
+    'Connect 48 services with 819 tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.',
   openGraph: {
-    title: 'Turn it 0n — 26 Services, 80+ Pre-Built Automations | 0nMCP',
+    title: 'Turn it 0n — 48 Services, 80+ Pre-Built Automations | 0nMCP',
     description:
-      'Connect 26 services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.',
+      'Connect 48 services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.',
     url: 'https://0nmcp.com/turn-it-on',
   },
   alternates: {

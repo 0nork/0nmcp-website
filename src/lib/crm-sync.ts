@@ -511,7 +511,7 @@ export async function sendConfirmationEmail(email: string, confirmLink: string):
           Thanks for signing up for 0nMCP! Confirm your email address to activate your account and get access to:
         </p>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;">
-          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> 564 tools across 26 services</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> 819 tools across 48 services</td></tr>
           <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Free interactive courses</td></tr>
           <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Community forum access</td></tr>
           <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Workflow builder</td></tr>
@@ -538,7 +538,7 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<bo
       heading: greeting,
       body: `
         <p style="font-size:14px;color:#999;line-height:1.7;margin:0 0 20px;">
-          Your account is confirmed. You now have access to the most comprehensive MCP server available &mdash; 564 tools, 26 services, zero boilerplate.
+          Your account is confirmed. You now have access to the most comprehensive MCP server available &mdash; 819 tools, 48 services, zero boilerplate.
         </p>
         <div style="background:#111118;border:1px solid #1a1a2e;border-radius:10px;padding:16px 20px;margin:0 0 20px;">
           <p style="font-size:12px;color:#00ff88;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 10px;">Quick Start</p>

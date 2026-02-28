@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: '0nMCP',
     short_name: '0nMCP',
-    description: 'Universal AI API Orchestrator — 564 tools, 26 services. Manage add0ns, execute tasks, build workflows.',
+    description: 'Universal AI API Orchestrator — 819 tools, 48 services. Manage add0ns, execute tasks, build workflows.',
     start_url: '/app',
     display: 'standalone',
     background_color: '#0a0a0f',

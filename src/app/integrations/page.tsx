@@ -4,11 +4,11 @@ import servicesData from '@/data/services.json'
 import capabilitiesData from '@/data/capabilities.json'
 
 export const metadata: Metadata = {
-  title: 'Integrations — Connect 26 Services with AI | 0nMCP',
+  title: 'Integrations — Connect 48 Services with AI | 0nMCP',
   description: 'Browse all 0nMCP integrations. Connect Gmail, Slack, Stripe, CRM, Shopify, and 21 more services with AI-powered orchestration. 80+ pre-built automations.',
   openGraph: {
-    title: 'Integrations — Connect 26 Services with AI | 0nMCP',
-    description: '80+ pre-built automations across 26 services. AI-native API orchestration.',
+    title: 'Integrations — Connect 48 Services with AI | 0nMCP',
+    description: '80+ pre-built automations across 48 services. AI-native API orchestration.',
     url: 'https://0nmcp.com/integrations',
   },
   alternates: { canonical: 'https://0nmcp.com/integrations' },

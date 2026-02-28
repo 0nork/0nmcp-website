@@ -4,9 +4,9 @@ import HeroSection from '@/components/HeroSection'
 import LogoBanner from '@/components/LogoBanner'
 
 export const metadata: Metadata = {
-  title: '0nMCP — Universal AI API Orchestrator | 564 Tools, 26 Services',
+  title: '0nMCP — Universal AI API Orchestrator | 819 Tools, 48 Services',
   description:
-    '0nMCP is the universal AI API orchestrator. 564 tools across 26 services, 80+ pre-built automations, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+    '0nMCP is the universal AI API orchestrator. 819 tools across 48 services, 80+ pre-built automations, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
   keywords: [
     '0nMCP',
     'MCP',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '564 tools across 26 services. 80+ pre-built automations. One install. Stop building workflows. Start describing outcomes.',
+      '819 tools across 48 services. 80+ pre-built automations. One install. Stop building workflows. Start describing outcomes.',
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '564 tools across 26 services. 80+ pre-built automations. One install. The universal AI API orchestrator.',
+      '819 tools across 48 services. 80+ pre-built automations. One install. The universal AI API orchestrator.',
   },
   alternates: { canonical: 'https://0nmcp.com' },
 }
@@ -41,15 +41,24 @@ const categories = [
   { name: 'Everyday Tools', count: 8, icon: '⚡' },
   { name: 'Communication', count: 9, icon: '💬' },
   { name: 'Email Marketing', count: 6, icon: '📧' },
-  { name: 'Payments', count: 6, icon: '💳' },
-  { name: 'CRM & Sales', count: 4, icon: '👥' },
+  { name: 'Payments', count: 8, icon: '💳' },
+  { name: 'CRM & Sales', count: 6, icon: '👥' },
   { name: 'Project Mgmt', count: 8, icon: '📋' },
-  { name: 'Docs & Sigs', count: 3, icon: '📄' },
+  { name: 'Docs & Storage', count: 4, icon: '📄' },
   { name: 'Support', count: 3, icon: '🎧' },
   { name: 'Websites', count: 3, icon: '🌐' },
-  { name: 'Advertising', count: 2, icon: '📢' },
+  { name: 'Advertising', count: 6, icon: '📢' },
   { name: 'AI', count: 2, icon: '🧠' },
   { name: 'Developer', count: 5, icon: '⌨️' },
+  { name: 'Social Media', count: 5, icon: '📱' },
+  { name: 'Accounting', count: 2, icon: '📊' },
+  { name: 'Finance', count: 2, icon: '🏦' },
+  { name: 'Cloud', count: 1, icon: '☁️' },
+  { name: 'Integration', count: 2, icon: '🔗' },
+  { name: 'Automation', count: 1, icon: '⚙️' },
+  { name: 'Outreach', count: 1, icon: '📤' },
+  { name: 'Cold Email', count: 1, icon: '❄️' },
+  { name: 'Messaging', count: 1, icon: '💭' },
 ]
 
 const faqItems = [
@@ -59,7 +68,7 @@ const faqItems = [
   },
   {
     q: 'How do I combine multiple MCP servers?',
-    a: "Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 26 services out of the box and provides 80+ pre-built automations that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.",
+    a: "Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 48 services out of the box and provides 80+ pre-built automations that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.",
   },
   {
     q: 'Can MCP servers work together automatically?',
@@ -99,7 +108,7 @@ export default function HomePage() {
     '@type': 'WebSite',
     name: '0nMCP',
     url: 'https://0nmcp.com',
-    description: 'Universal AI API Orchestrator — 564 tools across 26 services',
+    description: 'Universal AI API Orchestrator — 819 tools across 48 services',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -127,10 +136,10 @@ export default function HomePage() {
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Cross-platform',
     description:
-      'Universal AI API orchestrator with 564 tools across 26 services and 80+ pre-built automations. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+      'Universal AI API orchestrator with 819 tools across 48 services and 80+ pre-built automations. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
     url: 'https://0nmcp.com',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
-    softwareVersion: '2.1.0',
+    softwareVersion: '2.2.0',
     author: {
       '@type': 'Organization',
       name: 'RocketOpp, LLC',
@@ -142,7 +151,7 @@ export default function HomePage() {
         price: '0',
         priceCurrency: 'USD',
         name: 'Free (Open Source)',
-        description: 'Unlimited local use, all 26 services, MIT licensed, community support',
+        description: 'Unlimited local use, all 48 services, MIT licensed, community support',
       },
       {
         '@type': 'Offer',
@@ -187,7 +196,7 @@ export default function HomePage() {
           <p className="section-desc mb-12">
             Every AI assistant connects to services individually. No chaining.
             No automation. No orchestration. 0nMCP changes that &mdash; one
-            orchestrator that federates 26 services into a single, automated
+            orchestrator that federates 48 services into a single, automated
             system.
           </p>
 
@@ -296,7 +305,7 @@ export default function HomePage() {
                 },
                 {
                   title: 'Free Forever',
-                  desc: 'All 26 services, all 80+ automations, unlimited local use. No credit card. No trial period.',
+                  desc: 'All 48 services, all 80+ automations, unlimited local use. No credit card. No trial period.',
                   color: '#00ff88',
                 },
               ].map((item) => (
@@ -409,9 +418,9 @@ export default function HomePage() {
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-accent-line mx-auto" />
-            <span className="section-label">26 Services</span>
+            <span className="section-label">48 Services</span>
             <h2 className="section-heading">
-              13 Categories. Every Tool You Need.
+              21 Categories. Every Tool You Need.
             </h2>
             <p className="section-desc mx-auto">
               From CRM and payments to email marketing and AI &mdash; 0nMCP
@@ -541,7 +550,7 @@ export default function HomePage() {
               </p>
               <ul className="flex flex-col gap-3 list-none mb-8">
                 {[
-                  'All 26 services',
+                  'All 48 services',
                   '80+ pre-built automations',
                   'MIT licensed',
                   'Community support',
@@ -723,7 +732,7 @@ export default function HomePage() {
             className="text-base mb-8"
             style={{ color: 'var(--text-secondary)' }}
           >
-            564 tools. 26 services. One install. Free forever.
+            819 tools. 48 services. One install. Free forever.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link

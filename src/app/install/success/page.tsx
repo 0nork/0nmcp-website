@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: '0nMCP Installed! | 550 Tools Ready',
+  title: '0nMCP Installed! | 819 Tools Ready',
 }
 
 export default function InstallSuccessPage() {
@@ -17,7 +17,7 @@ export default function InstallSuccessPage() {
         <h1 className="text-2xl font-bold mb-3">0nMCP Installed!</h1>
 
         <p className="text-white/60 mb-6">
-          550+ tools across 26 services are now available in your CRM workflows.
+          819+ tools across 48 services are now available in your CRM workflows.
           Go to your workflow builder and add an 0nMCP action to get started.
         </p>
 

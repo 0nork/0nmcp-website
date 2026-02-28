@@ -3,11 +3,11 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Community -- Join the AI Orchestration Movement',
   description:
-    'Join the 0nMCP community. Contribute to the most comprehensive MCP server available. 26 services, 80+ pre-built automations, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.',
+    'Join the 0nMCP community. Contribute to the most comprehensive MCP server available. 48 services, 80+ pre-built automations, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.',
   openGraph: {
     title: 'Community -- 0nMCP | Join the AI Orchestration Movement',
     description:
-      'Join the 0nMCP community. 26 services, 80+ pre-built automations, open source forever. Help shape the future of AI orchestration.',
+      'Join the 0nMCP community. 48 services, 80+ pre-built automations, open source forever. Help shape the future of AI orchestration.',
     url: 'https://0nmcp.com/community',
     type: 'website',
   },
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Community -- 0nMCP',
     description:
-      '26 services. 80+ pre-built automations. Open source forever. Join the movement.',
+      '48 services. 80+ pre-built automations. Open source forever. Join the movement.',
   },
   alternates: { canonical: 'https://0nmcp.com/community' },
 }

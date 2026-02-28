@@ -156,7 +156,7 @@ export default function QAGeneratePage() {
           <input
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            placeholder="e.g., How to connect 26 services with one MCP server"
+            placeholder="e.g., How to connect 48 services with one MCP server"
             style={inputStyle}
           />
         </div>

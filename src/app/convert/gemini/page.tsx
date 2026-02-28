@@ -22,7 +22,7 @@ const PAIN_POINTS = [
   { title: 'Google Ecosystem Lock', desc: 'Gems and AI Studio configs only work inside Google\'s ecosystem. Switch providers? Start over from scratch.' },
   { title: 'Frequent Deprecations', desc: 'Google regularly deprecates APIs and services. PaLM to Gemini, Bard to Gems — your configs break with every rebrand.' },
   { title: 'Complex ADK Setup', desc: 'Google\'s Agent Development Kit requires deep GCP integration. With .0n, your agents are portable config files.' },
-  { title: 'Limited Tool Access', desc: 'Gemini\'s built-in tools are limited to Google services. 0nMCP gives you 564 tools across 26 services from any AI.' },
+  { title: 'Limited Tool Access', desc: 'Gemini\'s built-in tools are limited to Google services. 0nMCP gives you 819 tools across 48 services from any AI.' },
 ]
 
 const WHAT_TRANSFERS = [
@@ -46,7 +46,7 @@ const EXPORT_STEPS = [
 ]
 
 const COMPARISON = [
-  { feature: 'Tool Count', gemini: '~10 built-in (Google only)', on: '564 tools across 26 services' },
+  { feature: 'Tool Count', gemini: '~10 built-in (Google only)', on: '819 tools across 48 services' },
   { feature: 'Portability', gemini: 'Locked to Google ecosystem', on: 'Runs anywhere (any AI client)' },
   { feature: 'Format', gemini: 'Google-proprietary JSON', on: 'Open .0n Standard' },
   { feature: 'Pricing', gemini: 'Per-character, per-API-call', on: 'Free core, $0.10/execution' },
@@ -266,7 +266,7 @@ export default function ConvertGemini() {
             Free Your <span style={{ color: '#4285f4' }}>Gems</span>
           </h2>
           <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-            Convert your Gemini workflows to .0n in seconds. No Google lock-in. 564 tools ready to go.
+            Convert your Gemini workflows to .0n in seconds. No Google lock-in. 819 tools ready to go.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">

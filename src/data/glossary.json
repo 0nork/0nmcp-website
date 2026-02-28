@@ -23,7 +23,7 @@
     {
       "term": "MCP Server",
       "slug": "mcp-server",
-      "definition": "A program that exposes tools, resources, and prompts to AI models via the Model Context Protocol. 0nMCP is an MCP server that provides 564 tools across 26 services, acting as a universal bridge between AI and APIs.",
+      "definition": "A program that exposes tools, resources, and prompts to AI models via the Model Context Protocol. 0nMCP is an MCP server that provides 819 tools across 48 services, acting as a universal bridge between AI and APIs.",
       "category": "core",
       "related": ["mcp", "mcp-client", "mcp-tool"]
     },
@@ -37,7 +37,7 @@
     {
       "term": "MCP Tool",
       "slug": "mcp-tool",
-      "definition": "A discrete function exposed by an MCP server that an AI model can call. Tools have defined input schemas and return structured results. 0nMCP exposes 564 tools covering email, CRM, payments, messaging, and more.",
+      "definition": "A discrete function exposed by an MCP server that an AI model can call. Tools have defined input schemas and return structured results. 0nMCP exposes 819 tools covering email, CRM, payments, messaging, and more.",
       "category": "core",
       "related": ["mcp-server", "api-endpoint", "tool-calling"]
     },
@@ -107,14 +107,14 @@
     {
       "term": "Trigger",
       "slug": "trigger",
-      "definition": "An event that initiates a workflow execution. Triggers can be webhooks (real-time), polling (scheduled checks), manual commands, or AI-initiated actions. 0nMCP supports 93 triggers across 26 services.",
+      "definition": "An event that initiates a workflow execution. Triggers can be webhooks (real-time), polling (scheduled checks), manual commands, or AI-initiated actions. 0nMCP supports 155 triggers across 48 services.",
       "category": "automation",
       "related": ["webhook", "action", "workflow"]
     },
     {
       "term": "Action",
       "slug": "action",
-      "definition": "A discrete operation performed as part of a workflow. Actions include sending emails, creating records, posting messages, processing payments, and any other API operation. 0nMCP provides 65 actions across 26 services.",
+      "definition": "A discrete operation performed as part of a workflow. Actions include sending emails, creating records, posting messages, processing payments, and any other API operation. 0nMCP provides 104 actions across 48 services.",
       "category": "automation",
       "related": ["trigger", "workflow", "api-endpoint"]
     },
@@ -534,7 +534,7 @@
     {
       "term": "Engine",
       "slug": "engine",
-      "definition": "0nMCP's credential conversion module that imports API keys from .env files, CSV, or JSON, auto-maps them to 26 services, verifies connectivity, and generates configurations for 7 AI platforms (Claude, Cursor, Windsurf, etc.).",
+      "definition": "0nMCP's credential conversion module that imports API keys from .env files, CSV, or JSON, auto-maps them to 48 services, verifies connectivity, and generates configurations for 7 AI platforms (Claude, Cursor, Windsurf, etc.).",
       "category": "core",
       "related": ["brain-bundle", "turn-it-on", "vault"]
     },

@@ -5,7 +5,7 @@
  * and dynamic field definitions for the CRM app store listing.
  *
  * App provides:
- * - Actions: "Execute Tool" (550 tools across 26 services), "Run Workflow"
+ * - Actions: "Execute Tool" (819 tools across 48 services), "Run Workflow"
  * - Triggers: "Tool Executed", "Workflow Completed"
  */
 
@@ -65,7 +65,7 @@ export const ACTIONS = {
   execute_tool: {
     key: 'execute_tool',
     name: 'Execute 0nMCP Tool',
-    description: 'Execute any of 550+ tools across 26 integrated services. Select a service and tool, provide the inputs, and 0nMCP handles the rest.',
+    description: 'Execute any of 819+ tools across 48 integrated services. Select a service and tool, provide the inputs, and 0nMCP handles the rest.',
     version: '1.0',
   },
   run_workflow: {

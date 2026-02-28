@@ -47,7 +47,7 @@ export default function ComparePage() {
         {/* Quick stats */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="rounded-xl p-4 text-center" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-            <div className="text-2xl font-black" style={{ color: 'var(--accent)' }}>564</div>
+            <div className="text-2xl font-black" style={{ color: 'var(--accent)' }}>819</div>
             <div className="text-xs" style={{ color: 'var(--text-muted)' }}>tools</div>
           </div>
           <div className="rounded-xl p-4 text-center" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>

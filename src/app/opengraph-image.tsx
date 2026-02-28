@@ -99,7 +99,7 @@ export default function OGImage() {
                 fontFamily: 'monospace',
               }}
             >
-              564
+              819
             </span>
             <span style={{ fontSize: 14, color: '#55556a', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               Tools
@@ -117,7 +117,7 @@ export default function OGImage() {
                 fontFamily: 'monospace',
               }}
             >
-              26
+              48
             </span>
             <span style={{ fontSize: 14, color: '#55556a', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               Services

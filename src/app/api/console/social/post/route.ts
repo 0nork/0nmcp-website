@@ -18,7 +18,7 @@ interface SocialPost {
 const posts: SocialPost[] = [
   {
     id: '1',
-    content: 'Just shipped 0nMCP v2.0 with the patent-pending 0nVault Container System. 558 tools across 26 services. Stop building workflows. Start describing outcomes.',
+    content: 'Just shipped 0nMCP v2.0 with the patent-pending 0nVault Container System. 819 tools across 48 services. Stop building workflows. Start describing outcomes.',
     platforms: ['linkedin', 'reddit'],
     hashtags: ['0nMCP', 'AI', 'MCP', 'automation', 'orchestration'],
     status: 'posted',

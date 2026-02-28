@@ -1,11 +1,11 @@
 {
   "meta": {
-    "version": "3.0.0",
-    "generated": "2026-02-16",
-    "source": "0nMCP v1.6.0 catalog.js + crm/ + vault/ + engine/",
-    "total_services": 33,
-    "total_tools": 450,
-    "catalog_services": 26,
+    "version": "4.0.0",
+    "generated": "2026-02-28",
+    "source": "0nMCP v2.2.0 catalog.js + crm/ + vault/ + engine/",
+    "total_services": 55,
+    "total_tools": 704,
+    "catalog_services": 48,
     "crm_module_tools": 245,
     "logic_primitives": 7,
     "schema": "0n-services-v3"
@@ -90,6 +90,86 @@
       "display_order": 9,
       "description": "Code, databases, and infrastructure.",
       "icon": "🛠️"
+    },
+    {
+      "id": "social_media",
+      "label": "Social Media",
+      "slug": "social-media",
+      "display_order": 10,
+      "description": "Publish, engage, and grow across every social platform.",
+      "icon": "📱"
+    },
+    {
+      "id": "advertising",
+      "label": "Advertising",
+      "slug": "advertising",
+      "display_order": 11,
+      "description": "Run, optimize, and report on ad campaigns everywhere.",
+      "icon": "📣"
+    },
+    {
+      "id": "messaging",
+      "label": "Messaging",
+      "slug": "messaging",
+      "display_order": 12,
+      "description": "Reach customers on the channels they prefer.",
+      "icon": "💬"
+    },
+    {
+      "id": "accounting",
+      "label": "Accounting & Finance",
+      "slug": "accounting-finance",
+      "display_order": 13,
+      "description": "Invoicing, bookkeeping, and financial data.",
+      "icon": "🧾"
+    },
+    {
+      "id": "finance",
+      "label": "Financial Data",
+      "slug": "financial-data",
+      "display_order": 14,
+      "description": "Banking connectivity and financial intelligence.",
+      "icon": "🏦"
+    },
+    {
+      "id": "storage",
+      "label": "Cloud Storage",
+      "slug": "cloud-storage",
+      "display_order": 15,
+      "description": "Store, sync, and share files in the cloud.",
+      "icon": "☁️"
+    },
+    {
+      "id": "cold_email",
+      "label": "Cold Email & Outreach",
+      "slug": "cold-email-outreach",
+      "display_order": 16,
+      "description": "AI-powered outbound email at scale.",
+      "icon": "🎯"
+    },
+    {
+      "id": "automation",
+      "label": "Automation Platforms",
+      "slug": "automation-platforms",
+      "display_order": 17,
+      "description": "Connect to other automation platforms.",
+      "icon": "⚡"
+    },
+    {
+      "id": "integration",
+      "label": "Enterprise Integration",
+      "slug": "enterprise-integration",
+      "display_order": 18,
+      "description": "Enterprise-grade API management and integration.",
+      "icon": "🔗"
+    },
+    {
+      "id": "cloud",
+      "label": "Cloud Infrastructure",
+      "slug": "cloud-infrastructure",
+      "display_order": 19,
+      "description": "Manage cloud resources, VMs, and storage.",
+      "icon": "🌐"
     }
   ],
   "services": [
@@ -3091,6 +3171,1785 @@
           "id": "mongodb_aggregate",
           "name": "Aggregate",
           "description": "Run an aggregation pipeline."
+        }
+      ]
+    },
+    {
+      "id": "quickbooks",
+      "name": "QuickBooks",
+      "slug": "quickbooks",
+      "icon": "🧾",
+      "category_id": "accounting",
+      "display_order": 130,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Accounting & invoicing — invoices, customers, payments, bills, reports.",
+      "description_long": "Connect QuickBooks to 0nMCP to automate your accounting. Create invoices and customers, record payments, manage bills and expenses, pull profit & loss and balance sheet reports, and view chart of accounts — all programmatically.",
+      "sxo_keywords": [
+        "quickbooks automation",
+        "accounting automation",
+        "quickbooks integration",
+        "invoice automation"
+      ],
+      "tool_count": 17,
+      "tools": [
+        {
+          "id": "quickbooks_create_invoice",
+          "name": "Create Invoice",
+          "description": "Create a new invoice."
+        },
+        {
+          "id": "quickbooks_get_invoice",
+          "name": "Get Invoice",
+          "description": "Get invoice details by ID."
+        },
+        {
+          "id": "quickbooks_list_invoices",
+          "name": "List Invoices",
+          "description": "List all invoices."
+        },
+        {
+          "id": "quickbooks_update_invoice",
+          "name": "Update Invoice",
+          "description": "Update an existing invoice."
+        },
+        {
+          "id": "quickbooks_delete_invoice",
+          "name": "Delete Invoice",
+          "description": "Delete an invoice."
+        },
+        {
+          "id": "quickbooks_create_customer",
+          "name": "Create Customer",
+          "description": "Create a new customer."
+        },
+        {
+          "id": "quickbooks_get_customer",
+          "name": "Get Customer",
+          "description": "Get customer details by ID."
+        },
+        {
+          "id": "quickbooks_list_customers",
+          "name": "List Customers",
+          "description": "List all customers."
+        },
+        {
+          "id": "quickbooks_create_payment",
+          "name": "Create Payment",
+          "description": "Record a new payment."
+        },
+        {
+          "id": "quickbooks_list_payments",
+          "name": "List Payments",
+          "description": "List all payments."
+        },
+        {
+          "id": "quickbooks_create_bill",
+          "name": "Create Bill",
+          "description": "Create a new bill."
+        },
+        {
+          "id": "quickbooks_list_bills",
+          "name": "List Bills",
+          "description": "List all bills."
+        },
+        {
+          "id": "quickbooks_get_profit_loss_report",
+          "name": "Get Profit & Loss Report",
+          "description": "Pull a profit and loss report."
+        },
+        {
+          "id": "quickbooks_get_balance_sheet_report",
+          "name": "Get Balance Sheet Report",
+          "description": "Pull a balance sheet report."
+        },
+        {
+          "id": "quickbooks_create_expense",
+          "name": "Create Expense",
+          "description": "Record a new expense."
+        },
+        {
+          "id": "quickbooks_list_accounts",
+          "name": "List Accounts",
+          "description": "List chart of accounts."
+        },
+        {
+          "id": "quickbooks_get_company_info",
+          "name": "Get Company Info",
+          "description": "Get company profile information."
+        }
+      ]
+    },
+    {
+      "id": "asana",
+      "name": "Asana",
+      "slug": "asana",
+      "icon": "📋",
+      "category_id": "project_mgmt",
+      "display_order": 64,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Project management & task tracking — tasks, projects, sections, dependencies.",
+      "description_long": "Connect Asana to 0nMCP to create and manage tasks, organize projects into sections, set task dependencies, search across workspaces, add comments, and create subtasks — all through the Asana REST API.",
+      "sxo_keywords": [
+        "asana automation",
+        "asana integration",
+        "task management automation",
+        "asana project automation"
+      ],
+      "tool_count": 14,
+      "tools": [
+        {
+          "id": "asana_create_task",
+          "name": "Create Task",
+          "description": "Create a new task in a project."
+        },
+        {
+          "id": "asana_get_task",
+          "name": "Get Task",
+          "description": "Get task details by ID."
+        },
+        {
+          "id": "asana_list_tasks",
+          "name": "List Tasks",
+          "description": "List tasks in a project."
+        },
+        {
+          "id": "asana_update_task",
+          "name": "Update Task",
+          "description": "Update an existing task."
+        },
+        {
+          "id": "asana_delete_task",
+          "name": "Delete Task",
+          "description": "Delete a task."
+        },
+        {
+          "id": "asana_create_project",
+          "name": "Create Project",
+          "description": "Create a new project."
+        },
+        {
+          "id": "asana_list_projects",
+          "name": "List Projects",
+          "description": "List projects in a workspace."
+        },
+        {
+          "id": "asana_get_project",
+          "name": "Get Project",
+          "description": "Get project details by ID."
+        },
+        {
+          "id": "asana_create_section",
+          "name": "Create Section",
+          "description": "Create a new section in a project."
+        },
+        {
+          "id": "asana_list_workspaces",
+          "name": "List Workspaces",
+          "description": "List all workspaces."
+        },
+        {
+          "id": "asana_add_task_comment",
+          "name": "Add Task Comment",
+          "description": "Add a comment to a task."
+        },
+        {
+          "id": "asana_search_tasks",
+          "name": "Search Tasks",
+          "description": "Search for tasks across projects."
+        },
+        {
+          "id": "asana_create_subtask",
+          "name": "Create Subtask",
+          "description": "Create a subtask on an existing task."
+        },
+        {
+          "id": "asana_set_task_dependencies",
+          "name": "Set Task Dependencies",
+          "description": "Set dependency relationships between tasks."
+        }
+      ]
+    },
+    {
+      "id": "intercom",
+      "name": "Intercom",
+      "slug": "intercom",
+      "icon": "💬",
+      "category_id": "support",
+      "display_order": 71,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "access_token",
+      "description_short": "Customer messaging — contacts, conversations, articles, tags.",
+      "description_long": "Connect Intercom to 0nMCP for customer messaging automation. Create and search contacts, manage conversations, reply to customers, write help articles, tag contacts, and send targeted messages — all through the Intercom API.",
+      "sxo_keywords": [
+        "intercom automation",
+        "intercom integration",
+        "customer messaging automation",
+        "intercom chatbot"
+      ],
+      "tool_count": 14,
+      "tools": [
+        {
+          "id": "intercom_create_contact",
+          "name": "Create Contact",
+          "description": "Create a new contact."
+        },
+        {
+          "id": "intercom_list_contacts",
+          "name": "List Contacts",
+          "description": "List all contacts."
+        },
+        {
+          "id": "intercom_get_contact",
+          "name": "Get Contact",
+          "description": "Get contact details by ID."
+        },
+        {
+          "id": "intercom_update_contact",
+          "name": "Update Contact",
+          "description": "Update an existing contact."
+        },
+        {
+          "id": "intercom_search_contacts",
+          "name": "Search Contacts",
+          "description": "Search contacts with filters."
+        },
+        {
+          "id": "intercom_create_conversation",
+          "name": "Create Conversation",
+          "description": "Start a new conversation."
+        },
+        {
+          "id": "intercom_list_conversations",
+          "name": "List Conversations",
+          "description": "List all conversations."
+        },
+        {
+          "id": "intercom_reply_to_conversation",
+          "name": "Reply to Conversation",
+          "description": "Reply to an existing conversation."
+        },
+        {
+          "id": "intercom_create_note",
+          "name": "Create Note",
+          "description": "Add an internal note to a contact."
+        },
+        {
+          "id": "intercom_list_tags",
+          "name": "List Tags",
+          "description": "List all tags."
+        },
+        {
+          "id": "intercom_tag_contact",
+          "name": "Tag Contact",
+          "description": "Apply a tag to a contact."
+        },
+        {
+          "id": "intercom_create_article",
+          "name": "Create Article",
+          "description": "Create a help center article."
+        },
+        {
+          "id": "intercom_list_articles",
+          "name": "List Articles",
+          "description": "List help center articles."
+        },
+        {
+          "id": "intercom_send_message",
+          "name": "Send Message",
+          "description": "Send a targeted message to a user."
+        }
+      ]
+    },
+    {
+      "id": "dropbox",
+      "name": "Dropbox",
+      "slug": "dropbox",
+      "icon": "📦",
+      "category_id": "storage",
+      "display_order": 150,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Cloud file storage — upload, download, folders, sharing.",
+      "description_long": "Connect Dropbox to 0nMCP to manage files in the cloud. Upload and download files, create and list folders, move and copy files, search across your Dropbox, and share files with links.",
+      "sxo_keywords": [
+        "dropbox automation",
+        "dropbox integration",
+        "file storage automation",
+        "cloud storage automation"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "dropbox_upload_file",
+          "name": "Upload File",
+          "description": "Upload a file to Dropbox."
+        },
+        {
+          "id": "dropbox_download_file",
+          "name": "Download File",
+          "description": "Download a file from Dropbox."
+        },
+        {
+          "id": "dropbox_list_folder",
+          "name": "List Folder",
+          "description": "List contents of a folder."
+        },
+        {
+          "id": "dropbox_create_folder",
+          "name": "Create Folder",
+          "description": "Create a new folder."
+        },
+        {
+          "id": "dropbox_delete_file",
+          "name": "Delete File",
+          "description": "Delete a file or folder."
+        },
+        {
+          "id": "dropbox_move_file",
+          "name": "Move File",
+          "description": "Move a file to a new location."
+        },
+        {
+          "id": "dropbox_copy_file",
+          "name": "Copy File",
+          "description": "Copy a file to a new location."
+        },
+        {
+          "id": "dropbox_get_metadata",
+          "name": "Get Metadata",
+          "description": "Get file or folder metadata."
+        },
+        {
+          "id": "dropbox_search_files",
+          "name": "Search Files",
+          "description": "Search for files and folders."
+        },
+        {
+          "id": "dropbox_share_file",
+          "name": "Share File",
+          "description": "Create a shared link for a file."
+        },
+        {
+          "id": "dropbox_list_shared_links",
+          "name": "List Shared Links",
+          "description": "List shared links for a file."
+        },
+        {
+          "id": "dropbox_get_account_info",
+          "name": "Get Account Info",
+          "description": "Get the current user's account information."
+        }
+      ]
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp",
+      "slug": "whatsapp",
+      "icon": "💬",
+      "category_id": "messaging",
+      "display_order": 120,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "access_token",
+      "description_short": "Business messaging via Meta — messages, templates, media.",
+      "description_long": "Connect WhatsApp Business to 0nMCP to send messages and templates, share media, manage message templates, upload media assets, configure webhooks, and manage your business profile — all via the Meta Graph API.",
+      "sxo_keywords": [
+        "whatsapp automation",
+        "whatsapp business api",
+        "whatsapp integration",
+        "whatsapp message automation"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "whatsapp_send_message",
+          "name": "Send Message",
+          "description": "Send a text message to a phone number."
+        },
+        {
+          "id": "whatsapp_send_template",
+          "name": "Send Template",
+          "description": "Send a pre-approved template message."
+        },
+        {
+          "id": "whatsapp_send_media",
+          "name": "Send Media",
+          "description": "Send an image, video, or document."
+        },
+        {
+          "id": "whatsapp_get_message_status",
+          "name": "Get Message Status",
+          "description": "Check the delivery status of a message."
+        },
+        {
+          "id": "whatsapp_list_templates",
+          "name": "List Templates",
+          "description": "List all message templates."
+        },
+        {
+          "id": "whatsapp_create_template",
+          "name": "Create Template",
+          "description": "Create a new message template."
+        },
+        {
+          "id": "whatsapp_upload_media",
+          "name": "Upload Media",
+          "description": "Upload a media asset for messaging."
+        },
+        {
+          "id": "whatsapp_get_media_url",
+          "name": "Get Media URL",
+          "description": "Get the download URL for a media asset."
+        },
+        {
+          "id": "whatsapp_set_webhook",
+          "name": "Set Webhook",
+          "description": "Configure a webhook for message events."
+        },
+        {
+          "id": "whatsapp_get_phone_numbers",
+          "name": "Get Phone Numbers",
+          "description": "List registered phone numbers."
+        },
+        {
+          "id": "whatsapp_update_profile",
+          "name": "Update Profile",
+          "description": "Update the business profile."
+        },
+        {
+          "id": "whatsapp_get_business_profile",
+          "name": "Get Business Profile",
+          "description": "Get the business profile information."
+        }
+      ]
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "slug": "instagram",
+      "icon": "📸",
+      "category_id": "social_media",
+      "display_order": 100,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Social media management — posts, stories, insights, comments, hashtags.",
+      "description_long": "Connect Instagram to 0nMCP to manage your social presence. Publish posts and media, view stories, track insights and analytics, reply to comments, search hashtags, and monitor mentions — all via the Instagram Graph API.",
+      "sxo_keywords": [
+        "instagram automation",
+        "instagram integration",
+        "instagram post automation",
+        "social media automation"
+      ],
+      "tool_count": 11,
+      "tools": [
+        {
+          "id": "instagram_get_profile",
+          "name": "Get Profile",
+          "description": "Get the authenticated user's profile."
+        },
+        {
+          "id": "instagram_list_media",
+          "name": "List Media",
+          "description": "List recent media posts."
+        },
+        {
+          "id": "instagram_create_media",
+          "name": "Create Media",
+          "description": "Create a media container for publishing."
+        },
+        {
+          "id": "instagram_publish_media",
+          "name": "Publish Media",
+          "description": "Publish a media container as a post."
+        },
+        {
+          "id": "instagram_get_insights",
+          "name": "Get Insights",
+          "description": "Get analytics and insights for posts."
+        },
+        {
+          "id": "instagram_list_stories",
+          "name": "List Stories",
+          "description": "List active stories."
+        },
+        {
+          "id": "instagram_reply_to_comment",
+          "name": "Reply to Comment",
+          "description": "Reply to a comment on a post."
+        },
+        {
+          "id": "instagram_list_comments",
+          "name": "List Comments",
+          "description": "List comments on a post."
+        },
+        {
+          "id": "instagram_get_hashtag",
+          "name": "Get Hashtag",
+          "description": "Get hashtag information and media."
+        },
+        {
+          "id": "instagram_search_hashtags",
+          "name": "Search Hashtags",
+          "description": "Search for hashtags."
+        },
+        {
+          "id": "instagram_list_mentions",
+          "name": "List Mentions",
+          "description": "List posts that mention the account."
+        }
+      ]
+    },
+    {
+      "id": "twitter",
+      "name": "X (Twitter)",
+      "slug": "x-twitter",
+      "icon": "🐦",
+      "category_id": "social_media",
+      "display_order": 101,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Social media platform — tweets, timelines, followers, DMs.",
+      "description_long": "Connect X (Twitter) to 0nMCP to post and delete tweets, search content, view timelines, like and retweet, manage followers, send direct messages, and monitor mentions — all via the X API v2.",
+      "sxo_keywords": [
+        "twitter automation",
+        "x automation",
+        "tweet automation",
+        "twitter integration"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "twitter_create_tweet",
+          "name": "Create Tweet",
+          "description": "Post a new tweet."
+        },
+        {
+          "id": "twitter_delete_tweet",
+          "name": "Delete Tweet",
+          "description": "Delete an existing tweet."
+        },
+        {
+          "id": "twitter_get_tweet",
+          "name": "Get Tweet",
+          "description": "Get tweet details by ID."
+        },
+        {
+          "id": "twitter_search_tweets",
+          "name": "Search Tweets",
+          "description": "Search for tweets by query."
+        },
+        {
+          "id": "twitter_get_user",
+          "name": "Get User",
+          "description": "Get a user profile by ID or username."
+        },
+        {
+          "id": "twitter_get_timeline",
+          "name": "Get Timeline",
+          "description": "Get a user's tweet timeline."
+        },
+        {
+          "id": "twitter_like_tweet",
+          "name": "Like Tweet",
+          "description": "Like a tweet."
+        },
+        {
+          "id": "twitter_retweet",
+          "name": "Retweet",
+          "description": "Retweet a tweet."
+        },
+        {
+          "id": "twitter_list_followers",
+          "name": "List Followers",
+          "description": "List a user's followers."
+        },
+        {
+          "id": "twitter_list_following",
+          "name": "List Following",
+          "description": "List accounts a user follows."
+        },
+        {
+          "id": "twitter_send_dm",
+          "name": "Send DM",
+          "description": "Send a direct message."
+        },
+        {
+          "id": "twitter_get_mentions",
+          "name": "Get Mentions",
+          "description": "Get tweets that mention the user."
+        }
+      ]
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "slug": "tiktok",
+      "icon": "🎵",
+      "category_id": "social_media",
+      "display_order": 102,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Short video platform — videos, comments, analytics, trending.",
+      "description_long": "Connect TikTok to 0nMCP to manage your TikTok presence. Get user info, list and upload videos, search content, manage comments, view analytics, and discover trending hashtags — all via the TikTok API.",
+      "sxo_keywords": [
+        "tiktok automation",
+        "tiktok integration",
+        "tiktok video automation",
+        "short video automation"
+      ],
+      "tool_count": 9,
+      "tools": [
+        {
+          "id": "tiktok_get_user_info",
+          "name": "Get User Info",
+          "description": "Get the authenticated user's profile."
+        },
+        {
+          "id": "tiktok_list_videos",
+          "name": "List Videos",
+          "description": "List the user's videos."
+        },
+        {
+          "id": "tiktok_upload_video",
+          "name": "Upload Video",
+          "description": "Upload a new video."
+        },
+        {
+          "id": "tiktok_get_video",
+          "name": "Get Video",
+          "description": "Get video details by ID."
+        },
+        {
+          "id": "tiktok_search_videos",
+          "name": "Search Videos",
+          "description": "Search for videos by query."
+        },
+        {
+          "id": "tiktok_get_comments",
+          "name": "Get Comments",
+          "description": "List comments on a video."
+        },
+        {
+          "id": "tiktok_reply_to_comment",
+          "name": "Reply to Comment",
+          "description": "Reply to a comment."
+        },
+        {
+          "id": "tiktok_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get video and account analytics."
+        },
+        {
+          "id": "tiktok_get_trending_hashtags",
+          "name": "Get Trending Hashtags",
+          "description": "Discover currently trending hashtags."
+        }
+      ]
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "slug": "linkedin",
+      "icon": "💼",
+      "category_id": "social_media",
+      "display_order": 103,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Professional networking — profiles, posts, connections, company pages.",
+      "description_long": "Connect LinkedIn to 0nMCP to manage your professional presence. View profiles, share posts, list connections, send messages, manage company pages and updates, get analytics, and search for people — all via the LinkedIn API.",
+      "sxo_keywords": [
+        "linkedin automation",
+        "linkedin integration",
+        "linkedin post automation",
+        "professional networking automation"
+      ],
+      "tool_count": 9,
+      "tools": [
+        {
+          "id": "linkedin_get_profile",
+          "name": "Get Profile",
+          "description": "Get the authenticated user's profile."
+        },
+        {
+          "id": "linkedin_share_post",
+          "name": "Share Post",
+          "description": "Share a post on LinkedIn."
+        },
+        {
+          "id": "linkedin_list_connections",
+          "name": "List Connections",
+          "description": "List the user's connections."
+        },
+        {
+          "id": "linkedin_send_message",
+          "name": "Send Message",
+          "description": "Send a message to a connection."
+        },
+        {
+          "id": "linkedin_get_company",
+          "name": "Get Company",
+          "description": "Get company page details."
+        },
+        {
+          "id": "linkedin_list_company_updates",
+          "name": "List Company Updates",
+          "description": "List updates from a company page."
+        },
+        {
+          "id": "linkedin_post_company_update",
+          "name": "Post Company Update",
+          "description": "Post an update to a company page."
+        },
+        {
+          "id": "linkedin_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get post and page analytics."
+        },
+        {
+          "id": "linkedin_search_people",
+          "name": "Search People",
+          "description": "Search for people on LinkedIn."
+        }
+      ]
+    },
+    {
+      "id": "google_ads",
+      "name": "Google Ads",
+      "slug": "google-ads",
+      "icon": "📊",
+      "category_id": "advertising",
+      "display_order": 110,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Search & display advertising — campaigns, ad groups, keywords, metrics.",
+      "description_long": "Connect Google Ads to 0nMCP to manage your search and display campaigns. Create and update campaigns, manage ad groups and ads, track performance metrics, add keywords, set budgets, and view conversion data — all via the Google Ads API.",
+      "sxo_keywords": [
+        "google ads automation",
+        "google ads integration",
+        "ppc automation",
+        "search advertising automation"
+      ],
+      "tool_count": 13,
+      "tools": [
+        {
+          "id": "google_ads_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all ad campaigns."
+        },
+        {
+          "id": "google_ads_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new ad campaign."
+        },
+        {
+          "id": "google_ads_update_campaign",
+          "name": "Update Campaign",
+          "description": "Update an existing campaign."
+        },
+        {
+          "id": "google_ads_pause_campaign",
+          "name": "Pause Campaign",
+          "description": "Pause a running campaign."
+        },
+        {
+          "id": "google_ads_list_ad_groups",
+          "name": "List Ad Groups",
+          "description": "List ad groups in a campaign."
+        },
+        {
+          "id": "google_ads_create_ad_group",
+          "name": "Create Ad Group",
+          "description": "Create a new ad group."
+        },
+        {
+          "id": "google_ads_list_ads",
+          "name": "List Ads",
+          "description": "List ads in an ad group."
+        },
+        {
+          "id": "google_ads_create_ad",
+          "name": "Create Ad",
+          "description": "Create a new ad."
+        },
+        {
+          "id": "google_ads_get_campaign_metrics",
+          "name": "Get Campaign Metrics",
+          "description": "Get performance metrics for a campaign."
+        },
+        {
+          "id": "google_ads_list_keywords",
+          "name": "List Keywords",
+          "description": "List keywords in an ad group."
+        },
+        {
+          "id": "google_ads_add_keywords",
+          "name": "Add Keywords",
+          "description": "Add keywords to an ad group."
+        },
+        {
+          "id": "google_ads_set_budget",
+          "name": "Set Budget",
+          "description": "Set or update the campaign budget."
+        },
+        {
+          "id": "google_ads_get_conversion_data",
+          "name": "Get Conversion Data",
+          "description": "Get conversion tracking data."
+        }
+      ]
+    },
+    {
+      "id": "facebook_ads",
+      "name": "Facebook Ads",
+      "slug": "facebook-ads",
+      "icon": "📘",
+      "category_id": "advertising",
+      "display_order": 111,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Social media advertising — campaigns, ad sets, audiences, insights.",
+      "description_long": "Connect Facebook Ads to 0nMCP to manage your social advertising. Create and update campaigns, configure ad sets, build custom audiences, view performance insights, estimate reach, and control budgets — all via the Meta Marketing API.",
+      "sxo_keywords": [
+        "facebook ads automation",
+        "facebook ads integration",
+        "meta ads automation",
+        "social advertising automation"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "facebook_ads_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all ad campaigns."
+        },
+        {
+          "id": "facebook_ads_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new ad campaign."
+        },
+        {
+          "id": "facebook_ads_update_campaign",
+          "name": "Update Campaign",
+          "description": "Update an existing campaign."
+        },
+        {
+          "id": "facebook_ads_list_adsets",
+          "name": "List Ad Sets",
+          "description": "List ad sets in a campaign."
+        },
+        {
+          "id": "facebook_ads_create_adset",
+          "name": "Create Ad Set",
+          "description": "Create a new ad set."
+        },
+        {
+          "id": "facebook_ads_list_ads",
+          "name": "List Ads",
+          "description": "List ads in an ad set."
+        },
+        {
+          "id": "facebook_ads_create_ad",
+          "name": "Create Ad",
+          "description": "Create a new ad."
+        },
+        {
+          "id": "facebook_ads_get_insights",
+          "name": "Get Insights",
+          "description": "Get performance insights for a campaign or ad."
+        },
+        {
+          "id": "facebook_ads_list_audiences",
+          "name": "List Audiences",
+          "description": "List custom audiences."
+        },
+        {
+          "id": "facebook_ads_create_audience",
+          "name": "Create Audience",
+          "description": "Create a custom audience."
+        },
+        {
+          "id": "facebook_ads_get_reach_estimate",
+          "name": "Get Reach Estimate",
+          "description": "Estimate the reach for targeting criteria."
+        },
+        {
+          "id": "facebook_ads_set_budget",
+          "name": "Set Budget",
+          "description": "Set or update a campaign budget."
+        }
+      ]
+    },
+    {
+      "id": "tiktok_ads",
+      "name": "TikTok Ads",
+      "slug": "tiktok-ads",
+      "icon": "🎵",
+      "category_id": "advertising",
+      "display_order": 112,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "access_token",
+      "description_short": "TikTok advertising — campaigns, ad groups, creatives, audiences.",
+      "description_long": "Connect TikTok Ads to 0nMCP to manage your TikTok advertising campaigns. Create and update campaigns, configure ad groups, manage ads and creative assets, view performance reports, and build audiences — all via the TikTok Marketing API.",
+      "sxo_keywords": [
+        "tiktok ads automation",
+        "tiktok advertising",
+        "tiktok ads integration",
+        "short video advertising"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "tiktok_ads_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all ad campaigns."
+        },
+        {
+          "id": "tiktok_ads_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new ad campaign."
+        },
+        {
+          "id": "tiktok_ads_update_campaign",
+          "name": "Update Campaign",
+          "description": "Update an existing campaign."
+        },
+        {
+          "id": "tiktok_ads_list_ad_groups",
+          "name": "List Ad Groups",
+          "description": "List ad groups in a campaign."
+        },
+        {
+          "id": "tiktok_ads_create_ad_group",
+          "name": "Create Ad Group",
+          "description": "Create a new ad group."
+        },
+        {
+          "id": "tiktok_ads_list_ads",
+          "name": "List Ads",
+          "description": "List ads in an ad group."
+        },
+        {
+          "id": "tiktok_ads_create_ad",
+          "name": "Create Ad",
+          "description": "Create a new ad."
+        },
+        {
+          "id": "tiktok_ads_get_report",
+          "name": "Get Report",
+          "description": "Get performance report data."
+        },
+        {
+          "id": "tiktok_ads_list_audiences",
+          "name": "List Audiences",
+          "description": "List custom audiences."
+        },
+        {
+          "id": "tiktok_ads_create_audience",
+          "name": "Create Audience",
+          "description": "Create a custom audience."
+        },
+        {
+          "id": "tiktok_ads_get_creative_assets",
+          "name": "Get Creative Assets",
+          "description": "List available creative assets."
+        },
+        {
+          "id": "tiktok_ads_upload_creative",
+          "name": "Upload Creative",
+          "description": "Upload a new creative asset."
+        }
+      ]
+    },
+    {
+      "id": "twitter_ads",
+      "name": "X Ads (Twitter Ads)",
+      "slug": "x-ads",
+      "icon": "🐦",
+      "category_id": "advertising",
+      "display_order": 113,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "X/Twitter advertising — campaigns, line items, promoted tweets, analytics.",
+      "description_long": "Connect X Ads (Twitter Ads) to 0nMCP to manage your X advertising campaigns. Create and update campaigns, configure line items, promote tweets, view analytics, and build tailored audiences — all via the X Ads API.",
+      "sxo_keywords": [
+        "twitter ads automation",
+        "x ads automation",
+        "twitter advertising",
+        "x ads integration"
+      ],
+      "tool_count": 10,
+      "tools": [
+        {
+          "id": "twitter_ads_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all ad campaigns."
+        },
+        {
+          "id": "twitter_ads_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new ad campaign."
+        },
+        {
+          "id": "twitter_ads_update_campaign",
+          "name": "Update Campaign",
+          "description": "Update an existing campaign."
+        },
+        {
+          "id": "twitter_ads_list_line_items",
+          "name": "List Line Items",
+          "description": "List line items in a campaign."
+        },
+        {
+          "id": "twitter_ads_create_line_item",
+          "name": "Create Line Item",
+          "description": "Create a new line item."
+        },
+        {
+          "id": "twitter_ads_list_promoted_tweets",
+          "name": "List Promoted Tweets",
+          "description": "List promoted tweets."
+        },
+        {
+          "id": "twitter_ads_create_promoted_tweet",
+          "name": "Create Promoted Tweet",
+          "description": "Promote a tweet."
+        },
+        {
+          "id": "twitter_ads_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get campaign performance analytics."
+        },
+        {
+          "id": "twitter_ads_list_audiences",
+          "name": "List Audiences",
+          "description": "List tailored audiences."
+        },
+        {
+          "id": "twitter_ads_create_audience",
+          "name": "Create Audience",
+          "description": "Create a tailored audience."
+        }
+      ]
+    },
+    {
+      "id": "linkedin_ads",
+      "name": "LinkedIn Ads",
+      "slug": "linkedin-ads",
+      "icon": "💼",
+      "category_id": "advertising",
+      "display_order": 114,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Professional advertising — campaigns, creatives, audiences, analytics.",
+      "description_long": "Connect LinkedIn Ads to 0nMCP to manage your professional advertising. Create and update campaigns, manage campaign groups and creatives, view analytics, build targeting audiences, and control budgets — all via the LinkedIn Marketing API.",
+      "sxo_keywords": [
+        "linkedin ads automation",
+        "linkedin advertising",
+        "linkedin ads integration",
+        "b2b advertising automation"
+      ],
+      "tool_count": 11,
+      "tools": [
+        {
+          "id": "linkedin_ads_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all ad campaigns."
+        },
+        {
+          "id": "linkedin_ads_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new ad campaign."
+        },
+        {
+          "id": "linkedin_ads_update_campaign",
+          "name": "Update Campaign",
+          "description": "Update an existing campaign."
+        },
+        {
+          "id": "linkedin_ads_list_campaign_groups",
+          "name": "List Campaign Groups",
+          "description": "List campaign groups."
+        },
+        {
+          "id": "linkedin_ads_list_creatives",
+          "name": "List Creatives",
+          "description": "List ad creatives."
+        },
+        {
+          "id": "linkedin_ads_create_creative",
+          "name": "Create Creative",
+          "description": "Create a new ad creative."
+        },
+        {
+          "id": "linkedin_ads_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get campaign performance analytics."
+        },
+        {
+          "id": "linkedin_ads_list_audiences",
+          "name": "List Audiences",
+          "description": "List matched audiences."
+        },
+        {
+          "id": "linkedin_ads_create_audience",
+          "name": "Create Audience",
+          "description": "Create a matched audience."
+        },
+        {
+          "id": "linkedin_ads_get_budget",
+          "name": "Get Budget",
+          "description": "Get the campaign budget."
+        },
+        {
+          "id": "linkedin_ads_set_budget",
+          "name": "Set Budget",
+          "description": "Set or update the campaign budget."
+        }
+      ]
+    },
+    {
+      "id": "instagram_ads",
+      "name": "Instagram Ads",
+      "slug": "instagram-ads",
+      "icon": "📸",
+      "category_id": "advertising",
+      "display_order": 115,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Instagram advertising via Meta — campaigns, ad sets, audiences, previews.",
+      "description_long": "Connect Instagram Ads to 0nMCP to manage your Instagram advertising. Create campaigns, configure ad sets, build custom audiences, preview ads, estimate reach, and view performance insights — all via the Meta Marketing API.",
+      "sxo_keywords": [
+        "instagram ads automation",
+        "instagram advertising",
+        "instagram ads integration",
+        "visual advertising automation"
+      ],
+      "tool_count": 11,
+      "tools": [
+        {
+          "id": "instagram_ads_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all ad campaigns."
+        },
+        {
+          "id": "instagram_ads_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new ad campaign."
+        },
+        {
+          "id": "instagram_ads_list_adsets",
+          "name": "List Ad Sets",
+          "description": "List ad sets in a campaign."
+        },
+        {
+          "id": "instagram_ads_create_adset",
+          "name": "Create Ad Set",
+          "description": "Create a new ad set."
+        },
+        {
+          "id": "instagram_ads_list_ads",
+          "name": "List Ads",
+          "description": "List ads in an ad set."
+        },
+        {
+          "id": "instagram_ads_create_ad",
+          "name": "Create Ad",
+          "description": "Create a new ad."
+        },
+        {
+          "id": "instagram_ads_get_insights",
+          "name": "Get Insights",
+          "description": "Get performance insights for campaigns or ads."
+        },
+        {
+          "id": "instagram_ads_list_audiences",
+          "name": "List Audiences",
+          "description": "List custom audiences."
+        },
+        {
+          "id": "instagram_ads_create_audience",
+          "name": "Create Audience",
+          "description": "Create a custom audience."
+        },
+        {
+          "id": "instagram_ads_preview_ad",
+          "name": "Preview Ad",
+          "description": "Preview an ad before publishing."
+        },
+        {
+          "id": "instagram_ads_get_reach_estimate",
+          "name": "Get Reach Estimate",
+          "description": "Estimate the reach for targeting criteria."
+        }
+      ]
+    },
+    {
+      "id": "plaid",
+      "name": "Plaid",
+      "slug": "plaid",
+      "icon": "🏦",
+      "category_id": "finance",
+      "display_order": 140,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Financial data connectivity — accounts, transactions, balances, identity.",
+      "description_long": "Connect Plaid to 0nMCP for financial data connectivity. Create link tokens, exchange public tokens, retrieve accounts and transactions, check balances, verify identity, get investment data, initiate payments, and search institutions — all via the Plaid API.",
+      "sxo_keywords": [
+        "plaid automation",
+        "plaid integration",
+        "financial data automation",
+        "banking api automation"
+      ],
+      "tool_count": 11,
+      "tools": [
+        {
+          "id": "plaid_create_link_token",
+          "name": "Create Link Token",
+          "description": "Create a link token to initialize Plaid Link."
+        },
+        {
+          "id": "plaid_exchange_public_token",
+          "name": "Exchange Public Token",
+          "description": "Exchange a public token for an access token."
+        },
+        {
+          "id": "plaid_get_accounts",
+          "name": "Get Accounts",
+          "description": "Get linked bank accounts."
+        },
+        {
+          "id": "plaid_get_transactions",
+          "name": "Get Transactions",
+          "description": "Get recent transactions."
+        },
+        {
+          "id": "plaid_get_balance",
+          "name": "Get Balance",
+          "description": "Get current account balances."
+        },
+        {
+          "id": "plaid_get_identity",
+          "name": "Get Identity",
+          "description": "Get account holder identity info."
+        },
+        {
+          "id": "plaid_get_investments",
+          "name": "Get Investments",
+          "description": "Get investment holdings and transactions."
+        },
+        {
+          "id": "plaid_create_payment",
+          "name": "Create Payment",
+          "description": "Initiate a payment."
+        },
+        {
+          "id": "plaid_get_institutions",
+          "name": "Get Institutions",
+          "description": "List supported financial institutions."
+        },
+        {
+          "id": "plaid_search_institutions",
+          "name": "Search Institutions",
+          "description": "Search for financial institutions."
+        },
+        {
+          "id": "plaid_get_income",
+          "name": "Get Income",
+          "description": "Get income data for verification."
+        }
+      ]
+    },
+    {
+      "id": "square",
+      "name": "Square",
+      "slug": "square",
+      "icon": "⬛",
+      "category_id": "payments",
+      "display_order": 42,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "access_token",
+      "description_short": "Payment processing & POS — payments, customers, invoices, orders, catalog.",
+      "description_long": "Connect Square to 0nMCP to process payments, manage customers, create invoices and orders, maintain your product catalog, and manage locations — all via the Square API.",
+      "sxo_keywords": [
+        "square automation",
+        "square integration",
+        "pos automation",
+        "square payment automation"
+      ],
+      "tool_count": 13,
+      "tools": [
+        {
+          "id": "square_create_payment",
+          "name": "Create Payment",
+          "description": "Process a new payment."
+        },
+        {
+          "id": "square_list_payments",
+          "name": "List Payments",
+          "description": "List recent payments."
+        },
+        {
+          "id": "square_get_payment",
+          "name": "Get Payment",
+          "description": "Get payment details by ID."
+        },
+        {
+          "id": "square_refund_payment",
+          "name": "Refund Payment",
+          "description": "Refund a payment."
+        },
+        {
+          "id": "square_create_customer",
+          "name": "Create Customer",
+          "description": "Create a new customer."
+        },
+        {
+          "id": "square_list_customers",
+          "name": "List Customers",
+          "description": "List all customers."
+        },
+        {
+          "id": "square_list_invoices",
+          "name": "List Invoices",
+          "description": "List all invoices."
+        },
+        {
+          "id": "square_create_invoice",
+          "name": "Create Invoice",
+          "description": "Create a new invoice."
+        },
+        {
+          "id": "square_list_orders",
+          "name": "List Orders",
+          "description": "List recent orders."
+        },
+        {
+          "id": "square_create_order",
+          "name": "Create Order",
+          "description": "Create a new order."
+        },
+        {
+          "id": "square_list_catalog",
+          "name": "List Catalog",
+          "description": "List catalog items."
+        },
+        {
+          "id": "square_create_catalog_item",
+          "name": "Create Catalog Item",
+          "description": "Create a new catalog item."
+        },
+        {
+          "id": "square_list_locations",
+          "name": "List Locations",
+          "description": "List all business locations."
+        }
+      ]
+    },
+    {
+      "id": "smartlead",
+      "name": "Smartlead",
+      "slug": "smartlead",
+      "icon": "🎯",
+      "category_id": "cold_email",
+      "display_order": 160,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "AI cold email outreach — campaigns, leads, email accounts, sequences.",
+      "description_long": "Connect Smartlead to 0nMCP for AI-powered cold email outreach. Create and manage campaigns, add and track leads, connect email accounts, monitor campaign stats, manage sequences, and control campaign status — all via the Smartlead API.",
+      "sxo_keywords": [
+        "smartlead automation",
+        "cold email automation",
+        "smartlead integration",
+        "outbound email automation"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "smartlead_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new outreach campaign."
+        },
+        {
+          "id": "smartlead_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all campaigns."
+        },
+        {
+          "id": "smartlead_get_campaign",
+          "name": "Get Campaign",
+          "description": "Get campaign details by ID."
+        },
+        {
+          "id": "smartlead_add_leads",
+          "name": "Add Leads",
+          "description": "Add leads to a campaign."
+        },
+        {
+          "id": "smartlead_list_leads",
+          "name": "List Leads",
+          "description": "List leads in a campaign."
+        },
+        {
+          "id": "smartlead_get_lead",
+          "name": "Get Lead",
+          "description": "Get lead details by ID."
+        },
+        {
+          "id": "smartlead_update_lead_status",
+          "name": "Update Lead Status",
+          "description": "Update the status of a lead."
+        },
+        {
+          "id": "smartlead_get_campaign_stats",
+          "name": "Get Campaign Stats",
+          "description": "Get campaign performance statistics."
+        },
+        {
+          "id": "smartlead_list_email_accounts",
+          "name": "List Email Accounts",
+          "description": "List connected email accounts."
+        },
+        {
+          "id": "smartlead_add_email_account",
+          "name": "Add Email Account",
+          "description": "Connect a new email account."
+        },
+        {
+          "id": "smartlead_get_sequences",
+          "name": "Get Sequences",
+          "description": "Get email sequences for a campaign."
+        },
+        {
+          "id": "smartlead_pause_campaign",
+          "name": "Pause Campaign",
+          "description": "Pause a running campaign."
+        }
+      ]
+    },
+    {
+      "id": "zapier",
+      "name": "Zapier",
+      "slug": "zapier",
+      "icon": "⚡",
+      "category_id": "automation",
+      "display_order": 170,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Automation platform — webhooks, zaps, connections, execution logs.",
+      "description_long": "Connect Zapier to 0nMCP to bridge into the Zapier ecosystem. Trigger webhooks, list and manage zaps, enable or disable automations, view connections, and access execution logs — extending your 0nMCP workflows with thousands of Zapier integrations.",
+      "sxo_keywords": [
+        "zapier automation",
+        "zapier integration",
+        "zapier webhook",
+        "automation platform integration"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "zapier_trigger_webhook",
+          "name": "Trigger Webhook",
+          "description": "Trigger a Zapier webhook."
+        },
+        {
+          "id": "zapier_list_zaps",
+          "name": "List Zaps",
+          "description": "List all zaps in the account."
+        },
+        {
+          "id": "zapier_get_zap",
+          "name": "Get Zap",
+          "description": "Get zap details by ID."
+        },
+        {
+          "id": "zapier_enable_zap",
+          "name": "Enable Zap",
+          "description": "Enable (turn on) a zap."
+        },
+        {
+          "id": "zapier_disable_zap",
+          "name": "Disable Zap",
+          "description": "Disable (turn off) a zap."
+        },
+        {
+          "id": "zapier_list_connections",
+          "name": "List Connections",
+          "description": "List all connected app accounts."
+        },
+        {
+          "id": "zapier_create_zap",
+          "name": "Create Zap",
+          "description": "Create a new zap."
+        },
+        {
+          "id": "zapier_get_execution_log",
+          "name": "Get Execution Log",
+          "description": "View the execution history for a zap."
+        }
+      ]
+    },
+    {
+      "id": "mulesoft",
+      "name": "MuleSoft",
+      "slug": "mulesoft",
+      "icon": "🔗",
+      "category_id": "integration",
+      "display_order": 180,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "access_token",
+      "description_short": "Enterprise integration — APIs, applications, environments, policies.",
+      "description_long": "Connect MuleSoft to 0nMCP for enterprise-grade API management and integration. List and create APIs, deploy applications, manage environments, view analytics, and apply security policies — all via the Anypoint Platform API.",
+      "sxo_keywords": [
+        "mulesoft automation",
+        "mulesoft integration",
+        "anypoint automation",
+        "enterprise integration automation"
+      ],
+      "tool_count": 10,
+      "tools": [
+        {
+          "id": "mulesoft_list_apis",
+          "name": "List APIs",
+          "description": "List all registered APIs."
+        },
+        {
+          "id": "mulesoft_get_api",
+          "name": "Get API",
+          "description": "Get API details by ID."
+        },
+        {
+          "id": "mulesoft_deploy_app",
+          "name": "Deploy App",
+          "description": "Deploy an application."
+        },
+        {
+          "id": "mulesoft_list_applications",
+          "name": "List Applications",
+          "description": "List deployed applications."
+        },
+        {
+          "id": "mulesoft_get_application",
+          "name": "Get Application",
+          "description": "Get application details."
+        },
+        {
+          "id": "mulesoft_list_environments",
+          "name": "List Environments",
+          "description": "List available environments."
+        },
+        {
+          "id": "mulesoft_create_api",
+          "name": "Create API",
+          "description": "Register a new API."
+        },
+        {
+          "id": "mulesoft_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get API usage analytics."
+        },
+        {
+          "id": "mulesoft_list_policies",
+          "name": "List Policies",
+          "description": "List security policies."
+        },
+        {
+          "id": "mulesoft_apply_policy",
+          "name": "Apply Policy",
+          "description": "Apply a security policy to an API."
+        }
+      ]
+    },
+    {
+      "id": "azure",
+      "name": "Azure",
+      "slug": "azure",
+      "icon": "🌐",
+      "category_id": "cloud",
+      "display_order": 190,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Microsoft cloud platform — subscriptions, VMs, storage, resource groups, metrics.",
+      "description_long": "Connect Azure to 0nMCP to manage your Microsoft cloud infrastructure. List subscriptions and resource groups, manage virtual machines (create, start, stop), provision storage accounts, view resources, and monitor metrics — all via the Azure Resource Manager API.",
+      "sxo_keywords": [
+        "azure automation",
+        "azure integration",
+        "cloud automation",
+        "azure vm automation"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "azure_list_subscriptions",
+          "name": "List Subscriptions",
+          "description": "List all Azure subscriptions."
+        },
+        {
+          "id": "azure_list_resource_groups",
+          "name": "List Resource Groups",
+          "description": "List resource groups in a subscription."
+        },
+        {
+          "id": "azure_create_resource_group",
+          "name": "Create Resource Group",
+          "description": "Create a new resource group."
+        },
+        {
+          "id": "azure_list_resources",
+          "name": "List Resources",
+          "description": "List resources in a resource group."
+        },
+        {
+          "id": "azure_get_resource",
+          "name": "Get Resource",
+          "description": "Get resource details by ID."
+        },
+        {
+          "id": "azure_list_vms",
+          "name": "List VMs",
+          "description": "List virtual machines."
+        },
+        {
+          "id": "azure_create_vm",
+          "name": "Create VM",
+          "description": "Create a new virtual machine."
+        },
+        {
+          "id": "azure_start_vm",
+          "name": "Start VM",
+          "description": "Start a virtual machine."
+        },
+        {
+          "id": "azure_stop_vm",
+          "name": "Stop VM",
+          "description": "Stop a virtual machine."
+        },
+        {
+          "id": "azure_list_storage_accounts",
+          "name": "List Storage Accounts",
+          "description": "List storage accounts."
+        },
+        {
+          "id": "azure_create_storage",
+          "name": "Create Storage",
+          "description": "Create a new storage account."
+        },
+        {
+          "id": "azure_get_metrics",
+          "name": "Get Metrics",
+          "description": "Get monitoring metrics for a resource."
+        }
+      ]
+    },
+    {
+      "id": "pipedrive",
+      "name": "Pipedrive",
+      "slug": "pipedrive",
+      "icon": "📈",
+      "category_id": "crm_sales",
+      "display_order": 52,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Sales CRM & pipeline — deals, contacts, organizations, activities, notes.",
+      "description_long": "Connect Pipedrive to 0nMCP to manage your sales pipeline. Create and track deals, manage contacts and organizations, view pipelines and stages, create activities, and add notes — all via the Pipedrive REST API.",
+      "sxo_keywords": [
+        "pipedrive automation",
+        "pipedrive integration",
+        "sales pipeline automation",
+        "pipedrive crm automation"
+      ],
+      "tool_count": 14,
+      "tools": [
+        {
+          "id": "pipedrive_create_deal",
+          "name": "Create Deal",
+          "description": "Create a new deal."
+        },
+        {
+          "id": "pipedrive_list_deals",
+          "name": "List Deals",
+          "description": "List all deals."
+        },
+        {
+          "id": "pipedrive_get_deal",
+          "name": "Get Deal",
+          "description": "Get deal details by ID."
+        },
+        {
+          "id": "pipedrive_update_deal",
+          "name": "Update Deal",
+          "description": "Update an existing deal."
+        },
+        {
+          "id": "pipedrive_create_person",
+          "name": "Create Person",
+          "description": "Create a new person (contact)."
+        },
+        {
+          "id": "pipedrive_list_persons",
+          "name": "List Persons",
+          "description": "List all persons."
+        },
+        {
+          "id": "pipedrive_get_person",
+          "name": "Get Person",
+          "description": "Get person details by ID."
+        },
+        {
+          "id": "pipedrive_create_organization",
+          "name": "Create Organization",
+          "description": "Create a new organization."
+        },
+        {
+          "id": "pipedrive_list_organizations",
+          "name": "List Organizations",
+          "description": "List all organizations."
+        },
+        {
+          "id": "pipedrive_list_pipelines",
+          "name": "List Pipelines",
+          "description": "List all sales pipelines."
+        },
+        {
+          "id": "pipedrive_list_stages",
+          "name": "List Stages",
+          "description": "List stages in a pipeline."
+        },
+        {
+          "id": "pipedrive_create_activity",
+          "name": "Create Activity",
+          "description": "Create a new activity."
+        },
+        {
+          "id": "pipedrive_list_activities",
+          "name": "List Activities",
+          "description": "List all activities."
+        },
+        {
+          "id": "pipedrive_add_note",
+          "name": "Add Note",
+          "description": "Add a note to a deal, person, or organization."
         }
       ]
     }

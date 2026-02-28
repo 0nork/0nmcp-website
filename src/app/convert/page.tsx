@@ -57,12 +57,12 @@ const PLATFORMS = [
 const STEPS = [
   { num: '01', title: 'Export', desc: 'Follow our free guide to extract your AI config from the source platform' },
   { num: '02', title: 'Upload', desc: 'Drop your config file into Brain Transplant — we auto-detect the format' },
-  { num: '03', title: 'Run', desc: 'Get a portable .0n workflow file — works with 0nMCP and 564 tools instantly' },
+  { num: '03', title: 'Run', desc: 'Get a portable .0n workflow file — works with 0nMCP and 819 tools instantly' },
 ]
 
 const VALUE_PROPS = [
   { title: 'Platform Independent', desc: 'Your workflows run anywhere — no vendor lock-in, ever' },
-  { title: '564 Tools Built In', desc: '26 services, 13 categories — everything connected from day one' },
+  { title: '819 Tools Built In', desc: '48 services, 21 categories — everything connected from day one' },
   { title: 'Open Standard', desc: 'The .0n format is human-readable, version-controllable, and shareable' },
   { title: 'Instant Migration', desc: 'Upload your config, get a working .0n workflow in seconds' },
 ]

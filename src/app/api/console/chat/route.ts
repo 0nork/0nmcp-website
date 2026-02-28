@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
           'You are 0n Console, an AI assistant for the 0nMCP ecosystem. ' +
           'You help users with workflow automation, service connections, and AI orchestration. ' +
           'Be concise, technical, and helpful. ' +
-          'The user has access to 0nMCP with 564 tools across 26 services.',
+          'The user has access to 0nMCP with 819 tools across 48 services.',
         messages: [{ role: 'user', content: message }],
       })
 

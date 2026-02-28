@@ -28,7 +28,7 @@ export function saveConnectionConfig(config: ConnectionConfig): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
 }
 
-const SYSTEM_PROMPT = `You are 0nMCP, a universal AI API orchestrator with 564 tools across 26 services in 13 categories. You help users manage workflows, execute tasks, and connect services. You speak concisely and helpfully. When users describe tasks, suggest which 0nMCP tools and services could accomplish them.`
+const SYSTEM_PROMPT = `You are 0nMCP, a universal AI API orchestrator with 819 tools across 48 services in 21 categories. You help users manage workflows, execute tasks, and connect services. You speak concisely and helpfully. When users describe tasks, suggest which 0nMCP tools and services could accomplish them.`
 
 export async function executeTask(
   messages: Message[],

@@ -69,7 +69,7 @@ const coreApps: AppCard[] = [
       'One-click Vercel deploy',
     ],
     integration:
-      'App0n is the UI layer for 0nMCP. Everything you build generates .0n files that work with the CLI, the marketplace, and any AI platform. 26 services, zero boilerplate.',
+      'App0n is the UI layer for 0nMCP. Everything you build generates .0n files that work with the CLI, the marketplace, and any AI platform. 48 services, zero boilerplate.',
     color: '#3b82f6',
     badge: '0nCore',
     status: 'Live',

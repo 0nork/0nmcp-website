@@ -144,7 +144,7 @@ export default function SponsorClient() {
           className="text-lg max-w-[640px] mx-auto leading-relaxed relative z-[2]"
           style={{ color: 'var(--text-secondary)' }}
         >
-          0nMCP is free and open source. 550 tools across 26 services and 13 categories.
+          0nMCP is free and open source. 819 tools across 48 services and 21 categories.
           Your sponsorship keeps it that way while funding new integrations,
           better documentation, and a growing community. Every dollar goes
           directly to development.
@@ -306,7 +306,7 @@ export default function SponsorClient() {
             {[
               {
                 title: 'New Service Integrations',
-                desc: 'Every month we add new services to the catalog. Sponsors vote on what gets built next. Currently: 26 services, 550 tools, 13 categories.',
+                desc: 'Every month we add new services to the catalog. Sponsors vote on what gets built next. Currently: 48 services, 819 tools, 21 categories.',
               },
               {
                 title: 'Documentation & Guides',

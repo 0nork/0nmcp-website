@@ -83,7 +83,7 @@ export function DashboardView({
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
           {mcpOnline
-            ? '0nMCP online \u2014 564 tools across 26 services ready.'
+            ? '0nMCP online \u2014 819 tools across 48 services ready.'
             : connectedCount > 0
               ? `${connectedCount} service${connectedCount !== 1 ? 's' : ''} connected and ready.`
               : 'Connect your first service to get started.'}
@@ -139,11 +139,11 @@ export function DashboardView({
             <div className="hidden sm:flex items-center gap-4 text-xs" style={{ color: 'var(--text-secondary)' }}>
               <div className="flex items-center gap-1.5">
                 <Zap size={12} style={{ color: 'var(--accent)' }} />
-                <span>564 Tools</span>
+                <span>819 Tools</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Server size={12} style={{ color: 'var(--accent-secondary)' }} />
-                <span>26 Services</span>
+                <span>48 Services</span>
               </div>
             </div>
           )}
@@ -368,7 +368,7 @@ export function DashboardView({
             Get Started with 0nMCP
           </h3>
           <p className="text-sm mb-4 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            Connect your first service to unlock AI-powered automations across 26 platforms.
+            Connect your first service to unlock AI-powered automations across 48 platforms.
           </p>
           <span
             className="inline-flex items-center gap-2 text-sm font-medium"

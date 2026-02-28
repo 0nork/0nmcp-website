@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 const PAIN_POINTS = [
   { title: 'Vendor Lock-in', desc: 'Your GPT configs, prompts, and actions are trapped inside OpenAI. If they change pricing, deprecate models, or limit API access — you lose everything.' },
   { title: 'No Portability', desc: 'Custom GPTs can\'t run outside ChatGPT. Your carefully crafted assistants are stuck in one ecosystem with no export button.' },
-  { title: 'Limited Integrations', desc: 'OpenAI Actions connect to a handful of services. 0nMCP gives you 564 tools across 26 services — instantly.' },
+  { title: 'Limited Integrations', desc: 'OpenAI Actions connect to a handful of services. 0nMCP gives you 819 tools across 48 services — instantly.' },
   { title: 'Pricing Uncertainty', desc: 'API costs fluctuate. Token pricing changes quarterly. With .0n, you own the workflow and choose your execution platform.' },
 ]
 
@@ -45,7 +45,7 @@ const EXPORT_STEPS = [
 ]
 
 const COMPARISON = [
-  { feature: 'Tool Count', openai: '~20 built-in tools', on: '564 tools across 26 services' },
+  { feature: 'Tool Count', openai: '~20 built-in tools', on: '819 tools across 48 services' },
   { feature: 'Portability', openai: 'Locked to ChatGPT / API', on: 'Runs anywhere (any AI client)' },
   { feature: 'Format', openai: 'Proprietary JSON', on: 'Open .0n Standard' },
   { feature: 'Pricing', openai: 'Per-token, per-API-call', on: 'Free core, $0.10/execution' },
@@ -114,7 +114,7 @@ export default function ConvertOpenAI() {
             Convert <span style={{ color: '#10a37f' }}>OpenAI</span> to <span className="glow-text" style={{ color: 'var(--accent)' }}>.0n</span>
           </h1>
           <p className="text-xl mb-10 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            Export your Custom GPTs, Assistants, and Actions. Convert them to portable .0n workflows. Run anywhere with 564 tools.
+            Export your Custom GPTs, Assistants, and Actions. Convert them to portable .0n workflows. Run anywhere with 819 tools.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">
@@ -265,7 +265,7 @@ export default function ConvertOpenAI() {
             Free Your <span style={{ color: '#10a37f' }}>GPTs</span>
           </h2>
           <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-            Convert your OpenAI workflows to .0n in seconds. No lock-in. No limits. 564 tools ready to go.
+            Convert your OpenAI workflows to .0n in seconds. No lock-in. No limits. 819 tools ready to go.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">

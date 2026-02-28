@@ -9,7 +9,7 @@ import {
 } from '@/lib/pwa-api'
 
 export default function ConnectionSettings() {
-  const [mode, setMode] = useState<ConnectionMode>('anthropic')
+  const [mode, setMode] = useState<ConnectionMode>('server')
   const [apiKey, setApiKey] = useState('')
   const [serverUrl, setServerUrl] = useState('http://localhost:3939')
   const [status, setStatus] = useState<{ ok: boolean; message: string } | null>(null)
@@ -54,10 +54,16 @@ export default function ConnectionSettings() {
         <label>Execution Mode</label>
         <div className="settings-radio-group">
           <button
+            className={`settings-radio ${mode === 'server' ? 'active' : ''}`}
+            onClick={() => handleModeChange('server')}
+          >
+            0nMCP Server
+          </button>
+          <button
             className={`settings-radio ${mode === 'anthropic' ? 'active' : ''}`}
             onClick={() => handleModeChange('anthropic')}
           >
-            Anthropic API
+            Own API Key
           </button>
           <button
             className={`settings-radio ${mode === 'local' ? 'active' : ''}`}
@@ -67,6 +73,14 @@ export default function ConnectionSettings() {
           </button>
         </div>
       </div>
+
+      {mode === 'server' && (
+        <div className="settings-group">
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 8px' }}>
+            Uses 0nMCP&apos;s hosted AI — no API key needed.
+          </p>
+        </div>
+      )}
 
       {mode === 'anthropic' && (
         <div className="settings-group">

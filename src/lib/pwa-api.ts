@@ -1,4 +1,4 @@
-export type ConnectionMode = 'anthropic' | 'local'
+export type ConnectionMode = 'server' | 'anthropic' | 'local'
 
 export interface ConnectionConfig {
   mode: ConnectionMode
@@ -14,13 +14,18 @@ export interface Message {
 const STORAGE_KEY = '0nmcp-connection'
 
 export function getConnectionConfig(): ConnectionConfig {
-  if (typeof window === 'undefined') return { mode: 'anthropic' }
+  if (typeof window === 'undefined') return { mode: 'server' }
   const stored = localStorage.getItem(STORAGE_KEY)
-  if (!stored) return { mode: 'anthropic' }
+  if (!stored) return { mode: 'server' }
   try {
-    return JSON.parse(stored)
+    const parsed = JSON.parse(stored)
+    // Migrate old configs that defaulted to 'anthropic' with no key
+    if (parsed.mode === 'anthropic' && !parsed.anthropicApiKey) {
+      return { ...parsed, mode: 'server' }
+    }
+    return parsed
   } catch {
-    return { mode: 'anthropic' }
+    return { mode: 'server' }
   }
 }
 
@@ -41,7 +46,62 @@ export async function executeTask(
     return executeLocal(config, messages, onChunk, signal)
   }
 
-  return executeAnthropic(config, messages, onChunk, signal)
+  if (config.mode === 'anthropic' && config.anthropicApiKey) {
+    return executeAnthropic(config, messages, onChunk, signal)
+  }
+
+  // Default: server-side proxy (no API key needed)
+  return executeServer(messages, onChunk, signal)
+}
+
+async function executeServer(
+  messages: Message[],
+  onChunk: (text: string) => void,
+  signal?: AbortSignal
+): Promise<void> {
+  const response = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: messages.map((m) => ({ role: m.role, content: m.content })),
+    }),
+    signal,
+  })
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: `HTTP ${response.status}` }))
+    throw new Error(err.error || `Server error: ${response.status}`)
+  }
+
+  const reader = response.body?.getReader()
+  if (!reader) throw new Error('No response stream')
+
+  const decoder = new TextDecoder()
+  let buffer = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split('\n')
+    buffer = lines.pop() || ''
+
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue
+      const data = line.slice(6)
+      if (data === '[DONE]') return
+
+      try {
+        const event = JSON.parse(data)
+        if (event.type === 'content_block_delta' && event.delta?.text) {
+          onChunk(event.delta.text)
+        }
+      } catch {
+        // Skip malformed JSON
+      }
+    }
+  }
 }
 
 async function executeAnthropic(
@@ -135,6 +195,23 @@ async function executeLocal(
 
 export async function healthCheck(): Promise<{ ok: boolean; message: string }> {
   const config = getConnectionConfig()
+
+  if (config.mode === 'server') {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: 'ping' }],
+        }),
+      })
+      return response.ok
+        ? { ok: true, message: 'Connected to 0nMCP server' }
+        : { ok: false, message: `Server returned ${response.status}` }
+    } catch (err) {
+      return { ok: false, message: `Connection failed: ${err instanceof Error ? err.message : 'Unknown error'}` }
+    }
+  }
 
   if (config.mode === 'anthropic') {
     if (!config.anthropicApiKey) {

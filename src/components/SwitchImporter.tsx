@@ -69,13 +69,52 @@ export default function SwitchImporter({ userId, onImportComplete }: SwitchImpor
     try {
       const parsed = JSON.parse(text)
 
-      if (!parsed.$0n || !parsed.$0n.type || !parsed.$0n.name) {
-        setError('Invalid .0n file: missing $0n header with type and name fields.')
+      // Standard .0n format with $0n header
+      if (parsed.$0n && parsed.$0n.type && parsed.$0n.name) {
+        setSwitchData(parsed as SwitchData)
+        setRawJson(JSON.stringify(parsed, null, 2))
         return
       }
 
-      setSwitchData(parsed as SwitchData)
-      setRawJson(JSON.stringify(parsed, null, 2))
+      // Auto-detect: file has connections/workflows/products → wrap as switch
+      const hasConnections = parsed.connections || parsed.services
+      const hasWorkflows = parsed.workflows || parsed.steps || parsed.actions
+      const hasProducts = parsed.products
+      const hasName = parsed.name || parsed.title
+
+      if (hasConnections || hasWorkflows || hasProducts) {
+        const wrapped: SwitchData = {
+          $0n: {
+            type: parsed.$0n?.type || (hasWorkflows ? 'workflow' : 'switch'),
+            name: parsed.$0n?.name || parsed.name || parsed.title || name.replace(/\.(0n|json)$/gi, ''),
+            version: parsed.$0n?.version || parsed.version || '1.0.0',
+            description: parsed.$0n?.description || parsed.description,
+          },
+          identity: parsed.identity,
+          connections: typeof parsed.connections === 'object' ? parsed.connections : undefined,
+          products: parsed.products,
+          workflows: parsed.workflows || parsed.steps,
+        }
+        setSwitchData(wrapped)
+        setRawJson(JSON.stringify(parsed, null, 2))
+        return
+      }
+
+      // Has a $0n header but missing type or name — fill in defaults
+      if (parsed.$0n) {
+        const patched = { ...parsed }
+        patched.$0n = {
+          ...patched.$0n,
+          type: patched.$0n.type || 'unknown',
+          name: patched.$0n.name || hasName || name.replace(/\.(0n|json)$/gi, ''),
+          version: patched.$0n.version || '1.0.0',
+        }
+        setSwitchData(patched as SwitchData)
+        setRawJson(JSON.stringify(parsed, null, 2))
+        return
+      }
+
+      setError('Could not detect .0n format. File should have a "$0n" header or contain connections/workflows/products.')
     } catch {
       setError('Failed to parse file. Ensure it is valid JSON.')
     }

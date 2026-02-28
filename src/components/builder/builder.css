@@ -308,6 +308,23 @@
   background-color: var(--accent) !important;
 }
 
+/* Side handles (left/right) — smaller, centered */
+.builder-canvas-area .react-flow__handle[data-handlepos="left"],
+.builder-canvas-area .react-flow__handle[data-handlepos="right"] {
+  width: 8px !important;
+  height: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+.builder-canvas-area .react-flow__handle[data-handlepos="left"] {
+  left: -4px !important;
+}
+
+.builder-canvas-area .react-flow__handle[data-handlepos="right"] {
+  right: -4px !important;
+}
+
 /* ---- Custom Step Node ---- */
 
 .step-node {
@@ -403,6 +420,43 @@
 .step-node-badge.parallel {
   background-color: rgba(255, 200, 0, 0.15);
   color: #ffc800;
+}
+
+/* ---- CRM Node Variant ---- */
+
+.step-node.crm-node {
+  border-color: color-mix(in srgb, var(--crm-accent, #ff6b35) 40%, transparent);
+}
+
+.step-node.crm-node:hover {
+  border-color: var(--crm-accent, #ff6b35);
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--crm-accent, #ff6b35) 15%, transparent);
+}
+
+.step-node.crm-node.selected {
+  border-color: var(--crm-accent, #ff6b35);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--crm-accent, #ff6b35) 30%, transparent),
+              0 0 40px color-mix(in srgb, var(--crm-accent, #ff6b35) 8%, transparent);
+}
+
+.step-node.crm-node .step-node-header {
+  background-color: color-mix(in srgb, var(--crm-accent, #ff6b35) 8%, var(--bg-tertiary));
+  border-bottom-color: color-mix(in srgb, var(--crm-accent, #ff6b35) 20%, var(--border));
+}
+
+.step-node.crm-node .step-node-tool {
+  color: var(--crm-accent, #ff6b35);
+}
+
+.step-node-crm-module {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 /* ---- Config Panel (Right Sidebar) ---- */

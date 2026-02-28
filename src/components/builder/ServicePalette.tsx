@@ -31,7 +31,7 @@ const SERVICE_LOGOS: Record<string, string> = {
   supabase: 'https://cdn.simpleicons.org/supabase/3FCF8E',
   calendly: 'https://cdn.simpleicons.org/calendly/006BFF',
   microsoft: 'https://cdn.simpleicons.org/microsoft/white',
-  crm: '',
+  crm: 'https://cdn.simpleicons.org/rocket/ff6b35',
 }
 
 export default function ServicePalette() {

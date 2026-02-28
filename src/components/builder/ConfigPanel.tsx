@@ -83,6 +83,33 @@ export default function ConfigPanel() {
 
   const tools = useMemo(() => service?.tools ?? [], [service])
 
+  // Group CRM tools by module for organized dropdown
+  const isCrm = selectedNode?.data.serviceId === 'crm'
+  const crmToolGroups = useMemo(() => {
+    if (!isCrm || tools.length === 0) return null
+    const groups: Record<string, typeof tools> = {}
+    for (const t of tools) {
+      const id = t.id as string
+      let module = 'other'
+      if (id.includes('contact')) module = 'contacts'
+      else if (id.includes('calendar') || id.includes('appointment')) module = 'calendars'
+      else if (id.includes('opportunity')) module = 'opportunities'
+      else if (id.includes('conversation')) module = 'conversations'
+      else if (id.includes('invoice')) module = 'invoices'
+      else if (id.includes('transaction') || id.includes('payment')) module = 'payments'
+      else if (id.includes('product')) module = 'products'
+      else if (id.includes('location')) module = 'locations'
+      else if (id.includes('social') || id.includes('post') || id.includes('google') || id.includes('facebook')) module = 'social'
+      else if (id.includes('user')) module = 'users'
+      else if (id.includes('object') || id.includes('custom')) module = 'objects'
+      else if (id.includes('auth') || id.includes('token') || id.includes('oauth')) module = 'auth'
+      if (!groups[module]) groups[module] = []
+      groups[module].push(t)
+    }
+    const order = ['contacts', 'calendars', 'conversations', 'opportunities', 'invoices', 'payments', 'products', 'locations', 'social', 'users', 'objects', 'auth', 'other']
+    return order.filter(m => groups[m]).map(m => ({ module: m, tools: groups[m] }))
+  }, [isCrm, tools])
+
   const update = useCallback(
     (data: Partial<StepNodeData>) => {
       if (selectedNodeId) {
@@ -135,7 +162,7 @@ export default function ConfigPanel() {
         </div>
 
         <div className="builder-field">
-          <label className="builder-field-label">Tool</label>
+          <label className="builder-field-label">Tool{isCrm ? ` (${tools.length} available)` : ''}</label>
           <select
             className="builder-field-input"
             value={d.toolId}
@@ -148,11 +175,23 @@ export default function ConfigPanel() {
             }}
           >
             <option value="">Select a tool...</option>
-            {tools.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name}
-              </option>
-            ))}
+            {crmToolGroups ? (
+              crmToolGroups.map((group) => (
+                <optgroup key={group.module} label={`${group.module.toUpperCase()} (${group.tools.length})`}>
+                  {group.tools.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))
+            ) : (
+              tools.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))
+            )}
           </select>
         </div>
 

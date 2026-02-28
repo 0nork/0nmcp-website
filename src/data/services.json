@@ -93,7 +93,6 @@
     }
   ],
   "services": [
-
     {
       "id": "delay",
       "name": "Delay",
@@ -106,9 +105,62 @@
       "description_long": "Add timed delays between workflow steps. Wait a fixed duration, wait until a specific time, or add a random jitter delay for natural-feeling automation sequences.",
       "tool_count": 3,
       "tools": [
-        { "id": "delay_wait", "name": "Wait", "description": "Pause for a fixed duration (seconds, minutes, hours, days).", "parameters": [{ "name": "duration", "type": "number", "required": true }, { "name": "unit", "type": "string", "required": true }] },
-        { "id": "delay_wait_until", "name": "Wait Until", "description": "Pause until a specific date/time.", "parameters": [{ "name": "datetime", "type": "string", "required": true }, { "name": "timezone", "type": "string", "required": false }] },
-        { "id": "delay_random", "name": "Random Delay", "description": "Pause for a random duration within a range.", "parameters": [{ "name": "min", "type": "number", "required": true }, { "name": "max", "type": "number", "required": true }, { "name": "unit", "type": "string", "required": true }] }
+        {
+          "id": "delay_wait",
+          "name": "Wait",
+          "description": "Pause for a fixed duration (seconds, minutes, hours, days).",
+          "parameters": [
+            {
+              "name": "duration",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "delay_wait_until",
+          "name": "Wait Until",
+          "description": "Pause until a specific date/time.",
+          "parameters": [
+            {
+              "name": "datetime",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "timezone",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "delay_random",
+          "name": "Random Delay",
+          "description": "Pause for a random duration within a range.",
+          "parameters": [
+            {
+              "name": "min",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "max",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
       ]
     },
     {
@@ -123,10 +175,84 @@
       "description_long": "Schedule workflow execution using cron expressions, recurring intervals, one-time runs, or business-hours-only windows.",
       "tool_count": 4,
       "tools": [
-        { "id": "schedule_cron", "name": "Cron Schedule", "description": "Run on a cron schedule (e.g. '0 9 * * MON-FRI').", "parameters": [{ "name": "expression", "type": "string", "required": true }, { "name": "timezone", "type": "string", "required": false }] },
-        { "id": "schedule_interval", "name": "Recurring Interval", "description": "Run every N minutes/hours/days.", "parameters": [{ "name": "interval", "type": "number", "required": true }, { "name": "unit", "type": "string", "required": true }] },
-        { "id": "schedule_once", "name": "Run Once At", "description": "Run once at a specific date/time.", "parameters": [{ "name": "datetime", "type": "string", "required": true }, { "name": "timezone", "type": "string", "required": false }] },
-        { "id": "schedule_business_hours", "name": "Business Hours Only", "description": "Only execute during business hours.", "parameters": [{ "name": "start_hour", "type": "number", "required": true }, { "name": "end_hour", "type": "number", "required": true }, { "name": "days", "type": "string", "required": false }, { "name": "timezone", "type": "string", "required": false }] }
+        {
+          "id": "schedule_cron",
+          "name": "Cron Schedule",
+          "description": "Run on a cron schedule (e.g. '0 9 * * MON-FRI').",
+          "parameters": [
+            {
+              "name": "expression",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "timezone",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "schedule_interval",
+          "name": "Recurring Interval",
+          "description": "Run every N minutes/hours/days.",
+          "parameters": [
+            {
+              "name": "interval",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "unit",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "schedule_once",
+          "name": "Run Once At",
+          "description": "Run once at a specific date/time.",
+          "parameters": [
+            {
+              "name": "datetime",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "timezone",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "schedule_business_hours",
+          "name": "Business Hours Only",
+          "description": "Only execute during business hours.",
+          "parameters": [
+            {
+              "name": "start_hour",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "end_hour",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "days",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "timezone",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
       ]
     },
     {
@@ -141,11 +267,101 @@
       "description_long": "Route workflow execution through different paths using if/else conditions, switch/case branching, data existence checks, value comparisons, and human-in-the-loop approval gates.",
       "tool_count": 5,
       "tools": [
-        { "id": "condition_if_else", "name": "If / Else", "description": "Branch based on a true/false condition.", "parameters": [{ "name": "condition", "type": "string", "required": true }, { "name": "true_branch", "type": "string", "required": true }, { "name": "false_branch", "type": "string", "required": false }] },
-        { "id": "condition_switch", "name": "Switch / Case", "description": "Branch to one of many paths based on a value.", "parameters": [{ "name": "value", "type": "string", "required": true }, { "name": "cases", "type": "object", "required": true }, { "name": "default_branch", "type": "string", "required": false }] },
-        { "id": "condition_exists", "name": "Data Exists", "description": "Check if a value is present/non-empty.", "parameters": [{ "name": "path", "type": "string", "required": true }] },
-        { "id": "condition_compare", "name": "Compare Values", "description": "Compare two values (equals, greater, less, contains).", "parameters": [{ "name": "left", "type": "string", "required": true }, { "name": "operator", "type": "string", "required": true }, { "name": "right", "type": "string", "required": true }] },
-        { "id": "condition_gate", "name": "Gate / Approval", "description": "Pause until manual approval or a condition is met.", "parameters": [{ "name": "prompt", "type": "string", "required": true }, { "name": "timeout", "type": "number", "required": false }] }
+        {
+          "id": "condition_if_else",
+          "name": "If / Else",
+          "description": "Branch based on a true/false condition.",
+          "parameters": [
+            {
+              "name": "condition",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "true_branch",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "false_branch",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "condition_switch",
+          "name": "Switch / Case",
+          "description": "Branch to one of many paths based on a value.",
+          "parameters": [
+            {
+              "name": "value",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "cases",
+              "type": "object",
+              "required": true
+            },
+            {
+              "name": "default_branch",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "condition_exists",
+          "name": "Data Exists",
+          "description": "Check if a value is present/non-empty.",
+          "parameters": [
+            {
+              "name": "path",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "condition_compare",
+          "name": "Compare Values",
+          "description": "Compare two values (equals, greater, less, contains).",
+          "parameters": [
+            {
+              "name": "left",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "operator",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "right",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "condition_gate",
+          "name": "Gate / Approval",
+          "description": "Pause until manual approval or a condition is met.",
+          "parameters": [
+            {
+              "name": "prompt",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "timeout",
+              "type": "number",
+              "required": false
+            }
+          ]
+        }
       ]
     },
     {
@@ -160,10 +376,74 @@
       "description_long": "Process arrays item-by-item, repeat actions until a condition is met, batch items into groups, or fan out parallel executions.",
       "tool_count": 4,
       "tools": [
-        { "id": "loop_for_each", "name": "For Each", "description": "Iterate over each item in an array.", "parameters": [{ "name": "items", "type": "string", "required": true }, { "name": "step", "type": "string", "required": true }] },
-        { "id": "loop_while", "name": "While Loop", "description": "Repeat while a condition is true.", "parameters": [{ "name": "condition", "type": "string", "required": true }, { "name": "max_iterations", "type": "number", "required": false }] },
-        { "id": "loop_batch", "name": "Batch Process", "description": "Process items in batches of N.", "parameters": [{ "name": "items", "type": "string", "required": true }, { "name": "batch_size", "type": "number", "required": true }] },
-        { "id": "loop_parallel", "name": "Parallel For Each", "description": "Fan out: process all items simultaneously.", "parameters": [{ "name": "items", "type": "string", "required": true }, { "name": "concurrency", "type": "number", "required": false }] }
+        {
+          "id": "loop_for_each",
+          "name": "For Each",
+          "description": "Iterate over each item in an array.",
+          "parameters": [
+            {
+              "name": "items",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "step",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "loop_while",
+          "name": "While Loop",
+          "description": "Repeat while a condition is true.",
+          "parameters": [
+            {
+              "name": "condition",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "max_iterations",
+              "type": "number",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "loop_batch",
+          "name": "Batch Process",
+          "description": "Process items in batches of N.",
+          "parameters": [
+            {
+              "name": "items",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "batch_size",
+              "type": "number",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "loop_parallel",
+          "name": "Parallel For Each",
+          "description": "Fan out: process all items simultaneously.",
+          "parameters": [
+            {
+              "name": "items",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "concurrency",
+              "type": "number",
+              "required": false
+            }
+          ]
+        }
       ]
     },
     {
@@ -178,12 +458,93 @@
       "description_long": "Map fields between schemas, filter arrays, merge objects, extract nested values, format text with templates, and compute new values from expressions.",
       "tool_count": 6,
       "tools": [
-        { "id": "transform_map", "name": "Map Fields", "description": "Map/rename fields from one schema to another.", "parameters": [{ "name": "input", "type": "string", "required": true }, { "name": "mapping", "type": "object", "required": true }] },
-        { "id": "transform_filter", "name": "Filter Array", "description": "Keep only items matching a condition.", "parameters": [{ "name": "items", "type": "string", "required": true }, { "name": "condition", "type": "string", "required": true }] },
-        { "id": "transform_merge", "name": "Merge Objects", "description": "Deep-merge two or more objects.", "parameters": [{ "name": "objects", "type": "string", "required": true }] },
-        { "id": "transform_extract", "name": "Extract Value", "description": "Extract a value from a nested path.", "parameters": [{ "name": "source", "type": "string", "required": true }, { "name": "path", "type": "string", "required": true }] },
-        { "id": "transform_format", "name": "Format Text", "description": "Build a string from a template with variables.", "parameters": [{ "name": "template", "type": "string", "required": true }] },
-        { "id": "transform_compute", "name": "Compute", "description": "Evaluate a math or logic expression.", "parameters": [{ "name": "expression", "type": "string", "required": true }] }
+        {
+          "id": "transform_map",
+          "name": "Map Fields",
+          "description": "Map/rename fields from one schema to another.",
+          "parameters": [
+            {
+              "name": "input",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "mapping",
+              "type": "object",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "transform_filter",
+          "name": "Filter Array",
+          "description": "Keep only items matching a condition.",
+          "parameters": [
+            {
+              "name": "items",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "condition",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "transform_merge",
+          "name": "Merge Objects",
+          "description": "Deep-merge two or more objects.",
+          "parameters": [
+            {
+              "name": "objects",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "transform_extract",
+          "name": "Extract Value",
+          "description": "Extract a value from a nested path.",
+          "parameters": [
+            {
+              "name": "source",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "path",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "transform_format",
+          "name": "Format Text",
+          "description": "Build a string from a template with variables.",
+          "parameters": [
+            {
+              "name": "template",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "transform_compute",
+          "name": "Compute",
+          "description": "Evaluate a math or logic expression.",
+          "parameters": [
+            {
+              "name": "expression",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
       ]
     },
     {
@@ -198,10 +559,64 @@
       "description_long": "Trigger workflows via incoming webhooks, manual execution, event listeners from connected services, or form submissions.",
       "tool_count": 4,
       "tools": [
-        { "id": "trigger_webhook", "name": "Webhook Trigger", "description": "Start workflow when an HTTP request is received.", "parameters": [{ "name": "method", "type": "string", "required": false }, { "name": "path", "type": "string", "required": false }] },
-        { "id": "trigger_manual", "name": "Manual Trigger", "description": "Start workflow on demand (button click / API call).", "parameters": [{ "name": "label", "type": "string", "required": false }] },
-        { "id": "trigger_event", "name": "Event Listener", "description": "Start workflow when a service emits an event.", "parameters": [{ "name": "service", "type": "string", "required": true }, { "name": "event", "type": "string", "required": true }] },
-        { "id": "trigger_form", "name": "Form Submission", "description": "Start workflow when a form is submitted.", "parameters": [{ "name": "form_id", "type": "string", "required": true }] }
+        {
+          "id": "trigger_webhook",
+          "name": "Webhook Trigger",
+          "description": "Start workflow when an HTTP request is received.",
+          "parameters": [
+            {
+              "name": "method",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "path",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "trigger_manual",
+          "name": "Manual Trigger",
+          "description": "Start workflow on demand (button click / API call).",
+          "parameters": [
+            {
+              "name": "label",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "trigger_event",
+          "name": "Event Listener",
+          "description": "Start workflow when a service emits an event.",
+          "parameters": [
+            {
+              "name": "service",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "event",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "trigger_form",
+          "name": "Form Submission",
+          "description": "Start workflow when a form is submitted.",
+          "parameters": [
+            {
+              "name": "form_id",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
       ]
     },
     {
@@ -216,13 +631,81 @@
       "description_long": "Wrap steps in try/catch blocks, retry with exponential backoff, send error alerts, or stop the entire workflow on critical failures.",
       "tool_count": 4,
       "tools": [
-        { "id": "error_try_catch", "name": "Try / Catch", "description": "Wrap a step and catch failures.", "parameters": [{ "name": "step", "type": "string", "required": true }, { "name": "on_error", "type": "string", "required": true }] },
-        { "id": "error_retry", "name": "Retry with Backoff", "description": "Retry a failed step with exponential backoff.", "parameters": [{ "name": "step", "type": "string", "required": true }, { "name": "max_retries", "type": "number", "required": true }, { "name": "base_delay_ms", "type": "number", "required": false }] },
-        { "id": "error_alert", "name": "Error Alert", "description": "Send a notification when an error occurs.", "parameters": [{ "name": "channel", "type": "string", "required": true }, { "name": "message", "type": "string", "required": false }] },
-        { "id": "error_stop", "name": "Stop Workflow", "description": "Halt the entire workflow immediately.", "parameters": [{ "name": "reason", "type": "string", "required": false }, { "name": "exit_code", "type": "number", "required": false }] }
+        {
+          "id": "error_try_catch",
+          "name": "Try / Catch",
+          "description": "Wrap a step and catch failures.",
+          "parameters": [
+            {
+              "name": "step",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "on_error",
+              "type": "string",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "error_retry",
+          "name": "Retry with Backoff",
+          "description": "Retry a failed step with exponential backoff.",
+          "parameters": [
+            {
+              "name": "step",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "max_retries",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "base_delay_ms",
+              "type": "number",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "error_alert",
+          "name": "Error Alert",
+          "description": "Send a notification when an error occurs.",
+          "parameters": [
+            {
+              "name": "channel",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "message",
+              "type": "string",
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "error_stop",
+          "name": "Stop Workflow",
+          "description": "Halt the entire workflow immediately.",
+          "parameters": [
+            {
+              "name": "reason",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "exit_code",
+              "type": "number",
+              "required": false
+            }
+          ]
+        }
       ]
     },
-
     {
       "id": "gmail",
       "name": "Gmail",
@@ -235,22 +718,79 @@
       "auth_type": "oauth",
       "description_short": "Email — send, receive, labels, threads, drafts, search.",
       "description_long": "Connect Gmail to 0nMCP to send and manage email. List and search messages, manage drafts, organize with labels, view conversation threads, and get profile information.",
-      "sxo_keywords": ["gmail automation", "email automation", "gmail integration", "send email automatically"],
+      "sxo_keywords": [
+        "gmail automation",
+        "email automation",
+        "gmail integration",
+        "send email automatically"
+      ],
       "tool_count": 13,
       "tools": [
-        { "id": "gmail_list_messages", "name": "List Messages", "description": "List email messages with optional search query." },
-        { "id": "gmail_get_message", "name": "Get Message", "description": "Get a specific email message by ID." },
-        { "id": "gmail_send_message", "name": "Send Message", "description": "Send a new email message." },
-        { "id": "gmail_trash_message", "name": "Trash Message", "description": "Move a message to trash." },
-        { "id": "gmail_untrash_message", "name": "Untrash Message", "description": "Remove a message from trash." },
-        { "id": "gmail_list_threads", "name": "List Threads", "description": "List conversation threads." },
-        { "id": "gmail_get_thread", "name": "Get Thread", "description": "Get a full conversation thread." },
-        { "id": "gmail_create_draft", "name": "Create Draft", "description": "Create a new email draft." },
-        { "id": "gmail_list_drafts", "name": "List Drafts", "description": "List all draft messages." },
-        { "id": "gmail_send_draft", "name": "Send Draft", "description": "Send an existing draft." },
-        { "id": "gmail_list_labels", "name": "List Labels", "description": "List all Gmail labels." },
-        { "id": "gmail_create_label", "name": "Create Label", "description": "Create a new label for organizing email." },
-        { "id": "gmail_get_profile", "name": "Get Profile", "description": "Get the authenticated user's email profile." }
+        {
+          "id": "gmail_list_messages",
+          "name": "List Messages",
+          "description": "List email messages with optional search query."
+        },
+        {
+          "id": "gmail_get_message",
+          "name": "Get Message",
+          "description": "Get a specific email message by ID."
+        },
+        {
+          "id": "gmail_send_message",
+          "name": "Send Message",
+          "description": "Send a new email message."
+        },
+        {
+          "id": "gmail_trash_message",
+          "name": "Trash Message",
+          "description": "Move a message to trash."
+        },
+        {
+          "id": "gmail_untrash_message",
+          "name": "Untrash Message",
+          "description": "Remove a message from trash."
+        },
+        {
+          "id": "gmail_list_threads",
+          "name": "List Threads",
+          "description": "List conversation threads."
+        },
+        {
+          "id": "gmail_get_thread",
+          "name": "Get Thread",
+          "description": "Get a full conversation thread."
+        },
+        {
+          "id": "gmail_create_draft",
+          "name": "Create Draft",
+          "description": "Create a new email draft."
+        },
+        {
+          "id": "gmail_list_drafts",
+          "name": "List Drafts",
+          "description": "List all draft messages."
+        },
+        {
+          "id": "gmail_send_draft",
+          "name": "Send Draft",
+          "description": "Send an existing draft."
+        },
+        {
+          "id": "gmail_list_labels",
+          "name": "List Labels",
+          "description": "List all Gmail labels."
+        },
+        {
+          "id": "gmail_create_label",
+          "name": "Create Label",
+          "description": "Create a new label for organizing email."
+        },
+        {
+          "id": "gmail_get_profile",
+          "name": "Get Profile",
+          "description": "Get the authenticated user's email profile."
+        }
       ]
     },
     {
@@ -265,13 +805,34 @@
       "auth_type": "bot_token",
       "description_short": "Team messaging — channels, messages, notifications.",
       "description_long": "Connect Slack to 0nMCP to post messages to channels, list channels and users, and create new channels. Perfect for automated notifications, team updates, and workflow alerts.",
-      "sxo_keywords": ["slack automation", "slack bot", "slack integration", "slack message automation"],
+      "sxo_keywords": [
+        "slack automation",
+        "slack bot",
+        "slack integration",
+        "slack message automation"
+      ],
       "tool_count": 4,
       "tools": [
-        { "id": "slack_send_message", "name": "Send Message", "description": "Post a message to a Slack channel." },
-        { "id": "slack_list_channels", "name": "List Channels", "description": "List all channels in the workspace." },
-        { "id": "slack_list_users", "name": "List Users", "description": "List all users in the workspace." },
-        { "id": "slack_create_channel", "name": "Create Channel", "description": "Create a new Slack channel." }
+        {
+          "id": "slack_send_message",
+          "name": "Send Message",
+          "description": "Post a message to a Slack channel."
+        },
+        {
+          "id": "slack_list_channels",
+          "name": "List Channels",
+          "description": "List all channels in the workspace."
+        },
+        {
+          "id": "slack_list_users",
+          "name": "List Users",
+          "description": "List all users in the workspace."
+        },
+        {
+          "id": "slack_create_channel",
+          "name": "Create Channel",
+          "description": "Create a new Slack channel."
+        }
       ]
     },
     {
@@ -286,14 +847,38 @@
       "auth_type": "oauth",
       "description_short": "Calendar management — events, schedules, availability.",
       "description_long": "Connect Google Calendar to 0nMCP to create, update, and delete calendar events, list calendars, and manage your schedule programmatically.",
-      "sxo_keywords": ["google calendar automation", "calendar integration", "schedule automation"],
+      "sxo_keywords": [
+        "google calendar automation",
+        "calendar integration",
+        "schedule automation"
+      ],
       "tool_count": 5,
       "tools": [
-        { "id": "gcal_list_calendars", "name": "List Calendars", "description": "List all calendars for the authenticated user." },
-        { "id": "gcal_list_events", "name": "List Events", "description": "List events on a specific calendar." },
-        { "id": "gcal_create_event", "name": "Create Event", "description": "Create a new calendar event." },
-        { "id": "gcal_update_event", "name": "Update Event", "description": "Update an existing calendar event." },
-        { "id": "gcal_delete_event", "name": "Delete Event", "description": "Delete a calendar event." }
+        {
+          "id": "gcal_list_calendars",
+          "name": "List Calendars",
+          "description": "List all calendars for the authenticated user."
+        },
+        {
+          "id": "gcal_list_events",
+          "name": "List Events",
+          "description": "List events on a specific calendar."
+        },
+        {
+          "id": "gcal_create_event",
+          "name": "Create Event",
+          "description": "Create a new calendar event."
+        },
+        {
+          "id": "gcal_update_event",
+          "name": "Update Event",
+          "description": "Update an existing calendar event."
+        },
+        {
+          "id": "gcal_delete_event",
+          "name": "Delete Event",
+          "description": "Delete a calendar event."
+        }
       ]
     },
     {
@@ -308,17 +893,53 @@
       "auth_type": "oauth",
       "description_short": "Spreadsheets — read, write, append, create, format cells.",
       "description_long": "Connect Google Sheets to 0nMCP to create spreadsheets, read and write cell values, append rows, clear ranges, and perform batch operations.",
-      "sxo_keywords": ["google sheets automation", "spreadsheet automation", "sheets integration"],
+      "sxo_keywords": [
+        "google sheets automation",
+        "spreadsheet automation",
+        "sheets integration"
+      ],
       "tool_count": 8,
       "tools": [
-        { "id": "gsheets_create_spreadsheet", "name": "Create Spreadsheet", "description": "Create a new Google Sheets spreadsheet." },
-        { "id": "gsheets_get_spreadsheet", "name": "Get Spreadsheet", "description": "Get spreadsheet metadata." },
-        { "id": "gsheets_get_values", "name": "Get Values", "description": "Read cell values from a range." },
-        { "id": "gsheets_update_values", "name": "Update Values", "description": "Write values to a cell range." },
-        { "id": "gsheets_append_values", "name": "Append Values", "description": "Append rows to a sheet." },
-        { "id": "gsheets_clear_values", "name": "Clear Values", "description": "Clear values from a range." },
-        { "id": "gsheets_batch_get", "name": "Batch Get", "description": "Read values from multiple ranges at once." },
-        { "id": "gsheets_batch_update", "name": "Batch Update", "description": "Write values to multiple ranges at once." }
+        {
+          "id": "gsheets_create_spreadsheet",
+          "name": "Create Spreadsheet",
+          "description": "Create a new Google Sheets spreadsheet."
+        },
+        {
+          "id": "gsheets_get_spreadsheet",
+          "name": "Get Spreadsheet",
+          "description": "Get spreadsheet metadata."
+        },
+        {
+          "id": "gsheets_get_values",
+          "name": "Get Values",
+          "description": "Read cell values from a range."
+        },
+        {
+          "id": "gsheets_update_values",
+          "name": "Update Values",
+          "description": "Write values to a cell range."
+        },
+        {
+          "id": "gsheets_append_values",
+          "name": "Append Values",
+          "description": "Append rows to a sheet."
+        },
+        {
+          "id": "gsheets_clear_values",
+          "name": "Clear Values",
+          "description": "Clear values from a range."
+        },
+        {
+          "id": "gsheets_batch_get",
+          "name": "Batch Get",
+          "description": "Read values from multiple ranges at once."
+        },
+        {
+          "id": "gsheets_batch_update",
+          "name": "Batch Update",
+          "description": "Write values to multiple ranges at once."
+        }
       ]
     },
     {
@@ -333,19 +954,63 @@
       "auth_type": "oauth",
       "description_short": "Cloud storage — files, folders, sharing, search, permissions.",
       "description_long": "Connect Google Drive to 0nMCP to list, create, copy, update, and delete files. Manage sharing permissions and search across your Drive.",
-      "sxo_keywords": ["google drive automation", "drive integration", "file automation"],
+      "sxo_keywords": [
+        "google drive automation",
+        "drive integration",
+        "file automation"
+      ],
       "tool_count": 10,
       "tools": [
-        { "id": "gdrive_list_files", "name": "List Files", "description": "List files and folders in Drive." },
-        { "id": "gdrive_get_file", "name": "Get File", "description": "Get file metadata by ID." },
-        { "id": "gdrive_create_file", "name": "Create File", "description": "Create a new file or folder." },
-        { "id": "gdrive_copy_file", "name": "Copy File", "description": "Copy an existing file." },
-        { "id": "gdrive_update_file", "name": "Update File", "description": "Update file metadata (name, etc.)." },
-        { "id": "gdrive_delete_file", "name": "Delete File", "description": "Delete a file permanently." },
-        { "id": "gdrive_create_permission", "name": "Create Permission", "description": "Share a file with a user or group." },
-        { "id": "gdrive_list_permissions", "name": "List Permissions", "description": "List who has access to a file." },
-        { "id": "gdrive_delete_permission", "name": "Delete Permission", "description": "Remove access from a file." },
-        { "id": "gdrive_generate_ids", "name": "Generate IDs", "description": "Pre-generate file IDs for uploads." }
+        {
+          "id": "gdrive_list_files",
+          "name": "List Files",
+          "description": "List files and folders in Drive."
+        },
+        {
+          "id": "gdrive_get_file",
+          "name": "Get File",
+          "description": "Get file metadata by ID."
+        },
+        {
+          "id": "gdrive_create_file",
+          "name": "Create File",
+          "description": "Create a new file or folder."
+        },
+        {
+          "id": "gdrive_copy_file",
+          "name": "Copy File",
+          "description": "Copy an existing file."
+        },
+        {
+          "id": "gdrive_update_file",
+          "name": "Update File",
+          "description": "Update file metadata (name, etc.)."
+        },
+        {
+          "id": "gdrive_delete_file",
+          "name": "Delete File",
+          "description": "Delete a file permanently."
+        },
+        {
+          "id": "gdrive_create_permission",
+          "name": "Create Permission",
+          "description": "Share a file with a user or group."
+        },
+        {
+          "id": "gdrive_list_permissions",
+          "name": "List Permissions",
+          "description": "List who has access to a file."
+        },
+        {
+          "id": "gdrive_delete_permission",
+          "name": "Delete Permission",
+          "description": "Remove access from a file."
+        },
+        {
+          "id": "gdrive_generate_ids",
+          "name": "Generate IDs",
+          "description": "Pre-generate file IDs for uploads."
+        }
       ]
     },
     {
@@ -360,19 +1025,63 @@
       "auth_type": "oauth",
       "description_short": "Video conferencing — meetings, webinars, recordings, users.",
       "description_long": "Connect Zoom to 0nMCP to schedule, update, and manage meetings. Access recordings, view users, and automate your video conferencing workflows.",
-      "sxo_keywords": ["zoom automation", "zoom meeting automation", "zoom integration"],
+      "sxo_keywords": [
+        "zoom automation",
+        "zoom meeting automation",
+        "zoom integration"
+      ],
       "tool_count": 10,
       "tools": [
-        { "id": "zoom_list_meetings", "name": "List Meetings", "description": "List meetings for a user." },
-        { "id": "zoom_create_meeting", "name": "Create Meeting", "description": "Schedule a new Zoom meeting." },
-        { "id": "zoom_get_meeting", "name": "Get Meeting", "description": "Get meeting details by ID." },
-        { "id": "zoom_update_meeting", "name": "Update Meeting", "description": "Update meeting details." },
-        { "id": "zoom_delete_meeting", "name": "Delete Meeting", "description": "Delete/cancel a meeting." },
-        { "id": "zoom_list_recordings", "name": "List Recordings", "description": "List cloud recordings for a user." },
-        { "id": "zoom_get_recording", "name": "Get Recording", "description": "Get recording files for a meeting." },
-        { "id": "zoom_delete_recording", "name": "Delete Recording", "description": "Delete meeting recordings." },
-        { "id": "zoom_list_users", "name": "List Users", "description": "List users in the Zoom account." },
-        { "id": "zoom_get_user", "name": "Get User", "description": "Get a specific user's details." }
+        {
+          "id": "zoom_list_meetings",
+          "name": "List Meetings",
+          "description": "List meetings for a user."
+        },
+        {
+          "id": "zoom_create_meeting",
+          "name": "Create Meeting",
+          "description": "Schedule a new Zoom meeting."
+        },
+        {
+          "id": "zoom_get_meeting",
+          "name": "Get Meeting",
+          "description": "Get meeting details by ID."
+        },
+        {
+          "id": "zoom_update_meeting",
+          "name": "Update Meeting",
+          "description": "Update meeting details."
+        },
+        {
+          "id": "zoom_delete_meeting",
+          "name": "Delete Meeting",
+          "description": "Delete/cancel a meeting."
+        },
+        {
+          "id": "zoom_list_recordings",
+          "name": "List Recordings",
+          "description": "List cloud recordings for a user."
+        },
+        {
+          "id": "zoom_get_recording",
+          "name": "Get Recording",
+          "description": "Get recording files for a meeting."
+        },
+        {
+          "id": "zoom_delete_recording",
+          "name": "Delete Recording",
+          "description": "Delete meeting recordings."
+        },
+        {
+          "id": "zoom_list_users",
+          "name": "List Users",
+          "description": "List users in the Zoom account."
+        },
+        {
+          "id": "zoom_get_user",
+          "name": "Get User",
+          "description": "Get a specific user's details."
+        }
       ]
     },
     {
@@ -387,24 +1096,89 @@
       "auth_type": "oauth",
       "description_short": "Outlook mail, Teams messages, OneDrive files, calendar — via Microsoft Graph API.",
       "description_long": "Connect Microsoft 365 to 0nMCP for Outlook email, calendar events, OneDrive file management, Teams messaging, and user directory lookups — all through the Microsoft Graph API.",
-      "sxo_keywords": ["microsoft 365 automation", "outlook automation", "teams automation", "onedrive automation"],
+      "sxo_keywords": [
+        "microsoft 365 automation",
+        "outlook automation",
+        "teams automation",
+        "onedrive automation"
+      ],
       "tool_count": 15,
       "tools": [
-        { "id": "m365_send_mail", "name": "Send Mail", "description": "Send an email via Outlook." },
-        { "id": "m365_list_messages", "name": "List Messages", "description": "List Outlook inbox messages." },
-        { "id": "m365_get_message", "name": "Get Message", "description": "Get a specific email message." },
-        { "id": "m365_delete_message", "name": "Delete Message", "description": "Delete an email message." },
-        { "id": "m365_list_events", "name": "List Events", "description": "List Outlook calendar events." },
-        { "id": "m365_create_event", "name": "Create Event", "description": "Create a new calendar event." },
-        { "id": "m365_update_event", "name": "Update Event", "description": "Update an existing calendar event." },
-        { "id": "m365_delete_event", "name": "Delete Event", "description": "Delete a calendar event." },
-        { "id": "m365_list_drive_items", "name": "List Drive Items", "description": "List files in OneDrive root." },
-        { "id": "m365_get_drive_item", "name": "Get Drive Item", "description": "Get a OneDrive file by ID." },
-        { "id": "m365_search_drive", "name": "Search Drive", "description": "Search files in OneDrive." },
-        { "id": "m365_list_teams", "name": "List Teams", "description": "List joined Microsoft Teams." },
-        { "id": "m365_list_channels", "name": "List Channels", "description": "List channels in a Team." },
-        { "id": "m365_send_channel_message", "name": "Send Channel Message", "description": "Post a message to a Teams channel." },
-        { "id": "m365_get_user", "name": "Get User", "description": "Get the authenticated user's profile." }
+        {
+          "id": "m365_send_mail",
+          "name": "Send Mail",
+          "description": "Send an email via Outlook."
+        },
+        {
+          "id": "m365_list_messages",
+          "name": "List Messages",
+          "description": "List Outlook inbox messages."
+        },
+        {
+          "id": "m365_get_message",
+          "name": "Get Message",
+          "description": "Get a specific email message."
+        },
+        {
+          "id": "m365_delete_message",
+          "name": "Delete Message",
+          "description": "Delete an email message."
+        },
+        {
+          "id": "m365_list_events",
+          "name": "List Events",
+          "description": "List Outlook calendar events."
+        },
+        {
+          "id": "m365_create_event",
+          "name": "Create Event",
+          "description": "Create a new calendar event."
+        },
+        {
+          "id": "m365_update_event",
+          "name": "Update Event",
+          "description": "Update an existing calendar event."
+        },
+        {
+          "id": "m365_delete_event",
+          "name": "Delete Event",
+          "description": "Delete a calendar event."
+        },
+        {
+          "id": "m365_list_drive_items",
+          "name": "List Drive Items",
+          "description": "List files in OneDrive root."
+        },
+        {
+          "id": "m365_get_drive_item",
+          "name": "Get Drive Item",
+          "description": "Get a OneDrive file by ID."
+        },
+        {
+          "id": "m365_search_drive",
+          "name": "Search Drive",
+          "description": "Search files in OneDrive."
+        },
+        {
+          "id": "m365_list_teams",
+          "name": "List Teams",
+          "description": "List joined Microsoft Teams."
+        },
+        {
+          "id": "m365_list_channels",
+          "name": "List Channels",
+          "description": "List channels in a Team."
+        },
+        {
+          "id": "m365_send_channel_message",
+          "name": "Send Channel Message",
+          "description": "Post a message to a Teams channel."
+        },
+        {
+          "id": "m365_get_user",
+          "name": "Get User",
+          "description": "Get the authenticated user's profile."
+        }
       ]
     },
     {
@@ -419,17 +1193,40 @@
       "auth_type": "api_key",
       "description_short": "Workspace — pages, databases, blocks.",
       "description_long": "Connect Notion to 0nMCP to search your workspace, create pages, retrieve page content, query databases, and list databases.",
-      "sxo_keywords": ["notion automation", "notion integration", "notion database automation"],
+      "sxo_keywords": [
+        "notion automation",
+        "notion integration",
+        "notion database automation"
+      ],
       "tool_count": 5,
       "tools": [
-        { "id": "notion_search", "name": "Search", "description": "Search across the entire Notion workspace." },
-        { "id": "notion_create_page", "name": "Create Page", "description": "Create a new Notion page." },
-        { "id": "notion_get_page", "name": "Get Page", "description": "Retrieve a page by ID." },
-        { "id": "notion_query_database", "name": "Query Database", "description": "Query a Notion database with filters." },
-        { "id": "notion_list_databases", "name": "List Databases", "description": "List all databases in the workspace." }
+        {
+          "id": "notion_search",
+          "name": "Search",
+          "description": "Search across the entire Notion workspace."
+        },
+        {
+          "id": "notion_create_page",
+          "name": "Create Page",
+          "description": "Create a new Notion page."
+        },
+        {
+          "id": "notion_get_page",
+          "name": "Get Page",
+          "description": "Retrieve a page by ID."
+        },
+        {
+          "id": "notion_query_database",
+          "name": "Query Database",
+          "description": "Query a Notion database with filters."
+        },
+        {
+          "id": "notion_list_databases",
+          "name": "List Databases",
+          "description": "List all databases in the workspace."
+        }
       ]
     },
-
     {
       "id": "discord",
       "name": "Discord",
@@ -442,11 +1239,23 @@
       "auth_type": "bot_token",
       "description_short": "Community messaging — servers, channels, messages.",
       "description_long": "Connect Discord to 0nMCP to send messages to channels and list server channels. Build community bots and automated notifications.",
-      "sxo_keywords": ["discord automation", "discord bot", "discord integration"],
+      "sxo_keywords": [
+        "discord automation",
+        "discord bot",
+        "discord integration"
+      ],
       "tool_count": 2,
       "tools": [
-        { "id": "discord_send_message", "name": "Send Message", "description": "Send a message to a Discord channel." },
-        { "id": "discord_list_channels", "name": "List Channels", "description": "List all channels in a server." }
+        {
+          "id": "discord_send_message",
+          "name": "Send Message",
+          "description": "Send a message to a Discord channel."
+        },
+        {
+          "id": "discord_list_channels",
+          "name": "List Channels",
+          "description": "List all channels in a server."
+        }
       ]
     },
     {
@@ -461,15 +1270,31 @@
       "auth_type": "basic",
       "description_short": "SMS and voice — send text messages, make calls.",
       "description_long": "Connect Twilio to 0nMCP to send SMS messages, make phone calls, and list sent messages. Automate customer communications at scale.",
-      "sxo_keywords": ["twilio automation", "sms automation", "twilio integration", "send sms automatically"],
+      "sxo_keywords": [
+        "twilio automation",
+        "sms automation",
+        "twilio integration",
+        "send sms automatically"
+      ],
       "tool_count": 3,
       "tools": [
-        { "id": "twilio_send_sms", "name": "Send SMS", "description": "Send an SMS text message." },
-        { "id": "twilio_list_messages", "name": "List Messages", "description": "List sent and received messages." },
-        { "id": "twilio_make_call", "name": "Make Call", "description": "Initiate a phone call." }
+        {
+          "id": "twilio_send_sms",
+          "name": "Send SMS",
+          "description": "Send an SMS text message."
+        },
+        {
+          "id": "twilio_list_messages",
+          "name": "List Messages",
+          "description": "List sent and received messages."
+        },
+        {
+          "id": "twilio_make_call",
+          "name": "Make Call",
+          "description": "Initiate a phone call."
+        }
       ]
     },
-
     {
       "id": "mailchimp",
       "name": "Mailchimp",
@@ -482,21 +1307,73 @@
       "auth_type": "api_key",
       "description_short": "Email marketing — audiences, campaigns, automations, analytics.",
       "description_long": "Connect Mailchimp to 0nMCP to manage audiences and subscribers, create and send campaigns, view analytics reports, and manage templates and automations.",
-      "sxo_keywords": ["mailchimp automation", "email marketing automation", "mailchimp integration"],
+      "sxo_keywords": [
+        "mailchimp automation",
+        "email marketing automation",
+        "mailchimp integration"
+      ],
       "tool_count": 12,
       "tools": [
-        { "id": "mailchimp_list_audiences", "name": "List Audiences", "description": "List all audiences (lists)." },
-        { "id": "mailchimp_get_audience", "name": "Get Audience", "description": "Get audience details by ID." },
-        { "id": "mailchimp_add_member", "name": "Add Member", "description": "Add a subscriber to an audience." },
-        { "id": "mailchimp_update_member", "name": "Update Member", "description": "Update a subscriber's information." },
-        { "id": "mailchimp_list_members", "name": "List Members", "description": "List subscribers in an audience." },
-        { "id": "mailchimp_search_members", "name": "Search Members", "description": "Search for subscribers across audiences." },
-        { "id": "mailchimp_list_campaigns", "name": "List Campaigns", "description": "List email campaigns." },
-        { "id": "mailchimp_create_campaign", "name": "Create Campaign", "description": "Create a new email campaign." },
-        { "id": "mailchimp_send_campaign", "name": "Send Campaign", "description": "Send or schedule a campaign." },
-        { "id": "mailchimp_get_campaign_report", "name": "Get Campaign Report", "description": "Get analytics for a sent campaign." },
-        { "id": "mailchimp_list_templates", "name": "List Templates", "description": "List email templates." },
-        { "id": "mailchimp_list_automations", "name": "List Automations", "description": "List automation workflows." }
+        {
+          "id": "mailchimp_list_audiences",
+          "name": "List Audiences",
+          "description": "List all audiences (lists)."
+        },
+        {
+          "id": "mailchimp_get_audience",
+          "name": "Get Audience",
+          "description": "Get audience details by ID."
+        },
+        {
+          "id": "mailchimp_add_member",
+          "name": "Add Member",
+          "description": "Add a subscriber to an audience."
+        },
+        {
+          "id": "mailchimp_update_member",
+          "name": "Update Member",
+          "description": "Update a subscriber's information."
+        },
+        {
+          "id": "mailchimp_list_members",
+          "name": "List Members",
+          "description": "List subscribers in an audience."
+        },
+        {
+          "id": "mailchimp_search_members",
+          "name": "Search Members",
+          "description": "Search for subscribers across audiences."
+        },
+        {
+          "id": "mailchimp_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List email campaigns."
+        },
+        {
+          "id": "mailchimp_create_campaign",
+          "name": "Create Campaign",
+          "description": "Create a new email campaign."
+        },
+        {
+          "id": "mailchimp_send_campaign",
+          "name": "Send Campaign",
+          "description": "Send or schedule a campaign."
+        },
+        {
+          "id": "mailchimp_get_campaign_report",
+          "name": "Get Campaign Report",
+          "description": "Get analytics for a sent campaign."
+        },
+        {
+          "id": "mailchimp_list_templates",
+          "name": "List Templates",
+          "description": "List email templates."
+        },
+        {
+          "id": "mailchimp_list_automations",
+          "name": "List Automations",
+          "description": "List automation workflows."
+        }
       ]
     },
     {
@@ -511,14 +1388,38 @@
       "auth_type": "api_key",
       "description_short": "Transactional and marketing email — send, templates, contacts.",
       "description_long": "Connect SendGrid to 0nMCP to send transactional emails, manage marketing contacts and lists, and access email templates.",
-      "sxo_keywords": ["sendgrid automation", "transactional email", "sendgrid integration"],
+      "sxo_keywords": [
+        "sendgrid automation",
+        "transactional email",
+        "sendgrid integration"
+      ],
       "tool_count": 5,
       "tools": [
-        { "id": "sendgrid_send_email", "name": "Send Email", "description": "Send a transactional email." },
-        { "id": "sendgrid_add_contacts", "name": "Add Contacts", "description": "Add contacts to marketing lists." },
-        { "id": "sendgrid_search_contacts", "name": "Search Contacts", "description": "Search marketing contacts." },
-        { "id": "sendgrid_list_templates", "name": "List Templates", "description": "List email templates." },
-        { "id": "sendgrid_list_lists", "name": "List Lists", "description": "List marketing contact lists." }
+        {
+          "id": "sendgrid_send_email",
+          "name": "Send Email",
+          "description": "Send a transactional email."
+        },
+        {
+          "id": "sendgrid_add_contacts",
+          "name": "Add Contacts",
+          "description": "Add contacts to marketing lists."
+        },
+        {
+          "id": "sendgrid_search_contacts",
+          "name": "Search Contacts",
+          "description": "Search marketing contacts."
+        },
+        {
+          "id": "sendgrid_list_templates",
+          "name": "List Templates",
+          "description": "List email templates."
+        },
+        {
+          "id": "sendgrid_list_lists",
+          "name": "List Lists",
+          "description": "List marketing contact lists."
+        }
       ]
     },
     {
@@ -533,15 +1434,30 @@
       "auth_type": "api_key",
       "description_short": "Developer-first email API — send transactional emails.",
       "description_long": "Connect Resend to 0nMCP to send transactional emails, list sent emails, and manage email domains.",
-      "sxo_keywords": ["resend automation", "developer email api", "resend integration"],
+      "sxo_keywords": [
+        "resend automation",
+        "developer email api",
+        "resend integration"
+      ],
       "tool_count": 3,
       "tools": [
-        { "id": "resend_send_email", "name": "Send Email", "description": "Send a transactional email." },
-        { "id": "resend_list_emails", "name": "List Emails", "description": "List sent emails." },
-        { "id": "resend_list_domains", "name": "List Domains", "description": "List configured email domains." }
+        {
+          "id": "resend_send_email",
+          "name": "Send Email",
+          "description": "Send a transactional email."
+        },
+        {
+          "id": "resend_list_emails",
+          "name": "List Emails",
+          "description": "List sent emails."
+        },
+        {
+          "id": "resend_list_domains",
+          "name": "List Domains",
+          "description": "List configured email domains."
+        }
       ]
     },
-
     {
       "id": "stripe",
       "name": "Stripe",
@@ -554,21 +1470,74 @@
       "auth_type": "api_key",
       "description_short": "Payment processing — customers, charges, subscriptions, invoices.",
       "description_long": "Connect Stripe to 0nMCP to create customers, process charges, manage subscriptions and invoices, check your balance, list payments, and manage products and prices.",
-      "sxo_keywords": ["stripe automation", "payment automation", "stripe integration", "billing automation"],
+      "sxo_keywords": [
+        "stripe automation",
+        "payment automation",
+        "stripe integration",
+        "billing automation"
+      ],
       "tool_count": 12,
       "tools": [
-        { "id": "stripe_create_customer", "name": "Create Customer", "description": "Create a new Stripe customer." },
-        { "id": "stripe_list_customers", "name": "List Customers", "description": "List all customers." },
-        { "id": "stripe_get_customer", "name": "Get Customer", "description": "Get customer details by ID." },
-        { "id": "stripe_create_charge", "name": "Create Charge", "description": "Charge a customer's payment method." },
-        { "id": "stripe_create_invoice", "name": "Create Invoice", "description": "Create a new invoice." },
-        { "id": "stripe_send_invoice", "name": "Send Invoice", "description": "Finalize and send an invoice." },
-        { "id": "stripe_list_invoices", "name": "List Invoices", "description": "List all invoices." },
-        { "id": "stripe_create_subscription", "name": "Create Subscription", "description": "Create a recurring subscription." },
-        { "id": "stripe_get_balance", "name": "Get Balance", "description": "Check your Stripe account balance." },
-        { "id": "stripe_list_payments", "name": "List Payments", "description": "List recent payment intents." },
-        { "id": "stripe_create_product", "name": "Create Product", "description": "Create a new product." },
-        { "id": "stripe_create_price", "name": "Create Price", "description": "Create a price for a product." }
+        {
+          "id": "stripe_create_customer",
+          "name": "Create Customer",
+          "description": "Create a new Stripe customer."
+        },
+        {
+          "id": "stripe_list_customers",
+          "name": "List Customers",
+          "description": "List all customers."
+        },
+        {
+          "id": "stripe_get_customer",
+          "name": "Get Customer",
+          "description": "Get customer details by ID."
+        },
+        {
+          "id": "stripe_create_charge",
+          "name": "Create Charge",
+          "description": "Charge a customer's payment method."
+        },
+        {
+          "id": "stripe_create_invoice",
+          "name": "Create Invoice",
+          "description": "Create a new invoice."
+        },
+        {
+          "id": "stripe_send_invoice",
+          "name": "Send Invoice",
+          "description": "Finalize and send an invoice."
+        },
+        {
+          "id": "stripe_list_invoices",
+          "name": "List Invoices",
+          "description": "List all invoices."
+        },
+        {
+          "id": "stripe_create_subscription",
+          "name": "Create Subscription",
+          "description": "Create a recurring subscription."
+        },
+        {
+          "id": "stripe_get_balance",
+          "name": "Get Balance",
+          "description": "Check your Stripe account balance."
+        },
+        {
+          "id": "stripe_list_payments",
+          "name": "List Payments",
+          "description": "List recent payment intents."
+        },
+        {
+          "id": "stripe_create_product",
+          "name": "Create Product",
+          "description": "Create a new product."
+        },
+        {
+          "id": "stripe_create_price",
+          "name": "Create Price",
+          "description": "Create a price for a product."
+        }
       ]
     },
     {
@@ -583,32 +1552,1026 @@
       "auth_type": "access_token",
       "description_short": "E-commerce — products, orders, customers, inventory.",
       "description_long": "Connect Shopify to 0nMCP to manage your e-commerce store. List and create products, view orders, and manage customers programmatically.",
-      "sxo_keywords": ["shopify automation", "ecommerce automation", "shopify integration"],
+      "sxo_keywords": [
+        "shopify automation",
+        "ecommerce automation",
+        "shopify integration"
+      ],
       "tool_count": 6,
       "tools": [
-        { "id": "shopify_list_products", "name": "List Products", "description": "List all products in the store." },
-        { "id": "shopify_create_product", "name": "Create Product", "description": "Create a new product." },
-        { "id": "shopify_list_orders", "name": "List Orders", "description": "List recent orders." },
-        { "id": "shopify_get_order", "name": "Get Order", "description": "Get order details by ID." },
-        { "id": "shopify_list_customers", "name": "List Customers", "description": "List store customers." },
-        { "id": "shopify_create_customer", "name": "Create Customer", "description": "Create a new customer." }
+        {
+          "id": "shopify_list_products",
+          "name": "List Products",
+          "description": "List all products in the store."
+        },
+        {
+          "id": "shopify_create_product",
+          "name": "Create Product",
+          "description": "Create a new product."
+        },
+        {
+          "id": "shopify_list_orders",
+          "name": "List Orders",
+          "description": "List recent orders."
+        },
+        {
+          "id": "shopify_get_order",
+          "name": "Get Order",
+          "description": "Get order details by ID."
+        },
+        {
+          "id": "shopify_list_customers",
+          "name": "List Customers",
+          "description": "List store customers."
+        },
+        {
+          "id": "shopify_create_customer",
+          "name": "Create Customer",
+          "description": "Create a new customer."
+        }
       ]
     },
-
     {
       "id": "crm",
-      "name": "0nMCP CRM",
+      "name": "CRM",
       "slug": "0nmcp-crm",
-      "icon": "📇",
+      "icon": "🚀",
       "category_id": "crm_sales",
       "display_order": 50,
       "status": "live",
       "federation_source": "built-in",
       "description_short": "Built-in CRM with 245 tools. Contacts, deals, pipelines, calendars, invoices, payments, social.",
       "description_long": "The 0nMCP CRM is a full-featured customer relationship manager built directly into the platform. 245 individually registered MCP tools across 12 modules: auth (5), contacts (23), conversations (13), calendars (27), opportunities (14), invoices (20), payments (16), products (10), locations (24), social (35), users (24), and objects (34).",
-      "sxo_keywords": ["crm automation", "crm integration", "built-in crm", "crm workflow automation"],
-      "tool_count": 245,
-      "tools_summary": "245 individually registered MCP tools across 12 modules: auth (5), contacts (23), conversations (13), calendars (27), opportunities (14), invoices (20), payments (16), products (10), locations (24), social (35), users (24), objects (34)."
+      "sxo_keywords": [
+        "crm automation",
+        "crm integration",
+        "built-in crm",
+        "crm workflow automation"
+      ],
+      "tool_count": 240,
+      "tools_summary": "245 individually registered MCP tools across 12 modules: auth (5), contacts (23), conversations (13), calendars (27), opportunities (14), invoices (20), payments (16), products (10), locations (24), social (35), users (24), objects (34).",
+      "tools": [
+        {
+          "id": "crm_search_contacts",
+          "name": "Search Contacts"
+        },
+        {
+          "id": "crm_get_contact",
+          "name": "Get Contact"
+        },
+        {
+          "id": "crm_create_contact",
+          "name": "Create Contact"
+        },
+        {
+          "id": "crm_update_contact",
+          "name": "Update Contact"
+        },
+        {
+          "id": "crm_delete_contact",
+          "name": "Delete Contact"
+        },
+        {
+          "id": "crm_upsert_contact",
+          "name": "Upsert Contact"
+        },
+        {
+          "id": "crm_get_contact_tasks",
+          "name": "Get Contact Tasks"
+        },
+        {
+          "id": "crm_create_contact_task",
+          "name": "Create Contact Task"
+        },
+        {
+          "id": "crm_update_contact_task",
+          "name": "Update Contact Task"
+        },
+        {
+          "id": "crm_delete_contact_task",
+          "name": "Delete Contact Task"
+        },
+        {
+          "id": "crm_get_contact_notes",
+          "name": "Get Contact Notes"
+        },
+        {
+          "id": "crm_create_contact_note",
+          "name": "Create Contact Note"
+        },
+        {
+          "id": "crm_update_contact_note",
+          "name": "Update Contact Note"
+        },
+        {
+          "id": "crm_delete_contact_note",
+          "name": "Delete Contact Note"
+        },
+        {
+          "id": "crm_add_contact_tags",
+          "name": "Add Contact Tags"
+        },
+        {
+          "id": "crm_remove_contact_tags",
+          "name": "Remove Contact Tags"
+        },
+        {
+          "id": "crm_get_contact_appointments",
+          "name": "Get Contact Appointments"
+        },
+        {
+          "id": "crm_add_contact_to_workflow",
+          "name": "Add Contact To Workflow"
+        },
+        {
+          "id": "crm_remove_contact_from_workflow",
+          "name": "Remove Contact From Workflow"
+        },
+        {
+          "id": "crm_get_contact_campaigns",
+          "name": "Get Contact Campaigns"
+        },
+        {
+          "id": "crm_add_contact_followers",
+          "name": "Add Contact Followers"
+        },
+        {
+          "id": "crm_remove_contact_followers",
+          "name": "Remove Contact Followers"
+        },
+        {
+          "id": "crm_get_contact_by_business",
+          "name": "Get Contact By Business"
+        },
+        {
+          "id": "crm_list_conversations",
+          "name": "List Conversations"
+        },
+        {
+          "id": "crm_get_conversation",
+          "name": "Get Conversation"
+        },
+        {
+          "id": "crm_create_conversation",
+          "name": "Create Conversation"
+        },
+        {
+          "id": "crm_update_conversation",
+          "name": "Update Conversation"
+        },
+        {
+          "id": "crm_delete_conversation",
+          "name": "Delete Conversation"
+        },
+        {
+          "id": "crm_send_message",
+          "name": "Send Message"
+        },
+        {
+          "id": "crm_list_messages",
+          "name": "List Messages"
+        },
+        {
+          "id": "crm_get_message",
+          "name": "Get Message"
+        },
+        {
+          "id": "crm_update_message_status",
+          "name": "Update Message Status"
+        },
+        {
+          "id": "crm_cancel_scheduled_message",
+          "name": "Cancel Scheduled Message"
+        },
+        {
+          "id": "crm_upload_message_attachment",
+          "name": "Upload Message Attachment"
+        },
+        {
+          "id": "crm_process_inbound_message",
+          "name": "Process Inbound Message"
+        },
+        {
+          "id": "crm_get_email_by_thread",
+          "name": "Get Email By Thread"
+        },
+        {
+          "id": "crm_list_calendars",
+          "name": "List Calendars"
+        },
+        {
+          "id": "crm_get_calendar",
+          "name": "Get Calendar"
+        },
+        {
+          "id": "crm_create_calendar",
+          "name": "Create Calendar"
+        },
+        {
+          "id": "crm_update_calendar",
+          "name": "Update Calendar"
+        },
+        {
+          "id": "crm_delete_calendar",
+          "name": "Delete Calendar"
+        },
+        {
+          "id": "crm_get_free_slots",
+          "name": "Get Free Slots"
+        },
+        {
+          "id": "crm_list_events",
+          "name": "List Events"
+        },
+        {
+          "id": "crm_get_event",
+          "name": "Get Event"
+        },
+        {
+          "id": "crm_create_event",
+          "name": "Create Event"
+        },
+        {
+          "id": "crm_update_event",
+          "name": "Update Event"
+        },
+        {
+          "id": "crm_delete_event",
+          "name": "Delete Event"
+        },
+        {
+          "id": "crm_get_appointment",
+          "name": "Get Appointment"
+        },
+        {
+          "id": "crm_create_appointment",
+          "name": "Create Appointment"
+        },
+        {
+          "id": "crm_update_appointment",
+          "name": "Update Appointment"
+        },
+        {
+          "id": "crm_list_calendar_groups",
+          "name": "List Calendar Groups"
+        },
+        {
+          "id": "crm_create_calendar_group",
+          "name": "Create Calendar Group"
+        },
+        {
+          "id": "crm_update_calendar_group",
+          "name": "Update Calendar Group"
+        },
+        {
+          "id": "crm_delete_calendar_group",
+          "name": "Delete Calendar Group"
+        },
+        {
+          "id": "crm_validate_groups_slug",
+          "name": "Validate Groups Slug"
+        },
+        {
+          "id": "crm_list_calendar_resources",
+          "name": "List Calendar Resources"
+        },
+        {
+          "id": "crm_get_calendar_resource",
+          "name": "Get Calendar Resource"
+        },
+        {
+          "id": "crm_create_calendar_resource",
+          "name": "Create Calendar Resource"
+        },
+        {
+          "id": "crm_update_calendar_resource",
+          "name": "Update Calendar Resource"
+        },
+        {
+          "id": "crm_delete_calendar_resource",
+          "name": "Delete Calendar Resource"
+        },
+        {
+          "id": "crm_create_blocked_slot",
+          "name": "Create Blocked Slot"
+        },
+        {
+          "id": "crm_update_blocked_slot",
+          "name": "Update Blocked Slot"
+        },
+        {
+          "id": "crm_delete_blocked_slot",
+          "name": "Delete Blocked Slot"
+        },
+        {
+          "id": "crm_search_opportunities",
+          "name": "Search Opportunities"
+        },
+        {
+          "id": "crm_get_opportunity",
+          "name": "Get Opportunity"
+        },
+        {
+          "id": "crm_create_opportunity",
+          "name": "Create Opportunity"
+        },
+        {
+          "id": "crm_update_opportunity",
+          "name": "Update Opportunity"
+        },
+        {
+          "id": "crm_delete_opportunity",
+          "name": "Delete Opportunity"
+        },
+        {
+          "id": "crm_update_opportunity_status",
+          "name": "Update Opportunity Status"
+        },
+        {
+          "id": "crm_upsert_opportunity",
+          "name": "Upsert Opportunity"
+        },
+        {
+          "id": "crm_add_opportunity_followers",
+          "name": "Add Opportunity Followers"
+        },
+        {
+          "id": "crm_remove_opportunity_follower",
+          "name": "Remove Opportunity Follower"
+        },
+        {
+          "id": "crm_list_pipelines",
+          "name": "List Pipelines"
+        },
+        {
+          "id": "crm_get_pipeline",
+          "name": "Get Pipeline"
+        },
+        {
+          "id": "crm_create_pipeline",
+          "name": "Create Pipeline"
+        },
+        {
+          "id": "crm_update_pipeline",
+          "name": "Update Pipeline"
+        },
+        {
+          "id": "crm_delete_pipeline",
+          "name": "Delete Pipeline"
+        },
+        {
+          "id": "crm_list_invoices",
+          "name": "List Invoices"
+        },
+        {
+          "id": "crm_get_invoice",
+          "name": "Get Invoice"
+        },
+        {
+          "id": "crm_create_invoice",
+          "name": "Create Invoice"
+        },
+        {
+          "id": "crm_update_invoice",
+          "name": "Update Invoice"
+        },
+        {
+          "id": "crm_delete_invoice",
+          "name": "Delete Invoice"
+        },
+        {
+          "id": "crm_send_invoice",
+          "name": "Send Invoice"
+        },
+        {
+          "id": "crm_void_invoice",
+          "name": "Void Invoice"
+        },
+        {
+          "id": "crm_record_payment",
+          "name": "Record Payment"
+        },
+        {
+          "id": "crm_generate_invoice_number",
+          "name": "Generate Invoice Number"
+        },
+        {
+          "id": "crm_list_invoice_templates",
+          "name": "List Invoice Templates"
+        },
+        {
+          "id": "crm_get_invoice_template",
+          "name": "Get Invoice Template"
+        },
+        {
+          "id": "crm_create_invoice_template",
+          "name": "Create Invoice Template"
+        },
+        {
+          "id": "crm_update_invoice_template",
+          "name": "Update Invoice Template"
+        },
+        {
+          "id": "crm_delete_invoice_template",
+          "name": "Delete Invoice Template"
+        },
+        {
+          "id": "crm_list_invoice_schedules",
+          "name": "List Invoice Schedules"
+        },
+        {
+          "id": "crm_get_invoice_schedule",
+          "name": "Get Invoice Schedule"
+        },
+        {
+          "id": "crm_create_invoice_schedule",
+          "name": "Create Invoice Schedule"
+        },
+        {
+          "id": "crm_update_invoice_schedule",
+          "name": "Update Invoice Schedule"
+        },
+        {
+          "id": "crm_delete_invoice_schedule",
+          "name": "Delete Invoice Schedule"
+        },
+        {
+          "id": "crm_auto_payment_schedule",
+          "name": "Auto Payment Schedule"
+        },
+        {
+          "id": "crm_list_orders",
+          "name": "List Orders"
+        },
+        {
+          "id": "crm_get_order",
+          "name": "Get Order"
+        },
+        {
+          "id": "crm_list_order_fulfillments",
+          "name": "List Order Fulfillments"
+        },
+        {
+          "id": "crm_list_transactions",
+          "name": "List Transactions"
+        },
+        {
+          "id": "crm_get_transaction",
+          "name": "Get Transaction"
+        },
+        {
+          "id": "crm_list_subscriptions",
+          "name": "List Subscriptions"
+        },
+        {
+          "id": "crm_get_subscription",
+          "name": "Get Subscription"
+        },
+        {
+          "id": "crm_list_payment_integrations",
+          "name": "List Payment Integrations"
+        },
+        {
+          "id": "crm_create_payment_integration",
+          "name": "Create Payment Integration"
+        },
+        {
+          "id": "crm_connect_custom_provider",
+          "name": "Connect Custom Provider"
+        },
+        {
+          "id": "crm_disconnect_custom_provider",
+          "name": "Disconnect Custom Provider"
+        },
+        {
+          "id": "crm_list_coupons",
+          "name": "List Coupons"
+        },
+        {
+          "id": "crm_get_coupon",
+          "name": "Get Coupon"
+        },
+        {
+          "id": "crm_create_coupon",
+          "name": "Create Coupon"
+        },
+        {
+          "id": "crm_update_coupon",
+          "name": "Update Coupon"
+        },
+        {
+          "id": "crm_delete_coupon",
+          "name": "Delete Coupon"
+        },
+        {
+          "id": "crm_list_products",
+          "name": "List Products"
+        },
+        {
+          "id": "crm_get_product",
+          "name": "Get Product"
+        },
+        {
+          "id": "crm_create_product",
+          "name": "Create Product"
+        },
+        {
+          "id": "crm_update_product",
+          "name": "Update Product"
+        },
+        {
+          "id": "crm_delete_product",
+          "name": "Delete Product"
+        },
+        {
+          "id": "crm_list_prices",
+          "name": "List Prices"
+        },
+        {
+          "id": "crm_get_price",
+          "name": "Get Price"
+        },
+        {
+          "id": "crm_create_price",
+          "name": "Create Price"
+        },
+        {
+          "id": "crm_update_price",
+          "name": "Update Price"
+        },
+        {
+          "id": "crm_delete_price",
+          "name": "Delete Price"
+        },
+        {
+          "id": "crm_get_location",
+          "name": "Get Location"
+        },
+        {
+          "id": "crm_update_location",
+          "name": "Update Location"
+        },
+        {
+          "id": "crm_search_locations",
+          "name": "Search Locations"
+        },
+        {
+          "id": "crm_list_location_timezones",
+          "name": "List Location Timezones"
+        },
+        {
+          "id": "crm_get_location_snippet",
+          "name": "Get Location Snippet"
+        },
+        {
+          "id": "crm_list_location_tags",
+          "name": "List Location Tags"
+        },
+        {
+          "id": "crm_get_location_tag",
+          "name": "Get Location Tag"
+        },
+        {
+          "id": "crm_create_location_tag",
+          "name": "Create Location Tag"
+        },
+        {
+          "id": "crm_update_location_tag",
+          "name": "Update Location Tag"
+        },
+        {
+          "id": "crm_delete_location_tag",
+          "name": "Delete Location Tag"
+        },
+        {
+          "id": "crm_list_custom_fields",
+          "name": "List Custom Fields"
+        },
+        {
+          "id": "crm_get_custom_field",
+          "name": "Get Custom Field"
+        },
+        {
+          "id": "crm_create_custom_field",
+          "name": "Create Custom Field"
+        },
+        {
+          "id": "crm_update_custom_field",
+          "name": "Update Custom Field"
+        },
+        {
+          "id": "crm_delete_custom_field",
+          "name": "Delete Custom Field"
+        },
+        {
+          "id": "crm_list_custom_values",
+          "name": "List Custom Values"
+        },
+        {
+          "id": "crm_get_custom_value",
+          "name": "Get Custom Value"
+        },
+        {
+          "id": "crm_create_custom_value",
+          "name": "Create Custom Value"
+        },
+        {
+          "id": "crm_update_custom_value",
+          "name": "Update Custom Value"
+        },
+        {
+          "id": "crm_delete_custom_value",
+          "name": "Delete Custom Value"
+        },
+        {
+          "id": "crm_list_templates",
+          "name": "List Templates"
+        },
+        {
+          "id": "crm_get_template",
+          "name": "Get Template"
+        },
+        {
+          "id": "crm_delete_template",
+          "name": "Delete Template"
+        },
+        {
+          "id": "crm_search_location_tasks",
+          "name": "Search Location Tasks"
+        },
+        {
+          "id": "crm_list_social_posts",
+          "name": "List Social Posts"
+        },
+        {
+          "id": "crm_get_social_post",
+          "name": "Get Social Post"
+        },
+        {
+          "id": "crm_create_social_post",
+          "name": "Create Social Post"
+        },
+        {
+          "id": "crm_update_social_post",
+          "name": "Update Social Post"
+        },
+        {
+          "id": "crm_delete_social_post",
+          "name": "Delete Social Post"
+        },
+        {
+          "id": "crm_bulk_delete_social_posts",
+          "name": "Bulk Delete Social Posts"
+        },
+        {
+          "id": "crm_list_social_accounts",
+          "name": "List Social Accounts"
+        },
+        {
+          "id": "crm_delete_social_account",
+          "name": "Delete Social Account"
+        },
+        {
+          "id": "crm_set_social_accounts",
+          "name": "Set Social Accounts"
+        },
+        {
+          "id": "crm_list_social_categories",
+          "name": "List Social Categories"
+        },
+        {
+          "id": "crm_create_social_category",
+          "name": "Create Social Category"
+        },
+        {
+          "id": "crm_update_social_category",
+          "name": "Update Social Category"
+        },
+        {
+          "id": "crm_delete_social_category",
+          "name": "Delete Social Category"
+        },
+        {
+          "id": "crm_list_social_tags",
+          "name": "List Social Tags"
+        },
+        {
+          "id": "crm_get_social_csv",
+          "name": "Get Social Csv"
+        },
+        {
+          "id": "crm_import_social_csv",
+          "name": "Import Social Csv"
+        },
+        {
+          "id": "crm_reply_social_review",
+          "name": "Reply Social Review"
+        },
+        {
+          "id": "crm_start_social_oauth",
+          "name": "Start Social Oauth"
+        },
+        {
+          "id": "crm_list_blogs",
+          "name": "List Blogs"
+        },
+        {
+          "id": "crm_get_blog",
+          "name": "Get Blog"
+        },
+        {
+          "id": "crm_create_blog",
+          "name": "Create Blog"
+        },
+        {
+          "id": "crm_update_blog",
+          "name": "Update Blog"
+        },
+        {
+          "id": "crm_check_blog_slug",
+          "name": "Check Blog Slug"
+        },
+        {
+          "id": "crm_list_blog_authors",
+          "name": "List Blog Authors"
+        },
+        {
+          "id": "crm_create_blog_author",
+          "name": "Create Blog Author"
+        },
+        {
+          "id": "crm_update_blog_author",
+          "name": "Update Blog Author"
+        },
+        {
+          "id": "crm_delete_blog_author",
+          "name": "Delete Blog Author"
+        },
+        {
+          "id": "crm_list_blog_categories",
+          "name": "List Blog Categories"
+        },
+        {
+          "id": "crm_create_blog_category",
+          "name": "Create Blog Category"
+        },
+        {
+          "id": "crm_update_blog_category",
+          "name": "Update Blog Category"
+        },
+        {
+          "id": "crm_delete_blog_category",
+          "name": "Delete Blog Category"
+        },
+        {
+          "id": "crm_get_blog_post",
+          "name": "Get Blog Post"
+        },
+        {
+          "id": "crm_create_blog_post",
+          "name": "Create Blog Post"
+        },
+        {
+          "id": "crm_update_blog_post",
+          "name": "Update Blog Post"
+        },
+        {
+          "id": "crm_delete_blog_post",
+          "name": "Delete Blog Post"
+        },
+        {
+          "id": "crm_list_users",
+          "name": "List Users"
+        },
+        {
+          "id": "crm_get_user",
+          "name": "Get User"
+        },
+        {
+          "id": "crm_create_user",
+          "name": "Create User"
+        },
+        {
+          "id": "crm_update_user",
+          "name": "Update User"
+        },
+        {
+          "id": "crm_delete_user",
+          "name": "Delete User"
+        },
+        {
+          "id": "crm_list_forms",
+          "name": "List Forms"
+        },
+        {
+          "id": "crm_get_form_submissions",
+          "name": "Get Form Submissions"
+        },
+        {
+          "id": "crm_upload_form_custom_files",
+          "name": "Upload Form Custom Files"
+        },
+        {
+          "id": "crm_list_surveys",
+          "name": "List Surveys"
+        },
+        {
+          "id": "crm_get_survey_submissions",
+          "name": "Get Survey Submissions"
+        },
+        {
+          "id": "crm_list_funnels",
+          "name": "List Funnels"
+        },
+        {
+          "id": "crm_get_funnel_pages",
+          "name": "Get Funnel Pages"
+        },
+        {
+          "id": "crm_count_funnel_pages",
+          "name": "Count Funnel Pages"
+        },
+        {
+          "id": "crm_funnel_redirect_lookup",
+          "name": "Funnel Redirect Lookup"
+        },
+        {
+          "id": "crm_list_media_files",
+          "name": "List Media Files"
+        },
+        {
+          "id": "crm_upload_media_file",
+          "name": "Upload Media File"
+        },
+        {
+          "id": "crm_delete_media_file",
+          "name": "Delete Media File"
+        },
+        {
+          "id": "crm_list_companies",
+          "name": "List Companies"
+        },
+        {
+          "id": "crm_get_company",
+          "name": "Get Company"
+        },
+        {
+          "id": "crm_list_businesses",
+          "name": "List Businesses"
+        },
+        {
+          "id": "crm_get_business",
+          "name": "Get Business"
+        },
+        {
+          "id": "crm_create_business",
+          "name": "Create Business"
+        },
+        {
+          "id": "crm_update_business",
+          "name": "Update Business"
+        },
+        {
+          "id": "crm_delete_business",
+          "name": "Delete Business"
+        },
+        {
+          "id": "crm_list_object_schemas",
+          "name": "List Object Schemas"
+        },
+        {
+          "id": "crm_get_object_schema",
+          "name": "Get Object Schema"
+        },
+        {
+          "id": "crm_create_object_schema",
+          "name": "Create Object Schema"
+        },
+        {
+          "id": "crm_update_object_schema",
+          "name": "Update Object Schema"
+        },
+        {
+          "id": "crm_list_object_records",
+          "name": "List Object Records"
+        },
+        {
+          "id": "crm_get_object_record",
+          "name": "Get Object Record"
+        },
+        {
+          "id": "crm_create_object_record",
+          "name": "Create Object Record"
+        },
+        {
+          "id": "crm_update_object_record",
+          "name": "Update Object Record"
+        },
+        {
+          "id": "crm_delete_object_record",
+          "name": "Delete Object Record"
+        },
+        {
+          "id": "crm_list_associations",
+          "name": "List Associations"
+        },
+        {
+          "id": "crm_create_association",
+          "name": "Create Association"
+        },
+        {
+          "id": "crm_list_emails",
+          "name": "List Emails"
+        },
+        {
+          "id": "crm_save_email",
+          "name": "Save Email"
+        },
+        {
+          "id": "crm_get_email",
+          "name": "Get Email"
+        },
+        {
+          "id": "crm_update_email",
+          "name": "Update Email"
+        },
+        {
+          "id": "crm_delete_email",
+          "name": "Delete Email"
+        },
+        {
+          "id": "crm_verify_email",
+          "name": "Verify Email"
+        },
+        {
+          "id": "crm_list_workflows",
+          "name": "List Workflows"
+        },
+        {
+          "id": "crm_get_workflow",
+          "name": "Get Workflow"
+        },
+        {
+          "id": "crm_list_snapshots",
+          "name": "List Snapshots"
+        },
+        {
+          "id": "crm_create_snapshot_share_link",
+          "name": "Create Snapshot Share Link"
+        },
+        {
+          "id": "crm_get_snapshot_push_status",
+          "name": "Get Snapshot Push Status"
+        },
+        {
+          "id": "crm_list_trigger_links",
+          "name": "List Trigger Links"
+        },
+        {
+          "id": "crm_create_trigger_link",
+          "name": "Create Trigger Link"
+        },
+        {
+          "id": "crm_update_trigger_link",
+          "name": "Update Trigger Link"
+        },
+        {
+          "id": "crm_delete_trigger_link",
+          "name": "Delete Trigger Link"
+        },
+        {
+          "id": "crm_list_campaigns",
+          "name": "List Campaigns"
+        },
+        {
+          "id": "crm_list_courses_exporters",
+          "name": "List Courses Exporters"
+        },
+        {
+          "id": "crm_import_courses",
+          "name": "Import Courses"
+        },
+        {
+          "id": "crm_saas_get_locations",
+          "name": "Saas Get Locations"
+        },
+        {
+          "id": "crm_saas_update_rebilling",
+          "name": "Saas Update Rebilling"
+        },
+        {
+          "id": "crm_saas_enable",
+          "name": "Saas Enable"
+        },
+        {
+          "id": "crm_saas_pause",
+          "name": "Saas Pause"
+        },
+        {
+          "id": "crm_saas_bulk_disable",
+          "name": "Saas Bulk Disable"
+        }
+      ]
     },
     {
       "id": "hubspot",
@@ -622,18 +2585,45 @@
       "auth_type": "access_token",
       "description_short": "CRM and marketing — contacts, companies, deals.",
       "description_long": "Connect HubSpot to 0nMCP to create and search contacts, manage companies, and track deals through your sales pipeline.",
-      "sxo_keywords": ["hubspot automation", "hubspot integration", "hubspot crm automation"],
+      "sxo_keywords": [
+        "hubspot automation",
+        "hubspot integration",
+        "hubspot crm automation"
+      ],
       "tool_count": 6,
       "tools": [
-        { "id": "hubspot_create_contact", "name": "Create Contact", "description": "Create a new HubSpot contact." },
-        { "id": "hubspot_list_contacts", "name": "List Contacts", "description": "List all contacts." },
-        { "id": "hubspot_search_contacts", "name": "Search Contacts", "description": "Search contacts by query." },
-        { "id": "hubspot_create_company", "name": "Create Company", "description": "Create a new company." },
-        { "id": "hubspot_create_deal", "name": "Create Deal", "description": "Create a new deal." },
-        { "id": "hubspot_list_deals", "name": "List Deals", "description": "List all deals." }
+        {
+          "id": "hubspot_create_contact",
+          "name": "Create Contact",
+          "description": "Create a new HubSpot contact."
+        },
+        {
+          "id": "hubspot_list_contacts",
+          "name": "List Contacts",
+          "description": "List all contacts."
+        },
+        {
+          "id": "hubspot_search_contacts",
+          "name": "Search Contacts",
+          "description": "Search contacts by query."
+        },
+        {
+          "id": "hubspot_create_company",
+          "name": "Create Company",
+          "description": "Create a new company."
+        },
+        {
+          "id": "hubspot_create_deal",
+          "name": "Create Deal",
+          "description": "Create a new deal."
+        },
+        {
+          "id": "hubspot_list_deals",
+          "name": "List Deals",
+          "description": "List all deals."
+        }
       ]
     },
-
     {
       "id": "airtable",
       "name": "Airtable",
@@ -646,14 +2636,38 @@
       "auth_type": "api_key",
       "description_short": "Spreadsheet-database — bases, tables, records.",
       "description_long": "Connect Airtable to 0nMCP to perform CRUD operations on table records and list available bases.",
-      "sxo_keywords": ["airtable automation", "airtable integration", "airtable database automation"],
+      "sxo_keywords": [
+        "airtable automation",
+        "airtable integration",
+        "airtable database automation"
+      ],
       "tool_count": 5,
       "tools": [
-        { "id": "airtable_list_bases", "name": "List Bases", "description": "List all available Airtable bases." },
-        { "id": "airtable_list_records", "name": "List Records", "description": "List records in a table." },
-        { "id": "airtable_create_record", "name": "Create Record", "description": "Create a new record in a table." },
-        { "id": "airtable_update_record", "name": "Update Record", "description": "Update an existing record." },
-        { "id": "airtable_delete_record", "name": "Delete Record", "description": "Delete a record by ID." }
+        {
+          "id": "airtable_list_bases",
+          "name": "List Bases",
+          "description": "List all available Airtable bases."
+        },
+        {
+          "id": "airtable_list_records",
+          "name": "List Records",
+          "description": "List records in a table."
+        },
+        {
+          "id": "airtable_create_record",
+          "name": "Create Record",
+          "description": "Create a new record in a table."
+        },
+        {
+          "id": "airtable_update_record",
+          "name": "Update Record",
+          "description": "Update an existing record."
+        },
+        {
+          "id": "airtable_delete_record",
+          "name": "Delete Record",
+          "description": "Delete a record by ID."
+        }
       ]
     },
     {
@@ -668,12 +2682,28 @@
       "auth_type": "api_key",
       "description_short": "Scheduling — event types, bookings, availability.",
       "description_long": "Connect Calendly to 0nMCP to list scheduled events, view event types, and get user profile information.",
-      "sxo_keywords": ["calendly automation", "scheduling automation", "calendly integration"],
+      "sxo_keywords": [
+        "calendly automation",
+        "scheduling automation",
+        "calendly integration"
+      ],
       "tool_count": 3,
       "tools": [
-        { "id": "calendly_list_events", "name": "List Events", "description": "List scheduled events." },
-        { "id": "calendly_list_event_types", "name": "List Event Types", "description": "List available event types." },
-        { "id": "calendly_get_user", "name": "Get User", "description": "Get the authenticated user's profile." }
+        {
+          "id": "calendly_list_events",
+          "name": "List Events",
+          "description": "List scheduled events."
+        },
+        {
+          "id": "calendly_list_event_types",
+          "name": "List Event Types",
+          "description": "List available event types."
+        },
+        {
+          "id": "calendly_get_user",
+          "name": "Get User",
+          "description": "Get the authenticated user's profile."
+        }
       ]
     },
     {
@@ -688,10 +2718,18 @@
       "auth_type": "api_key",
       "description_short": "Issue tracking — teams, projects, issues, cycles.",
       "description_long": "Connect Linear to 0nMCP for issue tracking via the GraphQL API. Create, update, and query issues and projects.",
-      "sxo_keywords": ["linear automation", "issue tracking automation", "linear integration"],
+      "sxo_keywords": [
+        "linear automation",
+        "issue tracking automation",
+        "linear integration"
+      ],
       "tool_count": 1,
       "tools": [
-        { "id": "linear_graphql", "name": "GraphQL Query", "description": "Execute a GraphQL query or mutation against the Linear API." }
+        {
+          "id": "linear_graphql",
+          "name": "GraphQL Query",
+          "description": "Execute a GraphQL query or mutation against the Linear API."
+        }
       ]
     },
     {
@@ -706,24 +2744,75 @@
       "auth_type": "basic",
       "description_short": "Project management — issues, sprints, boards, JQL search.",
       "description_long": "Connect Jira to 0nMCP for full project management. Search with JQL, create and update issues, manage transitions, add comments, and view projects.",
-      "sxo_keywords": ["jira automation", "project management automation", "jira integration"],
+      "sxo_keywords": [
+        "jira automation",
+        "project management automation",
+        "jira integration"
+      ],
       "tool_count": 12,
       "tools": [
-        { "id": "jira_search_issues", "name": "Search Issues", "description": "Search issues using JQL." },
-        { "id": "jira_create_issue", "name": "Create Issue", "description": "Create a new Jira issue." },
-        { "id": "jira_get_issue", "name": "Get Issue", "description": "Get issue details by key." },
-        { "id": "jira_update_issue", "name": "Update Issue", "description": "Update an existing issue." },
-        { "id": "jira_delete_issue", "name": "Delete Issue", "description": "Delete an issue." },
-        { "id": "jira_transition_issue", "name": "Transition Issue", "description": "Move an issue to a different status." },
-        { "id": "jira_get_transitions", "name": "Get Transitions", "description": "List available status transitions." },
-        { "id": "jira_add_comment", "name": "Add Comment", "description": "Add a comment to an issue." },
-        { "id": "jira_list_comments", "name": "List Comments", "description": "List comments on an issue." },
-        { "id": "jira_list_projects", "name": "List Projects", "description": "List all Jira projects." },
-        { "id": "jira_get_project", "name": "Get Project", "description": "Get project details." },
-        { "id": "jira_assign_issue", "name": "Assign Issue", "description": "Assign an issue to a user." }
+        {
+          "id": "jira_search_issues",
+          "name": "Search Issues",
+          "description": "Search issues using JQL."
+        },
+        {
+          "id": "jira_create_issue",
+          "name": "Create Issue",
+          "description": "Create a new Jira issue."
+        },
+        {
+          "id": "jira_get_issue",
+          "name": "Get Issue",
+          "description": "Get issue details by key."
+        },
+        {
+          "id": "jira_update_issue",
+          "name": "Update Issue",
+          "description": "Update an existing issue."
+        },
+        {
+          "id": "jira_delete_issue",
+          "name": "Delete Issue",
+          "description": "Delete an issue."
+        },
+        {
+          "id": "jira_transition_issue",
+          "name": "Transition Issue",
+          "description": "Move an issue to a different status."
+        },
+        {
+          "id": "jira_get_transitions",
+          "name": "Get Transitions",
+          "description": "List available status transitions."
+        },
+        {
+          "id": "jira_add_comment",
+          "name": "Add Comment",
+          "description": "Add a comment to an issue."
+        },
+        {
+          "id": "jira_list_comments",
+          "name": "List Comments",
+          "description": "List comments on an issue."
+        },
+        {
+          "id": "jira_list_projects",
+          "name": "List Projects",
+          "description": "List all Jira projects."
+        },
+        {
+          "id": "jira_get_project",
+          "name": "Get Project",
+          "description": "Get project details."
+        },
+        {
+          "id": "jira_assign_issue",
+          "name": "Assign Issue",
+          "description": "Assign an issue to a user."
+        }
       ]
     },
-
     {
       "id": "zendesk",
       "name": "Zendesk",
@@ -736,24 +2825,75 @@
       "auth_type": "basic",
       "description_short": "Customer support — tickets, users, search, macros.",
       "description_long": "Connect Zendesk to 0nMCP for full customer support automation. Create and manage tickets, search across all resources, manage users and organizations, and list macros.",
-      "sxo_keywords": ["zendesk automation", "customer support automation", "zendesk integration"],
+      "sxo_keywords": [
+        "zendesk automation",
+        "customer support automation",
+        "zendesk integration"
+      ],
       "tool_count": 12,
       "tools": [
-        { "id": "zendesk_list_tickets", "name": "List Tickets", "description": "List support tickets." },
-        { "id": "zendesk_get_ticket", "name": "Get Ticket", "description": "Get ticket details by ID." },
-        { "id": "zendesk_create_ticket", "name": "Create Ticket", "description": "Create a new support ticket." },
-        { "id": "zendesk_update_ticket", "name": "Update Ticket", "description": "Update a ticket's fields or status." },
-        { "id": "zendesk_delete_ticket", "name": "Delete Ticket", "description": "Delete a ticket." },
-        { "id": "zendesk_list_ticket_comments", "name": "List Ticket Comments", "description": "List comments on a ticket." },
-        { "id": "zendesk_search", "name": "Search", "description": "Full-text search across tickets, users, and organizations." },
-        { "id": "zendesk_list_users", "name": "List Users", "description": "List end-users and agents." },
-        { "id": "zendesk_create_user", "name": "Create User", "description": "Create a new user." },
-        { "id": "zendesk_get_user", "name": "Get User", "description": "Get user details by ID." },
-        { "id": "zendesk_list_organizations", "name": "List Organizations", "description": "List all organizations." },
-        { "id": "zendesk_list_macros", "name": "List Macros", "description": "List available macros." }
+        {
+          "id": "zendesk_list_tickets",
+          "name": "List Tickets",
+          "description": "List support tickets."
+        },
+        {
+          "id": "zendesk_get_ticket",
+          "name": "Get Ticket",
+          "description": "Get ticket details by ID."
+        },
+        {
+          "id": "zendesk_create_ticket",
+          "name": "Create Ticket",
+          "description": "Create a new support ticket."
+        },
+        {
+          "id": "zendesk_update_ticket",
+          "name": "Update Ticket",
+          "description": "Update a ticket's fields or status."
+        },
+        {
+          "id": "zendesk_delete_ticket",
+          "name": "Delete Ticket",
+          "description": "Delete a ticket."
+        },
+        {
+          "id": "zendesk_list_ticket_comments",
+          "name": "List Ticket Comments",
+          "description": "List comments on a ticket."
+        },
+        {
+          "id": "zendesk_search",
+          "name": "Search",
+          "description": "Full-text search across tickets, users, and organizations."
+        },
+        {
+          "id": "zendesk_list_users",
+          "name": "List Users",
+          "description": "List end-users and agents."
+        },
+        {
+          "id": "zendesk_create_user",
+          "name": "Create User",
+          "description": "Create a new user."
+        },
+        {
+          "id": "zendesk_get_user",
+          "name": "Get User",
+          "description": "Get user details by ID."
+        },
+        {
+          "id": "zendesk_list_organizations",
+          "name": "List Organizations",
+          "description": "List all organizations."
+        },
+        {
+          "id": "zendesk_list_macros",
+          "name": "List Macros",
+          "description": "List available macros."
+        }
       ]
     },
-
     {
       "id": "openai",
       "name": "OpenAI",
@@ -766,16 +2906,36 @@
       "auth_type": "api_key",
       "description_short": "AI completions, embeddings, image generation, TTS.",
       "description_long": "Connect OpenAI to 0nMCP to generate text with GPT, create images with DALL-E, produce text embeddings, and convert text to speech.",
-      "sxo_keywords": ["openai automation", "ai automation", "gpt integration", "openai integration"],
+      "sxo_keywords": [
+        "openai automation",
+        "ai automation",
+        "gpt integration",
+        "openai integration"
+      ],
       "tool_count": 4,
       "tools": [
-        { "id": "openai_chat_completion", "name": "Chat Completion", "description": "Generate a text response using GPT." },
-        { "id": "openai_create_image", "name": "Create Image", "description": "Generate an image with DALL-E." },
-        { "id": "openai_create_embedding", "name": "Create Embedding", "description": "Create a text embedding vector." },
-        { "id": "openai_text_to_speech", "name": "Text to Speech", "description": "Convert text to spoken audio." }
+        {
+          "id": "openai_chat_completion",
+          "name": "Chat Completion",
+          "description": "Generate a text response using GPT."
+        },
+        {
+          "id": "openai_create_image",
+          "name": "Create Image",
+          "description": "Generate an image with DALL-E."
+        },
+        {
+          "id": "openai_create_embedding",
+          "name": "Create Embedding",
+          "description": "Create a text embedding vector."
+        },
+        {
+          "id": "openai_text_to_speech",
+          "name": "Text to Speech",
+          "description": "Convert text to spoken audio."
+        }
       ]
     },
-
     {
       "id": "github",
       "name": "GitHub",
@@ -788,14 +2948,38 @@
       "auth_type": "token",
       "description_short": "Code hosting — repos, issues, pull requests.",
       "description_long": "Connect GitHub to 0nMCP to list repositories, create and manage issues, and work with pull requests.",
-      "sxo_keywords": ["github automation", "github integration", "github issue automation"],
+      "sxo_keywords": [
+        "github automation",
+        "github integration",
+        "github issue automation"
+      ],
       "tool_count": 5,
       "tools": [
-        { "id": "github_list_repos", "name": "List Repos", "description": "List repositories for the authenticated user." },
-        { "id": "github_create_issue", "name": "Create Issue", "description": "Create a new issue on a repository." },
-        { "id": "github_list_issues", "name": "List Issues", "description": "List issues on a repository." },
-        { "id": "github_create_pr", "name": "Create Pull Request", "description": "Create a new pull request." },
-        { "id": "github_list_prs", "name": "List Pull Requests", "description": "List pull requests on a repository." }
+        {
+          "id": "github_list_repos",
+          "name": "List Repos",
+          "description": "List repositories for the authenticated user."
+        },
+        {
+          "id": "github_create_issue",
+          "name": "Create Issue",
+          "description": "Create a new issue on a repository."
+        },
+        {
+          "id": "github_list_issues",
+          "name": "List Issues",
+          "description": "List issues on a repository."
+        },
+        {
+          "id": "github_create_pr",
+          "name": "Create Pull Request",
+          "description": "Create a new pull request."
+        },
+        {
+          "id": "github_list_prs",
+          "name": "List Pull Requests",
+          "description": "List pull requests on a repository."
+        }
       ]
     },
     {
@@ -810,15 +2994,43 @@
       "auth_type": "api_key",
       "description_short": "Backend-as-a-service — database, auth, storage.",
       "description_long": "Connect Supabase to 0nMCP to query and modify database tables, manage auth users, and list storage buckets.",
-      "sxo_keywords": ["supabase automation", "supabase integration", "database automation"],
+      "sxo_keywords": [
+        "supabase automation",
+        "supabase integration",
+        "database automation"
+      ],
       "tool_count": 6,
       "tools": [
-        { "id": "supabase_query_table", "name": "Query Table", "description": "Read rows from a database table." },
-        { "id": "supabase_insert_row", "name": "Insert Row", "description": "Insert a new row into a table." },
-        { "id": "supabase_update_row", "name": "Update Row", "description": "Update an existing row." },
-        { "id": "supabase_delete_row", "name": "Delete Row", "description": "Delete a row from a table." },
-        { "id": "supabase_list_users", "name": "List Users", "description": "List auth users." },
-        { "id": "supabase_list_buckets", "name": "List Buckets", "description": "List storage buckets." }
+        {
+          "id": "supabase_query_table",
+          "name": "Query Table",
+          "description": "Read rows from a database table."
+        },
+        {
+          "id": "supabase_insert_row",
+          "name": "Insert Row",
+          "description": "Insert a new row into a table."
+        },
+        {
+          "id": "supabase_update_row",
+          "name": "Update Row",
+          "description": "Update an existing row."
+        },
+        {
+          "id": "supabase_delete_row",
+          "name": "Delete Row",
+          "description": "Delete a row from a table."
+        },
+        {
+          "id": "supabase_list_users",
+          "name": "List Users",
+          "description": "List auth users."
+        },
+        {
+          "id": "supabase_list_buckets",
+          "name": "List Buckets",
+          "description": "List storage buckets."
+        }
       ]
     },
     {
@@ -833,19 +3045,54 @@
       "auth_type": "api_key",
       "description_short": "NoSQL database — find, insert, update, delete, aggregate.",
       "description_long": "Connect MongoDB to 0nMCP to perform document operations via the Atlas Data API. Find, insert, update, delete documents, and run aggregation pipelines.",
-      "sxo_keywords": ["mongodb automation", "mongodb integration", "nosql automation"],
+      "sxo_keywords": [
+        "mongodb automation",
+        "mongodb integration",
+        "nosql automation"
+      ],
       "tool_count": 8,
       "tools": [
-        { "id": "mongodb_find_one", "name": "Find One", "description": "Find a single document matching a filter." },
-        { "id": "mongodb_find_many", "name": "Find Many", "description": "Find multiple documents." },
-        { "id": "mongodb_insert_one", "name": "Insert One", "description": "Insert a single document." },
-        { "id": "mongodb_insert_many", "name": "Insert Many", "description": "Insert multiple documents." },
-        { "id": "mongodb_update_one", "name": "Update One", "description": "Update a single document." },
-        { "id": "mongodb_update_many", "name": "Update Many", "description": "Update multiple documents." },
-        { "id": "mongodb_delete_one", "name": "Delete One", "description": "Delete a single document." },
-        { "id": "mongodb_aggregate", "name": "Aggregate", "description": "Run an aggregation pipeline." }
+        {
+          "id": "mongodb_find_one",
+          "name": "Find One",
+          "description": "Find a single document matching a filter."
+        },
+        {
+          "id": "mongodb_find_many",
+          "name": "Find Many",
+          "description": "Find multiple documents."
+        },
+        {
+          "id": "mongodb_insert_one",
+          "name": "Insert One",
+          "description": "Insert a single document."
+        },
+        {
+          "id": "mongodb_insert_many",
+          "name": "Insert Many",
+          "description": "Insert multiple documents."
+        },
+        {
+          "id": "mongodb_update_one",
+          "name": "Update One",
+          "description": "Update a single document."
+        },
+        {
+          "id": "mongodb_update_many",
+          "name": "Update Many",
+          "description": "Update multiple documents."
+        },
+        {
+          "id": "mongodb_delete_one",
+          "name": "Delete One",
+          "description": "Delete a single document."
+        },
+        {
+          "id": "mongodb_aggregate",
+          "name": "Aggregate",
+          "description": "Run an aggregation pipeline."
+        }
       ]
     }
-
   ]
 }

@@ -63,9 +63,18 @@ ALTER TABLE qa_distributions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE qa_platforms ENABLE ROW LEVEL SECURITY;
 
 -- Admin full access policies (admin-only tables, no public access)
-CREATE POLICY "Admin full access on qa_content" ON qa_content FOR ALL USING (true);
-CREATE POLICY "Admin full access on qa_distributions" ON qa_distributions FOR ALL USING (true);
-CREATE POLICY "Admin full access on qa_platforms" ON qa_platforms FOR ALL USING (true);
+DO $$ BEGIN
+  CREATE POLICY "Admin full access on qa_content" ON qa_content FOR ALL USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "Admin full access on qa_distributions" ON qa_distributions FOR ALL USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+DO $$ BEGIN
+  CREATE POLICY "Admin full access on qa_platforms" ON qa_platforms FOR ALL USING (true);
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Seed the platforms table with initial data
 INSERT INTO qa_platforms (id, name, domain, domain_authority, max_daily_posts, enabled, config)
@@ -93,6 +102,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS qa_content_updated_at ON qa_content;
 CREATE TRIGGER qa_content_updated_at
   BEFORE UPDATE ON qa_content
   FOR EACH ROW

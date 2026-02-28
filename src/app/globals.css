@@ -1850,58 +1850,62 @@ a:hover {
   50% { opacity: 1; }
 }
 
-/* Central radial glow */
-.hero-radial {
+/* Multi-color radial glows */
+.hero-glow {
   position: absolute;
-  top: 35%;
-  left: 50%;
-  width: 1400px;
-  height: 1400px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(0, 255, 136, 0.1) 0%,
-    rgba(0, 212, 255, 0.05) 25%,
-    rgba(167, 139, 250, 0.02) 45%,
-    transparent 65%
-  );
-  animation: heroRadialPulse 6s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes heroRadialPulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-}
-
-/* Expanding rings */
-.hero-rings {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
-  pointer-events: none;
-}
-
-.hero-ring {
-  position: absolute;
-  inset: 0;
   border-radius: 50%;
-  border: 1px solid rgba(0, 255, 136, 0.08);
-  animation: heroRingExpand 5s ease-out infinite;
+  pointer-events: none;
+  filter: blur(80px);
 }
 
-.hero-ring-2 { animation-delay: 1.7s; }
-.hero-ring-3 { animation-delay: 3.4s; }
-
-@keyframes heroRingExpand {
-  0% { transform: scale(0.2); opacity: 0.6; }
-  100% { transform: scale(2.5); opacity: 0; }
+.hero-glow-green {
+  top: 25%;
+  left: 45%;
+  width: 900px;
+  height: 900px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 60%);
+  animation: heroGlowDrift1 8s ease-in-out infinite;
 }
 
-/* Floating particles */
+.hero-glow-purple {
+  top: 55%;
+  left: 25%;
+  width: 700px;
+  height: 700px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.09) 0%, transparent 60%);
+  animation: heroGlowDrift2 10s ease-in-out infinite;
+}
+
+.hero-glow-blue {
+  top: 35%;
+  left: 70%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 60%);
+  animation: heroGlowDrift3 12s ease-in-out infinite;
+}
+
+@keyframes heroGlowDrift1 {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.5; }
+  33% { transform: translate(-45%, -55%) scale(1.1); opacity: 1; }
+  66% { transform: translate(-55%, -45%) scale(0.95); opacity: 0.7; }
+}
+
+@keyframes heroGlowDrift2 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  40% { transform: translate(-55%, -45%) scale(1.15); opacity: 0.8; }
+  70% { transform: translate(-45%, -55%) scale(0.9); opacity: 0.5; }
+}
+
+@keyframes heroGlowDrift3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.35; }
+  50% { transform: translate(-45%, -50%) scale(1.2); opacity: 0.75; }
+}
+
+/* Floating digital particles — multi-color */
 .hero-particles {
   position: absolute;
   inset: 0;
@@ -1910,96 +1914,76 @@ a:hover {
 
 .hero-particle {
   position: absolute;
-  background: var(--accent);
   border-radius: 50%;
   opacity: 0;
   animation: heroParticleFloat linear infinite;
 }
 
 @keyframes heroParticleFloat {
-  0% { opacity: 0; transform: translateY(0) scale(0.5); }
-  15% { opacity: 0.6; transform: scale(1); }
-  85% { opacity: 0.6; }
-  100% { opacity: 0; transform: translateY(-120px) translateX(30px) scale(0.3); }
+  0% { opacity: 0; transform: translateY(0) scale(0.4); }
+  10% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 0.5; transform: translateY(-60px) translateX(20px) scale(0.8); }
+  90% { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(-140px) translateX(-15px) scale(0.2); }
 }
 
-/* Scan line */
-.hero-scan-line {
+/* Subtle scan lines — horizontal and vertical, fade in/pan/fade out */
+.hero-scanlines {
   position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-line {
+  position: absolute;
+  opacity: 0;
+}
+
+.hero-line-h {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.12), transparent);
-  animation: heroScanDown 7s linear infinite;
-  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 255, 136, 0.06) 15%,
+    rgba(0, 212, 255, 0.1) 50%,
+    rgba(167, 139, 250, 0.06) 85%,
+    transparent 100%
+  );
+  animation: heroLineH linear infinite;
 }
 
-@keyframes heroScanDown {
-  0% { top: -1px; }
-  100% { top: 100%; }
+.hero-line-v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(167, 139, 250, 0.06) 15%,
+    rgba(0, 255, 136, 0.08) 50%,
+    rgba(0, 212, 255, 0.06) 85%,
+    transparent 100%
+  );
+  animation: heroLineV linear infinite;
 }
 
-/* Orbital ring with service dots */
-.hero-orbit {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  width: 700px;
-  height: 700px;
-  transform: translate(-50%, -50%);
-  animation: heroOrbitSpin 60s linear infinite;
-  pointer-events: none;
+@keyframes heroLineH {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 0.6; }
+  50% { opacity: 0.4; }
+  90% { opacity: 0; }
+  100% { opacity: 0; transform: translateY(40px); }
 }
 
-@keyframes heroOrbitSpin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.hero-orbit-dot {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--dot-color, var(--accent));
-  top: 50%;
-  left: 50%;
-  transform: rotate(var(--angle)) translateX(350px) rotate(calc(-1 * var(--angle)));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.25;
-  animation: heroOrbitDotGlow 4s ease-in-out infinite;
-  animation-delay: calc(var(--angle) / 360 * 4s);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--dot-color, var(--accent)) 40%, transparent);
-}
-
-/* Counter-rotate labels */
-.hero-orbit-dot .hero-orbit-label {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: #000;
-  animation: heroOrbitSpin 60s linear infinite reverse;
-}
-
-@keyframes heroOrbitDotGlow {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.45; }
-}
-
-@media (max-width: 768px) {
-  .hero-orbit { width: 450px; height: 450px; }
-  .hero-orbit-dot {
-    width: 20px;
-    height: 20px;
-    transform: rotate(var(--angle)) translateX(225px) rotate(calc(-1 * var(--angle)));
-  }
-  .hero-orbit-label { font-size: 0.5rem; }
-}
-
-@media (max-width: 480px) {
-  .hero-orbit { display: none; }
+@keyframes heroLineV {
+  0% { opacity: 0; transform: translateX(-15px); }
+  10% { opacity: 0.5; }
+  50% { opacity: 0.3; }
+  90% { opacity: 0; }
+  100% { opacity: 0; transform: translateX(30px); }
 }
 
 /* ── Hero content ── */
@@ -2252,6 +2236,231 @@ a:hover {
 @keyframes heroScrollDot {
   0%, 100% { top: 6px; opacity: 1; }
   50% { top: 18px; opacity: 0.3; }
+}
+
+/* ============================================
+   CONSOLE CTA — Global above-footer CTA
+   ============================================ */
+
+.console-cta {
+  position: relative;
+  padding: 5rem 2rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(0, 255, 136, 0.02) 50%, var(--bg-primary) 100%);
+  border-top: 1px solid var(--border);
+}
+
+.console-cta-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(0, 255, 136, 0.06) 0%, transparent 60%);
+  filter: blur(60px);
+  pointer-events: none;
+  animation: consoleCTAGlow 6s ease-in-out infinite;
+}
+
+.console-cta-glow-2 {
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(167, 139, 250, 0.05) 0%, transparent 60%);
+  animation: consoleCTAGlow 8s ease-in-out infinite reverse;
+}
+
+@keyframes consoleCTAGlow {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.console-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Terminal preview */
+.console-cta-terminal {
+  width: 100%;
+  max-width: 560px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(10, 10, 15, 0.8);
+  backdrop-filter: blur(16px);
+  margin-bottom: 2.5rem;
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 136, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 60px rgba(0, 255, 136, 0.03);
+}
+
+.console-cta-prompt-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border);
+}
+
+.console-cta-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.console-cta-dot-red { background: #ff5f57; }
+.console-cta-dot-yellow { background: #ffbd2e; }
+.console-cta-dot-green { background: #28c840; }
+
+.console-cta-prompt-title {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.console-cta-prompt-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 52px;
+}
+
+.console-cta-chevron {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.console-cta-typed {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.console-cta-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: consoleCursorBlink 0.8s step-end infinite;
+  box-shadow: 0 0 6px var(--accent);
+}
+
+@keyframes consoleCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Headline */
+.console-cta-headline {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.console-cta-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 50%, #a78bfa 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: heroGradientShift 4s ease-in-out infinite;
+}
+
+.console-cta-sub {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 460px;
+}
+
+/* CTA Button */
+.console-cta-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent) 0%, #00cc6a 50%, var(--accent-secondary) 100%);
+  background-size: 200% 200%;
+  animation: consoleBtnShimmer 4s ease-in-out infinite;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  box-shadow:
+    0 4px 20px rgba(0, 255, 136, 0.25),
+    0 0 40px rgba(0, 255, 136, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.console-cta-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 8px 40px rgba(0, 255, 136, 0.4),
+    0 0 80px rgba(0, 255, 136, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.console-cta-btn-glow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+
+.console-cta-btn:hover .console-cta-btn-glow {
+  transform: translateX(120%);
+}
+
+.console-cta-btn-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #0a0a0f;
+  letter-spacing: 0.02em;
+}
+
+.console-cta-btn-text svg {
+  transition: transform 0.3s ease;
+}
+
+.console-cta-btn:hover .console-cta-btn-text svg {
+  transform: translateX(4px);
+}
+
+@keyframes consoleBtnShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (max-width: 640px) {
+  .console-cta { padding: 3.5rem 1.5rem; }
+  .console-cta-terminal { max-width: 100%; }
+  .console-cta-typed { font-size: 0.75rem; }
 }
 
 /* ============================================

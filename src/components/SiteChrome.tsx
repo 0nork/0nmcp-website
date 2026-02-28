@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import MegaNav from '@/components/MegaNav'
 import Footer from '@/components/Footer'
+import ConsoleCTA from '@/components/ConsoleCTA'
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -16,6 +17,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     <>
       <MegaNav />
       <main className="relative z-[1] pt-[72px]">{children}</main>
+      <ConsoleCTA />
       <Footer />
     </>
   )

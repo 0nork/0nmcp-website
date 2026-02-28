@@ -32,22 +32,6 @@ function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
   )
 }
 
-/* ── Orbital service dots ── */
-const ORBIT_SERVICES = [
-  { name: 'Stripe', color: '#635bff' },
-  { name: 'Slack', color: '#e01e5a' },
-  { name: 'GitHub', color: '#f0f6fc' },
-  { name: 'OpenAI', color: '#10a37f' },
-  { name: 'Discord', color: '#5865f2' },
-  { name: 'Notion', color: '#ffffff' },
-  { name: 'Twilio', color: '#f22f46' },
-  { name: 'Gmail', color: '#ea4335' },
-  { name: 'Shopify', color: '#96bf48' },
-  { name: 'Supabase', color: '#3ecf8e' },
-  { name: 'Jira', color: '#0052cc' },
-  { name: 'HubSpot', color: '#ff7a59' },
-]
-
 export default function HeroSection() {
   const [typed, setTyped] = useState('')
   const fullText = 'Stop building workflows. Start describing outcomes.'
@@ -70,54 +54,61 @@ export default function HeroSection() {
       {/* ── Background layers ── */}
       <div className="hero-bg" aria-hidden="true">
         <div className="hero-grid" />
-        <div className="hero-radial" />
-        <div className="hero-rings">
-          <div className="hero-ring hero-ring-1" />
-          <div className="hero-ring hero-ring-2" />
-          <div className="hero-ring hero-ring-3" />
+
+        {/* Multi-color radial glows */}
+        <div className="hero-glow hero-glow-green" />
+        <div className="hero-glow hero-glow-purple" />
+        <div className="hero-glow hero-glow-blue" />
+
+        {/* Animated digital particles — green, purple, blue mix */}
+        <div className="hero-particles">
+          {Array.from({ length: 50 }).map((_, i) => {
+            const colors = ['#00ff88', '#a78bfa', '#00d4ff', '#00ff88', '#a78bfa', '#00d4ff']
+            const color = colors[i % colors.length]
+            const size = 1 + Math.random() * 2.5
+            return (
+              <span
+                key={i}
+                className="hero-particle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 8}s`,
+                  animationDuration: `${5 + Math.random() * 6}s`,
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  backgroundColor: color,
+                  boxShadow: `0 0 ${4 + Math.random() * 8}px ${color}`,
+                }}
+              />
+            )
+          })}
         </div>
 
-        {/* Floating particles */}
-        <div className="hero-particles">
-          {Array.from({ length: 40 }).map((_, i) => (
-            <span
-              key={i}
-              className="hero-particle"
+        {/* Scan lines — vertical and horizontal, random fade in/out */}
+        <div className="hero-scanlines">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={`h-${i}`}
+              className="hero-line hero-line-h"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 6}s`,
-                animationDuration: `${4 + Math.random() * 4}s`,
-                width: `${1 + Math.random() * 2}px`,
-                height: `${1 + Math.random() * 2}px`,
+                animationDelay: `${i * 2.5 + Math.random() * 2}s`,
+                animationDuration: `${6 + Math.random() * 4}s`,
+                top: `${10 + Math.random() * 80}%`,
               }}
             />
           ))}
-        </div>
-
-        {/* Scan line */}
-        <div className="hero-scan-line" />
-
-        {/* Orbital ring of services */}
-        <div className="hero-orbit">
-          {ORBIT_SERVICES.map((s, i) => {
-            const angle = (360 / ORBIT_SERVICES.length) * i
-            return (
-              <div
-                key={s.name}
-                className="hero-orbit-dot"
-                style={
-                  {
-                    '--angle': `${angle}deg`,
-                    '--dot-color': s.color,
-                  } as React.CSSProperties
-                }
-                title={s.name}
-              >
-                <span className="hero-orbit-label">{s.name[0]}</span>
-              </div>
-            )
-          })}
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={`v-${i}`}
+              className="hero-line hero-line-v"
+              style={{
+                animationDelay: `${i * 2 + Math.random() * 3}s`,
+                animationDuration: `${7 + Math.random() * 5}s`,
+                left: `${10 + Math.random() * 80}%`,
+              }}
+            />
+          ))}
         </div>
       </div>
 

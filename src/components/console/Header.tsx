@@ -10,6 +10,7 @@ const VIEW_LABELS: Record<string, string> = {
   builder: 'Builder',
   vault: 'Vault',
   flows: 'Flows',
+  store: 'Store',
   history: 'History',
 }
 

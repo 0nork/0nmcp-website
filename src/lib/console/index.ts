@@ -10,9 +10,10 @@ export type { ServiceField, ServiceConfig } from "./services";
 // Workflow idea suggestions
 export { IDEAS, getIdeas } from "./ideas";
 
-// React hooks (vault, flows, history)
+// React hooks (vault, flows, history, store)
 export { useVault, useFlows, useHistory } from "./hooks";
 export type { Workflow, HistoryEntry } from "./hooks";
+export { useStore } from "./useStore";
 
 // 0nMCP HTTP client
 export {

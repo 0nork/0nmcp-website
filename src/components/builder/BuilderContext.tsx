@@ -190,6 +190,31 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     hydrated.current = true
   }, [])
 
+  // Check for premium workflow import via localStorage bridge
+  useEffect(() => {
+    const IMPORT_KEY = '0nmcp-builder-import'
+    try {
+      const raw = localStorage.getItem(IMPORT_KEY)
+      if (raw) {
+        localStorage.removeItem(IMPORT_KEY)
+        const workflowData = JSON.parse(raw)
+        // Dynamic import to avoid circular dependencies
+        import('./importWorkflow').then(({ importWorkflow }) => {
+          const result = importWorkflow(workflowData)
+          dispatch({
+            type: 'IMPORT_WORKFLOW',
+            nodes: result.nodes,
+            edges: result.edges,
+            settings: result.settings,
+            stepCounter: result.stepCounter,
+          })
+        })
+      }
+    } catch {
+      // ignore errors
+    }
+  }, [])
+
   // Autosave to localStorage on changes (debounced)
   useEffect(() => {
     if (!hydrated.current) return

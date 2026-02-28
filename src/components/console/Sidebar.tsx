@@ -9,6 +9,7 @@ import {
   History,
   Users,
   Blocks,
+  ShoppingBag,
   ChevronRight,
   PanelLeftClose,
 } from 'lucide-react'
@@ -32,6 +33,7 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] 
   { key: 'builder', label: 'Builder', icon: Blocks },
   { key: 'vault', label: 'Vault', icon: Shield },
   { key: 'flows', label: 'Flows', icon: Workflow },
+  { key: 'store', label: 'Store', icon: ShoppingBag },
   { key: 'history', label: 'History', icon: History },
 ]
 

@@ -15,13 +15,18 @@ import { FlowsOverlay } from '@/components/console/FlowsOverlay'
 import { HistoryOverlay } from '@/components/console/HistoryOverlay'
 import { IdeasTicker } from '@/components/console/IdeasTicker'
 import { CommunityView } from '@/components/console/CommunityView'
+import { StoreView } from '@/components/console/StoreView'
+import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionModal'
+import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import BuilderApp from '@/components/builder/BuilderApp'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
+import { useStore } from '@/lib/console/useStore'
 import { getIdeas } from '@/lib/console/ideas'
+import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store'
 
 interface McpHealth {
   version?: string
@@ -62,6 +67,11 @@ export default function ConsolePage() {
   const vault = useVault()
   const flowsHook = useFlows()
   const historyHook = useHistory()
+  const store = useStore()
+
+  // ─── Store Modal State ──────────────────────────────────────
+  const [activePremiumPurchase, setActivePremiumPurchase] = useState<PurchaseWithWorkflow | null>(null)
+  const [premiumDetailListing, setPremiumDetailListing] = useState<StoreListing | null>(null)
 
   // ─── Derived ──────────────────────────────────────────────────
   const connectedKeys = vault.connectedServices
@@ -94,6 +104,23 @@ export default function ConsolePage() {
       .then((r) => r.json())
       .then((data) => setMcpWorkflows(data.workflows || []))
       .catch(() => {})
+
+    // Detect Stripe return URL params
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('view') === 'store') {
+      setView('store')
+      if (params.get('purchased') === 'true') {
+        // Refresh store data after purchase
+        store.fetchListings()
+        store.fetchPurchases()
+      }
+      // Clean up URL params
+      window.history.replaceState({}, '', '/console')
+    }
+
+    // Load premium purchases for flows view
+    store.fetchPurchases()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Periodic health check every 30 seconds
@@ -206,6 +233,9 @@ export default function ConsolePage() {
         case '/builder':
           setView('builder')
           break
+        case '/store':
+          setView('store')
+          break
         case '/history':
           setView('history')
           break
@@ -298,6 +328,35 @@ export default function ConsolePage() {
     [historyHook.history]
   )
 
+  // ─── Premium Flow Handlers ───────────────────────────────────
+  const handlePremiumRun = useCallback(
+    async (workflowData: Record<string, unknown>) => {
+      const name = (workflowData as { name?: string }).name || 'premium-workflow'
+      historyHook.add('workflow', `Running premium workflow: ${name}`)
+      try {
+        const res = await fetch('/api/console/execute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ workflow: workflowData }),
+        })
+        const data = await res.json()
+        historyHook.add('workflow', `Premium "${name}": ${data.status || 'completed'}`)
+      } catch {
+        historyHook.add('error', `Premium "${name}" failed`)
+      }
+    },
+    [historyHook]
+  )
+
+  const handleAddToBuilder = useCallback(
+    (workflowData: Record<string, unknown>) => {
+      localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflowData))
+      setView('builder')
+      setActivePremiumPurchase(null)
+    },
+    []
+  )
+
   // ─── Render ───────────────────────────────────────────────────
   const renderContent = () => {
     switch (view) {
@@ -368,6 +427,9 @@ export default function ConsolePage() {
                 setView('chat')
                 handleChatSend('Create a new workflow for me.')
               }}
+              premiumPurchases={store.purchases}
+              onPremiumClick={setActivePremiumPurchase}
+              onGoToStore={() => setView('store')}
             />
           </div>
         )
@@ -383,6 +445,19 @@ export default function ConsolePage() {
         return (
           <div className="flex-1 min-h-0 overflow-hidden">
             <BuilderApp />
+          </div>
+        )
+
+      case 'store':
+        return (
+          <div className="flex-1 overflow-y-auto">
+            <StoreView
+              listings={store.listings}
+              purchasedIds={store.purchasedIds}
+              loading={store.loading}
+              onFetch={store.fetchListings}
+              onCheckout={store.checkout}
+            />
           </div>
         )
 
@@ -450,6 +525,33 @@ export default function ConsolePage() {
         onClose={() => setCmdPaletteOpen(false)}
         onSelect={handleCommand}
       />
+
+      {/* Premium Flow Action Modal */}
+      {activePremiumPurchase && (
+        <PremiumFlowActionModal
+          purchase={activePremiumPurchase}
+          onClose={() => setActivePremiumPurchase(null)}
+          onRun={handlePremiumRun}
+          onAddToBuilder={handleAddToBuilder}
+          onDownload={store.download}
+          onViewDetails={() => {
+            if (activePremiumPurchase.listing) {
+              setPremiumDetailListing(activePremiumPurchase.listing)
+            }
+            setActivePremiumPurchase(null)
+          }}
+        />
+      )}
+
+      {/* Premium Detail Listing Modal */}
+      {premiumDetailListing && (
+        <ListingDetailModal
+          listing={premiumDetailListing}
+          owned={true}
+          onClose={() => setPremiumDetailListing(null)}
+          onCheckout={store.checkout}
+        />
+      )}
     </div>
   )
 }

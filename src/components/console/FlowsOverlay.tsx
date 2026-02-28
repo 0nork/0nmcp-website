@@ -9,9 +9,12 @@ import {
   Play,
   Loader2,
   Server,
+  Star,
+  ShoppingBag,
   ToggleLeft,
   ToggleRight,
 } from 'lucide-react'
+import type { PurchaseWithWorkflow } from './StoreTypes'
 
 interface McpWorkflow {
   name: string
@@ -35,6 +38,9 @@ interface FlowsOverlayProps {
   onToggle: (id: string) => void
   onDelete: (id: string) => void
   onCreate: () => void
+  premiumPurchases?: PurchaseWithWorkflow[]
+  onPremiumClick?: (purchase: PurchaseWithWorkflow) => void
+  onGoToStore?: () => void
 }
 
 export function FlowsOverlay({
@@ -44,6 +50,9 @@ export function FlowsOverlay({
   onToggle,
   onDelete,
   onCreate,
+  premiumPurchases = [],
+  onPremiumClick,
+  onGoToStore,
 }: FlowsOverlayProps) {
   const [runningId, setRunningId] = useState<string | null>(null)
   const [runResult, setRunResult] = useState<string | null>(null)
@@ -335,6 +344,84 @@ export function FlowsOverlay({
                       ))}
                     </div>
                   </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Premium Workflows */}
+          {premiumPurchases.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <Star size={14} style={{ color: '#ffbb33' }} />
+                  <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                    Premium Workflows
+                  </h3>
+                  <span
+                    className="text-[10px] px-1.5 py-0.5 rounded-full font-bold"
+                    style={{
+                      backgroundColor: 'rgba(255,187,51,0.1)',
+                      color: '#ffbb33',
+                    }}
+                  >
+                    {premiumPurchases.length}
+                  </span>
+                </div>
+                {onGoToStore && (
+                  <button
+                    onClick={onGoToStore}
+                    className="flex items-center gap-1.5 text-xs font-medium transition-colors cursor-pointer border-none bg-transparent"
+                    style={{ color: 'var(--accent)' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--accent)')}
+                  >
+                    <ShoppingBag size={12} />
+                    Browse Store
+                  </button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {premiumPurchases.map((p, i) => (
+                  <button
+                    key={p.id}
+                    onClick={() => onPremiumClick?.(p)}
+                    className="glow-box rounded-2xl p-4 transition-all duration-300 text-left cursor-pointer border-none w-full"
+                    style={{
+                      animation: 'console-stagger-in 0.4s ease both',
+                      animationDelay: `${i * 60}ms`,
+                      borderLeft: '3px solid #ffbb33',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,187,51,0.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: 'rgba(255,187,51,0.1)' }}
+                      >
+                        <Star size={16} style={{ color: '#ffbb33' }} />
+                      </div>
+                      <div className="min-w-0">
+                        <span
+                          className="font-semibold text-sm truncate block"
+                          style={{ color: 'var(--text-primary)' }}
+                        >
+                          {p.workflow_name || p.listing?.title || 'Premium Workflow'}
+                        </span>
+                        <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
+                          {p.listing?.category || 'workflow'}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
                 ))}
               </div>
             </div>

@@ -27,6 +27,7 @@ import MigrateView from '@/components/console/MigrateView'
 import WizardShell from '@/components/console/wizard/WizardShell'
 import BuilderApp from '@/components/builder/BuilderApp'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
+import { LearnView } from '@/components/console/LearnView'
 import dynamic from 'next/dynamic'
 
 const OnTerminal = dynamic(
@@ -42,7 +43,7 @@ import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn'
 
 interface McpHealth {
   version?: string
@@ -283,6 +284,9 @@ export default function ConsolePage() {
           break
         case '/terminal':
           setView('terminal')
+          break
+        case '/learn':
+          setView('learn')
           break
         case '/history':
           setView('history')
@@ -635,6 +639,13 @@ export default function ConsolePage() {
               packages={['0nmcp']}
               onReady={() => historyHook.add('terminal', 'Web Terminal opened')}
             />
+          </div>
+        )
+
+      case 'learn':
+        return (
+          <div className="flex-1 min-h-0">
+            <LearnView />
           </div>
         )
 

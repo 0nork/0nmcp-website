@@ -17,6 +17,7 @@ import {
   BarChart3,
   ArrowRightLeft,
   TerminalSquare,
+  GraduationCap,
   ChevronRight,
   PanelLeftClose,
 } from 'lucide-react'
@@ -45,6 +46,7 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] 
   { key: 'social', label: 'Social', icon: Share2 },
   { key: 'reporting', label: 'Reporting', icon: BarChart3 },
   { key: 'migrate', label: 'Migrate', icon: ArrowRightLeft },
+  { key: 'learn', label: 'Learn', icon: GraduationCap },
   { key: 'store', label: 'Store', icon: ShoppingBag },
   { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
   { key: 'request', label: 'Request', icon: PlusCircle },

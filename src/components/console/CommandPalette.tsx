@@ -18,6 +18,7 @@ import {
   BarChart3,
   ArrowRightLeft,
   TerminalSquare,
+  GraduationCap,
 } from 'lucide-react'
 
 interface CommandPaletteProps {
@@ -37,6 +38,7 @@ const COMMANDS = [
   { cmd: '/social', desc: 'Social auto-posting hub', icon: Share2, group: 'Navigate' },
   { cmd: '/reporting', desc: 'Universal tracking & analytics', icon: BarChart3, group: 'Navigate' },
   { cmd: '/migrate', desc: 'Import workflows from other platforms', icon: ArrowRightLeft, group: 'Navigate' },
+  { cmd: '/learn', desc: 'Courses & community learning', icon: GraduationCap, group: 'Navigate' },
   { cmd: '/store', desc: 'Browse premium workflows', icon: ShoppingBag, group: 'Navigate' },
   { cmd: '/linkedin', desc: 'LinkedIn onboarding & posts', icon: Linkedin, group: 'Navigate' },
   { cmd: '/request', desc: 'Request a new integration', icon: PlusCircle, group: 'Navigate' },

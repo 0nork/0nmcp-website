@@ -1,13 +1,19 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import Terminal from './Terminal'
 import AddOnManager from './AddOnManager'
 import ConnectionSettings from './ConnectionSettings'
 import TabletBuilder from './TabletBuilder'
 import InstallPrompt from './InstallPrompt'
 
-type Tab = 'terminal' | 'addons' | 'settings' | 'builder'
+const OnTerminal = dynamic(
+  () => import('@/components/terminal/OnTerminal'),
+  { ssr: false }
+)
+
+type Tab = 'terminal' | 'code' | 'addons' | 'settings' | 'builder'
 
 export default function PWAShell() {
   const [activeTab, setActiveTab] = useState<Tab>('terminal')
@@ -37,6 +43,16 @@ export default function PWAShell() {
 
       <div className="pwa-content">
         {activeTab === 'terminal' && <Terminal />}
+        {activeTab === 'code' && (
+          <div style={{ height: '100%' }}>
+            <OnTerminal
+              height="100%"
+              enableNode={true}
+              enablePython={true}
+              packages={['0nmcp']}
+            />
+          </div>
+        )}
         {activeTab === 'addons' && <AddOnManager />}
         {activeTab === 'settings' && <ConnectionSettings />}
         {activeTab === 'builder' && <TabletBuilder isTablet={isTablet} />}
@@ -52,6 +68,17 @@ export default function PWAShell() {
             <line x1="12" y1="19" x2="20" y2="19" />
           </svg>
           Terminal
+        </button>
+
+        <button
+          className={`pwa-tab ${activeTab === 'code' ? 'active' : ''}`}
+          onClick={() => setActiveTab('code')}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Code
         </button>
 
         <button

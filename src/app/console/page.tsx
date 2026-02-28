@@ -26,6 +26,13 @@ import { ReportingView } from '@/components/console/ReportingView'
 import MigrateView from '@/components/console/MigrateView'
 import WizardShell from '@/components/console/wizard/WizardShell'
 import BuilderApp from '@/components/builder/BuilderApp'
+import FeedbackAgent from '@/components/console/FeedbackAgent'
+import dynamic from 'next/dynamic'
+
+const OnTerminal = dynamic(
+  () => import('@/components/terminal/OnTerminal'),
+  { ssr: false }
+)
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -35,7 +42,7 @@ import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal'
 
 interface McpHealth {
   version?: string
@@ -273,6 +280,9 @@ export default function ConsolePage() {
           break
         case '/migrate':
           setView('migrate')
+          break
+        case '/terminal':
+          setView('terminal')
           break
         case '/history':
           setView('history')
@@ -615,6 +625,19 @@ export default function ConsolePage() {
           </div>
         )
 
+      case 'terminal':
+        return (
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <OnTerminal
+              height="100%"
+              enableNode={true}
+              enablePython={true}
+              packages={['0nmcp']}
+              onReady={() => historyHook.add('terminal', 'Web Terminal opened')}
+            />
+          </div>
+        )
+
       case 'history':
         return (
           <div className="flex-1 overflow-y-auto">
@@ -706,6 +729,9 @@ export default function ConsolePage() {
           onCheckout={store.checkout}
         />
       )}
+
+      {/* Feedback Agent */}
+      <FeedbackAgent />
     </div>
   )
 }

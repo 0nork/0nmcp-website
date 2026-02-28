@@ -18,15 +18,17 @@ import { CommunityView } from '@/components/console/CommunityView'
 import { StoreView } from '@/components/console/StoreView'
 import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionModal'
 import { ListingDetailModal } from '@/components/console/ListingDetailModal'
+import { LinkedInView } from '@/components/console/LinkedInView'
 import BuilderApp from '@/components/builder/BuilderApp'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
 import { useStore } from '@/lib/console/useStore'
+import { useLinkedIn } from '@/lib/console/useLinkedIn'
 import { getIdeas } from '@/lib/console/ideas'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin'
 
 interface McpHealth {
   version?: string
@@ -68,6 +70,7 @@ export default function ConsolePage() {
   const flowsHook = useFlows()
   const historyHook = useHistory()
   const store = useStore()
+  const linkedin = useLinkedIn()
 
   // ─── Store Modal State ──────────────────────────────────────
   const [activePremiumPurchase, setActivePremiumPurchase] = useState<PurchaseWithWorkflow | null>(null)
@@ -105,16 +108,25 @@ export default function ConsolePage() {
       .then((data) => setMcpWorkflows(data.workflows || []))
       .catch(() => {})
 
-    // Detect Stripe return URL params
+    // Detect URL params from redirects
     const params = new URLSearchParams(window.location.search)
     if (params.get('view') === 'store') {
       setView('store')
       if (params.get('purchased') === 'true') {
-        // Refresh store data after purchase
         store.fetchListings()
         store.fetchPurchases()
       }
-      // Clean up URL params
+      window.history.replaceState({}, '', '/console')
+    }
+
+    // Detect LinkedIn OAuth return
+    if (params.get('linkedin') === 'connected') {
+      setView('linkedin')
+      linkedin.fetchMember()
+      window.history.replaceState({}, '', '/console')
+    }
+    if (params.get('linkedin_error')) {
+      setView('linkedin')
       window.history.replaceState({}, '', '/console')
     }
 
@@ -235,6 +247,9 @@ export default function ConsolePage() {
           break
         case '/store':
           setView('store')
+          break
+        case '/linkedin':
+          setView('linkedin')
           break
         case '/history':
           setView('history')
@@ -445,6 +460,13 @@ export default function ConsolePage() {
         return (
           <div className="flex-1 min-h-0 overflow-hidden">
             <BuilderApp />
+          </div>
+        )
+
+      case 'linkedin':
+        return (
+          <div className="flex-1 min-h-0">
+            <LinkedInView linkedin={linkedin} />
           </div>
         )
 

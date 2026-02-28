@@ -11,6 +11,7 @@ const VIEW_LABELS: Record<string, string> = {
   vault: 'Vault',
   flows: 'Flows',
   store: 'Store',
+  linkedin: 'LinkedIn',
   history: 'History',
 }
 

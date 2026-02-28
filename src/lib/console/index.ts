@@ -14,6 +14,7 @@ export { IDEAS, getIdeas } from "./ideas";
 export { useVault, useFlows, useHistory } from "./hooks";
 export type { Workflow, HistoryEntry } from "./hooks";
 export { useStore } from "./useStore";
+export { useLinkedIn } from "./useLinkedIn";
 
 // 0nMCP HTTP client
 export {

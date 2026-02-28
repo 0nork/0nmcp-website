@@ -12,6 +12,7 @@ import {
   Users,
   Blocks,
   ShoppingBag,
+  Linkedin,
 } from 'lucide-react'
 
 interface CommandPaletteProps {
@@ -27,6 +28,7 @@ const COMMANDS = [
   { cmd: '/vault', desc: 'Manage credentials', icon: Shield, group: 'Navigate' },
   { cmd: '/flows', desc: 'View workflows', icon: Workflow, group: 'Navigate' },
   { cmd: '/store', desc: 'Browse premium workflows', icon: ShoppingBag, group: 'Navigate' },
+  { cmd: '/linkedin', desc: 'LinkedIn onboarding & posts', icon: Linkedin, group: 'Navigate' },
   { cmd: '/history', desc: 'Activity log', icon: Clock, group: 'Navigate' },
   { cmd: '/help', desc: 'Show all commands', icon: HelpCircle, group: 'Actions' },
   { cmd: '/status', desc: 'Check 0nMCP status', icon: Activity, group: 'Actions' },

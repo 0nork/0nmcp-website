@@ -10,6 +10,7 @@ import {
   Users,
   Blocks,
   ShoppingBag,
+  Linkedin,
   ChevronRight,
   PanelLeftClose,
 } from 'lucide-react'
@@ -34,6 +35,7 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] 
   { key: 'vault', label: 'Vault', icon: Shield },
   { key: 'flows', label: 'Flows', icon: Workflow },
   { key: 'store', label: 'Store', icon: ShoppingBag },
+  { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
   { key: 'history', label: 'History', icon: History },
 ]
 

@@ -2464,6 +2464,154 @@ a:hover {
 }
 
 /* ============================================
+   DEPTH SYSTEM — Recessed + Elevated Sections
+   ============================================ */
+
+/* Recessed sections — lighter bg, pushed BACK in z-space */
+.section-recessed {
+  position: relative;
+  background: #13131c;
+  box-shadow:
+    inset 0 4px 30px rgba(0, 0, 0, 0.6),
+    inset 0 -4px 30px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+/* Elevated sections — dark bg, pushed FORWARD */
+.section-elevated {
+  position: relative;
+  z-index: 2;
+  background: var(--bg-primary);
+  box-shadow:
+    0 -8px 40px rgba(0, 0, 0, 0.5),
+    0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   FLOAT CARDS — Push-in hover effect
+   ============================================ */
+
+.float-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+  position: relative;
+  transform: scale(1) translateY(0);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.35s ease;
+  will-change: transform, box-shadow;
+}
+
+.float-card:hover {
+  transform: scale(0.975) translateY(1px);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.01);
+  border-color: var(--border-hover);
+}
+
+/* Variant with accent glow on hover */
+.float-card-accent:hover {
+  border-color: rgba(0, 255, 136, 0.2);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(0, 255, 136, 0.04);
+}
+
+/* Larger float card for featured content */
+.float-card-lg {
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.5),
+    0 6px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.float-card-lg:hover {
+  transform: scale(0.98) translateY(1px);
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.35),
+    0 1px 4px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.01);
+}
+
+/* Featured pricing card float */
+.float-card-featured {
+  border-color: var(--accent) !important;
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.5),
+    0 6px 16px rgba(0, 0, 0, 0.4),
+    0 0 50px rgba(0, 255, 136, 0.06);
+}
+
+.float-card-featured:hover {
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.35),
+    0 1px 4px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(0, 255, 136, 0.04);
+}
+
+/* Demo preview panels */
+.demo-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.demo-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transform: scale(1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.35s ease;
+}
+
+.demo-panel:hover {
+  transform: scale(0.975);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+  border-color: var(--border-hover);
+}
+
+@media (max-width: 768px) {
+  .demo-preview {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Section label + heading inside recessed sections get subtle text shadow */
+.section-recessed .section-label {
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.section-recessed .section-heading {
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
    SECTION POLISH — Common Overrides
    ============================================ */
 

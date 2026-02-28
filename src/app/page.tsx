@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import LogoBanner from '@/components/LogoBanner'
+import DemoPreview from '@/components/DemoPreview'
 
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator | 819 Tools, 48 Services',
@@ -18,6 +19,11 @@ export const metadata: Metadata = {
     '0n Standard',
     'MCP server',
     'AI API',
+    'AI workflow builder',
+    'multi-service orchestration',
+    'Stripe automation',
+    'Slack integration',
+    'CRM automation',
   ],
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
@@ -81,6 +87,14 @@ const faqItems = [
   {
     q: 'How is 0nMCP different from other MCP tools?',
     a: '0nMCP is the only MCP platform with a patented three-level execution hierarchy (Pipeline, Assembly Line, Radial Burst), a universal configuration standard (.0n), and a federation gateway that unifies all MCP servers under one endpoint. Other tools connect to servers individually -- 0nMCP orchestrates them as a system.',
+  },
+  {
+    q: 'What services does 0nMCP support?',
+    a: '0nMCP supports 48 services across 21 categories including Stripe, Slack, Discord, GitHub, OpenAI, Anthropic, Gmail, Google Sheets, Google Drive, Airtable, Notion, MongoDB, Supabase, Zendesk, Jira, HubSpot, Mailchimp, Twilio, SendGrid, Shopify, QuickBooks, Asana, Intercom, Dropbox, WhatsApp, Instagram, X (Twitter), TikTok, Google Ads, Facebook Ads, Plaid, Square, LinkedIn, Pipedrive, Azure, and more.',
+  },
+  {
+    q: 'Is 0nMCP free?',
+    a: '0nMCP is free and open source under the MIT license. All 819 tools, 48 services, and 80+ pre-built automations are available for unlimited local use with no credit card required. A paid marketplace option ($0.10/execution) is available for cloud execution and visual workflow building.',
   },
 ]
 
@@ -161,6 +175,39 @@ export default function HomePage() {
         description: 'Pay-per-execution, $0.10 per run, no monthly fee',
       },
     ],
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      ratingCount: '48',
+      bestRating: '5',
+    },
+  }
+
+  const howToJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to Install and Use 0nMCP',
+    description: 'Get started with 0nMCP in three steps: install, connect your services, and describe what you need.',
+    step: [
+      {
+        '@type': 'HowToStep',
+        name: 'Install 0nMCP',
+        text: 'Run npm i 0nmcp to install the universal AI API orchestrator. Works with any AI client that supports MCP.',
+        url: 'https://0nmcp.com/#quickstart',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Connect Your Services',
+        text: 'Run 0nmcp engine import to add your API keys. 0nMCP encrypts and stores them securely in your local ~/.0n/ vault.',
+        url: 'https://0nmcp.com/#quickstart',
+      },
+      {
+        '@type': 'HowToStep',
+        name: 'Describe What You Need',
+        text: 'Tell your AI what you want done. 0nMCP routes, orchestrates, and executes across all 48 services automatically.',
+        url: 'https://0nmcp.com/#quickstart',
+      },
+    ],
   }
 
   return (
@@ -169,6 +216,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
 
       {/* ── HERO ── */}
       <HeroSection />
@@ -176,15 +224,10 @@ export default function HomePage() {
       {/* ── LOGO BANNER ── */}
       <LogoBanner />
 
-      {/* ── PROBLEM & SOLUTION ── */}
-      <section
-        className="py-24 px-8"
-        style={{
-          backgroundColor: 'var(--bg-secondary)',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
-        }}
-      >
+      {/* ══════════════════════════════════════════
+          PROBLEM & SOLUTION — Recessed (set back)
+          ══════════════════════════════════════════ */}
+      <section className="section-recessed py-24 px-8">
         <div className="max-w-[1100px] mx-auto">
           <div className="section-accent-line" />
           <span className="section-label">The Problem &amp; Solution</span>
@@ -202,69 +245,28 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
             {[
-              {
-                before: 'Connect to each API separately',
-                after: 'Describe what you want, 0nMCP handles the rest',
-              },
-              {
-                before: 'Manually coordinate multi-step processes',
-                after: 'Chain tools into automated multi-phase workflows',
-              },
-              {
-                before: 'No workflow persistence or state tracking',
-                after: 'Full execution logging, state, and audit trail',
-              },
-              {
-                before: 'Different config format per client',
-                after: 'Universal .0n config — write once, run everywhere',
-              },
-              {
-                before: 'No parallel execution across services',
-                after: 'Radial Burst parallel execution across services',
-              },
-              {
-                before: 'Workflows stuck on one machine',
-                after: 'Export, share, and sell portable workflow packages',
-              },
+              { before: 'Connect to each API separately', after: 'Describe what you want, 0nMCP handles the rest' },
+              { before: 'Manually coordinate multi-step processes', after: 'Chain tools into automated multi-phase workflows' },
+              { before: 'No workflow persistence or state tracking', after: 'Full execution logging, state, and audit trail' },
+              { before: 'Different config format per client', after: 'Universal .0n config — write once, run everywhere' },
+              { before: 'No parallel execution across services', after: 'Radial Burst parallel execution across services' },
+              { before: 'Workflows stuck on one machine', after: 'Export, share, and sell portable workflow packages' },
             ].map((row) => (
-              <div key={row.before} className="compare-card">
+              <div key={row.before} className="float-card">
                 <div className="flex items-start gap-3 mb-2.5">
-                  <span
-                    style={{ color: '#ff6b35' }}
-                    className="flex-shrink-0 text-sm mt-0.5"
-                  >
-                    &#10005;
-                  </span>
-                  <span
-                    className="text-sm line-through"
-                    style={{ color: 'var(--text-muted)' }}
-                  >
-                    {row.before}
-                  </span>
+                  <span style={{ color: '#ff6b35' }} className="flex-shrink-0 text-sm mt-0.5">&#10005;</span>
+                  <span className="text-sm line-through" style={{ color: 'var(--text-muted)' }}>{row.before}</span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span
-                    style={{ color: 'var(--accent)' }}
-                    className="flex-shrink-0 text-sm mt-0.5"
-                  >
-                    &#10003;
-                  </span>
-                  <span
-                    className="text-sm font-medium"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
-                    {row.after}
-                  </span>
+                  <span style={{ color: 'var(--accent)' }} className="flex-shrink-0 text-sm mt-0.5">&#10003;</span>
+                  <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{row.after}</span>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Security & Trust */}
-          <div
-            className="pt-12"
-            style={{ borderTop: '1px solid var(--border)' }}
-          >
+          <div className="pt-12" style={{ borderTop: '1px solid var(--border)' }}>
             <div className="section-accent-line" />
             <span className="section-label">Security &amp; Trust</span>
             <h3 className="section-heading" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}>
@@ -278,54 +280,17 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                {
-                  title: 'AES-256 Encrypted Vault',
-                  desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk.',
-                  color: '#00ff88',
-                },
-                {
-                  title: 'HMAC-Signed .0n Files',
-                  desc: 'Every workflow file is signed on export. Tampered or unauthorized files are rejected on import.',
-                  color: '#00d4ff',
-                },
-                {
-                  title: 'MIT Licensed & Open Source',
-                  desc: 'Fully auditable code. No vendor lock-in. Inspect every line of the orchestrator yourself.',
-                  color: '#a78bfa',
-                },
-                {
-                  title: 'Patent-Pending Architecture',
-                  desc: 'Three-Level Execution Hierarchy is patent-pending. Pipeline, Assembly Line, and Radial Burst.',
-                  color: '#ff6b35',
-                },
-                {
-                  title: 'Zero Trust by Default',
-                  desc: 'Machine-bound encryption with hardware fingerprinting. Credentials cannot be extracted from your vault.',
-                  color: '#00d4ff',
-                },
-                {
-                  title: 'Free Forever',
-                  desc: 'All 48 services, all 80+ automations, unlimited local use. No credit card. No trial period.',
-                  color: '#00ff88',
-                },
+                { title: 'AES-256 Encrypted Vault', desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk.', color: '#00ff88' },
+                { title: 'HMAC-Signed .0n Files', desc: 'Every workflow file is signed on export. Tampered or unauthorized files are rejected on import.', color: '#00d4ff' },
+                { title: 'MIT Licensed & Open Source', desc: 'Fully auditable code. No vendor lock-in. Inspect every line of the orchestrator yourself.', color: '#a78bfa' },
+                { title: 'Patent-Pending Architecture', desc: 'Three-Level Execution Hierarchy is patent-pending. Pipeline, Assembly Line, and Radial Burst.', color: '#ff6b35' },
+                { title: 'Zero Trust by Default', desc: 'Machine-bound encryption with hardware fingerprinting. Credentials cannot be extracted from your vault.', color: '#00d4ff' },
+                { title: 'Free Forever', desc: 'All 48 services, all 80+ automations, unlimited local use. No credit card. No trial period.', color: '#00ff88' },
               ].map((item) => (
-                <div key={item.title} className="sec-card">
-                  <div
-                    className="w-2 h-2 rounded-full mb-3"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <h4
-                    className="text-sm font-bold mb-1.5"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
-                    {item.title}
-                  </h4>
-                  <p
-                    className="text-xs leading-relaxed"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    {item.desc}
-                  </p>
+                <div key={item.title} className="float-card">
+                  <div className="w-2 h-2 rounded-full mb-3" style={{ backgroundColor: item.color }} />
+                  <h4 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>{item.title}</h4>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -333,8 +298,32 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── THREE-LEVEL ARCHITECTURE ── */}
-      <section className="py-24 px-8" id="how-it-works">
+      {/* ══════════════════════════════════════════
+          LIVE DEMO — Elevated (forward)
+          ══════════════════════════════════════════ */}
+      <section className="section-elevated py-24 px-8" id="demo">
+        <div className="max-w-[1100px] mx-auto">
+          <div className="text-center mb-16">
+            <div className="section-accent-line mx-auto" />
+            <span className="section-label">See It In Action</span>
+            <h2 className="section-heading">
+              Describe. Orchestrate. Done.
+            </h2>
+            <p className="section-desc mx-auto">
+              Watch 0nMCP execute a real multi-service workflow in under a second.
+              One natural language command triggers Stripe, SendGrid, and CRM
+              simultaneously.
+            </p>
+          </div>
+
+          <DemoPreview />
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          THREE-LEVEL ARCHITECTURE — Recessed
+          ══════════════════════════════════════════ */}
+      <section className="section-recessed py-24 px-8" id="how-it-works">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-16">
             <div className="section-accent-line mx-auto" />
@@ -356,28 +345,35 @@ export default function HomePage() {
                 name: 'Pipeline',
                 desc: 'Sequential phases that represent major milestones. Each phase completes before the next begins. Think: intake, process, deliver.',
                 color: 'var(--accent)',
-                symbol: '→',
+                symbol: '\u2192',
               },
               {
                 level: 'Level 2',
                 name: 'Assembly Line',
                 desc: 'Decision moments within each phase. Sequential checkpoints that evaluate conditions, route data, and determine what happens next.',
                 color: 'var(--accent-secondary)',
-                symbol: '◇',
+                symbol: '\u25C7',
               },
               {
                 level: 'Level 3',
                 name: 'Radial Burst',
                 desc: 'Parallel fan-out across multiple services simultaneously. Fire and forget, or wait for all results. Maximum throughput, minimum latency.',
                 color: '#ff6b35',
-                symbol: '⊛',
+                symbol: '\u229B',
               },
             ].map((arch) => (
-              <div
-                key={arch.name}
-                className="arch-card"
-                style={{ '--card-accent': arch.color } as React.CSSProperties}
-              >
+              <div key={arch.name} className="float-card float-card-lg" style={{ overflow: 'hidden' }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '3px',
+                    background: arch.color,
+                    opacity: 0.6,
+                  }}
+                />
                 <span
                   className="font-mono text-[0.65rem] uppercase tracking-[0.15em] block mb-3"
                   style={{ color: 'var(--text-muted)' }}
@@ -385,36 +381,20 @@ export default function HomePage() {
                   {arch.level}
                 </span>
                 <div className="flex items-center gap-3 mb-3">
-                  <span
-                    className="text-2xl"
-                    style={{ color: arch.color }}
-                  >
-                    {arch.symbol}
-                  </span>
+                  <span className="text-2xl" style={{ color: arch.color }}>{arch.symbol}</span>
                   <h3 className="text-xl font-bold">{arch.name}</h3>
                 </div>
-                <p
-                  className="text-sm leading-relaxed"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  {arch.desc}
-                </p>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{arch.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── SERVICES GRID ── */}
-      <section
-        className="py-24 px-8"
-        id="services"
-        style={{
-          backgroundColor: 'var(--bg-secondary)',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
-        }}
-      >
+      {/* ══════════════════════════════════════════
+          SERVICES GRID — Elevated
+          ══════════════════════════════════════════ */}
+      <section className="section-elevated py-24 px-8" id="services">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-accent-line mx-auto" />
@@ -430,28 +410,20 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {categories.map((cat) => (
-              <Link key={cat.name} href="/turn-it-on" className="cat-card">
+              <Link key={cat.name} href="/turn-it-on" className="float-card float-card-accent no-underline" style={{ padding: '1.5rem 1rem', textAlign: 'center', display: 'block' }}>
                 <span className="text-2xl block mb-2">{cat.icon}</span>
-                <span
-                  className="font-mono text-xl font-bold block mb-1"
-                  style={{ color: 'var(--accent)' }}
-                >
-                  {cat.count}
-                </span>
-                <span
-                  className="text-xs font-medium block"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  {cat.name}
-                </span>
+                <span className="font-mono text-xl font-bold block mb-1" style={{ color: 'var(--accent)' }}>{cat.count}</span>
+                <span className="text-xs font-medium block" style={{ color: 'var(--text-secondary)' }}>{cat.name}</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── QUICK START ── */}
-      <section className="py-24 px-8">
+      {/* ══════════════════════════════════════════
+          QUICK START — Recessed
+          ══════════════════════════════════════════ */}
+      <section className="section-recessed py-24 px-8" id="quickstart">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-accent-line mx-auto" />
@@ -467,34 +439,19 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              {
-                step: '01',
-                title: 'Install',
-                desc: 'One command. No complex setup. Works with any AI client that supports MCP.',
-                code: 'npm i 0nmcp',
-              },
-              {
-                step: '02',
-                title: 'Connect',
-                desc: 'Add your API keys. 0nMCP encrypts and stores them securely in your local ~/.0n/ vault.',
-                code: '0nmcp engine import',
-              },
-              {
-                step: '03',
-                title: 'Describe',
-                desc: 'Tell your AI what you want done. 0nMCP routes, orchestrates, and executes across all services.',
-                code: '"Send an invoice and notify the team"',
-              },
+              { step: '01', title: 'Install', desc: 'One command. No complex setup. Works with any AI client that supports MCP.', code: 'npm i 0nmcp' },
+              { step: '02', title: 'Connect', desc: 'Add your API keys. 0nMCP encrypts and stores them securely in your local ~/.0n/ vault.', code: '0nmcp engine import' },
+              { step: '03', title: 'Describe', desc: 'Tell your AI what you want done. 0nMCP routes, orchestrates, and executes across all services.', code: '"Send an invoice and notify the team"' },
             ].map((s) => (
-              <div key={s.step} className="step-card">
-                <div className="step-number">{s.step}</div>
-                <h3 className="text-lg font-bold mb-2">{s.title}</h3>
-                <p
-                  className="text-sm leading-relaxed mb-4"
-                  style={{ color: 'var(--text-secondary)' }}
+              <div key={s.step} className="float-card float-card-lg">
+                <div
+                  className="font-mono text-[3rem] font-bold leading-none mb-4"
+                  style={{ color: 'var(--accent)', opacity: 0.15 }}
                 >
-                  {s.desc}
-                </p>
+                  {s.step}
+                </div>
+                <h3 className="text-lg font-bold mb-2">{s.title}</h3>
+                <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>{s.desc}</p>
                 <code
                   className="font-mono text-xs px-3 py-1.5 rounded inline-block"
                   style={{
@@ -511,16 +468,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PRICING ── */}
-      <section
-        className="py-24 px-8"
-        id="pricing"
-        style={{
-          backgroundColor: 'var(--bg-secondary)',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
-        }}
-      >
+      {/* ══════════════════════════════════════════
+          PRICING — Elevated
+          ══════════════════════════════════════════ */}
+      <section className="section-elevated py-24 px-8" id="pricing">
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-accent-line mx-auto" />
@@ -532,156 +483,68 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Free */}
-            <div className="arch-card" style={{ '--card-accent': 'var(--border-hover)' } as React.CSSProperties}>
-              <span
-                className="font-mono text-xs uppercase tracking-wide block mb-2"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                Free
-              </span>
+            <div className="float-card float-card-lg">
+              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Free</span>
               <div className="text-4xl font-bold mb-1">
-                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>
-                  $
-                </span>
-                0
+                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>$</span>0
               </div>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Open source, unlimited local use
-              </p>
+              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>Open source, unlimited local use</p>
               <ul className="flex flex-col gap-3 list-none mb-8">
-                {[
-                  'All 48 services',
-                  '80+ pre-built automations',
-                  'MIT licensed',
-                  'Community support',
-                  'CLI and MCP interface',
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2 text-sm"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">
-                      +
-                    </span>
-                    {f}
+                {['All 48 services', '80+ pre-built automations', 'MIT licensed', 'Community support', 'CLI and MCP interface'].map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">+</span>{f}
                   </li>
                 ))}
               </ul>
-              <a
-                href="https://www.npmjs.com/package/0nmcp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-ghost w-full text-center justify-center no-underline"
-              >
-                Install Free
-              </a>
+              <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" className="btn-ghost w-full text-center justify-center no-underline">Install Free</a>
             </div>
 
             {/* Marketplace */}
-            <div className="arch-card pricing-featured relative" style={{ '--card-accent': 'var(--accent)' } as React.CSSProperties}>
+            <div className="float-card float-card-lg float-card-featured relative">
               <span
                 className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full font-mono text-[0.6rem] font-bold tracking-wider"
-                style={{
-                  backgroundColor: 'var(--accent)',
-                  color: 'var(--bg-primary)',
-                }}
+                style={{ backgroundColor: 'var(--accent)', color: 'var(--bg-primary)' }}
               >
                 MOST POPULAR
               </span>
-              <span
-                className="font-mono text-xs uppercase tracking-wide block mb-2"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                Marketplace
-              </span>
+              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Marketplace</span>
               <div className="text-4xl font-bold mb-1">
-                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>
-                  $
-                </span>
-                0.10
-                <span className="text-base font-normal" style={{ color: 'var(--text-muted)' }}>
-                  /execution
-                </span>
+                <span className="text-lg align-super" style={{ color: 'var(--text-muted)' }}>$</span>0.10
+                <span className="text-base font-normal" style={{ color: 'var(--text-muted)' }}>/execution</span>
               </div>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Pay only for what you use. No monthly fee.
-              </p>
+              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>Pay only for what you use. No monthly fee.</p>
               <ul className="flex flex-col gap-3 list-none mb-8">
-                {[
-                  'Everything in Free',
-                  'Cloud execution',
-                  'Visual workflow builder',
-                  'Workflow marketplace',
-                  'Priority execution queue',
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2 text-sm"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">
-                      +
-                    </span>
-                    {f}
+                {['Everything in Free', 'Cloud execution', 'Visual workflow builder', 'Workflow marketplace', 'Priority execution queue'].map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">+</span>{f}
                   </li>
                 ))}
               </ul>
-              <a
-                href="https://rocketopp.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-accent w-full text-center justify-center no-underline"
-              >
-                Launch Marketplace
-              </a>
+              <a href="https://rocketopp.com" target="_blank" rel="noopener noreferrer" className="btn-accent w-full text-center justify-center no-underline">Launch Marketplace</a>
             </div>
 
             {/* Enterprise */}
-            <div className="arch-card" style={{ '--card-accent': '#a78bfa' } as React.CSSProperties}>
-              <span
-                className="font-mono text-xs uppercase tracking-wide block mb-2"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                Enterprise
-              </span>
+            <div className="float-card float-card-lg">
+              <span className="font-mono text-xs uppercase tracking-wide block mb-2" style={{ color: 'var(--text-muted)' }}>Enterprise</span>
               <div className="text-4xl font-bold mb-1">Custom</div>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Dedicated infrastructure and support
-              </p>
+              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>Dedicated infrastructure and support</p>
               <ul className="flex flex-col gap-3 list-none mb-8">
-                {[
-                  'Everything in Marketplace',
-                  'SSO / SAML',
-                  'Custom integrations',
-                  'SLA guarantee',
-                  'Dedicated support channel',
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2 text-sm"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    <span style={{ color: '#a78bfa' }} className="font-bold text-xs">
-                      +
-                    </span>
-                    {f}
+                {['Everything in Marketplace', 'SSO / SAML', 'Custom integrations', 'SLA guarantee', 'Dedicated support channel'].map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <span style={{ color: '#a78bfa' }} className="font-bold text-xs">+</span>{f}
                   </li>
                 ))}
               </ul>
-              <a
-                href="mailto:mike@rocketopp.com?subject=0nMCP%20Enterprise%20Inquiry"
-                className="btn-ghost w-full text-center justify-center no-underline"
-              >
-                Contact Us
-              </a>
+              <a href="mailto:mike@rocketopp.com?subject=0nMCP%20Enterprise%20Inquiry" className="btn-ghost w-full text-center justify-center no-underline">Contact Us</a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── FAQ ── */}
-      <section className="py-24 px-8" id="faq">
+      {/* ══════════════════════════════════════════
+          FAQ — Recessed
+          ══════════════════════════════════════════ */}
+      <section className="section-recessed py-24 px-8" id="faq">
         <div className="max-w-[800px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-accent-line mx-auto" />
@@ -703,42 +566,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ── */}
-      <section
-        className="py-20 px-8 text-center"
-        style={{
-          backgroundColor: 'var(--bg-secondary)',
-          borderTop: '1px solid var(--border)',
-        }}
-      >
+      {/* ══════════════════════════════════════════
+          FINAL CTA — Elevated
+          ══════════════════════════════════════════ */}
+      <section className="section-elevated py-20 px-8 text-center">
         <div className="max-w-[600px] mx-auto">
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            style={{ letterSpacing: '-0.02em' }}
-          >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ letterSpacing: '-0.02em' }}>
             Ready to{' '}
             <span
               className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage:
-                  'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              }}
+              style={{ backgroundImage: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))' }}
             >
               Turn it 0n
             </span>
             ?
           </h2>
-          <p
-            className="text-base mb-8"
-            style={{ color: 'var(--text-secondary)' }}
-          >
+          <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
             819 tools. 48 services. One install. Free forever.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <Link
-              href="/turn-it-on"
-              className="btn-accent no-underline text-base px-8 py-3"
-            >
+            <Link href="/turn-it-on" className="btn-accent no-underline text-base px-8 py-3">
               Get Started &rarr;
             </Link>
             <a

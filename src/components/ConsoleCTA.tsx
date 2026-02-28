@@ -16,7 +16,7 @@ export default function ConsoleCTA() {
   const [phraseIdx, setPhraseIdx] = useState(0)
   const [charIdx, setCharIdx] = useState(0)
   const [deleting, setDeleting] = useState(false)
-  const timeout = useRef<ReturnType<typeof setTimeout>>()
+  const timeout = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   useEffect(() => {
     const current = PHRASES[phraseIdx]

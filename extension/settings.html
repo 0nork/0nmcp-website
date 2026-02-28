@@ -16,12 +16,17 @@
     <div class="section">
       <label class="label">Execution Mode</label>
       <div class="radio-group">
-        <button class="radio active" id="modeAnthropic" data-mode="anthropic">Anthropic API</button>
+        <button class="radio active" id="modeServer" data-mode="server">0nMCP Server</button>
+        <button class="radio" id="modeAnthropic" data-mode="anthropic">Own API Key</button>
         <button class="radio" id="modeLocal" data-mode="local">Local Server</button>
       </div>
     </div>
 
-    <div class="section" id="anthropicSection">
+    <div class="section" id="serverSection">
+      <p class="mode-desc">Uses 0nMCP's hosted AI — no API key needed. Works immediately.</p>
+    </div>
+
+    <div class="section hidden" id="anthropicSection">
       <label class="label">API Key</label>
       <input type="password" class="input" id="apiKey" placeholder="sk-ant-...">
     </div>
@@ -29,6 +34,16 @@
     <div class="section hidden" id="localSection">
       <label class="label">Server URL</label>
       <input type="text" class="input" id="serverUrl" placeholder="http://localhost:3939">
+    </div>
+
+    <div class="section">
+      <label class="label">Floating Button</label>
+      <div class="toggle-row">
+        <span class="toggle-label">Show 0n button on pages</span>
+        <button class="toggle" id="fabToggle">
+          <span class="toggle-knob"></span>
+        </button>
+      </div>
     </div>
 
     <div class="section">
@@ -41,6 +56,10 @@
 
     <div class="section">
       <button class="save-btn" id="saveBtn">Save</button>
+    </div>
+
+    <div class="section">
+      <p class="version">0nMCP Extension v2.0.0</p>
     </div>
   </div>
   <script src="settings.js"></script>

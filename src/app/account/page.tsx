@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { encryptVaultData } from '@/lib/vault-crypto'
 import SwitchImporter from '@/components/SwitchImporter'
 
 interface Profile {
@@ -140,53 +141,31 @@ export default function AccountPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
-    // Encrypt the API key client-side with Web Crypto
-    const enc = new TextEncoder()
-    const keyMaterial = await crypto.subtle.importKey(
-      'raw',
-      enc.encode(user.id),
-      'PBKDF2',
-      false,
-      ['deriveKey']
-    )
-    const salt = crypto.getRandomValues(new Uint8Array(16))
-    const derivedKey = await crypto.subtle.deriveKey(
-      { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
-      keyMaterial,
-      { name: 'AES-GCM', length: 256 },
-      false,
-      ['encrypt']
-    )
-    const iv = crypto.getRandomValues(new Uint8Array(12))
-    const encrypted = await crypto.subtle.encrypt(
-      { name: 'AES-GCM', iv },
-      derivedKey,
-      enc.encode(newApiKey)
-    )
+    try {
+      const { encrypted, iv, salt } = await encryptVaultData(user.id, newApiKey)
 
-    // Store encrypted value + iv + salt as base64
-    const encB64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)))
-    const ivB64 = btoa(String.fromCharCode(...iv))
-    const saltB64 = btoa(String.fromCharCode(...salt))
+      const { error } = await supabase.from('user_vaults').insert({
+        user_id: user.id,
+        service_name: newService.trim(),
+        encrypted_key: encrypted,
+        iv,
+        salt,
+        key_hint: newKeyHint.trim() || null,
+      })
 
-    const { error } = await supabase.from('user_vaults').insert({
-      user_id: user.id,
-      service_name: newService.trim(),
-      encrypted_key: encB64,
-      iv: ivB64,
-      salt: saltB64,
-      key_hint: newKeyHint.trim() || null,
-    })
-
-    setSaving(false)
-    if (error) {
-      setMessage(`Error: ${error.message}`)
-    } else {
-      setNewService('')
-      setNewApiKey('')
-      setNewKeyHint('')
-      setMessage('Credential saved')
-      loadData()
+      setSaving(false)
+      if (error) {
+        setMessage(`Error: ${error.message}`)
+      } else {
+        setNewService('')
+        setNewApiKey('')
+        setNewKeyHint('')
+        setMessage('Credential saved')
+        loadData()
+      }
+    } catch {
+      setSaving(false)
+      setMessage('Error: Encryption failed')
     }
   }
 

@@ -6,12 +6,13 @@ import {
   Shield,
   Workflow,
   History,
+  Users,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community'
 
 interface SidebarProps {
   view: string
@@ -25,6 +26,7 @@ interface SidebarProps {
 const NAV_ITEMS: { key: View; label: string; icon: typeof LayoutDashboard }[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'chat', label: 'Chat', icon: MessageSquare },
+  { key: 'community', label: 'Community', icon: Users },
   { key: 'vault', label: 'Vault', icon: Shield },
   { key: 'flows', label: 'Flows', icon: Workflow },
   { key: 'history', label: 'History', icon: History },

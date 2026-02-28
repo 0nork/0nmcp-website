@@ -14,12 +14,13 @@ import { VaultDetail } from '@/components/console/VaultDetail'
 import { FlowsOverlay } from '@/components/console/FlowsOverlay'
 import { HistoryOverlay } from '@/components/console/HistoryOverlay'
 import { IdeasTicker } from '@/components/console/IdeasTicker'
+import { CommunityView } from '@/components/console/CommunityView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
 import { getIdeas } from '@/lib/console/ideas'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community'
 
 interface McpHealth {
   version?: string
@@ -189,6 +190,9 @@ export default function ConsolePage() {
         case '/flows':
           setView('flows')
           break
+        case '/community':
+          setView('community')
+          break
         case '/history':
           setView('history')
           break
@@ -352,6 +356,13 @@ export default function ConsolePage() {
                 handleChatSend('Create a new workflow for me.')
               }}
             />
+          </div>
+        )
+
+      case 'community':
+        return (
+          <div className="flex-1 min-h-0">
+            <CommunityView />
           </div>
         )
 

@@ -6,6 +6,7 @@ import { StatusDot } from './StatusDot'
 const VIEW_LABELS: Record<string, string> = {
   dashboard: 'Dashboard',
   chat: 'Chat',
+  community: 'Community',
   vault: 'Vault',
   flows: 'Flows',
   history: 'History',

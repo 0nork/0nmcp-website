@@ -10,6 +10,10 @@ export interface WizardTemplate {
     trigger: string
     actions: string
   }
+  /** Premium templates get special onboarding flow */
+  premium?: boolean
+  /** Onboarding flow identifier for premium templates */
+  onboardingFlow?: string
   /** @deprecated Use `defaults.trigger` — kept for backward compat */
   defaultTrigger?: string
   /** @deprecated Use `services` — kept for backward compat */
@@ -33,6 +37,25 @@ export const CATEGORIES = [
 export type Category = (typeof CATEGORIES)[number]
 
 export const WIZARD_TEMPLATES: WizardTemplate[] = [
+  {
+    id: 'qa-distribution',
+    name: 'QA Distribution Engine',
+    description:
+      'Generate, score, and distribute quality content across 12 platforms simultaneously with AI-powered creation and engagement tracking.',
+    icon: 'Zap',
+    category: 'Marketing',
+    services: ['openai', 'anthropic', 'slack', 'discord'],
+    popularity: 98,
+    premium: true,
+    onboardingFlow: 'qa-distribution',
+    defaults: {
+      trigger: 'schedule',
+      actions: 'Generate content with AI, quality score, format per platform, distribute to 12 channels, track metrics',
+    },
+    defaultTrigger: 'schedule',
+    defaultActions: ['openai', 'anthropic', 'slack'],
+    defaultNotifications: ['slack', 'email'],
+  },
   {
     id: 'linkedin-auto-post',
     name: 'LinkedIn Auto-Poster',

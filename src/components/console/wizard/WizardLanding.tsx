@@ -36,16 +36,19 @@ import {
   Sparkles,
   Globe,
   Clock,
+  Zap,
   type LucideIcon,
 } from 'lucide-react'
 import { useWizard, useWizardDispatch } from './WizardContext'
 import { GlossyTile } from './GlossyTile'
+import PremiumOnboarding from './PremiumOnboarding'
 import {
   WIZARD_TEMPLATES,
   CATEGORIES as DATA_CATEGORIES,
   type WorkflowTemplate,
   type Category as DataCategory,
 } from '@/data/wizard-templates'
+import { QA_DISTRIBUTION_TEMPLATE } from '@/data/premium-templates/qa-distribution.0n'
 
 const ALL_CATEGORIES = ['All', ...DATA_CATEGORIES] as const
 type Category = 'All' | DataCategory
@@ -85,6 +88,7 @@ const TEMPLATE_ICON_MAP: Record<string, LucideIcon> = {
   Sparkles,
   Globe,
   Clock,
+  Zap,
 }
 
 function getPopularityBadge(popularity: number): string | undefined {
@@ -98,6 +102,7 @@ export default function WizardLanding() {
   const state = useWizard()
   const dispatch = useWizardDispatch()
   const [activeCategory, setActiveCategory] = useState<Category>('All')
+  const [premiumOnboarding, setPremiumOnboarding] = useState<WorkflowTemplate | null>(null)
 
   const filtered =
     activeCategory === 'All'
@@ -107,6 +112,10 @@ export default function WizardLanding() {
         )
 
   function handleSelectTemplate(template: WorkflowTemplate) {
+    if (template.premium && template.onboardingFlow) {
+      setPremiumOnboarding(template)
+      return
+    }
     dispatch({ type: 'SELECT_TEMPLATE', template })
     dispatch({ type: 'START_THINKING', nextStep: 'trigger' })
   }
@@ -191,7 +200,7 @@ export default function WizardLanding() {
         {/* Template tiles */}
         {filtered.map((template, index) => {
           const IconComponent = TEMPLATE_ICON_MAP[template.icon]
-          const badge = getPopularityBadge(template.popularity)
+          const badge = template.premium ? 'Premium' : getPopularityBadge(template.popularity)
 
           return (
             <div
@@ -210,6 +219,7 @@ export default function WizardLanding() {
                     : template.description
                 }
                 badge={badge}
+                accentBorder={template.premium}
                 onClick={() => handleSelectTemplate(template)}
               />
             </div>
@@ -232,6 +242,27 @@ export default function WizardLanding() {
           />
         </div>
       </div>
+
+      {/* Premium Onboarding Overlay */}
+      {premiumOnboarding && (
+        <PremiumOnboarding
+          template={QA_DISTRIBUTION_TEMPLATE}
+          onComplete={(config) => {
+            setPremiumOnboarding(null)
+            dispatch({ type: 'SELECT_TEMPLATE', template: premiumOnboarding })
+            dispatch({ type: 'SET_GENERATED_WORKFLOW', workflow: {
+              name: QA_DISTRIBUTION_TEMPLATE.name,
+              description: QA_DISTRIBUTION_TEMPLATE.description,
+              version: '1.0.0',
+              trigger: QA_DISTRIBUTION_TEMPLATE.trigger,
+              steps: QA_DISTRIBUTION_TEMPLATE.steps,
+              services: QA_DISTRIBUTION_TEMPLATE.services,
+              config,
+            }})
+          }}
+          onClose={() => setPremiumOnboarding(null)}
+        />
+      )}
 
       <style>{`
         @keyframes console-fade-in {

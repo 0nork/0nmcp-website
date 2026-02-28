@@ -14,6 +14,9 @@ import {
   ShoppingBag,
   Linkedin,
   PlusCircle,
+  Share2,
+  BarChart3,
+  ArrowRightLeft,
 } from 'lucide-react'
 
 interface CommandPaletteProps {
@@ -27,7 +30,11 @@ const COMMANDS = [
   { cmd: '/community', desc: 'The 0nBoard', icon: Users, group: 'Navigate' },
   { cmd: '/builder', desc: 'Workflow builder', icon: Blocks, group: 'Navigate' },
   { cmd: '/vault', desc: 'Manage credentials', icon: Shield, group: 'Navigate' },
-  { cmd: '/flows', desc: 'View workflows', icon: Workflow, group: 'Navigate' },
+  { cmd: '/flows', desc: 'Create workflow', icon: Workflow, group: 'Navigate' },
+  { cmd: '/operations', desc: 'Manage active workflows', icon: Activity, group: 'Navigate' },
+  { cmd: '/social', desc: 'Social auto-posting hub', icon: Share2, group: 'Navigate' },
+  { cmd: '/reporting', desc: 'Universal tracking & analytics', icon: BarChart3, group: 'Navigate' },
+  { cmd: '/migrate', desc: 'Import workflows from other platforms', icon: ArrowRightLeft, group: 'Navigate' },
   { cmd: '/store', desc: 'Browse premium workflows', icon: ShoppingBag, group: 'Navigate' },
   { cmd: '/linkedin', desc: 'LinkedIn onboarding & posts', icon: Linkedin, group: 'Navigate' },
   { cmd: '/request', desc: 'Request a new integration', icon: PlusCircle, group: 'Navigate' },

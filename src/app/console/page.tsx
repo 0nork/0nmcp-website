@@ -21,6 +21,9 @@ import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { LinkedInView } from '@/components/console/LinkedInView'
 import { RequestIntegrationView } from '@/components/console/RequestIntegrationView'
 import { OperationsView } from '@/components/console/OperationsView'
+import { SocialView } from '@/components/console/SocialView'
+import { ReportingView } from '@/components/console/ReportingView'
+import MigrateView from '@/components/console/MigrateView'
 import WizardShell from '@/components/console/wizard/WizardShell'
 import BuilderApp from '@/components/builder/BuilderApp'
 
@@ -32,7 +35,7 @@ import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate'
 
 interface McpHealth {
   version?: string
@@ -261,6 +264,15 @@ export default function ConsolePage() {
           break
         case '/operations':
           setView('operations')
+          break
+        case '/social':
+          setView('social')
+          break
+        case '/reporting':
+          setView('reporting')
+          break
+        case '/migrate':
+          setView('migrate')
           break
         case '/history':
           setView('history')
@@ -512,6 +524,52 @@ export default function ConsolePage() {
               }}
               onDelete={operations.remove}
               onCreateNew={() => setView('flows')}
+            />
+          </div>
+        )
+
+      case 'social':
+        return (
+          <div className="flex-1 overflow-y-auto">
+            <SocialView />
+          </div>
+        )
+
+      case 'reporting':
+        return (
+          <div className="flex-1 overflow-y-auto">
+            <ReportingView />
+          </div>
+        )
+
+      case 'migrate':
+        return (
+          <div className="flex-1 overflow-y-auto">
+            <MigrateView
+              onAddToBuilder={(workflow: Record<string, unknown>) => {
+                localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
+                setView('builder')
+              }}
+              onAddToOperations={(
+                workflow: Record<string, unknown>,
+                name: string,
+                trigger: Record<string, unknown>,
+                services: string[]
+              ) => {
+                const triggerType = typeof trigger.type === 'string' ? trigger.type : 'manual'
+                operations.add({
+                  name: name || 'Migrated Workflow',
+                  description: 'Imported from external platform',
+                  trigger: triggerType,
+                  actions: [],
+                  services: services || [],
+                  notifications: [],
+                  frequency: null,
+                  workflowData: workflow,
+                })
+                historyHook.add('workflow', `Migrated workflow: ${name}`)
+                setView('operations')
+              }}
             />
           </div>
         )

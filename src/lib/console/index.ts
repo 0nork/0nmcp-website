@@ -15,6 +15,8 @@ export { useVault, useFlows, useHistory } from "./hooks";
 export type { Workflow, HistoryEntry } from "./hooks";
 export { useStore } from "./useStore";
 export { useLinkedIn } from "./useLinkedIn";
+export { useOperations } from "./useOperations";
+export type { Operation } from "./useOperations";
 
 // 0nMCP HTTP client
 export {

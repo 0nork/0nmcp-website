@@ -5032,6 +5032,71 @@ nav[aria-label="Breadcrumb"] a:hover {
   }
 }
 
+/* ============================================
+   Wizard Animations
+   ============================================ */
+
+@keyframes wizard-thinking-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes wizard-build-check {
+  from { opacity: 0; transform: scale(0.5) rotate(-45deg); }
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes wizard-step-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wizard-tile-press {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes glossy-shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+@keyframes wizard-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wizard-dot-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes console-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes console-stagger-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes console-scale-in {
+  from { opacity: 0; transform: scale(0.96) translateY(-8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes wizard-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes wizard-progress-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50% { box-shadow: 0 0 0 6px transparent; }
+}
+
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

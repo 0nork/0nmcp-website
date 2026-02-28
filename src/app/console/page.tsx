@@ -20,16 +20,19 @@ import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionMo
 import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { LinkedInView } from '@/components/console/LinkedInView'
 import { RequestIntegrationView } from '@/components/console/RequestIntegrationView'
+import { OperationsView } from '@/components/console/OperationsView'
+import WizardShell from '@/components/console/wizard/WizardShell'
 import BuilderApp from '@/components/builder/BuilderApp'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
 import { useStore } from '@/lib/console/useStore'
 import { useLinkedIn } from '@/lib/console/useLinkedIn'
+import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations'
 
 interface McpHealth {
   version?: string
@@ -72,6 +75,7 @@ export default function ConsolePage() {
   const historyHook = useHistory()
   const store = useStore()
   const linkedin = useLinkedIn()
+  const operations = useOperations()
 
   // ─── Store Modal State ──────────────────────────────────────
   const [activePremiumPurchase, setActivePremiumPurchase] = useState<PurchaseWithWorkflow | null>(null)
@@ -255,6 +259,9 @@ export default function ConsolePage() {
         case '/request':
           setView('request')
           break
+        case '/operations':
+          setView('operations')
+          break
         case '/history':
           setView('history')
           break
@@ -435,20 +442,76 @@ export default function ConsolePage() {
 
       case 'flows':
         return (
-          <div className="flex-1 overflow-y-auto">
-            <FlowsOverlay
-              mcpWorkflows={mcpWorkflows}
-              localFlows={flowsHook.flows}
-              onRun={handleRunWorkflow}
-              onToggle={flowsHook.toggle}
-              onDelete={flowsHook.remove}
-              onCreate={() => {
-                setView('chat')
-                handleChatSend('Create a new workflow for me.')
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <WizardShell
+              vault={{
+                credentials: vault.credentials,
+                set: vault.set,
+                isConnected: (s: string) => connectedKeys.includes(s),
+                connectedServices: connectedKeys,
               }}
-              premiumPurchases={store.purchases}
-              onPremiumClick={setActivePremiumPurchase}
-              onGoToStore={() => setView('store')}
+              historyHook={{
+                entries: historyHook.history as unknown as Array<Record<string, unknown>>,
+                add: (entry: Record<string, unknown>) => historyHook.add(
+                  (entry.type as string) || 'workflow',
+                  (entry.detail as string) || 'Workflow created'
+                ),
+              }}
+              onDownload={(workflow: Record<string, unknown>, name: string) => {
+                const blob = new Blob([JSON.stringify(workflow, null, 2)], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = `${name || 'workflow'}.0n`
+                a.click()
+                URL.revokeObjectURL(url)
+                historyHook.add('workflow', `Downloaded: ${name}`)
+              }}
+              onAddToBuilder={(workflow: Record<string, unknown>) => {
+                localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
+                setView('builder')
+              }}
+              onAddToOperations={(
+                workflow: Record<string, unknown>,
+                name?: string,
+                trigger?: string,
+                services?: string[],
+                notifications?: string[],
+                frequency?: string | null
+              ) => {
+                operations.add({
+                  name: name || 'Untitled Workflow',
+                  description: (workflow as { description?: string }).description || '',
+                  trigger: trigger || 'manual',
+                  actions: [],
+                  services: services || [],
+                  notifications: notifications || [],
+                  frequency: frequency || null,
+                  workflowData: workflow,
+                })
+                historyHook.add('workflow', `Added to Operations: ${name}`)
+                setView('operations')
+              }}
+            />
+          </div>
+        )
+
+      case 'operations':
+        return (
+          <div className="flex-1 overflow-y-auto">
+            <OperationsView
+              operations={operations.operations}
+              onPause={operations.pause}
+              onResume={operations.resume}
+              onRun={(id: string) => {
+                operations.incrementRun(id)
+                const op = operations.getById(id)
+                if (op) {
+                  historyHook.add('workflow', `Ran operation: ${op.name}`)
+                }
+              }}
+              onDelete={operations.remove}
+              onCreateNew={() => setView('flows')}
             />
           </div>
         )

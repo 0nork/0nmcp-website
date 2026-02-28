@@ -209,8 +209,185 @@ const Anthropic = ({ size = 20, className }: P) => (
   </svg>
 )
 
+/* ── New service logos ── */
+
+const CRM = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#FF6B35" />
+    <path d="M7 8.5A1.5 1.5 0 0 1 8.5 7h7A1.5 1.5 0 0 1 17 8.5v7a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 15.5v-7z" stroke="#fff" strokeWidth="1.5" />
+    <path d="M10 11h4M10 13.5h2.5" stroke="#fff" strokeWidth="1.3" strokeLinecap="round" />
+  </svg>
+)
+
+const MongoDB = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12.55 2.13c-.18-.37-.41-.37-.55-.37s-.37 0-.55.37C10.17 4.57 7 9.36 7 13.5c0 3.04 2.24 5.5 5 5.5s5-2.46 5-5.5c0-4.14-3.17-8.93-4.45-11.37z" fill="#47A248" />
+    <path d="M12 18.5c-.28 0-.5-.07-.5-.15v-3.7c0-.08.22-.15.5-.15s.5.07.5.15v3.7c0 .08-.22.15-.5.15z" fill="#B8C4C2" />
+    <path d="M12.5 14.65v3.7c0 .08-.22.15-.5.15V13c1.5 1 .5 1.35.5 1.65z" fill="#6CAC48" />
+  </svg>
+)
+
+const GoogleDrive = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M8.19 3h7.62L22 14.34H8.19z" fill="#FBBC04" />
+    <path d="M2 14.34l3.81 6.6h10.38L12.38 14.34H2z" fill="#4285F4" />
+    <path d="M15.81 3L8.19 14.34 12 20.94 22 3H15.81z" fill="#34A853" />
+  </svg>
+)
+
+const Calendly = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#006BFF" />
+    <path d="M14.5 8.5a3.25 3.25 0 0 0-5.62 0M8 12.5a3.25 3.25 0 0 0 5.62 2.81" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+    <circle cx="15" cy="12" r="1" fill="#fff" />
+  </svg>
+)
+
+const Zoom = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#2D8CFF" />
+    <rect x="3.5" y="7.5" width="12" height="9" rx="2" fill="#fff" />
+    <path d="M16.5 10l4-2v8l-4-2V10z" fill="#fff" />
+  </svg>
+)
+
+const Microsoft = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect x="2" y="2" width="9.5" height="9.5" fill="#F25022" />
+    <rect x="12.5" y="2" width="9.5" height="9.5" fill="#7FBA00" />
+    <rect x="2" y="12.5" width="9.5" height="9.5" fill="#00A4EF" />
+    <rect x="12.5" y="12.5" width="9.5" height="9.5" fill="#FFB900" />
+  </svg>
+)
+
+const QuickBooks = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <circle cx="12" cy="12" r="10" fill="#2CA01C" />
+    <path d="M8 9v6M8 9h2.5a2 2 0 0 1 0 4H8" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M16 15V9M16 15h-2.5a2 2 0 0 1 0-4H16" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const Intercom = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#1F8DED" />
+    <path d="M7 8v5.5M10 7v7M12 6.5v8M14 7v7M17 8v5.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M6 16.5c2.5 2 9.5 2 12 0" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+const Dropbox = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M7.5 3L2 6.75 7.5 10.5 13 6.75 7.5 3z" fill="#0061FE" />
+    <path d="M16.5 3L11 6.75 16.5 10.5 22 6.75 16.5 3z" fill="#0061FE" />
+    <path d="M2 14.25L7.5 18l5.5-3.75L7.5 10.5 2 14.25z" fill="#0061FE" />
+    <path d="M16.5 10.5L11 14.25 16.5 18 22 14.25 16.5 10.5z" fill="#0061FE" />
+    <path d="M7.5 19.2l5.5-3.75 5.5 3.75-5.5 3.75-5.5-3.75z" fill="#0061FE" fillOpacity=".6" />
+  </svg>
+)
+
+const WhatsApp = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#25D366" />
+    <path d="M12 4a8 8 0 0 0-6.83 12.14L4 20l3.97-1.14A8 8 0 1 0 12 4zm4.13 11.07c-.18.5-1.04.96-1.44 1-.37.04-.84.06-1.36-.08-.31-.09-.72-.21-1.24-.41-2.17-.95-3.58-3.14-3.69-3.29-.11-.14-.86-1.14-.86-2.18 0-1.04.54-1.55.74-1.76.18-.2.41-.25.54-.25h.38c.13 0 .3-.05.47.36.18.43.6 1.47.65 1.58.05.11.09.24.02.38-.07.15-.1.24-.2.36-.1.13-.22.29-.31.39-.1.1-.21.22-.09.42.12.2.52.86 1.12 1.39.77.68 1.42.89 1.62.99.2.1.31.09.43-.05.11-.15.49-.57.62-.77.13-.2.27-.16.44-.1.18.07 1.13.53 1.33.63.19.1.32.15.37.23.05.08.05.48-.13.97z" fill="#fff" />
+  </svg>
+)
+
+const Instagram = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="6" fill="url(#ig_grad)" />
+    <rect x="5" y="5" width="14" height="14" rx="4" stroke="#fff" strokeWidth="1.8" />
+    <circle cx="12" cy="12" r="3.5" stroke="#fff" strokeWidth="1.8" />
+    <circle cx="17" cy="7" r="1.2" fill="#fff" />
+    <defs><linearGradient id="ig_grad" x1="2" y1="22" x2="22" y2="2"><stop stopColor="#FEDA75" /><stop offset=".4" stopColor="#FA7E1E" /><stop offset=".6" stopColor="#D62976" /><stop offset=".8" stopColor="#962FBF" /><stop offset="1" stopColor="#4F5BD5" /></linearGradient></defs>
+  </svg>
+)
+
+const XTwitter = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#000" />
+    <path d="M13.55 10.63L18.68 5h-1.22l-4.45 5.05L9.64 5H5.36l5.38 7.62L5.36 19h1.22l4.7-5.33L14.8 19h4.28l-5.53-8.37zm-1.66 1.88l-.55-.76L7.2 5.92h1.87l3.5 4.88.55.76 4.55 6.35h-1.87l-3.91-5.4z" fill="#fff" />
+  </svg>
+)
+
+const TikTok = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#000" />
+    <path d="M16.5 4.5v6.75c0 3.31-2.69 6-6 6a6 6 0 0 1-6-6 6 6 0 0 1 6-6v3a3 3 0 1 0 3 3V4.5h3z" fill="#FF0050" />
+    <path d="M16.5 4.5v6.75c0 3.31-2.69 6-6 6a6 6 0 0 1-6-6 6 6 0 0 1 6-6v3a3 3 0 1 0 3 3V4.5h3z" fill="#00F2EA" fillOpacity=".5" />
+  </svg>
+)
+
+const Plaid = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#111" />
+    <rect x="5" y="5" width="4" height="4" rx="0.5" fill="#fff" />
+    <rect x="10" y="5" width="4" height="4" rx="0.5" fill="#fff" />
+    <rect x="15" y="5" width="4" height="4" rx="0.5" fill="#fff" />
+    <rect x="5" y="10" width="4" height="4" rx="0.5" fill="#fff" />
+    <rect x="10" y="10" width="4" height="4" rx="0.5" fill="#fff" />
+    <rect x="5" y="15" width="4" height="4" rx="0.5" fill="#fff" />
+    <rect x="10" y="15" width="4" height="4" rx="0.5" fill="#fff" />
+    <rect x="15" y="15" width="4" height="4" rx="0.5" fill="#fff" />
+  </svg>
+)
+
+const Square = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#006AFF" />
+    <rect x="6" y="6" width="12" height="12" rx="2" fill="#fff" />
+    <path d="M10 10h4v4h-4z" fill="#006AFF" />
+  </svg>
+)
+
+const Smartlead = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#7C3AED" />
+    <path d="M7 12l3 3 7-7" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const Zapier = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#FF4A00" />
+    <path d="M14.83 9.17L12 12l2.83 2.83M9.17 9.17L12 12 9.17 14.83M12 6.5V12M12 12v5.5M17.5 12H12M12 12H6.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+const MuleSoft = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#00A0DF" />
+    <circle cx="12" cy="10" r="4" stroke="#fff" strokeWidth="1.8" />
+    <path d="M8 17c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+)
+
+const Azure = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M9.5 3l-6 13h4.5L13 3H9.5z" fill="#0089D6" />
+    <path d="M14.5 7l-6 14h9L21 7h-6.5z" fill="#0089D6" fillOpacity=".7" />
+  </svg>
+)
+
+const Pipedrive = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#017737" />
+    <circle cx="12" cy="10" r="3" stroke="#fff" strokeWidth="2" />
+    <path d="M12 13v6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+)
+
+const LinkedIn = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#0A66C2" />
+    <path d="M8.5 10v6M8.5 7.5v.01" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+    <path d="M12 16v-3.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5V16" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+)
+
 /* ── Export map ── */
 export const SERVICE_LOGOS: Record<string, React.FC<P>> = {
+  crm: CRM,
   stripe: Stripe,
   slack: Slack,
   github: GitHub,
@@ -228,6 +405,7 @@ export const SERVICE_LOGOS: Record<string, React.FC<P>> = {
   mailchimp: Mailchimp,
   sendgrid: SendGrid,
   'google-sheets': GoogleSheets,
+  'google-drive': GoogleDrive,
   airtable: Airtable,
   asana: Asana,
   linear: Linear,
@@ -237,36 +415,84 @@ export const SERVICE_LOGOS: Record<string, React.FC<P>> = {
   'google-ads': GoogleAds,
   'facebook-ads': FacebookAds,
   anthropic: Anthropic,
+  mongodb: MongoDB,
+  calendly: Calendly,
+  zoom: Zoom,
+  microsoft: Microsoft,
+  quickbooks: QuickBooks,
+  intercom: Intercom,
+  dropbox: Dropbox,
+  whatsapp: WhatsApp,
+  instagram: Instagram,
+  x: XTwitter,
+  tiktok: TikTok,
+  plaid: Plaid,
+  square: Square,
+  smartlead: Smartlead,
+  zapier: Zapier,
+  mulesoft: MuleSoft,
+  azure: Azure,
+  pipedrive: Pipedrive,
+  linkedin: LinkedIn,
+  'tiktok-ads': TikTok,
+  'x-ads': XTwitter,
+  'linkedin-ads': LinkedIn,
+  'instagram-ads': Instagram,
 }
 
 /* ── All service metadata ── */
 export const ALL_SERVICES = [
+  { id: 'crm', name: 'CRM', category: 'CRM', color: '#FF6B35' },
   { id: 'stripe', name: 'Stripe', category: 'Payments', color: '#635BFF' },
   { id: 'shopify', name: 'Shopify', category: 'Payments', color: '#96BF48' },
+  { id: 'square', name: 'Square', category: 'Payments', color: '#006AFF' },
+  { id: 'plaid', name: 'Plaid', category: 'Payments', color: '#111111' },
+  { id: 'quickbooks', name: 'QuickBooks', category: 'Payments', color: '#2CA01C' },
   { id: 'slack', name: 'Slack', category: 'Communication', color: '#E01E5A' },
   { id: 'discord', name: 'Discord', category: 'Communication', color: '#5865F2' },
   { id: 'twilio', name: 'Twilio', category: 'Communication', color: '#F22F46' },
+  { id: 'whatsapp', name: 'WhatsApp', category: 'Communication', color: '#25D366' },
+  { id: 'intercom', name: 'Intercom', category: 'Communication', color: '#1F8DED' },
   { id: 'gmail', name: 'Gmail', category: 'Email', color: '#EA4335' },
   { id: 'mailchimp', name: 'Mailchimp', category: 'Email', color: '#FFE01B' },
   { id: 'sendgrid', name: 'SendGrid', category: 'Email', color: '#1A82E2' },
+  { id: 'smartlead', name: 'Smartlead', category: 'Email', color: '#7C3AED' },
   { id: 'github', name: 'GitHub', category: 'Developer', color: '#f0f6fc' },
   { id: 'supabase', name: 'Supabase', category: 'Developer', color: '#3ECF8E' },
+  { id: 'mongodb', name: 'MongoDB', category: 'Developer', color: '#47A248' },
   { id: 'openai', name: 'OpenAI', category: 'AI', color: '#10a37f' },
   { id: 'anthropic', name: 'Anthropic', category: 'AI', color: '#D4A27F' },
   { id: 'notion', name: 'Notion', category: 'Productivity', color: '#ffffff' },
+  { id: 'airtable', name: 'Airtable', category: 'Productivity', color: '#18BFFF' },
+  { id: 'dropbox', name: 'Dropbox', category: 'Productivity', color: '#0061FE' },
+  { id: 'google-calendar', name: 'Google Calendar', category: 'Productivity', color: '#4285F4' },
+  { id: 'google-sheets', name: 'Google Sheets', category: 'Productivity', color: '#0F9D58' },
+  { id: 'google-drive', name: 'Google Drive', category: 'Productivity', color: '#4285F4' },
+  { id: 'calendly', name: 'Calendly', category: 'Productivity', color: '#006BFF' },
+  { id: 'zoom', name: 'Zoom', category: 'Communication', color: '#2D8CFF' },
   { id: 'jira', name: 'Jira', category: 'Project Mgmt', color: '#2684FF' },
   { id: 'trello', name: 'Trello', category: 'Project Mgmt', color: '#0079BF' },
   { id: 'asana', name: 'Asana', category: 'Project Mgmt', color: '#F06A6A' },
   { id: 'linear', name: 'Linear', category: 'Project Mgmt', color: '#5E6AD2' },
-  { id: 'airtable', name: 'Airtable', category: 'Productivity', color: '#18BFFF' },
-  { id: 'google-calendar', name: 'Google Calendar', category: 'Productivity', color: '#4285F4' },
-  { id: 'google-sheets', name: 'Google Sheets', category: 'Productivity', color: '#0F9D58' },
   { id: 'hubspot', name: 'HubSpot', category: 'CRM', color: '#FF7A59' },
+  { id: 'pipedrive', name: 'Pipedrive', category: 'CRM', color: '#017737' },
   { id: 'docusign', name: 'DocuSign', category: 'Docs', color: '#463688' },
   { id: 'zendesk', name: 'Zendesk', category: 'Support', color: '#03363D' },
   { id: 'wordpress', name: 'WordPress', category: 'Websites', color: '#21759B' },
   { id: 'google-ads', name: 'Google Ads', category: 'Advertising', color: '#4285F4' },
   { id: 'facebook-ads', name: 'Facebook Ads', category: 'Advertising', color: '#1877F2' },
+  { id: 'instagram', name: 'Instagram', category: 'Social', color: '#E1306C' },
+  { id: 'instagram-ads', name: 'Instagram Ads', category: 'Advertising', color: '#E1306C' },
+  { id: 'x', name: 'X', category: 'Social', color: '#000000' },
+  { id: 'x-ads', name: 'X Ads', category: 'Advertising', color: '#000000' },
+  { id: 'tiktok', name: 'TikTok', category: 'Social', color: '#FF0050' },
+  { id: 'tiktok-ads', name: 'TikTok Ads', category: 'Advertising', color: '#FF0050' },
+  { id: 'linkedin', name: 'LinkedIn', category: 'Social', color: '#0A66C2' },
+  { id: 'linkedin-ads', name: 'LinkedIn Ads', category: 'Advertising', color: '#0A66C2' },
+  { id: 'microsoft', name: 'Microsoft', category: 'Cloud', color: '#00A4EF' },
+  { id: 'azure', name: 'Azure', category: 'Cloud', color: '#0089D6' },
+  { id: 'zapier', name: 'Zapier', category: 'Automation', color: '#FF4A00' },
+  { id: 'mulesoft', name: 'MuleSoft', category: 'Automation', color: '#00A0DF' },
 ]
 
 /* ── Convenience component ── */

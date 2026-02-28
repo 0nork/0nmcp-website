@@ -1740,7 +1740,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
+  padding: 6px 14px 6px 10px;
   border-radius: 9999px;
   background-color: color-mix(in srgb, var(--badge-color) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--badge-color) 15%, transparent);
@@ -1751,6 +1751,11 @@ a:hover {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   cursor: default;
   flex-shrink: 0;
+}
+
+.logo-badge svg {
+  flex-shrink: 0;
+  border-radius: 3px;
 }
 
 .logo-badge:hover {

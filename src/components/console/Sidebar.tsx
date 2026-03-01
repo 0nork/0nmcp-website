@@ -37,10 +37,10 @@ interface SidebarProps {
   mcpOnline: boolean
 }
 
-const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] = [
+const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard; href?: string }[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'chat', label: 'Chat', icon: MessageSquare },
-  { key: 'community', label: 'Community', icon: Users },
+  { key: 'community', label: 'Community', icon: Users, href: '/forum' },
   { key: 'builder', label: 'Builder', icon: Blocks },
   { key: 'terminal', label: 'Terminal', icon: TerminalSquare },
   { key: 'code', label: '0n Code', icon: Code2 },
@@ -208,8 +208,8 @@ export function Sidebar({
           overflowX: 'hidden',
         }}
       >
-        {NAV_ITEMS.map(({ key, label, icon: Icon }) => {
-          const active = view === key
+        {NAV_ITEMS.map(({ key, label, icon: Icon, href }) => {
+          const active = !href && view === key
           return (
             <NavButton
               key={key}
@@ -218,7 +218,10 @@ export function Sidebar({
               active={active}
               showLabels={showLabels}
               showIcons={showIcons}
-              onClick={() => setView(key)}
+              href={href}
+              onClick={() => {
+                if (!href) setView(key)
+              }}
             />
           )
         })}
@@ -328,6 +331,7 @@ function NavButton({
   showLabels,
   showIcons,
   onClick,
+  href,
 }: {
   label: string
   icon: typeof LayoutDashboard
@@ -335,13 +339,22 @@ function NavButton({
   showLabels: boolean
   showIcons: boolean
   onClick: () => void
+  href?: string
 }) {
   const [hovered, setHovered] = useState(false)
+
+  const handleClick = () => {
+    if (href) {
+      window.open(href, '_blank', 'noopener')
+    } else {
+      onClick()
+    }
+  }
 
   return (
     <div style={{ position: 'relative' }}>
       <button
-        onClick={onClick}
+        onClick={handleClick}
         onMouseEnter={(e) => {
           setHovered(true)
           if (!active) {

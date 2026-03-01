@@ -15,7 +15,7 @@ import { VaultFilesPanel } from '@/components/console/VaultFilesPanel'
 import { FlowsOverlay } from '@/components/console/FlowsOverlay'
 import { HistoryOverlay } from '@/components/console/HistoryOverlay'
 import { IdeasTicker } from '@/components/console/IdeasTicker'
-import { CommunityView } from '@/components/console/CommunityView'
+// Community is a front-end link to /forum (SEO benefit) — no in-console view
 import { StoreView } from '@/components/console/StoreView'
 import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionModal'
 import { ListingDetailModal } from '@/components/console/ListingDetailModal'
@@ -54,7 +54,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn' | 'code' | 'account' | 'convert'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn' | 'code' | 'account' | 'convert'
 
 interface McpHealth {
   version?: string
@@ -309,7 +309,7 @@ export default function ConsolePage() {
           setView('flows')
           break
         case '/community':
-          setView('community')
+          window.open('/forum', '_blank', 'noopener')
           break
         case '/builder':
           setView('builder')
@@ -686,13 +686,6 @@ export default function ConsolePage() {
                   setView('operations')
                 }}
               />
-            </div>
-          )}
-
-          {/* Community */}
-          {visitedViews.has('community') && (
-            <div style={{ display: view === 'community' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
-              <CommunityView />
             </div>
           )}
 

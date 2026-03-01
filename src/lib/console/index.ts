@@ -36,6 +36,14 @@ export type {
   WorkflowInfo,
 } from "./0nmcp-client";
 
+// AI Recommendation Engine
+export { getRecommendations, ALL_COMMANDS, CATEGORY_COLORS } from "./recommendations";
+export type {
+  RecommendationContext,
+  Recommendation,
+  CommandEntry,
+} from "./recommendations";
+
 // Theme
 export { THEME, HEX, GRADIENTS, SHADOWS, TW } from "./theme";
 export type { ThemeKey, GradientKey, ShadowKey } from "./theme";

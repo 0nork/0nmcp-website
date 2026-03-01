@@ -29,6 +29,8 @@ import { CreateView } from '@/components/console/CreateView'
 import BuilderApp from '@/components/builder/BuilderApp'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
 import { LearnView } from '@/components/console/LearnView'
+import { SmartPrompts } from '@/components/console/SmartPrompts'
+import { PinnedCommands } from '@/components/console/PinnedCommands'
 import dynamic from 'next/dynamic'
 
 const OnTerminal = dynamic(
@@ -47,6 +49,7 @@ import { useStore } from '@/lib/console/useStore'
 import { useLinkedIn } from '@/lib/console/useLinkedIn'
 import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
+import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
 type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn' | 'code'
@@ -100,9 +103,40 @@ export default function ConsolePage() {
   const [activePremiumPurchase, setActivePremiumPurchase] = useState<PurchaseWithWorkflow | null>(null)
   const [premiumDetailListing, setPremiumDetailListing] = useState<StoreListing | null>(null)
 
+  // ─── AI Recommendation State ──────────────────────────────────
+  const [recentActions, setRecentActions] = useState<string[]>([])
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([])
+  const [recsThinking, setRecsThinking] = useState(false)
+
+  const trackAction = useCallback((actionId: string) => {
+    setRecentActions(prev => [actionId, ...prev].slice(0, 10))
+  }, [])
+
   // ─── Derived ──────────────────────────────────────────────────
   const connectedKeys = vault.connectedServices
   const ideas = useMemo(() => getIdeas(connectedKeys), [connectedKeys])
+
+  // ─── Recommendation Engine (recalculate on message/view/action change) ──
+  useEffect(() => {
+    if (view !== 'chat') return
+
+    setRecsThinking(true)
+    const timer = setTimeout(() => {
+      const ctx: RecommendationContext = {
+        messages: messages.slice(-6).map(m => ({ role: (m.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant', content: m.text })),
+        connectedServices: connectedKeys,
+        recentActions,
+        currentView: view,
+        hasWorkflows: flowsHook.flows.length > 0,
+        hasVaultFiles: true, // vault files panel exists
+        hasPurchases: store.purchases.length > 0,
+      }
+      setRecommendations(getRecommendations(ctx))
+      setRecsThinking(false)
+    }, 300) // small debounce
+
+    return () => clearTimeout(timer)
+  }, [messages, view, recentActions, connectedKeys, flowsHook.flows.length, store.purchases.length])
 
   // ─── Sidebar Mode Toggle ───────────────────────────────────
   const handleToggleSidebarMode = useCallback(() => {
@@ -381,6 +415,28 @@ export default function ConsolePage() {
     [handleChatSend]
   )
 
+  // ─── Recommendation Execute Handler ──────────────────────────
+  const handleRecommendationExecute = useCallback(
+    (rec: Recommendation) => {
+      trackAction(rec.id)
+      if (rec.action === 'navigate' && rec.actionPayload) {
+        handleSetView(rec.actionPayload)
+      } else {
+        handleChatSend(rec.command)
+      }
+    },
+    [trackAction, handleSetView, handleChatSend]
+  )
+
+  // ─── Pinned Command Execute ─────────────────────────────────
+  const handlePinnedCommand = useCallback(
+    (command: string) => {
+      setView('chat')
+      handleChatSend(command)
+    },
+    [handleChatSend]
+  )
+
   // ─── History for DashboardView (convert ts string to number) ──
   const recentHistory = useMemo(
     () =>
@@ -493,10 +549,21 @@ export default function ConsolePage() {
           {/* Chat */}
           {visitedViews.has('chat') && (
             <div style={{ display: view === 'chat' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
+              {/* Pinned Commands Bar */}
+              <PinnedCommands
+                onExecuteCommand={handlePinnedCommand}
+                onNavigate={handleSetView}
+              />
               {ideas.length > 0 && messages.length === 0 && (
                 <IdeasTicker ideas={ideas} onClick={handleIdeaClick} />
               )}
               <Chat messages={messages} loading={chatLoading} />
+              {/* AI Smart Prompts */}
+              <SmartPrompts
+                recommendations={recommendations}
+                onExecute={handleRecommendationExecute}
+                isThinking={recsThinking}
+              />
               <ChatInput
                 onSend={handleChatSend}
                 onSlash={() => setCmdPaletteOpen(true)}

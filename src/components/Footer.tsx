@@ -5,12 +5,12 @@ const footerColumns = [
     title: 'Product',
     links: [
       { label: 'Turn it 0n', href: '/turn-it-on' },
+      { label: 'Console', href: '/console' },
+      { label: 'Builder', href: '/builder' },
       { label: 'Examples', href: '/examples' },
       { label: 'Downloads', href: '/downloads' },
-      { label: 'Mobile App', href: '/app' },
-      { label: 'Store', href: '/store/onork-mini' },
-      { label: 'Builder', href: '/builder' },
       { label: 'Convert', href: '/convert' },
+      { label: 'Demo', href: '/demo' },
     ],
   },
   {
@@ -27,6 +27,8 @@ const footerColumns = [
     links: [
       { label: 'Forum', href: '/forum' },
       { label: 'Learn', href: '/learn' },
+      { label: 'Glossary', href: '/glossary' },
+      { label: 'Compare', href: '/compare' },
       { label: 'Discord', href: 'https://discord.gg/0nork', external: true },
       { label: 'Sponsor', href: '/sponsor' },
       { label: 'Report', href: '/report' },
@@ -36,6 +38,8 @@ const footerColumns = [
   {
     title: 'Ecosystem',
     links: [
+      { label: 'Integrations', href: '/integrations' },
+      { label: 'Security', href: '/security' },
       { label: 'Partners', href: '/partners' },
       { label: 'MCPFED', href: 'https://mcpfed.com', external: true },
       { label: 'Marketplace', href: 'https://marketplace.rocketclients.com', external: true },
@@ -78,7 +82,7 @@ export default function Footer() {
               className="text-sm leading-relaxed max-w-xs"
               style={{ color: 'var(--text-secondary)' }}
             >
-              The universal AI API orchestrator. 819 tools, 48 services,
+              The universal AI API orchestrator. 564 tools, 26 services,
               80+ pre-built automations. Stop building workflows. Start describing
               outcomes.
             </p>

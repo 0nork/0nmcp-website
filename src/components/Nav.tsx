@@ -6,11 +6,11 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 const navLinks = [
   { label: 'Turn it 0n', href: '/turn-it-on' },
+  { label: 'Learn', href: '/learn' },
   { label: 'Examples', href: '/examples' },
-  { label: 'Standard', href: '/0n-standard' },
   { label: 'Downloads', href: '/downloads' },
   { label: 'Community', href: '/community' },
-  { label: 'Sponsor', href: '/sponsor' },
+  { label: 'Security', href: '/security' },
 ]
 
 export default function Nav() {
@@ -78,10 +78,10 @@ export default function Nav() {
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/store/onork-mini"
+            href="/console"
             className="btn-ghost"
           >
-            Store
+            Console
           </Link>
           <Link
             href="/builder"
@@ -161,11 +161,11 @@ export default function Nav() {
               style={{ borderTop: '1px solid var(--border)' }}
             >
               <Link
-                href="/store/onork-mini"
+                href="/console"
                 className="btn-ghost text-center justify-center"
                 onClick={() => setMobileOpen(false)}
               >
-                Store
+                Console
               </Link>
               <Link
                 href="/builder"

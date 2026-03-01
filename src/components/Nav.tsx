@@ -47,8 +47,8 @@ export default function Nav() {
           className="flex items-center gap-2 no-underline"
         >
           <svg width="28" height="28" viewBox="0 0 40 40" fill="none" className="flex-shrink-0">
-            <rect width="40" height="40" rx="8" fill="#0a0a0f" stroke="#00ff88" strokeWidth="1.5" strokeOpacity="0.4"/>
-            <text x="20" y="27" textAnchor="middle" fill="#00ff88" fontSize="20" fontWeight="700" fontFamily="monospace">0n</text>
+            <rect width="40" height="40" rx="8" fill="#0a0a0f" stroke="#7ed957" strokeWidth="1.5" strokeOpacity="0.4"/>
+            <text x="20" y="27" textAnchor="middle" fill="#7ed957" fontSize="20" fontWeight="700" fontFamily="monospace">0n</text>
           </svg>
           <span
             className="text-lg font-bold tracking-tight"

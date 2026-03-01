@@ -105,8 +105,8 @@ export function PlatformCard({
               width: 8,
               height: 8,
               borderRadius: '50%',
-              backgroundColor: connected ? '#00ff88' : 'var(--text-muted)',
-              boxShadow: connected ? '0 0 8px rgba(0,255,136,0.4)' : 'none',
+              backgroundColor: connected ? '#7ed957' : 'var(--text-muted)',
+              boxShadow: connected ? '0 0 8px rgba(126,217,87,0.4)' : 'none',
               display: 'inline-block',
             }}
           />
@@ -114,7 +114,7 @@ export function PlatformCard({
             style={{
               fontSize: 11,
               fontFamily: 'var(--font-mono)',
-              color: connected ? '#00ff88' : 'var(--text-muted)',
+              color: connected ? '#7ed957' : 'var(--text-muted)',
               fontWeight: 500,
             }}
           >

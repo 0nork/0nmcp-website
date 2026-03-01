@@ -104,7 +104,7 @@ export default function ConfigSnippet({
                 fontFamily: 'var(--font-mono)',
                 color: copied ? 'var(--accent)' : 'var(--text-secondary)',
                 backgroundColor: copied
-                  ? 'rgba(0, 255, 136, 0.1)'
+                  ? 'rgba(126, 217, 87, 0.1)'
                   : 'var(--bg-secondary)',
                 border: `1px solid ${
                   copied ? 'var(--accent)' : 'var(--border)'

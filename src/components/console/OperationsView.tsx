@@ -466,7 +466,7 @@ export function OperationsView({
                       padding: '0.375rem 0.75rem',
                       borderRadius: '0.5rem',
                       border: 'none',
-                      backgroundColor: 'rgba(0,255,136,0.1)',
+                      backgroundColor: 'rgba(126,217,87,0.1)',
                       color: 'var(--accent)',
                       fontSize: '0.75rem',
                       fontWeight: 600,

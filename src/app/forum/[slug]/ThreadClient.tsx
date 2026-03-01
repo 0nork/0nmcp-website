@@ -208,7 +208,7 @@ export default function ThreadClient({
                 ) : null}
                 <span style={{ color: 'var(--text-muted)' }}>{timeAgo(post.created_at)}</span>
                 {post.is_solution && (
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
+                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
                     Solution
                   </span>
                 )}

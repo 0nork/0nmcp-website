@@ -97,7 +97,7 @@ export default function ConvertHub() {
       {/* Hero */}
       <section className="py-32 px-8 text-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <div className="max-w-[900px] mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8" style={{ border: '1px solid var(--accent)', backgroundColor: 'rgba(0,255,136,0.05)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--accent)' }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8" style={{ border: '1px solid var(--accent)', backgroundColor: 'rgba(126,217,87,0.05)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--accent)' }}>
             Brain Transplant v2.0
           </div>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>

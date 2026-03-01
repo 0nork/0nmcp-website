@@ -358,7 +358,7 @@
 .settings-radio.active {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(0, 255, 136, 0.08);
+  background: rgba(126, 217, 87, 0.08);
 }
 
 .settings-input {
@@ -403,9 +403,9 @@
 }
 
 .settings-status.ok {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(126, 217, 87, 0.1);
   color: var(--accent);
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(126, 217, 87, 0.2);
 }
 
 .settings-status.error {
@@ -421,8 +421,8 @@
   justify-content: space-between;
   gap: 12px;
   padding: 10px 16px;
-  background: rgba(0, 255, 136, 0.08);
-  border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+  background: rgba(126, 217, 87, 0.08);
+  border-bottom: 1px solid rgba(126, 217, 87, 0.2);
   flex-shrink: 0;
 }
 

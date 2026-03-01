@@ -529,8 +529,8 @@ export default function LegalPage() {
             className="rounded-xl p-8"
             style={{
               background:
-                'linear-gradient(135deg, rgba(0,255,136,0.05), rgba(0,212,255,0.05))',
-              border: '1px solid rgba(0,255,136,0.15)',
+                'linear-gradient(135deg, rgba(126,217,87,0.05), rgba(0,212,255,0.05))',
+              border: '1px solid rgba(126,217,87,0.15)',
             }}
           >
             <h4 className="mb-2" style={{ color: 'var(--accent)' }}>

@@ -28,7 +28,7 @@ const CATEGORIES = [
 ]
 
 const TIER_BADGE: Record<string, { label: string; color: string }> = {
-  free: { label: 'Free', color: '#00ff88' },
+  free: { label: 'Free', color: '#7ed957' },
   supporter: { label: 'Supporter', color: '#ff6b35' },
   builder: { label: 'Builder', color: '#00d4ff' },
   enterprise: { label: 'Enterprise', color: '#9945ff' },

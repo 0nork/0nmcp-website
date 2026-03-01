@@ -8,7 +8,7 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 const PRODUCTS = [
   { name: '0ncore', color: '#a855f7', desc: 'Core infrastructure — vault, signing, execution engine' },
   { name: '0nmcp', color: '#00d4ff', desc: 'Universal API Protocol — 819 tools, 48 services' },
-  { name: 'app0n', color: '#00ff88', desc: 'Application Layer — workflows, builder, marketplace' },
+  { name: 'app0n', color: '#7ed957', desc: 'Application Layer — workflows, builder, marketplace' },
   { name: 'social0n', color: '#ff8c00', desc: 'Community Platform — forum, groups, reputation' },
   { name: '0nork', color: '#ef4444', desc: 'Parent company — orchestration infrastructure' },
 ]

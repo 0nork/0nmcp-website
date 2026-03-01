@@ -86,8 +86,8 @@ export default function Terminal() {
                   onClick={() => handleSubmit(p)}
                   disabled={isStreaming}
                   style={{
-                    background: 'rgba(0,255,136,0.06)',
-                    border: '1px solid rgba(0,255,136,0.15)',
+                    background: 'rgba(126,217,87,0.06)',
+                    border: '1px solid rgba(126,217,87,0.15)',
                     borderRadius: 8,
                     padding: '8px 12px',
                     color: 'var(--text-secondary)',

@@ -212,7 +212,7 @@ export default function SwitchShowcase() {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = 'var(--accent)'
-            e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 255, 136, 0.15)'
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(126, 217, 87, 0.15)'
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = 'var(--border)'
@@ -229,10 +229,10 @@ export default function SwitchShowcase() {
       <style>{`
         @keyframes switchShowcaseGlow {
           0% {
-            box-shadow: 0 0 0 rgba(0, 255, 136, 0);
+            box-shadow: 0 0 0 rgba(126, 217, 87, 0);
           }
           100% {
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.06), 0 0 60px rgba(0, 255, 136, 0.03);
+            box-shadow: 0 0 30px rgba(126, 217, 87, 0.06), 0 0 60px rgba(126, 217, 87, 0.03);
           }
         }
         @keyframes cursorBlink {

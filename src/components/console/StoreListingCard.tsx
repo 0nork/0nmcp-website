@@ -17,19 +17,19 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
       className="w-full text-left rounded-2xl transition-all duration-300 cursor-pointer border-none"
       style={{
         backgroundColor: 'var(--bg-card)',
-        border: owned ? '1px solid rgba(0,255,136,0.3)' : '1px solid var(--border)',
+        border: owned ? '1px solid rgba(126,217,87,0.3)' : '1px solid var(--border)',
         animation: 'console-stagger-in 0.4s ease both',
         animationDelay: `${index * 60}ms`,
         padding: 0,
         overflow: 'hidden',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = owned ? 'rgba(0,255,136,0.5)' : 'var(--accent)'
+        e.currentTarget.style.borderColor = owned ? 'rgba(126,217,87,0.5)' : 'var(--accent)'
         e.currentTarget.style.transform = 'translateY(-2px)'
         e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = owned ? 'rgba(0,255,136,0.3)' : 'var(--border)'
+        e.currentTarget.style.borderColor = owned ? 'rgba(126,217,87,0.3)' : 'var(--border)'
         e.currentTarget.style.transform = 'translateY(0)'
         e.currentTarget.style.boxShadow = 'none'
       }}
@@ -74,7 +74,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
           <span
             className="text-xs font-bold px-2 py-0.5 rounded-full"
             style={{
-              backgroundColor: listing.price === 0 ? 'rgba(0,255,136,0.1)' : 'rgba(255,107,53,0.1)',
+              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.1)' : 'rgba(255,107,53,0.1)',
               color: listing.price === 0 ? 'var(--accent)' : 'var(--accent)',
               fontFamily: 'var(--font-mono)',
             }}
@@ -99,8 +99,8 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
               <span
                 className="flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded"
                 style={{
-                  backgroundColor: 'rgba(0,255,136,0.15)',
-                  color: '#00ff88',
+                  backgroundColor: 'rgba(126,217,87,0.15)',
+                  color: '#7ed957',
                 }}
               >
                 <Check size={10} />

@@ -140,7 +140,7 @@ export default function QAGeneratePage() {
         </div>
       )}
       {message && (
-        <div style={{ padding: '10px 16px', borderRadius: 12, marginBottom: 16, fontSize: '0.8125rem', fontWeight: 600, background: 'rgba(0,255,136,0.1)', color: 'var(--accent)', border: '1px solid rgba(0,255,136,0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '10px 16px', borderRadius: 12, marginBottom: 16, fontSize: '0.8125rem', fontWeight: 600, background: 'rgba(126,217,87,0.1)', color: 'var(--accent)', border: '1px solid rgba(126,217,87,0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {message}
           <button onClick={() => setMessage('')} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}>&times;</button>
         </div>
@@ -390,7 +390,7 @@ export default function QAGeneratePage() {
 }
 
 function ScoreBadge({ label, value }: { label: string; value: number }) {
-  const color = value >= 8 ? '#00ff88' : value >= 6 ? '#ff6b35' : '#ff3d3d'
+  const color = value >= 8 ? '#7ed957' : value >= 6 ? '#ff6b35' : '#ff3d3d'
   return (
     <div style={{ padding: '8px 10px', borderRadius: 8, background: 'var(--bg-primary)', border: '1px solid var(--border)' }}>
       <div style={{ fontSize: '1rem', fontWeight: 900, color }}>{value}/10</div>

@@ -349,7 +349,7 @@ function WizardShellInner({
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          boxShadow: '0 4px 20px rgba(0, 255, 136, 0.2)',
+          boxShadow: '0 4px 20px rgba(126, 217, 87, 0.2)',
           zIndex: 30,
           transition: 'transform 0.2s ease',
         }}

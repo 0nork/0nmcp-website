@@ -55,7 +55,7 @@ const sections = [
     description: 'AI marketing — review, edit, approve, post.',
     href: '/admin/content',
     icon: '📝',
-    color: '#00ff88',
+    color: '#7ed957',
   },
   {
     title: 'AI Personas',
@@ -289,7 +289,7 @@ export default function AdminDashboard() {
               <div key={u.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
                 <div style={{
                   width: 28, height: 28, borderRadius: '50%',
-                  background: u.is_persona ? 'rgba(255,105,180,0.15)' : 'rgba(0,255,136,0.1)',
+                  background: u.is_persona ? 'rgba(255,105,180,0.15)' : 'rgba(126,217,87,0.1)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '0.6875rem', fontWeight: 900,
                   color: u.is_persona ? '#ff69b4' : 'var(--accent)',

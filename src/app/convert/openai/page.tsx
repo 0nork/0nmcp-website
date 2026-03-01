@@ -106,7 +106,7 @@ export default function ConvertOpenAI() {
               O
             </div>
             <span className="text-3xl" style={{ color: 'var(--text-muted)' }}>&rarr;</span>
-            <div className="w-16 h-16 rounded-xl flex items-center justify-center text-xl font-bold" style={{ backgroundColor: 'rgba(0,255,136,0.1)', color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center text-xl font-bold" style={{ backgroundColor: 'rgba(126,217,87,0.1)', color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
               .0n
             </div>
           </div>
@@ -172,7 +172,7 @@ export default function ConvertOpenAI() {
                     <td className="py-3 px-4" style={{ color: 'var(--accent)' }}>{w.to}</td>
                     <td className="py-3 px-4">
                       <span className="text-xs px-2 py-1 rounded" style={{
-                        backgroundColor: w.status === 'Full' ? 'rgba(0,255,136,0.1)' : 'rgba(255,255,255,0.05)',
+                        backgroundColor: w.status === 'Full' ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.05)',
                         color: w.status === 'Full' ? 'var(--accent)' : 'var(--text-muted)',
                       }}>
                         {w.status}
@@ -197,7 +197,7 @@ export default function ConvertOpenAI() {
           <div className="mt-12 space-y-4">
             {EXPORT_STEPS.map((s) => (
               <div key={s.step} className="glow-box flex items-start gap-4">
-                <span className="text-lg font-bold shrink-0 w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(0,255,136,0.1)', color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
+                <span className="text-lg font-bold shrink-0 w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(126,217,87,0.1)', color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
                   {s.step}
                 </span>
                 <div>

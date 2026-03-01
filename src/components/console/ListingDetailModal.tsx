@@ -197,15 +197,15 @@ export function ListingDetailModal({
               onClick={onOpenActions || onClose}
               className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all cursor-pointer border-none"
               style={{
-                backgroundColor: 'rgba(0,255,136,0.1)',
-                color: '#00ff88',
-                border: '1px solid rgba(0,255,136,0.3)',
+                backgroundColor: 'rgba(126,217,87,0.1)',
+                color: '#7ed957',
+                border: '1px solid rgba(126,217,87,0.3)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.15)'
+                e.currentTarget.style.backgroundColor = 'rgba(126,217,87,0.15)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.1)'
+                e.currentTarget.style.backgroundColor = 'rgba(126,217,87,0.1)'
               }}
             >
               <Check size={16} />

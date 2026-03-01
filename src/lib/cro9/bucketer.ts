@@ -139,6 +139,6 @@ export function getBucketColor(bucket: ActionBucket): string {
     case 'RELEVANCE_REBUILD':
       return '#ff69b4'
     case 'LOCAL_BOOST':
-      return '#00ff88'
+      return '#7ed957'
   }
 }

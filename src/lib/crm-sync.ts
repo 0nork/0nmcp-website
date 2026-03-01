@@ -304,7 +304,7 @@ function emailLayout(params: {
 }): string {
   const cta = params.ctaUrl && params.ctaText
     ? `<div style="text-align:center;margin:28px 0;">
-        <a href="${params.ctaUrl}" style="display:inline-block;padding:14px 36px;background:#00ff88;color:#0a0a0f;font-weight:800;font-size:15px;border-radius:10px;text-decoration:none;letter-spacing:-0.01em;mso-padding-alt:14px 36px;">
+        <a href="${params.ctaUrl}" style="display:inline-block;padding:14px 36px;background:#7ed957;color:#0a0a0f;font-weight:800;font-size:15px;border-radius:10px;text-decoration:none;letter-spacing:-0.01em;mso-padding-alt:14px 36px;">
           ${params.ctaText}
         </a>
       </div>`
@@ -344,7 +344,7 @@ function emailLayout(params: {
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td align="center" style="padding-bottom:6px;">
-                          <span style="font-size:32px;font-weight:900;color:#00ff88;font-family:'Courier New',Courier,monospace;letter-spacing:-0.03em;">0n</span><span style="font-size:22px;font-weight:700;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin-left:3px;">MCP</span>
+                          <span style="font-size:32px;font-weight:900;color:#7ed957;font-family:'Courier New',Courier,monospace;letter-spacing:-0.03em;">0n</span><span style="font-size:22px;font-weight:700;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin-left:3px;">MCP</span>
                         </td>
                       </tr>
                       <tr>
@@ -396,15 +396,15 @@ function emailLayout(params: {
                   <td style="padding:20px 32px;background:#0c0c14;border:1px solid #1a1a2e;border-top:none;border-bottom:none;text-align:center;">
                     <table role="presentation" cellpadding="0" cellspacing="0" align="center">
                       <tr>
-                        <td style="padding:0 8px;"><a href="https://0nmcp.com" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Website</a></td>
+                        <td style="padding:0 8px;"><a href="https://0nmcp.com" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">Website</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
-                        <td style="padding:0 8px;"><a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">0nBoard</a></td>
+                        <td style="padding:0 8px;"><a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">0nBoard</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
-                        <td style="padding:0 8px;"><a href="https://0nmcp.com/forum" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">Forum</a></td>
+                        <td style="padding:0 8px;"><a href="https://0nmcp.com/forum" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">Forum</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
-                        <td style="padding:0 8px;"><a href="https://github.com/0nork/0nMCP" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">GitHub</a></td>
+                        <td style="padding:0 8px;"><a href="https://github.com/0nork/0nMCP" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">GitHub</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
-                        <td style="padding:0 8px;"><a href="https://npmjs.com/package/0nmcp" style="color:#00ff88;font-size:11px;text-decoration:none;font-weight:600;">npm</a></td>
+                        <td style="padding:0 8px;"><a href="https://npmjs.com/package/0nmcp" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">npm</a></td>
                       </tr>
                     </table>
                   </td>
@@ -427,7 +427,7 @@ function emailLayout(params: {
                       651 N Broad St, Suite 201, Middletown, DE 19709
                     </p>
                     <p style="font-size:10px;color:#444;line-height:1.6;margin:0;">
-                      <a href="https://0nmcp.com/account" style="color:#00ff88;text-decoration:none;">Manage preferences</a>
+                      <a href="https://0nmcp.com/account" style="color:#7ed957;text-decoration:none;">Manage preferences</a>
                       &nbsp;&middot;&nbsp;
                       <a href="https://0nmcp.com/unsubscribe" style="color:#888;text-decoration:none;">Unsubscribe</a>
                     </p>
@@ -511,10 +511,10 @@ export async function sendConfirmationEmail(email: string, confirmLink: string):
           Thanks for signing up for 0nMCP! Confirm your email address to activate your account and get access to:
         </p>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;">
-          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> 819 tools across 48 services</td></tr>
-          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Free interactive courses</td></tr>
-          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Community forum access</td></tr>
-          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#00ff88;margin-right:8px;">&#10003;</span> Workflow builder</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#7ed957;margin-right:8px;">&#10003;</span> 819 tools across 48 services</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#7ed957;margin-right:8px;">&#10003;</span> Free interactive courses</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#7ed957;margin-right:8px;">&#10003;</span> Community forum access</td></tr>
+          <tr><td style="padding:6px 0;font-size:13px;color:#bbb;"><span style="color:#7ed957;margin-right:8px;">&#10003;</span> Workflow builder</td></tr>
         </table>
       `,
       ctaText: 'Confirm Email Address',
@@ -541,7 +541,7 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<bo
           Your account is confirmed. You now have access to the most comprehensive MCP server available &mdash; 819 tools, 48 services, zero boilerplate.
         </p>
         <div style="background:#111118;border:1px solid #1a1a2e;border-radius:10px;padding:16px 20px;margin:0 0 20px;">
-          <p style="font-size:12px;color:#00ff88;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 10px;">Quick Start</p>
+          <p style="font-size:12px;color:#7ed957;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 10px;">Quick Start</p>
           <div style="background:#0a0a10;border-radius:6px;padding:12px 16px;font-family:'Courier New',Courier,monospace;font-size:13px;color:#e0e0e0;">
             npm install -g 0nmcp<br />
             0nmcp --version
@@ -551,25 +551,25 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<bo
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;">
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
-              <a href="https://0nmcp.com/learn/getting-started" style="color:#00ff88;text-decoration:none;font-weight:600;">Take the Getting Started course</a>
+              <a href="https://0nmcp.com/learn/getting-started" style="color:#7ed957;text-decoration:none;font-weight:600;">Take the Getting Started course</a>
               <span style="color:#555;margin-left:6px;">(free, 15 min)</span>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
-              <a href="https://0nmcp.com/turn-it-on" style="color:#00ff88;text-decoration:none;font-weight:600;">Turn it 0n</a>
+              <a href="https://0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-weight:600;">Turn it 0n</a>
               <span style="color:#555;margin-left:6px;">&mdash; connect your services</span>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
-              <a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" style="color:#00ff88;text-decoration:none;font-weight:600;">Join the 0nBoard</a>
+              <a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" style="color:#7ed957;text-decoration:none;font-weight:600;">Join the 0nBoard</a>
               <span style="color:#555;margin-left:6px;">&mdash; our community hub</span>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;">
-              <a href="https://0nmcp.com/forum" style="color:#00ff88;text-decoration:none;font-weight:600;">Browse the forum</a>
+              <a href="https://0nmcp.com/forum" style="color:#7ed957;text-decoration:none;font-weight:600;">Browse the forum</a>
             </td>
           </tr>
         </table>

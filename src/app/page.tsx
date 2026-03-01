@@ -296,12 +296,12 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { title: 'AES-256 Encrypted Vault', desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk. Hardware-bound fingerprinting.', color: '#00ff88' },
+                { title: 'AES-256 Encrypted Vault', desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk. Hardware-bound fingerprinting.', color: '#7ed957' },
                 { title: '0nVault Container System', desc: '7 semantic layers with independent encryption. Multi-party escrow via X25519 ECDH. Patent-pending binary .0nv format.', color: '#00d4ff' },
                 { title: 'Digital Deed Transfer', desc: 'Package entire business digital assets into a single encrypted container. Chain of custody tracking with Seal of Truth verification.', color: '#a78bfa' },
                 { title: 'Patent-Pending Architecture', desc: 'Three-Level Execution + Vault Container System. Two US provisional patents protecting the core technology.', color: '#ff6b35' },
                 { title: 'Seal of Truth Verification', desc: 'SHA3-256 content-addressed integrity. Ed25519 digital signatures. Transfer registry with replay prevention.', color: '#00d4ff' },
-                { title: 'Free & Open Source', desc: 'MIT licensed. All 819 tools, 48 services, unlimited local use. No credit card. No trial period. Fully auditable.', color: '#00ff88' },
+                { title: 'Free & Open Source', desc: 'MIT licensed. All 819 tools, 48 services, unlimited local use. No credit card. No trial period. Fully auditable.', color: '#7ed957' },
               ].map((item) => (
                 <div key={item.title} className="float-card">
                   <div className="w-2 h-2 rounded-full mb-3" style={{ backgroundColor: item.color }} />
@@ -471,9 +471,9 @@ export default function HomePage() {
                 <code
                   className="font-mono text-xs px-3 py-1.5 rounded inline-block"
                   style={{
-                    backgroundColor: 'rgba(0,255,136,0.08)',
+                    backgroundColor: 'rgba(126,217,87,0.08)',
                     color: 'var(--accent)',
-                    border: '1px solid rgba(0,255,136,0.15)',
+                    border: '1px solid rgba(126,217,87,0.15)',
                   }}
                 >
                   {s.code}

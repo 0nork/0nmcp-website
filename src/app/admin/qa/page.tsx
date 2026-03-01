@@ -39,7 +39,7 @@ const PLATFORM_COLORS: Record<string, string> = {
 const STATUS_COLORS: Record<string, string> = {
   draft: '#484e78',
   pending: '#ff6b35',
-  completed: '#00ff88',
+  completed: '#7ed957',
   failed: '#ff3d3d',
   in_progress: '#00d4ff',
 }
@@ -102,7 +102,7 @@ export default function QADashboard() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8, marginBottom: 28 }}>
         <StatBox label="Total Content" value={stats?.totalContent || 0} color="var(--accent)" />
         <StatBox label="Drafted" value={stats?.drafted || 0} color="#484e78" />
-        <StatBox label="Distributed" value={stats?.distributed || 0} color="#00ff88" />
+        <StatBox label="Distributed" value={stats?.distributed || 0} color="#7ed957" />
         <StatBox label="Pending" value={stats?.pending || 0} color="#ff6b35" />
         <StatBox label="Failed" value={stats?.failed || 0} color="#ff3d3d" />
         <StatBox label="Platforms" value={stats?.platforms || 0} color="#9945ff" />
@@ -127,7 +127,7 @@ export default function QADashboard() {
             title: 'Content Pipeline',
             description: 'Marketing content — review, edit, approve, post.',
             href: '/admin/content',
-            color: '#00ff88',
+            color: '#7ed957',
           },
           {
             title: 'Admin Dashboard',

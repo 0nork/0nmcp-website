@@ -26,7 +26,7 @@ const FACTOR_COLORS: Record<string, string> = {
   impressions: '#ff6b35',
   position: '#00d4ff',
   ctr_gap: '#ff3d3d',
-  conversions: '#00ff88',
+  conversions: '#7ed957',
   freshness: '#9945ff',
 }
 
@@ -266,7 +266,7 @@ export default function LearningDashboard() {
             background:
               message.includes('fail') || message.includes('error')
                 ? 'rgba(255,61,61,0.1)'
-                : 'rgba(0,255,136,0.1)',
+                : 'rgba(126,217,87,0.1)',
             color:
               message.includes('fail') || message.includes('error')
                 ? '#ff3d3d'
@@ -469,7 +469,7 @@ export default function LearningDashboard() {
                       fontWeight: 900,
                       color:
                         o.rate > 0.6
-                          ? '#00ff88'
+                          ? '#7ed957'
                           : o.rate > 0.3
                             ? '#ff6b35'
                             : '#ff3d3d',
@@ -511,7 +511,7 @@ export default function LearningDashboard() {
                       borderRadius: 2,
                       background:
                         o.rate > 0.6
-                          ? '#00ff88'
+                          ? '#7ed957'
                           : o.rate > 0.3
                             ? '#ff6b35'
                             : '#ff3d3d',
@@ -551,10 +551,10 @@ export default function LearningDashboard() {
                   padding: '8px 12px',
                   borderRadius: 8,
                   background: row.active
-                    ? 'rgba(0,255,136,0.05)'
+                    ? 'rgba(126,217,87,0.05)'
                     : 'rgba(255,255,255,0.02)',
                   border: `1px solid ${
-                    row.active ? 'rgba(0,255,136,0.2)' : 'var(--border)'
+                    row.active ? 'rgba(126,217,87,0.2)' : 'var(--border)'
                   }`,
                   display: 'flex',
                   alignItems: 'center',
@@ -569,8 +569,8 @@ export default function LearningDashboard() {
                       fontWeight: 700,
                       padding: '2px 6px',
                       borderRadius: 4,
-                      background: 'rgba(0,255,136,0.15)',
-                      color: '#00ff88',
+                      background: 'rgba(126,217,87,0.15)',
+                      color: '#7ed957',
                       textTransform: 'uppercase',
                     }}
                   >

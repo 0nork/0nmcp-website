@@ -118,7 +118,7 @@ const GOALS = [
 const TYPE_META: Record<string, { icon: string; color: string; label: string }> = {
   connection: { icon: '🔌', color: '#00d4ff', label: 'Connection' },
   workflow:   { icon: '⚡', color: '#ff8800', label: 'Workflow' },
-  run:        { icon: '▶', color: '#00ff88', label: 'RUN' },
+  run:        { icon: '▶', color: '#7ed957', label: 'RUN' },
   switch:     { icon: '🔀', color: '#ff00ff', label: 'SWITCH' },
   config:     { icon: '⚙', color: '#8888ff', label: 'Config' },
   unknown:    { icon: '📄', color: '#666688', label: 'File' },

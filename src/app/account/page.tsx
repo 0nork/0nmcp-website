@@ -283,7 +283,7 @@ export default function AccountPage() {
           <p className="account-plan">
             <span className="account-plan-badge">{profile?.plan || 'free'}</span>
             {profile?.sponsor_tier && (
-              <span className="account-plan-badge" style={{ backgroundColor: 'rgba(0,255,136,0.15)', color: 'var(--accent)', borderColor: 'rgba(0,255,136,0.3)' }}>
+              <span className="account-plan-badge" style={{ backgroundColor: 'rgba(126,217,87,0.15)', color: 'var(--accent)', borderColor: 'rgba(126,217,87,0.3)' }}>
                 {profile.sponsor_tier} sponsor
               </span>
             )}
@@ -629,7 +629,7 @@ export default function AccountPage() {
                     <div key={cw.id} className="file-card">
                       <div className="file-card-header">
                         <span className="file-card-name">{cw.name}</span>
-                        <span className="file-card-status active" style={{ backgroundColor: 'rgba(0,255,136,0.1)', color: 'var(--accent)' }}>
+                        <span className="file-card-status active" style={{ backgroundColor: 'rgba(126,217,87,0.1)', color: 'var(--accent)' }}>
                           {cw.source_platform}
                         </span>
                       </div>

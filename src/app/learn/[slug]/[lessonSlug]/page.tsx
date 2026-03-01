@@ -135,12 +135,12 @@ export default function LessonPage() {
       <div className="flex items-center gap-4 text-xs mb-8" style={{ color: 'var(--text-muted)' }}>
         <span>{lesson.duration_minutes} min</span>
         {lesson.is_free_preview && (
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
             Free Preview
           </span>
         )}
         {completed && (
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
             Completed
           </span>
         )}
@@ -175,7 +175,7 @@ export default function LessonPage() {
           </button>
         )}
         {completed && (
-          <span className="text-sm font-bold" style={{ color: '#00ff88' }}>Lesson complete</span>
+          <span className="text-sm font-bold" style={{ color: '#7ed957' }}>Lesson complete</span>
         )}
         <Link
           href={`/learn/${slug}`}

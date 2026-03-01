@@ -145,22 +145,22 @@ function GridGraphic() {
       <svg width="100%" height="100%" viewBox="0 0 300 200" fill="none" style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
         {/* Horizontal lines */}
         {[30, 70, 110, 150].map((y) => (
-          <line key={`h${y}`} x1="0" y1={y} x2="300" y2={y} stroke="#00ff88" strokeWidth="0.5" />
+          <line key={`h${y}`} x1="0" y1={y} x2="300" y2={y} stroke="#7ed957" strokeWidth="0.5" />
         ))}
         {/* Vertical lines */}
         {[50, 100, 150, 200, 250].map((x) => (
-          <line key={`v${x}`} x1={x} y1="0" x2={x} y2="200" stroke="#00ff88" strokeWidth="0.5" />
+          <line key={`v${x}`} x1={x} y1="0" x2={x} y2="200" stroke="#7ed957" strokeWidth="0.5" />
         ))}
         {/* Nodes at intersections */}
         {[50, 150, 250].map((x) =>
           [30, 110].map((y) => (
-            <circle key={`n${x}${y}`} cx={x} cy={y} r="2.5" fill="#00ff88" opacity="0.4">
+            <circle key={`n${x}${y}`} cx={x} cy={y} r="2.5" fill="#7ed957" opacity="0.4">
               <animate attributeName="opacity" values="0.2;0.6;0.2" dur={`${2 + Math.random() * 2}s`} repeatCount="indefinite" />
             </circle>
           ))
         )}
         {/* Animated data pulse along paths */}
-        <circle r="3" fill="#00ff88" opacity="0.8">
+        <circle r="3" fill="#7ed957" opacity="0.8">
           <animateMotion dur="4s" repeatCount="indefinite" path="M50,30 L150,30 L150,110 L250,110" />
         </circle>
         <circle r="2" fill="#00d4ff" opacity="0.6">
@@ -171,7 +171,7 @@ function GridGraphic() {
       <div style={{
         position: 'absolute', top: '-20px', right: '-20px',
         width: '120px', height: '120px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(126,217,87,0.08) 0%, transparent 70%)',
       }} />
     </div>
   )
@@ -188,7 +188,7 @@ function VaultGraphic() {
         <circle cx="150" cy="100" r="55" stroke="#00d4ff" strokeWidth="0.5" strokeDasharray="3 5">
           <animateTransform attributeName="transform" type="rotate" from="360 150 100" to="0 150 100" dur="22s" repeatCount="indefinite" />
         </circle>
-        <circle cx="150" cy="100" r="30" stroke="#00ff88" strokeWidth="1" strokeDasharray="2 4">
+        <circle cx="150" cy="100" r="30" stroke="#7ed957" strokeWidth="1" strokeDasharray="2 4">
           <animateTransform attributeName="transform" type="rotate" from="0 150 100" to="360 150 100" dur="15s" repeatCount="indefinite" />
         </circle>
         {/* Center shield */}
@@ -243,23 +243,23 @@ function ShieldGraphic() {
       <svg width="100%" height="100%" viewBox="0 0 300 200" fill="none" style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
         {/* Shield shape */}
         <path d="M150 20 L230 55 L230 120 C230 160 150 190 150 190 C150 190 70 160 70 120 L70 55 Z"
-          fill="none" stroke="#00ff88" strokeWidth="1" strokeDasharray="6 3">
+          fill="none" stroke="#7ed957" strokeWidth="1" strokeDasharray="6 3">
           <animate attributeName="stroke-dashoffset" from="0" to="18" dur="3s" repeatCount="indefinite" />
         </path>
         {/* Inner lines = 7 layers */}
         {[45, 60, 75, 90, 105, 120, 135].map((y, i) => (
           <line key={`layer${i}`} x1="95" y1={y} x2="205" y2={y}
-            stroke={i % 2 === 0 ? '#00ff88' : '#a78bfa'} strokeWidth="0.5" opacity="0.4" />
+            stroke={i % 2 === 0 ? '#7ed957' : '#a78bfa'} strokeWidth="0.5" opacity="0.4" />
         ))}
         {/* Checkmark */}
-        <path d="M130 105 L145 120 L175 80" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.4">
+        <path d="M130 105 L145 120 L175 80" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.4">
           <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite" />
         </path>
       </svg>
       <div style={{
         position: 'absolute', top: '-10px', right: '20px',
         width: '80px', height: '80px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(126,217,87,0.06) 0%, transparent 70%)',
       }} />
     </div>
   )
@@ -324,13 +324,7 @@ export default function MegaNav() {
       <div className="mega-nav-bar">
         {/* Logo */}
         <Link href="/" className="mega-nav-logo no-underline">
-          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-            <rect width="40" height="40" rx="8" fill="#0a0a0f" stroke="#00ff88" strokeWidth="1.5" strokeOpacity="0.4" />
-            <text x="20" y="27" textAnchor="middle" fill="#00ff88" fontSize="20" fontWeight="700" fontFamily="monospace">
-              0n
-            </text>
-          </svg>
-          <span>MCP</span>
+          <img src="/brand/logo-white.png" alt="0nMCP" height={32} width={100} style={{ height: 32, width: 'auto' }} />
         </Link>
 
         {/* Desktop menu triggers */}

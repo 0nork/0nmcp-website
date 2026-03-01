@@ -246,7 +246,7 @@
 }
 
 .builder-canvas-area .react-flow__minimap-mask {
-  fill: rgba(0, 255, 136, 0.08) !important;
+  fill: rgba(126, 217, 87, 0.08) !important;
   stroke: var(--accent) !important;
   stroke-width: 1 !important;
 }
@@ -345,7 +345,7 @@
 
 .step-node.selected {
   border-color: var(--accent);
-  box-shadow: 0 0 16px var(--accent-glow), 0 0 40px rgba(0, 255, 136, 0.06);
+  box-shadow: 0 0 16px var(--accent-glow), 0 0 40px rgba(126, 217, 87, 0.06);
   transform: scale(1.02);
 }
 
@@ -717,14 +717,14 @@ select.builder-field-input {
 /* ---- AI Chat Panel ---- */
 
 .builder-toolbar-btn.ai {
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.15));
+  background: linear-gradient(135deg, rgba(126, 217, 87, 0.15), rgba(0, 212, 255, 0.15));
   border-color: var(--accent);
   color: var(--accent);
   font-weight: 600;
 }
 
 .builder-toolbar-btn.ai:hover {
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.25), rgba(0, 212, 255, 0.25));
+  background: linear-gradient(135deg, rgba(126, 217, 87, 0.25), rgba(0, 212, 255, 0.25));
 }
 
 .builder-toolbar-btn.ai.active {
@@ -980,8 +980,8 @@ select.builder-field-input {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(0, 255, 136, 0.3); }
-  50% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+  0%, 100% { box-shadow: 0 0 8px rgba(126, 217, 87, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(126, 217, 87, 0.5); }
 }
 
 /* Input Bar */

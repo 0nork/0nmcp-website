@@ -254,7 +254,7 @@ export default function ForumModerationPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                 <span style={{ fontSize: '1.25rem' }}>{g.icon || '💬'}</span>
                 <span style={{ fontSize: '0.875rem', fontWeight: 800, color: g.color }}>{g.name}</span>
-                {g.is_official && <span style={{ fontSize: '0.5rem', padding: '1px 4px', borderRadius: 3, background: 'rgba(0,255,136,0.15)', color: 'var(--accent)', fontWeight: 700 }}>OFFICIAL</span>}
+                {g.is_official && <span style={{ fontSize: '0.5rem', padding: '1px 4px', borderRadius: 3, background: 'rgba(126,217,87,0.15)', color: 'var(--accent)', fontWeight: 700 }}>OFFICIAL</span>}
               </div>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0 0 8px', lineHeight: 1.4 }}>{g.description}</p>
               <div style={{ display: 'flex', gap: 12, fontSize: '0.6875rem', color: 'var(--text-muted)' }}>

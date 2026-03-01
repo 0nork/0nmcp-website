@@ -51,13 +51,13 @@ export default function DownloadsPage() {
                     width: 44,
                     height: 44,
                     borderRadius: 10,
-                    background: 'rgba(0, 255, 136, 0.1)',
+                    background: 'rgba(126, 217, 87, 0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <circle cx="12" cy="12" r="4" />
                     <line x1="21.17" y1="8" x2="12" y2="8" />
@@ -175,13 +175,13 @@ export default function DownloadsPage() {
                     width: 44,
                     height: 44,
                     borderRadius: 10,
-                    background: 'rgba(0, 255, 136, 0.1)',
+                    background: 'rgba(126, 217, 87, 0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
                     <line x1="12" y1="18" x2="12.01" y2="18" />
                   </svg>
@@ -263,13 +263,13 @@ export default function DownloadsPage() {
                     width: 44,
                     height: 44,
                     borderRadius: 10,
-                    background: 'rgba(0, 255, 136, 0.1)',
+                    background: 'rgba(126, 217, 87, 0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
                     <line x1="12" y1="18" x2="12.01" y2="18" />
                   </svg>

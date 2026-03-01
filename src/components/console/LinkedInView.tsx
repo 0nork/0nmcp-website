@@ -326,7 +326,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                 style={{
                   backgroundColor: 'rgba(255,255,255,0.02)',
                   border: generatedPost.valid
-                    ? '1px solid rgba(0,255,136,0.2)'
+                    ? '1px solid rgba(126,217,87,0.2)'
                     : '1px solid rgba(255,59,48,0.2)',
                 }}
               >
@@ -348,9 +348,9 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                     className="text-xs px-2 py-1 rounded-md"
                     style={{
                       backgroundColor: generatedPost.valid
-                        ? 'rgba(0,255,136,0.1)'
+                        ? 'rgba(126,217,87,0.1)'
                         : 'rgba(255,59,48,0.1)',
-                      color: generatedPost.valid ? '#00ff88' : '#ff6b6b',
+                      color: generatedPost.valid ? '#7ed957' : '#ff6b6b',
                     }}
                   >
                     {generatedPost.valid ? 'Valid' : 'Issues found'}
@@ -417,9 +417,9 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
             <div
               className="mt-4 flex items-center gap-2 p-3 rounded-xl text-sm"
               style={{
-                backgroundColor: 'rgba(0,255,136,0.06)',
-                border: '1px solid rgba(0,255,136,0.2)',
-                color: '#00ff88',
+                backgroundColor: 'rgba(126,217,87,0.06)',
+                border: '1px solid rgba(126,217,87,0.2)',
+                color: '#7ed957',
               }}
             >
               <Check size={16} />
@@ -429,7 +429,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline ml-1"
-                style={{ color: '#00ff88' }}
+                style={{ color: '#7ed957' }}
               >
                 View on LinkedIn
               </a>
@@ -468,11 +468,11 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
               style={{
                 backgroundColor: member?.automated_posting_enabled
                   ? 'rgba(255,59,48,0.1)'
-                  : 'rgba(0,255,136,0.1)',
+                  : 'rgba(126,217,87,0.1)',
                 border: member?.automated_posting_enabled
                   ? '1px solid rgba(255,59,48,0.2)'
-                  : '1px solid rgba(0,255,136,0.2)',
-                color: member?.automated_posting_enabled ? '#ff6b6b' : '#00ff88',
+                  : '1px solid rgba(126,217,87,0.2)',
+                color: member?.automated_posting_enabled ? '#ff6b6b' : '#7ed957',
               }}
             >
               {member?.automated_posting_enabled ? 'Disable' : 'Enable'}
@@ -506,11 +506,11 @@ function StatCard({
       <Icon
         size={16}
         className="mx-auto mb-1"
-        style={{ color: accent ? '#00ff88' : 'var(--text-muted)' }}
+        style={{ color: accent ? '#7ed957' : 'var(--text-muted)' }}
       />
       <div
         className="text-lg font-bold"
-        style={{ color: accent ? '#00ff88' : 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}
+        style={{ color: accent ? '#7ed957' : 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}
       >
         {value}
       </div>

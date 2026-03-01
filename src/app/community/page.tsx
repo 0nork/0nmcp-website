@@ -88,8 +88,8 @@ export default function CommunityPage() {
           <div
             className="rounded-2xl p-10 md:p-12"
             style={{
-              background: 'linear-gradient(135deg, rgba(0,255,136,0.06), rgba(0,212,255,0.04))',
-              border: '1px solid rgba(0,255,136,0.15)',
+              background: 'linear-gradient(135deg, rgba(126,217,87,0.06), rgba(0,212,255,0.04))',
+              border: '1px solid rgba(126,217,87,0.15)',
             }}
           >
             <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -128,8 +128,8 @@ export default function CommunityPage() {
               <div
                 className="flex-shrink-0 w-[200px] h-[200px] rounded-2xl flex items-center justify-center"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,212,255,0.1))',
-                  border: '1px solid rgba(0,255,136,0.2)',
+                  background: 'linear-gradient(135deg, rgba(126,217,87,0.1), rgba(0,212,255,0.1))',
+                  border: '1px solid rgba(126,217,87,0.2)',
                 }}
               >
                 <div className="text-center">
@@ -345,7 +345,7 @@ export default function CommunityPage() {
                       className="font-mono text-xs mt-2 inline-block px-3 py-1 rounded"
                       style={{
                         color: 'var(--accent)',
-                        backgroundColor: 'rgba(0,255,136,0.08)',
+                        backgroundColor: 'rgba(126,217,87,0.08)',
                       }}
                     >
                       {item.code}
@@ -374,8 +374,8 @@ export default function CommunityPage() {
             className="rounded-2xl p-12 text-center"
             style={{
               background:
-                'linear-gradient(135deg, rgba(0,255,136,0.05), rgba(0,212,255,0.05))',
-              border: '1px solid rgba(0,255,136,0.1)',
+                'linear-gradient(135deg, rgba(126,217,87,0.05), rgba(0,212,255,0.05))',
+              border: '1px solid rgba(126,217,87,0.1)',
             }}
           >
             <h3 className="text-xl font-bold mb-3">

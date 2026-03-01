@@ -39,7 +39,7 @@ export default function TwitterImage() {
             width: 400,
             height: 400,
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(0,255,136,0.15) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(126,217,87,0.15) 0%, transparent 70%)',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -55%)',
@@ -52,7 +52,7 @@ export default function TwitterImage() {
           style={{
             fontSize: 120,
             fontWeight: 900,
-            color: '#00ff88',
+            color: '#7ed957',
             fontFamily: 'monospace',
             letterSpacing: '-0.04em',
             lineHeight: 1,
@@ -85,7 +85,7 @@ export default function TwitterImage() {
             left: 0,
             right: 0,
             height: 4,
-            background: 'linear-gradient(90deg, transparent, #00ff88, transparent)',
+            background: 'linear-gradient(90deg, transparent, #7ed957, transparent)',
             display: 'flex',
           }}
         />

@@ -41,7 +41,7 @@ function typeIcon(type: string) {
 function typeColors(type: string): { bg: string; fg: string } {
   switch (type) {
     case 'connect':
-      return { bg: 'rgba(0,255,136,0.1)', fg: 'var(--accent)' }
+      return { bg: 'rgba(126,217,87,0.1)', fg: 'var(--accent)' }
     case 'workflow':
       return { bg: 'rgba(0,212,255,0.1)', fg: 'var(--accent-secondary)' }
     case 'chat':

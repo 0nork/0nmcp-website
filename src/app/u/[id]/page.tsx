@@ -212,7 +212,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
                 <span
                   key={interest}
                   className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
-                  style={{ background: 'var(--accent-glow)', color: 'var(--accent)', border: '1px solid rgba(0,255,136,0.2)' }}
+                  style={{ background: 'var(--accent-glow)', color: 'var(--accent)', border: '1px solid rgba(126,217,87,0.2)' }}
                 >
                   {interest}
                 </span>

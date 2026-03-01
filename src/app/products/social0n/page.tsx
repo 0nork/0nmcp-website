@@ -25,10 +25,10 @@ export default function Social0nPage() {
   return (
     <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.5rem 4rem' }}>
       <section className="store-hero">
-        <div className="store-badge" style={{ borderColor: 'rgba(0, 255, 136, 0.3)', background: 'rgba(0, 255, 136, 0.1)', color: '#00ff88' }}>
+        <div className="store-badge" style={{ borderColor: 'rgba(126, 217, 87, 0.3)', background: 'rgba(126, 217, 87, 0.1)', color: '#7ed957' }}>
           Coming Soon
         </div>
-        <h1 style={{ background: 'linear-gradient(135deg, #00ff88, #00cc6a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+        <h1 style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
           Social0n
         </h1>
         <p className="store-subtitle">
@@ -43,7 +43,7 @@ export default function Social0nPage() {
         <div className="store-cap-grid">
           {FEATURES.map((f) => (
             <div key={f.title} className="store-cap-item" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
-              <span style={{ color: '#00ff88', fontWeight: 600, fontSize: '0.95rem' }}>{f.title}</span>
+              <span style={{ color: '#7ed957', fontWeight: 600, fontSize: '0.95rem' }}>{f.title}</span>
               <span style={{ fontSize: '0.8rem', lineHeight: 1.5 }}>{f.desc}</span>
             </div>
           ))}

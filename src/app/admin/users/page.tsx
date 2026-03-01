@@ -156,7 +156,7 @@ export default function UserManagementPage() {
           <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
             <div style={{
               width: 48, height: 48, borderRadius: '50%',
-              background: selectedUser.is_persona ? 'rgba(255,105,180,0.15)' : 'rgba(0,255,136,0.1)',
+              background: selectedUser.is_persona ? 'rgba(255,105,180,0.15)' : 'rgba(126,217,87,0.1)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '1rem', fontWeight: 900,
               color: selectedUser.is_persona ? '#ff69b4' : 'var(--accent)',
@@ -193,14 +193,14 @@ export default function UserManagementPage() {
             onClick={() => setSelectedUser(u)}
             style={{
               display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
-              borderRadius: 10, background: selectedUser?.id === u.id ? 'rgba(0,255,136,0.05)' : 'var(--bg-card)',
+              borderRadius: 10, background: selectedUser?.id === u.id ? 'rgba(126,217,87,0.05)' : 'var(--bg-card)',
               border: '1px solid ' + (selectedUser?.id === u.id ? 'var(--accent)' : 'var(--border)'),
               cursor: 'pointer', transition: 'all 0.1s',
             }}
           >
             <div style={{
               width: 32, height: 32, borderRadius: '50%',
-              background: u.is_persona ? 'rgba(255,105,180,0.15)' : 'rgba(0,255,136,0.1)',
+              background: u.is_persona ? 'rgba(255,105,180,0.15)' : 'rgba(126,217,87,0.1)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '0.6875rem', fontWeight: 900,
               color: u.is_persona ? '#ff69b4' : 'var(--accent)', flexShrink: 0,

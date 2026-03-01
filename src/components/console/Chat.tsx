@@ -105,10 +105,10 @@ export function Chat({ messages, loading }: ChatProps) {
                 style={
                   m.role === 'user'
                     ? {
-                        background: 'linear-gradient(135deg, rgba(0,255,136,0.15), rgba(0,212,255,0.1))',
+                        background: 'linear-gradient(135deg, rgba(126,217,87,0.15), rgba(0,212,255,0.1))',
                         borderTopRightRadius: '0.375rem',
                         color: 'var(--text-primary)',
-                        border: '1px solid rgba(0,255,136,0.2)',
+                        border: '1px solid rgba(126,217,87,0.2)',
                       }
                     : {
                         backgroundColor: 'var(--bg-card)',

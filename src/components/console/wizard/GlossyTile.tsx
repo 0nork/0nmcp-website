@@ -194,7 +194,7 @@ export function GlossyTile({
               : 'rgba(42, 42, 58, 0.6)'
         }`,
         boxShadow: isActive
-          ? `0 0 20px rgba(0, 255, 136, 0.15)`
+          ? `0 0 20px rgba(126, 217, 87, 0.15)`
           : 'none',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.4 : 1,

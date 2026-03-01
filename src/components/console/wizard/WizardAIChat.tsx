@@ -265,7 +265,7 @@ export default function WizardAIChat({ className }: WizardAIChatProps) {
                 width: 28,
                 height: 28,
                 borderRadius: '50%',
-                backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                backgroundColor: 'rgba(126, 217, 87, 0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -410,7 +410,7 @@ function MessageBubble({ message, onSuggestionClick, loading }: MessageBubblePro
             borderRadius: '50%',
             backgroundColor: isUser
               ? 'rgba(255, 107, 53, 0.15)'
-              : 'rgba(0, 255, 136, 0.1)',
+              : 'rgba(126, 217, 87, 0.1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -499,7 +499,7 @@ function MessageBubble({ message, onSuggestionClick, loading }: MessageBubblePro
               }}
               onMouseEnter={(e) => {
                 if (!loading) {
-                  e.currentTarget.style.backgroundColor = 'rgba(0, 255, 136, 0.1)'
+                  e.currentTarget.style.backgroundColor = 'rgba(126, 217, 87, 0.1)'
                   e.currentTarget.style.borderColor = 'var(--accent)'
                 }
               }}

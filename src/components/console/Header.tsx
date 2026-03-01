@@ -70,9 +70,9 @@ export function Header({ view, mcpOnline, connectedCount, onCmdK, onMobileMenu }
         <div
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
           style={{
-            backgroundColor: mcpOnline ? 'rgba(0,255,136,0.06)' : 'rgba(255,255,255,0.04)',
+            backgroundColor: mcpOnline ? 'rgba(126,217,87,0.06)' : 'rgba(255,255,255,0.04)',
             border: mcpOnline
-              ? '1px solid rgba(0,255,136,0.2)'
+              ? '1px solid rgba(126,217,87,0.2)'
               : '1px solid var(--border)',
           }}
         >

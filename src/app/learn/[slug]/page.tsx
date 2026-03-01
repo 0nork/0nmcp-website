@@ -34,7 +34,7 @@ interface Enrollment {
 }
 
 const TIER_COLORS: Record<string, string> = {
-  free: '#00ff88',
+  free: '#7ed957',
   supporter: '#ff6b35',
   builder: '#00d4ff',
   enterprise: '#9945ff',
@@ -102,7 +102,7 @@ export default function CourseDetailPage() {
     )
   }
 
-  const tierColor = TIER_COLORS[course.tier_required] || '#00ff88'
+  const tierColor = TIER_COLORS[course.tier_required] || '#7ed957'
   const completedCount = Object.values(progress).filter(Boolean).length
 
   return (
@@ -199,7 +199,7 @@ export default function CourseDetailPage() {
               className="flex items-center gap-4 rounded-xl px-4 py-3 transition-all"
               style={{
                 background: 'var(--bg-card)',
-                border: `1px solid ${completed ? 'rgba(0,255,136,0.2)' : 'var(--border)'}`,
+                border: `1px solid ${completed ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
                 opacity: accessible ? 1 : 0.5,
                 cursor: accessible ? 'pointer' : 'default',
               }}
@@ -209,8 +209,8 @@ export default function CourseDetailPage() {
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                 style={{
-                  background: completed ? 'rgba(0,255,136,0.15)' : 'rgba(255,255,255,0.05)',
-                  color: completed ? '#00ff88' : 'var(--text-muted)',
+                  background: completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
+                  color: completed ? '#7ed957' : 'var(--text-muted)',
                 }}
               >
                 {completed ? '✓' : i + 1}
@@ -222,7 +222,7 @@ export default function CourseDetailPage() {
                 <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
                   {lesson.duration_minutes} min
                   {lesson.is_free_preview && (
-                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
+                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
                       Free Preview
                     </span>
                   )}

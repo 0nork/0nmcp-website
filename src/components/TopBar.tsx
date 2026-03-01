@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 const products = [
-  { name: '0nMCP', href: '/', color: '#00ff88' },
-  { name: 'Social0n', href: '/products/social0n', color: '#00ff88' },
+  { name: '0nMCP', href: '/', color: '#7ed957' },
+  { name: 'Social0n', href: '/products/social0n', color: '#7ed957' },
   { name: 'App0n', href: '/products/app0n', color: '#3b82f6' },
   { name: 'Web0n', href: '/products/web0n', color: '#ff6b35' },
 ]

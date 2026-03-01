@@ -401,8 +401,8 @@ function MessageBubble({ msg, onRunBlock }: { msg: Message; onRunBlock: (idx: nu
           <div
             className="max-w-[75%] text-[13px] leading-relaxed px-3.5 py-2.5 rounded-xl rounded-tr-sm break-words"
             style={{
-              background: 'linear-gradient(135deg, rgba(0,255,136,0.12), rgba(0,212,255,0.08))',
-              border: '1px solid rgba(0,255,136,0.15)',
+              background: 'linear-gradient(135deg, rgba(126,217,87,0.12), rgba(0,212,255,0.08))',
+              border: '1px solid rgba(126,217,87,0.15)',
               color: 'var(--text-primary)',
             }}
           >
@@ -563,7 +563,7 @@ function RunnableCodeBlock({ block, index, onRun }: { block: CodeBlock; index: n
             <button
               onClick={() => onRun(index)}
               className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-bold transition-all border-none cursor-pointer"
-              style={{ background: 'rgba(0,255,136,0.12)', color: 'var(--accent)' }}
+              style={{ background: 'rgba(126,217,87,0.12)', color: 'var(--accent)' }}
             >
               <Play size={10} />
               Run

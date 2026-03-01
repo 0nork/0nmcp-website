@@ -78,7 +78,7 @@ export default function WizardCompletion({
           width: '300px',
           height: '300px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(126, 217, 87, 0.08) 0%, transparent 70%)',
           pointerEvents: 'none',
           animation: 'wizard-glow-pulse 3s ease-in-out infinite',
         }}

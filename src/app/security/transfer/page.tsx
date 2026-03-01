@@ -114,7 +114,7 @@ export default function TransferPage() {
               <code className="text-xs font-mono block mb-2" style={{ color: 'var(--text-muted)' }}>3. Re-encrypt authorized layers</code>
               <code className="text-xs font-mono block mb-3" style={{ color: 'var(--text-secondary)' }}>   shared_secret = X25519(sender_sk, recipient_pk)</code>
               <code className="text-xs font-mono block mb-2" style={{ color: 'var(--text-muted)' }}>4. Append to transfer log</code>
-              <code className="text-xs font-mono block" style={{ color: '#00ff88' }}>   log.append(transfer_id, sender, recipient, layers, sig, timestamp)</code>
+              <code className="text-xs font-mono block" style={{ color: '#7ed957' }}>   log.append(transfer_id, sender, recipient, layers, sig, timestamp)</code>
             </div>
           </div>
         </section>

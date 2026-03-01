@@ -125,7 +125,7 @@ export function FlowsOverlay({
           className="mb-4 px-4 py-3 rounded-xl text-sm"
           style={{
             backgroundColor: 'var(--bg-card)',
-            border: '1px solid rgba(0,255,136,0.2)',
+            border: '1px solid rgba(126,217,87,0.2)',
             color: 'var(--text-secondary)',
             animation: 'console-fade-in 0.2s ease',
           }}
@@ -217,15 +217,15 @@ export function FlowsOverlay({
                         disabled={runningId === w.name}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer border-none"
                         style={{
-                          backgroundColor: 'rgba(0,255,136,0.1)',
+                          backgroundColor: 'rgba(126,217,87,0.1)',
                           color: 'var(--accent)',
                           opacity: runningId === w.name ? 0.6 : 1,
                         }}
                         onMouseEnter={(e) =>
-                          (e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.2)')
+                          (e.currentTarget.style.backgroundColor = 'rgba(126,217,87,0.2)')
                         }
                         onMouseLeave={(e) =>
-                          (e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.1)')
+                          (e.currentTarget.style.backgroundColor = 'rgba(126,217,87,0.1)')
                         }
                       >
                         {runningId === w.name ? (
@@ -294,7 +294,7 @@ export function FlowsOverlay({
                           onClick={() => onToggle(f.id)}
                           className="flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer border-none"
                           style={{
-                            backgroundColor: f.on ? 'rgba(0,255,136,0.15)' : 'rgba(255,255,255,0.04)',
+                            backgroundColor: f.on ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
                             color: f.on ? 'var(--accent)' : 'var(--text-muted)',
                           }}
                         >

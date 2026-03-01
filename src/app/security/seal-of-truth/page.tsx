@@ -129,7 +129,7 @@ export default function SealOfTruthPage() {
               <code className="text-xs font-mono block mb-1" style={{ color: 'var(--text-secondary)' }}>Computing Seal of Truth...</code>
               <code className="text-xs font-mono block mb-1" style={{ color: 'var(--accent)' }}>Seal: a3f8c2d1e9b7...4f6a (SHA3-256)</code>
               <code className="text-xs font-mono block mb-1" style={{ color: 'var(--text-secondary)' }}>Comparing with embedded seal...</code>
-              <code className="text-xs font-mono block" style={{ color: '#00ff88' }}>VERIFIED: Container integrity confirmed.</code>
+              <code className="text-xs font-mono block" style={{ color: '#7ed957' }}>VERIFIED: Container integrity confirmed.</code>
             </div>
           </div>
         </section>

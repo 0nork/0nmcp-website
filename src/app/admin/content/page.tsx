@@ -48,7 +48,7 @@ type FilterPlatform = '' | 'reddit' | 'linkedin' | 'blog' | 'hackernews' | 'twit
 const STATUS_COLORS: Record<string, string> = {
   draft: '#484e78',
   review: '#ff6b35',
-  approved: '#00ff88',
+  approved: '#7ed957',
   scheduled: '#00d4ff',
   posted: '#9945ff',
   rejected: '#ff3d3d',
@@ -58,7 +58,7 @@ const STATUS_COLORS: Record<string, string> = {
 const PLATFORM_COLORS: Record<string, string> = {
   reddit: '#FF4500',
   linkedin: '#0A66C2',
-  blog: '#00ff88',
+  blog: '#7ed957',
   hackernews: '#FF6600',
   twitter: '#1DA1F2',
   dev_to: '#0A0A0A',
@@ -285,9 +285,9 @@ export default function ContentDashboard() {
             marginBottom: 16,
             fontSize: '0.8125rem',
             fontWeight: 600,
-            background: message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.1)' : 'rgba(0,255,136,0.1)',
+            background: message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.1)' : 'rgba(126,217,87,0.1)',
             color: message.includes('fail') || message.includes('error') ? '#ff3d3d' : 'var(--accent)',
-            border: `1px solid ${message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.2)' : 'rgba(0,255,136,0.2)'}`,
+            border: `1px solid ${message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.2)' : 'rgba(126,217,87,0.2)'}`,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -567,7 +567,7 @@ export default function ContentDashboard() {
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               <button onClick={handleSaveEdit} style={btnStyle('var(--accent)')}>Save Edits</button>
               {selectedItem.status !== 'approved' && (
-                <button onClick={() => handleAction(selectedItem.id, 'approved')} style={btnStyle('#00ff88')}>Approve</button>
+                <button onClick={() => handleAction(selectedItem.id, 'approved')} style={btnStyle('#7ed957')}>Approve</button>
               )}
               {selectedItem.status !== 'rejected' && (
                 <button onClick={() => handleAction(selectedItem.id, 'rejected')} style={btnStyle('#ff3d3d')}>Reject</button>
@@ -585,7 +585,7 @@ export default function ContentDashboard() {
                 <button onClick={() => handleAction(selectedItem.id, 'scheduled', { scheduled_for: new Date(Date.now() + 86400000).toISOString() })} style={btnStyle('#00d4ff')}>Schedule +1d</button>
               )}
               {selectedItem.posted_url && (
-                <a href={selectedItem.posted_url} target="_blank" rel="noopener noreferrer" style={{ ...btnStyle('#00ff88'), textDecoration: 'none', display: 'inline-block' }}>View Post</a>
+                <a href={selectedItem.posted_url} target="_blank" rel="noopener noreferrer" style={{ ...btnStyle('#7ed957'), textDecoration: 'none', display: 'inline-block' }}>View Post</a>
               )}
               <button onClick={() => handleDelete(selectedItem.id)} style={btnStyle('#ff3d3d', true)}>Delete</button>
             </div>

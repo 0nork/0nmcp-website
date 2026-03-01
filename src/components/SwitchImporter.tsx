@@ -286,7 +286,7 @@ export default function SwitchImporter({ userId, onImportComplete }: SwitchImpor
               textAlign: 'center',
               cursor: 'pointer',
               transition: 'border-color 0.2s, background-color 0.2s',
-              backgroundColor: dragOver ? 'rgba(0, 255, 136, 0.03)' : 'transparent',
+              backgroundColor: dragOver ? 'rgba(126, 217, 87, 0.03)' : 'transparent',
             }}
           >
             <div style={{
@@ -610,7 +610,7 @@ export default function SwitchImporter({ userId, onImportComplete }: SwitchImpor
               fontSize: '0.8125rem',
               backgroundColor: saveMessage.startsWith('Error') ? 'rgba(255, 80, 80, 0.1)' : 'var(--accent-glow)',
               color: saveMessage.startsWith('Error') ? '#ff5050' : 'var(--accent)',
-              border: `1px solid ${saveMessage.startsWith('Error') ? 'rgba(255, 80, 80, 0.3)' : 'rgba(0, 255, 136, 0.3)'}`,
+              border: `1px solid ${saveMessage.startsWith('Error') ? 'rgba(255, 80, 80, 0.3)' : 'rgba(126, 217, 87, 0.3)'}`,
             }}>
               {saveMessage}
             </div>

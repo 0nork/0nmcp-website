@@ -43,7 +43,7 @@ const PLATFORM_LABELS: Record<string, string> = {
 }
 
 const STATUS_CONFIG: Record<string, { color: string; bg: string; label: string }> = {
-  posted: { color: '#00ff88', bg: 'rgba(0,255,136,0.1)', label: 'Posted' },
+  posted: { color: '#7ed957', bg: 'rgba(126,217,87,0.1)', label: 'Posted' },
   failed: { color: '#ff6b6b', bg: 'rgba(255,59,48,0.1)', label: 'Failed' },
   scheduled: { color: '#ffbb33', bg: 'rgba(255,187,51,0.1)', label: 'Scheduled' },
   pending: { color: 'var(--text-muted)', bg: 'rgba(255,255,255,0.04)', label: 'Pending' },

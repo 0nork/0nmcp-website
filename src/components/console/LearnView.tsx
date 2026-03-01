@@ -59,7 +59,7 @@ const CATEGORIES = [
 ]
 
 const TIER_BADGE: Record<string, { label: string; color: string }> = {
-  free: { label: 'Free', color: '#00ff88' },
+  free: { label: 'Free', color: '#7ed957' },
   supporter: { label: 'Supporter', color: '#ff6b35' },
   builder: { label: 'Builder', color: '#00d4ff' },
   enterprise: { label: 'Enterprise', color: '#9945ff' },
@@ -240,7 +240,7 @@ export function LearnView() {
           <button
             onClick={goBack}
             className="flex items-center gap-1.5 text-xs font-medium px-2 py-1.5 rounded-lg transition-colors mr-2"
-            style={{ color: 'var(--accent)', background: 'rgba(0,255,136,0.08)' }}
+            style={{ color: 'var(--accent)', background: 'rgba(126,217,87,0.08)' }}
           >
             <ArrowLeft size={14} />
             Back
@@ -476,7 +476,7 @@ function CoursePanel({
     )
   }
 
-  const tierColor = TIER_BADGE[course.tier_required]?.color || '#00ff88'
+  const tierColor = TIER_BADGE[course.tier_required]?.color || '#7ed957'
   const completedCount = Object.values(progress).filter(Boolean).length
 
   return (
@@ -565,7 +565,7 @@ function CoursePanel({
               className="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all text-left w-full border-none"
               style={{
                 background: 'var(--bg-card)',
-                border: `1px solid ${completed ? 'rgba(0,255,136,0.2)' : 'var(--border)'}`,
+                border: `1px solid ${completed ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
                 opacity: accessible ? 1 : 0.5,
                 cursor: accessible ? 'pointer' : 'default',
               }}
@@ -573,8 +573,8 @@ function CoursePanel({
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
                 style={{
-                  background: completed ? 'rgba(0,255,136,0.15)' : 'rgba(255,255,255,0.05)',
-                  color: completed ? '#00ff88' : 'var(--text-muted)',
+                  background: completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
+                  color: completed ? '#7ed957' : 'var(--text-muted)',
                 }}
               >
                 {completed ? <CheckCircle size={12} /> : i + 1}
@@ -584,7 +584,7 @@ function CoursePanel({
                 <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
                   {lesson.duration_minutes} min
                   {lesson.is_free_preview && (
-                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
+                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
                       Free Preview
                     </span>
                   )}
@@ -685,12 +685,12 @@ function LessonPanel({
       <div className="flex items-center gap-3 text-[11px] mb-6" style={{ color: 'var(--text-muted)' }}>
         <span className="flex items-center gap-1"><Clock size={10} />{lesson.duration_minutes} min</span>
         {lesson.is_free_preview && (
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
             Free Preview
           </span>
         )}
         {completed && (
-          <span className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(0,255,136,0.1)', color: '#00ff88' }}>
+          <span className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
             <CheckCircle size={9} /> Completed
           </span>
         )}
@@ -725,7 +725,7 @@ function LessonPanel({
           </button>
         )}
         {completed && (
-          <span className="text-xs font-bold" style={{ color: '#00ff88' }}>Lesson complete</span>
+          <span className="text-xs font-bold" style={{ color: '#7ed957' }}>Lesson complete</span>
         )}
         <button
           onClick={onBack}
@@ -803,7 +803,7 @@ function CommunityTab({ members, loading }: { members: CommunityMember[]; loadin
             {member.tags && member.tags.length > 0 && (
               <div className="flex gap-1 flex-shrink-0">
                 {member.tags.slice(0, 2).map(tag => (
-                  <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(0,255,136,0.08)', color: 'var(--accent)' }}>
+                  <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(126,217,87,0.08)', color: 'var(--accent)' }}>
                     {tag}
                   </span>
                 ))}

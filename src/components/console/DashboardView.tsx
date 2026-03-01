@@ -94,8 +94,8 @@ export function DashboardView({
       <div
         className="glow-box rounded-2xl p-5 transition-all"
         style={{
-          borderColor: mcpOnline ? 'rgba(0,255,136,0.2)' : 'rgba(239,68,68,0.2)',
-          backgroundColor: mcpOnline ? 'rgba(0,255,136,0.03)' : 'rgba(239,68,68,0.03)',
+          borderColor: mcpOnline ? 'rgba(126,217,87,0.2)' : 'rgba(239,68,68,0.2)',
+          backgroundColor: mcpOnline ? 'rgba(126,217,87,0.03)' : 'rgba(239,68,68,0.03)',
         }}
       >
         <div className="flex items-center justify-between">
@@ -103,7 +103,7 @@ export function DashboardView({
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center"
               style={{
-                backgroundColor: mcpOnline ? 'rgba(0,255,136,0.1)' : 'rgba(239,68,68,0.1)',
+                backgroundColor: mcpOnline ? 'rgba(126,217,87,0.1)' : 'rgba(239,68,68,0.1)',
               }}
             >
               <Server
@@ -119,7 +119,7 @@ export function DashboardView({
                 <span
                   className="text-xs px-2 py-0.5 rounded-full font-bold"
                   style={{
-                    backgroundColor: mcpOnline ? 'rgba(0,255,136,0.15)' : 'rgba(239,68,68,0.15)',
+                    backgroundColor: mcpOnline ? 'rgba(126,217,87,0.15)' : 'rgba(239,68,68,0.15)',
                     color: mcpOnline ? 'var(--accent)' : '#ef4444',
                   }}
                 >
@@ -165,7 +165,7 @@ export function DashboardView({
             >
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center mb-3"
-                style={{ backgroundColor: `var(${s.accentVar}, #00ff88)14` }}
+                style={{ backgroundColor: `var(${s.accentVar}, #7ed957)14` }}
               >
                 <Icon size={18} style={{ color: `var(${s.accentVar})` }} />
               </div>

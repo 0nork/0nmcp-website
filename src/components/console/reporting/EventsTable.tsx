@@ -208,7 +208,7 @@ export function EventsTable({ events }: EventsTableProps) {
                       fontWeight: 600,
                       backgroundColor:
                         event.event_type === 'pageview'
-                          ? 'rgba(0,255,136,0.1)'
+                          ? 'rgba(126,217,87,0.1)'
                           : 'rgba(255,107,53,0.1)',
                       color:
                         event.event_type === 'pageview'

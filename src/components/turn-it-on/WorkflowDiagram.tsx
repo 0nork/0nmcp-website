@@ -97,7 +97,7 @@ export default function WorkflowDiagram({
               flexShrink: 0,
               backgroundColor: 'var(--bg-card)',
               border: '2px solid var(--accent)',
-              boxShadow: '0 0 30px rgba(0, 255, 136, 0.15)',
+              boxShadow: '0 0 30px rgba(126, 217, 87, 0.15)',
             }}
           >
             <span

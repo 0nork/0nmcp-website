@@ -68,15 +68,8 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-10">
           {/* Logo column */}
           <div className="col-span-2">
-            <Link
-              href="/"
-              className="text-2xl font-bold tracking-tight inline-block mb-4"
-              style={{
-                fontFamily: 'var(--font-mono)',
-                color: 'var(--accent)',
-              }}
-            >
-              0nMCP
+            <Link href="/" className="inline-block mb-4">
+              <img src="/brand/logo-white.png" alt="0nMCP" height={28} width={88} style={{ height: 28, width: 'auto' }} />
             </Link>
             <p
               className="text-sm leading-relaxed max-w-xs"

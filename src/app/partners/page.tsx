@@ -49,7 +49,7 @@ const coreApps: AppCard[] = [
     ],
     integration:
       'Social0n connects to the CRM social media endpoints through 0nMCP, giving users full programmatic control over their social presence. Every post, schedule, and analytics query flows through 0nMCP.',
-    color: '#00ff88',
+    color: '#7ed957',
     badge: '0nCore',
     status: 'Live',
     productPage: '/products/social0n',
@@ -110,7 +110,7 @@ const coreApps: AppCard[] = [
     ],
     integration:
       'Built entirely on 0nMCP. Every workflow in the marketplace is a .0n file that uses 0nMCP services. Export any workflow and run it with your own installation.',
-    color: '#00ff88',
+    color: '#7ed957',
     badge: '0nCore',
     status: 'Live',
   },
@@ -295,9 +295,9 @@ export default function PartnersPage() {
             <span
               className="text-[0.55rem] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full"
               style={{
-                background: 'rgba(0, 255, 136, 0.1)',
-                color: '#00ff88',
-                border: '1px solid rgba(0, 255, 136, 0.2)',
+                background: 'rgba(126, 217, 87, 0.1)',
+                color: '#7ed957',
+                border: '1px solid rgba(126, 217, 87, 0.2)',
               }}
             >
               First Party
@@ -418,8 +418,8 @@ export default function PartnersPage() {
             className="rounded-2xl p-10 md:p-12 text-center"
             style={{
               background:
-                'linear-gradient(135deg, rgba(0,255,136,0.05), rgba(153,69,255,0.05))',
-              border: '1px solid rgba(0,255,136,0.1)',
+                'linear-gradient(135deg, rgba(126,217,87,0.05), rgba(153,69,255,0.05))',
+              border: '1px solid rgba(126,217,87,0.1)',
             }}
           >
             <h3 className="text-xl font-bold mb-3">

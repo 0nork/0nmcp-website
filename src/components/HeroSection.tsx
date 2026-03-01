@@ -63,7 +63,7 @@ export default function HeroSection() {
         {/* Animated digital particles — green, purple, blue mix */}
         <div className="hero-particles">
           {Array.from({ length: 50 }).map((_, i) => {
-            const colors = ['#00ff88', '#a78bfa', '#00d4ff', '#00ff88', '#a78bfa', '#00d4ff']
+            const colors = ['#7ed957', '#a78bfa', '#00d4ff', '#7ed957', '#a78bfa', '#00d4ff']
             const color = colors[i % colors.length]
             const size = 1 + Math.random() * 2.5
             return (
@@ -184,11 +184,11 @@ export default function HeroSection() {
           style={{ animationDelay: '0.6s', animationFillMode: 'both' }}
         >
           {[
-            { label: 'AES-256 Encrypted', color: '#00ff88' },
+            { label: 'AES-256 Encrypted', color: '#7ed957' },
             { label: 'HMAC Signed', color: '#00d4ff' },
             { label: 'MIT Licensed', color: '#a78bfa' },
             { label: 'Patent Pending', color: '#ff6b35' },
-            { label: 'Free Forever', color: '#00ff88' },
+            { label: 'Free Forever', color: '#7ed957' },
           ].map((t) => (
             <span key={t.label} className="hero-trust-item">
               <span

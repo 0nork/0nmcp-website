@@ -56,7 +56,7 @@ export function WizardThinkingTransition({
             borderRadius: '50%',
             border: '2px solid transparent',
             borderTopColor: 'var(--accent)',
-            borderRightColor: 'rgba(0, 255, 136, 0.3)',
+            borderRightColor: 'rgba(126, 217, 87, 0.3)',
             animation: 'wizardSpin 1.2s linear infinite',
           }}
         />

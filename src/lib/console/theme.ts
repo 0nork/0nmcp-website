@@ -8,9 +8,9 @@
  *   --bg-secondary:     #111118
  *   --bg-tertiary:      #16161f
  *   --bg-card:          #1a1a25
- *   --accent:           #00ff88  (green)
- *   --accent-dim:       #00cc6a
- *   --accent-glow:      rgba(0, 255, 136, 0.15)
+ *   --accent:           #7ed957  (green)
+ *   --accent-dim:       #5cb83a
+ *   --accent-glow:      rgba(126, 217, 87, 0.15)
  *   --accent-secondary: #00d4ff  (cyan)
  *   --text-primary:     #e8e8ef
  *   --text-secondary:   #8888a0
@@ -53,8 +53,8 @@ export const THEME = {
   fontMono: "var(--font-mono)",
 
   // Status colors (raw hex for direct use)
-  green: "#00ff88",
-  greenDim: "#00cc6a",
+  green: "#7ed957",
+  greenDim: "#5cb83a",
   red: "#ff4444",
   redDim: "#cc3333",
   amber: "#ffbb33",
@@ -70,8 +70,8 @@ export const HEX = {
   bgSecondary: "#111118",
   bgTertiary: "#16161f",
   bgCard: "#1a1a25",
-  accent: "#00ff88",
-  accentDim: "#00cc6a",
+  accent: "#7ed957",
+  accentDim: "#5cb83a",
   accentSecondary: "#00d4ff",
   textPrimary: "#e8e8ef",
   textSecondary: "#8888a0",
@@ -84,25 +84,25 @@ export const HEX = {
 
 export const GRADIENTS = {
   /** Primary accent gradient (green to cyan) */
-  primary: "linear-gradient(135deg, #00ff88, #00d4ff)",
+  primary: "linear-gradient(135deg, #7ed957, #00d4ff)",
 
   /** Soft glow version of primary gradient */
-  primarySoft: "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.15))",
+  primarySoft: "linear-gradient(135deg, rgba(126, 217, 87, 0.15), rgba(0, 212, 255, 0.15))",
 
   /** Accent glow for hover states */
-  glow: "linear-gradient(135deg, rgba(0, 255, 136, 0.25), rgba(0, 212, 255, 0.1))",
+  glow: "linear-gradient(135deg, rgba(126, 217, 87, 0.25), rgba(0, 212, 255, 0.1))",
 
   /** Card hover gradient overlay */
-  cardHover: "linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 212, 255, 0.03))",
+  cardHover: "linear-gradient(135deg, rgba(126, 217, 87, 0.05), rgba(0, 212, 255, 0.03))",
 
   /** Radial glow for background effects */
-  radialGlow: "radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.08), transparent 70%)",
+  radialGlow: "radial-gradient(circle at 50% 50%, rgba(126, 217, 87, 0.08), transparent 70%)",
 
   /** Top-down fade for headers */
-  headerFade: "linear-gradient(180deg, rgba(0, 255, 136, 0.05) 0%, transparent 100%)",
+  headerFade: "linear-gradient(180deg, rgba(126, 217, 87, 0.05) 0%, transparent 100%)",
 
   /** Success state */
-  success: "linear-gradient(135deg, #00ff88, #00cc6a)",
+  success: "linear-gradient(135deg, #7ed957, #5cb83a)",
 
   /** Error state */
   error: "linear-gradient(135deg, #ff4444, #cc3333)",
@@ -111,7 +111,7 @@ export const GRADIENTS = {
   warning: "linear-gradient(135deg, #ffbb33, #cc9922)",
 
   /** Text gradient for accent headings (use with background-clip: text) */
-  textAccent: "linear-gradient(135deg, #00ff88, #00d4ff)",
+  textAccent: "linear-gradient(135deg, #7ed957, #00d4ff)",
 } as const;
 
 // ─── Shadow Utilities ───────────────────────────────────────────
@@ -124,13 +124,13 @@ export const SHADOWS = {
   cardHover: "0 4px 16px rgba(0, 0, 0, 0.4)",
 
   /** Accent glow shadow */
-  glow: "0 0 20px rgba(0, 255, 136, 0.15)",
+  glow: "0 0 20px rgba(126, 217, 87, 0.15)",
 
   /** Strong accent glow */
-  glowStrong: "0 0 30px rgba(0, 255, 136, 0.25)",
+  glowStrong: "0 0 30px rgba(126, 217, 87, 0.25)",
 
   /** Inset glow for focused inputs */
-  inputFocus: "0 0 0 2px rgba(0, 255, 136, 0.2), inset 0 0 0 1px rgba(0, 255, 136, 0.3)",
+  inputFocus: "0 0 0 2px rgba(126, 217, 87, 0.2), inset 0 0 0 1px rgba(126, 217, 87, 0.3)",
 
   /** Cyan accent glow */
   cyanGlow: "0 0 20px rgba(0, 212, 255, 0.15)",

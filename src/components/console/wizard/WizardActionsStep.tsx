@@ -198,8 +198,8 @@ export default function WizardActionsStep() {
           style={{
             padding: '10px 14px',
             borderRadius: '10px',
-            backgroundColor: 'rgba(0, 255, 136, 0.06)',
-            border: '1px solid rgba(0, 255, 136, 0.15)',
+            backgroundColor: 'rgba(126, 217, 87, 0.06)',
+            border: '1px solid rgba(126, 217, 87, 0.15)',
             marginBottom: '16px',
             display: 'flex',
             alignItems: 'center',

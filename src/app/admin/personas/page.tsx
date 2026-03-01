@@ -51,7 +51,7 @@ interface ConvoLog {
 type Tab = 'personas' | 'generate' | 'seeds' | 'activity'
 
 const ROLE_COLORS: Record<string, string> = {
-  developer: '#00ff88',
+  developer: '#7ed957',
   founder: '#9945ff',
   agency_owner: '#ff6b35',
   freelancer: '#00d4ff',
@@ -278,9 +278,9 @@ export default function PersonasAdmin() {
             marginBottom: 16,
             fontSize: '0.8125rem',
             fontWeight: 600,
-            background: message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.1)' : 'rgba(0,255,136,0.1)',
+            background: message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.1)' : 'rgba(126,217,87,0.1)',
             color: message.includes('fail') || message.includes('error') ? '#ff3d3d' : 'var(--accent)',
-            border: `1px solid ${message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.2)' : 'rgba(0,255,136,0.2)'}`,
+            border: `1px solid ${message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.2)' : 'rgba(126,217,87,0.2)'}`,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -321,7 +321,7 @@ export default function PersonasAdmin() {
           {/* Stats row */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
             <StatBox label="Total" value={personas.length} color="var(--text)" />
-            <StatBox label="Active" value={personas.filter(p => p.is_active).length} color="#00ff88" />
+            <StatBox label="Active" value={personas.filter(p => p.is_active).length} color="#7ed957" />
             <StatBox label="Threads" value={personas.reduce((s, p) => s + p.thread_count, 0)} color="#9945ff" />
             <StatBox label="Replies" value={personas.reduce((s, p) => s + p.reply_count, 0)} color="#00d4ff" />
           </div>
@@ -363,8 +363,8 @@ export default function PersonasAdmin() {
                     style={{
                       padding: '4px 10px',
                       borderRadius: 6,
-                      background: p.is_active ? 'rgba(0,255,136,0.1)' : 'rgba(255,61,61,0.1)',
-                      color: p.is_active ? '#00ff88' : '#ff3d3d',
+                      background: p.is_active ? 'rgba(126,217,87,0.1)' : 'rgba(255,61,61,0.1)',
+                      color: p.is_active ? '#7ed957' : '#ff3d3d',
                       border: 'none',
                       fontWeight: 700,
                       fontSize: '0.625rem',
@@ -509,7 +509,7 @@ export default function PersonasAdmin() {
                   style={{
                     padding: '8px 20px',
                     borderRadius: 10,
-                    background: saving ? 'var(--bg-card)' : '#00ff88',
+                    background: saving ? 'var(--bg-card)' : '#7ed957',
                     color: saving ? 'var(--text-muted)' : '#000',
                     border: 'none',
                     fontWeight: 700,
@@ -586,7 +586,7 @@ export default function PersonasAdmin() {
                   ))}
                 </select>
               </div>
-              <button onClick={addSeed} style={btnStyle('#00ff88')}>Add</button>
+              <button onClick={addSeed} style={btnStyle('#7ed957')}>Add</button>
             </div>
             <div style={{ marginTop: 8 }}>
               <label style={labelStyle}>Prompt Hint (optional)</label>

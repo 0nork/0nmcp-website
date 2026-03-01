@@ -197,7 +197,7 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
                     padding: '8px 16px',
                     borderRadius: 10,
                     border: '1px solid var(--accent)',
-                    backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                    backgroundColor: 'rgba(126, 217, 87, 0.1)',
                     color: 'var(--accent)',
                     fontSize: '0.8125rem',
                     fontWeight: 600,
@@ -206,10 +206,10 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
                     transition: 'all 0.2s ease',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0, 255, 136, 0.2)'
+                    e.currentTarget.style.backgroundColor = 'rgba(126, 217, 87, 0.2)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0, 255, 136, 0.1)'
+                    e.currentTarget.style.backgroundColor = 'rgba(126, 217, 87, 0.1)'
                   }}
                 >
                   <Blocks size={14} />
@@ -255,7 +255,7 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
                 width: 28,
                 height: 28,
                 borderRadius: '50%',
-                backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                backgroundColor: 'rgba(126, 217, 87, 0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -393,7 +393,7 @@ function MessageBubble({ message }: { message: Message }) {
             width: 28,
             height: 28,
             borderRadius: '50%',
-            backgroundColor: isUser ? 'rgba(255, 107, 53, 0.15)' : 'rgba(0, 255, 136, 0.1)',
+            backgroundColor: isUser ? 'rgba(255, 107, 53, 0.15)' : 'rgba(126, 217, 87, 0.1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

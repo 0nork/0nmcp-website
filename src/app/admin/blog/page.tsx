@@ -27,7 +27,7 @@ interface Stats {
 
 const STATUS_COLORS: Record<string, string> = {
   draft: '#484e78',
-  published: '#00ff88',
+  published: '#7ed957',
   scheduled: '#00d4ff',
 }
 
@@ -35,7 +35,7 @@ const BUCKET_COLORS: Record<string, string> = {
   CTR_FIX: '#ff3d3d',
   STRIKING_DISTANCE: '#ff6b35',
   RELEVANCE_REBUILD: '#ff69b4',
-  LOCAL_BOOST: '#00ff88',
+  LOCAL_BOOST: '#7ed957',
 }
 
 export default function BlogDashboard() {
@@ -225,14 +225,14 @@ export default function BlogDashboard() {
             fontWeight: 600,
             background: message.includes('fail') || message.includes('error')
               ? 'rgba(255,61,61,0.1)'
-              : 'rgba(0,255,136,0.1)',
+              : 'rgba(126,217,87,0.1)',
             color: message.includes('fail') || message.includes('error')
               ? '#ff3d3d'
               : 'var(--accent)',
             border: `1px solid ${
               message.includes('fail') || message.includes('error')
                 ? 'rgba(255,61,61,0.2)'
-                : 'rgba(0,255,136,0.2)'
+                : 'rgba(126,217,87,0.2)'
             }`,
             display: 'flex',
             justifyContent: 'space-between',
@@ -268,7 +268,7 @@ export default function BlogDashboard() {
           <StatBox
             label="Published"
             value={stats.published}
-            color="#00ff88"
+            color="#7ed957"
           />
           <StatBox label="Drafts" value={stats.drafts} color="#ff6b35" />
           <StatBox
@@ -456,7 +456,7 @@ export default function BlogDashboard() {
                   {post.status === 'draft' && (
                     <button
                       onClick={() => handlePublish(post.id)}
-                      style={btnStyle('#00ff88')}
+                      style={btnStyle('#7ed957')}
                     >
                       Publish
                     </button>

@@ -39,7 +39,7 @@ const PLATFORM_COLORS: Record<string, string> = {
 const STATUS_COLORS: Record<string, string> = {
   pending: '#ff6b35',
   in_progress: '#00d4ff',
-  completed: '#00ff88',
+  completed: '#7ed957',
   failed: '#ff3d3d',
   cancelled: '#484e78',
   draft: '#484e78',

@@ -102,8 +102,8 @@ export default function SponsorClient() {
         <div
           className="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl text-sm font-medium max-w-[500px] text-center"
           style={{
-            backgroundColor: banner.type === 'success' ? 'rgba(0,255,136,0.15)' : 'rgba(255,107,53,0.15)',
-            border: `1px solid ${banner.type === 'success' ? 'rgba(0,255,136,0.3)' : 'rgba(255,107,53,0.3)'}`,
+            backgroundColor: banner.type === 'success' ? 'rgba(126,217,87,0.15)' : 'rgba(255,107,53,0.15)',
+            border: `1px solid ${banner.type === 'success' ? 'rgba(126,217,87,0.3)' : 'rgba(255,107,53,0.3)'}`,
             color: banner.type === 'success' ? 'var(--accent)' : '#ff6b35',
           }}
         >
@@ -378,8 +378,8 @@ export default function SponsorClient() {
                       : svc.priority === 'High'
                         ? {
                             color: 'var(--accent)',
-                            backgroundColor: 'rgba(0,255,136,0.08)',
-                            border: '1px solid rgba(0,255,136,0.2)',
+                            backgroundColor: 'rgba(126,217,87,0.08)',
+                            border: '1px solid rgba(126,217,87,0.2)',
                           }
                         : {
                             color: 'var(--accent-secondary)',
@@ -412,8 +412,8 @@ export default function SponsorClient() {
             className="rounded-2xl p-12 text-center"
             style={{
               background:
-                'linear-gradient(135deg, rgba(0,255,136,0.05), rgba(0,212,255,0.05))',
-              border: '1px solid rgba(0,255,136,0.1)',
+                'linear-gradient(135deg, rgba(126,217,87,0.05), rgba(0,212,255,0.05))',
+              border: '1px solid rgba(126,217,87,0.1)',
             }}
           >
             <h3 className="text-xl font-bold mb-3">

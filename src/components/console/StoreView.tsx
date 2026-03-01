@@ -102,7 +102,7 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
               color: category === cat.key ? 'var(--accent)' : 'var(--text-secondary)',
               border:
                 category === cat.key
-                  ? '1px solid rgba(0,255,136,0.3)'
+                  ? '1px solid rgba(126,217,87,0.3)'
                   : '1px solid var(--border)',
             }}
             onMouseEnter={(e) => {

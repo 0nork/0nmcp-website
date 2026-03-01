@@ -41,7 +41,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
 
   const confidenceColor =
     result.confidence >= 75
-      ? 'var(--accent, #00ff88)'
+      ? 'var(--accent, #7ed957)'
       : result.confidence >= 50
         ? '#ffaa00'
         : '#ff4444'
@@ -233,15 +233,15 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
           style={{
             padding: '12px 14px',
             borderRadius: 8,
-            background: 'var(--accent-glow, rgba(0,255,136,0.05))',
-            border: '1px solid var(--accent, #00ff88)20',
+            background: 'var(--accent-glow, rgba(126,217,87,0.05))',
+            border: '1px solid var(--accent, #7ed957)20',
           }}
         >
           <div
             style={{
               fontSize: 12,
               fontWeight: 600,
-              color: 'var(--accent, #00ff88)',
+              color: 'var(--accent, #7ed957)',
               marginBottom: 6,
             }}
           >

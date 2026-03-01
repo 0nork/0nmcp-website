@@ -151,7 +151,7 @@ export default function PremiumOnboarding({
                   borderRadius: 4,
                   background:
                     i === step
-                      ? 'var(--accent, #00ff88)'
+                      ? 'var(--accent, #7ed957)'
                       : i < step
                         ? 'var(--accent-secondary, #00d4ff)'
                         : 'var(--border, #2a2a3a)',
@@ -186,7 +186,7 @@ export default function PremiumOnboarding({
                   width: 64,
                   height: 64,
                   borderRadius: 16,
-                  background: 'linear-gradient(135deg, var(--accent, #00ff88), var(--accent-secondary, #00d4ff))',
+                  background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--accent-secondary, #00d4ff))',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -253,7 +253,7 @@ export default function PremiumOnboarding({
                   >
                     <span
                       style={{
-                        color: 'var(--accent, #00ff88)',
+                        color: 'var(--accent, #7ed957)',
                         fontSize: 14,
                         fontWeight: 700,
                       }}
@@ -294,7 +294,7 @@ export default function PremiumOnboarding({
                     fontWeight: 600,
                     color:
                       selectedPlatforms.length >= 3
-                        ? 'var(--accent, #00ff88)'
+                        ? 'var(--accent, #7ed957)'
                         : 'var(--text-muted, #55556a)',
                     fontFamily: 'var(--font-mono, monospace)',
                   }}
@@ -421,7 +421,7 @@ export default function PremiumOnboarding({
                       boxSizing: 'border-box',
                     }}
                     onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = 'var(--accent, #00ff88)')
+                      (e.currentTarget.style.borderColor = 'var(--accent, #7ed957)')
                     }
                     onBlur={(e) =>
                       (e.currentTarget.style.borderColor = 'var(--border, #2a2a3a)')
@@ -460,7 +460,7 @@ export default function PremiumOnboarding({
                       boxSizing: 'border-box',
                     }}
                     onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = 'var(--accent, #00ff88)')
+                      (e.currentTarget.style.borderColor = 'var(--accent, #7ed957)')
                     }
                     onBlur={(e) =>
                       (e.currentTarget.style.borderColor = 'var(--border, #2a2a3a)')
@@ -499,7 +499,7 @@ export default function PremiumOnboarding({
                       boxSizing: 'border-box',
                     }}
                     onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = 'var(--accent, #00ff88)')
+                      (e.currentTarget.style.borderColor = 'var(--accent, #7ed957)')
                     }
                     onBlur={(e) =>
                       (e.currentTarget.style.borderColor = 'var(--border, #2a2a3a)')
@@ -586,9 +586,9 @@ export default function PremiumOnboarding({
                       style={{
                         padding: '18px 16px',
                         borderRadius: 10,
-                        border: `1.5px solid ${isSelected ? 'var(--accent, #00ff88)' : 'var(--border, #2a2a3a)'}`,
+                        border: `1.5px solid ${isSelected ? 'var(--accent, #7ed957)' : 'var(--border, #2a2a3a)'}`,
                         background: isSelected
-                          ? 'var(--accent-glow, rgba(0,255,136,0.08))'
+                          ? 'var(--accent-glow, rgba(126,217,87,0.08))'
                           : 'var(--bg-primary, #0a0a0f)',
                         cursor: 'pointer',
                         textAlign: 'left',
@@ -600,7 +600,7 @@ export default function PremiumOnboarding({
                           fontSize: 15,
                           fontWeight: 700,
                           color: isSelected
-                            ? 'var(--accent, #00ff88)'
+                            ? 'var(--accent, #7ed957)'
                             : 'var(--text-primary, #e8e8ef)',
                           marginBottom: 4,
                         }}
@@ -655,9 +655,9 @@ export default function PremiumOnboarding({
                       style={{
                         padding: '14px 16px',
                         borderRadius: 10,
-                        border: `1px solid ${isTested ? 'var(--accent, #00ff88)40' : 'var(--border, #2a2a3a)'}`,
+                        border: `1px solid ${isTested ? 'var(--accent, #7ed957)40' : 'var(--border, #2a2a3a)'}`,
                         background: isTested
-                          ? 'rgba(0,255,136,0.04)'
+                          ? 'rgba(126,217,87,0.04)'
                           : 'var(--bg-primary, #0a0a0f)',
                       }}
                     >
@@ -695,7 +695,7 @@ export default function PremiumOnboarding({
                             style={{
                               fontSize: 11,
                               fontWeight: 600,
-                              color: 'var(--accent, #00ff88)',
+                              color: 'var(--accent, #7ed957)',
                               fontFamily: 'var(--font-mono, monospace)',
                             }}
                           >
@@ -728,7 +728,7 @@ export default function PremiumOnboarding({
                           }}
                           onFocus={(e) =>
                             (e.currentTarget.style.borderColor =
-                              'var(--accent, #00ff88)')
+                              'var(--accent, #7ed957)')
                           }
                           onBlur={(e) =>
                             (e.currentTarget.style.borderColor =
@@ -743,10 +743,10 @@ export default function PremiumOnboarding({
                             borderRadius: 6,
                             border: '1px solid var(--border, #2a2a3a)',
                             background: isTesting
-                              ? 'var(--accent-glow, rgba(0,255,136,0.1))'
+                              ? 'var(--accent-glow, rgba(126,217,87,0.1))'
                               : 'transparent',
                             color: serviceKeys[service]
-                              ? 'var(--accent, #00ff88)'
+                              ? 'var(--accent, #7ed957)'
                               : 'var(--text-muted, #55556a)',
                             fontSize: 12,
                             fontWeight: 600,
@@ -911,7 +911,7 @@ export default function PremiumOnboarding({
                   >
                     Frequency
                   </div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--accent, #00ff88)' }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--accent, #7ed957)' }}>
                     {frequencyOptions.find((o) => o.value === frequency)?.label ?? frequency}
                   </div>
                 </div>
@@ -954,7 +954,7 @@ export default function PremiumOnboarding({
                             height: 8,
                             borderRadius: '50%',
                             background: testedServices.has(svc)
-                              ? 'var(--accent, #00ff88)'
+                              ? 'var(--accent, #7ed957)'
                               : serviceKeys[svc]
                                 ? '#ffaa00'
                                 : '#ff4444',
@@ -1015,7 +1015,7 @@ export default function PremiumOnboarding({
                   padding: '10px 24px',
                   borderRadius: 8,
                   background: canAdvance()
-                    ? 'var(--accent, #00ff88)'
+                    ? 'var(--accent, #7ed957)'
                     : 'var(--border, #2a2a3a)',
                   color: canAdvance() ? '#000' : 'var(--text-muted, #55556a)',
                   border: 'none',
@@ -1037,7 +1037,7 @@ export default function PremiumOnboarding({
                 style={{
                   padding: '10px 28px',
                   borderRadius: 8,
-                  background: 'linear-gradient(135deg, var(--accent, #00ff88), var(--accent-secondary, #00d4ff))',
+                  background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--accent-secondary, #00d4ff))',
                   color: '#000',
                   border: 'none',
                   fontSize: 14,

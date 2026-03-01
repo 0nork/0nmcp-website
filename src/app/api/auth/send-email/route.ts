@@ -13,39 +13,48 @@ const HOOK_SECRET = process.env.SUPABASE_AUTH_HOOK_SECRET || ''
  * Headers: webhook-id, webhook-timestamp, webhook-signature
  */
 function verifyWebhookSignature(body: string, headers: Headers): boolean {
-  if (!HOOK_SECRET) return true // Skip if no secret configured
+  if (!HOOK_SECRET) {
+    console.warn('[auth-hook] SUPABASE_AUTH_HOOK_SECRET not configured — skipping verification')
+    return true
+  }
 
   const webhookId = headers.get('webhook-id')
   const webhookTimestamp = headers.get('webhook-timestamp')
   const webhookSignature = headers.get('webhook-signature')
 
   if (!webhookId || !webhookTimestamp || !webhookSignature) {
-    // Fallback: check Bearer token (for backwards compatibility)
-    const auth = headers.get('authorization')
-    if (auth && auth.startsWith('Bearer ')) return true
-    console.warn('[auth-hook] No webhook signature headers found')
-    return true // Allow through — endpoint is HTTPS-only
+    console.warn('[auth-hook] Missing webhook signature headers — rejecting')
+    return false
+  }
+
+  // Reject requests older than 5 minutes (replay protection)
+  const ts = parseInt(webhookTimestamp, 10)
+  const now = Math.floor(Date.now() / 1000)
+  if (Math.abs(now - ts) > 300) {
+    console.warn('[auth-hook] Webhook timestamp too old — rejecting')
+    return false
   }
 
   try {
-    // Extract the base64 secret from whsec_ format
     const secretBytes = Buffer.from(
       HOOK_SECRET.replace('whsec_', ''),
       'base64'
     )
 
-    // Standard Webhooks: sign "webhook-id.webhook-timestamp.body"
     const signedContent = `${webhookId}.${webhookTimestamp}.${body}`
     const computed = createHmac('sha256', secretBytes)
       .update(signedContent)
       .digest('base64')
 
-    // webhook-signature can contain multiple signatures: "v1,<sig1> v1,<sig2>"
     const signatures = webhookSignature.split(' ')
     for (const sig of signatures) {
       const [, sigValue] = sig.split(',')
-      if (sigValue && timingSafeEqual(Buffer.from(computed), Buffer.from(sigValue))) {
-        return true
+      if (sigValue) {
+        const computedBuf = Buffer.from(computed)
+        const sigBuf = Buffer.from(sigValue)
+        if (computedBuf.length === sigBuf.length && timingSafeEqual(computedBuf, sigBuf)) {
+          return true
+        }
       }
     }
 
@@ -53,7 +62,7 @@ function verifyWebhookSignature(body: string, headers: Headers): boolean {
     return false
   } catch (err) {
     console.error('[auth-hook] Signature verification error:', err)
-    return true // Don't block on verification errors
+    return false
   }
 }
 

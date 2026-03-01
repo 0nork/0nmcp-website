@@ -1,16 +1,7 @@
 /**
  * 0n Console — React Hooks
- * Combined from onork-app's useVault, useFlows, and useHistory hooks.
- *
- * Vault: Supabase `user_vaults` is the single source of truth.
- *        localStorage is a read-through cache for instant access.
- *        Each service stores its multi-field credentials as one encrypted
- *        JSON blob in the `encrypted_key` column.
- *
- * Storage keys:
- *   - 0n_vault  — localStorage cache (synced from Supabase)
- *   - 0n_flows  — saved workflows
- *   - 0n_history — activity log (max 200 entries)
+ * Vault, Flows, and History — all backed by Supabase.
+ * localStorage is a fast cache; Supabase is authoritative.
  */
 
 "use client";
@@ -39,19 +30,12 @@ export interface HistoryEntry {
 }
 
 type VaultData = Record<string, Record<string, string>>;
-
-// Row IDs keyed by service name, for upsert tracking
 type VaultRowMap = Record<string, string>;
 
 // ─── Vault Hook ──────────────────────────────────────────────────
 
 const VAULT_CACHE_KEY = "0n_vault";
 
-/**
- * Unified credential vault backed by Supabase `user_vaults`.
- * localStorage serves as a fast cache; Supabase is authoritative.
- * All credential data is encrypted client-side with AES-256-GCM.
- */
 export function useVault() {
   const [credentials, setCredentials] = useState<VaultData>(() => {
     if (typeof window === "undefined") return {};
@@ -67,14 +51,12 @@ export function useVault() {
   const rowMapRef = useRef<VaultRowMap>({});
   const supabaseRef = useRef(createSupabaseBrowser());
 
-  // Sync localStorage cache whenever credentials change
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem(VAULT_CACHE_KEY, JSON.stringify(credentials));
     }
   }, [credentials]);
 
-  // Load from Supabase on mount
   useEffect(() => {
     let cancelled = false;
     async function loadFromSupabase() {
@@ -99,13 +81,7 @@ export function useVault() {
         if (!row.encrypted_key || !row.iv || !row.salt) continue;
         rowMap[row.service_name] = row.id;
         try {
-          const plaintext = await decryptVaultData(
-            user.id,
-            row.encrypted_key,
-            row.iv,
-            row.salt
-          );
-          // Try parsing as JSON (multi-field), fall back to single-key
+          const plaintext = await decryptVaultData(user.id, row.encrypted_key, row.iv, row.salt);
           try {
             const parsed = JSON.parse(plaintext);
             if (typeof parsed === "object" && parsed !== null) {
@@ -114,11 +90,10 @@ export function useVault() {
               decrypted[row.service_name] = { api_key: plaintext };
             }
           } catch {
-            // Single-value credential (from old account page)
             decrypted[row.service_name] = { api_key: plaintext };
           }
         } catch {
-          // Decryption failed — skip silently
+          // Decryption failed — skip
         }
       }
 
@@ -131,62 +106,42 @@ export function useVault() {
     return () => { cancelled = true; };
   }, []);
 
-  /** Persist a service's credentials to Supabase */
   const persistService = useCallback(
     async (service: string, fields: Record<string, string>) => {
       const sb = supabaseRef.current;
       const userId = userIdRef.current;
       if (!sb || !userId) return;
 
-      const plaintext = JSON.stringify(fields);
-      const { encrypted, iv, salt } = await encryptVaultData(userId, plaintext);
+      try {
+        const plaintext = JSON.stringify(fields);
+        const { encrypted, iv, salt } = await encryptVaultData(userId, plaintext);
+        const firstVal = Object.values(fields).find((v) => v.length > 4) || "";
+        const hint = firstVal ? firstVal.slice(-4) : null;
 
-      // Generate hint from first secret-looking value
-      const firstVal = Object.values(fields).find((v) => v.length > 4) || "";
-      const hint = firstVal ? firstVal.slice(-4) : null;
-
-      const existingId = rowMapRef.current[service];
-      if (existingId) {
-        await sb
-          .from("user_vaults")
-          .update({
-            encrypted_key: encrypted,
-            iv,
-            salt,
-            key_hint: hint,
+        const existingId = rowMapRef.current[service];
+        if (existingId) {
+          await sb.from("user_vaults").update({
+            encrypted_key: encrypted, iv, salt, key_hint: hint,
             updated_at: new Date().toISOString(),
-          })
-          .eq("id", existingId);
-      } else {
-        const { data } = await sb
-          .from("user_vaults")
-          .insert({
-            user_id: userId,
-            service_name: service,
-            encrypted_key: encrypted,
-            iv,
-            salt,
-            key_hint: hint,
-          })
-          .select("id")
-          .single();
-        if (data) {
-          rowMapRef.current[service] = data.id;
+          }).eq("id", existingId);
+        } else {
+          const { data } = await sb.from("user_vaults").insert({
+            user_id: userId, service_name: service,
+            encrypted_key: encrypted, iv, salt, key_hint: hint,
+          }).select("id").single();
+          if (data) rowMapRef.current[service] = data.id;
         }
+      } catch (err) {
+        console.error(`[vault] Failed to persist ${service}:`, err);
       }
     },
     []
   );
 
-  /** Set a credential value for a service field */
   const set = useCallback(
     (service: string, key: string, value: string) => {
       setCredentials((prev) => {
-        const updated = {
-          ...prev,
-          [service]: { ...(prev[service] || {}), [key]: value },
-        };
-        // Persist the full service fields to Supabase (fire and forget)
+        const updated = { ...prev, [service]: { ...(prev[service] || {}), [key]: value } };
         persistService(service, updated[service]);
         return updated;
       });
@@ -194,62 +149,36 @@ export function useVault() {
     [persistService]
   );
 
-  /** Get a credential value for a service field */
   const get = useCallback(
-    (service: string, key: string): string => {
-      return credentials?.[service]?.[key] || "";
-    },
+    (service: string, key: string): string => credentials?.[service]?.[key] || "",
     [credentials]
   );
 
-  /**
-   * Check if a service is "connected" — all required fields
-   * (secrets, URLs, client IDs) must have values.
-   */
   const isConnected = useCallback(
     (service: string): boolean => {
       const sv = SVC[service];
       if (!sv) return false;
-      const required = sv.f.filter(
-        (f) => f.s || f.k === "url" || f.k === "client_id"
-      );
-      return (
-        required.length > 0 &&
-        required.every((f) => !!credentials?.[service]?.[f.k])
-      );
+      const required = sv.f.filter((f) => f.s || f.k === "url" || f.k === "client_id");
+      return required.length > 0 && required.every((f) => !!credentials?.[service]?.[f.k]);
     },
     [credentials]
   );
 
-  /** Number of fully connected services */
   const connectedCount = Object.keys(SVC).filter(isConnected).length;
-
-  /** List of connected service keys */
   const connectedServices = Object.keys(SVC).filter(isConnected);
 
-  /** Remove all credentials for a service */
-  const disconnect = useCallback(
-    (service: string) => {
-      setCredentials((prev) => {
-        const next = { ...prev };
-        delete next[service];
-        return next;
-      });
-      // Remove from Supabase
-      const sb = supabaseRef.current;
-      const existingId = rowMapRef.current[service];
-      if (sb && existingId) {
-        sb.from("user_vaults").delete().eq("id", existingId);
-        delete rowMapRef.current[service];
-      }
-    },
-    []
-  );
+  const disconnect = useCallback((service: string) => {
+    setCredentials((prev) => { const next = { ...prev }; delete next[service]; return next; });
+    const sb = supabaseRef.current;
+    const existingId = rowMapRef.current[service];
+    if (sb && existingId) {
+      sb.from("user_vaults").delete().eq("id", existingId);
+      delete rowMapRef.current[service];
+    }
+  }, []);
 
-  /** Clear the entire vault */
   const clearAll = useCallback(() => {
     setCredentials({});
-    // Clear all rows from Supabase
     const sb = supabaseRef.current;
     const userId = userIdRef.current;
     if (sb && userId) {
@@ -258,66 +187,127 @@ export function useVault() {
     }
   }, []);
 
-  return {
-    credentials,
-    set,
-    get,
-    isConnected,
-    connectedCount,
-    connectedServices,
-    disconnect,
-    clearAll,
-    loaded,
-  };
+  return { credentials, set, get, isConnected, connectedCount, connectedServices, disconnect, clearAll, loaded };
 }
 
 // ─── Flows Hook ──────────────────────────────────────────────────
 
-const FLOWS_KEY = "0n_flows";
-
-/**
- * Workflow (flows) management stored in localStorage.
- * Provides add, remove, toggle enable/disable.
- */
 export function useFlows() {
-  const [flows, setFlows] = useState<Workflow[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      return JSON.parse(localStorage.getItem(FLOWS_KEY) || "[]");
-    } catch {
-      return [];
-    }
-  });
+  const [flows, setFlows] = useState<Workflow[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const userIdRef = useRef<string | null>(null);
+  const supabaseRef = useRef(createSupabaseBrowser());
 
+  // Cache key scoped to user
+  const cacheKey = userIdRef.current ? `0n_flows_${userIdRef.current}` : null;
+
+  // Sync to localStorage cache
   useEffect(() => {
-    localStorage.setItem(FLOWS_KEY, JSON.stringify(flows));
-  }, [flows]);
+    if (cacheKey && typeof window !== "undefined") {
+      localStorage.setItem(cacheKey, JSON.stringify(flows));
+    }
+  }, [flows, cacheKey]);
 
-  /** Add a new workflow (id and ts are auto-generated) */
-  const add = useCallback((w: Omit<Workflow, "id" | "ts">) => {
-    setFlows((prev) => [
-      ...prev,
-      { ...w, id: Date.now().toString(), ts: new Date().toISOString() },
-    ]);
+  // Load from Supabase on mount
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      const sb = supabaseRef.current;
+      if (!sb) return;
+
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user || cancelled) return;
+      userIdRef.current = user.id;
+
+      const { data: rows, error } = await sb
+        .from("user_console_flows")
+        .select("id, name, trigger, actions, enabled, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (cancelled) return;
+
+      if (error || !rows) {
+        // Fallback to localStorage
+        try {
+          const cached = localStorage.getItem(`0n_flows_${user.id}`);
+          if (cached) setFlows(JSON.parse(cached));
+        } catch { /* ignore */ }
+        setLoaded(true);
+        return;
+      }
+
+      const mapped: Workflow[] = rows.map((r) => ({
+        id: r.id,
+        name: r.name,
+        trigger: r.trigger,
+        actions: r.actions || [],
+        on: r.enabled,
+        ts: r.created_at,
+      }));
+      setFlows(mapped);
+      setLoaded(true);
+    }
+    load();
+    return () => { cancelled = true; };
   }, []);
 
-  /** Remove a workflow by ID */
+  const add = useCallback((w: Omit<Workflow, "id" | "ts">) => {
+    const sb = supabaseRef.current;
+    const userId = userIdRef.current;
+    // Optimistic: add with temp ID
+    const tempId = `temp-${Date.now()}`;
+    const newFlow: Workflow = { ...w, id: tempId, ts: new Date().toISOString() };
+    setFlows((prev) => [newFlow, ...prev]);
+
+    if (sb && userId) {
+      sb.from("user_console_flows")
+        .insert({ user_id: userId, name: w.name, trigger: w.trigger, actions: w.actions, enabled: w.on })
+        .select("id, created_at")
+        .single()
+        .then(({ data, error }) => {
+          if (error) { console.error("[flows] insert failed:", error); return; }
+          if (data) {
+            setFlows((prev) => prev.map((f) => f.id === tempId ? { ...f, id: data.id, ts: data.created_at } : f));
+          }
+        });
+    }
+  }, []);
+
   const remove = useCallback((id: string) => {
     setFlows((prev) => prev.filter((x) => x.id !== id));
+    const sb = supabaseRef.current;
+    if (sb && !id.startsWith("temp-")) {
+      sb.from("user_console_flows").delete().eq("id", id).then(({ error }) => { if (error) console.warn("[flows] delete failed:", error); });
+    }
   }, []);
 
-  /** Toggle a workflow's on/off state */
   const toggle = useCallback((id: string) => {
-    setFlows((prev) =>
-      prev.map((x) => (x.id === id ? { ...x, on: !x.on } : x)),
-    );
+    setFlows((prev) => {
+      const updated = prev.map((x) => (x.id === id ? { ...x, on: !x.on } : x));
+      const flow = updated.find((x) => x.id === id);
+      const sb = supabaseRef.current;
+      if (sb && flow && !id.startsWith("temp-")) {
+        sb.from("user_console_flows").update({ enabled: flow.on, updated_at: new Date().toISOString() }).eq("id", id).then(({ error }) => { if (error) console.warn("[flows] toggle failed:", error); });
+      }
+      return updated;
+    });
   }, []);
 
-  /** Update a workflow by ID (partial update) */
   const update = useCallback((id: string, patch: Partial<Workflow>) => {
-    setFlows((prev) =>
-      prev.map((x) => (x.id === id ? { ...x, ...patch } : x)),
-    );
+    setFlows((prev) => {
+      const updated = prev.map((x) => (x.id === id ? { ...x, ...patch } : x));
+      const sb = supabaseRef.current;
+      if (sb && !id.startsWith("temp-")) {
+        const dbPatch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+        if (patch.name !== undefined) dbPatch.name = patch.name;
+        if (patch.trigger !== undefined) dbPatch.trigger = patch.trigger;
+        if (patch.actions !== undefined) dbPatch.actions = patch.actions;
+        if (patch.on !== undefined) dbPatch.enabled = patch.on;
+        sb.from("user_console_flows").update(dbPatch).eq("id", id).then(({ error }) => { if (error) console.warn("[flows] update failed:", error); });
+      }
+      return updated;
+    });
   }, []);
 
   return { flows, add, remove, toggle, update };
@@ -325,45 +315,91 @@ export function useFlows() {
 
 // ─── History Hook ────────────────────────────────────────────────
 
-const HISTORY_KEY = "0n_history";
 const HISTORY_MAX = 200;
 
-/**
- * Activity log stored in localStorage. New entries are prepended.
- * Automatically trims to HISTORY_MAX entries.
- */
 export function useHistory() {
-  const [history, setHistory] = useState<HistoryEntry[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-    } catch {
-      return [];
-    }
-  });
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const userIdRef = useRef<string | null>(null);
+  const supabaseRef = useRef(createSupabaseBrowser());
+
+  const cacheKey = userIdRef.current ? `0n_history_${userIdRef.current}` : null;
 
   useEffect(() => {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  }, [history]);
+    if (cacheKey && typeof window !== "undefined") {
+      localStorage.setItem(cacheKey, JSON.stringify(history));
+    }
+  }, [history, cacheKey]);
 
-  /** Add a new history entry (prepended, auto-trimmed) */
-  const add = useCallback((type: string, detail: string) => {
-    setHistory((prev) =>
-      [
-        {
-          id: Date.now().toString(),
-          ts: new Date().toISOString(),
-          type,
-          detail,
-        },
-        ...prev,
-      ].slice(0, HISTORY_MAX),
-    );
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      const sb = supabaseRef.current;
+      if (!sb) return;
+
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user || cancelled) return;
+      userIdRef.current = user.id;
+
+      const { data: rows, error } = await sb
+        .from("user_console_history")
+        .select("id, type, detail, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(HISTORY_MAX);
+
+      if (cancelled) return;
+
+      if (error || !rows) {
+        try {
+          const cached = localStorage.getItem(`0n_history_${user.id}`);
+          if (cached) setHistory(JSON.parse(cached));
+        } catch { /* ignore */ }
+        return;
+      }
+
+      const mapped: HistoryEntry[] = rows.map((r) => ({
+        id: r.id,
+        ts: r.created_at,
+        type: r.type,
+        detail: r.detail,
+      }));
+      setHistory(mapped);
+    }
+    load();
+    return () => { cancelled = true; };
   }, []);
 
-  /** Clear all history */
+  const add = useCallback((type: string, detail: string) => {
+    const tempId = `temp-${Date.now()}`;
+    const entry: HistoryEntry = { id: tempId, ts: new Date().toISOString(), type, detail };
+    setHistory((prev) => [entry, ...prev].slice(0, HISTORY_MAX));
+
+    const sb = supabaseRef.current;
+    const userId = userIdRef.current;
+    if (sb && userId) {
+      sb.from("user_console_history")
+        .insert({ user_id: userId, type, detail })
+        .select("id")
+        .single()
+        .then(({ data, error }) => {
+          if (error) { console.error("[history] insert failed:", error); return; }
+          if (data) {
+            setHistory((prev) => prev.map((h) => h.id === tempId ? { ...h, id: data.id } : h));
+          }
+        });
+    }
+  }, []);
+
   const clear = useCallback(() => {
     setHistory([]);
+    const sb = supabaseRef.current;
+    const userId = userIdRef.current;
+    if (sb && userId) {
+      sb.from("user_console_history").delete().eq("user_id", userId).then(({ error }) => { if (error) console.warn("[history] clear failed:", error); });
+    }
+    if (userIdRef.current) {
+      localStorage.removeItem(`0n_history_${userIdRef.current}`);
+    }
   }, []);
 
   return { history, add, clear };

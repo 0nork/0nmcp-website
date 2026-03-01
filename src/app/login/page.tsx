@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
@@ -27,6 +27,21 @@ function LoginForm() {
   const [magicLinkSent, setMagicLinkSent] = useState(false)
 
   const supabase = createSupabaseBrowser()
+
+  // Clear previous user's localStorage data after signout
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    const cookies = document.cookie.split(';').map(c => c.trim())
+    const clearFlag = cookies.find(c => c.startsWith('0n_clear_storage='))
+    if (clearFlag) {
+      // Remove all 0n_ prefixed keys (user-scoped data)
+      Object.keys(localStorage)
+        .filter(k => k.startsWith('0n_'))
+        .forEach(k => localStorage.removeItem(k))
+      // Remove the flag cookie
+      document.cookie = '0n_clear_storage=; path=/; max-age=0'
+    }
+  }, [])
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()

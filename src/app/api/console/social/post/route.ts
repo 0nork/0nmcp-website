@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { submitPost as redditPost, pickSubreddit } from '@/lib/platforms/reddit'
+import { createPost as linkedinPost } from '@/lib/platforms/linkedin'
+import { createArticle as devtoArticle } from '@/lib/platforms/devto'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 30
 
 /**
  * GET /api/console/social/post
@@ -79,44 +83,63 @@ export async function POST(request: NextRequest) {
       ? '\n\n' + safeHashtags.map((t: string) => `#${t}`).join(' ')
       : '')
 
-  // Build results per platform (actual posting will happen via cron/content pipeline)
-  const results = platforms.map((platform: string) => ({
-    platform,
-    success: true,
-    queued: true,
-  }))
+  // Post to each platform immediately
+  const results: { platform: string; success: boolean; url?: string; error?: string }[] = []
 
-  // Persist to Supabase
-  const { data: post, error } = await supabase
+  for (const platform of platforms) {
+    try {
+      switch (platform) {
+        case 'linkedin': {
+          const lr = await linkedinPost(fullContent)
+          results.push({ platform, success: lr.success, url: lr.url, error: lr.error })
+          break
+        }
+        case 'reddit': {
+          const title = fullContent.split('\n')[0].slice(0, 120)
+          const subreddit = pickSubreddit()
+          const rr = await redditPost(subreddit, title, fullContent)
+          results.push({ platform, success: rr.success, url: rr.url, error: rr.error })
+          break
+        }
+        case 'dev_to': {
+          const title = fullContent.split('\n')[0].slice(0, 120) || '0nMCP Update'
+          const tags = safeHashtags.slice(0, 4)
+          const dr = await devtoArticle(title, fullContent, tags.length > 0 ? tags : undefined)
+          results.push({ platform, success: dr.success, url: dr.url, error: dr.error })
+          break
+        }
+        default:
+          // Platforms without adapters yet (x_twitter, instagram, tiktok)
+          results.push({ platform, success: false, error: `${platform} posting not yet configured` })
+      }
+    } catch (err) {
+      results.push({
+        platform,
+        success: false,
+        error: err instanceof Error ? err.message : 'Posting failed',
+      })
+    }
+  }
+
+  const allSuccess = results.every((r) => r.success)
+  const anySuccess = results.some((r) => r.success)
+  const status = allSuccess ? 'posted' : anySuccess ? 'posted' : 'failed'
+
+  // Persist to Supabase with real results
+  const { error } = await supabase
     .from('social_posts')
     .insert({
       user_id: user.id,
       content: fullContent,
       platforms,
       hashtags: safeHashtags,
-      status: 'pending',
+      status,
       results,
     })
-    .select()
-    .single()
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('Failed to save social post:', error)
   }
 
-  // Also queue each platform into content_queue for the poster pipeline
-  const queueInserts = platforms.map((platform: string) => ({
-    user_id: user.id,
-    platform,
-    content_type: 'social_post',
-    title: null,
-    body: fullContent,
-    metadata: { hashtags: safeHashtags, source: 'console', social_post_id: post.id },
-    status: 'approved',
-    generated_by: 'user',
-  }))
-
-  await supabase.from('content_queue').insert(queueInserts)
-
-  return NextResponse.json({ success: true, results })
+  return NextResponse.json({ success: anySuccess, results })
 }

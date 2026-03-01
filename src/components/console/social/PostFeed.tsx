@@ -179,28 +179,61 @@ export function PostFeed({ posts }: PostFeedProps) {
                 gap: 8,
               }}
             >
-              {/* Platform pills */}
+              {/* Platform pills with live post links */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {post.platforms.map((plat) => {
                   const bgColor = PLATFORM_COLORS[plat] || '#333'
                   const label = PLATFORM_LABELS[plat] || plat
-                  // For very dark platform colors, use a lighter bg
                   const isDark = bgColor === '#0a0a0a' || bgColor === '#000000' || bgColor === '#010101'
+                  // Find the result for this platform to get the live URL
+                  const result = post.results?.find((r) => r.platform === plat)
+                  const liveUrl = result?.url
+
+                  const pillStyle = {
+                    fontSize: 11,
+                    fontWeight: 600,
+                    fontFamily: 'var(--font-mono)',
+                    padding: '3px 10px',
+                    borderRadius: 8,
+                    backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : `${bgColor}20`,
+                    color: isDark ? 'var(--text-secondary)' : bgColor,
+                    border: `1px solid ${isDark ? 'var(--border)' : `${bgColor}30`}`,
+                    textDecoration: 'none' as const,
+                    display: 'inline-flex' as const,
+                    alignItems: 'center' as const,
+                    gap: 4,
+                    transition: 'opacity 0.15s ease',
+                    cursor: liveUrl ? 'pointer' : 'default',
+                  }
+
+                  if (liveUrl) {
+                    return (
+                      <a
+                        key={plat}
+                        href={liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={pillStyle}
+                        onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.8')}
+                        onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                        title={`View live on ${label}`}
+                      >
+                        {label}
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </a>
+                    )
+                  }
+
                   return (
-                    <span
-                      key={plat}
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 600,
-                        fontFamily: 'var(--font-mono)',
-                        padding: '3px 10px',
-                        borderRadius: 8,
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : `${bgColor}20`,
-                        color: isDark ? 'var(--text-secondary)' : bgColor,
-                        border: `1px solid ${isDark ? 'var(--border)' : `${bgColor}30`}`,
-                      }}
-                    >
+                    <span key={plat} style={pillStyle}>
                       {label}
+                      {result && !result.success && (
+                        <span title={result.url || 'Failed'} style={{ color: '#ff6b6b', marginLeft: 2 }}>!</span>
+                      )}
                     </span>
                   )
                 })}

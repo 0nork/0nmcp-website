@@ -2,30 +2,46 @@ import { NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
-export const runtime = 'nodejs'
 
+/**
+ * GET /api/console/store/purchases — User's purchase history with listing details
+ */
 export async function GET() {
   const supabase = await createSupabaseServer()
   if (!supabase) {
-    return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
+    return NextResponse.json({ error: 'Not configured' }, { status: 500 })
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
   }
 
-  // Fetch purchases with listing + workflow data
+  // Fetch purchases with joined listing data
   const { data: purchases, error } = await supabase
-    .from('purchases')
+    .from('store_purchases')
     .select(`
-      *,
-      listing:listings!listing_id (
-        id, title, slug, description, category, tags, price, currency,
-        cover_image_url, status, total_purchases
+      id,
+      listing_id,
+      workflow_id,
+      amount,
+      currency,
+      status,
+      created_at,
+      store_listings (
+        id,
+        title,
+        slug,
+        description,
+        category,
+        tags,
+        price,
+        currency,
+        cover_image_url,
+        services,
+        step_count,
+        status,
+        total_purchases
       )
     `)
     .eq('buyer_id', user.id)
@@ -33,40 +49,45 @@ export async function GET() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Purchases fetch error:', error)
-    return NextResponse.json({ error: 'Failed to fetch purchases' }, { status: 500 })
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  // Fetch workflow data for each purchase that has a workflow_id
-  const workflowIds = [...new Set(
-    (purchases || [])
-      .map((p: { workflow_id: string | null }) => p.workflow_id)
-      .filter(Boolean)
-  )]
+  // Enrich with workflow data
+  const enriched = await Promise.all(
+    (purchases || []).map(async (p) => {
+      let workflow_data = null
+      let workflow_name = null
 
-  let workflowMap: Record<string, { workflow_data: unknown; name: string }> = {}
-  if (workflowIds.length > 0) {
-    const { data: workflows } = await supabase
-      .from('workflows')
-      .select('id, name, workflow_data')
-      .in('id', workflowIds)
+      if (p.workflow_id) {
+        const { data: wf } = await supabase
+          .from('workflow_files')
+          .select('name, workflow_data')
+          .eq('id', p.workflow_id)
+          .single()
 
-    if (workflows) {
-      workflowMap = Object.fromEntries(
-        workflows.map((w: { id: string; name: string; workflow_data: unknown }) => [
-          w.id,
-          { workflow_data: w.workflow_data, name: w.name },
-        ])
-      )
-    }
-  }
+        if (wf) {
+          workflow_data = wf.workflow_data
+          workflow_name = wf.name
+        }
+      }
 
-  // Merge workflow data into purchases
-  const enriched = (purchases || []).map((p: Record<string, unknown>) => ({
-    ...p,
-    workflow_data: p.workflow_id ? workflowMap[p.workflow_id as string]?.workflow_data ?? null : null,
-    workflow_name: p.workflow_id ? workflowMap[p.workflow_id as string]?.name ?? null : null,
-  }))
+      const listing = p.store_listings as unknown as Record<string, unknown>
+      return {
+        id: p.id,
+        buyer_id: user.id,
+        listing_id: p.listing_id,
+        workflow_id: p.workflow_id,
+        stripe_session_id: null,
+        amount: (p.amount || 0) / 100,
+        currency: p.currency,
+        status: p.status,
+        created_at: p.created_at,
+        listing: listing ? { ...listing, price: ((listing.price as number) || 0) / 100 } : null,
+        workflow_data,
+        workflow_name,
+      }
+    })
+  )
 
   return NextResponse.json({ purchases: enriched })
 }

@@ -185,7 +185,7 @@ function WizardShellInner({
   const renderStep = () => {
     switch (state.step) {
       case 'landing':
-        return <WizardLanding />
+        return <WizardLanding onNavigateToStore={setView ? () => setView('store') : undefined} />
 
       case 'thinking':
         return <WizardThinkingTransition onComplete={handleThinkingComplete} />

@@ -1,68 +1,77 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
-export const runtime = 'nodejs'
 
+/**
+ * POST /api/console/store/download — Download .0n workflow file
+ * Body: { listingId } or { workflowId }
+ */
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) {
-    return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
+    return NextResponse.json({ error: 'Not configured' }, { status: 500 })
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
   }
 
-  let body: { workflowId?: string }
-  try {
-    body = await request.json()
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  const body = await request.json()
+  const { listingId, workflowId } = body
+
+  // Download by workflowId — user must own it
+  if (workflowId) {
+    const { data: wf } = await supabase
+      .from('workflow_files')
+      .select('name, workflow_data')
+      .eq('id', workflowId)
+      .eq('owner_id', user.id)
+      .single()
+
+    if (!wf) {
+      return NextResponse.json({ error: 'Workflow not found or not owned' }, { status: 404 })
+    }
+
+    const slug = (wf.name || 'workflow').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+    return NextResponse.json({
+      workflow: wf.workflow_data,
+      filename: `${slug}.0n.json`,
+    })
   }
 
-  const { workflowId } = body
-  if (!workflowId) {
-    return NextResponse.json({ error: 'workflowId is required' }, { status: 400 })
+  // Download by listingId — must be free or purchased
+  if (listingId) {
+    const { data: listing } = await supabase
+      .from('store_listings')
+      .select('slug, workflow_data, price')
+      .eq('id', listingId)
+      .single()
+
+    if (!listing) {
+      return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
+    }
+
+    if (listing.price > 0) {
+      const { data: purchase } = await supabase
+        .from('store_purchases')
+        .select('id')
+        .eq('buyer_id', user.id)
+        .eq('listing_id', listingId)
+        .eq('status', 'completed')
+        .maybeSingle()
+
+      if (!purchase) {
+        return NextResponse.json({ error: 'Not purchased' }, { status: 403 })
+      }
+    }
+
+    return NextResponse.json({
+      workflow: listing.workflow_data,
+      filename: `${listing.slug}.0n.json`,
+    })
   }
 
-  // Verify user has purchased a listing linked to this workflow
-  const { data: purchase } = await supabase
-    .from('purchases')
-    .select('id, listing_id')
-    .eq('buyer_id', user.id)
-    .eq('workflow_id', workflowId)
-    .eq('status', 'completed')
-    .maybeSingle()
-
-  if (!purchase) {
-    return NextResponse.json({ error: 'Purchase not found' }, { status: 403 })
-  }
-
-  // Fetch workflow data
-  const { data: workflow, error } = await supabase
-    .from('workflows')
-    .select('id, name, slug, workflow_data')
-    .eq('id', workflowId)
-    .single()
-
-  if (error || !workflow) {
-    return NextResponse.json({ error: 'Workflow not found' }, { status: 404 })
-  }
-
-  // Track download (fire and forget)
-  await supabase.from('downloads').insert({
-    user_id: user.id,
-    workflow_id: workflowId,
-    listing_id: purchase.listing_id,
-  })
-
-  return NextResponse.json({
-    workflow: workflow.workflow_data,
-    filename: `${workflow.slug || workflow.name || 'workflow'}.0n`,
-  })
+  return NextResponse.json({ error: 'listingId or workflowId required' }, { status: 400 })
 }

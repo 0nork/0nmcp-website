@@ -526,6 +526,7 @@ export default function ConsolePage() {
                 historyHook.add('workflow', `Added to Operations: ${name}`)
                 setView('operations')
               }}
+              setView={(v: string) => setView(v as View)}
             />
           </div>
         )

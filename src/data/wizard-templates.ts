@@ -35,8 +35,8 @@ export interface WorkflowTemplate {
   popularity: number
   /** Premium templates get a special onboarding overlay */
   premium?: boolean
-  /** If true, the premium template has its own guided onboarding flow */
-  onboardingFlow?: boolean
+  /** If true, the premium template has its own guided onboarding flow. If 'store', redirects to the store tab. */
+  onboardingFlow?: boolean | 'store'
   /** Pre-populated action service keys when template is selected */
   defaultActions?: string[]
   /** Pre-populated notification channels when template is selected */
@@ -392,6 +392,21 @@ export const WIZARD_TEMPLATES: WorkflowTemplate[] = [
     defaultActions: ['crm', 'sendgrid', 'slack', 'anthropic'],
     defaultNotifications: ['slack', 'email'],
     defaultTrigger: 'schedule',
+  },
+  {
+    id: 'linkedin-agentic-onboarding',
+    name: 'LinkedIn Agentic Onboarding',
+    description:
+      'AI-powered LinkedIn profile analysis, archetype classification, and automated posting with self-optimizing follow-up questions. Includes PACG, LVOS, CUCIA, and TAICD subsystems.',
+    icon: 'Linkedin',
+    category: 'Sales',
+    services: ['anthropic', 'linkedin', 'supabase'],
+    popularity: 97,
+    premium: true,
+    onboardingFlow: 'store',
+    defaultActions: ['anthropic'],
+    defaultNotifications: ['slack'],
+    defaultTrigger: 'webhook',
   },
 ]
 

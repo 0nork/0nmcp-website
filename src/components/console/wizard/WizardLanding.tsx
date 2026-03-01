@@ -98,7 +98,7 @@ function getPopularityBadge(popularity: number): string | undefined {
   return undefined
 }
 
-export default function WizardLanding() {
+export default function WizardLanding({ onNavigateToStore }: { onNavigateToStore?: () => void }) {
   const state = useWizard()
   const dispatch = useWizardDispatch()
   const [activeCategory, setActiveCategory] = useState<Category>('All')
@@ -112,6 +112,11 @@ export default function WizardLanding() {
         )
 
   function handleSelectTemplate(template: WorkflowTemplate) {
+    // Premium templates with store onboarding flow → navigate to the Store tab
+    if (template.premium && template.onboardingFlow === 'store') {
+      if (onNavigateToStore) onNavigateToStore()
+      return
+    }
     if (template.premium && template.onboardingFlow) {
       setPremiumOnboarding(template)
       return

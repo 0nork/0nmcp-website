@@ -1,37 +1,30 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
-export const runtime = 'nodejs'
 
+/**
+ * GET /api/console/store — List active store listings + user's purchase status
+ * Query params: ?category=sales&search=linkedin
+ */
 export async function GET(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) {
-    return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
+    return NextResponse.json({ error: 'Not configured' }, { status: 500 })
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { searchParams } = new URL(request.url)
+  const category = searchParams.get('category')
+  const search = searchParams.get('search')
 
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
-  const url = new URL(request.url)
-  const category = url.searchParams.get('category')
-  const search = url.searchParams.get('search')
-  const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 100)
-
-  // Fetch active listings
+  // Build listings query
   let query = supabase
-    .from('listings')
-    .select('*')
+    .from('store_listings')
+    .select('id, title, slug, description, category, tags, price, currency, cover_image_url, stripe_product_id, stripe_price_id, workflow_id, services, step_count, status, total_purchases, created_at, updated_at')
     .eq('status', 'active')
     .order('total_purchases', { ascending: false })
-    .limit(limit)
 
-  if (category && category !== 'all') {
+  if (category) {
     query = query.eq('category', category)
   }
 
@@ -42,18 +35,30 @@ export async function GET(request: NextRequest) {
   const { data: listings, error: listingsError } = await query
 
   if (listingsError) {
-    console.error('Store listings error:', listingsError)
-    return NextResponse.json({ error: 'Failed to fetch listings' }, { status: 500 })
+    return NextResponse.json({ error: listingsError.message }, { status: 500 })
   }
 
-  // Fetch user's purchased listing IDs
-  const { data: purchases } = await supabase
-    .from('purchases')
-    .select('listing_id')
-    .eq('buyer_id', user.id)
-    .eq('status', 'completed')
+  // Get user's purchased listing IDs
+  let purchasedListingIds: string[] = []
+  const { data: { user } } = await supabase.auth.getUser()
 
-  const purchasedListingIds = (purchases || []).map((p: { listing_id: string }) => p.listing_id)
+  if (user) {
+    const { data: purchases } = await supabase
+      .from('store_purchases')
+      .select('listing_id')
+      .eq('buyer_id', user.id)
+      .eq('status', 'completed')
 
-  return NextResponse.json({ listings: listings || [], purchasedListingIds })
+    if (purchases) {
+      purchasedListingIds = purchases.map((p) => p.listing_id)
+    }
+  }
+
+  return NextResponse.json({
+    listings: (listings || []).map((l) => ({
+      ...l,
+      price: (l.price || 0) / 100,
+    })),
+    purchasedListingIds,
+  })
 }

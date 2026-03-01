@@ -1,17 +1,83 @@
 'use client'
 
 import {
-  Shield,
-  MessageSquare,
-  Workflow,
   Clock,
   Sparkles,
   ArrowRight,
   Server,
   Zap,
   Rocket,
+  Shield,
+  Workflow,
+  MessageSquare,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
+
+// Brand logo map for connected services — keyed by lowercase service name
+const SERVICE_LOGO_MAP: Record<string, string> = {
+  // Payments & Commerce
+  stripe: 'https://cdn.simpleicons.org/stripe/635BFF',
+  shopify: 'https://cdn.simpleicons.org/shopify/96BF48',
+  paypal: 'https://cdn.simpleicons.org/paypal/003087',
+  // Communication
+  slack: 'https://cdn.simpleicons.org/slack/4A154B',
+  discord: 'https://cdn.simpleicons.org/discord/5865F2',
+  twilio: 'https://cdn.simpleicons.org/twilio/F22F46',
+  sendgrid: 'https://cdn.simpleicons.org/sendgrid/51A9E3',
+  mailchimp: 'https://cdn.simpleicons.org/mailchimp/FFE01B',
+  // Developer
+  github: 'https://cdn.simpleicons.org/github/ffffff',
+  linear: 'https://cdn.simpleicons.org/linear/5E6AD2',
+  jira: 'https://cdn.simpleicons.org/jira/0052CC',
+  // Database / Backend
+  supabase: 'https://cdn.simpleicons.org/supabase/3FCF8E',
+  mongodb: 'https://cdn.simpleicons.org/mongodb/47A248',
+  airtable: 'https://cdn.simpleicons.org/airtable/18BFFF',
+  notion: 'https://cdn.simpleicons.org/notion/ffffff',
+  // AI
+  openai: 'https://cdn.simpleicons.org/openai/ffffff',
+  anthropic: 'https://cdn.simpleicons.org/anthropic/d4a574',
+  // Google
+  gmail: 'https://cdn.simpleicons.org/gmail/EA4335',
+  google_sheets: 'https://cdn.simpleicons.org/googlesheets/34A853',
+  google_drive: 'https://cdn.simpleicons.org/googledrive/4285F4',
+  google_calendar: 'https://cdn.simpleicons.org/googlecalendar/4285F4',
+  // Video / Scheduling
+  zoom: 'https://cdn.simpleicons.org/zoom/2D8CFF',
+  calendly: 'https://cdn.simpleicons.org/calendly/006BFF',
+  // CRM / Support
+  hubspot: 'https://cdn.simpleicons.org/hubspot/FF7A59',
+  zendesk: 'https://cdn.simpleicons.org/zendesk/03363D',
+  // Microsoft
+  microsoft: 'https://cdn.simpleicons.org/microsoft/00A4EF',
+  // Social
+  linkedin: 'https://cdn.simpleicons.org/linkedin/0077B5',
+  twitter: 'https://cdn.simpleicons.org/x/ffffff',
+  // CRM (internal)
+  crm: 'https://cdn.simpleicons.org/salesforce/00A1E0',
+  rocket: 'https://cdn.simpleicons.org/salesforce/00A1E0',
+}
+
+function ServiceLogo({ name }: { name: string }) {
+  const key = name.toLowerCase().replace(/\s+/g, '_')
+  const logoUrl = SERVICE_LOGO_MAP[key]
+
+  if (!logoUrl) return null
+
+  return (
+    <img
+      src={logoUrl}
+      alt=""
+      width={14}
+      height={14}
+      style={{
+        borderRadius: 2,
+        objectFit: 'contain',
+        flexShrink: 0,
+      }}
+    />
+  )
+}
 
 interface DashboardViewProps {
   mcpOnline: boolean
@@ -328,17 +394,21 @@ export function DashboardView({
             <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
               Connected Services
             </h2>
+            <span className="text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
+              {connectedServices.length} active
+            </span>
           </div>
           <div className="flex flex-wrap gap-2">
             {connectedServices.map((name) => (
               <div
                 key={name}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
                 style={{
                   backgroundColor: 'rgba(255,255,255,0.04)',
                   border: '1px solid var(--border)',
                 }}
               >
+                <ServiceLogo name={name} />
                 <span className="text-xs font-medium" style={{ color: 'var(--text-primary)' }}>
                   {name}
                 </span>

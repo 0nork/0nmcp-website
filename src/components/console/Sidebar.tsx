@@ -1,29 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback } from 'react'
-import {
-  LayoutDashboard,
-  MessageSquare,
-  Shield,
-  Workflow,
-  History,
-  Users,
-  Blocks,
-  ShoppingBag,
-  Linkedin,
-  PlusCircle,
-  Activity,
-  Share2,
-  BarChart3,
-  ArrowRightLeft,
-  TerminalSquare,
-  GraduationCap,
-  ChevronRight,
-  PanelLeftClose,
-  Code2,
-  RefreshCw,
-  UserCircle,
-} from 'lucide-react'
+import { ChevronRight, PanelLeftClose } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
 export type SidebarMode = 'open' | 'hidden' | 'icons'
@@ -37,24 +15,139 @@ interface SidebarProps {
   mcpOnline: boolean
 }
 
-const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard; href?: string }[] = [
-  { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { key: 'chat', label: 'Chat', icon: MessageSquare },
-  { key: 'community', label: 'Community', icon: Users, href: '/forum' },
-  { key: 'builder', label: 'Builder', icon: Blocks },
-  { key: 'terminal', label: 'Terminal', icon: TerminalSquare },
-  { key: 'code', label: '0n Code', icon: Code2 },
-  { key: 'vault', label: 'Vault', icon: Shield },
-  { key: 'flows', label: 'Create', icon: Workflow },
-  { key: 'operations', label: 'Operations', icon: Activity },
-  { key: 'social', label: 'Social', icon: Share2 },
-  { key: 'reporting', label: 'Reporting', icon: BarChart3 },
-  { key: 'migrate', label: 'Migrate', icon: ArrowRightLeft },
-  { key: 'learn', label: 'Learn', icon: GraduationCap, href: '/learn' },
-  { key: 'store', label: 'Marketplace', icon: ShoppingBag },
-  { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
-  { key: 'convert', label: 'Convert', icon: RefreshCw },
-  { key: 'account', label: 'Account', icon: UserCircle },
+// Helper: encode an SVG path string into a data URI img src
+const svg = (paths: string, color: string) =>
+  `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`
+  )}`
+
+const NAV_ITEMS: { key: string; label: string; logo: string; href?: string }[] = [
+  {
+    key: 'dashboard',
+    label: 'Dashboard',
+    logo: '/brand/icon-green.png',
+  },
+  {
+    key: 'chat',
+    label: 'Chat',
+    logo: 'https://cdn.simpleicons.org/anthropic/d4a574',
+  },
+  {
+    key: 'community',
+    label: 'Community',
+    logo: 'https://cdn.simpleicons.org/discourse/ffffff',
+    href: '/forum',
+  },
+  {
+    key: 'builder',
+    label: 'Builder',
+    logo: svg(
+      '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><line x1="10" y1="6.5" x2="14" y2="6.5"/><line x1="6.5" y1="10" x2="6.5" y2="14"/>',
+      '#7ed957'
+    ),
+  },
+  {
+    key: 'terminal',
+    label: 'Terminal',
+    logo: svg(
+      '<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+      '#00d4ff'
+    ),
+  },
+  {
+    key: 'code',
+    label: '0n Code',
+    logo: svg(
+      '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+      '#a78bfa'
+    ),
+  },
+  {
+    key: 'vault',
+    label: 'Vault',
+    logo: svg(
+      '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/>',
+      '#7ed957'
+    ),
+  },
+  {
+    key: 'flows',
+    label: 'Create',
+    logo: svg(
+      '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>',
+      '#ff6b35'
+    ),
+  },
+  {
+    key: 'operations',
+    label: 'Operations',
+    logo: svg(
+      '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+      '#22d3ee'
+    ),
+  },
+  {
+    key: 'social',
+    label: 'Social',
+    logo: svg(
+      '<path d="M4 4l7.07 17 2.51-7.39L21 11.07z"/>',
+      '#1DA1F2'
+    ),
+  },
+  {
+    key: 'reporting',
+    label: 'Reporting',
+    logo: svg(
+      '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+      '#f59e0b'
+    ),
+  },
+  {
+    key: 'migrate',
+    label: 'Migrate',
+    logo: svg(
+      '<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
+      '#a855f7'
+    ),
+  },
+  {
+    key: 'learn',
+    label: 'Learn',
+    logo: svg(
+      '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+      '#10b981'
+    ),
+    href: '/learn',
+  },
+  {
+    key: 'store',
+    label: 'Marketplace',
+    logo: svg(
+      '<path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5z"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M16 11a4 4 0 0 1-8 0"/>',
+      '#ff6b35'
+    ),
+  },
+  {
+    key: 'linkedin',
+    label: 'LinkedIn',
+    logo: 'https://cdn.simpleicons.org/linkedin/0077b5',
+  },
+  {
+    key: 'convert',
+    label: 'Convert',
+    logo: svg(
+      '<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
+      '#00d4ff'
+    ),
+  },
+  {
+    key: 'account',
+    label: 'Account',
+    logo: svg(
+      '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+      '#e2e2e2'
+    ),
+  },
 ]
 
 const TRANSITION = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -206,13 +299,13 @@ export function Sidebar({
           overflowX: 'hidden',
         }}
       >
-        {NAV_ITEMS.map(({ key, label, icon: Icon, href }) => {
+        {NAV_ITEMS.map(({ key, label, logo, href }) => {
           const active = !href && view === key
           return (
             <NavButton
               key={key}
               label={label}
-              icon={Icon}
+              logo={logo}
               active={active}
               showLabels={showLabels}
               showIcons={showIcons}
@@ -324,7 +417,7 @@ export function Sidebar({
 
 function NavButton({
   label,
-  icon: Icon,
+  logo,
   active,
   showLabels,
   showIcons,
@@ -332,7 +425,7 @@ function NavButton({
   href,
 }: {
   label: string
-  icon: typeof LayoutDashboard
+  logo: string
   active: boolean
   showLabels: boolean
   showIcons: boolean
@@ -386,12 +479,17 @@ function NavButton({
           fontSize: 'inherit',
         }}
       >
-        <Icon
-          size={20}
+        <img
+          src={logo}
+          alt=""
+          width={20}
+          height={20}
           style={{
             flexShrink: 0,
-            color: active ? 'var(--accent)' : undefined,
-            transition: 'color 0.2s',
+            borderRadius: 2,
+            filter: active ? 'brightness(1.2)' : hovered ? 'brightness(1.1)' : 'brightness(0.9)',
+            transition: 'filter 0.2s ease',
+            objectFit: 'contain',
           }}
         />
         <span

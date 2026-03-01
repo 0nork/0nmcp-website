@@ -55,6 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/security/transfer',
     '/security/patent',
     '/connect',
+    '/marketplace',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
@@ -104,6 +105,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.75,
     }))
 
+  // Dynamic marketplace listing pages
+  let marketplacePages: MetadataRoute.Sitemap = []
+
   // Dynamic forum threads + profiles + groups
   let threadPages: MetadataRoute.Sitemap = []
   let profilePages: MetadataRoute.Sitemap = []
@@ -111,6 +115,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const admin = getAdmin()
   if (admin) {
+    const listingsResult = await admin
+      .from('store_listings')
+      .select('slug, created_at')
+      .eq('status', 'active')
+      .order('total_purchases', { ascending: false })
+      .limit(5000)
+
+    if (listingsResult.data) {
+      marketplacePages = listingsResult.data.map((l) => ({
+        url: `${base}/marketplace/${l.slug}`,
+        lastModified: new Date(l.created_at),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      }))
+    }
+
     const [threadsResult, profilesResult, groupsResult] = await Promise.all([
       admin
         .from('community_threads')
@@ -163,6 +183,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...glossaryPages,
     ...comparisonPages,
     ...integrationPages,
+    ...marketplacePages,
     ...groupPages,
     ...threadPages,
     ...profilePages,

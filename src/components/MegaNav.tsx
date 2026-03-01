@@ -93,7 +93,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
           { label: '0nork Mini', href: '/store/onork-mini', desc: 'Embeddable AI widget' },
           { label: 'Partners', href: '/partners', desc: 'Partner products & integrations' },
           { label: 'MCPFED', href: 'https://mcpfed.com', desc: 'AI Automation Marketplace', external: true },
-          { label: 'Marketplace', href: 'https://marketplace.rocketclients.com', desc: 'Pay-per-execution platform', external: true },
+          { label: 'Marketplace', href: '/marketplace', desc: 'Browse .0n workflows & automations', accent: true },
           { label: 'Connect', href: '/connect', desc: 'Partnerships & investment', accent: true },
         ],
       },

@@ -42,7 +42,7 @@ const footerColumns = [
       { label: 'Security', href: '/security' },
       { label: 'Partners', href: '/partners' },
       { label: 'MCPFED', href: 'https://mcpfed.com', external: true },
-      { label: 'Marketplace', href: 'https://marketplace.rocketclients.com', external: true },
+      { label: 'Marketplace', href: '/marketplace' },
     ],
   },
   {

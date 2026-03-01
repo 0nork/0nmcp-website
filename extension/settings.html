@@ -4,13 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="settings.css">
-  <title>0nMCP Settings</title>
+  <title>0n for Chrome — Settings</title>
 </head>
 <body>
   <div class="settings">
     <div class="header">
       <span class="logo">0nMCP</span>
       <span class="subtitle">Settings</span>
+    </div>
+
+    <!-- Account Section -->
+    <div class="section">
+      <label class="label">Account</label>
+      <div id="accountSection">
+        <div id="accountDisconnected">
+          <p class="mode-desc">Connect your 0nmcp.com account to enable extension modules.</p>
+          <a href="https://0nmcp.com/api/extension/auth" target="_blank" class="connect-link">Get Auth Token</a>
+          <div class="token-input-row">
+            <input type="text" class="input" id="tokenInput" placeholder="Paste your auth token here">
+            <button class="connect-btn" id="connectBtn">Connect</button>
+          </div>
+        </div>
+        <div id="accountConnected" class="hidden">
+          <div class="account-info">
+            <span class="account-dot"></span>
+            <span id="accountName" class="account-name">Connected</span>
+          </div>
+          <div class="account-modules" id="accountModules"></div>
+          <button class="disconnect-btn" id="disconnectBtn">Disconnect</button>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -59,7 +82,7 @@
     </div>
 
     <div class="section">
-      <p class="version">0nMCP Extension v2.0.0</p>
+      <p class="version">0n for Chrome v3.0.0</p>
     </div>
   </div>
   <script src="settings.js"></script>

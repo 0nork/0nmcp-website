@@ -1,4 +1,4 @@
-// 0nMCP Side Panel v2.0 — Full AI Workspace
+// 0n for Chrome Side Panel v3.0 — Full AI Workspace + Module System
 
 const SYSTEM_PROMPT = `You are 0nMCP, a universal AI API orchestrator with 819 tools across 48 services in 21 categories. You help users manage workflows, execute tasks, and connect services. You speak concisely and helpfully. When users describe tasks, suggest which 0nMCP tools and services could accomplish them. Keep responses focused and actionable. Format responses with markdown when helpful.`
 
@@ -24,6 +24,10 @@ const savedList = document.getElementById('savedList')
 const newPromptInput = document.getElementById('newPromptInput')
 const addPromptBtn = document.getElementById('addPromptBtn')
 const savePromptBtn = document.getElementById('savePromptBtn')
+const tabBar = document.getElementById('tabBar')
+const chatContent = document.getElementById('chatContent')
+const modulesContent = document.getElementById('modulesContent')
+const modulesContainer = document.getElementById('modulesContainer')
 
 // ── State ───────────────────────────────────────────────────
 let messages = []
@@ -31,10 +35,85 @@ let isStreaming = false
 let pageContext = null
 let usePageContext = false
 let conversationId = Date.now().toString(36)
+let currentTab = 'chat'
+
+// ── Tab Switching ───────────────────────────────────────────
+tabBar.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const tabName = tab.dataset.tab
+    currentTab = tabName
+    tabBar.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+    tab.classList.add('active')
+    chatContent.classList.toggle('active', tabName === 'chat')
+    modulesContent.classList.toggle('active', tabName === 'modules')
+    if (tabName === 'modules') loadModulesPanel()
+  })
+})
+
+// ── Modules Panel ───────────────────────────────────────────
+async function loadModulesPanel() {
+  const { authToken, allModules, enabledModules } = await chrome.storage.sync.get(['authToken', 'allModules', 'enabledModules'])
+
+  if (!authToken) {
+    modulesContainer.innerHTML = `
+      <div class="modules-empty">
+        <div class="empty-logo">0n</div>
+        <p class="modules-empty-title">Connect Your Account</p>
+        <p class="modules-empty-desc">Link your 0nmcp.com account to enable extension modules.</p>
+        <a href="https://0nmcp.com/api/extension/auth" target="_blank" class="module-connect-btn">Connect Account</a>
+      </div>
+    `
+    return
+  }
+
+  if (!allModules?.length) {
+    modulesContainer.innerHTML = `
+      <div class="modules-empty">
+        <div class="empty-logo">0n</div>
+        <p class="modules-empty-title">No Modules Available</p>
+        <p class="modules-empty-desc">Visit the 0n Store to browse extension modules.</p>
+        <a href="https://0nmcp.com/console" target="_blank" class="module-connect-btn">Open Store</a>
+      </div>
+    `
+    return
+  }
+
+  const enabled = new Set(enabledModules || [])
+
+  modulesContainer.innerHTML = `
+    <div class="modules-header">
+      <span class="modules-count">${enabled.size} of ${allModules.length} modules active</span>
+      <button class="modules-refresh" id="refreshModulesBtn">Refresh</button>
+    </div>
+    <div class="modules-list">
+      ${allModules.map(mod => {
+        const isEnabled = enabled.has(mod.id)
+        return `
+          <div class="module-item ${isEnabled ? 'enabled' : 'disabled'}">
+            <div class="module-item-header">
+              <span class="module-item-name">${mod.name}</span>
+              <span class="module-item-badge ${isEnabled ? 'active' : 'locked'}">${isEnabled ? 'Active' : mod.free ? 'Free' : `$${mod.price}/mo`}</span>
+            </div>
+            <p class="module-item-desc">${mod.description || ''}</p>
+            ${!isEnabled && !mod.free ? `<a href="https://0nmcp.com/console" target="_blank" class="module-get-btn">Get in Store</a>` : ''}
+          </div>
+        `
+      }).join('')}
+    </div>
+  `
+
+  document.getElementById('refreshModulesBtn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('refreshModulesBtn')
+    btn.textContent = 'Refreshing...'
+    btn.disabled = true
+    chrome.runtime.sendMessage({ type: 'REFRESH_MODULES' }, () => {
+      setTimeout(() => loadModulesPanel(), 1000)
+    })
+  })
+}
 
 // ── Init ────────────────────────────────────────────────────
 async function init() {
-  // Load page context
   loadPageContext()
 
   // Check for pending action from context menu
@@ -42,9 +121,15 @@ async function init() {
   if (pendingAction && Date.now() - pendingAction.timestamp < 30000) {
     await chrome.storage.local.remove('pendingAction')
     chrome.runtime.sendMessage({ type: 'CLEAR_BADGE' })
-    // Auto-submit the pending action
-    messageInput.value = pendingAction.prompt
-    handleSubmit(pendingAction.prompt)
+
+    if (pendingAction.type === 'module') {
+      // Switch to modules tab for module actions
+      tabBar.querySelector('[data-tab="modules"]').click()
+    } else {
+      // Regular chat action
+      messageInput.value = pendingAction.prompt
+      handleSubmit(pendingAction.prompt)
+    }
   }
 
   // Load conversation from storage
@@ -115,7 +200,6 @@ async function loadHistory() {
     `
   }).join('')
 
-  // Click to restore
   historyList.querySelectorAll('.history-item').forEach(el => {
     el.addEventListener('click', async () => {
       const id = el.dataset.id
@@ -190,7 +274,6 @@ savePromptBtn.addEventListener('click', async () => {
 document.querySelectorAll('.quick-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const prompt = btn.dataset.prompt
-    // Auto-include page context for quick actions
     usePageContext = true
     inputContextTag.classList.remove('hidden')
     contextUseBtn.textContent = '- Remove'
@@ -207,13 +290,11 @@ inputForm.addEventListener('submit', (e) => {
   handleSubmit(text)
 })
 
-// Auto-resize textarea
 messageInput.addEventListener('input', () => {
   messageInput.style.height = 'auto'
   messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px'
 })
 
-// Shift+Enter for new line, Enter to send
 messageInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault()
@@ -222,7 +303,6 @@ messageInput.addEventListener('keydown', (e) => {
 })
 
 async function handleSubmit(text) {
-  // Build the full prompt with context
   let fullPrompt = text
   if (usePageContext && pageContext) {
     fullPrompt = `[Page Context: "${pageContext.title}" — ${pageContext.url}]\n${pageContext.meta ? `Meta: ${pageContext.meta}\n` : ''}${pageContext.content ? `Content preview: ${pageContext.content.slice(0, 2000)}\n` : ''}\n${text}`
@@ -389,7 +469,6 @@ function renderMessages() {
 
   messagesEl.scrollTop = messagesEl.scrollHeight
 
-  // Copy button handlers
   messagesEl.querySelectorAll('[data-action="copy"]').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.index)
@@ -436,7 +515,6 @@ function bindQuickActions() {
 
 // ── Persistence ─────────────────────────────────────────────
 async function saveConversation() {
-  // Save current conversation
   await chrome.storage.local.set({
     currentConversation: {
       id: conversationId,
@@ -445,7 +523,6 @@ async function saveConversation() {
     }
   })
 
-  // Save to history
   const { chatHistory = [] } = await chrome.storage.local.get('chatHistory')
   const existingIdx = chatHistory.findIndex(c => c.id === conversationId)
   const entry = {
@@ -460,7 +537,6 @@ async function saveConversation() {
     chatHistory.push(entry)
   }
 
-  // Keep last 50 conversations
   while (chatHistory.length > 50) chatHistory.shift()
   await chrome.storage.local.set({ chatHistory })
 }
@@ -485,17 +561,11 @@ function escapeAttr(str) {
 
 function renderMarkdown(text) {
   if (!text) return ''
-  // Simple markdown rendering
   let html = escapeHtml(text)
-  // Code blocks
   html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="code-block"><code>$2</code></pre>')
-  // Inline code
   html = html.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
-  // Bold
   html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-  // Italic
   html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>')
-  // Line breaks
   html = html.replace(/\n/g, '<br>')
   return html
 }

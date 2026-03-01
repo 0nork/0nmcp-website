@@ -40,10 +40,11 @@ export interface PurchaseWithWorkflow extends PurchaseRecord {
   workflow_name: string | null
 }
 
-export type StoreCategory = 'all' | 'marketing' | 'sales' | 'support' | 'data' | 'devops' | 'custom'
+export type StoreCategory = 'all' | 'marketing' | 'sales' | 'support' | 'data' | 'devops' | 'custom' | 'extensions'
 
 export const STORE_CATEGORIES: { key: StoreCategory; label: string }[] = [
   { key: 'all', label: 'All' },
+  { key: 'extensions', label: 'Chrome Extensions' },
   { key: 'marketing', label: 'Marketing' },
   { key: 'sales', label: 'Sales' },
   { key: 'support', label: 'Support' },

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "0nMCP — AI Command Center",
-  "version": "2.0.0",
-  "description": "819 tools. 48 services. One click. Right-click to orchestrate, side panel for deep work, quick actions from any page.",
+  "name": "0n for Chrome — AI Command Center",
+  "version": "3.0.0",
+  "description": "819 tools. 48 services. Modular AI command center. Right-click to orchestrate, side panel for deep work, extension modules from the 0n Store.",
   "permissions": [
     "storage",
     "activeTab",
@@ -49,14 +49,14 @@
         "default": "Ctrl+Shift+O",
         "mac": "Command+Shift+O"
       },
-      "description": "Open 0nMCP"
+      "description": "Open 0n for Chrome"
     },
     "open_side_panel": {
       "suggested_key": {
         "default": "Ctrl+Shift+M",
         "mac": "Command+Shift+M"
       },
-      "description": "Open 0nMCP Side Panel"
+      "description": "Open 0n Side Panel"
     }
   },
   "options_page": "settings.html"

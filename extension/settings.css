@@ -212,3 +212,89 @@ body {
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
+
+/* ── Account ──────────────────────────────────────────────── */
+.connect-link {
+  display: inline-block;
+  color: #4285f4;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+.connect-link:hover { text-decoration: underline; }
+
+.token-input-row {
+  display: flex;
+  gap: 6px;
+}
+.token-input-row .input { flex: 1; font-size: 11px; }
+
+.connect-btn {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 6px;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.connect-btn:hover { opacity: 0.9; }
+.connect-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.account-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.account-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7ed957;
+  box-shadow: 0 0 8px rgba(126, 217, 87, 0.5);
+}
+.account-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.account-modules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.module-pill {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+.module-pill.enabled {
+  background: rgba(126, 217, 87, 0.12);
+  color: #7ed957;
+}
+.module-pill.disabled {
+  background: rgba(136, 136, 160, 0.1);
+  color: var(--text-muted);
+}
+
+.disconnect-btn {
+  background: none;
+  border: 1px solid rgba(255, 68, 102, 0.3);
+  color: #ff4466;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.disconnect-btn:hover {
+  background: rgba(255, 68, 102, 0.1);
+}

@@ -27,9 +27,15 @@ function formatTime(ts?: string) {
 export function Chat({ messages, loading }: ChatProps) {
   const endRef = useRef<HTMLDivElement>(null)
 
+  const prevLenRef = useRef(0)
+
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, loading])
+    // Only scroll when new messages are added (not on every re-render)
+    if (messages.length !== prevLenRef.current) {
+      prevLenRef.current = messages.length
+      endRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages.length])
 
   if (messages.length === 0 && !loading) {
     return (

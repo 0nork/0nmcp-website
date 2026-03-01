@@ -1,3 +1,7 @@
+// 0n for Chrome v3.0 — Settings with Account Management
+
+const API_BASE = 'https://0nmcp.com/api/extension'
+
 const modeServer = document.getElementById('modeServer')
 const modeAnthropic = document.getElementById('modeAnthropic')
 const modeLocal = document.getElementById('modeLocal')
@@ -12,12 +16,21 @@ const statusSection = document.getElementById('statusSection')
 const statusMsg = document.getElementById('statusMsg')
 const fabToggle = document.getElementById('fabToggle')
 
+// Account elements
+const accountDisconnected = document.getElementById('accountDisconnected')
+const accountConnected = document.getElementById('accountConnected')
+const accountName = document.getElementById('accountName')
+const accountModules = document.getElementById('accountModules')
+const tokenInput = document.getElementById('tokenInput')
+const connectBtn = document.getElementById('connectBtn')
+const disconnectBtn = document.getElementById('disconnectBtn')
+
 let currentMode = 'server'
 let showFab = true
 
-// Load saved settings
+// ── Load saved settings ──
 chrome.storage.sync.get(
-  { mode: 'server', apiKey: '', serverUrl: 'http://localhost:3939', showFab: true },
+  { mode: 'server', apiKey: '', serverUrl: 'http://localhost:3939', showFab: true, authToken: null, authUser: null, enabledModules: [], allModules: [] },
   (settings) => {
     currentMode = settings.mode
     apiKeyInput.value = settings.apiKey
@@ -25,15 +38,98 @@ chrome.storage.sync.get(
     showFab = settings.showFab
     fabToggle.classList.toggle('active', showFab)
     updateModeUI()
+
+    // Account state
+    if (settings.authToken && settings.authUser) {
+      showConnected(settings.authUser, settings.enabledModules || [], settings.allModules || [])
+    }
   }
 )
 
-// Mode switching
+// ── Account: Connect ──
+connectBtn.addEventListener('click', async () => {
+  const token = tokenInput.value.trim()
+  if (!token) {
+    showStatus('error', 'Paste your auth token first')
+    return
+  }
+
+  connectBtn.textContent = 'Connecting...'
+  connectBtn.disabled = true
+
+  try {
+    const res = await fetch(`${API_BASE}/auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok || !data.valid) {
+      showStatus('error', data.error || 'Invalid token')
+      return
+    }
+
+    // Token valid — store it
+    const authUser = { name: data.name || 'Connected', avatar: data.avatar, user_id: data.user_id }
+    await chrome.storage.sync.set({ authToken: token, authUser })
+
+    // Fetch modules
+    const modulesRes = await fetch(`${API_BASE}/modules`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+
+    if (modulesRes.ok) {
+      const modulesData = await modulesRes.json()
+      const enabled = (modulesData.modules || []).filter(m => m.enabled).map(m => m.id)
+      await chrome.storage.sync.set({ enabledModules: enabled, allModules: modulesData.modules || [] })
+      showConnected(authUser, enabled, modulesData.modules || [])
+    } else {
+      showConnected(authUser, [], [])
+    }
+
+    // Refresh background menus
+    chrome.runtime.sendMessage({ type: 'REFRESH_MODULES' })
+    showStatus('ok', 'Account connected!')
+    tokenInput.value = ''
+  } catch (err) {
+    showStatus('error', `Connection failed: ${err.message}`)
+  } finally {
+    connectBtn.textContent = 'Connect'
+    connectBtn.disabled = false
+  }
+})
+
+// ── Account: Disconnect ──
+disconnectBtn.addEventListener('click', async () => {
+  await chrome.storage.sync.remove(['authToken', 'authUser', 'enabledModules', 'allModules'])
+  accountDisconnected.classList.remove('hidden')
+  accountConnected.classList.add('hidden')
+  chrome.runtime.sendMessage({ type: 'REFRESH_MODULES' })
+  showStatus('ok', 'Account disconnected')
+})
+
+function showConnected(user, enabledIds, allModules) {
+  accountDisconnected.classList.add('hidden')
+  accountConnected.classList.remove('hidden')
+  accountName.textContent = user.name || 'Connected'
+
+  if (allModules.length > 0) {
+    accountModules.innerHTML = allModules.map(mod => {
+      const isEnabled = enabledIds.includes(mod.id)
+      return `<span class="module-pill ${isEnabled ? 'enabled' : 'disabled'}">${mod.name}</span>`
+    }).join('')
+  } else {
+    accountModules.innerHTML = '<span class="module-pill disabled">No modules</span>'
+  }
+}
+
+// ── Mode switching ──
 modeServer.addEventListener('click', () => { currentMode = 'server'; updateModeUI() })
 modeAnthropic.addEventListener('click', () => { currentMode = 'anthropic'; updateModeUI() })
 modeLocal.addEventListener('click', () => { currentMode = 'local'; updateModeUI() })
 
-// Fab toggle
 fabToggle.addEventListener('click', () => {
   showFab = !showFab
   fabToggle.classList.toggle('active', showFab)
@@ -48,7 +144,7 @@ function updateModeUI() {
   localSection.classList.toggle('hidden', currentMode !== 'local')
 }
 
-// Save
+// ── Save ──
 saveBtn.addEventListener('click', () => {
   chrome.storage.sync.set({
     mode: currentMode,
@@ -60,7 +156,7 @@ saveBtn.addEventListener('click', () => {
   })
 })
 
-// Test connection
+// ── Test connection ──
 testBtn.addEventListener('click', async () => {
   testBtn.textContent = 'Testing...'
   testBtn.disabled = true

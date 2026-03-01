@@ -62,7 +62,7 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
             Store
           </h2>
           <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>
-            {listings.length} workflow{listings.length !== 1 ? 's' : ''} available
+            {listings.length} {category === 'extensions' ? 'module' : 'workflow'}{listings.length !== 1 ? 's' : ''} available
           </p>
         </div>
       </div>
@@ -79,7 +79,7 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
         <input
           value={search}
           onChange={(e) => handleSearchChange(e.target.value)}
-          placeholder="Search workflows..."
+          placeholder={category === 'extensions' ? 'Search modules...' : 'Search workflows...'}
           className="flex-1 bg-transparent text-sm outline-none"
           style={{
             color: 'var(--text-primary)',
@@ -143,12 +143,14 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
             className="text-lg font-semibold mb-2"
             style={{ color: 'var(--text-primary)' }}
           >
-            No workflows found
+            No {category === 'extensions' ? 'modules' : 'workflows'} found
           </h3>
           <p className="text-sm max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
             {search
               ? 'Try adjusting your search or category filter.'
-              : 'Premium workflows will appear here once published.'}
+              : category === 'extensions'
+                ? 'Extension modules will appear here once published.'
+                : 'Premium workflows will appear here once published.'}
           </p>
         </div>
       )}

@@ -1,15 +1,16 @@
-// 0nMCP Chrome Extension v2.0 — Background Service Worker
+// 0n for Chrome v3.0 — Background Service Worker
+// Module-aware context menus with auth integration
 
-// ── Context Menu Setup ──────────────────────────────────────
-chrome.runtime.onInstalled.addListener(() => {
-  // Parent menu
+const API_BASE = 'https://0nmcp.com/api/extension'
+
+// ── Core Context Menus (always available) ────────────────────
+function setupCoreMenus() {
   chrome.contextMenus.create({
     id: '0nmcp-parent',
-    title: '0nMCP',
+    title: '0n for Chrome',
     contexts: ['selection', 'page', 'link', 'image']
   })
 
-  // Selection actions
   chrome.contextMenus.create({
     id: '0nmcp-summarize',
     parentId: '0nmcp-parent',
@@ -39,21 +40,12 @@ chrome.runtime.onInstalled.addListener(() => {
   })
 
   chrome.contextMenus.create({
-    id: '0nmcp-send-crm',
-    parentId: '0nmcp-parent',
-    title: 'Send to CRM as note',
-    contexts: ['selection']
-  })
-
-  // Separator
-  chrome.contextMenus.create({
     id: '0nmcp-sep1',
     parentId: '0nmcp-parent',
     type: 'separator',
     contexts: ['selection', 'page', 'link', 'image']
   })
 
-  // Page actions
   chrome.contextMenus.create({
     id: '0nmcp-scrape',
     parentId: '0nmcp-parent',
@@ -68,7 +60,6 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['page']
   })
 
-  // Image
   chrome.contextMenus.create({
     id: '0nmcp-describe-image',
     parentId: '0nmcp-parent',
@@ -76,23 +67,155 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['image']
   })
 
-  // Link
   chrome.contextMenus.create({
     id: '0nmcp-open-link',
     parentId: '0nmcp-parent',
     title: 'Analyze linked page',
     contexts: ['link']
   })
+}
 
-  // Initialize badge
-  chrome.action.setBadgeBackgroundColor({ color: '#00ff88' })
+// ── Module Context Menus (added based on enabled modules) ────
+async function setupModuleMenus() {
+  const { authToken, enabledModules } = await chrome.storage.sync.get(['authToken', 'enabledModules'])
+  if (!authToken || !enabledModules) return
 
-  console.log('0nMCP v2.0 installed — context menus registered')
+  const modules = enabledModules || []
+
+  // Separator before modules
+  if (modules.length > 0) {
+    chrome.contextMenus.create({
+      id: '0nmcp-sep-modules',
+      parentId: '0nmcp-parent',
+      type: 'separator',
+      contexts: ['selection', 'page']
+    })
+  }
+
+  // Social Poster menus
+  if (modules.includes('social-poster')) {
+    chrome.contextMenus.create({
+      id: '0nmcp-share-linkedin',
+      parentId: '0nmcp-parent',
+      title: 'Share to LinkedIn',
+      contexts: ['selection', 'page']
+    })
+    chrome.contextMenus.create({
+      id: '0nmcp-share-reddit',
+      parentId: '0nmcp-parent',
+      title: 'Share to Reddit',
+      contexts: ['selection', 'page']
+    })
+    chrome.contextMenus.create({
+      id: '0nmcp-share-devto',
+      parentId: '0nmcp-parent',
+      title: 'Share to Dev.to',
+      contexts: ['selection', 'page']
+    })
+  }
+
+  // Content Writer menus
+  if (modules.includes('content-writer')) {
+    chrome.contextMenus.create({
+      id: '0nmcp-write-post',
+      parentId: '0nmcp-parent',
+      title: 'Generate post from this page',
+      contexts: ['page']
+    })
+    chrome.contextMenus.create({
+      id: '0nmcp-write-from-selection',
+      parentId: '0nmcp-parent',
+      title: 'Generate post from selection',
+      contexts: ['selection']
+    })
+  }
+
+  // CRM Bridge menus
+  if (modules.includes('crm-bridge')) {
+    chrome.contextMenus.create({
+      id: '0nmcp-crm-contact',
+      parentId: '0nmcp-parent',
+      title: 'Create CRM contact from page',
+      contexts: ['page']
+    })
+    chrome.contextMenus.create({
+      id: '0nmcp-crm-note',
+      parentId: '0nmcp-parent',
+      title: 'Send to CRM as note',
+      contexts: ['selection']
+    })
+  }
+
+  // SEO Analyzer menus
+  if (modules.includes('seo-analyzer')) {
+    chrome.contextMenus.create({
+      id: '0nmcp-seo-audit',
+      parentId: '0nmcp-parent',
+      title: 'SEO audit this page',
+      contexts: ['page']
+    })
+  }
+}
+
+// ── Install / Update Handler ──────────────────────────────────
+chrome.runtime.onInstalled.addListener(async () => {
+  chrome.action.setBadgeBackgroundColor({ color: '#7ed957' })
+
+  // Build menus
+  await chrome.contextMenus.removeAll()
+  setupCoreMenus()
+  await setupModuleMenus()
+
+  console.log('0n for Chrome v3.0 installed — context menus registered')
 })
 
-// ── Context Menu Click Handler ──────────────────────────────
+// ── Rebuild menus when modules change ─────────────────────────
+chrome.storage.onChanged.addListener(async (changes, area) => {
+  if (area === 'sync' && (changes.enabledModules || changes.authToken)) {
+    await chrome.contextMenus.removeAll()
+    setupCoreMenus()
+    await setupModuleMenus()
+  }
+})
+
+// ── Fetch modules on startup ──────────────────────────────────
+async function refreshModules() {
+  const { authToken } = await chrome.storage.sync.get('authToken')
+  if (!authToken) return
+
+  try {
+    const res = await fetch(`${API_BASE}/modules`, {
+      headers: { Authorization: `Bearer ${authToken}` }
+    })
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        // Token invalid — clear auth
+        await chrome.storage.sync.remove(['authToken', 'authUser', 'enabledModules', 'allModules'])
+      }
+      return
+    }
+
+    const data = await res.json()
+    const enabled = (data.modules || []).filter(m => m.enabled).map(m => m.id)
+    const all = data.modules || []
+
+    await chrome.storage.sync.set({ enabledModules: enabled, allModules: all })
+  } catch (err) {
+    console.log('Failed to refresh modules:', err.message)
+  }
+}
+
+// Refresh on startup
+refreshModules()
+
+// Refresh periodically (every 30 min)
+setInterval(refreshModules, 30 * 60 * 1000)
+
+// ── Context Menu Click Handler ────────────────────────────────
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  const actionMap = {
+  // Core action prompts
+  const coreActions = {
     '0nmcp-summarize': {
       prompt: `Summarize the following text concisely:\n\n${info.selectionText}`,
       label: 'Summarize'
@@ -109,16 +232,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       prompt: `Translate the following text to English (or to Spanish if it's already in English):\n\n${info.selectionText}`,
       label: 'Translate'
     },
-    '0nmcp-send-crm': {
-      prompt: `Format the following as a CRM contact note with key details highlighted:\n\n${info.selectionText}`,
-      label: 'CRM Note'
-    },
     '0nmcp-scrape': {
       prompt: `Scrape and summarize the content from this page: ${tab?.url}. Extract the key information, main points, and any contact details.`,
       label: 'Scrape Page'
     },
     '0nmcp-analyze': {
-      prompt: `Analyze this webpage (${tab?.url}) titled "${tab?.title}". What is this page about? What are the key takeaways? Is there anything notable about the structure or content?`,
+      prompt: `Analyze this webpage (${tab?.url}) titled "${tab?.title}". What is this page about? What are the key takeaways?`,
       label: 'Analyze Page'
     },
     '0nmcp-describe-image': {
@@ -131,32 +250,63 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     }
   }
 
-  const action = actionMap[info.menuItemId]
-  if (!action) return
+  // Module action mapping — these go to the execute API
+  const moduleActions = {
+    '0nmcp-share-linkedin': { module: 'social-poster', action: 'share', platform: 'linkedin' },
+    '0nmcp-share-reddit': { module: 'social-poster', action: 'share', platform: 'reddit' },
+    '0nmcp-share-devto': { module: 'social-poster', action: 'share', platform: 'dev_to' },
+    '0nmcp-write-post': { module: 'content-writer', action: 'generate', platform: 'linkedin' },
+    '0nmcp-write-from-selection': { module: 'content-writer', action: 'generate', platform: 'linkedin' },
+    '0nmcp-crm-contact': { module: 'crm-bridge', action: 'create_contact' },
+    '0nmcp-crm-note': { module: 'crm-bridge', action: 'add_note' },
+    '0nmcp-seo-audit': { module: 'seo-analyzer', action: 'analyze' },
+  }
 
-  // Store the pending action and open side panel
-  await chrome.storage.local.set({
-    pendingAction: {
-      prompt: action.prompt,
-      label: action.label,
-      source: tab?.url || '',
-      timestamp: Date.now()
+  const coreAction = coreActions[info.menuItemId]
+  if (coreAction) {
+    await chrome.storage.local.set({
+      pendingAction: {
+        prompt: coreAction.prompt,
+        label: coreAction.label,
+        source: tab?.url || '',
+        timestamp: Date.now()
+      }
+    })
+    chrome.action.setBadgeText({ text: '1' })
+    try {
+      await chrome.sidePanel.open({ tabId: tab.id })
+    } catch {
+      console.log('Side panel not available, action stored for popup')
     }
-  })
+    return
+  }
 
-  // Update badge to show pending action
-  chrome.action.setBadgeText({ text: '1' })
-
-  // Open side panel
-  try {
-    await chrome.sidePanel.open({ tabId: tab.id })
-  } catch {
-    // Side panel might not be supported, fall back to notification
-    console.log('Side panel not available, action stored for popup')
+  const modAction = moduleActions[info.menuItemId]
+  if (modAction) {
+    // For module actions, open side panel with module context
+    await chrome.storage.local.set({
+      pendingAction: {
+        type: 'module',
+        module: modAction.module,
+        action: modAction.action,
+        platform: modAction.platform,
+        selectionText: info.selectionText || '',
+        source: tab?.url || '',
+        pageTitle: tab?.title || '',
+        timestamp: Date.now()
+      }
+    })
+    chrome.action.setBadgeText({ text: '1' })
+    try {
+      await chrome.sidePanel.open({ tabId: tab.id })
+    } catch {
+      console.log('Side panel not available')
+    }
+    return
   }
 })
 
-// ── Keyboard Shortcut Handler ───────────────────────────────
+// ── Keyboard Shortcut Handler ─────────────────────────────────
 chrome.commands.onCommand.addListener(async (command) => {
   if (command === 'open_side_panel') {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -170,10 +320,9 @@ chrome.commands.onCommand.addListener(async (command) => {
   }
 })
 
-// ── Message Handler (from popup/sidepanel/content) ──────────
+// ── Message Handler ───────────────────────────────────────────
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'GET_PAGE_CONTENT') {
-    // Get content from active tab
     chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
       if (!tabs[0]) {
         sendResponse({ title: '', url: '', content: '' })
@@ -187,9 +336,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             const title = document.title
             const url = window.location.href
             const meta = document.querySelector('meta[name="description"]')?.content || ''
-            // Get visible text, limited to ~3000 chars
+            const headings = Array.from(document.querySelectorAll('h1, h2, h3')).map(h => h.textContent?.trim()).filter(Boolean).slice(0, 20)
             const body = document.body.innerText.slice(0, 3000)
-            return { title, url, meta, content: body }
+            return { title, url, meta, headings, content: body }
           }
         })
         sendResponse(results[0]?.result || { title: '', url: '', content: '' })
@@ -197,7 +346,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ title: tabs[0].title || '', url: tabs[0].url || '', content: '' })
       }
     })
-    return true // async response
+    return true
   }
 
   if (message.type === 'CLEAR_BADGE') {
@@ -221,6 +370,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
     })
     sendResponse({ ok: true })
+    return true
+  }
+
+  if (message.type === 'REFRESH_MODULES') {
+    refreshModules().then(() => sendResponse({ ok: true }))
     return true
   }
 })

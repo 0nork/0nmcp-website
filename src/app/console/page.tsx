@@ -118,7 +118,7 @@ export default function ConsolePage() {
   const connectedKeys = vault.connectedServices
   const ideas = useMemo(() => getIdeas(connectedKeys), [connectedKeys])
 
-  // ─── Recommendation Engine (recalculate on message/view/action change) ──
+  // ─── Recommendation Engine (recalculate on message count/view/action change) ──
   useEffect(() => {
     if (view !== 'chat') return
 
@@ -130,15 +130,16 @@ export default function ConsolePage() {
         recentActions,
         currentView: view,
         hasWorkflows: flowsHook.flows.length > 0,
-        hasVaultFiles: true, // vault files panel exists
+        hasVaultFiles: true,
         hasPurchases: store.purchases.length > 0,
       }
       setRecommendations(getRecommendations(ctx))
       setRecsThinking(false)
-    }, 300) // small debounce
+    }, 600) // debounce to prevent rapid-fire recalculations
 
     return () => clearTimeout(timer)
-  }, [messages, view, recentActions, connectedKeys, flowsHook.flows.length, store.purchases.length])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages.length, view, recentActions.length, connectedKeys.length, flowsHook.flows.length, store.purchases.length])
 
   // ─── Sidebar Mode Toggle ───────────────────────────────────
   const handleToggleSidebarMode = useCallback(() => {

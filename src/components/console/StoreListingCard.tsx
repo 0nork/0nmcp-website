@@ -10,7 +10,11 @@ interface StoreListingCardProps {
   onClick: () => void
 }
 
+const isExtension = (listing: StoreListing) => listing.category === 'extensions'
+
 export function StoreListingCard({ listing, owned, index, onClick }: StoreListingCardProps) {
+  const ext = isExtension(listing)
+
   return (
     <button
       onClick={onClick}
@@ -42,8 +46,33 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
             ? `url(${listing.cover_image_url}) center/cover`
             : `linear-gradient(135deg, ${getCategoryColor(listing.category)}22, ${getCategoryColor(listing.category)}44)`,
           borderBottom: '1px solid var(--border)',
+          position: 'relative',
         }}
-      />
+      >
+        {/* Extension module badge */}
+        {ext && (
+          <span
+            style={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              backgroundColor: 'rgba(0,0,0,0.7)',
+              color: '#4285f4',
+              fontSize: 10,
+              fontWeight: 700,
+              padding: '2px 8px',
+              borderRadius: 6,
+              backdropFilter: 'blur(4px)',
+            }}
+          >
+            <ChromeIcon />
+            Module
+          </span>
+        )}
+      </div>
 
       {/* Content */}
       <div style={{ padding: '1rem' }}>
@@ -65,7 +94,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
             minHeight: '2.25rem',
           }}
         >
-          {listing.description || 'Premium .0n workflow'}
+          {listing.description || (ext ? 'Chrome extension module' : 'Premium .0n workflow')}
         </p>
 
         {/* Footer */}
@@ -79,7 +108,9 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
               fontFamily: 'var(--font-mono)',
             }}
           >
-            {listing.price === 0 ? 'Free' : `$${listing.price.toFixed(2)}`}
+            {listing.price === 0
+              ? 'Free'
+              : `$${listing.price.toFixed(2)}${ext ? '/mo' : ''}`}
           </span>
 
           <div className="flex items-center gap-2">
@@ -91,10 +122,10 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
                 color: getCategoryColor(listing.category),
               }}
             >
-              {listing.category}
+              {ext ? 'extension' : listing.category}
             </span>
 
-            {/* Owned badge */}
+            {/* Owned/Enabled badge */}
             {owned && (
               <span
                 className="flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded"
@@ -104,13 +135,22 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
                 }}
               >
                 <Check size={10} />
-                Owned
+                {ext ? 'Enabled' : 'Owned'}
               </span>
             )}
           </div>
         </div>
       </div>
     </button>
+  )
+}
+
+function ChromeIcon() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="#4285f4" strokeWidth="2" fill="none" />
+      <circle cx="12" cy="12" r="4" fill="#4285f4" />
+    </svg>
   )
 }
 
@@ -122,6 +162,7 @@ function getCategoryColor(category: string): string {
     data: '#22d3ee',
     devops: '#f59e0b',
     custom: '#ec4899',
+    extensions: '#4285f4',
   }
   return colors[category] || '#ff6b35'
 }

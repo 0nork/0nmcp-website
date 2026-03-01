@@ -1,10 +1,36 @@
-// 0nMCP Popup v2.0 — Quick Action Launcher
+// 0n for Chrome v3.0 — Quick Action Launcher with Module Awareness
 
 const quickForm = document.getElementById('quickForm')
 const quickInput = document.getElementById('quickInput')
 const pageTitle = document.getElementById('pageTitle')
+const authBar = document.getElementById('authBar')
+const authName = document.getElementById('authName')
+const moduleGrid = document.getElementById('moduleGrid')
 
-// Load page context
+// ── Load auth status ──
+chrome.storage.sync.get(['authToken', 'authUser', 'allModules', 'enabledModules'], (data) => {
+  if (data.authToken && data.authUser) {
+    authBar.classList.remove('hidden')
+    authName.textContent = data.authUser.name || 'Connected'
+  }
+
+  // Show module quick actions if authed
+  if (data.authToken && data.allModules?.length) {
+    const enabled = new Set(data.enabledModules || [])
+    moduleGrid.classList.remove('hidden')
+    moduleGrid.innerHTML = data.allModules.map(mod => {
+      const isEnabled = enabled.has(mod.id)
+      return `
+        <button class="module-card ${isEnabled ? '' : 'locked'}" data-module="${mod.id}" ${isEnabled ? '' : 'disabled'}>
+          <span class="module-name">${mod.name}</span>
+          <span class="module-status-badge">${isEnabled ? 'Active' : mod.free ? 'Active' : 'Locked'}</span>
+        </button>
+      `
+    }).join('')
+  }
+})
+
+// ── Load page context ──
 chrome.runtime.sendMessage({ type: 'GET_PAGE_CONTENT' }, (response) => {
   if (chrome.runtime.lastError || !response?.title) {
     pageTitle.textContent = 'No page detected'
@@ -14,7 +40,7 @@ chrome.runtime.sendMessage({ type: 'GET_PAGE_CONTENT' }, (response) => {
   window._pageContext = response
 })
 
-// Quick form — opens side panel with the prompt
+// ── Quick form ──
 quickForm.addEventListener('submit', async (e) => {
   e.preventDefault()
   const text = quickInput.value.trim()
@@ -22,7 +48,7 @@ quickForm.addEventListener('submit', async (e) => {
   await sendToSidePanel(text, false)
 })
 
-// Action cards
+// ── Action cards ──
 document.querySelectorAll('.action-card').forEach(card => {
   card.addEventListener('click', async () => {
     const prompt = card.dataset.prompt
@@ -32,14 +58,12 @@ document.querySelectorAll('.action-card').forEach(card => {
 })
 
 async function sendToSidePanel(prompt, includeContext) {
-  // Build full prompt with context if requested
   let fullPrompt = prompt
   if (includeContext && window._pageContext) {
     const ctx = window._pageContext
     fullPrompt = `[Page: "${ctx.title}" — ${ctx.url}]\n${ctx.meta ? `Meta: ${ctx.meta}\n` : ''}${ctx.content ? `Content: ${ctx.content.slice(0, 2000)}\n` : ''}\n${prompt}`
   }
 
-  // Store as pending action
   await chrome.storage.local.set({
     pendingAction: {
       prompt: fullPrompt,
@@ -49,20 +73,18 @@ async function sendToSidePanel(prompt, includeContext) {
     }
   })
 
-  // Open side panel
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
   try {
     await chrome.sidePanel.open({ tabId: tab.id })
-    window.close() // Close popup after opening side panel
+    window.close()
   } catch {
-    // Side panel not available — show feedback
     quickInput.value = ''
     quickInput.placeholder = 'Side panel opened!'
     setTimeout(() => { quickInput.placeholder = 'Ask 0nMCP anything...' }, 2000)
   }
 }
 
-// Side panel button
+// ── Side panel button ──
 document.getElementById('sidePanelBtn').addEventListener('click', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
   try {
@@ -71,7 +93,7 @@ document.getElementById('sidePanelBtn').addEventListener('click', async () => {
   } catch {}
 })
 
-// Settings button
+// ── Settings button ──
 document.getElementById('settingsBtn').addEventListener('click', () => {
   chrome.runtime.openOptionsPage?.() || window.open(chrome.runtime.getURL('settings.html'), '_blank')
 })

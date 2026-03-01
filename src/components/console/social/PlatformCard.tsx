@@ -112,15 +112,27 @@ export function PlatformCard({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 15,
-                fontWeight: 700,
-                fontFamily: 'var(--font-mono)',
                 backgroundColor: `${color}20`,
-                color: color === '#0a0a0a' || color === '#000000' ? 'var(--text-primary)' : color,
                 border: `1px solid ${color}30`,
+                padding: 8,
               }}
             >
-              {icon}
+              {icon.startsWith('/') ? (
+                <img
+                  src={icon}
+                  alt={name}
+                  style={{
+                    width: 22,
+                    height: 22,
+                    objectFit: 'contain',
+                    filter: color === '#0a0a0a' || color === '#000000' ? 'invert(1)' : 'none',
+                  }}
+                />
+              ) : (
+                <span style={{ fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-mono)', color: color === '#0a0a0a' || color === '#000000' ? 'var(--text-primary)' : color }}>
+                  {icon}
+                </span>
+              )}
             </div>
           )}
           <div>

@@ -190,6 +190,16 @@ export default function ConsolePage() {
       window.history.replaceState({}, '', '/console')
     }
 
+    // Detect Reddit OAuth return
+    if (params.get('reddit') === 'connected') {
+      setView('social')
+      window.history.replaceState({}, '', '/console')
+    }
+    if (params.get('reddit_error')) {
+      setView('social')
+      window.history.replaceState({}, '', '/console')
+    }
+
     // Load premium purchases for flows view
     store.fetchPurchases()
     // eslint-disable-next-line react-hooks/exhaustive-deps

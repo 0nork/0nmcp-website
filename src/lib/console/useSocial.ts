@@ -41,22 +41,21 @@ const POSTS_KEY = '0n_social_posts'
 const AUTOPOST_KEY = '0n_social_autopost'
 
 const ICON_MAP: Record<string, string> = {
-  linkedin: 'Li',
-  facebook: 'Fb',
-  instagram: 'Ig',
-  x_twitter: 'X',
-  google: 'G',
-  reddit: 'Rd',
-  dev_to: 'Dv',
+  linkedin: '/logos/linkedin.svg',
+  facebook: '/logos/facebook.svg',
+  instagram: '/logos/instagram.svg',
+  x_twitter: '/logos/x_twitter.svg',
+  reddit: '/logos/reddit.svg',
+  dev_to: '/logos/devto.svg',
 }
 
 const DEFAULT_PLATFORMS: SocialPlatform[] = [
-  { id: 'linkedin', name: 'LinkedIn', icon: 'Li', connected: false, postCount: 0, lastPosted: null, color: '#0077b5', method: 'oauth', username: null, avatar: null, connectUrl: '/api/linkedin/auth' },
-  { id: 'reddit', name: 'Reddit', icon: 'Rd', connected: false, postCount: 0, lastPosted: null, color: '#ff4500', method: 'oauth', username: null, avatar: null, connectUrl: '/api/social/reddit/auth' },
-  { id: 'dev_to', name: 'Dev.to', icon: 'Dv', connected: false, postCount: 0, lastPosted: null, color: '#0a0a0a', method: 'api_key', username: null, avatar: null, connectUrl: null },
-  { id: 'x_twitter', name: 'X / Twitter', icon: 'X', connected: false, postCount: 0, lastPosted: null, color: '#000000', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
-  { id: 'facebook', name: 'Facebook', icon: 'Fb', connected: false, postCount: 0, lastPosted: null, color: '#1877f2', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
-  { id: 'instagram', name: 'Instagram', icon: 'Ig', connected: false, postCount: 0, lastPosted: null, color: '#e4405f', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
+  { id: 'linkedin', name: 'LinkedIn', icon: '/logos/linkedin.svg', connected: false, postCount: 0, lastPosted: null, color: '#0077b5', method: 'oauth', username: null, avatar: null, connectUrl: '/api/linkedin/auth' },
+  { id: 'reddit', name: 'Reddit', icon: '/logos/reddit.svg', connected: false, postCount: 0, lastPosted: null, color: '#ff4500', method: 'oauth', username: null, avatar: null, connectUrl: '/api/social/reddit/auth' },
+  { id: 'dev_to', name: 'Dev.to', icon: '/logos/devto.svg', connected: false, postCount: 0, lastPosted: null, color: '#0a0a0a', method: 'api_key', username: null, avatar: null, connectUrl: null },
+  { id: 'x_twitter', name: 'X / Twitter', icon: '/logos/x_twitter.svg', connected: false, postCount: 0, lastPosted: null, color: '#000000', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
+  { id: 'facebook', name: 'Facebook', icon: '/logos/facebook.svg', connected: false, postCount: 0, lastPosted: null, color: '#1877f2', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
+  { id: 'instagram', name: 'Instagram', icon: '/logos/instagram.svg', connected: false, postCount: 0, lastPosted: null, color: '#e4405f', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
 ]
 
 // ─── Hook ────────────────────────────────────────────────────────

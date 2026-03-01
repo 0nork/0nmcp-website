@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
+import { getConnection as getRedditConnection } from '@/lib/reddit/auth'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
@@ -154,16 +155,11 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // ── Reddit — uses social_connections table ──
+  // ── Reddit — uses social_connections table with auto-refresh ──
   if (platforms.includes('reddit')) {
     try {
-      const { data: conn } = await admin
-        .from('social_connections')
-        .select('access_token, refresh_token, token_expires_at, platform_username, platform_metadata')
-        .eq('user_id', user.id)
-        .eq('platform', 'reddit')
-        .eq('is_connected', true)
-        .maybeSingle()
+      // getRedditConnection auto-refreshes expired tokens (1hr expiry)
+      const conn = await getRedditConnection(user.id)
 
       if (!conn?.access_token) {
         results.push({ platform: 'reddit', success: false, error: 'Reddit not connected. Click Connect to link your account.' })
@@ -176,9 +172,9 @@ export async function POST(request: NextRequest) {
         const res = await fetch('https://oauth.reddit.com/api/submit', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${conn.access_token}`,
+            'Authorization': `bearer ${conn.access_token}`,
             'Content-Type': 'application/x-www-form-urlencoded',
-            'User-Agent': '0nMCP/1.0',
+            'User-Agent': '0nMCP/2.0 (by /u/0nork)',
           },
           body: new URLSearchParams({
             sr: subreddit,

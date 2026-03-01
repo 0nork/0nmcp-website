@@ -14,12 +14,12 @@ interface PlatformDef {
 }
 
 const ALL_PLATFORMS: PlatformDef[] = [
-  { id: 'linkedin', name: 'LinkedIn', icon: 'Li', color: '#0077b5', charLimit: 3000 },
-  { id: 'reddit', name: 'Reddit', icon: 'Rd', color: '#ff4500', charLimit: 40000 },
-  { id: 'dev_to', name: 'Dev.to', icon: 'Dv', color: '#0a0a0a', charLimit: Infinity },
-  { id: 'x_twitter', name: 'X', icon: 'X', color: '#000000', charLimit: 280 },
-  { id: 'facebook', name: 'Facebook', icon: 'Fb', color: '#1877f2', charLimit: 63206 },
-  { id: 'instagram', name: 'Instagram', icon: 'Ig', color: '#e4405f', charLimit: 2200 },
+  { id: 'linkedin', name: 'LinkedIn', icon: '/logos/linkedin.svg', color: '#0077b5', charLimit: 3000 },
+  { id: 'reddit', name: 'Reddit', icon: '/logos/reddit.svg', color: '#ff4500', charLimit: 40000 },
+  { id: 'dev_to', name: 'Dev.to', icon: '/logos/devto.svg', color: '#0a0a0a', charLimit: Infinity },
+  { id: 'x_twitter', name: 'X', icon: '/logos/x_twitter.svg', color: '#000000', charLimit: 280 },
+  { id: 'facebook', name: 'Facebook', icon: '/logos/facebook.svg', color: '#1877f2', charLimit: 63206 },
+  { id: 'instagram', name: 'Instagram', icon: '/logos/instagram.svg', color: '#e4405f', charLimit: 2200 },
 ]
 
 // ─── Props ────────────────────────────────────────────────────────
@@ -372,15 +372,27 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: 10,
-                      fontWeight: 700,
-                      fontFamily: 'var(--font-mono)',
                       backgroundColor: selected ? plat.color : 'var(--border)',
-                      color: selected ? '#fff' : 'var(--text-muted)',
+                      padding: 4,
                       transition: 'all 0.15s ease',
                     }}
                   >
-                    {plat.icon}
+                    {plat.icon.startsWith('/') ? (
+                      <img
+                        src={plat.icon}
+                        alt={plat.name}
+                        style={{
+                          width: 14,
+                          height: 14,
+                          objectFit: 'contain',
+                          filter: (plat.color === '#0a0a0a' || plat.color === '#000000') ? 'invert(1)' : selected ? 'brightness(10)' : 'none',
+                        }}
+                      />
+                    ) : (
+                      <span style={{ fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)', color: selected ? '#fff' : 'var(--text-muted)' }}>
+                        {plat.icon}
+                      </span>
+                    )}
                   </span>
                   {plat.name}
                 </button>

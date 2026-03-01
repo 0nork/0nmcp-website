@@ -247,28 +247,17 @@ export function Sidebar({
           transition: TRANSITION,
         }}
       >
-        <div
+        <img
+          src="/brand/icon-green.png"
+          alt="0nMCP"
           style={{
             width: '2rem',
             height: '2rem',
             borderRadius: '0.5rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             flexShrink: 0,
-            background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
+            objectFit: 'contain',
           }}
-        >
-          <span
-            style={{
-              fontSize: '0.75rem',
-              fontWeight: 900,
-              color: 'var(--bg-primary)',
-            }}
-          >
-            0n
-          </span>
-        </div>
+        />
         <span
           style={{
             fontSize: '0.875rem',

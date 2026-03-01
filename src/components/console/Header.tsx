@@ -49,19 +49,27 @@ export function Header({ view, mcpOnline, connectedCount, onCmdK, onMobileMenu }
         >
           <Menu size={20} />
         </button>
-        <h1
-          className="text-lg font-semibold tracking-tight"
-          style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}
-        >
-          <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>0n</span>{' '}
-          Console
-          <span
-            className="text-sm font-normal ml-2 hidden sm:inline"
-            style={{ color: 'var(--text-muted)' }}
+        <div className="flex items-center gap-2">
+          <img
+            src="/brand/icon-green.png"
+            alt="0nMCP"
+            style={{ width: 24, height: 24, objectFit: 'contain' }}
+            className="md:hidden"
+          />
+          <h1
+            className="text-lg font-semibold tracking-tight"
+            style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}
           >
-            / {VIEW_LABELS[view] || view}
-          </span>
-        </h1>
+            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>0n</span>{' '}
+            Console
+            <span
+              className="text-sm font-normal ml-2 hidden sm:inline"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              / {VIEW_LABELS[view] || view}
+            </span>
+          </h1>
+        </div>
       </div>
 
       {/* Right: status + search + vault counter */}

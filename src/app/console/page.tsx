@@ -179,14 +179,14 @@ export default function ConsolePage() {
       window.history.replaceState({}, '', '/console')
     }
 
-    // Detect LinkedIn OAuth return
+    // Detect LinkedIn OAuth return — show Social Hub so user sees connected status
     if (params.get('linkedin') === 'connected') {
-      setView('linkedin')
+      setView('social')
       linkedin.fetchMember()
       window.history.replaceState({}, '', '/console')
     }
     if (params.get('linkedin_error')) {
-      setView('linkedin')
+      setView('social')
       window.history.replaceState({}, '', '/console')
     }
 

@@ -246,6 +246,7 @@ export function SocialView() {
         onClose={() => setComposerOpen(false)}
         onPost={handlePost}
         isPosting={isPosting}
+        connectedPlatformIds={platforms.filter((p) => p.connected && !p.comingSoon).map((p) => p.id)}
       />
 
       {/* Dev.to API Key Modal */}

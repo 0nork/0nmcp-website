@@ -13,14 +13,13 @@ interface PlatformDef {
   charLimit: number
 }
 
-const PLATFORMS: PlatformDef[] = [
+const ALL_PLATFORMS: PlatformDef[] = [
   { id: 'linkedin', name: 'LinkedIn', icon: 'Li', color: '#0077b5', charLimit: 3000 },
-  { id: 'facebook', name: 'Facebook', icon: 'Fb', color: '#1877f2', charLimit: 63206 },
-  { id: 'instagram', name: 'Instagram', icon: 'Ig', color: '#e4405f', charLimit: 2200 },
-  { id: 'x_twitter', name: 'X', icon: 'X', color: '#000000', charLimit: 280 },
-  { id: 'google', name: 'Google', icon: 'G', color: '#4285f4', charLimit: 1500 },
   { id: 'reddit', name: 'Reddit', icon: 'Rd', color: '#ff4500', charLimit: 40000 },
   { id: 'dev_to', name: 'Dev.to', icon: 'Dv', color: '#0a0a0a', charLimit: Infinity },
+  { id: 'x_twitter', name: 'X', icon: 'X', color: '#000000', charLimit: 280 },
+  { id: 'facebook', name: 'Facebook', icon: 'Fb', color: '#1877f2', charLimit: 63206 },
+  { id: 'instagram', name: 'Instagram', icon: 'Ig', color: '#e4405f', charLimit: 2200 },
 ]
 
 // ─── Props ────────────────────────────────────────────────────────
@@ -30,11 +29,14 @@ interface PostComposerProps {
   onClose: () => void
   onPost: (content: string, platforms: string[], hashtags: string[]) => void
   isPosting: boolean
+  connectedPlatformIds?: string[]
 }
 
-export function PostComposer({ open, onClose, onPost, isPosting }: PostComposerProps) {
+export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatformIds }: PostComposerProps) {
   const [content, setContent] = useState('')
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['linkedin'])
+  const connected = connectedPlatformIds || []
+  const availablePlatforms = ALL_PLATFORMS.filter((p) => connected.includes(p.id))
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
   const [hashtags, setHashtags] = useState<string[]>([])
   const [hashtagsLoading, setHashtagsLoading] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
@@ -47,14 +49,18 @@ export function PostComposer({ open, onClose, onPost, isPosting }: PostComposerP
     }
   }, [open])
 
-  // Reset state when modal closes
+  // Reset state when modal opens/closes
   useEffect(() => {
-    if (!open) {
+    if (open) {
+      // Auto-select all connected platforms
+      setSelectedPlatforms(connected.length > 0 ? [...connected] : [])
+    } else {
       setContent('')
-      setSelectedPlatforms(['linkedin'])
+      setSelectedPlatforms([])
       setHashtags([])
       setShowPreview(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   if (!open) return null
@@ -109,7 +115,7 @@ export function PostComposer({ open, onClose, onPost, isPosting }: PostComposerP
   // Compute character warnings per platform
   const charWarnings = selectedPlatforms
     .map((id) => {
-      const plat = PLATFORMS.find((p) => p.id === id)
+      const plat = ALL_PLATFORMS.find((p) => p.id === id)
       if (!plat || plat.charLimit === Infinity) return null
       const over = previewContent.length - plat.charLimit
       if (over > 0) return { name: plat.name, over, limit: plat.charLimit }
@@ -283,7 +289,7 @@ export function PostComposer({ open, onClose, onPost, isPosting }: PostComposerP
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             {selectedPlatforms.map((id) => {
-              const plat = PLATFORMS.find((p) => p.id === id)
+              const plat = ALL_PLATFORMS.find((p) => p.id === id)
               if (!plat) return null
               const len = previewContent.length
               const isOver = plat.charLimit !== Infinity && len > plat.charLimit
@@ -327,7 +333,12 @@ export function PostComposer({ open, onClose, onPost, isPosting }: PostComposerP
             Post to
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {PLATFORMS.map((plat) => {
+            {availablePlatforms.length === 0 && (
+              <div style={{ fontSize: 13, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                No platforms connected. Connect accounts in Social Hub first.
+              </div>
+            )}
+            {availablePlatforms.map((plat) => {
               const selected = selectedPlatforms.includes(plat.id)
               return (
                 <button

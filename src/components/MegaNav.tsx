@@ -7,7 +7,14 @@ import ServiceIcon, { ALL_SERVICES } from '@/components/ServiceLogos'
 
 /* ── Mega-menu sections ── */
 type MenuLink = { label: string; href: string; desc: string; accent?: boolean; badge?: string; external?: boolean }
-type MenuSection = { label: string; columns: { title: string; links: MenuLink[] }[]; services?: boolean }
+type MenuSection = {
+  label: string
+  columns: { title: string; links: MenuLink[] }[]
+  services?: boolean
+  serviceIds?: string[]
+  graphic?: 'grid' | 'vault' | 'community' | 'shield'
+  stat?: { value: string; label: string }
+}
 
 const MENU_SECTIONS: Record<string, MenuSection> = {
   product: {
@@ -16,7 +23,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
       {
         title: 'Get Started',
         links: [
-          { label: 'Turn it 0n', href: '/turn-it-on', desc: 'Browse all capabilities' },
+          { label: 'Turn it 0n', href: '/turn-it-on', desc: 'Browse all 1,078 capabilities' },
           { label: 'Interactive Demo', href: '/demo', desc: 'Build your first RUN', accent: true },
           { label: 'Examples', href: '/examples', desc: 'Real-world use cases' },
           { label: 'Downloads', href: '/downloads', desc: 'Chrome extension & more' },
@@ -29,11 +36,14 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
           { label: '.0n Standard', href: '/0n-standard', desc: 'Universal config format' },
           { label: 'Console', href: '/console', desc: 'Dashboard, Store, Builder & more', accent: true },
           { label: 'Pricing', href: '/#pricing', desc: 'Free forever, pay to scale' },
-          { label: 'Integrations', href: '/integrations', desc: '26 connected services' },
+          { label: 'Integrations', href: '/integrations', desc: '48 connected services' },
         ],
       },
     ],
     services: true,
+    serviceIds: ['stripe', 'slack', 'github', 'openai', 'anthropic', 'supabase', 'notion', 'discord', 'shopify', 'gmail', 'twilio', 'airtable', 'google-sheets', 'hubspot', 'mongodb', 'zoom'],
+    graphic: 'grid',
+    stat: { value: '819', label: 'Tools Ready' },
   },
   community: {
     label: 'Community',
@@ -60,6 +70,9 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
         ],
       },
     ],
+    serviceIds: ['github', 'discord', 'slack', 'linkedin', 'x', 'reddit'],
+    graphic: 'community',
+    stat: { value: '48', label: 'Services' },
   },
   products: {
     label: 'Products',
@@ -85,6 +98,9 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
         ],
       },
     ],
+    serviceIds: ['vault', 'vault-container', 'deed', 'engine', 'app-builder', 'crm', 'stripe', 'anthropic', 'supabase'],
+    graphic: 'vault',
+    stat: { value: '1,078', label: 'Capabilities' },
   },
   security: {
     label: 'Security',
@@ -108,13 +124,153 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
         ],
       },
     ],
+    serviceIds: ['vault', 'vault-container', 'deed', 'engine'],
+    graphic: 'shield',
+    stat: { value: '2', label: 'Patents Pending' },
   },
 }
 
 type MenuKey = 'product' | 'community' | 'products' | 'security'
 
-/* ── Service logo strip (top 12) ── */
-const TOP_SERVICES = ALL_SERVICES.slice(0, 12)
+/* ── Build a curated service list from IDs ── */
+function getServicesByIds(ids: string[]) {
+  return ids.map((id) => ALL_SERVICES.find((s) => s.id === id)).filter(Boolean) as typeof ALL_SERVICES
+}
+
+/* ── Background graphic components ── */
+function GridGraphic() {
+  return (
+    <div className="mega-panel-graphic mega-panel-graphic-grid" aria-hidden="true">
+      {/* Animated circuit-style grid lines */}
+      <svg width="100%" height="100%" viewBox="0 0 300 200" fill="none" style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
+        {/* Horizontal lines */}
+        {[30, 70, 110, 150].map((y) => (
+          <line key={`h${y}`} x1="0" y1={y} x2="300" y2={y} stroke="#00ff88" strokeWidth="0.5" />
+        ))}
+        {/* Vertical lines */}
+        {[50, 100, 150, 200, 250].map((x) => (
+          <line key={`v${x}`} x1={x} y1="0" x2={x} y2="200" stroke="#00ff88" strokeWidth="0.5" />
+        ))}
+        {/* Nodes at intersections */}
+        {[50, 150, 250].map((x) =>
+          [30, 110].map((y) => (
+            <circle key={`n${x}${y}`} cx={x} cy={y} r="2.5" fill="#00ff88" opacity="0.4">
+              <animate attributeName="opacity" values="0.2;0.6;0.2" dur={`${2 + Math.random() * 2}s`} repeatCount="indefinite" />
+            </circle>
+          ))
+        )}
+        {/* Animated data pulse along paths */}
+        <circle r="3" fill="#00ff88" opacity="0.8">
+          <animateMotion dur="4s" repeatCount="indefinite" path="M50,30 L150,30 L150,110 L250,110" />
+        </circle>
+        <circle r="2" fill="#00d4ff" opacity="0.6">
+          <animateMotion dur="5s" repeatCount="indefinite" path="M250,30 L150,30 L150,150 L50,150" />
+        </circle>
+      </svg>
+      {/* Corner accent glow */}
+      <div style={{
+        position: 'absolute', top: '-20px', right: '-20px',
+        width: '120px', height: '120px', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%)',
+      }} />
+    </div>
+  )
+}
+
+function VaultGraphic() {
+  return (
+    <div className="mega-panel-graphic" aria-hidden="true">
+      <svg width="100%" height="100%" viewBox="0 0 300 200" fill="none" style={{ position: 'absolute', inset: 0, opacity: 0.07 }}>
+        {/* Concentric lock rings */}
+        <circle cx="150" cy="100" r="80" stroke="#a78bfa" strokeWidth="0.5" strokeDasharray="4 6">
+          <animateTransform attributeName="transform" type="rotate" from="0 150 100" to="360 150 100" dur="30s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="150" cy="100" r="55" stroke="#00d4ff" strokeWidth="0.5" strokeDasharray="3 5">
+          <animateTransform attributeName="transform" type="rotate" from="360 150 100" to="0 150 100" dur="22s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="150" cy="100" r="30" stroke="#00ff88" strokeWidth="1" strokeDasharray="2 4">
+          <animateTransform attributeName="transform" type="rotate" from="0 150 100" to="360 150 100" dur="15s" repeatCount="indefinite" />
+        </circle>
+        {/* Center shield */}
+        <path d="M150 76 L150 124 M138 88 L162 112 M162 88 L138 112" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+      </svg>
+      <div style={{
+        position: 'absolute', bottom: '-30px', left: '50%', transform: 'translateX(-50%)',
+        width: '180px', height: '100px', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(167,139,250,0.06) 0%, transparent 70%)',
+      }} />
+    </div>
+  )
+}
+
+function CommunityGraphic() {
+  return (
+    <div className="mega-panel-graphic" aria-hidden="true">
+      <svg width="100%" height="100%" viewBox="0 0 300 200" fill="none" style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
+        {/* Network of connected people nodes */}
+        {[
+          { cx: 80, cy: 60 }, { cx: 220, cy: 50 }, { cx: 150, cy: 100 },
+          { cx: 60, cy: 140 }, { cx: 240, cy: 150 }, { cx: 150, cy: 170 },
+        ].map((n, i) => (
+          <g key={i}>
+            <circle cx={n.cx} cy={n.cy} r="8" fill="none" stroke="#00d4ff" strokeWidth="1">
+              <animate attributeName="r" values="7;9;7" dur={`${3 + i * 0.5}s`} repeatCount="indefinite" />
+            </circle>
+            <circle cx={n.cx} cy={n.cy} r="3" fill="#00d4ff" opacity="0.5" />
+          </g>
+        ))}
+        {/* Connection lines */}
+        {[
+          [80, 60, 150, 100], [220, 50, 150, 100], [60, 140, 150, 100],
+          [240, 150, 150, 100], [150, 170, 150, 100], [80, 60, 60, 140],
+          [220, 50, 240, 150],
+        ].map(([x1, y1, x2, y2], i) => (
+          <line key={`l${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#00d4ff" strokeWidth="0.5" opacity="0.3" strokeDasharray="3 3" />
+        ))}
+      </svg>
+      <div style={{
+        position: 'absolute', top: '20px', left: '-20px',
+        width: '100px', height: '100px', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%)',
+      }} />
+    </div>
+  )
+}
+
+function ShieldGraphic() {
+  return (
+    <div className="mega-panel-graphic" aria-hidden="true">
+      <svg width="100%" height="100%" viewBox="0 0 300 200" fill="none" style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
+        {/* Shield shape */}
+        <path d="M150 20 L230 55 L230 120 C230 160 150 190 150 190 C150 190 70 160 70 120 L70 55 Z"
+          fill="none" stroke="#00ff88" strokeWidth="1" strokeDasharray="6 3">
+          <animate attributeName="stroke-dashoffset" from="0" to="18" dur="3s" repeatCount="indefinite" />
+        </path>
+        {/* Inner lines = 7 layers */}
+        {[45, 60, 75, 90, 105, 120, 135].map((y, i) => (
+          <line key={`layer${i}`} x1="95" y1={y} x2="205" y2={y}
+            stroke={i % 2 === 0 ? '#00ff88' : '#a78bfa'} strokeWidth="0.5" opacity="0.4" />
+        ))}
+        {/* Checkmark */}
+        <path d="M130 105 L145 120 L175 80" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.4">
+          <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite" />
+        </path>
+      </svg>
+      <div style={{
+        position: 'absolute', top: '-10px', right: '20px',
+        width: '80px', height: '80px', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%)',
+      }} />
+    </div>
+  )
+}
+
+const GRAPHICS: Record<string, () => React.ReactNode> = {
+  grid: GridGraphic,
+  vault: VaultGraphic,
+  community: CommunityGraphic,
+  shield: ShieldGraphic,
+}
 
 export default function MegaNav() {
   const [user, setUser] = useState<{ email?: string } | null>(null)
@@ -236,8 +392,12 @@ export default function MegaNav() {
       {/* ── Desktop mega dropdown ── */}
       {section && (
         <div className="mega-dropdown" onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }}>
+          {/* Background graphic */}
+          {section.graphic && GRAPHICS[section.graphic] && GRAPHICS[section.graphic]()}
+
           <div className="mega-dropdown-inner">
             <div className="mega-dropdown-columns">
+              {/* Link columns */}
               {section.columns.map((col) => (
                 <div key={col.title} className="mega-dropdown-col">
                   <span className="mega-dropdown-col-title">{col.title}</span>
@@ -264,25 +424,37 @@ export default function MegaNav() {
                 </div>
               ))}
 
-              {/* Service logos strip (only for Product menu) */}
-              {section.services && (
+              {/* Right panel: services + stat */}
+              {section.serviceIds && (
                 <div className="mega-dropdown-services">
-                  <span className="mega-dropdown-col-title">26 Connected Services</span>
+                  {/* Stat badge */}
+                  {section.stat && (
+                    <div className="mega-dropdown-stat">
+                      <span className="mega-dropdown-stat-value">{section.stat.value}</span>
+                      <span className="mega-dropdown-stat-label">{section.stat.label}</span>
+                    </div>
+                  )}
+
+                  <span className="mega-dropdown-col-title">
+                    {section.services ? '48 Connected Services' : 'Featured'}
+                  </span>
                   <div className="mega-dropdown-logo-grid">
-                    {TOP_SERVICES.map((s) => (
+                    {getServicesByIds(section.serviceIds).map((s) => (
                       <div key={s.id} className="mega-dropdown-service" title={s.name}>
-                        <ServiceIcon id={s.id} size={20} />
+                        <ServiceIcon id={s.id} size={18} />
                         <span>{s.name}</span>
                       </div>
                     ))}
-                    <Link
-                      href="/turn-it-on"
-                      className="mega-dropdown-service mega-dropdown-service-more no-underline"
-                      onClick={() => setOpenMenu(null)}
-                    >
-                      <span className="mega-dropdown-more-count">+14</span>
-                      <span>more</span>
-                    </Link>
+                    {section.services && (
+                      <Link
+                        href="/turn-it-on"
+                        className="mega-dropdown-service mega-dropdown-service-more no-underline"
+                        onClick={() => setOpenMenu(null)}
+                      >
+                        <span className="mega-dropdown-more-count">+{48 - (section.serviceIds?.length || 0)}</span>
+                        <span>more</span>
+                      </Link>
+                    )}
                   </div>
                 </div>
               )}
@@ -313,8 +485,8 @@ export default function MegaNav() {
             </div>
           ))}
           <div className="mega-mobile-ctas">
-            <Link href="/demo" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
-              Interactive Demo
+            <Link href="/console" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+              Open Console
             </Link>
             {user ? (
               <Link href="/account" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>

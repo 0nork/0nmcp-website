@@ -3016,12 +3016,13 @@ a:hover {
 
 /* ── Mega dropdown ── */
 .mega-dropdown {
+  position: relative;
   margin-top: 0.25rem;
   width: 100%;
   max-width: 72rem;
   border: 1px solid var(--border);
   border-radius: 1rem;
-  background: rgba(10, 10, 15, 0.95);
+  background: rgba(10, 10, 15, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   animation: megaDropIn 0.2s ease-out;
@@ -3033,8 +3034,50 @@ a:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Background panel graphics */
+.mega-panel-graphic {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
 .mega-dropdown-inner {
+  position: relative;
+  z-index: 1;
   padding: 1.5rem 2rem;
+}
+
+/* Stat badge in service panel */
+.mega-dropdown-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mega-dropdown-stat-value {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary, #00d4ff));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.mega-dropdown-stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
 }
 
 .mega-dropdown-columns {
@@ -3117,6 +3160,19 @@ a:hover {
   border-left: 1px solid var(--border);
   padding-left: 2rem;
   min-width: 280px;
+  position: relative;
+}
+
+/* Subtle gradient accent on left border */
+.mega-dropdown-services::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  opacity: 0.4;
 }
 
 .mega-dropdown-logo-grid {

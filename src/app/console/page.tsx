@@ -29,6 +29,8 @@ import { CreateView } from '@/components/console/CreateView'
 import BuilderApp from '@/components/builder/BuilderApp'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
 import { LearnView } from '@/components/console/LearnView'
+import { AccountView } from '@/components/console/AccountView'
+import { ConvertView } from '@/components/console/ConvertView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
 import { PinnedCommands } from '@/components/console/PinnedCommands'
 import dynamic from 'next/dynamic'
@@ -52,7 +54,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn' | 'code'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'community' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn' | 'code' | 'account' | 'convert'
 
 interface McpHealth {
   version?: string
@@ -341,6 +343,12 @@ export default function ConsolePage() {
           break
         case '/code':
           setView('code')
+          break
+        case '/account':
+          setView('account')
+          break
+        case '/convert':
+          setView('convert')
           break
         case '/history':
           setView('history')
@@ -753,6 +761,25 @@ export default function ConsolePage() {
           {visitedViews.has('history') && (
             <div style={{ display: view === 'history' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <HistoryOverlay history={fullHistory} onClear={historyHook.clear} />
+            </div>
+          )}
+
+          {/* Account */}
+          {visitedViews.has('account') && (
+            <div style={{ display: view === 'account' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <AccountView />
+            </div>
+          )}
+
+          {/* Convert */}
+          {visitedViews.has('convert') && (
+            <div style={{ display: view === 'convert' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <ConvertView
+                onOpenInBuilder={(data) => {
+                  localStorage.setItem('0nmcp-builder-import', JSON.stringify(data))
+                  setView('builder')
+                }}
+              />
             </div>
           )}
         </main>

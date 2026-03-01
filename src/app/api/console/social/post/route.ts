@@ -1,137 +1,122 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 
-// ─── Types ───────────────────────────────────────────────────────
+export const dynamic = 'force-dynamic'
 
-interface SocialPost {
-  id: string
-  content: string
-  platforms: string[]
-  hashtags: string[]
-  status: 'posted' | 'failed' | 'scheduled' | 'pending'
-  createdAt: string
-  results?: { platform: string; success: boolean; url?: string }[]
-}
-
-// ─── In-Memory Store (mock) ──────────────────────────────────────
-// In production this would be backed by Supabase or another database.
-
-const posts: SocialPost[] = [
-  {
-    id: '1',
-    content: 'Just shipped 0nMCP v2.0 with the patent-pending 0nVault Container System. 819 tools across 48 services. Stop building workflows. Start describing outcomes.',
-    platforms: ['linkedin', 'reddit'],
-    hashtags: ['0nMCP', 'AI', 'MCP', 'automation', 'orchestration'],
-    status: 'posted',
-    createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-    results: [
-      { platform: 'linkedin', success: true, url: 'https://linkedin.com/posts/example-1' },
-      { platform: 'reddit', success: true, url: 'https://reddit.com/r/MCP/comments/example-1' },
-    ],
-  },
-  {
-    id: '2',
-    content: 'The 0n Standard (.0n files) is now open source. A universal config format for AI workflow orchestration. Check it out on npm: 0n-spec',
-    platforms: ['dev_to', 'x_twitter'],
-    hashtags: ['opensource', 'developer', 'workflow', 'config'],
-    status: 'posted',
-    createdAt: new Date(Date.now() - 3600000 * 24).toISOString(),
-    results: [
-      { platform: 'dev_to', success: true, url: 'https://dev.to/0nork/0n-standard' },
-      { platform: 'x_twitter', success: true, url: 'https://x.com/0nork/status/example-2' },
-    ],
-  },
-  {
-    id: '3',
-    content: 'Working on multi-party escrow for the 0nVault — X25519 ECDH key exchange with per-layer access matrices. The future of secure AI credential management.',
-    platforms: ['linkedin'],
-    hashtags: ['security', 'encryption', 'vault', 'AI'],
-    status: 'failed',
-    createdAt: new Date(Date.now() - 3600000 * 48).toISOString(),
-    results: [
-      { platform: 'linkedin', success: false },
-    ],
-  },
-]
-
-// ─── GET: Return recent posts ────────────────────────────────────
-
+/**
+ * GET /api/console/social/post
+ * Returns recent social posts for the authenticated user from Supabase.
+ */
 export async function GET() {
-  return NextResponse.json({ posts })
+  const supabase = await createSupabaseServer()
+  if (!supabase) {
+    return NextResponse.json({ posts: [] })
+  }
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return NextResponse.json({ posts: [] })
+  }
+
+  const { data: posts } = await supabase
+    .from('social_posts')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(50)
+
+  // Map to expected client format
+  const mapped = (posts || []).map((p) => ({
+    id: p.id,
+    content: p.content,
+    platforms: p.platforms || [],
+    hashtags: p.hashtags || [],
+    status: p.status,
+    createdAt: p.created_at,
+    results: p.results || [],
+  }))
+
+  return NextResponse.json({ posts: mapped })
 }
 
-// ─── POST: Create and distribute a post ──────────────────────────
-
+/**
+ * POST /api/console/social/post
+ * Create a new social post and persist it to Supabase.
+ */
 export async function POST(request: NextRequest) {
+  const supabase = await createSupabaseServer()
+  if (!supabase) {
+    return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
+  }
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  let body: { content?: string; platforms?: string[]; hashtags?: string[] }
   try {
-    const body = await request.json()
-    const { content, platforms, hashtags } = body as {
-      content?: string
-      platforms?: string[]
-      hashtags?: string[]
-    }
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+  }
 
-    if (!content || typeof content !== 'string' || !content.trim()) {
-      return NextResponse.json(
-        { error: 'Content is required' },
-        { status: 400 }
-      )
-    }
+  const { content, platforms, hashtags } = body
 
-    if (!platforms || !Array.isArray(platforms) || platforms.length === 0) {
-      return NextResponse.json(
-        { error: 'At least one platform is required' },
-        { status: 400 }
-      )
-    }
+  if (!content || typeof content !== 'string' || !content.trim()) {
+    return NextResponse.json({ error: 'Content is required' }, { status: 400 })
+  }
+  if (!platforms || !Array.isArray(platforms) || platforms.length === 0) {
+    return NextResponse.json({ error: 'At least one platform is required' }, { status: 400 })
+  }
 
-    const safeHashtags = Array.isArray(hashtags) ? hashtags : []
+  const safeHashtags = Array.isArray(hashtags) ? hashtags : []
 
-    // Build the full post body with hashtags appended
-    const fullContent =
-      content.trim() +
-      (safeHashtags.length > 0
-        ? '\n\n' + safeHashtags.map((t: string) => `#${t}`).join(' ')
-        : '')
+  // Build full content with hashtags
+  const fullContent =
+    content.trim() +
+    (safeHashtags.length > 0
+      ? '\n\n' + safeHashtags.map((t: string) => `#${t}`).join(' ')
+      : '')
 
-    // Mock posting to each platform
-    // In production, this would call real platform APIs via the poster lib
-    const results = platforms.map((platform: string) => {
-      // Simulate success for connected platforms, failure for unconnected ones
-      const connectedPlatforms = ['linkedin', 'reddit', 'dev_to']
-      const success = connectedPlatforms.includes(platform)
+  // Build results per platform (actual posting will happen via cron/content pipeline)
+  const results = platforms.map((platform: string) => ({
+    platform,
+    success: true,
+    queued: true,
+  }))
 
-      return {
-        platform,
-        success,
-        url: success
-          ? `https://${platform === 'dev_to' ? 'dev.to' : platform === 'x_twitter' ? 'x.com' : `${platform}.com`}/0nork/post-${Date.now()}`
-          : undefined,
-      }
-    })
-
-    // Store the post
-    const newPost: SocialPost = {
-      id: Date.now().toString(),
+  // Persist to Supabase
+  const { data: post, error } = await supabase
+    .from('social_posts')
+    .insert({
+      user_id: user.id,
       content: fullContent,
       platforms,
       hashtags: safeHashtags,
-      status: results.every((r) => r.success) ? 'posted' : results.some((r) => r.success) ? 'posted' : 'failed',
-      createdAt: new Date().toISOString(),
+      status: 'pending',
       results,
-    }
+    })
+    .select()
+    .single()
 
-    posts.unshift(newPost)
-
-    // Keep only last 100 posts in memory
-    if (posts.length > 100) {
-      posts.length = 100
-    }
-
-    return NextResponse.json({ success: true, results })
-  } catch (err) {
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Internal server error' },
-      { status: 500 }
-    )
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  // Also queue each platform into content_queue for the poster pipeline
+  const queueInserts = platforms.map((platform: string) => ({
+    user_id: user.id,
+    platform,
+    content_type: 'social_post',
+    title: null,
+    body: fullContent,
+    metadata: { hashtags: safeHashtags, source: 'console', social_post_id: post.id },
+    status: 'approved',
+    generated_by: 'user',
+  }))
+
+  await supabase.from('content_queue').insert(queueInserts)
+
+  return NextResponse.json({ success: true, results })
 }

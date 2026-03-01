@@ -11,6 +11,14 @@
     {
       "path": "/api/cron/linkedin-posts",
       "schedule": "0 */4 * * *"
+    },
+    {
+      "path": "/api/cron/content-generate",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/social-post",
+      "schedule": "30 */2 * * *"
     }
   ],
   "redirects": [

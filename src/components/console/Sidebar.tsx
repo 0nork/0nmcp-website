@@ -21,6 +21,8 @@ import {
   ChevronRight,
   PanelLeftClose,
   Code2,
+  RefreshCw,
+  UserCircle,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
@@ -51,8 +53,10 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard }[] 
   { key: 'learn', label: 'Learn', icon: GraduationCap },
   { key: 'store', label: 'Store', icon: ShoppingBag },
   { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
+  { key: 'convert', label: 'Convert', icon: RefreshCw },
   { key: 'request', label: 'Request', icon: PlusCircle },
   { key: 'history', label: 'History', icon: History },
+  { key: 'account', label: 'Account', icon: UserCircle },
 ]
 
 const TRANSITION = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'

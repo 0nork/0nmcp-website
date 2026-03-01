@@ -1,0 +1,117 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "New Lead Full Stack",
+    "description": "Complete new lead pipeline: creates a Stripe customer, generates an AI welcome message, sends Slack and Discord notifications, and delivers a SendGrid onboarding email. 3 phases, 5 parallel actions."
+  },
+  "trigger": {
+    "type": "event",
+    "config": {
+      "event": "contact_created",
+      "description": "Triggers when a new contact/lead is created in your CRM"
+    }
+  },
+  "inputs": {
+    "contact": {
+      "type": "object",
+      "description": "The new contact data from CRM",
+      "required": true,
+      "properties": {
+        "email": { "type": "string", "required": true },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "industry": { "type": "string" }
+      }
+    }
+  },
+  "launch_codes": {
+    "STRIPE_SECRET_KEY": {
+      "label": "Stripe Secret Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk_live_..."
+    },
+    "OPENAI_API_KEY": {
+      "label": "OpenAI API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "SLACK_WEBHOOK_URL": {
+      "label": "Slack Webhook URL",
+      "type": "string",
+      "required": true,
+      "placeholder": "https://hooks.slack.com/..."
+    },
+    "DISCORD_WEBHOOK_URL": {
+      "label": "Discord Webhook URL",
+      "type": "string",
+      "required": true,
+      "placeholder": "https://discord.com/api/webhooks/..."
+    },
+    "SENDGRID_API_KEY": {
+      "label": "SendGrid API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "SG...."
+    }
+  },
+  "steps": [
+    {
+      "id": "create_customer",
+      "service": "stripe",
+      "action": "Create Stripe customer for new lead",
+      "params": {
+        "email": "{{inputs.contact.email}}",
+        "name": "{{inputs.contact.name}}",
+        "metadata": {
+          "source": "0nmcp_new_lead_pipeline"
+        }
+      },
+      "description": "Phase 1 — Setup: Creates a Stripe customer record for billing readiness."
+    },
+    {
+      "id": "ai_welcome",
+      "service": "openai",
+      "action": "Generate personalized welcome message",
+      "params": {
+        "model": "gpt-4o",
+        "prompt": "Write a warm, professional welcome message for {{inputs.contact.firstName}} who just signed up. Keep it under 200 words. Be enthusiastic but not cheesy."
+      },
+      "description": "Phase 2 — Notify: AI generates a personalized welcome message."
+    },
+    {
+      "id": "slack_notify",
+      "service": "slack",
+      "action": "Send new lead notification to team Slack channel",
+      "params": {
+        "text": "🚀 New lead: {{inputs.contact.name}} ({{inputs.contact.email}})"
+      },
+      "description": "Phase 2 — Notify: Alerts team via Slack."
+    },
+    {
+      "id": "discord_notify",
+      "service": "discord",
+      "action": "Send new lead notification to Discord",
+      "params": {
+        "content": "🚀 New lead: {{inputs.contact.name}} ({{inputs.contact.email}})"
+      },
+      "description": "Phase 2 — Notify: Alerts team via Discord."
+    },
+    {
+      "id": "welcome_email",
+      "service": "sendgrid",
+      "action": "Send welcome email to new lead",
+      "params": {
+        "to": "{{inputs.contact.email}}",
+        "subject": "Welcome aboard, {{inputs.contact.firstName}}!",
+        "body": "{{step.ai_welcome.output}}"
+      },
+      "description": "Phase 3 — Email: Delivers the AI-generated welcome email via SendGrid."
+    }
+  ]
+}

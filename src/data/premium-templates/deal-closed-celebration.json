@@ -1,0 +1,162 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "Deal Closed Celebration",
+    "description": "When a deal is won — creates a Stripe invoice for the closed amount, logs a detailed record to Notion and Airtable, and sends a celebratory team announcement to Slack. Full close-to-cash documentation in one shot."
+  },
+  "trigger": {
+    "type": "event",
+    "config": {
+      "event": "opportunity_won",
+      "description": "Triggers when an opportunity is marked as Won in the CRM pipeline"
+    }
+  },
+  "inputs": {
+    "opportunity": {
+      "type": "object",
+      "description": "The won opportunity data from CRM",
+      "required": true,
+      "properties": {
+        "name": { "type": "string", "required": true },
+        "value": { "type": "number", "required": true },
+        "contactName": { "type": "string", "required": true },
+        "contactEmail": { "type": "string", "required": true },
+        "pipelineName": { "type": "string" },
+        "assignedTo": { "type": "string" },
+        "closedDate": { "type": "string" }
+      }
+    },
+    "notion_database_id": {
+      "type": "string",
+      "description": "Notion database ID where won deals are logged",
+      "required": true,
+      "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    "airtable_base_id": {
+      "type": "string",
+      "description": "Airtable base ID for deal logging",
+      "required": true,
+      "placeholder": "appXXXXXXXXXXXXXX"
+    },
+    "airtable_table_name": {
+      "type": "string",
+      "description": "Airtable table name for closed deals",
+      "required": true,
+      "placeholder": "Closed Deals"
+    },
+    "slack_channel": {
+      "type": "string",
+      "description": "Slack channel to post the celebration announcement",
+      "required": false,
+      "placeholder": "#wins"
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "description": "Existing Stripe customer ID for the contact (optional — invoice will use email if not provided)",
+      "required": false,
+      "placeholder": "cus_..."
+    }
+  },
+  "launch_codes": {
+    "STRIPE_SECRET_KEY": {
+      "label": "Stripe Secret Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk_live_..."
+    },
+    "NOTION_API_KEY": {
+      "label": "Notion Integration Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "secret_..."
+    },
+    "AIRTABLE_API_KEY": {
+      "label": "Airtable Personal Access Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "pat..."
+    },
+    "SLACK_WEBHOOK_URL": {
+      "label": "Slack Webhook URL",
+      "type": "string",
+      "required": true,
+      "placeholder": "https://hooks.slack.com/..."
+    }
+  },
+  "steps": [
+    {
+      "id": "create_invoice",
+      "service": "stripe",
+      "action": "Create Stripe invoice for closed deal",
+      "params": {
+        "customer": "{{inputs.stripe_customer_id}}",
+        "customer_email": "{{inputs.opportunity.contactEmail}}",
+        "description": "Invoice for {{inputs.opportunity.name}} — closed {{inputs.opportunity.closedDate}}",
+        "amount": "{{inputs.opportunity.value}}",
+        "currency": "usd",
+        "metadata": {
+          "opportunity_name": "{{inputs.opportunity.name}}",
+          "pipeline": "{{inputs.opportunity.pipelineName}}",
+          "assigned_to": "{{inputs.opportunity.assignedTo}}",
+          "source": "0nmcp_deal_closed"
+        }
+      },
+      "description": "Phase 1 — Billing: Creates a Stripe invoice for the won deal amount, ready to send to the client."
+    },
+    {
+      "id": "log_notion",
+      "service": "notion",
+      "action": "Create Notion page to log closed deal",
+      "params": {
+        "database_id": "{{inputs.notion_database_id}}",
+        "properties": {
+          "Deal Name": "{{inputs.opportunity.name}}",
+          "Contact": "{{inputs.opportunity.contactName}}",
+          "Email": "{{inputs.opportunity.contactEmail}}",
+          "Value": "{{inputs.opportunity.value}}",
+          "Pipeline": "{{inputs.opportunity.pipelineName}}",
+          "Assigned To": "{{inputs.opportunity.assignedTo}}",
+          "Closed Date": "{{inputs.opportunity.closedDate}}",
+          "Stripe Invoice": "{{step.create_invoice.output}}",
+          "Status": "Won"
+        },
+        "content": "Deal closed successfully on {{inputs.opportunity.closedDate}}. Invoice created in Stripe. Value: ${{inputs.opportunity.value}}."
+      },
+      "description": "Phase 2 — Log: Creates a permanent Notion record of the closed deal with all details and invoice reference."
+    },
+    {
+      "id": "log_airtable",
+      "service": "airtable",
+      "action": "Create Airtable record for closed deal",
+      "params": {
+        "base_id": "{{inputs.airtable_base_id}}",
+        "table_name": "{{inputs.airtable_table_name}}",
+        "fields": {
+          "Deal Name": "{{inputs.opportunity.name}}",
+          "Contact Name": "{{inputs.opportunity.contactName}}",
+          "Contact Email": "{{inputs.opportunity.contactEmail}}",
+          "Deal Value": "{{inputs.opportunity.value}}",
+          "Pipeline": "{{inputs.opportunity.pipelineName}}",
+          "Assigned To": "{{inputs.opportunity.assignedTo}}",
+          "Closed Date": "{{inputs.opportunity.closedDate}}",
+          "Stripe Invoice ID": "{{step.create_invoice.output}}",
+          "Status": "Won",
+          "Logged By": "0nMCP Automation"
+        }
+      },
+      "description": "Phase 2 — Log: Appends the closed deal to your Airtable revenue tracker for reporting and forecasting."
+    },
+    {
+      "id": "announce_slack",
+      "service": "slack",
+      "action": "Send deal closed celebration to Slack channel",
+      "params": {
+        "channel": "{{inputs.slack_channel}}",
+        "text": "🏆 DEAL CLOSED! 🏆\n\n*{{inputs.opportunity.name}}* just crossed the finish line!\n\n• 👤 Contact: {{inputs.opportunity.contactName}}\n• 💰 Value: ${{inputs.opportunity.value}}\n• 🗓 Closed: {{inputs.opportunity.closedDate}}\n• 📋 Pipeline: {{inputs.opportunity.pipelineName}}\n• 🙋 Closed by: {{inputs.opportunity.assignedTo}}\n\nInvoice created in Stripe. Full details logged to Notion + Airtable. Let's gooo! 🚀"
+      },
+      "description": "Phase 3 — Celebrate: Posts a team celebration message to Slack with full deal details. Morale boost included."
+    }
+  ]
+}

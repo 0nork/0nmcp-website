@@ -1,0 +1,134 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "AI Lead Scorer",
+    "description": "AI scores every new lead 1-100 based on profile data, job title, industry, company size, and source quality. High-value leads (score 70+) get instantly routed to the sales team via Slack. Every lead score is permanently logged to Airtable for pipeline analytics and conversion tracking."
+  },
+  "trigger": {
+    "type": "event",
+    "config": {
+      "event": "contact_created",
+      "description": "Triggers when a new contact is created in the CRM"
+    }
+  },
+  "inputs": {
+    "contact": {
+      "type": "object",
+      "description": "The new contact data from CRM",
+      "required": true,
+      "properties": {
+        "id": { "type": "string", "required": true },
+        "email": { "type": "string", "required": true },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "companyName": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "industry": { "type": "string" },
+        "source": { "type": "string" },
+        "tags": { "type": "array" },
+        "customFields": { "type": "object" }
+      }
+    },
+    "ideal_customer_profile": {
+      "type": "string",
+      "description": "Brief description of your ideal customer (used in AI scoring prompt)",
+      "required": true,
+      "placeholder": "B2B SaaS companies with 10-500 employees, decision-makers in marketing or operations, annual revenue $1M+, based in the US or Canada"
+    },
+    "high_score_threshold": {
+      "type": "number",
+      "description": "Lead score threshold (0-100) above which leads are routed to team as high-priority",
+      "required": false,
+      "placeholder": "70"
+    },
+    "slack_channel": {
+      "type": "string",
+      "description": "Slack channel to route high-value leads to",
+      "required": false,
+      "placeholder": "#hot-leads"
+    },
+    "airtable_base_id": {
+      "type": "string",
+      "description": "Airtable base ID for lead score logging",
+      "required": true,
+      "placeholder": "appXXXXXXXXXXXXXX"
+    },
+    "airtable_table_name": {
+      "type": "string",
+      "description": "Airtable table name for lead scores",
+      "required": true,
+      "placeholder": "Lead Scores"
+    }
+  },
+  "launch_codes": {
+    "OPENAI_API_KEY": {
+      "label": "OpenAI API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "SLACK_WEBHOOK_URL": {
+      "label": "Slack Webhook URL",
+      "type": "string",
+      "required": true,
+      "placeholder": "https://hooks.slack.com/..."
+    },
+    "AIRTABLE_API_KEY": {
+      "label": "Airtable Personal Access Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "pat..."
+    }
+  },
+  "steps": [
+    {
+      "id": "score_lead",
+      "service": "openai",
+      "action": "Score lead quality with AI analysis",
+      "params": {
+        "model": "gpt-4o",
+        "prompt": "You are an expert B2B lead qualification specialist. Score the following lead from 0 to 100 based on fit with the ideal customer profile.\n\nIDEAL CUSTOMER PROFILE:\n{{inputs.ideal_customer_profile}}\n\nLEAD DATA:\n- Name: {{inputs.contact.name}}\n- Email: {{inputs.contact.email}}\n- Company: {{inputs.contact.companyName}}\n- Job Title: {{inputs.contact.jobTitle}}\n- Industry: {{inputs.contact.industry}}\n- Lead Source: {{inputs.contact.source}}\n- Tags: {{inputs.contact.tags}}\n\nSCORING CRITERIA (100 points total):\n- ICP match on company size/industry (0-30 pts)\n- Job title authority / decision-maker status (0-25 pts)\n- Lead source quality (organic, referral = high; cold scrape = low) (0-20 pts)\n- Email domain quality (business email vs generic) (0-15 pts)\n- Data completeness (phone, company filled in) (0-10 pts)\n\nRespond ONLY in this exact JSON format:\n{\n  \"score\": <number 0-100>,\n  \"tier\": \"<Hot|Warm|Cold>\",\n  \"summary\": \"<2-3 sentence explanation of score>\",\n  \"top_signals\": [\"<signal 1>\", \"<signal 2>\", \"<signal 3>\"],\n  \"recommended_action\": \"<specific next step for sales team>\"\n}"
+      },
+      "description": "Phase 1 — Score: AI analyzes the lead against your ICP criteria and returns a structured score (0-100), tier classification, key signals, and recommended action."
+    },
+    {
+      "id": "route_team",
+      "service": "slack",
+      "action": "Route high-value lead to sales team on Slack",
+      "params": {
+        "channel": "{{inputs.slack_channel}}",
+        "text": "🔥 HIGH-VALUE LEAD ALERT 🔥\n\n*{{inputs.contact.name}}* just came in with a score of *{{step.score_lead.output.score}}/100* — Tier: {{step.score_lead.output.tier}}\n\n• 🏢 Company: {{inputs.contact.companyName}}\n• 💼 Title: {{inputs.contact.jobTitle}}\n• 📧 Email: {{inputs.contact.email}}\n• 📱 Phone: {{inputs.contact.phone}}\n• 🌐 Industry: {{inputs.contact.industry}}\n• 🎯 Source: {{inputs.contact.source}}\n\n📊 *AI Analysis:*\n{{step.score_lead.output.summary}}\n\n✅ *Top Signals:*\n• {{step.score_lead.output.top_signals}}\n\n🚀 *Recommended Action:* {{step.score_lead.output.recommended_action}}\n\nScore logged to Airtable. Act fast — these leads convert best within the first hour."
+      },
+      "description": "Phase 2 — Route: If the lead scores above threshold, sends a full intelligence briefing to the sales team Slack channel with score, signals, and recommended action."
+    },
+    {
+      "id": "log_score",
+      "service": "airtable",
+      "action": "Log lead score and analysis to Airtable",
+      "params": {
+        "base_id": "{{inputs.airtable_base_id}}",
+        "table_name": "{{inputs.airtable_table_name}}",
+        "fields": {
+          "Contact Name": "{{inputs.contact.name}}",
+          "Email": "{{inputs.contact.email}}",
+          "Company": "{{inputs.contact.companyName}}",
+          "Job Title": "{{inputs.contact.jobTitle}}",
+          "Industry": "{{inputs.contact.industry}}",
+          "Lead Source": "{{inputs.contact.source}}",
+          "AI Score": "{{step.score_lead.output.score}}",
+          "Tier": "{{step.score_lead.output.tier}}",
+          "AI Summary": "{{step.score_lead.output.summary}}",
+          "Top Signals": "{{step.score_lead.output.top_signals}}",
+          "Recommended Action": "{{step.score_lead.output.recommended_action}}",
+          "Scored At": "{{system.timestamp}}",
+          "Scored By": "0nMCP AI Lead Scorer"
+        }
+      },
+      "description": "Phase 3 — Log: Permanently records the lead score, tier, AI analysis, and all signals to Airtable for pipeline analytics and conversion rate tracking."
+    }
+  ]
+}

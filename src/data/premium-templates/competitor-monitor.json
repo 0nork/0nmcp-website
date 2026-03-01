@@ -1,0 +1,129 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "Competitor Monitor",
+    "description": "Weekly AI-powered competitive intelligence — AI analyzes your competitive landscape against defined rivals, generates a structured strategic report and publishes it to Notion, then sends a distilled intelligence briefing to Slack. Run on schedule and stop flying blind."
+  },
+  "trigger": {
+    "type": "schedule",
+    "config": {
+      "event": "schedule",
+      "description": "Runs on a weekly schedule — every Monday at 8:00 AM to start the week with fresh competitive intelligence",
+      "cron": "0 8 * * 1",
+      "timezone": "America/New_York"
+    }
+  },
+  "inputs": {
+    "your_company": {
+      "type": "object",
+      "description": "Your company details for competitive context",
+      "required": true,
+      "properties": {
+        "name": { "type": "string", "required": true },
+        "product": { "type": "string", "required": true },
+        "target_market": { "type": "string" },
+        "price_point": { "type": "string" },
+        "unique_value_prop": { "type": "string" }
+      }
+    },
+    "competitors": {
+      "type": "array",
+      "description": "List of competitor names or URLs to analyze",
+      "required": true,
+      "placeholder": ["Competitor A", "Competitor B", "Competitor C"]
+    },
+    "analysis_focus": {
+      "type": "string",
+      "description": "Specific areas to focus the competitive analysis on this week",
+      "required": false,
+      "placeholder": "pricing changes, new features, marketing messaging, social media activity, customer reviews"
+    },
+    "industry_context": {
+      "type": "string",
+      "description": "Current industry trends or news to factor into the analysis",
+      "required": false,
+      "placeholder": "AI features becoming table stakes, price pressure from new entrants, enterprise segment growing"
+    },
+    "notion_database_id": {
+      "type": "string",
+      "description": "Notion database ID where weekly competitive reports are stored",
+      "required": true,
+      "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    "slack_channel": {
+      "type": "string",
+      "description": "Slack channel for the weekly intelligence briefing",
+      "required": false,
+      "placeholder": "#strategy"
+    },
+    "report_week": {
+      "type": "string",
+      "description": "Week identifier for the report (auto-populated from schedule trigger)",
+      "required": false,
+      "placeholder": "2026-W10"
+    }
+  },
+  "launch_codes": {
+    "OPENAI_API_KEY": {
+      "label": "OpenAI API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "NOTION_API_KEY": {
+      "label": "Notion Integration Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "secret_..."
+    },
+    "SLACK_WEBHOOK_URL": {
+      "label": "Slack Webhook URL",
+      "type": "string",
+      "required": true,
+      "placeholder": "https://hooks.slack.com/..."
+    }
+  },
+  "steps": [
+    {
+      "id": "analyze_competitors",
+      "service": "openai",
+      "action": "Run deep competitive intelligence analysis with AI",
+      "params": {
+        "model": "gpt-4o",
+        "prompt": "You are a senior competitive intelligence analyst. Produce a thorough weekly competitive analysis report.\n\nOUR COMPANY:\n- Name: {{inputs.your_company.name}}\n- Product: {{inputs.your_company.product}}\n- Target Market: {{inputs.your_company.target_market}}\n- Price Point: {{inputs.your_company.price_point}}\n- Unique Value Proposition: {{inputs.your_company.unique_value_prop}}\n\nCOMPETITORS TO ANALYZE:\n{{inputs.competitors}}\n\nANALYSIS FOCUS THIS WEEK:\n{{inputs.analysis_focus}}\n\nINDUSTRY CONTEXT:\n{{inputs.industry_context}}\n\nREPORT DATE: {{system.timestamp}}\n\nProduce a structured competitive intelligence report in markdown with these sections:\n\n## Executive Summary\n2-3 sentence overview of the competitive landscape this week and the single most important takeaway.\n\n## Competitor Profiles\nFor each competitor:\n### [Competitor Name]\n- **Positioning**: How they position vs. the market\n- **Pricing**: What is known or estimated\n- **Key Strengths**: Top 3 advantages\n- **Key Weaknesses**: Top 3 vulnerabilities\n- **Recent Activity**: Any known or likely recent changes (features, marketing, pricing, hires)\n- **Threat Level**: Low / Medium / High — with one sentence rationale\n\n## Competitive Gaps & Opportunities\nTop 3 opportunities our company can exploit based on competitor weaknesses.\n\n## Threats to Monitor\nTop 3 competitive threats that require our attention in the next 30 days.\n\n## Recommended Actions\nPrioritized list of 3-5 specific, actionable steps the team should take this week based on this analysis.\n\n## Market Signals\nBroader industry trends or emerging signals that could shift the competitive landscape in the next 90 days.\n\nBe analytical and specific. Avoid vague generalities. When making estimates, label them clearly as 'estimated' or 'likely'."
+      },
+      "description": "Phase 1 — Analyze: GPT-4o runs a structured deep-dive competitive analysis across all specified competitors, producing a full strategic report with threat levels, gaps, and recommended actions."
+    },
+    {
+      "id": "create_report",
+      "service": "notion",
+      "action": "Publish competitive intelligence report to Notion",
+      "params": {
+        "database_id": "{{inputs.notion_database_id}}",
+        "properties": {
+          "Report Title": "Competitive Intelligence Report — {{inputs.report_week}}",
+          "Week": "{{inputs.report_week}}",
+          "Companies Analyzed": "{{inputs.competitors}}",
+          "Analysis Focus": "{{inputs.analysis_focus}}",
+          "Generated By": "0nMCP Competitor Monitor",
+          "Date": "{{system.timestamp}}",
+          "Status": "Published"
+        },
+        "content": "{{step.analyze_competitors.output}}"
+      },
+      "description": "Phase 2 — Document: Publishes the full AI-generated competitive intelligence report to your Notion database — structured, searchable, and linked to previous weeks for trend tracking."
+    },
+    {
+      "id": "alert_team",
+      "service": "slack",
+      "action": "Send weekly competitive intelligence briefing to Slack",
+      "params": {
+        "channel": "{{inputs.slack_channel}}",
+        "text": "🕵️ Weekly Competitive Intelligence Briefing\n\n*Week: {{inputs.report_week}}* | Competitors analyzed: {{inputs.competitors}}\n\n📋 Full report published to Notion — link in report database.\n\n---\n\n*AI Analysis Summary:*\n{{step.analyze_competitors.output}}\n\n---\nGenerated by 0nMCP Competitor Monitor. Runs every Monday at 8AM ET."
+      },
+      "description": "Phase 3 — Brief: Sends a distilled intelligence briefing to the strategy Slack channel so the team starts every week with competitive context — without having to go look for it."
+    }
+  ]
+}

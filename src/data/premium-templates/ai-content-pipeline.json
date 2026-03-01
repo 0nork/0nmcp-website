@@ -1,0 +1,163 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "AI Content Pipeline",
+    "description": "Tag-triggered content machine — AI writes a full blog post and generates a matching header image, publishes both to Notion, notifies your team via Slack, then sends a promotional email blast via SendGrid. From tag to published in seconds."
+  },
+  "trigger": {
+    "type": "event",
+    "config": {
+      "event": "tag_added",
+      "description": "Triggers when a specific tag (e.g. 'generate-content') is added to a contact or record in the CRM",
+      "tag": "generate-content"
+    }
+  },
+  "inputs": {
+    "contact": {
+      "type": "object",
+      "description": "The contact or record that received the tag",
+      "required": true,
+      "properties": {
+        "email": { "type": "string", "required": true },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "name": { "type": "string" },
+        "industry": { "type": "string" }
+      }
+    },
+    "content_topic": {
+      "type": "string",
+      "description": "The blog post topic or title to write about",
+      "required": true,
+      "placeholder": "10 Ways AI is Transforming Small Business Automation"
+    },
+    "content_tone": {
+      "type": "string",
+      "description": "Writing tone for the blog post",
+      "required": false,
+      "placeholder": "professional, conversational, authoritative"
+    },
+    "target_audience": {
+      "type": "string",
+      "description": "The target reader for the blog post",
+      "required": false,
+      "placeholder": "small business owners, marketing managers"
+    },
+    "notion_database_id": {
+      "type": "string",
+      "description": "Notion database ID where blog posts are published",
+      "required": true,
+      "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    "slack_channel": {
+      "type": "string",
+      "description": "Slack channel for content publication notifications",
+      "required": false,
+      "placeholder": "#content-team"
+    },
+    "promo_email_subject": {
+      "type": "string",
+      "description": "Email subject line for the promotional SendGrid blast",
+      "required": false,
+      "placeholder": "New article just dropped — check it out"
+    },
+    "promo_email_list": {
+      "type": "string",
+      "description": "SendGrid list ID or email address to send the promo to",
+      "required": true,
+      "placeholder": "newsletter-subscribers@yourdomain.com"
+    }
+  },
+  "launch_codes": {
+    "OPENAI_API_KEY": {
+      "label": "OpenAI API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "NOTION_API_KEY": {
+      "label": "Notion Integration Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "secret_..."
+    },
+    "SLACK_WEBHOOK_URL": {
+      "label": "Slack Webhook URL",
+      "type": "string",
+      "required": true,
+      "placeholder": "https://hooks.slack.com/..."
+    },
+    "SENDGRID_API_KEY": {
+      "label": "SendGrid API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "SG...."
+    }
+  },
+  "steps": [
+    {
+      "id": "generate_blog",
+      "service": "openai",
+      "action": "Generate full blog post with AI",
+      "params": {
+        "model": "gpt-4o",
+        "prompt": "Write a complete, SEO-optimized blog post on the topic: '{{inputs.content_topic}}'. Target audience: {{inputs.target_audience}}. Tone: {{inputs.content_tone}}. Structure the post with: 1) A compelling headline, 2) An engaging introduction (100 words), 3) 5-7 detailed sections with subheadings, 4) Real-world examples and actionable takeaways in each section, 5) A strong conclusion with a call-to-action. Aim for 1,200-1,500 words. Format in clean markdown. Do not include meta descriptions or SEO notes — just the post content."
+      },
+      "description": "Phase 1 — Create: AI generates a full-length, SEO-ready blog post on the specified topic with structured sections and actionable content."
+    },
+    {
+      "id": "generate_image",
+      "service": "openai",
+      "action": "Generate blog post header image with DALL-E",
+      "params": {
+        "model": "dall-e-3",
+        "prompt": "Create a modern, professional blog post header image for an article titled '{{inputs.content_topic}}'. Style: clean, minimal, tech-forward. Use abstract geometric shapes, subtle gradients, and a professional color palette of deep navy, electric blue, and white. No text. 16:9 aspect ratio. High quality.",
+        "size": "1792x1024",
+        "quality": "hd"
+      },
+      "description": "Phase 1 — Create: DALL-E 3 generates a high-quality, professional header image matched to the blog topic."
+    },
+    {
+      "id": "publish_notion",
+      "service": "notion",
+      "action": "Publish blog post and image to Notion database",
+      "params": {
+        "database_id": "{{inputs.notion_database_id}}",
+        "properties": {
+          "Title": "{{inputs.content_topic}}",
+          "Status": "Published",
+          "Audience": "{{inputs.target_audience}}",
+          "Tone": "{{inputs.content_tone}}",
+          "Author": "0nMCP AI Engine",
+          "Published Date": "{{system.timestamp}}"
+        },
+        "content": "{{step.generate_blog.output}}",
+        "cover_image_url": "{{step.generate_image.output}}"
+      },
+      "description": "Phase 2 — Publish: Creates a formatted Notion page with the blog body content and header image attached as cover."
+    },
+    {
+      "id": "notify_slack",
+      "service": "slack",
+      "action": "Notify content team of new published article",
+      "params": {
+        "channel": "{{inputs.slack_channel}}",
+        "text": "✍️ New article published!\n\n*{{inputs.content_topic}}*\n\n• 🎯 Audience: {{inputs.target_audience}}\n• 🎨 Header image: Generated by DALL-E 3\n• 📝 Logged in Notion content database\n• 📧 Promotional email queued for {{inputs.promo_email_list}}\n\nGenerated by 0nMCP AI Content Pipeline. Review and approve before external distribution."
+      },
+      "description": "Phase 3 — Notify: Alerts the content team in Slack that a new article has been published and is ready for review."
+    },
+    {
+      "id": "send_promo_email",
+      "service": "sendgrid",
+      "action": "Send promotional email blast announcing new content",
+      "params": {
+        "to": "{{inputs.promo_email_list}}",
+        "subject": "{{inputs.promo_email_subject}}",
+        "body": "We just published a new article you'll want to read.\n\n{{inputs.content_topic}}\n\nIn this post, we cover everything you need to know — with real examples, actionable steps, and insights you can apply immediately.\n\n{{step.generate_blog.output}}\n\n---\nSent automatically by 0nMCP Content Pipeline."
+      },
+      "description": "Phase 3 — Promote: Delivers a promotional email to your subscriber list announcing the new article, body-seeded with the AI content."
+    }
+  ]
+}

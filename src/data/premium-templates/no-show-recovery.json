@@ -1,0 +1,169 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "No-Show Recovery",
+    "description": "Automated no-show recovery — AI generates an empathetic, non-confrontational rescheduling message when an appointment is missed. Delivers via SMS (Twilio) first for speed, then email (SendGrid) for formality, then notifies the team (Slack) so no-shows never fall through the cracks."
+  },
+  "trigger": {
+    "type": "event",
+    "config": {
+      "event": "appointment_status",
+      "description": "Triggers when an appointment status is updated to 'no-show' in the CRM calendar",
+      "status": "no_show"
+    }
+  },
+  "inputs": {
+    "appointment": {
+      "type": "object",
+      "description": "The no-show appointment data from CRM",
+      "required": true,
+      "properties": {
+        "id": { "type": "string", "required": true },
+        "title": { "type": "string" },
+        "startTime": { "type": "string", "required": true },
+        "endTime": { "type": "string" },
+        "calendarName": { "type": "string" },
+        "assignedUser": { "type": "string" }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "description": "The contact who no-showed",
+      "required": true,
+      "properties": {
+        "email": { "type": "string", "required": true },
+        "phone": { "type": "string", "required": true },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "name": { "type": "string" }
+      }
+    },
+    "business_name": {
+      "type": "string",
+      "description": "Your business name",
+      "required": true,
+      "placeholder": "Acme Consulting"
+    },
+    "booking_link": {
+      "type": "string",
+      "description": "Direct link for the contact to reschedule",
+      "required": true,
+      "placeholder": "https://calendly.com/your-link"
+    },
+    "appointment_type": {
+      "type": "string",
+      "description": "Type of appointment that was missed (used for context in the message)",
+      "required": false,
+      "placeholder": "discovery call, strategy session, consultation"
+    },
+    "from_email": {
+      "type": "string",
+      "description": "Sender email for the recovery email",
+      "required": true,
+      "placeholder": "team@acmeconsulting.com"
+    },
+    "from_name": {
+      "type": "string",
+      "description": "Sender name for the recovery email",
+      "required": true,
+      "placeholder": "Acme Consulting Team"
+    },
+    "slack_channel": {
+      "type": "string",
+      "description": "Slack channel to alert the team about the no-show",
+      "required": false,
+      "placeholder": "#appointments"
+    }
+  },
+  "launch_codes": {
+    "OPENAI_API_KEY": {
+      "label": "OpenAI API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "label": "Twilio Account SID",
+      "type": "string",
+      "required": true,
+      "placeholder": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "TWILIO_AUTH_TOKEN": {
+      "label": "Twilio Auth Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "your_auth_token"
+    },
+    "TWILIO_FROM_NUMBER": {
+      "label": "Twilio From Phone Number",
+      "type": "string",
+      "required": true,
+      "placeholder": "+15551234567"
+    },
+    "SENDGRID_API_KEY": {
+      "label": "SendGrid API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "SG...."
+    },
+    "SLACK_WEBHOOK_URL": {
+      "label": "Slack Webhook URL",
+      "type": "string",
+      "required": true,
+      "placeholder": "https://hooks.slack.com/..."
+    }
+  },
+  "steps": [
+    {
+      "id": "generate_message",
+      "service": "openai",
+      "action": "Generate empathetic no-show recovery message with AI",
+      "params": {
+        "model": "gpt-4o",
+        "prompt": "You are an expert in customer recovery communication. Write a no-show recovery message that is empathetic, professional, and makes rescheduling as easy as possible.\n\nSituation:\n- Customer name: {{inputs.contact.firstName}}\n- Business: {{inputs.business_name}}\n- Missed appointment type: {{inputs.appointment_type}}\n- Scheduled for: {{inputs.appointment.startTime}}\n- Calendar: {{inputs.appointment.calendarName}}\n- Booking link: {{inputs.booking_link}}\n\nGUIDELINES:\n- DO NOT guilt-trip or make them feel bad — life happens\n- Assume positive intent (they forgot, something came up)\n- Keep the door wide open — make it easy to come back\n- One clear next action: click the link to reschedule\n- Tone: warm, understanding, low-pressure\n- Do NOT say 'no-show' or 'you missed' anywhere\n\nWrite TWO versions:\n\n1. EMAIL VERSION (plain text, 120-160 words):\nFirst line = subject line prefixed with 'SUBJECT:'\nBlank line, then email body. End with the booking link as its own line.\n\n2. SMS VERSION (under 160 characters):\nCasual, empathetic, first name only, ends with booking link.\n\nSeparate with the exact marker: ---SMS---\n\nNo extra commentary or labels beyond what is specified."
+      },
+      "description": "Phase 1 — Craft: AI generates an empathetic, non-confrontational recovery message in both email and SMS formats — human-sounding, not automated-feeling."
+    },
+    {
+      "id": "send_sms",
+      "service": "twilio",
+      "action": "Send no-show recovery SMS via Twilio",
+      "params": {
+        "to": "{{inputs.contact.phone}}",
+        "from": "{{launch_codes.TWILIO_FROM_NUMBER}}",
+        "body": "{{step.generate_message.output}}"
+      },
+      "description": "Phase 2 — SMS First: Delivers the recovery SMS immediately via Twilio — SMS gets seen within 3 minutes on average, maximizing reschedule rate."
+    },
+    {
+      "id": "send_email",
+      "service": "sendgrid",
+      "action": "Send no-show recovery email via SendGrid",
+      "params": {
+        "to": "{{inputs.contact.email}}",
+        "from": "{{inputs.from_email}}",
+        "from_name": "{{inputs.from_name}}",
+        "subject": "We missed you, {{inputs.contact.firstName}} — let's find another time",
+        "body": "{{step.generate_message.output}}",
+        "tracking_settings": {
+          "click_tracking": true,
+          "open_tracking": true
+        },
+        "categories": ["no-show-recovery", "appointments"]
+      },
+      "description": "Phase 2 — Email: Sends the longer-form email version via SendGrid with tracking — covers contacts who prefer email over text."
+    },
+    {
+      "id": "notify_team",
+      "service": "slack",
+      "action": "Alert team about no-show appointment via Slack",
+      "params": {
+        "channel": "{{inputs.slack_channel}}",
+        "text": "📅 No-Show Alert\n\n*{{inputs.contact.name}}* missed their {{inputs.appointment_type}} scheduled for {{inputs.appointment.startTime}}\n\n• 📧 Email: {{inputs.contact.email}}\n• 📱 Phone: {{inputs.contact.phone}}\n• 🗓 Calendar: {{inputs.appointment.calendarName}}\n• 👤 Assigned to: {{inputs.appointment.assignedUser}}\n\nRecovery sequence triggered automatically:\n• SMS sent via Twilio\n• Email sent via SendGrid\n• Reschedule link included: {{inputs.booking_link}}\n\nIf they don't respond within 24 hours, consider a manual follow-up call."
+      },
+      "description": "Phase 3 — Notify: Alerts the team in Slack with full no-show details and confirmation that the automated recovery sequence fired — so nothing slips through."
+    }
+  ]
+}

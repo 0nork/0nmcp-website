@@ -1,0 +1,169 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "Abandoned Cart Recovery",
+    "description": "AI-powered abandoned cart recovery — fetches the exact cart from Shopify, generates a personalized recovery message using the customer's name and specific abandoned items, then deploys via both email (SendGrid) and SMS (Twilio) for maximum reach. Turns abandoned carts into recovered revenue."
+  },
+  "trigger": {
+    "type": "webhook",
+    "config": {
+      "event": "custom_webhook",
+      "description": "Triggers via webhook when a cart is abandoned in Shopify (configure in Shopify > Settings > Notifications > Webhooks: checkouts/create or use Shopify abandoned checkout webhook)"
+    }
+  },
+  "inputs": {
+    "cart": {
+      "type": "object",
+      "description": "Abandoned cart data from Shopify webhook payload",
+      "required": true,
+      "properties": {
+        "id": { "type": "string", "required": true },
+        "token": { "type": "string" },
+        "email": { "type": "string", "required": true },
+        "phone": { "type": "string" },
+        "customer": {
+          "type": "object",
+          "properties": {
+            "first_name": { "type": "string" },
+            "last_name": { "type": "string" },
+            "orders_count": { "type": "number" }
+          }
+        },
+        "total_price": { "type": "string" },
+        "currency": { "type": "string" },
+        "abandoned_checkout_url": { "type": "string" },
+        "line_items": { "type": "array" }
+      }
+    },
+    "store_name": {
+      "type": "string",
+      "description": "Your Shopify store name (used in message personalization)",
+      "required": true,
+      "placeholder": "Acme Store"
+    },
+    "discount_code": {
+      "type": "string",
+      "description": "Optional discount code to include in recovery message (leave empty to omit)",
+      "required": false,
+      "placeholder": "COMEBACK10"
+    },
+    "discount_amount": {
+      "type": "string",
+      "description": "Discount amount/percentage to mention if discount code is provided",
+      "required": false,
+      "placeholder": "10%"
+    },
+    "from_email": {
+      "type": "string",
+      "description": "Sender email address for the recovery email",
+      "required": true,
+      "placeholder": "hello@yourstorehere.com"
+    },
+    "from_name": {
+      "type": "string",
+      "description": "Sender name for the recovery email",
+      "required": true,
+      "placeholder": "Acme Store Team"
+    }
+  },
+  "launch_codes": {
+    "SHOPIFY_ACCESS_TOKEN": {
+      "label": "Shopify Admin API Access Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "shpat_..."
+    },
+    "SHOPIFY_STORE_DOMAIN": {
+      "label": "Shopify Store Domain",
+      "type": "string",
+      "required": true,
+      "placeholder": "your-store.myshopify.com"
+    },
+    "OPENAI_API_KEY": {
+      "label": "OpenAI API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "SENDGRID_API_KEY": {
+      "label": "SendGrid API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "SG...."
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "label": "Twilio Account SID",
+      "type": "string",
+      "required": true,
+      "placeholder": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "TWILIO_AUTH_TOKEN": {
+      "label": "Twilio Auth Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "your_auth_token"
+    },
+    "TWILIO_FROM_NUMBER": {
+      "label": "Twilio From Phone Number",
+      "type": "string",
+      "required": true,
+      "placeholder": "+15551234567"
+    }
+  },
+  "steps": [
+    {
+      "id": "get_cart",
+      "service": "shopify",
+      "action": "Fetch abandoned cart details from Shopify",
+      "params": {
+        "cart_token": "{{inputs.cart.token}}",
+        "checkout_id": "{{inputs.cart.id}}",
+        "include_line_items": true,
+        "include_customer": true
+      },
+      "description": "Phase 1 — Fetch: Retrieves the full abandoned cart record from Shopify including all line items, quantities, prices, and customer details."
+    },
+    {
+      "id": "generate_recovery",
+      "service": "openai",
+      "action": "Generate personalized cart recovery message with AI",
+      "params": {
+        "model": "gpt-4o",
+        "prompt": "Write a personalized abandoned cart recovery message for an e-commerce customer. Details:\n\n- Customer first name: {{inputs.cart.customer.first_name}}\n- Store name: {{inputs.store_name}}\n- Cart total: ${{inputs.cart.total_price}} {{inputs.cart.currency}}\n- Abandoned cart URL: {{inputs.cart.abandoned_checkout_url}}\n- Discount code available: {{inputs.discount_code}}\n- Discount amount: {{inputs.discount_amount}}\n- Cart items: {{step.get_cart.output}}\n- Returning customer (orders > 0): {{inputs.cart.customer.orders_count}}\n\nWrite TWO versions:\n1. EMAIL BODY (HTML-formatted, 150-200 words): Warm, friendly, mention the specific items left behind, create urgency without being pushy. If discount code provided, feature it prominently with a clear CTA button placeholder. Subject line on first line prefixed 'SUBJECT:'.\n2. SMS VERSION (under 160 characters): Casual, direct, include the checkout URL and discount code if available.\n\nSeparate them with the marker: ---SMS---"
+      },
+      "description": "Phase 2 — Personalize: AI generates a conversion-optimized recovery message referencing the customer's actual abandoned items and cart total. Both email and SMS versions."
+    },
+    {
+      "id": "send_email",
+      "service": "sendgrid",
+      "action": "Send personalized cart recovery email via SendGrid",
+      "params": {
+        "to": "{{inputs.cart.email}}",
+        "from": "{{inputs.from_email}}",
+        "from_name": "{{inputs.from_name}}",
+        "subject": "You left something behind, {{inputs.cart.customer.first_name}}",
+        "body": "{{step.generate_recovery.output}}",
+        "tracking_settings": {
+          "click_tracking": true,
+          "open_tracking": true
+        },
+        "categories": ["abandoned-cart", "recovery"]
+      },
+      "description": "Phase 3 — Recover: Delivers the AI-generated personalized recovery email through SendGrid with click and open tracking enabled."
+    },
+    {
+      "id": "send_sms",
+      "service": "twilio",
+      "action": "Send cart recovery SMS via Twilio",
+      "params": {
+        "to": "{{inputs.cart.phone}}",
+        "from": "{{launch_codes.TWILIO_FROM_NUMBER}}",
+        "body": "{{step.generate_recovery.output}}",
+        "status_callback": "https://0nmcp.com/api/webhooks/twilio"
+      },
+      "description": "Phase 3 — Recover: Sends the short-form AI-generated recovery SMS via Twilio to the customer's mobile number for immediate impact."
+    }
+  ]
+}

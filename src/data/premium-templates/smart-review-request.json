@@ -1,0 +1,141 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "workflow",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "Smart Review Request",
+    "description": "AI generates a personalized, non-generic review request message based on the service delivered and the customer's history. Delivers via both email (SendGrid) and SMS (Twilio) simultaneously — maximizing the chance of getting that 5-star review."
+  },
+  "trigger": {
+    "type": "event",
+    "config": {
+      "event": "tag_added",
+      "description": "Triggers when the 'request-review' tag is added to a contact in the CRM after a successful job or service delivery",
+      "tag": "request-review"
+    }
+  },
+  "inputs": {
+    "contact": {
+      "type": "object",
+      "description": "The contact who received the service",
+      "required": true,
+      "properties": {
+        "email": { "type": "string", "required": true },
+        "phone": { "type": "string", "required": true },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "name": { "type": "string" },
+        "companyName": { "type": "string" }
+      }
+    },
+    "service_delivered": {
+      "type": "string",
+      "description": "Brief description of the service or job that was just completed",
+      "required": true,
+      "placeholder": "Hardscape patio installation, 800 sq ft, completed ahead of schedule"
+    },
+    "business_name": {
+      "type": "string",
+      "description": "Your business name",
+      "required": true,
+      "placeholder": "Wallwork Hardscape"
+    },
+    "review_platform": {
+      "type": "string",
+      "description": "Where you want the review (Google, Yelp, Facebook, etc.)",
+      "required": true,
+      "placeholder": "Google"
+    },
+    "review_link": {
+      "type": "string",
+      "description": "Direct URL to your review page",
+      "required": true,
+      "placeholder": "https://g.page/r/your-review-link"
+    },
+    "from_email": {
+      "type": "string",
+      "description": "Sender email address for the review request",
+      "required": true,
+      "placeholder": "mike@wallworkhardscape.com"
+    },
+    "from_name": {
+      "type": "string",
+      "description": "Sender name for the review request email",
+      "required": true,
+      "placeholder": "Mike at Wallwork Hardscape"
+    }
+  },
+  "launch_codes": {
+    "OPENAI_API_KEY": {
+      "label": "OpenAI API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "SENDGRID_API_KEY": {
+      "label": "SendGrid API Key",
+      "type": "string",
+      "required": true,
+      "placeholder": "SG...."
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "label": "Twilio Account SID",
+      "type": "string",
+      "required": true,
+      "placeholder": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "TWILIO_AUTH_TOKEN": {
+      "label": "Twilio Auth Token",
+      "type": "string",
+      "required": true,
+      "placeholder": "your_auth_token"
+    },
+    "TWILIO_FROM_NUMBER": {
+      "label": "Twilio From Phone Number",
+      "type": "string",
+      "required": true,
+      "placeholder": "+15551234567"
+    }
+  },
+  "steps": [
+    {
+      "id": "generate_request",
+      "service": "openai",
+      "action": "Generate personalized review request messages with AI",
+      "params": {
+        "model": "gpt-4o",
+        "prompt": "You are a reputation management expert who writes genuine, personalized review requests that get results — not generic copy-paste templates.\n\nWrite a personalized review request for this customer:\n\n- Customer name: {{inputs.contact.firstName}}\n- Business name: {{inputs.business_name}}\n- Service completed: {{inputs.service_delivered}}\n- Review platform: {{inputs.review_platform}}\n- Review link: {{inputs.review_link}}\n\nGUIDELINES:\n- Reference the specific service delivered — make it clear this is not automated\n- Be warm, grateful, and human — not salesy\n- One clear ask, one link — no confusion\n- Do NOT use the word 'review' more than twice (feels spammy)\n- Do NOT say 'if you have a moment' or 'whenever you get a chance' — be direct\n\nWrite TWO versions:\n\n1. EMAIL VERSION (plain text, 100-150 words):\nFirst line = subject line prefixed with 'SUBJECT:'\nThen a blank line, then the email body.\n\n2. SMS VERSION (under 155 characters, no emojis):\nCasual, direct, includes first name, business name, and the review link.\n\nSeparate with the exact marker: ---SMS---\n\nDo not add any other labels, headers, or commentary."
+      },
+      "description": "Phase 1 — Personalize: AI crafts a genuine, specific review request referencing the exact service delivered — not a generic template. Outputs both email and SMS versions."
+    },
+    {
+      "id": "send_email",
+      "service": "sendgrid",
+      "action": "Send personalized review request email via SendGrid",
+      "params": {
+        "to": "{{inputs.contact.email}}",
+        "from": "{{inputs.from_email}}",
+        "from_name": "{{inputs.from_name}}",
+        "subject": "Quick question about your {{inputs.business_name}} experience",
+        "body": "{{step.generate_request.output}}",
+        "tracking_settings": {
+          "click_tracking": true,
+          "open_tracking": true
+        },
+        "categories": ["review-request", "reputation"]
+      },
+      "description": "Phase 2 — Deliver: Sends the AI-personalized review request email via SendGrid to the customer's inbox with engagement tracking."
+    },
+    {
+      "id": "send_sms",
+      "service": "twilio",
+      "action": "Send review request SMS via Twilio",
+      "params": {
+        "to": "{{inputs.contact.phone}}",
+        "from": "{{launch_codes.TWILIO_FROM_NUMBER}}",
+        "body": "{{step.generate_request.output}}"
+      },
+      "description": "Phase 2 — Deliver: Simultaneously sends the SMS version of the review request via Twilio — hitting both inbox and text for maximum response rate."
+    }
+  ]
+}

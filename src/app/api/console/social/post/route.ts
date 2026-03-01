@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { submitPost as redditPost, pickSubreddit } from '@/lib/platforms/reddit'
-import { createArticle as devtoArticle } from '@/lib/platforms/devto'
-import {
-  createSocialPost,
-  resolveAccountIds,
-  CRM_PLATFORMS,
-} from '@/lib/crm-social'
+import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
 
+function getAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
+
 /**
  * GET /api/console/social/post
- * Returns recent social posts for the authenticated user from Supabase.
+ * Returns recent social posts for the authenticated user.
  */
 export async function GET() {
   const supabase = await createSupabaseServer()
@@ -48,9 +49,8 @@ export async function GET() {
 
 /**
  * POST /api/console/social/post
- * Create a social post — routes through CRM Social API for native platforms
- * (LinkedIn, Facebook, Instagram, Twitter/X, Google) and direct adapters
- * for Reddit and Dev.to.
+ * Create a social post using the user's own connected accounts.
+ * Each platform uses the user's stored OAuth token or API key.
  */
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
@@ -88,96 +88,194 @@ export async function POST(request: NextRequest) {
       ? '\n\n' + safeHashtags.map((t: string) => `#${t}`).join(' ')
       : '')
 
+  const admin = getAdmin()
   const results: { platform: string; success: boolean; url?: string; error?: string }[] = []
 
-  // ── CRM-native platforms (LinkedIn, Facebook, Instagram, Twitter/X, Google) ──
-  const crmPlatforms = platforms.filter((p) => CRM_PLATFORMS.has(p))
-  if (crmPlatforms.length > 0) {
+  // ── LinkedIn — uses linkedin_members table ──
+  if (platforms.includes('linkedin')) {
     try {
-      // Resolve platform IDs → CRM account IDs
-      const accountMap = await resolveAccountIds(crmPlatforms)
+      const { data: member } = await admin
+        .from('linkedin_members')
+        .select('id, linkedin_id, linkedin_access_token, token_expires_at')
+        .eq('user_id', user.id)
+        .maybeSingle()
 
-      // Collect all account IDs for a single CRM post (multi-platform)
-      const allAccountIds: string[] = []
-      const mappedPlatforms: string[] = []
-      const unmappedPlatforms: string[] = []
+      if (!member?.linkedin_access_token) {
+        results.push({ platform: 'linkedin', success: false, error: 'LinkedIn not connected. Click Connect to link your account.' })
+      } else if (member.token_expires_at && new Date(member.token_expires_at) < new Date()) {
+        results.push({ platform: 'linkedin', success: false, error: 'LinkedIn token expired. Reconnect your account.' })
+      } else {
+        // Post using user's own access token
+        const res = await fetch('https://api.linkedin.com/v2/ugcPosts', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${member.linkedin_access_token}`,
+            'Content-Type': 'application/json',
+            'X-Restli-Protocol-Version': '2.0.0',
+          },
+          body: JSON.stringify({
+            author: `urn:li:person:${member.linkedin_id}`,
+            lifecycleState: 'PUBLISHED',
+            specificContent: {
+              'com.linkedin.ugc.ShareContent': {
+                shareCommentary: { text: fullContent },
+                shareMediaCategory: 'NONE',
+              },
+            },
+            visibility: {
+              'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC',
+            },
+          }),
+        })
 
-      for (const plat of crmPlatforms) {
-        const ids = accountMap.get(plat)
-        if (ids && ids.length > 0) {
-          allAccountIds.push(...ids)
-          mappedPlatforms.push(plat)
+        if (res.ok) {
+          const data = await res.json()
+          const postId = data.id || ''
+          const postUrl = `https://www.linkedin.com/feed/update/${postId}`
+          results.push({ platform: 'linkedin', success: true, url: postUrl })
+
+          // Update last_used_at
+          await admin
+            .from('linkedin_members')
+            .update({ updated_at: new Date().toISOString() })
+            .eq('id', member.id)
         } else {
-          unmappedPlatforms.push(plat)
+          const err = await res.text()
+          results.push({ platform: 'linkedin', success: false, error: `LinkedIn API: ${res.status}` })
+          console.error('LinkedIn post failed:', err)
         }
-      }
-
-      // Post to all connected CRM accounts in one call
-      if (allAccountIds.length > 0) {
-        const crmResult = await createSocialPost({
-          accountIds: allAccountIds,
-          content: fullContent,
-          tags: safeHashtags.length > 0 ? safeHashtags : undefined,
-        })
-
-        for (const plat of mappedPlatforms) {
-          results.push({
-            platform: plat,
-            success: crmResult.success,
-            url: crmResult.postId ? undefined : undefined,
-            error: crmResult.error,
-          })
-        }
-      }
-
-      // Report unmapped platforms as not connected
-      for (const plat of unmappedPlatforms) {
-        results.push({
-          platform: plat,
-          success: false,
-          error: `No ${plat} account connected in CRM. Connect it in the CRM Social Planner.`,
-        })
-      }
-    } catch (err) {
-      // If CRM call fails, report all CRM platforms as failed
-      for (const plat of crmPlatforms) {
-        results.push({
-          platform: plat,
-          success: false,
-          error: err instanceof Error ? err.message : 'CRM social posting failed',
-        })
-      }
-    }
-  }
-
-  // ── Direct-adapter platforms (Reddit, Dev.to) ──
-  const directPlatforms = platforms.filter((p) => !CRM_PLATFORMS.has(p))
-  for (const platform of directPlatforms) {
-    try {
-      switch (platform) {
-        case 'reddit': {
-          const title = fullContent.split('\n')[0].slice(0, 120)
-          const subreddit = pickSubreddit()
-          const rr = await redditPost(subreddit, title, fullContent)
-          results.push({ platform, success: rr.success, url: rr.url, error: rr.error })
-          break
-        }
-        case 'dev_to': {
-          const title = fullContent.split('\n')[0].slice(0, 120) || '0nMCP Update'
-          const tags = safeHashtags.slice(0, 4)
-          const dr = await devtoArticle(title, fullContent, tags.length > 0 ? tags : undefined)
-          results.push({ platform, success: dr.success, url: dr.url, error: dr.error })
-          break
-        }
-        default:
-          results.push({ platform, success: false, error: `${platform} posting not supported` })
       }
     } catch (err) {
       results.push({
-        platform,
+        platform: 'linkedin',
         success: false,
-        error: err instanceof Error ? err.message : 'Posting failed',
+        error: err instanceof Error ? err.message : 'LinkedIn posting failed',
       })
+    }
+  }
+
+  // ── Reddit — uses social_connections table ──
+  if (platforms.includes('reddit')) {
+    try {
+      const { data: conn } = await admin
+        .from('social_connections')
+        .select('access_token, refresh_token, token_expires_at, platform_username, platform_metadata')
+        .eq('user_id', user.id)
+        .eq('platform', 'reddit')
+        .eq('is_connected', true)
+        .maybeSingle()
+
+      if (!conn?.access_token) {
+        results.push({ platform: 'reddit', success: false, error: 'Reddit not connected. Click Connect to link your account.' })
+      } else {
+        // Pick subreddit from user's metadata or default
+        const subreddits = (conn.platform_metadata as { subreddits?: string[] })?.subreddits || ['ClaudeAI', 'LocalLLaMA', 'selfhosted']
+        const subreddit = subreddits[Math.floor(Math.random() * subreddits.length)]
+        const title = fullContent.split('\n')[0].slice(0, 120)
+
+        const res = await fetch('https://oauth.reddit.com/api/submit', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${conn.access_token}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': '0nMCP/1.0',
+          },
+          body: new URLSearchParams({
+            sr: subreddit,
+            kind: 'self',
+            title,
+            text: fullContent,
+            resubmit: 'true',
+          }),
+        })
+
+        if (res.ok) {
+          const data = await res.json()
+          const postUrl = data?.json?.data?.url || null
+          results.push({ platform: 'reddit', success: true, url: postUrl || undefined })
+
+          await admin
+            .from('social_connections')
+            .update({ last_used_at: new Date().toISOString() })
+            .eq('user_id', user.id)
+            .eq('platform', 'reddit')
+        } else {
+          const err = await res.text()
+          results.push({ platform: 'reddit', success: false, error: `Reddit API: ${res.status}` })
+          console.error('Reddit post failed:', err)
+        }
+      }
+    } catch (err) {
+      results.push({
+        platform: 'reddit',
+        success: false,
+        error: err instanceof Error ? err.message : 'Reddit posting failed',
+      })
+    }
+  }
+
+  // ── Dev.to — uses social_connections table (API key) ──
+  if (platforms.includes('dev_to')) {
+    try {
+      const { data: conn } = await admin
+        .from('social_connections')
+        .select('access_token, platform_username')
+        .eq('user_id', user.id)
+        .eq('platform', 'dev_to')
+        .eq('is_connected', true)
+        .maybeSingle()
+
+      if (!conn?.access_token) {
+        results.push({ platform: 'dev_to', success: false, error: 'Dev.to not connected. Add your API key to connect.' })
+      } else {
+        const title = fullContent.split('\n')[0].slice(0, 120) || '0nMCP Update'
+        const tags = safeHashtags.slice(0, 4)
+
+        const res = await fetch('https://dev.to/api/articles', {
+          method: 'POST',
+          headers: {
+            'api-key': conn.access_token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            article: {
+              title,
+              body_markdown: fullContent,
+              published: false, // Draft first
+              series: '0nMCP',
+              ...(tags.length > 0 ? { tags } : {}),
+            },
+          }),
+        })
+
+        if (res.ok) {
+          const data = await res.json()
+          results.push({ platform: 'dev_to', success: true, url: data.url || undefined })
+
+          await admin
+            .from('social_connections')
+            .update({ last_used_at: new Date().toISOString() })
+            .eq('user_id', user.id)
+            .eq('platform', 'dev_to')
+        } else {
+          const err = await res.text()
+          results.push({ platform: 'dev_to', success: false, error: `Dev.to API: ${res.status}` })
+          console.error('Dev.to post failed:', err)
+        }
+      }
+    } catch (err) {
+      results.push({
+        platform: 'dev_to',
+        success: false,
+        error: err instanceof Error ? err.message : 'Dev.to posting failed',
+      })
+    }
+  }
+
+  // ── Coming soon platforms ──
+  for (const platform of platforms) {
+    if (!['linkedin', 'reddit', 'dev_to'].includes(platform)) {
+      results.push({ platform, success: false, error: `${platform} posting coming soon` })
     }
   }
 

@@ -166,7 +166,7 @@ export default function HeroSection() {
           {[
             { target: 819, suffix: '', label: 'Tools' },
             { target: 48, suffix: '', label: 'Services' },
-            { target: 80, suffix: '+', label: 'Automations' },
+            { target: 1078, suffix: '', label: 'Capabilities' },
             { target: 21, suffix: '', label: 'Categories' },
           ].map((stat) => (
             <div key={stat.label} className="hero-stat">

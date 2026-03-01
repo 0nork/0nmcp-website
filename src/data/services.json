@@ -2,13 +2,19 @@
   "meta": {
     "version": "4.0.0",
     "generated": "2026-02-28",
-    "source": "0nMCP v2.2.0 catalog.js + crm/ + vault/ + engine/",
-    "total_services": 55,
-    "total_tools": 704,
-    "catalog_services": 48,
+    "source": "0nMCP v2.2.0 catalog.js + crm/ + vault/ + engine/ + deed/",
+    "total_services": 48,
+    "total_tools": 819,
+    "catalog_tools": 545,
     "crm_module_tools": 245,
-    "logic_primitives": 7,
-    "schema": "0n-services-v3"
+    "vault_tools": 4,
+    "vault_container_tools": 8,
+    "deed_tools": 6,
+    "engine_tools": 6,
+    "app_tools": 5,
+    "total_capabilities": 1078,
+    "categories": 21,
+    "schema": "0n-services-v4"
   },
   "categories": [
     {

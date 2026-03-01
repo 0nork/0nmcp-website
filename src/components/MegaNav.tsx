@@ -65,18 +65,19 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
     label: 'Products',
     columns: [
       {
-        title: '0n Suite',
+        title: '0n Platform',
         links: [
-          { label: '0nMCP', href: '/', desc: 'Universal AI API Orchestrator', badge: 'Core' },
-          { label: '0nork Mini', href: '/store/onork-mini', desc: 'Embeddable AI widget' },
-          { label: 'Social0n', href: '/products/social0n', desc: 'Social media automation' },
-          { label: 'App0n', href: '/products/app0n', desc: 'Mobile app builder' },
-          { label: 'Web0n', href: '/products/web0n', desc: 'Website generation' },
+          { label: '0nMCP', href: '/', desc: '819 tools, 48 services — the core orchestrator', badge: 'Core' },
+          { label: '0nVault', href: '/security/vault', desc: 'AES-256 encrypted credential storage', badge: 'Patent Pending' },
+          { label: '0n Engine', href: '/turn-it-on', desc: 'AI Brain import, export & verify' },
+          { label: 'Digital Deed', href: '/security/transfer', desc: 'Business asset transfer system', accent: true },
+          { label: 'App Builder', href: '/console', desc: 'Operations, routes, middleware & scheduler' },
         ],
       },
       {
         title: 'Ecosystem',
         links: [
+          { label: '0nork Mini', href: '/store/onork-mini', desc: 'Embeddable AI widget' },
           { label: 'Partners', href: '/partners', desc: 'Partner products & integrations' },
           { label: 'MCPFED', href: 'https://mcpfed.com', desc: 'AI Automation Marketplace', external: true },
           { label: 'Marketplace', href: 'https://marketplace.rocketclients.com', desc: 'Pay-per-execution platform', external: true },
@@ -92,16 +93,17 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
         title: '0nVault',
         links: [
           { label: 'Security Overview', href: '/security', desc: 'Encrypted AI orchestration' },
-          { label: 'Vault Container', href: '/security/vault', desc: '.0nv binary container format' },
+          { label: 'Vault Container', href: '/security/vault', desc: '.0nv binary container format', badge: 'Patent Pending' },
           { label: '7 Semantic Layers', href: '/security/layers', desc: 'Independent encryption per layer' },
           { label: 'Multi-Party Escrow', href: '/security/escrow', desc: 'X25519 ECDH key agreement' },
         ],
       },
       {
-        title: 'Verification',
+        title: 'Transfer & Verification',
         links: [
+          { label: 'Digital Deed', href: '/security/transfer', desc: 'Business asset transfer & chain of custody', accent: true },
           { label: 'Seal of Truth', href: '/security/seal-of-truth', desc: 'SHA3-256 integrity verification' },
-          { label: 'Secure Transfer', href: '/security/transfer', desc: 'Replay prevention & chain of custody' },
+          { label: 'Secure Transfer', href: '/security/transfer', desc: 'Replay prevention & audit trail' },
           { label: 'Patent-Pending', href: '/security/patent', desc: 'US Application #63/990,046', badge: 'Patent Pending' },
         ],
       },

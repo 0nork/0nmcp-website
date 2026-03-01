@@ -493,6 +493,11 @@ export const ALL_SERVICES = [
   { id: 'azure', name: 'Azure', category: 'Cloud', color: '#0089D6' },
   { id: 'zapier', name: 'Zapier', category: 'Automation', color: '#FF4A00' },
   { id: 'mulesoft', name: 'MuleSoft', category: 'Automation', color: '#00A0DF' },
+  { id: 'vault', name: '0nVault', category: '0n Platform', color: '#00ff88' },
+  { id: 'vault-container', name: 'Vault Container', category: '0n Platform', color: '#00d4ff' },
+  { id: 'deed', name: 'Digital Deed', category: '0n Platform', color: '#a78bfa' },
+  { id: 'engine', name: '0n Engine', category: '0n Platform', color: '#ff6b35' },
+  { id: 'app-builder', name: 'App Builder', category: '0n Platform', color: '#00ff88' },
 ]
 
 /* ── Convenience component ── */

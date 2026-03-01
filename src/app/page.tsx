@@ -7,7 +7,7 @@ import DemoPreview from '@/components/DemoPreview'
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator | 819 Tools, 48 Services',
   description:
-    '0nMCP is the universal AI API orchestrator. 819 tools across 48 services, 80+ pre-built automations, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+    '0nMCP is the universal AI API orchestrator. 819 tools across 48 services, 1,078 capabilities, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
   keywords: [
     '0nMCP',
     'MCP',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '819 tools across 48 services. 80+ pre-built automations. One install. Stop building workflows. Start describing outcomes.',
+      '819 tools across 48 services. 1,078 capabilities. One install. Stop building workflows. Start describing outcomes.',
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '819 tools across 48 services. 80+ pre-built automations. One install. The universal AI API orchestrator.',
+      '819 tools across 48 services. 1,078 capabilities. One install. The universal AI API orchestrator.',
   },
   alternates: { canonical: 'https://0nmcp.com' },
 }
@@ -74,7 +74,7 @@ const faqItems = [
   },
   {
     q: 'How do I combine multiple MCP servers?',
-    a: "Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 48 services out of the box and provides 80+ pre-built automations that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.",
+    a: "Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 48 services out of the box and provides 1,078 capabilities that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.",
   },
   {
     q: 'Can MCP servers work together automatically?',
@@ -94,7 +94,7 @@ const faqItems = [
   },
   {
     q: 'Is 0nMCP free?',
-    a: '0nMCP is free and open source under the MIT license. All 819 tools, 48 services, and 80+ pre-built automations are available for unlimited local use via the CLI with no credit card required. The 0nMCP Console offers a free tier with 25 executions per month, a Pro plan at $19/month for unlimited executions and the visual workflow builder, and a Team plan at $49/month with 5 seats and shared workflows.',
+    a: '0nMCP is free and open source under the MIT license. All 819 tools, 48 services, and 1,078 capabilities are available for unlimited local use via the CLI with no credit card required. The 0nMCP Console offers a free tier with 25 executions per month, a Pro plan at $19/month for unlimited executions and the visual workflow builder, and a Team plan at $49/month with 5 seats and shared workflows.',
   },
 ]
 
@@ -150,7 +150,7 @@ export default function HomePage() {
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Cross-platform',
     description:
-      'Universal AI API orchestrator with 819 tools across 48 services and 80+ pre-built automations. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+      'Universal AI API orchestrator with 819 tools across 48 services and 1,078 capabilities. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
     url: 'https://0nmcp.com',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
     softwareVersion: '2.2.0',
@@ -264,6 +264,8 @@ export default function HomePage() {
               { before: 'No workflow persistence or state tracking', after: 'Full execution logging, state, and audit trail' },
               { before: 'Different config format per client', after: 'Universal .0n config — write once, run everywhere' },
               { before: 'No parallel execution across services', after: 'Radial Burst parallel execution across services' },
+              { before: 'Credentials in plain text .env files', after: 'AES-256 encrypted Vault with hardware fingerprinting' },
+              { before: 'No way to transfer business digital assets', after: 'Digital Deed Transfer with chain of custody tracking' },
               { before: 'Workflows stuck on one machine', after: 'Export, share, and sell portable workflow packages' },
             ].map((row) => (
               <div key={row.before} className="float-card">
@@ -294,12 +296,12 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { title: 'AES-256 Encrypted Vault', desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk.', color: '#00ff88' },
-                { title: 'HMAC-Signed .0n Files', desc: 'Every workflow file is signed on export. Tampered or unauthorized files are rejected on import.', color: '#00d4ff' },
-                { title: 'MIT Licensed & Open Source', desc: 'Fully auditable code. No vendor lock-in. Inspect every line of the orchestrator yourself.', color: '#a78bfa' },
-                { title: 'Patent-Pending Architecture', desc: 'Three-Level Execution Hierarchy is patent-pending. Pipeline, Assembly Line, and Radial Burst.', color: '#ff6b35' },
-                { title: 'Zero Trust by Default', desc: 'Machine-bound encryption with hardware fingerprinting. Credentials cannot be extracted from your vault.', color: '#00d4ff' },
-                { title: 'Free Forever', desc: 'All 48 services, all 80+ automations, unlimited local use. No credit card. No trial period.', color: '#00ff88' },
+                { title: 'AES-256 Encrypted Vault', desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk. Hardware-bound fingerprinting.', color: '#00ff88' },
+                { title: '0nVault Container System', desc: '7 semantic layers with independent encryption. Multi-party escrow via X25519 ECDH. Patent-pending binary .0nv format.', color: '#00d4ff' },
+                { title: 'Digital Deed Transfer', desc: 'Package entire business digital assets into a single encrypted container. Chain of custody tracking with Seal of Truth verification.', color: '#a78bfa' },
+                { title: 'Patent-Pending Architecture', desc: 'Three-Level Execution + Vault Container System. Two US provisional patents protecting the core technology.', color: '#ff6b35' },
+                { title: 'Seal of Truth Verification', desc: 'SHA3-256 content-addressed integrity. Ed25519 digital signatures. Transfer registry with replay prevention.', color: '#00d4ff' },
+                { title: 'Free & Open Source', desc: 'MIT licensed. All 819 tools, 48 services, unlimited local use. No credit card. No trial period. Fully auditable.', color: '#00ff88' },
               ].map((item) => (
                 <div key={item.title} className="float-card">
                   <div className="w-2 h-2 rounded-full mb-3" style={{ backgroundColor: item.color }} />
@@ -507,7 +509,7 @@ export default function HomePage() {
               </div>
               <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>Open source, unlimited local use</p>
               <ul className="flex flex-col gap-2.5 list-none mb-6">
-                {['All 819 tools', '48 services', '80+ automations', 'MIT licensed', 'CLI + MCP interface', 'Community support'].map((f) => (
+                {['All 819 tools', '48 services', '1,078 capabilities', 'MIT licensed', 'CLI + MCP interface', 'Community support'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">+</span>{f}
                   </li>

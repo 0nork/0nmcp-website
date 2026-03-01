@@ -24,7 +24,7 @@ import { OperationsView } from '@/components/console/OperationsView'
 import { SocialView } from '@/components/console/SocialView'
 import { ReportingView } from '@/components/console/ReportingView'
 import MigrateView from '@/components/console/MigrateView'
-import WizardShell from '@/components/console/wizard/WizardShell'
+import { CreateView } from '@/components/console/CreateView'
 import BuilderApp from '@/components/builder/BuilderApp'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
 import { LearnView } from '@/components/console/LearnView'
@@ -477,56 +477,12 @@ export default function ConsolePage() {
       case 'flows':
         return (
           <div className="flex-1 min-h-0 overflow-hidden">
-            <WizardShell
-              vault={{
-                credentials: vault.credentials,
-                set: vault.set,
-                isConnected: (s: string) => connectedKeys.includes(s),
-                connectedServices: connectedKeys,
-              }}
-              historyHook={{
-                entries: historyHook.history as unknown as Array<Record<string, unknown>>,
-                add: (entry: Record<string, unknown>) => historyHook.add(
-                  (entry.type as string) || 'workflow',
-                  (entry.detail as string) || 'Workflow created'
-                ),
-              }}
-              onDownload={(workflow: Record<string, unknown>, name: string) => {
-                const blob = new Blob([JSON.stringify(workflow, null, 2)], { type: 'application/json' })
-                const url = URL.createObjectURL(blob)
-                const a = document.createElement('a')
-                a.href = url
-                a.download = `${name || 'workflow'}.0n`
-                a.click()
-                URL.revokeObjectURL(url)
-                historyHook.add('workflow', `Downloaded: ${name}`)
-              }}
+            <CreateView
               onAddToBuilder={(workflow: Record<string, unknown>) => {
                 localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
+                historyHook.add('workflow', 'Workflow created via 0n Create Agent')
                 setView('builder')
               }}
-              onAddToOperations={(
-                workflow: Record<string, unknown>,
-                name?: string,
-                trigger?: string,
-                services?: string[],
-                notifications?: string[],
-                frequency?: string | null
-              ) => {
-                operations.add({
-                  name: name || 'Untitled Workflow',
-                  description: (workflow as { description?: string }).description || '',
-                  trigger: trigger || 'manual',
-                  actions: [],
-                  services: services || [],
-                  notifications: notifications || [],
-                  frequency: frequency || null,
-                  workflowData: workflow,
-                })
-                historyHook.add('workflow', `Added to Operations: ${name}`)
-                setView('operations')
-              }}
-              setView={(v: string) => setView(v as View)}
             />
           </div>
         )

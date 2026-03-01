@@ -68,6 +68,7 @@ interface McpWorkflow {
 export default function ConsolePage() {
   // ─── View State ───────────────────────────────────────────────
   const [view, setView] = useState<View>('dashboard')
+  const [visitedViews, setVisitedViews] = useState<Set<View>>(() => new Set(['dashboard']))
   const [sidebarMode, setSidebarMode] = useState<SidebarMode>('open')
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -186,6 +187,14 @@ export default function ConsolePage() {
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
   }, [cmdPaletteOpen, vaultService])
+
+  // ─── Track visited views for persistent tab state ─────────────
+  useEffect(() => {
+    setVisitedViews(prev => {
+      if (prev.has(view)) return prev
+      return new Set(prev).add(view)
+    })
+  }, [view])
 
   // ─── Chat Handler ─────────────────────────────────────────────
   const handleChatSend = useCallback(
@@ -417,222 +426,6 @@ export default function ConsolePage() {
     []
   )
 
-  // ─── Render ───────────────────────────────────────────────────
-  const renderContent = () => {
-    switch (view) {
-      case 'dashboard':
-        return (
-          <DashboardView
-            mcpOnline={mcpOnline}
-            mcpHealth={mcpHealth}
-            connectedCount={vault.connectedCount}
-            flowCount={flowsHook.flows.length}
-            historyCount={historyHook.history.length}
-            messageCount={messages.length}
-            connectedServices={connectedKeys}
-            recentHistory={recentHistory}
-          />
-        )
-
-      case 'chat':
-        return (
-          <div className="flex-1 flex flex-col min-h-0">
-            {ideas.length > 0 && messages.length === 0 && (
-              <IdeasTicker ideas={ideas} onClick={handleIdeaClick} />
-            )}
-            <Chat messages={messages} loading={chatLoading} />
-            <ChatInput
-              onSend={handleChatSend}
-              onSlash={() => setCmdPaletteOpen(true)}
-              loading={chatLoading}
-              mcpOnline={mcpOnline}
-            />
-          </div>
-        )
-
-      case 'vault':
-        if (vaultService) {
-          return (
-            <div className="flex-1 overflow-y-auto">
-              <VaultDetail
-                service={vaultService}
-                onBack={() => setVaultService(null)}
-                vault={vault.credentials}
-                onSave={vault.set}
-              />
-            </div>
-          )
-        }
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <VaultOverlay
-              onSelect={setVaultService}
-              connectedServices={connectedKeys}
-              searchQuery={vaultSearch}
-              onSearch={setVaultSearch}
-            />
-          </div>
-        )
-
-      case 'flows':
-        return (
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <CreateView
-              onAddToBuilder={(workflow: Record<string, unknown>) => {
-                localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
-                historyHook.add('workflow', 'Workflow created via 0n Create Agent')
-                setView('builder')
-              }}
-            />
-          </div>
-        )
-
-      case 'operations':
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <OperationsView
-              operations={operations.operations}
-              onPause={operations.pause}
-              onResume={operations.resume}
-              onRun={(id: string) => {
-                operations.incrementRun(id)
-                const op = operations.getById(id)
-                if (op) {
-                  historyHook.add('workflow', `Ran operation: ${op.name}`)
-                }
-              }}
-              onDelete={operations.remove}
-              onCreateNew={() => setView('flows')}
-            />
-          </div>
-        )
-
-      case 'social':
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <SocialView />
-          </div>
-        )
-
-      case 'reporting':
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <ReportingView />
-          </div>
-        )
-
-      case 'migrate':
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <MigrateView
-              onAddToBuilder={(workflow: Record<string, unknown>) => {
-                localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
-                setView('builder')
-              }}
-              onAddToOperations={(
-                workflow: Record<string, unknown>,
-                name: string,
-                trigger: Record<string, unknown>,
-                services: string[]
-              ) => {
-                const triggerType = typeof trigger.type === 'string' ? trigger.type : 'manual'
-                operations.add({
-                  name: name || 'Migrated Workflow',
-                  description: 'Imported from external platform',
-                  trigger: triggerType,
-                  actions: [],
-                  services: services || [],
-                  notifications: [],
-                  frequency: null,
-                  workflowData: workflow,
-                })
-                historyHook.add('workflow', `Migrated workflow: ${name}`)
-                setView('operations')
-              }}
-            />
-          </div>
-        )
-
-      case 'community':
-        return (
-          <div className="flex-1 min-h-0">
-            <CommunityView />
-          </div>
-        )
-
-      case 'builder':
-        return (
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <BuilderApp />
-          </div>
-        )
-
-      case 'linkedin':
-        return (
-          <div className="flex-1 min-h-0">
-            <LinkedInView linkedin={linkedin} />
-          </div>
-        )
-
-      case 'request':
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <RequestIntegrationView />
-          </div>
-        )
-
-      case 'store':
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <StoreView
-              listings={store.listings}
-              purchasedIds={store.purchasedIds}
-              loading={store.loading}
-              onFetch={store.fetchListings}
-              onCheckout={store.checkout}
-            />
-          </div>
-        )
-
-      case 'terminal':
-        return (
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <OnTerminal
-              height="100%"
-              enableNode={true}
-              enablePython={true}
-              packages={['0nmcp']}
-              onReady={() => historyHook.add('terminal', 'Web Terminal opened')}
-            />
-          </div>
-        )
-
-      case 'learn':
-        return (
-          <div className="flex-1 min-h-0">
-            <LearnView />
-          </div>
-        )
-
-      case 'code':
-        return (
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <CodeTerminal />
-          </div>
-        )
-
-      case 'history':
-        return (
-          <div className="flex-1 overflow-y-auto">
-            <HistoryOverlay history={fullHistory} onClear={historyHook.clear} />
-          </div>
-        )
-
-      default:
-        return null
-    }
-  }
-
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
       {/* Mobile sidebar overlay */}
@@ -673,9 +466,212 @@ export default function ConsolePage() {
           onMobileMenu={() => setMobileMenuOpen((p) => !p)}
         />
 
-        {/* Content */}
+        {/* Content — visited views stay mounted for state persistence */}
         <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
-          {renderContent()}
+          {/* Dashboard */}
+          <div style={{ display: view === 'dashboard' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+            <DashboardView
+              mcpOnline={mcpOnline}
+              mcpHealth={mcpHealth}
+              connectedCount={vault.connectedCount}
+              flowCount={flowsHook.flows.length}
+              historyCount={historyHook.history.length}
+              messageCount={messages.length}
+              connectedServices={connectedKeys}
+              recentHistory={recentHistory}
+            />
+          </div>
+
+          {/* Chat */}
+          {visitedViews.has('chat') && (
+            <div style={{ display: view === 'chat' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
+              {ideas.length > 0 && messages.length === 0 && (
+                <IdeasTicker ideas={ideas} onClick={handleIdeaClick} />
+              )}
+              <Chat messages={messages} loading={chatLoading} />
+              <ChatInput
+                onSend={handleChatSend}
+                onSlash={() => setCmdPaletteOpen(true)}
+                loading={chatLoading}
+                mcpOnline={mcpOnline}
+              />
+            </div>
+          )}
+
+          {/* Vault */}
+          {visitedViews.has('vault') && (
+            <div style={{ display: view === 'vault' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              {vaultService ? (
+                <VaultDetail
+                  service={vaultService}
+                  onBack={() => setVaultService(null)}
+                  vault={vault.credentials}
+                  onSave={vault.set}
+                />
+              ) : (
+                <VaultOverlay
+                  onSelect={setVaultService}
+                  connectedServices={connectedKeys}
+                  searchQuery={vaultSearch}
+                  onSearch={setVaultSearch}
+                />
+              )}
+            </div>
+          )}
+
+          {/* Create */}
+          {visitedViews.has('flows') && (
+            <div style={{ display: view === 'flows' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
+              <CreateView
+                onAddToBuilder={(workflow: Record<string, unknown>) => {
+                  localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
+                  historyHook.add('workflow', 'Workflow created via 0n Create Agent')
+                  setView('builder')
+                }}
+              />
+            </div>
+          )}
+
+          {/* Operations */}
+          {visitedViews.has('operations') && (
+            <div style={{ display: view === 'operations' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <OperationsView
+                operations={operations.operations}
+                onPause={operations.pause}
+                onResume={operations.resume}
+                onRun={(id: string) => {
+                  operations.incrementRun(id)
+                  const op = operations.getById(id)
+                  if (op) {
+                    historyHook.add('workflow', `Ran operation: ${op.name}`)
+                  }
+                }}
+                onDelete={operations.remove}
+                onCreateNew={() => setView('flows')}
+              />
+            </div>
+          )}
+
+          {/* Social */}
+          {visitedViews.has('social') && (
+            <div style={{ display: view === 'social' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <SocialView />
+            </div>
+          )}
+
+          {/* Reporting */}
+          {visitedViews.has('reporting') && (
+            <div style={{ display: view === 'reporting' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <ReportingView />
+            </div>
+          )}
+
+          {/* Migrate */}
+          {visitedViews.has('migrate') && (
+            <div style={{ display: view === 'migrate' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <MigrateView
+                onAddToBuilder={(workflow: Record<string, unknown>) => {
+                  localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
+                  setView('builder')
+                }}
+                onAddToOperations={(
+                  workflow: Record<string, unknown>,
+                  name: string,
+                  trigger: Record<string, unknown>,
+                  services: string[]
+                ) => {
+                  const triggerType = typeof trigger.type === 'string' ? trigger.type : 'manual'
+                  operations.add({
+                    name: name || 'Migrated Workflow',
+                    description: 'Imported from external platform',
+                    trigger: triggerType,
+                    actions: [],
+                    services: services || [],
+                    notifications: [],
+                    frequency: null,
+                    workflowData: workflow,
+                  })
+                  historyHook.add('workflow', `Migrated workflow: ${name}`)
+                  setView('operations')
+                }}
+              />
+            </div>
+          )}
+
+          {/* Community */}
+          {visitedViews.has('community') && (
+            <div style={{ display: view === 'community' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
+              <CommunityView />
+            </div>
+          )}
+
+          {/* Builder */}
+          {visitedViews.has('builder') && (
+            <div style={{ display: view === 'builder' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
+              <BuilderApp />
+            </div>
+          )}
+
+          {/* LinkedIn */}
+          {visitedViews.has('linkedin') && (
+            <div style={{ display: view === 'linkedin' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
+              <LinkedInView linkedin={linkedin} />
+            </div>
+          )}
+
+          {/* Request */}
+          {visitedViews.has('request') && (
+            <div style={{ display: view === 'request' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <RequestIntegrationView />
+            </div>
+          )}
+
+          {/* Store */}
+          {visitedViews.has('store') && (
+            <div style={{ display: view === 'store' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <StoreView
+                listings={store.listings}
+                purchasedIds={store.purchasedIds}
+                loading={store.loading}
+                onFetch={store.fetchListings}
+                onCheckout={store.checkout}
+              />
+            </div>
+          )}
+
+          {/* Terminal */}
+          {visitedViews.has('terminal') && (
+            <div style={{ display: view === 'terminal' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
+              <OnTerminal
+                height="100%"
+                enableNode={true}
+                enablePython={true}
+                packages={['0nmcp']}
+                onReady={() => historyHook.add('terminal', 'Web Terminal opened')}
+              />
+            </div>
+          )}
+
+          {/* Learn */}
+          {visitedViews.has('learn') && (
+            <div style={{ display: view === 'learn' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
+              <LearnView />
+            </div>
+          )}
+
+          {/* Code */}
+          {visitedViews.has('code') && (
+            <div style={{ display: view === 'code' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
+              <CodeTerminal />
+            </div>
+          )}
+
+          {/* History */}
+          {visitedViews.has('history') && (
+            <div style={{ display: view === 'history' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <HistoryOverlay history={fullHistory} onClear={historyHook.clear} />
+            </div>
+          )}
         </main>
       </div>
 

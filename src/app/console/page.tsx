@@ -13,14 +13,13 @@ import { VaultOverlay } from '@/components/console/VaultOverlay'
 import { VaultDetail } from '@/components/console/VaultDetail'
 import { VaultFilesPanel } from '@/components/console/VaultFilesPanel'
 import { FlowsOverlay } from '@/components/console/FlowsOverlay'
-import { HistoryOverlay } from '@/components/console/HistoryOverlay'
 import { IdeasTicker } from '@/components/console/IdeasTicker'
 // Community is a front-end link to /forum (SEO benefit) — no in-console view
 import { StoreView } from '@/components/console/StoreView'
 import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionModal'
 import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { LinkedInView } from '@/components/console/LinkedInView'
-import { RequestIntegrationView } from '@/components/console/RequestIntegrationView'
+// Request + History are now tabs inside AccountView
 import { OperationsView } from '@/components/console/OperationsView'
 import { SocialView } from '@/components/console/SocialView'
 import { ReportingView } from '@/components/console/ReportingView'
@@ -28,7 +27,7 @@ import MigrateView from '@/components/console/MigrateView'
 import { CreateView } from '@/components/console/CreateView'
 import BuilderApp from '@/components/builder/BuilderApp'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
-import { LearnView } from '@/components/console/LearnView'
+// Learn is a front-end link to /learn
 import { AccountView } from '@/components/console/AccountView'
 import { ConvertView } from '@/components/console/ConvertView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
@@ -54,7 +53,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'history' | 'builder' | 'store' | 'linkedin' | 'request' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'learn' | 'code' | 'account' | 'convert'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'account' | 'convert'
 
 interface McpHealth {
   version?: string
@@ -62,6 +61,7 @@ interface McpHealth {
   connections?: number
   services?: string[]
   tools?: number
+  mode?: string
 }
 
 interface McpWorkflow {
@@ -155,7 +155,7 @@ export default function ConsolePage() {
     fetch('/api/console/health')
       .then((r) => r.json())
       .then((data) => {
-        if (data.status === 'online') {
+        if (data.status === 'online' || data.status === 'cloud') {
           setMcpOnline(true)
           setMcpHealth(data)
         }
@@ -201,7 +201,7 @@ export default function ConsolePage() {
       fetch('/api/console/health')
         .then((r) => r.json())
         .then((data) => {
-          const online = data.status === 'online'
+          const online = data.status === 'online' || data.status === 'cloud'
           setMcpOnline(online)
           if (online) setMcpHealth(data)
         })
@@ -321,7 +321,7 @@ export default function ConsolePage() {
           setView('linkedin')
           break
         case '/request':
-          setView('request')
+          setView('account')
           break
         case '/operations':
           setView('operations')
@@ -339,7 +339,7 @@ export default function ConsolePage() {
           setView('terminal')
           break
         case '/learn':
-          setView('learn')
+          window.open('/learn', '_blank', 'noopener')
           break
         case '/code':
           setView('code')
@@ -351,17 +351,18 @@ export default function ConsolePage() {
           setView('convert')
           break
         case '/history':
-          setView('history')
+          setView('account')
           break
         case '/status':
           fetch('/api/console/health')
             .then((r) => r.json())
             .then((data) => {
-              setMcpOnline(data.status === 'online')
-              if (data.status === 'online') setMcpHealth(data)
+              const isOnline = data.status === 'online' || data.status === 'cloud'
+              setMcpOnline(isOnline)
+              if (isOnline) setMcpHealth(data)
               historyHook.add(
                 'connect',
-                `Status check: 0nMCP ${data.status === 'online' ? 'online' : 'offline'}`
+                `Status check: 0nMCP ${isOnline ? (data.mode === 'cloud' ? 'Cloud Mode' : 'online') : 'offline'}`
               )
             })
             .catch(() => {})
@@ -449,18 +450,6 @@ export default function ConsolePage() {
   const recentHistory = useMemo(
     () =>
       historyHook.history.slice(0, 10).map((h) => ({
-        id: h.id,
-        type: h.type,
-        detail: h.detail,
-        ts: new Date(h.ts).getTime(),
-      })),
-    [historyHook.history]
-  )
-
-  // ─── History for HistoryOverlay (convert ts string to number) ─
-  const fullHistory = useMemo(
-    () =>
-      historyHook.history.map((h) => ({
         id: h.id,
         type: h.type,
         detail: h.detail,
@@ -703,14 +692,7 @@ export default function ConsolePage() {
             </div>
           )}
 
-          {/* Request */}
-          {visitedViews.has('request') && (
-            <div style={{ display: view === 'request' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <RequestIntegrationView />
-            </div>
-          )}
-
-          {/* Store */}
+          {/* Store / Marketplace */}
           {visitedViews.has('store') && (
             <div style={{ display: view === 'store' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <StoreView
@@ -736,24 +718,10 @@ export default function ConsolePage() {
             </div>
           )}
 
-          {/* Learn */}
-          {visitedViews.has('learn') && (
-            <div style={{ display: view === 'learn' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
-              <LearnView />
-            </div>
-          )}
-
           {/* Code */}
           {visitedViews.has('code') && (
             <div style={{ display: view === 'code' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
               <CodeTerminal />
-            </div>
-          )}
-
-          {/* History */}
-          {visitedViews.has('history') && (
-            <div style={{ display: view === 'history' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <HistoryOverlay history={fullHistory} onClear={historyHook.clear} />
             </div>
           )}
 

@@ -203,25 +203,42 @@ export async function secureImport(
   const errors: string[] = []
   const warnings: string[] = []
 
-  // Check 1: Must have _0n_meta with signature
+  // Check 1: Signature presence (warn if missing, don't block)
   const meta = workflow._0n_meta as Record<string, unknown> | undefined
   if (!meta || !meta.signature) {
-    errors.push(
-      'This .0n file is not signed. Only files created by an authorized 0nMCP system can be imported. ' +
-      'Use the 0nMCP Builder at 0nmcp.com/builder to create valid workflow files.'
+    warnings.push(
+      'This .0n file is not signed. For best security, export from the 0nMCP Builder to add a signature.'
     )
-    return { valid: false, errors, warnings, cleaned: workflow }
+    // Still allow import — strip _0n_meta and continue to secret scan
+    const { _0n_meta: _stripped, ...rest } = workflow
+    void _stripped
+
+    // Check for secrets in unsigned files
+    const secretPaths = findSecrets(rest)
+    if (secretPaths.length > 0) {
+      errors.push(
+        `Security violation: ${secretPaths.length} hardcoded secret(s) detected at: ${secretPaths.join(', ')}. ` +
+        '.0n files must use {{env.VAR}} template references for sensitive values.'
+      )
+      return { valid: false, errors, warnings, cleaned: workflow }
+    }
+
+    // Validate structure
+    if (!rest.steps || !Array.isArray(rest.steps)) {
+      errors.push('Invalid .0n file: missing "steps" array.')
+      return { valid: false, errors, warnings, cleaned: workflow }
+    }
+
+    return { valid: true, errors, warnings, cleaned: rest }
   }
 
-  // Check 2: Verify signature integrity
+  // Check 2: Verify signature integrity (only if signed)
   const signature = meta.signature as string
   const isValid = await verifySignature(workflow, signature)
   if (!isValid) {
-    errors.push(
-      'Signature verification failed. This file has been modified outside of 0nMCP or is corrupted. ' +
-      'Re-export from the 0nMCP Builder to generate a valid signature.'
+    warnings.push(
+      'Signature verification failed. This file may have been modified outside of 0nMCP. Proceeding with caution.'
     )
-    return { valid: false, errors, warnings, cleaned: workflow }
   }
 
   // Check 3: Deep scan for secrets that shouldn't be there

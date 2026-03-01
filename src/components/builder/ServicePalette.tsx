@@ -5,7 +5,12 @@ import { getAllCategories, getAllServices, getServicesInCategory } from '@/lib/s
 import type { Service } from '@/lib/sxo-helpers'
 import ServicePaletteItem from './ServicePaletteItem'
 
+// SVG data URI helper for logic/control flow nodes
+const svg = (paths: string, color: string) =>
+  `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`)}`
+
 const SERVICE_LOGOS: Record<string, string> = {
+  // ─── Real brand logos ───────────────────────────────────────
   stripe: 'https://cdn.simpleicons.org/stripe/635BFF',
   slack: 'https://cdn.simpleicons.org/slack/4A154B',
   discord: 'https://cdn.simpleicons.org/discord/5865F2',
@@ -19,6 +24,7 @@ const SERVICE_LOGOS: Record<string, string> = {
   shopify: 'https://cdn.simpleicons.org/shopify/7AB55C',
   twilio: 'https://cdn.simpleicons.org/twilio/F22F46',
   sendgrid: 'https://cdn.simpleicons.org/sendgrid/1A82E2',
+  resend: 'https://cdn.simpleicons.org/resend/white',
   jira: 'https://cdn.simpleicons.org/jira/0052CC',
   hubspot: 'https://cdn.simpleicons.org/hubspot/FF7A59',
   zendesk: 'https://cdn.simpleicons.org/zendesk/03363D',
@@ -32,6 +38,15 @@ const SERVICE_LOGOS: Record<string, string> = {
   calendly: 'https://cdn.simpleicons.org/calendly/006BFF',
   microsoft: 'https://cdn.simpleicons.org/microsoft/white',
   crm: 'https://cdn.simpleicons.org/rocket/ff6b35',
+
+  // ─── Logic / Control Flow nodes (SVG data URIs) ─────────────
+  delay: svg('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', '%23f59e0b'),
+  schedule: svg('<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>', '%234285F4'),
+  condition: svg('<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>', '%2322d3ee'),
+  loop: svg('<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>', '%23a855f7'),
+  transform: svg('<polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/>', '%2310b981'),
+  trigger: svg('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>', '%23f97316'),
+  error_handling: svg('<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>', '%23ef4444'),
 }
 
 export default function ServicePalette() {

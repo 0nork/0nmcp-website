@@ -50,12 +50,10 @@ const NAV_ITEMS: { key: string; label: string; icon: typeof LayoutDashboard; hre
   { key: 'social', label: 'Social', icon: Share2 },
   { key: 'reporting', label: 'Reporting', icon: BarChart3 },
   { key: 'migrate', label: 'Migrate', icon: ArrowRightLeft },
-  { key: 'learn', label: 'Learn', icon: GraduationCap },
-  { key: 'store', label: 'Store', icon: ShoppingBag },
+  { key: 'learn', label: 'Learn', icon: GraduationCap, href: '/learn' },
+  { key: 'store', label: 'Marketplace', icon: ShoppingBag },
   { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
   { key: 'convert', label: 'Convert', icon: RefreshCw },
-  { key: 'request', label: 'Request', icon: PlusCircle },
-  { key: 'history', label: 'History', icon: History },
   { key: 'account', label: 'Account', icon: UserCircle },
 ]
 

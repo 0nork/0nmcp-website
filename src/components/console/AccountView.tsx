@@ -1,6 +1,16 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { RequestIntegrationView } from './RequestIntegrationView'
+
+type AccountTab = 'profile' | 'requests' | 'history'
+
+interface HistoryItem {
+  id: string
+  type: string
+  detail: string
+  ts: string
+}
 
 interface Profile {
   full_name: string
@@ -24,11 +34,13 @@ interface BillingStatus {
 }
 
 export function AccountView() {
+  const [tab, setTab] = useState<AccountTab>('profile')
   const [profile, setProfile] = useState<Profile | null>(null)
   const [billing, setBilling] = useState<BillingStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [history, setHistory] = useState<HistoryItem[]>([])
 
   // Editable fields
   const [fullName, setFullName] = useState('')
@@ -68,6 +80,11 @@ export function AccountView() {
 
   useEffect(() => {
     fetchProfile()
+    // Load history from localStorage
+    try {
+      const raw = localStorage.getItem('0n-console-history')
+      if (raw) setHistory(JSON.parse(raw))
+    } catch {}
   }, [fetchProfile])
 
   const handleSave = async () => {
@@ -164,35 +181,112 @@ export function AccountView() {
         animation: 'console-fade-in 0.3s ease',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: 0, letterSpacing: '-0.02em' }}>
           Account
         </h1>
-        <div style={{ display: 'flex', gap: 12 }}>
-          {saved && (
-            <span style={{ color: 'var(--accent)', fontSize: 13, fontWeight: 500, alignSelf: 'center' }}>Saved</span>
-          )}
+        {tab === 'profile' && (
+          <div style={{ display: 'flex', gap: 12 }}>
+            {saved && (
+              <span style={{ color: 'var(--accent)', fontSize: 13, fontWeight: 500, alignSelf: 'center' }}>Saved</span>
+            )}
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              style={{
+                padding: '10px 24px',
+                borderRadius: 12,
+                border: 'none',
+                background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
+                color: '#0a0a0f',
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: saving ? 'wait' : 'pointer',
+                opacity: saving ? 0.6 : 1,
+                fontFamily: 'var(--font-display)',
+                transition: 'opacity 0.2s',
+              }}
+            >
+              {saving ? 'Saving...' : 'Save Changes'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Tabs */}
+      <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
+        {([
+          { key: 'profile' as AccountTab, label: 'Profile & Settings' },
+          { key: 'requests' as AccountTab, label: 'Request Integration' },
+          { key: 'history' as AccountTab, label: 'History' },
+        ]).map(({ key, label }) => (
           <button
-            onClick={handleSave}
-            disabled={saving}
+            key={key}
+            onClick={() => setTab(key)}
             style={{
-              padding: '10px 24px',
-              borderRadius: 12,
+              padding: '10px 20px',
+              fontSize: 13,
+              fontWeight: tab === key ? 600 : 400,
+              color: tab === key ? 'var(--accent)' : 'var(--text-muted)',
+              background: 'none',
               border: 'none',
-              background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: '#0a0a0f',
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: saving ? 'wait' : 'pointer',
-              opacity: saving ? 0.6 : 1,
+              borderBottom: tab === key ? '2px solid var(--accent)' : '2px solid transparent',
+              cursor: 'pointer',
               fontFamily: 'var(--font-display)',
-              transition: 'opacity 0.2s',
+              transition: 'color 0.2s, border-color 0.2s',
+              marginBottom: -1,
             }}
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {label}
           </button>
-        </div>
+        ))}
       </div>
+
+      {/* ─── Requests Tab ─── */}
+      {tab === 'requests' && <RequestIntegrationView />}
+
+      {/* ─── History Tab ─── */}
+      {tab === 'history' && (
+        <div style={cardStyle}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Console History</h2>
+            {history.length > 0 && (
+              <button
+                onClick={() => {
+                  localStorage.removeItem('0n-console-history')
+                  setHistory([])
+                }}
+                style={{
+                  padding: '6px 14px', borderRadius: 8, border: '1px solid var(--border)',
+                  background: 'none', color: 'var(--text-muted)', fontSize: 12, cursor: 'pointer', fontFamily: 'var(--font-mono)',
+                }}
+              >
+                Clear
+              </button>
+            )}
+          </div>
+          {history.length === 0 ? (
+            <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>No history yet. Actions you take in the console will appear here.</p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {history.slice().reverse().slice(0, 50).map((h) => (
+                <div key={h.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 12px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', flexShrink: 0, minWidth: 60 }}>
+                    {h.type}
+                  </span>
+                  <span style={{ fontSize: 13, color: 'var(--text-secondary)', flex: 1 }}>{h.detail}</span>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
+                    {new Date(h.ts).toLocaleTimeString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ─── Profile Tab ─── */}
+      {tab === 'profile' && (<>
 
       {/* Profile */}
       <div style={cardStyle}>
@@ -438,6 +532,8 @@ export function AccountView() {
           </button>
         </div>
       </div>
+
+      </>)}
     </div>
   )
 }

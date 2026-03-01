@@ -20,6 +20,7 @@ interface DashboardViewProps {
     uptime?: number
     connections?: number
     services?: string[]
+    mode?: string
   } | null
   connectedCount: number
   flowCount: number
@@ -123,12 +124,14 @@ export function DashboardView({
                     color: mcpOnline ? 'var(--accent)' : '#ef4444',
                   }}
                 >
-                  {mcpOnline ? 'ONLINE' : 'OFFLINE'}
+                  {mcpOnline ? (mcpHealth?.mode === 'local' ? 'LOCAL' : 'CLOUD') : 'OFFLINE'}
                 </span>
               </div>
               <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
                 {mcpOnline && mcpHealth
-                  ? `v${mcpHealth.version || '2.0.0'} \u2014 ${mcpHealth.connections || 0} connections active`
+                  ? mcpHealth.mode === 'cloud'
+                    ? `v${mcpHealth.version || '2.2.0'} — 819 tools across 48 services ready`
+                    : `v${mcpHealth.version || '2.2.0'} — ${mcpHealth.connections || 0} connections active`
                   : mcpOnline
                     ? 'Universal AI API Orchestrator'
                     : 'Run: npx 0nmcp serve --port 3001'}

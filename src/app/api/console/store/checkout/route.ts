@@ -98,7 +98,34 @@ export async function POST(request: NextRequest) {
       .update({ total_purchases: (listing.total_purchases || 0) + 1 })
       .eq('id', listingId)
 
-    return NextResponse.json({ free: true, workflowId: workflowFileId })
+    // Also save to user's vault files (universal .0n file storage)
+    let vaultFileId: string | null = null
+    if (listing.workflow_data) {
+      const wfData = listing.workflow_data as Record<string, unknown>
+      const header = wfData.$0n as Record<string, string> | undefined
+      const fileType = header?.type || 'workflow'
+
+      const { data: vf } = await supabase
+        .from('user_vault_files')
+        .insert({
+          user_id: user.id,
+          name: header?.name || listing.title,
+          file_type: fileType,
+          category: fileType,
+          description: listing.description,
+          file_data: listing.workflow_data,
+          source: 'store',
+          source_id: listingId,
+          version: header?.version || '1.0.0',
+          tags: listing.tags || [],
+        })
+        .select('id')
+        .single()
+
+      if (vf) vaultFileId = vf.id
+    }
+
+    return NextResponse.json({ free: true, workflowId: workflowFileId, vaultFileId })
   }
 
   // Paid listing — Stripe checkout (future)

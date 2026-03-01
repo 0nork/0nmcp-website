@@ -11,6 +11,7 @@ import { CommandPalette } from '@/components/console/CommandPalette'
 import { DashboardView } from '@/components/console/DashboardView'
 import { VaultOverlay } from '@/components/console/VaultOverlay'
 import { VaultDetail } from '@/components/console/VaultDetail'
+import { VaultFilesPanel } from '@/components/console/VaultFilesPanel'
 import { FlowsOverlay } from '@/components/console/FlowsOverlay'
 import { HistoryOverlay } from '@/components/console/HistoryOverlay'
 import { IdeasTicker } from '@/components/console/IdeasTicker'
@@ -85,6 +86,7 @@ export default function ConsolePage() {
   // ─── Vault State ──────────────────────────────────────────────
   const [vaultSearch, setVaultSearch] = useState('')
   const [vaultService, setVaultService] = useState<string | null>(null)
+  const [vaultSubView, setVaultSubView] = useState<'files' | 'credentials'>('files')
 
   // ─── Hooks ────────────────────────────────────────────────────
   const vault = useVault()
@@ -265,6 +267,7 @@ export default function ConsolePage() {
         case '/vault':
           setView('vault')
           setVaultService(null)
+          setVaultSubView('files')
           break
         case '/flows':
           setView('flows')
@@ -360,7 +363,12 @@ export default function ConsolePage() {
   // ─── View Handler (reset vault detail when switching) ─────────
   const handleSetView = useCallback((v: string) => {
     setView(v as View)
-    if (v !== 'vault') setVaultService(null)
+    if (v !== 'vault') {
+      setVaultService(null)
+    } else {
+      setVaultSubView('files')
+      setVaultService(null)
+    }
     setMobileMenuOpen(false)
   }, [])
 
@@ -504,16 +512,24 @@ export default function ConsolePage() {
               {vaultService ? (
                 <VaultDetail
                   service={vaultService}
-                  onBack={() => setVaultService(null)}
+                  onBack={() => { setVaultService(null); setVaultSubView('credentials') }}
                   vault={vault.credentials}
                   onSave={vault.set}
                 />
-              ) : (
+              ) : vaultSubView === 'credentials' ? (
                 <VaultOverlay
                   onSelect={setVaultService}
                   connectedServices={connectedKeys}
                   searchQuery={vaultSearch}
                   onSearch={setVaultSearch}
+                />
+              ) : (
+                <VaultFilesPanel
+                  onSwitchToCredentials={() => setVaultSubView('credentials')}
+                  onAddToBuilder={(data) => {
+                    localStorage.setItem('0n_builder_import', JSON.stringify(data))
+                    setView('builder')
+                  }}
                 />
               )}
             </div>

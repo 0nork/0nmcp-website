@@ -169,6 +169,7 @@ export function SocialView() {
               postCount={platform.postCount}
               lastPosted={platform.lastPosted}
               color={platform.color}
+              method={'method' in platform ? (platform as { method: 'crm' | 'direct' }).method : undefined}
             />
           ))}
         </div>

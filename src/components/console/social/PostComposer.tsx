@@ -15,11 +15,12 @@ interface PlatformDef {
 
 const PLATFORMS: PlatformDef[] = [
   { id: 'linkedin', name: 'LinkedIn', icon: 'Li', color: '#0077b5', charLimit: 3000 },
+  { id: 'facebook', name: 'Facebook', icon: 'Fb', color: '#1877f2', charLimit: 63206 },
+  { id: 'instagram', name: 'Instagram', icon: 'Ig', color: '#e4405f', charLimit: 2200 },
+  { id: 'x_twitter', name: 'X', icon: 'X', color: '#000000', charLimit: 280 },
+  { id: 'google', name: 'Google', icon: 'G', color: '#4285f4', charLimit: 1500 },
   { id: 'reddit', name: 'Reddit', icon: 'Rd', color: '#ff4500', charLimit: 40000 },
   { id: 'dev_to', name: 'Dev.to', icon: 'Dv', color: '#0a0a0a', charLimit: Infinity },
-  { id: 'x_twitter', name: 'X', icon: 'X', color: '#000000', charLimit: 280 },
-  { id: 'instagram', name: 'Instagram', icon: 'Ig', color: '#e4405f', charLimit: 2200 },
-  { id: 'tiktok', name: 'TikTok', icon: 'Tk', color: '#010101', charLimit: 4000 },
 ]
 
 // ─── Props ────────────────────────────────────────────────────────

@@ -1,12 +1,20 @@
 /**
  * Content Poster — Routes approved content to platform adapters
- * Handles posting, status updates, and analytics tracking
+ *
+ * CRM-native platforms (linkedin, facebook, instagram, x_twitter, google)
+ * are posted through the CRM Social API.
+ *
+ * Direct-adapter platforms (reddit, dev_to) use their own API adapters.
  */
 
 import { getAdmin } from './content-engine'
 import { submitPost as redditPost, pickSubreddit } from './platforms/reddit'
-import { createPost as linkedinPost, createArticlePost as linkedinArticle } from './platforms/linkedin'
 import { createArticle as devtoArticle } from './platforms/devto'
+import {
+  createSocialPost,
+  resolveAccountIds,
+  CRM_PLATFORMS,
+} from './crm-social'
 
 export interface PostResult {
   success: boolean
@@ -41,18 +49,21 @@ export async function postContent(contentId: string): Promise<PostResult> {
   let result: PostResult
 
   try {
-    switch (item.platform) {
-      case 'reddit':
-        result = await postToReddit(item)
-        break
-      case 'linkedin':
-        result = await postToLinkedIn(item)
-        break
-      case 'dev_to':
-        result = await postToDevTo(item)
-        break
-      default:
-        result = { success: false, platform: item.platform, error: `Platform "${item.platform}" not yet supported for auto-posting` }
+    if (CRM_PLATFORMS.has(item.platform)) {
+      // Route through CRM Social API
+      result = await postViaCrm(item)
+    } else {
+      // Use direct platform adapters
+      switch (item.platform) {
+        case 'reddit':
+          result = await postToReddit(item)
+          break
+        case 'dev_to':
+          result = await postToDevTo(item)
+          break
+        default:
+          result = { success: false, platform: item.platform, error: `Platform "${item.platform}" not supported` }
+      }
     }
   } catch (err) {
     result = {
@@ -116,9 +127,42 @@ export async function postContent(contentId: string): Promise<PostResult> {
 interface ContentRow {
   title: string | null
   body: string
+  platform: string
   content_type: string
   metadata?: Record<string, unknown>
   content_topics?: { category?: string } | null
+}
+
+/**
+ * Post through CRM Social API (LinkedIn, Facebook, Instagram, Twitter/X, Google)
+ */
+async function postViaCrm(item: ContentRow): Promise<PostResult> {
+  // Resolve platform to CRM account IDs
+  const accountMap = await resolveAccountIds([item.platform])
+  const accountIds = accountMap.get(item.platform)
+
+  if (!accountIds || accountIds.length === 0) {
+    return {
+      success: false,
+      platform: item.platform,
+      error: `No ${item.platform} account connected in CRM. Connect it in the CRM Social Planner.`,
+    }
+  }
+
+  const tags = (item.metadata as Record<string, unknown>)?.topic_keywords as string[] | undefined
+
+  const result = await createSocialPost({
+    accountIds,
+    content: item.body,
+    tags,
+  })
+
+  return {
+    success: result.success,
+    platform: item.platform,
+    id: result.postId,
+    error: result.error,
+  }
 }
 
 async function postToReddit(item: ContentRow): Promise<PostResult> {
@@ -131,26 +175,6 @@ async function postToReddit(item: ContentRow): Promise<PostResult> {
   return {
     success: result.success,
     platform: 'reddit',
-    url: result.url,
-    id: result.id,
-    error: result.error,
-  }
-}
-
-async function postToLinkedIn(item: ContentRow): Promise<PostResult> {
-  // If there's a link in the content, post as article
-  const urlMatch = item.body.match(/https?:\/\/[^\s)]+/)
-
-  let result
-  if (urlMatch && item.title) {
-    result = await linkedinArticle(item.body, urlMatch[0], item.title)
-  } else {
-    result = await linkedinPost(item.body)
-  }
-
-  return {
-    success: result.success,
-    platform: 'linkedin',
     url: result.url,
     id: result.id,
     error: result.error,

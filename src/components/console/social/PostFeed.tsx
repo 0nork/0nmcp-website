@@ -26,20 +26,22 @@ interface PostFeedProps {
 
 const PLATFORM_COLORS: Record<string, string> = {
   linkedin: '#0077b5',
+  facebook: '#1877f2',
+  instagram: '#e4405f',
+  x_twitter: '#000000',
+  google: '#4285f4',
   reddit: '#ff4500',
   dev_to: '#0a0a0a',
-  x_twitter: '#000000',
-  instagram: '#e4405f',
-  tiktok: '#010101',
 }
 
 const PLATFORM_LABELS: Record<string, string> = {
   linkedin: 'LinkedIn',
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  x_twitter: 'X',
+  google: 'Google',
   reddit: 'Reddit',
   dev_to: 'Dev.to',
-  x_twitter: 'X',
-  instagram: 'Instagram',
-  tiktok: 'TikTok',
 }
 
 const STATUS_CONFIG: Record<string, { color: string; bg: string; label: string }> = {

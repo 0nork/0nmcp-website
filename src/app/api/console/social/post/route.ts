@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { submitPost as redditPost, pickSubreddit } from '@/lib/platforms/reddit'
-import { createPost as linkedinPost } from '@/lib/platforms/linkedin'
 import { createArticle as devtoArticle } from '@/lib/platforms/devto'
+import {
+  createSocialPost,
+  resolveAccountIds,
+  CRM_PLATFORMS,
+} from '@/lib/crm-social'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
@@ -29,7 +33,6 @@ export async function GET() {
     .order('created_at', { ascending: false })
     .limit(50)
 
-  // Map to expected client format
   const mapped = (posts || []).map((p) => ({
     id: p.id,
     content: p.content,
@@ -45,7 +48,9 @@ export async function GET() {
 
 /**
  * POST /api/console/social/post
- * Create a new social post and persist it to Supabase.
+ * Create a social post — routes through CRM Social API for native platforms
+ * (LinkedIn, Facebook, Instagram, Twitter/X, Google) and direct adapters
+ * for Reddit and Dev.to.
  */
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
@@ -83,17 +88,73 @@ export async function POST(request: NextRequest) {
       ? '\n\n' + safeHashtags.map((t: string) => `#${t}`).join(' ')
       : '')
 
-  // Post to each platform immediately
   const results: { platform: string; success: boolean; url?: string; error?: string }[] = []
 
-  for (const platform of platforms) {
+  // ── CRM-native platforms (LinkedIn, Facebook, Instagram, Twitter/X, Google) ──
+  const crmPlatforms = platforms.filter((p) => CRM_PLATFORMS.has(p))
+  if (crmPlatforms.length > 0) {
+    try {
+      // Resolve platform IDs → CRM account IDs
+      const accountMap = await resolveAccountIds(crmPlatforms)
+
+      // Collect all account IDs for a single CRM post (multi-platform)
+      const allAccountIds: string[] = []
+      const mappedPlatforms: string[] = []
+      const unmappedPlatforms: string[] = []
+
+      for (const plat of crmPlatforms) {
+        const ids = accountMap.get(plat)
+        if (ids && ids.length > 0) {
+          allAccountIds.push(...ids)
+          mappedPlatforms.push(plat)
+        } else {
+          unmappedPlatforms.push(plat)
+        }
+      }
+
+      // Post to all connected CRM accounts in one call
+      if (allAccountIds.length > 0) {
+        const crmResult = await createSocialPost({
+          accountIds: allAccountIds,
+          content: fullContent,
+          tags: safeHashtags.length > 0 ? safeHashtags : undefined,
+        })
+
+        for (const plat of mappedPlatforms) {
+          results.push({
+            platform: plat,
+            success: crmResult.success,
+            url: crmResult.postId ? undefined : undefined,
+            error: crmResult.error,
+          })
+        }
+      }
+
+      // Report unmapped platforms as not connected
+      for (const plat of unmappedPlatforms) {
+        results.push({
+          platform: plat,
+          success: false,
+          error: `No ${plat} account connected in CRM. Connect it in the CRM Social Planner.`,
+        })
+      }
+    } catch (err) {
+      // If CRM call fails, report all CRM platforms as failed
+      for (const plat of crmPlatforms) {
+        results.push({
+          platform: plat,
+          success: false,
+          error: err instanceof Error ? err.message : 'CRM social posting failed',
+        })
+      }
+    }
+  }
+
+  // ── Direct-adapter platforms (Reddit, Dev.to) ──
+  const directPlatforms = platforms.filter((p) => !CRM_PLATFORMS.has(p))
+  for (const platform of directPlatforms) {
     try {
       switch (platform) {
-        case 'linkedin': {
-          const lr = await linkedinPost(fullContent)
-          results.push({ platform, success: lr.success, url: lr.url, error: lr.error })
-          break
-        }
         case 'reddit': {
           const title = fullContent.split('\n')[0].slice(0, 120)
           const subreddit = pickSubreddit()
@@ -109,8 +170,7 @@ export async function POST(request: NextRequest) {
           break
         }
         default:
-          // Platforms without adapters yet (x_twitter, instagram, tiktok)
-          results.push({ platform, success: false, error: `${platform} posting not yet configured` })
+          results.push({ platform, success: false, error: `${platform} posting not supported` })
       }
     } catch (err) {
       results.push({
@@ -121,11 +181,11 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const allSuccess = results.every((r) => r.success)
   const anySuccess = results.some((r) => r.success)
+  const allSuccess = results.every((r) => r.success)
   const status = allSuccess ? 'posted' : anySuccess ? 'posted' : 'failed'
 
-  // Persist to Supabase with real results
+  // Persist to Supabase
   const { error } = await supabase
     .from('social_posts')
     .insert({

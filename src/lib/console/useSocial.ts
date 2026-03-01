@@ -12,6 +12,7 @@ export interface SocialPlatform {
   postCount: number
   lastPosted: string | null
   color: string
+  method: 'crm' | 'direct'
 }
 
 export interface SocialPost {
@@ -34,13 +35,25 @@ interface CreatePostResult {
 const POSTS_KEY = '0n_social_posts'
 const AUTOPOST_KEY = '0n_social_autopost'
 
+const ICON_MAP: Record<string, string> = {
+  linkedin: 'Li',
+  facebook: 'Fb',
+  instagram: 'Ig',
+  x_twitter: 'X',
+  google: 'G',
+  reddit: 'Rd',
+  dev_to: 'Dv',
+  tiktok: 'Tk',
+}
+
 const DEFAULT_PLATFORMS: SocialPlatform[] = [
-  { id: 'linkedin', name: 'LinkedIn', icon: 'Li', connected: true, postCount: 0, lastPosted: null, color: '#0077b5' },
-  { id: 'reddit', name: 'Reddit', icon: 'Rd', connected: true, postCount: 0, lastPosted: null, color: '#ff4500' },
-  { id: 'dev_to', name: 'Dev.to', icon: 'Dv', connected: false, postCount: 0, lastPosted: null, color: '#0a0a0a' },
-  { id: 'x_twitter', name: 'X / Twitter', icon: 'X', connected: false, postCount: 0, lastPosted: null, color: '#000000' },
-  { id: 'instagram', name: 'Instagram', icon: 'Ig', connected: false, postCount: 0, lastPosted: null, color: '#e4405f' },
-  { id: 'tiktok', name: 'TikTok', icon: 'Tk', connected: false, postCount: 0, lastPosted: null, color: '#010101' },
+  { id: 'linkedin', name: 'LinkedIn', icon: 'Li', connected: false, postCount: 0, lastPosted: null, color: '#0077b5', method: 'crm' },
+  { id: 'facebook', name: 'Facebook', icon: 'Fb', connected: false, postCount: 0, lastPosted: null, color: '#1877f2', method: 'crm' },
+  { id: 'instagram', name: 'Instagram', icon: 'Ig', connected: false, postCount: 0, lastPosted: null, color: '#e4405f', method: 'crm' },
+  { id: 'x_twitter', name: 'X / Twitter', icon: 'X', connected: false, postCount: 0, lastPosted: null, color: '#000000', method: 'crm' },
+  { id: 'google', name: 'Google Business', icon: 'G', connected: false, postCount: 0, lastPosted: null, color: '#4285f4', method: 'crm' },
+  { id: 'reddit', name: 'Reddit', icon: 'Rd', connected: false, postCount: 0, lastPosted: null, color: '#ff4500', method: 'direct' },
+  { id: 'dev_to', name: 'Dev.to', icon: 'Dv', connected: false, postCount: 0, lastPosted: null, color: '#0a0a0a', method: 'direct' },
 ]
 
 // ─── Hook ────────────────────────────────────────────────────────
@@ -50,6 +63,7 @@ export function useSocial() {
   const [recentPosts, setRecentPosts] = useState<SocialPost[]>([])
   const [isPosting, setIsPosting] = useState(false)
   const [autoPostEnabled, setAutoPostEnabled] = useState(false)
+  const [accountsLoaded, setAccountsLoaded] = useState(false)
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -65,6 +79,40 @@ export function useSocial() {
     } catch {
       // Ignore parse errors
     }
+  }, [])
+
+  // Fetch connected accounts from CRM on mount
+  useEffect(() => {
+    async function fetchAccounts() {
+      try {
+        const res = await fetch('/api/console/social/accounts')
+        if (res.ok) {
+          const data = await res.json()
+          if (Array.isArray(data.platforms)) {
+            setPlatforms((prev) =>
+              data.platforms.map((p: { id: string; name: string; color: string; connected: boolean; method: string }) => {
+                const existing = prev.find((e) => e.id === p.id)
+                return {
+                  id: p.id,
+                  name: p.name,
+                  icon: ICON_MAP[p.id] || p.id.slice(0, 2).toUpperCase(),
+                  connected: p.connected,
+                  postCount: existing?.postCount || 0,
+                  lastPosted: existing?.lastPosted || null,
+                  color: p.color,
+                  method: (p.method || 'crm') as 'crm' | 'direct',
+                }
+              })
+            )
+          }
+        }
+      } catch {
+        // Silently fail — use defaults
+      } finally {
+        setAccountsLoaded(true)
+      }
+    }
+    fetchAccounts()
   }, [])
 
   // Persist posts to localStorage
@@ -157,6 +205,7 @@ export function useSocial() {
     recentPosts,
     isPosting,
     autoPostEnabled,
+    accountsLoaded,
     toggleAutoPost,
     createPost,
     refreshPosts,

@@ -9,6 +9,7 @@ interface PlatformCardProps {
   postCount: number
   lastPosted: string | null
   color: string
+  method?: 'crm' | 'direct'
   onClick?: () => void
 }
 
@@ -34,6 +35,7 @@ export function PlatformCard({
   postCount,
   lastPosted,
   color,
+  method,
   onClick,
 }: PlatformCardProps) {
   const [hovered, setHovered] = useState(false)
@@ -120,6 +122,23 @@ export function PlatformCard({
           >
             {connected ? 'Connected' : 'Not connected'}
           </span>
+          {method && (
+            <span
+              style={{
+                fontSize: 9,
+                fontFamily: 'var(--font-mono)',
+                color: 'var(--text-muted)',
+                padding: '1px 5px',
+                borderRadius: 4,
+                backgroundColor: 'rgba(255,255,255,0.04)',
+                border: '1px solid var(--border)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+              }}
+            >
+              {method === 'crm' ? 'CRM' : 'API'}
+            </span>
+          )}
         </div>
       </div>
 

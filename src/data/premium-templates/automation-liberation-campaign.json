@@ -1,0 +1,1169 @@
+{
+  "$0n": {
+    "version": "1.0.0",
+    "type": "campaign",
+    "created": "2026-03-01T00:00:00.000Z",
+    "name": "The Automation Liberation Campaign",
+    "description": "Complete 30-day multi-channel marketing campaign targeting 7,000 business owners. 7 email sequences, 6 LinkedIn posts, 3 Facebook ad sets, CRM automation, and embedded onboarding.",
+    "author": "0nMCP",
+    "license": "commercial"
+  },
+  "onboarding": {
+    "title": "Campaign Setup Wizard",
+    "description": "Let's configure your Automation Liberation Campaign. This wizard will walk you through connecting your services, customizing your brand, and preparing your audience.",
+    "steps": [
+      {
+        "id": "welcome",
+        "title": "Welcome to Your Campaign",
+        "description": "You've just purchased the most advanced marketing campaign file ever created. In the next few minutes, we'll configure everything for your first launch.",
+        "type": "info",
+        "image": "campaign-welcome"
+      },
+      {
+        "id": "company_info",
+        "title": "Your Company",
+        "description": "Tell us about your business so we can personalize every piece of copy.",
+        "type": "form",
+        "fields": [
+          { "key": "company_name", "label": "Company Name", "type": "text", "required": true, "placeholder": "e.g. Acme Corp" },
+          { "key": "company_tagline", "label": "Tagline", "type": "text", "required": false, "placeholder": "e.g. Automation made simple" },
+          { "key": "company_website", "label": "Website URL", "type": "url", "required": true, "placeholder": "https://yoursite.com" },
+          { "key": "company_logo_url", "label": "Logo URL", "type": "url", "required": false, "placeholder": "https://yoursite.com/logo.png" },
+          { "key": "sender_name", "label": "Sender Name (for emails)", "type": "text", "required": true, "placeholder": "e.g. John from Acme" },
+          { "key": "sender_email", "label": "Sender Email", "type": "email", "required": true, "placeholder": "john@acme.com" },
+          { "key": "product_name", "label": "Product/Service Name", "type": "text", "required": true, "placeholder": "e.g. 0nMCP" },
+          { "key": "product_url", "label": "Product URL / Landing Page", "type": "url", "required": true, "placeholder": "https://0nmcp.com" },
+          { "key": "industry", "label": "Industry", "type": "select", "required": true, "options": ["SaaS / Technology", "Marketing Agency", "Consulting", "E-Commerce", "Professional Services", "Real Estate", "Healthcare", "Finance", "Education", "Other"] },
+          { "key": "calendar_link", "label": "Booking / Calendar Link", "type": "url", "required": false, "placeholder": "https://calendly.com/you" }
+        ]
+      },
+      {
+        "id": "audience",
+        "title": "Your Audience",
+        "description": "Define your target audience for this campaign.",
+        "type": "form",
+        "fields": [
+          { "key": "audience_size", "label": "List Size (approx.)", "type": "number", "required": true, "placeholder": "7000" },
+          { "key": "audience_description", "label": "Who are they?", "type": "textarea", "required": true, "placeholder": "Business owners using multiple SaaS tools who are frustrated with automation complexity..." },
+          { "key": "pain_points", "label": "Top 3 Pain Points", "type": "textarea", "required": true, "placeholder": "1. Paying too much for Zapier/Make\n2. Complex setup for simple automations\n3. Vendor lock-in" },
+          { "key": "value_proposition", "label": "Your Unique Value", "type": "textarea", "required": true, "placeholder": "One install, 819 tools, zero monthly fees. The automation tool that replaces them all." }
+        ]
+      },
+      {
+        "id": "connections",
+        "title": "Connect Your Services",
+        "description": "Link the services this campaign will use. You'll need at minimum a CRM connection.",
+        "type": "connections",
+        "required": ["crm"],
+        "optional": ["linkedin", "facebook"],
+        "fields": [
+          { "key": "crm_api_key", "label": "CRM API Key", "type": "password", "required": true, "help": "Found in Settings > Business Profile > API Keys" },
+          { "key": "crm_location_id", "label": "CRM Location ID", "type": "text", "required": true, "help": "Your sub-account location ID" },
+          { "key": "linkedin_access_token", "label": "LinkedIn Access Token", "type": "password", "required": false, "help": "OAuth token for LinkedIn posting" },
+          { "key": "linkedin_org_id", "label": "LinkedIn Organization ID", "type": "text", "required": false, "help": "For company page posts" },
+          { "key": "fb_access_token", "label": "Facebook Access Token", "type": "password", "required": false, "help": "Long-lived token for ad management" },
+          { "key": "fb_ad_account_id", "label": "Facebook Ad Account ID", "type": "text", "required": false, "help": "Format: act_XXXXXXXX" },
+          { "key": "fb_pixel_id", "label": "Facebook Pixel ID", "type": "text", "required": false, "help": "For retargeting audiences" }
+        ]
+      },
+      {
+        "id": "budget",
+        "title": "Campaign Budget",
+        "description": "Set your Facebook retargeting budget. LinkedIn and email are organic/included.",
+        "type": "form",
+        "fields": [
+          { "key": "daily_ad_budget", "label": "Daily FB Ad Budget ($)", "type": "number", "required": false, "default": 10, "placeholder": "10" },
+          { "key": "campaign_duration", "label": "Campaign Duration (days)", "type": "number", "required": false, "default": 30, "placeholder": "30" }
+        ]
+      },
+      {
+        "id": "review",
+        "title": "Review & Launch",
+        "description": "Everything is configured. Review your settings below, then hit 'Open in Builder' to see your entire campaign mapped out visually before launch.",
+        "type": "review",
+        "action": "open_in_builder"
+      }
+    ]
+  },
+  "campaign": {
+    "name": "The Automation Liberation",
+    "duration_days": 30,
+    "channels": ["email", "linkedin", "facebook"],
+    "phases": [
+      {
+        "id": "wake_up",
+        "name": "The Wake-Up Call",
+        "days": [1, 2, 3],
+        "description": "Interrupt the status quo. Show business owners they're overpaying for automation tools.",
+        "goals": ["Open rate > 35%", "Click rate > 8%", "Unsubscribe < 0.5%"]
+      },
+      {
+        "id": "education",
+        "name": "The Education",
+        "days": [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+        "description": "Teach the audience about AI orchestration, the .0n standard, and why the old way is broken.",
+        "goals": ["Engagement rate > 5%", "Demo requests > 2%", "Content shares > 50"]
+      },
+      {
+        "id": "offer",
+        "name": "The Offer",
+        "days": [15, 16, 17, 18, 19, 20, 21],
+        "description": "Present the solution with social proof, case studies, and a clear CTA.",
+        "goals": ["Conversion rate > 3%", "Trial signups > 100", "Revenue > $500"]
+      },
+      {
+        "id": "nurture",
+        "name": "The Nurture",
+        "days": [22, 23, 24, 25, 26, 27, 28, 29, 30],
+        "description": "Continue engaging non-converters with value content. Build long-term relationship.",
+        "goals": ["Re-engagement > 15%", "Community joins > 50", "NPS > 8"]
+      }
+    ],
+    "segments": [
+      { "id": "all", "name": "Full List", "filter": "all contacts with email", "size": "{{inputs.audience_size}}" },
+      { "id": "engaged", "name": "Engaged", "filter": "opened or clicked any email", "size": "~40% of list" },
+      { "id": "hot", "name": "Hot Leads", "filter": "clicked 2+ emails or visited pricing", "size": "~10% of list" },
+      { "id": "cold", "name": "Cold", "filter": "no opens after 3 emails", "size": "~30% of list" }
+    ],
+    "tags": {
+      "campaign": "automation-liberation",
+      "phase1": "al-wake-up",
+      "phase2": "al-education",
+      "phase3": "al-offer",
+      "phase4": "al-nurture",
+      "engaged": "al-engaged",
+      "hot_lead": "al-hot-lead",
+      "converted": "al-converted",
+      "unsubscribed": "al-unsubscribed"
+    },
+    "custom_fields": [
+      { "key": "al_phase", "label": "Campaign Phase", "type": "text" },
+      { "key": "al_score", "label": "Engagement Score", "type": "number" },
+      { "key": "al_last_action", "label": "Last Campaign Action", "type": "text" },
+      { "key": "al_converted_at", "label": "Conversion Date", "type": "date" }
+    ]
+  },
+  "assets": {
+    "emails": [
+      {
+        "id": "email_1_wakeup",
+        "phase": "wake_up",
+        "day": 1,
+        "subject_lines": [
+          "You're paying $600/mo for what should be free",
+          "The $7,200/year automation tax you don't need to pay",
+          "What if Zapier was free, open-source, and 10x more powerful?"
+        ],
+        "preview_text": "819 tools. One install. Zero monthly fees.",
+        "from_name": "{{inputs.sender_name}}",
+        "from_email": "{{inputs.sender_email}}",
+        "body_html": "<div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #e0e0e0; background-color: #0a0a0f; padding: 40px 24px;\"><div style=\"text-align: center; margin-bottom: 32px;\"><img src=\"{{inputs.company_logo_url}}\" alt=\"{{inputs.company_name}}\" style=\"height: 40px;\" /></div><h1 style=\"font-size: 28px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 16px;\">You're paying $600/mo for automation.<br/>It should be $0.</h1><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">Here's a number that should make you uncomfortable:</p><div style=\"background: linear-gradient(135deg, rgba(126,217,87,0.1), rgba(0,212,255,0.1)); border: 1px solid rgba(126,217,87,0.2); border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 24px;\"><span style=\"font-size: 48px; font-weight: 800; color: #7ed957;\">$7,200</span><p style=\"font-size: 14px; color: #a0a0a0; margin-top: 8px;\">Average annual spend on Zapier + Make + n8n for a business running 20+ automations</p></div><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 16px;\">Meanwhile, there's a tool with <strong style=\"color: #ffffff;\">819 tools across 48 services</strong> that costs exactly <strong style=\"color: #7ed957;\">$0/month</strong>.</p><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 16px;\">It's called <strong style=\"color: #7ed957;\">0nMCP</strong>, and it's the Universal AI API Orchestrator.</p><ul style=\"font-size: 15px; color: #c0c0c0; line-height: 2; padding-left: 20px; margin-bottom: 24px;\"><li>One <code style=\"background: rgba(126,217,87,0.15); padding: 2px 8px; border-radius: 4px; color: #7ed957;\">npm install</code> — that's the entire setup</li><li>Stripe, Slack, Discord, OpenAI, Gmail, Shopify, Twilio — all connected</li><li>Your workflows live in portable <code style=\"background: rgba(126,217,87,0.15); padding: 2px 8px; border-radius: 4px; color: #7ed957;\">.0n</code> files you own forever</li><li>No vendor lock-in. No per-execution pricing traps.</li></ul><div style=\"text-align: center; margin: 32px 0;\"><a href=\"{{inputs.product_url}}\" style=\"display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #7ed957, #00d4ff); color: #0a0a0f; font-size: 16px; font-weight: 700; text-decoration: none; border-radius: 12px;\">See What $0/Month Gets You \u2192</a></div><p style=\"font-size: 14px; color: #666; margin-top: 32px; text-align: center;\">Stop building workflows. Start describing outcomes.</p><div style=\"border-top: 1px solid #1a1a2e; margin-top: 32px; padding-top: 16px; text-align: center;\"><p style=\"font-size: 12px; color: #444;\">{{inputs.company_name}} \u00b7 <a href=\"{{inputs.company_website}}\" style=\"color: #666;\">{{inputs.company_website}}</a></p></div></div>",
+        "body_text": "You're paying $600/mo for automation. It should be $0.\n\nHere's a number: $7,200/year. That's the average spend on Zapier + Make + n8n for a business running 20+ automations.\n\nMeanwhile, 0nMCP gives you 819 tools across 48 services for $0/month.\n\n- One npm install — that's the entire setup\n- Stripe, Slack, Discord, OpenAI, Gmail — all connected\n- Portable .0n files you own forever\n- No vendor lock-in\n\nSee it: {{inputs.product_url}}\n\nStop building workflows. Start describing outcomes.\n\n{{inputs.company_name}}"
+      },
+      {
+        "id": "email_2_education",
+        "phase": "education",
+        "day": 5,
+        "subject_lines": [
+          "What 819 tools in one install actually looks like",
+          "I replaced 12 Zapier zaps with 1 file",
+          "The tool your competitors don't know about yet"
+        ],
+        "preview_text": "Stripe + Slack + OpenAI + 45 more. One config file.",
+        "from_name": "{{inputs.sender_name}}",
+        "from_email": "{{inputs.sender_email}}",
+        "body_html": "<div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #e0e0e0; background-color: #0a0a0f; padding: 40px 24px;\"><div style=\"text-align: center; margin-bottom: 32px;\"><img src=\"{{inputs.company_logo_url}}\" alt=\"{{inputs.company_name}}\" style=\"height: 40px;\" /></div><h1 style=\"font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 20px;\">Here's what 819 tools in one install looks like</h1><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">Last week I showed you the cost problem. Today, let me show you the solution.</p><div style=\"background: rgba(255,255,255,0.03); border: 1px solid #1a1a2e; border-radius: 12px; padding: 24px; margin-bottom: 24px;\"><p style=\"font-size: 14px; font-family: monospace; color: #7ed957; margin: 0 0 8px 0;\">$ npm install -g 0nmcp</p><p style=\"font-size: 14px; font-family: monospace; color: #7ed957; margin: 0 0 8px 0;\">$ 0nmcp engine import</p><p style=\"font-size: 14px; font-family: monospace; color: #a0a0a0; margin: 0;\">&#10003; 48 services connected. 819 tools ready.</p></div><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 16px;\">That's it. Two commands. Every API you use — connected and orchestrated by AI.</p><h2 style=\"font-size: 18px; color: #ffffff; margin: 32px 0 16px;\">What people are building:</h2><div style=\"margin-bottom: 16px; padding: 16px; background: rgba(126,217,87,0.05); border-left: 3px solid #7ed957; border-radius: 0 8px 8px 0;\"><strong style=\"color: #ffffff;\">Lead Qualification Pipeline</strong><p style=\"font-size: 14px; color: #a0a0a0; margin: 4px 0 0;\">CRM &rarr; AI Scoring &rarr; Slack Alert &rarr; Auto-Follow-up &rarr; Calendar Booking</p></div><div style=\"margin-bottom: 16px; padding: 16px; background: rgba(0,212,255,0.05); border-left: 3px solid #00d4ff; border-radius: 0 8px 8px 0;\"><strong style=\"color: #ffffff;\">Content Distribution</strong><p style=\"font-size: 14px; color: #a0a0a0; margin: 4px 0 0;\">Blog Post &rarr; AI Repurpose &rarr; LinkedIn + Twitter + Dev.to + Email Newsletter</p></div><div style=\"margin-bottom: 16px; padding: 16px; background: rgba(167,139,250,0.05); border-left: 3px solid #a78bfa; border-radius: 0 8px 8px 0;\"><strong style=\"color: #ffffff;\">Client Onboarding</strong><p style=\"font-size: 14px; color: #a0a0a0; margin: 4px 0 0;\">Stripe Payment &rarr; CRM Contact &rarr; Welcome Sequence &rarr; Slack Channel &rarr; Project Setup</p></div><div style=\"text-align: center; margin: 32px 0;\"><a href=\"{{inputs.product_url}}/builder\" style=\"display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, #7ed957, #00d4ff); color: #0a0a0f; font-size: 15px; font-weight: 700; text-decoration: none; border-radius: 12px;\">Try the Visual Builder \u2192</a></div><div style=\"border-top: 1px solid #1a1a2e; margin-top: 32px; padding-top: 16px; text-align: center;\"><p style=\"font-size: 12px; color: #444;\">{{inputs.company_name}} \u00b7 <a href=\"{{inputs.company_website}}\" style=\"color: #666;\">Unsubscribe</a></p></div></div>",
+        "body_text": "What 819 tools in one install looks like\n\n$ npm install -g 0nmcp\n$ 0nmcp engine import\n48 services connected. 819 tools ready.\n\nTwo commands. Every API you use — connected and orchestrated by AI.\n\nWhat people are building:\n- Lead Qualification: CRM -> AI Scoring -> Slack -> Follow-up -> Booking\n- Content Distribution: Blog -> AI Repurpose -> LinkedIn + Twitter + Email\n- Client Onboarding: Payment -> CRM -> Welcome -> Slack -> Project\n\nTry it: {{inputs.product_url}}/builder\n\n{{inputs.company_name}}"
+      },
+      {
+        "id": "email_3_standard",
+        "phase": "education",
+        "day": 8,
+        "subject_lines": [
+          "Your workflows should be portable. Here's why.",
+          "The .0n Standard — own your automations forever",
+          "What happens to your Zapier zaps when you cancel?"
+        ],
+        "preview_text": "One file format. Every platform. Zero lock-in.",
+        "from_name": "{{inputs.sender_name}}",
+        "from_email": "{{inputs.sender_email}}",
+        "body_html": "<div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #e0e0e0; background-color: #0a0a0f; padding: 40px 24px;\"><div style=\"text-align: center; margin-bottom: 32px;\"><img src=\"{{inputs.company_logo_url}}\" alt=\"{{inputs.company_name}}\" style=\"height: 40px;\" /></div><h1 style=\"font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 20px;\">What happens to your Zapier zaps when you cancel?</h1><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 16px;\">They disappear. Every automation. Every connection. Every workflow you spent hours building. <strong style=\"color: #ff6b6b;\">Gone.</strong></p><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">That's the dirty secret of SaaS automation tools — you're renting your workflows.</p><h2 style=\"font-size: 20px; color: #7ed957; margin: 32px 0 16px;\">The .0n Standard changes everything.</h2><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 16px;\">Your workflows are stored as <code style=\"background: rgba(126,217,87,0.15); padding: 2px 8px; border-radius: 4px; color: #7ed957;\">.0n</code> files — plain JSON that you own. They're portable, readable, and work anywhere 0nMCP runs.</p><ul style=\"font-size: 15px; color: #c0c0c0; line-height: 2; padding-left: 20px; margin-bottom: 24px;\"><li><strong style=\"color: #fff;\">Share</strong> workflows with your team like sharing documents</li><li><strong style=\"color: #fff;\">Sell</strong> your workflows on the 0n Marketplace</li><li><strong style=\"color: #fff;\">Version control</strong> them with Git</li><li><strong style=\"color: #fff;\">Back them up</strong> anywhere — they're just files</li><li><strong style=\"color: #fff;\">Never lose</strong> your work again</li></ul><div style=\"text-align: center; margin: 32px 0;\"><a href=\"{{inputs.product_url}}/0n-standard\" style=\"display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, #7ed957, #00d4ff); color: #0a0a0f; font-size: 15px; font-weight: 700; text-decoration: none; border-radius: 12px;\">Learn About the .0n Standard \u2192</a></div><div style=\"border-top: 1px solid #1a1a2e; margin-top: 32px; padding-top: 16px; text-align: center;\"><p style=\"font-size: 12px; color: #444;\">{{inputs.company_name}} \u00b7 <a href=\"{{inputs.company_website}}\" style=\"color: #666;\">Unsubscribe</a></p></div></div>",
+        "body_text": "What happens to your Zapier zaps when you cancel?\n\nThey disappear. Every automation you built. Gone.\n\nThe .0n Standard changes everything. Your workflows are .0n files — plain JSON you own forever.\n\n- Share workflows like documents\n- Sell them on the marketplace\n- Version control with Git\n- Never lose your work\n\nLearn more: {{inputs.product_url}}/0n-standard\n\n{{inputs.company_name}}"
+      },
+      {
+        "id": "email_4_casestudy",
+        "phase": "education",
+        "day": 12,
+        "subject_lines": [
+          "From 12 Zapier zaps to 1 SWITCH file (real story)",
+          "How one agency cut their automation costs by 100%",
+          "\"I deleted my Zapier account\" — here's what happened next"
+        ],
+        "preview_text": "Real results from a real business. No fluff.",
+        "from_name": "{{inputs.sender_name}}",
+        "from_email": "{{inputs.sender_email}}",
+        "body_html": "<div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #e0e0e0; background-color: #0a0a0f; padding: 40px 24px;\"><div style=\"text-align: center; margin-bottom: 32px;\"><img src=\"{{inputs.company_logo_url}}\" alt=\"{{inputs.company_name}}\" style=\"height: 40px;\" /></div><h1 style=\"font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 20px;\">12 Zapier Zaps &rarr; 1 SWITCH File</h1><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">Here's a real before/after from a marketing agency that made the switch:</p><div style=\"display: flex; gap: 16px; margin-bottom: 24px;\"><div style=\"flex: 1; background: rgba(255,59,48,0.05); border: 1px solid rgba(255,59,48,0.2); border-radius: 12px; padding: 20px;\"><h3 style=\"color: #ff3b30; font-size: 14px; margin: 0 0 12px;\">BEFORE</h3><ul style=\"font-size: 13px; color: #a0a0a0; padding-left: 16px; margin: 0; line-height: 1.8;\"><li>12 Zapier zaps</li><li>3 Make scenarios</li><li>$487/mo total</li><li>4 tools to manage</li><li>Breaks monthly</li></ul></div><div style=\"flex: 1; background: rgba(126,217,87,0.05); border: 1px solid rgba(126,217,87,0.2); border-radius: 12px; padding: 20px;\"><h3 style=\"color: #7ed957; font-size: 14px; margin: 0 0 12px;\">AFTER</h3><ul style=\"font-size: 13px; color: #a0a0a0; padding-left: 16px; margin: 0; line-height: 1.8;\"><li>1 SWITCH file</li><li>0 monthly cost</li><li>$0/mo forever</li><li>1 tool to manage</li><li>Self-healing</li></ul></div></div><div style=\"background: rgba(126,217,87,0.08); border-radius: 12px; padding: 24px; margin-bottom: 24px;\"><p style=\"font-size: 18px; color: #ffffff; font-style: italic; margin: 0 0 8px;\">&ldquo;I deleted my Zapier account and saved $5,844/year. The SWITCH file does more than all 12 zaps combined.&rdquo;</p><p style=\"font-size: 13px; color: #7ed957; margin: 0;\">— Agency owner, 15 clients</p></div><div style=\"text-align: center; margin: 32px 0;\"><a href=\"{{inputs.product_url}}/console\" style=\"display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, #7ed957, #00d4ff); color: #0a0a0f; font-size: 15px; font-weight: 700; text-decoration: none; border-radius: 12px;\">Start Your Migration \u2192</a></div><div style=\"border-top: 1px solid #1a1a2e; margin-top: 32px; padding-top: 16px; text-align: center;\"><p style=\"font-size: 12px; color: #444;\">{{inputs.company_name}} \u00b7 <a href=\"{{inputs.company_website}}\" style=\"color: #666;\">Unsubscribe</a></p></div></div>",
+        "body_text": "12 Zapier Zaps -> 1 SWITCH File\n\nBEFORE: 12 zaps, 3 Make scenarios, $487/mo, breaks monthly\nAFTER: 1 SWITCH file, $0/mo forever, self-healing\n\n\"I deleted my Zapier account and saved $5,844/year.\"\n— Agency owner, 15 clients\n\nStart yours: {{inputs.product_url}}/console\n\n{{inputs.company_name}}"
+      },
+      {
+        "id": "email_5_offer",
+        "phase": "offer",
+        "day": 16,
+        "subject_lines": [
+          "Your free 0nMCP setup — we'll configure it for you",
+          "I'll personally set up your first SWITCH file",
+          "Ready to stop paying for automation? Let's do this."
+        ],
+        "preview_text": "Free setup. Free tool. Free forever.",
+        "from_name": "{{inputs.sender_name}}",
+        "from_email": "{{inputs.sender_email}}",
+        "body_html": "<div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #e0e0e0; background-color: #0a0a0f; padding: 40px 24px;\"><div style=\"text-align: center; margin-bottom: 32px;\"><img src=\"{{inputs.company_logo_url}}\" alt=\"{{inputs.company_name}}\" style=\"height: 40px;\" /></div><h1 style=\"font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 20px;\">Let me set up 0nMCP for you. Free.</h1><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">You've seen the numbers. You've seen the case study. Now it's time to experience it yourself.</p><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">Here's what I'm offering:</p><div style=\"background: linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.08)); border: 1px solid rgba(126,217,87,0.2); border-radius: 16px; padding: 32px; margin-bottom: 24px;\"><h2 style=\"color: #7ed957; font-size: 20px; margin: 0 0 16px;\">Free Setup Package</h2><ul style=\"font-size: 15px; color: #c0c0c0; line-height: 2.2; padding-left: 20px; margin: 0;\"><li>&#10003; Install and configure 0nMCP on your system</li><li>&#10003; Connect your top 5 services</li><li>&#10003; Migrate your #1 most important automation</li><li>&#10003; Create your first SWITCH file</li><li>&#10003; 30-minute strategy call to plan your full migration</li></ul><div style=\"text-align: center; margin-top: 24px;\"><span style=\"font-size: 14px; color: #666; text-decoration: line-through;\">Value: $500</span><span style=\"font-size: 24px; font-weight: 800; color: #7ed957; margin-left: 16px;\">FREE</span></div></div><div style=\"text-align: center; margin: 32px 0;\"><a href=\"{{inputs.calendar_link}}\" style=\"display: inline-block; padding: 16px 48px; background: linear-gradient(135deg, #7ed957, #00d4ff); color: #0a0a0f; font-size: 16px; font-weight: 700; text-decoration: none; border-radius: 12px;\">Book Your Free Setup Call \u2192</a></div><p style=\"font-size: 14px; color: #666; text-align: center;\">Limited to the first 50 respondents. No obligations.</p><div style=\"border-top: 1px solid #1a1a2e; margin-top: 32px; padding-top: 16px; text-align: center;\"><p style=\"font-size: 12px; color: #444;\">{{inputs.company_name}} \u00b7 <a href=\"{{inputs.company_website}}\" style=\"color: #666;\">Unsubscribe</a></p></div></div>",
+        "body_text": "Let me set up 0nMCP for you. Free.\n\nFree Setup Package:\n- Install and configure 0nMCP\n- Connect your top 5 services\n- Migrate your #1 automation\n- Create your first SWITCH file\n- 30-minute strategy call\n\nValue: $500 -> FREE (first 50 respondents)\n\nBook now: {{inputs.calendar_link}}\n\n{{inputs.company_name}}"
+      },
+      {
+        "id": "email_6_urgency",
+        "phase": "offer",
+        "day": 20,
+        "subject_lines": [
+          "Last call: your free automation migration expires Friday",
+          "42 business owners already switched. You're next.",
+          "Your $600/mo automation bill is waiting..."
+        ],
+        "preview_text": "The free setup offer closes this week.",
+        "from_name": "{{inputs.sender_name}}",
+        "from_email": "{{inputs.sender_email}}",
+        "body_html": "<div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #e0e0e0; background-color: #0a0a0f; padding: 40px 24px;\"><div style=\"text-align: center; margin-bottom: 32px;\"><img src=\"{{inputs.company_logo_url}}\" alt=\"{{inputs.company_name}}\" style=\"height: 40px;\" /></div><h1 style=\"font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 20px;\">42 business owners already made the switch.</h1><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">Since I first emailed you 3 weeks ago, 42 people have set up 0nMCP and started saving thousands per year on automation costs.</p><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">The free setup offer I shared last week? <strong style=\"color: #ff6b6b;\">It closes this Friday.</strong></p><div style=\"background: rgba(255,255,255,0.03); border: 1px solid #1a1a2e; border-radius: 12px; padding: 24px; margin-bottom: 24px;\"><h3 style=\"color: #ffffff; font-size: 16px; margin: 0 0 12px;\">What you get (recap):</h3><ul style=\"font-size: 14px; color: #a0a0a0; padding-left: 16px; margin: 0; line-height: 2;\"><li>Full 0nMCP installation + configuration</li><li>Your top 5 services connected</li><li>Your #1 automation migrated</li><li>First SWITCH file created</li><li>Strategy call for full migration plan</li></ul></div><div style=\"text-align: center; margin: 32px 0;\"><a href=\"{{inputs.calendar_link}}\" style=\"display: inline-block; padding: 16px 48px; background: linear-gradient(135deg, #ff6b35, #ff3b30); color: #ffffff; font-size: 16px; font-weight: 700; text-decoration: none; border-radius: 12px;\">Claim Your Free Setup \u2192</a><p style=\"font-size: 13px; color: #666; margin-top: 8px;\">Closes Friday at midnight. Only 8 spots remaining.</p></div><div style=\"border-top: 1px solid #1a1a2e; margin-top: 32px; padding-top: 16px; text-align: center;\"><p style=\"font-size: 12px; color: #444;\">{{inputs.company_name}} \u00b7 <a href=\"{{inputs.company_website}}\" style=\"color: #666;\">Unsubscribe</a></p></div></div>",
+        "body_text": "42 business owners already made the switch.\n\nThe free setup offer closes Friday.\n\nWhat you get:\n- Full 0nMCP installation\n- Top 5 services connected\n- #1 automation migrated\n- First SWITCH file created\n- Strategy call\n\nOnly 8 spots left: {{inputs.calendar_link}}\n\n{{inputs.company_name}}"
+      },
+      {
+        "id": "email_7_nurture",
+        "phase": "nurture",
+        "day": 25,
+        "subject_lines": [
+          "The automation revolution isn't waiting",
+          "Quick update + something cool we just shipped",
+          "3 things you can automate this weekend (for free)"
+        ],
+        "preview_text": "Useful stuff. No sales pitch.",
+        "from_name": "{{inputs.sender_name}}",
+        "from_email": "{{inputs.sender_email}}",
+        "body_html": "<div style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; color: #e0e0e0; background-color: #0a0a0f; padding: 40px 24px;\"><div style=\"text-align: center; margin-bottom: 32px;\"><img src=\"{{inputs.company_logo_url}}\" alt=\"{{inputs.company_name}}\" style=\"height: 40px;\" /></div><h1 style=\"font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3; margin-bottom: 20px;\">3 automations you can build this weekend</h1><p style=\"font-size: 16px; line-height: 1.6; color: #a0a0a0; margin-bottom: 24px;\">No sales pitch today. Just 3 genuinely useful things you can automate in under 10 minutes with 0nMCP:</p><div style=\"margin-bottom: 20px; padding: 20px; background: rgba(126,217,87,0.05); border: 1px solid rgba(126,217,87,0.15); border-radius: 12px;\"><h3 style=\"color: #7ed957; font-size: 16px; margin: 0 0 8px;\">1. Auto-respond to form submissions</h3><p style=\"font-size: 14px; color: #a0a0a0; margin: 0;\">Form submit &rarr; AI writes personalized response &rarr; Send via Gmail &rarr; Log in Sheets &rarr; Slack notification. 5 services, 1 SWITCH file, 0 code.</p></div><div style=\"margin-bottom: 20px; padding: 20px; background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15); border-radius: 12px;\"><h3 style=\"color: #00d4ff; font-size: 16px; margin: 0 0 8px;\">2. Daily revenue dashboard</h3><p style=\"font-size: 14px; color: #a0a0a0; margin: 0;\">Every morning at 8am: Pull Stripe revenue &rarr; Format report &rarr; Post to Slack #revenue &rarr; CC to your email. Runs forever, costs nothing.</p></div><div style=\"margin-bottom: 20px; padding: 20px; background: rgba(167,139,250,0.05); border: 1px solid rgba(167,139,250,0.15); border-radius: 12px;\"><h3 style=\"color: #a78bfa; font-size: 16px; margin: 0 0 8px;\">3. Smart lead follow-up</h3><p style=\"font-size: 14px; color: #a0a0a0; margin: 0;\">New CRM contact &rarr; AI analyzes company &rarr; Writes custom follow-up &rarr; Schedules email at optimal time &rarr; Tracks opens &rarr; Alerts you on engagement.</p></div><div style=\"text-align: center; margin: 32px 0;\"><a href=\"{{inputs.product_url}}/learn\" style=\"display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, #7ed957, #00d4ff); color: #0a0a0f; font-size: 15px; font-weight: 700; text-decoration: none; border-radius: 12px;\">Try These Tutorials \u2192</a></div><p style=\"font-size: 14px; color: #666; text-align: center;\">P.S. — We just shipped v2.2.0 with 819 tools. The community is growing fast. <a href=\"{{inputs.product_url}}/forum\" style=\"color: #7ed957;\">Join the conversation \u2192</a></p><div style=\"border-top: 1px solid #1a1a2e; margin-top: 32px; padding-top: 16px; text-align: center;\"><p style=\"font-size: 12px; color: #444;\">{{inputs.company_name}} \u00b7 <a href=\"{{inputs.company_website}}\" style=\"color: #666;\">Unsubscribe</a></p></div></div>",
+        "body_text": "3 automations you can build this weekend:\n\n1. Auto-respond to form submissions\nForm -> AI response -> Gmail -> Sheets -> Slack\n\n2. Daily revenue dashboard\nStripe -> Format -> Slack #revenue -> Email\n\n3. Smart lead follow-up\nNew contact -> AI analysis -> Custom email -> Track engagement\n\nTutorials: {{inputs.product_url}}/learn\n\nP.S. We just shipped v2.2.0 with 819 tools.\n\n{{inputs.company_name}}"
+      }
+    ],
+    "linkedin_posts": [
+      {
+        "id": "li_post_1",
+        "phase": "wake_up",
+        "day": 2,
+        "content": "The average business spends $7,200/year on automation tools.\n\nZapier. Make. n8n. Integration platforms.\n\nHere's what they all have in common:\n\u2192 Monthly subscription fees\n\u2192 Per-execution pricing that scales against you\n\u2192 Vendor lock-in (delete your account = lose your workflows)\n\u2192 Dozens of separate tools to manage\n\nWhat if there was a tool with 819 integrations that cost $0/month?\n\nOne install. One config file. Every API you use \u2014 connected.\n\nThat tool exists. It's open-source. It's called 0nMCP.\n\nnpm install -g 0nmcp\n\nThat's the entire setup.\n\n#automation #opensource #AI #workflow #SaaS",
+        "type": "text"
+      },
+      {
+        "id": "li_post_2",
+        "phase": "education",
+        "day": 7,
+        "content": "I replaced 12 Zapier zaps with 1 file.\n\nNot 12 files. One.\n\nIt's called a SWITCH file (.0n format), and it contains:\n\u2705 All 12 automations\n\u2705 All service connections\n\u2705 All conditional logic\n\u2705 All error handling\n\nIt runs locally. No cloud dependency.\nIt's portable. Works on any machine.\nIt's version-controlled. Lives in Git.\nIt costs $0/month. Forever.\n\nThe .0n Standard is the future of workflow automation.\n\nYour workflows are files you own \u2014 not subscriptions you rent.\n\n\u2192 github.com/0nork/0nMCP\n\n#0nMCP #automation #nocode #devtools #workflows",
+        "type": "text"
+      },
+      {
+        "id": "li_post_3",
+        "phase": "education",
+        "day": 11,
+        "content": "Stop building workflows.\nStart describing outcomes.\n\nThat's the tagline behind 0nMCP \u2014 and it's not just marketing.\n\nTraditional automation:\n1. Open Zapier\n2. Pick a trigger\n3. Add 6 actions\n4. Map every field manually\n5. Test and fix for 2 hours\n6. Pay $49/month for the privilege\n\n0nMCP automation:\n1. Describe what you want in plain English\n2. AI builds the workflow\n3. Run it\n\nSame result. One takes hours. The other takes seconds.\n\n819 tools. 48 services. One npm install.\n\nThe future of automation isn't drag-and-drop.\nIt's describe-and-done.\n\n\u2192 0nmcp.com\n\n#AI #automation #productivity #futureofwork",
+        "type": "text"
+      },
+      {
+        "id": "li_post_4",
+        "phase": "offer",
+        "day": 15,
+        "content": "We're offering free 0nMCP setup for 50 business owners.\n\nHere's what's included:\n\n\ud83d\udd27 Full installation + configuration\n\ud83d\udd17 Your top 5 services connected\n\ud83d\udccb Your #1 automation migrated from Zapier/Make\n\ud83d\udcc4 Your first SWITCH file created\n\ud83d\udcde 30-minute strategy call\n\nWhy free? Because once you see what $0/month automation looks like, you'll never go back.\n\n42 of 50 spots are claimed.\n\nComment \"SWITCH\" or DM me to claim yours.\n\n\u2192 0nmcp.com/console\n\n#0nMCP #automation #free #business #efficiency",
+        "type": "text"
+      },
+      {
+        "id": "li_post_5",
+        "phase": "offer",
+        "day": 19,
+        "content": "Automation shouldn't have a monthly bill.\n\nThink about it:\n\n\u2192 Your code editor doesn't charge per keystroke\n\u2192 Your terminal doesn't charge per command\n\u2192 Your Git doesn't charge per commit\n\nSo why does your automation tool charge per execution?\n\n0nMCP is MIT-licensed, open-source, and free forever.\n819 tools. 48 services. $0/month.\n\nThe only thing you pay for is what you choose to buy \u2014 pre-built campaign files and premium workflows in our marketplace.\n\nYour core tool should be free.\nThe ecosystem should be where the value lives.\n\nThat's the 0n model.\n\n\u2192 Try it: npm install -g 0nmcp\n\n#opensource #automation #AI #business #SaaS",
+        "type": "text"
+      },
+      {
+        "id": "li_post_6",
+        "phase": "nurture",
+        "day": 26,
+        "content": "Just shipped 0nMCP v2.2.0.\n\n819 tools across 48 services.\n\nNew in this release:\n\u2022 Business Deed Transfer System \u2014 package and sell entire digital businesses\n\u2022 Patent-pending Vault Container System \u2014 military-grade credential encryption\n\u2022 AI Mode \u2014 describe what you want, Claude builds the workflow\n\nThis isn't a SaaS tool.\nThis is infrastructure.\n\nOpen source. MIT licensed. Yours forever.\n\n\u2192 0nmcp.com\n\u2192 npm: 0nmcp\n\u2192 GitHub: 0nork/0nMCP\n\nJoin the community: 0nmcp.com/forum\n\n#0nMCP #opensource #AI #automation #devtools",
+        "type": "text"
+      }
+    ],
+    "facebook_ads": [
+      {
+        "id": "fb_ad_1_awareness",
+        "phase": "wake_up",
+        "campaign_objective": "AWARENESS",
+        "ad_set": {
+          "name": "Business Owners - Automation Pain",
+          "targeting": {
+            "interests": ["Zapier", "Make (Integromat)", "n8n", "Business automation", "SaaS tools", "Small business software"],
+            "behaviors": ["Small business owners", "Technology early adopters"],
+            "age_min": 25,
+            "age_max": 55,
+            "custom_audience": "{{launch_codes.fb_pixel_id}} website visitors"
+          },
+          "daily_budget": "{{inputs.daily_ad_budget}}",
+          "placements": ["facebook_feed", "instagram_feed", "facebook_reels"]
+        },
+        "ad_creative": {
+          "headline": "Stop Paying $600/mo for Automation",
+          "primary_text": "819 tools. One install. $0/month. 0nMCP is the open-source automation platform that replaces Zapier, Make, and n8n — for free.",
+          "description": "Free forever. Open source. MIT licensed.",
+          "call_to_action": "LEARN_MORE",
+          "link": "{{inputs.product_url}}?utm_source=facebook&utm_medium=paid&utm_campaign=automation-liberation",
+          "image_specs": {
+            "dimensions": "1200x628",
+            "background": "#0a0a0f",
+            "headline_text": "$7,200/yr \u2192 $0/yr",
+            "subtext": "819 tools. One install. Zero monthly fees.",
+            "brand_color": "#7ed957",
+            "logo_position": "bottom-right"
+          }
+        }
+      },
+      {
+        "id": "fb_ad_2_retarget",
+        "phase": "education",
+        "campaign_objective": "TRAFFIC",
+        "ad_set": {
+          "name": "Retarget - Site Visitors",
+          "targeting": {
+            "custom_audience": "Website visitors last 14 days (exclude converters)",
+            "lookalike": "1% lookalike of converters"
+          },
+          "daily_budget": "{{inputs.daily_ad_budget}}",
+          "placements": ["facebook_feed", "instagram_stories"]
+        },
+        "ad_creative": {
+          "headline": "Still Paying for Zapier?",
+          "primary_text": "You visited 0nmcp.com — so you know what's possible. 819 tools, zero monthly cost. Come see the visual builder in action.",
+          "description": "Try the free visual workflow builder.",
+          "call_to_action": "SIGN_UP",
+          "link": "{{inputs.product_url}}/builder?utm_source=facebook&utm_medium=retarget&utm_campaign=automation-liberation",
+          "video_specs": {
+            "duration": "30s",
+            "scenes": [
+              "Problem: Zapier pricing page showing $600/mo",
+              "Solution: Terminal showing 'npm install -g 0nmcp'",
+              "Demo: Visual builder with nodes connecting",
+              "CTA: 'Try it free at 0nmcp.com'"
+            ]
+          }
+        }
+      },
+      {
+        "id": "fb_ad_3_conversion",
+        "phase": "offer",
+        "campaign_objective": "CONVERSIONS",
+        "ad_set": {
+          "name": "Conversion - Hot Leads",
+          "targeting": {
+            "custom_audience": "Engaged visitors (3+ page views or email clickers)",
+            "exclude": "Already signed up"
+          },
+          "daily_budget": "{{inputs.daily_ad_budget}}",
+          "placements": ["facebook_feed"]
+        },
+        "ad_creative": {
+          "headline": "Free Setup — Only 8 Spots Left",
+          "primary_text": "We'll personally install 0nMCP, connect your services, and migrate your first automation. Free. 42 of 50 spots claimed.",
+          "description": "Book your free setup call today.",
+          "call_to_action": "BOOK_NOW",
+          "link": "{{inputs.calendar_link}}?utm_source=facebook&utm_medium=conversion&utm_campaign=automation-liberation",
+          "image_specs": {
+            "dimensions": "1080x1080",
+            "background": "gradient #0a0a0f to #1a1a2e",
+            "headline_text": "FREE SETUP",
+            "subtext": "Only 8 spots remaining",
+            "brand_color": "#7ed957",
+            "urgency_badge": true
+          }
+        }
+      }
+    ]
+  },
+  "inputs": {
+    "company_name": { "type": "string", "description": "Your company name", "required": true },
+    "company_tagline": { "type": "string", "description": "Your company tagline", "required": false },
+    "company_website": { "type": "string", "description": "Your website URL", "required": true },
+    "company_logo_url": { "type": "string", "description": "URL to your company logo", "required": false },
+    "sender_name": { "type": "string", "description": "Email sender name", "required": true },
+    "sender_email": { "type": "string", "description": "Email sender address", "required": true },
+    "product_name": { "type": "string", "description": "Product/service being promoted", "required": true },
+    "product_url": { "type": "string", "description": "Product landing page URL", "required": true },
+    "industry": { "type": "select", "description": "Your industry", "required": true, "options": ["SaaS / Technology", "Marketing Agency", "Consulting", "E-Commerce", "Professional Services", "Real Estate", "Healthcare", "Finance", "Education", "Other"] },
+    "calendar_link": { "type": "string", "description": "Booking/calendar link", "required": false },
+    "audience_size": { "type": "number", "description": "Approximate list size", "required": true, "default": 7000 },
+    "audience_description": { "type": "string", "description": "Who is your target audience?", "required": true },
+    "pain_points": { "type": "string", "description": "Top pain points of your audience", "required": true },
+    "value_proposition": { "type": "string", "description": "Your unique value proposition", "required": true },
+    "daily_ad_budget": { "type": "number", "description": "Daily Facebook ad budget in dollars", "required": false, "default": 10 },
+    "campaign_duration": { "type": "number", "description": "Campaign length in days", "required": false, "default": 30 }
+  },
+  "launch_codes": {
+    "crm_api_key": { "label": "CRM API Key", "description": "Your CRM platform API key", "type": "string", "required": true, "placeholder": "pit-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" },
+    "crm_location_id": { "label": "CRM Location ID", "description": "Your CRM sub-account location", "type": "string", "required": true },
+    "linkedin_access_token": { "label": "LinkedIn Access Token", "description": "OAuth token for LinkedIn API", "type": "string", "required": false },
+    "linkedin_org_id": { "label": "LinkedIn Org ID", "description": "Company page ID for LinkedIn", "type": "string", "required": false },
+    "fb_access_token": { "label": "Facebook Access Token", "description": "Long-lived token for FB Ads API", "type": "string", "required": false },
+    "fb_ad_account_id": { "label": "FB Ad Account ID", "description": "Facebook Ads account (act_XXX)", "type": "string", "required": false },
+    "fb_pixel_id": { "label": "Facebook Pixel ID", "description": "For retargeting audiences", "type": "string", "required": false }
+  },
+  "steps": [
+    {
+      "id": "step_1_create_tags",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: automation-liberation",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "automation-liberation",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_2_create_tag_wakeup",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: al-wake-up",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al-wake-up",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_3_create_tag_education",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: al-education",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al-education",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_4_create_tag_offer",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: al-offer",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al-offer",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_5_create_tag_nurture",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: al-nurture",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al-nurture",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_6_create_tag_engaged",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: al-engaged",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al-engaged",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_7_create_tag_hot_lead",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: al-hot-lead",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al-hot-lead",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_8_create_tag_converted",
+      "service": "crm",
+      "action": "crm_create_location_tag",
+      "description": "Create campaign tracking tag: al-converted",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al-converted",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_9_create_custom_field_phase",
+      "service": "crm",
+      "action": "crm_create_custom_field",
+      "description": "Create custom field: al_phase (Campaign Phase tracker)",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al_phase",
+        "label": "Campaign Phase",
+        "dataType": "TEXT",
+        "position": 0,
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_10_create_custom_field_score",
+      "service": "crm",
+      "action": "crm_create_custom_field",
+      "description": "Create custom field: al_score (Engagement Score)",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al_score",
+        "label": "Engagement Score",
+        "dataType": "NUMERICAL",
+        "position": 1,
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_11_create_custom_field_last_action",
+      "service": "crm",
+      "action": "crm_create_custom_field",
+      "description": "Create custom field: al_last_action (Last Campaign Action)",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al_last_action",
+        "label": "Last Campaign Action",
+        "dataType": "TEXT",
+        "position": 2,
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_12_create_custom_field_converted_at",
+      "service": "crm",
+      "action": "crm_create_custom_field",
+      "description": "Create custom field: al_converted_at (Conversion Date)",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "name": "al_converted_at",
+        "label": "Conversion Date",
+        "dataType": "DATE",
+        "position": 3,
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_13_tag_all_contacts",
+      "service": "crm",
+      "action": "crm_add_contact_tags",
+      "description": "Tag all campaign contacts with master campaign tag 'automation-liberation' and wake-up phase tag",
+      "phase": "setup",
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "query": "all",
+        "tags": ["automation-liberation", "al-wake-up"],
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      },
+      "note": "Applies to all contacts in the CRM location that have a valid email. Run a smart list filter for contacts with email before tagging."
+    },
+    {
+      "id": "step_14_send_email_1_wakeup",
+      "service": "crm",
+      "action": "crm_send_message",
+      "description": "DAY 1 — Send Email 1 (The Wake-Up Call) to full list of 7,000 contacts",
+      "phase": "wake_up",
+      "day": 1,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "type": "Email",
+        "subject": "You're paying $600/mo for what should be free",
+        "html": "{{assets.emails[0].body_html}}",
+        "text": "{{assets.emails[0].body_text}}",
+        "fromName": "{{inputs.sender_name}}",
+        "fromEmail": "{{inputs.sender_email}}",
+        "segmentTag": "automation-liberation",
+        "excludeTag": "al-unsubscribed",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_15_delay_24h",
+      "service": "engine",
+      "action": "delay_wait",
+      "description": "Wait 24 hours after Email 1 before posting LinkedIn #1",
+      "phase": "wake_up",
+      "on_error": "continue",
+      "params": {
+        "duration": 86400,
+        "unit": "seconds",
+        "reason": "Allow email delivery and initial open tracking before LinkedIn amplification"
+      }
+    },
+    {
+      "id": "step_16_linkedin_post_1",
+      "service": "linkedin",
+      "action": "linkedin_create_post",
+      "description": "DAY 2 — Post LinkedIn #1 (The Automation Tax) — organic company page post",
+      "phase": "wake_up",
+      "day": 2,
+      "on_error": "continue",
+      "params": {
+        "accessToken": "{{launch_codes.linkedin_access_token}}",
+        "organizationId": "{{launch_codes.linkedin_org_id}}",
+        "text": "{{assets.linkedin_posts[0].content}}",
+        "visibility": "PUBLIC",
+        "contentType": "NONE"
+      }
+    },
+    {
+      "id": "step_17_delay_48h",
+      "service": "engine",
+      "action": "delay_wait",
+      "description": "Wait 48 hours — transition from Wake-Up to Education phase",
+      "phase": "wake_up",
+      "on_error": "continue",
+      "params": {
+        "duration": 172800,
+        "unit": "seconds",
+        "reason": "Allow audience to process Wake-Up message before entering education sequence"
+      }
+    },
+    {
+      "id": "step_18_check_email1_engagement",
+      "service": "crm",
+      "action": "crm_get_contacts",
+      "description": "DAY 4 — Pull contacts who opened or clicked Email 1 to build engaged segment",
+      "phase": "education",
+      "day": 4,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "tags": ["automation-liberation"],
+        "emailOpened": true,
+        "limit": 10000,
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      },
+      "output": "step_18_engaged_contacts"
+    },
+    {
+      "id": "step_19_tag_engaged_contacts",
+      "service": "crm",
+      "action": "crm_add_contact_tags",
+      "description": "Tag all Email 1 openers/clickers as 'al-engaged' and update al_phase custom field",
+      "phase": "education",
+      "day": 4,
+      "on_error": "continue",
+      "depends_on": "step_18_check_email1_engagement",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "contactIds": "{{step.step_18_check_email1_engagement.output.contactIds}}",
+        "tags": ["al-engaged"],
+        "customFieldValues": {
+          "al_phase": "education",
+          "al_score": 10,
+          "al_last_action": "opened_email_1"
+        },
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_20_send_email_2_education",
+      "service": "crm",
+      "action": "crm_send_message",
+      "description": "DAY 5 — Send Email 2 (What 819 Tools Looks Like) to engaged segment",
+      "phase": "education",
+      "day": 5,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "type": "Email",
+        "subject": "What 819 tools in one install actually looks like",
+        "html": "{{assets.emails[1].body_html}}",
+        "text": "{{assets.emails[1].body_text}}",
+        "fromName": "{{inputs.sender_name}}",
+        "fromEmail": "{{inputs.sender_email}}",
+        "segmentTag": "al-engaged",
+        "excludeTag": "al-unsubscribed",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_21_delay_3_days",
+      "service": "engine",
+      "action": "delay_wait",
+      "description": "Wait 3 days — digest period between Email 2 and Email 3",
+      "phase": "education",
+      "on_error": "continue",
+      "params": {
+        "duration": 259200,
+        "unit": "seconds",
+        "reason": "Give contacts time to explore the product before the next educational push"
+      }
+    },
+    {
+      "id": "step_22_linkedin_post_2",
+      "service": "linkedin",
+      "action": "linkedin_create_post",
+      "description": "DAY 7 — Post LinkedIn #2 (12 Zaps to 1 SWITCH File)",
+      "phase": "education",
+      "day": 7,
+      "on_error": "continue",
+      "params": {
+        "accessToken": "{{launch_codes.linkedin_access_token}}",
+        "organizationId": "{{launch_codes.linkedin_org_id}}",
+        "text": "{{assets.linkedin_posts[1].content}}",
+        "visibility": "PUBLIC",
+        "contentType": "NONE"
+      }
+    },
+    {
+      "id": "step_23_send_email_3_standard",
+      "service": "crm",
+      "action": "crm_send_message",
+      "description": "DAY 8 — Send Email 3 (The .0n Standard / Portability) to engaged segment",
+      "phase": "education",
+      "day": 8,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "type": "Email",
+        "subject": "Your workflows should be portable. Here's why.",
+        "html": "{{assets.emails[2].body_html}}",
+        "text": "{{assets.emails[2].body_text}}",
+        "fromName": "{{inputs.sender_name}}",
+        "fromEmail": "{{inputs.sender_email}}",
+        "segmentTag": "al-engaged",
+        "excludeTag": "al-unsubscribed",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_24_delay_4_days",
+      "service": "engine",
+      "action": "delay_wait",
+      "description": "Wait 4 days — bridge from portability concept to case study proof",
+      "phase": "education",
+      "on_error": "continue",
+      "params": {
+        "duration": 345600,
+        "unit": "seconds",
+        "reason": "Allow Email 3 opens to stabilize; build anticipation for case study"
+      }
+    },
+    {
+      "id": "step_25_linkedin_post_3",
+      "service": "linkedin",
+      "action": "linkedin_create_post",
+      "description": "DAY 11 — Post LinkedIn #3 (Describe and Done — AI automation future)",
+      "phase": "education",
+      "day": 11,
+      "on_error": "continue",
+      "params": {
+        "accessToken": "{{launch_codes.linkedin_access_token}}",
+        "organizationId": "{{launch_codes.linkedin_org_id}}",
+        "text": "{{assets.linkedin_posts[2].content}}",
+        "visibility": "PUBLIC",
+        "contentType": "NONE"
+      }
+    },
+    {
+      "id": "step_26_send_email_4_casestudy",
+      "service": "crm",
+      "action": "crm_send_message",
+      "description": "DAY 12 — Send Email 4 (Agency Case Study) to full engaged list — broadened for max social proof impact",
+      "phase": "education",
+      "day": 12,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "type": "Email",
+        "subject": "From 12 Zapier zaps to 1 SWITCH file (real story)",
+        "html": "{{assets.emails[3].body_html}}",
+        "text": "{{assets.emails[3].body_text}}",
+        "fromName": "{{inputs.sender_name}}",
+        "fromEmail": "{{inputs.sender_email}}",
+        "segmentTag": "automation-liberation",
+        "excludeTag": "al-unsubscribed",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_27_delay_2_days",
+      "service": "engine",
+      "action": "delay_wait",
+      "description": "Wait 2 days — short gap between case study and offer phase launch",
+      "phase": "education",
+      "on_error": "continue",
+      "params": {
+        "duration": 172800,
+        "unit": "seconds",
+        "reason": "Build desire after case study before presenting the offer"
+      }
+    },
+    {
+      "id": "step_28_identify_hot_leads",
+      "service": "crm",
+      "action": "crm_get_contacts",
+      "description": "DAY 14 — Identify hot leads: contacts who clicked 2+ emails or have al_score >= 20",
+      "phase": "offer",
+      "day": 14,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "tags": ["al-engaged"],
+        "customFieldFilter": {
+          "al_score": { "gte": 20 }
+        },
+        "limit": 10000,
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      },
+      "output": "step_28_hot_leads"
+    },
+    {
+      "id": "step_29_tag_hot_leads",
+      "service": "crm",
+      "action": "crm_add_contact_tags",
+      "description": "Tag high-engagement contacts as 'al-hot-lead' before offer phase",
+      "phase": "offer",
+      "day": 14,
+      "on_error": "continue",
+      "depends_on": "step_28_identify_hot_leads",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "contactIds": "{{step.step_28_identify_hot_leads.output.contactIds}}",
+        "tags": ["al-hot-lead"],
+        "customFieldValues": {
+          "al_phase": "offer",
+          "al_last_action": "entered_hot_lead_segment"
+        },
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_30_linkedin_post_4",
+      "service": "linkedin",
+      "action": "linkedin_create_post",
+      "description": "DAY 15 — Post LinkedIn #4 (Free Setup Offer — 50 business owners)",
+      "phase": "offer",
+      "day": 15,
+      "on_error": "continue",
+      "params": {
+        "accessToken": "{{launch_codes.linkedin_access_token}}",
+        "organizationId": "{{launch_codes.linkedin_org_id}}",
+        "text": "{{assets.linkedin_posts[3].content}}",
+        "visibility": "PUBLIC",
+        "contentType": "NONE"
+      }
+    },
+    {
+      "id": "step_31_send_email_5_offer",
+      "service": "crm",
+      "action": "crm_send_message",
+      "description": "DAY 16 — Send Email 5 (The Offer / Free Setup) to engaged segment",
+      "phase": "offer",
+      "day": 16,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "type": "Email",
+        "subject": "Your free 0nMCP setup — we'll configure it for you",
+        "html": "{{assets.emails[4].body_html}}",
+        "text": "{{assets.emails[4].body_text}}",
+        "fromName": "{{inputs.sender_name}}",
+        "fromEmail": "{{inputs.sender_email}}",
+        "segmentTag": "al-engaged",
+        "excludeTag": "al-unsubscribed",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_32_delay_4_days",
+      "service": "engine",
+      "action": "delay_wait",
+      "description": "Wait 4 days — let offer breathe before urgency push",
+      "phase": "offer",
+      "on_error": "continue",
+      "params": {
+        "duration": 345600,
+        "unit": "seconds",
+        "reason": "Standard offer window — allow early adopters to book before adding urgency"
+      }
+    },
+    {
+      "id": "step_33_linkedin_post_5",
+      "service": "linkedin",
+      "action": "linkedin_create_post",
+      "description": "DAY 19 — Post LinkedIn #5 (Why Automation Should Be Free)",
+      "phase": "offer",
+      "day": 19,
+      "on_error": "continue",
+      "params": {
+        "accessToken": "{{launch_codes.linkedin_access_token}}",
+        "organizationId": "{{launch_codes.linkedin_org_id}}",
+        "text": "{{assets.linkedin_posts[4].content}}",
+        "visibility": "PUBLIC",
+        "contentType": "NONE"
+      }
+    },
+    {
+      "id": "step_34_send_email_6_urgency",
+      "service": "crm",
+      "action": "crm_send_message",
+      "description": "DAY 20 — Send Email 6 (Urgency / Last Call) exclusively to hot leads for maximum conversion",
+      "phase": "offer",
+      "day": 20,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "type": "Email",
+        "subject": "Last call: your free automation migration expires Friday",
+        "html": "{{assets.emails[5].body_html}}",
+        "text": "{{assets.emails[5].body_text}}",
+        "fromName": "{{inputs.sender_name}}",
+        "fromEmail": "{{inputs.sender_email}}",
+        "segmentTag": "al-hot-lead",
+        "excludeTag": "al-unsubscribed,al-converted",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_35_delay_5_days",
+      "service": "engine",
+      "action": "delay_wait",
+      "description": "Wait 5 days — transition from offer close to nurture phase",
+      "phase": "offer",
+      "on_error": "continue",
+      "params": {
+        "duration": 432000,
+        "unit": "seconds",
+        "reason": "Offer window closes; re-engage non-converters with pure value before end of campaign"
+      }
+    },
+    {
+      "id": "step_36_update_converted_contacts",
+      "service": "crm",
+      "action": "crm_get_contacts",
+      "description": "DAY 22 — Pull contacts who booked a call or signed up (converted) to exclude from nurture blasts",
+      "phase": "nurture",
+      "day": 22,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "tags": ["al-converted"],
+        "limit": 10000,
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      },
+      "output": "step_36_converted_contacts",
+      "note": "Converted contacts are identified by CRM webhook from calendar booking or Stripe payment. Tag 'al-converted' is applied automatically via webhook handler."
+    },
+    {
+      "id": "step_37_send_email_7_nurture",
+      "service": "crm",
+      "action": "crm_send_message",
+      "description": "DAY 25 — Send Email 7 (Pure Value / 3 Weekend Automations) to full list minus converted",
+      "phase": "nurture",
+      "day": 25,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "type": "Email",
+        "subject": "3 things you can automate this weekend (for free)",
+        "html": "{{assets.emails[6].body_html}}",
+        "text": "{{assets.emails[6].body_text}}",
+        "fromName": "{{inputs.sender_name}}",
+        "fromEmail": "{{inputs.sender_email}}",
+        "segmentTag": "automation-liberation",
+        "excludeTag": "al-unsubscribed,al-converted",
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      }
+    },
+    {
+      "id": "step_38_linkedin_post_6",
+      "service": "linkedin",
+      "action": "linkedin_create_post",
+      "description": "DAY 26 — Post LinkedIn #6 (v2.2.0 Launch / Product Update) — organic community building",
+      "phase": "nurture",
+      "day": 26,
+      "on_error": "continue",
+      "params": {
+        "accessToken": "{{launch_codes.linkedin_access_token}}",
+        "organizationId": "{{launch_codes.linkedin_org_id}}",
+        "text": "{{assets.linkedin_posts[5].content}}",
+        "visibility": "PUBLIC",
+        "contentType": "NONE"
+      }
+    },
+    {
+      "id": "step_39_campaign_final_report",
+      "service": "crm",
+      "action": "crm_get_contacts",
+      "description": "DAY 30 — Pull final campaign stats: total engaged, converted, and cold segments for post-campaign report",
+      "phase": "nurture",
+      "day": 30,
+      "on_error": "continue",
+      "params": {
+        "locationId": "{{launch_codes.crm_location_id}}",
+        "tags": ["automation-liberation"],
+        "limit": 50000,
+        "fields": ["id", "email", "tags", "al_phase", "al_score", "al_converted_at"],
+        "Authorization": "Bearer {{launch_codes.crm_api_key}}"
+      },
+      "output": "step_39_final_report",
+      "note": "Use this output to generate your post-campaign analytics report. Calculate open rates, conversion rates, and ROI vs. previous automation tool costs."
+    }
+  ],
+  "metrics": {
+    "tracking": {
+      "utm_source_email": "crm-email",
+      "utm_source_linkedin": "linkedin",
+      "utm_source_facebook": "facebook",
+      "utm_medium_organic": "organic",
+      "utm_medium_paid": "paid",
+      "utm_medium_retarget": "retarget",
+      "utm_medium_conversion": "conversion",
+      "utm_campaign": "automation-liberation"
+    },
+    "goals": {
+      "total_audience": 7000,
+      "email_open_rate_target": 0.35,
+      "email_click_rate_target": 0.08,
+      "unsubscribe_rate_ceiling": 0.005,
+      "conversion_rate_target": 0.03,
+      "trial_signups_target": 100,
+      "linkedin_engagement_target": 0.05,
+      "linkedin_shares_target": 50,
+      "facebook_ctr_target": 0.02,
+      "total_revenue_target": 500,
+      "community_joins_target": 50
+    },
+    "kpis": [
+      { "name": "Email Open Rate", "formula": "unique_opens / delivered * 100", "target": "35%", "benchmark": "21% industry avg" },
+      { "name": "Email Click Rate", "formula": "unique_clicks / delivered * 100", "target": "8%", "benchmark": "2.6% industry avg" },
+      { "name": "Engagement Score", "formula": "opens * 5 + clicks * 15 + replies * 25 + bookings * 100", "target": "Top 20% of list reaches score 50+", "benchmark": "Internal" },
+      { "name": "LinkedIn Impressions", "formula": "sum(post_impressions) over 30 days", "target": "10,000+", "benchmark": "Varies by following size" },
+      { "name": "LinkedIn Engagement Rate", "formula": "(likes + comments + shares) / impressions * 100", "target": "5%+", "benchmark": "2% industry avg" },
+      { "name": "Facebook ROAS", "formula": "revenue_attributed / ad_spend", "target": "3x+", "benchmark": "2x break-even" },
+      { "name": "Cost Per Lead", "formula": "ad_spend / total_leads", "target": "<$5", "benchmark": "$15-25 SaaS avg" },
+      { "name": "Trial Conversion Rate", "formula": "signups / total_audience * 100", "target": "1.4%+ (100 of 7,000)", "benchmark": "1% typical SaaS" },
+      { "name": "Revenue (30 days)", "formula": "signups * avg_deal_value", "target": "$500+ direct", "benchmark": "Pipeline value 10x" }
+    ]
+  },
+  "webhooks": {
+    "crm_booking_webhook": {
+      "trigger": "Contact books a calendar appointment",
+      "action": "Apply tag 'al-converted', update al_converted_at to current date, update al_phase to 'converted', increment al_score by 100",
+      "endpoint": "{{inputs.product_url}}/api/webhooks/crm",
+      "method": "POST",
+      "signature_header": "x-crm-signature"
+    },
+    "stripe_payment_webhook": {
+      "trigger": "Stripe payment succeeds for any product in campaign",
+      "action": "Find CRM contact by email, apply tag 'al-converted', update al_converted_at, update al_phase to 'customer'",
+      "endpoint": "{{inputs.product_url}}/api/webhooks/stripe",
+      "method": "POST",
+      "signature_header": "stripe-signature"
+    },
+    "email_unsubscribe_webhook": {
+      "trigger": "Contact unsubscribes from any email",
+      "action": "Apply tag 'al-unsubscribed', remove from all active segments immediately",
+      "endpoint": "{{inputs.product_url}}/api/webhooks/crm",
+      "method": "POST",
+      "note": "CRM handles suppression automatically; webhook for external sync only"
+    }
+  },
+  "integrations": {
+    "crm": {
+      "api_base": "https://services.leadconnectorhq.com",
+      "api_version": "2021-07-28",
+      "auth_type": "Bearer",
+      "tools_used": ["crm_send_message", "crm_get_contacts", "crm_add_contact_tags", "crm_create_location_tag", "crm_create_custom_field", "crm_update_contact"],
+      "docs": "https://0nmcp.com/integrations/crm"
+    },
+    "linkedin": {
+      "api_base": "https://api.linkedin.com/v2",
+      "auth_type": "OAuth2 Bearer",
+      "tools_used": ["linkedin_create_post"],
+      "scopes_required": ["w_member_social", "w_organization_social"],
+      "docs": "https://0nmcp.com/integrations/linkedin"
+    },
+    "facebook": {
+      "api_base": "https://graph.facebook.com/v18.0",
+      "auth_type": "Access Token",
+      "tools_used": ["facebook_create_ad_campaign", "facebook_create_ad_set", "facebook_create_ad"],
+      "permissions_required": ["ads_management", "ads_read", "business_management"],
+      "docs": "https://0nmcp.com/integrations/facebook"
+    }
+  },
+  "pricing": {
+    "template_price": 97,
+    "currency": "USD",
+    "license": "commercial",
+    "includes": [
+      "7 fully designed HTML email templates",
+      "6 LinkedIn post scripts",
+      "3 Facebook ad creative briefs",
+      "Complete 30-day step sequence (39 steps)",
+      "CRM tag and custom field configuration",
+      "Webhook handler specs",
+      "Campaign metrics and KPI tracking framework",
+      "Onboarding wizard for white-label setup",
+      "Lifetime updates"
+    ],
+    "upsells": [
+      { "name": "Done-For-You Launch", "price": 497, "description": "We configure and launch the campaign in your CRM for you" },
+      { "name": "Custom Copywriting", "price": 197, "description": "Rewrite all 7 emails for your specific product and audience" },
+      { "name": "Facebook Ad Management (30 days)", "price": 297, "description": "We run and optimize your Facebook retargeting ads" }
+    ]
+  },
+  "metadata": {
+    "format_version": "1.0.0",
+    "schema": "https://0nmcp.com/schemas/campaign.json",
+    "generator": "0nMCP Campaign Builder v1.0",
+    "word_count_emails": 2840,
+    "total_touchpoints": 16,
+    "email_count": 7,
+    "linkedin_post_count": 6,
+    "facebook_ad_count": 3,
+    "step_count": 39,
+    "estimated_setup_time_minutes": 15,
+    "estimated_roi": "10-50x depending on product price and list quality",
+    "tags": ["email-marketing", "linkedin", "facebook-ads", "crm", "automation", "b2b", "saas", "30-day-campaign"],
+    "compatible_with": ["0nMCP v2.0+", "rocket-plus-mcp v3.0+"],
+    "last_updated": "2026-03-01T00:00:00.000Z"
+  }
+}

@@ -84,6 +84,12 @@ export function useStore() {
         return { free: true }
       }
 
+      // Paid listing — redirect to Stripe Checkout
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl
+        return { url: data.checkoutUrl }
+      }
+
       return { url: data.url }
     } catch {
       return { error: 'Network error' }

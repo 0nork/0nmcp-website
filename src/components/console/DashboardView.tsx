@@ -91,16 +91,19 @@ export function DashboardView({
   })
   const [editing, setEditing] = useState(false)
   const [dragId, setDragId] = useState<string | null>(null)
-  const [dragOverId, setDragOverId] = useState<string | null>(null)
-  const dragCounter = useRef(0)
+  const previewOrder = useRef<string[] | null>(null)
+  const [, forceRender] = useState(0)
 
   // Save layout on change
   useEffect(() => {
     saveLayout(moduleOrder)
   }, [moduleOrder])
 
+  // The displayed order: use live preview while dragging, otherwise saved order
+  const displayOrder = previewOrder.current || moduleOrder
+
   // Build ordered modules list
-  const modules = moduleOrder
+  const modules = displayOrder
     .map(id => DEFAULT_MODULES.find(m => m.id === id))
     .filter((m): m is DashboardModule => !!m)
 
@@ -108,59 +111,46 @@ export function DashboardView({
   const handleDragStart = useCallback((e: React.DragEvent, id: string) => {
     if (!editing) return
     setDragId(id)
+    previewOrder.current = null
     e.dataTransfer.effectAllowed = 'move'
     e.dataTransfer.setData('text/plain', id)
-    // Make the drag image slightly transparent
-    const el = e.currentTarget as HTMLElement
-    setTimeout(() => { el.style.opacity = '0.4' }, 0)
   }, [editing])
 
-  const handleDragEnd = useCallback((e: React.DragEvent) => {
-    const el = e.currentTarget as HTMLElement
-    el.style.opacity = '1'
-    setDragId(null)
-    setDragOverId(null)
-    dragCounter.current = 0
-  }, [])
-
-  const handleDragEnter = useCallback((e: React.DragEvent, id: string) => {
-    if (!editing || !dragId || id === dragId) return
-    e.preventDefault()
-    dragCounter.current++
-    setDragOverId(id)
-  }, [editing, dragId])
-
-  const handleDragLeave = useCallback(() => {
-    dragCounter.current--
-    if (dragCounter.current <= 0) {
-      setDragOverId(null)
-      dragCounter.current = 0
+  const handleDragEnd = useCallback(() => {
+    // Commit the preview order as final
+    if (previewOrder.current) {
+      setModuleOrder(previewOrder.current)
     }
+    previewOrder.current = null
+    setDragId(null)
   }, [])
 
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    if (!editing) return
+  const handleDragOver = useCallback((e: React.DragEvent, targetId: string) => {
+    if (!editing || !dragId || targetId === dragId) return
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
+
+    // Reorder live: move dragged item to target position
+    const base = previewOrder.current || moduleOrder
+    const fromIdx = base.indexOf(dragId)
+    const toIdx = base.indexOf(targetId)
+    if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return
+
+    const next = [...base]
+    next.splice(fromIdx, 1)
+    next.splice(toIdx, 0, dragId)
+    previewOrder.current = next
+    forceRender(n => n + 1)
+  }, [editing, dragId, moduleOrder])
+
+  const handleDragOverAllow = useCallback((e: React.DragEvent) => {
+    if (!editing) return
+    e.preventDefault()
   }, [editing])
 
-  const handleDrop = useCallback((e: React.DragEvent, targetId: string) => {
+  const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
-    if (!dragId || dragId === targetId) return
-
-    setModuleOrder(prev => {
-      const newOrder = [...prev]
-      const fromIdx = newOrder.indexOf(dragId)
-      const toIdx = newOrder.indexOf(targetId)
-      if (fromIdx < 0 || toIdx < 0) return prev
-      newOrder.splice(fromIdx, 1)
-      newOrder.splice(toIdx, 0, dragId)
-      return newOrder
-    })
-    setDragId(null)
-    setDragOverId(null)
-    dragCounter.current = 0
-  }, [dragId])
+  }, [])
 
   // ─── MODULE CONTENT RENDERERS ───────────────────────
   const renderModuleContent = (mod: DashboardModule) => {
@@ -277,13 +267,15 @@ export function DashboardView({
       </div>
 
       {/* Module Grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '0.75rem',
-      }}>
+      <div
+        onDragOver={handleDragOverAllow}
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '0.75rem',
+        }}
+      >
         {modules.map((mod) => {
-          const isDropTarget = dragOverId === mod.id && dragId !== mod.id
           const isDragging = dragId === mod.id
           const colSpan = mod.size === 'lg' ? 2 : 1
           const rowSpan = mod.size === 'md' ? 2 : 1
@@ -294,10 +286,8 @@ export function DashboardView({
               draggable={editing}
               onDragStart={(e) => handleDragStart(e, mod.id)}
               onDragEnd={handleDragEnd}
-              onDragEnter={(e) => handleDragEnter(e, mod.id)}
-              onDragLeave={handleDragLeave}
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, mod.id)}
+              onDragOver={(e) => handleDragOver(e, mod.id)}
+              onDrop={handleDrop}
               onClick={() => {
                 if (!editing && mod.view && onNavigate) onNavigate(mod.view)
               }}
@@ -307,15 +297,12 @@ export function DashboardView({
                 background: 'var(--bg-card)',
                 borderRadius: '0.875rem',
                 padding: '1rem',
-                border: isDropTarget
-                  ? '2px dashed #7ed957'
-                  : editing
-                    ? '1px dashed rgba(126,217,87,0.2)'
-                    : '1px solid var(--border)',
+                border: editing
+                  ? '1px dashed rgba(126,217,87,0.2)'
+                  : '1px solid var(--border)',
                 cursor: editing ? 'grab' : mod.view ? 'pointer' : 'default',
-                opacity: isDragging ? 0.4 : 1,
-                transform: isDropTarget ? 'scale(1.02)' : 'scale(1)',
-                transition: 'transform 0.15s ease, border-color 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease',
+                opacity: isDragging ? 0.3 : 1,
+                transition: 'transform 0.2s ease, opacity 0.2s ease, box-shadow 0.15s ease',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.625rem',

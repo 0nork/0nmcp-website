@@ -13,22 +13,44 @@ function getServiceClient() {
 }
 
 async function requireAdmin() {
-  const supabase = await createSupabaseServer()
-  if (!supabase) return null
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
+  try {
+    const supabase = await createSupabaseServer()
+    if (!supabase) return null
 
-  // Check email whitelist OR is_admin in DB
-  if (ADMIN_EMAILS.includes(user.email || '')) return user
+    const { data: { user }, error } = await supabase.auth.getUser()
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single()
+    // Fallback to getSession if getUser fails (handles expired access tokens)
+    if (!user || error) {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.user) return null
 
-  if (profile?.is_admin) return user
-  return null
+      const sessionUser = session.user
+      if (ADMIN_EMAILS.includes(sessionUser.email || '')) return sessionUser
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', sessionUser.id)
+        .single()
+
+      if (profile?.is_admin) return sessionUser
+      return null
+    }
+
+    if (ADMIN_EMAILS.includes(user.email || '')) return user
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('id', user.id)
+      .single()
+
+    if (profile?.is_admin) return user
+    return null
+  } catch (err) {
+    console.error('[admin/users] requireAdmin error:', err)
+    return null
+  }
 }
 
 /**

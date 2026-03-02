@@ -7,6 +7,11 @@ interface Personality {
   verbosity: string
   emoji_usage: string
   asks_followups: boolean
+  writing_style?: string
+  quirks?: string[]
+  sentence_structure?: string
+  vocabulary_level?: string
+  punctuation_style?: string
 }
 
 interface Persona {
@@ -58,6 +63,9 @@ const ROLE_COLORS: Record<string, string> = {
   devops: '#FFD700',
   data_engineer: '#ff69b4',
   student: '#84cc16',
+  designer: '#e879f9',
+  pm: '#fb923c',
+  moderator: '#FFD700',
 }
 
 const LEVEL_COLORS: Record<string, string> = {
@@ -175,6 +183,50 @@ export default function PersonasAdmin() {
     setSaving(false)
   }
 
+  async function handleCreateModerator() {
+    setGenerating(true)
+    setMessage('')
+    try {
+      const res = await fetch('/api/personas/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'moderator' }),
+      })
+      const data = await res.json()
+      if (data.persona) {
+        setMessage(`Moderator created: ${data.persona.name}`)
+        loadPersonas()
+      } else {
+        setMessage(data.error || 'Failed to create moderator')
+      }
+    } catch {
+      setMessage('Network error')
+    }
+    setGenerating(false)
+  }
+
+  async function handleGenerateCohort() {
+    setGenerating(true)
+    setMessage('Generating cohort — this takes a minute...')
+    try {
+      const res = await fetch('/api/personas/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'cohort', count: 6 }),
+      })
+      const data = await res.json()
+      if (data.count > 0) {
+        setMessage(`Cohort generated: ${data.count} personas created`)
+        loadPersonas()
+      } else {
+        setMessage(data.error || 'Cohort generation failed')
+      }
+    } catch {
+      setMessage('Network error')
+    }
+    setGenerating(false)
+  }
+
   async function toggleActive(persona: Persona) {
     const res = await fetch(`/api/personas/${persona.id}`, {
       method: 'PATCH',
@@ -259,6 +311,20 @@ export default function PersonasAdmin() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
+          <button
+            onClick={handleCreateModerator}
+            disabled={generating}
+            style={btnStyle('#FFD700')}
+          >
+            Create Moderator
+          </button>
+          <button
+            onClick={handleGenerateCohort}
+            disabled={generating}
+            style={btnStyle('#00d4ff')}
+          >
+            {generating ? 'Generating...' : 'Generate Cohort (6)'}
+          </button>
           <button
             onClick={() => triggerConverse('seed_thread')}
             disabled={conversing}
@@ -401,11 +467,27 @@ export default function PersonasAdmin() {
                   ))}
                 </div>
 
+                {/* Writing style badge */}
+                {p.personality?.writing_style && (
+                  <div style={{
+                    fontSize: '0.5625rem',
+                    padding: '2px 6px',
+                    borderRadius: 4,
+                    background: 'rgba(153,69,255,0.1)',
+                    color: '#9945ff',
+                    marginBottom: 8,
+                    display: 'inline-block',
+                  }}>
+                    {p.personality.writing_style}
+                  </div>
+                )}
+
                 {/* Stats + personality */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
                     {p.thread_count} threads &middot; {p.reply_count} replies
                     {p.personality && <> &middot; {p.personality.tone}</>}
+                    {p.role === 'moderator' && <> &middot; <span style={{ color: '#FFD700', fontWeight: 700 }}>MOD</span></>}
                   </div>
                   <div style={{ display: 'flex', gap: 4 }}>
                     <button
@@ -535,6 +617,13 @@ export default function PersonasAdmin() {
                 <Field label="Verbosity" value={preview.personality?.verbosity || ''} />
                 <Field label="Activity" value={preview.activity_level || ''} />
                 <Field label="Followups" value={preview.personality?.asks_followups ? 'Yes' : 'No'} />
+                <Field label="Writing Style" value={preview.personality?.writing_style || ''} color="#9945ff" />
+                <Field label="Sentences" value={preview.personality?.sentence_structure || ''} />
+                <Field label="Vocabulary" value={preview.personality?.vocabulary_level || ''} />
+                <Field label="Punctuation" value={preview.personality?.punctuation_style || ''} />
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <Field label="Quirks" value={(preview.personality?.quirks || []).join(' / ')} />
+                </div>
               </div>
             </div>
           )}

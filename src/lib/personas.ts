@@ -1,6 +1,8 @@
 /**
  * 0nMCP Persona Engine — AI Forum Agents
- * Generates personas, threads, and replies for organic forum activity
+ * Generates personas, threads, and replies for organic forum activity.
+ * Personas complement each other with diverse skills, unique writing styles,
+ * and natural personality variation that lacks recognizable AI patterns.
  */
 
 import { createClient } from '@supabase/supabase-js'
@@ -32,6 +34,11 @@ export interface Persona {
     verbosity: string
     emoji_usage: string
     asks_followups: boolean
+    writing_style: string
+    quirks: string[]
+    sentence_structure: string
+    vocabulary_level: string
+    punctuation_style: string
   } | null
   knowledge_level: string
   preferred_groups: string[]
@@ -42,6 +49,7 @@ export interface Persona {
   reply_count: number
   created_at: string
   profile_id?: string
+  is_moderator?: boolean
 }
 
 export interface TopicSeed {
@@ -107,6 +115,115 @@ One npm install, one config file. The .0n Standard uses SWITCH files for portabl
 Key features: CLI tool, Vault (encrypted credentials), Engine (portable AI Brain bundles), Workflow Runtime.
 Forum groups: general, help, showcase, feature-requests, bug-reports, tutorials, workflows, integrations, off-topic.
 The community is technical — developers, agency owners, founders, automation builders.`
+
+// ==================== Writing Style Dimensions ====================
+// Each persona gets a unique combination of these traits to ensure
+// no two personas write in recognizably similar patterns.
+
+const WRITING_STYLES = [
+  'stream-of-consciousness', 'methodical-step-by-step', 'storyteller',
+  'bullet-point-lover', 'question-led-socratic', 'dry-humor',
+  'code-heavy-minimal-prose', 'analogies-and-metaphors', 'direct-blunt',
+  'encouraging-mentor', 'skeptical-pragmatist', 'excited-explorer',
+] as const
+
+const SENTENCE_STRUCTURES = [
+  'short-punchy (5-12 words avg, fragments ok)',
+  'varied-complex (mixes long/short, subordinate clauses)',
+  'conversational-run-on (commas instead of periods, natural flow)',
+  'academic-precise (proper grammar, clear antecedents)',
+  'telegraphic (drops articles/pronouns, gets to point)',
+  'parenthetical (lots of asides, digressions in parens)',
+] as const
+
+const VOCABULARY_LEVELS = [
+  'casual-slang (gonna, wanna, lol, tbh, ngl)',
+  'professional-clean (no slang, industry terms)',
+  'mixed-colloquial (professional with occasional casual)',
+  'technical-jargon-heavy (deep domain vocabulary)',
+  'plain-accessible (avoids jargon, explains everything)',
+  'academic-formal (precise terminology, no contractions)',
+] as const
+
+const PUNCTUATION_STYLES = [
+  'minimal (few commas, no semicolons, rare exclamation)',
+  'dash-heavy (em dashes everywhere — like this — for asides)',
+  'ellipsis-user (trails off... thinks out loud... you know?)',
+  'exclamation-enthusiast (excited! loves emphasis! great stuff!)',
+  'period-disciplined (clean stops. no fluff. each sentence earns its spot.)',
+  'comma-splice-natural (combines thoughts with commas, flows like speech)',
+] as const
+
+const QUIRKS_POOL = [
+  'starts replies with "So" or "Hmm"',
+  'uses rhetorical questions before answering',
+  'references personal anecdotes from past jobs',
+  'quotes or paraphrases famous developers/books',
+  'uses code blocks even for small snippets',
+  'abbreviates common words (prob, def, config, repo)',
+  'capitalizes for EMPHASIS instead of bold',
+  'uses numbered lists even for 2-3 items',
+  'ends posts asking what others think',
+  'mentions timezone/location context casually',
+  'self-corrects mid-thought (actually, wait...)',
+  'uses headers/sections in longer posts',
+  'compares things to cooking/sports/music analogies',
+  'drops in foreign language phrases occasionally',
+  'references Stack Overflow or GitHub issues',
+  'uses "EDIT:" or "UPDATE:" in posts',
+  'prefaces opinions with "hot take:" or "unpopular opinion:"',
+  'thanks other posters by name',
+  'uses inline code ticks for `every` technical term',
+  'writes TL;DR summaries at the top',
+]
+
+/**
+ * Select N random unique items from an array
+ */
+function pickRandom<T>(arr: readonly T[], n: number): T[] {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, n)
+}
+
+/**
+ * Generate a unique writing fingerprint that hasn't been used by existing personas
+ */
+function generateWritingFingerprint(existingPersonas: Partial<Persona>[]): {
+  writing_style: string
+  sentence_structure: string
+  vocabulary_level: string
+  punctuation_style: string
+  quirks: string[]
+} {
+  const usedStyles = new Set(existingPersonas.map(p => p.personality?.writing_style))
+  const usedStructures = new Set(existingPersonas.map(p => p.personality?.sentence_structure))
+  const usedVocab = new Set(existingPersonas.map(p => p.personality?.vocabulary_level))
+  const usedPunctuation = new Set(existingPersonas.map(p => p.personality?.punctuation_style))
+  const usedQuirks = new Set(existingPersonas.flatMap(p => p.personality?.quirks || []))
+
+  // Pick unused options first, fallback to random
+  const availableStyles = WRITING_STYLES.filter(s => !usedStyles.has(s))
+  const availableStructures = SENTENCE_STRUCTURES.filter(s => !usedStructures.has(s))
+  const availableVocab = VOCABULARY_LEVELS.filter(s => !usedVocab.has(s))
+  const availablePunctuation = PUNCTUATION_STYLES.filter(s => !usedPunctuation.has(s))
+  const availableQuirks = QUIRKS_POOL.filter(q => !usedQuirks.has(q))
+
+  return {
+    writing_style: (availableStyles.length > 0 ? availableStyles : [...WRITING_STYLES])[
+      Math.floor(Math.random() * (availableStyles.length || WRITING_STYLES.length))
+    ],
+    sentence_structure: (availableStructures.length > 0 ? availableStructures : [...SENTENCE_STRUCTURES])[
+      Math.floor(Math.random() * (availableStructures.length || SENTENCE_STRUCTURES.length))
+    ],
+    vocabulary_level: (availableVocab.length > 0 ? availableVocab : [...VOCABULARY_LEVELS])[
+      Math.floor(Math.random() * (availableVocab.length || VOCABULARY_LEVELS.length))
+    ],
+    punctuation_style: (availablePunctuation.length > 0 ? availablePunctuation : [...PUNCTUATION_STYLES])[
+      Math.floor(Math.random() * (availablePunctuation.length || PUNCTUATION_STYLES.length))
+    ],
+    quirks: pickRandom(availableQuirks.length >= 3 ? availableQuirks : QUIRKS_POOL, 2 + Math.floor(Math.random() * 2)),
+  }
+}
 
 // ==================== CRM Community Cross-Post (Direct API) ====================
 
@@ -176,38 +293,116 @@ export async function crossPostToCommunity(data: {
 // ==================== Core Functions ====================
 
 /**
- * Generate a full persona profile from a description prompt
+ * Generate a full persona profile from a description prompt.
+ * Accepts existing personas to ensure the new one complements them
+ * with different skills, writing styles, and personality traits.
  */
-export async function generatePersona(prompt: string): Promise<Omit<Persona, 'id' | 'created_at' | 'last_active_at' | 'thread_count' | 'reply_count'>> {
+export async function generatePersona(
+  prompt: string,
+  existingPersonas: Partial<Persona>[] = []
+): Promise<Omit<Persona, 'id' | 'created_at' | 'last_active_at' | 'thread_count' | 'reply_count'>> {
+  // Generate a unique writing fingerprint
+  const fingerprint = generateWritingFingerprint(existingPersonas)
+
+  // Build context about existing personas to avoid duplication
+  const existingContext = existingPersonas.length > 0
+    ? `\n\nEXISTING COMMUNITY MEMBERS (you MUST be DIFFERENT from all of these):
+${existingPersonas.map(p => `- ${p.name}: ${p.role}, ${p.knowledge_level}, expertise: ${(p.expertise || []).join(', ')}, tone: ${p.personality?.tone || 'unknown'}, writing: ${p.personality?.writing_style || 'unknown'}`).join('\n')}
+
+CRITICAL DIFFERENTIATION RULES:
+- Your expertise MUST NOT overlap more than 1 skill with any existing persona
+- Your role MUST differ from at least 80% of existing personas
+- Your knowledge level SHOULD differ from the majority
+- Your personality tone MUST be unique from all existing personas
+- Your writing style MUST feel like a completely different human being`
+    : ''
+
   const text = await callClaude(`You are creating an AI persona for a developer community forum.
+This persona must feel indistinguishable from a real human community member.
 
 ${FORUM_CONTEXT}
+${existingContext}
 
 USER PROMPT: ${prompt}
 
-Generate a realistic forum persona. They should feel like a real community member — not a bot.
-Give them a believable backstory, specific technical interests, and a distinct communication style.
+ASSIGNED WRITING FINGERPRINT (you MUST use these exact values):
+- writing_style: "${fingerprint.writing_style}"
+- sentence_structure: "${fingerprint.sentence_structure}"
+- vocabulary_level: "${fingerprint.vocabulary_level}"
+- punctuation_style: "${fingerprint.punctuation_style}"
+- quirks: ${JSON.stringify(fingerprint.quirks)}
+
+CRITICAL AUTHENTICITY RULES:
+1. Give them a SPECIFIC backstory — a city, a company/project they work on, years of experience
+2. Their bio should sound like THEY wrote it (match the vocabulary_level and punctuation_style above)
+3. Do NOT make them sound like an AI or marketing copy — real people are messy, opinionated, sometimes wrong
+4. Their expertise should be SPECIFIC, not generic (e.g. "stripe-webhooks" not just "payments")
+5. If they're a beginner, they should have beginner-appropriate confidence levels
+6. If they're an expert, they should have nuanced opinions and occasional contrarian takes
+7. Names should be globally diverse — not all Western names
 
 Respond in this exact JSON format:
 {
-  "name": "Full Name (realistic, diverse)",
+  "name": "Full Name (globally diverse, realistic)",
   "slug": "firstname-lastname (lowercase, hyphenated)",
-  "bio": "1-2 sentence bio as they'd write it themselves",
-  "role": "one of: developer, founder, agency_owner, freelancer, devops, data_engineer, student",
-  "expertise": ["3-5 specific skills from: automation, api-integration, crm, payments, ai, webhooks, security, devops, ecommerce, workflows, slack, discord, supabase, notion, github"],
+  "bio": "1-2 sentence bio as they'd write it themselves (match their writing style!)",
+  "role": "one of: developer, founder, agency_owner, freelancer, devops, data_engineer, student, designer, pm",
+  "expertise": ["3-5 SPECIFIC skills from: automation, api-integration, crm, payments, ai, webhooks, security, devops, ecommerce, workflows, slack, discord, supabase, notion, github, stripe, openai, mongodb, airtable, twilio, shopify"],
   "personality": {
-    "tone": "one of: casual, professional, enthusiastic, analytical, helpful",
+    "tone": "one of: casual, professional, enthusiastic, analytical, helpful, sarcastic, mentoring, curious",
     "verbosity": "one of: concise, moderate, detailed",
-    "emoji_usage": "one of: none, minimal, moderate",
-    "asks_followups": true or false
+    "emoji_usage": "one of: none, minimal, moderate, heavy",
+    "asks_followups": true or false,
+    "writing_style": "${fingerprint.writing_style}",
+    "quirks": ${JSON.stringify(fingerprint.quirks)},
+    "sentence_structure": "${fingerprint.sentence_structure}",
+    "vocabulary_level": "${fingerprint.vocabulary_level}",
+    "punctuation_style": "${fingerprint.punctuation_style}"
   },
   "knowledge_level": "one of: beginner, intermediate, expert",
   "preferred_groups": ["2-4 group slugs from: general, help, showcase, feature-requests, tutorials, workflows, integrations"],
   "activity_level": "one of: low, moderate, high",
   "is_active": true
-}`, 1024)
+}`, 1500)
 
   return parseJSON(text)
+}
+
+/**
+ * Generate a cohort of complementary personas that work together naturally.
+ * Each persona has a unique writing fingerprint and fills a different niche.
+ */
+export async function generatePersonaCohort(
+  count: number = 6,
+  existingPersonas: Partial<Persona>[] = []
+): Promise<Omit<Persona, 'id' | 'created_at' | 'last_active_at' | 'thread_count' | 'reply_count'>[]> {
+  // Define archetypes to ensure diversity
+  const archetypes = [
+    'A senior backend developer who has been building APIs for 10+ years. Skeptical of new tools but quietly impressed by 0nMCP. Gives thorough, tested advice.',
+    'A young self-taught developer from a non-English speaking country. Learning through building, makes mistakes but is eager. Asks genuine questions.',
+    'An agency owner who manages 20+ client projects. Cares about efficiency and ROI. Practical, no-nonsense, shares real business metrics.',
+    'A DevOps engineer who automates everything. Lives in the terminal. Loves discussing infrastructure, CI/CD, and deployment strategies.',
+    'A freelance developer who builds automation for small businesses. Budget-conscious, creative problem solver, shares scrappy solutions.',
+    'A data engineer transitioning from enterprise tools. Compares everything to Airflow/dbt. Brings unique perspective on data pipelines.',
+    'A design-minded full-stack developer. Cares about DX and beautiful CLIs. Opinionated about UX of developer tools.',
+    'A startup founder building their MVP. Time-pressed, asks about quick wins. Shares progress updates and lessons learned.',
+    'A student learning about API integration for the first time. Everything is exciting and new. Asks basic questions others are afraid to ask.',
+    'A security-focused developer. Paranoid about credentials, API keys, rate limits. Loves the Vault feature. Finds edge cases.',
+  ]
+
+  const results: Omit<Persona, 'id' | 'created_at' | 'last_active_at' | 'thread_count' | 'reply_count'>[] = []
+  const allPersonas = [...existingPersonas]
+
+  // Generate personas sequentially to ensure each one knows about the previous
+  const selectedArchetypes = pickRandom(archetypes, Math.min(count, archetypes.length))
+
+  for (const archetype of selectedArchetypes) {
+    const persona = await generatePersona(archetype, allPersonas)
+    results.push(persona)
+    allPersonas.push(persona as Partial<Persona>)
+  }
+
+  return results
 }
 
 /**
@@ -224,6 +419,15 @@ TARGET GROUP: ${topicSeed.category || persona.preferred_groups[0] || 'general'}`
     : `Pick a topic that fits your expertise: ${persona.expertise.join(', ')}
 Post in one of your preferred groups: ${persona.preferred_groups.join(', ')}`
 
+  const writingInstructions = persona.personality?.writing_style
+    ? `\nWRITING FINGERPRINT — follow these EXACTLY:
+- Style: ${persona.personality.writing_style}
+- Sentences: ${persona.personality.sentence_structure}
+- Vocabulary: ${persona.personality.vocabulary_level}
+- Punctuation: ${persona.personality.punctuation_style}
+- Quirks: ${(persona.personality.quirks || []).join('; ')}`
+    : ''
+
   const text = await callClaude(`You are ${persona.name}, posting on a developer forum.
 
 YOUR PROFILE:
@@ -234,6 +438,7 @@ YOUR PROFILE:
 - Verbosity: ${persona.personality?.verbosity || 'moderate'}
 - Emoji usage: ${persona.personality?.emoji_usage || 'minimal'}
 - Knowledge level: ${persona.knowledge_level}
+${writingInstructions}
 
 ${FORUM_CONTEXT}
 
@@ -245,13 +450,21 @@ Write a forum thread. It can be:
 - A discussion starter about a use case or pattern
 - Asking for help with a specific integration
 
-Be authentic. Write as this person would actually write. Don't be overly positive or promotional.
-If you're a beginner, ask beginner questions. If you're an expert, share nuanced insights.
-${persona.personality?.asks_followups ? 'End with a follow-up question to encourage discussion.' : ''}
+AUTHENTICITY RULES:
+- Write EXACTLY as this person would. Not how an AI thinks a person writes.
+- Match the sentence structure and punctuation style precisely.
+- Use the vocabulary level consistently — don't slip into formal AI language.
+- Include at least one of your assigned quirks naturally.
+- Vary paragraph lengths. Real people don't write uniform paragraphs.
+- If you're a beginner, show genuine confusion. Don't hedge with "I might be wrong but..."
+- If you're an expert, be opinionated. Don't qualify every statement.
+- NEVER use the phrase "I've been exploring" or "I wanted to share" — these are AI tells.
+- NEVER start with "Hey everyone" or "Hi community" — jump into the topic.
+${persona.personality?.asks_followups ? '- End with a follow-up question to encourage discussion.' : ''}
 
 Respond in JSON:
 {
-  "title": "Thread title (natural, 10-80 chars)",
+  "title": "Thread title (natural, 10-80 chars, NOT clickbait, sounds like a real forum post)",
   "body": "Thread body (2-6 paragraphs, markdown ok)",
   "group_slug": "the group slug to post in"
 }`, 1500)
@@ -271,6 +484,15 @@ export async function generateReply(
     .map(p => `**${p.author_name}**: ${p.body.slice(0, 300)}`)
     .join('\n\n')
 
+  const writingInstructions = persona.personality?.writing_style
+    ? `\nWRITING FINGERPRINT — follow these EXACTLY:
+- Style: ${persona.personality.writing_style}
+- Sentences: ${persona.personality.sentence_structure}
+- Vocabulary: ${persona.personality.vocabulary_level}
+- Punctuation: ${persona.personality.punctuation_style}
+- Quirks: ${(persona.personality.quirks || []).join('; ')}`
+    : ''
+
   const text = await callClaude(`You are ${persona.name}, replying to a forum thread.
 
 YOUR PROFILE:
@@ -280,6 +502,7 @@ YOUR PROFILE:
 - Verbosity: ${persona.personality?.verbosity || 'moderate'}
 - Emoji usage: ${persona.personality?.emoji_usage || 'minimal'}
 - Knowledge level: ${persona.knowledge_level}
+${writingInstructions}
 
 ${FORUM_CONTEXT}
 
@@ -296,9 +519,15 @@ Write a reply in character. Be genuinely helpful and add value. You might:
 - Agree/disagree with a specific point
 - Share a code snippet if relevant
 
-Do NOT repeat what others said. Add something NEW to the conversation.
-Keep it natural — vary length based on what you're saying.
-${persona.personality?.asks_followups ? 'Consider asking a follow-up question.' : ''}
+AUTHENTICITY RULES:
+- Write EXACTLY as this person would. Follow your writing fingerprint precisely.
+- Do NOT repeat what others said. Add something NEW.
+- NEVER start with "Great question!" or "Thanks for sharing!" — these are AI tells.
+- If you disagree, say so directly in your natural tone.
+- Match your reply length to what makes sense — sometimes a 2-line reply is better than 4 paragraphs.
+- Include at least one of your assigned quirks.
+- If you're unsure about something, admit it naturally (not with hedging cliches).
+${persona.personality?.asks_followups ? '- Consider asking a follow-up question.' : ''}
 
 Respond in JSON:
 {

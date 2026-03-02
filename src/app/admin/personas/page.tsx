@@ -53,7 +53,7 @@ interface ConvoLog {
   persona_name?: string
 }
 
-type Tab = 'personas' | 'generate' | 'seeds' | 'activity'
+type Tab = 'personas' | 'generate' | 'seeds' | 'activity' | 'workflows'
 
 const ROLE_COLORS: Record<string, string> = {
   developer: '#7ed957',
@@ -97,6 +97,21 @@ export default function PersonasAdmin() {
   // Converse state
   const [conversing, setConversing] = useState(false)
 
+  // Workflow state
+  const [workflowPersonas, setWorkflowPersonas] = useState<Array<{
+    id: string; name: string; slug: string; role: string | null; is_active: boolean;
+    activity_level: string; preferred_groups: string[];
+    thread_count: number; reply_count: number;
+    weekly_threads: number; weekly_replies: number;
+    workflow_config: {
+      enabled: boolean; threads_per_week: number; replies_per_week: number;
+      preferred_groups: string[]; topics: string[];
+    } | null;
+  }>>([])
+  const [workflowLoading, setWorkflowLoading] = useState(false)
+  const [runningPersona, setRunningPersona] = useState<string | null>(null)
+  const [runningAll, setRunningAll] = useState(false)
+
   const loadPersonas = useCallback(async () => {
     const res = await fetch('/api/personas')
     if (res.ok) {
@@ -126,6 +141,18 @@ export default function PersonasAdmin() {
     }
   }, [])
 
+  const loadWorkflows = useCallback(async () => {
+    setWorkflowLoading(true)
+    try {
+      const res = await fetch('/api/personas/workflows')
+      if (res.ok) {
+        const data = await res.json()
+        setWorkflowPersonas(data.personas || [])
+      }
+    } catch {}
+    setWorkflowLoading(false)
+  }, [])
+
   useEffect(() => {
     loadPersonas()
   }, [loadPersonas])
@@ -133,7 +160,8 @@ export default function PersonasAdmin() {
   useEffect(() => {
     if (tab === 'seeds') loadSeeds()
     if (tab === 'activity') loadActivity()
-  }, [tab, loadSeeds, loadActivity])
+    if (tab === 'workflows') loadWorkflows()
+  }, [tab, loadSeeds, loadActivity, loadWorkflows])
 
   async function handleGenerate() {
     if (!genPrompt.trim()) return
@@ -291,6 +319,71 @@ export default function PersonasAdmin() {
     }
   }
 
+  async function updateWorkflowConfig(personaId: string, config: Record<string, unknown>) {
+    try {
+      const res = await fetch('/api/personas/workflows', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'update_config', persona_id: personaId, config }),
+      })
+      if (res.ok) {
+        setMessage('Workflow config updated')
+        loadWorkflows()
+      } else {
+        const data = await res.json()
+        setMessage(data.error || 'Update failed')
+      }
+    } catch {
+      setMessage('Network error')
+    }
+  }
+
+  async function runPersonaWorkflow(personaId: string) {
+    setRunningPersona(personaId)
+    setMessage('')
+    try {
+      const res = await fetch('/api/personas/workflows', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'run_persona', persona_id: personaId }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setMessage(`${data.persona}: Created ${data.results?.length || 0} items`)
+        loadWorkflows()
+        loadPersonas()
+      } else {
+        setMessage(data.error || 'Run failed')
+      }
+    } catch {
+      setMessage('Network error')
+    }
+    setRunningPersona(null)
+  }
+
+  async function runAllWorkflows() {
+    setRunningAll(true)
+    setMessage('Running all persona workflows...')
+    try {
+      const res = await fetch('/api/personas/workflows', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'run_all' }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setMessage(`Batch complete: ${data.ran} succeeded, ${data.failed} failed`)
+        loadWorkflows()
+        loadPersonas()
+      } else {
+        setMessage(data.error || 'Batch run failed')
+      }
+    } catch {
+      setMessage('Network error')
+    }
+    setRunningAll(false)
+  }
+
   if (loading) {
     return (
       <div style={{ padding: '120px 32px', textAlign: 'center' }}>
@@ -359,7 +452,7 @@ export default function PersonasAdmin() {
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
-        {(['personas', 'generate', 'seeds', 'activity'] as Tab[]).map(t => (
+        {(['personas', 'generate', 'seeds', 'activity', 'workflows'] as Tab[]).map(t => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -376,7 +469,7 @@ export default function PersonasAdmin() {
               transition: 'all 0.15s',
             }}
           >
-            {t === 'seeds' ? 'Topic Seeds' : t === 'activity' ? 'Activity Log' : t}
+            {t === 'seeds' ? 'Topic Seeds' : t === 'activity' ? 'Activity Log' : t === 'workflows' ? 'Workflows' : t}
           </button>
         ))}
       </div>
@@ -777,6 +870,186 @@ export default function PersonasAdmin() {
             <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
               <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>No activity yet</p>
               <p style={{ fontSize: '0.75rem' }}>Persona conversations will appear here</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ==================== Workflows Tab ==================== */}
+      {tab === 'workflows' && (
+        <div>
+          {/* Batch actions bar */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20,
+            padding: '16px 20px', borderRadius: 16, background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
+          }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.875rem', fontWeight: 700 }}>Persona Workflows</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+                Configure posting schedules per persona. Run individually or batch.
+              </div>
+            </div>
+            <button
+              onClick={runAllWorkflows}
+              disabled={runningAll}
+              style={btnStyle('#7ed957')}
+            >
+              {runningAll ? 'Running...' : 'Run All Enabled'}
+            </button>
+            <button
+              onClick={() => {
+                const enabled = workflowPersonas.filter(p => p.workflow_config?.enabled && p.is_active)
+                if (enabled.length === 0) { setMessage('No enabled workflows'); return }
+                fetch('/api/personas/workflows', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ action: 'batch_threads', persona_ids: enabled.map(p => p.id), count: 1 }),
+                }).then(r => r.json()).then(data => {
+                  setMessage(`Batch threads: ${data.created || 0} created`)
+                  loadWorkflows()
+                  loadPersonas()
+                }).catch(() => setMessage('Batch failed'))
+              }}
+              disabled={runningAll}
+              style={btnStyle('#9945ff')}
+            >
+              Batch Threads
+            </button>
+          </div>
+
+          {workflowLoading ? (
+            <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>Loading workflows...</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {workflowPersonas.filter(p => p.is_active).map(p => {
+                const config = p.workflow_config || { enabled: false, threads_per_week: 2, replies_per_week: 5, preferred_groups: p.preferred_groups || [], topics: [] }
+                const isRunning = runningPersona === p.id
+                return (
+                  <div
+                    key={p.id}
+                    style={{
+                      padding: '16px 20px', borderRadius: 14,
+                      background: 'var(--bg-card)', border: `1px solid ${config.enabled ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
+                      opacity: config.enabled ? 1 : 0.7,
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      {/* Avatar initial */}
+                      <div style={{
+                        width: 36, height: 36, borderRadius: '50%',
+                        background: `${ROLE_COLORS[p.role || ''] || '#484e78'}20`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.875rem', fontWeight: 900,
+                        color: ROLE_COLORS[p.role || ''] || '#fff',
+                        flexShrink: 0,
+                      }}>
+                        {p.name.charAt(0)}
+                      </div>
+
+                      {/* Name + role */}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 700, fontSize: '0.8125rem' }}>{p.name}</div>
+                        <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
+                          <span style={{ color: ROLE_COLORS[p.role || ''] || 'var(--text-muted)' }}>{p.role}</span>
+                          {' '}&middot; {p.activity_level}
+                        </div>
+                      </div>
+
+                      {/* Weekly stats */}
+                      <div style={{ textAlign: 'center', padding: '0 12px' }}>
+                        <div style={{ fontSize: '0.875rem', fontWeight: 900, color: '#9945ff' }}>{p.weekly_threads}</div>
+                        <div style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>threads/wk</div>
+                      </div>
+                      <div style={{ textAlign: 'center', padding: '0 12px' }}>
+                        <div style={{ fontSize: '0.875rem', fontWeight: 900, color: '#00d4ff' }}>{p.weekly_replies}</div>
+                        <div style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>replies/wk</div>
+                      </div>
+
+                      {/* Schedule controls */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <label style={{ fontSize: '0.5625rem', color: 'var(--text-muted)' }}>T/wk</label>
+                        <select
+                          value={config.threads_per_week}
+                          onChange={e => {
+                            const newConfig = { ...config, threads_per_week: Number(e.target.value) }
+                            updateWorkflowConfig(p.id, newConfig)
+                          }}
+                          style={{ ...selectStyle, width: 52, padding: '4px 6px' }}
+                        >
+                          {[0, 1, 2, 3, 5, 7, 10].map(n => <option key={n} value={n}>{n}</option>)}
+                        </select>
+                        <label style={{ fontSize: '0.5625rem', color: 'var(--text-muted)' }}>R/wk</label>
+                        <select
+                          value={config.replies_per_week}
+                          onChange={e => {
+                            const newConfig = { ...config, replies_per_week: Number(e.target.value) }
+                            updateWorkflowConfig(p.id, newConfig)
+                          }}
+                          style={{ ...selectStyle, width: 52, padding: '4px 6px' }}
+                        >
+                          {[0, 1, 2, 3, 5, 7, 10, 15, 20].map(n => <option key={n} value={n}>{n}</option>)}
+                        </select>
+                      </div>
+
+                      {/* Enable toggle */}
+                      <button
+                        onClick={() => {
+                          const newConfig = { ...config, enabled: !config.enabled }
+                          updateWorkflowConfig(p.id, newConfig)
+                        }}
+                        style={{
+                          padding: '4px 10px', borderRadius: 6,
+                          background: config.enabled ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
+                          color: config.enabled ? '#7ed957' : 'var(--text-muted)',
+                          border: 'none', fontWeight: 700, fontSize: '0.5625rem',
+                          cursor: 'pointer', textTransform: 'uppercase',
+                          minWidth: 48,
+                        }}
+                      >
+                        {config.enabled ? 'ON' : 'OFF'}
+                      </button>
+
+                      {/* Run now */}
+                      <button
+                        onClick={() => runPersonaWorkflow(p.id)}
+                        disabled={isRunning || runningAll}
+                        style={{
+                          ...btnStyleSmall('#ff6b35'),
+                          opacity: isRunning || runningAll ? 0.5 : 1,
+                        }}
+                      >
+                        {isRunning ? '...' : 'Run'}
+                      </button>
+                    </div>
+
+                    {/* Groups row */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 8 }}>
+                      {(p.preferred_groups || []).map(g => (
+                        <span
+                          key={g}
+                          style={{
+                            fontSize: '0.5rem', padding: '1px 5px', borderRadius: 3,
+                            background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)',
+                          }}
+                        >
+                          {g}
+                        </span>
+                      ))}
+                      <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', marginLeft: 4 }}>
+                        Total: {p.thread_count}t / {p.reply_count}r
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
+
+              {workflowPersonas.filter(p => p.is_active).length === 0 && (
+                <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
+                  <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>No active personas</p>
+                  <p style={{ fontSize: '0.75rem' }}>Create and activate personas first</p>
+                </div>
+              )}
             </div>
           )}
         </div>

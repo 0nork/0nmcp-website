@@ -76,7 +76,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('8028a660-0194-4077-b084-ca551a110f10');`,
+            __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('3ed036f8-6ddc-4317-8fcb-f9692bd6ce79');`,
           }}
         />
       </body>

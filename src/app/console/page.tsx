@@ -617,8 +617,18 @@ export default function ConsolePage() {
               <Chat
                 messages={messages}
                 loading={chatLoading}
-                hasAnthropicKey={connectedKeys.includes('anthropic')}
-                onNavigateVault={() => { setView('vault'); setVaultSearch('anthropic'); setVaultSubView('credentials') }}
+                hasAIKey={connectedKeys.includes('anthropic') || connectedKeys.includes('openai') || connectedKeys.includes('google')}
+                onNavigateVault={(service?: string) => {
+                  setView('vault')
+                  setVaultSubView('credentials')
+                  if (service) {
+                    setVaultService(service)
+                    setVaultSearch('')
+                  } else {
+                    setVaultSearch('')
+                    setVaultService(null)
+                  }
+                }}
               />
               {/* AI Smart Prompts */}
               <SmartPrompts

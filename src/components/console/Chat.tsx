@@ -1,12 +1,12 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { User, Zap, CheckCircle2, XCircle, Loader2, Terminal, KeyRound, Sparkles } from 'lucide-react'
+import { User, Zap, CheckCircle2, XCircle, Loader2, Terminal, Sparkles } from 'lucide-react'
 
 export interface ChatMessage {
   role: 'user' | 'system'
   text: string
-  source?: '0nmcp' | 'claude-byok' | 'claude' | 'local'
+  source?: '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'local'
   status?: 'completed' | 'failed'
   steps?: number
   services?: string[]
@@ -17,23 +17,33 @@ export interface ChatMessage {
 interface ChatProps {
   messages: ChatMessage[]
   loading: boolean
-  hasAnthropicKey?: boolean
-  onNavigateVault?: () => void
+  hasAIKey?: boolean
+  onNavigateVault?: (service?: string) => void
 }
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   '0nmcp': { label: '0nMCP', color: 'var(--accent)' },
   'claude-byok': { label: 'Claude (Your Key)', color: '#a78bfa' },
   'claude': { label: 'Claude', color: '#00d4ff' },
+  'openai-byok': { label: 'GPT-4o (Your Key)', color: '#10a37f' },
+  'gemini-byok': { label: 'Gemini (Your Key)', color: '#4285f4' },
   'local': { label: 'Local', color: 'var(--text-muted)' },
 }
+
+const AI_SOURCE_SET = new Set(['claude-byok', 'claude', 'openai-byok', 'gemini-byok'])
 
 function formatTime(ts?: string) {
   if (ts) return ts
   return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-export function Chat({ messages, loading, hasAnthropicKey, onNavigateVault }: ChatProps) {
+const AI_PROVIDERS = [
+  { key: 'anthropic', label: 'Claude', sub: 'Anthropic', color: '#a78bfa', gradient: 'linear-gradient(135deg, #a78bfa, #6366f1)' },
+  { key: 'openai', label: 'GPT-4o', sub: 'OpenAI', color: '#10a37f', gradient: 'linear-gradient(135deg, #10a37f, #1a7f5a)' },
+  { key: 'google', label: 'Gemini', sub: 'Google', color: '#4285f4', gradient: 'linear-gradient(135deg, #4285f4, #34a853)' },
+]
+
+export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps) {
   const endRef = useRef<HTMLDivElement>(null)
   const prevLenRef = useRef(0)
 
@@ -46,46 +56,69 @@ export function Chat({ messages, loading, hasAnthropicKey, onNavigateVault }: Ch
 
   // Show BYOK banner when last response was local (no AI key available)
   const lastSystemMsg = [...messages].reverse().find(m => m.role === 'system')
-  const showInlineBYOK = !hasAnthropicKey && lastSystemMsg?.source === 'local' && messages.length > 0
+  const showInlineBYOK = !hasAIKey && lastSystemMsg?.source === 'local' && messages.length > 0
 
   if (messages.length === 0 && !loading) {
     return (
       <div className="flex-1 flex items-center justify-center px-4">
-        <div className="text-center max-w-md">
-          {!hasAnthropicKey ? (
+        <div className="text-center max-w-lg">
+          {!hasAIKey ? (
             <>
-              {/* BYOK Onboarding — Primary CTA */}
+              {/* BYOK Onboarding — Pick Your AI Provider */}
               <div
                 className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
                 style={{ background: 'linear-gradient(135deg, rgba(167,139,250,0.2), rgba(0,212,255,0.15))' }}
               >
-                <KeyRound size={28} style={{ color: '#a78bfa' }} />
+                <Sparkles size={28} style={{ color: '#a78bfa' }} />
               </div>
               <h3
                 className="text-xl font-semibold mb-2"
                 style={{ color: 'var(--text-primary)' }}
               >
-                Connect Your AI Key
+                Connect Your AI
               </h3>
-              <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
-                Add your Anthropic API key in the Vault to unlock AI-powered chat across all 48 services. Your key is encrypted with AES-256-GCM and only you can access it.
+              <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
+                Pick any provider. Your key is encrypted with AES-256-GCM and only you can access it.
               </p>
-              <button
-                onClick={onNavigateVault}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all"
-                style={{
-                  background: 'linear-gradient(135deg, #a78bfa, #00d4ff)',
-                  color: '#0a0a0f',
-                  border: 'none',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.boxShadow = '0 0 24px rgba(167,139,250,0.3)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none' }}
-              >
-                <KeyRound size={16} />
-                Open Vault &rarr; Anthropic
-              </button>
+
+              {/* 3 Provider Cards */}
+              <div className="flex gap-3 justify-center mb-5">
+                {AI_PROVIDERS.map(p => (
+                  <button
+                    key={p.key}
+                    onClick={() => onNavigateVault?.(p.key)}
+                    className="flex flex-col items-center gap-2 px-5 py-4 rounded-xl cursor-pointer transition-all"
+                    style={{
+                      background: 'var(--bg-card)',
+                      border: '1px solid var(--border)',
+                      color: 'var(--text-primary)',
+                      minWidth: '120px',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = p.color
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = `0 4px 20px ${p.color}25`
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'var(--border)'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
+                  >
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold"
+                      style={{ background: p.gradient, color: '#fff' }}
+                    >
+                      {p.label.slice(0, 2)}
+                    </div>
+                    <span className="text-sm font-semibold" style={{ color: p.color }}>{p.label}</span>
+                    <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{p.sub}</span>
+                  </button>
+                ))}
+              </div>
+
               <div
-                className="mt-6 pt-4"
+                className="pt-4"
                 style={{ borderTop: '1px solid var(--border)' }}
               >
                 <p className="text-xs mb-1" style={{ color: 'var(--text-muted)' }}>
@@ -138,15 +171,19 @@ export function Chat({ messages, loading, hasAnthropicKey, onNavigateVault }: Ch
               <div
                 className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center"
                 style={{
-                  background: m.source === 'claude-byok' || m.source === 'claude'
-                    ? 'linear-gradient(135deg, #a78bfa, #00d4ff)'
+                  background: m.source && AI_SOURCE_SET.has(m.source)
+                    ? m.source === 'openai-byok'
+                      ? 'linear-gradient(135deg, #10a37f, #1a7f5a)'
+                      : m.source === 'gemini-byok'
+                        ? 'linear-gradient(135deg, #4285f4, #34a853)'
+                        : 'linear-gradient(135deg, #a78bfa, #00d4ff)'
                     : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
                 }}
               >
                 {m.loading ? (
                   <Loader2 size={16} className="animate-spin" style={{ color: 'var(--bg-primary)' }} />
-                ) : m.source === 'claude-byok' || m.source === 'claude' ? (
-                  <Sparkles size={14} style={{ color: 'var(--bg-primary)' }} />
+                ) : m.source && AI_SOURCE_SET.has(m.source) ? (
+                  <Sparkles size={14} style={{ color: '#fff' }} />
                 ) : (
                   <span
                     className="text-[10px] font-black"
@@ -255,14 +292,14 @@ export function Chat({ messages, loading, hasAnthropicKey, onNavigateVault }: Ch
               animation: 'console-msg-in 0.3s ease both',
             }}
           >
-            <KeyRound size={18} style={{ color: '#a78bfa' }} className="shrink-0" />
+            <Sparkles size={18} style={{ color: '#a78bfa' }} className="shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                Connect your Anthropic key for AI-powered responses.
+                Connect an AI key (Claude, GPT, or Gemini) for AI-powered responses.
               </p>
             </div>
             <button
-              onClick={onNavigateVault}
+              onClick={() => onNavigateVault?.()}
               className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer transition-all"
               style={{
                 background: 'rgba(167,139,250,0.15)',

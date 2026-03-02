@@ -66,12 +66,30 @@ const SERVICE_FIELDS: Record<
   },
   openai: {
     label: 'OpenAI',
-    desc: 'Access GPT-4, DALL-E, embeddings, and other AI models via the OpenAI API.',
+    desc: 'Access GPT-4o, DALL-E, embeddings, and other AI models. Powers AI chat in the Console when connected.',
     color: '#10a37f',
     caps: ['completions', 'embeddings', 'images', 'audio', 'moderation'],
     fields: [
-      { key: 'api_key', label: 'API Key', placeholder: 'sk-...', secret: true, help: 'Your OpenAI API key.', link: 'https://platform.openai.com/api-keys', linkLabel: 'OpenAI Dashboard' },
+      { key: 'api_key', label: 'API Key', placeholder: 'sk-...', secret: true, help: 'Your OpenAI API key. Powers Console AI chat via GPT-4o.', link: 'https://platform.openai.com/api-keys', linkLabel: 'OpenAI Dashboard' },
       { key: 'org_id', label: 'Organization ID', placeholder: 'org-...', secret: false, help: 'Optional. Required for multi-org accounts.', link: 'https://platform.openai.com/account/organization', linkLabel: 'Org Settings' },
+    ],
+  },
+  google: {
+    label: 'Gemini',
+    desc: 'Access Gemini 2.0 Flash and other Google AI models. Powers AI chat in the Console when connected.',
+    color: '#4285f4',
+    caps: ['completions', 'embeddings', 'vision', 'code', 'reasoning'],
+    fields: [
+      { key: 'api_key', label: 'API Key', placeholder: 'AIza...', secret: true, help: 'Your Google AI API key. Powers Console AI chat via Gemini.', link: 'https://aistudio.google.com/apikey', linkLabel: 'Google AI Studio' },
+    ],
+  },
+  anthropic: {
+    label: 'Claude',
+    desc: 'Access Claude Sonnet, Opus, and Haiku models via the Anthropic API. Powers AI chat in the Console when connected.',
+    color: '#a78bfa',
+    caps: ['completions', 'vision', 'code', 'analysis', 'reasoning'],
+    fields: [
+      { key: 'api_key', label: 'API Key', placeholder: 'sk-ant-...', secret: true, help: 'Your Anthropic API key. Powers Console AI chat via Claude.', link: 'https://console.anthropic.com/settings/keys', linkLabel: 'Anthropic Console' },
     ],
   },
   supabase: {

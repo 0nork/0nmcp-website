@@ -9,6 +9,11 @@ export const runtime = 'nodejs'
 const ONMCP_URL = process.env.ONMCP_URL || 'http://localhost:3001'
 const PLATFORM_ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || ''
 
+type AISource = '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'local'
+type AIProvider = 'anthropic' | 'openai' | 'google'
+
+const AI_SERVICES: AIProvider[] = ['anthropic', 'openai', 'google']
+
 const SYSTEM_PROMPT =
   'You are 0n Console, the AI assistant for the 0nMCP ecosystem — a universal AI API orchestrator with 819 tools across 48 services in 21 categories.\n\n' +
   'You help users with:\n' +
@@ -35,17 +40,16 @@ function getAdmin() {
 }
 
 /**
- * Get the user's personal Anthropic API key from their Vault.
- * BYOK (Bring Your Own Key) — user connects their own key, chat always works.
+ * Get a user's API key for any AI service from their Vault.
  */
-async function getUserAnthropicKey(userId: string): Promise<string | null> {
+async function getUserAIKey(userId: string, serviceName: string): Promise<string | null> {
   try {
     const admin = getAdmin()
     const { data: row } = await admin
       .from('user_vaults')
       .select('encrypted_key, iv, salt')
       .eq('user_id', userId)
-      .eq('service_name', 'anthropic')
+      .eq('service_name', serviceName)
       .maybeSingle()
 
     if (!row?.encrypted_key || !row?.iv || !row?.salt) return null
@@ -63,9 +67,9 @@ async function getUserAnthropicKey(userId: string): Promise<string | null> {
 }
 
 /**
- * Call the Anthropic API with a given key.
+ * Call Anthropic (Claude) API.
  */
-async function callClaude(apiKey: string, message: string): Promise<{ text: string; source: 'claude-byok' | 'claude' } | null> {
+async function callClaude(apiKey: string, message: string, source: AISource = 'claude-byok'): Promise<{ text: string; source: AISource } | null> {
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -90,7 +94,70 @@ async function callClaude(apiKey: string, message: string): Promise<{ text: stri
       ? data.content[0].text
       : null
 
-    return text ? { text, source: 'claude-byok' } : null
+    return text ? { text, source } : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Call OpenAI (GPT) API.
+ */
+async function callOpenAI(apiKey: string, message: string): Promise<{ text: string; source: AISource } | null> {
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        max_tokens: 2048,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: message },
+        ],
+      }),
+      signal: AbortSignal.timeout(30000),
+    })
+
+    if (!res.ok) return null
+
+    const data = await res.json()
+    const text = data.choices?.[0]?.message?.content || null
+
+    return text ? { text, source: 'openai-byok' as AISource } : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Call Google Gemini API.
+ */
+async function callGemini(apiKey: string, message: string): Promise<{ text: string; source: AISource } | null> {
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: [{ parts: [{ text: message }] }],
+          generationConfig: { maxOutputTokens: 2048 },
+        }),
+        signal: AbortSignal.timeout(30000),
+      }
+    )
+
+    if (!res.ok) return null
+
+    const data = await res.json()
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || null
+
+    return text ? { text, source: 'gemini-byok' as AISource } : null
   } catch {
     return null
   }
@@ -264,21 +331,31 @@ export async function POST(request: NextRequest) {
     // 0nMCP offline — continue
   }
 
-  // ── Layer 2: User's own Anthropic key (BYOK) ──────────────
-  const userKey = await getUserAnthropicKey(user.id)
-  if (userKey) {
-    const result = await callClaude(userKey, message)
+  // ── Layer 2: User's own AI key (BYOK — Claude, GPT, or Gemini) ──
+  for (const provider of AI_SERVICES) {
+    const userKey = await getUserAIKey(user.id, provider)
+    if (!userKey) continue
+
+    let result: { text: string; source: AISource } | null = null
+    if (provider === 'anthropic') {
+      result = await callClaude(userKey, message, 'claude-byok')
+    } else if (provider === 'openai') {
+      result = await callOpenAI(userKey, message)
+    } else if (provider === 'google') {
+      result = await callGemini(userKey, message)
+    }
+
     if (result) {
       return NextResponse.json({
         text: result.text,
-        source: 'claude-byok' as const,
+        source: result.source,
       })
     }
   }
 
   // ── Layer 3: Platform Anthropic key ────────────────────────
   if (PLATFORM_ANTHROPIC_KEY) {
-    const result = await callClaude(PLATFORM_ANTHROPIC_KEY, message)
+    const result = await callClaude(PLATFORM_ANTHROPIC_KEY, message, 'claude')
     if (result) {
       return NextResponse.json({
         text: result.text,
@@ -298,14 +375,14 @@ export async function POST(request: NextRequest) {
 
   // ── Layer 5: Generic helpful response ──────────────────────
   return NextResponse.json({
-    text: '**I can help with that!** To unlock full AI-powered responses, connect your Anthropic API key in the **Vault** (`/vault` → Anthropic).\n\n' +
+    text: '**I can help with that!** To unlock full AI-powered responses, connect an API key in the **Vault** — Claude, GPT-4o, or Gemini.\n\n' +
       'In the meantime, try these commands:\n' +
       '- `/smartlead` — Cold email campaigns\n' +
       '- `/vault` — Connect services\n' +
       '- `/builder` — Visual workflow builder\n' +
       '- `/store` — Browse automation templates\n' +
       '- `/help` — See all available commands\n\n' +
-      '*Tip: Add your own Anthropic key in the Vault for unlimited AI chat.*',
+      '*Tip: Add any AI key (Claude, GPT, or Gemini) in the Vault for unlimited AI chat.*',
     source: 'local' as const,
   })
 }

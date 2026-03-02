@@ -13,6 +13,7 @@ interface SidebarProps {
   onToggleMode: () => void
   connectedCount: number
   mcpOnline: boolean
+  isAdmin?: boolean
 }
 
 // Helper: encode an SVG path string into a data URI img src
@@ -182,12 +183,28 @@ export function Sidebar({
   onToggleMode,
   connectedCount,
   mcpOnline,
+  isAdmin,
 }: SidebarProps) {
   const [hoverVisible, setHoverVisible] = useState(false)
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const showLabels = mode === 'open' || (mode === 'hidden' && hoverVisible)
   const showIcons = mode === 'icons'
+
+  // Conditionally add Admin nav item
+  const navItems = isAdmin
+    ? [
+        ...NAV_ITEMS,
+        {
+          key: 'admin',
+          label: 'Admin',
+          logo: svg(
+            '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+            '#7ed957'
+          ),
+        },
+      ]
+    : NAV_ITEMS
 
   // Compute the effective width of the sidebar content
   const sidebarWidth = showLabels ? '16rem' : showIcons ? '4rem' : '16rem'
@@ -288,7 +305,7 @@ export function Sidebar({
           overflowX: 'hidden',
         }}
       >
-        {NAV_ITEMS.map(({ key, label, logo, href }) => {
+        {navItems.map(({ key, label, logo, href }) => {
           const active = !href && view === key
           return (
             <NavButton

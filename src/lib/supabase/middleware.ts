@@ -35,7 +35,7 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Admin routes — restricted to admin emails only
+  // Admin routes — restricted to admin emails or is_admin flag in DB
   const ADMIN_EMAILS = ['mike@rocketopp.com']
   if (pathname.startsWith('/admin')) {
     if (!user) {
@@ -44,7 +44,21 @@ export async function updateSession(request: NextRequest) {
       url.searchParams.set('redirect', pathname)
       return NextResponse.redirect(url)
     }
-    if (!ADMIN_EMAILS.includes(user.email || '')) {
+
+    // Check email whitelist first (fast path)
+    let isAdmin = ADMIN_EMAILS.includes(user.email || '')
+
+    // If not in email list, check DB is_admin column
+    if (!isAdmin) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single()
+      isAdmin = profile?.is_admin === true
+    }
+
+    if (!isAdmin) {
       const url = request.nextUrl.clone()
       url.pathname = '/'
       url.search = ''

@@ -30,6 +30,7 @@ import FeedbackAgent from '@/components/console/FeedbackAgent'
 // Learn is a front-end link to /learn
 import { AccountView } from '@/components/console/AccountView'
 import { ConvertView } from '@/components/console/ConvertView'
+import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
 import { PinnedCommands } from '@/components/console/PinnedCommands'
 import dynamic from 'next/dynamic'
@@ -53,7 +54,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'account' | 'convert'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'account' | 'convert' | 'admin'
 
 interface McpHealth {
   version?: string
@@ -105,6 +106,9 @@ export default function ConsolePage() {
   const [activePremiumPurchase, setActivePremiumPurchase] = useState<PurchaseWithWorkflow | null>(null)
   const [premiumDetailListing, setPremiumDetailListing] = useState<StoreListing | null>(null)
 
+  // ─── Admin State ──────────────────────────────────────────
+  const [isAdmin, setIsAdmin] = useState(false)
+
   // ─── AI Recommendation State ──────────────────────────────────
   const [recentActions, setRecentActions] = useState<string[]>([])
   const [recommendations, setRecommendations] = useState<Recommendation[]>([])
@@ -152,6 +156,11 @@ export default function ConsolePage() {
 
   // ─── Initialization ───────────────────────────────────────────
   useEffect(() => {
+    // Check admin status
+    fetch('/api/admin/users?stats=true')
+      .then(r => { if (r.ok) setIsAdmin(true) })
+      .catch(() => {})
+
     // Check 0nMCP health
     fetch('/api/console/health')
       .then((r) => r.json())
@@ -361,6 +370,9 @@ export default function ConsolePage() {
         case '/convert':
           setView('convert')
           break
+        case '/admin':
+          if (isAdmin) setView('admin')
+          break
         case '/history':
           setView('account')
           break
@@ -525,6 +537,7 @@ export default function ConsolePage() {
           onToggleMode={handleToggleSidebarMode}
           connectedCount={vault.connectedCount}
           mcpOnline={mcpOnline}
+          isAdmin={isAdmin}
         />
       </div>
 
@@ -752,6 +765,13 @@ export default function ConsolePage() {
                   setView('builder')
                 }}
               />
+            </div>
+          )}
+
+          {/* Admin */}
+          {isAdmin && visitedViews.has('admin') && (
+            <div style={{ display: view === 'admin' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <AdminView />
             </div>
           )}
         </main>

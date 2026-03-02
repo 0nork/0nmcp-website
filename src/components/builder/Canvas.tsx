@@ -123,7 +123,7 @@ export default function Canvas() {
   )
 
   return (
-    <div style={{ flex: 1 }} onDragOver={onDragOver} onDrop={onDrop}>
+    <div style={{ flex: 1 }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -133,6 +133,8 @@ export default function Canvas() {
         onConnect={onConnect}
         onNodeClick={onNodeClick}
         onPaneClick={onPaneClick}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
         defaultEdgeOptions={defaultEdgeOptions}
         colorMode="dark"
         snapToGrid

@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { STATS } from '@/data/stats'
 import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
 
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator',
   description:
-    '819 tools across 48 services and 80 pre-built automations. The universal MCP server that connects AI to everything. Stop building workflows. Start describing outcomes.',
+    `${STATS.tools} tools across ${STATS.services} services and ${STATS.capabilities} pre-built capabilities. The universal MCP server that connects AI to everything. Stop building workflows. Start describing outcomes.`,
   keywords: [
     '0nMCP',
     'MCP',
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '819 tools across 48 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
+      `${STATS.tools} tools across ${STATS.services} services and ${STATS.capabilities} pre-built capabilities. The universal MCP server that connects AI to everything.`,
     url: 'https://0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '819 tools across 48 services and 80 pre-built automations. The universal MCP server that connects AI to everything.',
+      `${STATS.tools} tools across ${STATS.services} services and ${STATS.capabilities} pre-built capabilities. The universal MCP server that connects AI to everything.`,
     creator: '@0nork',
   },
   metadataBase: new URL('https://0nmcp.com'),

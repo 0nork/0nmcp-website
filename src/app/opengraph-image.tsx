@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { STATS } from '@/data/stats'
 
 export const alt = '0nMCP — Universal AI API Orchestrator'
 export const size = { width: 1200, height: 630 }
@@ -99,7 +100,7 @@ export default function OGImage() {
                 fontFamily: 'monospace',
               }}
             >
-              819
+              {STATS.tools}
             </span>
             <span style={{ fontSize: 14, color: '#55556a', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               Tools
@@ -117,7 +118,7 @@ export default function OGImage() {
                 fontFamily: 'monospace',
               }}
             >
-              48
+              {STATS.services}
             </span>
             <span style={{ fontSize: 14, color: '#55556a', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               Services

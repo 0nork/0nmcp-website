@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { STATS } from '@/data/stats'
 
 export default function SignupPage() {
   return (
@@ -36,9 +37,9 @@ const FEATURES = [
   },
 ]
 
-const STATS = [
-  { value: '819', label: 'Tools' },
-  { value: '48', label: 'Services' },
+const SIGNUP_STATS = [
+  { value: String(STATS.tools), label: 'Tools' },
+  { value: String(STATS.services), label: 'Services' },
   { value: 'AES-256', label: 'Encryption' },
   { value: 'HMAC', label: 'File Signing' },
 ]
@@ -147,7 +148,7 @@ function SignupForm() {
           </p>
 
           <div className="signup-stats">
-            {STATS.map((s) => (
+            {SIGNUP_STATS.map((s) => (
               <div key={s.label} className="signup-stat">
                 <span className="signup-stat-value">{s.value}</span>
                 <span className="signup-stat-label">{s.label}</span>

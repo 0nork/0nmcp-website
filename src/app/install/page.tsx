@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { ACTIONS, TRIGGERS, SERVICE_CATALOG } from '@/lib/marketplace'
+import { STATS } from '@/data/stats'
 
 export const metadata = {
-  title: '0nMCP — Install for CRM | 819 Tools in Your Workflows',
-  description: 'Add 819+ tools across 48 services to your CRM workflows. Stripe, SendGrid, Slack, Google Sheets, AI, and more — all as workflow actions.',
+  title: `0nMCP — Install for CRM | ${819} Tools in Your Workflows`,
+  description: `Add ${STATS.tools}+ tools across ${STATS.services} services to your CRM workflows. Stripe, SendGrid, Slack, Google Sheets, AI, and more — all as workflow actions.`,
 }
 
 export default function InstallPage({
@@ -21,7 +22,7 @@ export default function InstallPage({
         </div>
 
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          819+ Tools.{' '}
+          {STATS.tools}+ Tools.{' '}
           <span className="text-[#ff6b35]">One Action.</span>
         </h1>
 
@@ -82,7 +83,7 @@ export default function InstallPage({
 
       {/* Services grid */}
       <div className="max-w-4xl mx-auto px-6 pb-20">
-        <h2 className="text-xl font-bold mb-2 text-center">48 Services. 819+ Tools.</h2>
+        <h2 className="text-xl font-bold mb-2 text-center">{STATS.services} Services. {STATS.tools}+ Tools.</h2>
         <p className="text-sm text-white/40 text-center mb-8">Every service becomes a workflow action with dynamic dropdown selection.</p>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">

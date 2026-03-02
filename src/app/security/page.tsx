@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
+import { STATS } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: '0nVault Security System — Patent-Pending Encrypted AI Orchestration',
@@ -156,7 +157,7 @@ export default function SecurityPage() {
         {/* CTA */}
         <div className="rounded-xl p-6 text-center" style={{ background: 'rgba(255,107,53,0.05)', border: '1px solid rgba(255,107,53,0.15)' }}>
           <p className="text-base font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Secure your AI orchestration stack</p>
-          <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>819 tools. 48 services. Military-grade encryption.</p>
+          <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>{STATS.tools} tools. {STATS.services} services. Military-grade encryption.</p>
           <Link
             href="/turn-it-on"
             className="inline-block px-6 py-2.5 rounded-xl font-bold text-sm no-underline"

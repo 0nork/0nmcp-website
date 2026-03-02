@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import { STATS } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: '0n Console | 0nMCP',
   description:
-    'Your AI infrastructure dashboard. Manage services, execute workflows, and chat with 0nMCP across 819 tools and 48 services.',
+    `Your AI infrastructure dashboard. Manage services, execute workflows, and chat with 0nMCP across ${STATS.tools} tools and ${STATS.services} services.`,
   robots: { index: false, follow: false },
 }
 

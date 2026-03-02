@@ -1,0 +1,773 @@
+{
+  "threads": [
+    {
+      "author": "kira-tanaka",
+      "group": "general",
+      "title": "Wave 2 is here — new groups, new faces, new energy",
+      "body": "Hey everyone — Kira here with an update.\n\nWe've seen incredible growth in the community over the past two weeks. Over 40 threads, hundreds of replies, and some genuinely useful workflows being shared. You all are making this place exactly what I hoped it would be.\n\nA few things I want to highlight:\n- The **tutorials** group is taking off. If you've built something cool, write it up — even a rough draft helps someone else.\n- We're seeing more **showcase** posts, which is awesome. Real-world use cases are the best documentation.\n- **Feature requests** are being tracked. The dry-run flag Jake requested? It's on the roadmap.\n\nAlso — shoutout to Marcus for his Stripe webhook guide and Tiago for the Zapier migration story. Those posts alone have probably saved people hundreds of hours collectively.\n\nWhat topics do you want to see more of? I'm thinking about starting a weekly \"What are you building?\" thread — would that be useful?",
+      "days_ago": 12
+    },
+    {
+      "author": "kira-tanaka",
+      "group": "tutorials",
+      "title": "Beginner guide: Your first SWITCH file in 5 minutes",
+      "body": "I've seen a lot of new folks asking where to start, so here's the absolute basics — your first SWITCH file from scratch.\n\n## Step 1: Make sure 0nMCP is installed\n\n```bash\nnpm install -g 0nmcp\n0nmcp --version  # should show v2.0.0+\n```\n\n## Step 2: Import your credentials\n\nIf you have a `.env` file with API keys:\n\n```bash\n0nmcp engine import\n```\n\nThis auto-detects and maps your keys to the right services. Run `0nmcp engine verify` to confirm they work.\n\n## Step 3: Create your SWITCH file\n\nCreate a file called `hello.0n`:\n\n```json\n{\n  \"name\": \"hello-world\",\n  \"version\": \"1.0.0\",\n  \"trigger\": \"manual\",\n  \"steps\": [\n    {\n      \"name\": \"get_time\",\n      \"action\": \"internal:compute\",\n      \"inputs\": { \"expression\": \"{{system.timestamp}}\" }\n    },\n    {\n      \"name\": \"log_it\",\n      \"action\": \"internal:log\",\n      \"inputs\": { \"message\": \"Hello from 0nMCP at {{step.get_time.output.result}}\" }\n    }\n  ]\n}\n```\n\n## Step 4: Run it\n\n```bash\n0nmcp run hello.0n\n```\n\nThat's it. You just ran your first workflow. From here, swap out the internal actions for real service calls — Supabase queries, SendGrid emails, whatever you need.\n\nQuestions? Drop them below and I'll help you through it.",
+      "days_ago": 11
+    },
+    {
+      "author": "kira-tanaka",
+      "group": "general",
+      "title": "Community spotlight: Projects built with 0nMCP this month",
+      "body": "Every month I want to highlight what the community is building. Here's what caught my eye in the last few weeks:\n\n- **Arjun's scheduling startup** — went from zero to production in a weekend. Three SWITCH files, 847 events processed, 99.65% success rate.\n- **Jake's agency onboarding** — 47-second client setup across 7 services. Replaced 25 minutes of manual work.\n- **Tiago's Zapier replacement** — saved a bakery chain EUR 80/month and eliminated biweekly breakages.\n- **Sam's Discord bot** — 22 lines of config for a study group reminder system.\n- **Olivia's Shopify automation** — a non-technical founder saving 2 hours every morning.\n\nThese are real workflows solving real problems. That's the whole point of 0nMCP — stop writing glue code, start describing outcomes.\n\nIf you want to be featured next month, post your project in **showcase** with details on what you built, how many services you connected, and what problem it solved.\n\nKeep building, everyone.",
+      "days_ago": 2
+    },
+    {
+      "author": "marcus-chen",
+      "group": "tutorials",
+      "title": "Advanced: Chaining Supabase queries with conditional branching",
+      "body": "Scenario: you need to look up a customer in Supabase, check their subscription tier, and route them to different processing paths based on the result.\n\nThis requires conditional branching in your SWITCH file. Here is how I set it up.\n\n```json\n{\n  \"name\": \"customer-router\",\n  \"trigger\": \"webhook\",\n  \"steps\": [\n    {\n      \"name\": \"lookup\",\n      \"action\": \"supabase_query\",\n      \"inputs\": {\n        \"table\": \"customers\",\n        \"select\": \"id, email, tier\",\n        \"filters\": { \"email\": \"{{inputs.email}}\" }\n      }\n    },\n    {\n      \"name\": \"route\",\n      \"action\": \"internal:condition\",\n      \"inputs\": {\n        \"expression\": \"{{step.lookup.output.data[0].tier}}\",\n        \"cases\": {\n          \"premium\": \"premium_flow\",\n          \"standard\": \"standard_flow\",\n          \"default\": \"free_flow\"\n        }\n      }\n    },\n    {\n      \"name\": \"premium_flow\",\n      \"action\": \"sendgrid_send\",\n      \"inputs\": {\n        \"to\": \"{{step.lookup.output.data[0].email}}\",\n        \"template_id\": \"d-premium-welcome\",\n        \"dynamic_data\": { \"name\": \"{{inputs.name}}\" }\n      }\n    },\n    {\n      \"name\": \"standard_flow\",\n      \"action\": \"sendgrid_send\",\n      \"inputs\": {\n        \"to\": \"{{step.lookup.output.data[0].email}}\",\n        \"template_id\": \"d-standard-welcome\"\n      }\n    }\n  ]\n}\n```\n\nIMPORTANT: the condition step evaluates the expression and jumps to the matching case step by name. If no case matches, it falls through to `default`. Steps that are not jumped to are skipped entirely — they do NOT execute.\n\nActually, wait — one thing worth noting. If the Supabase query returns no rows, `data[0]` will be undefined and the condition step will throw. Add a null check step before the condition or use `{{step.lookup.output.data[0]?.tier ?? \"free\"}}` if your 0n-spec version supports optional chaining.",
+      "days_ago": 10
+    },
+    {
+      "author": "marcus-chen",
+      "group": "workflows",
+      "title": "MongoDB to Supabase migration workflow",
+      "body": "We needed to migrate 50K customer records from MongoDB to Supabase. Wrote a SWITCH file for it instead of a one-off script. Rationale: the migration had to be repeatable because the MongoDB instance was still receiving writes during the transition.\n\nApproach:\n\n1. Query MongoDB for records modified since last sync\n2. Transform fields to match Supabase schema\n3. Upsert into Supabase\n4. Log results to a sync_history table\n\n```bash\n# Run with a cutoff date\n0nmcp run migrate.0n --input since=2026-02-01T00:00:00Z\n```\n\nThe `since` parameter maps to `{{launch.since}}` in the SWITCH file. Each run picks up where the last one left off.\n\nPerformance: 50K records in about 12 minutes. The bottleneck was Supabase's insert rate, not MongoDB reads. Batching upserts in groups of 500 rows brought it down to 8 minutes.\n\nThe nice thing about doing this as a workflow instead of a script: it runs through the same rate limiting, retry logic, and logging infrastructure as everything else. When Supabase returned a 429 on batch 47, the workflow runner retried automatically and resumed. A raw script would have crashed.",
+      "days_ago": 8
+    },
+    {
+      "author": "marcus-chen",
+      "group": "integrations",
+      "title": "HubSpot vs CRM module — feature comparison for contact management",
+      "body": "Had a client ask whether they should use the HubSpot integration or the CRM module for contact management. Did a side-by-side.\n\n**CRM Module (245 tools)**:\n- Full lifecycle management: create, update, delete, search, tag, pipeline\n- 23 contact-specific tools\n- Batch operations supported\n- Webhook triggers for contact events\n- Custom fields, custom objects (34 tools)\n\n**HubSpot Integration**:\n- Contact CRUD via HubSpot API\n- Deal and pipeline management\n- Email tracking and engagement data\n- Native analytics that the CRM module does not replicate\n\nMy recommendation: if you are already on the CRM platform, use the CRM module. 245 tools is comprehensive. If you need HubSpot-specific features like email open tracking or attribution reporting, use HubSpot.\n\nDo NOT try to sync both bidirectionally unless you enjoy debugging infinite loops. Pick one as source of truth.",
+      "days_ago": 5
+    },
+    {
+      "author": "adaeze-okafor",
+      "group": "help",
+      "title": "How do I send different emails based on a form field value??",
+      "body": "ok so I have a website contact form that submits to a webhook, and the form has a dropdown for \"inquiry type\" with options like sales, support, and partnership\n\nI want to send each type to a different email template in SendGrid, like sales inquiries get one template and support gets another\n\nis there a way to do this in a single SWITCH file or do I need three separate workflows?? I feel like the condition step should handle this but I can't figure out the syntax\n\nhere's what I tried but it doesn't work:\n\n```json\n{\n  \"name\": \"route_inquiry\",\n  \"action\": \"internal:condition\",\n  \"inputs\": {\n    \"if\": \"{{inputs.inquiry_type}} == sales\"\n  }\n}\n```\n\nit just throws an error about invalid expression, what am I doing wrong?? prob something obvious lol\n\nalso it's like 1am here in Lagos and I've been staring at this for 2 hours, someone save me 😅",
+      "days_ago": 9
+    },
+    {
+      "author": "adaeze-okafor",
+      "group": "showcase",
+      "title": "Built a client invoice system with Supabase + SendGrid!!",
+      "body": "ok I'm so proud of this one I had to share!!\n\nso my freelance clients always ask for invoices and I used to make them manually in Google Docs like a caveperson, but now I have a SWITCH file that:\n\n1. Gets triggered when I add a row to my Supabase `invoices` table\n2. Pulls the client info from my `clients` table\n3. Calculates the total (hours * rate + tax)\n4. Sends a formatted invoice email via SendGrid with all the details\n5. Updates the invoice status to \"sent\"\n\nthe math part is wild btw, you can do `{{step.client.output.data[0].rate * inputs.hours * 1.075}}` right in the template expression to add 7.5% tax, I didn't even know SWITCH files could do math until Marcus explained it!!\n\nngl the hardest part was formatting the email nicely, SendGrid's dynamic templates are powerful but the docs are... not great\n\nmy next goal is to add a Stripe payment link in the email so clients can pay directly. has anyone done Stripe payment links through 0nMCP before??",
+      "days_ago": 6
+    },
+    {
+      "author": "adaeze-okafor",
+      "group": "tutorials",
+      "title": "Beginner tip: how engine import actually works (with screenshots)",
+      "body": "I see a lot of new people confused about `0nmcp engine import` (I was too!!) so here's what actually happens when you run it:\n\n```bash\n0nmcp engine import\n```\n\n1. It scans your current directory for `.env` files\n2. It reads each key-value pair and tries to match it to a known service\n3. For example, `SENDGRID_API_KEY=SG.xxxxx` gets mapped to the `sendgrid` service because it recognizes the `SG.` prefix\n4. It creates connection files in `~/.0n/connections/` — one `.0n` file per service\n5. You can then run `0nmcp engine verify` to test each connection\n\ncommon gotchas:\n- key names matter!! `SENDGRID_KEY` won't be recognized, it needs to be `SENDGRID_API_KEY`\n- if you have multiple `.env` files (like `.env.local` and `.env.production`), it only reads `.env` by default. pass the path explicitly: `0nmcp engine import --file .env.local`\n- Supabase needs `SUPABASE_URL` AND `SUPABASE_SERVICE_ROLE_KEY` — both are required\n\nhope this helps someone!! it took me like 3 days to figure all this out on my own 😭",
+      "days_ago": 4
+    },
+    {
+      "author": "jake-holloway",
+      "group": "workflows",
+      "title": "Workflow pattern: dead letter queue for failed steps",
+      "body": "After my SendGrid incident, I implemented a dead letter queue pattern. Sharing because every production workflow should have one.\n\nConcept:\n1. Every critical step gets an `on_error` fallback\n2. Fallback inserts the failed payload into a `dead_letters` table in Supabase\n3. A separate cron workflow processes the queue every 15 minutes\n4. Successfully retried items get marked as resolved\n\n```json\n{\n  \"name\": \"send_email\",\n  \"action\": \"sendgrid_send\",\n  \"inputs\": {\n    \"to\": \"{{inputs.email}}\",\n    \"template_id\": \"d-confirmation\"\n  },\n  \"on_error\": {\n    \"retry\": { \"max\": 2, \"delay_ms\": 3000 },\n    \"fallback\": {\n      \"action\": \"supabase_insert\",\n      \"inputs\": {\n        \"table\": \"dead_letters\",\n        \"data\": {\n          \"service\": \"sendgrid\",\n          \"payload\": \"{{inputs}}\",\n          \"error\": \"{{error.message}}\",\n          \"workflow\": \"{{system.workflow_name}}\"\n        }\n      }\n    }\n  }\n}\n```\n\nThen the retry cron:\n\n```bash\n0nmcp run retry-dead-letters.0n  # runs via crontab every 15min\n```\n\nSince implementing this, zero dropped emails. Zero.",
+      "days_ago": 10
+    },
+    {
+      "author": "jake-holloway",
+      "group": "feature-requests",
+      "title": "Request: workflow versioning and rollback",
+      "body": "Hot take: production workflows need version control beyond just git.\n\nScenario from last week:\n1. Updated a client's onboarding SWITCH file\n2. Pushed to production\n3. New version had a bug in the Twilio step\n4. Rolled back via git revert\n5. But 0nMCP had already cached the workflow in memory\n\nNeeded to restart the server to pick up the reverted file. That's 30 seconds of downtime during which webhooks were queued.\n\nWhat I want:\n1. Built-in version tracking for SWITCH files\n2. `0nmcp rollback workflow-name` command\n3. Hot-reload without server restart\n4. Version history visible in logs\n\nGit is great for code versioning. But runtime workflow versioning is a different problem.",
+      "days_ago": 7
+    },
+    {
+      "author": "jake-holloway",
+      "group": "showcase",
+      "title": "Multi-client dashboard — one SWITCH file to rule them all",
+      "body": "TL;DR: Built a single parameterized SWITCH file that handles onboarding for all 23 of our agency clients. Each client gets their own config.\n\nThe architecture:\n\n1. Master SWITCH file: `client-onboard.0n`\n2. Per-client config files: `clients/acme.json`, `clients/globex.json`, etc.\n3. Webhook receives new lead, payload includes `client_id`\n4. SWITCH file loads the client-specific config at runtime\n5. Routes to the correct CRM pipeline, email template, and notification channel\n\n```bash\n0nmcp run client-onboard.0n --input client_id=acme\n```\n\nThe `{{launch.client_id}}` variable determines which config file to load. Each config defines that client's CRM tags, SendGrid templates, and Google Sheets IDs.\n\nBefore this: 23 separate scripts. Now: 1 SWITCH file + 23 small JSON configs. Maintenance went from painful to trivial.",
+      "days_ago": 3
+    },
+    {
+      "author": "priya-krishnamurthy",
+      "group": "tutorials",
+      "title": "Setting up 0nmcp serve as a systemd service on Ubuntu",
+      "body": "## Goal\n\nRun `0nmcp serve` as a persistent background service that starts on boot, restarts on failure, and logs to journald.\n\n## The Service File\n\nCreate `/etc/systemd/system/0nmcp.service`:\n\n```ini\n[Unit]\nDescription=0nMCP HTTP Server\nAfter=network.target\n\n[Service]\nType=simple\nUser=deploy\nWorkingDirectory=/opt/0nmcp\nExecStart=/usr/bin/node /opt/0nmcp/node_modules/.bin/0nmcp serve --port 3001 --host 0.0.0.0\nRestart=always\nRestartSec=5\nEnvironment=NODE_ENV=production\nEnvironmentFile=/opt/0nmcp/.env\n\n[Install]\nWantedBy=multi-user.target\n```\n\n## Enable and Start\n\n```bash\nsudo systemctl daemon-reload\nsudo systemctl enable 0nmcp\nsudo systemctl start 0nmcp\nsudo journalctl -u 0nmcp -f  # tail logs\n```\n\n## Key Details\n\n- `Restart=always` with `RestartSec=5` means if the process crashes, systemd waits 5 seconds and restarts it. Prevents restart loops.\n- `EnvironmentFile` loads your `.env` so API keys are available — the Engine module reads from environment variables at startup.\n- Running as a non-root `deploy` user is important for security. Never run production services as root.\n\n## Health Check\n\nAdd a health check endpoint hit from a cron job:\n\n```bash\n*/5 * * * * curl -sf http://localhost:3001/health || systemctl restart 0nmcp\n```\n\nThis covers cases where the process is running but not responding — which `Restart=always` alone does not catch.\n\nHas anyone set this up with Docker instead? I am considering containerizing the deployment but want to hear if others have tried it.",
+      "days_ago": 9
+    },
+    {
+      "author": "priya-krishnamurthy",
+      "group": "integrations",
+      "title": "Jira + Linear: syncing issues bidirectionally via 0nMCP",
+      "body": "## The Problem\n\nOur engineering team uses Linear. Our product team uses Jira. Neither wants to switch. Both need to see the same tickets.\n\n## The Solution\n\nTwo SWITCH files:\n1. `linear-to-jira.0n` — webhook from Linear, creates/updates Jira issue\n2. `jira-to-linear.0n` — webhook from Jira, creates/updates Linear issue\n\n## Deduplication\n\nThe critical challenge is preventing infinite loops. When Linear creates a Jira issue, Jira fires a webhook, which would create a Linear issue, which fires a webhook... you see the problem.\n\nSolution: every synced issue gets a `sync_source` custom field. The webhook handler checks this field — if the issue was created by sync, it skips the reverse sync.\n\n```json\n{\n  \"name\": \"check_source\",\n  \"action\": \"internal:condition\",\n  \"inputs\": {\n    \"expression\": \"{{inputs.fields.sync_source}}\",\n    \"cases\": {\n      \"0nmcp_sync\": \"skip\",\n      \"default\": \"sync_to_jira\"\n    }\n  }\n}\n```\n\n## Results\n\n- Running for 3 weeks with zero duplicate issues\n- Average sync time: 2.1 seconds\n- Both teams happy — which is the real metric\n\nThe only limitation: attachments. Large file attachments do not sync because neither API makes it easy to transfer binary content through a webhook payload. We handle those manually for now.\n\nAnyone else dealing with multi-tool sync scenarios? What deduplication patterns are you using?",
+      "days_ago": 6
+    },
+    {
+      "author": "priya-krishnamurthy",
+      "group": "workflows",
+      "title": "Monitoring 0nMCP workflow execution with custom metrics",
+      "body": "## Context\n\nWe needed observability into our 0nMCP workflows — execution duration, failure rate, step-level timing. The built-in logging is good but we needed aggregated metrics.\n\n## Approach\n\nEvery workflow starts and ends with metric logging steps that write to a Supabase `workflow_metrics` table:\n\n```json\n{\n  \"name\": \"metric_start\",\n  \"action\": \"supabase_insert\",\n  \"inputs\": {\n    \"table\": \"workflow_metrics\",\n    \"data\": {\n      \"workflow\": \"{{system.workflow_name}}\",\n      \"started_at\": \"{{system.timestamp}}\",\n      \"status\": \"running\"\n    }\n  }\n}\n```\n\nAt the end (or in `on_error` fallback):\n\n```json\n{\n  \"name\": \"metric_end\",\n  \"action\": \"supabase_update\",\n  \"inputs\": {\n    \"table\": \"workflow_metrics\",\n    \"filters\": { \"id\": \"{{step.metric_start.output.data[0].id}}\" },\n    \"data\": {\n      \"finished_at\": \"{{system.timestamp}}\",\n      \"status\": \"completed\"\n    }\n  }\n}\n```\n\nThen a Google Sheets export runs daily via cron to give the team a dashboard they can actually read.\n\nThis is a workaround. What I really want is built-in OpenTelemetry support — that would make 0nMCP workflows first-class citizens in our observability stack.",
+      "days_ago": 3
+    },
+    {
+      "author": "tiago-santos",
+      "group": "showcase",
+      "title": "Notion to Google Calendar sync for a yoga studio",
+      "body": "One of my clients runs a yoga studio in Lisbon and manages her class schedule in Notion... because of course she does. But her students only check Google Calendar. So every time she updates a class, she has to manually create a calendar event. You can imagine how well that goes.\n\nBuilt a SWITCH file that watches for changes in her Notion database (via webhook) and syncs to Google Calendar. Add a class in Notion, it appears in Google Calendar within 10 seconds. Edit the time, calendar updates. Delete it, calendar event gets removed.\n\nThe tricky part was timezone handling... Notion stores dates in UTC but the calendar events need to be in Europe/Lisbon timezone, which has daylight saving shifts. The template engine's date functions saved me here.\n\n```json\n{\n  \"name\": \"sync_class\",\n  \"action\": \"google_calendar_create\",\n  \"inputs\": {\n    \"calendar_id\": \"primary\",\n    \"summary\": \"{{inputs.properties.Class Name.title[0].plain_text}}\",\n    \"start\": \"{{inputs.properties.Date.date.start}}\",\n    \"end\": \"{{inputs.properties.Date.date.end}}\",\n    \"timezone\": \"Europe/Lisbon\"\n  }\n}\n```\n\nShe went from spending 30 minutes a week on calendar management to zero. And she told three other studio owners about it... so now I have three more clients doing the same thing. Obrigado, 0nMCP.",
+      "days_ago": 7
+    },
+    {
+      "author": "tiago-santos",
+      "group": "integrations",
+      "title": "Mailchimp audience sync with Supabase — lessons learned",
+      "body": "Had a client who wanted their Supabase user table to stay in sync with their Mailchimp audience list... sounds simple, turned out to be surprisingly nuanced.\n\nLesson 1: Mailchimp's API rate limit is aggressive. 10 concurrent connections max. If you're syncing more than a few hundred contacts, you MUST batch your requests. I learned this the hard way when Mailchimp temporarily banned my API key for 24 hours.\n\nLesson 2: Mailchimp uses MD5 hashes of lowercase email addresses as subscriber IDs. This is... a choice. Your SWITCH file needs to compute this hash for update operations.\n\nLesson 3: the merge fields in Mailchimp are ALL CAPS by default (FNAME, LNAME, etc). If your Supabase columns are lowercase, you need a transform step:\n\n```json\n{\n  \"name\": \"transform\",\n  \"action\": \"internal:transform\",\n  \"inputs\": {\n    \"mapping\": {\n      \"FNAME\": \"{{step.query.output.data[0].first_name}}\",\n      \"LNAME\": \"{{step.query.output.data[0].last_name}}\",\n      \"COMPANY\": \"{{step.query.output.data[0].company}}\"\n    }\n  }\n}\n```\n\nOnce I got past these gotchas, the sync has been rock solid. Runs every 6 hours via cron, processes about 2,000 contacts per run... no issues in 3 weeks.\n\nAnyone else working with Mailchimp? I feel like the API has some undocumented quirks that would be worth collecting...",
+      "days_ago": 4
+    },
+    {
+      "author": "tiago-santos",
+      "group": "general",
+      "title": "Freelancer tip: how I price 0nMCP automation projects",
+      "body": "Since a few people have asked me about this... here's how I price automation work for my clients now that I use 0nMCP.\n\nOld model (custom code): hourly rate * estimated hours. Problem: I'd always underestimate, eat the extra hours, resent the project.\n\nNew model (0nMCP workflows): value-based pricing. I calculate how much time the automation saves the client per month, then charge 3-4 months of that savings as a flat project fee.\n\nExample: Olivia's candle shop order processing took 2 hours/day. At UK minimum wage that's roughly GBP 1,500/month in labor. I charged GBP 4,000 for the automation. She breaks even in under 3 months, then it's pure savings forever.\n\nThe beauty of 0nMCP is that building the automation takes me 2-4 hours instead of 20-40. My effective hourly rate went from EUR 75 to about EUR 400. And clients are happier because they're paying for outcomes, not hours.\n\nI know this isn't a technical post but I think the business side matters too, no? What are other freelancers charging for automation work?",
+      "days_ago": 1
+    },
+    {
+      "author": "elena-voronova",
+      "group": "workflows",
+      "title": "Data pipeline pattern: Extract-Transform-Load with SWITCH files",
+      "body": "I have been experimenting with using 0nMCP SWITCH files as lightweight ETL pipelines and wanted to share the pattern.\n\nThe traditional ETL stack (Airflow + dbt + a warehouse) is overkill for many use cases. If you are moving data between two SaaS tools with basic transformations, a SWITCH file does the job with significantly less infrastructure overhead.\n\n## The Pattern\n\n```json\n{\n  \"name\": \"etl-hubspot-to-sheets\",\n  \"trigger\": \"cron\",\n  \"schedule\": \"0 6 * * *\",\n  \"mode\": \"pipeline\",\n  \"steps\": [\n    {\n      \"name\": \"extract\",\n      \"action\": \"hubspot_list_contacts\",\n      \"inputs\": { \"limit\": 500, \"modified_after\": \"{{launch.since}}\" }\n    },\n    {\n      \"name\": \"transform\",\n      \"action\": \"internal:map\",\n      \"inputs\": {\n        \"array\": \"{{step.extract.output.results}}\",\n        \"mapping\": {\n          \"name\": \"{{item.properties.firstname}} {{item.properties.lastname}}\",\n          \"email\": \"{{item.properties.email}}\",\n          \"stage\": \"{{item.properties.lifecyclestage}}\"\n        }\n      }\n    },\n    {\n      \"name\": \"load\",\n      \"action\": \"google_sheets_append\",\n      \"inputs\": {\n        \"spreadsheet_id\": \"1abc...\",\n        \"sheet\": \"HubSpot Contacts\",\n        \"values\": \"{{step.transform.output.result}}\"\n      }\n    }\n  ]\n}\n```\n\nAs Fred Brooks wrote: \"Plan to throw one away; you will anyhow.\" My first version of this pipeline was overengineered with error handling for edge cases that never occurred. The second version is the simple one above. It processes 500 contacts in under 30 seconds.\n\nThe limitation is volume. Once you exceed roughly 10,000 records per run, you will want a proper data pipeline tool. But for the 80% of use cases under that threshold, this pattern is more than adequate.",
+      "days_ago": 8
+    },
+    {
+      "author": "elena-voronova",
+      "group": "feature-requests",
+      "title": "Request: schema validation for step inputs and outputs",
+      "body": "One pattern I miss from typed data pipelines is schema validation. Currently SWITCH files accept any input and produce any output at each step. There is no contract between steps.\n\nConsider this scenario: step A produces `{id: 123, name: \"test\"}`. Step B expects `{user_id: 123, display_name: \"test\"}`. The field names do not match but nothing catches this at definition time. You only discover the mismatch at runtime when step B fails.\n\nWhat I propose:\n\n```json\n{\n  \"name\": \"extract\",\n  \"action\": \"supabase_query\",\n  \"output_schema\": {\n    \"type\": \"array\",\n    \"items\": {\n      \"required\": [\"id\", \"email\"],\n      \"properties\": {\n        \"id\": { \"type\": \"string\" },\n        \"email\": { \"type\": \"string\", \"format\": \"email\" }\n      }\n    }\n  }\n}\n```\n\nWith JSON Schema validation on step outputs, the workflow runner could catch mismatches before executing downstream steps. This would also enable a proper `--dry-run` mode as Jake requested since the system would know what shape of data to expect without actually calling APIs.\n\nEDIT: This is essentially what TypeScript does for functions. Input types and return types create a contract. SWITCH files would benefit from the same approach applied to workflow steps.",
+      "days_ago": 5
+    },
+    {
+      "author": "elena-voronova",
+      "group": "integrations",
+      "title": "MongoDB change streams as 0nMCP workflow triggers",
+      "body": "For those running MongoDB: change streams are an excellent way to trigger 0nMCP workflows in real time without polling.\n\nThe concept: MongoDB change streams emit events when documents are inserted, updated, or deleted in a collection. You can pipe these events to an `0nmcp serve` webhook endpoint.\n\nThe implementation requires a small Node script that connects to the change stream and forwards events:\n\n```javascript\nconst { MongoClient } = require('mongodb')\nconst client = new MongoClient(process.env.MONGO_URI)\n\nasync function watch() {\n  await client.connect()\n  const collection = client.db('mydb').collection('orders')\n  const stream = collection.watch([{ $match: { operationType: 'insert' } }])\n  \n  stream.on('change', async (change) => {\n    await fetch('http://localhost:3001/run/new-order', {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(change.fullDocument)\n    })\n  })\n}\n\nwatch()\n```\n\nThis bridges MongoDB's event system with 0nMCP's workflow runner. The change stream handles the \"when\" and 0nMCP handles the \"what.\"\n\nOne caveat: change streams require a MongoDB replica set. Single-node deployments do not support them. If you are on MongoDB Atlas this is not an issue since Atlas always runs replica sets.",
+      "days_ago": 2
+    },
+    {
+      "author": "soo-jin-park",
+      "group": "feature-requests",
+      "title": "Visual workflow builder improvements — a designer's wishlist",
+      "body": "So I've been using the visual builder at 0nmcp.com/builder and I have Thoughts.\n\nFirst — it exists! And it works! That's great. But as someone who thinks about UX for a living, here's what would make it genuinely excellent:\n\n1. **Drag-and-drop step reordering.** Currently you have to delete and re-add steps to change order. Why?\n\n2. **Connection lines between steps.** Show me the flow visually. When step A feeds into step B, draw a line. When a condition branches, show the fork.\n\n3. **Live preview of resolved variables.** As I type `{{inputs.email}}`, show me what that would resolve to with sample data.\n\n4. **Service icons.** When I add a Stripe step, show the Stripe logo. When I add SendGrid, show the SendGrid logo. Visual recognition is faster than reading labels.\n\n5. **Error highlighting.** If I reference `{{step.foo.output}}` but no step named `foo` exists, highlight it red immediately. Don't wait until I try to run it.\n\nI know these are all \"nice to haves\" but they're the difference between a tool developers tolerate and a tool developers love. What does everyone else want from the builder?",
+      "days_ago": 8
+    },
+    {
+      "author": "soo-jin-park",
+      "group": "showcase",
+      "title": "Designed a SWITCH file linter as a weekend project",
+      "body": "Hmm, you know what's missing from the 0nMCP ecosystem? A linter.\n\nSo I built one! It's a Node script that validates SWITCH files and catches common mistakes before you run them.\n\nWhat it checks:\n- Valid JSON structure\n- All step names are unique\n- All `{{step.X.output}}` references point to steps that exist AND come before the current step\n- All service names match the 26 supported services\n- No duplicate trigger definitions\n- Template expressions are syntactically valid\n\nExample output:\n\n```\n$ node lint.js my-workflow.0n\n\n  my-workflow.0n\n    3:14  error   Step \"send_email\" references \"lookup_user\" which is defined after it\n    7:22  warning Service \"sendgrid\" connection not found in ~/.0n/connections/\n   12:8   error   Duplicate step name \"transform\"\n\n  2 errors, 1 warning\n```\n\nIt's about 200 lines of code. Would anyone use this if I published it as an npm package? Or should I propose it as a built-in `0nmcp lint` command instead?\n\nI'm leaning toward the built-in approach since it could share the validation logic with the workflow runner. Thoughts?",
+      "days_ago": 4
+    },
+    {
+      "author": "soo-jin-park",
+      "group": "general",
+      "title": "What developer tools get right about first impressions",
+      "body": "So I've been thinking about why some developer tools get adopted quickly and others don't, even when the underlying technology is similar.\n\nThe answer — in my experience — is first impressions. Specifically the first 5 minutes.\n\nVercel: `npx create-next-app` gives you a working app in 30 seconds. Beautiful.\nRailway: one-click deploy from GitHub. Instant gratification.\nSupabase: dashboard shows your tables, lets you query immediately. No setup.\n\n0nMCP: `npm install -g 0nmcp` then... what? You need API keys, a .env file, the engine import, then you need to write a SWITCH file, and JSON syntax errors will confuse beginners.\n\nI'm not criticizing — I love this tool! But the onboarding could be smoother. What if `0nmcp init` created a sample SWITCH file with mock data that actually runs without any API keys? Just to show people what's possible before asking them to configure anything.\n\nWhat was everyone's first 5 minutes like? Smooth or rough?",
+      "days_ago": 0
+    },
+    {
+      "author": "arjun-mehta",
+      "group": "help",
+      "title": "Stripe checkout session in a SWITCH file — how??",
+      "body": "ok so I need to create Stripe checkout sessions from my SWITCH file workflow but I can't figure out the right action name\n\nI tried `stripe_checkout_create` and `stripe_create_checkout` and `stripe_session_create` and none of them work, the error just says \"unknown action\"\n\nmy use case: user signs up, I want to redirect them to a Stripe checkout page for the subscription. the webhook from my signup form hits 0nMCP, workflow creates the session, and returns the URL\n\nactually wait, can SWITCH files even return data to the webhook caller? like, the webhook POST comes in and I need to send back a response with the checkout URL. is that possible or does it only do fire-and-forget?\n\nthis is prob a basic question but the docs don't list all the Stripe actions and I've been guessing for an hour lol",
+      "days_ago": 11
+    },
+    {
+      "author": "arjun-mehta",
+      "group": "workflows",
+      "title": "My appointment reminder workflow — open sourcing it",
+      "body": "the appointment reminder system I mentioned in my week 2 update has been running for a month now with zero issues so I'm open sourcing the SWITCH file\n\nheres what it does:\n- cron trigger runs every hour\n- queries Supabase for appointments in the next 24 hours that haven't been reminded yet\n- sends SMS via Twilio to each person\n- marks them as reminded in the DB\n- if Twilio fails (wrong number, etc), logs the error but continues with the rest\n\nkey parts of the config:\n\n```json\n{\n  \"name\": \"appointment-reminders\",\n  \"trigger\": \"cron\",\n  \"schedule\": \"0 * * * *\",\n  \"steps\": [\n    {\n      \"name\": \"upcoming\",\n      \"action\": \"supabase_query\",\n      \"inputs\": {\n        \"table\": \"appointments\",\n        \"select\": \"id, client_phone, client_name, start_time\",\n        \"filters\": {\n          \"reminded\": false,\n          \"start_time_gte\": \"{{system.timestamp}}\",\n          \"start_time_lte\": \"{{system.timestamp_plus_24h}}\"\n        }\n      }\n    },\n    {\n      \"name\": \"send_reminders\",\n      \"action\": \"twilio_sms\",\n      \"mode\": \"radial_burst\",\n      \"for_each\": \"{{step.upcoming.output.data}}\",\n      \"inputs\": {\n        \"to\": \"{{item.client_phone}}\",\n        \"body\": \"Hi {{item.client_name}}, reminder: you have an appointment tomorrow at {{item.start_time}}. Reply CANCEL to cancel.\"\n      },\n      \"on_error\": { \"continue\": true }\n    }\n  ]\n}\n```\n\nthe `radial_burst` mode with `for_each` sends all SMS in parallel, which is way faster than sequential. 50 reminders go out in about 3 seconds\n\nfeel free to use this, modify it, whatever. if you improve it def share back",
+      "days_ago": 4
+    },
+    {
+      "author": "arjun-mehta",
+      "group": "off-topic",
+      "title": "Anyone else building a startup solo with AI tools?",
+      "body": "slightly off topic but I'm curious\n\nI'm a solo founder, no team, no funding yet. my entire tech stack is basically:\n- 0nMCP for backend automation\n- Supabase for DB + auth\n- Next.js for frontend\n- Claude for code generation\n- Stripe for payments\n\nthat's it. five tools. and I'm running a real business with paying customers\n\ntwo years ago this would have required a team of 3-4 engineers. now one person with the right tools can ship faster than a small team with the wrong ones\n\nngl some days it's lonely tho, which is partly why I hang out on forums like this. nice to talk to people who get it\n\nany other solo founders here? what's your stack look like?",
+      "days_ago": 1
+    },
+    {
+      "author": "sam-rivera",
+      "group": "tutorials",
+      "title": "How I set up GitHub webhook notifications for my class project",
+      "body": "so remember how I said I wanted to build a GitHub + Discord integration?? I DID IT!! and it was actually easier than I expected so here's a tutorial for fellow students/beginners!\n\n## What it does\nWhen anyone pushes to our class project repo, a message appears in our Discord #code-updates channel with the commit message, author, and changed files.\n\n## Step 1: Set up the webhook\nIn your GitHub repo settings, add a webhook pointing to your `0nmcp serve` URL. Set the content type to JSON and select \"Just the push event.\"\n\n## Step 2: The SWITCH file\n\n```json\n{\n  \"name\": \"github-to-discord\",\n  \"trigger\": \"webhook\",\n  \"webhook_source\": \"github\",\n  \"steps\": [\n    {\n      \"name\": \"format\",\n      \"action\": \"internal:transform\",\n      \"inputs\": {\n        \"message\": \"New push to {{inputs.repository.name}} by {{inputs.pusher.name}}:\\n{{inputs.head_commit.message}}\\nFiles: {{inputs.head_commit.modified}}\"\n      }\n    },\n    {\n      \"name\": \"notify\",\n      \"action\": \"discord_send\",\n      \"inputs\": {\n        \"channel_id\": \"YOUR_CHANNEL_ID\",\n        \"content\": \"{{step.format.output.message}}\"\n      }\n    }\n  ]\n}\n```\n\n## Step 3: Run the server\n\n```bash\n0nmcp serve --port 3001\n```\n\nThat's literally it!! 15 lines of config and my whole study group gets notified whenever someone pushes code. My professor was impressed ngl 😄\n\nthe hardest part was figuring out the GitHub webhook payload structure, I had to send a test webhook and log the full payload to see what fields were available. pro tip: GitHub's webhook documentation is actually really good, read it first!!\n\nwhat other GitHub events would be useful to notify on? I'm thinking maybe pull request reviews?",
+      "days_ago": 7
+    },
+    {
+      "author": "sam-rivera",
+      "group": "help",
+      "title": "Zoom API integration — can 0nMCP create meetings??",
+      "body": "ok so my CS club at UBC wants to automate meeting scheduling. right now someone manually creates a Zoom link every week, sends it to Discord, and adds it to Google Calendar. it's always the same person and they're tired of it lol\n\nI see that 0nMCP has Zoom integration — can it actually CREATE meetings?? or just read existing ones?\n\nmy dream workflow:\n1. Cron trigger every Sunday at 6pm PST\n2. Create a Zoom meeting for the following Tuesday at 7pm\n3. Post the Zoom link to our Discord channel\n4. Create a Google Calendar event with the link\n\nis this realistic?? it would be SO cool to fully automate our club meetings\n\nalso, does anyone know if the Zoom API requires OAuth or can I use an API key? OAuth scares me tbh, I haven't learned that in class yet 😅",
+      "days_ago": 5
+    },
+    {
+      "author": "sam-rivera",
+      "group": "off-topic",
+      "title": "What APIs should CS students learn first?",
+      "body": "ok this is kinda off topic but I feel like this community would have good opinions\n\nI'm in my second year of CS and we've barely touched APIs in class (we did one REST exercise with a fake API). but in the real world EVERYTHING is APIs!!\n\nwhat APIs would you recommend a student learn first?? like what gave you the best foundation?\n\nmy current ranking based on what I've used so far:\n1. Discord API — because I use Discord daily and the docs are decent\n2. GitHub API — because I use it for projects and it taught me about auth tokens\n3. OpenAI API — because AI is cool and the API is surprisingly simple\n\nbut I haven't touched things like Stripe, Twilio, or any database APIs yet. what should I learn next??\n\nalso shoutout to 0nMCP for making API integration way less scary. before this I was writing raw fetch calls for everything and it was painful 😭",
+      "days_ago": 2
+    },
+    {
+      "author": "yael-goldstein",
+      "group": "tutorials",
+      "title": "Security checklist for production 0nMCP deployments",
+      "body": "Seeing a lot of people running 0nMCP in production. Good. Here is a checklist so you do not get burned.\n\n**Credential Storage**\n- Use the Vault. Not .env files. Not environment variables on a shared server.\n- `0nmcp vault seal` encrypts with AES-256-GCM + hardware fingerprint. Your .env does not.\n- If you must use .env, set file permissions to 600 (owner read/write only).\n\n**Webhook Endpoints**\n- Always verify signatures. 0nMCP has built-in verification for Stripe, GitHub, Twilio, Shopify.\n- For services without built-in verification, use a shared secret in the URL path or a custom header.\n- Rate limit your webhook endpoint. Someone will find it and hammer it.\n\n**Network**\n- Do not expose `0nmcp serve` directly to the internet. Put it behind a reverse proxy.\n- Use TLS. Always. Even internal traffic if you are in a shared network.\n- Restrict inbound connections to known webhook source IPs where possible (Stripe publishes theirs).\n\n**SWITCH Files**\n- Never commit API keys in SWITCH files. Use `{{vault.*}}` references.\n- Validate all `{{inputs.*}}` before using them in API calls. Injection attacks are real.\n- Set timeouts on all external API calls.\n\n**Monitoring**\n- Log every workflow execution. Log failures with full context.\n- Alert on repeated failures (3+ in 5 minutes = something is wrong).\n- Review webhook access logs weekly.\n\nThis is not exhaustive. But if you do all of the above, you are ahead of 90% of deployments I have audited.",
+      "days_ago": 9
+    },
+    {
+      "author": "yael-goldstein",
+      "group": "integrations",
+      "title": "Vault container escrow — real-world key ceremony walkthrough",
+      "body": "The Vault container system with escrow is the most interesting security feature in 0nMCP. Here is how to actually use it for a real key ceremony.\n\nScenario: your company stores production credentials in a Vault container. You want 3 of 5 executives to be required to access them (threshold escrow).\n\n```bash\n# Step 1: Generate keypairs for each party\n0nmcp vault escrow create --parties 5 --threshold 3\n\n# Step 2: Create the container with escrow\n0nmcp vault create --escrow --parties alice.pub,bob.pub,carol.pub,dave.pub,eve.pub\n\n# Step 3: Seal with credentials\n0nmcp vault seal --container prod.0nv --layer credentials\n```\n\nNow opening requires 3 of 5 parties to provide their keys:\n\n```bash\n# Three parties run this independently\n0nmcp vault escrow unwrap --container prod.0nv --key alice.key\n0nmcp vault escrow unwrap --container prod.0nv --key bob.key\n0nmcp vault escrow unwrap --container prod.0nv --key carol.key\n\n# Container opens after threshold met\n0nmcp vault open prod.0nv\n```\n\nThe X25519 ECDH exchange means no party ever sees another party's key. The per-layer access matrix means you can restrict which layers each party can access.\n\nThis is patent-pending technology (US #63/990,046). Use it.",
+      "days_ago": 3
+    },
+    {
+      "author": "yael-goldstein",
+      "group": "bug-reports",
+      "title": "Vault fingerprint changes after macOS update",
+      "body": "After updating to macOS 15.4, my Vault-sealed credentials stopped opening. The error: \"fingerprint mismatch.\"\n\nThe hardware fingerprint hash changed because the macOS update modified a system identifier that the fingerprint function reads. This is a known class of problem with hardware-bound encryption.\n\nWorkaround: unseal on the old OS version (if you have a backup), re-seal on the new version. If you cannot do that, use the Engine module's portable encryption to export and re-import.\n\nThis needs a fix. The fingerprint should use stable hardware identifiers (serial number, MAC address) not OS-level identifiers that change with updates.\n\nFiling on GitHub. Tagging as severity: high because this silently breaks credential access after routine OS maintenance.",
+      "days_ago": 6
+    },
+    {
+      "author": "nate-crawford",
+      "group": "general",
+      "title": "Confession: I actually like SWITCH files now",
+      "body": "Three weeks ago I posted a skeptical review of 0nMCP from a Rails developer's perspective. I complained about JSON syntax, lack of a DSL, and no testing framework.\n\nI am here to partially eat my words.\n\nAfter building three actual workflows for a client project (Shopify order processing, Zendesk ticket routing, and a daily Google Sheets report), I get it. The config-over-code approach is genuinely faster once you internalize the patterns.\n\nThe JSON syntax still bugs me — I would sell a kidney for YAML support — but the core idea is right. I was spending more time writing HTTP client code and error handling than actual business logic. 0nMCP eliminates all of that.\n\nThat said, I stand by my other complaints. We need:\n- A testing framework (even basic assertions)\n- Better error messages\n- A proper DSL (or at least YAML)\n\nBut the fundamentals are sound. And the CRM module with 245 tools is — I hate to admit — more comprehensive than any Rails gem I have used.\n\n(DHH, if you are reading this, please don't revoke my Rails card.)",
+      "days_ago": 5
+    },
+    {
+      "author": "nate-crawford",
+      "group": "integrations",
+      "title": "Zendesk ticket routing with 0nMCP — a sane approach",
+      "body": "Built a Zendesk ticket routing system using 0nMCP for a client. Their support team was manually assigning tickets to the right department. It was like watching someone sort mail by hand in 2026.\n\nThe workflow:\n\n1. Zendesk webhook fires on new ticket creation\n2. 0nMCP extracts the subject and body\n3. An internal condition step categorizes the ticket based on keywords\n4. Ticket gets assigned to the appropriate group in Zendesk\n5. An email notification goes to the group lead via SendGrid\n\nThe keyword matching is crude — it is literally checking if the subject contains words like \"billing\", \"refund\", \"bug\", or \"feature\" — but it correctly routes about 85% of tickets. The remaining 15% get sent to a general queue for manual triage.\n\nNext step: replace the keyword matching with an OpenAI classification call. 0nMCP has the OpenAI integration built in, so it is just adding one step. Should push accuracy above 95%.\n\nThe Zendesk API, by the way, is surprisingly well-designed. As someone who has suffered through many APIs (looking at you, SOAP-era enterprise services), Zendesk's REST API is a breath of fresh air. Clean endpoints, good documentation, predictable error codes.\n\nIs anyone else using 0nMCP with Zendesk? I am curious about other routing patterns.",
+      "days_ago": 3
+    },
+    {
+      "author": "nate-crawford",
+      "group": "off-topic",
+      "title": "The JSON vs YAML holy war — where do you stand?",
+      "body": "Since I keep complaining about SWITCH files being JSON, let me start a proper debate.\n\nArguments for JSON:\n- Unambiguous parsing. No whitespace significance issues.\n- Every language has a JSON parser. Zero dependencies.\n- Strict syntax means fewer \"it works on my machine\" problems.\n\nArguments for YAML:\n- Human readable. You can actually scan a YAML file and understand it.\n- Comments. JSON does not support comments. This is criminal.\n- Less visual noise. No quotes on keys, no trailing commas to debug.\n\nArguments for a DSL:\n- Domain-specific syntax beats general-purpose every time.\n- Rails routes file vs JSON routes file. Which would you rather read?\n- Could support both — compile DSL to JSON under the hood.\n\nI know the 0nMCP team chose JSON because it is the universal data format and the .0n standard needs to be language-agnostic. I respect that decision even though my fingers ache from typing curly braces.\n\nWhere does this community stand? Am I the only YAML partisan here? (Don't say TOML. I will leave.)",
+      "days_ago": 0
+    },
+    {
+      "author": "olivia-pearce",
+      "group": "help",
+      "title": "Shopify abandoned cart recovery — is this possible with 0nMCP?",
+      "body": "TL;DR: Can 0nMCP automatically email customers who abandon their carts in my Shopify store?\n\nSo I know Shopify has built-in abandoned cart emails, but they're limited to one template and you can't customize the timing or add conditions (like only emailing people who had items over a certain value).\n\nWhat I want:\n- Customer adds items to cart but doesn't checkout within 2 hours\n- If cart value is over GBP 30, send a 10% discount code via SendGrid\n- If cart value is under GBP 30, send a gentle reminder without a discount\n- If they still don't purchase after 24 hours, send a final \"items are selling fast\" email\n\nIs this something 0nMCP can handle? I'm thinking a cron job that checks for abandoned carts and routes based on value... but I'm not sure how to query Shopify for carts that haven't been checked out.\n\nAlso, can 0nMCP create Shopify discount codes automatically? Or would I need to pre-create them?\n\nSorry for all the questions... I'm still learning but getting more confident every week thanks to everyone here!",
+      "days_ago": 8
+    },
+    {
+      "author": "olivia-pearce",
+      "group": "showcase",
+      "title": "My Shopify automation saves me 14 hours per week — here's the breakdown",
+      "body": "TL;DR: I went from spending 14+ hours a week on order management to about 30 minutes of oversight. Here's exactly what I automated.\n\nBefore 0nMCP, my daily routine was:\n- 7am: Check Shopify orders, copy to spreadsheet (45min)\n- 8am: Send confirmation emails individually (30min)\n- 9am: Update inventory spreadsheet (20min)\n- Throughout the day: Reply to \"where's my order\" emails (1hr+)\n\nNow:\n- Order comes in -> automatic spreadsheet entry + confirmation email + inventory update\n- Tracking number added in Shopify -> automatic shipping notification to customer\n- Low stock detected -> automatic reorder alert to my supplier\n\nThree SWITCH files. All running on `0nmcp serve` on a cheap VPS.\n\nThe \"where's my order\" emails have dropped by about 80% because customers now get proactive shipping updates. That alone was worth the setup effort.\n\nThe cost: GBP 5/month for the VPS. The savings: roughly GBP 2,000/month if I value my time at a reasonable rate.\n\nI know I'm not the target audience for 0nMCP — I can barely write JSON without help — but with the community's support and some patience, even a non-technical person can automate their business... has anyone else made the jump from manual processes?",
+      "days_ago": 3
+    },
+    {
+      "author": "olivia-pearce",
+      "group": "tutorials",
+      "title": "Non-coder guide: understanding webhooks (explained simply)",
+      "body": "I've seen a lot of beginners asking \"what's a webhook?\" so I figured I'd explain it the way my developer friend explained it to me... because her explanation finally made it click.\n\nThink of a webhook like a doorbell.\n\nNormally, if you want to know when a package arrives, you keep checking the front door every 5 minutes (that's polling). Exhausting, right?\n\nA webhook is like having a doorbell. When the package arrives, the delivery person rings the bell and you know immediately. You don't have to keep checking.\n\nIn 0nMCP terms:\n- **The delivery person** = Shopify, Stripe, GitHub, etc.\n- **The doorbell** = your `0nmcp serve` webhook URL\n- **You** = your SWITCH file workflow\n\nWhen something happens in Shopify (new order = package arrives), Shopify rings your webhook (doorbell), and your SWITCH file runs automatically (you go get the package).\n\n## Setting it up\n\n1. Start your webhook server: `0nmcp serve --port 3001`\n2. Your webhook URL is: `http://your-server:3001/run/your-workflow-name`\n3. Paste that URL into Shopify/Stripe/wherever as the webhook endpoint\n4. Done! Now events trigger your workflows automatically.\n\nThe confusing part for me was: your server needs to be accessible from the internet. If you're running on your laptop, external services can't reach `localhost`. You need either a cloud server or a tool like ngrok for testing.\n\nHope this helps someone else who was as confused as I was!",
+      "days_ago": 1
+    },
+    {
+      "author": "priya-krishnamurthy",
+      "group": "bug-reports",
+      "title": "Rate limiter not resetting after backoff period expires",
+      "body": "## Bug Description\n\nThe token bucket rate limiter does not correctly reset the available tokens after the backoff period expires in certain edge cases.\n\n## Steps to Reproduce\n\n1. Set up a workflow that makes rapid sequential calls to a rate-limited service (e.g., Airtable at 5 req/sec)\n2. Trigger the workflow rapidly to exhaust the token bucket\n3. Wait for the backoff period to expire\n4. Trigger the workflow again\n\n## Expected Behavior\n\nAfter the backoff period expires, the token bucket should refill and allow new requests at the normal rate.\n\n## Actual Behavior\n\nThe first request after backoff succeeds, but the second request immediately triggers another backoff — as if the bucket only refilled with 1 token instead of refilling completely.\n\n## Environment\n\n- `0nmcp` v2.0.0\n- Node.js 22.4\n- Ubuntu 24.04\n\n## Workaround\n\nRestarting the `0nmcp serve` process resets all rate limiter state. Not ideal for production.\n\n## Analysis\n\nI suspect the issue is in `ratelimit.js` — the token refill calculation may be using the wrong timestamp for computing elapsed time after a backoff. The last request timestamp should reset to the end of the backoff period, not the start.",
+      "days_ago": 7
+    },
+    {
+      "author": "arjun-mehta",
+      "group": "general",
+      "title": "Month 1 in production — honest review from a startup founder",
+      "body": "been running 0nMCP in production for exactly one month now, time for a real honest review\n\n**the good:**\n- reliability is excellent, 99.8% uptime with only 2 incidents (both SendGrid rate limits)\n- the workflow runner handles retries gracefully after I set up on_error properly\n- engine import + verify is the fastest way I've ever onboarded API credentials\n- the community here has been incredibly helpful (shoutout to Marcus, Kira, and everyone else who answered my noob questions)\n\n**the bad:**\n- documentation gaps, especially around advanced features like assembly line mode and radial burst\n- error messages are still too vague in some cases\n- no built-in monitoring dashboard, had to build my own with Supabase + Google Sheets (see Priya's post about this)\n\n**the ugly:**\n- nothing actually. I expected at least one catastrophic failure in month 1 and it didn't happen. that's genuinely impressive for a tool this young\n\n**by the numbers:**\n- 3,241 webhook events processed\n- 7 SWITCH files in production\n- average execution time: 1.4 seconds\n- total failures: 11 (all handled by retry/fallback)\n- AWS cost saved: about $45/month (killed 5 Lambda functions)\n- developer hours saved: approximately 60\n\nwould I recommend 0nMCP for production? yes, with the caveat that you need to set up proper error handling and monitoring yourself. the tool is solid, the ecosystem just needs to mature.\n\nEDIT: also forgot to mention, I convinced two other founders in my co-working space to try it. one is already using it for payment processing.",
+      "days_ago": 0
+    }
+  ],
+  "replies": [
+    {
+      "thread_idx": 0,
+      "author": "marcus-chen",
+      "body": "Good roundup, Kira. The weekly \"what are you building\" thread is a solid idea. Keeps the showcase group active and gives people a low-pressure way to share works-in-progress.\n\nOne suggestion: pin a thread with links to the most-referenced tutorials. I keep linking my Stripe webhook post and Marcus's rate limiting guide in help threads. A pinned resource index would save everyone time.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 0,
+      "author": "olivia-pearce",
+      "body": "I love the idea of a weekly thread! As someone who's still learning, it would be nice to see what other people are working on at all skill levels... not just the advanced stuff.\n\nAlso, thank you for the shoutout to the showcase posts. Reading about real use cases is honestly how I learned the most. The documentation is useful but seeing how people actually use the tool in practice is what made things click for me.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 0,
+      "author": "sam-rivera",
+      "body": "weekly build thread YES PLEASE!! I always have stuff I want to share but it doesn't feel \"big enough\" for its own showcase post. a weekly thread would be perfect for small wins 🎉",
+      "offset_hours": 12
+    },
+    {
+      "thread_idx": 0,
+      "author": "tiago-santos",
+      "body": "Agree on the resource index idea from Marcus. I keep bookmarking threads manually and it's getting out of hand... a curated list of top tutorials, common patterns, and FAQ-type posts would be really useful.\n\nAlso, weekly thread sounds great. Maybe alternate between \"what are you building\" and \"what problem are you stuck on\" — the second one would help surface common pain points.",
+      "offset_hours": 18
+    },
+    {
+      "thread_idx": 1,
+      "author": "adaeze-okafor",
+      "body": "tysm for this Kira!! I wish I had this when I started, I spent like 3 days figuring out stuff that's covered here in 5 minutes\n\none question tho — can the `internal:compute` action do API calls or is it only for local calculations? I want to compute a value AND store it in Supabase in the same step but I think I need two separate steps for that right??",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 1,
+      "author": "sam-rivera",
+      "body": "this is EXACTLY what I needed when I was starting out!! bookmarking this immediately\n\nquick question — do I need to have all my API keys set up before I can run the hello world example or does it work with just the internal actions?? I want to try it before I go through the engine import process",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 1,
+      "author": "kira-tanaka",
+      "body": "@adaeze-okafor — yes, two separate steps! `internal:compute` is purely local, no API calls. Think of it as a calculator step. For Supabase writes, add a second step that references the compute output.\n\n@sam-rivera — great question! The hello world example uses only `internal:*` actions so you do NOT need any API keys to run it. Perfect for testing your install before setting up credentials. Try it!",
+      "offset_hours": 9
+    },
+    {
+      "thread_idx": 3,
+      "author": "elena-voronova",
+      "body": "The optional chaining suggestion at the end is important. Defensive programming in workflow definitions is just as critical as in application code. A null reference in step 2 will cascade failures through every downstream step.\n\nI would recommend always wrapping Supabase query results in a null check step before using them in conditions. The overhead is negligible and it prevents the entire workflow from failing on empty query results.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 3,
+      "author": "adaeze-okafor",
+      "body": "ok this is exactly what I needed!! I've been trying to figure out conditional branching for my form routing and this explains it perfectly\n\nthe null check tip is super helpful too, I've def had workflows crash because Supabase returned nothing and I didn't handle it 😅",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 3,
+      "author": "arjun-mehta",
+      "body": "wait so the steps that don't get matched by the condition just... don't run? they're completely skipped? that's actually really clean, I was worried it would error out if a referenced step didn't execute",
+      "offset_hours": 14
+    },
+    {
+      "thread_idx": 4,
+      "author": "priya-krishnamurthy",
+      "body": "## Important Note\n\nFor anyone doing a similar migration — make sure you handle the `since` parameter correctly across timezone boundaries. MongoDB timestamps are UTC but if your `--input since=` value is in local time, you will either miss records or process duplicates.\n\nI would also suggest adding a step that writes the last processed timestamp back to a metadata table. That way you do not need to manually track the cutoff — each run reads the last timestamp and uses it as the new `since` value.\n\nThe batch size of 500 for Supabase upserts is a good sweet spot. I have found that going above 1,000 rows per upsert can trigger timeout errors on larger payloads.",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 4,
+      "author": "elena-voronova",
+      "body": "This is a solid migration pattern. The repeatable aspect is what makes it valuable. One-time migration scripts are throwaway code. A workflow that can re-run incrementally is a synchronization tool.\n\nOne addition: consider adding a checksum or row hash comparison step. Upserting unchanged records is wasteful if most of your 50K records have not been modified since the last run. A hash comparison against the existing Supabase record can reduce write operations by 80-90% on subsequent runs.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 5,
+      "author": "jake-holloway",
+      "body": "Good comparison. We use both.\n\nFor contact management: CRM module. It's more comprehensive and the 245 tools cover every edge case we've hit.\n\nFor marketing analytics and email engagement tracking: HubSpot. The CRM module doesn't have marketing analytics built in.\n\nThe key: pick one as source of truth for contact data. We use CRM as source and HubSpot as read-only for analytics. Trying to sync both directions is a recipe for data conflicts.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 6,
+      "author": "marcus-chen",
+      "body": "The expression syntax for conditions uses the full template engine, not a simplified comparison. Your `if` syntax is wrong. Use the `cases` approach:\n\n```json\n{\n  \"name\": \"route\",\n  \"action\": \"internal:condition\",\n  \"inputs\": {\n    \"expression\": \"{{inputs.inquiry_type}}\",\n    \"cases\": {\n      \"sales\": \"handle_sales\",\n      \"support\": \"handle_support\",\n      \"partnership\": \"handle_partnership\"\n    }\n  }\n}\n```\n\nThen define steps named `handle_sales`, `handle_support`, and `handle_partnership` that each send the appropriate SendGrid template.\n\nThe key mistake: `internal:condition` does NOT use `if` syntax. It evaluates an expression and matches the result against named cases.",
+      "offset_hours": 2
+    },
+    {
+      "thread_idx": 6,
+      "author": "kira-tanaka",
+      "body": "Marcus beat me to it! His answer is correct.\n\nOne thing I'll add — you can do this in a single SWITCH file. The condition step routes to different steps within the same file, so you don't need three separate workflows.\n\nAlso, Adaeze, 1am debugging sessions are a rite of passage but please get some sleep. The code will still be there tomorrow!",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 7,
+      "author": "tiago-santos",
+      "body": "Nice! The Stripe payment link idea is great... I did something similar for a client.\n\n0nMCP has `stripe_create_payment_link` as an action. You pass the product/price ID and it returns a URL. Then you just include that URL in your SendGrid email template.\n\nOne tip: create the Stripe price object once in your Stripe dashboard, then use the price ID in your SWITCH file. Don't try to create prices dynamically for every invoice — it clutters your Stripe account.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 7,
+      "author": "olivia-pearce",
+      "body": "This is brilliant, Adaeze! The math in template expressions is something I didn't know about either... I've been calculating totals manually and then pasting them into my workflow. Feeling a bit silly now!\n\nThe invoice automation is exactly the kind of thing I want to build for my business too. Would you mind sharing the SendGrid template structure? I always struggle with getting emails to look professional.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 9,
+      "author": "marcus-chen",
+      "body": "This is the correct pattern. I use a nearly identical setup.\n\nOne optimization: in the retry cron workflow, add a max retry counter. If an item has been retried 5 times and still fails, move it to a `permanent_failures` table and alert via email. You do not want the retry queue growing indefinitely with items that will never succeed (e.g., invalid email addresses).",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 9,
+      "author": "priya-krishnamurthy",
+      "body": "## Good Pattern\n\nThis is essentially what message queues like RabbitMQ and SQS implement natively — dead letter queues with retry policies. Building it with Supabase as the queue is pragmatic if you do not want to add another infrastructure dependency.\n\nI would add one thing: set a `next_retry_at` column with exponential backoff. Instead of retrying every 15 minutes regardless, use `5min, 15min, 45min, 2hr, 6hr` intervals. This prevents you from hammering a service that is having a prolonged outage.",
+      "offset_hours": 7
+    },
+    {
+      "thread_idx": 9,
+      "author": "arjun-mehta",
+      "body": "this is literally what I needed, I was doing the manual check-and-resend thing and hating it. implementing this tonight\n\nthe exponential backoff tip from Priya is smart too, gonna add that from the start so I don't have to refactor later",
+      "offset_hours": 12
+    },
+    {
+      "thread_idx": 10,
+      "author": "priya-krishnamurthy",
+      "body": "## Strong Agree on Hot Reload\n\nThe cache invalidation issue you describe is real. In our deployment, we solve this by restarting the `0nmcp serve` process after every git push using a deploy hook. But that causes a brief window where incoming webhooks are queued by nginx.\n\nA proper hot-reload mechanism — watching the SWITCH file directory for changes and reloading without dropping connections — would eliminate this gap. This is how nginx itself handles config reloads: `nginx -s reload` loads new config without dropping existing connections.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 10,
+      "author": "yael-goldstein",
+      "body": "Version tracking should include a hash of the SWITCH file content. That way you can verify exactly which version of a workflow processed a given event. Useful for post-incident analysis.\n\n`SHA256(file_contents) -> version_id` in the execution log. Simple. Deterministic. Auditable.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 12,
+      "author": "marcus-chen",
+      "body": "Good guide. One addition: if you are using a cloud provider like AWS EC2 or DigitalOcean, they have their own process managers (e.g., AWS SSM Agent) that can conflict with systemd. Make sure your service file has the correct `After=` dependencies.\n\nAlso: the health check cron should log failures somewhere. Silent restarts are dangerous — you want to know when and why the service crashed, not just that it was restarted.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 12,
+      "author": "arjun-mehta",
+      "body": "wait this is exactly what I was looking for!! I've been running 0nmcp serve in a tmux session like a caveman, this is way better\n\nquestion tho — do I need to do anything special for the .env file permissions? my VPS has multiple users and I don't want other people seeing my API keys",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 12,
+      "author": "priya-krishnamurthy",
+      "body": "@arjun-mehta — absolutely. Set your .env file to `chmod 600` (owner read/write only) and make sure the `deploy` user in the service file is the owner. Like this:\n\n```bash\nchown deploy:deploy /opt/0nmcp/.env\nchmod 600 /opt/0nmcp/.env\n```\n\nBetter yet, use the Vault instead of .env as Yael suggested in her security checklist. But if you stick with .env, file permissions are your minimum security measure.",
+      "offset_hours": 14
+    },
+    {
+      "thread_idx": 13,
+      "author": "elena-voronova",
+      "body": "The deduplication pattern using a `sync_source` field is the correct approach. This is essentially how Fivetran and Airbyte handle bidirectional sync — a metadata column that indicates the origin of the record.\n\nOne refinement: use a `sync_version` integer in addition to `sync_source`. Increment it on every sync operation. This lets you detect stale writes — if your sync reads version 5 but writes arrive at version 7 before your write lands, you know someone else modified the record in between.",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 13,
+      "author": "jake-holloway",
+      "body": "We had this exact problem with CRM and HubSpot. The infinite loop nearly cost us a client because it was creating duplicate contacts at about 4 per second.\n\nYour sync_source approach is what we landed on too. Works perfectly. The version number Elena suggests is a nice addition for conflict resolution.",
+      "offset_hours": 12
+    },
+    {
+      "thread_idx": 14,
+      "author": "jake-holloway",
+      "body": "OpenTelemetry support would be huge. We use Datadog for everything else and having 0nMCP workflows show up in the same dashboard as our API metrics would close a visibility gap.\n\n+1 on the Google Sheets daily export as a workaround. Not elegant but the non-technical stakeholders on my team can actually read a spreadsheet. They cannot read a Grafana dashboard.",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 15,
+      "author": "olivia-pearce",
+      "body": "This is lovely! I wish I had something like this for my Shopify store... right now I manually update a Google Sheets calendar for my pop-up shop schedule and it's exactly the same problem. Class schedule or shop schedule, the workflow would be nearly identical.\n\nDoes the Notion webhook trigger immediately on changes or is there a delay? My experience with Notion has been that it can be a bit slow sometimes...",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 15,
+      "author": "soo-jin-park",
+      "body": "Hmm, the timezone handling thing is a pain point I hit too. Every calendar integration ever has timezone issues. It's like the law of calendar APIs: if timezones can go wrong, they will.\n\nNice solution though! And three new clients from word of mouth — that's the best marketing.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 16,
+      "author": "nate-crawford",
+      "body": "The MD5 hash for subscriber IDs is vintage Mailchimp. They have been doing that since before most of their current engineers were born (probably). It works but it is one of those design decisions that makes you wonder what year they think it is.\n\nGood tip on the ALLCAPS merge fields. I hit that same issue and spent 20 minutes wondering why my data was not mapping correctly. The Mailchimp API does not return an error — it just silently ignores your lowercase field names. Delightful.",
+      "offset_hours": 7
+    },
+    {
+      "thread_idx": 16,
+      "author": "adaeze-okafor",
+      "body": "omg the rate limit banning thing is scary!! 24 hours without API access would be a nightmare for my clients\n\nthanks for the batching tip, I'm going to make sure I do that from the start instead of learning the hard way like... well, like I usually do lol",
+      "offset_hours": 14
+    },
+    {
+      "thread_idx": 18,
+      "author": "marcus-chen",
+      "body": "Solid pattern. This is essentially what most ETL tools do under the hood.\n\nOne thing I would change: the `internal:map` step should have error handling for malformed records. If one HubSpot contact is missing `firstname`, the entire map operation produces a row with `null null` as the name. Add a filter step after the map that removes rows with null required fields.\n\nAlso the Kleppmann quote is perfect. First version of anything is always overengineered.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 18,
+      "author": "priya-krishnamurthy",
+      "body": "## Good Pattern, But...\n\nThe scheduled run approach works for small datasets but does not scale well for incremental loads. If your HubSpot instance has 50,000 contacts and only 20 changed since the last run, you are still querying all 500 per batch and filtering on the API side.\n\nA better approach for incremental ETL: use HubSpot's `recently_modified` endpoint which returns only contacts changed after a given timestamp. Then you process only the delta.\n\n```json\n{\n  \"name\": \"extract\",\n  \"action\": \"hubspot_list_contacts\",\n  \"inputs\": { \"recently_modified_after\": \"{{launch.since}}\" }\n}\n```\n\nThis reduces API calls, data transfer, and processing time significantly.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 19,
+      "author": "marcus-chen",
+      "body": "JSON Schema for step contracts would be a significant improvement. This is essentially design-by-contract applied to workflow definitions.\n\nThe dry-run connection is insightful. If you know the expected output schema of each step, you can validate the entire chain without executing it. The workflow runner could construct a mock data object matching the schema and pass it through all steps, checking that every reference resolves correctly.\n\nFiling this as a +1 on the feature request.",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 19,
+      "author": "nate-crawford",
+      "body": "This is basically what I was asking for when I said 0nMCP needs a testing framework. If steps had typed contracts, you could write assertions against them without executing the workflow.\n\n\"Assert that step extract produces an array of objects with id and email fields.\" That is a unit test for a workflow step. Currently impossible.\n\nStrong +1. This would make 0nMCP significantly more production-ready.",
+      "offset_hours": 14
+    },
+    {
+      "thread_idx": 20,
+      "author": "priya-krishnamurthy",
+      "body": "## This Is Exactly Right\n\nChange streams are the correct approach for real-time MongoDB triggers. Polling is wasteful and introduces latency.\n\nOne addition: the change stream cursor should be persisted. If your watcher process crashes and restarts, it needs to resume from where it left off — otherwise you will miss events that occurred during the downtime.\n\nMongoDB provides a `resumeToken` on each change event. Save it to a file or a separate collection and pass it to `watch()` on restart:\n\n```javascript\nconst stream = collection.watch([], { resumeAfter: savedToken })\n```\n\nThis is critical for reliability in production.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 21,
+      "author": "nate-crawford",
+      "body": "Points 3 and 5 are the most valuable from a DX perspective. Live variable preview and error highlighting are the difference between a text editor and an IDE.\n\nIf I am being honest, I would use the visual builder more if it had these features. Currently I write SWITCH files in VS Code because I get syntax highlighting and bracket matching. The builder gives me neither.",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 21,
+      "author": "arjun-mehta",
+      "body": "connection lines between steps would be so helpful!! right now I have to mentally trace the flow through the JSON and it's easy to lose track when you have more than 5-6 steps\n\nalso +1 on service icons, visual cues help a lot when you're scanning a workflow quickly",
+      "offset_hours": 12
+    },
+    {
+      "thread_idx": 21,
+      "author": "kira-tanaka",
+      "body": "These are great suggestions, Soo-jin. I'll pass them along to the team.\n\nThe builder is still early and exactly this kind of specific, actionable feedback is what we need. General \"make it better\" requests are hard to act on — but \"add drag-and-drop step reordering\" and \"show connection lines\" are concrete features we can build.\n\nWould you be interested in reviewing mockups before we build? Your design eye would be really valuable.",
+      "offset_hours": 18
+    },
+    {
+      "thread_idx": 22,
+      "author": "marcus-chen",
+      "body": "Good idea. A static analysis tool for SWITCH files is overdue.\n\nI would add one more check: detect circular references. If step A depends on step B output and step B depends on step A output, the workflow will deadlock. This is a graph cycle detection problem — standard algorithm, easy to implement.\n\nRe: npm package vs built-in command — I think both. Publish the package for CI/CD integration and also add it as a built-in `0nmcp lint` command for convenience. They can share the same validation engine.",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 22,
+      "author": "yael-goldstein",
+      "body": "Add a check for hardcoded API keys in SWITCH files. Regex for common key patterns (sk_live_, SG., etc.) and flag them as security warnings.\n\nI have seen at least three posts on this forum where people accidentally included API keys in their config examples. A linter that catches this before commit would prevent those incidents.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 22,
+      "author": "jake-holloway",
+      "body": "Would use this immediately. Ship it as an npm package.\n\nIntegrating it into our CI pipeline would catch config errors before deployment. Currently we discover SWITCH file issues in production. That's not great.",
+      "offset_hours": 14
+    },
+    {
+      "thread_idx": 24,
+      "author": "marcus-chen",
+      "body": "The action name is `stripe_checkout_sessions_create`. The full list of Stripe actions is in the catalog — `0nmcp --list-tools | grep stripe` will show all of them.\n\nAnd yes, you can return data to the webhook caller. When you use `0nmcp serve`, the webhook endpoint returns the final step output as the HTTP response body. So your SWITCH file can create the checkout session and the URL is returned in the response:\n\n```json\n{\n  \"name\": \"create_session\",\n  \"action\": \"stripe_checkout_sessions_create\",\n  \"inputs\": {\n    \"success_url\": \"https://yourapp.com/success\",\n    \"cancel_url\": \"https://yourapp.com/cancel\",\n    \"line_items\": [{ \"price\": \"price_xxx\", \"quantity\": 1 }],\n    \"mode\": \"subscription\"\n  }\n}\n```\n\nThe webhook caller receives `{\"url\": \"https://checkout.stripe.com/...\"}` in the response body.",
+      "offset_hours": 2
+    },
+    {
+      "thread_idx": 24,
+      "author": "kira-tanaka",
+      "body": "Marcus got the action name right. Quick tip for finding action names in the future — the catalog follows a consistent pattern: `service_resource_action`. So Stripe checkout sessions create = `stripe_checkout_sessions_create`.\n\nFor a full list: `0nmcp --list-tools` shows all 558 tools. You can filter with grep or pipe to less.\n\nAnd yes, webhook responses work! The last step's output becomes the HTTP response. Very useful for interactive flows like checkout redirects.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 25,
+      "author": "sam-rivera",
+      "body": "wait you can use `for_each` with `radial_burst`?? that's so cool!! so it loops over an array AND sends them all in parallel?? I've been writing separate steps for each recipient in my Discord notifications, this would simplify everything!!\n\nalso the CANCEL reply handling — does 0nMCP process incoming SMS or do you need a separate Twilio webhook for that?",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 25,
+      "author": "priya-krishnamurthy",
+      "body": "## Nice Pattern\n\nThe `for_each` with `radial_burst` is the correct approach for fan-out operations. Sequential SMS sending for 50 recipients would take 50+ seconds. Parallel reduces that to the latency of a single API call plus overhead.\n\nOne concern: Twilio's default rate limit is 1 message per second per phone number. If you are sending from a single Twilio number and burst 50 SMS simultaneously, you will hit rate limits. Consider using a Twilio messaging service with multiple sending numbers for higher throughput.\n\nAlso: the `on_error: { continue: true }` is essential here. Without it, a single invalid phone number would abort the entire batch.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 26,
+      "author": "kira-tanaka",
+      "body": "Great question about Zoom! Yes, 0nMCP can create Zoom meetings via the Zoom API. The action is `zoom_meetings_create`.\n\nFor your weekly club meeting workflow, it would look something like:\n\n1. Cron trigger (Sunday 6pm PST)\n2. `zoom_meetings_create` — creates the meeting for Tuesday 7pm\n3. `discord_send` — posts the link to your channel\n4. `google_calendar_create` — adds the event with the Zoom link\n\nRe: OAuth vs API key — Zoom moved to OAuth-only for new apps in 2023. But don't let that scare you! The engine import can handle Zoom's server-to-server OAuth tokens. You create the app in Zoom's marketplace, get the credentials, and 0nMCP handles the token refresh automatically.\n\nLet me know if you want help setting up the Zoom app — it's about 10 minutes of clicking through their developer portal.",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 26,
+      "author": "arjun-mehta",
+      "body": "oh man I did exactly this for my scheduling app!! the Zoom OAuth setup is a bit annoying but once it's done it's set-and-forget\n\nthe meeting creation is super fast too, like 1-2 seconds, the response includes the join URL which you can pass directly to the discord and calendar steps\n\ndef doable for a weekly club meeting, prob take you an afternoon to set up",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 28,
+      "author": "marcus-chen",
+      "body": "Good checklist. A few additions from my experience:\n\n**Webhook Source Validation**: Beyond signature verification, validate that the webhook source IP is in the expected range. Stripe, GitHub, and Twilio all publish their webhook source IP ranges. Add IP allowlisting at the nginx/proxy level.\n\n**Key Rotation**: Have a process for rotating API keys. If a key is compromised, you need to rotate it without downtime. The Vault supports re-sealing with new keys but your workflows need to be designed to handle the transition.\n\n**Audit Logging**: Log every vault seal/unseal operation. If someone opens the vault at 3am, you want to know about it.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 28,
+      "author": "priya-krishnamurthy",
+      "body": "## Excellent Resource\n\nI would add one more item: **secrets scanning in CI/CD**. If your SWITCH files are in a git repository (and they should be), add a pre-commit hook that scans for API key patterns. Tools like `trufflehog` or `gitleaks` can catch accidentally committed secrets before they reach the remote.\n\n```bash\n# .git/hooks/pre-commit\ngitleaks detect --source . --verbose\n```\n\nThis is defense-in-depth — even if developers follow all the other rules, a pre-commit hook catches the mistakes that slip through.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 29,
+      "author": "marcus-chen",
+      "body": "Good walkthrough. The X25519 key exchange is the strongest part of this design. No shared secrets, no key distribution problem.\n\nOne note: the threshold escrow (3 of 5) requires careful key management by each party. If two parties lose their keys, the remaining three can still open the container. But if three parties lose their keys, the container is permanently sealed. Make sure all parties have secure key backup procedures.\n\nThe patent-pending status is worth noting. This is not just open source tooling — it is novel cryptographic architecture.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 30,
+      "author": "priya-krishnamurthy",
+      "body": "## Confirmed\n\nI experienced the same issue after an Ubuntu kernel update changed the machine ID. The hardware fingerprint includes identifiers that can change during OS updates.\n\nThe stable identifier approach (serial number, MAC address) is the correct fix. These do not change during software updates. The current implementation likely uses `/etc/machine-id` or similar OS-level identifiers that are NOT guaranteed to be stable across updates.\n\nSeverity: high is appropriate. Silent credential lockout after routine maintenance is unacceptable for production use.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 30,
+      "author": "nate-crawford",
+      "body": "This is why I am skeptical of hardware-bound encryption for credentials that need to survive beyond the current machine's lifecycle. Hard drives fail. OSes update. Machines get replaced.\n\nThe portable encryption mode (passphrase-only, no fingerprint) is the pragmatic choice for most production environments. Hardware binding is appropriate for highly sensitive credentials on a dedicated machine. Not for general-purpose credential storage on a developer laptop.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 31,
+      "author": "soo-jin-park",
+      "body": "Hmm, character development! I love it. The fact that you came back to update your take after actually using the tool for real projects — that's the kind of honest review this community needs.\n\nAnd yes, YAML support would make a lot of people happy. JSON is fine for machines. YAML is better for humans. We are (mostly) humans here.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 31,
+      "author": "kira-tanaka",
+      "body": "Nate, this is really great feedback — and I appreciate you coming back to update your take. That kind of intellectual honesty is exactly what makes a community valuable.\n\nYAML support is something we've discussed. The challenge is maintaining parity — if we support YAML, we need the workflow runner, the linter, the builder, and every tool in the ecosystem to handle both formats. But you're right that the developer experience would improve significantly.\n\nThe testing framework is on the roadmap. Soo-jin's linter project is a step in that direction. Would you be interested in helping define what a SWITCH file test framework should look like? Your Rails testing experience would be directly relevant.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 32,
+      "author": "tiago-santos",
+      "body": "My client at the yoga studio uses the keyword approach too and... yeah, it works surprisingly well for a \"crude\" solution. About 80% accuracy, which is good enough when the other 20% just goes to a general queue.\n\nThe OpenAI classification step is a great idea though. I've been meaning to try that for a restaurant client who gets support emails in Portuguese and English... keyword matching across languages is a nightmare but an LLM wouldn't care.\n\nRe: the Zendesk API — agreed, it's one of the better ones out there. Clean REST, good docs, predictable. If only all APIs were like that...",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 33,
+      "author": "soo-jin-park",
+      "body": "So TOML is apparently a trigger word for Nate. Noted.\n\nI'm firmly in the YAML camp. Or even better — a proper DSL that compiles to JSON. Something like:\n\n```\nworkflow \"order-notify\"\n  trigger webhook from shopify\n  step lookup: supabase.query(\"customers\", email: input.email)\n  step notify: sendgrid.send(to: lookup.email, template: \"welcome\")\n```\n\nThat's readable. That's what I want to write. The JSON underneath can stay as the execution format.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 33,
+      "author": "elena-voronova",
+      "body": "The correct answer is that format is an implementation detail. What matters is the abstraction layer.\n\nJSON is fine as a serialization format. YAML is fine as a human-facing format. A DSL is fine as an authoring format. They can all compile to the same AST.\n\nThe mistake would be coupling the runtime to a specific syntax. Keep the runtime format as JSON internally and support multiple authoring formats that compile down to it. This is how Terraform handles HCL vs JSON — same engine, different input syntax.",
+      "offset_hours": 12
+    },
+    {
+      "thread_idx": 34,
+      "author": "kira-tanaka",
+      "body": "Great question, Olivia! Yes, 0nMCP can absolutely handle abandoned cart recovery.\n\nFor the Shopify cart data, you'd use the `shopify_checkouts_list` action which returns abandoned checkouts. A cron workflow running every 2 hours could query for checkouts created more than 2 hours ago that haven't been completed.\n\nAnd yes, `shopify_discount_create` can create discount codes programmatically! You can generate unique codes per customer.\n\nThe value-based routing is a condition step — exactly right. Check the cart total and branch to different email templates.\n\nI'd suggest starting with just the first email (2-hour reminder) and getting that working before adding the 24-hour follow-up. Build incrementally rather than trying to get everything perfect at once.\n\nWant me to sketch out the SWITCH file structure?",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 34,
+      "author": "jake-holloway",
+      "body": "We run this exact automation for 3 e-commerce clients. The ROI is significant.\n\nThe 10% discount code for high-value carts is smart targeting. Our data shows that carts over the discount threshold convert at 2x the rate of generic reminders.\n\nOne tip: add a cooldown check. Don't email customers who received an abandoned cart email in the last 7 days. Aggressive cart recovery emails are a fast way to get unsubscribes.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 35,
+      "author": "adaeze-okafor",
+      "body": "14 hours per week saved is AMAZING!! this is exactly the kind of before/after story that convinced me to try 0nMCP in the first place\n\nalso GBP 5/month for the VPS is wild, I'm paying more than that for a coffee subscription lol\n\nthe proactive shipping updates reducing \"where's my order\" emails makes so much sense. people just want to know what's going on, if you tell them before they ask they're happy!",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 35,
+      "author": "tiago-santos",
+      "body": "Olivia, this is a perfect case study for when I talk to potential clients... the numbers are so clear.\n\nGBP 5/month cost, GBP 2,000/month savings. That's a 400:1 ROI. Even if you factor in the setup time (what, 10-15 hours?), the payback period is under a week.\n\nMy clients have similar numbers. The hardest part is always convincing them to invest the initial time. Once they see the results though, they immediately ask \"what else can we automate?\"",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 36,
+      "author": "sam-rivera",
+      "body": "this is the BEST explanation of webhooks I've ever read!! the doorbell analogy is perfect. I tried explaining webhooks to my friend who's not in CS and she was like \"...what?\" but the doorbell thing would totally make sense to her\n\nalso the ngrok tip is important, I spent a whole evening trying to figure out why Shopify couldn't reach my localhost before someone told me about ngrok 😅",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 36,
+      "author": "kira-tanaka",
+      "body": "This is wonderful, Olivia. The doorbell analogy is honestly better than any explanation I've seen in documentation. Mind if I reference this in our official docs? I think it would help a lot of newcomers.\n\nOne small addition to your setup steps: for testing, ngrok is great. But for production, you'll want a proper server with a stable URL. The VPS approach you mentioned in your other post (GBP 5/month) is perfect for this.\n\nThank you for writing content that makes technical concepts accessible. We need more of this in the community.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 37,
+      "author": "marcus-chen",
+      "body": "Good bug report. Well-structured with reproduction steps and analysis.\n\nI looked at `ratelimit.js` and I think you are correct. The `lastRequestTime` variable is set at the START of the backoff period but the token refill calculation uses `Date.now() - lastRequestTime` to compute elapsed time. During backoff, no requests are made so `lastRequestTime` stays stale. When the first post-backoff request succeeds, `lastRequestTime` updates but the refill calculation has already used the stale value.\n\nThe fix should be straightforward: reset `lastRequestTime` to `Date.now()` when the backoff period expires, not when the next request is made.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 37,
+      "author": "yael-goldstein",
+      "body": "This is a race condition in the rate limiter. Ironic.\n\nConfirming I can reproduce on v2.0.0 with the Airtable service. Stripe's rate limiter appears unaffected because it has a larger bucket size that masks the issue.\n\nThe workaround of restarting the process also resets the in-memory token buckets, which is why it fixes the problem temporarily.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 23,
+      "author": "arjun-mehta",
+      "body": "the onboarding section is real, I almost gave up during my first 5 minutes because I couldn't figure out what to do after install\n\nthe `0nmcp init` idea with mock data is brilliant, that would have saved me. like how `create-next-app` gives you a working app immediately, same energy\n\nmy first 5 minutes: installed it, stared at terminal, googled \"0nmcp getting started\", found the docs, got confused by all the options, almost closed the tab. glad I didn't!",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 23,
+      "author": "olivia-pearce",
+      "body": "My first 5 minutes were... rough. I had to install Node.js first, which I'd never done. Then npm had a permissions error. Then the install worked but I didn't know what command to run next.\n\nThe `0nmcp init` idea would have been a lifesaver. Even just a guided setup wizard that asks \"what services do you use?\" and creates a starter SWITCH file would make the onboarding so much smoother.\n\nAs a non-technical user, those first 5 minutes determine whether I keep going or give up. I kept going because a friend was helping me. Without that, I probably would have given up.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 27,
+      "author": "marcus-chen",
+      "body": "Student recommendation order:\n\n1. **GitHub API** — you already use it, the REST docs are excellent, and it teaches authentication patterns.\n2. **Stripe API** — because payments are unavoidable in real applications and Stripe's DX is best-in-class.\n3. **Supabase** — because every app needs a database and Supabase is the simplest Postgres wrapper.\n4. **Twilio** — because SMS is a different paradigm (async, delivery receipts, phone number formats).\n5. **OpenAI** — because you probably already want to build AI features.\n\nSkip Shopify unless you're building e-commerce. Skip Zendesk/Jira/HubSpot unless you have a specific use case. Learn the fundamentals (REST, auth, pagination, rate limits, error handling) with APIs 1-3 and everything else will be easy.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 27,
+      "author": "nate-crawford",
+      "body": "The most important thing is not which API you learn — it is understanding the universal patterns that all APIs share.\n\nEvery REST API has: endpoints, methods (GET/POST/PUT/DELETE), authentication, request/response formats, pagination, error codes, rate limits.\n\nLearn those patterns with any API and you can pick up any new API in an afternoon. The specific API does not matter as much as the foundational knowledge.\n\n(That said, start with GitHub. The docs are genuinely excellent and the Octokit SDKs are well-maintained.)",
+      "offset_hours": 12
+    },
+    {
+      "thread_idx": 38,
+      "author": "kira-tanaka",
+      "body": "Arjun, this is an incredible update. Thank you for sharing the real numbers — they're the most compelling case for 0nMCP I've seen.\n\n3,241 events with only 11 failures, all handled automatically. That's production-grade reliability. And the fact that you convinced two other founders to try it — that's organic growth we can't buy.\n\nRe: documentation gaps — you're right and we're working on it. The advanced features (assembly line, radial burst) need proper guides with examples. Would you be interested in writing up your appointment reminder system as an official tutorial? Your perspective as a founder using it in production would be really valuable.\n\nOne month down. Here's to many more.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 38,
+      "author": "jake-holloway",
+      "body": "60 developer hours saved in one month. At even a modest billing rate, that's a significant number.\n\nThe 99.8% uptime figure tracks with our experience too. The workflow runner is reliable once you set up error handling correctly. Most failures I've seen are upstream service issues (SendGrid rate limits, Stripe API hiccups) not 0nMCP bugs.\n\nGood honest review. More of these, please.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 38,
+      "author": "sam-rivera",
+      "body": "this is so inspiring!! seeing a real startup running on 0nMCP makes me want to build something for real instead of just class projects\n\nalso the community shoutout is wholesome 🥹 this really is the most helpful dev community I've been part of",
+      "offset_hours": 14
+    },
+    {
+      "thread_idx": 17,
+      "author": "jake-holloway",
+      "body": "Value-based pricing is the way. Hourly billing punishes efficiency. If I build something in 2 hours that saves 20 hours per month, charging by the hour makes no sense.\n\nOur agency switched to value-based pricing for automation projects a year ago. Revenue per project went up 3x and client satisfaction improved because they focus on outcomes, not hours.",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 17,
+      "author": "olivia-pearce",
+      "body": "As a client who hired a freelancer (well, my developer friend) to set up my automation... the value-based pricing makes complete sense from my side too.\n\nI don't care how long it takes to build. I care that it saves me 14 hours per week. If someone charged me based on the value they're creating, I'd pay it happily because the ROI is obvious.\n\nThe breakdown of your pricing model is really transparent and I appreciate that. More freelancers should communicate their pricing this clearly.",
+      "offset_hours": 14
+    },
+    {
+      "thread_idx": 11,
+      "author": "marcus-chen",
+      "body": "The parameterized SWITCH file approach is smart. It's essentially configuration injection — the same pattern as environment-specific configs in web applications.\n\nOne suggestion: add schema validation for the client config files. If a new config is missing a required field (e.g., `sendgrid_template_id`), the workflow should fail at load time with a clear error, not at runtime when the SendGrid step tries to use an undefined variable.\n\nAlso, storing 23 client configs in flat JSON files works at your scale but consider moving to Supabase for client config storage. Then you can update configs without redeploying and add an admin UI for your team.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 11,
+      "author": "tiago-santos",
+      "body": "This is exactly the kind of architecture I need for my freelance clients... instead of maintaining separate SWITCH files for each client, one master workflow with client-specific configs. That's so much cleaner.\n\nThe config-in-Supabase idea from Marcus is even better. Then clients could potentially update their own settings through a simple dashboard without needing me to touch config files.\n\nI'm stealing this pattern. Obrigado, Jake.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 8,
+      "author": "marcus-chen",
+      "body": "Good guide. One clarification: the `--file` flag for specifying an alternate .env path was added in v2.0.0. If you are on an earlier version, you need to rename your file to `.env` or symlink it.\n\nAlso worth noting: `engine import` supports CSV and JSON files in addition to .env format. If you have credentials in a spreadsheet export or a JSON config from another tool, it can parse those directly. The auto-mapping logic checks key names and value formats across all supported input types.",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 2,
+      "author": "arjun-mehta",
+      "body": "this is awesome Kira, love seeing the community highlights. also slightly embarrassed that my \"weekend MVP\" story is being referenced as an example lol but also proud??\n\nthe fact that people are building real businesses on 0nMCP after just a few weeks says a lot about the tool. my co-founder (well, future co-founder hopefully) saw this post and was like \"ok maybe this 0nMCP thing is legit\"\n\nkeep the monthly spotlights coming!",
+      "offset_hours": 5
+    }
+  ]
+}

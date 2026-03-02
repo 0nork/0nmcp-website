@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import { AdminDefender } from './AdminDefender'
 import { AdminUsers } from './AdminUsers'
+import { AdminSitemap } from './AdminSitemap'
 
-type AdminSection = 'overview' | 'defender' | 'users' | 'forum' | 'personas' | 'content' | 'blog' | 'qa'
+type AdminSection = 'overview' | 'defender' | 'users' | 'sitemap' | 'forum' | 'personas' | 'content' | 'blog' | 'qa'
 
 interface NavItem {
   key: AdminSection
@@ -18,6 +19,7 @@ const COMPONENT_SECTIONS: NavItem[] = [
   { key: 'overview', label: 'Overview', icon: '\u{1F4CA}', type: 'component' },
   { key: 'defender', label: '0nDefender', icon: '\u{1F6E1}\uFE0F', type: 'component' },
   { key: 'users', label: 'Users', icon: '\u{1F465}', type: 'component' },
+  { key: 'sitemap', label: 'Sitemap', icon: '\u{1F5FA}\uFE0F', type: 'component' },
 ]
 
 const IFRAME_SECTIONS: NavItem[] = [
@@ -178,6 +180,13 @@ export function AdminView() {
           {section === 'users' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
               <AdminUsers />
+            </div>
+          )}
+
+          {/* Sitemap (component) */}
+          {section === 'sitemap' && (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+              <AdminSitemap />
             </div>
           )}
 

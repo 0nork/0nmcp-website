@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 const PHRASES = [
   'Send an invoice and notify the team on Slack',
@@ -11,12 +12,35 @@ const PHRASES = [
   'Generate a report and email it to the client',
 ]
 
+type AuthState = 'loading' | 'anonymous' | 'free' | 'subscribed'
+
 export default function ConsoleCTA() {
   const [phrase, setPhrase] = useState('')
   const [phraseIdx, setPhraseIdx] = useState(0)
   const [charIdx, setCharIdx] = useState(0)
   const [deleting, setDeleting] = useState(false)
+  const [authState, setAuthState] = useState<AuthState>('loading')
   const timeout = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  // Auth detection
+  useEffect(() => {
+    const supabase = createSupabaseBrowser()
+    if (!supabase) { setAuthState('anonymous'); return }
+
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) { setAuthState('anonymous'); return }
+
+      supabase
+        .from('profiles')
+        .select('plan')
+        .eq('id', data.user.id)
+        .single()
+        .then(({ data: profile }) => {
+          const plan = profile?.plan || 'free'
+          setAuthState(plan === 'free' ? 'free' : 'subscribed')
+        })
+    })
+  }, [])
 
   useEffect(() => {
     const current = PHRASES[phraseIdx]
@@ -40,6 +64,25 @@ export default function ConsoleCTA() {
 
     return () => clearTimeout(timeout.current)
   }, [charIdx, deleting, phraseIdx])
+
+  // Determine CTA based on auth state
+  let ctaHref = '/signup'
+  let ctaText = 'Sign Up Free'
+  let ctaClass = 'console-cta-btn console-cta-btn-signup no-underline'
+
+  if (authState === 'free') {
+    ctaHref = '/console?view=upgrade'
+    ctaText = 'Start Free Trial \u2014 7 Days'
+    ctaClass = 'console-cta-btn console-cta-btn-trial no-underline'
+  } else if (authState === 'subscribed') {
+    ctaHref = '/console'
+    ctaText = 'Open Console'
+    ctaClass = 'console-cta-btn console-cta-btn-ghost no-underline'
+  } else if (authState === 'loading') {
+    ctaHref = '/console'
+    ctaText = 'Open Console'
+    ctaClass = 'console-cta-btn no-underline'
+  }
 
   return (
     <section className="console-cta">
@@ -72,10 +115,10 @@ export default function ConsoleCTA() {
         </p>
 
         {/* CTA button */}
-        <Link href="/console" className="console-cta-btn no-underline">
+        <Link href={ctaHref} className={ctaClass}>
           <span className="console-cta-btn-glow" />
           <span className="console-cta-btn-text">
-            Open Console
+            {ctaText}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14" />
               <path d="m12 5 7 7-7 7" />
@@ -83,6 +126,44 @@ export default function ConsoleCTA() {
           </span>
         </Link>
       </div>
+
+      <style>{`
+        .console-cta-btn-trial .console-cta-btn-glow {
+          background: linear-gradient(135deg, rgba(126,217,87,0.3), rgba(0,212,255,0.15));
+        }
+        .console-cta-btn-trial {
+          position: relative;
+          overflow: hidden;
+        }
+        .console-cta-btn-trial::after {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255,255,255,0.06) 45%,
+            rgba(255,255,255,0.12) 50%,
+            rgba(255,255,255,0.06) 55%,
+            transparent 100%
+          );
+          animation: shimmer 3s infinite;
+        }
+        .console-cta-btn-ghost {
+          background: rgba(255,255,255,0.04) !important;
+          border: 1px solid var(--border) !important;
+        }
+        .console-cta-btn-ghost .console-cta-btn-glow {
+          display: none;
+        }
+        @keyframes shimmer {
+          0% { transform: translateX(-100%) rotate(25deg); }
+          100% { transform: translateX(100%) rotate(25deg); }
+        }
+      `}</style>
     </section>
   )
 }

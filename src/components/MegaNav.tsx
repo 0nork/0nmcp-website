@@ -273,7 +273,8 @@ const GRAPHICS: Record<string, () => React.ReactNode> = {
 }
 
 export default function MegaNav() {
-  const [user, setUser] = useState<{ email?: string } | null>(null)
+  const [user, setUser] = useState<{ email?: string; id?: string } | null>(null)
+  const [userPlan, setUserPlan] = useState<string>('free')
   const [openMenu, setOpenMenu] = useState<MenuKey | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
@@ -282,13 +283,34 @@ export default function MegaNav() {
   useEffect(() => {
     const supabase = createSupabaseBrowser()
     if (!supabase) return
+
+    const loadUserAndPlan = async (userId: string) => {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('plan')
+        .eq('id', userId)
+        .single()
+      setUserPlan(profile?.plan || 'free')
+    }
+
     supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user ? { email: data.user.email ?? undefined } : null)
+      if (data.user) {
+        setUser({ email: data.user.email ?? undefined, id: data.user.id })
+        loadUserAndPlan(data.user.id)
+      } else {
+        setUser(null)
+      }
     })
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ? { email: session.user.email ?? undefined } : null)
+      if (session?.user) {
+        setUser({ email: session.user.email ?? undefined, id: session.user.id })
+        loadUserAndPlan(session.user.id)
+      } else {
+        setUser(null)
+        setUserPlan('free')
+      }
     })
     return () => subscription.unsubscribe()
   }, [])
@@ -357,17 +379,54 @@ export default function MegaNav() {
               <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
             </svg>
           </a>
-          <Link href="/console" className="mega-nav-cta-demo no-underline">
-            Console
-          </Link>
-          {user ? (
-            <Link href="/account" className="mega-nav-cta-account no-underline">
-              Account
-            </Link>
+          {!user ? (
+            <>
+              <Link href="/signup" className="mega-nav-cta-signup no-underline">
+                Sign Up Free
+              </Link>
+              <Link href="/login" className="mega-nav-cta-signin no-underline">
+                Sign in
+              </Link>
+            </>
+          ) : userPlan === 'free' ? (
+            <>
+              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative' }}>
+                Console
+                <span style={{
+                  position: 'absolute', top: -4, right: -6,
+                  fontSize: 9, fontWeight: 700, lineHeight: 1,
+                  padding: '2px 4px', borderRadius: 4,
+                  background: 'rgba(126,217,87,0.15)',
+                  color: '#7ed957',
+                  border: '1px solid rgba(126,217,87,0.3)',
+                }}>
+                  Upgrade
+                </span>
+              </Link>
+              <Link href="/account" className="mega-nav-cta-account no-underline">
+                Account
+              </Link>
+            </>
           ) : (
-            <Link href="/login" className="mega-nav-cta-signin no-underline">
-              Sign in
-            </Link>
+            <>
+              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative' }}>
+                Console
+                <span style={{
+                  position: 'absolute', top: -4, right: -6,
+                  fontSize: 9, fontWeight: 700, lineHeight: 1,
+                  padding: '2px 4px', borderRadius: 4,
+                  background: userPlan === 'team' ? 'rgba(0,212,255,0.12)' : 'rgba(126,217,87,0.12)',
+                  color: userPlan === 'team' ? '#00d4ff' : '#7ed957',
+                  border: `1px solid ${userPlan === 'team' ? 'rgba(0,212,255,0.25)' : 'rgba(126,217,87,0.25)'}`,
+                  textTransform: 'uppercase',
+                }}>
+                  {userPlan}
+                </span>
+              </Link>
+              <Link href="/account" className="mega-nav-cta-account no-underline">
+                Account
+              </Link>
+            </>
           )}
         </div>
 
@@ -479,17 +538,33 @@ export default function MegaNav() {
             </div>
           ))}
           <div className="mega-mobile-ctas">
-            <Link href="/console" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
-              Open Console
-            </Link>
-            {user ? (
-              <Link href="/account" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
-                Account
-              </Link>
+            {!user ? (
+              <>
+                <Link href="/signup" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                  Sign Up Free
+                </Link>
+                <Link href="/login" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                  Sign in
+                </Link>
+              </>
+            ) : userPlan === 'free' ? (
+              <>
+                <Link href="/console?view=upgrade" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                  Start Free Trial
+                </Link>
+                <Link href="/console" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                  Console
+                </Link>
+              </>
             ) : (
-              <Link href="/login" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
-                Sign in
-              </Link>
+              <>
+                <Link href="/console" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                  Console
+                </Link>
+                <Link href="/account" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                  Account
+                </Link>
+              </>
             )}
           </div>
         </div>

@@ -26,6 +26,7 @@ import { ReportingView } from '@/components/console/ReportingView'
 import MigrateView from '@/components/console/MigrateView'
 import { CreateView } from '@/components/console/CreateView'
 import BuilderApp from '@/components/builder/BuilderApp'
+import { UpgradeModal } from '@/components/console/UpgradeModal'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
 // Learn is a front-end link to /learn
 import { AccountView } from '@/components/console/AccountView'
@@ -109,6 +110,10 @@ export default function ConsolePage() {
   // ─── Admin State ──────────────────────────────────────────
   const [isAdmin, setIsAdmin] = useState(false)
 
+  // ─── Billing State ──────────────────────────────────────────
+  const [userPlan, setUserPlan] = useState('free')
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
+
   // ─── AI Recommendation State ──────────────────────────────────
   const [recentActions, setRecentActions] = useState<string[]>([])
   const [recommendations, setRecommendations] = useState<Recommendation[]>([])
@@ -161,6 +166,12 @@ export default function ConsolePage() {
       .then(r => { if (r.ok) setIsAdmin(true) })
       .catch(() => {})
 
+    // Fetch user plan
+    fetch('/api/console/plan')
+      .then(r => r.json())
+      .then(data => { if (data.plan) setUserPlan(data.plan) })
+      .catch(() => {})
+
     // Check 0nMCP health
     fetch('/api/console/health')
       .then((r) => r.json())
@@ -180,6 +191,22 @@ export default function ConsolePage() {
 
     // Detect URL params from redirects
     const params = new URLSearchParams(window.location.search)
+
+    // Detect billing return from Stripe
+    if (params.get('billing') === 'active') {
+      fetch('/api/console/plan')
+        .then(r => r.json())
+        .then(data => { if (data.plan) setUserPlan(data.plan) })
+        .catch(() => {})
+      window.history.replaceState({}, '', '/console')
+    }
+
+    // Detect upgrade view request
+    if (params.get('view') === 'upgrade') {
+      setShowUpgradeModal(true)
+      window.history.replaceState({}, '', '/console')
+    }
+
     if (params.get('view') === 'store') {
       setView('store')
       if (params.get('purchased') === 'true') {
@@ -547,8 +574,10 @@ export default function ConsolePage() {
           view={view}
           mcpOnline={mcpOnline}
           connectedCount={vault.connectedCount}
+          userPlan={userPlan}
           onCmdK={() => setCmdPaletteOpen(true)}
           onMobileMenu={() => setMobileMenuOpen((p) => !p)}
+          onUpgradeClick={() => setShowUpgradeModal(true)}
         />
 
         {/* Content — visited views stay mounted for state persistence */}
@@ -809,6 +838,14 @@ export default function ConsolePage() {
           owned={true}
           onClose={() => setPremiumDetailListing(null)}
           onCheckout={store.checkout}
+        />
+      )}
+
+      {/* Upgrade Modal */}
+      {showUpgradeModal && (
+        <UpgradeModal
+          currentPlan={userPlan}
+          onClose={() => setShowUpgradeModal(false)}
         />
       )}
 

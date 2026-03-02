@@ -1,6 +1,6 @@
 'use client'
 
-import { Search, Menu, Server } from 'lucide-react'
+import { Search, Menu, Server, Zap } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
 const VIEW_LABELS: Record<string, string> = {
@@ -29,11 +29,13 @@ interface HeaderProps {
   view: string
   mcpOnline: boolean
   connectedCount: number
+  userPlan: string
   onCmdK: () => void
   onMobileMenu: () => void
+  onUpgradeClick: () => void
 }
 
-export function Header({ view, mcpOnline, connectedCount, onCmdK, onMobileMenu }: HeaderProps) {
+export function Header({ view, mcpOnline, connectedCount, userPlan, onCmdK, onMobileMenu, onUpgradeClick }: HeaderProps) {
   return (
     <header
       className="shrink-0 h-14 flex items-center justify-between px-4 md:px-6 lg:px-8 z-10"
@@ -136,6 +138,52 @@ export function Header({ view, mcpOnline, connectedCount, onCmdK, onMobileMenu }
             {'\u2318'}K
           </kbd>
         </button>
+
+        {/* Upgrade / Plan badge */}
+        {userPlan === 'free' || !userPlan ? (
+          <button
+            onClick={onUpgradeClick}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer border-none transition-all"
+            style={{
+              background: 'rgba(126,217,87,0.1)',
+              border: '1px solid rgba(126,217,87,0.3)',
+              color: '#7ed957',
+              animation: 'pulseGlow 2s ease-in-out infinite',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(126,217,87,0.18)'
+              e.currentTarget.style.borderColor = 'rgba(126,217,87,0.5)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(126,217,87,0.1)'
+              e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)'
+            }}
+          >
+            <Zap size={12} />
+            Upgrade
+            <style>{`
+              @keyframes pulseGlow {
+                0%, 100% { box-shadow: 0 0 0 0 rgba(126,217,87,0); }
+                50% { box-shadow: 0 0 8px 2px rgba(126,217,87,0.15); }
+              }
+            `}</style>
+          </button>
+        ) : (
+          <div
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
+            style={{
+              backgroundColor: userPlan === 'team' ? 'rgba(0,212,255,0.06)' : 'rgba(126,217,87,0.06)',
+              border: `1px solid ${userPlan === 'team' ? 'rgba(0,212,255,0.2)' : 'rgba(126,217,87,0.2)'}`,
+            }}
+          >
+            <span
+              className="text-xs font-semibold uppercase"
+              style={{ color: userPlan === 'team' ? '#00d4ff' : '#7ed957' }}
+            >
+              {userPlan}
+            </span>
+          </div>
+        )}
 
         {/* Vault counter */}
         <div

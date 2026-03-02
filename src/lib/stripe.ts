@@ -40,5 +40,22 @@ export const SPONSOR_PRICES: Record<string, { priceId: string; tier: string; amo
   },
 }
 
+/** Console membership plans */
+export const CONSOLE_PLANS: Record<string, {
+  priceId: string; name: string; tier: string; amount: number; trialDays: number;
+  features: string[]
+}> = {
+  pro: {
+    priceId: process.env.STRIPE_PRICE_CONSOLE_PRO || '',
+    name: 'Pro', tier: 'pro', amount: 19, trialDays: 7,
+    features: ['Unlimited executions', 'Visual workflow builder', 'Full marketplace access', 'Vault sync across devices', 'Priority support'],
+  },
+  team: {
+    priceId: process.env.STRIPE_PRICE_CONSOLE_TEAM || '',
+    name: 'Team', tier: 'team', amount: 49, trialDays: 7,
+    features: ['Everything in Pro', '5 team seats', 'Shared workflows & team vault', 'Full API access', 'Dedicated support + SLA'],
+  },
+}
+
 /** One-time donation amounts */
 export const DONATION_AMOUNTS = [10, 25, 50, 100]

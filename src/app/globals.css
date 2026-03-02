@@ -2952,6 +2952,22 @@ a:hover {
   box-shadow: 0 0 20px var(--accent-glow);
 }
 
+.mega-nav-cta-signup {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, var(--accent), #5cb83a);
+  color: #0a0a0f;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.mega-nav-cta-signup:hover {
+  box-shadow: 0 0 16px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
 .mega-nav-cta-signin,
 .mega-nav-cta-account {
   font-family: var(--font-mono);

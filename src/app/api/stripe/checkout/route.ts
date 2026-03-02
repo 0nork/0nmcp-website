@@ -1,19 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe, SPONSOR_PRICES } from '@/lib/stripe'
+import { stripe, SPONSOR_PRICES, CONSOLE_PLANS } from '@/lib/stripe'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const { tier, mode } = await request.json()
+    const { tier, mode, type } = await request.json()
 
-    // Determine if this is a subscription or one-time payment
+    // Get current user for metadata
+    const supabase = await createSupabaseServer()
+    const { data: { user } } = await supabase!.auth.getUser()
+
+    // ── Console plan checkout ──
+    if (type === 'console_plan') {
+      const plan = CONSOLE_PLANS[tier]
+      if (!plan || !plan.priceId) {
+        return NextResponse.json({ error: 'Invalid plan or price not configured' }, { status: 400 })
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        mode: 'subscription',
+        line_items: [{ price: plan.priceId, quantity: 1 }],
+        subscription_data: { trial_period_days: plan.trialDays },
+        success_url: `${request.nextUrl.origin}/console?billing=active`,
+        cancel_url: `${request.nextUrl.origin}/console?billing=canceled`,
+        allow_promotion_codes: true,
+        ...(user?.email ? { customer_email: user.email } : {}),
+        metadata: {
+          plan_type: 'console',
+          tier: plan.tier,
+          user_id: user?.id || '',
+          user_email: user?.email || '',
+        },
+      } as Parameters<typeof stripe.checkout.sessions.create>[0])
+
+      return NextResponse.json({ url: session.url })
+    }
+
+    // ── Sponsor / donation checkout ──
     const isOneTime = mode === 'payment'
 
     let lineItems: { price?: string; price_data?: object; quantity: number }[]
 
     if (isOneTime) {
-      // One-time donation — use price_data
-      const amount = parseInt(tier) // tier is the dollar amount for one-time
+      const amount = parseInt(tier)
       if (!amount || amount < 1) {
         return NextResponse.json({ error: 'Invalid amount' }, { status: 400 })
       }
@@ -26,17 +55,12 @@ export async function POST(request: NextRequest) {
         quantity: 1,
       }]
     } else {
-      // Subscription
       const price = SPONSOR_PRICES[tier]
       if (!price || !price.priceId) {
         return NextResponse.json({ error: 'Invalid tier or price not configured' }, { status: 400 })
       }
       lineItems = [{ price: price.priceId, quantity: 1 }]
     }
-
-    // Get current user for metadata
-    const supabase = await createSupabaseServer()
-    const { data: { user } } = await supabase!.auth.getUser()
 
     const sessionParams: Record<string, unknown> = {
       mode: isOneTime ? 'payment' : 'subscription',
@@ -50,12 +74,10 @@ export async function POST(request: NextRequest) {
       },
     }
 
-    // Attach customer email if logged in
     if (user?.email) {
       sessionParams.customer_email = user.email
     }
 
-    // For subscriptions, allow promo codes
     if (!isOneTime) {
       sessionParams.allow_promotion_codes = true
     }

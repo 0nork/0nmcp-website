@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { stripe, CONSOLE_PLANS } from '@/lib/stripe'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+
+const CONSOLE_PRICE_IDS = new Set(
+  Object.values(CONSOLE_PLANS).map(p => p.priceId).filter(Boolean)
+)
 
 let _adminClient: SupabaseClient | null = null
 function getSupabaseAdmin() {
@@ -36,9 +40,17 @@ export async function POST(request: NextRequest) {
         const tier = session.metadata?.tier || ''
         const userId = session.metadata?.user_id || ''
         const email = session.metadata?.user_email || session.customer_email || ''
+        const planType = session.metadata?.plan_type
 
-        if (session.mode === 'subscription' && tier !== 'donation') {
-          // Upsert sponsor subscription
+        if (planType === 'console' && userId) {
+          // Console membership subscription
+          const consoleTier = session.metadata?.tier || 'pro'
+          await getSupabaseAdmin().from('profiles').update({
+            plan: consoleTier,
+            stripe_customer_id: session.customer as string,
+          }).eq('id', userId)
+        } else if (session.mode === 'subscription' && tier !== 'donation') {
+          // Sponsor subscription
           await getSupabaseAdmin().from('sponsor_subscriptions').upsert({
             user_id: userId || null,
             email,
@@ -46,10 +58,9 @@ export async function POST(request: NextRequest) {
             stripe_subscription_id: session.subscription as string,
             tier,
             status: 'active',
-            current_period_end: null, // Updated by subscription.updated event
+            current_period_end: null,
           }, { onConflict: 'stripe_subscription_id' })
 
-          // Update profile sponsor_tier if user is logged in
           if (userId) {
             await getSupabaseAdmin().from('profiles').update({
               sponsor_tier: tier,
@@ -73,21 +84,37 @@ export async function POST(request: NextRequest) {
       case 'customer.subscription.deleted': {
         const sub = event.data.object as unknown as Record<string, unknown>
         const subId = sub.id as string
-        await getSupabaseAdmin().from('sponsor_subscriptions').update({
-          status: 'canceled',
-        }).eq('stripe_subscription_id', subId)
 
-        // Clear sponsor tier from profile
-        const { data: sponsorRow } = await getSupabaseAdmin()
-          .from('sponsor_subscriptions')
-          .select('user_id')
-          .eq('stripe_subscription_id', subId)
-          .single()
+        // Check if this is a console plan subscription
+        const items = sub.items as { data?: { price?: { id?: string } }[] } | undefined
+        const priceId = items?.data?.[0]?.price?.id || ''
+        const isConsolePlan = CONSOLE_PRICE_IDS.has(priceId)
 
-        if (sponsorRow?.user_id) {
-          await getSupabaseAdmin().from('profiles').update({
-            sponsor_tier: null,
-          }).eq('id', sponsorRow.user_id)
+        if (isConsolePlan) {
+          // Reset console plan to free
+          const customerId = sub.customer as string
+          if (customerId) {
+            await getSupabaseAdmin().from('profiles').update({
+              plan: 'free',
+            }).eq('stripe_customer_id', customerId)
+          }
+        } else {
+          // Sponsor subscription canceled
+          await getSupabaseAdmin().from('sponsor_subscriptions').update({
+            status: 'canceled',
+          }).eq('stripe_subscription_id', subId)
+
+          const { data: sponsorRow } = await getSupabaseAdmin()
+            .from('sponsor_subscriptions')
+            .select('user_id')
+            .eq('stripe_subscription_id', subId)
+            .single()
+
+          if (sponsorRow?.user_id) {
+            await getSupabaseAdmin().from('profiles').update({
+              sponsor_tier: null,
+            }).eq('id', sponsorRow.user_id)
+          }
         }
         break
       }

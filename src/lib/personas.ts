@@ -4,6 +4,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
+import { randomUUID } from 'crypto'
 
 let _admin: ReturnType<typeof createClient> | null = null
 function getAdmin() {
@@ -387,16 +388,24 @@ export async function createPersonaWithProfile(
 ): Promise<Persona> {
   const admin = getAdmin()
 
-  // Create a profile row via DB function (bypasses auth.users FK for personas)
+  // Create a profile row for the persona with a generated UUID.
+  // FK constraint is NOT VALID so service_role inserts bypass auth.users check.
+  const personaUUID = randomUUID()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: profileId, error: profileErr } = await (admin.rpc as any)('create_persona_profile', {
-    p_full_name: personaData.name,
-    p_email: `persona-${personaData.slug}@0nmcp.internal`,
-    p_avatar_url: personaData.avatar_url || null,
-    p_bio: personaData.bio || null,
-    p_reputation_level: personaData.knowledge_level === 'expert' ? 'contributor' : 'member',
-    p_karma: personaData.knowledge_level === 'expert' ? 50 : 10,
-  })
+  const { error: profileErr } = await (admin.from('profiles') as any)
+    .insert({
+      id: personaUUID,
+      full_name: personaData.name,
+      email: `persona-${personaData.slug}@0nmcp.internal`,
+      avatar_url: personaData.avatar_url || null,
+      bio: personaData.bio || null,
+      is_persona: true,
+      reputation_level: personaData.knowledge_level === 'expert' ? 'contributor' : 'member',
+      karma: personaData.knowledge_level === 'expert' ? 50 : 10,
+      role: 'member',
+      onboarding_completed: true,
+      onboarding_step: 0,
+    })
 
   if (profileErr) throw new Error(`Failed to create profile: ${profileErr.message}`)
 
@@ -411,7 +420,7 @@ export async function createPersonaWithProfile(
 
   if (personaErr) throw new Error(`Failed to create persona: ${personaErr.message}`)
 
-  return { ...persona, profile_id: profileId }
+  return { ...persona, profile_id: personaUUID }
 }
 
 /**

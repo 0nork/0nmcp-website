@@ -614,7 +614,12 @@ export default function ConsolePage() {
               {ideas.length > 0 && messages.length === 0 && (
                 <IdeasTicker ideas={ideas} onClick={handleIdeaClick} />
               )}
-              <Chat messages={messages} loading={chatLoading} />
+              <Chat
+                messages={messages}
+                loading={chatLoading}
+                hasAnthropicKey={connectedKeys.includes('anthropic')}
+                onNavigateVault={() => { setView('vault'); setVaultSearch('anthropic'); setVaultSubView('credentials') }}
+              />
               {/* AI Smart Prompts */}
               <SmartPrompts
                 recommendations={recommendations}

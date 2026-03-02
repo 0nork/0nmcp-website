@@ -38,10 +38,9 @@ interface HeaderProps {
 export function Header({ view, mcpOnline, connectedCount, userPlan, onCmdK, onMobileMenu, onUpgradeClick }: HeaderProps) {
   return (
     <header
-      className="shrink-0 h-14 flex items-center justify-between px-4 md:px-6 lg:px-8 z-10"
+      className="shrink-0 h-14 flex items-center justify-between px-4 md:px-6 lg:px-8 relative z-10"
       style={{
-        backgroundColor: 'rgba(10, 10, 15, 0.85)',
-        backdropFilter: 'blur(16px)',
+        backgroundColor: 'var(--bg-primary)',
         borderBottom: '1px solid var(--border)',
       }}
     >

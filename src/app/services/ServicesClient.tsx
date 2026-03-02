@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { STATS } from '@/data/stats'
 import ServiceLogo from '@/components/ServiceLogo'
+import { TerminalSignup } from '@/components/TerminalSignup'
 
 // ─── TYPES ───────────────────────────────────────────────────────
 
@@ -439,26 +440,19 @@ export function ServicesClient({
         )}
       </section>
 
-      {/* ─── BOTTOM CTA ────────────────────────────────────── */}
+      {/* ─── TERMINAL SIGNUP CTA ──────────────────────────── */}
       <section className="services-cta-section">
         <div className="services-cta-glow" />
         <h2 className="services-cta-title">
           Ready to connect <span style={{ color: 'var(--accent)' }}>everything</span>?
         </h2>
         <p className="services-cta-subtitle">
-          {STATS.tools.toLocaleString()} tools. {STATS.services} services. One command to start.
+          {STATS.tools.toLocaleString()} tools. {STATS.services} services. Create your account right here.
         </p>
-        <div className="services-cta-code">
-          <code>npx 0nmcp</code>
-        </div>
-        <div className="services-cta-buttons">
-          <Link href="/install" className="btn-accent">
-            Install 0nMCP
-          </Link>
-          <Link href="/console" className="btn-ghost">
-            Open Console
-          </Link>
-        </div>
+        <TerminalSignup />
+        <p className="services-cta-login">
+          Already have an account? <Link href="/login" style={{ color: 'var(--accent)' }}>Log in</Link>
+        </p>
       </section>
 
       {/* ─── STYLES ────────────────────────────────────────── */}
@@ -1076,12 +1070,11 @@ export function ServicesClient({
           letter-spacing: 0.02em;
         }
 
-        .services-cta-buttons {
+        .services-cta-login {
           position: relative;
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          flex-wrap: wrap;
+          margin-top: 1.5rem;
+          font-size: 0.8rem;
+          color: var(--text-muted);
         }
 
         /* ===== RESPONSIVE ===== */

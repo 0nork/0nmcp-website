@@ -387,20 +387,15 @@ export async function createPersonaWithProfile(
 ): Promise<Persona> {
   const admin = getAdmin()
 
-  // Create a profile row so the persona shows up in forum joins
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: profile, error: profileErr } = await (admin.from('profiles') as any)
-    .insert({
-      full_name: personaData.name,
-      email: `persona-${personaData.slug}@0nmcp.internal`,
-      avatar_url: personaData.avatar_url || null,
-      bio: personaData.bio || null,
-      is_persona: true,
-      reputation_level: personaData.knowledge_level === 'expert' ? 'contributor' : 'member',
-      karma: personaData.knowledge_level === 'expert' ? 50 : 10,
-    })
-    .select('id')
-    .single()
+  // Create a profile row via DB function (bypasses auth.users FK for personas)
+  const { data: profileId, error: profileErr } = await admin.rpc('create_persona_profile', {
+    p_full_name: personaData.name,
+    p_email: `persona-${personaData.slug}@0nmcp.internal`,
+    p_avatar_url: personaData.avatar_url || null,
+    p_bio: personaData.bio || null,
+    p_reputation_level: personaData.knowledge_level === 'expert' ? 'contributor' : 'member',
+    p_karma: personaData.knowledge_level === 'expert' ? 50 : 10,
+  })
 
   if (profileErr) throw new Error(`Failed to create profile: ${profileErr.message}`)
 
@@ -415,7 +410,7 @@ export async function createPersonaWithProfile(
 
   if (personaErr) throw new Error(`Failed to create persona: ${personaErr.message}`)
 
-  return { ...persona, profile_id: profile.id }
+  return { ...persona, profile_id: profileId }
 }
 
 /**

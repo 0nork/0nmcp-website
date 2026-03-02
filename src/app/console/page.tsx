@@ -564,6 +564,7 @@ export default function ConsolePage() {
               messageCount={messages.length}
               connectedServices={connectedKeys}
               recentHistory={recentHistory}
+              onNavigate={handleSetView}
             />
           </div>
 

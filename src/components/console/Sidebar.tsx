@@ -256,41 +256,26 @@ export function Sidebar({
           flexShrink: 0,
           display: 'flex',
           alignItems: 'center',
-          gap: '0.625rem',
-          height: '3.5rem',
-          padding: showIcons ? '0 0.5rem' : '0 1rem',
           justifyContent: showIcons ? 'center' : 'flex-start',
+          height: '3.5rem',
+          padding: showIcons ? '0 0.5rem' : '0 0.75rem',
           borderBottom: '1px solid var(--border)',
           transition: TRANSITION,
         }}
       >
-        <img
-          src="/brand/icon-green.png"
-          alt="0nMCP"
-          style={{
-            width: '2rem',
-            height: '2rem',
-            borderRadius: '0.5rem',
-            flexShrink: 0,
-            objectFit: 'contain',
-          }}
-        />
-        <span
-          style={{
-            fontSize: '0.875rem',
-            fontWeight: 700,
-            letterSpacing: '-0.025em',
-            color: 'var(--accent)',
-            fontFamily: 'var(--font-mono)',
-            opacity: showLabels ? 1 : 0,
-            width: showLabels ? 'auto' : 0,
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            transition: 'opacity 0.3s ease, width 0.3s ease',
-          }}
-        >
-          Console
-        </span>
+        {showIcons ? (
+          <img
+            src="/brand/icon-green.png"
+            alt="0n"
+            style={{ width: '2rem', height: '2rem', borderRadius: '0.5rem', objectFit: 'contain' }}
+          />
+        ) : (
+          <img
+            src="/brand/0n-console.png"
+            alt="0n Console"
+            style={{ height: '1.75rem', objectFit: 'contain' }}
+          />
+        )}
       </div>
 
       {/* Navigation */}

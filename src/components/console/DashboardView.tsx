@@ -1,83 +1,57 @@
 'use client'
 
-import {
-  Clock,
-  Sparkles,
-  ArrowRight,
-  Server,
-  Zap,
-  Rocket,
-  Shield,
-  Workflow,
-  MessageSquare,
-} from 'lucide-react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { StatusDot } from './StatusDot'
 
-// Brand logo map for connected services — keyed by lowercase service name
-const SERVICE_LOGO_MAP: Record<string, string> = {
-  // Payments & Commerce
-  stripe: 'https://cdn.simpleicons.org/stripe/635BFF',
-  shopify: 'https://cdn.simpleicons.org/shopify/96BF48',
-  paypal: 'https://cdn.simpleicons.org/paypal/003087',
-  // Communication
-  slack: 'https://cdn.simpleicons.org/slack/4A154B',
-  discord: 'https://cdn.simpleicons.org/discord/5865F2',
-  twilio: 'https://cdn.simpleicons.org/twilio/F22F46',
-  sendgrid: 'https://cdn.simpleicons.org/sendgrid/51A9E3',
-  mailchimp: 'https://cdn.simpleicons.org/mailchimp/FFE01B',
-  // Developer
-  github: 'https://cdn.simpleicons.org/github/ffffff',
-  linear: 'https://cdn.simpleicons.org/linear/5E6AD2',
-  jira: 'https://cdn.simpleicons.org/jira/0052CC',
-  // Database / Backend
-  supabase: 'https://cdn.simpleicons.org/supabase/3FCF8E',
-  mongodb: 'https://cdn.simpleicons.org/mongodb/47A248',
-  airtable: 'https://cdn.simpleicons.org/airtable/18BFFF',
-  notion: 'https://cdn.simpleicons.org/notion/ffffff',
-  // AI
-  openai: 'https://cdn.simpleicons.org/openai/ffffff',
-  anthropic: 'https://cdn.simpleicons.org/anthropic/d4a574',
-  // Google
-  gmail: 'https://cdn.simpleicons.org/gmail/EA4335',
-  google_sheets: 'https://cdn.simpleicons.org/googlesheets/34A853',
-  google_drive: 'https://cdn.simpleicons.org/googledrive/4285F4',
-  google_calendar: 'https://cdn.simpleicons.org/googlecalendar/4285F4',
-  // Video / Scheduling
-  zoom: 'https://cdn.simpleicons.org/zoom/2D8CFF',
-  calendly: 'https://cdn.simpleicons.org/calendly/006BFF',
-  // CRM / Support
-  hubspot: 'https://cdn.simpleicons.org/hubspot/FF7A59',
-  zendesk: 'https://cdn.simpleicons.org/zendesk/03363D',
-  // Microsoft
-  microsoft: 'https://cdn.simpleicons.org/microsoft/00A4EF',
-  // Social
-  linkedin: 'https://cdn.simpleicons.org/linkedin/0077B5',
-  twitter: 'https://cdn.simpleicons.org/x/ffffff',
-  // CRM (internal)
-  crm: 'https://cdn.simpleicons.org/salesforce/00A1E0',
-  rocket: 'https://cdn.simpleicons.org/salesforce/00A1E0',
+// ─── MODULE DEFINITIONS ─────────────────────────────────────────
+// Each module represents a console feature that can be arranged on the dashboard
+
+interface DashboardModule {
+  id: string
+  label: string
+  icon: string
+  color: string
+  description: string
+  size: 'sm' | 'md' | 'lg'  // sm=1col, md=1col tall, lg=2col
+  view?: string  // navigates to this console view on click
 }
 
-function ServiceLogo({ name }: { name: string }) {
-  const key = name.toLowerCase().replace(/\s+/g, '_')
-  const logoUrl = SERVICE_LOGO_MAP[key]
+const DEFAULT_MODULES: DashboardModule[] = [
+  { id: 'status', label: '0nMCP Status', icon: '⚡', color: '#7ed957', description: 'Server health & connectivity', size: 'lg' },
+  { id: 'chat', label: 'AI Chat', icon: '💬', color: '#d4a574', description: 'Claude-powered assistant', size: 'sm', view: 'chat' },
+  { id: 'builder', label: 'Builder', icon: '🔲', color: '#7ed957', description: 'Visual workflow builder', size: 'sm', view: 'builder' },
+  { id: 'vault', label: 'Vault', icon: '🔐', color: '#7ed957', description: 'Credential management', size: 'sm', view: 'vault' },
+  { id: 'create', label: 'Create', icon: '✨', color: '#ff6b35', description: 'AI workflow generator', size: 'sm', view: 'flows' },
+  { id: 'operations', label: 'Operations', icon: '📈', color: '#22d3ee', description: 'Active automations', size: 'md', view: 'operations' },
+  { id: 'store', label: 'Marketplace', icon: '🏪', color: '#ff6b35', description: 'Browse .0n workflows', size: 'sm', view: 'store' },
+  { id: 'social', label: 'Social Hub', icon: '🚀', color: '#1DA1F2', description: 'Multi-platform posting', size: 'sm', view: 'social' },
+  { id: 'reporting', label: 'Reporting', icon: '📊', color: '#f59e0b', description: 'Analytics & insights', size: 'sm', view: 'reporting' },
+  { id: 'terminal', label: 'Terminal', icon: '▶', color: '#00d4ff', description: 'Web terminal', size: 'sm', view: 'terminal' },
+  { id: 'code', label: '0n Code', icon: '⟨/⟩', color: '#a78bfa', description: 'Code editor', size: 'sm', view: 'code' },
+  { id: 'linkedin', label: 'LinkedIn', icon: '💼', color: '#0077b5', description: 'LinkedIn management', size: 'sm', view: 'linkedin' },
+  { id: 'migrate', label: 'Migrate', icon: '🔄', color: '#a855f7', description: 'Import from other platforms', size: 'sm', view: 'migrate' },
+  { id: 'convert', label: 'Convert', icon: '🔀', color: '#00d4ff', description: 'Config format converter', size: 'sm', view: 'convert' },
+  { id: 'activity', label: 'Recent Activity', icon: '🕐', color: '#7ed957', description: 'Session history', size: 'md' },
+  { id: 'services', label: 'Connected Services', icon: '🔗', color: '#7ed957', description: 'Active API connections', size: 'lg' },
+]
 
-  if (!logoUrl) return null
+const STORAGE_KEY = '0n-dashboard-layout'
 
-  return (
-    <img
-      src={logoUrl}
-      alt=""
-      width={14}
-      height={14}
-      style={{
-        borderRadius: 2,
-        objectFit: 'contain',
-        flexShrink: 0,
-      }}
-    />
-  )
+function loadLayout(): string[] | null {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) return JSON.parse(saved)
+  } catch { /* ignore */ }
+  return null
 }
+
+function saveLayout(ids: string[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids))
+  } catch { /* ignore */ }
+}
+
+// ─── PROPS ──────────────────────────────────────────────────────
 
 interface DashboardViewProps {
   mcpOnline: boolean
@@ -87,19 +61,18 @@ interface DashboardViewProps {
     connections?: number
     services?: string[]
     mode?: string
+    tools?: number
   } | null
   connectedCount: number
   flowCount: number
   historyCount: number
   messageCount: number
   connectedServices: string[]
-  recentHistory: {
-    id: string
-    type: string
-    detail: string
-    ts: number
-  }[]
+  recentHistory: { id: string; type: string; detail: string; ts: number }[]
+  onNavigate?: (view: string) => void
 }
+
+// ─── COMPONENT ──────────────────────────────────────────────────
 
 export function DashboardView({
   mcpOnline,
@@ -110,356 +83,327 @@ export function DashboardView({
   messageCount,
   connectedServices,
   recentHistory,
+  onNavigate,
 }: DashboardViewProps) {
-  const stats = [
-    {
-      label: 'Connected Services',
-      value: connectedCount,
-      icon: Shield,
-      accentVar: '--accent',
-    },
-    {
-      label: 'Active Workflows',
-      value: flowCount,
-      icon: Workflow,
-      accentVar: '--accent-secondary',
-    },
-    {
-      label: 'Recent Activity',
-      value: historyCount,
-      icon: Clock,
-      accentVar: '--accent',
-    },
-    {
-      label: 'Chat Messages',
-      value: messageCount,
-      icon: MessageSquare,
-      accentVar: '--accent-secondary',
-    },
-  ]
+  const [moduleOrder, setModuleOrder] = useState<string[]>(() => {
+    const saved = loadLayout()
+    return saved || DEFAULT_MODULES.map(m => m.id)
+  })
+  const [editing, setEditing] = useState(false)
+  const [dragId, setDragId] = useState<string | null>(null)
+  const [dragOverId, setDragOverId] = useState<string | null>(null)
+  const dragCounter = useRef(0)
 
-  return (
-    <div className="p-6 lg:p-8 max-w-full mx-auto w-full space-y-6" style={{ animation: 'console-fade-in 0.3s ease' }}>
-      {/* Welcome */}
-      <div>
-        <h1
-          className="text-2xl lg:text-3xl font-bold"
-          style={{ color: 'var(--text-primary)' }}
-        >
-          Command Center
-        </h1>
-        <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-          {mcpOnline
-            ? '0nMCP online \u2014 819 tools across 48 services ready.'
-            : connectedCount > 0
-              ? `${connectedCount} service${connectedCount !== 1 ? 's' : ''} connected and ready.`
-              : 'Connect your first service to get started.'}
-        </p>
-      </div>
+  // Save layout on change
+  useEffect(() => {
+    saveLayout(moduleOrder)
+  }, [moduleOrder])
 
-      {/* 0nMCP Server Status Banner */}
-      <div
-        className="glow-box rounded-2xl p-5 transition-all"
-        style={{
-          borderColor: mcpOnline ? 'rgba(126,217,87,0.2)' : 'rgba(239,68,68,0.2)',
-          backgroundColor: mcpOnline ? 'rgba(126,217,87,0.03)' : 'rgba(239,68,68,0.03)',
-        }}
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{
-                backgroundColor: mcpOnline ? 'rgba(126,217,87,0.1)' : 'rgba(239,68,68,0.1)',
-              }}
-            >
-              <Server
-                size={20}
-                style={{ color: mcpOnline ? 'var(--accent)' : '#ef4444' }}
-              />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                  0nMCP Server
-                </span>
-                <span
-                  className="text-xs px-2 py-0.5 rounded-full font-bold"
-                  style={{
-                    backgroundColor: mcpOnline ? 'rgba(126,217,87,0.15)' : 'rgba(239,68,68,0.15)',
-                    color: mcpOnline ? 'var(--accent)' : '#ef4444',
-                  }}
-                >
-                  {mcpOnline ? (mcpHealth?.mode === 'local' ? 'LOCAL' : 'CLOUD') : 'OFFLINE'}
-                </span>
+  // Build ordered modules list
+  const modules = moduleOrder
+    .map(id => DEFAULT_MODULES.find(m => m.id === id))
+    .filter((m): m is DashboardModule => !!m)
+
+  // ─── DRAG HANDLERS ──────────────────────────────────
+  const handleDragStart = useCallback((e: React.DragEvent, id: string) => {
+    if (!editing) return
+    setDragId(id)
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('text/plain', id)
+    // Make the drag image slightly transparent
+    const el = e.currentTarget as HTMLElement
+    setTimeout(() => { el.style.opacity = '0.4' }, 0)
+  }, [editing])
+
+  const handleDragEnd = useCallback((e: React.DragEvent) => {
+    const el = e.currentTarget as HTMLElement
+    el.style.opacity = '1'
+    setDragId(null)
+    setDragOverId(null)
+    dragCounter.current = 0
+  }, [])
+
+  const handleDragEnter = useCallback((e: React.DragEvent, id: string) => {
+    if (!editing || !dragId || id === dragId) return
+    e.preventDefault()
+    dragCounter.current++
+    setDragOverId(id)
+  }, [editing, dragId])
+
+  const handleDragLeave = useCallback(() => {
+    dragCounter.current--
+    if (dragCounter.current <= 0) {
+      setDragOverId(null)
+      dragCounter.current = 0
+    }
+  }, [])
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    if (!editing) return
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }, [editing])
+
+  const handleDrop = useCallback((e: React.DragEvent, targetId: string) => {
+    e.preventDefault()
+    if (!dragId || dragId === targetId) return
+
+    setModuleOrder(prev => {
+      const newOrder = [...prev]
+      const fromIdx = newOrder.indexOf(dragId)
+      const toIdx = newOrder.indexOf(targetId)
+      if (fromIdx < 0 || toIdx < 0) return prev
+      newOrder.splice(fromIdx, 1)
+      newOrder.splice(toIdx, 0, dragId)
+      return newOrder
+    })
+    setDragId(null)
+    setDragOverId(null)
+    dragCounter.current = 0
+  }, [dragId])
+
+  // ─── MODULE CONTENT RENDERERS ───────────────────────
+  const renderModuleContent = (mod: DashboardModule) => {
+    switch (mod.id) {
+      case 'status':
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <StatusDot status={mcpOnline ? 'online' : 'offline'} />
+              <div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  {mcpOnline ? (mcpHealth?.mode === 'local' ? 'Local Mode' : 'Cloud Mode') : 'Offline'}
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                  {mcpOnline ? `v${mcpHealth?.version || '2.2.0'} — ${mcpHealth?.tools || 819} tools` : 'Run: npx 0nmcp serve'}
+                </div>
               </div>
-              <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                {mcpOnline && mcpHealth
-                  ? mcpHealth.mode === 'cloud'
-                    ? `v${mcpHealth.version || '2.2.0'} — 819 tools across 48 services ready`
-                    : `v${mcpHealth.version || '2.2.0'} — ${mcpHealth.connections || 0} connections active`
-                  : mcpOnline
-                    ? 'Universal AI API Orchestrator'
-                    : 'Run: npx 0nmcp serve --port 3001'}
-              </p>
             </div>
+            {mcpOnline && (
+              <div style={{ display: 'flex', gap: '1rem', fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+                <span><strong style={{ color: '#7ed957' }}>{mcpHealth?.tools || 819}</strong> tools</span>
+                <span><strong style={{ color: '#00d4ff' }}>48</strong> services</span>
+              </div>
+            )}
           </div>
-          {mcpOnline && (
-            <div className="hidden sm:flex items-center gap-4 text-xs" style={{ color: 'var(--text-secondary)' }}>
-              <div className="flex items-center gap-1.5">
-                <Zap size={12} style={{ color: 'var(--accent)' }} />
-                <span>819 Tools</span>
+        )
+
+      case 'activity':
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', width: '100%' }}>
+            {recentHistory.slice(0, 4).map(entry => (
+              <div key={entry.id} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.7rem' }}>
+                <div style={{
+                  width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
+                  backgroundColor: entry.type === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#00d4ff' : '#7ed957',
+                }} />
+                <span style={{ color: 'var(--text-secondary)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {entry.detail}
+                </span>
+                <span style={{ color: 'var(--text-muted)', flexShrink: 0 }}>
+                  {new Date(entry.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <Server size={12} style={{ color: 'var(--accent-secondary)' }} />
-                <span>48 Services</span>
+            ))}
+            {recentHistory.length === 0 && (
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textAlign: 'center', padding: '0.5rem 0' }}>
+                No activity yet
               </div>
-            </div>
-          )}
+            )}
+          </div>
+        )
+
+      case 'services':
+        return (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem', width: '100%' }}>
+            {connectedServices.length > 0 ? connectedServices.map(name => (
+              <span key={name} style={{
+                fontSize: '0.65rem', fontWeight: 600, padding: '0.2rem 0.5rem',
+                borderRadius: '0.375rem', background: 'rgba(255,255,255,0.04)',
+                border: '1px solid var(--border)', color: 'var(--text-secondary)',
+              }}>
+                {name}
+              </span>
+            )) : (
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>No services connected</span>
+            )}
+          </div>
+        )
+
+      default: {
+        // Simple stat display for feature modules
+        const stat = mod.id === 'chat' ? messageCount
+          : mod.id === 'vault' ? connectedCount
+          : mod.id === 'operations' ? flowCount
+          : mod.id === 'reporting' ? historyCount
+          : null
+
+        return stat !== null ? (
+          <div style={{ fontSize: '1.5rem', fontWeight: 700, color: mod.color, fontFamily: 'var(--font-mono)' }}>
+            {stat}
+          </div>
+        ) : null
+      }
+    }
+  }
+
+  // ─── RENDER ─────────────────────────────────────────
+  return (
+    <div style={{ padding: '1.25rem', maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+      {/* Dashboard Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+        <div>
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, fontFamily: 'var(--font-display)' }}>
+            Command Center
+          </h1>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.25rem 0 0 0' }}>
+            Drag modules to customize your workspace
+          </p>
         </div>
+        <button
+          onClick={() => setEditing(e => !e)}
+          style={{
+            padding: '0.375rem 0.875rem', borderRadius: '0.5rem', border: 'none',
+            background: editing ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
+            color: editing ? '#7ed957' : 'var(--text-secondary)',
+            fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            borderWidth: 1, borderStyle: 'solid',
+            borderColor: editing ? 'rgba(126,217,87,0.3)' : 'var(--border)',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          {editing ? '✓ Done' : '⚙ Edit Layout'}
+        </button>
       </div>
 
-      {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {stats.map((s, i) => {
-          const Icon = s.icon
+      {/* Module Grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '0.75rem',
+      }}>
+        {modules.map((mod) => {
+          const isDropTarget = dragOverId === mod.id && dragId !== mod.id
+          const isDragging = dragId === mod.id
+          const colSpan = mod.size === 'lg' ? 2 : 1
+          const rowSpan = mod.size === 'md' ? 2 : 1
+
           return (
             <div
-              key={s.label}
-              className="glow-box rounded-2xl p-4 text-left transition-all duration-300 group cursor-default"
+              key={mod.id}
+              draggable={editing}
+              onDragStart={(e) => handleDragStart(e, mod.id)}
+              onDragEnd={handleDragEnd}
+              onDragEnter={(e) => handleDragEnter(e, mod.id)}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, mod.id)}
+              onClick={() => {
+                if (!editing && mod.view && onNavigate) onNavigate(mod.view)
+              }}
               style={{
-                animation: 'console-stagger-in 0.4s ease both',
-                animationDelay: `${i * 60}ms`,
+                gridColumn: `span ${colSpan}`,
+                gridRow: `span ${rowSpan}`,
+                background: 'var(--bg-card)',
+                borderRadius: '0.875rem',
+                padding: '1rem',
+                border: isDropTarget
+                  ? '2px dashed #7ed957'
+                  : editing
+                    ? '1px dashed rgba(126,217,87,0.2)'
+                    : '1px solid var(--border)',
+                cursor: editing ? 'grab' : mod.view ? 'pointer' : 'default',
+                opacity: isDragging ? 0.4 : 1,
+                transform: isDropTarget ? 'scale(1.02)' : 'scale(1)',
+                transition: 'transform 0.15s ease, border-color 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.625rem',
+                minHeight: mod.size === 'md' ? '180px' : '100px',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+              onMouseEnter={(e) => {
+                if (!editing && mod.view) {
+                  e.currentTarget.style.borderColor = `${mod.color}40`
+                  e.currentTarget.style.boxShadow = `0 0 20px ${mod.color}08`
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!editing) {
+                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }
               }}
             >
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center mb-3"
-                style={{ backgroundColor: `var(${s.accentVar}, #7ed957)14` }}
-              >
-                <Icon size={18} style={{ color: `var(${s.accentVar})` }} />
+              {/* Module Header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{
+                    width: '1.75rem', height: '1.75rem', borderRadius: '0.5rem',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: `${mod.color}12`, fontSize: '0.875rem',
+                    border: `1px solid ${mod.color}20`,
+                  }}>
+                    {mod.icon}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>
+                      {mod.label}
+                    </div>
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', lineHeight: 1.3 }}>
+                      {mod.description}
+                    </div>
+                  </div>
+                </div>
+                {editing && (
+                  <div style={{
+                    fontSize: '0.65rem', color: 'var(--text-muted)', opacity: 0.5,
+                    cursor: 'grab', userSelect: 'none',
+                  }}>
+                    ⠿
+                  </div>
+                )}
               </div>
-              <div className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                {s.value}
+
+              {/* Module Content */}
+              <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+                {renderModuleContent(mod)}
               </div>
-              <div className="text-xs mt-0.5 flex items-center gap-1" style={{ color: 'var(--text-secondary)' }}>
-                {s.label}
-                <ArrowRight
-                  size={12}
-                  className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
-                />
-              </div>
+
+              {/* Navigate indicator for clickable modules */}
+              {!editing && mod.view && (
+                <div style={{
+                  position: 'absolute', bottom: '0.5rem', right: '0.75rem',
+                  fontSize: '0.65rem', color: 'var(--text-muted)', opacity: 0.4,
+                }}>
+                  →
+                </div>
+              )}
             </div>
           )
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Ideas */}
-        <div
-          className="glow-box rounded-2xl p-5"
-          style={{
-            animation: 'console-stagger-in 0.4s ease both',
-            animationDelay: '280ms',
-          }}
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles size={16} style={{ color: 'var(--accent)' }} />
-            <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-              Ideas
-            </h2>
-            <span className="text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
-              Based on your stack
-            </span>
-          </div>
-          <div className="space-y-2">
-            {connectedServices.length > 0 ? (
-              [
-                'Sync new contacts to your CRM automatically',
-                'Send Slack alerts on payment failures',
-                'Auto-respond to form submissions',
-                'Generate weekly analytics reports',
-                'Backup data across services nightly',
-              ]
-                .slice(0, 5)
-                .map((idea, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-2.5 py-2 px-3 rounded-xl transition-colors cursor-default"
-                    style={{ backgroundColor: 'transparent' }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)')
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.backgroundColor = 'transparent')
-                    }
-                  >
-                    <div
-                      className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
-                      style={{ backgroundColor: 'var(--accent)' }}
-                    />
-                    <span className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                      {idea}
-                    </span>
-                  </div>
-                ))
-            ) : (
-              <p className="text-sm py-3 text-center" style={{ color: 'var(--text-muted)' }}>
-                Connect services to unlock ideas
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Recent Activity */}
-        <div
-          className="glow-box rounded-2xl p-5"
-          style={{
-            animation: 'console-stagger-in 0.4s ease both',
-            animationDelay: '340ms',
-          }}
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <Clock size={16} style={{ color: 'var(--accent-secondary)' }} />
-            <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-              Recent Activity
-            </h2>
-            {recentHistory.length > 0 && (
-              <span
-                className="text-xs ml-auto transition-colors cursor-pointer"
-                style={{ color: 'var(--accent-secondary)' }}
-              >
-                View all
-              </span>
-            )}
-          </div>
-          <div className="space-y-1">
-            {recentHistory.slice(0, 5).map((entry) => (
-              <div
-                key={entry.id}
-                className="flex items-center gap-3 py-2 px-3 rounded-xl transition-colors"
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)')
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = 'transparent')
-                }
-              >
-                <div
-                  className="w-2 h-2 rounded-full shrink-0"
-                  style={{
-                    backgroundColor:
-                      entry.type === 'connect'
-                        ? 'var(--accent)'
-                        : entry.type === 'workflow'
-                          ? 'var(--accent-secondary)'
-                          : entry.type === 'error'
-                            ? '#ef4444'
-                            : 'var(--accent)',
-                  }}
-                />
-                <span
-                  className="text-sm truncate flex-1"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  {entry.detail}
-                </span>
-                <span className="text-xs shrink-0" style={{ color: 'var(--text-muted)' }}>
-                  {new Date(entry.ts).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </span>
-              </div>
-            ))}
-            {recentHistory.length === 0 && (
-              <p className="text-sm py-3 text-center" style={{ color: 'var(--text-muted)' }}>
-                No activity yet
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Connected Services chips */}
-      {connectedServices.length > 0 && (
-        <div
-          className="glow-box rounded-2xl p-5"
-          style={{
-            animation: 'console-stagger-in 0.4s ease both',
-            animationDelay: '400ms',
-          }}
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <Shield size={16} style={{ color: 'var(--accent)' }} />
-            <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-              Connected Services
-            </h2>
-            <span className="text-xs ml-auto" style={{ color: 'var(--text-muted)' }}>
-              {connectedServices.length} active
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {connectedServices.map((name) => (
-              <div
-                key={name}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
-                style={{
-                  backgroundColor: 'rgba(255,255,255,0.04)',
-                  border: '1px solid var(--border)',
-                }}
-              >
-                <ServiceLogo name={name} />
-                <span className="text-xs font-medium" style={{ color: 'var(--text-primary)' }}>
-                  {name}
-                </span>
-                <StatusDot status="online" size="sm" />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Get Started CTA */}
-      {connectedCount === 0 && (
-        <div
-          className="glow-box rounded-2xl p-8 text-center"
-          style={{
-            animation: 'console-stagger-in 0.4s ease both',
-            animationDelay: '460ms',
-          }}
-        >
-          <div
-            className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
-            style={{ backgroundColor: 'var(--accent-glow)' }}
-          >
-            <Rocket size={28} style={{ color: 'var(--accent)' }} />
-          </div>
-          <h3
-            className="text-lg font-semibold mb-2"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Get Started with 0nMCP
-          </h3>
-          <p className="text-sm mb-4 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            Connect your first service to unlock AI-powered automations across 48 platforms.
-          </p>
-          <span
-            className="inline-flex items-center gap-2 text-sm font-medium"
-            style={{ color: 'var(--accent)' }}
-          >
-            Open Vault to connect <ArrowRight size={14} />
-          </span>
-        </div>
-      )}
-
+      {/* Responsive breakpoint styles */}
       <style>{`
-        @keyframes console-fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @media (max-width: 1024px) {
+          div[style*="grid-template-columns: repeat(4"] {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
         }
-        @keyframes console-stagger-in {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) {
+          div[style*="grid-template-columns: repeat(4"] {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (max-width: 480px) {
+          div[style*="grid-template-columns: repeat(4"] {
+            grid-template-columns: 1fr !important;
+          }
+          div[style*="grid-column: span 2"] {
+            grid-column: span 1 !important;
+          }
         }
       `}</style>
     </div>

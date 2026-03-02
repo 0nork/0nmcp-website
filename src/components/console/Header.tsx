@@ -18,6 +18,11 @@ const VIEW_LABELS: Record<string, string> = {
   linkedin: 'LinkedIn',
   request: 'Request Integration',
   history: 'History',
+  terminal: 'Terminal',
+  code: '0n Code',
+  convert: 'Convert',
+  account: 'Account',
+  admin: 'Admin',
 }
 
 interface HeaderProps {
@@ -38,7 +43,7 @@ export function Header({ view, mcpOnline, connectedCount, onCmdK, onMobileMenu }
         borderBottom: '1px solid var(--border)',
       }}
     >
-      {/* Left: mobile menu + title */}
+      {/* Left: mobile menu + logo + breadcrumb */}
       <div className="flex items-center gap-3">
         <button
           onClick={onMobileMenu}
@@ -49,26 +54,28 @@ export function Header({ view, mcpOnline, connectedCount, onCmdK, onMobileMenu }
         >
           <Menu size={20} />
         </button>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
+          {/* Console logo — full on desktop, icon only on mobile */}
+          <img
+            src="/brand/0n-console.png"
+            alt="0n Console"
+            className="hidden sm:block"
+            style={{ height: 28, objectFit: 'contain' }}
+          />
           <img
             src="/brand/icon-green.png"
-            alt="0nMCP"
+            alt="0n"
+            className="sm:hidden"
             style={{ width: 24, height: 24, objectFit: 'contain' }}
-            className="md:hidden"
           />
-          <h1
-            className="text-lg font-semibold tracking-tight"
-            style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}
-          >
-            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>0n</span>{' '}
-            Console
+          {view !== 'dashboard' && (
             <span
-              className="text-sm font-normal ml-2 hidden sm:inline"
+              className="text-sm font-medium hidden sm:inline"
               style={{ color: 'var(--text-muted)' }}
             >
               / {VIEW_LABELS[view] || view}
             </span>
-          </h1>
+          )}
         </div>
       </div>
 

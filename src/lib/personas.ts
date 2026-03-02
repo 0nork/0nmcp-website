@@ -625,6 +625,8 @@ export async function createPersonaWithProfile(
     .insert({
       id: personaUUID,
       full_name: personaData.name,
+      display_name: personaData.name,
+      username: personaData.slug,
       email: `persona-${personaData.slug}@0nmcp.internal`,
       avatar_url: personaData.avatar_url || null,
       bio: personaData.bio || null,

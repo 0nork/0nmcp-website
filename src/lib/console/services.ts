@@ -232,6 +232,14 @@ export const SVC: Record<string, ServiceConfig> = {
       { k: "auth_token", lb: "Auth Token", ph: "xxxxxxxx", s: true, h: "Account auth token", lk: "https://console.twilio.com/", ll: "Console > Account > Auth Token" },
     ],
   },
+  smartlead: {
+    l: "Smartlead", logo: "smartlead", c: "#3b82f6",
+    d: "Cold email outreach — campaigns, leads, sequences, email accounts, and analytics.",
+    cap: ["Campaigns", "Lead Lists", "Email Sequences", "Email Accounts", "Analytics", "A/B Testing", "Warmup", "Scheduling"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "sl_...", s: true, h: "Smartlead API key", lk: "https://app.smartlead.ai/app/settings/api", ll: "Settings > API > Generate Key" },
+    ],
+  },
   mcpfed: {
     l: "MCPFED", logo: "mcpfed", c: "#7c3aed",
     d: "MCP Federation - discover, publish, and manage AI tool servers. The App Store for MCP.",

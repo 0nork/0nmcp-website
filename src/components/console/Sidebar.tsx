@@ -129,6 +129,14 @@ const NAV_ITEMS: { key: string; label: string; logo: string; href?: string }[] =
     ),
   },
   {
+    key: 'smartlead',
+    label: 'Smartlead',
+    logo: svg(
+      '<path d="M4 4h16v2H4z"/><path d="M4 9h12v2H4z"/><path d="M4 14h14v2H4z"/><path d="M4 19h8v2H4z"/><circle cx="20" cy="15" r="3"/>',
+      '#3b82f6'
+    ),
+  },
+  {
     key: 'linkedin',
     label: 'LinkedIn',
     logo: 'https://cdn.simpleicons.org/linkedin/0077b5',

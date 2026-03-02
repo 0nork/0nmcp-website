@@ -19,6 +19,7 @@ import { StoreView } from '@/components/console/StoreView'
 import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionModal'
 import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { LinkedInView } from '@/components/console/LinkedInView'
+import { SmartleadView } from '@/components/console/SmartleadView'
 // Request + History are now tabs inside AccountView
 import { OperationsView } from '@/components/console/OperationsView'
 import { SocialView } from '@/components/console/SocialView'
@@ -50,12 +51,13 @@ const CodeTerminal = dynamic(
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
 import { useStore } from '@/lib/console/useStore'
 import { useLinkedIn } from '@/lib/console/useLinkedIn'
+import { useSmartlead } from '@/lib/console/useSmartlead'
 import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'account' | 'convert' | 'admin'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'smartlead' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'account' | 'convert' | 'admin'
 
 interface McpHealth {
   version?: string
@@ -101,6 +103,7 @@ export default function ConsolePage() {
   const historyHook = useHistory()
   const store = useStore()
   const linkedin = useLinkedIn()
+  const smartlead = useSmartlead()
   const operations = useOperations()
 
   // ─── Store Modal State ──────────────────────────────────────
@@ -363,6 +366,9 @@ export default function ConsolePage() {
           break
         case '/store':
           setView('store')
+          break
+        case '/smartlead':
+          setView('smartlead')
           break
         case '/linkedin':
           setView('linkedin')
@@ -736,6 +742,16 @@ export default function ConsolePage() {
           {visitedViews.has('builder') && (
             <div style={{ display: view === 'builder' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
               <BuilderApp />
+            </div>
+          )}
+
+          {/* Smartlead */}
+          {visitedViews.has('smartlead') && (
+            <div style={{ display: view === 'smartlead' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <SmartleadView
+                smartlead={smartlead}
+                onNavigateVault={() => { setView('vault'); setVaultSearch('smartlead') }}
+              />
             </div>
           )}
 

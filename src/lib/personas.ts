@@ -388,7 +388,8 @@ export async function createPersonaWithProfile(
   const admin = getAdmin()
 
   // Create a profile row via DB function (bypasses auth.users FK for personas)
-  const { data: profileId, error: profileErr } = await admin.rpc('create_persona_profile', {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profileId, error: profileErr } = await (admin.rpc as any)('create_persona_profile', {
     p_full_name: personaData.name,
     p_email: `persona-${personaData.slug}@0nmcp.internal`,
     p_avatar_url: personaData.avatar_url || null,

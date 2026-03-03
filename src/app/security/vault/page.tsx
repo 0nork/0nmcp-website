@@ -64,9 +64,11 @@ export default function VaultPage() {
           <span style={{ color: 'var(--accent)' }}>Vault</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           {vault.title}
         </h1>
+        </div>
         <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent)' }}>{vault.tagline}</p>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           {vault.description}

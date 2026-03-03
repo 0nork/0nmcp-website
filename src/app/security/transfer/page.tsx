@@ -53,9 +53,11 @@ export default function TransferPage() {
           <span style={{ color: 'var(--accent)' }}>Transfer</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           {transfer.title}
         </h1>
+        </div>
         <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent)' }}>{transfer.tagline}</p>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           {transfer.description}

@@ -157,19 +157,19 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
         </nav>
 
         {/* Group Header */}
-        <div className="rounded-xl p-6 mb-6" style={{ background: group.color + '08', border: `1px solid ${group.color}20` }}>
+        <div className="rounded-xl p-6 mb-6" style={{ background: group.color, border: `1px solid ${group.color}` }}>
           <div className="flex items-center gap-4">
             <span className="text-4xl">{group.icon || '&#128172;'}</span>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold" style={{ color: group.color }}>{group.name}</h1>
+              <h1 className="text-2xl font-bold" style={{ color: '#ffffff' }}>{group.name}</h1>
               {group.description && (
-                <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{group.description}</p>
+                <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.85)' }}>{group.description}</p>
               )}
             </div>
-            <div className="text-right text-xs" style={{ color: 'var(--text-muted)' }}>
-              <div className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>{total}</div>
+            <div className="text-right text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              <div className="font-bold text-lg" style={{ color: '#ffffff' }}>{total}</div>
               <div>threads</div>
-              <div className="font-bold mt-1" style={{ color: 'var(--text-primary)' }}>{group.member_count || 0}</div>
+              <div className="font-bold mt-1" style={{ color: '#ffffff' }}>{group.member_count || 0}</div>
               <div>members</div>
             </div>
           </div>
@@ -200,7 +200,7 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
                   key={t.id}
                   href={`/forum/${t.slug}`}
                   className="rounded-xl p-4 no-underline transition-all flex items-start gap-3"
-                  style={{ background: '#0a0a0f', border: '1px solid var(--border)' }}
+                  style={{ background: '#000000', border: '1px solid var(--border)' }}
                 >
                   {/* Score */}
                   <div className="flex flex-col items-center flex-shrink-0" style={{ minWidth: '36px' }}>

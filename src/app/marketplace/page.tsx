@@ -117,6 +117,7 @@ export default async function MarketplacePage() {
           >
             MARKETPLACE
           </div>
+          <div className="heading-glow">
           <h1
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
             style={{
@@ -129,6 +130,7 @@ export default async function MarketplacePage() {
           >
             .0n Workflow Store
           </h1>
+          </div>
           <p
             className="text-base md:text-lg max-w-2xl mx-auto mb-6"
             style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}

@@ -21,10 +21,12 @@ export default function InstallPage({
           CRM Marketplace App
         </div>
 
+        <div className="heading-glow">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
           {STATS.tools}+ Tools.{' '}
           <span className="text-[#ff6b35]">One Action.</span>
         </h1>
+        </div>
 
         <p className="text-lg text-white/60 max-w-2xl mx-auto mb-8">
           Add 0nMCP to your CRM workflows and instantly access Stripe, SendGrid, Slack,

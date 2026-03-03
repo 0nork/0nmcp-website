@@ -53,9 +53,11 @@ export default function LayersPage() {
           <span style={{ color: 'var(--accent)' }}>Layers</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           {layers.title}
         </h1>
+        </div>
         <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent)' }}>{layers.tagline}</p>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           {layers.description}

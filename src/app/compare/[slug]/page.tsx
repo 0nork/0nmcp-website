@@ -88,9 +88,11 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
           <span style={{ color: 'var(--accent)' }}>vs {comp.competitor}</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-2" style={{ color: 'var(--text-primary)' }}>
           0nMCP vs {comp.competitor}
         </h1>
+        </div>
         <p className="text-sm mb-1 font-semibold" style={{ color: 'var(--accent)' }}>{comp.tagline}</p>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>{comp.description}</p>
 

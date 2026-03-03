@@ -36,9 +36,11 @@ export default function ComparePage() {
           <span style={{ color: 'var(--accent)' }}>Compare</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           0nMCP vs Alternatives
         </h1>
+        </div>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           How does AI-native orchestration stack up against traditional automation platforms?
           Detailed feature-by-feature comparisons to help you choose the right tool.

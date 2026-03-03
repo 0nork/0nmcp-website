@@ -67,9 +67,11 @@ export default function GlossaryPage() {
           <span style={{ color: 'var(--accent)' }}>Glossary</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           AI Orchestration Glossary
         </h1>
+        </div>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           {terms.length} terms covering AI orchestration, MCP, workflow automation, API integration, and more.
           The definitive reference for anyone building with AI-native tools.

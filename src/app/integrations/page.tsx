@@ -50,9 +50,11 @@ export default function IntegrationsPage() {
           <span style={{ color: 'var(--accent)' }}>Integrations</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           Integrations
         </h1>
+        </div>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           {services.length} services. {capabilities.length}+ pre-built automations. Connect anything to anything with AI-native orchestration.
         </p>

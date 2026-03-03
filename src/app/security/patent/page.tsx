@@ -39,9 +39,11 @@ export default function PatentPage() {
           <span style={{ color: 'var(--accent)' }}>Patent</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           {patent.title}
         </h1>
+        </div>
         <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent)' }}>{patent.tagline}</p>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           {patent.description}

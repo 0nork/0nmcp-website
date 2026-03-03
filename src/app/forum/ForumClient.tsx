@@ -175,17 +175,17 @@ export default function ForumClient({
           {activeGroup && (
             <div
               className="rounded-xl p-5 mb-4 flex items-center gap-4"
-              style={{ background: activeGroup.color + '08', border: `1px solid ${activeGroup.color}20` }}
+              style={{ background: activeGroup.color, border: `1px solid ${activeGroup.color}` }}
             >
               <span className="text-3xl">{activeGroup.icon || '&#128172;'}</span>
               <div>
-                <h1 className="text-xl font-bold" style={{ color: activeGroup.color }}>{activeGroup.name}</h1>
+                <h1 className="text-xl font-bold" style={{ color: '#ffffff' }}>{activeGroup.name}</h1>
                 {activeGroup.description && (
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{activeGroup.description}</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }}>{activeGroup.description}</p>
                 )}
               </div>
-              <div className="ml-auto text-right text-xs" style={{ color: 'var(--text-muted)' }}>
-                <div className="font-bold" style={{ color: 'var(--text-primary)' }}>{activeGroup.member_count}</div>
+              <div className="ml-auto text-right text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                <div className="font-bold" style={{ color: '#ffffff' }}>{activeGroup.member_count}</div>
                 <div>members</div>
               </div>
             </div>
@@ -253,7 +253,7 @@ export default function ForumClient({
                   <div
                     key={thread.id}
                     className="rounded-xl flex transition-all"
-                    style={{ background: '#0a0a0f', border: '1px solid var(--border)' }}
+                    style={{ background: '#000000', border: '1px solid var(--border)' }}
                   >
                     {/* Vote Column */}
                     <div className="flex flex-col items-center py-2 px-2 gap-0.5 flex-shrink-0" style={{ minWidth: '44px' }}>
@@ -299,7 +299,7 @@ export default function ForumClient({
                         {groupData && (
                           <span
                             className="text-[9px] font-bold px-1.5 py-0.5 rounded"
-                            style={{ background: groupData.color + '15', color: groupData.color }}
+                            style={{ background: groupData.color, color: '#ffffff' }}
                           >
                             {groupData.icon} {groupData.name}
                           </span>

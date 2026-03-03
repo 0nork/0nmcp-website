@@ -46,22 +46,24 @@ export default function TurnItOnPage() {
             </span>
           </div>
 
-          <h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
-            style={{ letterSpacing: '-0.03em' }}
-          >
-            <span style={{ color: 'var(--accent)' }}>{totalServices} Services</span>.{' '}
-            <span style={{ color: 'var(--accent)' }}>
-              {totalCapabilities.toLocaleString()}+ Capabilities
-            </span>
-            .
-            <br />
-            Turn it{' '}
-            <span className="glow-text" style={{ color: 'var(--accent)' }}>
-              0n
-            </span>
-            .
-          </h1>
+          <div className="heading-glow">
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              style={{ letterSpacing: '-0.03em' }}
+            >
+              <span style={{ color: 'var(--accent)' }}>{totalServices} Services</span>.{' '}
+              <span style={{ color: 'var(--accent)' }}>
+                {totalCapabilities.toLocaleString()}+ Capabilities
+              </span>
+              .
+              <br />
+              Turn it{' '}
+              <span className="glow-text" style={{ color: 'var(--accent)' }}>
+                0n
+              </span>
+              .
+            </h1>
+          </div>
 
           <p
             className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"

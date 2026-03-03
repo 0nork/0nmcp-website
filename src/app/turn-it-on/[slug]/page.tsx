@@ -185,14 +185,16 @@ function ServicePage({ slug }: { slug: string }) {
             <ServiceLogo src={(service as Record<string, unknown>).logo as string | undefined} alt={service.name} size={64} icon={service.icon} />
           </span>
 
-          <h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
-            style={{ letterSpacing: '-0.03em' }}
-          >
-            Turn{' '}
-            <span style={{ color: 'var(--accent)' }}>{service.name}</span>{' '}
-            0n
-          </h1>
+          <div className="heading-glow">
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              style={{ letterSpacing: '-0.03em' }}
+            >
+              Turn{' '}
+              <span style={{ color: 'var(--accent)' }}>{service.name}</span>{' '}
+              0n
+            </h1>
+          </div>
 
           <p
             className="text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed"

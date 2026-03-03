@@ -252,6 +252,32 @@ a:hover {
   text-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(126, 217, 87, 0.1);
 }
 
+/* ============================================
+   Trademark Green Gradient — H1 Heading Glow
+   Inspired by the 404 page radial gradient.
+   Use .heading-glow as parent with position:relative.
+   ============================================ */
+.heading-glow {
+  position: relative;
+}
+.heading-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(126, 217, 87, 0.18) 0%, rgba(126, 217, 87, 0.06) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(30px);
+}
+.heading-glow > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Fade in animation */
 @keyframes fadeInUp {
   from {

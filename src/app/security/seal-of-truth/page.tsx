@@ -52,9 +52,11 @@ export default function SealOfTruthPage() {
           <span style={{ color: 'var(--accent)' }}>Seal of Truth</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
           {seal_of_truth.title}
         </h1>
+        </div>
         <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent)' }}>{seal_of_truth.tagline}</p>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           {seal_of_truth.description}

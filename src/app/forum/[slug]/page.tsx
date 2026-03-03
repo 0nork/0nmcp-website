@@ -290,7 +290,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
         {/* Thread — server-rendered for SEO, black background */}
         <article
           className="rounded-xl mb-0"
-          style={{ background: '#0a0a0f', border: '1px solid var(--border)' }}
+          style={{ background: '#000000', border: '1px solid var(--border)' }}
         >
           {/* Content */}
           <div className="py-5 px-5 flex-1 min-w-0">
@@ -303,8 +303,8 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
                     fontWeight: 700,
                     padding: '2px 8px',
                     borderRadius: '4px',
-                    background: groupData.color + '15',
-                    color: groupData.color,
+                    background: groupData.color,
+                    color: '#ffffff',
                   }}
                 >
                   {groupData.name}

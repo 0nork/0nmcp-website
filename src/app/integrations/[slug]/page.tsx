@@ -133,9 +133,11 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
           <span style={{ color: 'var(--accent)' }}>{service.name}</span>
         </nav>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-2" style={{ color: 'var(--text-primary)' }}>
           {service.name} Integration
         </h1>
+        </div>
         <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
           Connect {service.name} to {connected.length > 0 ? `${connected.length} services` : 'your entire stack'} with AI-powered orchestration.
           {totalCaps > 0 ? ` ${totalCaps} pre-built automations ready to go.` : ' Full API access through 0nMCP tools.'}

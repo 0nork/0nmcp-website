@@ -130,9 +130,11 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
           {categoryLabels[term.category] || term.category}
         </span>
 
+        <div className="heading-glow">
         <h1 className="text-3xl md:text-4xl font-black mb-2" style={{ color: 'var(--text-primary)' }}>
           What is {term.term}?
         </h1>
+        </div>
 
         <article className="mt-6">
           <div

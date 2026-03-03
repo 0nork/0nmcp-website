@@ -14,7 +14,7 @@ interface Group {
 
 export default function NewThreadPage() {
   return (
-    <Suspense fallback={<div className="pt-28 pb-24 px-4 text-center" style={{ color: 'var(--text-muted)' }}>Loading...</div>}>
+    <Suspense fallback={<div className="py-6 px-4 text-center" style={{ color: 'var(--text-muted)' }}>Loading...</div>}>
       <NewThreadForm />
     </Suspense>
   )
@@ -64,7 +64,7 @@ function NewThreadForm() {
   }
 
   return (
-    <div className="pt-28 pb-24 px-4 md:px-8 max-w-2xl mx-auto">
+    <div className="py-6 px-4 md:px-6 lg:px-8 max-w-2xl mx-auto">
       <div className="text-xs mb-6" style={{ color: 'var(--text-muted)' }}>
         <Link href="/forum" className="hover:underline">Forum</Link>
         <span className="mx-2">/</span>

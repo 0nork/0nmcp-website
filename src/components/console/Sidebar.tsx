@@ -435,7 +435,7 @@ function NavButton({
 
   const handleClick = () => {
     if (href) {
-      window.open(href, '_blank', 'noopener')
+      window.location.href = href
     } else {
       onClick()
     }

@@ -86,6 +86,45 @@ export async function GET(request: NextRequest) {
 }
 
 /**
+ * POST /api/admin/users — Create a new user
+ * Body: { email, full_name?, password? }
+ */
+export async function POST(request: NextRequest) {
+  const currentUser = await requireAdmin()
+  if (!currentUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const admin = getServiceClient()
+  if (!admin) return NextResponse.json({ error: 'Service client not available' }, { status: 500 })
+
+  const { email, full_name, password } = await request.json()
+
+  if (!email) return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+
+  // Generate random password if not provided
+  const userPassword = password || Math.random().toString(36).slice(-12) + 'A1!'
+
+  // Create user via Supabase Admin API
+  const { data: newUser, error } = await admin.auth.admin.createUser({
+    email,
+    password: userPassword,
+    email_confirm: true,
+    user_metadata: { full_name: full_name || '' },
+  })
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  // Update profile if full_name provided
+  if (full_name && newUser.user) {
+    await admin.from('profiles').update({ full_name }).eq('id', newUser.user.id)
+  }
+
+  return NextResponse.json({
+    user: { id: newUser.user.id, email: newUser.user.email, full_name },
+    generated_password: !password ? userPassword : undefined,
+  })
+}
+
+/**
  * PATCH /api/admin/users — Update user profile
  * Body: { userId, is_admin?, role? }
  */

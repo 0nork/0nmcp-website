@@ -79,6 +79,13 @@ const sections = [
     color: '#00d4ff',
   },
   {
+    title: 'Email Settings',
+    description: 'Notification rules, templates, CRM sync.',
+    href: '/admin/email',
+    icon: '📧',
+    color: '#ff6b35',
+  },
+  {
     title: 'CRM Portal',
     description: 'Contacts, pipeline, engagement.',
     href: 'https://0n.app.clientclub.net/',

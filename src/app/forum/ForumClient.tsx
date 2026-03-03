@@ -167,88 +167,10 @@ export default function ForumClient({
   const activeGroup = groups.find(g => g.slug === group)
 
   return (
-    <div className="pt-28 pb-24 px-4 md:px-8">
-      <div className="max-w-[1200px] mx-auto flex gap-6">
-
-        {/* ==================== SIDEBAR ==================== */}
-        <aside className="hidden lg:block w-[260px] flex-shrink-0">
-          <div className="sticky top-28 flex flex-col gap-4">
-            {/* New Thread Button */}
-            <button
-              onClick={() => router.push(`/forum/new${group !== 'all' ? `?group=${group}` : ''}`)}
-              className="w-full py-2.5 rounded-xl font-bold text-sm transition-all"
-              style={{ background: 'var(--accent)', color: 'var(--bg-primary)' }}
-            >
-              + New Thread
-            </button>
-
-            {/* Groups */}
-            <div className="rounded-xl p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <h3 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-                Groups
-              </h3>
-              <div className="flex flex-col gap-0.5">
-                <button
-                  onClick={() => setParam('group', 'all')}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-left text-sm transition-all"
-                  style={{
-                    background: group === 'all' ? 'rgba(255,255,255,0.06)' : 'transparent',
-                    color: group === 'all' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                  }}
-                >
-                  <span className="text-sm">&#127968;</span>
-                  <span className="font-medium">All</span>
-                </button>
-                {groups.map(g => (
-                  <button
-                    key={g.id}
-                    onClick={() => setParam('group', g.slug)}
-                    className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-left text-sm transition-all"
-                    style={{
-                      background: group === g.slug ? g.color + '12' : 'transparent',
-                      color: group === g.slug ? g.color : 'var(--text-secondary)',
-                    }}
-                  >
-                    <span className="text-sm">{g.icon || '&#128172;'}</span>
-                    <span className="font-medium flex-1 truncate">{g.name}</span>
-                    <span className="text-[10px] opacity-50">{g.thread_count}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Community Stats */}
-            <div className="rounded-xl p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <h3 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
-                Community
-              </h3>
-              <div className="flex flex-col gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
-                <div className="flex justify-between">
-                  <span>Threads</span>
-                  <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{total}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Groups</span>
-                  <span className="font-bold" style={{ color: 'var(--text-primary)' }}>{groups.length}</span>
-                </div>
-              </div>
-              <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
-                <a
-                  href="https://0n.app.clientclub.net/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] font-semibold no-underline hover:underline"
-                  style={{ color: 'var(--accent)' }}
-                >
-                  Join Community Portal &rarr;
-                </a>
-              </div>
-            </div>
-          </div>
-        </aside>
-
+    <div className="py-6 px-4 md:px-6 lg:px-8">
+      <div className="max-w-[900px] mx-auto">
         {/* ==================== MAIN FEED ==================== */}
-        <main className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0">
           {/* Group Header */}
           {activeGroup && (
             <div
@@ -309,15 +231,6 @@ export default function ForumClient({
               {total} thread{total !== 1 ? 's' : ''}
             </div>
           </div>
-
-          {/* Mobile New Thread */}
-          <button
-            onClick={() => router.push(`/forum/new${group !== 'all' ? `?group=${group}` : ''}`)}
-            className="lg:hidden w-full py-2.5 rounded-xl font-bold text-sm mb-3 transition-all"
-            style={{ background: 'var(--accent)', color: 'var(--bg-primary)' }}
-          >
-            + New Thread
-          </button>
 
           {/* Thread List */}
           {loading ? (
@@ -433,7 +346,7 @@ export default function ForumClient({
               })}
             </div>
           )}
-        </main>
+        </div>
       </div>
     </div>
   )

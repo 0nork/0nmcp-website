@@ -7,7 +7,7 @@ import ConsoleCTA from '@/components/ConsoleCTA'
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const isChromeless = pathname.startsWith('/app') || pathname.startsWith('/0nboarding') || pathname.startsWith('/oauth') || pathname.startsWith('/console') || pathname.startsWith('/go')
+  const isChromeless = pathname.startsWith('/app') || pathname.startsWith('/0nboarding') || pathname.startsWith('/oauth') || pathname.startsWith('/console') || pathname.startsWith('/go') || pathname.startsWith('/forum')
 
   if (isChromeless) {
     return <>{children}</>

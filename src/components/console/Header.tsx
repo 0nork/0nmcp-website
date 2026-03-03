@@ -82,6 +82,27 @@ export function Header({ view, mcpOnline, connectedCount, userPlan, onCmdK, onMo
 
       {/* Right: status + search + vault counter */}
       <div className="flex items-center gap-3">
+        {/* Forum/Console toggle */}
+        <div style={{ display: 'flex', gap: 4, padding: 3, borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)' }}>
+          <a
+            href="/forum"
+            style={{
+              padding: '5px 14px', borderRadius: 7, fontSize: '0.75rem', fontWeight: 700,
+              textDecoration: 'none', background: 'transparent', color: 'var(--text-secondary)',
+            }}
+          >
+            Forum
+          </a>
+          <span
+            style={{
+              padding: '5px 14px', borderRadius: 7, fontSize: '0.75rem', fontWeight: 700,
+              background: 'var(--accent)', color: 'var(--bg-primary)',
+            }}
+          >
+            Console
+          </span>
+        </div>
+
         {/* 0nMCP status badge */}
         <div
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"

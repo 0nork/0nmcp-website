@@ -110,7 +110,7 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
   }
 
   return (
-    <div className="pt-28 pb-24 px-4 md:px-8">
+    <div className="py-6 px-4 md:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />

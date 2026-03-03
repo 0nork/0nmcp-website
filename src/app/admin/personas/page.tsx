@@ -53,7 +53,17 @@ interface ConvoLog {
   persona_name?: string
 }
 
-type Tab = 'personas' | 'generate' | 'seeds' | 'activity' | 'workflows'
+interface QueueItem {
+  id: string
+  persona_slug: string
+  content_type: string
+  title: string | null
+  status: string
+  scheduled_at: string
+  created_at: string
+}
+
+type Tab = 'personas' | 'generate' | 'seeds' | 'activity' | 'workflows' | 'queue'
 
 const ROLE_COLORS: Record<string, string> = {
   developer: '#7ed957',
@@ -96,6 +106,10 @@ export default function PersonasAdmin() {
 
   // Converse state
   const [conversing, setConversing] = useState(false)
+
+  // Queue state
+  const [queue, setQueue] = useState<QueueItem[]>([])
+  const [queueLoading, setQueueLoading] = useState(false)
 
   // Workflow state
   const [workflowPersonas, setWorkflowPersonas] = useState<Array<{
@@ -157,11 +171,24 @@ export default function PersonasAdmin() {
     loadPersonas()
   }, [loadPersonas])
 
+  const loadQueue = useCallback(async () => {
+    setQueueLoading(true)
+    try {
+      const res = await fetch('/api/personas?queue=true')
+      if (res.ok) {
+        const data = await res.json()
+        if (data.queue) setQueue(data.queue)
+      }
+    } catch {}
+    setQueueLoading(false)
+  }, [])
+
   useEffect(() => {
     if (tab === 'seeds') loadSeeds()
     if (tab === 'activity') loadActivity()
     if (tab === 'workflows') loadWorkflows()
-  }, [tab, loadSeeds, loadActivity, loadWorkflows])
+    if (tab === 'queue') loadQueue()
+  }, [tab, loadSeeds, loadActivity, loadWorkflows, loadQueue])
 
   async function handleGenerate() {
     if (!genPrompt.trim()) return
@@ -452,7 +479,7 @@ export default function PersonasAdmin() {
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
-        {(['personas', 'generate', 'seeds', 'activity', 'workflows'] as Tab[]).map(t => (
+        {(['personas', 'generate', 'seeds', 'activity', 'workflows', 'queue'] as Tab[]).map(t => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -469,7 +496,7 @@ export default function PersonasAdmin() {
               transition: 'all 0.15s',
             }}
           >
-            {t === 'seeds' ? 'Topic Seeds' : t === 'activity' ? 'Activity Log' : t === 'workflows' ? 'Workflows' : t}
+            {t === 'seeds' ? 'Topic Seeds' : t === 'activity' ? 'Activity Log' : t === 'workflows' ? 'Workflows' : t === 'queue' ? 'Queue' : t}
           </button>
         ))}
       </div>
@@ -1050,6 +1077,91 @@ export default function PersonasAdmin() {
                   <p style={{ fontSize: '0.75rem' }}>Create and activate personas first</p>
                 </div>
               )}
+            </div>
+          )}
+        </div>
+      )}
+      {/* ==================== Queue Tab ==================== */}
+      {tab === 'queue' && (
+        <div>
+          {/* Stats */}
+          <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+            <StatBox label="Queued" value={queue.filter(q => q.status === 'queued').length} color="#9945ff" />
+            <StatBox label="Posted" value={queue.filter(q => q.status === 'posted').length} color="#7ed957" />
+            <StatBox label="Failed" value={queue.filter(q => q.status === 'failed').length} color="#ff3d3d" />
+          </div>
+
+          {queueLoading ? (
+            <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>Loading queue...</div>
+          ) : queue.length === 0 ? (
+            <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>Content queue is empty</p>
+              <p style={{ fontSize: '0.75rem' }}>Scheduled persona content will appear here</p>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {queue.map(item => (
+                <div
+                  key={item.id}
+                  style={{
+                    padding: '12px 16px', borderRadius: 12,
+                    background: 'var(--bg-card)', border: '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', gap: 12,
+                  }}
+                >
+                  {/* Status badge */}
+                  <span style={{
+                    fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
+                    padding: '2px 6px', borderRadius: 4, minWidth: 48, textAlign: 'center',
+                    background: item.status === 'queued' ? 'rgba(153,69,255,0.15)' : item.status === 'posted' ? 'rgba(126,217,87,0.15)' : 'rgba(255,61,61,0.15)',
+                    color: item.status === 'queued' ? '#9945ff' : item.status === 'posted' ? '#7ed957' : '#ff3d3d',
+                  }}>
+                    {item.status}
+                  </span>
+
+                  {/* Content */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: '0.8125rem', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {item.title || 'Untitled'}
+                    </div>
+                    <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
+                      {item.persona_slug} &middot; {item.content_type} &middot; {new Date(item.scheduled_at).toLocaleString()}
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  {item.status === 'queued' && (
+                    <button
+                      onClick={async () => {
+                        await fetch('/api/personas', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ _action: 'cancel_queue', id: item.id }),
+                        })
+                        loadQueue()
+                      }}
+                      style={btnStyleSmall('#ff3d3d')}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  {item.status === 'failed' && (
+                    <button
+                      onClick={async () => {
+                        await fetch('/api/personas', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ _action: 'retry_queue', id: item.id }),
+                        })
+                        loadQueue()
+                      }}
+                      style={btnStyleSmall('#ff6b35')}
+                    >
+                      Retry
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>

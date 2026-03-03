@@ -221,7 +221,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
   }
 
   return (
-    <div className="pt-28 pb-24 px-4 md:px-8">
+    <div className="py-6 px-4 md:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         {/* JSON-LD */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />

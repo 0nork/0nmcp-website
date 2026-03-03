@@ -65,7 +65,7 @@ async function ForumContent() {
 export default function ForumPage() {
   return (
     <Suspense fallback={
-      <div className="pt-28 pb-24 px-4 md:px-8 text-center">
+      <div className="py-6 px-4 md:px-6 text-center">
         <div className="text-2xl font-black" style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>0n</div>
         <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Loading forum...</p>
       </div>

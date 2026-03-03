@@ -37,6 +37,14 @@ export default function UserManagementPage() {
   const [filter, setFilter] = useState<FilterType>('')
   const [sortBy, setSortBy] = useState<SortBy>('newest')
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [addEmail, setAddEmail] = useState('')
+  const [addName, setAddName] = useState('')
+  const [addPassword, setAddPassword] = useState('')
+  const [addMessage, setAddMessage] = useState('')
+  const [addLoading, setAddLoading] = useState(false)
+  const [resetMessage, setResetMessage] = useState('')
+  const [resetLoading, setResetLoading] = useState(false)
 
   const load = useCallback(async () => {
     if (!supabase) return
@@ -68,6 +76,61 @@ export default function UserManagementPage() {
   }, [supabase])
 
   useEffect(() => { load() }, [load])
+
+  async function handleAddUser(e: React.FormEvent) {
+    e.preventDefault()
+    if (!addEmail.trim()) return
+    setAddLoading(true)
+    setAddMessage('')
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: addEmail, full_name: addName || undefined, password: addPassword || undefined }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        const msg = data.generated_password
+          ? `User created. Generated password: ${data.generated_password}`
+          : 'User created successfully'
+        setAddMessage(msg)
+        setAddEmail('')
+        setAddName('')
+        setAddPassword('')
+        load()
+      } else {
+        setAddMessage(data.error || 'Failed to create user')
+      }
+    } catch {
+      setAddMessage('Network error')
+    }
+    setAddLoading(false)
+  }
+
+  async function handleResetPassword(userId: string, method: 'generate' | 'email') {
+    setResetLoading(true)
+    setResetMessage('')
+    try {
+      const res = await fetch('/api/admin/users/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, method }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        if (method === 'generate') {
+          setResetMessage(`New password: ${data.password}`)
+        } else {
+          setResetMessage(`Reset email sent to ${data.email}`)
+        }
+      } else {
+        setResetMessage(data.error || 'Reset failed')
+      }
+    } catch {
+      setResetMessage('Network error')
+    }
+    setResetLoading(false)
+  }
 
   const filteredUsers = users
     .filter(u => {
@@ -109,7 +172,57 @@ export default function UserManagementPage() {
           </div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: '-0.02em' }}>User Management</h1>
         </div>
+        <button
+          onClick={() => setShowAddModal(!showAddModal)}
+          style={{
+            padding: '8px 16px', borderRadius: 8, background: 'rgba(126,217,87,0.15)',
+            color: '#7ed957', border: 'none', fontWeight: 700, fontSize: '0.75rem', cursor: 'pointer',
+          }}
+        >
+          + Add User
+        </button>
       </div>
+
+      {/* Add User Modal */}
+      {showAddModal && (
+        <div style={{
+          padding: 20, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--accent)',
+          marginBottom: 16,
+        }}>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 700, marginBottom: 12 }}>Create New User</h3>
+          {addMessage && (
+            <div style={{
+              padding: '8px 12px', borderRadius: 8, marginBottom: 12, fontSize: '0.75rem', fontWeight: 600,
+              background: addMessage.includes('Failed') || addMessage.includes('error') ? 'rgba(255,61,61,0.1)' : 'rgba(126,217,87,0.1)',
+              color: addMessage.includes('Failed') || addMessage.includes('error') ? '#ff3d3d' : 'var(--accent)',
+              wordBreak: 'break-all',
+            }}>
+              {addMessage}
+            </div>
+          )}
+          <form onSubmit={handleAddUser} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'end' }}>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <label style={{ fontSize: '0.625rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>Email *</label>
+              <input value={addEmail} onChange={e => setAddEmail(e.target.value)} placeholder="user@example.com" required style={inputStyle} />
+            </div>
+            <div style={{ flex: 1, minWidth: 160 }}>
+              <label style={{ fontSize: '0.625rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>Full Name</label>
+              <input value={addName} onChange={e => setAddName(e.target.value)} placeholder="John Doe" style={inputStyle} />
+            </div>
+            <div style={{ flex: 1, minWidth: 160 }}>
+              <label style={{ fontSize: '0.625rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>Password (auto-gen if blank)</label>
+              <input value={addPassword} onChange={e => setAddPassword(e.target.value)} placeholder="Leave blank to auto-generate" type="text" style={inputStyle} />
+            </div>
+            <button type="submit" disabled={addLoading} style={{
+              padding: '8px 20px', borderRadius: 8, background: addLoading ? 'var(--bg-card)' : 'var(--accent)',
+              color: addLoading ? 'var(--text-muted)' : 'var(--bg-primary)', border: 'none', fontWeight: 700,
+              fontSize: '0.8125rem', cursor: addLoading ? 'wait' : 'pointer', height: 36,
+            }}>
+              {addLoading ? 'Creating...' : 'Create'}
+            </button>
+          </form>
+        </div>
+      )}
 
       {/* Stats */}
       {stats && (
@@ -177,6 +290,39 @@ export default function UserManagementPage() {
                 <span>Joined {new Date(selectedUser.created_at).toLocaleDateString()}</span>
               </div>
               {selectedUser.bio && <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: 8, lineHeight: 1.5 }}>{selectedUser.bio}</p>}
+
+              {/* Reset Password */}
+              <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)', display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 600 }}>Password:</span>
+                <button
+                  onClick={() => handleResetPassword(selectedUser.id, 'generate')}
+                  disabled={resetLoading}
+                  style={{
+                    padding: '4px 10px', borderRadius: 6, background: 'rgba(255,107,53,0.15)',
+                    color: '#ff6b35', border: 'none', fontWeight: 700, fontSize: '0.625rem', cursor: 'pointer',
+                  }}
+                >
+                  {resetLoading ? '...' : 'Generate New'}
+                </button>
+                <button
+                  onClick={() => handleResetPassword(selectedUser.id, 'email')}
+                  disabled={resetLoading}
+                  style={{
+                    padding: '4px 10px', borderRadius: 6, background: 'rgba(0,212,255,0.15)',
+                    color: '#00d4ff', border: 'none', fontWeight: 700, fontSize: '0.625rem', cursor: 'pointer',
+                  }}
+                >
+                  Send Reset Email
+                </button>
+                {resetMessage && (
+                  <span style={{
+                    fontSize: '0.625rem', fontWeight: 600, wordBreak: 'break-all',
+                    color: resetMessage.includes('fail') || resetMessage.includes('error') ? '#ff3d3d' : 'var(--accent)',
+                  }}>
+                    {resetMessage}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>

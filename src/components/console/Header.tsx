@@ -1,6 +1,7 @@
 'use client'
 
-import { Search, Menu, Server, Zap } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { Search, Menu, Server, Zap, User, LogOut, Settings, ChevronDown } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
 const VIEW_LABELS: Record<string, string> = {
@@ -30,12 +31,32 @@ interface HeaderProps {
   mcpOnline: boolean
   connectedCount: number
   userPlan: string
+  userName?: string
+  userEmail?: string
   onCmdK: () => void
   onMobileMenu: () => void
   onUpgradeClick: () => void
+  onAccountClick: () => void
 }
 
-export function Header({ view, mcpOnline, connectedCount, userPlan, onCmdK, onMobileMenu, onUpgradeClick }: HeaderProps) {
+export function Header({ view, mcpOnline, connectedCount, userPlan, userName, userEmail, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick }: HeaderProps) {
+  const [avatarOpen, setAvatarOpen] = useState(false)
+  const avatarRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (avatarRef.current && !avatarRef.current.contains(e.target as Node)) setAvatarOpen(false)
+    }
+    if (avatarOpen) document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [avatarOpen])
+
+  const initials = userName ? userName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : userEmail ? userEmail[0].toUpperCase() : '?'
+
+  const handleSignOut = async () => {
+    await fetch('/api/auth/signout', { method: 'POST' })
+    window.location.href = '/login'
+  }
   return (
     <header
       className="shrink-0 h-14 flex items-center justify-between px-4 md:px-6 lg:px-8 relative z-10"
@@ -220,6 +241,196 @@ export function Header({ view, mcpOnline, connectedCount, userPlan, onCmdK, onMo
           >
             {connectedCount}
           </span>
+        </div>
+
+        {/* User Avatar + Dropdown */}
+        <div ref={avatarRef} style={{ position: 'relative' }}>
+          <button
+            onClick={() => setAvatarOpen(p => !p)}
+            className="flex items-center gap-2 rounded-lg transition-all cursor-pointer"
+            style={{
+              padding: '4px 8px 4px 4px',
+              border: avatarOpen ? '1px solid var(--accent)' : '1px solid var(--border)',
+              background: avatarOpen ? 'rgba(126,217,87,0.06)' : 'rgba(255,255,255,0.04)',
+            }}
+            onMouseEnter={(e) => { if (!avatarOpen) e.currentTarget.style.borderColor = 'var(--border-hover)' }}
+            onMouseLeave={(e) => { if (!avatarOpen) e.currentTarget.style.borderColor = 'var(--border)' }}
+          >
+            <div
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 8,
+                background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#0a0a0f' }}>{initials}</span>
+            </div>
+            <ChevronDown
+              size={12}
+              className="hidden sm:block"
+              style={{
+                color: 'var(--text-muted)',
+                transform: avatarOpen ? 'rotate(180deg)' : 'rotate(0)',
+                transition: 'transform 0.2s',
+              }}
+            />
+          </button>
+
+          {avatarOpen && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 'calc(100% + 8px)',
+                right: 0,
+                width: 240,
+                backgroundColor: '#0a0a0f',
+                border: '1px solid var(--border)',
+                borderRadius: 14,
+                boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(126,217,87,0.05)',
+                zIndex: 100,
+                overflow: 'hidden',
+                animation: 'avatarDrop 0.15s ease',
+              }}
+            >
+              {/* User info */}
+              <div style={{ padding: '14px 16px', borderBottom: '1px solid var(--border)' }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>
+                  {userName || 'User'}
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                  {userEmail || ''}
+                </div>
+                {userPlan && (
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      marginTop: 6,
+                      fontSize: 10,
+                      fontWeight: 700,
+                      padding: '2px 8px',
+                      borderRadius: 6,
+                      fontFamily: 'var(--font-mono)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                      background: userPlan === 'free' ? 'rgba(255,255,255,0.06)' : 'rgba(126,217,87,0.12)',
+                      color: userPlan === 'free' ? 'var(--text-muted)' : 'var(--accent)',
+                      border: `1px solid ${userPlan === 'free' ? 'var(--border)' : 'rgba(126,217,87,0.3)'}`,
+                    }}
+                  >
+                    {userPlan}
+                  </span>
+                )}
+              </div>
+
+              {/* Menu items */}
+              <div style={{ padding: '6px' }}>
+                <button
+                  onClick={() => { setAvatarOpen(false); onAccountClick() }}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '10px 12px',
+                    borderRadius: 10,
+                    border: 'none',
+                    background: 'none',
+                    color: 'var(--text-secondary)',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    textAlign: 'left',
+                    transition: 'background 0.15s, color 0.15s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
+                    e.currentTarget.style.color = 'var(--text-primary)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'none'
+                    e.currentTarget.style.color = 'var(--text-secondary)'
+                  }}
+                >
+                  <Settings size={14} />
+                  Account Settings
+                </button>
+
+                <button
+                  onClick={() => { setAvatarOpen(false); window.open('/forum', '_self') }}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '10px 12px',
+                    borderRadius: 10,
+                    border: 'none',
+                    background: 'none',
+                    color: 'var(--text-secondary)',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    textAlign: 'left',
+                    transition: 'background 0.15s, color 0.15s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
+                    e.currentTarget.style.color = 'var(--text-primary)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'none'
+                    e.currentTarget.style.color = 'var(--text-secondary)'
+                  }}
+                >
+                  <User size={14} />
+                  My Profile
+                </button>
+              </div>
+
+              {/* Sign out */}
+              <div style={{ padding: '6px', borderTop: '1px solid var(--border)' }}>
+                <button
+                  onClick={handleSignOut}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '10px 12px',
+                    borderRadius: 10,
+                    border: 'none',
+                    background: 'none',
+                    color: '#ff3b30',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    textAlign: 'left',
+                    transition: 'background 0.15s',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,59,48,0.08)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'none' }}
+                >
+                  <LogOut size={14} />
+                  Sign Out
+                </button>
+              </div>
+
+              <style>{`
+                @keyframes avatarDrop {
+                  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+                  to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+              `}</style>
+            </div>
+          )}
         </div>
       </div>
     </header>

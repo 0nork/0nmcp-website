@@ -88,6 +88,10 @@ export default function ConsolePage() {
   const [userPlan, setUserPlan] = useState('free')
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
 
+  // ─── User Profile State (for header avatar) ──────────────
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+
   // ─── AI Recommendation State ──────────────────────────────────
   const [recentActions, setRecentActions] = useState<string[]>([])
   const [recommendations, setRecommendations] = useState<Recommendation[]>([])
@@ -144,6 +148,17 @@ export default function ConsolePage() {
     fetch('/api/console/plan')
       .then(r => r.json())
       .then(data => { if (data.plan) setUserPlan(data.plan) })
+      .catch(() => {})
+
+    // Fetch user profile for header avatar
+    fetch('/api/console/account')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data) {
+          setUserName(data.full_name || '')
+          setUserEmail(data.email || '')
+        }
+      })
       .catch(() => {})
 
     // Check 0nMCP health
@@ -511,9 +526,12 @@ export default function ConsolePage() {
           mcpOnline={mcpOnline}
           connectedCount={vault.connectedCount}
           userPlan={userPlan}
+          userName={userName}
+          userEmail={userEmail}
           onCmdK={() => setCmdPaletteOpen(true)}
           onMobileMenu={() => setMobileMenuOpen((p) => !p)}
           onUpgradeClick={() => setShowUpgradeModal(true)}
+          onAccountClick={() => { setView('account'); setVisitedViews(prev => new Set([...prev, 'account'])) }}
         />
 
         {/* Content — visited views stay mounted for state persistence */}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import ForumSearch from './ForumSearch'
 
 interface Group {
   id: string
@@ -95,6 +96,11 @@ export default function ForumSidebar({
         >
           + New Thread
         </Link>
+      </div>
+
+      {/* Search */}
+      <div style={{ padding: '0 0.75rem 0.5rem', flexShrink: 0 }}>
+        <ForumSearch />
       </div>
 
       {/* Groups */}

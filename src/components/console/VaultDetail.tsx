@@ -12,131 +12,7 @@ import {
   Save,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
-
-/** Credential field definition */
-interface CredField {
-  key: string
-  label: string
-  placeholder: string
-  secret: boolean
-  help: string
-  link: string
-  linkLabel: string
-}
-
-/** Service definitions with credential fields */
-const SERVICE_FIELDS: Record<
-  string,
-  {
-    label: string
-    desc: string
-    color: string
-    caps: string[]
-    fields: CredField[]
-  }
-> = {
-  stripe: {
-    label: 'Stripe',
-    desc: 'Accept payments, manage subscriptions, and handle billing. The global standard for online payments.',
-    color: '#635bff',
-    caps: ['charges', 'customers', 'subscriptions', 'invoices', 'refunds', 'webhooks'],
-    fields: [
-      { key: 'api_key', label: 'Secret Key', placeholder: 'sk_live_...', secret: true, help: 'Your Stripe secret API key.', link: 'https://dashboard.stripe.com/apikeys', linkLabel: 'Stripe Dashboard' },
-      { key: 'webhook_secret', label: 'Webhook Secret', placeholder: 'whsec_...', secret: true, help: 'Used to verify incoming webhook events.', link: 'https://dashboard.stripe.com/webhooks', linkLabel: 'Webhook Settings' },
-    ],
-  },
-  slack: {
-    label: 'Slack',
-    desc: 'Send messages, manage channels, and build rich integrations with your team workspace.',
-    color: '#e01e5a',
-    caps: ['messages', 'channels', 'users', 'reactions', 'files', 'threads'],
-    fields: [
-      { key: 'bot_token', label: 'Bot Token', placeholder: 'xoxb-...', secret: true, help: 'Your Slack bot user OAuth token.', link: 'https://api.slack.com/apps', linkLabel: 'Slack Apps' },
-      { key: 'webhook_url', label: 'Webhook URL', placeholder: 'https://hooks.slack.com/...', secret: false, help: 'Incoming webhook URL for posting messages.', link: 'https://api.slack.com/messaging/webhooks', linkLabel: 'Webhook Docs' },
-    ],
-  },
-  github: {
-    label: 'GitHub',
-    desc: 'Manage repositories, issues, pull requests, and GitHub Actions programmatically.',
-    color: '#f0f6fc',
-    caps: ['repos', 'issues', 'pulls', 'actions', 'releases', 'gists'],
-    fields: [
-      { key: 'token', label: 'Personal Access Token', placeholder: 'ghp_...', secret: true, help: 'Fine-grained or classic personal access token.', link: 'https://github.com/settings/tokens', linkLabel: 'GitHub Tokens' },
-    ],
-  },
-  openai: {
-    label: 'OpenAI',
-    desc: 'Access GPT-4o, DALL-E, embeddings, and other AI models. Powers AI chat in the Console when connected.',
-    color: '#10a37f',
-    caps: ['completions', 'embeddings', 'images', 'audio', 'moderation'],
-    fields: [
-      { key: 'api_key', label: 'API Key', placeholder: 'sk-...', secret: true, help: 'Your OpenAI API key. Powers Console AI chat via GPT-4o.', link: 'https://platform.openai.com/api-keys', linkLabel: 'OpenAI Dashboard' },
-      { key: 'org_id', label: 'Organization ID', placeholder: 'org-...', secret: false, help: 'Optional. Required for multi-org accounts.', link: 'https://platform.openai.com/account/organization', linkLabel: 'Org Settings' },
-    ],
-  },
-  google: {
-    label: 'Gemini',
-    desc: 'Access Gemini 2.0 Flash and other Google AI models. Powers AI chat in the Console when connected.',
-    color: '#4285f4',
-    caps: ['completions', 'embeddings', 'vision', 'code', 'reasoning'],
-    fields: [
-      { key: 'api_key', label: 'API Key', placeholder: 'AIza...', secret: true, help: 'Your Google AI API key. Powers Console AI chat via Gemini.', link: 'https://aistudio.google.com/apikey', linkLabel: 'Google AI Studio' },
-    ],
-  },
-  anthropic: {
-    label: 'Claude',
-    desc: 'Access Claude Sonnet, Opus, and Haiku models via the Anthropic API. Powers AI chat in the Console when connected.',
-    color: '#a78bfa',
-    caps: ['completions', 'vision', 'code', 'analysis', 'reasoning'],
-    fields: [
-      { key: 'api_key', label: 'API Key', placeholder: 'sk-ant-...', secret: true, help: 'Your Anthropic API key. Powers Console AI chat via Claude.', link: 'https://console.anthropic.com/settings/keys', linkLabel: 'Anthropic Console' },
-    ],
-  },
-  supabase: {
-    label: 'Supabase',
-    desc: 'Open-source Firebase alternative with Postgres, auth, storage, and edge functions.',
-    color: '#3ecf8e',
-    caps: ['database', 'auth', 'storage', 'functions', 'realtime'],
-    fields: [
-      { key: 'url', label: 'Project URL', placeholder: 'https://xxx.supabase.co', secret: false, help: 'Your Supabase project URL.', link: 'https://supabase.com/dashboard/project/_/settings/api', linkLabel: 'API Settings' },
-      { key: 'anon_key', label: 'Anon Key', placeholder: 'eyJ...', secret: true, help: 'Public anon key for client-side operations.', link: 'https://supabase.com/dashboard/project/_/settings/api', linkLabel: 'API Settings' },
-      { key: 'service_role_key', label: 'Service Role Key', placeholder: 'eyJ...', secret: true, help: 'Server-side key with full access. Keep secret.', link: 'https://supabase.com/dashboard/project/_/settings/api', linkLabel: 'API Settings' },
-    ],
-  },
-  crm: {
-    label: 'CRM',
-    desc: 'Full CRM integration with 245 tools across contacts, calendars, conversations, payments, and more.',
-    color: '#ff6b35',
-    caps: ['contacts', 'calendars', 'conversations', 'opportunities', 'invoices', 'social', 'payments'],
-    fields: [
-      { key: 'api_key', label: 'API Key', placeholder: 'pit-...', secret: true, help: 'Your CRM API key (Private Integration Token).', link: '#', linkLabel: 'CRM Settings' },
-      { key: 'location_id', label: 'Location ID', placeholder: 'loc-...', secret: false, help: 'The location/sub-account ID.', link: '#', linkLabel: 'CRM Locations' },
-    ],
-  },
-}
-
-/** Generic fallback for services without specific field definitions */
-function getServiceDef(service: string) {
-  return (
-    SERVICE_FIELDS[service] || {
-      label: service.charAt(0).toUpperCase() + service.slice(1),
-      desc: `Connect your ${service} account.`,
-      color: '#8888a0',
-      caps: [],
-      fields: [
-        {
-          key: 'api_key',
-          label: 'API Key',
-          placeholder: 'Enter your API key...',
-          secret: true,
-          help: `Your ${service} API key.`,
-          link: '#',
-          linkLabel: 'Find API Key',
-        },
-      ],
-    }
-  )
-}
+import { SVC, CATEGORY_LABELS } from '@/lib/console/services'
 
 interface VaultDetailProps {
   service: string
@@ -146,11 +22,39 @@ interface VaultDetailProps {
 }
 
 export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps) {
-  const svc = getServiceDef(service)
+  const svcDef = SVC[service]
+
+  // Build fields from the SVC definition or fallback
+  const fields = svcDef
+    ? svcDef.f.map(f => ({
+        key: f.k,
+        label: f.lb,
+        placeholder: f.ph,
+        secret: !!f.s,
+        help: f.h,
+        link: f.lk,
+        linkLabel: f.ll,
+      }))
+    : [{
+        key: 'api_key',
+        label: 'API Key',
+        placeholder: 'Enter your API key...',
+        secret: true,
+        help: `Your ${service} API key.`,
+        link: '#',
+        linkLabel: 'Find API Key',
+      }]
+
+  const label = svcDef?.l || service.charAt(0).toUpperCase() + service.slice(1)
+  const desc = svcDef?.d || `Connect your ${service} account.`
+  const color = svcDef?.c || '#8888a0'
+  const caps = svcDef?.cap || []
+  const cat = svcDef?.cat
+
   const [show, setShow] = useState<Record<string, boolean>>({})
   const [localValues, setLocalValues] = useState<Record<string, string>>(() => {
     const initial: Record<string, string> = {}
-    for (const f of svc.fields) {
+    for (const f of fields) {
       initial[f.key] = vault[service]?.[f.key] || ''
     }
     return initial
@@ -160,14 +64,14 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<'success' | 'error' | null>(null)
 
-  const accentColor = svc.color === '#ffffff' || svc.color === '#e2e2e2' ? '#60a5fa' : svc.color
-  const isConnected = svc.fields.some((f) => vault[service]?.[f.key])
+  const accentColor = color === '#ffffff' || color === '#e2e2e2' || color === '#000000' ? '#60a5fa' : color
+  const isConnected = fields.some((f) => vault[service]?.[f.key])
 
   const handleSave = () => {
     setSaving(true)
     setSaveResult(null)
     try {
-      for (const f of svc.fields) {
+      for (const f of fields) {
         if (localValues[f.key]) {
           onSave(service, f.key, localValues[f.key])
         }
@@ -185,9 +89,8 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
     setTesting(true)
     setTestResult(null)
     try {
-      // Simulate connection test
       await new Promise((r) => setTimeout(r, 1200))
-      const hasKeys = svc.fields.some((f) => localValues[f.key])
+      const hasKeys = fields.some((f) => localValues[f.key])
       setTestResult(hasKeys ? 'success' : 'error')
     } catch {
       setTestResult('error')
@@ -224,17 +127,25 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
             fontFamily: 'var(--font-mono)',
           }}
         >
-          {svc.label.slice(0, 2)}
+          {label.slice(0, 2)}
         </div>
         <div className="flex-1">
           <div className="font-bold text-xl" style={{ color: 'var(--text-primary)' }}>
-            {svc.label}
+            {label}
           </div>
           <div className="text-sm flex items-center gap-2 mt-0.5">
             <StatusDot status={isConnected ? 'online' : 'offline'} />
             <span style={{ color: isConnected ? 'var(--accent)' : '#ef4444' }}>
               {isConnected ? 'Connected' : 'Not connected'}
             </span>
+            {cat && (
+              <>
+                <span style={{ color: 'var(--text-muted)' }}>&middot;</span>
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                  {CATEGORY_LABELS[cat]}
+                </span>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -244,33 +155,35 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
         className="glow-box rounded-xl p-4 text-sm leading-relaxed"
         style={{ color: 'var(--text-secondary)' }}
       >
-        {svc.desc}
+        {desc}
       </div>
 
       {/* Capabilities */}
-      <div>
-        <h4
-          className="text-xs font-semibold tracking-wider uppercase mb-2.5"
-          style={{ color: 'var(--text-muted)' }}
-        >
-          Capabilities ({svc.caps.length})
-        </h4>
-        <div className="flex flex-wrap gap-1.5">
-          {svc.caps.map((c) => (
-            <span
-              key={c}
-              className="text-xs font-medium px-2.5 py-1 rounded-full"
-              style={{
-                background: accentColor + '14',
-                border: `1px solid ${accentColor}25`,
-                color: accentColor,
-              }}
-            >
-              {c}
-            </span>
-          ))}
+      {caps.length > 0 && (
+        <div>
+          <h4
+            className="text-xs font-semibold tracking-wider uppercase mb-2.5"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            Capabilities ({caps.length})
+          </h4>
+          <div className="flex flex-wrap gap-1.5">
+            {caps.map((c) => (
+              <span
+                key={c}
+                className="text-xs font-medium px-2.5 py-1 rounded-full"
+                style={{
+                  background: accentColor + '14',
+                  border: `1px solid ${accentColor}25`,
+                  color: accentColor,
+                }}
+              >
+                {c}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Credential fields */}
       <div>
@@ -278,11 +191,11 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
           className="text-xs font-semibold tracking-wider uppercase mb-3"
           style={{ color: 'var(--text-muted)' }}
         >
-          Credentials ({svc.fields.length})
+          Credentials ({fields.length})
         </h4>
 
         <div className="space-y-3">
-          {svc.fields.map((f) => (
+          {fields.map((f) => (
             <div
               key={f.key}
               className="glow-box rounded-xl p-4 transition-all duration-200"
@@ -330,18 +243,20 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
               <p className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
                 {f.help}
               </p>
-              <a
-                href={f.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-medium no-underline mt-1.5"
-                style={{ color: accentColor }}
-                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-              >
-                <ExternalLink size={10} />
-                {f.linkLabel}
-              </a>
+              {f.link && f.link !== '#' && (
+                <a
+                  href={f.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-medium no-underline mt-1.5"
+                  style={{ color: accentColor }}
+                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                >
+                  <ExternalLink size={10} />
+                  {f.linkLabel}
+                </a>
+              )}
             </div>
           ))}
         </div>

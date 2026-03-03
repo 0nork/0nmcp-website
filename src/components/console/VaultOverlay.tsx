@@ -1,173 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, Lock } from 'lucide-react'
+import { Search, Lock, Shield } from 'lucide-react'
 import { StatusDot } from './StatusDot'
-
-/** Service catalog for vault display */
-const SERVICES: Record<
-  string,
-  { label: string; desc: string; color: string; caps: string[] }
-> = {
-  stripe: {
-    label: 'Stripe',
-    desc: 'Payment processing and billing.',
-    color: '#635bff',
-    caps: ['charges', 'customers', 'subscriptions', 'invoices'],
-  },
-  slack: {
-    label: 'Slack',
-    desc: 'Team messaging and notifications.',
-    color: '#e01e5a',
-    caps: ['messages', 'channels', 'users', 'reactions'],
-  },
-  github: {
-    label: 'GitHub',
-    desc: 'Code hosting and collaboration.',
-    color: '#f0f6fc',
-    caps: ['repos', 'issues', 'pulls', 'actions'],
-  },
-  openai: {
-    label: 'OpenAI',
-    desc: 'GPT models and embeddings.',
-    color: '#10a37f',
-    caps: ['completions', 'embeddings', 'images'],
-  },
-  discord: {
-    label: 'Discord',
-    desc: 'Community messaging platform.',
-    color: '#5865f2',
-    caps: ['messages', 'channels', 'webhooks'],
-  },
-  twilio: {
-    label: 'Twilio',
-    desc: 'SMS, voice, and communication APIs.',
-    color: '#f22f46',
-    caps: ['sms', 'voice', 'verify', 'lookup'],
-  },
-  sendgrid: {
-    label: 'SendGrid',
-    desc: 'Email delivery service.',
-    color: '#1a82e2',
-    caps: ['send', 'templates', 'contacts'],
-  },
-  shopify: {
-    label: 'Shopify',
-    desc: 'E-commerce platform.',
-    color: '#96bf48',
-    caps: ['products', 'orders', 'customers', 'inventory'],
-  },
-  supabase: {
-    label: 'Supabase',
-    desc: 'Backend-as-a-service with Postgres.',
-    color: '#3ecf8e',
-    caps: ['database', 'auth', 'storage', 'functions'],
-  },
-  notion: {
-    label: 'Notion',
-    desc: 'Workspace and documentation.',
-    color: '#ffffff',
-    caps: ['pages', 'databases', 'blocks'],
-  },
-  airtable: {
-    label: 'Airtable',
-    desc: 'Spreadsheet-database hybrid.',
-    color: '#18bfff',
-    caps: ['records', 'bases', 'views'],
-  },
-  gmail: {
-    label: 'Gmail',
-    desc: 'Email sending and management.',
-    color: '#ea4335',
-    caps: ['send', 'read', 'labels', 'drafts'],
-  },
-  google_sheets: {
-    label: 'Google Sheets',
-    desc: 'Spreadsheet automation.',
-    color: '#0f9d58',
-    caps: ['read', 'write', 'formulas'],
-  },
-  google_drive: {
-    label: 'Google Drive',
-    desc: 'File storage and sharing.',
-    color: '#4285f4',
-    caps: ['files', 'folders', 'permissions'],
-  },
-  mongodb: {
-    label: 'MongoDB',
-    desc: 'Document database.',
-    color: '#00ed64',
-    caps: ['crud', 'aggregation', 'indexes'],
-  },
-  anthropic: {
-    label: 'Anthropic',
-    desc: 'Claude AI models.',
-    color: '#d4a574',
-    caps: ['completions', 'messages'],
-  },
-  zendesk: {
-    label: 'Zendesk',
-    desc: 'Customer support platform.',
-    color: '#03363d',
-    caps: ['tickets', 'users', 'organizations'],
-  },
-  jira: {
-    label: 'Jira',
-    desc: 'Project tracking and management.',
-    color: '#0052cc',
-    caps: ['issues', 'projects', 'sprints'],
-  },
-  hubspot: {
-    label: 'HubSpot',
-    desc: 'CRM and marketing platform.',
-    color: '#ff7a59',
-    caps: ['contacts', 'deals', 'companies'],
-  },
-  mailchimp: {
-    label: 'Mailchimp',
-    desc: 'Email marketing automation.',
-    color: '#ffe01b',
-    caps: ['campaigns', 'lists', 'templates'],
-  },
-  google_calendar: {
-    label: 'Google Calendar',
-    desc: 'Calendar scheduling.',
-    color: '#4285f4',
-    caps: ['events', 'calendars'],
-  },
-  calendly: {
-    label: 'Calendly',
-    desc: 'Appointment scheduling.',
-    color: '#006bff',
-    caps: ['events', 'invitees', 'scheduling'],
-  },
-  zoom: {
-    label: 'Zoom',
-    desc: 'Video conferencing.',
-    color: '#2d8cff',
-    caps: ['meetings', 'recordings', 'users'],
-  },
-  linear: {
-    label: 'Linear',
-    desc: 'Issue tracking for teams.',
-    color: '#5e6ad2',
-    caps: ['issues', 'projects', 'cycles'],
-  },
-  microsoft: {
-    label: 'Microsoft',
-    desc: 'Microsoft 365 services.',
-    color: '#00a4ef',
-    caps: ['mail', 'teams', 'calendar', 'onedrive'],
-  },
-  crm: {
-    label: 'CRM',
-    desc: 'Customer relationship management. 245 tools.',
-    color: '#ff6b35',
-    caps: ['contacts', 'calendars', 'conversations', 'opportunities', 'invoices'],
-  },
-}
-
-const SERVICE_COUNT = Object.keys(SERVICES).length
+import { SVC, SERVICE_COUNT, CATEGORY_LABELS, CATEGORY_ORDER, type ServiceConfig } from '@/lib/console/services'
 
 interface VaultOverlayProps {
   onSelect: (service: string) => void
@@ -183,25 +19,80 @@ export function VaultOverlay({
   onSearch,
 }: VaultOverlayProps) {
   const [filter, setFilter] = useState<'all' | 'connected' | 'setup'>('all')
+  const [selectedCat, setSelectedCat] = useState<string>('all')
 
-  const entries = Object.entries(SERVICES).filter(([key, svc]) => {
-    const q = searchQuery.toLowerCase()
-    const matchesSearch =
-      !q ||
-      svc.label.toLowerCase().includes(q) ||
-      svc.desc.toLowerCase().includes(q)
-    const isConnected = connectedServices.includes(key)
-    const matchesFilter =
-      filter === 'all' ||
-      (filter === 'connected' && isConnected) ||
-      (filter === 'setup' && !isConnected)
-    return matchesSearch && matchesFilter
-  })
+  const connectedCount = connectedServices.length
+  const setupRequired = SERVICE_COUNT - connectedCount
+  const connectedPct = Math.round((connectedCount / SERVICE_COUNT) * 100)
+
+  const entries = Object.entries(SVC)
+    .filter(([key, svc]) => {
+      const q = searchQuery.toLowerCase()
+      const matchesSearch =
+        !q ||
+        svc.l.toLowerCase().includes(q) ||
+        svc.d.toLowerCase().includes(q) ||
+        svc.cap.some(c => c.toLowerCase().includes(q))
+      const isConnected = connectedServices.includes(key)
+      const matchesFilter =
+        filter === 'all' ||
+        (filter === 'connected' && isConnected) ||
+        (filter === 'setup' && !isConnected)
+      const matchesCat = selectedCat === 'all' || svc.cat === selectedCat
+      return matchesSearch && matchesFilter && matchesCat
+    })
+    .sort((a, b) => a[1].pri - b[1].pri)
+
+  // Group entries by category for display
+  const grouped: Record<string, Array<[string, ServiceConfig]>> = {}
+  for (const [key, svc] of entries) {
+    if (!grouped[svc.cat]) grouped[svc.cat] = []
+    grouped[svc.cat].push([key, svc])
+  }
 
   return (
     <div className="p-4 md:p-6 lg:p-8 max-w-full mx-auto w-full" style={{ animation: 'console-fade-in 0.3s ease' }}>
+      {/* Connection Progress Banner */}
+      {setupRequired > 0 && (
+        <div
+          className="rounded-xl p-4 mb-5 flex items-center gap-4"
+          style={{
+            background: 'linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.08))',
+            border: '1px solid rgba(126,217,87,0.2)',
+          }}
+        >
+          <Shield size={20} style={{ color: 'var(--accent)', flexShrink: 0 }} />
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
+              {connectedCount} of {SERVICE_COUNT} services connected
+            </div>
+            <div className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+              Connect your API keys to unlock {SERVICE_COUNT} services across {CATEGORY_ORDER.length} categories. Credentials are encrypted in your browser.
+            </div>
+            {/* Progress bar */}
+            <div className="mt-2 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${connectedPct}%`,
+                  background: connectedPct > 50
+                    ? 'linear-gradient(90deg, var(--accent), #00d4ff)'
+                    : connectedPct > 20
+                      ? 'linear-gradient(90deg, #ff6b35, var(--accent))'
+                      : 'linear-gradient(90deg, #ef4444, #ff6b35)',
+                }}
+              />
+            </div>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <div className="text-2xl font-black" style={{ color: 'var(--accent)' }}>{connectedPct}%</div>
+            <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>connected</div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
         <div>
           <h2
             className="text-xl lg:text-2xl font-bold"
@@ -210,12 +101,12 @@ export function VaultOverlay({
             Service Vault
           </h2>
           <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>
-            {connectedServices.length}/{SERVICE_COUNT} services connected
+            {connectedCount}/{SERVICE_COUNT} services connected &middot; {CATEGORY_ORDER.length} categories
           </p>
         </div>
 
         {/* Search + Filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <div className="relative">
             <Search
               size={14}
@@ -260,81 +151,78 @@ export function VaultOverlay({
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {entries.map(([key, svc], i) => {
-          const isConnected = connectedServices.includes(key)
-          const accentColor = svc.color === '#e2e2e2' || svc.color === '#ffffff' ? '#60a5fa' : svc.color
+      {/* Category tabs */}
+      <div className="flex gap-1.5 mb-5 overflow-x-auto pb-1 scrollbar-none">
+        <button
+          onClick={() => setSelectedCat('all')}
+          className="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer border-none transition-colors"
+          style={{
+            background: selectedCat === 'all' ? 'var(--accent)' : 'rgba(255,255,255,0.05)',
+            color: selectedCat === 'all' ? '#000' : 'var(--text-secondary)',
+          }}
+        >
+          All ({SERVICE_COUNT})
+        </button>
+        {CATEGORY_ORDER.map(cat => {
+          const count = Object.values(SVC).filter(s => s.cat === cat).length
+          if (count === 0) return null
           return (
             <button
-              key={key}
-              onClick={() => onSelect(key)}
-              className="glow-box rounded-2xl p-4 text-left cursor-pointer transition-all duration-300 group"
+              key={cat}
+              onClick={() => setSelectedCat(cat)}
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer border-none transition-colors"
               style={{
-                animation: 'console-stagger-in 0.4s ease both',
-                animationDelay: `${i * 40}ms`,
+                background: selectedCat === cat ? 'var(--accent)' : 'rgba(255,255,255,0.05)',
+                color: selectedCat === cat ? '#000' : 'var(--text-secondary)',
               }}
             >
-              {/* Top accent bar */}
-              <div
-                className="absolute top-0 left-4 right-4 h-0.5 rounded-b-full"
-                style={{ backgroundColor: accentColor, opacity: isConnected ? 0.6 : 0.15 }}
-              />
-
-              <div className="flex items-center gap-2.5 mb-3">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
-                  style={{
-                    backgroundColor: accentColor + '18',
-                    color: accentColor,
-                    fontFamily: 'var(--font-mono)',
-                  }}
-                >
-                  {svc.label.slice(0, 2)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div
-                    className="font-semibold text-sm truncate"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
-                    {svc.label}
-                  </div>
-                  <div className="flex items-center gap-1.5 mt-0.5">
-                    <StatusDot status={isConnected ? 'online' : 'offline'} />
-                    <span
-                      className="text-[11px]"
-                      style={{
-                        color: isConnected ? 'var(--accent)' : 'var(--text-muted)',
-                      }}
-                    >
-                      {isConnected ? 'Connected' : 'Setup required'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <p
-                className="text-xs leading-relaxed mb-3"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                {svc.desc}
-              </p>
-
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-medium" style={{ color: accentColor }}>
-                  {svc.caps.length} capabilities
-                </span>
-                <span
-                  className="text-[11px] opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  Configure &rarr;
-                </span>
-              </div>
+              {CATEGORY_LABELS[cat]} ({count})
             </button>
           )
         })}
       </div>
+
+      {/* Grouped Grid */}
+      {selectedCat === 'all' ? (
+        // Show grouped by category
+        CATEGORY_ORDER.map(cat => {
+          const catEntries = grouped[cat]
+          if (!catEntries || catEntries.length === 0) return null
+          return (
+            <div key={cat} className="mb-6">
+              <h3 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
+                {CATEGORY_LABELS[cat]}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                {catEntries.map(([key, svc], i) => (
+                  <ServiceCard
+                    key={key}
+                    serviceKey={key}
+                    svc={svc}
+                    isConnected={connectedServices.includes(key)}
+                    onSelect={onSelect}
+                    index={i}
+                  />
+                ))}
+              </div>
+            </div>
+          )
+        })
+      ) : (
+        // Show flat grid for single category
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          {entries.map(([key, svc], i) => (
+            <ServiceCard
+              key={key}
+              serviceKey={key}
+              svc={svc}
+              isConnected={connectedServices.includes(key)}
+              onSelect={onSelect}
+              index={i}
+            />
+          ))}
+        </div>
+      )}
 
       {entries.length === 0 && (
         <div className="text-center py-16">
@@ -353,7 +241,7 @@ export function VaultOverlay({
           borderTop: '1px solid var(--border)',
         }}
       >
-        Credentials encrypted in your browser &middot; Never sent to our servers
+        Credentials encrypted in your browser &middot; AES-256-GCM &middot; Never sent to our servers
       </div>
 
       <style>{`
@@ -365,7 +253,92 @@ export function VaultOverlay({
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </div>
+  )
+}
+
+function ServiceCard({
+  serviceKey,
+  svc,
+  isConnected,
+  onSelect,
+  index,
+}: {
+  serviceKey: string
+  svc: ServiceConfig
+  isConnected: boolean
+  onSelect: (key: string) => void
+  index: number
+}) {
+  const accentColor = svc.c === '#e2e2e2' || svc.c === '#ffffff' || svc.c === '#000000' ? '#60a5fa' : svc.c
+  return (
+    <button
+      onClick={() => onSelect(serviceKey)}
+      className="glow-box rounded-2xl p-4 text-left cursor-pointer transition-all duration-300 group"
+      style={{
+        animation: 'console-stagger-in 0.4s ease both',
+        animationDelay: `${Math.min(index * 30, 300)}ms`,
+      }}
+    >
+      {/* Top accent bar */}
+      <div
+        className="absolute top-0 left-4 right-4 h-0.5 rounded-b-full"
+        style={{ backgroundColor: accentColor, opacity: isConnected ? 0.6 : 0.15 }}
+      />
+
+      <div className="flex items-center gap-2.5 mb-3">
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
+          style={{
+            backgroundColor: accentColor + '18',
+            color: accentColor,
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          {svc.l.slice(0, 2)}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div
+            className="font-semibold text-sm truncate"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {svc.l}
+          </div>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <StatusDot status={isConnected ? 'online' : 'offline'} />
+            <span
+              className="text-[11px]"
+              style={{
+                color: isConnected ? 'var(--accent)' : 'var(--text-muted)',
+              }}
+            >
+              {isConnected ? 'Connected' : 'Setup required'}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <p
+        className="text-xs leading-relaxed mb-3 line-clamp-2"
+        style={{ color: 'var(--text-secondary)' }}
+      >
+        {svc.d}
+      </p>
+
+      <div className="flex items-center justify-between">
+        <span className="text-[11px] font-medium" style={{ color: accentColor }}>
+          {svc.cap.length} capabilities
+        </span>
+        <span
+          className="text-[11px] opacity-0 group-hover:opacity-100 transition-opacity"
+          style={{ color: 'var(--text-muted)' }}
+        >
+          Configure &rarr;
+        </span>
+      </div>
+    </button>
   )
 }

@@ -4,7 +4,7 @@
  */
 
 // Service definitions
-export { SVC, SERVICE_KEYS, SERVICE_COUNT } from "./services";
+export { SVC, SERVICE_KEYS, SERVICE_COUNT, CATEGORY_LABELS, CATEGORY_ORDER, getServicesByCategory } from "./services";
 export type { ServiceField, ServiceConfig } from "./services";
 
 // Workflow idea suggestions

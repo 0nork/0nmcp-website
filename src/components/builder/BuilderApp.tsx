@@ -35,7 +35,7 @@ export default function BuilderApp() {
               terminalOpen={terminalOpen}
               onToggleTerminal={() => setTerminalOpen(!terminalOpen)}
             />
-            <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
+            <div style={{ flex: 1, minHeight: 0, position: 'relative', width: '100%', height: '100%' }}>
               <Canvas />
             </div>
             {terminalOpen && (

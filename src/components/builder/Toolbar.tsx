@@ -17,7 +17,7 @@ interface ToolbarProps {
 }
 
 export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal }: ToolbarProps) {
-  const { nodes, edges, settings, canUndo, canRedo } = useBuilder()
+  const { nodes, edges, settings, canUndo, canRedo, selectedNodeId } = useBuilder()
   const dispatch = useBuilderDispatch()
   const fileRef = useRef<HTMLInputElement>(null)
   const [saving, setSaving] = useState(false)
@@ -39,7 +39,7 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
     return () => subscription.unsubscribe()
   }, [])
 
-  // Keyboard shortcuts for undo/redo
+  // Keyboard shortcuts for undo/redo/delete
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const mod = e.metaKey || e.ctrlKey
     if (mod && e.key === 'z' && !e.shiftKey) {
@@ -54,7 +54,15 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
       e.preventDefault()
       if (canRedo) dispatch({ type: 'REDO' })
     }
-  }, [canUndo, canRedo, dispatch])
+    // Delete selected node with Delete or Backspace (when not in an input)
+    if ((e.key === 'Delete' || e.key === 'Backspace') && selectedNodeId) {
+      const tag = (e.target as HTMLElement)?.tagName
+      if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+        e.preventDefault()
+        dispatch({ type: 'DELETE_NODE', nodeId: selectedNodeId })
+      }
+    }
+  }, [canUndo, canRedo, dispatch, selectedNodeId])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
@@ -236,6 +244,16 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
             disabled={saving || nodes.length === 0}
           >
             {saving ? 'Saving...' : saveStatus === 'saved' ? 'Saved!' : saveStatus === 'error' ? 'Error' : 'Save'}
+          </button>
+          <button
+            className="builder-toolbar-btn danger"
+            onClick={() => {
+              if (selectedNodeId) dispatch({ type: 'DELETE_NODE', nodeId: selectedNodeId })
+            }}
+            disabled={!selectedNodeId}
+            title="Delete selected step (Del)"
+          >
+            Delete
           </button>
           <button className="builder-toolbar-btn danger" onClick={handleClear}>
             Clear

@@ -292,7 +292,6 @@ export default function ThreadClient({
                   <button
                     onClick={() => { setReplyTo(replyTo === post.id ? null : post.id); setReplyBody('') }}
                     style={{
-                      background: 'none',
                       border: 'none',
                       cursor: 'pointer',
                       fontFamily: 'inherit',

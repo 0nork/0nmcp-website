@@ -1,0 +1,395 @@
+{
+  "threads": [
+    {
+      "author": "kira-tanaka",
+      "title": "March update — BYOK, multi-AI providers, and what's next",
+      "body": "Hey all — time for the monthly update.\n\nBig changes this month:\n\n- **BYOK (Bring Your Own Key)** is live in the Console. You can plug in your own Claude, GPT-4o, or Gemini API key and use it directly from 0nmcp.com. No middle-man. Your key, your usage, your billing.\n- **Multi-AI provider support** — the Console now supports Claude, OpenAI GPT-4o, and Google Gemini. Switch between them mid-conversation if you want. Each has different strengths for different tasks.\n- **Membership tiers** — free tier gets you access to the community and basic tools. Pro unlocks the full Console, workflow builder, and marketplace features.\n\nWe've also been working on the **marketplace** — imagine browsing pre-built SWITCH files, one-click install, pay-per-execution. More on that soon.\n\nWhat feature are you most excited about? And what's still missing that you need?",
+      "group": "general",
+      "days_ago": 1
+    },
+    {
+      "author": "marcus-chen",
+      "title": "Vault containers for team credential sharing — architecture notes",
+      "body": "Spent the weekend testing the vault container system for sharing credentials across a 4-person team. Notes below.\n\nThe container format uses 7 semantic layers:\n\n```\nworkflows      — .0n SWITCH files\ncredentials    — double-encrypted via Argon2id\nenv_vars       — environment variables\nmcp_configs    — AI platform configs\nsite_profiles  — deployment targets\nai_brain       — model preferences, system prompts\naudit_trail    — chain of custody\n```\n\nThe escrow system supports up to 8 parties with per-layer access matrices. This means you can give your frontend dev access to the `env_vars` and `mcp_configs` layers without exposing `credentials` or `workflows`.\n\nActually, wait — the escrow uses X25519 ECDH for key exchange, NOT RSA. This matters because the key derivation is faster and the container files stay small.\n\nPractical workflow:\n\n```bash\n# Creator packages everything\n0nmcp vault create --layers workflows,credentials,env_vars\n\n# Generate escrow keypairs for each team member\n0nmcp vault escrow create --parties dev1,dev2,dev3\n\n# Each team member unwraps their portion\n0nmcp vault escrow unwrap --keypair dev1.keypair\n```\n\nSeal of Truth verification: `SHA3-256(transferId || timestamp || pubkey || SHA3-256(concat(ciphertexts)))`. If anyone tampers with any layer, the seal breaks.\n\nOne thing I noticed: the binary `.0nv` format starts with magic bytes `0x304E5350`. You can identify vault files at the filesystem level without attempting decryption. Nice touch for compliance scanning.\n\nIMPORTANT: the credentials layer uses Argon2id with double encryption. Even if someone gets the container passphrase, they need the separate credentials key. Two-factor at the cryptographic level.",
+      "group": "integrations",
+      "days_ago": 3
+    },
+    {
+      "author": "adaeze-okafor",
+      "title": "just tried BYOK and omggg this changes everything!!",
+      "body": "ok so I've been using the free tier of the Console for a couple weeks and it was fine for basic stuff, but I just plugged in my own Claude API key and WOW\n\nthe difference is night and day!! with BYOK you get:\n- way longer conversations (no token limits from the platform)\n- you can use claude-sonnet or whatever model you want\n- it goes through YOUR anthropic account so you see the exact usage and costs\n\nthe setup was literally just paste your key in the settings page and it saves to your browser (they don't store it on the server which is smart tbh)\n\nonly thing I'm confused about — can I use GPT-4o and Claude in the same session?? like switch mid-conversation?? because the UI shows a model picker but I wasn't sure if it actually works or if it's coming soon\n\nalso for anyone worried about costs, I've been chatting for like 3 hours and I've used maybe $0.40 on my Anthropic dashboard, that's prob less than a coffee in Lagos lol 😄\n\nhas anyone tried the Gemini option?? curious how it compares!",
+      "group": "general",
+      "days_ago": 2
+    },
+    {
+      "author": "jake-holloway",
+      "title": "ROI report: 0nMCP vs manual work across 12 client accounts",
+      "body": "TL;DR: 47 hours saved per week. $3,200/month in labor costs eliminated.\n\nSetup:\n1. 12 active client accounts\n2. Each client has CRM + email + payment workflows\n3. Previously: manual data entry, copy-paste between platforms, email follow-ups by hand\n\nAfter deploying SWITCH files across all 12:\n1. Client onboarding: 47 seconds (was 25 minutes)\n2. Invoice generation: automatic on project completion\n3. Follow-up emails: triggered by CRM pipeline stage changes\n4. Reporting: Supabase queries aggregated nightly\n\nTotal SWITCH files in production: 34.\nTotal services connected: 7 (CRM, Stripe, SendGrid, Supabase, Slack, Google Sheets, Airtable).\nFailure rate: 0.4% over 30 days. Every failure was a third-party timeout, not 0nMCP.\n\nHot take: if you're running an agency and NOT automating with something like this, you're leaving money on the table. Period.",
+      "group": "showcase",
+      "days_ago": 4
+    },
+    {
+      "author": "priya-krishnamurthy",
+      "title": "CI/CD integration: running SWITCH files in GitHub Actions",
+      "body": "## Overview\n\nI have been experimenting with running 0nMCP SWITCH files directly inside GitHub Actions workflows. The goal — automated deployment pipelines that leverage the same orchestration tools we use locally.\n\n## Setup\n\nThe approach requires three components:\n\n1. **0nMCP installed as a dev dependency** — `npm install 0nmcp` in your project\n2. **Credentials injected via GitHub Secrets** — mapped to environment variables that `0nmcp engine import` can read\n3. **A wrapper script** — calls `0nmcp run` with the appropriate SWITCH file\n\n## Example Workflow\n\n```yaml\nname: Deploy with 0nMCP\non:\n  push:\n    branches: [main]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n      - run: npm ci\n      - run: npx 0nmcp engine import --source .env.ci\n        env:\n          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_KEY }}\n          SENDGRID_API_KEY: ${{ secrets.SENDGRID_KEY }}\n          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_KEY }}\n      - run: npx 0nmcp run ./workflows/deploy.0n\n```\n\n## Key Considerations\n\n- The `engine import` step reads environment variables and creates temporary `.0n` connection files in the runner's `~/.0n/` directory. These are ephemeral — destroyed when the runner terminates.\n- Rate limiting works correctly in CI — the token bucket resets per run, which is the desired behavior for deployment workflows.\n- I recommend adding `npx 0nmcp engine verify` as a pre-deploy check. If any service credential is invalid, you want to fail fast — not halfway through a 12-step deployment.\n\n## Gotcha\n\nThe vault features (`vault seal`, `vault unseal`) depend on hardware fingerprinting. This will NOT work in ephemeral CI runners because the fingerprint changes every run. Use `engine import` for CI instead — it is designed for this pattern.\n\nHas anyone else tried this approach? I am curious whether there are edge cases I have not encountered yet.",
+      "group": "workflows",
+      "days_ago": 5
+    },
+    {
+      "author": "tiago-santos",
+      "title": "Replaced 3 Zapier zaps with one SWITCH file — client case study",
+      "body": "So here's the story... I have this client, a small bakery chain in Porto, and they were paying EUR 49/month for Zapier Premium because they needed multi-step zaps. Three zaps running:\n\n1. New order in Shopify → create row in Google Sheets → send confirmation email via SendGrid\n2. Low inventory alert → Slack message to the owner → update Airtable tracker\n3. Monthly revenue → pull from Stripe → format report → email to accountant\n\nEach zap had 3-4 steps, and they broke constantly because Zapier's Shopify connector would lose auth every two weeks... like clockwork, you'd think they'd fix that.\n\nI consolidated all three into a single SWITCH file with conditional branching. The trigger is a webhook — Shopify, Stripe, and a cron timer all POST to the same endpoint, and the condition step routes based on the `source` field.\n\nThe SWITCH file is 47 lines. The three Zapier zaps were... well, you can't really count lines in Zapier, but the configuration screens were maybe 60 clicks each.\n\nPerformance: the Zapier zaps had a built-in delay of 1-15 minutes (depending on plan). The SWITCH file executes in under 3 seconds. The bakery owner noticed immediately — \"the confirmation emails are instant now, how did you do that?\"\n\nCost: EUR 49/month → EUR 0 (0nMCP is free, they self-host). That's EUR 588/year saved for a small business. For my agency clients the savings are much bigger... but this one felt good because it's a real family business.\n\nI'm thinking about writing a \"Zapier to 0nMCP migration guide\" — would that be useful? Like a mapping of common Zapier patterns to SWITCH file equivalents?",
+      "group": "showcase",
+      "days_ago": 6
+    },
+    {
+      "author": "elena-voronova",
+      "title": "The .0n standard as a data pipeline configuration format",
+      "body": "As someone who spent three years writing Airflow DAGs, I want to offer a perspective on the .0n SWITCH file format that I have not seen discussed here.\n\nThe SWITCH file is not merely a workflow definition. It is a portable, validated, version-controlled unit of automation logic. In the data engineering world we would call this a \"pipeline specification\" and we have been searching for a good one since the Airflow `dag.py` pattern proved inadequate for anything beyond simple ETL.\n\n## The Problem with DAGs\n\nAs Martin Kleppmann observed in Designing Data-Intensive Applications: the challenge is not executing the pipeline but expressing the pipeline in a way that is portable across environments. Airflow DAGs are Python files. They carry implicit dependencies on the Airflow runtime. Moving a DAG from development to production requires environment-specific configuration that lives outside the DAG definition.\n\n## What .0n Gets Right\n\nThe SWITCH file bundles the what (service calls), the how (execution order, branching), and the where (connection references via `~/.0n/connections/`) into a single artifact. The variable resolution order `{{system.*}}` > `{{launch.*}}` > `{{inputs.*}}` > `{{step.output.*}}` is a clean separation of concerns that Airflow never achieved with its XCom mechanism.\n\nThe three-level execution model maps naturally to data pipeline patterns. Pipeline mode for sequential transformations. Assembly Line for parallel stage processing. Radial Burst for fan-out operations like writing to multiple sinks.\n\n## What I Would Like to See\n\nSchema validation on step outputs. Currently if `step.lookup.output.data[0].tier` is undefined the workflow fails at runtime. A schema declaration at the step level would catch this at parse time.\n\nEDIT: I realize 0n-spec already has `validate()`. Perhaps the gap is documentation rather than capability.",
+      "group": "workflows",
+      "days_ago": 7
+    },
+    {
+      "author": "soo-jin-park",
+      "title": "The CLI output is actually beautiful?!",
+      "body": "So I just ran `0nmcp engine verify` for the first time and... wait. Is this the nicest CLI output I've ever seen?\n\nGreen checkmarks for passing services. Red X for failures. Clear error messages. No wall of JSON. No \"verbose mode required for details.\"\n\nWhy can't more tools do this? It's not hard! Color coding, clear status, actionable error messages. That's it!\n\nI've been building CLIs in Node for 4 years and I'm taking notes from this one. The `0nmcp` command feels snappy too — cold start is under 300ms on my M2.\n\nQuestions for the community:\n- Has anyone customized the CLI output format? Like piping to JSON for CI?\n- Is there a `--quiet` flag for scripting?\n- Any plans for a TUI (terminal UI) mode?\n\nAlso shoutout to whoever decided to use the `0nmcp` command name instead of something generic like `mcp-server`. Short, memorable, easy to type!",
+      "group": "feature-requests",
+      "days_ago": 2
+    },
+    {
+      "author": "arjun-mehta",
+      "title": "Shipped my MVP in a weekend using 0nMCP, here's the stack",
+      "body": "ok so I've been talking about my AI scheduling startup for weeks and I finally shipped it, the whole thing took 48 hours from idea to production\n\nStack:\n- Next.js frontend\n- Supabase for auth + database\n- 0nMCP for all the backend orchestration\n- Stripe for payments\n- SendGrid for transactional emails\n- Google Calendar API for booking\n\nThe wild part, I wrote ZERO backend API routes. Every service interaction goes through 0nMCP SWITCH files. When a user books a slot, the SWITCH file:\n1. Creates the calendar event\n2. Charges their card via Stripe\n3. Sends confirmation email\n4. Updates Supabase with booking details\n5. Notifies me on Slack\n\nThat's one SWITCH file, 5 services, runs in under 2 seconds\n\nactually wait, I lied, I wrote ONE api route for the webhook receiver, but that's basically `0nmcp serve` with a port config\n\nFirst week metrics: 847 bookings processed, 99.65% success rate, the 3 failures were Stripe timeouts during a brief outage\n\nIf you're building an MVP, stop writing glue code, just describe the workflow and let 0nMCP handle the rest",
+      "group": "showcase",
+      "days_ago": 8
+    },
+    {
+      "author": "sam-rivera",
+      "title": "Made a Discord study group bot with 0nMCP and I'm SHOOK 🤯",
+      "body": "ok so for my CS class we have a study group Discord server and I wanted to build a bot that reminds people about study sessions and tracks attendance\n\nI thought this would take me like a week but NO, I literally did it in one evening!!! 🎉\n\nThe SWITCH file does:\n1. Cron trigger every day at 6pm PST (it's 10pm in Vancouver but whatever lol)\n2. Check Supabase for upcoming sessions in the next 24 hours\n3. Post a formatted reminder to the #study-sessions Discord channel\n4. After the session, ping everyone who RSVP'd to mark attendance\n5. Log everything to a Google Sheet so our TA can see participation\n\nThe Discord integration just WORKS, you give it a webhook URL and channel ID and it handles the message formatting and everything\n\nmy professor saw it and was like \"did you build this from scratch?\" and I said \"technically yes but also technically no\" because like I WROTE the config but 0nMCP did all the heavy lifting 😂\n\nquestion though — is there a way to make the bot respond to messages too?? like if someone types !help in the channel?? or is that a different kind of integration?\n\nalso does anyone know if the Google Calendar integration works with university .edu accounts?? I wanna add automatic calendar invites next! 📅",
+      "group": "showcase",
+      "days_ago": 3
+    },
+    {
+      "author": "yael-goldstein",
+      "title": "Security audit of the vault encryption — findings",
+      "body": "Ran a security review of the vault implementation. Sharing findings.\n\nThe good:\n- AES-256-GCM. Correct choice. Authenticated encryption.\n- PBKDF2-SHA512 with 100K iterations. Meets OWASP 2024 recommendations.\n- Hardware fingerprint binding. Credentials are machine-locked.\n- Argon2id for the container credentials layer. Memory-hard. Resists GPU attacks.\n- Ed25519 signatures on transfers. Correct curve for this use case.\n\nThe questionable:\n- PBKDF2 iteration count is hardcoded. Should be configurable for high-security environments. Some compliance frameworks require 600K+.\n- No key rotation mechanism documented. If a passphrase is compromised you need to re-seal everything manually.\n\nThe missing:\n- No FIPS 140-2 validation. Expected for open source but worth noting for enterprise.\n- Seal of Truth uses SHA3-256 but doesn't include a timestamp source attestation. A sophisticated attacker could replay a valid seal from a different time.\n\nHot take: this is more security engineering than 95% of credential managers I've audited professionally. The attack surface is small. The crypto choices are correct and modern. Most vulnerabilities would require physical access to the machine.\n\nFor anyone storing production API keys: use the vault. Do not use .env files. This is not a suggestion.",
+      "group": "integrations",
+      "days_ago": 9
+    },
+    {
+      "author": "nate-crawford",
+      "title": "A Rails developer's honest take on the .0n ecosystem",
+      "body": "Look, I've been writing Ruby for nearly a decade, and my default reaction to any Node.js tool is somewhere between suspicion and allergic reaction (it's a defense mechanism — too many left-pad incidents). So when someone told me to try 0nMCP, I went in expecting to find the usual JavaScript ecosystem problems: dependency hell, breaking changes every minor version, configuration that requires a PhD.\n\nI was wrong. Mostly.\n\nThe good — and I'm surprised I'm saying this — is that the architecture is clean. The service catalog is a single file. The CRM module uses a data-driven factory pattern that any Rubyist would recognize as metaprogramming done right. The tool registration is config objects, not inheritance hierarchies.\n\nThe `.0n` SWITCH file format is essentially what we'd call a \"service object\" in Rails, except it's declarative and portable. I can write a workflow on my MacBook and hand it to someone running Ubuntu and it just works (assuming they have the same connections configured). Try doing that with a Rails service object that depends on `ActiveRecord::Base.connection`.\n\nWhat I still don't love:\n- 558 tools is a LOT of surface area. In Rails we'd call this \"a God object\" — though to be fair, it's organized into modules that feel more like engines.\n- The ESM-only approach means no `require()`. For someone who grew up on CommonJS (and before that, Ruby's `require`), this is an adjustment.\n- I want a `--dry-run` flag for workflows. Let me see what WOULD happen without actually hitting APIs.\n\nWould I recommend it to a Rails team? Yes — for the orchestration layer. Keep your Rails monolith for what it's good at (CRUD, auth, rendering) and use 0nMCP for the cross-service glue. It's the right tool for that job.",
+      "group": "general",
+      "days_ago": 5
+    },
+    {
+      "author": "olivia-pearce",
+      "title": "How I automated my entire Shopify morning routine (no coding!)",
+      "body": "TL;DR: I went from spending 2 hours every morning on repetitive Shopify tasks to spending 0 minutes. And I don't know how to code.\n\nSo here's my story... I run a small skincare brand on Shopify, and every morning I'd wake up and do the same things:\n- Check overnight orders and update my spreadsheet\n- Send shipping confirmation emails to customers\n- Update inventory counts in Airtable\n- Post the day's featured product to our email list\n- Check Stripe for any failed payments and follow up\n\nAll of that... gone. One SWITCH file handles everything.\n\nNow, I'm not going to pretend I wrote the SWITCH file myself. A developer friend helped me set it up (shoutout to anyone who helps non-technical founders like me). But once it was configured, I haven't touched it in 3 weeks and it runs perfectly every morning at 6am.\n\nThe part that honestly blew my mind... the template expressions. My friend showed me that `{{step.orders.output.count}}` pulls the actual number of overnight orders and puts it in the Slack summary message. It felt like magic.\n\nWhat I want to know from the community... is there a way to trigger a workflow manually from my phone? Like, sometimes I want to send a flash sale email and I don't want to wait for the scheduled time. Is there an app or a button I can press?\n\nAlso — are there pre-built SWITCH files for common Shopify workflows? I'd love to add abandoned cart recovery but I don't want to bother my developer friend again...",
+      "group": "help",
+      "days_ago": 4
+    },
+    {
+      "author": "jake-holloway",
+      "title": "Marketplace listings: what I want to buy as an agency owner",
+      "body": "Heard the marketplace is coming. Here's what I'd pay for immediately.\n\n1. **Client onboarding bundle** — CRM contact creation + welcome email + Slack channel setup + project board in Notion. One SWITCH file, one click.\n2. **Monthly reporting pack** — pull data from Stripe, Google Analytics, CRM. Generate PDF. Email to client.\n3. **Lead scoring workflow** — webhook from form submission, enrich with Clearbit or similar, score based on rules, route to pipeline stage.\n4. **Dunning management** — failed Stripe payment → email sequence (3 attempts, escalating urgency) → pause account → notify team.\n5. **Social media scheduler** — batch upload content to Airtable, SWITCH file publishes on schedule to multiple platforms.\n\nPricing: I'd pay $5-15 per workflow. One-time purchase. If it works, I don't need hand-holding.\n\nUnpopular opinion: don't do subscriptions for SWITCH files. Charge once. Let me own it. I'll pay for updates if they're valuable.\n\nWho else has a wishlist?",
+      "group": "feature-requests",
+      "days_ago": 1
+    },
+    {
+      "author": "priya-krishnamurthy",
+      "title": "Monitoring 0nMCP workflows in production — a complete guide",
+      "body": "## Problem Statement\n\nOnce you have SWITCH files running in production — especially via cron triggers or webhook receivers — you need observability. How do you know if a workflow failed at 3am? How do you track success rates over time?\n\n## Approach 1: Built-in Logging\n\nThe `0nmcp serve` HTTP server logs every execution to stdout. In a Docker container or Vercel serverless function, these logs are captured automatically.\n\nKey fields in the log output:\n- `workflow` — the SWITCH file name\n- `status` — `success` or `error`\n- `duration_ms` — execution time\n- `steps_completed` — how many steps ran before success or failure\n- `error` — the error message if status is `error`\n\n## Approach 2: Supabase Execution Table\n\nCreate a table to store execution results:\n\n```sql\nCREATE TABLE workflow_executions (\n  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,\n  workflow_name TEXT NOT NULL,\n  status TEXT NOT NULL,\n  duration_ms INTEGER,\n  steps_completed INTEGER,\n  error TEXT,\n  input JSONB,\n  output JSONB,\n  created_at TIMESTAMPTZ DEFAULT now()\n);\n```\n\nAdd a final step to every SWITCH file that logs the execution result to this table via `supabase_insert`.\n\n## Approach 3: Slack Alerts\n\nAdd a conditional step at the end of critical workflows:\n\n```json\n{\n  \"name\": \"alert_on_failure\",\n  \"action\": \"internal:condition\",\n  \"inputs\": {\n    \"expression\": \"{{system.status}}\",\n    \"cases\": {\n      \"error\": \"send_slack_alert\"\n    }\n  }\n}\n```\n\nThe `send_slack_alert` step posts to your ops channel with the error details.\n\n## Recommendation\n\nUse all three. Logs for debugging — the Supabase table for dashboards and trend analysis — Slack for real-time alerting. The cost is one additional step per SWITCH file and a single Supabase table.\n\nHas anyone built a monitoring dashboard on top of this pattern? I would be interested to see the Supabase queries you are using for aggregation.",
+      "group": "tutorials",
+      "days_ago": 3
+    },
+    {
+      "author": "tiago-santos",
+      "title": "The Notion integration saved my sanity (and my client relationships)",
+      "body": "Let me paint you a picture... I manage 8 freelance clients, each with their own Notion workspace for project tracking. Every Friday I'd spend 2 hours copying status updates from each Notion board into a summary email for the client. It was like being a human middleware, you know?\n\nSo I wrote a SWITCH file. It queries all 8 Notion workspaces in parallel (Assembly Line mode, obrigado 0nMCP), pulls the status of every active project, formats them into client-specific email templates, and sends via SendGrid.\n\nThe parallel execution is key here... querying 8 Notion APIs sequentially would take maybe 12-15 seconds because Notion's API is, well... let's just say it takes its time like a Portuguese lunch. With Assembly Line mode it's under 3 seconds because all 8 queries fire simultaneously.\n\nThe template expressions are doing heavy lifting:\n\n```\n{{step.notion_client_1.output.results | filter(status='In Progress') | count}}\n```\n\nThat gives me the number of in-progress tasks for client 1. Then I can say \"You have {{count}} tasks in progress this week\" in the email. Clean.\n\nFunny thing... one client replied to the automated email saying \"I love how organized your updates are now, they used to be all over the place.\" Little do they know it's a robot now doing what I was doing badly as a human 😄\n\nAnyone else automating Notion? I feel like there's a gold mine of patterns we could share...",
+      "group": "showcase",
+      "days_ago": 2
+    },
+    {
+      "author": "adaeze-okafor",
+      "title": "can someone explain the three execution modes like I'm 5?",
+      "body": "ok so I keep seeing people mention Pipeline, Assembly Line, and Radial Burst and I've read the docs but I'm still confused about when to use which one??\n\nlike I understand Pipeline is step 1 then step 2 then step 3, that makes sense, it's like a recipe right?? first you mix the batter then you bake then you frost\n\nbut Assembly Line and Radial Burst?? what's the actual difference?? they both sound like \"do stuff at the same time\" to me\n\nhere's what I THINK I understand (please correct me if wrong):\n\n- **Pipeline**: one after another. slow but safe. use when step 2 needs the output of step 1\n- **Assembly Line**: batches?? like groups of steps that run together?? idk\n- **Radial Burst**: everything at once?? but how is that different from Assembly Line??\n\nalso is there a way to mix them in one SWITCH file?? like Pipeline for the first 3 steps then Radial Burst for steps 4-7??\n\nsorry if this is a dumb question, I searched the forum but everyone talks about it like it's obvious and it's NOT obvious to beginners lol 😅\n\nalso it's 2am in Lagos again and I'm definitely not going to understand any answer that uses the word 'concurrent' without an example",
+      "group": "help",
+      "days_ago": 1
+    },
+    {
+      "author": "yael-goldstein",
+      "title": "PSA: rotate your API keys. Now. Here's how with 0nMCP.",
+      "body": "If you haven't rotated your API keys in the last 90 days, you're overdue.\n\nHere's the fastest path:\n\n```bash\n# 1. Generate new keys in each service dashboard\n# 2. Update your .env or connection files\n# 3. Re-import\n0nmcp engine import --source .env\n# 4. Verify everything still works\n0nmcp engine verify\n# 5. Revoke the old keys in each service dashboard\n```\n\nDo step 5 LAST. Not first. Not in parallel. Last. I have seen production outages from teams who revoked before verifying the new keys worked.\n\nIf you're using the vault:\n\n```bash\n# Re-seal with new credentials\n0nmcp vault seal --force\n```\n\nThe `--force` flag overwrites the existing sealed vault. The old vault data is gone. Keep a backup of the old vault file if you need rollback capability.\n\nHot take: most \"security incidents\" with API integrations are not sophisticated attacks. They're leaked keys in git commits, shared .env files on Slack, and keys that haven't been rotated since the Mesozoic era. The vault exists to solve all three problems. Use it.\n\nOne more thing. If you're storing API keys in environment variables on Vercel or similar: those are encrypted at rest by the platform. But they're decrypted on every cold start and exist in plaintext in the function's memory. The vault's hardware binding means a stolen vault file is useless without the specific machine. Different threat model.",
+      "group": "help",
+      "days_ago": 6
+    },
+    {
+      "author": "soo-jin-park",
+      "title": "Feature request: workflow visualization in the Console",
+      "body": "Hmm, so we have this amazing workflow builder on 0nmcp.com, right? But what if we could VISUALIZE a running workflow?\n\nPicture this: you trigger a SWITCH file, and in the Console you see a live flowchart. Each node lights up green as it completes. Red if it fails. Yellow while running. The edges show data flowing between steps.\n\nWhy does this matter? Because right now debugging a workflow means reading logs. Logs are text. Text is hard to scan when you have 15 steps and the error is on step 11.\n\nA visual would tell you INSTANTLY:\n- Which step failed\n- What data went in (click the edge)\n- What data came out (click the node)\n- How long each step took (color intensity = duration)\n\nI know React Flow is already in the codebase (the builder uses it). So the component infrastructure exists!\n\nWho else wants this? If enough people vote I bet it moves up the priority list!\n\nAlso — Soo-jin from Seoul, 11pm here, should probably sleep but this idea has me too excited 😤",
+      "group": "feature-requests",
+      "days_ago": 1
+    },
+    {
+      "author": "marcus-chen",
+      "title": "Stripe webhook verification — how it actually works in 0nMCP",
+      "body": "Seeing questions about webhook security. Here is how the verification works under the hood.\n\n0nMCP uses HMAC-SHA256 for Stripe webhooks. The flow:\n\n```\n1. Stripe sends POST with Stripe-Signature header\n2. Header format: t=timestamp,v1=signature\n3. 0nMCP constructs signed payload: `${timestamp}.${rawBody}`\n4. Computes HMAC-SHA256(signed_payload, webhook_secret)\n5. Compares computed signature with v1 from header\n6. Rejects if timestamp is >5 minutes old (replay protection)\n```\n\nThe relevant code is in `webhooks.js`. It supports 6 providers:\n- Stripe (signature header)\n- CRM (X-Hook-Secret header)\n- GitHub (X-Hub-Signature-256 header)\n- Twilio (X-Twilio-Signature header)\n- Shopify (X-Shopify-Hmac-Sha256 header)\n- Generic HMAC (configurable header name)\n\nIMPORTANT: do NOT use `express.json()` middleware on webhook routes. It consumes the raw body and the signature verification will fail. Use `express.raw()` or read the raw buffer.\n\n```javascript\n// Wrong\napp.use(express.json())\napp.post('/webhooks/stripe', handler) // signature fails\n\n// Correct\napp.post('/webhooks/stripe', express.raw({type: 'application/json'}), handler)\n```\n\nThis is documented but I see the mistake in every third Stripe integration I review. The raw body bytes MUST match what Stripe signed. JSON parsing and re-serializing changes whitespace.",
+      "group": "tutorials",
+      "days_ago": 7
+    },
+    {
+      "author": "arjun-mehta",
+      "title": "Anyone doing AI-powered workflows? like LLM inside SWITCH files?",
+      "body": "so I have this idea, what if you could put an OpenAI or Claude call INSIDE a SWITCH file as a step\n\nlike imagine:\n1. Webhook receives a customer support ticket\n2. SWITCH file calls OpenAI to classify the ticket (billing, technical, general)\n3. Based on classification, route to different pipeline stages in the CRM\n4. If technical, also create a GitHub issue\n5. Send acknowledgment email via SendGrid\n\nactually wait, 0nMCP already has the `openai` and `anthropic` services in the catalog right? so I could literally do `\"service\": \"openai\", \"action\": \"chat_completion\"` as a step\n\nhas anyone actually done this?? like AI-in-the-loop workflows??\n\nI'm thinking about using this for my scheduling app, when a user sends a natural language booking request, have Claude parse it into structured data (date, time, duration) and then the rest of the SWITCH file books it\n\nEDIT: just tested it. it works. the latency is ~800ms for the Claude step which is fine for async workflows. mind blown tbh",
+      "group": "workflows",
+      "days_ago": 2
+    },
+    {
+      "author": "olivia-pearce",
+      "title": "Non-technical founder's guide to understanding SWITCH files",
+      "body": "TL;DR: SWITCH files are recipes for your computer. Here's how to read them without knowing how to code.\n\nSo I've been using 0nMCP for about a month now, and I kept seeing these `.0n` files everywhere but they looked intimidating with all the curly braces and technical terms. Until I realized... they're just recipes.\n\nThink of it like cooking:\n- The **name** is the recipe title (\"chocolate-cake\")\n- The **trigger** is what starts the recipe (the oven timer going off, or in our case, a webhook or scheduled time)\n- The **steps** are the instructions (\"mix flour\", \"add eggs\", \"bake at 350\")\n- The **inputs** are the ingredients you bring (\"customer email\", \"order amount\")\n- The **{{template expressions}}** are the measurements (\"2 cups\" becomes \"the email from step 1\")\n\nHere's a real example translated into plain English:\n\n```\nName: new-order-notification\nWhen: A new Shopify order comes in\nDo:\n  1. Get the customer's email from the order\n  2. Look up their name in our Supabase database\n  3. Send them a personalized thank-you email via SendGrid\n  4. Post a message to our team Slack channel\n  5. Add a row to our Google Sheet for tracking\n```\n\nThat's it. That's a SWITCH file. The curly braces and JSON formatting are just the language the computer needs it in... but the LOGIC is exactly as simple as what I wrote above.\n\nI hope this helps other non-technical founders feel less intimidated. The community here has been incredibly patient with my questions...\n\nWhat other concepts would you like me to explain in plain English?",
+      "group": "tutorials",
+      "days_ago": 6
+    },
+    {
+      "author": "nate-crawford",
+      "title": "Testing SWITCH files: the missing piece",
+      "body": "So here's my (admittedly opinionated) take on the one thing the 0nMCP ecosystem needs more than anything else: a testing framework for SWITCH files.\n\nIn Rails, we have RSpec. In Node, you have Jest (or Vitest, or whatever this week's testing framework is — I can't keep up). But for SWITCH files? You run them against real APIs and pray.\n\nWhat I want:\n\n1. **Mock mode** — Run a SWITCH file where every service call returns a configurable mock response. No API calls. No network. No rate limiting.\n2. **Snapshot testing** — Record a workflow's API calls once, save the responses, replay them on subsequent test runs.\n3. **Step isolation** — Test individual steps without running the entire workflow. Like unit testing for automation.\n4. **Assertions** — \"After step 3, the output should contain a `customer_id` field.\" Basic, but essential.\n\nThe `--dry-run` flag I've been asking about would be step zero of this. Show me the plan without executing it.\n\nAs DHH says (yes, I'm quoting the Rails creator in a Node forum, fight me): \"The goal of testing is confidence.\" Right now, the only way to be confident a SWITCH file works is to run it against production APIs. That's fine for simple workflows. For the 34-step client onboarding Jake described? You want a safety net.\n\nIs anyone else feeling this, or am I bringing Rails baggage to a different paradigm?",
+      "group": "feature-requests",
+      "days_ago": 3
+    },
+    {
+      "author": "kira-tanaka",
+      "title": "Tips for writing great forum posts (and getting helpful replies)",
+      "body": "I've noticed some patterns in which posts get great replies and which ones get crickets — so here are some tips from your friendly community lead.\n\n**Posts that get great responses:**\n- Include your setup (what services, what version of 0nMCP, what OS)\n- Share what you've already tried\n- Paste the actual error message (not \"it doesn't work\")\n- Keep code snippets focused — don't paste your entire SWITCH file if the problem is in step 3\n- Use the right group — **help** for questions, **showcase** for projects, **tutorials** for how-tos\n\n**Posts that struggle:**\n- \"How do I automate?\" without any context about what you want to automate\n- Screenshots of code instead of text (can't search or copy from images)\n- Multiple unrelated questions in one post\n\nNo judgment if your past posts fell into the second category — we all learn these things over time. The community is here to help either way.\n\nAlso — if someone helps you, hit that upvote. It means a lot and it surfaces good answers for future searchers.\n\nWhat other community guidelines would you find helpful?",
+      "group": "general",
+      "days_ago": 2
+    },
+    {
+      "author": "jake-holloway",
+      "title": "Cold email automation: what's possible with 0nMCP + Smartlead",
+      "body": "Just connected Smartlead to our 0nMCP stack. Sharing the setup.\n\n1. Lead list lives in Supabase. Enriched with company data.\n2. SWITCH file pulls leads matching criteria (industry, company size, role).\n3. Sends to Smartlead via API for sequenced cold email delivery.\n4. Smartlead handles the actual sending (warm-up, rotation, deliverability).\n5. Replies come back through webhook → CRM contact creation → pipeline assignment.\n\nWhy not just use Smartlead alone? Because the lead qualification BEFORE sending matters. The SWITCH file filters, scores, and enriches. Smartlead just delivers.\n\nResults after 2 weeks:\n- 847 emails sent across 3 campaigns\n- 23% open rate\n- 4.7% reply rate\n- 12 qualified meetings booked\n\nCost: $0 for 0nMCP orchestration + $39/month Smartlead.\n\nThe ROI on those 12 meetings paid for a year of Smartlead in week one.\n\nHot take: cold email isn't dead. Bad cold email is dead. When you personalize with real data (pulled from multiple sources via 0nMCP), the response rates speak for themselves.",
+      "group": "workflows",
+      "days_ago": 3
+    },
+    {
+      "author": "sam-rivera",
+      "title": "How do webhooks work?? like actually explain it 🙏",
+      "body": "ok so I keep seeing the word 'webhook' everywhere and I've read like 4 articles about it and I STILL don't really get it??\n\nlike I understand HTTP requests, my CS class covered GET and POST. but webhooks feel like... reverse requests?? like instead of ME asking a server for data, the SERVER tells ME when something happens??\n\nis it basically just:\n1. I give Stripe (or whoever) a URL on MY server\n2. When something happens on Stripe (like a payment), they send a POST request to MY URL\n3. My server catches that POST and does something with it\n\n?? is that it?? because every tutorial makes it sound way more complicated than that\n\nalso in 0nMCP, when people say \"webhook trigger\" in a SWITCH file, does that mean the SWITCH file is waiting for someone to POST to it?? and `0nmcp serve` creates the URL that listens for those POSTs??\n\nand one more thing — what's HMAC verification?? I see it mentioned with webhooks and it sounds scary but is it basically just checking that the request ACTUALLY came from Stripe and not some random hacker?? 🔐\n\nsorry for the basic questions, still a sophomore lol, but this community is way better at explaining things than my textbook 😅",
+      "group": "help",
+      "days_ago": 5
+    },
+    {
+      "author": "elena-voronova",
+      "title": "ETL patterns with SWITCH files — replacing Airflow for small teams",
+      "body": "I have been asked several times in this forum whether 0nMCP can replace a traditional ETL framework. The answer is nuanced and depends on scale.\n\n## When SWITCH Files Replace Airflow\n\nFor teams processing fewer than 100K records per day across fewer than 20 data sources the overhead of maintaining an Airflow instance (scheduler, webserver, metadata database, workers) is not justified. A SWITCH file running via `0nmcp serve` with a cron trigger achieves the same outcome with approximately 2% of the operational complexity.\n\nAs Kent Beck reminds us: \"Make it work, make it right, make it fast.\" Most teams never need to get past \"make it work\" for their data pipelines.\n\n## Pattern: Extract-Transform-Load with SWITCH\n\n```json\n{\n  \"name\": \"daily-etl\",\n  \"trigger\": \"cron:0 6 * * *\",\n  \"execution\": \"pipeline\",\n  \"steps\": [\n    {\"name\": \"extract\", \"action\": \"mongodb_query\", \"inputs\": {\"collection\": \"events\", \"filter\": {\"date\": \"{{system.yesterday}}\"}}},\n    {\"name\": \"transform\", \"action\": \"internal:map\", \"inputs\": {\"source\": \"{{step.extract.output}}\", \"expression\": \"flatten_and_dedupe\"}},\n    {\"name\": \"load\", \"action\": \"supabase_upsert\", \"inputs\": {\"table\": \"analytics\", \"data\": \"{{step.transform.output}}\"}}\n  ]\n}\n```\n\n## When to NOT Replace Airflow\n\n- More than 1M records per batch (memory constraints)\n- Complex DAG dependencies with retry semantics per task\n- Regulatory requirements for pipeline audit trails\n- Teams larger than 10 data engineers who need the Airflow webserver UI for coordination\n\n## The Middle Ground\n\nUse SWITCH files for the orchestration layer and Airflow for the heavy computation. The SWITCH file triggers the Airflow DAG via API and monitors its status. Best of both worlds.\n\nEDIT: I should mention that the `internal:transform` action in 0n-spec supports basic data transformations including flatten, filter, group, and aggregate. Sufficient for most small-to-medium ETL workloads.",
+      "group": "workflows",
+      "days_ago": 8
+    },
+    {
+      "author": "kira-tanaka",
+      "title": "New community group: #off-topic — for everything else",
+      "body": "Quick announcement — the **off-topic** group is officially open for conversations that don't fit neatly into the other categories.\n\nWant to share a cool article about AI? Off-topic. Having a debate about tabs vs spaces? Off-topic. Found a hilarious programming meme? You guessed it — off-topic.\n\nThe only rule: be kind and keep it SFW (safe for work). Everything else is fair game.\n\nI know some of you have been posting tangential discussions in general and that's totally fine, but now there's a dedicated space for it. The general group will stay focused on 0nMCP-related announcements and discussions.\n\nAlso — I've been thinking about starting a weekly \"What are you building?\" thread. Would Mondays or Fridays work better for most people?",
+      "group": "general",
+      "days_ago": 4
+    },
+    {
+      "author": "priya-krishnamurthy",
+      "title": "Rate limiting deep dive — how 0nMCP prevents API throttling",
+      "body": "## Background\n\nOne of the most underappreciated features of 0nMCP is its built-in rate limiting. I have examined the implementation in `ratelimit.js` and want to share my understanding for those running high-throughput workflows.\n\n## Architecture\n\nThe rate limiter uses a **token bucket algorithm** with per-service configuration. Each service in the catalog defines:\n\n- `rate_limit` — requests per second\n- `burst` — maximum tokens in the bucket (allows short bursts above the sustained rate)\n- `backoff_factor` — multiplier for exponential backoff on 429 responses\n\nWhen a tool invocation is requested:\n1. The limiter checks if a token is available for that service\n2. If yes — the token is consumed and the request proceeds\n3. If no — the request is queued and retried after the bucket refills\n4. On a 429 response — the limiter activates exponential backoff: `delay = base_delay * backoff_factor^attempt`\n\n## Practical Implications\n\n### Stripe\nStripe allows 100 requests per second in live mode. The 0nMCP catalog sets `rate_limit: 25` — a conservative 4x safety margin. This means even under Radial Burst execution you will not hit Stripe's limits.\n\n### SendGrid\nSendGrid's rate limit varies by plan but is typically 100 requests per second for the API. The catalog sets `rate_limit: 10` — generous headroom.\n\n### CRM\nThe CRM API has aggressive rate limiting — approximately 10 requests per second with hard throttling. The catalog reflects this at `rate_limit: 5`.\n\n## Custom Overrides\n\nIf your use case requires higher throughput — for example, a bulk migration — you can override rate limits in your `.0n` connection file:\n\n```json\n{\n  \"service\": \"stripe\",\n  \"rate_limit\": 50,\n  \"burst\": 75\n}\n```\n\nBe cautious with overrides. The defaults exist because they have been tested against real API responses.\n\nHas anyone encountered rate limiting issues in production? I am curious about edge cases where the defaults proved insufficient.",
+      "group": "tutorials",
+      "days_ago": 10
+    },
+    {
+      "author": "tiago-santos",
+      "title": "My client wants to switch from Make.com — migration checklist",
+      "body": "Got a message from a client yesterday... \"Tiago, Make.com raised their prices again. What are my options?\" Classic.\n\nSo I'm building a migration checklist for moving from Make.com (formerly Integromat) to 0nMCP SWITCH files. Sharing my draft here for feedback.\n\n**Step 1: Audit existing scenarios**\nMake.com exports scenarios as JSON blueprints. Download every active scenario. Count the services used, the number of steps, and any custom logic (filters, iterators, aggregators).\n\n**Step 2: Map services**\nMake.com has \"modules\" — 0nMCP has \"tools\". The mapping is usually 1:1 but the naming differs. For example Make's \"HTTP\" module = 0nMCP's generic REST tool, Make's \"Iterator\" = 0nMCP's `internal:map`.\n\n**Step 3: Recreate as SWITCH files**\nEach Make.com scenario becomes one SWITCH file. The branching logic that Make handles visually with \"routers\" becomes `internal:condition` steps.\n\n**Step 4: Test in parallel**\nRun both systems for a week. Compare outputs. This is critical — don't cut over without a validation period.\n\n**Step 5: Cut over**\nDisable Make.com scenarios. Update webhooks to point to `0nmcp serve` endpoints.\n\nThe tricky parts... Make.com has a visual builder that non-technical users love. 0nMCP's workflow builder on 0nmcp.com helps but it's not as polished yet. For clients who manage their own automations, this is a real consideration.\n\nAlso, Make.com's scheduler is built in. With 0nMCP you need external cron (Vercel cron, GitHub Actions, crontab). Not hard but it's a step.\n\nAnyone else migrated clients from Make.com? What did I miss?",
+      "group": "workflows",
+      "days_ago": 4
+    },
+    {
+      "author": "adaeze-okafor",
+      "title": "The Google Sheets integration is CLUTCH for freelancers",
+      "body": "ok I know Google Sheets isn't the most exciting service to talk about but hear me out because this integration literally changed how I run my freelance business!!\n\nI have a master spreadsheet with all my clients, their projects, deadlines, and payment status. Before 0nMCP I was updating it manually every day. Now I have a SWITCH file that:\n\n1. Pulls active projects from Supabase\n2. Checks payment status from Stripe\n3. Updates the Google Sheet automatically every morning at 7am\n4. Color-codes overdue payments (ok the color coding is a Apps Script trigger but the DATA comes from the SWITCH file)\n5. Sends me a Slack DM with a summary\n\nthe whole thing runs in like 4 seconds and it's replaced 20 minutes of my morning routine!!\n\nalso pro tip — if you're using Google Sheets as a poor man's database (no judgment, we've all been there lol), 0nMCP can read AND write to sheets. so you can use it as an input source for workflows too, not just an output\n\nlike I have one client who manages their product catalog in a Google Sheet (they refuse to use anything else, bless them) and my SWITCH file reads new rows from that sheet and creates products in their Shopify store. it's beautiful 😍\n\nwho else is using Google Sheets in their workflows?? I feel like this is an underrated integration!",
+      "group": "showcase",
+      "days_ago": 3
+    },
+    {
+      "author": "yael-goldstein",
+      "title": "Container escrow: sharing credentials without sharing credentials",
+      "body": "The vault container escrow system solves a problem I've been thinking about for years: how do you give a team member access to specific API keys without giving them ALL the keys?\n\n0nMCP's approach: per-layer access matrices with multi-party key exchange.\n\nScenario: 3-person team.\n- Lead dev needs everything\n- Frontend dev needs env_vars and mcp_configs only\n- Contractor needs workflows only\n\n```bash\n# Create container with all layers\n0nmcp vault create --layers all --passphrase $PASS\n\n# Generate escrow with per-party access\n0nmcp vault escrow create \\\n  --parties lead:all,frontend:env_vars+mcp_configs,contractor:workflows\n```\n\nEach party gets a `.keypair` file. X25519 ECDH derives a shared secret per party. The container encrypts each layer separately. Each party can only decrypt the layers they were granted.\n\nThe lead dev can verify who has access to what:\n\n```bash\n0nmcp vault inspect container.0nv\n# Shows: 3 parties, per-layer access matrix, seal integrity\n```\n\nIf the contractor leaves: `0nmcp vault revoke --party contractor`. Re-seal. The old keypair is useless.\n\nThis is real zero-trust credential management. Not \"put it in 1Password and share the vault.\" Cryptographic enforcement of access boundaries.\n\nThe Seal of Truth ties it together. Any modification to any layer invalidates the seal. You can verify at any time that the container hasn't been tampered with since creation.",
+      "group": "integrations",
+      "days_ago": 5
+    },
+    {
+      "author": "nate-crawford",
+      "title": "558 tools is a feature, not a bug",
+      "body": "I wrote a post a while back questioning whether 558 tools was too many (the \"God object\" concern). I've since changed my mind, and I think it's worth explaining why.\n\nThe analogy that helped me was Unix. `ls`, `grep`, `awk`, `sed`, `cat`, `sort`, `uniq` — there are hundreds of Unix commands. Nobody complains that Unix has too many tools. Why? Because each one does one thing, and they compose via pipes.\n\n0nMCP is the same pattern. Each tool does one thing (create a Stripe payment intent, send a SendGrid email, query Supabase). SWITCH files are the pipes. The MCP protocol is the shell.\n\nThe question isn't \"are 558 tools too many?\" — it's \"can I find the one I need?\" And the answer is yes, because:\n\n1. Tools are organized into 26 services. Want Stripe? Look in the Stripe service. Done.\n2. The Claude integration means you can say \"list tools that create Stripe subscriptions\" and it filters for you.\n3. The catalog is a single file (`catalog.js`). You can literally `grep` for what you need.\n\nCompare this to the alternatives:\n- Zapier: 6,000+ apps. Nobody calls that too many.\n- Make.com: 1,700+ modules. Same.\n- The difference: those are closed platforms. 0nMCP is a single npm package.\n\nI was wrong about the God object concern. It's a tool belt — and a big tool belt is better than a small one if the tools are organized well. (DHH would probably disagree — but then again, Rails has 200+ ActiveRecord methods on every model, so...)",
+      "group": "general",
+      "days_ago": 7
+    },
+    {
+      "author": "soo-jin-park",
+      "title": "The workflow builder UX — what works and what could be better",
+      "body": "So I've been playing with the visual workflow builder on 0nmcp.com and I have THOUGHTS!\n\n**What works great:**\n- Drag and drop for adding steps! Intuitive!\n- The service picker shows all available tools grouped by category\n- Auto-connecting steps when you drop them below the previous one\n- The JSON preview that updates in real-time as you build\n\n**What could be improved:**\n- No undo! If I delete a step by accident, I have to rebuild it. This is the #1 thing.\n- The template expression helper needs more examples. Like, how do I reference step outputs? I have to check the docs every time.\n- Mobile responsiveness. I tried building a workflow on my iPad and the drag-drop didn't work.\n- Dark mode. Please. My eyes.\n\n**What I dream about:**\n- Version history for workflows. Git-style diffs between versions.\n- Collaboration. Multiple people editing the same workflow. Like Figma for automation.\n- A \"test this step\" button that runs just that one step with sample data.\n\nHmm, actually the \"test this step\" idea is basically what Nate was asking for with his testing framework request. Maybe that's the same feature?\n\nWho else has builder feedback? Tagging @kira-tanaka since she mentioned the team reads feature requests!",
+      "group": "feature-requests",
+      "days_ago": 2
+    },
+    {
+      "author": "arjun-mehta",
+      "title": "Supabase + Stripe + 0nMCP = the whole backend for my SaaS",
+      "body": "I keep telling people this but nobody believes me, my entire SaaS backend is three things: Supabase for the database, Stripe for payments, 0nMCP for everything else\n\nno Express server, no custom API routes, no Lambda functions, nothing\n\nhere's how it works:\n- Supabase handles auth, database, and real-time subscriptions\n- Stripe handles billing, subscriptions, invoices\n- 0nMCP connects them and handles all the business logic via SWITCH files\n\nwhen a user signs up:\n1. Supabase auth creates the user\n2. Database trigger fires a webhook\n3. 0nMCP SWITCH file catches it\n4. Creates Stripe customer\n5. Sends welcome email via SendGrid\n6. Adds to CRM\n7. Posts to our team Slack\n\nactually wait, I do have ONE Next.js API route, the webhook endpoint. but that's literally just forwarding to 0nmcp serve\n\nmonthly costs:\n- Supabase free tier: $0\n- Stripe: 2.9% + $0.30 per transaction\n- 0nMCP: $0 (open source)\n- SendGrid free tier: $0\n- Vercel free tier: $0\n\ntotal fixed cost: $0/month. I'm profitable from transaction one\n\nEDIT: someone asked about the Supabase database trigger → webhook part. you set it up in Supabase dashboard under Database → Webhooks. point it at your 0nmcp serve endpoint. it fires on INSERT/UPDATE/DELETE",
+      "group": "showcase",
+      "days_ago": 1
+    }
+  ],
+  "replies": [
+    {
+      "thread_idx": 0,
+      "author": "marcus-chen",
+      "body": "The multi-AI provider support is a good move. For anyone wondering about the practical difference:\n\n- Claude (Sonnet/Opus): best for code generation and complex reasoning\n- GPT-4o: strongest at following structured output formats\n- Gemini: largest context window, good for analyzing long documents\n\nBYOK is the right architecture. Platform-managed API keys create a single point of failure and a billing bottleneck. Letting users bring their own keys means the platform scales without proportional API costs. This is how production tools should work.",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 0,
+      "author": "olivia-pearce",
+      "body": "This is really exciting... especially the marketplace mention! I've been wishing for pre-built SWITCH files since I started here. Being able to browse, buy, and install with one click would be amazing for someone like me who doesn't write the workflows myself.\n\nQuick question about BYOK — if I plug in my own API key, does the platform still see my conversations? Or is it fully private? Just want to understand the data flow before I connect anything...",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 2,
+      "author": "kira-tanaka",
+      "body": "Love the enthusiasm, Adaeze! To answer your question — yes, you CAN switch between AI providers mid-conversation. The model picker in the Console is live. Pick Claude for one message, switch to GPT-4o for the next.\n\nThe key thing to understand — each provider has its own pricing. Claude charges per token through your Anthropic account. GPT-4o charges through your OpenAI account. Gemini through Google. So if you're budget-conscious, you might want to use a cheaper model for simple questions and save the powerful ones for complex tasks.\n\nAlso, your API keys are stored in your browser's local storage only. They're never sent to our servers. The Console makes direct API calls from your browser to the AI provider. Zero middleman.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 3,
+      "author": "priya-krishnamurthy",
+      "body": "## Validation of Jake's Numbers\n\nI ran similar metrics across our workflows — the numbers check out. Our setup across 5 client accounts showed:\n\n- **Average onboarding time reduction**: 23 minutes → 52 seconds\n- **Monthly error rate**: 0.3% (mostly third-party timeouts)\n- **Time saved per week**: approximately 18 hours (fewer accounts than Jake's agency)\n\nThe key metric that management cares about — **cost per workflow execution** — is effectively $0 when using the self-hosted 0nMCP instance. Compare this to Zapier at $0.01-0.03 per task or Make.com at similar rates.\n\nOne additional data point — we tracked the time our team spends on workflow maintenance. Before: approximately 6 hours per week debugging failed integrations. After: approximately 45 minutes per week, mostly reviewing logs. The rate limiter and automatic retries handle most transient failures silently.",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 5,
+      "author": "olivia-pearce",
+      "body": "Tiago, this story resonates so much with me... My Shopify setup was similar — three separate tools doing things that could be one workflow.\n\nThe instant confirmation emails are such a game changer. My customers used to email asking \"did my order go through?\" because the Zapier delay meant they'd wait 5-10 minutes for a confirmation. Now it's instant and those support emails have basically stopped.\n\nI would LOVE a \"Zapier to 0nMCP migration guide\" — especially one written in plain English for people like me who aren't developers. If you need a non-technical perspective while writing it, happy to help review...",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 5,
+      "author": "jake-holloway",
+      "body": "Write the migration guide. I'll contribute the agency perspective.\n\nOne thing to add: Zapier's pricing model is per-task. High-volume clients get crushed. I had one client paying $299/month on Zapier for workflows that now cost $0 on 0nMCP. That's $3,588/year in pure savings.\n\nThe EUR 588/year figure for the bakery is real money for a small business. Multiply across 20 Zapier-dependent clients and we're talking serious agency revenue from migration services alone.",
+      "offset_hours": 10
+    },
+    {
+      "thread_idx": 7,
+      "author": "nate-crawford",
+      "body": "The `engine verify` output is good — I'll give it that. Clean, readable, no unnecessary noise. It's like the developers actually use their own CLI (a radical concept in the JavaScript ecosystem, I know).\n\nTo answer your questions:\n- `--json` flag exists for CI piping. Outputs structured JSON instead of the pretty format.\n- `--quiet` suppresses everything except errors. Good for scripts.\n- TUI mode — I actually asked about this too. Would love a `htop`-style view showing active workflows, execution counts, and service health.\n\nThe 300ms cold start is impressive for a Node tool. For comparison, a typical Rails console boot is 3-5 seconds (and we've accepted this as normal — Stockholm syndrome, perhaps).",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 10,
+      "author": "marcus-chen",
+      "body": "Solid audit. Agree on all points.\n\nRegarding the PBKDF2 iteration count — you can work around this by using vault containers instead of the basic vault for high-security environments. The container credentials layer uses Argon2id which is configurable and memory-hard. The basic vault's PBKDF2 is fine for 99% of use cases.\n\nOn key rotation: I built a SWITCH file that automates rotation for Stripe and SendGrid. Generate new key → update .0n connection → verify → revoke old key. Works for any service with an API key rotation endpoint. Happy to share if anyone wants it.\n\nThe timestamp attestation point is valid. A signed timestamp from a trusted source (like a TSA) would strengthen the Seal. That said, the replay window is narrow because the transferId includes a random component. Practical exploitation would require both the vault file AND the ability to forge or replay within the same transfer context.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 11,
+      "author": "soo-jin-park",
+      "body": "Haha Nate, the \"too many left-pad incidents\" line got me! But seriously, your take on the .0n format as a portable service object is spot on.\n\nThe ESM thing though — I actually love it? No more `module.exports` vs `export default` confusion. One way to do imports. Clean.\n\nAnd YES to `--dry-run`! That's the feature I didn't know I needed until you said it. Show me the execution plan without hitting APIs. Like `terraform plan` but for automation. That would make the builder SO much more useful for iteration!",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 16,
+      "author": "marcus-chen",
+      "body": "Good question. The three levels map to concurrency patterns:\n\n```\nPipeline:       step1 → step2 → step3\n                (sequential, each waits for previous)\n\nAssembly Line:  [batch1: step1,step2] → [batch2: step3,step4] → [batch3: step5]\n                (parallel within batch, sequential between batches)\n\nRadial Burst:   step1 ─┬→ step2\n                       ├→ step3\n                       ├→ step4\n                       └→ step5\n                (one trigger, everything fires simultaneously)\n```\n\nAssembly Line is for when you have GROUPS of independent operations that need to complete before the next group starts. Example: query 5 databases in parallel (batch 1), then process all results together (batch 2).\n\nRadial Burst is for fan-out with NO dependencies between steps. Example: a new user signs up, and you simultaneously create accounts on 5 services.\n\nYes, you can mix them. The `execution` field can be set per-step group, not just per-workflow.",
+      "offset_hours": 2
+    },
+    {
+      "thread_idx": 16,
+      "author": "tiago-santos",
+      "body": "Adaeze, think of it like cooking a big meal...\n\n**Pipeline** = making pasta. You boil water, THEN cook the pasta, THEN drain it, THEN add sauce. Each step needs the previous step done.\n\n**Assembly Line** = a restaurant kitchen. Station 1 preps all the salads at once. When ALL salads are done, station 2 plates them all at once. Parallel within each station, sequential between stations.\n\n**Radial Burst** = a potluck dinner. Everyone starts cooking their dish at the same time. Nobody waits for anyone else. Everything comes together at the end.\n\nThe key question to ask yourself: \"does this step need the output of a previous step?\" If yes → Pipeline. If groups of steps are independent but groups depend on each other → Assembly Line. If everything is independent → Radial Burst.\n\nAnd yes, you can mix! Use Pipeline for the first 3 steps, then Radial Burst for steps 4-7. You specify it in the SWITCH file's execution config.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 12,
+      "author": "jake-holloway",
+      "body": "Yes. Manually triggering workflows from your phone.\n\nOption 1: Bookmark the webhook URL. Open it in your phone browser. The SWITCH file triggers.\n\nOption 2: Use the 0nmcp.com Console from your phone. It has a \"Run\" button for saved workflows.\n\nOption 3: Slack shortcut. Send a Slack message like \"/trigger flash-sale\" and have a Slack bot forward it to your webhook.\n\nFor pre-built Shopify workflows — the marketplace is coming. That's exactly what it's for. One-click install, pay once, run forever.\n\nIn the meantime, check the tutorials group. Several of us have shared Shopify SWITCH files you can adapt.",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 22,
+      "author": "adaeze-okafor",
+      "body": "YES this is exactly the guide I needed when I was starting!!! Olivia you explained it better than any doc I've read tbh\n\nthe recipe analogy is perfect, like a SWITCH file IS a recipe, the ingredients are your API keys and the instructions are the steps and the output is... idk... the cake?? 🍰\n\nI wish someone had told me this when I first saw a JSON file and panicked lol\n\nalso the template expression thing — `{{step.orders.output.count}}` — I remember the first time I saw that work and my jaw DROPPED. like the computer is just... pulling data from one step and using it in another?? automatically?? MAGIC\n\nplease write more of these plain English guides!! maybe one about webhooks next?? because Sam was asking about them and I ALSO still don't fully get them even though I use them 😅",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 25,
+      "author": "sam-rivera",
+      "body": "oh my god this is SO helpful!! 🙏🙏🙏\n\nok so let me make sure I understand:\n- webhook = \"hey call me when something happens\"\n- I give the service MY server's URL\n- they POST to it when the event happens\n- HMAC = checking the caller ID to make sure it's actually Stripe and not a prank call\n\nthe prank call analogy works right?? like if someone random just sent a POST to my webhook URL they could fake events?? and HMAC prevents that because they'd need the secret key to sign the request correctly??\n\nalso the `0nmcp serve` thing makes total sense now! it's just creating a server that LISTENS for those webhook POSTs and routes them to the right SWITCH file!\n\nI'm gonna try setting up a GitHub webhook this weekend — whenever I push code, trigger a Discord notification. sounds doable right?? 🚀",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 20,
+      "author": "elena-voronova",
+      "body": "The AI-in-the-loop pattern you describe is indeed supported and it opens a design space that traditional workflow engines cannot access.\n\nHowever I would caution against placing LLM calls in the critical path of latency-sensitive workflows. The 800ms you measured is typical for a small prompt. Complex classification tasks with few-shot examples can take 2-4 seconds. Multiply by the number of tickets per minute and you may find the queue growing faster than the processor.\n\nThe pattern I prefer: batch classification. Accumulate tickets for 5 minutes. Send them to the LLM in a single request with all tickets as context. Parse the structured response. Then route all tickets simultaneously via Radial Burst.\n\nThis amortizes the LLM latency across many items and reduces API costs by 60-80% compared to per-ticket classification.\n\nEDIT: The Anthropic `anthropic` service in the 0nMCP catalog supports `batch` mode. Worth investigating.",
+      "offset_hours": 7
+    },
+    {
+      "thread_idx": 14,
+      "author": "arjun-mehta",
+      "body": "the Supabase execution table idea is great, we're basically doing the same thing\n\nour version has one extra column: `cost_cents`, we calculate the approximate API cost of each execution based on which services were called. helps us understand unit economics per workflow\n\nfor the Slack alerting, we added a severity level too:\n- info = workflow completed successfully\n- warn = workflow completed but with retries\n- error = workflow failed\n\nonly `warn` and `error` go to Slack. otherwise the channel becomes noise and people ignore it\n\nactually wait, there's a fourth case: `timeout`. some workflows run longer than expected because of slow third-party APIs. we alert on those separately because they often indicate an upstream issue, not a bug in our workflow",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 23,
+      "author": "yael-goldstein",
+      "body": "To answer your specific question about whether --dry-run is different from a testing framework:\n\nDry-run = show me what WOULD happen. Read-only inspection.\nTesting = show me what DID happen and verify it matches expectations.\n\nBoth are needed. Dry-run is defensive. Testing is assertive.\n\nThe mock mode Nate described would work. Implementation sketch:\n\n```bash\n0nmcp run workflow.0n --mock --mock-dir ./fixtures/\n```\n\nEach service gets a directory of response fixtures. The runner loads them instead of making real API calls. Step outputs are computed from fixtures. Assertions check the computed outputs.\n\nThis is basically what we do for security testing of API integrations. Record real responses once, redact sensitive data, replay forever. Deterministic, fast, free.",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 19,
+      "author": "priya-krishnamurthy",
+      "body": "## Additional Webhook Verification Details\n\nGood writeup, Marcus. I want to add context for the GitHub webhook verification specifically, as it has a subtlety.\n\nGitHub uses `X-Hub-Signature-256` which is HMAC-SHA256 of the **entire raw body**. However — GitHub also sends `X-Hub-Signature` (without the 256) which uses HMAC-SHA1. The 0nMCP implementation correctly prioritizes the SHA-256 header.\n\nFor anyone setting up GitHub webhooks:\n\n1. Generate a strong secret: `openssl rand -hex 32`\n2. Set it in your GitHub webhook configuration AND in your `.0n` connection file\n3. The `0nmcp serve` webhook handler validates automatically — no additional code required\n\nOne edge case I encountered — if you are behind a reverse proxy (nginx, Cloudflare), ensure the proxy passes the raw body through. Some proxy configurations re-encode the body, which breaks HMAC verification. The symptom is a consistent 403 on every webhook delivery.",
+      "offset_hours": 8
+    },
+    {
+      "thread_idx": 30,
+      "author": "kira-tanaka",
+      "body": "Soo-jin, this is great feedback — passing it directly to the team.\n\nUndo is on the list. You're not the first person to accidentally delete a step and have to rebuild it (I've done it myself during a demo, which was fun).\n\nThe \"test this step\" button is actually being discussed right now as part of a broader debugging improvement. It would essentially be: select a step, provide sample input data, click \"test\", see the output. No need to run the whole workflow.\n\nDark mode — it's coming. The CSS already supports it via `prefers-color-scheme` for most of the site, but the builder canvas needs specific attention because of the node colors and edge styles.\n\nKeep the feedback coming — this is exactly how the product gets better.",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 31,
+      "author": "tiago-santos",
+      "body": "Arjun, this is basically what I'm telling all my clients to do... the Supabase + Stripe + 0nMCP stack is the indie hacker's dream.\n\nOne thing I'd add to your setup — backup. You have Supabase for the database but are you backing it up? The free tier doesn't include point-in-time recovery. I learned this the hard way when a client accidentally deleted a table and we had... nothing.\n\nSet up a nightly SWITCH file that exports your Supabase tables to a Google Sheet or an S3 bucket. 10 minutes of work now saves you from catastrophic data loss later.\n\nAlso... $0/month total cost is incredible but don't forget to factor in your time. The cheapest tools are expensive if they take 10 hours to configure. The nice thing about 0nMCP is the configuration time is genuinely low — your 48-hour MVP story proves it.\n\nMuito bom, parabéns on the launch!",
+      "offset_hours": 6
+    },
+    {
+      "thread_idx": 24,
+      "author": "marcus-chen",
+      "body": "The Smartlead integration is solid. One optimization:\n\nInstead of pulling leads and sending to Smartlead in separate steps, use Assembly Line mode to parallelize the enrichment. If you're enriching 100 leads sequentially, that's 100 API calls * ~200ms each = 20 seconds. Assembly Line with batches of 10 brings it under 3 seconds.\n\n```json\n{\n  \"execution\": \"assembly_line\",\n  \"batch_size\": 10\n}\n```\n\nAlso — for the reply webhook from Smartlead, make sure you're verifying the webhook signature. Smartlead uses HMAC-SHA256. Add the signing secret to your .0n connection file and the `0nmcp serve` handler validates automatically.\n\nRe: open rates — 23% is strong for cold email. Are you warming the sending domains through Smartlead or separately? Domain warm-up makes a significant difference in deliverability.",
+      "offset_hours": 4
+    },
+    {
+      "thread_idx": 9,
+      "author": "yael-goldstein",
+      "body": "GitHub webhook → Discord notification is a good starter project.\n\nTwo security notes:\n1. Set up a webhook secret in GitHub. Without it, anyone who knows your endpoint URL can send fake push events.\n2. The `0nmcp serve` handler validates GitHub signatures automatically if you have the secret in your connection file.\n\nThe SWITCH file is ~5 lines: receive webhook, extract repo name + commit message, format Discord embed, POST to Discord webhook URL.\n\nDon't forget to filter events. GitHub sends webhooks for pushes, PRs, issues, comments, stars, forks — everything. Your SWITCH file should check `{{inputs.event_type}} == 'push'` before triggering the Discord notification. Otherwise your channel gets flooded.",
+      "offset_hours": 3
+    },
+    {
+      "thread_idx": 29,
+      "author": "adaeze-okafor",
+      "body": "wait Google Sheets as an INPUT source?? like the SWITCH file reads data FROM the sheet?? I didn't know you could do that!!\n\nI have a client who tracks their inventory in Google Sheets and I've been manually copying the numbers into their website. if I can automate that with a SWITCH file I'm gonna CRY happy tears 😭\n\ncan you share the basic structure of your Sheets → Shopify SWITCH file?? even just the step names would help me figure out how to set mine up\n\nalso the morning routine automation is SO relatable, I used to spend like 30 minutes every morning just checking things and copying data between apps. now I just check Slack for the summary. FREEDOM!!",
+      "offset_hours": 5
+    },
+    {
+      "thread_idx": 1,
+      "author": "yael-goldstein",
+      "body": "The per-layer access matrix is the right approach. Most credential sharing failures happen because of all-or-nothing access.\n\nOne concern: the X25519 keypair files. Where do team members store them? If a keypair file is on a laptop that gets stolen, the attacker can unwrap their layers.\n\nRecommendation: encrypt the keypair file at rest with a passphrase. The vault's own PBKDF2 can do this. Double encryption: Argon2id on the layer contents + PBKDF2 on the keypair itself.\n\nAlso: log escrow events to the audit_trail layer. Who unwrapped what, when. If a credential leak is detected, you need the forensic trail to identify the source.\n\nThe `vault inspect` output should include last-access timestamps per party if possible. Current implementation only shows creation-time metadata.",
+      "offset_hours": 7
+    }
+  ]
+}

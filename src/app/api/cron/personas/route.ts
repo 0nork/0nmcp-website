@@ -1,18 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import {
-  generateThread,
-  generateReply,
-  selectRespondingPersona,
-  shouldRespond,
   insertPersonaThread,
   insertPersonaReply,
   getPersonaProfileId,
-  pickTopicSeed,
-  markTopicUsed,
-  getThreadsNeedingReplies,
-  getThreadPosts,
-  getThreadPersonaIds,
+  shouldRespond,
   crossPostToCommunity,
   type Persona,
 } from '@/lib/personas'
@@ -26,11 +18,10 @@ function getAdmin() {
 
 /**
  * GET /api/cron/personas — Vercel Cron handler (every 2 hours)
- * 1. Seeds 1-2 new threads from active personas
- * 2. Adds 1-2 replies to recent threads with few replies
+ * Pulls pre-generated content from persona_content_queue.
+ * Zero API calls — all content generated offline in Claude Code.
  */
 export async function GET(request: NextRequest) {
-  // Verify cron secret (Vercel sends this header)
   const authHeader = request.headers.get('authorization')
   const cronSecret = process.env.CRON_SECRET
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
@@ -38,130 +29,125 @@ export async function GET(request: NextRequest) {
   }
 
   const admin = getAdmin()
-  const results: { threads: string[]; replies: string[]; errors: string[] } = {
+  const results: { threads: string[]; replies: string[]; errors: string[]; skipped: string[] } = {
     threads: [],
     replies: [],
     errors: [],
+    skipped: [],
   }
 
   try {
-    // ==================== Phase 1: Seed new threads ====================
-    const threadCount = Math.random() > 0.5 ? 2 : 1
+    // Pull up to 3 queued items whose scheduled_at has passed
+    const { data: queueItems, error: qErr } = await admin
+      .from('persona_content_queue')
+      .select('*')
+      .eq('status', 'queued')
+      .lte('scheduled_at', new Date().toISOString())
+      .order('scheduled_at', { ascending: true })
+      .limit(3)
 
-    for (let i = 0; i < threadCount; i++) {
+    if (qErr) {
+      console.error('[cron/personas] Queue fetch error:', qErr)
+      return NextResponse.json({ error: 'Queue fetch failed' }, { status: 500 })
+    }
+
+    if (!queueItems?.length) {
+      return NextResponse.json({
+        ok: true,
+        ...results,
+        summary: 'No queued content ready to post',
+      })
+    }
+
+    for (const item of queueItems) {
       try {
-        // Pick a random active persona (prefer least recently active)
-        const { data: personas } = await admin
+        // Look up the persona
+        const { data: persona } = await admin
           .from('community_personas')
           .select('*')
+          .eq('slug', item.persona_slug)
           .eq('is_active', true)
-          .order('last_active_at', { ascending: true, nullsFirst: true })
-          .limit(5)
+          .single()
 
-        if (!personas?.length) {
-          results.errors.push('No active personas available')
-          break
-        }
-
-        // Respect activity levels — skip low-activity personas sometimes
-        const eligible = personas.filter((p: Persona) => {
-          if (p.activity_level === 'low') return Math.random() > 0.7
-          if (p.activity_level === 'moderate') return Math.random() > 0.3
-          return true // high
-        })
-
-        if (!eligible.length) continue
-
-        const persona: Persona = eligible[Math.floor(Math.random() * eligible.length)]
-        const profileId = await getPersonaProfileId(persona)
-        if (!profileId) {
-          results.errors.push(`No profile for persona ${persona.name}`)
+        if (!persona) {
+          await markQueue(admin, item.id, 'skipped', `Persona "${item.persona_slug}" not found or inactive`)
+          results.skipped.push(`${item.persona_slug}: persona not found`)
           continue
         }
 
-        // Pick a topic
-        const group = persona.preferred_groups?.[Math.floor(Math.random() * persona.preferred_groups.length)]
-        const topicSeed = await pickTopicSeed(group)
-
-        // Generate and insert thread
-        const { title, body, group_slug } = await generateThread(persona, topicSeed || undefined)
-        const thread = await insertPersonaThread(persona, profileId, title, body, group_slug)
-
-        if (topicSeed) await markTopicUsed(topicSeed.id, topicSeed.used_count)
-
-        // Cross-post to CRM community "the-0nboard"
-        await crossPostToCommunity({
-          title,
-          content: body,
-          author: persona.name,
-          group: group_slug,
-          forumUrl: thread.slug,
-        })
-
-        results.threads.push(`${persona.name}: "${title}" → /forum/${thread.slug}`)
-      } catch (err) {
-        results.errors.push(`Thread seed error: ${err instanceof Error ? err.message : 'unknown'}`)
-      }
-    }
-
-    // ==================== Phase 2: Reply to recent threads ====================
-    const threadsToReply = await getThreadsNeedingReplies(3)
-    const replyCount = Math.min(threadsToReply.length, Math.random() > 0.5 ? 2 : 1)
-
-    // Shuffle and pick
-    const shuffled = threadsToReply.sort(() => Math.random() - 0.5).slice(0, replyCount)
-
-    for (const thread of shuffled) {
-      try {
-        // Check depth limit
-        const canRespond = await shouldRespond(thread.id)
-        if (!canRespond) continue
-
-        // Get personas already in this thread
-        const excludeIds = await getThreadPersonaIds(thread.id)
-
-        // Select a responding persona
-        const persona = await selectRespondingPersona(thread.title, thread.body, excludeIds)
-        if (!persona) continue
-
-        const profileId = await getPersonaProfileId(persona)
-        if (!profileId) continue
-
-        // Get existing posts for context
-        const existingPosts = await getThreadPosts(thread.id)
-
-        // Check last reply wasn't from a persona (prevent back-and-forth)
-        if (existingPosts.length > 0) {
-          const lastPost = existingPosts[existingPosts.length - 1]
-          const { data: isPersonaProfile } = await admin
-            .from('profiles')
-            .select('is_persona')
-            .eq('id', lastPost.user_id)
-            .single()
-
-          if (isPersonaProfile?.is_persona) continue // Skip — last reply was AI
+        const profileId = await getPersonaProfileId(persona as Persona)
+        if (!profileId) {
+          await markQueue(admin, item.id, 'skipped', `No profile for persona "${item.persona_slug}"`)
+          results.skipped.push(`${item.persona_slug}: no profile`)
+          continue
         }
 
-        // Generate and insert reply
-        const { body } = await generateReply(
-          persona,
-          { title: thread.title, body: thread.body, slug: thread.slug },
-          existingPosts.map(p => ({ body: p.body, author_name: p.author_name }))
-        )
+        if (item.content_type === 'thread') {
+          // ==================== Insert Thread ====================
+          const thread = await insertPersonaThread(
+            persona as Persona,
+            profileId,
+            item.title || 'Untitled',
+            item.body,
+            item.group_slug || 'general'
+          )
 
-        await insertPersonaReply(persona, profileId, thread.id, body)
+          await crossPostToCommunity({
+            title: item.title || 'Untitled',
+            content: item.body,
+            author: persona.name,
+            group: item.group_slug || 'general',
+            forumUrl: thread.slug,
+          })
 
-        // Cross-post reply to CRM community
-        await crossPostToCommunity({
-          title: `Re: ${thread.title}`,
-          content: body,
-          author: persona.name,
-          forumUrl: thread.slug,
-        })
+          await markQueue(admin, item.id, 'posted')
+          results.threads.push(`${persona.name}: "${item.title}" → /forum/${thread.slug}`)
 
-        results.replies.push(`${persona.name} replied to "${thread.title.slice(0, 50)}"`)
+        } else if (item.content_type === 'reply') {
+          // ==================== Insert Reply ====================
+          if (!item.target_thread_slug) {
+            await markQueue(admin, item.id, 'skipped', 'Reply has no target_thread_slug')
+            results.skipped.push(`${item.persona_slug}: reply missing target_thread_slug`)
+            continue
+          }
+
+          // Find the target thread
+          const { data: thread } = await admin
+            .from('community_threads')
+            .select('id, title, body, slug')
+            .eq('slug', item.target_thread_slug)
+            .single()
+
+          if (!thread) {
+            await markQueue(admin, item.id, 'skipped', `Thread "${item.target_thread_slug}" not found`)
+            results.skipped.push(`${item.persona_slug}: thread not found`)
+            continue
+          }
+
+          // Check depth limit
+          const canRespond = await shouldRespond(thread.id)
+          if (!canRespond) {
+            await markQueue(admin, item.id, 'skipped', 'Thread at max reply depth')
+            results.skipped.push(`${item.persona_slug}: thread at max depth`)
+            continue
+          }
+
+          await insertPersonaReply(persona as Persona, profileId, thread.id, item.body)
+
+          await crossPostToCommunity({
+            title: `Re: ${thread.title}`,
+            content: item.body,
+            author: persona.name,
+            forumUrl: thread.slug,
+          })
+
+          await markQueue(admin, item.id, 'posted')
+          results.replies.push(`${persona.name} replied to "${thread.title.slice(0, 50)}"`)
+        }
       } catch (err) {
-        results.errors.push(`Reply error: ${err instanceof Error ? err.message : 'unknown'}`)
+        const msg = err instanceof Error ? err.message : 'unknown'
+        await markQueue(admin, item.id, 'failed', msg)
+        results.errors.push(`${item.persona_slug} (${item.content_type}): ${msg}`)
       }
     }
 
@@ -169,10 +155,27 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       ok: true,
       ...results,
-      summary: `${results.threads.length} threads seeded, ${results.replies.length} replies generated`,
+      summary: `${results.threads.length} threads, ${results.replies.length} replies, ${results.skipped.length} skipped`,
     })
   } catch (err) {
     console.error('[cron/personas] Fatal error:', err)
     return NextResponse.json({ error: 'Cron job failed' }, { status: 500 })
   }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function markQueue(
+  admin: any,
+  id: string,
+  status: 'posted' | 'failed' | 'skipped',
+  error?: string
+) {
+  await admin
+    .from('persona_content_queue')
+    .update({
+      status,
+      posted_at: status === 'posted' ? new Date().toISOString() : null,
+      error: error || null,
+    })
+    .eq('id', id)
 }

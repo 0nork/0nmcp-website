@@ -359,6 +359,22 @@ export default function MegaNav() {
               </svg>
             </button>
           ))}
+
+          {/* Direct links: Builder (accented) + Forum */}
+          <Link
+            href="/builder"
+            className="mega-nav-direct mega-nav-direct-builder no-underline"
+            onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setOpenMenu(null) }}
+          >
+            Builder
+          </Link>
+          <Link
+            href="/forum"
+            className="mega-nav-direct no-underline"
+            onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setOpenMenu(null) }}
+          >
+            Forum
+          </Link>
         </div>
 
         {/* Right side CTAs */}
@@ -502,48 +518,79 @@ export default function MegaNav() {
       {/* ── Mobile menu ── */}
       {mobileOpen && (
         <div className="mega-mobile">
-          {(Object.keys(MENU_SECTIONS) as MenuKey[]).map((key) => (
-            <div key={key} className="mega-mobile-section">
-              <span className="mega-mobile-section-title">{MENU_SECTIONS[key].label}</span>
-              {MENU_SECTIONS[key].columns.map((col) =>
-                col.links.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="mega-mobile-link no-underline"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))
-              )}
-            </div>
-          ))}
+          <div className="mega-mobile-links">
+            <Link
+              href="/builder"
+              className="mega-mobile-link mega-mobile-link-builder no-underline"
+              onClick={() => setMobileOpen(false)}
+            >
+              Builder
+            </Link>
+            <Link
+              href="/console"
+              className="mega-mobile-link no-underline"
+              onClick={() => setMobileOpen(false)}
+            >
+              Console
+            </Link>
+            <Link
+              href="/forum"
+              className="mega-mobile-link no-underline"
+              onClick={() => setMobileOpen(false)}
+            >
+              Forum
+            </Link>
+            {!user ? (
+              <Link
+                href="/#pricing"
+                className="mega-mobile-link no-underline"
+                onClick={() => setMobileOpen(false)}
+              >
+                Pricing
+              </Link>
+            ) : (
+              <Link
+                href="/console?view=store"
+                className="mega-mobile-link no-underline"
+                onClick={() => setMobileOpen(false)}
+              >
+                Marketplace
+              </Link>
+            )}
+          </div>
+
           <div className="mega-mobile-ctas">
             {!user ? (
               <>
-                <Link href="/signup" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                <Link
+                  href="/signup"
+                  className="btn-accent w-full text-center justify-center no-underline"
+                  onClick={() => setMobileOpen(false)}
+                >
                   Sign Up Free
                 </Link>
-                <Link href="/login" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                <Link
+                  href="/login"
+                  className="mega-mobile-auth-link no-underline"
+                  onClick={() => setMobileOpen(false)}
+                >
                   Sign in
-                </Link>
-              </>
-            ) : userPlan === 'free' ? (
-              <>
-                <Link href="/console?view=upgrade" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
-                  Start Free Trial
-                </Link>
-                <Link href="/console" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
-                  Console
                 </Link>
               </>
             ) : (
               <>
-                <Link href="/console" className="btn-accent w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                <Link
+                  href="/console"
+                  className="btn-accent w-full text-center justify-center no-underline"
+                  onClick={() => setMobileOpen(false)}
+                >
                   Console
                 </Link>
-                <Link href="/account" className="btn-ghost w-full text-center justify-center no-underline" onClick={() => setMobileOpen(false)}>
+                <Link
+                  href="/account"
+                  className="mega-mobile-auth-link no-underline"
+                  onClick={() => setMobileOpen(false)}
+                >
                   Account
                 </Link>
               </>

@@ -2908,6 +2908,34 @@ a:hover {
   color: var(--accent);
 }
 
+/* Direct nav links (Builder, Forum) */
+.mega-nav-direct {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.mega-nav-direct:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mega-nav-direct-builder {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.mega-nav-direct-builder:hover {
+  color: var(--accent);
+  background: rgba(126, 217, 87, 0.08);
+  text-shadow: 0 0 12px rgba(126, 217, 87, 0.4);
+}
+
 .mega-nav-chevron {
   transition: transform 0.2s ease;
 }
@@ -3266,15 +3294,41 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
-.mega-mobile-link {
-  display: block;
-  padding: 0.625rem 0;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+.mega-mobile-links {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
 }
 
-.mega-mobile-link:hover { color: var(--accent); }
+.mega-mobile-link {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: color 0.15s ease;
+}
+
+.mega-mobile-link:hover { color: var(--text-primary); }
+
+.mega-mobile-link-builder {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.mega-mobile-link-builder:hover { color: var(--accent); }
+
+.mega-mobile-auth-link {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 0.5rem 0;
+  transition: color 0.15s ease;
+}
+
+.mega-mobile-auth-link:hover { color: var(--text-secondary); }
 
 .mega-mobile-ctas {
   display: flex;

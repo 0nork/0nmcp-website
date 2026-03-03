@@ -31,6 +31,7 @@ import { UpgradeModal } from '@/components/console/UpgradeModal'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
 // Learn is a front-end link to /learn
 import { AccountView } from '@/components/console/AccountView'
+import { DevicesView } from '@/components/console/DevicesView'
 import { ConvertView } from '@/components/console/ConvertView'
 import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
@@ -57,7 +58,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'smartlead' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'account' | 'convert' | 'admin'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'smartlead' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'devices' | 'account' | 'convert' | 'admin'
 
 interface McpHealth {
   version?: string
@@ -807,6 +808,13 @@ export default function ConsolePage() {
           {visitedViews.has('code') && (
             <div style={{ display: view === 'code' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
               <CodeTerminal />
+            </div>
+          )}
+
+          {/* Devices */}
+          {visitedViews.has('devices') && (
+            <div style={{ display: view === 'devices' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <DevicesView />
             </div>
           )}
 

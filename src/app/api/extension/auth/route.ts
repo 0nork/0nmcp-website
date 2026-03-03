@@ -62,10 +62,13 @@ export async function GET() {
   const tokenHash = createHmac('sha256', TOKEN_SECRET).update(token).digest('hex')
 
   await admin
-    .from('extension_tokens')
+    .from('api_tokens')
     .upsert({
       user_id: user.id,
       token_hash: tokenHash,
+      platform: 'extension',
+      device_name: 'Chrome Extension',
+      last_used_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
     }, { onConflict: 'user_id' })
 
@@ -99,7 +102,7 @@ export async function POST(request: NextRequest) {
   const admin = getAdmin()
   const tokenHash = createHmac('sha256', TOKEN_SECRET).update(token).digest('hex')
   const { data: tokenRecord } = await admin
-    .from('extension_tokens')
+    .from('api_tokens')
     .select('user_id')
     .eq('user_id', userId)
     .eq('token_hash', tokenHash)

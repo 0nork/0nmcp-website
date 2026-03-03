@@ -351,6 +351,11 @@ export default function ConsolePage() {
         case '/chat':
           setView('chat')
           break
+        case '/credentials':
+          setView('vault')
+          setVaultSubView('credentials')
+          setVaultService(null)
+          break
         case '/vault':
           setView('vault')
           setVaultService(null)
@@ -462,6 +467,14 @@ export default function ConsolePage() {
 
   // ─── View Handler (reset vault detail when switching) ─────────
   const handleSetView = useCallback((v: string) => {
+    // Credentials sidebar item → open Vault in credentials sub-view
+    if (v === 'credentials') {
+      setView('vault')
+      setVaultSubView('credentials')
+      setVaultService(null)
+      setMobileMenuOpen(false)
+      return
+    }
     setView(v as View)
     if (v !== 'vault') {
       setVaultService(null)

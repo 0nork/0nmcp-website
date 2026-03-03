@@ -241,6 +241,9 @@ export default function OnCallBot() {
   // Don't render for unauthenticated users
   if (!authed) return null
 
+  // Hide when builder is active — overlaps delete button
+  if (pathname === '/builder' || pathname?.startsWith('/builder')) return null
+
   return (
     <div className="fixed bottom-5 right-5 z-[9500] flex flex-col items-end">
       {/* Chat panel */}

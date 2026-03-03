@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import AuthModal from '@/components/AuthModal'
 
 const navLinks = [
   { label: 'Turn it 0n', href: '/turn-it-on' },
@@ -75,9 +77,11 @@ const commandLinks = [
 ]
 
 export default function Nav() {
+  const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [commandOpen, setCommandOpen] = useState(false)
   const [user, setUser] = useState<{ email?: string } | null>(null)
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -313,9 +317,13 @@ export default function Nav() {
               Account
             </Link>
           ) : (
-            <Link href="/login" className="btn-ghost">
+            <button
+              className="btn-ghost"
+              onClick={() => setShowAuthModal(true)}
+              style={{ cursor: 'pointer' }}
+            >
               Sign in
-            </Link>
+            </button>
           )}
         </div>
 
@@ -461,13 +469,13 @@ export default function Nav() {
                   Account
                 </Link>
               ) : (
-                <Link
-                  href="/login"
+                <button
                   className="btn-ghost text-center justify-center"
-                  onClick={() => setMobileOpen(false)}
+                  style={{ width: '100%', cursor: 'pointer' }}
+                  onClick={() => { setMobileOpen(false); setShowAuthModal(true) }}
                 >
                   Sign in
-                </Link>
+                </button>
               )}
             </div>
           </div>
@@ -481,6 +489,13 @@ export default function Nav() {
           to { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
+
+      {/* Auth Modal */}
+      <AuthModal
+        open={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={() => { router.push('/console'); router.refresh() }}
+      />
     </nav>
   )
 }

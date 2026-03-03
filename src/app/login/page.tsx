@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import SwitchShowcase from '@/components/SwitchShowcase'
+import OAuthButtons from '@/components/OAuthButtons'
 
 export default function LoginPage() {
   return (
@@ -130,6 +131,12 @@ function LoginForm() {
           <p className="auth-subtitle">
             Access your .0n files, credentials, and workflow builder.
           </p>
+
+          <OAuthButtons mode="signin" redirectTo={redirect} />
+
+          <div className="auth-divider" style={{ margin: '1rem 0' }}>
+            <span>or continue with email</span>
+          </div>
 
           {error && <div className="auth-error">{error}</div>}
 

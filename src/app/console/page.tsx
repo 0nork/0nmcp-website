@@ -19,6 +19,7 @@ import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { CreateView } from '@/components/console/CreateView'
 import { UpgradeModal } from '@/components/console/UpgradeModal'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
+import AuthModal from '@/components/AuthModal'
 import { AccountView } from '@/components/console/AccountView'
 import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
@@ -92,6 +93,10 @@ export default function ConsolePage() {
   const [userName, setUserName] = useState('')
   const [userEmail, setUserEmail] = useState('')
 
+  // ─── Auth State (for unauthenticated overlay) ──────────────
+  const [isAuthenticated, setIsAuthenticated] = useState(true) // assume true until checked
+  const [showAuthModal, setShowAuthModal] = useState(false)
+
   // ─── AI Recommendation State ──────────────────────────────────
   const [recentActions, setRecentActions] = useState<string[]>([])
   const [recommendations, setRecommendations] = useState<Recommendation[]>([])
@@ -139,6 +144,13 @@ export default function ConsolePage() {
 
   // ─── Initialization ───────────────────────────────────────────
   useEffect(() => {
+    // Check if user is authenticated
+    fetch('/api/console/account')
+      .then(r => {
+        if (!r.ok) { setIsAuthenticated(false); setShowAuthModal(true) }
+      })
+      .catch(() => { setIsAuthenticated(false); setShowAuthModal(true) })
+
     // Check admin status
     fetch('/api/admin/users?stats=true')
       .then(r => { if (r.ok) setIsAdmin(true) })
@@ -705,6 +717,15 @@ export default function ConsolePage() {
         <UpgradeModal
           currentPlan={userPlan}
           onClose={() => setShowUpgradeModal(false)}
+        />
+      )}
+
+      {/* Auth Modal (unauthenticated visitors) */}
+      {!isAuthenticated && (
+        <AuthModal
+          open={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={() => { setIsAuthenticated(true); setShowAuthModal(false); window.location.reload() }}
         />
       )}
 

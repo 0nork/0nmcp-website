@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { STATS } from '@/data/stats'
+import OAuthButtons from '@/components/OAuthButtons'
 
 export default function SignupPage() {
   return (
@@ -182,6 +183,12 @@ function SignupForm() {
         <div className="auth-card signup-card">
           <h1 className="auth-title">Create your vault</h1>
           <p className="auth-subtitle">Free forever. No credit card required.</p>
+
+          <OAuthButtons mode="signup" redirectTo={redirect} />
+
+          <div className="auth-divider" style={{ margin: '1rem 0' }}>
+            <span>or sign up with email</span>
+          </div>
 
           {error && <div className="auth-error">{error}</div>}
 

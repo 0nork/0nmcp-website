@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, useCallback, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 
@@ -23,13 +23,41 @@ const INTERESTS = [
 const TOTAL_STEPS = 5
 
 export default function OnboardingPage() {
+  return (
+    <Suspense>
+      <OnboardingInner />
+    </Suspense>
+  )
+}
+
+// Archetype display config
+const ARCHETYPE_DISPLAY: Record<string, { icon: string; title: string; color: string; desc: string }> = {
+  executive: { icon: '\u2606', title: 'Executive Visionary', color: '#a78bfa', desc: 'You lead with strategy and big-picture thinking. Your content carries weight.' },
+  manager: { icon: '\u2726', title: 'Growth Catalyst', color: '#00d4ff', desc: 'You bridge strategy and execution. People look to you for actionable insight.' },
+  individual: { icon: '\u2B50', title: 'Builder & Maker', color: '#7ed957', desc: 'You ship. Your hands-on expertise makes your perspective invaluable.' },
+  student: { icon: '\u2728', title: 'Rising Voice', color: '#ff8c00', desc: 'Fresh perspective is your superpower. The community is excited to hear from you.' },
+}
+
+function OnboardingInner() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createSupabaseBrowser()
+
+  // OAuth provider detection
+  const provider = searchParams.get('provider')
+  const archetypeParam = searchParams.get('archetype')
+  const isLinkedIn = provider === 'linkedin'
+  const isOAuth = !!provider
 
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+
+  // LinkedIn PACG state
+  const [archetypeTier, setArchetypeTier] = useState(archetypeParam || '')
+  const [followUpQuestion, setFollowUpQuestion] = useState('')
+  const [followUpAnswer, setFollowUpAnswer] = useState('')
 
   // Profile state
   const [userId, setUserId] = useState('')
@@ -87,6 +115,38 @@ export default function OnboardingPage() {
         .select('id', { count: 'exact', head: true })
         .eq('user_id', user.id)
       setCredentialCount(count || 0)
+
+      // LinkedIn: fetch PACG results + follow-up question
+      if (isLinkedIn) {
+        try {
+          const { data: member } = await supabase
+            .from('linkedin_members')
+            .select('id, archetype')
+            .eq('user_id', user.id)
+            .single()
+
+          if (member?.archetype) {
+            const arch = member.archetype as { tier?: string }
+            if (arch.tier) setArchetypeTier(arch.tier)
+          }
+
+          // Fetch the latest LVOS selection for the follow-up question
+          if (member?.id) {
+            const { data: selection } = await supabase
+              .from('lvos_selections')
+              .select('variant:variant_id(question_text), session_id')
+              .eq('member_id', member.id)
+              .order('created_at', { ascending: false })
+              .limit(1)
+              .single()
+
+            if (selection) {
+              const variant = selection.variant as unknown as { question_text?: string }
+              if (variant?.question_text) setFollowUpQuestion(variant.question_text)
+            }
+          }
+        } catch { /* LinkedIn data may not exist yet */ }
+      }
 
       setLoading(false)
     }
@@ -294,9 +354,15 @@ export default function OnboardingPage() {
       {/* ===== STEP 1: WELCOME ===== */}
       {step === 1 && (
         <div className="onboarding-card fadeInUp">
-          <h1 className="onboarding-title">Welcome to the 0n Network</h1>
+          <h1 className="onboarding-title">
+            {isLinkedIn ? `Welcome, ${fullName.split(' ')[0] || 'friend'}!` : 'Welcome to the 0n Network'}
+          </h1>
           <p className="onboarding-subtitle">
-            Your unified platform for AI orchestration — from encrypted credentials to community-powered learning.
+            {isLinkedIn
+              ? 'We connected your LinkedIn profile. Next up: your personalized archetype reveal.'
+              : isOAuth
+                ? `Signed in with ${provider}. Let\u2019s set up your vault.`
+                : 'Your unified platform for AI orchestration \u2014 from encrypted credentials to community-powered learning.'}
           </p>
 
           <div className="onboarding-product-grid">
@@ -325,22 +391,99 @@ export default function OnboardingPage() {
         </div>
       )}
 
-      {/* ===== STEP 2: PROFILE SETUP ===== */}
-      {step === 2 && (
+      {/* ===== STEP 2: ARCHETYPE REVEAL (LinkedIn) or PROFILE SETUP ===== */}
+      {step === 2 && isLinkedIn && archetypeTier && (
+        <div className="onboarding-card fadeInUp">
+          <h1 className="onboarding-title">We analyzed your profile</h1>
+          <p className="onboarding-subtitle">
+            Our PACG engine classified you based on your LinkedIn data. Here&apos;s your archetype:
+          </p>
+
+          {/* Archetype Card */}
+          <div style={{
+            background: 'rgba(126,217,87,0.06)',
+            border: `1px solid ${ARCHETYPE_DISPLAY[archetypeTier]?.color || '#7ed957'}40`,
+            borderRadius: '1rem',
+            padding: '2rem',
+            textAlign: 'center',
+            margin: '1.5rem 0',
+          }}>
+            <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
+              {ARCHETYPE_DISPLAY[archetypeTier]?.icon || '\u2B50'}
+            </div>
+            <div style={{
+              fontSize: '1.5rem',
+              fontWeight: 800,
+              color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#7ed957',
+              fontFamily: 'var(--font-display)',
+              marginBottom: '0.5rem',
+            }}>
+              {ARCHETYPE_DISPLAY[archetypeTier]?.title || archetypeTier}
+            </div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '400px', margin: '0 auto' }}>
+              {ARCHETYPE_DISPLAY[archetypeTier]?.desc || 'Your unique profile has been classified.'}
+            </p>
+          </div>
+
+          {/* Follow-up Question */}
+          {followUpQuestion && (
+            <div style={{ marginTop: '1.5rem' }}>
+              <label className="onboarding-section-label" style={{ display: 'block', marginBottom: '0.75rem' }}>
+                One quick question to personalize your experience:
+              </label>
+              <p style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem' }}>
+                {followUpQuestion}
+              </p>
+              <div className="auth-field">
+                <textarea
+                  value={followUpAnswer}
+                  onChange={e => setFollowUpAnswer(e.target.value.slice(0, 500))}
+                  placeholder="Share your thoughts..."
+                  rows={3}
+                  style={{ resize: 'none' }}
+                />
+                <span className="onboarding-char-count">{followUpAnswer.length}/500</span>
+              </div>
+            </div>
+          )}
+
+          <div className="onboarding-actions" style={{ marginTop: '1.5rem' }}>
+            <button className="auth-btn secondary" onClick={goBack}>Back</button>
+            <button className="auth-btn primary" onClick={() => {
+              // Save follow-up answer if provided (fire-and-forget)
+              if (followUpAnswer && supabase && userId) {
+                fetch('/api/linkedin/follow-up', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ response: followUpAnswer }),
+                }).catch(() => {})
+              }
+              goNext()
+            }}>
+              {followUpAnswer ? 'Continue' : 'Skip & Continue'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 2 && !(isLinkedIn && archetypeTier) && (
         <div className="onboarding-card fadeInUp">
           <h1 className="onboarding-title">Set up your profile</h1>
           <p className="onboarding-subtitle">Tell us a bit about yourself so we can personalize your experience.</p>
 
+          {/* Avatar section — skip upload for OAuth users who already have an avatar */}
           <div className="onboarding-avatar-section">
             {avatarUrl ? (
               <img src={avatarUrl} alt="Avatar" className="onboarding-avatar-img" />
             ) : (
               <div className="onboarding-avatar-initials">{initials || '?'}</div>
             )}
-            <label className="onboarding-avatar-upload">
-              <input type="file" accept="image/*" onChange={handleAvatarUpload} hidden />
-              {avatarUploading ? 'Uploading...' : 'Upload photo'}
-            </label>
+            {!isOAuth && (
+              <label className="onboarding-avatar-upload">
+                <input type="file" accept="image/*" onChange={handleAvatarUpload} hidden />
+                {avatarUploading ? 'Uploading...' : 'Upload photo'}
+              </label>
+            )}
           </div>
 
           <div className="onboarding-form-grid">

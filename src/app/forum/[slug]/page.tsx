@@ -227,78 +227,196 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(mainJsonLd) }} />
 
-        {/* Breadcrumb */}
-        <nav className="text-xs mb-4 flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }} aria-label="Breadcrumb">
-          <Link href="/forum" className="hover:underline">Forum</Link>
+        {/* Breadcrumb — mobile truncated, no emoji, no wrap */}
+        <nav
+          aria-label="Breadcrumb"
+          style={{
+            marginBottom: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.375rem',
+            flexWrap: 'nowrap',
+            overflow: 'hidden',
+            fontSize: '0.75rem',
+            color: 'var(--text-muted)',
+          }}
+        >
+          <Link
+            href="/forum"
+            style={{
+              color: 'var(--text-muted)',
+              textDecoration: 'none',
+              flexShrink: 0,
+              fontWeight: 500,
+            }}
+          >
+            Forum
+          </Link>
           {groupData && (
             <>
-              <span>/</span>
-              <Link href={`/forum?group=${groupData.slug}`} className="hover:underline" style={{ color: groupData.color }}>
-                {groupData.icon} {groupData.name}
+              <span style={{ flexShrink: 0, opacity: 0.5 }}>/</span>
+              <Link
+                href={`/forum?group=${groupData.slug}`}
+                style={{
+                  color: groupData.color,
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '90px',
+                  flexShrink: 1,
+                }}
+              >
+                {groupData.name}
               </Link>
             </>
           )}
-          <span>/</span>
-          <span className="truncate">{thread.title}</span>
+          <span style={{ flexShrink: 0, opacity: 0.5 }}>/</span>
+          <span
+            style={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              flex: 1,
+              color: 'var(--text-secondary)',
+            }}
+          >
+            {thread.title}
+          </span>
         </nav>
 
-        {/* Thread — server-rendered content for SEO */}
+        {/* Thread — server-rendered for SEO, black background */}
         <article
-          className="rounded-xl mb-6 flex"
-          style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+          className="rounded-xl mb-0"
+          style={{ background: '#0a0a0f', border: '1px solid var(--border)' }}
         >
           {/* Content */}
-          <div className="py-4 px-5 flex-1 min-w-0">
+          <div className="py-5 px-5 flex-1 min-w-0">
             {/* Meta */}
-            <div className="flex items-center gap-1.5 flex-wrap mb-2 text-[11px]">
+            <div className="flex items-center gap-1.5 flex-wrap mb-2" style={{ fontSize: '0.6875rem' }}>
               {groupData && (
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded"
-                  style={{ background: groupData.color + '15', color: groupData.color }}>
-                  {groupData.icon} {groupData.name}
+                <span
+                  style={{
+                    fontSize: '0.5625rem',
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    background: groupData.color + '15',
+                    color: groupData.color,
+                  }}
+                >
+                  {groupData.name}
                 </span>
               )}
               {thread.is_pinned && (
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,215,0,0.1)', color: '#FFD700' }}>Pinned</span>
+                <span style={{ fontSize: '0.5625rem', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(255,215,0,0.1)', color: '#FFD700' }}>Pinned</span>
               )}
               <span style={{ color: 'var(--text-muted)' }}>
                 Posted by{' '}
                 <Link
                   href={`/u/${thread.user_id}`}
-                  className="font-bold no-underline hover:underline"
-                  style={{ color: reputationColor(thread.profiles?.reputation_level) }}
+                  style={{
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    color: reputationColor(thread.profiles?.reputation_level),
+                  }}
                 >
                   {authorName(thread.profiles)}
                 </Link>
                 {repLabel && (
-                  <span className="ml-1 text-[9px] px-1.5 py-0.5 rounded"
-                    style={{ background: reputationColor(thread.profiles?.reputation_level) + '15', color: reputationColor(thread.profiles?.reputation_level) }}>
+                  <span style={{
+                    marginLeft: '4px',
+                    fontSize: '0.5625rem',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    background: reputationColor(thread.profiles?.reputation_level) + '15',
+                    color: reputationColor(thread.profiles?.reputation_level),
+                  }}>
                     {repLabel}
                   </span>
                 )}
                 {thread.profiles?.karma ? (
-                  <span className="ml-1 opacity-50">({thread.profiles.karma} karma)</span>
+                  <span style={{ marginLeft: '4px', opacity: 0.5 }}>({thread.profiles.karma} karma)</span>
                 ) : null}
-                <span className="mx-1">&middot;</span>
+                <span style={{ margin: '0 4px' }}>&middot;</span>
                 {timeAgo(thread.created_at)}
-                <span className="mx-1">&middot;</span>
+                <span style={{ margin: '0 4px' }}>&middot;</span>
                 {thread.view_count} views
               </span>
             </div>
 
             {/* Title */}
-            <h1 className="text-xl md:text-2xl font-bold mb-3 leading-tight">
-              {thread.is_locked && <span className="mr-1.5 opacity-50">&#128274;</span>}
+            <h1
+              style={{
+                fontSize: 'clamp(1.125rem, 3vw, 1.5rem)',
+                fontWeight: 800,
+                marginBottom: '0.875rem',
+                lineHeight: 1.25,
+                color: '#f0f0f5',
+                letterSpacing: '-0.025em',
+              }}
+            >
+              {thread.is_locked && <span style={{ marginRight: '6px', opacity: 0.5 }}>&#128274;</span>}
               {thread.title}
             </h1>
 
             {/* Body */}
-            <div className="text-sm leading-relaxed" style={{ whiteSpace: 'pre-wrap', color: 'var(--text-secondary)' }}>
+            <div
+              style={{
+                fontSize: '0.9375rem',
+                lineHeight: 1.7,
+                whiteSpace: 'pre-wrap',
+                color: 'var(--text-secondary)',
+              }}
+            >
               {thread.body}
             </div>
+          </div>
 
-            {/* Thread actions */}
-            <div className="flex items-center gap-4 mt-4 text-[11px]" style={{ color: 'var(--text-muted)' }}>
-              <span className="font-bold">&#128172; {thread.reply_count} {thread.reply_count === 1 ? 'comment' : 'comments'}</span>
+          {/* Karma + comment banner bar */}
+          <div
+            style={{
+              background: '#1a1a22',
+              borderTop: '1px solid var(--border)',
+              borderRadius: '0 0 12px 12px',
+              padding: '0.625rem 1.25rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.25rem',
+            }}
+          >
+            {/* Score/Karma (prominent) */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+              <span style={{
+                fontSize: '0.9375rem',
+                fontWeight: 800,
+                color: thread.score > 0 ? '#ff6b35' : thread.score < 0 ? '#9945ff' : 'var(--text-muted)',
+                fontVariantNumeric: 'tabular-nums',
+              }}>
+                {thread.score}
+              </span>
+              <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 500 }}>karma</span>
+            </div>
+
+            {/* Divider */}
+            <span style={{ width: '1px', height: '20px', background: 'var(--border)', flexShrink: 0 }} />
+
+            {/* Comments count */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              <span style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                {thread.reply_count}
+              </span>
+              <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                {thread.reply_count === 1 ? 'comment' : 'comments'}
+              </span>
             </div>
           </div>
         </article>

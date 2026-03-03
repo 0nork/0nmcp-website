@@ -253,7 +253,7 @@ export default function ForumClient({
                   <div
                     key={thread.id}
                     className="rounded-xl flex transition-all"
-                    style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+                    style={{ background: '#0a0a0f', border: '1px solid var(--border)' }}
                   >
                     {/* Vote Column */}
                     <div className="flex flex-col items-center py-2 px-2 gap-0.5 flex-shrink-0" style={{ minWidth: '44px' }}>
@@ -325,7 +325,7 @@ export default function ForumClient({
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
+                      <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: '#f0f0f5' }}>
                         {thread.is_locked && <span className="mr-1 opacity-50">&#128274;</span>}
                         {thread.title}
                       </h3>

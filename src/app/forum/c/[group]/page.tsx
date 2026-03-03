@@ -115,11 +115,45 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-        {/* Breadcrumb */}
-        <nav className="text-xs mb-4 flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }} aria-label="Breadcrumb">
-          <Link href="/forum" className="hover:underline">Forum</Link>
-          <span>/</span>
-          <span style={{ color: group.color }}>{group.icon} {group.name}</span>
+        {/* Breadcrumb — mobile truncated, no emoji, no wrap */}
+        <nav
+          aria-label="Breadcrumb"
+          style={{
+            marginBottom: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.375rem',
+            flexWrap: 'nowrap',
+            overflow: 'hidden',
+            fontSize: '0.75rem',
+            color: 'var(--text-muted)',
+          }}
+        >
+          <Link
+            href="/forum"
+            style={{
+              color: 'var(--text-muted)',
+              textDecoration: 'none',
+              flexShrink: 0,
+              fontWeight: 500,
+            }}
+          >
+            Forum
+          </Link>
+          <span style={{ flexShrink: 0, opacity: 0.5 }}>/</span>
+          <span
+            style={{
+              color: group.color,
+              fontWeight: 600,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              flex: 1,
+            }}
+          >
+            {group.name}
+          </span>
         </nav>
 
         {/* Group Header */}
@@ -166,7 +200,7 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
                   key={t.id}
                   href={`/forum/${t.slug}`}
                   className="rounded-xl p-4 no-underline transition-all flex items-start gap-3"
-                  style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+                  style={{ background: '#0a0a0f', border: '1px solid var(--border)' }}
                 >
                   {/* Score */}
                   <div className="flex flex-col items-center flex-shrink-0" style={{ minWidth: '36px' }}>
@@ -189,7 +223,7 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
                       <span>&middot;</span>
                       <span>{timeAgo(t.created_at)}</span>
                     </div>
-                    <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: 'var(--text-primary)' }}>
+                    <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: '#f0f0f5' }}>
                       {t.is_locked && <span className="mr-1 opacity-50">&#128274;</span>}
                       {t.title}
                     </h3>

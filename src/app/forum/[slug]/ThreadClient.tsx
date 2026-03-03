@@ -154,24 +154,47 @@ export default function ThreadClient({
 
   function VoteColumn({ type, id, score, myVote }: { type: 'thread' | 'post'; id: string; score: number; myVote: number }) {
     return (
-      <div className="flex flex-col items-center gap-0.5 flex-shrink-0" style={{ minWidth: '36px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flexShrink: 0, minWidth: '32px' }}>
         <button
           onClick={() => handleVote(type, id, 1)}
-          className="w-6 h-6 flex items-center justify-center rounded text-xs transition-all"
           style={{
+            width: '28px',
+            height: '28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '6px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '0.75rem',
             color: myVote === 1 ? '#ff6b35' : 'var(--text-muted)',
             background: myVote === 1 ? 'rgba(255,107,53,0.1)' : 'transparent',
+            transition: 'color 0.15s, background 0.15s',
+            fontFamily: 'inherit',
           }}
         >&#9650;</button>
-        <span className="text-[11px] font-bold tabular-nums" style={{
+        <span style={{
+          fontSize: '0.8125rem',
+          fontWeight: 700,
+          fontVariantNumeric: 'tabular-nums',
           color: score > 0 ? '#ff6b35' : score < 0 ? '#9945ff' : 'var(--text-muted)',
         }}>{score}</span>
         <button
           onClick={() => handleVote(type, id, -1)}
-          className="w-6 h-6 flex items-center justify-center rounded text-xs transition-all"
           style={{
+            width: '28px',
+            height: '28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '6px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '0.75rem',
             color: myVote === -1 ? '#9945ff' : 'var(--text-muted)',
             background: myVote === -1 ? 'rgba(153,69,255,0.1)' : 'transparent',
+            transition: 'color 0.15s, background 0.15s',
+            fontFamily: 'inherit',
           }}
         >&#9660;</button>
       </div>
@@ -183,49 +206,105 @@ export default function ThreadClient({
     const repLabel = reputationLabel(post.profiles?.reputation_level)
 
     return (
-      <div style={{ marginLeft: depth > 0 ? '16px' : '0', borderLeft: depth > 0 ? '2px solid var(--border)' : 'none', paddingLeft: depth > 0 ? '12px' : '0' }}>
-        <div className="py-2">
-          <div className="flex gap-2">
+      <div
+        style={{
+          marginLeft: depth > 0 ? '16px' : '0',
+          borderLeft: depth > 0 ? '2px solid var(--border)' : 'none',
+          paddingLeft: depth > 0 ? '12px' : '0',
+        }}
+      >
+        {/* Comment card — black background */}
+        <div
+          style={{
+            background: '#0a0a0f',
+            border: '1px solid var(--border)',
+            borderRadius: depth === 0 ? '10px' : '8px',
+            marginBottom: '6px',
+            padding: '0.75rem 0.875rem',
+          }}
+        >
+          <div style={{ display: 'flex', gap: '0.625rem' }}>
             <VoteColumn type="post" id={post.id} score={post.score} myVote={myVote} />
-            <div className="flex-1 min-w-0">
+            <div style={{ flex: 1, minWidth: 0 }}>
               {/* Author line */}
-              <div className="flex items-center gap-2 mb-1 text-[11px] flex-wrap">
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginBottom: '0.375rem',
+                fontSize: '0.75rem',
+                flexWrap: 'wrap',
+              }}>
                 <Link
                   href={`/u/${post.user_id}`}
-                  className="font-bold no-underline hover:underline"
-                  style={{ color: reputationColor(post.profiles?.reputation_level) }}
+                  style={{
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    color: reputationColor(post.profiles?.reputation_level),
+                  }}
                 >
                   {authorName(post.profiles)}
                 </Link>
                 {repLabel && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded"
-                    style={{ background: reputationColor(post.profiles?.reputation_level) + '15', color: reputationColor(post.profiles?.reputation_level) }}>
+                  <span style={{
+                    fontSize: '0.5625rem',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    background: reputationColor(post.profiles?.reputation_level) + '15',
+                    color: reputationColor(post.profiles?.reputation_level),
+                    fontWeight: 700,
+                  }}>
                     {repLabel}
                   </span>
                 )}
                 {post.profiles?.karma ? (
-                  <span style={{ color: 'var(--text-muted)' }}>{post.profiles.karma} karma</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.6875rem' }}>{post.profiles.karma} karma</span>
                 ) : null}
-                <span style={{ color: 'var(--text-muted)' }}>{timeAgo(post.created_at)}</span>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.6875rem' }}>{timeAgo(post.created_at)}</span>
                 {post.is_solution && (
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+                  <span style={{
+                    fontSize: '0.5625rem',
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    background: 'rgba(126,217,87,0.1)',
+                    color: '#7ed957',
+                  }}>
                     Solution
                   </span>
                 )}
               </div>
 
-              {/* Body */}
-              <div className="text-[13px] leading-relaxed mb-1.5" style={{ whiteSpace: 'pre-wrap', color: 'var(--text-secondary)' }}>
+              {/* Body — 15px base size */}
+              <div style={{
+                fontSize: '0.9375rem',
+                lineHeight: 1.7,
+                whiteSpace: 'pre-wrap',
+                color: 'var(--text-secondary)',
+                marginBottom: '0.5rem',
+              }}>
                 {post.body}
               </div>
 
               {/* Actions */}
               {!isLocked && (
-                <div className="flex items-center gap-3 text-[10px]">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   <button
                     onClick={() => { setReplyTo(replyTo === post.id ? null : post.id); setReplyBody('') }}
-                    className="font-bold transition-all"
-                    style={{ color: replyTo === post.id ? 'var(--accent)' : 'var(--text-muted)' }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      color: replyTo === post.id ? 'var(--accent)' : 'var(--text-muted)',
+                      background: replyTo === post.id ? 'rgba(126,217,87,0.08)' : 'transparent',
+                      transition: 'color 0.15s, background 0.15s',
+                      minHeight: '28px',
+                    } as React.CSSProperties}
                   >
                     Reply
                   </button>
@@ -234,31 +313,66 @@ export default function ThreadClient({
 
               {/* Inline reply form */}
               {replyTo === post.id && (
-                <form onSubmit={handleReply} className="mt-2">
+                <form onSubmit={handleReply} style={{ marginTop: '0.625rem' }}>
                   <textarea
                     value={replyBody}
                     onChange={e => setReplyBody(e.target.value)}
                     rows={3}
                     dir="ltr"
                     placeholder={`Reply to ${authorName(post.profiles)}...`}
-                    className="w-full px-3 py-2 rounded-lg text-xs mb-2"
-                    style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit', direction: 'ltr', unicodeBidi: 'normal' }}
+                    style={{
+                      width: '100%',
+                      padding: '0.625rem 0.75rem',
+                      borderRadius: '8px',
+                      fontSize: '0.875rem',
+                      marginBottom: '0.5rem',
+                      background: '#111118',
+                      border: '1px solid var(--border)',
+                      color: 'var(--text-primary)',
+                      lineHeight: 1.7,
+                      resize: 'vertical',
+                      fontFamily: 'inherit',
+                      direction: 'ltr',
+                      unicodeBidi: 'normal',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                    } as React.CSSProperties}
                     autoFocus
                   />
-                  <div className="flex gap-2">
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <button
                       type="submit"
                       disabled={submitting || !replyBody.trim()}
-                      className="px-3 py-1 rounded-lg font-bold text-[11px]"
-                      style={{ background: 'var(--accent)', color: 'var(--bg-primary)' }}
+                      style={{
+                        padding: '0.5rem 1.25rem',
+                        borderRadius: '8px',
+                        fontWeight: 700,
+                        fontSize: '0.8125rem',
+                        border: 'none',
+                        cursor: submitting || !replyBody.trim() ? 'default' : 'pointer',
+                        background: submitting || !replyBody.trim() ? 'var(--bg-card)' : 'var(--accent)',
+                        color: submitting || !replyBody.trim() ? 'var(--text-muted)' : 'var(--bg-primary)',
+                        fontFamily: 'inherit',
+                        minHeight: '36px',
+                        transition: 'background 0.15s',
+                      }}
                     >
                       {submitting ? 'Posting...' : 'Reply'}
                     </button>
                     <button
                       type="button"
                       onClick={() => { setReplyTo(null); setReplyBody('') }}
-                      className="px-3 py-1 rounded-lg text-[11px]"
-                      style={{ color: 'var(--text-muted)' }}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        borderRadius: '8px',
+                        fontSize: '0.8125rem',
+                        border: 'none',
+                        cursor: 'pointer',
+                        background: 'transparent',
+                        color: 'var(--text-muted)',
+                        fontFamily: 'inherit',
+                        minHeight: '36px',
+                      }}
                     >
                       Cancel
                     </button>
@@ -281,24 +395,65 @@ export default function ThreadClient({
 
   return (
     <>
-      {/* Thread vote bar */}
-      <div className="flex items-center gap-3 mb-4 px-3 py-2 rounded-xl" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+      {/* Thread vote row — slim, under the banner */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.75rem',
+          padding: '0.625rem 1.25rem',
+          marginBottom: '1.25rem',
+          borderBottom: '1px solid var(--border)',
+        }}
+      >
         <VoteColumn type="thread" id={threadId} score={threadScore} myVote={threadVote} />
+        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+          Vote on this thread
+        </span>
       </div>
 
       {/* Comment sort + count */}
       {posts.length > 0 && (
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-sm font-bold">{posts.length} Comment{posts.length !== 1 ? 's' : ''}</span>
-          <div className="flex gap-1">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            marginBottom: '0.875rem',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '1rem',
+              fontWeight: 800,
+              color: 'var(--text-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.375rem',
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            {posts.length} {posts.length === 1 ? 'Comment' : 'Comments'}
+          </span>
+          <div style={{ display: 'flex', gap: '2px' }}>
             {(['best', 'new', 'old'] as const).map(s => (
               <button
                 key={s}
                 onClick={() => setPostSort(s)}
-                className="text-[10px] font-bold px-2 py-1 rounded transition-all capitalize"
                 style={{
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '0.6875rem',
+                  fontWeight: 700,
+                  fontFamily: 'inherit',
+                  textTransform: 'capitalize',
                   background: postSort === s ? 'rgba(255,255,255,0.06)' : 'transparent',
                   color: postSort === s ? 'var(--accent)' : 'var(--text-muted)',
+                  transition: 'background 0.15s, color 0.15s',
                 }}
               >
                 {s}
@@ -310,12 +465,20 @@ export default function ThreadClient({
 
       {/* Reply form (top-level) */}
       {!isLocked && replyTo === null && (
-        <form onSubmit={handleReply} className="mb-6">
+        <form onSubmit={handleReply} style={{ marginBottom: '1.25rem' }}>
           {error && (
-            <div className="text-xs font-semibold mb-3 px-3 py-2 rounded-lg" style={{ background: 'rgba(255,61,61,0.1)', color: '#ff3d3d' }}>
+            <div style={{
+              fontSize: '0.8125rem',
+              fontWeight: 600,
+              marginBottom: '0.75rem',
+              padding: '0.625rem 0.875rem',
+              borderRadius: '8px',
+              background: 'rgba(255,61,61,0.1)',
+              color: '#ff3d3d',
+            }}>
               {error}
               {error.includes('log in') && (
-                <Link href={`/login?redirect=/forum/${slug}`} className="ml-2 underline">Log in</Link>
+                <Link href={`/login?redirect=/forum/${slug}`} style={{ marginLeft: '0.5rem', textDecoration: 'underline', color: '#ff3d3d' }}>Log in</Link>
               )}
             </div>
           )}
@@ -325,31 +488,63 @@ export default function ThreadClient({
             rows={4}
             dir="ltr"
             placeholder="What are your thoughts?"
-            className="w-full px-3 py-2 rounded-xl text-sm mb-2"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-primary)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit', direction: 'ltr', unicodeBidi: 'normal' }}
+            style={{
+              width: '100%',
+              padding: '0.75rem 1rem',
+              borderRadius: '10px',
+              fontSize: '0.9375rem',
+              marginBottom: '0.625rem',
+              background: '#0a0a0f',
+              border: '1px solid var(--border)',
+              color: 'var(--text-primary)',
+              lineHeight: 1.7,
+              resize: 'vertical',
+              fontFamily: 'inherit',
+              direction: 'ltr',
+              unicodeBidi: 'normal',
+              outline: 'none',
+              boxSizing: 'border-box',
+            } as React.CSSProperties}
           />
           <button
             type="submit"
             disabled={submitting || !replyBody.trim()}
-            className="px-5 py-2 rounded-xl font-bold text-sm"
             style={{
-              background: submitting ? 'var(--bg-card)' : 'var(--accent)',
-              color: submitting ? 'var(--text-muted)' : 'var(--bg-primary)',
+              padding: '0.625rem 1.75rem',
+              borderRadius: '10px',
+              fontWeight: 800,
+              fontSize: '0.9375rem',
+              border: 'none',
+              cursor: submitting || !replyBody.trim() ? 'default' : 'pointer',
+              background: submitting || !replyBody.trim() ? 'var(--bg-card)' : 'var(--accent)',
+              color: submitting || !replyBody.trim() ? 'var(--text-muted)' : 'var(--bg-primary)',
+              fontFamily: 'inherit',
+              minHeight: '44px',
+              transition: 'background 0.15s',
             }}
           >
-            {submitting ? 'Posting...' : 'Comment'}
+            {submitting ? 'Posting...' : 'Post Comment'}
           </button>
         </form>
       )}
 
       {isLocked && (
-        <div className="text-center py-4 mb-6 rounded-xl text-sm" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
+        <div style={{
+          textAlign: 'center',
+          padding: '1rem',
+          marginBottom: '1.25rem',
+          borderRadius: '10px',
+          fontSize: '0.875rem',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
+          color: 'var(--text-muted)',
+        }}>
           This thread is locked
         </div>
       )}
 
       {/* Comment tree */}
-      <div className="flex flex-col">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
         {commentTree.map(post => (
           <CommentNode key={post.id} post={post} />
         ))}

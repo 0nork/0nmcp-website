@@ -4,6 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { STATS } from '@/data/stats'
 import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
+import Providers from '@/components/Providers'
 import OnCallLoader from '@/components/oncall/OnCallLoader'
 
 export const metadata: Metadata = {
@@ -67,8 +68,10 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <SiteChrome>{children}</SiteChrome>
-        <OnCallLoader />
+        <Providers>
+          <SiteChrome>{children}</SiteChrome>
+          <OnCallLoader />
+        </Providers>
         <Analytics />
         <SpeedInsights />
         <script

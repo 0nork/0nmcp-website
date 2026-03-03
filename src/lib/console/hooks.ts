@@ -1,15 +1,19 @@
 /**
  * 0n Console — React Hooks
- * Vault, Flows, and History — all backed by Supabase.
+ * Flows and History — backed by Supabase.
  * localStorage is a fast cache; Supabase is authoritative.
+ *
+ * VAULT: Now a singleton context via VaultProvider.
+ * Import useVault from '@/lib/console/VaultProvider' or from this file (re-export).
  */
 
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { SVC } from "@/lib/console/services";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
-import { encryptVaultData, decryptVaultData } from "@/lib/vault-crypto";
+
+// Re-export useVault from the singleton provider
+export { useVault } from "@/lib/console/VaultProvider";
 
 // ─── Types ───────────────────────────────────────────────────────
 
@@ -27,167 +31,6 @@ export interface HistoryEntry {
   ts: string;
   type: string;
   detail: string;
-}
-
-type VaultData = Record<string, Record<string, string>>;
-type VaultRowMap = Record<string, string>;
-
-// ─── Vault Hook ──────────────────────────────────────────────────
-
-const VAULT_CACHE_KEY = "0n_vault";
-
-export function useVault() {
-  const [credentials, setCredentials] = useState<VaultData>(() => {
-    if (typeof window === "undefined") return {};
-    try {
-      return JSON.parse(localStorage.getItem(VAULT_CACHE_KEY) || "{}");
-    } catch {
-      return {};
-    }
-  });
-
-  const [loaded, setLoaded] = useState(false);
-  const userIdRef = useRef<string | null>(null);
-  const rowMapRef = useRef<VaultRowMap>({});
-  const supabaseRef = useRef(createSupabaseBrowser());
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem(VAULT_CACHE_KEY, JSON.stringify(credentials));
-    }
-  }, [credentials]);
-
-  useEffect(() => {
-    let cancelled = false;
-    async function loadFromSupabase() {
-      const sb = supabaseRef.current;
-      if (!sb) return;
-
-      const { data: { user } } = await sb.auth.getUser();
-      if (!user || cancelled) return;
-      userIdRef.current = user.id;
-
-      const { data: rows } = await sb
-        .from("user_vaults")
-        .select("id, service_name, encrypted_key, iv, salt")
-        .eq("user_id", user.id);
-
-      if (!rows || cancelled) return;
-
-      const decrypted: VaultData = {};
-      const rowMap: VaultRowMap = {};
-
-      for (const row of rows) {
-        if (!row.encrypted_key || !row.iv || !row.salt) continue;
-        rowMap[row.service_name] = row.id;
-        try {
-          const plaintext = await decryptVaultData(user.id, row.encrypted_key, row.iv, row.salt);
-          try {
-            const parsed = JSON.parse(plaintext);
-            if (typeof parsed === "object" && parsed !== null) {
-              decrypted[row.service_name] = parsed;
-            } else {
-              decrypted[row.service_name] = { api_key: plaintext };
-            }
-          } catch {
-            decrypted[row.service_name] = { api_key: plaintext };
-          }
-        } catch {
-          // Decryption failed — skip
-        }
-      }
-
-      if (cancelled) return;
-      rowMapRef.current = rowMap;
-      setCredentials(decrypted);
-      setLoaded(true);
-    }
-    loadFromSupabase();
-    return () => { cancelled = true; };
-  }, []);
-
-  const persistService = useCallback(
-    async (service: string, fields: Record<string, string>) => {
-      const sb = supabaseRef.current;
-      const userId = userIdRef.current;
-      if (!sb || !userId) return;
-
-      try {
-        const plaintext = JSON.stringify(fields);
-        const { encrypted, iv, salt } = await encryptVaultData(userId, plaintext);
-        const firstVal = Object.values(fields).find((v) => v.length > 4) || "";
-        const hint = firstVal ? firstVal.slice(-4) : null;
-
-        const existingId = rowMapRef.current[service];
-        if (existingId) {
-          await sb.from("user_vaults").update({
-            encrypted_key: encrypted, iv, salt, key_hint: hint,
-            updated_at: new Date().toISOString(),
-          }).eq("id", existingId);
-        } else {
-          const { data } = await sb.from("user_vaults").insert({
-            user_id: userId, service_name: service,
-            encrypted_key: encrypted, iv, salt, key_hint: hint,
-          }).select("id").single();
-          if (data) rowMapRef.current[service] = data.id;
-        }
-      } catch (err) {
-        console.error(`[vault] Failed to persist ${service}:`, err);
-      }
-    },
-    []
-  );
-
-  const set = useCallback(
-    (service: string, key: string, value: string) => {
-      setCredentials((prev) => {
-        const updated = { ...prev, [service]: { ...(prev[service] || {}), [key]: value } };
-        persistService(service, updated[service]);
-        return updated;
-      });
-    },
-    [persistService]
-  );
-
-  const get = useCallback(
-    (service: string, key: string): string => credentials?.[service]?.[key] || "",
-    [credentials]
-  );
-
-  const isConnected = useCallback(
-    (service: string): boolean => {
-      const sv = SVC[service];
-      if (!sv) return false;
-      const required = sv.f.filter((f) => f.s || f.k === "url" || f.k === "client_id");
-      return required.length > 0 && required.every((f) => !!credentials?.[service]?.[f.k]);
-    },
-    [credentials]
-  );
-
-  const connectedCount = Object.keys(SVC).filter(isConnected).length;
-  const connectedServices = Object.keys(SVC).filter(isConnected);
-
-  const disconnect = useCallback((service: string) => {
-    setCredentials((prev) => { const next = { ...prev }; delete next[service]; return next; });
-    const sb = supabaseRef.current;
-    const existingId = rowMapRef.current[service];
-    if (sb && existingId) {
-      sb.from("user_vaults").delete().eq("id", existingId);
-      delete rowMapRef.current[service];
-    }
-  }, []);
-
-  const clearAll = useCallback(() => {
-    setCredentials({});
-    const sb = supabaseRef.current;
-    const userId = userIdRef.current;
-    if (sb && userId) {
-      sb.from("user_vaults").delete().eq("user_id", userId);
-      rowMapRef.current = {};
-    }
-  }, []);
-
-  return { credentials, set, get, isConnected, connectedCount, connectedServices, disconnect, clearAll, loaded };
 }
 
 // ─── Flows Hook ──────────────────────────────────────────────────

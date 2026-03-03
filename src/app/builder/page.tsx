@@ -1,20 +1,32 @@
-import type { Metadata } from 'next'
-import BuilderLoader from '@/components/builder/BuilderLoader'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Workflow Builder — 0nMCP',
-  description:
-    'Visual drag-and-drop editor for .0n workflows. Connect 48 services, configure steps, and export valid .0n files — all in your browser.',
-  openGraph: {
-    title: 'Workflow Builder — 0nMCP',
-    description:
-      'Visual drag-and-drop editor for .0n workflows. Connect 48 services, configure steps, and export valid .0n files.',
-    url: 'https://0nmcp.com/builder',
-    siteName: '0nMCP',
-    type: 'website',
-  },
-}
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
+import BuilderApp from '@/components/builder/BuilderApp'
 
 export default function BuilderPage() {
-  return <BuilderLoader />
+  const router = useRouter()
+  const [authed, setAuthed] = useState(false)
+
+  useEffect(() => {
+    const sb = createSupabaseBrowser()
+    if (!sb) { router.push('/login?redirect=/builder'); return }
+    sb.auth.getUser().then(({ data }) => {
+      if (data.user) setAuthed(true)
+      else router.push('/login?redirect=/builder')
+    })
+  }, [router])
+
+  if (!authed) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'var(--bg-primary)', color: 'var(--text-muted)' }}>
+      Loading...
+    </div>
+  )
+
+  return (
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
+      <BuilderApp />
+    </div>
+  )
 }

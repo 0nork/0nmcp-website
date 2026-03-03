@@ -12,53 +12,26 @@ import { DashboardView } from '@/components/console/DashboardView'
 import { VaultOverlay } from '@/components/console/VaultOverlay'
 import { VaultDetail } from '@/components/console/VaultDetail'
 import { VaultFilesPanel } from '@/components/console/VaultFilesPanel'
-import { FlowsOverlay } from '@/components/console/FlowsOverlay'
 import { IdeasTicker } from '@/components/console/IdeasTicker'
-// Community is a front-end link to /forum (SEO benefit) — no in-console view
 import { StoreView } from '@/components/console/StoreView'
 import { PremiumFlowActionModal } from '@/components/console/PremiumFlowActionModal'
 import { ListingDetailModal } from '@/components/console/ListingDetailModal'
-import { LinkedInView } from '@/components/console/LinkedInView'
-import { SmartleadView } from '@/components/console/SmartleadView'
-// Request + History are now tabs inside AccountView
-import { OperationsView } from '@/components/console/OperationsView'
-import { SocialView } from '@/components/console/SocialView'
-import { ReportingView } from '@/components/console/ReportingView'
-import MigrateView from '@/components/console/MigrateView'
 import { CreateView } from '@/components/console/CreateView'
-import BuilderApp from '@/components/builder/BuilderApp'
 import { UpgradeModal } from '@/components/console/UpgradeModal'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
-// Learn is a front-end link to /learn
 import { AccountView } from '@/components/console/AccountView'
-import { DevicesView } from '@/components/console/DevicesView'
-import { ConvertView } from '@/components/console/ConvertView'
 import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
 import { PinnedCommands } from '@/components/console/PinnedCommands'
-import dynamic from 'next/dynamic'
-
-const OnTerminal = dynamic(
-  () => import('@/components/terminal/OnTerminal'),
-  { ssr: false }
-)
-
-const CodeTerminal = dynamic(
-  () => import('@/components/console/CodeTerminal').then(m => ({ default: m.CodeTerminal })),
-  { ssr: false }
-)
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
 import { useStore } from '@/lib/console/useStore'
-import { useLinkedIn } from '@/lib/console/useLinkedIn'
-import { useSmartlead } from '@/lib/console/useSmartlead'
-import { useOperations } from '@/lib/console/useOperations'
 import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'builder' | 'store' | 'smartlead' | 'linkedin' | 'operations' | 'social' | 'reporting' | 'migrate' | 'terminal' | 'code' | 'devices' | 'account' | 'convert' | 'admin'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin'
 
 interface McpHealth {
   version?: string
@@ -103,9 +76,6 @@ export default function ConsolePage() {
   const flowsHook = useFlows()
   const historyHook = useHistory()
   const store = useStore()
-  const linkedin = useLinkedIn()
-  const smartlead = useSmartlead()
-  const operations = useOperations()
 
   // ─── Store Modal State ──────────────────────────────────────
   const [activePremiumPurchase, setActivePremiumPurchase] = useState<PurchaseWithWorkflow | null>(null)
@@ -217,27 +187,6 @@ export default function ConsolePage() {
         store.fetchListings()
         store.fetchPurchases()
       }
-      window.history.replaceState({}, '', '/console')
-    }
-
-    // Detect LinkedIn OAuth return — show Social Hub so user sees connected status
-    if (params.get('linkedin') === 'connected') {
-      setView('social')
-      linkedin.fetchMember()
-      window.history.replaceState({}, '', '/console')
-    }
-    if (params.get('linkedin_error')) {
-      setView('social')
-      window.history.replaceState({}, '', '/console')
-    }
-
-    // Detect Reddit OAuth return
-    if (params.get('reddit') === 'connected') {
-      setView('social')
-      window.history.replaceState({}, '', '/console')
-    }
-    if (params.get('reddit_error')) {
-      setView('social')
       window.history.replaceState({}, '', '/console')
     }
 
@@ -364,56 +313,23 @@ export default function ConsolePage() {
         case '/flows':
           setView('flows')
           break
-        case '/community':
-          window.open('/forum', '_blank', 'noopener')
-          break
         case '/builder':
-          setView('builder')
+          window.location.href = '/builder'
+          break
+        case '/community':
+        case '/forum':
+          window.location.href = '/forum'
           break
         case '/store':
           setView('store')
           break
-        case '/smartlead':
-          setView('smartlead')
-          break
-        case '/linkedin':
-          setView('linkedin')
-          break
-        case '/request':
-          setView('account')
-          break
-        case '/operations':
-          setView('operations')
-          break
-        case '/social':
-          setView('social')
-          break
-        case '/reporting':
-          setView('reporting')
-          break
-        case '/migrate':
-          setView('migrate')
-          break
-        case '/terminal':
-          setView('terminal')
-          break
-        case '/learn':
-          window.open('/learn', '_blank', 'noopener')
-          break
-        case '/code':
-          setView('code')
-          break
         case '/account':
+        case '/request':
+        case '/history':
           setView('account')
-          break
-        case '/convert':
-          setView('convert')
           break
         case '/admin':
           if (isAdmin) setView('admin')
-          break
-        case '/history':
-          setView('account')
           break
         case '/status':
           fetch('/api/console/health')
@@ -440,7 +356,7 @@ export default function ConsolePage() {
           }
       }
     },
-    [historyHook, handleChatSend]
+    [historyHook, handleChatSend, isAdmin]
   )
 
   // ─── Workflow Run Handler ─────────────────────────────────────
@@ -551,8 +467,8 @@ export default function ConsolePage() {
   const handleAddToBuilder = useCallback(
     (workflowData: Record<string, unknown>) => {
       localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflowData))
-      setView('builder')
       setActivePremiumPurchase(null)
+      window.location.href = '/builder'
     },
     []
   )
@@ -681,7 +597,7 @@ export default function ConsolePage() {
                   onSwitchToCredentials={() => setVaultSubView('credentials')}
                   onAddToBuilder={(data) => {
                     localStorage.setItem('0n_builder_import', JSON.stringify(data))
-                    setView('builder')
+                    window.location.href = '/builder'
                   }}
                 />
               )}
@@ -695,101 +611,12 @@ export default function ConsolePage() {
                 onAddToBuilder={(workflow: Record<string, unknown>) => {
                   localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
                   historyHook.add('workflow', 'Workflow created via 0n Create Agent')
-                  setView('builder')
+                  window.location.href = '/builder'
                 }}
               />
             </div>
           )}
 
-          {/* Operations */}
-          {visitedViews.has('operations') && (
-            <div style={{ display: view === 'operations' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <OperationsView
-                operations={operations.operations}
-                onPause={operations.pause}
-                onResume={operations.resume}
-                onRun={(id: string) => {
-                  operations.incrementRun(id)
-                  const op = operations.getById(id)
-                  if (op) {
-                    historyHook.add('workflow', `Ran operation: ${op.name}`)
-                  }
-                }}
-                onDelete={operations.remove}
-                onCreateNew={() => setView('flows')}
-              />
-            </div>
-          )}
-
-          {/* Social */}
-          {visitedViews.has('social') && (
-            <div style={{ display: view === 'social' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <SocialView />
-            </div>
-          )}
-
-          {/* Reporting */}
-          {visitedViews.has('reporting') && (
-            <div style={{ display: view === 'reporting' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <ReportingView />
-            </div>
-          )}
-
-          {/* Migrate */}
-          {visitedViews.has('migrate') && (
-            <div style={{ display: view === 'migrate' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <MigrateView
-                onAddToBuilder={(workflow: Record<string, unknown>) => {
-                  localStorage.setItem('0nmcp-builder-import', JSON.stringify(workflow))
-                  setView('builder')
-                }}
-                onAddToOperations={(
-                  workflow: Record<string, unknown>,
-                  name: string,
-                  trigger: Record<string, unknown>,
-                  services: string[]
-                ) => {
-                  const triggerType = typeof trigger.type === 'string' ? trigger.type : 'manual'
-                  operations.add({
-                    name: name || 'Migrated Workflow',
-                    description: 'Imported from external platform',
-                    trigger: triggerType,
-                    actions: [],
-                    services: services || [],
-                    notifications: [],
-                    frequency: null,
-                    workflowData: workflow,
-                  })
-                  historyHook.add('workflow', `Migrated workflow: ${name}`)
-                  setView('operations')
-                }}
-              />
-            </div>
-          )}
-
-          {/* Builder */}
-          {visitedViews.has('builder') && (
-            <div style={{ display: view === 'builder' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
-              <BuilderApp />
-            </div>
-          )}
-
-          {/* Smartlead */}
-          {visitedViews.has('smartlead') && (
-            <div style={{ display: view === 'smartlead' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <SmartleadView
-                smartlead={smartlead}
-                onNavigateVault={() => { setView('vault'); setVaultSearch('smartlead') }}
-              />
-            </div>
-          )}
-
-          {/* LinkedIn */}
-          {visitedViews.has('linkedin') && (
-            <div style={{ display: view === 'linkedin' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
-              <LinkedInView linkedin={linkedin} />
-            </div>
-          )}
 
           {/* Store / Marketplace */}
           {visitedViews.has('store') && (
@@ -804,49 +631,11 @@ export default function ConsolePage() {
             </div>
           )}
 
-          {/* Terminal */}
-          {visitedViews.has('terminal') && (
-            <div style={{ display: view === 'terminal' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
-              <OnTerminal
-                height="100%"
-                enableNode={true}
-                enablePython={true}
-                packages={['0nmcp']}
-                onReady={() => historyHook.add('terminal', 'Web Terminal opened')}
-              />
-            </div>
-          )}
-
-          {/* Code */}
-          {visitedViews.has('code') && (
-            <div style={{ display: view === 'code' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
-              <CodeTerminal />
-            </div>
-          )}
-
-          {/* Devices */}
-          {visitedViews.has('devices') && (
-            <div style={{ display: view === 'devices' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <DevicesView />
-            </div>
-          )}
 
           {/* Account */}
           {visitedViews.has('account') && (
             <div style={{ display: view === 'account' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <AccountView />
-            </div>
-          )}
-
-          {/* Convert */}
-          {visitedViews.has('convert') && (
-            <div style={{ display: view === 'convert' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <ConvertView
-                onOpenInBuilder={(data) => {
-                  localStorage.setItem('0nmcp-builder-import', JSON.stringify(data))
-                  setView('builder')
-                }}
-              />
             </div>
           )}
 

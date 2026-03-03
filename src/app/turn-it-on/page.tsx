@@ -4,6 +4,7 @@ import servicesData from '@/data/services.json'
 import capabilitiesData from '@/data/capabilities.json'
 import { getAllCategories, getServicesInCategory } from '@/lib/sxo-helpers'
 import ServiceLogo from '@/components/ServiceLogo'
+import TurnItOnSignup from '@/components/turn-it-on/TurnItOnSignup'
 
 export const metadata: Metadata = {
   title: 'Turn it 0n — 48 Services, 819 Tools | 0nMCP',
@@ -70,6 +71,9 @@ export default function TurnItOnPage() {
             fees, no drag-and-drop builders. Just describe what you want in
             plain English.
           </p>
+
+          {/* Sign up form — one question at a time */}
+          <TurnItOnSignup />
 
           {/* Animated stats */}
           <div className="flex flex-wrap items-center justify-center gap-8 mb-12">

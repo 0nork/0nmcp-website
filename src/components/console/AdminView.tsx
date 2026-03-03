@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { AdminDefender } from './AdminDefender'
 import { AdminUsers } from './AdminUsers'
 import { AdminSitemap } from './AdminSitemap'
 
-type AdminSection = 'overview' | 'defender' | 'users' | 'sitemap' | 'forum' | 'personas' | 'content' | 'blog' | 'qa'
+const AdminServices = lazy(() => import('./AdminServices').then(m => ({ default: m.AdminServices })))
+
+type AdminSection = 'overview' | 'defender' | 'users' | 'sitemap' | 'services' | 'forum' | 'personas' | 'content' | 'blog' | 'qa'
 
 interface NavItem {
   key: AdminSection
@@ -19,6 +21,7 @@ const COMPONENT_SECTIONS: NavItem[] = [
   { key: 'overview', label: 'Overview', icon: '\u{1F4CA}', type: 'component' },
   { key: 'defender', label: '0nDefender', icon: '\u{1F6E1}\uFE0F', type: 'component' },
   { key: 'users', label: 'Users', icon: '\u{1F465}', type: 'component' },
+  { key: 'services', label: 'Services', icon: '\u{1F527}', type: 'component' },
   { key: 'sitemap', label: 'Sitemap', icon: '\u{1F5FA}\uFE0F', type: 'component' },
 ]
 
@@ -180,6 +183,15 @@ export function AdminView() {
           {section === 'users' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
               <AdminUsers />
+            </div>
+          )}
+
+          {/* Services (component) */}
+          {section === 'services' && (
+            <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading services...</div>}>
+                <AdminServices />
+              </Suspense>
             </div>
           )}
 

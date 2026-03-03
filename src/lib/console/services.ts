@@ -36,7 +36,7 @@ export interface ServiceConfig {
   /** Credential fields */
   f: ServiceField[];
   /** Category for grouping in vault UI */
-  cat: 'ai' | 'crm' | 'database' | 'messaging' | 'email' | 'dev' | 'cloud' | 'social' | 'ads' | 'finance' | 'productivity' | 'ecommerce' | 'automation';
+  cat: 'ai' | 'crm' | 'database' | 'messaging' | 'email' | 'dev' | 'cloud' | 'social' | 'ads' | 'finance' | 'productivity' | 'ecommerce' | 'automation' | 'video';
   /** Priority order for vault display (lower = higher priority) */
   pri: number;
 }
@@ -589,6 +589,394 @@ export const SVC: Record<string, ServiceConfig> = {
       { k: "org_id", lb: "Org ID", ph: "org_...", h: "Publisher org ID", lk: "https://mcpfed.com/dashboard", ll: "Dashboard > Organization > ID" },
     ],
   },
+
+  // ─── GoHighLevel — THE BOLD MOVE ────────────────────────
+  gohighlevel: {
+    l: "GoHighLevel", logo: "gohighlevel", c: "#38b2ac", cat: "crm", pri: 6,
+    d: "All-in-one CRM, funnels, websites, email/SMS, pipelines, calendars, workflows, reputation, memberships, invoicing, and blogging.",
+    cap: ["CRM", "Funnels", "Landing Pages", "Email Marketing", "SMS", "Pipelines", "Calendars", "Workflows", "Reputation Management", "Memberships", "Surveys", "Invoicing", "Blogging"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "eyJhbGciOi...", s: true, h: "Agency or Location level API key", lk: "https://marketplace.gohighlevel.com/", ll: "Settings > Business Profile > API Key" },
+      { k: "location_id", lb: "Location ID", ph: "ve9EPM...", h: "Sub-account Location ID", lk: "https://marketplace.gohighlevel.com/", ll: "Settings > Business Profile > Location ID" },
+    ],
+  },
+
+  // ─── Additional AI ───────────────────────────────────────
+  cohere: {
+    l: "Cohere", logo: "cohere", c: "#39594d", cat: "ai", pri: 59,
+    d: "Enterprise AI - embed, generate, rerank, and classify text with production-grade models.",
+    cap: ["Generate", "Embed", "Rerank", "Classify", "Summarize", "Chat", "RAG", "Fine-tune"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Cohere API key", lk: "https://dashboard.cohere.com/api-keys", ll: "Dashboard > API Keys > Create" },
+    ],
+  },
+  mistral: {
+    l: "Mistral AI", logo: "mistral", c: "#f97316", cat: "ai", pri: 60,
+    d: "Open-weight LLMs - Mistral, Mixtral, and Codestral for text, code, and embeddings.",
+    cap: ["Chat", "Code Gen", "Embeddings", "Function Calling", "JSON Mode", "Vision", "Fine-tune", "Guardrails"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Mistral API key", lk: "https://console.mistral.ai/api-keys/", ll: "Console > API Keys > Create" },
+    ],
+  },
+  replicate: {
+    l: "Replicate", logo: "replicate", c: "#000000", cat: "ai", pri: 61,
+    d: "Run open-source ML models in the cloud - Stable Diffusion, LLaMA, Whisper, and more.",
+    cap: ["Image Gen", "Video Gen", "Audio", "LLMs", "Fine-tune", "Training", "Predictions", "Webhooks"],
+    f: [
+      { k: "api_key", lb: "API Token", ph: "r8_xxxxxxxx", s: true, h: "Replicate API token", lk: "https://replicate.com/account/api-tokens", ll: "Account > API Tokens > Create" },
+    ],
+  },
+  stability: {
+    l: "Stability AI", logo: "stability", c: "#a855f7", cat: "ai", pri: 62,
+    d: "Image generation and editing - Stable Diffusion, SDXL, upscaling, and inpainting.",
+    cap: ["Text-to-Image", "Image-to-Image", "Upscale", "Inpaint", "Outpaint", "Control", "3D", "Video"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "sk-xxxxxxxx", s: true, h: "Stability AI API key", lk: "https://platform.stability.ai/account/keys", ll: "Platform > Account > API Keys" },
+    ],
+  },
+  elevenlabs: {
+    l: "ElevenLabs", logo: "elevenlabs", c: "#000000", cat: "ai", pri: 63,
+    d: "AI voice synthesis - text-to-speech, voice cloning, dubbing, and audio generation.",
+    cap: ["Text-to-Speech", "Voice Cloning", "Dubbing", "Sound Effects", "Voice Library", "Projects", "Pronunciations", "Streaming"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "ElevenLabs API key", lk: "https://elevenlabs.io/app/settings/api-keys", ll: "Settings > API Keys > Create" },
+    ],
+  },
+  deepgram: {
+    l: "Deepgram", logo: "deepgram", c: "#13ef93", cat: "ai", pri: 64,
+    d: "Speech AI - real-time transcription, text-to-speech, and audio intelligence.",
+    cap: ["Transcription", "Text-to-Speech", "Real-time", "Summarization", "Topic Detection", "Sentiment", "Diarization", "Translation"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Deepgram API key", lk: "https://console.deepgram.com/project/keys", ll: "Console > Project > API Keys > Create" },
+    ],
+  },
+  groq: {
+    l: "Groq", logo: "groq", c: "#f55036", cat: "ai", pri: 65,
+    d: "Ultra-fast LLM inference - LPU-powered, sub-second responses for Llama, Mixtral, Gemma.",
+    cap: ["Chat", "Fast Inference", "Code Gen", "JSON Mode", "Tool Use", "Vision", "Streaming", "Batch"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "gsk_xxxxxxxx", s: true, h: "Groq API key", lk: "https://console.groq.com/keys", ll: "Console > API Keys > Create" },
+    ],
+  },
+
+  // ─── Additional Database ─────────────────────────────────
+  planetscale: {
+    l: "PlanetScale", logo: "planetscale", c: "#000000", cat: "database", pri: 66,
+    d: "Serverless MySQL - branching, deploy requests, and horizontal scaling.",
+    cap: ["MySQL", "Branching", "Deploy Requests", "Insights", "Boost", "Connect", "Imports", "Webhooks"],
+    f: [
+      { k: "host", lb: "Host", ph: "aws.connect.psdb.cloud", h: "Database host", lk: "https://app.planetscale.com/", ll: "Dashboard > Database > Connect > Host" },
+      { k: "username", lb: "Username", ph: "xxxxxxxx", h: "Branch credentials username", lk: "https://app.planetscale.com/", ll: "Database > Connect > Username" },
+      { k: "password", lb: "Password", ph: "pscale_pw_xxxx", s: true, h: "Branch credentials password", lk: "https://app.planetscale.com/", ll: "Database > Connect > Password" },
+    ],
+  },
+  neon: {
+    l: "Neon", logo: "neon", c: "#00e599", cat: "database", pri: 67,
+    d: "Serverless PostgreSQL - branching, autoscaling, and instant provisioning.",
+    cap: ["PostgreSQL", "Branching", "Autoscale", "Connection Pooling", "Logical Replication", "Extensions", "SQL Editor", "API"],
+    f: [
+      { k: "connection_string", lb: "Connection String", ph: "postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb", s: true, h: "Neon database connection string", lk: "https://console.neon.tech/", ll: "Console > Project > Connection Details" },
+      { k: "api_key", lb: "API Key", ph: "neon_xxxxxxxx", s: true, h: "Neon management API key", lk: "https://console.neon.tech/app/settings/api-keys", ll: "Account Settings > API Keys > Generate" },
+    ],
+  },
+  turso: {
+    l: "Turso", logo: "turso", c: "#4ff8d2", cat: "database", pri: 68,
+    d: "Edge SQLite database - libSQL, embedded replicas, and global distribution.",
+    cap: ["SQLite", "Edge Replicas", "Embedded", "Groups", "CLI", "Extensions", "Platform API", "Webhooks"],
+    f: [
+      { k: "url", lb: "Database URL", ph: "libsql://xxx-xxx.turso.io", h: "Turso database URL", lk: "https://turso.tech/app", ll: "Dashboard > Database > URL" },
+      { k: "auth_token", lb: "Auth Token", ph: "eyJhbGciOi...", s: true, h: "Turso database auth token", lk: "https://turso.tech/app", ll: "Dashboard > Database > Generate Token" },
+    ],
+  },
+  cockroachdb: {
+    l: "CockroachDB", logo: "cockroachdb", c: "#6933ff", cat: "database", pri: 69,
+    d: "Distributed SQL database - PostgreSQL-compatible, multi-region, and serverless.",
+    cap: ["Distributed SQL", "Multi-Region", "Serverless", "Change Data Capture", "Import/Export", "Backup", "RBAC", "Monitoring"],
+    f: [
+      { k: "connection_string", lb: "Connection String", ph: "postgresql://user:pass@xxx.cockroachlabs.cloud:26257/defaultdb", s: true, h: "CockroachDB connection string", lk: "https://cockroachlabs.cloud/", ll: "Cockroach Cloud > Cluster > Connect" },
+    ],
+  },
+
+  // ─── Additional Messaging ────────────────────────────────
+  telegram: {
+    l: "Telegram", logo: "telegram", c: "#26a5e4", cat: "messaging", pri: 70,
+    d: "Messaging platform - bots, channels, groups, and inline mode.",
+    cap: ["Send Messages", "Bots", "Channels", "Groups", "Inline Mode", "Payments", "Games", "Webhooks"],
+    f: [
+      { k: "bot_token", lb: "Bot Token", ph: "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11", s: true, h: "Telegram Bot API token from @BotFather", lk: "https://t.me/BotFather", ll: "Telegram > @BotFather > /newbot > Token" },
+    ],
+  },
+
+  // ─── Additional Email ────────────────────────────────────
+  postmark: {
+    l: "Postmark", logo: "postmark", c: "#ffde00", cat: "email", pri: 71,
+    d: "Transactional email - fast delivery, templates, bounce tracking, and inbound processing.",
+    cap: ["Send Email", "Templates", "Bounce Tracking", "Inbound", "Click Tracking", "Streams", "Stats", "Webhooks"],
+    f: [
+      { k: "server_token", lb: "Server API Token", ph: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", s: true, h: "Server-level API token", lk: "https://account.postmarkapp.com/servers", ll: "Servers > Your Server > API Tokens" },
+    ],
+  },
+  mailgun: {
+    l: "Mailgun", logo: "mailgun", c: "#f06b54", cat: "email", pri: 72,
+    d: "Email API - sending, receiving, tracking, and validation at scale.",
+    cap: ["Send Email", "Receive Email", "Routes", "Templates", "Tracking", "Validation", "Suppressions", "Webhooks"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "Mailgun private API key", lk: "https://app.mailgun.com/settings/api_security", ll: "Settings > API Security > API Keys" },
+      { k: "domain", lb: "Domain", ph: "mg.yourdomain.com", h: "Verified sending domain", lk: "https://app.mailgun.com/sending/domains", ll: "Sending > Domains" },
+    ],
+  },
+  convertkit: {
+    l: "Kit (ConvertKit)", logo: "convertkit", c: "#fb6970", cat: "email", pri: 73,
+    d: "Creator email marketing - subscribers, sequences, automations, and landing pages.",
+    cap: ["Subscribers", "Sequences", "Broadcasts", "Forms", "Tags", "Automations", "Landing Pages", "Commerce"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Kit API key", lk: "https://app.kit.com/account_settings/developer_settings", ll: "Account Settings > Developer Settings > API Key" },
+      { k: "api_secret", lb: "API Secret", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Kit API secret", lk: "https://app.kit.com/account_settings/developer_settings", ll: "Developer Settings > API Secret" },
+    ],
+  },
+  brevo: {
+    l: "Brevo", logo: "brevo", c: "#0b996e", cat: "email", pri: 74,
+    d: "All-in-one CRM suite - email, SMS, chat, and marketing automation (formerly Sendinblue).",
+    cap: ["Email", "SMS", "Chat", "Contacts", "Automations", "Templates", "Transactional", "WhatsApp"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xkeysib-xxxxxxxx", s: true, h: "Brevo API v3 key", lk: "https://app.brevo.com/settings/keys/api", ll: "Settings > SMTP & API > API Keys" },
+    ],
+  },
+  activecampaign: {
+    l: "ActiveCampaign", logo: "activecampaign", c: "#004cff", cat: "email", pri: 75,
+    d: "Email marketing and CRM automation - contacts, deals, automations, and campaigns.",
+    cap: ["Contacts", "Deals", "Automations", "Campaigns", "Lists", "Tags", "Scoring", "Webhooks"],
+    f: [
+      { k: "api_url", lb: "API URL", ph: "https://youraccountname.api-us1.com", h: "Account API URL", lk: "https://help.activecampaign.com/hc/en-us/articles/207317590", ll: "Settings > Developer > API Access > URL" },
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "ActiveCampaign API key", lk: "https://help.activecampaign.com/hc/en-us/articles/207317590", ll: "Settings > Developer > API Access > Key" },
+    ],
+  },
+  lemlist: {
+    l: "Lemlist", logo: "lemlist", c: "#6c5ce7", cat: "email", pri: 76,
+    d: "Cold outreach - personalized email sequences, multichannel campaigns, and lead finder.",
+    cap: ["Campaigns", "Sequences", "Leads", "Personalization", "Multichannel", "Analytics", "Warm-up", "Webhooks"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Lemlist API key", lk: "https://app.lemlist.com/settings/integrations", ll: "Settings > Integrations > API" },
+    ],
+  },
+
+  // ─── Additional Cloud / Dev ──────────────────────────────
+  cloudflare: {
+    l: "Cloudflare", logo: "cloudflare", c: "#f38020", cat: "cloud", pri: 77,
+    d: "Edge platform - CDN, DNS, Workers, Pages, R2 storage, and DDoS protection.",
+    cap: ["Workers", "Pages", "R2 Storage", "DNS", "CDN", "Firewall", "Analytics", "D1 Database"],
+    f: [
+      { k: "api_token", lb: "API Token", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Scoped API token (recommended over Global)", lk: "https://dash.cloudflare.com/profile/api-tokens", ll: "Profile > API Tokens > Create Token" },
+      { k: "account_id", lb: "Account ID", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", h: "Cloudflare account ID", lk: "https://dash.cloudflare.com/", ll: "Dashboard > Any domain > Overview > Account ID (right sidebar)" },
+    ],
+  },
+  netlify: {
+    l: "Netlify", logo: "netlify", c: "#00c7b7", cat: "cloud", pri: 78,
+    d: "Web deployment - instant deploys, forms, functions, identity, and edge handlers.",
+    cap: ["Git Deploys", "Functions", "Forms", "Identity", "Edge Handlers", "Split Testing", "Analytics", "Large Media"],
+    f: [
+      { k: "access_token", lb: "Personal Access Token", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Netlify personal access token", lk: "https://app.netlify.com/user/applications#personal-access-tokens", ll: "User Settings > Applications > Personal Access Tokens" },
+    ],
+  },
+  railway: {
+    l: "Railway", logo: "railway", c: "#0b0d0e", cat: "cloud", pri: 79,
+    d: "Cloud deployment - instant deploys from GitHub, databases, cron jobs, and volumes.",
+    cap: ["Deploy", "Databases", "Cron Jobs", "Volumes", "Private Networking", "Observability", "Templates", "CLI"],
+    f: [
+      { k: "api_token", lb: "API Token", ph: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", s: true, h: "Railway API token", lk: "https://railway.app/account/tokens", ll: "Account > Tokens > Create Token" },
+    ],
+  },
+  render: {
+    l: "Render", logo: "render", c: "#46e3b7", cat: "cloud", pri: 80,
+    d: "Cloud platform - web services, static sites, databases, cron jobs, and Docker.",
+    cap: ["Web Services", "Static Sites", "Databases", "Cron Jobs", "Docker", "Private Services", "Disks", "Blueprints"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "rnd_xxxxxxxxxxxxxxxx", s: true, h: "Render API key", lk: "https://dashboard.render.com/u/settings#api-keys", ll: "Account > Settings > API Keys" },
+    ],
+  },
+  aws: {
+    l: "AWS", logo: "aws", c: "#ff9900", cat: "cloud", pri: 81,
+    d: "Amazon Web Services - S3, Lambda, DynamoDB, SES, and 200+ cloud services.",
+    cap: ["S3 Storage", "Lambda", "DynamoDB", "SES Email", "SQS Queues", "SNS", "CloudWatch", "IAM"],
+    f: [
+      { k: "access_key_id", lb: "Access Key ID", ph: "AKIAXXXXXXXXXXXXXXXX", h: "IAM access key ID", lk: "https://console.aws.amazon.com/iam/home#/security_credentials", ll: "IAM > Security Credentials > Access Keys" },
+      { k: "secret_access_key", lb: "Secret Access Key", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "IAM secret access key", lk: "https://console.aws.amazon.com/iam/home#/security_credentials", ll: "IAM > Security Credentials > Access Keys" },
+      { k: "region", lb: "Region", ph: "us-east-1", h: "Default AWS region", lk: "https://docs.aws.amazon.com/general/latest/gr/rande.html", ll: "AWS Regions list" },
+    ],
+  },
+  gcloud: {
+    l: "Google Cloud", logo: "gcloud", c: "#4285f4", cat: "cloud", pri: 82,
+    d: "Google Cloud Platform - Compute, Cloud Functions, BigQuery, Pub/Sub, and Vertex AI.",
+    cap: ["Cloud Functions", "BigQuery", "Pub/Sub", "Cloud Run", "Vertex AI", "Firestore", "Cloud Storage", "IAM"],
+    f: [
+      { k: "service_account_json", lb: "Service Account Key (JSON)", ph: '{"type":"service_account",...}', s: true, h: "Service account key file contents", lk: "https://console.cloud.google.com/iam-admin/serviceaccounts", ll: "IAM > Service Accounts > Keys > Add Key > JSON" },
+      { k: "project_id", lb: "Project ID", ph: "my-project-123456", h: "GCP project ID", lk: "https://console.cloud.google.com/", ll: "Dashboard > Project Info > Project ID" },
+    ],
+  },
+  webflow: {
+    l: "Webflow", logo: "webflow", c: "#4353ff", cat: "dev", pri: 83,
+    d: "Visual web development - design, CMS, e-commerce, and hosting without code.",
+    cap: ["Sites", "CMS", "E-commerce", "Forms", "Memberships", "Logic", "Localization", "Webhooks"],
+    f: [
+      { k: "api_token", lb: "API Token", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Webflow API v2 token", lk: "https://webflow.com/dashboard/integrations/api-tokens", ll: "Dashboard > Integrations > API Tokens > Generate" },
+    ],
+  },
+
+  // ─── Additional Social ───────────────────────────────────
+  pinterest: {
+    l: "Pinterest", logo: "pinterest", c: "#e60023", cat: "social", pri: 84,
+    d: "Visual discovery platform - pins, boards, shopping, and ad management.",
+    cap: ["Pins", "Boards", "Shopping", "Analytics", "Catalogs", "Audiences", "Conversions", "API"],
+    f: [
+      { k: "access_token", lb: "Access Token", ph: "pina_xxxxxxxx", s: true, h: "Pinterest API access token", lk: "https://developers.pinterest.com/apps/", ll: "Pinterest Developers > Apps > Access Token" },
+    ],
+  },
+  youtube: {
+    l: "YouTube", logo: "youtube", c: "#ff0000", cat: "social", pri: 85,
+    d: "Video platform - upload, manage channels, playlists, analytics, and live streaming.",
+    cap: ["Upload", "Channels", "Playlists", "Analytics", "Live Streaming", "Comments", "Search", "Captions"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "AIzaSy...", h: "YouTube Data API key", lk: "https://console.cloud.google.com/apis/credentials", ll: "Google Cloud > APIs > Credentials > Create API Key" },
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "For channel management", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Client ID" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+    ],
+  },
+  twitch: {
+    l: "Twitch", logo: "twitch", c: "#9146ff", cat: "social", pri: 86,
+    d: "Live streaming platform - streams, chat, clips, and channel management.",
+    cap: ["Streams", "Chat", "Clips", "Channels", "Subscriptions", "Emotes", "Polls", "Webhooks"],
+    f: [
+      { k: "client_id", lb: "Client ID", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", h: "Twitch app client ID", lk: "https://dev.twitch.tv/console/apps", ll: "Dev Console > Applications > Your App > Client ID" },
+      { k: "client_secret", lb: "Client Secret", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "Twitch app client secret", lk: "https://dev.twitch.tv/console/apps", ll: "Applications > Your App > Client Secret" },
+    ],
+  },
+
+  // ─── Additional Finance ──────────────────────────────────
+  xero: {
+    l: "Xero", logo: "xero", c: "#13b5ea", cat: "finance", pri: 87,
+    d: "Cloud accounting - invoicing, bank reconciliation, payroll, and financial reporting.",
+    cap: ["Invoices", "Contacts", "Bank Transactions", "Accounts", "Payroll", "Reports", "Quotes", "Purchase Orders"],
+    f: [
+      { k: "client_id", lb: "Client ID", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", h: "Xero OAuth2 app client ID", lk: "https://developer.xero.com/app/manage", ll: "Xero Developer > My Apps > Configuration > Client ID" },
+      { k: "client_secret", lb: "Client Secret", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "Xero OAuth2 app secret", lk: "https://developer.xero.com/app/manage", ll: "My Apps > Configuration > Client Secret" },
+    ],
+  },
+  wave: {
+    l: "Wave", logo: "wave", c: "#1c6dd0", cat: "finance", pri: 88,
+    d: "Free accounting - invoicing, receipts, payments, payroll, and financial reports.",
+    cap: ["Invoices", "Receipts", "Payments", "Customers", "Products", "Reports", "Payroll", "Banking"],
+    f: [
+      { k: "access_token", lb: "Access Token (Full Access)", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Wave API full access token", lk: "https://developer.waveapps.com/hc/en-us/articles/360019762711", ll: "Developer Portal > My Apps > Full Access Token" },
+    ],
+  },
+
+  // ─── Additional Productivity ─────────────────────────────
+  monday: {
+    l: "Monday.com", logo: "monday", c: "#ff3d57", cat: "productivity", pri: 89,
+    d: "Work OS - boards, items, automations, dashboards, and integrations.",
+    cap: ["Boards", "Items", "Groups", "Columns", "Automations", "Dashboards", "Workspaces", "Webhooks"],
+    f: [
+      { k: "api_key", lb: "API Token", ph: "eyJhbGciOi...", s: true, h: "Monday.com API v2 token", lk: "https://auth.monday.com/admin/integrations/api", ll: "Admin > Integrations > API > Personal API Token" },
+    ],
+  },
+  figma: {
+    l: "Figma", logo: "figma", c: "#f24e1e", cat: "productivity", pri: 90,
+    d: "Design platform - files, components, images, comments, and team management.",
+    cap: ["Files", "Images", "Components", "Comments", "Teams", "Projects", "Styles", "Webhooks"],
+    f: [
+      { k: "access_token", lb: "Personal Access Token", ph: "figd_xxxxxxxx", s: true, h: "Figma personal access token", lk: "https://www.figma.com/developers/api#access-tokens", ll: "Settings > Account > Personal Access Tokens > Create" },
+    ],
+  },
+  typeform: {
+    l: "Typeform", logo: "typeform", c: "#262627", cat: "productivity", pri: 91,
+    d: "Form builder - surveys, quizzes, lead gen forms, and data collection.",
+    cap: ["Forms", "Responses", "Logic Jumps", "Themes", "Workspaces", "Webhooks", "Insights", "Integrations"],
+    f: [
+      { k: "access_token", lb: "Personal Access Token", ph: "tfp_xxxxxxxx", s: true, h: "Typeform personal access token", lk: "https://admin.typeform.com/user/tokens", ll: "Account > Personal Tokens > Generate" },
+    ],
+  },
+  loom: {
+    l: "Loom", logo: "loom", c: "#625df5", cat: "video", pri: 92,
+    d: "Video messaging - record, share, and manage screen recordings and video content.",
+    cap: ["Videos", "Folders", "Embed", "Transcripts", "Comments", "Sharing", "Analytics", "Webhooks"],
+    f: [
+      { k: "access_token", lb: "Developer Token", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Loom developer API token", lk: "https://www.loom.com/account-settings", ll: "Account Settings > Developer > API Token" },
+    ],
+  },
+
+  // ─── Additional E-Commerce ───────────────────────────────
+  woocommerce: {
+    l: "WooCommerce", logo: "woocommerce", c: "#96588a", cat: "ecommerce", pri: 93,
+    d: "WordPress e-commerce - products, orders, customers, coupons, and reports.",
+    cap: ["Products", "Orders", "Customers", "Coupons", "Reports", "Shipping", "Taxes", "Webhooks"],
+    f: [
+      { k: "url", lb: "Store URL", ph: "https://yourstore.com", h: "WordPress site URL", lk: "https://woocommerce.com/document/woocommerce-rest-api/", ll: "WordPress Admin > WooCommerce > Settings" },
+      { k: "consumer_key", lb: "Consumer Key", ph: "ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", h: "WooCommerce REST API consumer key", lk: "https://woocommerce.com/document/woocommerce-rest-api/", ll: "WooCommerce > Settings > Advanced > REST API > Add Key" },
+      { k: "consumer_secret", lb: "Consumer Secret", ph: "cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "WooCommerce REST API consumer secret", lk: "https://woocommerce.com/document/woocommerce-rest-api/", ll: "REST API > Add Key > Consumer Secret" },
+    ],
+  },
+  bigcommerce: {
+    l: "BigCommerce", logo: "bigcommerce", c: "#121118", cat: "ecommerce", pri: 94,
+    d: "E-commerce platform - catalog, orders, customers, and storefront APIs.",
+    cap: ["Catalog", "Orders", "Customers", "Carts", "Checkouts", "Themes", "Webhooks", "GraphQL"],
+    f: [
+      { k: "store_hash", lb: "Store Hash", ph: "xxxxxxxx", h: "Your BigCommerce store hash", lk: "https://developer.bigcommerce.com/docs/start/authentication/api-accounts", ll: "Advanced Settings > API Accounts > Store Hash" },
+      { k: "access_token", lb: "API Token", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "BigCommerce API token", lk: "https://developer.bigcommerce.com/docs/start/authentication/api-accounts", ll: "Advanced Settings > API Accounts > Create API Account" },
+    ],
+  },
+
+  // ─── Additional Automation ───────────────────────────────
+  make: {
+    l: "Make", logo: "make", c: "#6d00cc", cat: "automation", pri: 95,
+    d: "Visual automation (formerly Integromat) - scenarios, modules, and data transformations.",
+    cap: ["Scenarios", "Modules", "Data Stores", "Webhooks", "Routers", "Iterators", "Aggregators", "Error Handling"],
+    f: [
+      { k: "api_token", lb: "API Token", ph: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", s: true, h: "Make API token", lk: "https://www.make.com/en/api/authentication", ll: "Profile > API > Create Token" },
+      { k: "team_id", lb: "Team ID", ph: "123456", h: "Your Make team/organization ID", lk: "https://www.make.com/", ll: "Team Settings > Team ID" },
+    ],
+  },
+
+  // ─── Additional CRM / Support ────────────────────────────
+  freshdesk: {
+    l: "Freshdesk", logo: "freshdesk", c: "#25c16f", cat: "crm", pri: 96,
+    d: "Customer support - tickets, contacts, automations, knowledge base, and SLA.",
+    cap: ["Tickets", "Contacts", "Automations", "Knowledge Base", "SLA", "Groups", "Canned Responses", "Webhooks"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxx", s: true, h: "Freshdesk API key", lk: "https://support.freshdesk.com/en/support/solutions/articles/215517-how-to-find-your-api-key", ll: "Profile > Your API Key" },
+      { k: "domain", lb: "Domain", ph: "yourcompany.freshdesk.com", h: "Freshdesk subdomain", lk: "https://freshdesk.com/", ll: "Your Freshdesk URL" },
+    ],
+  },
+
+  // ─── DocuSign / Trello / WordPress ───────────────────────
+  docusign: {
+    l: "DocuSign", logo: "docusign", c: "#463688", cat: "productivity", pri: 97,
+    d: "Electronic signatures - envelopes, templates, signing, and document management.",
+    cap: ["Envelopes", "Templates", "Signing", "Recipients", "Tabs", "Brands", "Bulk Send", "Webhooks"],
+    f: [
+      { k: "integration_key", lb: "Integration Key", ph: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", h: "DocuSign app integration key", lk: "https://admindemo.docusign.com/apps-and-keys", ll: "Admin > Apps and Keys > Integration Key" },
+      { k: "secret_key", lb: "Secret Key", ph: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", s: true, h: "DocuSign secret key", lk: "https://admindemo.docusign.com/apps-and-keys", ll: "Apps and Keys > Secret Key" },
+      { k: "account_id", lb: "Account ID", ph: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", h: "DocuSign account ID", lk: "https://admindemo.docusign.com/apps-and-keys", ll: "Apps and Keys > API Account ID" },
+    ],
+  },
+  trello: {
+    l: "Trello", logo: "trello", c: "#0079bf", cat: "productivity", pri: 98,
+    d: "Kanban boards - cards, lists, boards, checklists, and power-ups.",
+    cap: ["Boards", "Cards", "Lists", "Checklists", "Labels", "Members", "Webhooks", "Power-Ups"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", h: "Trello API key", lk: "https://trello.com/power-ups/admin", ll: "Power-Ups Admin > API Key" },
+      { k: "token", lb: "Token", ph: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "Trello token (authorize via API key page)", lk: "https://trello.com/power-ups/admin", ll: "Power-Ups Admin > Token" },
+    ],
+  },
+  wordpress: {
+    l: "WordPress", logo: "wordpress", c: "#21759b", cat: "ecommerce", pri: 99,
+    d: "CMS platform - posts, pages, media, users, custom post types, and plugins.",
+    cap: ["Posts", "Pages", "Media", "Users", "Taxonomies", "Custom Fields", "Comments", "REST API"],
+    f: [
+      { k: "url", lb: "Site URL", ph: "https://yoursite.com", h: "WordPress site URL", lk: "https://developer.wordpress.org/rest-api/", ll: "Your WordPress site URL" },
+      { k: "username", lb: "Username", ph: "admin", h: "WordPress username", lk: "https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/", ll: "Users > Your Profile > Username" },
+      { k: "app_password", lb: "Application Password", ph: "xxxx xxxx xxxx xxxx xxxx", s: true, h: "WordPress application password", lk: "https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/", ll: "Users > Profile > Application Passwords > Add New" },
+    ],
+  },
 };
 
 /** All service keys as a typed array */
@@ -603,22 +991,23 @@ export const CATEGORY_LABELS: Record<ServiceConfig['cat'], string> = {
   crm: 'CRM / Sales / Support',
   database: 'Database',
   messaging: 'Messaging / Chat',
-  email: 'Email',
-  dev: 'Development',
-  cloud: 'Cloud / Storage',
+  email: 'Email & Marketing',
+  dev: 'Dev Tools',
+  cloud: 'Cloud / Infrastructure',
   social: 'Social Media',
   ads: 'Advertising',
   finance: 'Payments / Finance',
   productivity: 'Productivity',
   ecommerce: 'E-Commerce',
   automation: 'Automation',
+  video: 'Video',
 };
 
 /** Category display order */
 export const CATEGORY_ORDER: ServiceConfig['cat'][] = [
   'ai', 'crm', 'finance', 'database', 'dev', 'cloud',
   'messaging', 'email', 'social', 'ads', 'productivity',
-  'ecommerce', 'automation',
+  'ecommerce', 'automation', 'video',
 ];
 
 /** Get services grouped by category, sorted by priority */

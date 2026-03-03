@@ -3,17 +3,17 @@
     "version": "4.0.0",
     "generated": "2026-02-28",
     "source": "0nMCP v2.2.0 catalog.js + crm/ + vault/ + engine/ + deed/",
-    "total_services": 48,
-    "total_tools": 819,
-    "catalog_tools": 545,
+    "total_services": 90,
+    "total_tools": 1155,
+    "catalog_tools": 881,
     "crm_module_tools": 245,
     "vault_tools": 4,
     "vault_container_tools": 8,
     "deed_tools": 6,
     "engine_tools": 6,
     "app_tools": 5,
-    "total_capabilities": 1078,
-    "categories": 21,
+    "total_capabilities": 1414,
+    "categories": 22,
     "schema": "0n-services-v4"
   },
   "categories": [
@@ -176,6 +176,22 @@
       "display_order": 19,
       "description": "Manage cloud resources, VMs, and storage.",
       "icon": "🌐"
+    },
+    {
+      "id": "productivity",
+      "label": "Productivity",
+      "slug": "productivity",
+      "display_order": 20,
+      "description": "Forms, video, and tools to get more done.",
+      "icon": "✅"
+    },
+    {
+      "id": "websites",
+      "label": "Websites & CMS",
+      "slug": "websites-cms",
+      "display_order": 21,
+      "description": "Build, manage, and publish websites.",
+      "icon": "🌍"
     }
   ],
   "services": [
@@ -4956,6 +4972,1560 @@
           "id": "pipedrive_add_note",
           "name": "Add Note",
           "description": "Add a note to a deal, person, or organization."
+        }
+      ]
+    },
+    {
+      "id": "gohighlevel",
+      "name": "GoHighLevel",
+      "slug": "gohighlevel",
+      "icon": "📇",
+      "category_id": "crm_sales",
+      "display_order": 53,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "All-in-one CRM — contacts, pipelines, funnels, and marketing automation.",
+      "description_long": "Connect GoHighLevel to 0nMCP to manage contacts, create and track pipelines, build funnels, send SMS and email campaigns, manage calendars, and automate your entire sales and marketing workflow.",
+      "sxo_keywords": [
+        "gohighlevel automation",
+        "gohighlevel integration",
+        "crm automation",
+        "gohighlevel api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "gohighlevel_create_contact",
+          "name": "Create Contact",
+          "description": "Create a new contact in GoHighLevel."
+        },
+        {
+          "id": "gohighlevel_list_contacts",
+          "name": "List Contacts",
+          "description": "List all contacts."
+        },
+        {
+          "id": "gohighlevel_create_opportunity",
+          "name": "Create Opportunity",
+          "description": "Create a new pipeline opportunity."
+        }
+      ]
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "slug": "cohere",
+      "icon": "🧠",
+      "category_id": "ai",
+      "display_order": 81,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Enterprise AI — generate, embed, rerank, and classify text.",
+      "description_long": "Connect Cohere to 0nMCP to generate text, create embeddings for semantic search, rerank search results, and classify documents using enterprise-grade language models.",
+      "sxo_keywords": [
+        "cohere automation",
+        "cohere integration",
+        "enterprise ai",
+        "cohere embeddings"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "cohere_generate",
+          "name": "Generate",
+          "description": "Generate text using Cohere models."
+        },
+        {
+          "id": "cohere_embed",
+          "name": "Embed",
+          "description": "Create text embeddings for semantic search."
+        },
+        {
+          "id": "cohere_rerank",
+          "name": "Rerank",
+          "description": "Rerank search results by relevance."
+        }
+      ]
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral",
+      "slug": "mistral",
+      "icon": "🌬️",
+      "category_id": "ai",
+      "display_order": 82,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Open-weight AI — chat completions, embeddings, code generation.",
+      "description_long": "Connect Mistral to 0nMCP to use Mistral's open-weight language models for chat completions, text embeddings, function calling, and code generation.",
+      "sxo_keywords": [
+        "mistral automation",
+        "mistral integration",
+        "mistral ai",
+        "open source ai"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "mistral_chat_completion",
+          "name": "Chat Completion",
+          "description": "Generate a response using Mistral models."
+        },
+        {
+          "id": "mistral_create_embedding",
+          "name": "Create Embedding",
+          "description": "Create a text embedding vector."
+        },
+        {
+          "id": "mistral_list_models",
+          "name": "List Models",
+          "description": "List available Mistral models."
+        }
+      ]
+    },
+    {
+      "id": "replicate",
+      "name": "Replicate",
+      "slug": "replicate",
+      "icon": "▶️",
+      "category_id": "ai",
+      "display_order": 83,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Run AI models — image generation, LLMs, video, audio.",
+      "description_long": "Connect Replicate to 0nMCP to run open-source AI models in the cloud. Generate images, run language models, create videos, transcribe audio, and more using thousands of community models.",
+      "sxo_keywords": [
+        "replicate automation",
+        "replicate integration",
+        "ai model hosting",
+        "run ai models"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "replicate_run_model",
+          "name": "Run Model",
+          "description": "Run a model on Replicate."
+        },
+        {
+          "id": "replicate_get_prediction",
+          "name": "Get Prediction",
+          "description": "Get the status and output of a prediction."
+        },
+        {
+          "id": "replicate_list_models",
+          "name": "List Models",
+          "description": "List available models."
+        }
+      ]
+    },
+    {
+      "id": "stability",
+      "name": "Stability AI",
+      "slug": "stability",
+      "icon": "⭐",
+      "category_id": "ai",
+      "display_order": 84,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Image AI — generate, edit, upscale, and inpaint images.",
+      "description_long": "Connect Stability AI to 0nMCP to generate images with Stable Diffusion, edit existing images, upscale low-resolution images, and perform inpainting and outpainting.",
+      "sxo_keywords": [
+        "stability ai automation",
+        "stable diffusion integration",
+        "ai image generation",
+        "stability api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "stability_generate_image",
+          "name": "Generate Image",
+          "description": "Generate an image from a text prompt."
+        },
+        {
+          "id": "stability_edit_image",
+          "name": "Edit Image",
+          "description": "Edit an existing image with a prompt."
+        },
+        {
+          "id": "stability_upscale_image",
+          "name": "Upscale Image",
+          "description": "Upscale a low-resolution image."
+        }
+      ]
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs",
+      "slug": "elevenlabs",
+      "icon": "🔊",
+      "category_id": "ai",
+      "display_order": 85,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Voice AI — text-to-speech, voice cloning, audio generation.",
+      "description_long": "Connect ElevenLabs to 0nMCP to generate realistic speech from text, clone voices, list available voices, and produce high-quality audio content at scale.",
+      "sxo_keywords": [
+        "elevenlabs automation",
+        "text to speech automation",
+        "voice cloning",
+        "elevenlabs integration"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "elevenlabs_text_to_speech",
+          "name": "Text to Speech",
+          "description": "Convert text to realistic speech audio."
+        },
+        {
+          "id": "elevenlabs_list_voices",
+          "name": "List Voices",
+          "description": "List all available voices."
+        },
+        {
+          "id": "elevenlabs_clone_voice",
+          "name": "Clone Voice",
+          "description": "Create a voice clone from audio samples."
+        }
+      ]
+    },
+    {
+      "id": "deepgram",
+      "name": "Deepgram",
+      "slug": "deepgram",
+      "icon": "🎙️",
+      "category_id": "ai",
+      "display_order": 86,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Speech AI — transcription, speech-to-text, audio intelligence.",
+      "description_long": "Connect Deepgram to 0nMCP to transcribe audio and video files, perform real-time speech recognition, detect topics and sentiments, and summarize spoken content.",
+      "sxo_keywords": [
+        "deepgram automation",
+        "speech to text automation",
+        "transcription api",
+        "deepgram integration"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "deepgram_transcribe",
+          "name": "Transcribe Audio",
+          "description": "Transcribe an audio file to text."
+        },
+        {
+          "id": "deepgram_summarize",
+          "name": "Summarize",
+          "description": "Summarize transcribed content."
+        },
+        {
+          "id": "deepgram_detect_language",
+          "name": "Detect Language",
+          "description": "Detect the language of an audio file."
+        }
+      ]
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "slug": "groq",
+      "icon": "⚡",
+      "category_id": "ai",
+      "display_order": 87,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Fast AI inference — ultra-low latency LLM completions.",
+      "description_long": "Connect Groq to 0nMCP to run language models at blazing speed using Groq's LPU hardware. Get chat completions, run open-source models like Llama and Mixtral with sub-second latency.",
+      "sxo_keywords": [
+        "groq automation",
+        "groq integration",
+        "fast ai inference",
+        "groq api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "groq_chat_completion",
+          "name": "Chat Completion",
+          "description": "Generate a fast chat completion using Groq."
+        },
+        {
+          "id": "groq_list_models",
+          "name": "List Models",
+          "description": "List available models on Groq."
+        },
+        {
+          "id": "groq_transcribe",
+          "name": "Transcribe Audio",
+          "description": "Transcribe audio using Whisper on Groq."
+        }
+      ]
+    },
+    {
+      "id": "planetscale",
+      "name": "PlanetScale",
+      "slug": "planetscale",
+      "icon": "🪐",
+      "category_id": "developer",
+      "display_order": 93,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Serverless MySQL — branches, deploy requests, schema management.",
+      "description_long": "Connect PlanetScale to 0nMCP to manage serverless MySQL databases. Create branches, open deploy requests, manage schemas, and query databases with zero-downtime migrations.",
+      "sxo_keywords": [
+        "planetscale automation",
+        "planetscale integration",
+        "serverless mysql",
+        "database branching"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "planetscale_list_databases",
+          "name": "List Databases",
+          "description": "List all databases."
+        },
+        {
+          "id": "planetscale_create_branch",
+          "name": "Create Branch",
+          "description": "Create a new database branch."
+        },
+        {
+          "id": "planetscale_create_deploy_request",
+          "name": "Create Deploy Request",
+          "description": "Create a deploy request for schema changes."
+        }
+      ]
+    },
+    {
+      "id": "neon",
+      "name": "Neon",
+      "slug": "neon",
+      "icon": "💚",
+      "category_id": "developer",
+      "display_order": 94,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Serverless Postgres — branches, endpoints, database management.",
+      "description_long": "Connect Neon to 0nMCP to manage serverless PostgreSQL databases. Create branches for development, manage compute endpoints, run queries, and scale automatically.",
+      "sxo_keywords": [
+        "neon automation",
+        "neon integration",
+        "serverless postgres",
+        "neon database"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "neon_list_projects",
+          "name": "List Projects",
+          "description": "List all Neon projects."
+        },
+        {
+          "id": "neon_create_branch",
+          "name": "Create Branch",
+          "description": "Create a new database branch."
+        },
+        {
+          "id": "neon_run_query",
+          "name": "Run Query",
+          "description": "Execute a SQL query on a branch."
+        }
+      ]
+    },
+    {
+      "id": "turso",
+      "name": "Turso",
+      "slug": "turso",
+      "icon": "🐢",
+      "category_id": "developer",
+      "display_order": 95,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Edge database — SQLite at the edge, replication, groups.",
+      "description_long": "Connect Turso to 0nMCP to manage edge SQLite databases. Create databases, manage groups and replicas, run queries at the edge, and sync data across regions.",
+      "sxo_keywords": [
+        "turso automation",
+        "turso integration",
+        "edge database",
+        "sqlite at the edge"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "turso_list_databases",
+          "name": "List Databases",
+          "description": "List all Turso databases."
+        },
+        {
+          "id": "turso_create_database",
+          "name": "Create Database",
+          "description": "Create a new edge database."
+        },
+        {
+          "id": "turso_run_query",
+          "name": "Run Query",
+          "description": "Execute a SQL query on a database."
+        }
+      ]
+    },
+    {
+      "id": "cockroachdb",
+      "name": "CockroachDB",
+      "slug": "cockroachdb",
+      "icon": "🪳",
+      "category_id": "developer",
+      "display_order": 96,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Distributed SQL — clusters, databases, resilient queries.",
+      "description_long": "Connect CockroachDB to 0nMCP to manage distributed SQL databases. Create clusters, manage databases and users, run queries with guaranteed consistency, and monitor cluster health.",
+      "sxo_keywords": [
+        "cockroachdb automation",
+        "cockroachdb integration",
+        "distributed sql",
+        "cockroachdb api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "cockroachdb_list_clusters",
+          "name": "List Clusters",
+          "description": "List all CockroachDB clusters."
+        },
+        {
+          "id": "cockroachdb_create_database",
+          "name": "Create Database",
+          "description": "Create a new database in a cluster."
+        },
+        {
+          "id": "cockroachdb_run_query",
+          "name": "Run Query",
+          "description": "Execute a SQL query on a cluster."
+        }
+      ]
+    },
+    {
+      "id": "telegram",
+      "name": "Telegram",
+      "slug": "telegram",
+      "icon": "✈️",
+      "category_id": "communication",
+      "display_order": 22,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "bot_token",
+      "description_short": "Messaging — send messages, manage bots, channels, and groups.",
+      "description_long": "Connect Telegram to 0nMCP to send messages via bots, manage channels and groups, send media and documents, and build automated Telegram bot workflows.",
+      "sxo_keywords": [
+        "telegram automation",
+        "telegram bot",
+        "telegram integration",
+        "telegram api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "telegram_send_message",
+          "name": "Send Message",
+          "description": "Send a text message via a Telegram bot."
+        },
+        {
+          "id": "telegram_send_photo",
+          "name": "Send Photo",
+          "description": "Send a photo to a chat."
+        },
+        {
+          "id": "telegram_get_updates",
+          "name": "Get Updates",
+          "description": "Get incoming updates for a bot."
+        }
+      ]
+    },
+    {
+      "id": "postmark",
+      "name": "Postmark",
+      "slug": "postmark",
+      "icon": "📮",
+      "category_id": "email_marketing",
+      "display_order": 33,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Transactional email — fast delivery, templates, tracking.",
+      "description_long": "Connect Postmark to 0nMCP to send transactional emails with high deliverability. Manage templates, track bounces and opens, and send batch emails with reliable delivery.",
+      "sxo_keywords": [
+        "postmark automation",
+        "postmark integration",
+        "transactional email",
+        "postmark api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "postmark_send_email",
+          "name": "Send Email",
+          "description": "Send a transactional email."
+        },
+        {
+          "id": "postmark_send_template",
+          "name": "Send Template",
+          "description": "Send an email using a template."
+        },
+        {
+          "id": "postmark_get_bounces",
+          "name": "Get Bounces",
+          "description": "List bounced email addresses."
+        }
+      ]
+    },
+    {
+      "id": "mailgun",
+      "name": "Mailgun",
+      "slug": "mailgun",
+      "icon": "📧",
+      "category_id": "email_marketing",
+      "display_order": 34,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Email API — send, receive, track, and validate emails.",
+      "description_long": "Connect Mailgun to 0nMCP to send and receive emails via API. Track deliveries, validate email addresses, manage mailing lists, and monitor email events at scale.",
+      "sxo_keywords": [
+        "mailgun automation",
+        "mailgun integration",
+        "email api",
+        "mailgun api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "mailgun_send_email",
+          "name": "Send Email",
+          "description": "Send an email via Mailgun."
+        },
+        {
+          "id": "mailgun_validate_email",
+          "name": "Validate Email",
+          "description": "Validate an email address."
+        },
+        {
+          "id": "mailgun_list_events",
+          "name": "List Events",
+          "description": "List email delivery events."
+        }
+      ]
+    },
+    {
+      "id": "convertkit",
+      "name": "ConvertKit",
+      "slug": "convertkit",
+      "icon": "💌",
+      "category_id": "email_marketing",
+      "display_order": 35,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Creator email — subscribers, sequences, broadcasts, forms.",
+      "description_long": "Connect ConvertKit to 0nMCP to manage email subscribers, create and send broadcasts, build automated sequences, manage tags, and grow your creator audience.",
+      "sxo_keywords": [
+        "convertkit automation",
+        "convertkit integration",
+        "creator email",
+        "convertkit api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "convertkit_list_subscribers",
+          "name": "List Subscribers",
+          "description": "List all email subscribers."
+        },
+        {
+          "id": "convertkit_add_subscriber",
+          "name": "Add Subscriber",
+          "description": "Add a new subscriber."
+        },
+        {
+          "id": "convertkit_send_broadcast",
+          "name": "Send Broadcast",
+          "description": "Create and send a broadcast email."
+        }
+      ]
+    },
+    {
+      "id": "brevo",
+      "name": "Brevo",
+      "slug": "brevo",
+      "icon": "📩",
+      "category_id": "email_marketing",
+      "display_order": 36,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Marketing platform — email, SMS, chat, CRM, and automation.",
+      "description_long": "Connect Brevo (formerly Sendinblue) to 0nMCP to send marketing and transactional emails, manage contacts and lists, send SMS campaigns, and automate customer journeys.",
+      "sxo_keywords": [
+        "brevo automation",
+        "brevo integration",
+        "sendinblue integration",
+        "brevo api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "brevo_send_email",
+          "name": "Send Email",
+          "description": "Send a transactional email via Brevo."
+        },
+        {
+          "id": "brevo_create_contact",
+          "name": "Create Contact",
+          "description": "Create or update a contact."
+        },
+        {
+          "id": "brevo_send_campaign",
+          "name": "Send Campaign",
+          "description": "Create and send an email campaign."
+        }
+      ]
+    },
+    {
+      "id": "activecampaign",
+      "name": "ActiveCampaign",
+      "slug": "activecampaign",
+      "icon": "📬",
+      "category_id": "email_marketing",
+      "display_order": 37,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Email & automation — contacts, campaigns, deals, automations.",
+      "description_long": "Connect ActiveCampaign to 0nMCP to manage contacts and lists, create email campaigns, build automation workflows, track deals in the CRM, and segment your audience.",
+      "sxo_keywords": [
+        "activecampaign automation",
+        "activecampaign integration",
+        "email automation",
+        "activecampaign api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "activecampaign_create_contact",
+          "name": "Create Contact",
+          "description": "Create a new contact."
+        },
+        {
+          "id": "activecampaign_list_contacts",
+          "name": "List Contacts",
+          "description": "List all contacts."
+        },
+        {
+          "id": "activecampaign_create_deal",
+          "name": "Create Deal",
+          "description": "Create a new deal in the CRM."
+        }
+      ]
+    },
+    {
+      "id": "lemlist",
+      "name": "Lemlist",
+      "slug": "lemlist",
+      "icon": "📨",
+      "category_id": "cold_email",
+      "display_order": 161,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Cold email outreach — campaigns, leads, sequences, personalization.",
+      "description_long": "Connect Lemlist to 0nMCP to manage cold email campaigns, add and manage leads, create personalized email sequences, track opens and replies, and automate outbound sales outreach.",
+      "sxo_keywords": [
+        "lemlist automation",
+        "lemlist integration",
+        "cold email outreach",
+        "lemlist api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "lemlist_list_campaigns",
+          "name": "List Campaigns",
+          "description": "List all outreach campaigns."
+        },
+        {
+          "id": "lemlist_add_lead",
+          "name": "Add Lead",
+          "description": "Add a lead to a campaign."
+        },
+        {
+          "id": "lemlist_get_campaign_stats",
+          "name": "Get Campaign Stats",
+          "description": "Get statistics for a campaign."
+        }
+      ]
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "slug": "cloudflare",
+      "icon": "☁️",
+      "category_id": "cloud",
+      "display_order": 191,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Edge cloud — DNS, Workers, Pages, security, CDN.",
+      "description_long": "Connect Cloudflare to 0nMCP to manage DNS records, deploy Workers and Pages, configure WAF rules, purge CDN cache, and manage your edge infrastructure.",
+      "sxo_keywords": [
+        "cloudflare automation",
+        "cloudflare integration",
+        "dns automation",
+        "cloudflare api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "cloudflare_list_zones",
+          "name": "List Zones",
+          "description": "List all DNS zones."
+        },
+        {
+          "id": "cloudflare_create_dns_record",
+          "name": "Create DNS Record",
+          "description": "Create a new DNS record."
+        },
+        {
+          "id": "cloudflare_purge_cache",
+          "name": "Purge Cache",
+          "description": "Purge the CDN cache for a zone."
+        }
+      ]
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify",
+      "slug": "netlify",
+      "icon": "🔷",
+      "category_id": "cloud",
+      "display_order": 192,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Web hosting — deploy sites, manage domains, serverless functions.",
+      "description_long": "Connect Netlify to 0nMCP to deploy websites, manage site settings, configure custom domains, trigger builds, and manage serverless functions and forms.",
+      "sxo_keywords": [
+        "netlify automation",
+        "netlify integration",
+        "web deployment",
+        "netlify api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "netlify_list_sites",
+          "name": "List Sites",
+          "description": "List all Netlify sites."
+        },
+        {
+          "id": "netlify_create_deploy",
+          "name": "Create Deploy",
+          "description": "Trigger a new deployment."
+        },
+        {
+          "id": "netlify_list_deploys",
+          "name": "List Deploys",
+          "description": "List deployments for a site."
+        }
+      ]
+    },
+    {
+      "id": "railway",
+      "name": "Railway",
+      "slug": "railway",
+      "icon": "🚂",
+      "category_id": "cloud",
+      "display_order": 193,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Cloud deployment — projects, services, databases, environments.",
+      "description_long": "Connect Railway to 0nMCP to deploy services, manage projects and environments, provision databases, configure variables, and monitor deployments on Railway's cloud platform.",
+      "sxo_keywords": [
+        "railway automation",
+        "railway integration",
+        "cloud deployment",
+        "railway api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "railway_list_projects",
+          "name": "List Projects",
+          "description": "List all Railway projects."
+        },
+        {
+          "id": "railway_create_service",
+          "name": "Create Service",
+          "description": "Create a new service in a project."
+        },
+        {
+          "id": "railway_deploy",
+          "name": "Deploy",
+          "description": "Trigger a deployment for a service."
+        }
+      ]
+    },
+    {
+      "id": "render",
+      "name": "Render",
+      "slug": "render",
+      "icon": "🟢",
+      "category_id": "cloud",
+      "display_order": 194,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Cloud hosting — web services, databases, cron jobs, static sites.",
+      "description_long": "Connect Render to 0nMCP to manage web services, provision databases, deploy static sites, configure cron jobs, and manage environment variables on Render's cloud platform.",
+      "sxo_keywords": [
+        "render automation",
+        "render integration",
+        "cloud hosting",
+        "render api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "render_list_services",
+          "name": "List Services",
+          "description": "List all Render services."
+        },
+        {
+          "id": "render_create_service",
+          "name": "Create Service",
+          "description": "Create a new web service."
+        },
+        {
+          "id": "render_deploy",
+          "name": "Deploy",
+          "description": "Trigger a manual deploy for a service."
+        }
+      ]
+    },
+    {
+      "id": "aws",
+      "name": "AWS",
+      "slug": "aws",
+      "icon": "☁️",
+      "category_id": "cloud",
+      "display_order": 195,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Amazon cloud — S3, Lambda, SES, EC2, and more.",
+      "description_long": "Connect AWS to 0nMCP to manage S3 buckets and objects, invoke Lambda functions, send emails via SES, manage EC2 instances, and interact with dozens of AWS services.",
+      "sxo_keywords": [
+        "aws automation",
+        "aws integration",
+        "amazon web services",
+        "aws api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "aws_s3_list_buckets",
+          "name": "List S3 Buckets",
+          "description": "List all S3 buckets."
+        },
+        {
+          "id": "aws_lambda_invoke",
+          "name": "Invoke Lambda",
+          "description": "Invoke a Lambda function."
+        },
+        {
+          "id": "aws_ses_send_email",
+          "name": "Send Email (SES)",
+          "description": "Send an email via Amazon SES."
+        }
+      ]
+    },
+    {
+      "id": "gcloud",
+      "name": "Google Cloud",
+      "slug": "gcloud",
+      "icon": "🌐",
+      "category_id": "cloud",
+      "display_order": 196,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "service_account",
+      "description_short": "Google Cloud — Cloud Functions, Storage, BigQuery, Pub/Sub.",
+      "description_long": "Connect Google Cloud to 0nMCP to manage Cloud Storage buckets, invoke Cloud Functions, query BigQuery datasets, publish to Pub/Sub topics, and manage GCP resources.",
+      "sxo_keywords": [
+        "google cloud automation",
+        "gcp integration",
+        "google cloud api",
+        "gcloud automation"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "gcloud_list_buckets",
+          "name": "List Storage Buckets",
+          "description": "List all Cloud Storage buckets."
+        },
+        {
+          "id": "gcloud_invoke_function",
+          "name": "Invoke Function",
+          "description": "Invoke a Cloud Function."
+        },
+        {
+          "id": "gcloud_bigquery_query",
+          "name": "BigQuery Query",
+          "description": "Run a BigQuery SQL query."
+        }
+      ]
+    },
+    {
+      "id": "webflow",
+      "name": "Webflow",
+      "slug": "webflow",
+      "icon": "🌐",
+      "category_id": "websites",
+      "display_order": 200,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Visual website builder — sites, CMS collections, forms, ecommerce.",
+      "description_long": "Connect Webflow to 0nMCP to manage sites, create and update CMS collection items, handle form submissions, manage ecommerce products and orders, and publish changes.",
+      "sxo_keywords": [
+        "webflow automation",
+        "webflow integration",
+        "webflow cms",
+        "webflow api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "webflow_list_sites",
+          "name": "List Sites",
+          "description": "List all Webflow sites."
+        },
+        {
+          "id": "webflow_list_collections",
+          "name": "List Collections",
+          "description": "List CMS collections for a site."
+        },
+        {
+          "id": "webflow_create_item",
+          "name": "Create Item",
+          "description": "Create a new CMS collection item."
+        }
+      ]
+    },
+    {
+      "id": "pinterest",
+      "name": "Pinterest",
+      "slug": "pinterest",
+      "icon": "📌",
+      "category_id": "social_media",
+      "display_order": 104,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth2",
+      "description_short": "Visual discovery — pins, boards, analytics, ads.",
+      "description_long": "Connect Pinterest to 0nMCP to create and manage pins, organize boards, track analytics, manage ad campaigns, and grow your visual presence on Pinterest.",
+      "sxo_keywords": [
+        "pinterest automation",
+        "pinterest integration",
+        "pinterest api",
+        "pinterest marketing"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "pinterest_create_pin",
+          "name": "Create Pin",
+          "description": "Create a new pin on a board."
+        },
+        {
+          "id": "pinterest_list_boards",
+          "name": "List Boards",
+          "description": "List all boards for an account."
+        },
+        {
+          "id": "pinterest_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get pin and board analytics."
+        }
+      ]
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "slug": "youtube",
+      "icon": "🎬",
+      "category_id": "social_media",
+      "display_order": 105,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth2",
+      "description_short": "Video platform — upload, manage, analyze, and comment on videos.",
+      "description_long": "Connect YouTube to 0nMCP to upload videos, manage channel content, retrieve video analytics, moderate comments, and manage playlists on the world's largest video platform.",
+      "sxo_keywords": [
+        "youtube automation",
+        "youtube integration",
+        "youtube api",
+        "video marketing automation"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "youtube_list_videos",
+          "name": "List Videos",
+          "description": "List videos for a channel."
+        },
+        {
+          "id": "youtube_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get video and channel analytics."
+        },
+        {
+          "id": "youtube_list_comments",
+          "name": "List Comments",
+          "description": "List comments on a video."
+        }
+      ]
+    },
+    {
+      "id": "twitch",
+      "name": "Twitch",
+      "slug": "twitch",
+      "icon": "🎮",
+      "category_id": "social_media",
+      "display_order": 106,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth2",
+      "description_short": "Live streaming — channels, chat, clips, subscriptions.",
+      "description_long": "Connect Twitch to 0nMCP to manage streams, send chat messages, create clips, manage subscriptions, and build automated Twitch bot integrations for your channel.",
+      "sxo_keywords": [
+        "twitch automation",
+        "twitch integration",
+        "twitch bot",
+        "twitch api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "twitch_get_channel",
+          "name": "Get Channel",
+          "description": "Get channel information."
+        },
+        {
+          "id": "twitch_send_chat_message",
+          "name": "Send Chat Message",
+          "description": "Send a message to a channel's chat."
+        },
+        {
+          "id": "twitch_get_streams",
+          "name": "Get Streams",
+          "description": "Get information about active streams."
+        }
+      ]
+    },
+    {
+      "id": "xero",
+      "name": "Xero",
+      "slug": "xero",
+      "icon": "🧾",
+      "category_id": "accounting",
+      "display_order": 131,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth2",
+      "description_short": "Cloud accounting — invoices, contacts, bank transactions, reports.",
+      "description_long": "Connect Xero to 0nMCP to create and manage invoices, sync contacts, reconcile bank transactions, generate financial reports, and automate your bookkeeping workflows.",
+      "sxo_keywords": [
+        "xero automation",
+        "xero integration",
+        "accounting automation",
+        "xero api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "xero_create_invoice",
+          "name": "Create Invoice",
+          "description": "Create a new invoice."
+        },
+        {
+          "id": "xero_list_contacts",
+          "name": "List Contacts",
+          "description": "List all contacts."
+        },
+        {
+          "id": "xero_get_bank_transactions",
+          "name": "Get Bank Transactions",
+          "description": "List bank transactions."
+        }
+      ]
+    },
+    {
+      "id": "wave",
+      "name": "Wave",
+      "slug": "wave",
+      "icon": "🌊",
+      "category_id": "accounting",
+      "display_order": 132,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Free accounting — invoices, expenses, receipts, reports.",
+      "description_long": "Connect Wave to 0nMCP to create and manage invoices, track expenses, scan receipts, generate financial reports, and automate bookkeeping for small businesses.",
+      "sxo_keywords": [
+        "wave automation",
+        "wave accounting integration",
+        "free accounting software",
+        "wave api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "wave_create_invoice",
+          "name": "Create Invoice",
+          "description": "Create a new invoice."
+        },
+        {
+          "id": "wave_list_customers",
+          "name": "List Customers",
+          "description": "List all customers."
+        },
+        {
+          "id": "wave_create_expense",
+          "name": "Create Expense",
+          "description": "Record a new expense."
+        }
+      ]
+    },
+    {
+      "id": "monday",
+      "name": "Monday.com",
+      "slug": "monday",
+      "icon": "📋",
+      "category_id": "project_mgmt",
+      "display_order": 65,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Work OS — boards, items, columns, automations, dashboards.",
+      "description_long": "Connect Monday.com to 0nMCP to manage boards and items, update column values, create automations, retrieve dashboards, and orchestrate team workflows on Monday's Work OS platform.",
+      "sxo_keywords": [
+        "monday automation",
+        "monday.com integration",
+        "work management automation",
+        "monday api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "monday_list_boards",
+          "name": "List Boards",
+          "description": "List all boards."
+        },
+        {
+          "id": "monday_create_item",
+          "name": "Create Item",
+          "description": "Create a new item on a board."
+        },
+        {
+          "id": "monday_update_item",
+          "name": "Update Item",
+          "description": "Update an item's column values."
+        }
+      ]
+    },
+    {
+      "id": "figma",
+      "name": "Figma",
+      "slug": "figma",
+      "icon": "🎨",
+      "category_id": "project_mgmt",
+      "display_order": 66,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Design tool — files, components, comments, versions.",
+      "description_long": "Connect Figma to 0nMCP to access design files, list components and styles, manage comments, export images, track versions, and integrate design workflows into your automation pipeline.",
+      "sxo_keywords": [
+        "figma automation",
+        "figma integration",
+        "design automation",
+        "figma api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "figma_get_file",
+          "name": "Get File",
+          "description": "Get a Figma design file."
+        },
+        {
+          "id": "figma_list_comments",
+          "name": "List Comments",
+          "description": "List comments on a file."
+        },
+        {
+          "id": "figma_export_images",
+          "name": "Export Images",
+          "description": "Export images from a design file."
+        }
+      ]
+    },
+    {
+      "id": "typeform",
+      "name": "Typeform",
+      "slug": "typeform",
+      "icon": "📝",
+      "category_id": "productivity",
+      "display_order": 210,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Forms & surveys — create forms, collect responses, analyze data.",
+      "description_long": "Connect Typeform to 0nMCP to create interactive forms and surveys, collect and analyze responses, manage workspaces, and build automated data collection workflows.",
+      "sxo_keywords": [
+        "typeform automation",
+        "typeform integration",
+        "form automation",
+        "typeform api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "typeform_list_forms",
+          "name": "List Forms",
+          "description": "List all forms."
+        },
+        {
+          "id": "typeform_get_responses",
+          "name": "Get Responses",
+          "description": "Get responses for a form."
+        },
+        {
+          "id": "typeform_create_form",
+          "name": "Create Form",
+          "description": "Create a new form."
+        }
+      ]
+    },
+    {
+      "id": "loom",
+      "name": "Loom",
+      "slug": "loom",
+      "icon": "🎥",
+      "category_id": "productivity",
+      "display_order": 211,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Video messaging — recordings, transcripts, sharing, analytics.",
+      "description_long": "Connect Loom to 0nMCP to access video recordings, retrieve transcripts, manage sharing settings, track video analytics, and automate video content workflows.",
+      "sxo_keywords": [
+        "loom automation",
+        "loom integration",
+        "video messaging",
+        "loom api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "loom_list_videos",
+          "name": "List Videos",
+          "description": "List all Loom videos."
+        },
+        {
+          "id": "loom_get_video",
+          "name": "Get Video",
+          "description": "Get details and transcript for a video."
+        },
+        {
+          "id": "loom_get_analytics",
+          "name": "Get Analytics",
+          "description": "Get view analytics for a video."
+        }
+      ]
+    },
+    {
+      "id": "freshdesk",
+      "name": "Freshdesk",
+      "slug": "freshdesk",
+      "icon": "🎧",
+      "category_id": "support",
+      "display_order": 72,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Helpdesk — tickets, contacts, agents, canned responses, SLA.",
+      "description_long": "Connect Freshdesk to 0nMCP to manage support tickets, organize contacts, assign agents, use canned responses, track SLA compliance, and automate your customer support workflows.",
+      "sxo_keywords": [
+        "freshdesk automation",
+        "freshdesk integration",
+        "helpdesk automation",
+        "freshdesk api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "freshdesk_create_ticket",
+          "name": "Create Ticket",
+          "description": "Create a new support ticket."
+        },
+        {
+          "id": "freshdesk_list_tickets",
+          "name": "List Tickets",
+          "description": "List all support tickets."
+        },
+        {
+          "id": "freshdesk_update_ticket",
+          "name": "Update Ticket",
+          "description": "Update an existing ticket."
+        }
+      ]
+    },
+    {
+      "id": "woocommerce",
+      "name": "WooCommerce",
+      "slug": "woocommerce",
+      "icon": "🛒",
+      "category_id": "payments",
+      "display_order": 43,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "WordPress ecommerce — products, orders, customers, coupons.",
+      "description_long": "Connect WooCommerce to 0nMCP to manage your online store. Create and update products, process orders, manage customers, generate coupons, and track sales analytics.",
+      "sxo_keywords": [
+        "woocommerce automation",
+        "woocommerce integration",
+        "wordpress ecommerce",
+        "woocommerce api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "woocommerce_list_products",
+          "name": "List Products",
+          "description": "List all products."
+        },
+        {
+          "id": "woocommerce_create_order",
+          "name": "Create Order",
+          "description": "Create a new order."
+        },
+        {
+          "id": "woocommerce_list_orders",
+          "name": "List Orders",
+          "description": "List all orders."
+        }
+      ]
+    },
+    {
+      "id": "bigcommerce",
+      "name": "BigCommerce",
+      "slug": "bigcommerce",
+      "icon": "🏬",
+      "category_id": "payments",
+      "display_order": 44,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Enterprise ecommerce — products, orders, customers, channels.",
+      "description_long": "Connect BigCommerce to 0nMCP to manage products and catalogs, process orders, manage customer accounts, configure channels, and automate your enterprise ecommerce operations.",
+      "sxo_keywords": [
+        "bigcommerce automation",
+        "bigcommerce integration",
+        "enterprise ecommerce",
+        "bigcommerce api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "bigcommerce_list_products",
+          "name": "List Products",
+          "description": "List all products."
+        },
+        {
+          "id": "bigcommerce_create_product",
+          "name": "Create Product",
+          "description": "Create a new product."
+        },
+        {
+          "id": "bigcommerce_list_orders",
+          "name": "List Orders",
+          "description": "List all orders."
+        }
+      ]
+    },
+    {
+      "id": "make",
+      "name": "Make",
+      "slug": "make",
+      "icon": "⚙️",
+      "category_id": "automation",
+      "display_order": 171,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Visual automation — scenarios, modules, connections, data stores.",
+      "description_long": "Connect Make (formerly Integromat) to 0nMCP to trigger and manage automation scenarios, list modules and connections, manage data stores, and orchestrate complex multi-step workflows.",
+      "sxo_keywords": [
+        "make automation",
+        "make integration",
+        "integromat automation",
+        "make api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "make_list_scenarios",
+          "name": "List Scenarios",
+          "description": "List all automation scenarios."
+        },
+        {
+          "id": "make_run_scenario",
+          "name": "Run Scenario",
+          "description": "Trigger a scenario to run."
+        },
+        {
+          "id": "make_list_connections",
+          "name": "List Connections",
+          "description": "List all configured connections."
+        }
+      ]
+    },
+    {
+      "id": "wordpress",
+      "name": "WordPress",
+      "slug": "wordpress",
+      "icon": "🌐",
+      "category_id": "websites",
+      "display_order": 201,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "CMS — posts, pages, media, users, comments, plugins.",
+      "description_long": "Connect WordPress to 0nMCP to create and manage posts and pages, upload media, manage users and comments, configure plugins, and automate your content publishing workflows.",
+      "sxo_keywords": [
+        "wordpress automation",
+        "wordpress integration",
+        "wordpress api",
+        "cms automation"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "wordpress_create_post",
+          "name": "Create Post",
+          "description": "Create a new blog post."
+        },
+        {
+          "id": "wordpress_list_posts",
+          "name": "List Posts",
+          "description": "List all posts."
+        },
+        {
+          "id": "wordpress_upload_media",
+          "name": "Upload Media",
+          "description": "Upload a media file."
+        }
+      ]
+    },
+    {
+      "id": "docusign",
+      "name": "DocuSign",
+      "slug": "docusign",
+      "icon": "✍️",
+      "category_id": "productivity",
+      "display_order": 212,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth2",
+      "description_short": "E-signatures — envelopes, templates, signing, document management.",
+      "description_long": "Connect DocuSign to 0nMCP to create and send envelopes for signing, manage templates, track signing status, download completed documents, and automate your agreement workflows.",
+      "sxo_keywords": [
+        "docusign automation",
+        "docusign integration",
+        "e-signature automation",
+        "docusign api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "docusign_create_envelope",
+          "name": "Create Envelope",
+          "description": "Create and send a new envelope for signing."
+        },
+        {
+          "id": "docusign_list_envelopes",
+          "name": "List Envelopes",
+          "description": "List all envelopes."
+        },
+        {
+          "id": "docusign_get_envelope_status",
+          "name": "Get Envelope Status",
+          "description": "Get the signing status of an envelope."
+        }
+      ]
+    },
+    {
+      "id": "trello",
+      "name": "Trello",
+      "slug": "trello",
+      "icon": "📋",
+      "category_id": "project_mgmt",
+      "display_order": 67,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "api_key",
+      "description_short": "Kanban boards — boards, lists, cards, checklists, labels.",
+      "description_long": "Connect Trello to 0nMCP to manage boards, create and move cards, organize lists, add checklists and labels, assign members, and automate your kanban project workflows.",
+      "sxo_keywords": [
+        "trello automation",
+        "trello integration",
+        "kanban automation",
+        "trello api"
+      ],
+      "tool_count": 8,
+      "tools": [
+        {
+          "id": "trello_list_boards",
+          "name": "List Boards",
+          "description": "List all Trello boards."
+        },
+        {
+          "id": "trello_create_card",
+          "name": "Create Card",
+          "description": "Create a new card on a list."
+        },
+        {
+          "id": "trello_move_card",
+          "name": "Move Card",
+          "description": "Move a card to a different list."
         }
       ]
     }

@@ -1,10 +1,10 @@
 'use client'
 
 import type { DragEvent } from 'react'
-import type { Service } from '@/lib/sxo-helpers'
+import type { BuilderService } from './ServicePalette'
 
 interface Props {
-  service: Service
+  service: BuilderService
 }
 
 export default function ServicePaletteItem({ service }: Props) {
@@ -13,14 +13,12 @@ export default function ServicePaletteItem({ service }: Props) {
       serviceId: service.id,
       serviceName: service.name,
       serviceIcon: service.icon,
-      serviceLogo: (service as Record<string, unknown>).logo ?? '',
-      tools: 'tools' in service ? service.tools : [],
+      serviceLogo: service.logo ?? '',
+      tools: service.tools ?? [],
     })
     e.dataTransfer.setData('application/0n-service', payload)
     e.dataTransfer.effectAllowed = 'move'
   }
-
-  const logo = (service as Record<string, unknown>).logo as string | undefined
 
   return (
     <div
@@ -29,14 +27,20 @@ export default function ServicePaletteItem({ service }: Props) {
       onDragStart={onDragStart}
     >
       <div className="builder-service-icon">
-        {logo ? (
-          <img src={logo} alt={service.name} width={20} height={20} />
+        {service.logo ? (
+          <img src={service.logo} alt={service.name} width={20} height={20} />
         ) : (
-          service.icon
+          service.icon || service.name.charAt(0)
         )}
       </div>
       <div className="builder-service-info">
-        <div className="builder-service-name">{service.name}</div>
+        <div className="builder-service-name">
+          <span
+            className="builder-service-dot"
+            style={{ backgroundColor: service.brandColor || '#666' }}
+          />
+          {service.name}
+        </div>
         <div className="builder-service-tools">
           {service.tool_count} tool{service.tool_count !== 1 ? 's' : ''}
         </div>

@@ -385,6 +385,297 @@ const LinkedIn = ({ size = 20, className }: P) => (
   </svg>
 )
 
+/* ── New expanded service logos ── */
+
+const GoHighLevel = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#38b2ac" />
+    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold" fontFamily="Arial,sans-serif">GHL</text>
+  </svg>
+)
+
+const Cohere = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#39594D" />
+    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold" fontFamily="Arial,sans-serif">CO</text>
+  </svg>
+)
+
+const Mistral = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#F97316" />
+    <path d="M5 8h14M5 12h10M5 16h6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+)
+
+const Replicate = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#000" />
+    <path d="M9 6v12l9-6-9-6z" fill="#fff" />
+  </svg>
+)
+
+const Stability = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#A855F7" />
+    <path d="M12 4l2.35 5.64L20 12l-5.65 2.36L12 20l-2.35-5.64L4 12l5.65-2.36L12 4z" fill="#fff" />
+  </svg>
+)
+
+const ElevenLabs = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#000" />
+    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="bold" fontFamily="Arial,sans-serif">XI</text>
+  </svg>
+)
+
+const Deepgram = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#13EF93" />
+    <path d="M5 12h2M8 9v6M11 7v10M14 9v6M17 12h2" stroke="#000" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+)
+
+const Groq = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#F55036" />
+    <path d="M12 5v8l4 4M12 13l-4 4" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const PlanetScale = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#000" />
+    <path d="M6 12a6 6 0 0 1 6-6M18 12a6 6 0 0 1-6 6M12 6l6 6-6 6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const Neon = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#00E599" />
+    <text x="12" y="16" textAnchor="middle" fill="#000" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">N</text>
+  </svg>
+)
+
+const Turso = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#4FF8D2" />
+    <text x="12" y="16" textAnchor="middle" fill="#000" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">T</text>
+  </svg>
+)
+
+const CockroachDB = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#6933FF" />
+    <path d="M12 4l6.93 4v8L12 20l-6.93-4V8L12 4z" stroke="#fff" strokeWidth="1.5" fill="none" />
+    <path d="M12 8l3.46 2v4L12 16l-3.46-2v-4L12 8z" fill="#fff" />
+  </svg>
+)
+
+const Telegram = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <circle cx="12" cy="12" r="10" fill="#26A5E4" />
+    <path d="M5.5 11.5l11-4.5-1.5 10.5-3.5-3-2 2.5v-3l7-7-8.5 4.5z" fill="#fff" />
+  </svg>
+)
+
+const Postmark = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#FFDE00" />
+    <rect x="5" y="7" width="14" height="10" rx="2" fill="none" stroke="#000" strokeWidth="1.5" />
+    <path d="M5 7l7 5 7-5" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+const Mailgun = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#F06B54" />
+    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold" fontFamily="Arial,sans-serif">MG</text>
+  </svg>
+)
+
+const ConvertKit = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#FB6970" />
+    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold" fontFamily="Arial,sans-serif">CK</text>
+  </svg>
+)
+
+const Brevo = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#0B996E" />
+    <text x="12" y="16" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">B</text>
+  </svg>
+)
+
+const ActiveCampaign = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#004CFF" />
+    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold" fontFamily="Arial,sans-serif">AC</text>
+  </svg>
+)
+
+const Lemlist = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#6C5CE7" />
+    <rect x="5" y="7" width="14" height="10" rx="2" fill="none" stroke="#fff" strokeWidth="1.5" />
+    <path d="M5 7l7 5 7-5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+const Cloudflare = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#F38020" />
+    <path d="M6 15c0-2.21 1.79-4 4-4 .34 0 .67.04 1 .12C11.56 9.28 13.13 8 15 8c2.21 0 4 1.79 4 4 0 .17-.01.34-.04.5A2.5 2.5 0 0 1 19.5 17H7a2.5 2.5 0 0 1-1-4.8z" fill="#fff" />
+  </svg>
+)
+
+const Netlify = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#00C7B7" />
+    <path d="M12 5l7 7-7 7-7-7 7-7z" fill="#fff" />
+    <text x="12" y="15" textAnchor="middle" fill="#00C7B7" fontSize="9" fontWeight="bold" fontFamily="Arial,sans-serif">N</text>
+  </svg>
+)
+
+const Railway = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#0B0D0E" />
+    <path d="M8 4v16M16 4v16M6 8h12M6 12h12M6 16h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+const Render = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#46E3B7" />
+    <text x="12" y="16" textAnchor="middle" fill="#000" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">R</text>
+  </svg>
+)
+
+const AWS = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#FF9900" />
+    <path d="M6 14c3 2 9 2 12 0" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+    <path d="M16 13l2 1.5-2 1.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const GCloud = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#4285F4" />
+    <path d="M12 4l6.93 4v8L12 20l-6.93-4V8L12 4z" stroke="#fff" strokeWidth="1.5" fill="none" />
+    <text x="12" y="15" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold" fontFamily="Arial,sans-serif">G</text>
+  </svg>
+)
+
+const Webflow = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#4353FF" />
+    <text x="12" y="16" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">W</text>
+  </svg>
+)
+
+const Pinterest = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <circle cx="12" cy="12" r="10" fill="#E60023" />
+    <text x="12" y="16.5" textAnchor="middle" fill="#fff" fontSize="14" fontWeight="bold" fontFamily="Georgia,serif">P</text>
+  </svg>
+)
+
+const YouTube = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#FF0000" />
+    <path d="M10 8.5v7l6-3.5-6-3.5z" fill="#fff" />
+  </svg>
+)
+
+const Twitch = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#9146FF" />
+    <path d="M6 4h13v11l-4 4h-3l-2 2H8v-2H5V7l1-3zm3 5v4M13 9v4" stroke="#fff" strokeWidth="1.5" fill="#9146FF" strokeLinecap="round" />
+  </svg>
+)
+
+const Xero = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <circle cx="12" cy="12" r="10" fill="#13B5EA" />
+    <text x="12" y="16" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">X</text>
+  </svg>
+)
+
+const Wave = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#1C6DD0" />
+    <path d="M4 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0" stroke="#fff" strokeWidth="2" strokeLinecap="round" fill="none" />
+  </svg>
+)
+
+const Monday = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#FF3D57" />
+    <circle cx="8" cy="9" r="2" fill="#fff" />
+    <circle cx="16" cy="9" r="2" fill="#fff" />
+    <circle cx="8" cy="15" r="2" fill="#fff" />
+    <circle cx="16" cy="15" r="2" fill="#fff" />
+  </svg>
+)
+
+const Figma = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#F24E1E" />
+    <rect x="7" y="4" width="5" height="5" rx="2.5" fill="#FF7262" />
+    <rect x="12" y="4" width="5" height="5" rx="2.5" fill="#1ABCFE" />
+    <rect x="7" y="9" width="5" height="5" rx="2.5" fill="#A259FF" />
+    <circle cx="14.5" cy="11.5" r="2.5" fill="#0ACF83" />
+    <rect x="7" y="14" width="5" height="5" rx="2.5" fill="#0ACF83" />
+  </svg>
+)
+
+const Typeform = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#262627" />
+    <text x="12" y="16" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">T</text>
+  </svg>
+)
+
+const Loom = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#625DF5" />
+    <circle cx="12" cy="12" r="5" stroke="#fff" strokeWidth="1.8" fill="none" />
+    <path d="M10.5 9.5v5l4-2.5-4-2.5z" fill="#fff" />
+  </svg>
+)
+
+const Freshdesk = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#25C16F" />
+    <circle cx="12" cy="10" r="3" stroke="#fff" strokeWidth="1.8" fill="none" />
+    <path d="M7 19c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M9 7.5C9 6 10 4 12 4s3 2 3 3.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+const WooCommerce = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#96588A" />
+    <text x="12" y="16" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">W</text>
+  </svg>
+)
+
+const BigCommerce = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#121118" />
+    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold" fontFamily="Arial,sans-serif">BC</text>
+  </svg>
+)
+
+const Make = ({ size = 20, className }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="4" fill="#6D00CC" />
+    <text x="12" y="16" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="bold" fontFamily="Arial,sans-serif">M</text>
+  </svg>
+)
+
 /* ── Export map ── */
 export const SERVICE_LOGOS: Record<string, React.FC<P>> = {
   crm: CRM,
@@ -438,6 +729,45 @@ export const SERVICE_LOGOS: Record<string, React.FC<P>> = {
   'x-ads': XTwitter,
   'linkedin-ads': LinkedIn,
   'instagram-ads': Instagram,
+  gohighlevel: GoHighLevel,
+  cohere: Cohere,
+  mistral: Mistral,
+  replicate: Replicate,
+  stability: Stability,
+  elevenlabs: ElevenLabs,
+  deepgram: Deepgram,
+  groq: Groq,
+  planetscale: PlanetScale,
+  neon: Neon,
+  turso: Turso,
+  cockroachdb: CockroachDB,
+  telegram: Telegram,
+  postmark: Postmark,
+  mailgun: Mailgun,
+  convertkit: ConvertKit,
+  brevo: Brevo,
+  activecampaign: ActiveCampaign,
+  lemlist: Lemlist,
+  cloudflare: Cloudflare,
+  netlify: Netlify,
+  railway: Railway,
+  render: Render,
+  aws: AWS,
+  gcloud: GCloud,
+  webflow: Webflow,
+  pinterest: Pinterest,
+  youtube: YouTube,
+  twitch: Twitch,
+  xero: Xero,
+  wave: Wave,
+  monday: Monday,
+  figma: Figma,
+  typeform: Typeform,
+  loom: Loom,
+  freshdesk: Freshdesk,
+  woocommerce: WooCommerce,
+  bigcommerce: BigCommerce,
+  make: Make,
 }
 
 /* ── All service metadata ── */
@@ -498,6 +828,45 @@ export const ALL_SERVICES = [
   { id: 'deed', name: 'Digital Deed', category: '0n Platform', color: '#a78bfa' },
   { id: 'engine', name: '0n Engine', category: '0n Platform', color: '#ff6b35' },
   { id: 'app-builder', name: 'App Builder', category: '0n Platform', color: '#7ed957' },
+  { id: 'gohighlevel', name: 'GoHighLevel', category: 'CRM', color: '#38b2ac' },
+  { id: 'cohere', name: 'Cohere', category: 'AI', color: '#39594D' },
+  { id: 'mistral', name: 'Mistral', category: 'AI', color: '#F97316' },
+  { id: 'replicate', name: 'Replicate', category: 'AI', color: '#000000' },
+  { id: 'stability', name: 'Stability AI', category: 'AI', color: '#A855F7' },
+  { id: 'elevenlabs', name: 'ElevenLabs', category: 'AI', color: '#000000' },
+  { id: 'deepgram', name: 'Deepgram', category: 'AI', color: '#13EF93' },
+  { id: 'groq', name: 'Groq', category: 'AI', color: '#F55036' },
+  { id: 'planetscale', name: 'PlanetScale', category: 'Developer', color: '#000000' },
+  { id: 'neon', name: 'Neon', category: 'Developer', color: '#00E599' },
+  { id: 'turso', name: 'Turso', category: 'Developer', color: '#4FF8D2' },
+  { id: 'cockroachdb', name: 'CockroachDB', category: 'Developer', color: '#6933FF' },
+  { id: 'telegram', name: 'Telegram', category: 'Communication', color: '#26A5E4' },
+  { id: 'postmark', name: 'Postmark', category: 'Email', color: '#FFDE00' },
+  { id: 'mailgun', name: 'Mailgun', category: 'Email', color: '#F06B54' },
+  { id: 'convertkit', name: 'ConvertKit', category: 'Email', color: '#FB6970' },
+  { id: 'brevo', name: 'Brevo', category: 'Email', color: '#0B996E' },
+  { id: 'activecampaign', name: 'ActiveCampaign', category: 'Email', color: '#004CFF' },
+  { id: 'lemlist', name: 'Lemlist', category: 'Email', color: '#6C5CE7' },
+  { id: 'cloudflare', name: 'Cloudflare', category: 'Cloud', color: '#F38020' },
+  { id: 'netlify', name: 'Netlify', category: 'Cloud', color: '#00C7B7' },
+  { id: 'railway', name: 'Railway', category: 'Cloud', color: '#0B0D0E' },
+  { id: 'render', name: 'Render', category: 'Cloud', color: '#46E3B7' },
+  { id: 'aws', name: 'AWS', category: 'Cloud', color: '#FF9900' },
+  { id: 'gcloud', name: 'Google Cloud', category: 'Cloud', color: '#4285F4' },
+  { id: 'webflow', name: 'Webflow', category: 'Developer', color: '#4353FF' },
+  { id: 'pinterest', name: 'Pinterest', category: 'Social', color: '#E60023' },
+  { id: 'youtube', name: 'YouTube', category: 'Social', color: '#FF0000' },
+  { id: 'twitch', name: 'Twitch', category: 'Social', color: '#9146FF' },
+  { id: 'xero', name: 'Xero', category: 'Payments', color: '#13B5EA' },
+  { id: 'wave', name: 'Wave', category: 'Payments', color: '#1C6DD0' },
+  { id: 'monday', name: 'Monday', category: 'Project Mgmt', color: '#FF3D57' },
+  { id: 'figma', name: 'Figma', category: 'Project Mgmt', color: '#F24E1E' },
+  { id: 'typeform', name: 'Typeform', category: 'Productivity', color: '#262627' },
+  { id: 'loom', name: 'Loom', category: 'Productivity', color: '#625DF5' },
+  { id: 'freshdesk', name: 'Freshdesk', category: 'Support', color: '#25C16F' },
+  { id: 'woocommerce', name: 'WooCommerce', category: 'Payments', color: '#96588A' },
+  { id: 'bigcommerce', name: 'BigCommerce', category: 'Payments', color: '#121118' },
+  { id: 'make', name: 'Make', category: 'Automation', color: '#6D00CC' },
 ]
 
 /* ── Convenience component ── */

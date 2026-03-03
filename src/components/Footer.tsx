@@ -33,6 +33,7 @@ const footerColumns = [
       { label: 'Sponsor', href: '/sponsor' },
       { label: 'Report', href: '/report' },
       { label: 'Legal', href: '/legal' },
+      { label: 'Privacy Policy', href: '/privacy' },
     ],
   },
   {
@@ -182,8 +183,12 @@ export default function Footer() {
           className="mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
           style={{ borderTop: '1px solid var(--border)' }}
         >
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            &copy; 2026 RocketOpp LLC. All rights reserved.
+          <p className="text-xs flex items-center gap-2 flex-wrap" style={{ color: 'var(--text-muted)' }}>
+            <span>&copy; 2026 RocketOpp LLC. All rights reserved.</span>
+            <span>&middot;</span>
+            <Link href="/privacy" style={{ color: 'var(--text-muted)' }} className="hover:underline">Privacy Policy</Link>
+            <span>&middot;</span>
+            <Link href="/legal" style={{ color: 'var(--text-muted)' }} className="hover:underline">Legal</Link>
           </p>
           <p
             className="text-xs"

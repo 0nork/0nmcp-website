@@ -296,7 +296,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  let body: { message?: string }
+  let body: {
+    message?: string
+    context?: {
+      currentPage?: string
+      brainSummary?: string
+      preferences?: Record<string, unknown>
+      learningTopics?: string[]
+      missingServices?: string[]
+      source?: 'console' | 'oncall'
+    }
+  }
   try {
     body = await request.json()
   } catch {
@@ -306,6 +316,20 @@ export async function POST(request: NextRequest) {
   const message = body.message?.trim()
   if (!message) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
+  }
+
+  // ── Build context-enhanced message for AI layers ──────────
+  let enhancedMessage = message
+  if (body.context) {
+    const ctx = body.context
+    const parts: string[] = []
+    if (ctx.currentPage) parts.push(`[User is on page: ${ctx.currentPage}]`)
+    if (ctx.brainSummary) parts.push(`[Context: ${ctx.brainSummary}]`)
+    if (ctx.missingServices?.length) parts.push(`[Missing services: ${ctx.missingServices.join(', ')}]`)
+    if (ctx.learningTopics?.length) parts.push(`[Interested in: ${ctx.learningTopics.join(', ')}]`)
+    if (parts.length > 0) {
+      enhancedMessage = parts.join(' ') + '\n\n' + message
+    }
   }
 
   // ── Layer 1: Try 0nMCP local server ────────────────────────
@@ -338,11 +362,11 @@ export async function POST(request: NextRequest) {
 
     let result: { text: string; source: AISource } | null = null
     if (provider === 'anthropic') {
-      result = await callClaude(userKey, message, 'claude-byok')
+      result = await callClaude(userKey, enhancedMessage, 'claude-byok')
     } else if (provider === 'openai') {
-      result = await callOpenAI(userKey, message)
+      result = await callOpenAI(userKey, enhancedMessage)
     } else if (provider === 'google') {
-      result = await callGemini(userKey, message)
+      result = await callGemini(userKey, enhancedMessage)
     }
 
     if (result) {
@@ -355,7 +379,7 @@ export async function POST(request: NextRequest) {
 
   // ── Layer 3: Platform Anthropic key ────────────────────────
   if (PLATFORM_ANTHROPIC_KEY) {
-    const result = await callClaude(PLATFORM_ANTHROPIC_KEY, message, 'claude')
+    const result = await callClaude(PLATFORM_ANTHROPIC_KEY, enhancedMessage, 'claude')
     if (result) {
       return NextResponse.json({
         text: result.text,

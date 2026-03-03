@@ -4,6 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { STATS } from '@/data/stats'
 import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
+import OnCallLoader from '@/components/oncall/OnCallLoader'
 
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator',
@@ -67,6 +68,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <SiteChrome>{children}</SiteChrome>
+        <OnCallLoader />
         <Analytics />
         <SpeedInsights />
         <script

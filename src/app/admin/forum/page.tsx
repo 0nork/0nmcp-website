@@ -57,7 +57,7 @@ export default function ForumModerationPage() {
     const [threadsRes, groupsRes, threadCount, postCount, groupCount, voteCount] = await Promise.all([
       supabase
         .from('community_threads')
-        .select('id, title, slug, body, reply_count, score, is_pinned, is_locked, created_at, profiles!community_threads_user_id_fkey(full_name, email, is_persona), community_groups(name, slug, color)')
+        .select('id, title, slug, body, reply_count, score, is_pinned, is_locked, created_at, profiles(full_name, email, is_persona), community_groups(name, slug, color)')
         .order('created_at', { ascending: false })
         .limit(50),
       supabase.from('community_groups').select('*').order('thread_count', { ascending: false }),

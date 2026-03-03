@@ -848,7 +848,7 @@ export async function getThreadPosts(threadId: string): Promise<{ body: string; 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data } = await (admin.from('community_posts') as any)
-    .select('body, user_id, profiles!community_posts_user_id_fkey(full_name)')
+    .select('body, user_id, profiles(full_name)')
     .eq('thread_id', threadId)
     .order('created_at', { ascending: true })
     .limit(20)

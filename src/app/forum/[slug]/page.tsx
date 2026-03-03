@@ -87,8 +87,8 @@ async function getThread(slug: string) {
     .from('community_threads')
     .select(`
       *,
-      profiles!community_threads_user_id_fkey(full_name, email, karma, reputation_level, avatar_url),
-      community_groups!community_threads_group_id_fkey(name, slug, icon, color)
+      profiles(full_name, email, karma, reputation_level, avatar_url),
+      community_groups(name, slug, icon, color)
     `)
     .eq('slug', slug)
     .single()
@@ -100,7 +100,7 @@ async function getThread(slug: string) {
 
   const { data: posts } = await admin
     .from('community_posts')
-    .select('*, profiles!community_posts_user_id_fkey(full_name, email, karma, reputation_level, avatar_url)')
+    .select('*, profiles(full_name, email, karma, reputation_level, avatar_url)')
     .eq('thread_id', thread.id)
     .order('created_at', { ascending: true })
 

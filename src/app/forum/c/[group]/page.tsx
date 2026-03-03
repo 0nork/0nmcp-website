@@ -50,7 +50,7 @@ async function getGroupData(groupSlug: string) {
     .from('community_threads')
     .select(`
       id, title, slug, score, reply_count, view_count, is_pinned, is_locked, created_at, user_id,
-      profiles!community_threads_user_id_fkey(full_name, email, karma, reputation_level)
+      profiles(full_name, email, karma, reputation_level)
     `, { count: 'exact' })
     .eq('group_id', group.id)
     .order('is_pinned', { ascending: false })

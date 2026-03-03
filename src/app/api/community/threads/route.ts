@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
     .from('community_threads')
     .select(`
       *,
-      profiles!community_threads_user_id_fkey(full_name, email, karma, reputation_level, avatar_url),
-      community_groups!community_threads_group_id_fkey(name, slug, icon, color)
+      profiles(full_name, email, karma, reputation_level, avatar_url),
+      community_groups(name, slug, icon, color)
     `, { count: 'exact' })
 
   // Filter by group

@@ -151,7 +151,7 @@ export default function AdminDashboard() {
         .gte('created_at', new Date(Date.now() - 7 * 86400000).toISOString()),
       // Recent threads
       supabase.from('community_threads')
-        .select('id, title, slug, reply_count, score, created_at, profiles!community_threads_user_id_fkey(full_name, is_persona)')
+        .select('id, title, slug, reply_count, score, created_at, profiles(full_name, is_persona)')
         .order('created_at', { ascending: false })
         .limit(8),
     ])

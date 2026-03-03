@@ -31,8 +31,8 @@ async function getInitialData() {
       .from('community_threads')
       .select(`
         *,
-        profiles!community_threads_user_id_fkey(full_name, email, karma, reputation_level, avatar_url),
-        community_groups!community_threads_group_id_fkey(name, slug, icon, color)
+        profiles(full_name, email, karma, reputation_level, avatar_url),
+        community_groups(name, slug, icon, color)
       `, { count: 'exact' })
       .order('is_pinned', { ascending: false })
       .order('hot_score', { ascending: false })

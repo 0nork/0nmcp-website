@@ -37,7 +37,7 @@ export async function POST(
       body: body.trim(),
       parent_post_id: parent_post_id || null,
     })
-    .select('*, profiles!community_posts_user_id_fkey(full_name, email)')
+    .select('*, profiles(full_name, email)')
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1a2410" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="1"/>
+    </radialGradient>
+    <!-- Core glow -->
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7ed957" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#7ed957" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#7ed957" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Node green glow -->
+    <radialGradient id="nodeGreen" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7ed957" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#5cb83a" stop-opacity="0.6"/>
+    </radialGradient>
+    <!-- Node cyan glow -->
+    <radialGradient id="nodeCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0088cc" stop-opacity="0.6"/>
+    </radialGradient>
+    <!-- Node purple glow -->
+    <radialGradient id="nodePurple" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#7c5cbf" stop-opacity="0.6"/>
+    </radialGradient>
+    <!-- Filter for glow effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGlow)"/>
+
+  <!-- Grid lines (subtle) -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="75" x2="800" y2="75"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="100" y1="0" x2="100" y2="450"/>
+    <line x1="200" y1="0" x2="200" y2="450"/>
+    <line x1="300" y1="0" x2="300" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/>
+    <line x1="500" y1="0" x2="500" y2="450"/>
+    <line x1="600" y1="0" x2="600" y2="450"/>
+    <line x1="700" y1="0" x2="700" y2="450"/>
+  </g>
+
+  <!-- Central glow blob -->
+  <circle cx="400" cy="225" r="140" fill="url(#coreGlow)" opacity="0.6"/>
+
+  <!-- ─── Connection lines from center to outer nodes ─── -->
+  <!-- Green ring nodes -->
+  <g stroke="#7ed957" stroke-width="1" opacity="0.35">
+    <line x1="400" y1="225" x2="400" y2="88"/>
+    <line x1="400" y1="225" x2="506" y2="113"/>
+    <line x1="400" y1="225" x2="537" y2="225"/>
+    <line x1="400" y1="225" x2="506" y2="337"/>
+    <line x1="400" y1="225" x2="400" y2="362"/>
+    <line x1="400" y1="225" x2="294" y2="337"/>
+    <line x1="400" y1="225" x2="263" y2="225"/>
+    <line x1="400" y1="225" x2="294" y2="113"/>
+  </g>
+  <!-- Cyan ring nodes -->
+  <g stroke="#00d4ff" stroke-width="0.8" opacity="0.3">
+    <line x1="400" y1="225" x2="571" y2="88"/>
+    <line x1="400" y1="225" x2="640" y2="180"/>
+    <line x1="400" y1="225" x2="640" y2="270"/>
+    <line x1="400" y1="225" x2="571" y2="362"/>
+    <line x1="400" y1="225" x2="229" y2="362"/>
+    <line x1="400" y1="225" x2="160" y2="270"/>
+    <line x1="400" y1="225" x2="160" y2="180"/>
+    <line x1="400" y1="225" x2="229" y2="88"/>
+  </g>
+  <!-- Purple far nodes -->
+  <g stroke="#a78bfa" stroke-width="0.6" opacity="0.2">
+    <line x1="400" y1="225" x2="680" y2="60"/>
+    <line x1="400" y1="225" x2="730" y2="225"/>
+    <line x1="400" y1="225" x2="680" y2="390"/>
+    <line x1="400" y1="225" x2="120" y2="390"/>
+    <line x1="400" y1="225" x2="70" y2="225"/>
+    <line x1="400" y1="225" x2="120" y2="60"/>
+    <line x1="400" y1="225" x2="400" y2="30"/>
+    <line x1="400" y1="225" x2="400" y2="420"/>
+  </g>
+
+  <!-- ─── Outer purple far-ring nodes ─── -->
+  <g filter="url(#glow)">
+    <circle cx="680" cy="60" r="5" fill="#a78bfa" opacity="0.8"/>
+    <circle cx="730" cy="225" r="4" fill="#a78bfa" opacity="0.7"/>
+    <circle cx="680" cy="390" r="5" fill="#a78bfa" opacity="0.8"/>
+    <circle cx="120" cy="390" r="4" fill="#a78bfa" opacity="0.7"/>
+    <circle cx="70" cy="225" r="5" fill="#a78bfa" opacity="0.8"/>
+    <circle cx="120" cy="60" r="4" fill="#a78bfa" opacity="0.7"/>
+    <circle cx="400" cy="30" r="4" fill="#a78bfa" opacity="0.6"/>
+    <circle cx="400" cy="420" r="4" fill="#a78bfa" opacity="0.6"/>
+  </g>
+
+  <!-- ─── Mid cyan ring nodes ─── -->
+  <g filter="url(#glow)">
+    <circle cx="571" cy="88" r="6" fill="#00d4ff" opacity="0.85"/>
+    <circle cx="640" cy="180" r="6" fill="#00d4ff" opacity="0.85"/>
+    <circle cx="640" cy="270" r="6" fill="#00d4ff" opacity="0.85"/>
+    <circle cx="571" cy="362" r="6" fill="#00d4ff" opacity="0.85"/>
+    <circle cx="229" cy="362" r="6" fill="#00d4ff" opacity="0.85"/>
+    <circle cx="160" cy="270" r="6" fill="#00d4ff" opacity="0.85"/>
+    <circle cx="160" cy="180" r="6" fill="#00d4ff" opacity="0.85"/>
+    <circle cx="229" cy="88" r="6" fill="#00d4ff" opacity="0.85"/>
+  </g>
+
+  <!-- ─── Inner green ring nodes ─── -->
+  <g filter="url(#softGlow)">
+    <circle cx="400" cy="88" r="9" fill="#7ed957" opacity="0.95"/>
+    <circle cx="506" cy="113" r="9" fill="#7ed957" opacity="0.95"/>
+    <circle cx="537" cy="225" r="9" fill="#7ed957" opacity="0.95"/>
+    <circle cx="506" cy="337" r="9" fill="#7ed957" opacity="0.95"/>
+    <circle cx="400" cy="362" r="9" fill="#7ed957" opacity="0.95"/>
+    <circle cx="294" cy="337" r="9" fill="#7ed957" opacity="0.95"/>
+    <circle cx="263" cy="225" r="9" fill="#7ed957" opacity="0.95"/>
+    <circle cx="294" cy="113" r="9" fill="#7ed957" opacity="0.95"/>
+  </g>
+
+  <!-- ─── Central core ring ─── -->
+  <circle cx="400" cy="225" r="52" fill="none" stroke="#7ed957" stroke-width="1.5" opacity="0.25" stroke-dasharray="4 6"/>
+  <circle cx="400" cy="225" r="36" fill="#111118" stroke="#7ed957" stroke-width="2" opacity="0.9"/>
+  <circle cx="400" cy="225" r="32" fill="#0a0a0f" opacity="1"/>
+
+  <!-- Central "0n" text -->
+  <text x="400" y="232" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700" fill="#7ed957" filter="url(#textGlow)">0n</text>
+
+  <!-- ─── "819" hero number ─── -->
+  <text x="400" y="195" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="0" fill="#7ed957">
+    <!-- intentionally empty — rendered below outside core -->
+  </text>
+
+  <!-- Large "819" in upper-left quadrant area, outside the node cluster -->
+  <text x="72" y="155" font-family="'Instrument Sans', sans-serif" font-size="72" font-weight="900" fill="#7ed957" opacity="0.12" letter-spacing="-4">819</text>
+  <text x="71" y="154" font-family="'Instrument Sans', sans-serif" font-size="72" font-weight="900" fill="#7ed957" opacity="0.85" letter-spacing="-4" filter="url(#textGlow)">819</text>
+
+  <!-- "TOOLS" label under 819 -->
+  <text x="76" y="175" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" fill="#7ed957" letter-spacing="0.15em" opacity="0.7">TOOLS</text>
+
+  <!-- Stats bottom-right -->
+  <text x="728" y="338" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d4ff" opacity="0.7">48 services</text>
+  <text x="728" y="355" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#a78bfa" opacity="0.7">21 categories</text>
+  <text x="728" y="372" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" opacity="0.7">1,078 capabilities</text>
+
+  <!-- Version badge top-right -->
+  <rect x="648" y="18" width="134" height="28" rx="5" fill="#1a1a25" stroke="#7ed957" stroke-width="1" opacity="0.9"/>
+  <text x="715" y="36" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#7ed957">v2.2.0 — LIVE</text>
+
+  <!-- Subtle ring decorations -->
+  <circle cx="400" cy="225" r="100" fill="none" stroke="#7ed957" stroke-width="0.5" opacity="0.08"/>
+  <circle cx="400" cy="225" r="160" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.06"/>
+  <circle cx="400" cy="225" r="220" fill="none" stroke="#a78bfa" stroke-width="0.5" opacity="0.05"/>
+</svg>

@@ -4,6 +4,7 @@ import servicesData from '@/data/services.json'
 import capabilitiesData from '@/data/capabilities.json'
 import glossaryData from '@/data/glossary.json'
 import comparisonsData from '@/data/comparisons.json'
+import blogData from '@/data/blog-posts.json'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
@@ -56,6 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/security/patent',
     '/connect',
     '/marketplace',
+    '/blog',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
@@ -107,6 +109,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic marketplace listing pages
   let marketplacePages: MetadataRoute.Sitemap = []
+
+  // Blog post pages
+  const blogPages: MetadataRoute.Sitemap = blogData.posts.map((p) => ({
+    url: `${base}/blog/${p.slug}`,
+    lastModified: new Date(p.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
 
   // Dynamic forum threads + profiles + groups
   let threadPages: MetadataRoute.Sitemap = []
@@ -178,6 +188,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticPages,
+    ...blogPages,
     ...servicePages,
     ...capabilityPages,
     ...glossaryPages,

@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bgGlow2" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0d1510" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="flowLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7ed957" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#7ed957" stop-opacity="1"/>
+      <stop offset="70%" stop-color="#00d4ff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="boxGlow" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow2" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowGreen" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#7ed957" opacity="0.8"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="#00d4ff" opacity="0.8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGlow2)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="90" x2="800" y2="90"/>
+    <line x1="0" y1="180" x2="800" y2="180"/>
+    <line x1="0" y1="270" x2="800" y2="270"/>
+    <line x1="0" y1="360" x2="800" y2="360"/>
+    <line x1="160" y1="0" x2="160" y2="450"/>
+    <line x1="320" y1="0" x2="320" y2="450"/>
+    <line x1="480" y1="0" x2="480" y2="450"/>
+    <line x1="640" y1="0" x2="640" y2="450"/>
+  </g>
+
+  <!-- .0n file icon at top center -->
+  <g transform="translate(340, 28)">
+    <!-- File shape -->
+    <rect x="0" y="0" width="120" height="52" rx="6" fill="#1a1a25" stroke="#7ed957" stroke-width="1.5"/>
+    <!-- Corner fold -->
+    <path d="M96,0 L120,24 L96,24 Z" fill="#2a2a3a" stroke="#7ed957" stroke-width="1"/>
+    <!-- File name -->
+    <text x="12" y="22" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#7ed957">workflow</text>
+    <text x="12" y="38" font-family="'JetBrains Mono', monospace" font-size="11" fill="#5cb83a">.0n</text>
+    <!-- Dot indicator -->
+    <circle cx="105" cy="38" r="4" fill="#7ed957" opacity="0.8" filter="url(#glow2)"/>
+  </g>
+
+  <!-- Arrow down from file to pipeline -->
+  <line x1="400" y1="80" x2="400" y2="108" stroke="#7ed957" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" marker-end="url(#arrowGreen)"/>
+
+  <!-- ─── Pipeline stages ─── -->
+  <!-- Stage 1: Contact -->
+  <g filter="url(#boxGlow)">
+    <rect x="60" y="115" width="120" height="52" rx="8" fill="#111118" stroke="#7ed957" stroke-width="1.5"/>
+    <text x="120" y="136" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957" opacity="0.6" letter-spacing="0.1em">TRIGGER</text>
+    <text x="120" y="153" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="13" font-weight="700" fill="#e8e8ef">Contact</text>
+  </g>
+
+  <!-- Arrow 1→2 -->
+  <line x1="180" y1="141" x2="218" y2="141" stroke="#7ed957" stroke-width="1.5" marker-end="url(#arrowGreen)" opacity="0.8"/>
+
+  <!-- Stage 2: Enrich -->
+  <g filter="url(#boxGlow)">
+    <rect x="220" y="115" width="120" height="52" rx="8" fill="#111118" stroke="#00d4ff" stroke-width="1.5"/>
+    <text x="280" y="136" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d4ff" opacity="0.6" letter-spacing="0.1em">STEP 1</text>
+    <text x="280" y="153" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="13" font-weight="700" fill="#e8e8ef">Enrich</text>
+  </g>
+
+  <!-- Arrow 2→3 -->
+  <line x1="340" y1="141" x2="378" y2="141" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arrowCyan)" opacity="0.8"/>
+
+  <!-- Stage 3: Route -->
+  <g filter="url(#boxGlow)">
+    <rect x="380" y="115" width="120" height="52" rx="8" fill="#111118" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="440" y="136" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#a78bfa" opacity="0.6" letter-spacing="0.1em">STEP 2</text>
+    <text x="440" y="153" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="13" font-weight="700" fill="#e8e8ef">Route</text>
+  </g>
+
+  <!-- Arrow 3→4 -->
+  <line x1="500" y1="141" x2="538" y2="141" stroke="#a78bfa" stroke-width="1.5" opacity="0.8"/>
+  <polygon points="535,137 543,141 535,145" fill="#a78bfa" opacity="0.8"/>
+
+  <!-- Stage 4: Email -->
+  <g filter="url(#boxGlow)">
+    <rect x="540" y="115" width="120" height="52" rx="8" fill="#111118" stroke="#7ed957" stroke-width="1.5"/>
+    <text x="600" y="136" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957" opacity="0.6" letter-spacing="0.1em">STEP 3</text>
+    <text x="600" y="153" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="13" font-weight="700" fill="#e8e8ef">Email</text>
+  </g>
+
+  <!-- Arrow down from Email to Notify -->
+  <line x1="600" y1="167" x2="600" y2="195" stroke="#7ed957" stroke-width="1.5" marker-end="url(#arrowGreen)" opacity="0.7"/>
+
+  <!-- Stage 5: Notify (below Email) -->
+  <g filter="url(#boxGlow)">
+    <rect x="540" y="200" width="120" height="52" rx="8" fill="#111118" stroke="#00d4ff" stroke-width="1.5"/>
+    <text x="600" y="221" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d4ff" opacity="0.6" letter-spacing="0.1em">STEP 4</text>
+    <text x="600" y="238" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="13" font-weight="700" fill="#e8e8ef">Notify</text>
+  </g>
+
+  <!-- ─── Flow glow line underneath pipeline ─── -->
+  <rect x="60" y="174" width="480" height="3" rx="1.5" fill="url(#flowLine)" opacity="0.4"/>
+
+  <!-- ─── Code snippet panel ─── -->
+  <rect x="60" y="285" width="460" height="140" rx="8" fill="#111118" stroke="#2a2a3a" stroke-width="1"/>
+  <rect x="60" y="285" width="460" height="24" rx="8" fill="#1a1a25"/>
+  <rect x="60" y="297" width="460" height="12" fill="#1a1a25"/>
+  <!-- Terminal buttons -->
+  <circle cx="82" cy="297" r="5" fill="#ff5f57"/>
+  <circle cx="100" cy="297" r="5" fill="#ffbd2e"/>
+  <circle cx="118" cy="297" r="5" fill="#28c840"/>
+  <!-- File tab label -->
+  <text x="148" y="301" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0">new-contact.0n</text>
+
+  <!-- Code content -->
+  <text x="82" y="328" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#8888a0">$0n: {</text>
+  <text x="82" y="343" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#8888a0">  type: </text>
+  <text x="138" y="343" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#7ed957">"workflow"</text>
+  <text x="82" y="358" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#8888a0">  name: </text>
+  <text x="134" y="358" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#00d4ff">"icp-router"</text>
+  <text x="82" y="373" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#8888a0">}, steps: [enrich, route, email, notify]</text>
+  <text x="82" y="392" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#5cb83a">// 0nmcp run new-contact.0n</text>
+  <text x="82" y="407" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#7ed957">✓ Executed in 1.2s — 5 steps complete</text>
+
+  <!-- ─── Timer badge ─── -->
+  <g transform="translate(585, 280)">
+    <rect x="0" y="0" width="155" height="50" rx="8" fill="#1a1a25" stroke="#7ed957" stroke-width="1.5"/>
+    <!-- Clock icon -->
+    <circle cx="25" cy="25" r="14" fill="none" stroke="#7ed957" stroke-width="1.5" opacity="0.7"/>
+    <line x1="25" y1="14" x2="25" y2="25" stroke="#7ed957" stroke-width="1.5" opacity="0.9"/>
+    <line x1="25" y1="25" x2="33" y2="25" stroke="#7ed957" stroke-width="1.5" opacity="0.9"/>
+    <!-- Text -->
+    <text x="46" y="20" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0" letter-spacing="0.05em">SETUP TIME</text>
+    <text x="46" y="37" font-family="'Instrument Sans', sans-serif" font-size="18" font-weight="900" fill="#7ed957" filter="url(#textGlow2)">10 min</text>
+  </g>
+
+  <!-- ─── Main hero text ─── -->
+  <text x="400" y="255" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="11" font-weight="600" fill="#8888a0" letter-spacing="0.12em">SWITCH FILE AUTOMATION</text>
+
+  <!-- Top decorative dots -->
+  <circle cx="740" cy="40" r="3" fill="#7ed957" opacity="0.4"/>
+  <circle cx="755" cy="40" r="3" fill="#7ed957" opacity="0.25"/>
+  <circle cx="770" cy="40" r="3" fill="#7ed957" opacity="0.15"/>
+</svg>

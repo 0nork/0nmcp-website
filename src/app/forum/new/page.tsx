@@ -110,8 +110,9 @@ function NewThreadForm() {
             onChange={e => setTitle(e.target.value)}
             placeholder="An interesting title"
             maxLength={200}
+            dir="ltr"
             className="w-full px-3 py-2.5 rounded-xl text-sm font-semibold"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text)' }}
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text)', direction: 'ltr', unicodeBidi: 'normal' }}
           />
         </div>
 
@@ -121,9 +122,10 @@ function NewThreadForm() {
             value={body}
             onChange={e => setBody(e.target.value)}
             rows={12}
+            dir="ltr"
             placeholder="Share your thoughts, code, or questions..."
             className="w-full px-3 py-2 rounded-xl text-sm"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit' }}
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit', direction: 'ltr', unicodeBidi: 'normal' }}
           />
         </div>
 

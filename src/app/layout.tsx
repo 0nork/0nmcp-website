@@ -51,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr">
       <head>
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
@@ -74,11 +74,7 @@ export default function RootLayout({
         </Providers>
         <Analytics />
         <SpeedInsights />
-        <script
-          src="https://api.rocketclients.com/js/external-tracking.js"
-          data-tracking-id="tk_f9c5376df66c45e69941dd3f3bbe22a2"
-          async
-        />
+        {/* CRM tracking removed — keydown listener was causing backwards text in textareas */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('3ed036f8-6ddc-4317-8fcb-f9692bd6ce79');`,

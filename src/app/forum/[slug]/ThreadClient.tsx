@@ -239,9 +239,10 @@ export default function ThreadClient({
                     value={replyBody}
                     onChange={e => setReplyBody(e.target.value)}
                     rows={3}
+                    dir="ltr"
                     placeholder={`Reply to ${authorName(post.profiles)}...`}
                     className="w-full px-3 py-2 rounded-lg text-xs mb-2"
-                    style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit' }}
+                    style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit', direction: 'ltr', unicodeBidi: 'normal' }}
                     autoFocus
                   />
                   <div className="flex gap-2">
@@ -322,9 +323,10 @@ export default function ThreadClient({
             value={replyBody}
             onChange={e => setReplyBody(e.target.value)}
             rows={4}
+            dir="ltr"
             placeholder="What are your thoughts?"
             className="w-full px-3 py-2 rounded-xl text-sm mb-2"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-primary)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit' }}
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-primary)', lineHeight: 1.7, resize: 'vertical', fontFamily: 'inherit', direction: 'ltr', unicodeBidi: 'normal' }}
           />
           <button
             type="submit"

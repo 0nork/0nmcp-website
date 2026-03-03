@@ -249,6 +249,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud Console OAuth", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials > OAuth" },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 client secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Client Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
     ],
   },
   sendgrid: {
@@ -398,6 +399,7 @@ export const SVC: Record<string, ServiceConfig> = {
       { k: "developer_token", lb: "Developer Token", ph: "xxxxxxxxxxxxxxxx", s: true, h: "MCC developer token", lk: "https://ads.google.com/aw/apicenter", ll: "Google Ads > Tools > API Center > Developer Token" },
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth client", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth client secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
       { k: "customer_id", lb: "Customer ID", ph: "123-456-7890", h: "Google Ads customer ID", lk: "https://ads.google.com/", ll: "Top-right of Google Ads dashboard" },
     ],
   },
@@ -489,6 +491,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Same as Gmail if using Google Cloud", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
     ],
   },
   google_sheets: {
@@ -498,6 +501,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Same Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
     ],
   },
   google_calendar: {
@@ -507,8 +511,103 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
     ],
   },
+  google_docs: {
+    l: "Google Docs", logo: "gdocs", c: "#4285f4", cat: "productivity", pri: 100,
+    d: "Document creation and editing - collaborative writing, templates, and export.",
+    cap: ["Create Docs", "Edit Content", "Templates", "Export PDF", "Comments", "Suggestions", "Sharing", "Revisions"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+    ],
+  },
+  google_slides: {
+    l: "Google Slides", logo: "gslides", c: "#f4b400", cat: "productivity", pri: 101,
+    d: "Presentation creation - slides, themes, speaker notes, and collaborative editing.",
+    cap: ["Create Slides", "Themes", "Speaker Notes", "Animations", "Charts", "Export", "Sharing", "Templates"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+    ],
+  },
+  google_forms: {
+    l: "Google Forms", logo: "gforms", c: "#673ab7", cat: "productivity", pri: 102,
+    d: "Form builder - surveys, quizzes, response collection, and analytics.",
+    cap: ["Create Forms", "Responses", "Quizzes", "Logic", "Themes", "Analytics", "Export", "Notifications"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+    ],
+  },
+  google_tasks: {
+    l: "Google Tasks", logo: "gtasks", c: "#4285f4", cat: "productivity", pri: 103,
+    d: "Task management - create, organize, and track tasks integrated with Gmail and Calendar.",
+    cap: ["Tasks", "Task Lists", "Due Dates", "Subtasks", "Notes", "Completion", "Ordering", "Sync"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+    ],
+  },
+  ga4: {
+    l: "Google Analytics", logo: "ga4", c: "#e37400", cat: "productivity", pri: 104,
+    d: "Web analytics - page views, sessions, conversions, audiences, and real-time data.",
+    cap: ["Reports", "Real-time", "Audiences", "Conversions", "Events", "User Explorer", "Cohorts", "Funnels"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+      { k: "property_id", lb: "Property ID", ph: "123456789", h: "GA4 property ID (numeric)", lk: "https://analytics.google.com/analytics/web/#/a/p/admin/account", ll: "Analytics > Admin > Property > Property Details" },
+    ],
+  },
+  google_business: {
+    l: "Google Business", logo: "gbusiness", c: "#4285f4", cat: "crm", pri: 105,
+    d: "Google Business Profile - manage listings, reviews, posts, and local SEO.",
+    cap: ["Listings", "Reviews", "Posts", "Photos", "Q&A", "Insights", "Attributes", "Hours"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+    ],
+  },
+  search_console: {
+    l: "Search Console", logo: "gsearch", c: "#4285f4", cat: "dev", pri: 106,
+    d: "Google Search Console - search performance, indexing, sitemaps, and URL inspection.",
+    cap: ["Search Analytics", "Index Coverage", "Sitemaps", "URL Inspection", "Mobile Usability", "Core Web Vitals", "Links", "Removals"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+      { k: "site_url", lb: "Site URL", ph: "https://yourdomain.com", h: "Verified property URL", lk: "https://search.google.com/search-console", ll: "Search Console > Properties" },
+    ],
+  },
+  merchant_center: {
+    l: "Merchant Center", logo: "gmerchant", c: "#4285f4", cat: "ecommerce", pri: 107,
+    d: "Google Merchant Center - product feeds, shopping campaigns, and inventory management.",
+    cap: ["Product Feeds", "Shopping Ads", "Inventory", "Promotions", "Local Inventory", "Reviews", "Reports", "Diagnostics"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+      { k: "merchant_id", lb: "Merchant ID", ph: "123456789", h: "Merchant Center account ID", lk: "https://merchants.google.com/", ll: "Merchant Center > Settings > Account Info" },
+    ],
+  },
+  tag_manager: {
+    l: "Tag Manager", logo: "gtm", c: "#4285f4", cat: "dev", pri: 108,
+    d: "Google Tag Manager - manage tags, triggers, and variables without code changes.",
+    cap: ["Containers", "Tags", "Triggers", "Variables", "Workspaces", "Versions", "Templates", "Consent"],
+    f: [
+      { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials" },
+      { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
+    ],
+  },
+
   calendly: {
     l: "Calendly", logo: "calendly", c: "#006bff", cat: "productivity", pri: 51,
     d: "Appointment scheduling - event types, invitees, availability, and routing.",
@@ -839,6 +938,7 @@ export const SVC: Record<string, ServiceConfig> = {
       { k: "api_key", lb: "API Key", ph: "AIzaSy...", h: "YouTube Data API key", lk: "https://console.cloud.google.com/apis/credentials", ll: "Google Cloud > APIs > Credentials > Create API Key" },
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "For channel management", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Client ID" },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret" },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google" },
     ],
   },
   twitch: {

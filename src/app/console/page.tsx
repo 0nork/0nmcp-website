@@ -193,6 +193,38 @@ export default function ConsolePage() {
     // Detect URL params from redirects
     const params = new URLSearchParams(window.location.search)
 
+    // Detect Google OAuth return
+    const googleStatus = params.get('google')
+    if (googleStatus === 'connected') {
+      const serviceCount = params.get('services') || '0'
+      setView('vault')
+      setVaultSubView('credentials')
+      // Brief visual notification via a system message
+      setMessages(prev => [...prev, {
+        role: 'system',
+        text: `Google connected! ${serviceCount} services unlocked. Your vault has been automatically populated with Google credentials.`,
+        source: 'local',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }])
+      window.history.replaceState({}, '', '/console')
+    } else if (googleStatus === 'denied') {
+      setMessages(prev => [...prev, {
+        role: 'system',
+        text: 'Google connection was cancelled. You can try again from the vault.',
+        source: 'local',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }])
+      window.history.replaceState({}, '', '/console')
+    } else if (googleStatus === 'error') {
+      setMessages(prev => [...prev, {
+        role: 'system',
+        text: 'Google connection failed. Please try again.',
+        source: 'local',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }])
+      window.history.replaceState({}, '', '/console')
+    }
+
     // Detect billing return from Stripe
     if (params.get('billing') === 'active') {
       fetch('/api/console/plan')

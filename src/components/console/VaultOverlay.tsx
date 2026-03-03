@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Search, Lock, Shield } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 import { SVC, SERVICE_COUNT, CATEGORY_LABELS, CATEGORY_ORDER, type ServiceConfig } from '@/lib/console/services'
+import { GoogleConnectBanner } from './GoogleConnectBanner'
 
 interface VaultOverlayProps {
   onSelect: (service: string) => void
@@ -52,6 +53,9 @@ export function VaultOverlay({
 
   return (
     <div className="p-4 md:p-6 lg:p-8 max-w-full mx-auto w-full" style={{ animation: 'console-fade-in 0.3s ease' }}>
+      {/* Google Connect Banner */}
+      <GoogleConnectBanner />
+
       {/* Connection Progress Banner */}
       {setupRequired > 0 && (
         <div

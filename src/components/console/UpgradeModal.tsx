@@ -12,6 +12,12 @@ interface UpgradeModalProps {
 export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
   const [loading, setLoading] = useState<string | null>(null)
 
+  // Owner/VIP — no upgrade needed, close immediately
+  if (currentPlan === 'owner') {
+    onClose()
+    return null
+  }
+
   const handleSelectPlan = async (tier: string) => {
     if (tier === currentPlan) return
     setLoading(tier)

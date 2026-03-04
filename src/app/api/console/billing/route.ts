@@ -11,6 +11,9 @@ import {
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+/** Owner emails — permanent VIP, skip all billing */
+const OWNER_EMAILS = ['mike@rocketopp.com']
+
 function getSupabaseAdmin() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -34,6 +37,11 @@ export async function GET() {
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Owner bypass — always subscribed, no billing
+  if (user.email && OWNER_EMAILS.includes(user.email)) {
+    return NextResponse.json({ subscribed: true, hasCustomer: true, isOwner: true })
   }
 
   // Check profile for stripe_customer_id

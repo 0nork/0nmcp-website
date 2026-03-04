@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { getActiveSubscription, reportExecution } from '@/lib/console/billing'
+import { getActiveSubscription, reportExecution, isOwnerEmail } from '@/lib/console/billing'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -12,7 +12,7 @@ const ONMCP_URL = process.env.ONMCP_URL || 'http://localhost:3001'
  * Execute a task via 0nMCP server.
  * Body: { task: string } or { workflow: object }
  *
- * Billing: requires active metered subscription.
+ * Billing: requires active metered subscription (owners bypass).
  * Each successful execution reports 1 credit ($0.10) to Stripe.
  */
 export async function POST(request: NextRequest) {
@@ -43,35 +43,56 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Task or workflow is required' }, { status: 400 })
   }
 
-  // Check billing: user must have stripe_customer_id + active metered subscription
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('stripe_customer_id')
-    .eq('id', user.id)
-    .single()
+  // Owner bypass — no billing check, no execution charges
+  const ownerMode = user.email ? isOwnerEmail(user.email) : false
 
-  if (!profile?.stripe_customer_id) {
-    return NextResponse.json(
-      {
-        status: 'billing_required',
-        message: 'Activate your Execution Plan to run workflows. $0.10 per execution, billed monthly.',
-      },
-      { status: 402 }
-    )
+  if (!ownerMode) {
+    // Check billing: user must have stripe_customer_id + active metered subscription
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('stripe_customer_id')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile?.stripe_customer_id) {
+      return NextResponse.json(
+        {
+          status: 'billing_required',
+          message: 'Activate your Execution Plan to run workflows. $0.10 per execution, billed monthly.',
+        },
+        { status: 402 }
+      )
+    }
+
+    const subscription = await getActiveSubscription(profile.stripe_customer_id).catch(() => null)
+    if (!subscription) {
+      return NextResponse.json(
+        {
+          status: 'billing_required',
+          message: 'Activate your Execution Plan to run workflows. $0.10 per execution, billed monthly.',
+        },
+        { status: 402 }
+      )
+    }
+
+    // Execute via 0nMCP
+    const result = await executeOnMCP(task, workflow)
+    if (result.error) return result.response
+
+    // Report successful execution to Stripe meter (fire and forget)
+    reportExecution(profile.stripe_customer_id, 1).catch((err) => {
+      console.error('Failed to report execution to Stripe:', err)
+    })
+
+    return result.response
   }
 
-  const subscription = await getActiveSubscription(profile.stripe_customer_id).catch(() => null)
-  if (!subscription) {
-    return NextResponse.json(
-      {
-        status: 'billing_required',
-        message: 'Activate your Execution Plan to run workflows. $0.10 per execution, billed monthly.',
-      },
-      { status: 402 }
-    )
-  }
+  // Owner execution — no billing
+  const result = await executeOnMCP(task, workflow)
+  return result.response
+}
 
-  // Execute via 0nMCP
+async function executeOnMCP(task: string | null, workflow: unknown) {
   try {
     const res = await fetch(`${ONMCP_URL}/execute`, {
       method: 'POST',
@@ -82,30 +103,33 @@ export async function POST(request: NextRequest) {
 
     if (!res.ok) {
       const err = await res.text()
-      return NextResponse.json(
-        { status: 'failed', message: err || 'Execution failed' },
-        { status: 502 }
-      )
+      return {
+        error: true,
+        response: NextResponse.json(
+          { status: 'failed', message: err || 'Execution failed' },
+          { status: 502 }
+        ),
+      }
     }
 
     const data = await res.json()
-
-    // Report successful execution to Stripe meter (fire and forget)
-    reportExecution(profile.stripe_customer_id, 1).catch((err) => {
-      console.error('Failed to report execution to Stripe:', err)
-    })
-
-    return NextResponse.json({
-      status: data.status || 'completed',
-      result: data.result || data.output || data.message || 'Task executed.',
-      steps: data.steps_executed || data.steps || 0,
-      services: data.services_used || data.services || [],
-      duration_ms: data.duration_ms || 0,
-    })
+    return {
+      error: false,
+      response: NextResponse.json({
+        status: data.status || 'completed',
+        result: data.result || data.output || data.message || 'Task executed.',
+        steps: data.steps_executed || data.steps || 0,
+        services: data.services_used || data.services || [],
+        duration_ms: data.duration_ms || 0,
+      }),
+    }
   } catch {
-    return NextResponse.json(
-      { status: 'failed', message: '0nMCP server is not reachable. Start it with: npx 0nmcp serve' },
-      { status: 502 }
-    )
+    return {
+      error: true,
+      response: NextResponse.json(
+        { status: 'failed', message: '0nMCP server is not reachable. Start it with: npx 0nmcp serve' },
+        { status: 502 }
+      ),
+    }
   }
 }

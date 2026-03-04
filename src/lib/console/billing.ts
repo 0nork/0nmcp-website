@@ -24,11 +24,18 @@ function getStripe() {
   })
 }
 
+/** Owner Stripe customer IDs — skip metered billing for these */
+const OWNER_BYPASS_CUSTOMERS = new Set<string>()
+
 /**
  * Report a workflow execution to Stripe's Billing Meter.
  * This increments the user's usage count for the billing period.
+ * Skips reporting for owner accounts (no charges).
  */
 export async function reportExecution(stripeCustomerId: string, quantity: number = 1) {
+  // Owner bypass — no metered charges
+  if (OWNER_BYPASS_CUSTOMERS.has(stripeCustomerId)) return
+
   const stripe = getStripe()
 
   // Stripe Billing Meter Events API (v2)
@@ -39,6 +46,13 @@ export async function reportExecution(stripeCustomerId: string, quantity: number
       value: String(quantity),
     },
   })
+}
+
+/**
+ * Check if a user email is an owner (skip billing).
+ */
+export function isOwnerEmail(email: string): boolean {
+  return email === 'mike@rocketopp.com'
 }
 
 /**

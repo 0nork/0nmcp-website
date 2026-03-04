@@ -6,6 +6,9 @@ const CONSOLE_PRICE_IDS = new Set(
   Object.values(CONSOLE_PLANS).map(p => p.priceId).filter(Boolean)
 )
 
+/** Owner emails — NEVER downgrade these accounts */
+const OWNER_EMAILS = ['mike@rocketopp.com']
+
 let _adminClient: SupabaseClient | null = null
 function getSupabaseAdmin() {
   if (!_adminClient) {
@@ -91,12 +94,20 @@ export async function POST(request: NextRequest) {
         const isConsolePlan = CONSOLE_PRICE_IDS.has(priceId)
 
         if (isConsolePlan) {
-          // Reset console plan to free
+          // Reset console plan to free (but NEVER downgrade owners)
           const customerId = sub.customer as string
           if (customerId) {
-            await getSupabaseAdmin().from('profiles').update({
-              plan: 'free',
-            }).eq('stripe_customer_id', customerId)
+            const { data: profile } = await getSupabaseAdmin()
+              .from('profiles')
+              .select('plan')
+              .eq('stripe_customer_id', customerId)
+              .maybeSingle()
+
+            if (profile?.plan !== 'owner') {
+              await getSupabaseAdmin().from('profiles').update({
+                plan: 'free',
+              }).eq('stripe_customer_id', customerId)
+            }
           }
         } else {
           // Sponsor subscription canceled

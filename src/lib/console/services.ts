@@ -262,10 +262,10 @@ export const SVC: Record<string, ServiceConfig> = {
   },
   resend: {
     l: "Resend", logo: "resend", c: "#000000", cat: "email", pri: 24,
-    d: "Modern email API - fast delivery, React templates, domains, and webhooks.",
-    cap: ["Send Email", "React Templates", "Domains", "Webhooks", "Analytics", "Contacts", "Audiences", "Broadcasts"],
+    d: "Complete email infrastructure — transactional, broadcasts, contacts, domains, templates, segments, webhooks. 67 API endpoints.",
+    cap: ["Send Email", "Batch Send", "React Templates", "Domains", "DNS Verify", "Contacts", "Segments", "Broadcasts", "Templates", "Topics", "Webhooks", "Inbound Email", "Attachments", "API Key Mgmt", "Contact Properties"],
     f: [
-      { k: "api_key", lb: "API Key", ph: "re_...", s: true, h: "Resend API key", lk: "https://resend.com/api-keys", ll: "Dashboard > API Keys > Create" },
+      { k: "api_key", lb: "API Key", ph: "re_...", s: true, h: "Resend API key — full access recommended for all 67 endpoints", lk: "https://resend.com/api-keys", ll: "Dashboard > API Keys > Create" },
     ],
   },
   mailchimp: {

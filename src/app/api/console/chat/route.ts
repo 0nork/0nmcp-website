@@ -14,6 +14,61 @@ type AIProvider = 'anthropic' | 'openai' | 'google'
 
 const AI_SERVICES: AIProvider[] = ['anthropic', 'openai', 'google']
 
+// Service name aliases for knowledge base lookups
+const SERVICE_ALIASES: Record<string, string> = {
+  claude: 'anthropic', gpt: 'openai', chatgpt: 'openai', gemini: 'google',
+  email: 'resend', sms: 'twilio', chat: 'slack', git: 'github',
+  db: 'supabase', database: 'supabase', payments: 'stripe', calendar: 'google_calendar',
+  sheets: 'google_sheets', drive: 'google_drive', mail: 'gmail',
+}
+
+/**
+ * Query the service_knowledge table for relevant docs based on the user's message.
+ */
+async function getServiceKnowledge(message: string): Promise<string> {
+  try {
+    const admin = getAdmin()
+    const lower = message.toLowerCase()
+
+    // Extract mentioned service names
+    const allServices = [
+      'resend', 'stripe', 'anthropic', 'openai', 'supabase', 'sendgrid', 'slack',
+      'discord', 'github', 'twilio', 'gmail', 'google_sheets', 'google_drive',
+      'airtable', 'notion', 'mongodb', 'zendesk', 'jira', 'hubspot', 'mailchimp',
+      'google_calendar', 'calendly', 'zoom', 'linear', 'microsoft', 'shopify',
+      'smartlead', 'perplexity', 'vercel',
+    ]
+    const mentioned = new Set<string>()
+    for (const svc of allServices) {
+      if (lower.includes(svc.replace(/_/g, ' ')) || lower.includes(svc)) mentioned.add(svc)
+    }
+    for (const [alias, svc] of Object.entries(SERVICE_ALIASES)) {
+      if (lower.includes(alias)) mentioned.add(svc)
+    }
+
+    if (mentioned.size === 0) return ''
+
+    // Fetch relevant knowledge docs
+    const { data: docs } = await admin
+      .from('service_knowledge')
+      .select('service_key, doc_type, title, content, section')
+      .in('service_key', Array.from(mentioned))
+      .eq('is_active', true)
+      .order('priority', { ascending: true })
+      .limit(5)
+
+    if (!docs || docs.length === 0) return ''
+
+    // Build knowledge context
+    const parts = docs.map(d =>
+      `### ${d.title} (${d.service_key} — ${d.doc_type})\n${d.content}`
+    )
+    return '\n\n--- SERVICE KNOWLEDGE BASE ---\nUse the following documentation to give accurate, detailed answers about these services:\n\n' + parts.join('\n\n')
+  } catch {
+    return ''
+  }
+}
+
 const SYSTEM_PROMPT =
   'You are 0n Console, the AI assistant for the 0nMCP ecosystem — a universal AI API orchestrator with 819 tools across 48 services in 21 categories.\n\n' +
   'You help users with:\n' +
@@ -330,6 +385,12 @@ export async function POST(request: NextRequest) {
     if (parts.length > 0) {
       enhancedMessage = parts.join(' ') + '\n\n' + message
     }
+  }
+
+  // ── Inject service knowledge for mentioned services ────────
+  const knowledgeContext = await getServiceKnowledge(message)
+  if (knowledgeContext) {
+    enhancedMessage = enhancedMessage + knowledgeContext
   }
 
   // ── Layer 1: Try 0nMCP local server ────────────────────────

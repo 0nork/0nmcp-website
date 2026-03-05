@@ -3,7 +3,7 @@
     "version": "4.0.0",
     "generated": "2026-02-28",
     "source": "0nMCP v2.2.0 catalog.js + crm/ + vault/ + engine/ + deed/",
-    "total_services": 90,
+    "total_services": 91,
     "total_tools": 1155,
     "catalog_tools": 881,
     "crm_module_tools": 245,
@@ -6583,6 +6583,50 @@
           "id": "trello_move_card",
           "name": "Move Card",
           "description": "Move a card to a different list."
+        }
+      ]
+    },
+    {
+      "id": "listkit",
+      "name": "ListKit",
+      "slug": "listkit",
+      "icon": "🎯",
+      "category_id": "crm_sales",
+      "display_order": 52,
+      "status": "live",
+      "federation_source": "partner",
+      "auth_type": "csv_export",
+      "description_short": "B2B lead generation — 731M+ contacts, triple-verified emails, intent data.",
+      "description_long": "ListKit is a B2B lead generation platform with 731M+ contacts, triple-verified email addresses, AI company search, and buyer intent signals. Leads export via CSV or Zapier webhook into 0nMCP, where the conversion layer automatically scores, enriches, and routes them into your CRM pipeline. No API needed — 0nMCP handles the translation.",
+      "sxo_keywords": [
+        "listkit integration",
+        "b2b lead generation automation",
+        "listkit 0nmcp",
+        "lead import automation",
+        "triple verified leads"
+      ],
+      "tool_count": 4,
+      "tools_summary": "ListKit leads flow through the 0nMCP conversion layer using partner aliases: leads.import, leads.enrich, leads.score, leads.pipeline.",
+      "tools": [
+        {
+          "id": "listkit_import_leads",
+          "name": "Import Leads",
+          "description": "Import ListKit CSV export or webhook payload into 0nMCP, auto-mapping columns to contact fields."
+        },
+        {
+          "id": "listkit_score_lead",
+          "name": "Score Lead",
+          "description": "Score a ListKit lead based on data completeness, intent signals, and company tier."
+        },
+        {
+          "id": "listkit_create_contact",
+          "name": "Create CRM Contact",
+          "description": "Create a CRM contact from ListKit lead data with auto-tagging and source attribution."
+        },
+        {
+          "id": "listkit_pipeline_place",
+          "name": "Pipeline Placement",
+          "description": "Create a pipeline opportunity from a scored ListKit lead with auto-enriched stage and pipeline IDs."
         }
       ]
     }

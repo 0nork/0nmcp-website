@@ -220,6 +220,26 @@ const partnerApps: AppCard[] = [
     badge: 'Partner',
     status: 'Live',
   },
+  {
+    name: 'ListKit',
+    tagline: 'B2B Lead Generation & Sales Intelligence',
+    url: 'https://listkit.io',
+    description:
+      'Access 731M+ B2B contacts with triple-verified emails, AI company search, and buyer intent data. ListKit handles lead generation — 0nMCP handles everything after. Export leads via CSV or Zapier webhook, and 0nMCP automatically scores, enriches, and routes them into your CRM pipeline with zero manual work.',
+    features: [
+      '731M+ verified B2B contact database',
+      'Triple-verified email addresses',
+      'AI-powered company search & filtering',
+      'Buyer intent signal data',
+      'CSV export & Zapier webhook triggers',
+      'Credit-based pricing from Free to Enterprise',
+    ],
+    integration:
+      'ListKit leads flow directly into 0nMCP via .0n SWITCH files. The listkit-lead-pipeline workflow scores each lead, classifies company size, creates CRM contacts with tags, and places them in your pipeline — all auto-enriched from your connection file. No code, no database tables, no manual import.',
+    color: '#6366f1',
+    badge: 'Partner',
+    status: 'Live',
+  },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -286,7 +306,7 @@ const featuredBusinesses: FeaturedBusiness[] = [
 
 const stats = [
   { label: '0nCore Apps', value: '4' },
-  { label: 'Partner Integrations', value: '5' },
+  { label: 'Partner Integrations', value: '6' },
   { label: 'Rocket+ Mods', value: '13' },
   { label: 'Featured Businesses', value: String(featuredBusinesses.length) },
 ]

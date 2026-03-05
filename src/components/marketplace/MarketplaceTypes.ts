@@ -23,6 +23,7 @@ export const MARKETPLACE_CATEGORIES = [
   { key: 'all', label: 'All', color: '#7ed957' },
   { key: 'marketing', label: 'Marketing', color: '#ff6b35' },
   { key: 'sales', label: 'Sales', color: '#00d4ff' },
+  { key: 'automation', label: 'Automation', color: '#7ed957' },
   { key: 'support', label: 'Support', color: '#a855f7' },
   { key: 'data', label: 'Data', color: '#22d3ee' },
   { key: 'devops', label: 'DevOps', color: '#f59e0b' },

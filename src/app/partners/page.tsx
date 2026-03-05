@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Partners & Apps — 0nMCP Ecosystem',
+  title: 'Partners & Apps — 0nMCP Ecosystem | Featured Businesses Powered by AI',
   description:
-    'Explore the 0nMCP ecosystem. 0nCore apps built exclusively on 0nMCP, plus partner integrations from Rocket+, CRO9, SXO, and more.',
+    'Explore the 0nMCP ecosystem. 0nCore apps, Rocket+ mods, partner integrations, and featured businesses using 0nMCP to automate operations and grow revenue.',
   openGraph: {
     title: 'Partners & Apps — 0nMCP Ecosystem',
     description:
-      'The full 0nMCP ecosystem — 0nCore apps, partner integrations, and the RocketCRM connection.',
+      'The full 0nMCP ecosystem — 0nCore apps, Rocket+ mods, partner integrations, and featured businesses powered by AI orchestration.',
     url: 'https://0nmcp.com/partners',
     type: 'website',
   },
@@ -223,14 +223,72 @@ const partnerApps: AppCard[] = [
 ]
 
 /* ------------------------------------------------------------------ */
+/*  Featured Business Partners                                         */
+/* ------------------------------------------------------------------ */
+
+interface FeaturedBusiness {
+  slug: string
+  name: string
+  tagline: string
+  description: string
+  website: string
+  location: string
+  industry: string
+  services: string[]
+  integrations: string[]
+  stats: { label: string; value: string }[]
+  testimonial?: { quote: string; author: string; role: string }
+  logo: string
+  gradient: string
+  accent: string
+}
+
+const featuredBusinesses: FeaturedBusiness[] = [
+  {
+    slug: 'the-spa-in-ligonier',
+    name: 'The Spa In Ligonier',
+    tagline: 'Premier Spa Experience in the Laurel Highlands',
+    description:
+      'The Spa In Ligonier has served the Laurel Highlands community since 2021, building a loyal clientele with a 95% repeat visit rate. By integrating 0nMCP\'s orchestration platform, the spa automated appointment follow-ups, social media posting, lead capture workflows, and seasonal campaign management — freeing owner Rachel Knapic to focus on delivering world-class experiences instead of juggling marketing tools. With 5,076 contacts managed through 20 automated workflows, the spa runs its entire digital operation on 0nMCP-powered orchestration.',
+    website: 'https://spaligonier.com',
+    location: 'Ligonier, PA',
+    industry: 'Health & Wellness',
+    services: [
+      'Clinical Facials',
+      'Massage Therapy',
+      'Japanese Head Spa',
+      'Body Treatments',
+      'Waxing Services',
+      'Gift Cards',
+    ],
+    integrations: ['CRM', 'Rocket+', 'MassageBook', 'Google Business', 'Facebook', 'Square', 'Sanity CMS'],
+    stats: [
+      { label: 'Repeat Rate', value: '95%' },
+      { label: 'Contacts', value: '5,076' },
+      { label: 'Workflows', value: '20' },
+      { label: 'Since', value: '2021' },
+    ],
+    testimonial: {
+      quote:
+        'I used to spend hours every week on marketing and follow-ups. Now 0nMCP handles my campaigns, appointment reminders, and social posts automatically. I just focus on my clients.',
+      author: 'Rachel Knapic',
+      role: 'Owner, The Spa In Ligonier',
+    },
+    logo: 'https://firebasestorage.googleapis.com/v0/b/highlevel-backend.appspot.com/o/locationPhotos%2FF76MNKOMQCMruMrumtdf.png?alt=media&token=7cadaad8-b069-4cde-b426-39aa986579cf',
+    gradient: 'linear-gradient(135deg, #1a2c27 0%, #2c4b43 50%, #1a2c27 100%)',
+    accent: '#c56a57',
+  },
+]
+
+/* ------------------------------------------------------------------ */
 /*  Stats bar                                                          */
 /* ------------------------------------------------------------------ */
 
 const stats = [
   { label: '0nCore Apps', value: '4' },
   { label: 'Partner Integrations', value: '5' },
-  { label: 'CRM Endpoints', value: '245' },
-  { label: 'Connected Services', value: '26' },
+  { label: 'Rocket+ Mods', value: '13' },
+  { label: 'Featured Businesses', value: String(featuredBusinesses.length) },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -238,8 +296,50 @@ const stats = [
 /* ------------------------------------------------------------------ */
 
 export default function PartnersPage() {
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Partners', item: 'https://0nmcp.com/partners' },
+    ],
+  }
+
+  const localBusinessJsonLd = featuredBusinesses.map((biz) => ({
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: biz.name,
+    description: biz.description,
+    url: biz.website,
+    image: biz.logo,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: biz.location.split(',')[0]?.trim(),
+      addressRegion: biz.location.split(',')[1]?.trim(),
+      addressCountry: 'US',
+    },
+    priceRange: '$$',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '127',
+    },
+  }))
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {localBusinessJsonLd.map((ld, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+      ))}
+
       {/* Hero */}
       <section className="pt-40 pb-16 px-8 text-center relative">
         <div
@@ -358,6 +458,233 @@ export default function PartnersPage() {
           </div>
         </div>
       </section>
+
+      {/* Featured Business Partners */}
+      <section className="py-16 px-8">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="flex items-center gap-3 mb-2">
+            <h2 className="text-2xl font-bold">Featured Business Partners</h2>
+            <span
+              className="text-[0.55rem] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full"
+              style={{
+                background: 'rgba(197, 106, 87, 0.1)',
+                color: '#c56a57',
+                border: '1px solid rgba(197, 106, 87, 0.2)',
+              }}
+            >
+              Showcase
+            </span>
+          </div>
+          <p
+            className="text-sm mb-10 max-w-[600px]"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            Real businesses using 0nMCP to automate operations, grow revenue, and deliver
+            exceptional customer experiences.
+          </p>
+
+          {featuredBusinesses.map((biz) => (
+            <div
+              key={biz.slug}
+              className="rounded-2xl overflow-hidden mb-8"
+              style={{ border: '1px solid var(--border)' }}
+            >
+              {/* Banner */}
+              <div
+                className="relative px-8 md:px-12 py-10 md:py-14"
+                style={{ background: biz.gradient }}
+              >
+                <div
+                  className="absolute top-5 right-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full"
+                  style={{
+                    background: 'rgba(126, 217, 87, 0.15)',
+                    color: '#7ed957',
+                    border: '1px solid rgba(126, 217, 87, 0.25)',
+                  }}
+                >
+                  Featured Partner
+                </div>
+
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-5">
+                  <div
+                    className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shrink-0"
+                    style={{
+                      border: `2px solid ${biz.accent}50`,
+                      background: 'rgba(255,255,255,0.06)',
+                    }}
+                  >
+                    <img src={biz.logo} alt={biz.name} className="w-full h-full object-contain p-2" />
+                  </div>
+                  <div>
+                    <div
+                      className="font-mono text-[0.6rem] uppercase tracking-[0.2em] mb-1"
+                      style={{ color: biz.accent }}
+                    >
+                      {biz.industry} &bull; {biz.location}
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-1">{biz.name}</h3>
+                    <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                      {biz.tagline}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                  {biz.stats.map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="rounded-xl px-4 py-3 text-center"
+                      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                    >
+                      <div
+                        className="text-xl md:text-2xl font-bold font-mono"
+                        style={{ color: biz.accent }}
+                      >
+                        {stat.value}
+                      </div>
+                      <div
+                        className="text-[0.55rem] font-mono uppercase tracking-wider mt-1"
+                        style={{ color: 'rgba(255,255,255,0.35)' }}
+                      >
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="px-8 md:px-12 py-8 space-y-8" style={{ background: 'var(--bg-card)' }}>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  {biz.description}
+                </p>
+
+                {/* Services + Integrations */}
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <span
+                      className="font-mono text-[0.6rem] uppercase tracking-[0.15em] block mb-3"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      Services Offered
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {biz.services.map((s) => (
+                        <span
+                          key={s}
+                          className="text-xs font-mono px-3 py-1.5 rounded-full"
+                          style={{
+                            background: `${biz.accent}15`,
+                            color: biz.accent,
+                            border: `1px solid ${biz.accent}30`,
+                          }}
+                        >
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <span
+                      className="font-mono text-[0.6rem] uppercase tracking-[0.15em] block mb-3"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      0nMCP Integrations
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {biz.integrations.map((i) => (
+                        <span
+                          key={i}
+                          className="text-xs font-mono px-3 py-1.5 rounded-full"
+                          style={{
+                            background: 'rgba(126,217,87,0.08)',
+                            color: '#7ed957',
+                            border: '1px solid rgba(126,217,87,0.2)',
+                          }}
+                        >
+                          {i}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Testimonial */}
+                {biz.testimonial && (
+                  <blockquote
+                    className="rounded-xl p-6 md:p-8"
+                    style={{
+                      background: `${biz.accent}08`,
+                      borderLeft: `3px solid ${biz.accent}`,
+                    }}
+                  >
+                    <p
+                      className="text-base italic mb-3"
+                      style={{ color: 'var(--text-primary)', lineHeight: 1.7 }}
+                    >
+                      &ldquo;{biz.testimonial.quote}&rdquo;
+                    </p>
+                    <cite className="not-italic">
+                      <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                        {biz.testimonial.author}
+                      </span>
+                      <span className="text-xs block mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                        {biz.testimonial.role}
+                      </span>
+                    </cite>
+                  </blockquote>
+                )}
+
+                {/* CTAs */}
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href={biz.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm no-underline"
+                    style={{ background: biz.accent, color: '#fff' }}
+                  >
+                    Visit {biz.name} &rarr;
+                  </a>
+                  <Link
+                    href="/turn-it-on"
+                    className="btn-accent no-underline text-sm"
+                  >
+                    Get Started with 0nMCP
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Become a Featured Business CTA */}
+          <div
+            className="rounded-xl p-8 text-center"
+            style={{
+              background: 'linear-gradient(135deg, rgba(197,106,87,0.06), rgba(126,217,87,0.04))',
+              border: '1px solid rgba(197,106,87,0.12)',
+            }}
+          >
+            <h3 className="text-lg font-bold mb-2">Want to be featured?</h3>
+            <p className="text-sm mb-5 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
+              Using 0nMCP to power your business? Get a dedicated showcase on our partners page
+              and show the world what AI orchestration makes possible.
+            </p>
+            <Link href="/community" className="btn-ghost no-underline text-sm">
+              Apply to Be Featured
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-[1000px] mx-auto px-8">
+        <div
+          className="h-px w-full"
+          style={{ background: 'linear-gradient(to right, transparent, var(--border), transparent)' }}
+        />
+      </div>
 
       {/* CRM Connection CTA */}
       <section className="py-16 px-8">

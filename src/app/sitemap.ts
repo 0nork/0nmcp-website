@@ -41,6 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/products/social0n',
     '/products/app0n',
     '/products/web0n',
+    '/products/cro9',
     '/convert',
     '/convert/openai',
     '/convert/gemini',

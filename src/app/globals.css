@@ -2469,10 +2469,11 @@ a:hover {
   align-items: center;
   gap: 0.6rem;
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1rem;
-  color: #0a0a0f;
+  color: #ffffff;
   letter-spacing: 0.02em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .console-cta-btn-text svg {

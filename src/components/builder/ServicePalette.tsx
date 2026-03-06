@@ -18,6 +18,8 @@ export interface BuilderService {
   logo: string
   brandColor: string
   description_short: string
+  /** Pre-selected tool for live data nodes (auto-creates a liveDataNode) */
+  defaultTool?: string
 }
 
 // ─── SVG data URI helper ──────────────────────────────────────────────────
@@ -136,6 +138,9 @@ const SERVICE_LOGOS: Record<string, string> = {
   make: 'https://cdn.simpleicons.org/make/6D00CC',
   vercel: 'https://cdn.simpleicons.org/vercel/white',
   whimsical: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#a855f7"/></svg>`)}`,
+  godaddy: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#1BDBDB"/><text x="20" y="25" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="white">GD</text></svg>`)}`,
+  n8n: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#ff6d5a"/><text x="20" y="25" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="white">n8n</text></svg>`)}`,
+  pabbly: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#2196F3"/><text x="20" y="25" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="white">P</text></svg>`)}`,
   mcpfed: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#7c3aed"/><text x="20" y="25" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="white">MCP</text></svg>`)}`,
 
   // ─── Logic / Control Flow nodes (SVG data URIs) ─────────────
@@ -158,6 +163,17 @@ interface BuilderCategory {
 }
 
 const BUILDER_CATEGORIES: BuilderCategory[] = [
+  {
+    id: 'live_data',
+    label: 'Live Data',
+    icon: svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>', '%237ed957'),
+    color: '#7ed957',
+    serviceIds: [
+      'live_contacts', 'live_pipeline', 'live_deals', 'live_calendar',
+      'live_inbox', 'live_invoices', 'live_social', 'live_payments',
+      'live_workflows', 'live_workers', 'live_dns',
+    ],
+  },
   {
     id: 'triggers',
     label: 'Triggers',
@@ -247,7 +263,7 @@ const BUILDER_CATEGORIES: BuilderCategory[] = [
     label: 'Cloud',
     icon: CAT_ICONS.cloud,
     color: '#e2e2e2',
-    serviceIds: ['vercel', 'cloudflare', 'netlify', 'railway', 'render', 'aws', 'gcloud', 'azure', 'microsoft', 'dropbox', 'google_drive'],
+    serviceIds: ['vercel', 'cloudflare', 'netlify', 'railway', 'render', 'aws', 'gcloud', 'azure', 'microsoft', 'dropbox', 'google_drive', 'godaddy'],
   },
   {
     id: 'logic',
@@ -259,7 +275,7 @@ const BUILDER_CATEGORIES: BuilderCategory[] = [
 ]
 
 // ─── Logic/control flow service definitions (not in SVC) ──────────────────
-const LOGIC_SERVICES: Record<string, { name: string; description: string; color: string }> = {
+const LOGIC_SERVICES: Record<string, { name: string; description: string; color: string; defaultTool?: string }> = {
   trigger: { name: 'Trigger', description: 'Start a workflow from an event', color: '#f97316' },
   schedule: { name: 'Schedule', description: 'Run on a timed schedule', color: '#4285F4' },
   transform: { name: 'Transform', description: 'Transform and reshape data', color: '#10b981' },
@@ -267,6 +283,18 @@ const LOGIC_SERVICES: Record<string, { name: string; description: string; color:
   condition: { name: 'Condition', description: 'Branch based on conditions', color: '#22d3ee' },
   loop: { name: 'Loop', description: 'Iterate over items', color: '#a855f7' },
   error_handling: { name: 'Error Handler', description: 'Catch and handle errors', color: '#ef4444' },
+  // Live Data nodes — drop onto canvas with live MCP data preview
+  live_contacts:  { name: 'Contacts',     description: 'Live CRM contacts feed',    color: '#ff6b35', defaultTool: 'search_contacts' },
+  live_pipeline:  { name: 'Pipeline',     description: 'Live deal pipeline',         color: '#00d4ff', defaultTool: 'list_pipelines' },
+  live_deals:     { name: 'Deals',        description: 'Live opportunity list',      color: '#7ed957', defaultTool: 'list_opportunities' },
+  live_calendar:  { name: 'Calendar',     description: 'Live appointment feed',      color: '#a78bfa', defaultTool: 'list_calendars' },
+  live_inbox:     { name: 'Inbox',        description: 'Live conversation feed',     color: '#f59e0b', defaultTool: 'list_conversations' },
+  live_invoices:  { name: 'Invoices',     description: 'Live invoice list',          color: '#635bff', defaultTool: 'list_invoices' },
+  live_social:    { name: 'Social Posts', description: 'Live social media feed',     color: '#1DA1F2', defaultTool: 'list_social_posts' },
+  live_payments:  { name: 'Payments',     description: 'Live Stripe payments',       color: '#635bff', defaultTool: 'list_payment_intents' },
+  live_workflows: { name: 'Workflows',    description: 'Live n8n workflow status',   color: '#ff6d5a', defaultTool: 'list_workflows' },
+  live_workers:   { name: 'Workers',      description: 'Live Cloudflare Workers',    color: '#f48120', defaultTool: 'list_workers' },
+  live_dns:       { name: 'DNS Records',  description: 'Live DNS record viewer',     color: '#f48120', defaultTool: 'list_dns_records' },
 }
 
 // ─── Build a BuilderService from SVC data or logic definitions ────────────
@@ -291,19 +319,28 @@ function buildService(id: string): BuilderService {
 
   const logic = LOGIC_SERVICES[id]
   if (logic) {
+    // Map live data nodes to their parent service for proper icon/logo
+    const liveServiceMap: Record<string, string> = {
+      live_contacts: 'crm', live_pipeline: 'crm', live_deals: 'crm',
+      live_calendar: 'crm', live_inbox: 'crm', live_invoices: 'crm',
+      live_social: 'crm', live_payments: 'stripe', live_workflows: 'n8n',
+      live_workers: 'cloudflare', live_dns: 'cloudflare',
+    }
+    const parentService = liveServiceMap[id]
     return {
-      id,
+      id: parentService || id,
       name: logic.name,
       icon: '',
       slug: id,
-      category_id: 'logic',
+      category_id: id.startsWith('live_') ? 'live_data' : 'logic',
       display_order: 0,
       status: 'live',
       tool_count: 1,
       tools: [{ id: `${id}_run`, name: logic.name, description: logic.description }],
-      logo: SERVICE_LOGOS[id] || '',
+      logo: SERVICE_LOGOS[parentService || id] || '',
       brandColor: logic.color,
       description_short: logic.description,
+      defaultTool: logic.defaultTool,
     }
   }
 

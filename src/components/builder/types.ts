@@ -17,7 +17,7 @@ export interface StepNodeData {
   [key: string]: unknown
 }
 
-export type StepNode = Node<StepNodeData, 'stepNode'>
+export type StepNode = Node<StepNodeData, 'stepNode' | 'liveDataNode'>
 
 export interface WorkflowSettings {
   name: string

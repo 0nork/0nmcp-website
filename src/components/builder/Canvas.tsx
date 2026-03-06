@@ -17,9 +17,18 @@ import {
 } from '@xyflow/react'
 import { useBuilder, useBuilderDispatch } from './BuilderContext'
 import WorkflowNode from './WorkflowNode'
+import LiveDataNode from './LiveDataNode'
 import type { StepNode, StepNodeData } from './types'
 
-const nodeTypes = { stepNode: WorkflowNode }
+// Tools that get the LiveDataNode (with inline data preview)
+const LIVE_DATA_TOOLS = new Set([
+  'search_contacts', 'list_pipelines', 'list_opportunities', 'list_calendars',
+  'list_conversations', 'list_invoices', 'list_social_posts', 'list_workflows',
+  'list_tags', 'list_customers', 'list_payment_intents', 'list_scenarios',
+  'list_workers', 'list_dns_records', 'list_boards', 'list_workspaces',
+])
+
+const nodeTypes = { stepNode: WorkflowNode, liveDataNode: LiveDataNode }
 
 export default function Canvas() {
   const { nodes, edges, stepCounter } = useBuilder()
@@ -79,12 +88,16 @@ export default function Canvas() {
       const raw = e.dataTransfer.getData('application/0n-service')
       if (!raw) return
 
-      const { serviceId, serviceName, serviceIcon, serviceLogo } = JSON.parse(raw)
+      const { serviceId, serviceName, serviceIcon, serviceLogo, defaultTool } = JSON.parse(raw)
       const stepNum = String(stepCounter).padStart(3, '0')
       const stepId = `step_${stepNum}`
 
       // Convert screen coordinates to flow coordinates (accounts for zoom + pan)
       const position = screenToFlowPosition({ x: e.clientX, y: e.clientY })
+
+      // Determine if this should use the live data node type
+      const toolId = defaultTool || ''
+      const isLive = LIVE_DATA_TOOLS.has(toolId)
 
       const data: StepNodeData = {
         stepId,
@@ -92,8 +105,8 @@ export default function Canvas() {
         serviceName,
         serviceIcon,
         serviceLogo: serviceLogo || '',
-        toolId: '',
-        toolName: '',
+        toolId,
+        toolName: toolId ? toolId.replace(/_/g, ' ').replace(/\blist\b/i, 'List').replace(/\bsearch\b/i, 'Search') : '',
         inputs: {},
         outputs: {},
         condition: '',
@@ -104,7 +117,7 @@ export default function Canvas() {
 
       const newNode: StepNode = {
         id: stepId,
-        type: 'stepNode',
+        type: isLive ? 'liveDataNode' : 'stepNode',
         position,
         data,
       }

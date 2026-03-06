@@ -15,6 +15,7 @@ export default function ServicePaletteItem({ service }: Props) {
       serviceIcon: service.icon,
       serviceLogo: service.logo ?? '',
       tools: service.tools ?? [],
+      defaultTool: service.defaultTool ?? '',
     })
     e.dataTransfer.setData('application/0n-service', payload)
     e.dataTransfer.effectAllowed = 'move'

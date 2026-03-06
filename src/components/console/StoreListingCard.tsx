@@ -14,11 +14,12 @@ const isExtension = (listing: StoreListing) => listing.category === 'extensions'
 
 export function StoreListingCard({ listing, owned, index, onClick }: StoreListingCardProps) {
   const ext = isExtension(listing)
+  const catColor = getCategoryColor(listing.category)
 
   return (
     <button
       onClick={onClick}
-      className="w-full text-left rounded-2xl transition-all duration-300 cursor-pointer border-none"
+      className="w-full text-left rounded-xl transition-all duration-300 cursor-pointer border-none"
       style={{
         backgroundColor: 'var(--bg-card)',
         border: owned ? '1px solid rgba(126,217,87,0.3)' : '1px solid var(--border)',
@@ -26,11 +27,12 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
         animationDelay: `${index * 60}ms`,
         padding: 0,
         overflow: 'hidden',
+        maxWidth: 320,
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = owned ? 'rgba(126,217,87,0.5)' : 'var(--accent)'
-        e.currentTarget.style.transform = 'translateY(-2px)'
-        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.3)'
+        e.currentTarget.style.borderColor = owned ? 'rgba(126,217,87,0.5)' : catColor
+        e.currentTarget.style.transform = 'translateY(-3px)'
+        e.currentTarget.style.boxShadow = `0 8px 28px rgba(0,0,0,0.35), 0 0 16px ${catColor}15`
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = owned ? 'rgba(126,217,87,0.3)' : 'var(--border)'
@@ -38,24 +40,69 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
         e.currentTarget.style.boxShadow = 'none'
       }}
     >
-      {/* Cover gradient */}
+      {/* Banner — category gradient with icon */}
       <div
         style={{
-          height: '4rem',
+          aspectRatio: '4/3',
           background: listing.cover_image_url
             ? `url(${listing.cover_image_url}) center/cover`
-            : `linear-gradient(135deg, ${getCategoryColor(listing.category)}22, ${getCategoryColor(listing.category)}44)`,
+            : `linear-gradient(145deg, ${catColor}12 0%, ${catColor}30 50%, rgba(10,10,15,0.9) 100%)`,
           borderBottom: '1px solid var(--border)',
           position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
         }}
       >
-        {/* Extension module badge */}
+        {/* Background pattern */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `radial-gradient(${catColor}18 1px, transparent 1px)`,
+            backgroundSize: '20px 20px',
+            opacity: 0.5,
+          }}
+        />
+
+        {/* Center icon */}
+        {!listing.cover_image_url && (
+          <div style={{ opacity: 0.2, position: 'relative' }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke={catColor} strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+          </div>
+        )}
+
+        {/* Category badge */}
+        <span
+          style={{
+            position: 'absolute',
+            top: 10,
+            left: 10,
+            fontSize: 9,
+            fontWeight: 700,
+            fontFamily: 'var(--font-mono)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            padding: '3px 7px',
+            borderRadius: 5,
+            backgroundColor: `${catColor}25`,
+            color: catColor,
+            border: `1px solid ${catColor}35`,
+          }}
+        >
+          {ext ? 'extension' : listing.category}
+        </span>
+
+        {/* Extension badge */}
         {ext && (
           <span
             style={{
               position: 'absolute',
-              top: 8,
-              right: 8,
+              top: 10,
+              right: 10,
               display: 'flex',
               alignItems: 'center',
               gap: 4,
@@ -75,36 +122,48 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
       </div>
 
       {/* Content */}
-      <div style={{ padding: '1rem' }}>
+      <div style={{ padding: '12px 14px 14px' }}>
         <h3
-          className="text-sm font-semibold truncate mb-1"
-          style={{ color: 'var(--text-primary)' }}
+          style={{
+            fontSize: 15,
+            fontWeight: 700,
+            color: '#ffffff',
+            marginBottom: 4,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            lineHeight: '1.35',
+            letterSpacing: '-0.01em',
+          }}
         >
           {listing.title}
         </h3>
         <p
-          className="text-xs mb-3"
           style={{
-            color: 'var(--text-secondary)',
+            fontSize: 12,
+            color: 'rgba(255,255,255,0.7)',
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             lineHeight: '1.5',
-            minHeight: '2.25rem',
+            marginBottom: 10,
           }}
         >
           {listing.description || (ext ? 'Chrome extension module' : 'Premium .0n workflow')}
         </p>
 
         {/* Footer */}
-        <div className="flex items-center justify-between">
-          {/* Price */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span
-            className="text-xs font-bold px-2 py-0.5 rounded-full"
             style={{
-              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.1)' : 'rgba(255,107,53,0.1)',
-              color: listing.price === 0 ? 'var(--accent)' : 'var(--accent)',
+              fontSize: 12,
+              fontWeight: 700,
+              padding: '3px 10px',
+              borderRadius: 20,
+              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.12)' : 'rgba(255,107,53,0.12)',
+              color: listing.price === 0 ? 'var(--accent)' : '#ff6b35',
               fontFamily: 'var(--font-mono)',
             }}
           >
@@ -113,32 +172,24 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
               : `$${listing.price.toFixed(2)}${ext ? '/mo' : ''}`}
           </span>
 
-          <div className="flex items-center gap-2">
-            {/* Category tag */}
+          {owned && (
             <span
-              className="text-[10px] px-1.5 py-0.5 rounded"
               style={{
-                backgroundColor: `${getCategoryColor(listing.category)}15`,
-                color: getCategoryColor(listing.category),
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+                fontSize: 10,
+                fontWeight: 700,
+                padding: '3px 8px',
+                borderRadius: 20,
+                backgroundColor: 'rgba(126,217,87,0.15)',
+                color: '#7ed957',
               }}
             >
-              {ext ? 'extension' : listing.category}
+              <Check size={10} />
+              {ext ? 'Enabled' : 'Owned'}
             </span>
-
-            {/* Owned/Enabled badge */}
-            {owned && (
-              <span
-                className="flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded"
-                style={{
-                  backgroundColor: 'rgba(126,217,87,0.15)',
-                  color: '#7ed957',
-                }}
-              >
-                <Check size={10} />
-                {ext ? 'Enabled' : 'Owned'}
-              </span>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </button>
@@ -163,6 +214,7 @@ function getCategoryColor(category: string): string {
     devops: '#f59e0b',
     custom: '#ec4899',
     extensions: '#4285f4',
+    automation: '#7ed957',
   }
   return colors[category] || '#ff6b35'
 }

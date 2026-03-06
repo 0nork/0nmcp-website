@@ -52,3 +52,98 @@ export const STORE_CATEGORIES: { key: StoreCategory; label: string }[] = [
   { key: 'devops', label: 'DevOps' },
   { key: 'custom', label: 'Custom' },
 ]
+
+export interface ProductTier {
+  key: string
+  label: string
+  tagline: string
+  priceMonthly: number
+  priceYearly: number | null
+  features: string[]
+  highlight?: boolean
+}
+
+export const SOCIAL_ENGINE_TIERS: ProductTier[] = [
+  {
+    key: 'free',
+    label: 'Free',
+    tagline: 'Turn It On',
+    priceMonthly: 0,
+    priceYearly: null,
+    features: [
+      '10 AI posts/month',
+      'Basic engagement scoring',
+      'LinkedIn generate button',
+      'Community access',
+    ],
+  },
+  {
+    key: 'creator',
+    label: 'Creator',
+    tagline: 'Turn It Up',
+    priceMonthly: 19,
+    priceYearly: 190,
+    features: [
+      'Unlimited AI posts',
+      'Voice learning engine',
+      'Advanced scoring',
+      'Schedule & queue',
+      'Correction memory',
+      'Export drafts',
+    ],
+  },
+  {
+    key: 'operator',
+    label: 'Operator',
+    tagline: 'The Full Stack',
+    priceMonthly: 49,
+    priceYearly: 490,
+    highlight: true,
+    features: [
+      'Everything in Creator',
+      'Multi-channel distribution',
+      'CRM integration',
+      'Relationship heat map',
+      'Meeting prep AI',
+      'Analytics dashboard',
+    ],
+  },
+  {
+    key: 'agency',
+    label: 'Agency',
+    tagline: 'Run the Whole Stack',
+    priceMonthly: 149,
+    priceYearly: 1490,
+    features: [
+      'Everything in Operator',
+      'Up to 10 client accounts',
+      'White-label reports',
+      'Team management',
+      'Priority support',
+      'API access',
+    ],
+  },
+  {
+    key: 'enterprise',
+    label: 'Enterprise',
+    tagline: 'Custom Scale',
+    priceMonthly: 499,
+    priceYearly: null,
+    features: [
+      'Everything in Agency',
+      'Unlimited client accounts',
+      'Dedicated infrastructure',
+      'Custom integrations',
+      'SLA guarantee',
+      'Onboarding concierge',
+    ],
+  },
+]
+
+export interface SubscriptionStatus {
+  tier: string
+  status: string
+  currentPeriodEnd?: string
+  cancelAtPeriodEnd?: boolean
+  trialEnd?: string
+}

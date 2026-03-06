@@ -28,16 +28,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
+  const admin = getSupabaseAdmin()
+
+  // ─── One-time purchase fulfillment ──────────────────────────
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object
     const { listingId, buyerId } = session.metadata || {}
+
+    // Subscription checkouts are handled by customer.subscription.created
+    if (session.mode === 'subscription') {
+      return NextResponse.json({ received: true, note: 'subscription handled by sub events' })
+    }
 
     if (!listingId || !buyerId) {
       console.error('Store webhook missing metadata:', session.metadata)
       return NextResponse.json({ error: 'Missing metadata' }, { status: 400 })
     }
-
-    const admin = getSupabaseAdmin()
 
     // Idempotency check — use store_purchases, keyed on stripe_session_id
     const { data: existingBySession } = await admin
@@ -151,6 +157,92 @@ export async function POST(request: NextRequest) {
     console.log(
       `Store purchase fulfilled: buyer=${buyerId} listing=${listingId} amount=${amount} session=${session.id} workflowFile=${workflowFileId} vaultFile=${vaultFileId}`
     )
+  }
+
+  // ─── Subscription created (new subscriber) ──────────────────
+  if (event.type === 'customer.subscription.created') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const subscription = event.data.object as any
+    const { user_id, product_id, tier, billing } = subscription.metadata || {}
+
+    if (!user_id || !product_id) {
+      console.error('Subscription webhook missing metadata:', subscription.metadata)
+      return NextResponse.json({ received: true, note: 'missing metadata' })
+    }
+
+    await admin.from('product_subscriptions').upsert({
+      user_id,
+      product_id,
+      tier: tier || 'creator',
+      status: subscription.status === 'trialing' ? 'trialing' : 'active',
+      stripe_subscription_id: subscription.id,
+      stripe_customer_id: typeof subscription.customer === 'string' ? subscription.customer : subscription.customer.id,
+      current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+      cancel_at_period_end: subscription.cancel_at_period_end || false,
+      trial_end: subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
+      metadata: { billing, created_via: 'webhook' },
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'user_id,product_id' })
+
+    console.log(`Subscription created: user=${user_id} product=${product_id} tier=${tier} status=${subscription.status}`)
+  }
+
+  // ─── Subscription updated (upgrade, downgrade, renewal, trial end) ──
+  if (event.type === 'customer.subscription.updated') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const subscription = event.data.object as any
+    const { user_id, product_id, tier, billing } = subscription.metadata || {}
+
+    if (!user_id || !product_id) {
+      console.error('Subscription update webhook missing metadata:', subscription.metadata)
+      return NextResponse.json({ received: true, note: 'missing metadata' })
+    }
+
+    const status = subscription.status === 'active' ? 'active'
+      : subscription.status === 'trialing' ? 'trialing'
+      : subscription.status === 'past_due' ? 'past_due'
+      : subscription.status === 'canceled' ? 'cancelled'
+      : subscription.status
+
+    await admin.from('product_subscriptions').upsert({
+      user_id,
+      product_id,
+      tier: tier || 'creator',
+      status,
+      stripe_subscription_id: subscription.id,
+      stripe_customer_id: typeof subscription.customer === 'string' ? subscription.customer : subscription.customer.id,
+      current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+      cancel_at_period_end: subscription.cancel_at_period_end || false,
+      trial_end: subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
+      metadata: { billing, updated_via: 'webhook' },
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'user_id,product_id' })
+
+    console.log(`Subscription updated: user=${user_id} product=${product_id} tier=${tier} status=${status}`)
+  }
+
+  // ─── Subscription deleted (cancelled and expired) ───────────
+  if (event.type === 'customer.subscription.deleted') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const subscription = event.data.object as any
+    const { user_id, product_id } = subscription.metadata || {}
+
+    if (!user_id || !product_id) {
+      console.error('Subscription delete webhook missing metadata:', subscription.metadata)
+      return NextResponse.json({ received: true, note: 'missing metadata' })
+    }
+
+    await admin.from('product_subscriptions')
+      .update({
+        status: 'cancelled',
+        cancel_at_period_end: false,
+        updated_at: new Date().toISOString(),
+        metadata: { cancelled_at: new Date().toISOString(), cancelled_via: 'webhook' },
+      })
+      .eq('user_id', user_id)
+      .eq('product_id', product_id)
+
+    console.log(`Subscription cancelled: user=${user_id} product=${product_id}`)
   }
 
   return NextResponse.json({ received: true })

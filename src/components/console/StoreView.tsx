@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { Search, ShoppingBag, Loader2 } from 'lucide-react'
 import { StoreListingCard } from './StoreListingCard'
 import { ListingDetailModal } from './ListingDetailModal'
-import { STORE_CATEGORIES, type StoreListing, type StoreCategory } from './StoreTypes'
+import { STORE_CATEGORIES, type StoreListing, type StoreCategory, type SubscriptionStatus } from './StoreTypes'
 
 interface StoreViewProps {
   listings: StoreListing[]
@@ -12,9 +12,13 @@ interface StoreViewProps {
   loading: boolean
   onFetch: (category?: StoreCategory, search?: string) => void
   onCheckout: (listingId: string) => Promise<{ free?: boolean; url?: string; error?: string }>
+  onSubscribe?: (productId: string, tierKey: string, billing: 'monthly' | 'yearly') => Promise<{
+    free?: boolean; checkoutUrl?: string; portalUrl?: string; error?: string
+  }>
+  onGetSubscription?: (productId: string) => Promise<SubscriptionStatus>
 }
 
-export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout }: StoreViewProps) {
+export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout, onSubscribe, onGetSubscription }: StoreViewProps) {
   const [category, setCategory] = useState<StoreCategory>('all')
   const [search, setSearch] = useState('')
   const [selectedListing, setSelectedListing] = useState<StoreListing | null>(null)
@@ -177,6 +181,8 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
           owned={purchasedIds.includes(selectedListing.id)}
           onClose={() => setSelectedListing(null)}
           onCheckout={onCheckout}
+          onSubscribe={onSubscribe}
+          onGetSubscription={onGetSubscription}
         />
       )}
 

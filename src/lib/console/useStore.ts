@@ -96,6 +96,44 @@ export function useStore() {
     }
   }, [fetchListings, fetchPurchases])
 
+  const subscribe = useCallback(async (
+    productId: string,
+    tierKey: string,
+    billing: 'monthly' | 'yearly' = 'monthly'
+  ): Promise<{ free?: boolean; checkoutUrl?: string; portalUrl?: string; error?: string }> => {
+    try {
+      const res = await fetch('/api/console/store/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId, tierKey, billing }),
+      })
+      const data = await res.json()
+      if (!res.ok) return { error: data.error || 'Subscribe failed' }
+      if (data.free) {
+        await fetchListings()
+        return { free: true }
+      }
+      if (data.portalUrl) return { portalUrl: data.portalUrl }
+      if (data.checkoutUrl) return { checkoutUrl: data.checkoutUrl }
+      return { error: 'Unexpected response' }
+    } catch {
+      return { error: 'Network error' }
+    }
+  }, [fetchListings])
+
+  const getSubscription = useCallback(async (productId: string): Promise<{
+    tier: string; status: string; currentPeriodEnd?: string;
+    cancelAtPeriodEnd?: boolean; trialEnd?: string
+  }> => {
+    try {
+      const res = await fetch(`/api/console/store/subscribe?productId=${productId}`)
+      if (!res.ok) return { tier: 'free', status: 'none' }
+      return await res.json()
+    } catch {
+      return { tier: 'free', status: 'none' }
+    }
+  }, [])
+
   const download = useCallback(async (workflowId: string): Promise<{ workflow?: unknown; filename?: string; error?: string }> => {
     try {
       const res = await fetch('/api/console/store/download', {
@@ -118,6 +156,8 @@ export function useStore() {
     fetchListings,
     fetchPurchases,
     checkout,
+    subscribe,
+    getSubscription,
     download,
   }
 }

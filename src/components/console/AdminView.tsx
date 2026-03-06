@@ -7,7 +7,7 @@ import { AdminSitemap } from './AdminSitemap'
 
 const AdminServices = lazy(() => import('./AdminServices').then(m => ({ default: m.AdminServices })))
 
-type AdminSection = 'overview' | 'defender' | 'users' | 'sitemap' | 'services' | 'forum' | 'personas' | 'content' | 'blog' | 'qa'
+type AdminSection = 'overview' | 'defender' | 'users' | 'sitemap' | 'services' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
 
 interface NavItem {
   key: AdminSection
@@ -31,6 +31,7 @@ const IFRAME_SECTIONS: NavItem[] = [
   { key: 'content', label: 'Content', icon: '\u{1F4DD}', type: 'iframe', src: '/admin/content' },
   { key: 'blog', label: 'Blog Engine', icon: '\u{1F4F0}', type: 'iframe', src: '/admin/blog' },
   { key: 'qa', label: 'QA Distribution', icon: '\u{1F3AF}', type: 'iframe', src: '/admin/qa' },
+  { key: 'ai-settings', label: 'AI Brain', icon: '\u{1F9E0}', type: 'iframe', src: '/admin/ai-settings' },
 ]
 
 const ALL_SECTIONS: NavItem[] = [...COMPONENT_SECTIONS, ...IFRAME_SECTIONS]

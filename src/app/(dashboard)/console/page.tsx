@@ -689,6 +689,8 @@ export default function ConsolePage() {
                 loading={store.loading}
                 onFetch={store.fetchListings}
                 onCheckout={store.checkout}
+                onSubscribe={store.subscribe}
+                onGetSubscription={store.getSubscription}
               />
             </div>
           )}
@@ -741,6 +743,8 @@ export default function ConsolePage() {
           owned={true}
           onClose={() => setPremiumDetailListing(null)}
           onCheckout={store.checkout}
+          onSubscribe={store.subscribe}
+          onGetSubscription={store.getSubscription}
         />
       )}
 

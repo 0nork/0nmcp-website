@@ -60,6 +60,11 @@
 - Remaining constraints on profiles: profiles_pkey, profiles_plan_check, profiles_reputation_level_check, profiles_username_key
 - Remaining constraints on community_threads: community_threads_user_id_fkey (to profiles), community_threads_group_id_fkey (to community_groups)
 - Remaining constraints on community_posts: community_posts_user_id_fkey (to profiles), community_posts_thread_id_fkey (to community_threads)
+- **2026-03-05**: Created `listkit_imports` table for B2B lead imports from ListKit
+  - 22 columns: email (NOT NULL), first/last name, company, title, phone, industry, employee_count, linkedin_url, location, lead_score, lead_grade (A-D), company_tier, intent_signals (jsonb), list_name, batch_id, crm_contact_id, crm_opportunity_id, routing (HOT/WARM/NURTURE/DRIP), imported_at, created_at
+  - 5 indexes: email, lead_grade, batch_id, imported_at DESC, company
+  - RLS enabled, single policy: service_role full access
+  - Migration file saved at: `supabase/migrations/20260305000000_listkit_imports.sql` (for record-keeping; applied via Management API to yaehbwimocvvnnlojkxe only)
 
 ## Credentials
 - `.env.local` has anon key only (no service role key or DB password in file)

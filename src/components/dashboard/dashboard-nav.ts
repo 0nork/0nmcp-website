@@ -69,5 +69,6 @@ export const DASHBOARD_SITEMAP: Record<string, SitemapEntry[]> = {
     { label: 'QA Generate', href: '/admin/qa/generate' },
     { label: 'QA History', href: '/admin/qa/history' },
     { label: 'Users', href: '/admin/users' },
+    { label: 'AI Brain', href: '/admin/ai-settings' },
   ],
 }

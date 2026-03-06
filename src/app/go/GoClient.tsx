@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { SERVICE_LOGOS } from '@/components/ServiceLogos'
 
 /* ─── Product Suite ──────────────────────────────────────── */
 
@@ -25,12 +26,57 @@ const PRODUCTS = [
 
 /* ─── Services ───────────────────────────────────────────── */
 
-const SERVICES = [
-  'Stripe', 'Gmail', 'Slack', 'HubSpot', 'Shopify', 'Google Sheets',
-  'Discord', 'Twilio', 'Notion', 'Airtable', 'Calendly', 'Zoom',
-  'Jira', 'Linear', 'Zendesk', 'MongoDB', 'SendGrid', 'Mailchimp',
-  'GitHub', 'Supabase', 'Google Drive', 'Google Calendar', 'OpenAI', 'Anthropic',
-  'Microsoft', 'CRM', 'Resend', 'ListKit',
+/* ─── Carousel Services (real SVG logos) ─────────────────── */
+
+const CAROUSEL_SERVICES = [
+  { name: 'CRM', key: 'crm' },
+  { name: 'Stripe', key: 'stripe' },
+  { name: 'SendGrid', key: 'sendgrid' },
+  { name: 'Slack', key: 'slack' },
+  { name: 'Discord', key: 'discord' },
+  { name: 'Twilio', key: 'twilio' },
+  { name: 'GitHub', key: 'github' },
+  { name: 'Shopify', key: 'shopify' },
+  { name: 'OpenAI', key: 'openai' },
+  { name: 'Anthropic', key: 'anthropic' },
+  { name: 'Gmail', key: 'gmail' },
+  { name: 'Sheets', key: 'google-sheets' },
+  { name: 'Drive', key: 'google-drive' },
+  { name: 'Airtable', key: 'airtable' },
+  { name: 'Notion', key: 'notion' },
+  { name: 'MongoDB', key: 'mongodb' },
+  { name: 'Supabase', key: 'supabase' },
+  { name: 'Zendesk', key: 'zendesk' },
+  { name: 'Jira', key: 'jira' },
+  { name: 'HubSpot', key: 'hubspot' },
+  { name: 'Mailchimp', key: 'mailchimp' },
+  { name: 'Calendar', key: 'google-calendar' },
+  { name: 'Calendly', key: 'calendly' },
+  { name: 'Zoom', key: 'zoom' },
+  { name: 'Linear', key: 'linear' },
+  { name: 'Microsoft', key: 'microsoft' },
+  { name: 'QuickBooks', key: 'quickbooks' },
+  { name: 'Asana', key: 'asana' },
+  { name: 'Intercom', key: 'intercom' },
+  { name: 'Dropbox', key: 'dropbox' },
+  { name: 'WhatsApp', key: 'whatsapp' },
+  { name: 'Instagram', key: 'instagram' },
+  { name: 'X', key: 'x' },
+  { name: 'TikTok', key: 'tiktok' },
+  { name: 'Google Ads', key: 'google-ads' },
+  { name: 'Meta Ads', key: 'facebook-ads' },
+  { name: 'Plaid', key: 'plaid' },
+  { name: 'Square', key: 'square' },
+  { name: 'Smartlead', key: 'smartlead' },
+  { name: 'Zapier', key: 'zapier' },
+  { name: 'MuleSoft', key: 'mulesoft' },
+  { name: 'Azure', key: 'azure' },
+  { name: 'Pipedrive', key: 'pipedrive' },
+  { name: 'LinkedIn', key: 'linkedin' },
+  { name: 'Telegram', key: 'telegram' },
+  { name: 'Postmark', key: 'postmark' },
+  { name: 'Groq', key: 'groq' },
+  { name: 'ElevenLabs', key: 'elevenlabs' },
 ]
 
 /* ─── Pricing ────────────────────────────────────────────── */
@@ -486,27 +532,83 @@ export default function GoClient() {
         </div>
       </section>
 
-      {/* ── CONNECTED SERVICES ────────────────────────────── */}
-      <section className="section-elevated" style={{ padding: '60px 24px', maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-        <h2 style={{
-          fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 700,
-          color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 24,
-        }}>
-          48 services. One API key each. Infinite possibilities.
-        </h2>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
-          {SERVICES.map(s => (
-            <span key={s} style={{
-              padding: '6px 14px', borderRadius: 8,
-              background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)',
-              color: 'var(--text-secondary)', fontSize: 13, fontWeight: 500,
-            }}>{s}</span>
-          ))}
-          <span style={{
-            padding: '6px 14px', borderRadius: 8,
-            background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)',
-            color: '#7ed957', fontSize: 13, fontWeight: 600,
-          }}>+ 20 more</span>
+      {/* ── CONNECTED SERVICES CAROUSEL ──────────────────── */}
+      <section className="section-elevated" style={{ padding: '60px 0', textAlign: 'center' }}>
+        <div style={{ padding: '0 24px', marginBottom: 32 }}>
+          <h2 style={{
+            fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 700,
+            color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 8,
+          }}>
+            48 services. One API key each. Infinite possibilities.
+          </h2>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: 0 }}>
+            Real SVG logos. Real integrations. All connected.
+          </p>
+        </div>
+
+        <div style={{ position: 'relative', overflow: 'hidden', height: 50 }}>
+          {/* Fade edges */}
+          <div style={{
+            position: 'absolute', left: 0, top: 0, bottom: 0, width: 80, zIndex: 2,
+            background: 'linear-gradient(to right, var(--bg-primary), transparent)',
+            pointerEvents: 'none',
+          }} />
+          <div style={{
+            position: 'absolute', right: 0, top: 0, bottom: 0, width: 80, zIndex: 2,
+            background: 'linear-gradient(to left, var(--bg-primary), transparent)',
+            pointerEvents: 'none',
+          }} />
+
+          {/* Scrolling track */}
+          <div style={{
+            display: 'flex', alignItems: 'center', height: 50, gap: 40, width: 'max-content',
+            animation: 'service-scroll 60s linear infinite',
+          }}>
+            {/* Original set */}
+            {CAROUSEL_SERVICES.map((s, i) => {
+              const Logo = SERVICE_LOGOS[s.key]
+              return (
+                <div key={`a-${i}`} style={{
+                  display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0,
+                }}>
+                  {Logo ? <Logo size={24} /> : (
+                    <span style={{
+                      width: 24, height: 24, borderRadius: 6,
+                      background: 'rgba(126,217,87,0.15)', display: 'flex',
+                      alignItems: 'center', justifyContent: 'center',
+                      fontSize: 12, fontWeight: 700, color: '#7ed957',
+                    }}>{s.name[0]}</span>
+                  )}
+                  <span style={{
+                    fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)',
+                    whiteSpace: 'nowrap',
+                  }}>{s.name}</span>
+                </div>
+              )
+            })}
+            {/* Duplicate for seamless loop */}
+            {CAROUSEL_SERVICES.map((s, i) => {
+              const Logo = SERVICE_LOGOS[s.key]
+              return (
+                <div key={`b-${i}`} style={{
+                  display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0,
+                }}>
+                  {Logo ? <Logo size={24} /> : (
+                    <span style={{
+                      width: 24, height: 24, borderRadius: 6,
+                      background: 'rgba(126,217,87,0.15)', display: 'flex',
+                      alignItems: 'center', justifyContent: 'center',
+                      fontSize: 12, fontWeight: 700, color: '#7ed957',
+                    }}>{s.name[0]}</span>
+                  )}
+                  <span style={{
+                    fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)',
+                    whiteSpace: 'nowrap',
+                  }}>{s.name}</span>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
 
@@ -637,6 +739,7 @@ export default function GoClient() {
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
         @keyframes pulse-dot { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        @keyframes service-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
       `}</style>
     </div>
   )

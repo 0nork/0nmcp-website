@@ -533,7 +533,7 @@ export default function ConsolePage() {
   )
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
+    <div className="flex h-full overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
       {/* Mobile sidebar overlay */}
       {mobileMenuOpen && (
         <div

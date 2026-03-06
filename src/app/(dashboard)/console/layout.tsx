@@ -12,7 +12,7 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
   return (
     <div
       style={{
-        minHeight: '100vh',
+        minHeight: '100%',
         background: 'var(--bg-primary)',
         position: 'relative',
         zIndex: 1,

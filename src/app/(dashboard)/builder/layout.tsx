@@ -4,7 +4,7 @@ export default function BuilderLayout({
   children: React.ReactNode
 }) {
   return (
-    <div style={{ height: 'calc(100vh - 64px)', overflow: 'hidden' }}>
+    <div style={{ height: '100%', overflow: 'hidden' }}>
       {children}
     </div>
   )

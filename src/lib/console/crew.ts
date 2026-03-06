@@ -81,6 +81,28 @@ export const AGENT_TEMPLATES: CrewAgent[] = [
     triggers: ['webhook:payment_received'],
     createdAt: new Date().toISOString(),
   },
+  {
+    id: 'monitor',
+    name: '0nMonitor',
+    role: 'Watches API docs and RSS feeds for breaking changes, alerts on scope drift',
+    avatar: '\u{1F6E1}',
+    color: '#ff6d5a',
+    abilities: ['monitor_rss_feeds', 'check_scope_drift', 'compare_api_versions', 'alert_changes'],
+    status: 'active',
+    triggers: ['schedule:weekly', 'manual'],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'updater',
+    name: '0nUpdater',
+    role: 'Auto-patches service field metadata when 0nMonitor detects changes',
+    avatar: '\u{1F527}',
+    color: '#00d4ff',
+    abilities: ['patch_service_fields', 'update_stable_scopes', 'regenerate_guides', 'log_change_history'],
+    status: 'idle',
+    triggers: ['webhook:monitor_alert'],
+    createdAt: new Date().toISOString(),
+  },
 ]
 
 /** Available trigger types for agents */
@@ -95,6 +117,7 @@ export const TRIGGER_TYPES = [
   { value: 'schedule:daily', label: 'Every Day' },
   { value: 'schedule:weekly', label: 'Every Week' },
   { value: 'manual', label: 'Manual Trigger' },
+  { value: 'webhook:monitor_alert', label: 'Monitor Alert' },
 ] as const
 
 /** Available abilities (tool IDs) grouped by service */
@@ -150,6 +173,61 @@ export const ABILITY_GROUPS: Record<string, { label: string; color: string; tool
       { id: 'list_workflows', label: 'List Workflows' },
     ],
   },
+  monitoring: {
+    label: 'Monitoring',
+    color: '#ff6d5a',
+    tools: [
+      { id: 'monitor_rss_feeds', label: 'Monitor RSS Feeds' },
+      { id: 'check_scope_drift', label: 'Check Scope Drift' },
+      { id: 'compare_api_versions', label: 'Compare API Versions' },
+      { id: 'alert_changes', label: 'Alert Changes' },
+      { id: 'patch_service_fields', label: 'Patch Service Fields' },
+      { id: 'update_stable_scopes', label: 'Update Stable Scopes' },
+      { id: 'regenerate_guides', label: 'Regenerate Guides' },
+      { id: 'log_change_history', label: 'Log Change History' },
+    ],
+  },
+}
+
+/** Monitor check result from /api/monitor */
+export interface MonitorAlert {
+  service: string
+  type: 'rss_update' | 'scope_drift' | 'version_change'
+  severity: 'info' | 'warning' | 'critical'
+  title: string
+  detail: string
+  timestamp: string
+  url?: string
+}
+
+export interface MonitorRunResult {
+  runId: string
+  agent: 'monitor' | 'updater'
+  startedAt: string
+  completedAt: string
+  alerts: MonitorAlert[]
+  servicesChecked: number
+  status: 'success' | 'partial' | 'error'
+}
+
+/** Load monitor history from localStorage */
+export function loadMonitorHistory(): MonitorRunResult[] {
+  if (typeof window === 'undefined') return []
+  try {
+    const raw = localStorage.getItem('0n_monitor_history')
+    if (raw) return JSON.parse(raw)
+  } catch { /* ignore */ }
+  return []
+}
+
+/** Save a monitor run result */
+export function saveMonitorRun(result: MonitorRunResult): void {
+  if (typeof window === 'undefined') return
+  const history = loadMonitorHistory()
+  history.unshift(result)
+  // Keep last 50 runs
+  if (history.length > 50) history.length = 50
+  localStorage.setItem('0n_monitor_history', JSON.stringify(history))
 }
 
 /** Generate a .0n workflow JSON from agent abilities */

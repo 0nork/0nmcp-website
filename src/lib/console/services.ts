@@ -47,12 +47,20 @@ export interface ServiceConfig {
   cat: 'ai' | 'crm' | 'database' | 'messaging' | 'email' | 'dev' | 'cloud' | 'social' | 'ads' | 'finance' | 'productivity' | 'ecommerce' | 'automation' | 'video';
   /** Priority order for vault display (lower = higher priority) */
   pri: number;
+  /** RSS/Atom changelog feed URL for 0nMonitor */
+  rss?: string;
+  /** API docs URL for 0nMonitor */
+  docs?: string;
+  /** API version string for scope tracking */
+  apiVer?: string;
+  /** Known-stable scope fields that rarely change (bypass first-run validation) */
+  stableScopes?: string[];
 }
 
 export const SVC: Record<string, ServiceConfig> = {
   // ─── AI / LLM ──────────────────────────────────────────────
   anthropic: {
-    l: "Anthropic", logo: "anthropic", c: "#d4a574", cat: "ai", pri: 1,
+    l: "Anthropic", logo: "anthropic", c: "#d4a574", cat: "ai", pri: 1, rss: "https://docs.anthropic.com/en/api/changelog.rss", docs: "https://docs.anthropic.com/en/api", apiVer: "2023-06-01", stableScopes: ["messages.create", "messages.count_tokens"],
     d: "Claude AI - advanced reasoning, analysis, coding, 200K context, tool use.",
     cap: ["Claude Opus/Sonnet", "200K Context", "Code Gen", "Vision", "Tool Use", "JSON Output", "Batch API", "Analysis"],
     f: [
@@ -60,7 +68,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   openai: {
-    l: "OpenAI", logo: "openai", c: "#10a37f", cat: "ai", pri: 2,
+    l: "OpenAI", logo: "openai", c: "#10a37f", cat: "ai", pri: 2, rss: "https://platform.openai.com/docs/changelog/rss.xml", docs: "https://platform.openai.com/docs/api-reference", apiVer: "v1", stableScopes: ["chat.completions", "embeddings", "images.generate"],
     d: "GPT-4o, DALL-E, Whisper, Embeddings - versatile AI for generation and analysis.",
     cap: ["GPT-4o", "DALL-E", "Whisper", "Embeddings", "Functions", "JSON Mode", "Vision", "Fine-tuning"],
     f: [
@@ -68,7 +76,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   gemini: {
-    l: "Gemini", logo: "gemini", c: "#4285f4", cat: "ai", pri: 3,
+    l: "Gemini", logo: "gemini", c: "#4285f4", cat: "ai", pri: 3, docs: "https://ai.google.dev/api/rest", apiVer: "v1beta", stableScopes: ["generateContent", "embedContent", "countTokens"],
     d: "Google's multimodal AI - text, images, code, and long-context reasoning up to 2M tokens.",
     cap: ["Gemini Pro/Ultra", "2M Context", "Multimodal", "Code Gen", "Grounding", "Search", "JSON Output", "Vision"],
     f: [
@@ -76,7 +84,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   perplexity: {
-    l: "Perplexity", logo: "perplexity", c: "#20b8cd", cat: "ai", pri: 4,
+    l: "Perplexity", logo: "perplexity", c: "#20b8cd", cat: "ai", pri: 4, docs: "https://docs.perplexity.ai/api-reference", apiVer: "v1", stableScopes: ["chat.completions"],
     d: "AI-powered search engine API - real-time web answers with citations.",
     cap: ["Web Search", "Citations", "Sonar Models", "Real-time Data", "Structured Output", "Focus Modes", "Follow-ups", "Pro Search"],
     f: [
@@ -86,7 +94,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── CRM / Sales ───────────────────────────────────────────
   crm: {
-    l: "CRM", logo: "rocket", c: "#7c3aed", cat: "crm", pri: 5,
+    l: "CRM", logo: "rocket", c: "#7c3aed", cat: "crm", pri: 5, docs: "https://highlevel.stoplight.io/docs/integrations/", apiVer: "2021-07-28", stableScopes: ["contact.firstName", "contact.lastName", "contact.email", "contact.phone", "opportunity.name", "opportunity.monetaryValue", "pipeline.name", "pipeline.stages"],
     d: "All-in-one CRM for contacts, pipelines, workflows, calendars, invoicing, and automation. 245 tools.",
     cap: ["Contacts", "Pipelines", "Workflows", "Calendar", "Invoicing", "SMS/Email", "Opportunities", "50+ Webhooks"],
     f: [
@@ -96,7 +104,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   hubspot: {
-    l: "HubSpot", logo: "hubspot", c: "#ff7a59", cat: "crm", pri: 10,
+    l: "HubSpot", logo: "hubspot", c: "#ff7a59", cat: "crm", pri: 10, rss: "https://developers.hubspot.com/changelog/feed", docs: "https://developers.hubspot.com/docs/api/overview", apiVer: "v3", stableScopes: ["contacts", "companies", "deals", "tickets"],
     d: "CRM, marketing, sales, and service hub - contacts, deals, emails, and analytics.",
     cap: ["Contacts", "Deals", "Companies", "Emails", "Tickets", "Forms", "Workflows", "Analytics"],
     f: [
@@ -105,7 +113,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   salesforce: {
-    l: "Salesforce", logo: "salesforce", c: "#00a1e0", cat: "crm", pri: 11,
+    l: "Salesforce", logo: "salesforce", c: "#00a1e0", cat: "crm", pri: 11, docs: "https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest", apiVer: "v60.0", stableScopes: ["sobjects", "query", "search", "composite"],
     d: "Enterprise CRM - leads, opportunities, accounts, reports, and workflow rules.",
     cap: ["Leads", "Opportunities", "Accounts", "Contacts", "Reports", "Dashboards", "Flows", "Apex"],
     f: [
@@ -134,7 +142,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── Database / Backend ────────────────────────────────────
   supabase: {
-    l: "Supabase", logo: "supabase", c: "#3ecf8e", cat: "database", pri: 6,
+    l: "Supabase", logo: "supabase", c: "#3ecf8e", cat: "database", pri: 6, docs: "https://supabase.com/docs/reference/javascript", apiVer: "v1", stableScopes: ["auth.signUp", "auth.signIn", "from.select", "from.insert"],
     d: "Open-source PostgreSQL database, auth, real-time, edge functions, and storage.",
     cap: ["Database", "Auth", "Real-time", "Storage", "Edge Functions", "REST API", "RLS", "Webhooks"],
     f: [
@@ -144,7 +152,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   mongodb: {
-    l: "MongoDB", logo: "mongodb", c: "#00ed64", cat: "database", pri: 20,
+    l: "MongoDB", logo: "mongodb", c: "#00ed64", cat: "database", pri: 20, docs: "https://www.mongodb.com/docs/atlas/api/", stableScopes: ["find", "insertOne", "updateOne", "deleteOne"],
     d: "Document database - flexible schemas, aggregation, atlas search, and real-time sync.",
     cap: ["CRUD", "Aggregation", "Atlas Search", "Change Streams", "Indexes", "Transactions", "Time Series", "Charts"],
     f: [
@@ -154,7 +162,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   airtable: {
-    l: "Airtable", logo: "airtable", c: "#18bfff", cat: "database", pri: 21,
+    l: "Airtable", logo: "airtable", c: "#18bfff", cat: "database", pri: 21, docs: "https://airtable.com/developers/web/api", apiVer: "v0", stableScopes: ["records.list", "records.create", "records.update"],
     d: "Spreadsheet-database hybrid - bases, records, views, automations, and interfaces.",
     cap: ["Records", "Bases", "Views", "Automations", "Interfaces", "Formulas", "Attachments", "Webhooks"],
     f: [
@@ -164,7 +172,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── Payments / Finance ────────────────────────────────────
   stripe: {
-    l: "Stripe", logo: "stripe", c: "#635bff", cat: "finance", pri: 7,
+    l: "Stripe", logo: "stripe", c: "#635bff", cat: "finance", pri: 7, rss: "https://stripe.com/blog/feed.xml", docs: "https://docs.stripe.com/api", apiVer: "2024-12-18", stableScopes: ["charges", "customers", "payment_intents", "subscriptions", "invoices"],
     d: "Payments, subscriptions, invoices, disputes, and revenue tracking.",
     cap: ["Payments", "Subscriptions", "Invoices", "Customers", "Coupons", "Payment Links", "Refunds", "Webhooks"],
     f: [
@@ -173,7 +181,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   square: {
-    l: "Square", logo: "square", c: "#006aff", cat: "finance", pri: 30,
+    l: "Square", logo: "square", c: "#006aff", cat: "finance", pri: 30, docs: "https://developer.squareup.com/reference/square", apiVer: "2024-12-18", stableScopes: ["payments", "orders", "customers", "inventory"],
     d: "Payments, POS, invoices, inventory, and e-commerce for in-person and online.",
     cap: ["Payments", "POS", "Invoices", "Inventory", "Customers", "Catalog", "Orders", "Loyalty"],
     f: [
@@ -203,7 +211,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── Messaging / Chat ──────────────────────────────────────
   slack: {
-    l: "Slack", logo: "slack", c: "#e01e5a", cat: "messaging", pri: 14,
+    l: "Slack", logo: "slack", c: "#e01e5a", cat: "messaging", pri: 14, rss: "https://api.slack.com/changelog/feed", docs: "https://api.slack.com/methods", apiVer: "v2", stableScopes: ["chat.postMessage", "channels.list", "users.list"],
     d: "Team messaging - send messages, manage channels, post notifications, and build bots.",
     cap: ["Send Messages", "Channels", "Threads", "Reactions", "File Upload", "Blocks", "Webhooks", "Bot Users"],
     f: [
@@ -212,7 +220,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   discord: {
-    l: "Discord", logo: "discord", c: "#5865f2", cat: "messaging", pri: 15,
+    l: "Discord", logo: "discord", c: "#5865f2", cat: "messaging", pri: 15, docs: "https://discord.com/developers/docs/reference", apiVer: "v10", stableScopes: ["messages.create", "channels.get", "guilds.get"],
     d: "Community platform - servers, channels, bots, webhooks, and slash commands.",
     cap: ["Messages", "Channels", "Webhooks", "Slash Commands", "Embeds", "Reactions", "Threads", "Roles"],
     f: [
@@ -230,7 +238,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   twilio: {
-    l: "Twilio", logo: "twilio", c: "#f22f46", cat: "messaging", pri: 17,
+    l: "Twilio", logo: "twilio", c: "#f22f46", cat: "messaging", pri: 17, rss: "https://www.twilio.com/en-us/changelog/feed", docs: "https://www.twilio.com/docs/usage/api", apiVer: "2010-04-01", stableScopes: ["Messages.create", "Calls.create"],
     d: "Communications platform - SMS, voice, video, and WhatsApp messaging.",
     cap: ["SMS", "Voice Calls", "WhatsApp", "Video", "Verify", "Lookup", "Studio Flows", "Conversations"],
     f: [
@@ -261,7 +269,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   sendgrid: {
-    l: "SendGrid", logo: "sendgrid", c: "#1a82e2", cat: "email", pri: 23,
+    l: "SendGrid", logo: "sendgrid", c: "#1a82e2", cat: "email", pri: 23, docs: "https://docs.sendgrid.com/api-reference", apiVer: "v3", stableScopes: ["mail.send", "contacts", "lists"],
     d: "Transactional and marketing email - templates, analytics, and deliverability.",
     cap: ["Send Email", "Templates", "Lists", "Segments", "Analytics", "Webhooks", "Suppressions", "IP Management"],
     f: [
@@ -269,7 +277,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   resend: {
-    l: "Resend", logo: "resend", c: "#000000", cat: "email", pri: 24,
+    l: "Resend", logo: "resend", c: "#000000", cat: "email", pri: 24, docs: "https://resend.com/docs/api-reference", apiVer: "v1", stableScopes: ["emails.send", "contacts", "domains"],
     d: "Complete email infrastructure — transactional, broadcasts, contacts, domains, templates, segments, webhooks. 67 API endpoints.",
     cap: ["Send Email", "Batch Send", "React Templates", "Domains", "DNS Verify", "Contacts", "Segments", "Broadcasts", "Templates", "Topics", "Webhooks", "Inbound Email", "Attachments", "API Key Mgmt", "Contact Properties"],
     f: [
@@ -277,7 +285,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   mailchimp: {
-    l: "Mailchimp", logo: "mailchimp", c: "#ffe01b", cat: "email", pri: 25,
+    l: "Mailchimp", logo: "mailchimp", c: "#ffe01b", cat: "email", pri: 25, docs: "https://mailchimp.com/developer/marketing/api/", apiVer: "3.0", stableScopes: ["lists", "campaigns", "members"],
     d: "Email marketing - campaigns, audiences, automations, and landing pages.",
     cap: ["Campaigns", "Lists", "Templates", "Automations", "Segments", "Analytics", "Landing Pages", "A/B Testing"],
     f: [
@@ -296,7 +304,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── Dev / Code ────────────────────────────────────────────
   github: {
-    l: "GitHub", logo: "github", c: "#e2e2e2", cat: "dev", pri: 8,
+    l: "GitHub", logo: "github", c: "#e2e2e2", cat: "dev", pri: 8, rss: "https://github.blog/changelog/feed/", docs: "https://docs.github.com/en/rest", apiVer: "2022-11-28", stableScopes: ["repos", "issues", "pulls", "actions"],
     d: "Code hosting, PRs, CI/CD, issues, actions, releases, and collaboration.",
     cap: ["Repos", "Pull Requests", "Actions", "Issues", "Releases", "Branch Rules", "Webhooks", "Pages"],
     f: [
@@ -305,7 +313,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   vercel: {
-    l: "Vercel", logo: "vercel", c: "#e2e2e2", cat: "cloud", pri: 9,
+    l: "Vercel", logo: "vercel", c: "#e2e2e2", cat: "cloud", pri: 9, docs: "https://vercel.com/docs/rest-api", apiVer: "v9", stableScopes: ["deployments", "projects", "domains"],
     d: "Frontend deployment - instant deploys, previews, edge functions, analytics.",
     cap: ["Git Deploys", "Previews", "Edge Functions", "Serverless", "Analytics", "Domains", "Env Vars", "Rollback"],
     f: [
@@ -314,7 +322,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   linear: {
-    l: "Linear", logo: "linear", c: "#5e6ad2", cat: "dev", pri: 33,
+    l: "Linear", logo: "linear", c: "#5e6ad2", cat: "dev", pri: 33, docs: "https://developers.linear.app/docs", stableScopes: ["issues", "projects", "teams"],
     d: "Modern issue tracking - issues, projects, cycles, and roadmaps for engineering teams.",
     cap: ["Issues", "Projects", "Cycles", "Roadmaps", "Labels", "Workflows", "Webhooks", "Git Integration"],
     f: [
@@ -459,7 +467,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── Productivity ──────────────────────────────────────────
   notion: {
-    l: "Notion", logo: "notion", c: "#e2e2e2", cat: "productivity", pri: 19,
+    l: "Notion", logo: "notion", c: "#e2e2e2", cat: "productivity", pri: 19, docs: "https://developers.notion.com/reference", apiVer: "2022-06-28", stableScopes: ["pages", "databases", "blocks", "search"],
     d: "All-in-one workspace - pages, databases, wikis, and project tracking.",
     cap: ["Pages", "Databases", "Blocks", "Search", "Comments", "Users", "Relations", "Formulas"],
     f: [
@@ -627,7 +635,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── E-Commerce ────────────────────────────────────────────
   shopify: {
-    l: "Shopify", logo: "shopify", c: "#96bf48", cat: "ecommerce", pri: 52,
+    l: "Shopify", logo: "shopify", c: "#96bf48", cat: "ecommerce", pri: 52, rss: "https://shopify.dev/changelog.atom", docs: "https://shopify.dev/docs/api/admin-rest", apiVer: "2024-10", stableScopes: ["products", "orders", "customers", "inventory"],
     d: "E-commerce platform - products, orders, customers, inventory, and fulfillment.",
     cap: ["Products", "Orders", "Customers", "Inventory", "Fulfillment", "Discounts", "Themes", "Webhooks"],
     f: [
@@ -869,7 +877,7 @@ export const SVC: Record<string, ServiceConfig> = {
 
   // ─── Additional Cloud / Dev ──────────────────────────────
   cloudflare: {
-    l: "Cloudflare", logo: "cloudflare", c: "#f38020", cat: "cloud", pri: 77,
+    l: "Cloudflare", logo: "cloudflare", c: "#f38020", cat: "cloud", pri: 77, rss: "https://blog.cloudflare.com/rss/", docs: "https://developers.cloudflare.com/api", apiVer: "v4", stableScopes: ["dns_records", "zones", "workers"],
     d: "Edge platform - CDN, DNS, Workers, Pages, R2 storage, and DDoS protection.",
     cap: ["Workers", "Pages", "R2 Storage", "DNS", "CDN", "Firewall", "Analytics", "D1 Database"],
     f: [

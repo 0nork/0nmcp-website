@@ -17,12 +17,16 @@ import {
 import {
   type CrewAgent,
   type CrewConfig,
+  type MonitorRunResult,
+  type MonitorAlert,
   AGENT_TEMPLATES,
   ABILITY_GROUPS,
   TRIGGER_TYPES,
   generateAgentWorkflow,
   loadCrewConfig,
   saveCrewConfig,
+  loadMonitorHistory,
+  saveMonitorRun,
 } from '@/lib/console/crew'
 
 type ConfigTab = 'configure' | 'workflow' | 'history'
@@ -201,7 +205,7 @@ export default function CrewPage() {
               <WorkflowPanel agent={selected} />
             )}
             {configTab === 'history' && (
-              <HistoryPanel />
+              <HistoryPanel agent={selected} />
             )}
           </div>
         </div>
@@ -655,16 +659,213 @@ function WorkflowPanel({ agent }: { agent: CrewAgent }) {
 
 /* ═══════════ History Panel ═══════════ */
 
-function HistoryPanel() {
+function HistoryPanel({ agent }: { agent: CrewAgent }) {
+  const isMonitorAgent = agent.id === 'monitor' || agent.id === 'updater'
+  const [history, setHistory] = useState<MonitorRunResult[]>([])
+  const [running, setRunning] = useState(false)
+  const [expanded, setExpanded] = useState<string | null>(null)
+
+  useEffect(() => {
+    setHistory(loadMonitorHistory().filter(r => r.agent === (agent.id as 'monitor' | 'updater')))
+  }, [agent.id])
+
+  const runMonitor = async () => {
+    setRunning(true)
+    try {
+      const res = await fetch('/api/console/monitor', { method: 'POST' })
+      const result: MonitorRunResult = await res.json()
+      saveMonitorRun(result)
+      setHistory(prev => [result, ...prev])
+    } catch {
+      /* ignore */
+    }
+    setRunning(false)
+  }
+
+  if (!isMonitorAgent) {
+    return (
+      <div className="text-center py-8">
+        <Clock size={32} style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
+        <p className="text-sm mb-1" style={{ color: 'var(--text-muted)' }}>
+          No execution history yet
+        </p>
+        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          Agent runs will appear here once triggered.
+        </p>
+      </div>
+    )
+  }
+
+  const severityColors: Record<MonitorAlert['severity'], string> = {
+    critical: '#ef4444',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+  }
+
   return (
-    <div className="text-center py-8">
-      <Clock size={32} style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
-      <p className="text-sm mb-1" style={{ color: 'var(--text-muted)' }}>
-        No execution history yet
-      </p>
-      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-        Agent runs will appear here once triggered.
-      </p>
+    <div className="space-y-4">
+      {/* Run Now button */}
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+          {history.length} run{history.length !== 1 ? 's' : ''} recorded
+        </span>
+        <button
+          onClick={runMonitor}
+          disabled={running}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer border-none transition-all"
+          style={{
+            background: running ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, #ff6d5a, #ff6b35)',
+            color: running ? 'var(--text-muted)' : '#fff',
+            opacity: running ? 0.6 : 1,
+          }}
+        >
+          {running ? (
+            <>
+              <span className="animate-spin inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full" />
+              Scanning...
+            </>
+          ) : (
+            <>
+              <Play size={12} />
+              Run Now
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* History list */}
+      {history.length === 0 ? (
+        <div className="text-center py-6">
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            No runs yet. Click "Run Now" to scan RSS feeds and check scopes.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {history.slice(0, 20).map(run => {
+            const critCount = run.alerts.filter(a => a.severity === 'critical').length
+            const warnCount = run.alerts.filter(a => a.severity === 'warning').length
+            const isExpanded = expanded === run.runId
+
+            return (
+              <div key={run.runId}>
+                <button
+                  onClick={() => setExpanded(isExpanded ? null : run.runId)}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl text-left cursor-pointer bg-transparent transition-all"
+                  style={{ border: '1px solid var(--border)' }}
+                >
+                  {/* Status dot */}
+                  <span
+                    className="w-2 h-2 rounded-full flex-shrink-0"
+                    style={{
+                      backgroundColor: run.status === 'error' ? '#ef4444'
+                        : critCount > 0 ? '#ef4444'
+                        : warnCount > 0 ? '#f59e0b'
+                        : '#22c55e',
+                    }}
+                  />
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
+                        {run.alerts.length} alert{run.alerts.length !== 1 ? 's' : ''}
+                      </span>
+                      <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                        {run.servicesChecked} services checked
+                      </span>
+                    </div>
+                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                      {new Date(run.startedAt).toLocaleString()}
+                    </div>
+                  </div>
+
+                  {/* Severity badges */}
+                  <div className="flex gap-1.5 flex-shrink-0">
+                    {critCount > 0 && (
+                      <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: '#ef444420', color: '#ef4444' }}>
+                        {critCount}
+                      </span>
+                    )}
+                    {warnCount > 0 && (
+                      <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: '#f59e0b20', color: '#f59e0b' }}>
+                        {warnCount}
+                      </span>
+                    )}
+                  </div>
+
+                  <ChevronDown
+                    size={12}
+                    style={{
+                      color: 'var(--text-muted)',
+                      transform: isExpanded ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s',
+                      flexShrink: 0,
+                    }}
+                  />
+                </button>
+
+                {/* Expanded alert details */}
+                {isExpanded && run.alerts.length > 0 && (
+                  <div className="mt-1 ml-5 space-y-1" style={{ animation: 'crew-slidein 0.15s ease' }}>
+                    {run.alerts.map((alert, i) => (
+                      <div
+                        key={i}
+                        className="flex items-start gap-2 p-2.5 rounded-lg text-xs"
+                        style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}
+                      >
+                        <span
+                          className="w-1.5 h-1.5 rounded-full mt-1 flex-shrink-0"
+                          style={{ backgroundColor: severityColors[alert.severity] }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold mb-0.5" style={{ color: 'var(--text-primary)' }}>
+                            {alert.title}
+                          </div>
+                          {alert.detail && (
+                            <div className="mb-1" style={{ color: 'var(--text-muted)' }}>
+                              {alert.detail.slice(0, 150)}
+                            </div>
+                          )}
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="px-1.5 py-0.5 rounded-full font-bold uppercase"
+                              style={{
+                                fontSize: '9px',
+                                background: severityColors[alert.severity] + '18',
+                                color: severityColors[alert.severity],
+                              }}
+                            >
+                              {alert.type.replace(/_/g, ' ')}
+                            </span>
+                            {alert.url && (
+                              <a
+                                href={alert.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline"
+                                style={{ color: 'var(--accent)', fontSize: '10px' }}
+                                onClick={e => e.stopPropagation()}
+                              >
+                                View
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {isExpanded && run.alerts.length === 0 && (
+                  <div className="mt-1 ml-5 p-3 rounded-lg text-xs" style={{ background: 'rgba(34,197,94,0.05)', color: '#22c55e' }}>
+                    All clear — no changes detected across {run.servicesChecked} services.
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

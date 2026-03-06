@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   ArrowLeft,
   Eye,
@@ -10,9 +10,10 @@ import {
   CheckCircle2,
   XCircle,
   Save,
+  ChevronRight,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
-import { SVC, CATEGORY_LABELS } from '@/lib/console/services'
+import { SVC, CATEGORY_LABELS, type ServiceField } from '@/lib/console/services'
 
 const GOOGLE_OAUTH_SERVICES = new Set([
   'gmail', 'google_calendar', 'google_sheets', 'google_drive', 'google_docs',
@@ -27,29 +28,22 @@ interface VaultDetailProps {
   onSave: (service: string, key: string, value: string) => void
 }
 
+type TabMode = 'simple' | 'advanced'
+
 export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps) {
   const svcDef = SVC[service]
 
-  // Build fields from the SVC definition or fallback
-  const fields = svcDef
-    ? svcDef.f.map(f => ({
-        key: f.k,
-        label: f.lb,
-        placeholder: f.ph,
-        secret: !!f.s,
-        help: f.h,
-        link: f.lk,
-        linkLabel: f.ll,
-      }))
-    : [{
-        key: 'api_key',
-        label: 'API Key',
-        placeholder: 'Enter your API key...',
-        secret: true,
-        help: `Your ${service} API key.`,
-        link: '#',
-        linkLabel: 'Find API Key',
-      }]
+  // Raw field definitions with guided metadata
+  const rawFields: ServiceField[] = svcDef
+    ? svcDef.f
+    : [{ k: 'api_key', lb: 'API Key', ph: 'Enter your API key...', s: true, h: `Your ${service} API key.`, lk: '#', ll: 'Find API Key', t: 'simple', step: 1, req: true, guide: 'Enter your API key to connect this service.' }]
+
+  // Split fields by tier
+  const simpleFields = useMemo(
+    () => rawFields.filter(f => f.t !== 'advanced').sort((a, b) => (a.step ?? 99) - (b.step ?? 99)),
+    [rawFields]
+  )
+  const allFields = rawFields // Advanced shows everything
 
   const label = svcDef?.l || service.charAt(0).toUpperCase() + service.slice(1)
   const desc = svcDef?.d || `Connect your ${service} account.`
@@ -57,11 +51,18 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
   const caps = svcDef?.cap || []
   const cat = svcDef?.cat
 
+  // Persist tab preference
+  const [tab, setTab] = useState<TabMode>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('0n_vault_tab') as TabMode) || 'simple'
+    }
+    return 'simple'
+  })
   const [show, setShow] = useState<Record<string, boolean>>({})
   const [localValues, setLocalValues] = useState<Record<string, string>>(() => {
     const initial: Record<string, string> = {}
-    for (const f of fields) {
-      initial[f.key] = vault[service]?.[f.key] || ''
+    for (const f of rawFields) {
+      initial[f.k] = vault[service]?.[f.k] || ''
     }
     return initial
   })
@@ -71,17 +72,27 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
   const [testResult, setTestResult] = useState<'success' | 'error' | null>(null)
 
   const accentColor = color === '#ffffff' || color === '#e2e2e2' || color === '#000000' ? '#60a5fa' : color
-  const isConnected = fields.some((f) => vault[service]?.[f.key])
+  const isConnected = rawFields.some((f) => vault[service]?.[f.k])
   const isGoogleOAuth = GOOGLE_OAUTH_SERVICES.has(service)
   const hasOAuthToken = vault[service]?.refresh_token && vault[service]?.client_id
+
+  // Simple tab progress
+  const simpleFilledCount = simpleFields.filter(f => localValues[f.k]?.trim()).length
+  const simpleTotalCount = simpleFields.length
+  const allSimpleFilled = simpleFilledCount === simpleTotalCount && simpleTotalCount > 0
+
+  const switchTab = (t: TabMode) => {
+    setTab(t)
+    if (typeof window !== 'undefined') localStorage.setItem('0n_vault_tab', t)
+  }
 
   const handleSave = () => {
     setSaving(true)
     setSaveResult(null)
     try {
-      for (const f of fields) {
-        if (localValues[f.key]) {
-          onSave(service, f.key, localValues[f.key])
+      for (const f of rawFields) {
+        if (localValues[f.k]) {
+          onSave(service, f.k, localValues[f.k])
         }
       }
       setSaveResult('success')
@@ -98,7 +109,7 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
     setTestResult(null)
     try {
       await new Promise((r) => setTimeout(r, 1200))
-      const hasKeys = fields.some((f) => localValues[f.key])
+      const hasKeys = rawFields.some((f) => localValues[f.k])
       setTestResult(hasKeys ? 'success' : 'error')
     } catch {
       setTestResult('error')
@@ -107,6 +118,45 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
       setTimeout(() => setTestResult(null), 4000)
     }
   }
+
+  // Render a single field input (shared between simple and advanced)
+  const renderFieldInput = (f: ServiceField) => (
+    <div key={f.k}>
+      <div className="flex justify-between items-center mb-2">
+        <label className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+          {f.lb}
+          {f.req && <span style={{ color: accentColor, marginLeft: 4 }}>*</span>}
+        </label>
+        {f.s && (
+          <button
+            onClick={() => setShow((p) => ({ ...p, [f.k]: !p[f.k] }))}
+            className="flex items-center gap-1 text-xs transition-colors cursor-pointer bg-transparent border-none"
+            style={{ color: 'var(--text-secondary)' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
+          >
+            {show[f.k] ? <EyeOff size={12} /> : <Eye size={12} />}
+            {show[f.k] ? 'Hide' : 'Show'}
+          </button>
+        )}
+      </div>
+      <input
+        type={f.s && !show[f.k] ? 'password' : 'text'}
+        value={localValues[f.k]}
+        onChange={(e) => setLocalValues((prev) => ({ ...prev, [f.k]: e.target.value }))}
+        placeholder={f.ph}
+        className="w-full h-10 px-3 rounded-lg text-sm outline-none transition-all"
+        style={{
+          backgroundColor: 'var(--bg-primary)',
+          border: '1px solid var(--border)',
+          color: 'var(--text-primary)',
+          fontFamily: 'var(--font-mono)',
+        }}
+        onFocus={(e) => (e.currentTarget.style.borderColor = accentColor)}
+        onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
+      />
+    </div>
+  )
 
   return (
     <div
@@ -237,82 +287,213 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
         </div>
       )}
 
-      {/* Credential fields */}
-      <div>
-        <h4
-          className="text-xs font-semibold tracking-wider uppercase mb-3"
-          style={{ color: 'var(--text-muted)' }}
+      {/* ═══ Tab Bar ═══ */}
+      <div className="flex gap-1 p-1 rounded-xl" style={{ backgroundColor: 'var(--bg-primary)' }}>
+        <button
+          onClick={() => switchTab('simple')}
+          className="flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all cursor-pointer border-none"
+          style={{
+            backgroundColor: tab === 'simple' ? accentColor + '18' : 'transparent',
+            color: tab === 'simple' ? accentColor : 'var(--text-muted)',
+            borderBottom: tab === 'simple' ? `2px solid ${accentColor}` : '2px solid transparent',
+          }}
         >
-          Credentials ({fields.length})
-        </h4>
+          Simple Setup
+        </button>
+        <button
+          onClick={() => switchTab('advanced')}
+          className="flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all cursor-pointer border-none"
+          style={{
+            backgroundColor: tab === 'advanced' ? 'rgba(255,255,255,0.05)' : 'transparent',
+            color: tab === 'advanced' ? 'var(--text-primary)' : 'var(--text-muted)',
+            borderBottom: tab === 'advanced' ? '2px solid var(--text-muted)' : '2px solid transparent',
+          }}
+        >
+          Advanced
+        </button>
+      </div>
 
-        <div className="space-y-3">
-          {fields.map((f) => (
-            <div
-              key={f.key}
-              className="glow-box rounded-xl p-4 transition-all duration-200"
-              style={{
-                borderColor: localValues[f.key] ? accentColor + '30' : undefined,
-              }}
-            >
+      {/* ═══ SIMPLE TAB ═══ */}
+      {tab === 'simple' && (
+        <div className="space-y-4">
+          {/* Progress bar */}
+          {simpleTotalCount > 1 && (
+            <div>
               <div className="flex justify-between items-center mb-2">
-                <label
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  {f.label}
-                </label>
-                {f.secret && (
-                  <button
-                    onClick={() => setShow((p) => ({ ...p, [f.key]: !p[f.key] }))}
-                    className="flex items-center gap-1 text-xs transition-colors cursor-pointer bg-transparent border-none"
-                    style={{ color: 'var(--text-secondary)' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}
+                <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+                  Step {Math.min(simpleFilledCount + 1, simpleTotalCount)} of {simpleTotalCount}
+                </span>
+                <span className="text-xs" style={{ color: allSimpleFilled ? accentColor : 'var(--text-muted)' }}>
+                  {allSimpleFilled ? 'All done!' : `${simpleFilledCount} of ${simpleTotalCount} complete`}
+                </span>
+              </div>
+              <div
+                className="h-1.5 rounded-full overflow-hidden"
+                style={{ backgroundColor: 'var(--bg-primary)' }}
+              >
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${(simpleFilledCount / simpleTotalCount) * 100}%`,
+                    background: `linear-gradient(90deg, ${accentColor}, ${accentColor}cc)`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Success state */}
+          {allSimpleFilled && (
+            <div
+              className="glow-box rounded-xl p-5 text-center"
+              style={{ borderColor: accentColor + '30' }}
+            >
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
+                style={{ backgroundColor: accentColor + '18' }}
+              >
+                <CheckCircle2 size={24} style={{ color: accentColor }} />
+              </div>
+              <div className="text-base font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                You&apos;re connected!
+              </div>
+              <div className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
+                {label} is ready to use. Save your credentials below.
+              </div>
+              <button
+                onClick={() => switchTab('advanced')}
+                className="inline-flex items-center gap-1 text-xs font-medium cursor-pointer bg-transparent border-none p-0 transition-colors"
+                style={{ color: 'var(--text-muted)' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = accentColor)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+              >
+                Want more control? Switch to Advanced
+                <ChevronRight size={12} />
+              </button>
+            </div>
+          )}
+
+          {/* Step cards */}
+          {simpleFields.map((f, idx) => {
+            const isFilled = !!localValues[f.k]?.trim()
+            const stepNum = simpleTotalCount > 1 ? (f.step ?? idx + 1) : null
+
+            return (
+              <div
+                key={f.k}
+                className="glow-box rounded-xl p-5 transition-all duration-200"
+                style={{
+                  borderColor: isFilled ? accentColor + '30' : undefined,
+                }}
+              >
+                {/* Step header */}
+                <div className="flex items-start gap-3 mb-3">
+                  {stepNum !== null && (
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
+                      style={{
+                        backgroundColor: isFilled ? accentColor : accentColor + '18',
+                        color: isFilled ? 'var(--bg-primary)' : accentColor,
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      {isFilled ? <CheckCircle2 size={14} /> : stepNum}
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <div className="text-sm font-semibold mb-0.5" style={{ color: 'var(--text-primary)' }}>
+                      {stepNum !== null ? `Get your ${f.lb}` : f.lb}
+                    </div>
+                    {/* Guide text */}
+                    <p
+                      className="text-xs leading-relaxed mb-0"
+                      style={{ color: 'var(--text-secondary)' }}
+                    >
+                      {f.guide || f.h}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Open service link */}
+                {f.lk && f.lk !== '#' && (
+                  <a
+                    href={f.lk}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold no-underline mb-3 px-3 py-1.5 rounded-lg transition-all"
+                    style={{
+                      backgroundColor: accentColor + '12',
+                      color: accentColor,
+                      border: `1px solid ${accentColor}25`,
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = accentColor + '20' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = accentColor + '12' }}
                   >
-                    {show[f.key] ? <EyeOff size={12} /> : <Eye size={12} />}
-                    {show[f.key] ? 'Hide' : 'Show'}
-                  </button>
+                    <ExternalLink size={11} />
+                    Open {label}
+                  </a>
+                )}
+
+                {/* Field input */}
+                {renderFieldInput(f)}
+
+                {/* Filled indicator */}
+                {isFilled && (
+                  <div className="flex items-center gap-1.5 mt-2">
+                    <CheckCircle2 size={12} style={{ color: accentColor }} />
+                    <span className="text-xs font-medium" style={{ color: accentColor }}>
+                      Saved
+                    </span>
+                  </div>
                 )}
               </div>
-              <input
-                type={f.secret && !show[f.key] ? 'password' : 'text'}
-                value={localValues[f.key]}
-                onChange={(e) =>
-                  setLocalValues((prev) => ({ ...prev, [f.key]: e.target.value }))
-                }
-                placeholder={f.placeholder}
-                className="w-full h-10 px-3 rounded-lg text-sm outline-none transition-all"
-                style={{
-                  backgroundColor: 'var(--bg-primary)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-primary)',
-                  fontFamily: 'var(--font-mono)',
-                }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = accentColor)}
-                onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
-              />
-              <p className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
-                {f.help}
-              </p>
-              {f.link && f.link !== '#' && (
-                <a
-                  href={f.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs font-medium no-underline mt-1.5"
-                  style={{ color: accentColor }}
-                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-                >
-                  <ExternalLink size={10} />
-                  {f.linkLabel}
-                </a>
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
-      </div>
+      )}
+
+      {/* ═══ ADVANCED TAB ═══ */}
+      {tab === 'advanced' && (
+        <div>
+          <h4
+            className="text-xs font-semibold tracking-wider uppercase mb-3"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            Credentials ({allFields.length})
+          </h4>
+
+          <div className="space-y-3">
+            {allFields.map((f) => (
+              <div
+                key={f.k}
+                className="glow-box rounded-xl p-4 transition-all duration-200"
+                style={{
+                  borderColor: localValues[f.k] ? accentColor + '30' : undefined,
+                }}
+              >
+                {renderFieldInput(f)}
+                <p className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
+                  {f.h}
+                </p>
+                {f.lk && f.lk !== '#' && (
+                  <a
+                    href={f.lk}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-medium no-underline mt-1.5"
+                    style={{ color: accentColor }}
+                    onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                    onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                  >
+                    <ExternalLink size={10} />
+                    {f.ll}
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Action buttons */}
       <div className="flex gap-3">

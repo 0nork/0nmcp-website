@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#7ed957" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="4,36 12,28 20,32 28,18 36,22 44,8"/>
+  <circle cx="44" cy="8" r="3" fill="#7ed957" stroke="none"/>
+  <line x1="4" y1="44" x2="44" y2="44"/>
+  <line x1="4" y1="44" x2="4" y2="4"/>
+  <path d="M12 44v-8" opacity="0.4"/>
+  <path d="M20 44v-6" opacity="0.4"/>
+  <path d="M28 44v-14" opacity="0.4"/>
+  <path d="M36 44v-12" opacity="0.4"/>
+</svg>

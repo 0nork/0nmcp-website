@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#7ed957" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="24" r="8"/>
+  <line x1="24" y1="4" x2="24" y2="12"/>
+  <line x1="24" y1="36" x2="24" y2="44"/>
+  <line x1="4" y1="24" x2="12" y2="24"/>
+  <line x1="36" y1="24" x2="44" y2="24"/>
+  <line x1="9.86" y1="9.86" x2="15.51" y2="15.51"/>
+  <line x1="32.49" y1="32.49" x2="38.14" y2="38.14"/>
+  <line x1="9.86" y1="38.14" x2="15.51" y2="32.49"/>
+  <line x1="32.49" y1="15.51" x2="38.14" y2="9.86"/>
+  <circle cx="24" cy="4" r="2" fill="#7ed957" stroke="none"/>
+  <circle cx="24" cy="44" r="2" fill="#7ed957" stroke="none"/>
+  <circle cx="4" cy="24" r="2" fill="#7ed957" stroke="none"/>
+  <circle cx="44" cy="24" r="2" fill="#7ed957" stroke="none"/>
+  <circle cx="9.86" cy="9.86" r="2" fill="#7ed957" stroke="none"/>
+  <circle cx="38.14" cy="38.14" r="2" fill="#7ed957" stroke="none"/>
+  <circle cx="9.86" cy="38.14" r="2" fill="#7ed957" stroke="none"/>
+  <circle cx="38.14" cy="9.86" r="2" fill="#7ed957" stroke="none"/>
+</svg>

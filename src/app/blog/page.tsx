@@ -13,7 +13,13 @@ export const metadata: Metadata = {
     url: 'https://0nmcp.com/blog',
     type: 'website',
   },
-  alternates: { canonical: 'https://0nmcp.com/blog' },
+  alternates: {
+    canonical: 'https://0nmcp.com/blog',
+    types: {
+      'application/rss+xml': 'https://0nmcp.com/api/feed/blog',
+      'application/atom+xml': 'https://0nmcp.com/api/feed/blog?format=atom',
+    },
+  },
 }
 
 const categoryMeta: Record<string, { label: string; color: string; bg: string }> = {

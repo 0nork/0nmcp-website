@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { StatusDot } from './StatusDot'
+import { McpWidget } from './McpWidget'
+import { WIDGET_REGISTRY, type WidgetConfig } from '@/lib/mcp-widgets'
 
 // ─── MODULE DEFINITIONS ─────────────────────────────────────────
 // Each module represents a console feature that can be arranged on the dashboard
@@ -12,9 +14,22 @@ interface DashboardModule {
   icon: string
   color: string
   description: string
-  size: 'sm' | 'md' | 'lg'  // sm=1col, md=1col tall, lg=2col
+  size: 'sm' | 'md' | 'lg' | 'xl'  // sm=1col, md=1col tall, lg=2col, xl=full-width
   view?: string  // navigates to this console view on click
+  /** If set, this module renders a live MCP widget */
+  mcpWidget?: WidgetConfig
 }
+
+// Convert MCP widgets to dashboard modules
+const MCP_MODULES: DashboardModule[] = WIDGET_REGISTRY.map(w => ({
+  id: `mcp-${w.id}`,
+  label: w.label,
+  icon: w.icon,
+  color: w.color,
+  description: w.description,
+  size: w.size === 'xl' ? 'xl' : w.size,
+  mcpWidget: w,
+}))
 
 const DEFAULT_MODULES: DashboardModule[] = [
   { id: 'status', label: '0nMCP Status', icon: '⚡', color: '#7ed957', description: 'Server health & connectivity', size: 'lg' },
@@ -23,6 +38,9 @@ const DEFAULT_MODULES: DashboardModule[] = [
   { id: 'vault', label: 'Vault', icon: '🔐', color: '#7ed957', description: 'Credential management', size: 'sm', view: 'vault' },
   { id: 'create', label: 'Create', icon: '✨', color: '#ff6b35', description: 'AI workflow generator', size: 'sm', view: 'flows' },
   { id: 'operations', label: 'Operations', icon: '📈', color: '#22d3ee', description: 'Active automations', size: 'md', view: 'operations' },
+  // ─── LIVE MCP WIDGETS (CRM) ──────────────────────────────
+  ...MCP_MODULES.filter(m => m.mcpWidget?.service === 'crm'),
+  // ─── APP MODULES ─────────────────────────────────────────
   { id: 'store', label: 'Marketplace', icon: '🏪', color: '#ff6b35', description: 'Browse .0n workflows', size: 'sm', view: 'store' },
   { id: 'social', label: 'Social Hub', icon: '🚀', color: '#1DA1F2', description: 'Multi-platform posting', size: 'sm', view: 'social' },
   { id: 'reporting', label: 'Reporting', icon: '📊', color: '#f59e0b', description: 'Analytics & insights', size: 'sm', view: 'reporting' },
@@ -31,6 +49,9 @@ const DEFAULT_MODULES: DashboardModule[] = [
   { id: 'linkedin', label: 'LinkedIn', icon: '💼', color: '#0077b5', description: 'LinkedIn management', size: 'sm', view: 'linkedin' },
   { id: 'migrate', label: 'Migrate', icon: '🔄', color: '#a855f7', description: 'Import from other platforms', size: 'sm', view: 'migrate' },
   { id: 'convert', label: 'Convert', icon: '🔀', color: '#00d4ff', description: 'Config format converter', size: 'sm', view: 'convert' },
+  // ─── LIVE MCP WIDGETS (Stripe + Automation + Infra) ──────
+  ...MCP_MODULES.filter(m => m.mcpWidget?.service !== 'crm'),
+  // ─── STATUS MODULES ──────────────────────────────────────
   { id: 'activity', label: 'Recent Activity', icon: '🕐', color: '#7ed957', description: 'Session history', size: 'md' },
   { id: 'services', label: 'Connected Services', icon: '🔗', color: '#7ed957', description: 'Active API connections', size: 'lg' },
 ]
@@ -152,8 +173,25 @@ export function DashboardView({
     e.preventDefault()
   }, [])
 
+  // ─── WIDGET PICKER (add/remove widgets in edit mode) ──
+  const [showWidgetPicker, setShowWidgetPicker] = useState(false)
+
+  const toggleWidget = useCallback((widgetId: string) => {
+    setModuleOrder(prev => {
+      if (prev.includes(widgetId)) {
+        return prev.filter(id => id !== widgetId)
+      }
+      return [...prev, widgetId]
+    })
+  }, [])
+
   // ─── MODULE CONTENT RENDERERS ───────────────────────
   const renderModuleContent = (mod: DashboardModule) => {
+    // Live MCP widget modules
+    if (mod.mcpWidget) {
+      return <McpWidget config={mod.mcpWidget} compact />
+    }
+
     switch (mod.id) {
       case 'status':
         return (
@@ -172,7 +210,7 @@ export function DashboardView({
             {mcpOnline && (
               <div style={{ display: 'flex', gap: '1rem', fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
                 <span><strong style={{ color: '#7ed957' }}>{mcpHealth?.tools || 819}</strong> tools</span>
-                <span><strong style={{ color: '#00d4ff' }}>48</strong> services</span>
+                <span><strong style={{ color: '#00d4ff' }}>53</strong> services</span>
               </div>
             )}
           </div>
@@ -250,21 +288,86 @@ export function DashboardView({
             Drag modules to customize your workspace
           </p>
         </div>
-        <button
-          onClick={() => setEditing(e => !e)}
-          style={{
-            padding: '0.375rem 0.875rem', borderRadius: '0.5rem', border: 'none',
-            background: editing ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
-            color: editing ? '#7ed957' : 'var(--text-secondary)',
-            fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-            borderWidth: 1, borderStyle: 'solid',
-            borderColor: editing ? 'rgba(126,217,87,0.3)' : 'var(--border)',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          {editing ? '✓ Done' : '⚙ Edit Layout'}
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {editing && (
+            <button
+              onClick={() => setShowWidgetPicker(p => !p)}
+              style={{
+                padding: '0.375rem 0.875rem', borderRadius: '0.5rem', border: 'none',
+                background: showWidgetPicker ? 'rgba(0,212,255,0.15)' : 'rgba(255,255,255,0.04)',
+                color: showWidgetPicker ? '#00d4ff' : 'var(--text-secondary)',
+                fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+                borderWidth: 1, borderStyle: 'solid',
+                borderColor: showWidgetPicker ? 'rgba(0,212,255,0.3)' : 'var(--border)',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              + Add Widget
+            </button>
+          )}
+          <button
+            onClick={() => { setEditing(e => !e); setShowWidgetPicker(false) }}
+            style={{
+              padding: '0.375rem 0.875rem', borderRadius: '0.5rem', border: 'none',
+              background: editing ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
+              color: editing ? '#7ed957' : 'var(--text-secondary)',
+              fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              borderWidth: 1, borderStyle: 'solid',
+              borderColor: editing ? 'rgba(126,217,87,0.3)' : 'var(--border)',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {editing ? '✓ Done' : '⚙ Edit Layout'}
+          </button>
+        </div>
       </div>
+
+      {/* Widget Picker Panel */}
+      {showWidgetPicker && (
+        <div style={{
+          marginBottom: '1rem', padding: '1rem', borderRadius: '0.875rem',
+          background: 'var(--bg-card)', border: '1px solid rgba(0,212,255,0.2)',
+        }}>
+          <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
+            Available Widgets
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '0.5rem' }}>
+            {DEFAULT_MODULES.map(mod => {
+              const isActive = moduleOrder.includes(mod.id)
+              return (
+                <button
+                  key={mod.id}
+                  onClick={() => toggleWidget(mod.id)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem',
+                    borderRadius: '0.5rem', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                    background: isActive ? `${mod.color}12` : 'rgba(255,255,255,0.02)',
+                    borderWidth: 1, borderStyle: 'solid',
+                    borderColor: isActive ? `${mod.color}30` : 'var(--border)',
+                    transition: 'all 0.15s ease', textAlign: 'left',
+                  }}
+                >
+                  <span style={{ fontSize: '0.875rem' }}>{mod.icon}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: '0.7rem', fontWeight: 600, color: isActive ? mod.color : 'var(--text-secondary)' }}>
+                      {mod.label}
+                    </div>
+                    <div style={{ fontSize: '0.55rem', color: 'var(--text-muted)' }}>
+                      {mod.mcpWidget ? `LIVE — ${mod.mcpWidget.service}` : mod.description}
+                    </div>
+                  </div>
+                  <span style={{
+                    fontSize: '0.65rem', fontWeight: 700,
+                    color: isActive ? '#7ed957' : 'var(--text-muted)',
+                  }}>
+                    {isActive ? '✓' : '+'}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Module Grid */}
       <div
@@ -277,8 +380,9 @@ export function DashboardView({
       >
         {modules.map((mod) => {
           const isDragging = dragId === mod.id
-          const colSpan = mod.size === 'lg' ? 2 : 1
-          const rowSpan = mod.size === 'md' ? 2 : 1
+          const colSpan = mod.size === 'xl' ? 4 : mod.size === 'lg' ? 2 : 1
+          const rowSpan = mod.size === 'xl' ? 2 : mod.size === 'md' ? 2 : 1
+          const isLive = !!mod.mcpWidget
 
           return (
             <div
@@ -299,26 +403,28 @@ export function DashboardView({
                 padding: '1rem',
                 border: editing
                   ? '1px dashed rgba(126,217,87,0.2)'
-                  : '1px solid var(--border)',
+                  : isLive
+                    ? `1px solid ${mod.color}20`
+                    : '1px solid var(--border)',
                 cursor: editing ? 'grab' : mod.view ? 'pointer' : 'default',
                 opacity: isDragging ? 0.3 : 1,
                 transition: 'transform 0.2s ease, opacity 0.2s ease, box-shadow 0.15s ease',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.625rem',
-                minHeight: mod.size === 'md' ? '180px' : '100px',
+                minHeight: mod.size === 'xl' ? '280px' : mod.size === 'md' ? '180px' : '100px',
                 position: 'relative',
                 overflow: 'hidden',
               }}
               onMouseEnter={(e) => {
-                if (!editing && mod.view) {
+                if (!editing) {
                   e.currentTarget.style.borderColor = `${mod.color}40`
                   e.currentTarget.style.boxShadow = `0 0 20px ${mod.color}08`
                 }
               }}
               onMouseLeave={(e) => {
                 if (!editing) {
-                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.borderColor = isLive ? `${mod.color}20` : 'var(--border)'
                   e.currentTarget.style.boxShadow = 'none'
                 }
               }}
@@ -335,36 +441,60 @@ export function DashboardView({
                     {mod.icon}
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>
-                      {mod.label}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>
+                        {mod.label}
+                      </span>
+                      {isLive && (
+                        <span style={{
+                          fontSize: '0.5rem', fontWeight: 700, padding: '0.1rem 0.3rem',
+                          borderRadius: '0.25rem', background: `${mod.color}15`, color: mod.color,
+                          textTransform: 'uppercase', letterSpacing: '0.06em',
+                        }}>
+                          LIVE
+                        </span>
+                      )}
                     </div>
                     <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', lineHeight: 1.3 }}>
                       {mod.description}
                     </div>
                   </div>
                 </div>
-                {editing && (
-                  <div style={{
-                    fontSize: '0.65rem', color: 'var(--text-muted)', opacity: 0.5,
-                    cursor: 'grab', userSelect: 'none',
-                  }}>
-                    ⠿
-                  </div>
-                )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {editing && (
+                    <div style={{
+                      fontSize: '0.65rem', color: 'var(--text-muted)', opacity: 0.5,
+                      cursor: 'grab', userSelect: 'none',
+                    }}>
+                      ⠿
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Module Content */}
-              <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+              <div style={{ flex: 1, display: 'flex', alignItems: isLive ? 'flex-start' : 'center', overflow: 'auto' }}>
                 {renderModuleContent(mod)}
               </div>
 
               {/* Navigate indicator for clickable modules */}
-              {!editing && mod.view && (
+              {!editing && mod.view && !isLive && (
                 <div style={{
                   position: 'absolute', bottom: '0.5rem', right: '0.75rem',
                   fontSize: '0.65rem', color: 'var(--text-muted)', opacity: 0.4,
                 }}>
                   →
+                </div>
+              )}
+
+              {/* Source indicator for live widgets */}
+              {isLive && (
+                <div style={{
+                  position: 'absolute', top: '0.5rem', right: '0.75rem',
+                  fontSize: '0.5rem', color: 'var(--text-muted)', opacity: 0.5,
+                  fontFamily: 'var(--font-mono)',
+                }}>
+                  {mod.mcpWidget?.service}
                 </div>
               )}
             </div>

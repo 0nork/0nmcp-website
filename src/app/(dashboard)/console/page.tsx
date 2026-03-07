@@ -24,6 +24,7 @@ import { AccountView } from '@/components/console/AccountView'
 import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
 import { PinnedCommands } from '@/components/console/PinnedCommands'
+import { OperationsView, SocialView, ReportingView, CodeView, LinkedInView, MigrateView, ConvertView } from '@/components/console/FeatureViews'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -32,7 +33,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert'
 
 interface McpHealth {
   version?: string
@@ -450,6 +451,9 @@ export default function ConsolePage() {
       setMobileMenuOpen(false)
       return
     }
+    // External pages — navigate away from console
+    if (v === 'builder') { window.location.href = '/builder'; return }
+    if (v === 'terminal') { window.location.href = '/console/terminal'; return }
     setView(v as View)
     if (v !== 'vault') {
       setVaultService(null)
@@ -707,6 +711,55 @@ export default function ConsolePage() {
           {isAdmin && visitedViews.has('admin') && (
             <div style={{ display: view === 'admin' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <AdminView />
+            </div>
+          )}
+
+          {/* Operations */}
+          {visitedViews.has('operations') && (
+            <div style={{ display: view === 'operations' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <OperationsView flowCount={flowsHook.flows.length} history={recentHistory} />
+            </div>
+          )}
+
+          {/* Social Hub */}
+          {visitedViews.has('social') && (
+            <div style={{ display: view === 'social' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <SocialView />
+            </div>
+          )}
+
+          {/* Reporting */}
+          {visitedViews.has('reporting') && (
+            <div style={{ display: view === 'reporting' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <ReportingView historyCount={historyHook.history.length} messageCount={messages.length} connectedCount={vault.connectedCount} />
+            </div>
+          )}
+
+          {/* Code */}
+          {visitedViews.has('code') && (
+            <div style={{ display: view === 'code' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <CodeView />
+            </div>
+          )}
+
+          {/* LinkedIn */}
+          {visitedViews.has('linkedin') && (
+            <div style={{ display: view === 'linkedin' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <LinkedInView />
+            </div>
+          )}
+
+          {/* Migrate */}
+          {visitedViews.has('migrate') && (
+            <div style={{ display: view === 'migrate' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <MigrateView />
+            </div>
+          )}
+
+          {/* Convert */}
+          {visitedViews.has('convert') && (
+            <div style={{ display: view === 'convert' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <ConvertView />
             </div>
           )}
         </main>

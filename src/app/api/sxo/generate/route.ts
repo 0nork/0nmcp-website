@@ -10,7 +10,8 @@ export const runtime = 'nodejs'
  * POST /api/sxo/generate
  *
  * Free for unauthenticated users (lead gen).
- * Costs 10 Sparks for authenticated users (tracked usage).
+ * BYOK users (own AI key in vault): free — they're paying their own way.
+ * Platform users: costs 10 Sparks.
  * Owner: always free.
  */
 export async function POST(req: NextRequest) {
@@ -24,11 +25,13 @@ export async function POST(req: NextRequest) {
     const supabase = await createSupabaseServer()
     const { data: { user } } = await supabase!.auth.getUser()
 
+    let sparkCost = 0
     if (user && !isOwner(user.email || '')) {
       const { allowed, balance, cost } = await checkBalance(user.id, 'api.sxo.generate', user.email || '')
       if (!allowed) {
         return NextResponse.json(build402Response(balance, cost, 'api.sxo.generate'), { status: 402 })
       }
+      sparkCost = cost
     }
 
     const input: SxoInput = {
@@ -47,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     const output = generateSxoPages(input)
 
-    if (user && !isOwner(user.email || '')) {
+    if (user && sparkCost > 0) {
       try {
         await deductSparks(user.id, 'api.sxo.generate', `SXO generate: ${body.brand}`)
       } catch {
@@ -66,8 +69,6 @@ export async function POST(req: NextRequest) {
 
 /**
  * GET /api/sxo/generate?brand=...&industry=...&services=...&locations=...
- *
- * Quick generation via query params.
  */
 export async function GET(req: NextRequest) {
   const p = req.nextUrl.searchParams
@@ -76,7 +77,7 @@ export async function GET(req: NextRequest) {
   if (!brand) {
     return NextResponse.json({
       error: 'Missing required parameter: brand',
-      cost: 'Free for guests, 10 Sparks for members',
+      cost: 'Free for guests and BYOK users. 10 Sparks for platform AI users.',
       usage: {
         endpoint: '/api/sxo/generate',
         method: 'POST (recommended) or GET',
@@ -99,11 +100,13 @@ export async function GET(req: NextRequest) {
     const supabase = await createSupabaseServer()
     const { data: { user } } = await supabase!.auth.getUser()
 
+    let sparkCost = 0
     if (user && !isOwner(user.email || '')) {
       const { allowed, balance, cost } = await checkBalance(user.id, 'api.sxo.generate', user.email || '')
       if (!allowed) {
         return NextResponse.json(build402Response(balance, cost, 'api.sxo.generate'), { status: 402 })
       }
+      sparkCost = cost
     }
 
     const input: SxoInput = {
@@ -119,7 +122,7 @@ export async function GET(req: NextRequest) {
 
     const output = generateSxoPages(input)
 
-    if (user && !isOwner(user.email || '')) {
+    if (user && sparkCost > 0) {
       try {
         await deductSparks(user.id, 'api.sxo.generate', `SXO generate: ${brand}`)
       } catch {

@@ -67,7 +67,8 @@ export interface LowBalanceAlert {
 // ── Cost Table ──
 
 export const SPARK_COSTS: Record<string, number> = {
-  // API calls
+  // API calls — only charged when using PLATFORM AI keys
+  // BYOK users (own API keys in vault) are NOT charged for AI operations
   'api.sxo.audit': 5,
   'api.sxo.generate': 10,
   'api.chat': 3,
@@ -82,15 +83,48 @@ export const SPARK_COSTS: Record<string, number> = {
 
   // Store operations
   'store.purchase': 0,  // free — paid via Stripe directly
-  'store.download': 1,
+  'store.download': 0,  // downloads are free — we want adoption
 
   // Default
   'default': 1,
 }
 
+// Actions that are BYOK-exempt: if user has their own AI key, these cost 0
+const BYOK_EXEMPT_ACTIONS = new Set([
+  'api.sxo.audit',
+  'api.sxo.generate',
+  'api.chat',
+  'api.execute',
+  'api.feed.sxo',
+  'console.workflow.run',
+])
+
 /** Get the Spark cost for an action */
 export function getSparkCost(action: string): number {
   return SPARK_COSTS[action] ?? SPARK_COSTS['default']
+}
+
+/** Check if an action is BYOK-exempt (no Sparks when user has own AI key) */
+export function isBYOKExempt(action: string): boolean {
+  return BYOK_EXEMPT_ACTIONS.has(action)
+}
+
+/**
+ * Check if user has any AI API key in their vault (BYOK).
+ * If they do, AI operations should NOT cost Sparks — they're paying their own way.
+ */
+export async function userHasBYOK(userId: string): Promise<boolean> {
+  try {
+    const admin = getAdmin()
+    const { count } = await admin
+      .from('user_vaults')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .in('service_name', ['anthropic', 'openai', 'google'])
+    return (count || 0) > 0
+  } catch {
+    return false
+  }
 }
 
 // ── Low Balance Thresholds ──
@@ -154,28 +188,39 @@ export async function getBalance(userId: string): Promise<SparkBalance> {
 
 /**
  * Check if user has enough Sparks for an action.
- * Returns { allowed, balance, cost, alert? }
+ * Returns { allowed, balance, cost, alert?, byokActive? }
+ *
+ * BYOK policy: If a user has their own AI API key in the Vault AND the
+ * action is AI-related, the cost is 0. They're paying for AI themselves —
+ * the platform should NOT double-charge them with Sparks.
  */
 export async function checkBalance(userId: string, action: string, email?: string): Promise<{
   allowed: boolean
   balance: number
   cost: number
   alert?: LowBalanceAlert
+  byokActive?: boolean
 }> {
   // Owner bypass — infinite sparks
   if (email && isOwner(email)) {
     return { allowed: true, balance: 999999, cost: 0 }
   }
 
+  // BYOK bypass — if user has their own AI key and this action is AI-related, cost = 0
+  let byokActive = false
+  if (isBYOKExempt(action)) {
+    byokActive = await userHasBYOK(userId)
+  }
+
   const bal = await getBalance(userId)
-  const cost = getSparkCost(action)
+  const cost = byokActive ? 0 : getSparkCost(action)
   const allowed = bal.balance >= cost
 
-  // Check for low balance alert
+  // Check for low balance alert (only if not BYOK — they don't need to buy Sparks)
   const afterDeduction = bal.balance - cost
-  const alert = getLowBalanceAlert(allowed ? afterDeduction : bal.balance)
+  const alert = byokActive ? undefined : getLowBalanceAlert(allowed ? afterDeduction : bal.balance)
 
-  return { allowed, balance: bal.balance, cost, alert: alert || undefined }
+  return { allowed, balance: bal.balance, cost, alert: alert || undefined, byokActive }
 }
 
 /**

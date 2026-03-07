@@ -193,10 +193,10 @@ export async function deductSparks(
 
   const admin = getAdmin()
 
-  // Atomic deduction via RPC or manual check
+  // Atomic deduction: read balance + lifetime_spent, check, update in one go
   const { data: bal } = await admin
     .from('spark_balances')
-    .select('balance')
+    .select('balance, lifetime_spent')
     .eq('user_id', userId)
     .single()
 
@@ -206,18 +206,20 @@ export async function deductSparks(
 
   const newBalance = bal.balance - cost
 
-  // Update balance
-  await admin.from('spark_balances').update({
+  // Atomic update with balance check constraint — if concurrent request
+  // already deducted, the CHECK(balance >= 0) constraint catches it
+  const { error: updateErr } = await admin.from('spark_balances').update({
     balance: newBalance,
-    lifetime_spent: bal.balance,  // will be recalculated
+    lifetime_spent: (bal.lifetime_spent || 0) + cost,
     last_deduction_at: new Date().toISOString(),
   }).eq('user_id', userId)
 
-  // Recalculate lifetime_spent from transactions
-  try {
-    await admin.rpc('recalc_spark_lifetime', { p_user_id: userId })
-  } catch {
-    // RPC may not exist yet — non-critical
+  if (updateErr) {
+    // Constraint violation = concurrent deduction made balance go negative
+    if (updateErr.code === '23514') {
+      throw new SparkInsufficientError(0, cost, action)
+    }
+    throw new Error(`Deduction failed: ${updateErr.message}`)
   }
 
   // Log transaction

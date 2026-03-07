@@ -27,19 +27,17 @@ export async function POST(req: NextRequest) {
     const supabase = await createSupabaseServer()
     const { data: { user } } = await supabase!.auth.getUser()
 
-    let sparkCost = 0
     if (user && !isOwner(user.email || '')) {
       const { allowed, balance, cost } = await checkBalance(user.id, 'api.sxo.audit', user.email || '')
       if (!allowed) {
         return NextResponse.json(build402Response(balance, cost, 'api.sxo.audit'), { status: 402 })
       }
-      sparkCost = cost // Will be 0 for BYOK users
     }
 
     const result = await auditWebsite(url)
 
-    // Deduct Sparks after success (skip for owners, BYOK, and zero-cost)
-    if (user && sparkCost > 0) {
+    // Deduct Sparks after success (owner is already bypassed above)
+    if (user && !isOwner(user.email || '')) {
       try {
         await deductSparks(user.id, 'api.sxo.audit', `SXO audit: ${url}`)
       } catch {
@@ -66,7 +64,7 @@ export async function GET(req: NextRequest) {
         GET: '/api/sxo/audit?url=https://example.com',
         POST: { url: 'https://example.com' },
       },
-      cost: 'Free for guests and BYOK users. 5 Sparks for platform AI users.',
+      cost: '5 Sparks per audit. Free for guests (lead gen).',
       scoring: {
         categories: [
           'Technical SEO (20 pts) — title, meta, headings, canonical, viewport',
@@ -85,18 +83,16 @@ export async function GET(req: NextRequest) {
     const supabase = await createSupabaseServer()
     const { data: { user } } = await supabase!.auth.getUser()
 
-    let sparkCost = 0
     if (user && !isOwner(user.email || '')) {
       const { allowed, balance, cost } = await checkBalance(user.id, 'api.sxo.audit', user.email || '')
       if (!allowed) {
         return NextResponse.json(build402Response(balance, cost, 'api.sxo.audit'), { status: 402 })
       }
-      sparkCost = cost
     }
 
     const result = await auditWebsite(url)
 
-    if (user && sparkCost > 0) {
+    if (user && !isOwner(user.email || '')) {
       try {
         await deductSparks(user.id, 'api.sxo.audit', `SXO audit: ${url}`)
       } catch {

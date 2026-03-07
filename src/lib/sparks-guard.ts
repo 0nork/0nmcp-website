@@ -32,7 +32,6 @@ interface SparkContext {
   balance: number
   cost: number
   isOwner: boolean
-  byokActive: boolean
 }
 
 type SparkHandler = (
@@ -68,8 +67,8 @@ export function withSparks(action: string, handler: SparkHandler) {
       const email = user.email || ''
       const ownerAccount = isOwner(email)
 
-      // Check balance (includes BYOK detection — if user has own AI key, AI actions cost 0)
-      const { allowed, balance, cost, alert, byokActive } = await checkBalance(user.id, action, email)
+      // Check balance — owner gets free, everyone else pays Sparks
+      const { allowed, balance, cost, alert } = await checkBalance(user.id, action, email)
 
       if (!allowed) {
         return NextResponse.json(build402Response(balance, cost, action), { status: 402 })
@@ -81,7 +80,6 @@ export function withSparks(action: string, handler: SparkHandler) {
         balance,
         cost,
         isOwner: ownerAccount,
-        byokActive: byokActive || false,
       }
 
       const response = await handler(req, ctx)

@@ -31,7 +31,7 @@ export const DASHBOARD_TABS: DashboardTab[] = [
   {
     key: 'marketplace',
     label: 'Marketplace',
-    href: '/store',
+    href: '/marketplace',
     iconPath:
       '<path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5z"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M16 11a4 4 0 0 1-8 0"/>',
   },

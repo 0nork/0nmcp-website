@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe, CONSOLE_PLANS } from '@/lib/stripe'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { creditSparks } from '@/lib/sparks'
 
 const CONSOLE_PRICE_IDS = new Set(
   Object.values(CONSOLE_PLANS).map(p => p.priceId).filter(Boolean)
@@ -44,6 +45,20 @@ export async function POST(request: NextRequest) {
         const userId = session.metadata?.user_id || ''
         const email = session.metadata?.user_email || session.customer_email || ''
         const planType = session.metadata?.plan_type
+
+        // ── Sparks purchase ──
+        if (planType === 'sparks' && userId) {
+          const sparksAmount = parseInt(session.metadata?.sparks_amount || '0')
+          const packId = session.metadata?.pack_id || 'starter'
+          if (sparksAmount > 0) {
+            await creditSparks(userId, sparksAmount, 'purchase', `Purchased ${sparksAmount} Sparks — ${packId} pack`, {
+              stripeCheckoutSessionId: session.id,
+              stripeCustomerId: session.customer as string,
+              metadata: { pack_id: packId },
+            })
+          }
+          break
+        }
 
         if (planType === 'console' && userId) {
           // Console membership subscription

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateSxoPages, type SxoInput } from '@/lib/sxo-engine'
+import { withSparks } from '@/lib/sparks-guard'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -7,56 +8,53 @@ export const runtime = 'nodejs'
 /**
  * POST /api/sxo/generate
  *
+ * Costs: 10 Sparks ⚡
+ *
  * Generate SXO-optimized pages from structured business input.
  * Returns markdown + schema + metadata for each page.
  *
  * Body: SxoInput (brand, industry, services, locations, etc.)
  */
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json()
+export const POST = withSparks('api.sxo.generate', async (req) => {
+  const body = await req.json()
 
-    if (!body.brand) {
-      return NextResponse.json({ error: 'Missing required field: brand' }, { status: 400 })
-    }
-
-    const input: SxoInput = {
-      brand: body.brand,
-      industry: body.industry || 'business',
-      services: body.services || [],
-      locations: body.locations || [],
-      cta: body.cta,
-      domain: body.domain,
-      logo: body.logo,
-      primaryColor: body.primaryColor,
-      tagline: body.tagline,
-      phone: body.phone,
-      email: body.email,
-    }
-
-    const output = generateSxoPages(input)
-
-    return NextResponse.json(output)
-  } catch (err) {
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Generation failed' },
-      { status: 500 }
-    )
+  if (!body.brand) {
+    return NextResponse.json({ error: 'Missing required field: brand' }, { status: 400 })
   }
-}
+
+  const input: SxoInput = {
+    brand: body.brand,
+    industry: body.industry || 'business',
+    services: body.services || [],
+    locations: body.locations || [],
+    cta: body.cta,
+    domain: body.domain,
+    logo: body.logo,
+    primaryColor: body.primaryColor,
+    tagline: body.tagline,
+    phone: body.phone,
+    email: body.email,
+  }
+
+  const output = generateSxoPages(input)
+  return NextResponse.json(output)
+})
 
 /**
  * GET /api/sxo/generate?brand=...&industry=...&services=...&locations=...
  *
+ * Costs: 10 Sparks ⚡
+ *
  * Quick generation via query params (same as POST but GET-friendly).
  */
-export async function GET(req: NextRequest) {
+export const GET = withSparks('api.sxo.generate', async (req) => {
   const p = req.nextUrl.searchParams
   const brand = p.get('brand')
 
   if (!brand) {
     return NextResponse.json({
       error: 'Missing required parameter: brand',
+      cost: '10 Sparks ⚡ per generation',
       usage: {
         endpoint: '/api/sxo/generate',
         method: 'POST (recommended) or GET',
@@ -88,4 +86,4 @@ export async function GET(req: NextRequest) {
 
   const output = generateSxoPages(input)
   return NextResponse.json(output)
-}
+})

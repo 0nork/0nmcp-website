@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auditWebsite } from '@/lib/sxo-auditor'
+import { withSparks } from '@/lib/sparks-guard'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -8,31 +9,29 @@ export const runtime = 'nodejs'
  * POST /api/sxo/audit
  * Body: { url: "https://example.com" }
  *
- * GET /api/sxo/audit?url=https://example.com
+ * Costs: 5 Sparks ⚡
  *
  * Runs the SXO website auditor against a URL. Returns score, grade,
  * category breakdown, and prioritized recommendations.
  */
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json()
-    const url = body.url
+export const POST = withSparks('api.sxo.audit', async (req) => {
+  const body = await req.json()
+  const url = body.url
 
-    if (!url) {
-      return NextResponse.json({ error: 'Missing required field: url' }, { status: 400 })
-    }
-
-    const result = await auditWebsite(url)
-    return NextResponse.json(result)
-  } catch (err) {
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Audit failed' },
-      { status: 500 }
-    )
+  if (!url) {
+    return NextResponse.json({ error: 'Missing required field: url' }, { status: 400 })
   }
-}
 
-export async function GET(req: NextRequest) {
+  const result = await auditWebsite(url)
+  return NextResponse.json(result)
+})
+
+/**
+ * GET /api/sxo/audit?url=https://example.com
+ *
+ * Costs: 5 Sparks ⚡
+ */
+export const GET = withSparks('api.sxo.audit', async (req) => {
   const url = req.nextUrl.searchParams.get('url')
 
   if (!url) {
@@ -42,6 +41,7 @@ export async function GET(req: NextRequest) {
         GET: '/api/sxo/audit?url=https://example.com',
         POST: { url: 'https://example.com' },
       },
+      cost: '5 Sparks ⚡ per audit',
       scoring: {
         categories: [
           'Technical SEO (20 pts) — title, meta, headings, canonical, viewport',
@@ -56,13 +56,6 @@ export async function GET(req: NextRequest) {
     }, { status: 400 })
   }
 
-  try {
-    const result = await auditWebsite(url)
-    return NextResponse.json(result)
-  } catch (err) {
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Audit failed' },
-      { status: 500 }
-    )
-  }
-}
+  const result = await auditWebsite(url)
+  return NextResponse.json(result)
+})

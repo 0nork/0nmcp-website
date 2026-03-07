@@ -25,6 +25,7 @@ import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
 import { PinnedCommands } from '@/components/console/PinnedCommands'
 import { OperationsView, SocialView, ReportingView, CodeView, LinkedInView, MigrateView, ConvertView } from '@/components/console/FeatureViews'
+import { SparkView } from '@/components/console/SparkView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -33,7 +34,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark'
 
 interface McpHealth {
   version?: string
@@ -181,6 +182,7 @@ export default function ConsolePage() {
         if (data.status === 'online' || data.status === 'cloud') {
           setMcpOnline(true)
           setMcpHealth(data)
+          if (data.mode === 'local') setView('spark')
         }
       })
       .catch(() => {})
@@ -391,6 +393,9 @@ export default function ConsolePage() {
         case '/admin':
           if (isAdmin) setView('admin')
           break
+        case '/spark':
+          setView('spark')
+          break
         case '/status':
           fetch('/api/console/health')
             .then((r) => r.json())
@@ -572,6 +577,7 @@ export default function ConsolePage() {
         <Header
           view={view}
           mcpOnline={mcpOnline}
+          mcpMode={mcpHealth?.mode}
           connectedCount={vault.connectedCount}
           userPlan={userPlan}
           userName={userName}
@@ -760,6 +766,18 @@ export default function ConsolePage() {
           {visitedViews.has('convert') && (
             <div style={{ display: view === 'convert' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <ConvertView />
+            </div>
+          )}
+
+          {/* Spark Runner */}
+          {visitedViews.has('spark') && (
+            <div style={{ display: view === 'spark' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <SparkView
+                mcpOnline={mcpOnline}
+                mcpHealth={mcpHealth}
+                mcpWorkflows={mcpWorkflows}
+                onRunWorkflow={handleRunWorkflow}
+              />
             </div>
           )}
         </main>

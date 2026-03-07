@@ -50,6 +50,14 @@ const NAV_ITEMS: { key: string; label: string; logo: string; href?: string }[] =
     ),
   },
   {
+    key: 'spark',
+    label: 'Spark Runner',
+    logo: svg(
+      '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+      '#7ed957'
+    ),
+  },
+  {
     key: 'store',
     label: 'Marketplace',
     logo: svg(

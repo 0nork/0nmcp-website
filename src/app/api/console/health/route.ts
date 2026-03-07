@@ -45,6 +45,8 @@ export async function GET() {
       services: data.services || [],
       tools: data.tools || 0,
       mode: 'local',
+      spark_mode: true,
+      workflows_count: data.workflows_count || data.workflows?.length || 0,
     })
   } catch {
     // Local server not running — fall back to cloud mode

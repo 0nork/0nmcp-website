@@ -24,11 +24,13 @@ const VIEW_LABELS: Record<string, string> = {
   convert: 'Convert',
   account: 'Account',
   admin: 'Admin',
+  spark: 'Spark Runner',
 }
 
 interface HeaderProps {
   view: string
   mcpOnline: boolean
+  mcpMode?: string
   connectedCount: number
   userPlan: string
   userName?: string
@@ -39,7 +41,7 @@ interface HeaderProps {
   onAccountClick: () => void
 }
 
-export function Header({ view, mcpOnline, connectedCount, userPlan, userName, userEmail, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick }: HeaderProps) {
+export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, userName, userEmail, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick }: HeaderProps) {
   const [avatarOpen, setAvatarOpen] = useState(false)
   const avatarRef = useRef<HTMLDivElement>(null)
 
@@ -124,26 +126,41 @@ export function Header({ view, mcpOnline, connectedCount, userPlan, userName, us
           </span>
         </div>
 
-        {/* 0nMCP status badge */}
+        {/* 0nMCP status badge with mode */}
         <div
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
           style={{
-            backgroundColor: mcpOnline ? 'rgba(126,217,87,0.06)' : 'rgba(255,255,255,0.04)',
+            backgroundColor: mcpOnline
+              ? mcpMode === 'local' ? 'rgba(126,217,87,0.06)' : 'rgba(0,212,255,0.06)'
+              : 'rgba(255,255,255,0.04)',
             border: mcpOnline
-              ? '1px solid rgba(126,217,87,0.2)'
+              ? mcpMode === 'local' ? '1px solid rgba(126,217,87,0.2)' : '1px solid rgba(0,212,255,0.2)'
               : '1px solid var(--border)',
           }}
         >
           <Server
             size={12}
-            style={{ color: mcpOnline ? 'var(--accent)' : 'var(--text-muted)' }}
+            style={{ color: mcpOnline ? (mcpMode === 'local' ? '#7ed957' : '#00d4ff') : 'var(--text-muted)' }}
           />
           <span
             className="text-xs font-medium"
-            style={{ color: mcpOnline ? 'var(--accent)' : 'var(--text-muted)' }}
+            style={{ color: mcpOnline ? (mcpMode === 'local' ? '#7ed957' : '#00d4ff') : 'var(--text-muted)' }}
           >
             {mcpOnline ? '0nMCP' : 'Offline'}
           </span>
+          {mcpOnline && (
+            <span
+              className="text-[10px] font-bold px-1.5 py-0.5 rounded"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.06em',
+                background: mcpMode === 'local' ? 'rgba(126,217,87,0.15)' : 'rgba(0,212,255,0.15)',
+                color: mcpMode === 'local' ? '#7ed957' : '#00d4ff',
+              }}
+            >
+              {mcpMode === 'local' ? 'LOCAL' : 'CLOUD'}
+            </span>
+          )}
           <StatusDot status={mcpOnline ? 'online' : 'offline'} />
         </div>
 

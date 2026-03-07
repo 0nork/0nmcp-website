@@ -41,6 +41,172 @@ export default function DownloadsPage() {
       </div>
 
       <div className="flex flex-col gap-12">
+        {/* 0nSpark — Local-First */}
+        <section className="glow-box" style={{ padding: 32, borderColor: 'rgba(126,217,87,0.3)' }}>
+          <div className="flex flex-col md:flex-row gap-8 items-start">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 10,
+                    background: 'rgba(126, 217, 87, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                  </svg>
+                </div>
+                <h2
+                  className="text-2xl font-bold"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  0nSpark — Run Everything Free, Locally
+                </h2>
+              </div>
+
+              <p className="mb-4" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                <strong style={{ color: 'var(--accent)' }}>Claude Code MAX</strong> = unlimited AI brain.{' '}
+                <strong style={{ color: 'var(--accent)' }}>0nMCP</strong> = 850-tool orchestration layer.
+                Together = <strong style={{ color: 'var(--text-primary)' }}>0nSpark</strong> — zero-cost
+                workflow execution from your terminal. No API keys for Claude, no per-call charges.
+              </p>
+
+              <ul className="flex flex-col gap-2 mb-6" style={{ color: 'var(--text-secondary)' }}>
+                {[
+                  '850 tools across 53 services — runs locally on your machine',
+                  'Claude Code provides the AI brain (unlimited with MAX subscription)',
+                  '0nMCP provides the tool layer (local server, free forever)',
+                  'Console auto-switches to Local Mode when 0nmcp serve is running',
+                  'Works on desktop (terminal), tablet (PWA), and phone (PWA)',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm">
+                    <span style={{ color: 'var(--accent)', flexShrink: 0, marginTop: 2 }}>&#x2713;</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://www.npmjs.com/package/0nmcp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-accent inline-flex items-center gap-2"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="16 18 22 12 16 6" />
+                    <polyline points="8 6 2 12 8 18" />
+                  </svg>
+                  npm install -g 0nmcp
+                </a>
+                <Link href="/console" className="btn-ghost inline-flex items-center gap-2">
+                  Open Console
+                </Link>
+              </div>
+            </div>
+
+            <div
+              className="flex-shrink-0"
+              style={{
+                background: 'var(--bg-tertiary)',
+                borderRadius: 12,
+                padding: 20,
+                border: '1px solid var(--border)',
+                maxWidth: 340,
+              }}
+            >
+              <h3
+                className="text-sm font-semibold mb-3"
+                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
+              >
+                GET STARTED
+              </h3>
+              <div
+                className="flex flex-col gap-3"
+                style={{ color: 'var(--text-secondary)', fontSize: 13 }}
+              >
+                <div className="flex gap-2">
+                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>1.</span>
+                  <div>
+                    <code
+                      style={{
+                        background: 'var(--bg-card)',
+                        padding: '2px 6px',
+                        borderRadius: 4,
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: 12,
+                        color: '#7ed957',
+                      }}
+                    >
+                      npm install -g 0nmcp
+                    </code>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>2.</span>
+                  <div>
+                    <code
+                      style={{
+                        background: 'var(--bg-card)',
+                        padding: '2px 6px',
+                        borderRadius: 4,
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: 12,
+                        color: '#7ed957',
+                      }}
+                    >
+                      0nmcp engine import
+                    </code>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Import your API credentials</div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>3.</span>
+                  <div>
+                    <code
+                      style={{
+                        background: 'var(--bg-card)',
+                        padding: '2px 6px',
+                        borderRadius: 4,
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: 12,
+                        color: '#7ed957',
+                      }}
+                    >
+                      0nmcp serve --port 3001
+                    </code>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Start local server</div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>4.</span>
+                  <span>Open the <strong>Console</strong> — it auto-detects local mode</span>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  marginTop: 16,
+                  padding: '10px 12px',
+                  borderRadius: 8,
+                  background: 'rgba(126,217,87,0.06)',
+                  border: '1px solid rgba(126,217,87,0.15)',
+                  fontSize: 12,
+                  color: 'var(--text-muted)',
+                  fontFamily: 'var(--font-mono)',
+                }}
+              >
+                0nmcp run publish-blog --input title=&quot;My Post&quot; content=&quot;$(cat post.md)&quot;
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Chrome Extension */}
         <section className="glow-box" style={{ padding: 32 }}>
           <div className="flex flex-col md:flex-row gap-8 items-start">

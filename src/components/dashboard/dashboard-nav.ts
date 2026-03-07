@@ -51,8 +51,16 @@ export interface SitemapEntry {
 export const DASHBOARD_SITEMAP: Record<string, SitemapEntry[]> = {
   '/console': [
     { label: 'Dashboard', href: '/console' },
+    { label: 'Operations', href: '/console/operations' },
+    { label: 'Social Hub', href: '/console/social' },
+    { label: 'Reporting', href: '/console/reporting' },
+    { label: '0n Code', href: '/console/code' },
+    { label: 'LinkedIn', href: '/console/linkedin' },
+    { label: 'Migrate', href: '/console/migrate' },
+    { label: 'Convert', href: '/console/convert' },
     { label: 'Terminal', href: '/console/terminal' },
     { label: 'Tools', href: '/console/tools' },
+    { label: '0nCrew', href: '/console/crew' },
   ],
   '/builder': [{ label: 'Builder', href: '/builder' }],
   '/admin': [

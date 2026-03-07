@@ -15,7 +15,8 @@ interface DashboardModule {
   color: string
   description: string
   size: 'sm' | 'md' | 'lg' | 'xl'  // sm=1col, md=1col tall, lg=2col, xl=full-width
-  view?: string  // navigates to this console view on click
+  view?: string  // navigates to this console view on click (SPA view switch)
+  href?: string  // navigates to a real URL (proper page navigation)
   /** If set, this module renders a live MCP widget */
   mcpWidget?: WidgetConfig
 }
@@ -34,21 +35,21 @@ const MCP_MODULES: DashboardModule[] = WIDGET_REGISTRY.map(w => ({
 const DEFAULT_MODULES: DashboardModule[] = [
   { id: 'status', label: '0nMCP Status', icon: '⚡', color: '#7ed957', description: 'Server health & connectivity', size: 'lg' },
   { id: 'chat', label: 'AI Chat', icon: '💬', color: '#d4a574', description: 'Claude-powered assistant', size: 'sm', view: 'chat' },
-  { id: 'builder', label: 'Builder', icon: '🔲', color: '#7ed957', description: 'Visual workflow builder', size: 'sm', view: 'builder' },
+  { id: 'builder', label: 'Builder', icon: '🔲', color: '#7ed957', description: 'Visual workflow builder', size: 'sm', href: '/builder' },
   { id: 'vault', label: 'Vault', icon: '🔐', color: '#7ed957', description: 'Credential management', size: 'sm', view: 'vault' },
   { id: 'create', label: 'Create', icon: '✨', color: '#ff6b35', description: 'AI workflow generator', size: 'sm', view: 'flows' },
-  { id: 'operations', label: 'Operations', icon: '📈', color: '#22d3ee', description: 'Active automations', size: 'md', view: 'operations' },
+  { id: 'operations', label: 'Operations', icon: '📈', color: '#22d3ee', description: 'Active automations', size: 'md', href: '/console/operations' },
   // ─── LIVE MCP WIDGETS (CRM) ──────────────────────────────
   ...MCP_MODULES.filter(m => m.mcpWidget?.service === 'crm'),
   // ─── APP MODULES ─────────────────────────────────────────
   { id: 'store', label: 'Marketplace', icon: '🏪', color: '#ff6b35', description: 'Browse .0n workflows', size: 'sm', view: 'store' },
-  { id: 'social', label: 'Social Hub', icon: '🚀', color: '#1DA1F2', description: 'Multi-platform posting', size: 'sm', view: 'social' },
-  { id: 'reporting', label: 'Reporting', icon: '📊', color: '#f59e0b', description: 'Analytics & insights', size: 'sm', view: 'reporting' },
-  { id: 'terminal', label: 'Terminal', icon: '▶', color: '#00d4ff', description: 'Web terminal', size: 'sm', view: 'terminal' },
-  { id: 'code', label: '0n Code', icon: '⟨/⟩', color: '#a78bfa', description: 'Code editor', size: 'sm', view: 'code' },
-  { id: 'linkedin', label: 'LinkedIn', icon: '💼', color: '#0077b5', description: 'LinkedIn management', size: 'sm', view: 'linkedin' },
-  { id: 'migrate', label: 'Migrate', icon: '🔄', color: '#a855f7', description: 'Import from other platforms', size: 'sm', view: 'migrate' },
-  { id: 'convert', label: 'Convert', icon: '🔀', color: '#00d4ff', description: 'Config format converter', size: 'sm', view: 'convert' },
+  { id: 'social', label: 'Social Hub', icon: '🚀', color: '#1DA1F2', description: 'Multi-platform posting', size: 'sm', href: '/console/social' },
+  { id: 'reporting', label: 'Reporting', icon: '📊', color: '#f59e0b', description: 'Analytics & insights', size: 'sm', href: '/console/reporting' },
+  { id: 'terminal', label: 'Terminal', icon: '▶', color: '#00d4ff', description: 'Web terminal', size: 'sm', href: '/console/terminal' },
+  { id: 'code', label: '0n Code', icon: '⟨/⟩', color: '#a78bfa', description: 'Code editor', size: 'sm', href: '/console/code' },
+  { id: 'linkedin', label: 'LinkedIn', icon: '💼', color: '#0077b5', description: 'LinkedIn management', size: 'sm', href: '/console/linkedin' },
+  { id: 'migrate', label: 'Migrate', icon: '🔄', color: '#a855f7', description: 'Import from other platforms', size: 'sm', href: '/console/migrate' },
+  { id: 'convert', label: 'Convert', icon: '🔀', color: '#00d4ff', description: 'Config format converter', size: 'sm', href: '/console/convert' },
   // ─── LIVE MCP WIDGETS (Stripe + Automation + Infra) ──────
   ...MCP_MODULES.filter(m => m.mcpWidget?.service !== 'crm'),
   // ─── STATUS MODULES ──────────────────────────────────────
@@ -393,7 +394,9 @@ export function DashboardView({
               onDragOver={(e) => handleDragOver(e, mod.id)}
               onDrop={handleDrop}
               onClick={() => {
-                if (!editing && mod.view && onNavigate) onNavigate(mod.view)
+                if (editing) return
+                if (mod.href) { window.location.href = mod.href; return }
+                if (mod.view && onNavigate) onNavigate(mod.view)
               }}
               style={{
                 gridColumn: `span ${colSpan}`,
@@ -406,7 +409,7 @@ export function DashboardView({
                   : isLive
                     ? `1px solid ${mod.color}20`
                     : '1px solid var(--border)',
-                cursor: editing ? 'grab' : mod.view ? 'pointer' : 'default',
+                cursor: editing ? 'grab' : (mod.view || mod.href) ? 'pointer' : 'default',
                 opacity: isDragging ? 0.3 : 1,
                 transition: 'transform 0.2s ease, opacity 0.2s ease, box-shadow 0.15s ease',
                 display: 'flex',
@@ -478,7 +481,7 @@ export function DashboardView({
               </div>
 
               {/* Navigate indicator for clickable modules */}
-              {!editing && mod.view && !isLive && (
+              {!editing && (mod.view || mod.href) && !isLive && (
                 <div style={{
                   position: 'absolute', bottom: '0.5rem', right: '0.75rem',
                   fontSize: '0.65rem', color: 'var(--text-muted)', opacity: 0.4,

@@ -6,9 +6,11 @@
 - Supabase CLI v2.67.1 is installed globally and authenticated (can list all projects)
 - Service role key available via `supabase projects api-keys --project-ref pwujhhmlrtxjmjzyttwn`
 
-## Migration History (32 migrations, all synced local+remote as of 2026-03-03)
+## Migration History (42 migrations local, all synced local+remote as of 2026-03-06)
 - See `/Users/rocketopp/Github/0nmcp-website/supabase/migrations/` for full list
-- Latest: `20260303000000_oncall_brain.sql` - oncall_brain + oncall_conversations tables (AI memory per user)
+- Latest: `20260306100000_social_engine_listing.sql` - store listing for Social Intelligence Engine
+- Previous: `20260306000000_ai_brain_learning.sql` - user_intelligence_profiles, ai_behavioral_signals, ai_brain_config, product_subscriptions, feature_usage tables
+- Notable: `20260305000000_listkit_imports.sql` - targeted at yaehbwimocvvnnlojkxe but also applied to pwujhhmlrtxjmjzyttwn (idempotent, harmless)
 - Notable: `20260302100001_fix_signup_plan_column.sql` - renamed from 20260302100000 to resolve timestamp collision with `_email_settings.sql`
 
 ### Duplicate Timestamp Fix (2026-03-03)

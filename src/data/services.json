@@ -2,7 +2,7 @@
   "meta": {
     "version": "4.0.0",
     "generated": "2026-02-28",
-    "source": "0nMCP v2.2.0 catalog.js + crm/ + vault/ + engine/ + deed/",
+    "source": "0nMCP v2.3.0 catalog.js + crm/ + vault/ + engine/ + deed/",
     "total_services": 91,
     "total_tools": 1155,
     "catalog_tools": 881,

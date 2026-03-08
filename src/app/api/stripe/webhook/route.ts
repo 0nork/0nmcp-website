@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stripe, CONSOLE_PLANS } from '@/lib/stripe'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { creditSparks } from '@/lib/sparks'
+import { syncAccountStatus, recordMarketplaceTransaction, recordPayout, checkTierUpgrade, savePaymentMethod } from '@/lib/stripe-connect'
 
 const CONSOLE_PRICE_IDS = new Set(
   Object.values(CONSOLE_PLANS).map(p => p.priceId).filter(Boolean)
@@ -45,6 +46,48 @@ export async function POST(request: NextRequest) {
         const userId = session.metadata?.user_id || ''
         const email = session.metadata?.user_email || session.customer_email || ''
         const planType = session.metadata?.plan_type
+
+        // ── Marketplace purchase (Stripe Connect) ──
+        if (planType === 'marketplace' && userId) {
+          const vendorId = session.metadata?.vendor_id || ''
+          const listingId = session.metadata?.listing_id || ''
+          const listingName = session.metadata?.listing_name || ''
+          const amountCents = parseInt(session.metadata?.amount_cents || '0')
+          const feeCents = parseInt(session.metadata?.fee_cents || '0')
+
+          if (vendorId && amountCents > 0) {
+            await recordMarketplaceTransaction({
+              buyerId: userId,
+              vendorId,
+              listingId,
+              listingName,
+              amountCents,
+              platformFeeCents: feeCents,
+              stripePaymentIntentId: session.payment_intent as string,
+              stripeCheckoutSessionId: session.id,
+            })
+
+            // Check if vendor qualifies for tier upgrade
+            await checkTierUpgrade(vendorId).catch(() => {})
+          }
+          break
+        }
+
+        // ── Setup card (save payment method from Checkout setup mode) ──
+        if (planType === 'setup_card' && userId) {
+          const setupIntentId = session.setup_intent as string
+          if (setupIntentId) {
+            const setupIntent = await stripe.setupIntents.retrieve(setupIntentId)
+            const pmId = setupIntent.payment_method as string
+            const customerId = (session.customer || setupIntent.customer) as string
+            if (pmId && customerId) {
+              await savePaymentMethod(userId, customerId, pmId).catch(err => {
+                console.error('Failed to save payment method from setup checkout:', err)
+              })
+            }
+          }
+          break
+        }
 
         // ── Sparks purchase ──
         if (planType === 'sparks' && userId) {
@@ -152,6 +195,48 @@ export async function POST(request: NextRequest) {
             status: 'past_due',
           }).eq('stripe_subscription_id', invoice.subscription as string)
         }
+        break
+      }
+
+      // ── Stripe Connect Events ──
+
+      case 'account.updated': {
+        // Connected account status changed (onboarding completed, etc.)
+        const account = event.data.object as unknown as { id: string }
+        if (account.id) {
+          await syncAccountStatus(account.id).catch(err => {
+            console.error('Failed to sync account status:', err)
+          })
+        }
+        break
+      }
+
+      case 'payout.created':
+      case 'payout.updated':
+      case 'payout.paid':
+      case 'payout.failed': {
+        const payout = event.data.object as unknown as Record<string, unknown>
+        const connectedAccountId = (event.account as string) || ''
+        if (connectedAccountId && payout.id) {
+          await recordPayout({
+            stripeAccountId: connectedAccountId,
+            stripePayoutId: payout.id as string,
+            amountCents: payout.amount as number,
+            currency: (payout.currency as string) || 'usd',
+            status: payout.status as string,
+            arrivalDate: payout.arrival_date as number | undefined,
+            failureMessage: (payout.failure_message as string) || undefined,
+          }).catch(err => {
+            console.error('Failed to record payout:', err)
+          })
+        }
+        break
+      }
+
+      case 'transfer.created': {
+        // Transfer from platform to connected account
+        const transfer = event.data.object as unknown as Record<string, unknown>
+        console.log('Transfer created:', transfer.id, 'Amount:', transfer.amount, 'Destination:', transfer.destination)
         break
       }
     }

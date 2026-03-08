@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || ''
 
 const SYSTEM_PROMPT =
-  'You are 0nMCP, a universal AI API orchestrator with 819 tools across 48 services in 21 categories. ' +
+  'You are 0nMCP, a universal AI API orchestrator with 850 tools across 53 services in 23 categories. ' +
   'You help users manage workflows, execute tasks, and connect services. ' +
   'You speak concisely and helpfully. When users describe tasks, suggest which 0nMCP tools and services could accomplish them. ' +
   'Keep responses focused and actionable.'

@@ -198,7 +198,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
               See {term.term} in action with 0nMCP
             </p>
             <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>
-              819 tools. 48 services. One npm install.
+              850 tools. 53 services. One npm install.
             </p>
             <Link
               href="/turn-it-on"

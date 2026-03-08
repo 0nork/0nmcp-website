@@ -145,7 +145,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
                 Ask 0n anything
               </h3>
               <p className="text-sm max-w-sm" style={{ color: 'var(--text-muted)' }}>
-                Execute tasks across 48 services, manage workflows, or ask about your connected tools.
+                Execute tasks across 53 services, manage workflows, or ask about your connected tools.
               </p>
             </>
           )}

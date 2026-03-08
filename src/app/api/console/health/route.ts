@@ -14,9 +14,9 @@ export async function GET() {
       uptime: null,
       connections: 48,
       services: [],
-      tools: 819,
+      tools: 850,
       mode: 'cloud',
-      message: '0nMCP Cloud — 819 tools ready',
+      message: '0nMCP Cloud — 850 tools ready',
     })
   }
 
@@ -30,9 +30,9 @@ export async function GET() {
         status: 'cloud',
         version: '2.2.0',
         connections: 48,
-        tools: 819,
+        tools: 850,
         mode: 'cloud',
-        message: '0nMCP Cloud — 819 tools ready',
+        message: '0nMCP Cloud — 850 tools ready',
       })
     }
 
@@ -54,9 +54,9 @@ export async function GET() {
       status: 'cloud',
       version: '2.2.0',
       connections: 48,
-      tools: 819,
+      tools: 850,
       mode: 'cloud',
-      message: '0nMCP Cloud — 819 tools ready',
+      message: '0nMCP Cloud — 850 tools ready',
     })
   }
 }

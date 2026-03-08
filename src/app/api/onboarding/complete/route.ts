@@ -21,7 +21,7 @@ export async function POST() {
     .from('profiles')
     .update({
       onboarding_completed: true,
-      onboarding_step: 5,
+      onboarding_step: 6,
     })
     .eq('id', user.id)
 

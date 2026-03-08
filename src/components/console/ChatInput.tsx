@@ -111,7 +111,7 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
           {mcpOnline ? (
             <span>
               <span style={{ color: 'var(--accent)' }}>0nMCP Live</span>
-              {' \u00b7 '}819 Tools{' \u00b7 '}48 Services
+              {' \u00b7 '}850 Tools{' \u00b7 '}53 Services
             </span>
           ) : (
             <span>0n Console{' \u00b7 '}Type / for commands</span>

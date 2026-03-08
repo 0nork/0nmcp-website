@@ -4,11 +4,35 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const { tier, mode, type } = await request.json()
+    const { tier, mode, type, customer_id } = await request.json()
 
     // Get current user for metadata
     const supabase = await createSupabaseServer()
     const { data: { user } } = await supabase!.auth.getUser()
+
+    // ── Setup card (save payment method via Checkout in setup mode) ──
+    if (type === 'setup_card') {
+      const setupParams: Record<string, unknown> = {
+        mode: 'setup',
+        payment_method_types: ['card'],
+        success_url: `${request.nextUrl.origin}/0nboarding?payment=saved`,
+        cancel_url: `${request.nextUrl.origin}/0nboarding?payment=canceled`,
+        metadata: {
+          plan_type: 'setup_card',
+          user_id: user?.id || '',
+        },
+      }
+      if (customer_id) {
+        setupParams.customer = customer_id
+      } else if (user?.email) {
+        setupParams.customer_email = user.email
+      }
+
+      const session = await stripe.checkout.sessions.create(
+        setupParams as Parameters<typeof stripe.checkout.sessions.create>[0]
+      )
+      return NextResponse.json({ url: session.url })
+    }
 
     // ── Console plan checkout ──
     if (type === 'console_plan') {

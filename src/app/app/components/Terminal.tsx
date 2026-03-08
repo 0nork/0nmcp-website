@@ -70,7 +70,7 @@ export default function Terminal() {
           <div className="terminal-empty">
             <div className="logo">0n</div>
             <p>Describe a task to execute</p>
-            <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>819 tools across 48 services</p>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>850 tools across 53 services</p>
 
             <div style={{
               display: 'flex',

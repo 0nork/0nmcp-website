@@ -7,13 +7,13 @@ import ServiceLogo from '@/components/ServiceLogo'
 import TurnItOnSignup from '@/components/turn-it-on/TurnItOnSignup'
 
 export const metadata: Metadata = {
-  title: 'Turn it 0n — 48 Services, 819 Tools | 0nMCP',
+  title: 'Turn it 0n — 53 Services, 850 Tools | 0nMCP',
   description:
-    'Connect 48 services with 819 tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.',
+    'Connect 53 services with 850 tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.',
   openGraph: {
-    title: 'Turn it 0n — 48 Services, 80+ Pre-Built Automations | 0nMCP',
+    title: 'Turn it 0n — 53 Services, 80+ Pre-Built Automations | 0nMCP',
     description:
-      'Connect 48 services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.',
+      'Connect 53 services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.',
     url: 'https://0nmcp.com/turn-it-on',
   },
   alternates: {

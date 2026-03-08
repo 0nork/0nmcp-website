@@ -3,7 +3,7 @@ import { ACTIONS, TRIGGERS, SERVICE_CATALOG } from '@/lib/marketplace'
 import { STATS } from '@/data/stats'
 
 export const metadata = {
-  title: `0nMCP — Install for CRM | ${819} Tools in Your Workflows`,
+  title: `0nMCP — Install for CRM | ${850} Tools in Your Workflows`,
   description: `Add ${STATS.tools}+ tools across ${STATS.services} services to your CRM workflows. Stripe, SendGrid, Slack, Google Sheets, AI, and more — all as workflow actions.`,
 }
 

@@ -204,13 +204,13 @@ export function DashboardView({
                   {mcpOnline ? (mcpHealth?.mode === 'local' ? 'Local Mode' : 'Cloud Mode') : 'Offline'}
                 </div>
                 <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                  {mcpOnline ? `v${mcpHealth?.version || '2.2.0'} — ${mcpHealth?.tools || 819} tools` : 'Run: npx 0nmcp serve'}
+                  {mcpOnline ? `v${mcpHealth?.version || '2.3.0'} — ${mcpHealth?.tools || 850} tools` : 'Run: npx 0nmcp serve'}
                 </div>
               </div>
             </div>
             {mcpOnline && (
               <div style={{ display: 'flex', gap: '1rem', fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
-                <span><strong style={{ color: '#7ed957' }}>{mcpHealth?.tools || 819}</strong> tools</span>
+                <span><strong style={{ color: '#7ed957' }}>{mcpHealth?.tools || 850}</strong> tools</span>
                 <span><strong style={{ color: '#00d4ff' }}>53</strong> services</span>
               </div>
             )}

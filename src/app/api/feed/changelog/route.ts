@@ -15,8 +15,8 @@ const CHANGELOG = [
   {
     version: '2.2.0',
     date: '2026-03-01',
-    title: '0nMCP v2.2.0 — 819 Tools Across 48 Services',
-    body: `The biggest release in 0nMCP history. From 26 services to 48. From 558 tools to 819. Added Resend expansion (3→67 endpoints), Cloudflare, Vercel, Railway, and more.`,
+    title: '0nMCP v2.3.0 — 850 Tools Across 53 Services',
+    body: `The biggest release in 0nMCP history. From 26 services to 53. From 558 tools to 850. Added Resend expansion (3→67 endpoints), Cloudflare, Vercel, Railway, and more.`,
     tags: ['release', 'services', 'tools'],
   },
   {

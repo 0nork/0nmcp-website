@@ -5,7 +5,7 @@ import blogData from '@/data/blog-posts.json'
 export const metadata: Metadata = {
   title: 'Blog — 0nMCP',
   description:
-    'Release notes, tutorials, and deep-dives from the team building 0nMCP. 819 tools, 48 services, and growing.',
+    'Release notes, tutorials, and deep-dives from the team building 0nMCP. 850 tools, 53 services, and growing.',
   openGraph: {
     title: 'Blog — 0nMCP',
     description:

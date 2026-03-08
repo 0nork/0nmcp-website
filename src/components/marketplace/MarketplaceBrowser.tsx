@@ -492,7 +492,7 @@ export default function MarketplaceBrowser({
             No workflows found
           </h3>
           <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)', maxWidth: 400, margin: '0 auto' }}>
-            Try adjusting your filters or search terms. Browse all 1,078 capabilities on the Turn it 0n page.
+            Try adjusting your filters or search terms. Browse all 1,142 capabilities on the Turn it 0n page.
           </p>
           <a
             href="/turn-it-on"

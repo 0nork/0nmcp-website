@@ -1,7 +1,7 @@
 /**
  * 0n Console — Service Definitions (Single Source of Truth)
  *
- * All 48 services from the 0nMCP catalog + 10 additional platform services.
+ * All 53 services from the 0nMCP catalog + 10 additional platform services.
  * Used by: VaultOverlay, VaultDetail, OnCall, Recommendations, Wizard.
  */
 

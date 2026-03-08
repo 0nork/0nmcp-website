@@ -64,8 +64,8 @@ In the meantime, explore what we&rsquo;re building:
 </tr>
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-bottom:1px solid #2a2a3a;">
-<a href="https://0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">819 AI Orchestration Tools</a>
-<p style="color:#55556a;font-size:13px;margin:4px 0 0;">48 services, 21 categories &mdash; the most comprehensive MCP server available</p>
+<a href="https://0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">850 AI Orchestration Tools</a>
+<p style="color:#55556a;font-size:13px;margin:4px 0 0;">53 services, 23 categories &mdash; the most comprehensive MCP server available</p>
 </td>
 </tr>
 <tr>

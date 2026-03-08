@@ -9,11 +9,11 @@ export const revalidate = 3600
 export const metadata: Metadata = {
   title: 'Marketplace — Browse .0n Workflows & Automations | 0nMCP',
   description:
-    'Discover pre-built .0n SWITCH files for 48 services and 1,078 capabilities. Browse, filter by service or capability, and install automation workflows instantly.',
+    'Discover pre-built .0n SWITCH files for 53 services and 1,142 capabilities. Browse, filter by service or capability, and install automation workflows instantly.',
   openGraph: {
     title: 'Marketplace — .0n Workflow Store | 0nMCP',
     description:
-      'App store for AI automations. Browse .0n SWITCH files across 48 services — CRM, Stripe, Gmail, Slack, and more.',
+      'App store for AI automations. Browse .0n SWITCH files across 53 services — CRM, Stripe, Gmail, Slack, and more.',
     url: 'https://0nmcp.com/marketplace',
     siteName: '0nMCP',
     type: 'website',
@@ -86,7 +86,7 @@ export default async function MarketplacePage() {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: '0nMCP Marketplace',
-    description: 'Browse pre-built .0n workflow automations for 48 services.',
+    description: 'Browse pre-built .0n workflow automations for 53 services.',
     url: 'https://0nmcp.com/marketplace',
     numberOfItems: listings.length,
     provider: {
@@ -143,7 +143,7 @@ export default async function MarketplacePage() {
             {[
               { value: listings.length.toString(), label: 'Workflows' },
               { value: totalServices.toString(), label: 'Services' },
-              { value: '1,078', label: 'Capabilities' },
+              { value: '1,142', label: 'Capabilities' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div

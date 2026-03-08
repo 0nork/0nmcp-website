@@ -117,7 +117,7 @@ export default function HeroSection() {
         {/* Badge */}
         <div className="hero-badge animate-fade-in-up">
           <span className="hero-badge-dot" />
-          <span>v2.2.0 — 819 tools live</span>
+          <span>v2.3.0 — 850 tools live</span>
         </div>
 
         {/* Headline */}
@@ -164,10 +164,10 @@ export default function HeroSection() {
           style={{ animationDelay: '0.5s', animationFillMode: 'both' }}
         >
           {[
-            { target: 819, suffix: '', label: 'Tools' },
-            { target: 48, suffix: '', label: 'Services' },
-            { target: 1078, suffix: '', label: 'Capabilities' },
-            { target: 21, suffix: '', label: 'Categories' },
+            { target: 850, suffix: '', label: 'Tools' },
+            { target: 53, suffix: '', label: 'Services' },
+            { target: 1142, suffix: '', label: 'Capabilities' },
+            { target: 23, suffix: '', label: 'Categories' },
           ].map((stat) => (
             <div key={stat.label} className="hero-stat">
               <span className="hero-stat-num">

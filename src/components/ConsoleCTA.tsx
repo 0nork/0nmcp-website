@@ -111,7 +111,7 @@ export default function ConsoleCTA() {
           Describe it. <span className="console-cta-gradient">0nMCP executes it.</span>
         </p>
         <p className="console-cta-sub">
-          819 tools. 48 services. One command. Try the Console — your AI command center.
+          850 tools. 53 services. One command. Try the Console — your AI command center.
         </p>
 
         {/* CTA button */}

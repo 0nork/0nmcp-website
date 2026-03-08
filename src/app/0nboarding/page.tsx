@@ -7,7 +7,7 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 
 const PRODUCTS = [
   { name: '0ncore', color: '#a855f7', desc: 'Core infrastructure — vault, signing, execution engine' },
-  { name: '0nmcp', color: '#00d4ff', desc: 'Universal API Protocol — 819 tools, 48 services' },
+  { name: '0nmcp', color: '#00d4ff', desc: 'Universal API Protocol — 850 tools, 53 services' },
   { name: 'app0n', color: '#7ed957', desc: 'Application Layer — workflows, builder, marketplace' },
   { name: 'social0n', color: '#ff8c00', desc: 'Community Platform — forum, groups, reputation' },
   { name: '0nork', color: '#ef4444', desc: 'Parent company — orchestration infrastructure' },
@@ -20,7 +20,7 @@ const INTERESTS = [
   'Social Media', 'Analytics', 'Security', 'Education', 'IoT',
 ]
 
-const TOTAL_STEPS = 5
+const TOTAL_STEPS = 6
 
 export default function OnboardingPage() {
   return (
@@ -76,10 +76,21 @@ function OnboardingInner() {
   const [vaultSaved, setVaultSaved] = useState(false)
   const [credentialCount, setCredentialCount] = useState(0)
 
-  // Community state (step 4)
+  // Payment state (step 4)
+  const [paymentMethods, setPaymentMethods] = useState<Array<{
+    id: string; card_brand: string; card_last4: string; card_exp_month: number; card_exp_year: number; is_default: boolean
+  }>>([])
+  const [paymentLoading, setPaymentLoading] = useState(false)
+
+  // Community state (step 5)
   const [groups, setGroups] = useState<Array<{ id: string; slug: string; name: string; description: string; icon: string; member_count: number }>>([])
   const [selectedGroups, setSelectedGroups] = useState<string[]>([])
   const [groupsJoined, setGroupsJoined] = useState(0)
+
+  // Vendor state (step 6)
+  const [wantsVendor, setWantsVendor] = useState(false)
+  const [vendorBusiness, setVendorBusiness] = useState('')
+  const [vendorApplied, setVendorApplied] = useState(false)
 
   // Load user data
   useEffect(() => {
@@ -93,7 +104,7 @@ function OnboardingInner() {
 
       const { data: profile } = await supabase
         .from('profiles')
-        .select('full_name, company, bio, avatar_url, role, interests, onboarding_step')
+        .select('full_name, company, bio, avatar_url, role, interests, onboarding_step, is_vendor, vendor_status')
         .eq('id', user.id)
         .single()
 
@@ -104,6 +115,7 @@ function OnboardingInner() {
         setAvatarUrl(profile.avatar_url || '')
         setRole(profile.role || '')
         setInterests(profile.interests || [])
+        if (profile.is_vendor) setVendorApplied(true)
         if (profile.onboarding_step && profile.onboarding_step > 0) {
           setStep(Math.min(profile.onboarding_step, TOTAL_STEPS))
         }
@@ -148,10 +160,31 @@ function OnboardingInner() {
         } catch { /* LinkedIn data may not exist yet */ }
       }
 
+      // Detect payment return from Stripe
+      const paymentStatus = searchParams.get('payment')
+      if (paymentStatus === 'saved') {
+        setStep(4) // stay on step 4 to show success
+      }
+
       setLoading(false)
     }
     load()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Load payment methods when on step 4
+  useEffect(() => {
+    if (step !== 4) return
+    async function loadPaymentMethods() {
+      try {
+        const res = await fetch('/api/stripe/connect?action=payment_methods')
+        if (res.ok) {
+          const data = await res.json()
+          setPaymentMethods(data.payment_methods || [])
+        }
+      } catch { /* non-critical */ }
+    }
+    loadPaymentMethods()
+  }, [step])
 
   // Save progress step marker
   const saveStep = useCallback(async (nextStep: number) => {
@@ -260,9 +293,59 @@ function OnboardingInner() {
     setVaultHint('')
   }
 
-  // Step 4: Load community groups
+  // Step 4: Add payment method via Stripe SetupIntent
+  async function handleAddPaymentMethod() {
+    setPaymentLoading(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/stripe/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'setup_intent' }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setError(data.error || 'Failed to create payment setup')
+        setPaymentLoading(false)
+        return
+      }
+
+      const { client_secret, customer_id } = await res.json()
+
+      // Create a Stripe Checkout session in setup mode for the hosted card form
+      const checkoutRes = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'setup_card',
+          customer_id,
+          setup_intent_secret: client_secret,
+        }),
+      })
+
+      if (checkoutRes.ok) {
+        const { url } = await checkoutRes.json()
+        if (url) {
+          window.location.href = url
+          return
+        }
+      }
+
+      // Fallback: store the setup intent info and show success
+      // In production, this would use Stripe Elements
+      setError('Payment setup is being configured. Please try again shortly.')
+      setPaymentLoading(false)
+    } catch {
+      setError('Network error. Please try again.')
+      setPaymentLoading(false)
+    }
+  }
+
+  // Step 5: Load community groups
   useEffect(() => {
-    if (step !== 4) return
+    if (step !== 5) return
     async function loadGroups() {
       try {
         const res = await fetch('/api/community/groups')
@@ -280,7 +363,7 @@ function OnboardingInner() {
     loadGroups()
   }, [step])
 
-  // Step 4: Join selected groups
+  // Step 5: Join selected groups
   async function handleJoinGroups() {
     setSaving(true)
     setError('')
@@ -298,7 +381,38 @@ function OnboardingInner() {
     goNext()
   }
 
-  // Step 5: Complete onboarding
+  // Step 6: Apply as vendor
+  async function handleApplyVendor() {
+    if (!vendorBusiness.trim()) { setError('Please enter a business name'); return }
+    setSaving(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/stripe/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'apply',
+          business_name: vendorBusiness,
+        }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setError(data.error || 'Application failed')
+        setSaving(false)
+        return
+      }
+
+      setVendorApplied(true)
+      setSaving(false)
+    } catch {
+      setError('Network error. Please try again.')
+      setSaving(false)
+    }
+  }
+
+  // Step 6: Complete onboarding
   async function handleComplete() {
     setSaving(true)
     setError('')
@@ -311,7 +425,7 @@ function OnboardingInner() {
         setSaving(false)
         return
       }
-      router.push('/account')
+      router.push('/console')
     } catch {
       setError('Network error. Please try again.')
       setSaving(false)
@@ -379,8 +493,8 @@ function OnboardingInner() {
           </div>
 
           <div className="onboarding-stat-row">
-            <div className="onboarding-stat"><span className="onboarding-stat-value">819</span><span className="onboarding-stat-label">Tools</span></div>
-            <div className="onboarding-stat"><span className="onboarding-stat-value">48</span><span className="onboarding-stat-label">Services</span></div>
+            <div className="onboarding-stat"><span className="onboarding-stat-value">850</span><span className="onboarding-stat-label">Tools</span></div>
+            <div className="onboarding-stat"><span className="onboarding-stat-value">53</span><span className="onboarding-stat-label">Services</span></div>
             <div className="onboarding-stat"><span className="onboarding-stat-value">AES-256</span><span className="onboarding-stat-label">Encrypted Vault</span></div>
             <div className="onboarding-stat"><span className="onboarding-stat-value">$0</span><span className="onboarding-stat-label">Free Forever</span></div>
           </div>
@@ -628,8 +742,124 @@ function OnboardingInner() {
         </div>
       )}
 
-      {/* ===== STEP 4: JOIN COMMUNITY ===== */}
+      {/* ===== STEP 4: PAYMENT METHOD ===== */}
       {step === 4 && (
+        <div className="onboarding-card fadeInUp">
+          <h1 className="onboarding-title">Connect payment method</h1>
+          <p className="onboarding-subtitle">
+            Add a card for marketplace purchases, subscriptions, and Sparks. Powered by Stripe — we never store your card details.
+          </p>
+
+          {/* Benefits */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '0.75rem',
+            marginBottom: '1.5rem',
+          }}>
+            {[
+              { icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z', label: 'One-click marketplace', color: '#7ed957' },
+              { icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', label: 'Instant Sparks top-up', color: '#00d4ff' },
+              { icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', label: 'Stripe secured', color: '#a78bfa' },
+            ].map(({ icon, label, color }) => (
+              <div key={label} style={{
+                background: 'var(--bg-tertiary)',
+                border: '1px solid var(--border)',
+                borderRadius: '0.75rem',
+                padding: '1rem',
+                textAlign: 'center',
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 6 }}>
+                  <path d={icon} />
+                </svg>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>{label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Saved cards */}
+          {paymentMethods.length > 0 && (
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label className="onboarding-section-label">Saved cards</label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {paymentMethods.map(pm => (
+                  <div
+                    key={pm.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.75rem 1rem',
+                      background: pm.is_default ? 'rgba(126,217,87,0.06)' : 'var(--bg-tertiary)',
+                      border: pm.is_default ? '1px solid rgba(126,217,87,0.3)' : '1px solid var(--border)',
+                      borderRadius: '0.75rem',
+                    }}
+                  >
+                    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" stroke="var(--text-secondary)" strokeWidth="1.5">
+                      <rect x="1" y="1" width="22" height="14" rx="2" />
+                      <line x1="1" y1="6" x2="23" y2="6" />
+                    </svg>
+                    <div style={{ flex: 1 }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>
+                        {pm.card_brand}
+                      </span>
+                      <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', marginLeft: 8 }}>
+                        ****{pm.card_last4}
+                      </span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 8 }}>
+                        {pm.card_exp_month}/{pm.card_exp_year}
+                      </span>
+                    </div>
+                    {pm.is_default && (
+                      <span style={{
+                        fontSize: '0.65rem', fontWeight: 700, color: '#7ed957',
+                        fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
+                        padding: '2px 8px', borderRadius: 4,
+                        background: 'rgba(126,217,87,0.12)',
+                      }}>
+                        DEFAULT
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add card button */}
+          {paymentMethods.length === 0 && (
+            <button
+              className="auth-btn primary"
+              onClick={handleAddPaymentMethod}
+              disabled={paymentLoading}
+              style={{ maxWidth: 320, margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                <line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+              {paymentLoading ? 'Setting up...' : 'Add Card via Stripe'}
+            </button>
+          )}
+
+          <div className="onboarding-trust" style={{ marginBottom: '1rem' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#635bff">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+            </svg>
+            <span>Secured by Stripe — PCI Level 1 compliant</span>
+          </div>
+
+          <div className="onboarding-actions">
+            <button className="auth-btn secondary" onClick={goBack}>Back</button>
+            <button className="auth-btn primary" onClick={goNext}>
+              {paymentMethods.length > 0 ? 'Continue' : 'Skip for now'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== STEP 5: JOIN COMMUNITY ===== */}
+      {step === 5 && (
         <div className="onboarding-card fadeInUp">
           <h1 className="onboarding-title">Join the community</h1>
           <p className="onboarding-subtitle">
@@ -689,8 +919,8 @@ function OnboardingInner() {
         </div>
       )}
 
-      {/* ===== STEP 5: LAUNCH PAD ===== */}
-      {step === 5 && (
+      {/* ===== STEP 6: LAUNCH PAD ===== */}
+      {step === 6 && (
         <div className="onboarding-card fadeInUp">
           <h1 className="onboarding-title">You&apos;re all set!</h1>
           <p className="onboarding-subtitle">
@@ -714,10 +944,96 @@ function OnboardingInner() {
                 <span className="onboarding-summary-value">{credentialCount} credential{credentialCount !== 1 ? 's' : ''} encrypted</span>
               </div>
             )}
+            {paymentMethods.length > 0 && (
+              <div className="onboarding-summary-row">
+                <span className="onboarding-summary-label">Payment</span>
+                <span className="onboarding-summary-value" style={{ textTransform: 'capitalize' }}>
+                  {paymentMethods[0].card_brand} ****{paymentMethods[0].card_last4}
+                </span>
+              </div>
+            )}
             {groupsJoined > 0 && (
               <div className="onboarding-summary-row">
                 <span className="onboarding-summary-label">Community</span>
                 <span className="onboarding-summary-value">{groupsJoined} group{groupsJoined !== 1 ? 's' : ''} joined</span>
+              </div>
+            )}
+          </div>
+
+          {/* Vendor application */}
+          <div style={{
+            background: 'rgba(0,212,255,0.04)',
+            border: '1px solid rgba(0,212,255,0.15)',
+            borderRadius: '0.75rem',
+            padding: '1.25rem',
+            marginBottom: '1.5rem',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5z" />
+                <line x1="3" y1="7" x2="21" y2="7" />
+                <path d="M16 11a4 4 0 0 1-8 0" />
+              </svg>
+              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#00d4ff' }}>
+                Want to sell on the marketplace?
+              </span>
+            </div>
+
+            {vendorApplied ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#7ed957">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                </svg>
+                <span style={{ fontSize: '0.85rem', color: '#7ed957', fontWeight: 600 }}>
+                  Vendor application submitted! We&apos;ll review and set up your Stripe Connect account.
+                </span>
+              </div>
+            ) : wantsVendor ? (
+              <div>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+                  Sell workflows, templates, and services. Earn 80% of every sale with automated payouts via Stripe Connect.
+                </p>
+                <div className="auth-field" style={{ marginBottom: '0.75rem' }}>
+                  <input
+                    type="text"
+                    value={vendorBusiness}
+                    onChange={e => setVendorBusiness(e.target.value)}
+                    placeholder="Your business or brand name"
+                  />
+                </div>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    className="auth-btn primary"
+                    onClick={handleApplyVendor}
+                    disabled={saving}
+                    style={{ fontSize: '0.8rem', padding: '0.5rem 1rem' }}
+                  >
+                    {saving ? 'Submitting...' : 'Apply as Vendor'}
+                  </button>
+                  <button
+                    className="auth-btn secondary"
+                    onClick={() => setWantsVendor(false)}
+                    style={{ fontSize: '0.8rem', padding: '0.5rem 1rem' }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+                  Sell workflows, templates, and services to the 0n community. Earn 80% with automated Stripe payouts.
+                </p>
+                <button
+                  onClick={() => setWantsVendor(true)}
+                  style={{
+                    background: 'none', border: '1px solid rgba(0,212,255,0.3)', borderRadius: 8,
+                    color: '#00d4ff', fontSize: '0.8rem', fontWeight: 600, padding: '0.5rem 1rem',
+                    cursor: 'pointer', fontFamily: 'inherit',
+                  }}
+                >
+                  Apply to sell
+                </button>
               </div>
             )}
           </div>
@@ -755,7 +1071,7 @@ function OnboardingInner() {
           <div className="onboarding-actions" style={{ justifyContent: 'center' }}>
             <button className="auth-btn secondary" onClick={goBack}>Back</button>
             <button className="auth-btn primary" onClick={handleComplete} disabled={saving} style={{ minWidth: 200 }}>
-              {saving ? 'Finishing...' : 'Go to Account'}
+              {saving ? 'Finishing...' : 'Launch Console'}
             </button>
           </div>
         </div>

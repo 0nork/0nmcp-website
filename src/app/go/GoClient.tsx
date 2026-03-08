@@ -8,7 +8,7 @@ import { SERVICE_LOGOS } from '@/components/ServiceLogos'
 /* ─── Product Suite ──────────────────────────────────────── */
 
 const PRODUCTS = [
-  { name: '0nMCP', tag: 'Orchestrator', icon: '/brand/icons/0nmcp.svg', desc: '883 tools across 48 services. One command triggers Stripe, SendGrid, and CRM simultaneously.', href: '/', color: '#7ed957' },
+  { name: '0nMCP', tag: 'Orchestrator', icon: '/brand/icons/0nmcp.svg', desc: '850 tools across 53 services. One command triggers Stripe, SendGrid, and CRM simultaneously.', href: '/', color: '#7ed957' },
   { name: '0nConsole', tag: 'Dashboard', icon: '/brand/icons/0nconsole.svg', desc: 'AI-powered control panel. Chat interface, visual builder, encrypted vault — all in one screen.', href: '/console', color: '#7ed957' },
   { name: '0nVault', tag: 'Security', icon: '/brand/icons/0nvault.svg', desc: 'Patent-pending AES-256-GCM encryption. 7 semantic layers. Multi-party escrow. Your keys stay yours.', href: '/security/vault', color: '#7ed957' },
   { name: '0nBrain', tag: 'AI Learning', icon: '/brand/icons/0nbrain.svg', desc: 'Adaptive learning engine. Signal weights, user intelligence profiles, behavioral fingerprints that improve over time.', href: '/console', color: '#7ed957' },
@@ -115,10 +115,10 @@ const PLANS = [
 /* ─── FAQs ───────────────────────────────────────────────── */
 
 const FAQS = [
-  { q: 'What is 0nMCP?', a: '0nMCP is a Universal AI API Orchestrator that connects 48 services (883 tools) into one platform. You describe what you want done in plain English, and AI executes it across all your connected services simultaneously.' },
+  { q: 'What is 0nMCP?', a: '0nMCP is a Universal AI API Orchestrator that connects 53 services (850 tools) into one platform. You describe what you want done in plain English, and AI executes it across all your connected services simultaneously.' },
   { q: 'Do I need to know how to code?', a: 'No. Type what you want in plain English. The AI figures out the rest. Or use the drag-and-drop visual builder to create workflows without writing a single line of code.' },
   { q: 'Is my data safe?', a: 'Your API keys are encrypted with AES-256-GCM before they ever leave your browser. The encryption system has a pending U.S. patent (Application #63/990,046). We literally cannot read your credentials.' },
-  { q: 'What services does it connect to?', a: '48 services including Stripe, Gmail, Slack, HubSpot, Shopify, Google Sheets, Discord, Twilio, Notion, Airtable, OpenAI, Anthropic, Supabase, and many more. New services are added regularly.' },
+  { q: 'What services does it connect to?', a: '53 services including Stripe, Gmail, Slack, HubSpot, Shopify, Google Sheets, Discord, Twilio, Notion, Airtable, OpenAI, Anthropic, Supabase, and many more. New services are added regularly.' },
   { q: 'How does the AI Training system work?', a: 'The Council Arena uses 7 AI personas that independently reason on any question. Each persona has a unique reasoning framework — from empirical analysis to ethical evaluation to adversarial stress-testing. The system learns from your rankings to improve over time.' },
   { q: 'What is a SWITCH file?', a: 'SWITCH files (.0n) are portable workflow definitions that capture your automations in a universal format. They can be shared, version-controlled, and run across any 0nMCP-compatible platform. Think of them as recipes for automation.' },
   { q: 'Can I cancel anytime?', a: 'Yes. No contracts, no hidden fees. Cancel from your account page in one click. Your data stays yours.' },
@@ -395,7 +395,7 @@ export default function GoClient() {
           background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)',
           color: '#7ed957', fontSize: 13, fontWeight: 600, marginBottom: 24, letterSpacing: '0.03em',
         }}>
-          883 tools &middot; 48 services &middot; Patent pending
+          850 tools &middot; 53 services &middot; Patent pending
         </div>
 
         <h1 style={{
@@ -426,7 +426,7 @@ export default function GoClient() {
       <section style={{ padding: '40px 24px 60px', maxWidth: 800, margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap' }}>
           {[
-            { v: 883, s: '+', l: 'Tools' },
+            { v: 850, s: '+', l: 'Tools' },
             { v: 48, s: '', l: 'Services' },
             { v: 14, s: '', l: 'Products' },
             { v: 7, s: '', l: 'AI Personas' },
@@ -539,7 +539,7 @@ export default function GoClient() {
             fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 700,
             color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 8,
           }}>
-            48 services. One API key each. Infinite possibilities.
+            53 services. One API key each. Infinite possibilities.
           </h2>
           <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: 0 }}>
             Real SVG logos. Real integrations. All connected.

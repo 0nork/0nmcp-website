@@ -7,7 +7,7 @@ import ForumSearch from '@/components/forum/ForumSearch'
 
 const TRENDING_POSTS = [
   {
-    title: '0nMCP v2.2.0: 819 Tools Across 48 Services — Full Breakdown',
+    title: '0nMCP v2.3.0: 850 Tools Across 53 Services — Full Breakdown',
     date: 'Mar 1, 2026',
     slug: '0nmcp-v2-2-0-release',
   },

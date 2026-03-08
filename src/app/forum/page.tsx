@@ -12,11 +12,12 @@ function getAdmin() {
 }
 
 export const metadata: Metadata = {
-  title: 'Forum — 0nMCP Community Discussions',
-  description: 'Ask questions, share automations, discuss AI orchestration. The 0nMCP community forum.',
+  title: 'MCP & Agentic AI Forum — 0nMCP Community',
+  description: 'The hub for MCP server development, agentic AI workflows, AI orchestration, generative AI tools, and autonomous agent discussions. Join the 0nMCP community.',
+  keywords: ['MCP server', 'agentic AI', 'AI orchestration', 'generative AI', 'autonomous agents', 'model context protocol', 'AI workflow automation', '0nMCP'],
   openGraph: {
-    title: 'Forum — 0nMCP Community',
-    description: 'Ask questions, share automations, discuss AI orchestration.',
+    title: 'MCP & Agentic AI Forum — 0nMCP Community',
+    description: 'The hub for MCP server development, agentic AI workflows, and AI orchestration discussions.',
     url: 'https://0nmcp.com/forum',
   },
   alternates: { canonical: 'https://0nmcp.com/forum' },
@@ -53,12 +54,41 @@ async function getInitialData() {
 async function ForumContent() {
   const { threads, groups, total } = await getInitialData()
 
+  const collectionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'MCP & Agentic AI Forum — 0nMCP Community',
+    description: 'The hub for MCP server development, agentic AI workflows, AI orchestration, and autonomous agent discussions.',
+    url: 'https://0nmcp.com/forum',
+    numberOfItems: total,
+    hasPart: threads.slice(0, 10).map((t: { title: string; slug: string; body: string; created_at: string; score: number; reply_count: number; profiles?: { full_name: string | null; email: string }; user_id: string }) => ({
+      '@type': 'DiscussionForumPosting',
+      headline: t.title,
+      url: `https://0nmcp.com/forum/${t.slug}`,
+      text: t.body?.slice(0, 200),
+      datePublished: t.created_at,
+      author: {
+        '@type': 'Person',
+        name: t.profiles?.full_name || t.profiles?.email?.split('@')[0] || 'Anonymous',
+        url: `https://0nmcp.com/u/${t.user_id}`,
+      },
+      interactionStatistic: [
+        { '@type': 'InteractionCounter', interactionType: 'https://schema.org/LikeAction', userInteractionCount: t.score },
+        { '@type': 'InteractionCounter', interactionType: 'https://schema.org/CommentAction', userInteractionCount: t.reply_count },
+      ],
+    })),
+    isPartOf: { '@type': 'WebSite', name: '0nMCP', url: 'https://0nmcp.com' },
+  }
+
   return (
-    <ForumClient
-      initialThreads={threads}
-      initialGroups={groups}
-      initialTotal={total}
-    />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+      <ForumClient
+        initialThreads={threads}
+        initialGroups={groups}
+        initialTotal={total}
+      />
+    </>
   )
 }
 

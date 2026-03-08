@@ -1,5 +1,15 @@
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import ForumShell from './ForumShell'
+
+export const metadata: Metadata = {
+  alternates: {
+    types: {
+      'application/rss+xml': 'https://0nmcp.com/api/feed/forum',
+      'application/atom+xml': 'https://0nmcp.com/api/feed/forum?format=atom',
+    },
+  },
+}
 
 export default function ForumLayout({ children }: { children: React.ReactNode }) {
   return (

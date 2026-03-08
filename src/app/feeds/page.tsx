@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const FEEDS = [
   {
+    name: 'Forum',
+    description: 'Latest threads from the 0nMCP community — agentic AI, MCP servers, workflows, integrations, and more.',
+    url: '/api/feed/forum',
+    icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',
+    color: '#7ed957',
+    formats: ['rss', 'atom', 'json'],
+  },
+  {
     name: 'Blog',
     description: 'Release notes, tutorials, and deep-dives from the 0nMCP team.',
     url: '/api/feed/blog',

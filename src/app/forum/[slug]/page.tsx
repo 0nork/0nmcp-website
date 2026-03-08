@@ -107,6 +107,27 @@ async function getThread(slug: string) {
   return { thread: thread as ThreadData, posts: (posts || []) as PostData[] }
 }
 
+const GROUP_TITLE_SUFFIXES: Record<string, string> = {
+  workflows: 'Agentic AI Workflows',
+  integrations: 'MCP Integrations',
+  tutorials: 'MCP Tutorials',
+  help: 'MCP Help',
+  showcase: 'AI Showcase',
+  'feature-requests': 'Feature Requests',
+  general: 'Agentic AI Discussion',
+}
+
+function cleanDescription(body: string): string {
+  return body
+    .replace(/```[\s\S]*?```/g, '')          // strip code blocks
+    .replace(/\n---\n\*Discuss more at[\s\S]*$/, '') // strip backlink footer
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // markdown links → text
+    .replace(/[#*_~`]/g, '')                 // strip markdown formatting
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 155)
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const data = await getThread(slug)
@@ -116,16 +137,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const { thread } = data
-  const description = thread.body.slice(0, 155).replace(/\n/g, ' ')
+  const description = cleanDescription(thread.body)
+  const groupSlug = thread.community_groups?.slug || 'general'
+  const titleSuffix = GROUP_TITLE_SUFFIXES[groupSlug] || '0nMCP Forum'
 
   return {
-    title: `${thread.title} — 0nMCP Forum`,
+    title: `${thread.title} — ${titleSuffix} — 0nMCP`,
     description,
     openGraph: {
-      title: `${thread.title} — 0nMCP Forum`,
+      title: `${thread.title} — ${titleSuffix}`,
       description,
       url: `https://0nmcp.com/forum/${thread.slug}`,
       type: 'article',
+      publishedTime: thread.created_at,
+    },
+    other: {
+      'article:published_time': thread.created_at,
     },
     alternates: { canonical: `https://0nmcp.com/forum/${thread.slug}` },
   }

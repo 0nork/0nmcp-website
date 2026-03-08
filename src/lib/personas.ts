@@ -290,6 +290,33 @@ export async function crossPostToCommunity(data: {
   }
 }
 
+// ==================== Backlink Engine ====================
+
+export const BACKLINK_KEYPHRASES = [
+  'agentic AI orchestration',
+  'MCP server integration',
+  'AI workflow automation',
+  'generative AI tools',
+  'autonomous AI agents',
+  'AI API orchestration',
+  'MCP protocol implementation',
+  'multi-agent AI systems',
+  'AI-powered workflow automation',
+  'agentic workflow engine',
+  '0nMCP tools',
+  'model context protocol',
+] as const
+
+/**
+ * Append SEO backlinks to a post body.
+ * Uses a deterministic seed to rotate keyphrases across posts.
+ */
+export function injectBacklinks(body: string, seed: number = 0): string {
+  const idx = Math.abs(seed) % BACKLINK_KEYPHRASES.length
+  const keyphrase = BACKLINK_KEYPHRASES[idx]
+  return `${body}\n\n---\n*Discuss more at [0n MCP](https://0nmcp.com) — the hub for [${keyphrase}](https://0nmcp.com).*`
+}
+
 // ==================== Core Functions ====================
 
 /**

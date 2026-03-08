@@ -168,7 +168,7 @@ export default function ForumClient({
 
   return (
     <div className="py-6 px-4 md:px-6 lg:px-8">
-      <div className="max-w-[900px] mx-auto">
+      <div className="max-w-[1280px] mx-auto">
         {/* ==================== MAIN FEED ==================== */}
         <div className="flex-1 min-w-0">
           {/* Group Header */}
@@ -244,17 +244,33 @@ export default function ForumClient({
               <p className="text-sm">Be the first to start a discussion!</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-2">
+            <div
+              style={{
+                display: 'grid',
+                gap: '1rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
+              }}
+            >
               {threads.map(thread => {
                 const myVote = userVotes[thread.id] || 0
                 const groupData = thread.community_groups
+                const accentColor = groupData?.color || 'var(--accent)'
 
                 return (
                   <div
                     key={thread.id}
-                    className="rounded-xl flex transition-all"
-                    style={{ background: '#000000', border: '1px solid var(--border)' }}
+                    className="rounded-xl flex overflow-hidden transition-all"
+                    style={{
+                      background: 'var(--bg-card)',
+                      border: '1px solid var(--border)',
+                      ...(thread.is_pinned ? { gridColumn: '1 / -1' } : {}),
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(126,217,87,0.08)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none' }}
                   >
+                    {/* Left accent bar */}
+                    <div style={{ width: '3px', flexShrink: 0, background: accentColor }} />
+
                     {/* Vote Column */}
                     <div className="flex flex-col items-center py-2 px-2 gap-0.5 flex-shrink-0" style={{ minWidth: '44px' }}>
                       <button
@@ -292,24 +308,24 @@ export default function ForumClient({
                     {/* Content */}
                     <Link
                       href={`/forum/${thread.slug}`}
-                      className="flex-1 py-2.5 pr-4 min-w-0 no-underline"
+                      className="flex-1 py-3 pr-4 min-w-0 no-underline"
                     >
                       {/* Meta line */}
-                      <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+                      <div className="flex items-center gap-1.5 flex-wrap mb-1">
                         {groupData && (
                           <span
-                            className="text-[9px] font-bold px-1.5 py-0.5 rounded"
+                            className="text-[10px] font-bold px-1.5 py-0.5 rounded"
                             style={{ background: groupData.color, color: '#ffffff' }}
                           >
                             {groupData.icon} {groupData.name}
                           </span>
                         )}
                         {thread.is_pinned && (
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,215,0,0.1)', color: '#FFD700' }}>
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,215,0,0.1)', color: '#FFD700' }}>
                             Pinned
                           </span>
                         )}
-                        <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
+                        <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
                           <span
                             className="font-semibold"
                             style={{ color: reputationColor(thread.profiles?.reputation_level) }}
@@ -325,18 +341,18 @@ export default function ForumClient({
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: '#f0f0f5' }}>
+                      <h3 className="text-lg font-bold tracking-tight mb-1 leading-snug" style={{ color: '#f0f0f5' }}>
                         {thread.is_locked && <span className="mr-1 opacity-50">&#128274;</span>}
                         {thread.title}
                       </h3>
 
                       {/* Preview */}
-                      <p className="text-xs leading-relaxed mb-1.5 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
-                        {thread.body.slice(0, 200)}
+                      <p className="text-sm leading-relaxed mb-2 line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
+                        {thread.body.slice(0, 280)}
                       </p>
 
                       {/* Actions bar */}
-                      <div className="flex items-center gap-4 text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                      <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
                         <span>&#128172; {thread.reply_count} {thread.reply_count === 1 ? 'reply' : 'replies'}</span>
                         <span>&#128065; {thread.view_count}</span>
                       </div>

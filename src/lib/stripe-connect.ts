@@ -2,7 +2,7 @@
  * Stripe Connect — Marketplace Payment Infrastructure
  *
  * Architecture:
- * - Platform: RocketOpp LLC (acct_1PUJi5HThmAuKVQM)
+ * - Platform: 0ncore AI Engineering (acct_1T2fHeQjehctdkQR)
  * - Vendors: Express Connected Accounts (Stripe handles KYC)
  * - Payments: Destination charges with application_fee_percent
  * - Payouts: Automatic to vendor bank accounts (Stripe managed)

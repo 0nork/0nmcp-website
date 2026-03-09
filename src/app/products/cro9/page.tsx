@@ -354,7 +354,7 @@ export default function CRO9Page() {
                 ))}
               </ul>
               <Link
-                href="/signup"
+                href={plan.name === 'Done-For-You' ? '/partners' : '/console?view=store'}
                 className="store-cta"
                 style={{
                   display: 'block',

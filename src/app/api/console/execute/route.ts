@@ -1,6 +1,14 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { getActiveSubscription, reportExecution, isOwnerEmail } from '@/lib/console/billing'
+
+function getAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -76,7 +84,27 @@ export async function POST(request: NextRequest) {
     }
 
     // Execute via 0nMCP
+    const startTime = Date.now()
     const result = await executeOnMCP(task, workflow)
+    const durationMs = Date.now() - startTime
+
+    // Log execution to DB
+    const execData = result.error ? null : await result.response.clone().json().catch(() => null)
+    void Promise.resolve(getAdmin().from('console_executions').insert({
+      user_id: user.id,
+      task: task || undefined,
+      workflow_name: typeof workflow === 'object' && workflow && 'name' in workflow ? (workflow as { name: string }).name : undefined,
+      status: result.error ? 'failed' : (execData?.status || 'completed'),
+      duration_ms: durationMs,
+      steps_executed: execData?.steps || 0,
+      services_used: execData?.services || [],
+      result_summary: execData?.result ? String(execData.result).slice(0, 500) : undefined,
+      error_message: result.error ? 'Execution failed' : undefined,
+      stripe_customer_id: profile.stripe_customer_id,
+      billed: !result.error,
+      billing_amount_cents: 10,
+    })).then(() => {}).catch((err: unknown) => console.error('Failed to log execution:', err))
+
     if (result.error) return result.response
 
     // Report successful execution to Stripe meter (fire and forget)
@@ -87,8 +115,25 @@ export async function POST(request: NextRequest) {
     return result.response
   }
 
-  // Owner execution — no billing
+  // Owner execution — no billing, still log
+  const startTime = Date.now()
   const result = await executeOnMCP(task, workflow)
+  const durationMs = Date.now() - startTime
+
+  const execData = result.error ? null : await result.response.clone().json().catch(() => null)
+  void Promise.resolve(getAdmin().from('console_executions').insert({
+    user_id: user.id,
+    task: task || undefined,
+    workflow_name: typeof workflow === 'object' && workflow && 'name' in workflow ? (workflow as { name: string }).name : undefined,
+    status: result.error ? 'failed' : (execData?.status || 'completed'),
+    duration_ms: durationMs,
+    steps_executed: execData?.steps || 0,
+    services_used: execData?.services || [],
+    result_summary: execData?.result ? String(execData.result).slice(0, 500) : undefined,
+    billed: false,
+    billing_amount_cents: 0,
+  })).then(() => {}).catch((err: unknown) => console.error('Failed to log execution:', err))
+
   return result.response
 }
 

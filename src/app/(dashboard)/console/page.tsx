@@ -28,6 +28,7 @@ import { OperationsView, SocialView, ReportingView, CodeView, LinkedInView, Migr
 import { SparkView } from '@/components/console/SparkView'
 import { BuilderView } from '@/components/console/BuilderView'
 import { VendorView } from '@/components/console/VendorView'
+import { OutreachView } from '@/components/console/OutreachView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -36,7 +37,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach'
 
 interface McpHealth {
   version?: string
@@ -388,6 +389,9 @@ export default function ConsolePage() {
           break
         case '/vendor':
           setView('vendor')
+          break
+        case '/outreach':
+          setView('outreach')
           break
         case '/community':
         case '/forum':
@@ -802,6 +806,13 @@ export default function ConsolePage() {
           {visitedViews.has('vendor') && (
             <div style={{ display: view === 'vendor' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <VendorView />
+            </div>
+          )}
+
+          {/* Outreach Enricher */}
+          {visitedViews.has('outreach') && (
+            <div style={{ display: view === 'outreach' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <OutreachView />
             </div>
           )}
         </main>

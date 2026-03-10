@@ -86,6 +86,10 @@ export const SPARK_COSTS: Record<string, number> = {
   // Builder operations
   'api.builder.generate': 10,
 
+  // Outreach enricher
+  'api.outreach.enrich': 1,    // 1 Spark per lead enriched
+  'api.outreach.sequence': 5,  // 5 Sparks per email sequence
+
   // Store operations
   'store.purchase': 0,  // free — paid via Stripe directly
   'store.download': 0,  // downloads are free — we want adoption

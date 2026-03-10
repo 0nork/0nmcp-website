@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { IconChart, IconSend, IconDocument, IconRobot, IconForum, IconUsers, IconEnvelope, IconGear } from '@/components/CategoryIcons'
 
 interface Stats {
   users: number
@@ -35,61 +37,61 @@ interface RecentThread {
   profiles: { full_name: string | null; is_persona: boolean } | null
 }
 
-const sections = [
+const sections: Array<{ title: string; description: string; href: string; icon: ReactNode; color: string; external?: boolean }> = [
   {
     title: 'Blog Engine',
     description: 'CRO9 auto-blogging — SEO analysis, content generation, adaptive weights.',
     href: '/admin/blog',
-    icon: '📊',
+    icon: <IconChart size={20} />,
     color: '#ff6b35',
   },
   {
     title: 'QA Distribution',
     description: 'Multi-platform content generation and distribution.',
     href: '/admin/qa',
-    icon: '📡',
+    icon: <IconSend size={20} />,
     color: '#ff6b35',
   },
   {
     title: 'Content Pipeline',
     description: 'AI marketing — review, edit, approve, post.',
     href: '/admin/content',
-    icon: '📝',
+    icon: <IconDocument size={20} />,
     color: '#7ed957',
   },
   {
     title: 'AI Personas',
     description: 'Forum agents — generate, seed threads, manage.',
     href: '/admin/personas',
-    icon: '🤖',
+    icon: <IconRobot size={20} />,
     color: '#ff69b4',
   },
   {
     title: 'Forum Moderation',
     description: 'Threads, groups, reported content.',
     href: '/admin/forum',
-    icon: '💬',
+    icon: <IconForum size={20} />,
     color: '#9945ff',
   },
   {
     title: 'User Management',
     description: 'Members, roles, bans, onboarding.',
     href: '/admin/users',
-    icon: '👥',
+    icon: <IconUsers size={20} />,
     color: '#00d4ff',
   },
   {
     title: 'Email Settings',
     description: 'Notification rules, templates, CRM sync.',
     href: '/admin/email',
-    icon: '📧',
+    icon: <IconEnvelope size={20} />,
     color: '#ff6b35',
   },
   {
     title: 'CRM Portal',
     description: 'Contacts, pipeline, engagement.',
     href: 'https://0n.app.clientclub.net/',
-    icon: '🚀',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>,
     color: '#ff6b35',
     external: true,
   },
@@ -97,7 +99,7 @@ const sections = [
     title: 'Supabase',
     description: 'Database, auth, storage.',
     href: 'https://supabase.com/dashboard/project/yaehbwimocvvnnlojkxe',
-    icon: '🗄️',
+    icon: <svg width="20" height="20" viewBox="0 0 109 113" fill="currentColor"><path d="M63.7 110.3c-2.6 3.3-8.1 1.5-8.2-2.7l-1.4-46.2h52.4c4.8 0 7.4 5.5 4.4 9.3L63.7 110.3z" opacity="0.6"/><path d="M45.3 2.7c2.6-3.3 8.1-1.5 8.2 2.7l.8 46.2H2.5c-4.8 0-7.4-5.5-4.4-9.3L45.3 2.7z"/></svg>,
     color: '#3ECF8E',
     external: true,
   },
@@ -105,7 +107,7 @@ const sections = [
     title: 'Vercel',
     description: 'Deployments, domains, env vars.',
     href: 'https://vercel.com',
-    icon: '▲',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 19.5h20L12 2z"/></svg>,
     color: '#fff',
     external: true,
   },
@@ -113,7 +115,7 @@ const sections = [
     title: 'GitHub',
     description: '0nork/0nmcp-website repo.',
     href: 'https://github.com/0nork/0nmcp-website',
-    icon: '⚙',
+    icon: <IconGear size={20} />,
     color: '#8b949e',
     external: true,
   },
@@ -255,7 +257,7 @@ export default function AdminDashboard() {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: '1.25rem' }}>{s.icon}</span>
+                <span style={{ color: s.color, display: 'flex', alignItems: 'center' }}>{s.icon}</span>
                 <span style={{ fontSize: '0.875rem', fontWeight: 800, color: s.color }}>{s.title}</span>
                 {s.external && (
                   <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', marginLeft: 'auto' }}>↗</span>

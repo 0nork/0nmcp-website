@@ -3,6 +3,7 @@ import Link from 'next/link'
 import HeroSection from '@/components/HeroSection'
 import LogoBanner from '@/components/LogoBanner'
 import DemoPreview from '@/components/DemoPreview'
+import { getCategoryIcon } from '@/components/CategoryIcons'
 
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator | 850 Tools, 53 Services',
@@ -44,27 +45,27 @@ export const metadata: Metadata = {
 }
 
 const categories = [
-  { name: 'Everyday Tools', count: 8, icon: '⚡' },
-  { name: 'Communication', count: 9, icon: '💬' },
-  { name: 'Email Marketing', count: 6, icon: '📧' },
-  { name: 'Payments', count: 8, icon: '💳' },
-  { name: 'CRM & Sales', count: 6, icon: '👥' },
-  { name: 'Project Mgmt', count: 8, icon: '📋' },
-  { name: 'Docs & Storage', count: 4, icon: '📄' },
-  { name: 'Support', count: 3, icon: '🎧' },
-  { name: 'Websites', count: 3, icon: '🌐' },
-  { name: 'Advertising', count: 6, icon: '📢' },
-  { name: 'AI', count: 2, icon: '🧠' },
-  { name: 'Developer', count: 5, icon: '⌨️' },
-  { name: 'Social Media', count: 5, icon: '📱' },
-  { name: 'Accounting', count: 2, icon: '📊' },
-  { name: 'Finance', count: 2, icon: '🏦' },
-  { name: 'Cloud', count: 1, icon: '☁️' },
-  { name: 'Integration', count: 2, icon: '🔗' },
-  { name: 'Automation', count: 1, icon: '⚙️' },
-  { name: 'Outreach', count: 1, icon: '📤' },
-  { name: 'Cold Email', count: 1, icon: '❄️' },
-  { name: 'Messaging', count: 1, icon: '💭' },
+  { name: 'Everyday Tools', count: 8 },
+  { name: 'Communication', count: 9 },
+  { name: 'Email Marketing', count: 6 },
+  { name: 'Payments', count: 8 },
+  { name: 'CRM & Sales', count: 6 },
+  { name: 'Project Mgmt', count: 8 },
+  { name: 'Docs & Storage', count: 4 },
+  { name: 'Support', count: 3 },
+  { name: 'Websites', count: 3 },
+  { name: 'Advertising', count: 6 },
+  { name: 'AI', count: 2 },
+  { name: 'Developer', count: 5 },
+  { name: 'Social Media', count: 5 },
+  { name: 'Accounting', count: 2 },
+  { name: 'Finance', count: 2 },
+  { name: 'Cloud', count: 1 },
+  { name: 'Integration', count: 2 },
+  { name: 'Automation', count: 1 },
+  { name: 'Outreach', count: 1 },
+  { name: 'Cold Email', count: 1 },
+  { name: 'Messaging', count: 1 },
 ]
 
 const faqItems = [
@@ -425,13 +426,16 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {categories.map((cat) => (
-              <Link key={cat.name} href="/turn-it-on" className="float-card float-card-accent no-underline" style={{ padding: '1.5rem 1rem', textAlign: 'center', display: 'block' }}>
-                <span className="text-2xl block mb-2">{cat.icon}</span>
-                <span className="font-mono text-xl font-bold block mb-1" style={{ color: 'var(--accent)' }}>{cat.count}</span>
-                <span className="text-xs font-medium block" style={{ color: 'var(--text-secondary)' }}>{cat.name}</span>
-              </Link>
-            ))}
+            {categories.map((cat) => {
+              const Icon = getCategoryIcon(cat.name)
+              return (
+                <Link key={cat.name} href="/turn-it-on" className="float-card float-card-accent no-underline" style={{ padding: '1.5rem 1rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <span className="block mb-2" style={{ color: 'var(--accent)' }}><Icon size={28} /></span>
+                  <span className="font-mono text-xl font-bold block mb-1" style={{ color: 'var(--accent)' }}>{cat.count}</span>
+                  <span className="text-xs font-medium block" style={{ color: 'var(--text-secondary)' }}>{cat.name}</span>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { BrandIcon, IconStar, IconDiamond, IconSparkle, IconRising, IconBook, IconHammer, IconForum } from '@/components/CategoryIcons'
 
 const PRODUCTS = [
   { name: '0ncore', color: '#a855f7', desc: 'Core infrastructure — vault, signing, execution engine' },
@@ -31,11 +32,11 @@ export default function OnboardingPage() {
 }
 
 // Archetype display config
-const ARCHETYPE_DISPLAY: Record<string, { icon: string; title: string; color: string; desc: string }> = {
-  executive: { icon: '\u2606', title: 'Executive Visionary', color: '#a78bfa', desc: 'You lead with strategy and big-picture thinking. Your content carries weight.' },
-  manager: { icon: '\u2726', title: 'Growth Catalyst', color: '#00d4ff', desc: 'You bridge strategy and execution. People look to you for actionable insight.' },
-  individual: { icon: '\u2B50', title: 'Builder & Maker', color: '#7ed957', desc: 'You ship. Your hands-on expertise makes your perspective invaluable.' },
-  student: { icon: '\u2728', title: 'Rising Voice', color: '#ff8c00', desc: 'Fresh perspective is your superpower. The community is excited to hear from you.' },
+const ARCHETYPE_DISPLAY: Record<string, { icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>; title: string; color: string; desc: string }> = {
+  executive: { icon: IconStar, title: 'Executive Visionary', color: '#a78bfa', desc: 'You lead with strategy and big-picture thinking. Your content carries weight.' },
+  manager: { icon: IconDiamond, title: 'Growth Catalyst', color: '#00d4ff', desc: 'You bridge strategy and execution. People look to you for actionable insight.' },
+  individual: { icon: IconHammer, title: 'Builder & Maker', color: '#7ed957', desc: 'You ship. Your hands-on expertise makes your perspective invaluable.' },
+  student: { icon: IconRising, title: 'Rising Voice', color: '#ff8c00', desc: 'Fresh perspective is your superpower. The community is excited to hear from you.' },
 }
 
 function OnboardingInner() {
@@ -482,10 +483,9 @@ function OnboardingInner() {
           <div className="onboarding-product-grid">
             {PRODUCTS.map(p => (
               <div key={p.name} className="onboarding-product-card" style={{ '--product-color': p.color } as React.CSSProperties}>
-                <div className="onboarding-product-logo">
-                  <span className="onboarding-product-bracket" style={{ color: p.color }}>[</span>
+                <div className="onboarding-product-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <BrandIcon name={p.name} size={28} />
                   <span className="onboarding-product-name">{p.name}</span>
-                  <span className="onboarding-product-bracket" style={{ color: p.color }}>]</span>
                 </div>
                 <p className="onboarding-product-desc">{p.desc}</p>
               </div>
@@ -522,8 +522,8 @@ function OnboardingInner() {
             textAlign: 'center',
             margin: '1.5rem 0',
           }}>
-            <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
-              {ARCHETYPE_DISPLAY[archetypeTier]?.icon || '\u2B50'}
+            <div style={{ marginBottom: '0.5rem', color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#7ed957' }}>
+              {(() => { const AIcon = ARCHETYPE_DISPLAY[archetypeTier]?.icon || IconStar; return <AIcon size={48} /> })()}
             </div>
             <div style={{
               fontSize: '1.5rem',
@@ -1041,22 +1041,22 @@ function OnboardingInner() {
           <label className="onboarding-section-label" style={{ textAlign: 'center', display: 'block', marginBottom: '1rem' }}>Choose your path</label>
           <div className="onboarding-path-grid">
             <Link href="/learn" className="onboarding-path-card">
-              <div className="onboarding-path-icon">&#x1F4DA;</div>
+              <div className="onboarding-path-icon" style={{ color: '#00d4ff' }}><IconBook size={28} /></div>
               <div className="onboarding-path-title">Explore Courses</div>
               <div className="onboarding-path-desc">Learn 0nMCP from scratch with free interactive lessons</div>
             </Link>
             <Link href="/builder" className="onboarding-path-card">
-              <div className="onboarding-path-icon">&#x2692;&#xFE0F;</div>
+              <div className="onboarding-path-icon" style={{ color: '#a78bfa' }}><IconHammer size={28} /></div>
               <div className="onboarding-path-title">Build a Workflow</div>
               <div className="onboarding-path-desc">Describe what you need — AI builds your .0n file</div>
             </Link>
             <Link href="/forum" className="onboarding-path-card">
-              <div className="onboarding-path-icon">&#x1F4AC;</div>
+              <div className="onboarding-path-icon" style={{ color: '#7ed957' }}><IconForum size={28} /></div>
               <div className="onboarding-path-title">Browse Forum</div>
               <div className="onboarding-path-desc">Ask questions, share tips, earn reputation</div>
             </Link>
             <a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" target="_blank" rel="noopener noreferrer" className="onboarding-path-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div className="onboarding-path-icon" style={{ color: 'var(--accent)' }}>0n</div>
+              <div className="onboarding-path-icon"><BrandIcon name="0nmcp" size={28} /></div>
               <div className="onboarding-path-title">The 0nBoard</div>
               <div className="onboarding-path-desc">Our community hub — real-time support &amp; announcements</div>
             </a>

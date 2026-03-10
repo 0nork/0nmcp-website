@@ -30,6 +30,7 @@ import { BuilderView } from '@/components/console/BuilderView'
 import { VendorView } from '@/components/console/VendorView'
 import { OutreachView } from '@/components/console/OutreachView'
 import { TrainingView } from '@/components/console/TrainingView'
+import { CommandQueueView } from '@/components/console/CommandQueueView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -38,7 +39,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training' | 'sync'
 
 interface McpHealth {
   version?: string
@@ -400,6 +401,11 @@ export default function ConsolePage() {
         case '/training':
         case '/brain':
           setView('training')
+          break
+        case '/sync':
+        case '/queue':
+        case '/command':
+          setView('sync')
           break
         case '/community':
         case '/forum':
@@ -835,6 +841,13 @@ export default function ConsolePage() {
           {visitedViews.has('training') && (
             <div style={{ display: view === 'training' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <TrainingView isAdmin={isAdmin} />
+            </div>
+          )}
+
+          {/* Command Queue — 0nCommand ↔ 0nLive Sync */}
+          {visitedViews.has('sync') && (
+            <div style={{ display: view === 'sync' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <CommandQueueView isAdmin={isAdmin} />
             </div>
           )}
         </main>

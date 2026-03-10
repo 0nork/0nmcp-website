@@ -134,6 +134,15 @@ const NAV_CATEGORIES: NavCategory[] = [
           CAT_COLORS.ai
         ),
       },
+      {
+        key: 'sync',
+        label: 'Sync',
+        logo: svgDual(
+          '<path d="M4 12h16"/><path d="M12 4v16"/>',
+          '<path d="M7 8l-3 4 3 4"/><path d="M17 8l3 4-3 4"/><circle cx="12" cy="12" r="2"/>',
+          CAT_COLORS.ai
+        ),
+      },
     ],
   },
   {

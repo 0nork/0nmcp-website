@@ -24,7 +24,7 @@ interface EnrichResultRow {
   qualifierResult: string
 }
 
-type Tab = 'enrich' | 'sequence' | 'templates'
+type Tab = 'enrich' | 'sequence' | 'templates' | 'listkit'
 type EnrichPhase = 'idle' | 'uploaded' | 'running-sample' | 'sample-done' | 'running-all' | 'done'
 
 /* ── Helper: Next Business Days ── */
@@ -54,9 +54,9 @@ const FIELD_KEYS: FieldKey[] = [
 
 /* ── Component ── */
 
-export function OutreachView() {
+export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
   /* ── Tab state ── */
-  const [activeTab, setActiveTab] = useState<Tab>('enrich')
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab || 'enrich')
 
   /* ── Enrich tab state ── */
   const [uploadResult, setUploadResult] = useState<UploadResult | null>(null)
@@ -410,6 +410,7 @@ export function OutreachView() {
             { key: 'enrich', label: 'Enrich' },
             { key: 'sequence', label: 'Sequence' },
             { key: 'templates', label: 'Templates' },
+            { key: 'listkit', label: 'ListKit' },
           ] as const
         ).map((tab) => (
           <button
@@ -1576,6 +1577,11 @@ export function OutreachView() {
       {/* ══════════════════════════════════════════ */}
       {/*  TAB 3: TEMPLATES                         */}
       {/* ══════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════ */}
+      {/*  TAB 4: LISTKIT                            */}
+      {/* ══════════════════════════════════════════ */}
+      {activeTab === 'listkit' && <ListKitTab onSwitchTab={setActiveTab} />}
+
       {activeTab === 'templates' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* ── Pricing Inquiry ── */}
@@ -1764,6 +1770,320 @@ export function OutreachView() {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+/* ──────────────────────────────────────────── */
+/*  ListKit Integration Tab                    */
+/* ──────────────────────────────────────────── */
+
+const LISTKIT_CYAN = '#00d4ff'
+const LISTKIT_CYAN_DIM = 'rgba(0, 212, 255, 0.08)'
+const LISTKIT_CYAN_BORDER = 'rgba(0, 212, 255, 0.2)'
+
+const LISTKIT_COLUMNS = [
+  'First Name', 'Last Name', 'Business Email', 'Personal Email',
+  'Job Title', 'Company Name', 'Industry', 'Employee Count',
+  'Location', 'LinkedIn URL', 'Phone', 'Personalized First Line 1',
+  'Personalized First Line 2',
+]
+
+const INTEGRATION_WORKFLOWS = [
+  {
+    title: 'ListKit CSV → Enrich → Sequence',
+    desc: 'Export from ListKit, drop CSV here, AI qualifies + enriches all leads, then generate personalized email sequences.',
+    steps: ['Export CSV from ListKit', 'Upload to Enrich tab', 'Select enrichment fields', 'Run enrichment', 'Switch to Sequence tab', 'Generate emails'],
+    color: '#7ed957',
+    ready: true,
+  },
+  {
+    title: 'ListKit → Zapier → Auto-Enrich',
+    desc: 'ListKit\'s "Email Order Completed" Zapier trigger sends leads to a webhook. Auto-enriched and routed to your CRM pipeline.',
+    steps: ['Set up Zapier trigger in ListKit', 'Connect to 0n webhook', 'Leads auto-enriched', 'Contacts created in CRM'],
+    color: '#ff6b35',
+    ready: false,
+  },
+  {
+    title: 'ListKit Data Stream → Daily Pipeline',
+    desc: 'ListKit refreshes intent-based leads daily. Combined with Zapier, creates a fully automated prospecting machine.',
+    steps: ['Configure Data Stream in ListKit', 'Set intent topics', 'Zapier auto-exports daily', 'Enriched leads flow to CRM'],
+    color: '#a78bfa',
+    ready: false,
+  },
+  {
+    title: 'ListKit → CRM Bridge',
+    desc: 'Sync ListKit leads to HubSpot/Salesforce, then bridge to CRM via 0nMCP\'s 245 CRM tools.',
+    steps: ['ListKit syncs to HubSpot/SF', 'Webhook fires on new contact', '0nMCP creates CRM contact', 'Auto-assigns to pipeline'],
+    color: '#f472b6',
+    ready: false,
+  },
+]
+
+function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {/* Hero */}
+      <div
+        style={{
+          background: `linear-gradient(135deg, ${LISTKIT_CYAN_DIM}, rgba(167,139,250,0.06))`,
+          border: `1px solid ${LISTKIT_CYAN_BORDER}`,
+          borderRadius: '16px',
+          padding: '28px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '20px',
+        }}
+      >
+        <div
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 14,
+            background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            boxShadow: '0 4px 20px rgba(0, 212, 255, 0.25)',
+          }}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+            <line x1="9" y1="12" x2="15" y2="12" />
+            <line x1="9" y1="16" x2="13" y2="16" />
+          </svg>
+        </div>
+        <div style={{ flex: 1 }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#fff', margin: 0 }}>
+            ListKit Integration
+          </h2>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0 0' }}>
+            731M+ B2B contacts with triple-verified emails. Export from ListKit → Enrich with AI → Generate cold sequences.
+          </p>
+        </div>
+        <a
+          href="https://listkit.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            padding: '8px 16px',
+            background: LISTKIT_CYAN_DIM,
+            border: `1px solid ${LISTKIT_CYAN_BORDER}`,
+            borderRadius: '8px',
+            color: LISTKIT_CYAN,
+            fontSize: '12px',
+            fontWeight: 600,
+            textDecoration: 'none',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Open ListKit
+        </a>
+      </div>
+
+      {/* Quick Start */}
+      <div
+        style={{
+          background: '#111111',
+          border: '1px solid #222222',
+          borderRadius: '16px',
+          padding: '24px',
+        }}
+      >
+        <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 16px 0' }}>
+          Quick Start — Works Right Now
+        </h3>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'stretch' }}>
+          {[
+            { step: '1', title: 'Build List in ListKit', desc: 'Use AI Company Search or Data Stream to find leads. Triple-verified emails included.', color: LISTKIT_CYAN },
+            { step: '2', title: 'Export CSV', desc: 'Download your lead list as CSV. ListKit includes Company Name, URL, Industry, and more.', color: '#7ed957' },
+            { step: '3', title: 'Drop in Enricher', desc: 'Upload CSV to the Enrich tab. AI qualifies leads, adds location hooks, bad reviews, news, and more.', color: '#ff6b35' },
+            { step: '4', title: 'Generate Sequences', desc: 'Switch to Sequence tab. Generate personalized 3-email cold sequences with merge tags.', color: '#a78bfa' },
+          ].map((s) => (
+            <div
+              key={s.step}
+              style={{
+                flex: 1,
+                padding: '16px',
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid #222222',
+                borderRadius: '12px',
+                borderTop: `3px solid ${s.color}`,
+              }}
+            >
+              <div
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: '50%',
+                  background: `${s.color}20`,
+                  color: s.color,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  marginBottom: '10px',
+                }}
+              >
+                {s.step}
+              </div>
+              <h4 style={{ fontSize: '13px', fontWeight: 600, color: '#fff', margin: '0 0 4px 0' }}>
+                {s.title}
+              </h4>
+              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.5 }}>
+                {s.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={() => onSwitchTab('enrich')}
+          style={{
+            marginTop: '16px',
+            padding: '10px 24px',
+            background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+            border: 'none',
+            borderRadius: '10px',
+            color: '#0a0a0a',
+            fontSize: '13px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          Start Enriching →
+        </button>
+      </div>
+
+      {/* Integration Workflows */}
+      <div>
+        <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 14px 0' }}>
+          Integration Workflows
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          {INTEGRATION_WORKFLOWS.map((wf, i) => (
+            <div
+              key={i}
+              style={{
+                background: '#111111',
+                border: '1px solid #222222',
+                borderRadius: '14px',
+                padding: '20px',
+                borderLeft: `3px solid ${wf.color}`,
+                opacity: wf.ready ? 1 : 0.7,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#fff', margin: 0, flex: 1 }}>
+                  {wf.title}
+                </h4>
+                <span
+                  style={{
+                    padding: '2px 8px',
+                    borderRadius: '6px',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    background: wf.ready ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.04)',
+                    color: wf.ready ? '#7ed957' : 'rgba(255,255,255,0.35)',
+                    border: `1px solid ${wf.ready ? 'rgba(126,217,87,0.2)' : '#222222'}`,
+                  }}
+                >
+                  {wf.ready ? 'Ready' : 'Coming'}
+                </span>
+              </div>
+              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', margin: '0 0 12px 0', lineHeight: 1.5 }}>
+                {wf.desc}
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {wf.steps.map((step, j) => (
+                  <div key={j} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div
+                      style={{
+                        width: 5,
+                        height: 5,
+                        borderRadius: '50%',
+                        background: wf.color,
+                        opacity: 0.6,
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Column Mapping */}
+      <div
+        style={{
+          background: '#111111',
+          border: '1px solid #222222',
+          borderRadius: '16px',
+          padding: '24px',
+        }}
+      >
+        <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 4px 0' }}>
+          ListKit Column Mapping
+        </h3>
+        <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '0 0 16px 0' }}>
+          These ListKit CSV columns are auto-detected by the Enricher
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          {LISTKIT_COLUMNS.map((col) => (
+            <span
+              key={col}
+              style={{
+                padding: '5px 12px',
+                borderRadius: '6px',
+                fontSize: '11px',
+                fontWeight: 500,
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid #222222',
+                color: 'rgba(255,255,255,0.6)',
+                fontFamily: 'var(--font-mono)',
+              }}
+            >
+              {col}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+        {[
+          { label: 'B2B Contacts', value: '731M+', color: LISTKIT_CYAN },
+          { label: 'Email Deliverability', value: '~98%', color: '#7ed957' },
+          { label: 'Intent Topics', value: '21,000+', color: '#a78bfa' },
+          { label: 'Enrichment Cost', value: '1 Spark/lead', color: '#ff6b35' },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            style={{
+              background: '#111111',
+              border: '1px solid #222222',
+              borderRadius: '12px',
+              padding: '16px',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{ fontSize: '22px', fontWeight: 800, color: stat.color, marginBottom: '4px' }}>
+              {stat.value}
+            </div>
+            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
+              {stat.label}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

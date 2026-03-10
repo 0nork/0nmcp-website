@@ -37,7 +37,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit'
 
 interface McpHealth {
   version?: string
@@ -392,6 +392,9 @@ export default function ConsolePage() {
           break
         case '/outreach':
           setView('outreach')
+          break
+        case '/listkit':
+          setView('listkit')
           break
         case '/community':
         case '/forum':
@@ -813,6 +816,13 @@ export default function ConsolePage() {
           {visitedViews.has('outreach') && (
             <div style={{ display: view === 'outreach' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <OutreachView />
+            </div>
+          )}
+
+          {/* ListKit — routes to outreach with listkit context */}
+          {visitedViews.has('listkit') && (
+            <div style={{ display: view === 'listkit' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <OutreachView initialTab="listkit" />
             </div>
           )}
         </main>

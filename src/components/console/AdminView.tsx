@@ -10,7 +10,9 @@ const AdminBilling = lazy(() => import('./AdminBilling').then(m => ({ default: m
 const AdminRedditEngine = lazy(() => import('./AdminRedditEngine').then(m => ({ default: m.AdminRedditEngine })))
 const AdminVendorsLazy = lazy(() => import('./AdminVendors').then(m => ({ default: m.AdminVendors })))
 
-type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
+const AdminEcosystem = lazy(() => import('./AdminEcosystem').then(m => ({ default: m.AdminEcosystem })))
+
+type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'ecosystem' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
 
 interface NavItem {
   key: AdminSection
@@ -29,6 +31,7 @@ const COMPONENT_SECTIONS: NavItem[] = [
   { key: 'billing', label: 'Billing', icon: '\u{1F4B0}', type: 'component' },
   { key: 'reddit-engine', label: 'Reddit Engine', icon: '\u{1F680}', type: 'component' },
   { key: 'sitemap', label: 'Sitemap', icon: '\u{1F5FA}\uFE0F', type: 'component' },
+  { key: 'ecosystem', label: 'Ecosystem', icon: '\u{1F310}', type: 'component' },
 ]
 
 const IFRAME_SECTIONS: NavItem[] = [
@@ -233,6 +236,15 @@ export function AdminView() {
           {section === 'sitemap' && (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <AdminSitemap />
+            </div>
+          )}
+
+          {/* Ecosystem (component) */}
+          {section === 'ecosystem' && (
+            <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading ecosystem...</div>}>
+                <AdminEcosystem />
+              </Suspense>
             </div>
           )}
 

@@ -58,11 +58,27 @@ const NAV_ITEMS: { key: string; label: string; logo: string; href?: string }[] =
     ),
   },
   {
+    key: 'builder',
+    label: 'AI Builder',
+    logo: svg(
+      '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>',
+      '#a78bfa'
+    ),
+  },
+  {
     key: 'store',
     label: 'Marketplace',
     logo: svg(
       '<path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5z"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M16 11a4 4 0 0 1-8 0"/>',
       '#ff6b35'
+    ),
+  },
+  {
+    key: 'vendor',
+    label: 'Vendor',
+    logo: svg(
+      '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+      '#10b981'
     ),
   },
   {

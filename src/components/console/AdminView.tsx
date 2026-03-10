@@ -8,8 +8,9 @@ import { AdminSitemap } from './AdminSitemap'
 const AdminServices = lazy(() => import('./AdminServices').then(m => ({ default: m.AdminServices })))
 const AdminBilling = lazy(() => import('./AdminBilling').then(m => ({ default: m.AdminBilling })))
 const AdminRedditEngine = lazy(() => import('./AdminRedditEngine').then(m => ({ default: m.AdminRedditEngine })))
+const AdminVendorsLazy = lazy(() => import('./AdminVendors').then(m => ({ default: m.AdminVendors })))
 
-type AdminSection = 'overview' | 'defender' | 'users' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
+type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
 
 interface NavItem {
   key: AdminSection
@@ -23,6 +24,7 @@ const COMPONENT_SECTIONS: NavItem[] = [
   { key: 'overview', label: 'Overview', icon: '\u{1F4CA}', type: 'component' },
   { key: 'defender', label: '0nDefender', icon: '\u{1F6E1}\uFE0F', type: 'component' },
   { key: 'users', label: 'Users', icon: '\u{1F465}', type: 'component' },
+  { key: 'vendors', label: 'Vendors', icon: '\u{1F4B3}', type: 'component' },
   { key: 'services', label: 'Services', icon: '\u{1F527}', type: 'component' },
   { key: 'billing', label: 'Billing', icon: '\u{1F4B0}', type: 'component' },
   { key: 'reddit-engine', label: 'Reddit Engine', icon: '\u{1F680}', type: 'component' },
@@ -188,6 +190,15 @@ export function AdminView() {
           {section === 'users' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
               <AdminUsers />
+            </div>
+          )}
+
+          {/* Vendors (component) */}
+          {section === 'vendors' && (
+            <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading vendors...</div>}>
+                <AdminVendorsLazy />
+              </Suspense>
             </div>
           )}
 

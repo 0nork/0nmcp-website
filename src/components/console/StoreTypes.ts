@@ -147,3 +147,112 @@ export interface SubscriptionStatus {
   cancelAtPeriodEnd?: boolean
   trialEnd?: string
 }
+
+// ── Asset Types ──
+
+export type AssetType = 'workflow' | 'landing_page' | 'email' | 'form' | 'product_page'
+
+export const ASSET_TYPE_LABELS: Record<AssetType, string> = {
+  workflow: 'Workflow',
+  landing_page: 'Landing Page',
+  email: 'Email Template',
+  form: 'Form',
+  product_page: 'Product Page',
+}
+
+export const ASSET_TYPE_COLORS: Record<AssetType, string> = {
+  workflow: '#7ed957',
+  landing_page: '#6366f1',
+  email: '#06b6d4',
+  form: '#f59e0b',
+  product_page: '#ec4899',
+}
+
+// ── Builder Asset ──
+
+export interface BuilderAsset {
+  id: string
+  user_id: string
+  asset_type: AssetType
+  title: string
+  prompt: string
+  config: Record<string, unknown>
+  html: string
+  metadata: Record<string, unknown>
+  status: 'draft' | 'published' | 'archived'
+  version: number
+  listing_id: string | null
+  created_at: string
+  updated_at: string
+}
+
+// ── Vendor Profile ──
+
+export interface VendorProfile {
+  id: string
+  user_id: string
+  stripe_account_id: string | null
+  stripe_onboarding_complete: boolean
+  charges_enabled: boolean
+  payouts_enabled: boolean
+  details_submitted: boolean
+  business_name: string | null
+  business_type: string
+  country: string
+  application_fee_percent: number
+  vendor_tier: string
+  is_approved: boolean
+  is_active: boolean
+  total_revenue_cents: number
+  total_payouts_cents: number
+  total_sales: number
+  vendor_slug: string | null
+  vendor_bio: string | null
+  vendor_avatar_url: string | null
+  applied_at: string
+  approved_at: string | null
+}
+
+// ── Vendor Dashboard Stats ──
+
+export interface VendorDashboard {
+  profile: VendorProfile
+  listingCount: number
+  recentTransactions: VendorTransaction[]
+  payouts: VendorPayout[]
+  monthlyRevenue: { month: string; revenue: number }[]
+}
+
+export interface VendorTransaction {
+  id: string
+  listing_name: string
+  amount_cents: number
+  platform_fee_cents: number
+  vendor_payout_cents: number
+  status: string
+  created_at: string
+  buyer_name?: string
+}
+
+export interface VendorPayout {
+  id: string
+  amount_cents: number
+  currency: string
+  status: string
+  arrival_date: string | null
+  created_at: string
+}
+
+// ── Store Review ──
+
+export interface StoreReview {
+  id: string
+  buyer_id: string
+  listing_id: string
+  rating: number
+  review_text: string | null
+  is_verified_purchase: boolean
+  created_at: string
+  buyer_name?: string
+  buyer_avatar?: string
+}

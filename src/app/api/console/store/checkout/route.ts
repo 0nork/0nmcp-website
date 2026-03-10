@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
+import { createMarketplaceCheckout } from '@/lib/stripe-connect'
 
 export const dynamic = 'force-dynamic'
 
@@ -60,7 +61,34 @@ export async function POST(request: NextRequest) {
     return await completePurchase({ supabase, user, listing, listingId, amount: 0 })
   }
 
-  // Paid listing — require stripe_price_id
+  // Vendor listing — route through Stripe Connect with fee splitting
+  if (listing.vendor_id) {
+    try {
+      const result = await createMarketplaceCheckout({
+        buyerId: user.id,
+        buyerEmail: user.email || '',
+        vendorId: listing.vendor_id,
+        listingId: listing.id,
+        listingName: listing.title,
+        amountCents: listing.price,
+        successUrl: `${SITE_URL}/console?view=store&purchased=true&session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${SITE_URL}/console?view=store`,
+        metadata: {
+          listingId: listing.id,
+          buyerId: user.id,
+          assetType: listing.asset_type || 'workflow',
+        },
+      })
+      return NextResponse.json({ checkoutUrl: result.checkout_url })
+    } catch (err) {
+      return NextResponse.json(
+        { error: (err as Error).message || 'Marketplace checkout failed' },
+        { status: 500 }
+      )
+    }
+  }
+
+  // Platform listing — require stripe_price_id
   if (!listing.stripe_price_id) {
     return NextResponse.json(
       { error: 'Listing is paid but has no Stripe price configured' },
@@ -68,7 +96,7 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Create Stripe Checkout session
+  // Create Stripe Checkout session (platform-owned listing)
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: [
@@ -159,6 +187,23 @@ async function completePurchase({ supabase, user, listing, listingId, amount, st
       .single()
 
     if (vf) vaultFileId = vf.id
+  }
+
+  // For builder asset purchases, copy HTML to buyer's builder_assets
+  const assetTypes = ['landing_page', 'email', 'form', 'product_page']
+  if (listing.asset_type && assetTypes.includes(listing.asset_type) && listing.workflow_data) {
+    const wfData = listing.workflow_data as Record<string, unknown>
+    await supabase.from('builder_assets').insert({
+      user_id: user.id,
+      asset_type: listing.asset_type,
+      title: listing.title,
+      prompt: (wfData.prompt as string) || `Purchased: ${listing.title}`,
+      config: wfData.config || {},
+      html: (wfData.html as string) || '',
+      metadata: wfData.metadata || {},
+      status: 'draft',
+      listing_id: listingId,
+    }).then(() => {}) // fire and forget
   }
 
   // Record purchase

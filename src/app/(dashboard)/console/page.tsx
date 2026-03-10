@@ -26,6 +26,8 @@ import { SmartPrompts } from '@/components/console/SmartPrompts'
 import { PinnedCommands } from '@/components/console/PinnedCommands'
 import { OperationsView, SocialView, ReportingView, CodeView, LinkedInView, MigrateView, ConvertView } from '@/components/console/FeatureViews'
 import { SparkView } from '@/components/console/SparkView'
+import { BuilderView } from '@/components/console/BuilderView'
+import { VendorView } from '@/components/console/VendorView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -34,7 +36,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder'
 
 interface McpHealth {
   version?: string
@@ -252,6 +254,12 @@ export default function ConsolePage() {
       window.history.replaceState({}, '', '/console')
     }
 
+    // Detect vendor onboarding return
+    if (params.get('vendor') === 'onboarded' || params.get('vendor') === 'refresh') {
+      setView('vendor')
+      window.history.replaceState({}, '', '/console')
+    }
+
     // Load premium purchases for flows view
     store.fetchPurchases()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -376,7 +384,10 @@ export default function ConsolePage() {
           setView('flows')
           break
         case '/builder':
-          window.location.href = '/builder'
+          setView('builder')
+          break
+        case '/vendor':
+          setView('vendor')
           break
         case '/community':
         case '/forum':
@@ -457,7 +468,6 @@ export default function ConsolePage() {
       return
     }
     // External pages — navigate away from console
-    if (v === 'builder') { window.location.href = '/builder'; return }
     if (v === 'terminal') { window.location.href = '/console/terminal'; return }
     setView(v as View)
     if (v !== 'vault') {
@@ -778,6 +788,20 @@ export default function ConsolePage() {
                 mcpWorkflows={mcpWorkflows}
                 onRunWorkflow={handleRunWorkflow}
               />
+            </div>
+          )}
+
+          {/* AI Marketing Builder */}
+          {visitedViews.has('builder') && (
+            <div style={{ display: view === 'builder' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
+              <BuilderView />
+            </div>
+          )}
+
+          {/* Vendor Dashboard */}
+          {visitedViews.has('vendor') && (
+            <div style={{ display: view === 'vendor' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <VendorView />
             </div>
           )}
         </main>

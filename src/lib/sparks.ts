@@ -83,6 +83,9 @@ export const SPARK_COSTS: Record<string, number> = {
   'console.workflow.create': 2,
   'console.export': 1,
 
+  // Builder operations
+  'api.builder.generate': 10,
+
   // Store operations
   'store.purchase': 0,  // free — paid via Stripe directly
   'store.download': 0,  // downloads are free — we want adoption

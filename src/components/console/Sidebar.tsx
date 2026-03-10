@@ -125,6 +125,15 @@ const NAV_CATEGORIES: NavCategory[] = [
           CAT_COLORS.ai
         ),
       },
+      {
+        key: 'training',
+        label: 'Brain',
+        logo: svgDual(
+          '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>',
+          '<path d="M12 8c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4z"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/>',
+          CAT_COLORS.ai
+        ),
+      },
     ],
   },
   {

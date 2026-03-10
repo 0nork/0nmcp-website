@@ -29,6 +29,7 @@ import { SparkView } from '@/components/console/SparkView'
 import { BuilderView } from '@/components/console/BuilderView'
 import { VendorView } from '@/components/console/VendorView'
 import { OutreachView } from '@/components/console/OutreachView'
+import { TrainingView } from '@/components/console/TrainingView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -37,7 +38,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training'
 
 interface McpHealth {
   version?: string
@@ -395,6 +396,10 @@ export default function ConsolePage() {
           break
         case '/listkit':
           setView('listkit')
+          break
+        case '/training':
+        case '/brain':
+          setView('training')
           break
         case '/community':
         case '/forum':
@@ -823,6 +828,13 @@ export default function ConsolePage() {
           {visitedViews.has('listkit') && (
             <div style={{ display: view === 'listkit' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <OutreachView initialTab="listkit" />
+            </div>
+          )}
+
+          {/* Brain Training */}
+          {visitedViews.has('training') && (
+            <div style={{ display: view === 'training' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <TrainingView isAdmin={isAdmin} />
             </div>
           )}
         </main>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 
 type Platform = 'claude-desktop' | 'claude-web' | 'claude-mobile' | 'claude-code'
+type InstallMethod = 'one-line' | 'download' | 'config' | 'dashboard'
 
 interface PlatformInfo {
   id: Platform
@@ -21,23 +22,23 @@ const PLATFORMS: PlatformInfo[] = [
     icon: '🖥',
     color: '#a78bfa',
     steps: [
-      { title: 'Create a new Project', desc: 'Open Claude Desktop → Click "Projects" in the sidebar → "New Project"' },
+      { title: 'Create a new Project', desc: 'Open Claude Desktop → Click "Projects" → "New Project"' },
       { title: 'Name it "0nMCP"', desc: 'Give your project a name so you can find it easily' },
       { title: 'Add the instructions', desc: 'Click "Set custom instructions" → Paste the 0nMCP instructions below' },
-      { title: 'Start chatting', desc: 'Open the project and say "/0nmcp login" — Claude becomes your 0nMCP environment' },
+      { title: 'Start chatting', desc: 'Open the project and say "/0nmcp login"' },
     ],
   },
   {
     id: 'claude-web',
     name: 'Claude Web',
-    subtitle: 'claude.ai in your browser',
+    subtitle: 'claude.ai in browser',
     icon: '🌐',
     color: '#00d4ff',
     steps: [
-      { title: 'Go to claude.ai', desc: 'Open claude.ai in your browser and sign in' },
-      { title: 'Create a new Project', desc: 'Click "Projects" in the sidebar → "Create project"' },
-      { title: 'Add custom instructions', desc: 'Click the project settings → "Set custom instructions" → Paste the 0nMCP instructions below' },
-      { title: 'Start using 0nMCP', desc: 'Open a new chat in the project and say "/0nmcp login"' },
+      { title: 'Go to claude.ai', desc: 'Open claude.ai and sign in' },
+      { title: 'Create a Project', desc: 'Click "Projects" → "Create project"' },
+      { title: 'Set custom instructions', desc: 'Paste the 0nMCP instructions' },
+      { title: 'Start using 0nMCP', desc: 'Say "/0nmcp login" in a new chat' },
     ],
   },
   {
@@ -47,10 +48,10 @@ const PLATFORMS: PlatformInfo[] = [
     icon: '📱',
     color: '#7ed957',
     steps: [
-      { title: 'Create a Project on the web', desc: 'Go to claude.ai on your computer first and create a project (Projects sync across all devices)' },
-      { title: 'Add the instructions', desc: 'Paste the 0nMCP instructions as custom instructions in the project' },
-      { title: 'Open Claude on your device', desc: 'The project will appear automatically in your Claude mobile app' },
-      { title: 'Chat with 0nMCP anywhere', desc: 'Open the project on your phone or iPad and start using 0nMCP on the go' },
+      { title: 'Set up on the web first', desc: 'Create a project at claude.ai — Projects sync to mobile' },
+      { title: 'Add instructions', desc: 'Paste 0nMCP instructions as custom instructions' },
+      { title: 'Open Claude on your device', desc: 'The project appears automatically' },
+      { title: 'Use 0nMCP anywhere', desc: 'Open the project and start chatting' },
     ],
   },
   {
@@ -60,32 +61,33 @@ const PLATFORMS: PlatformInfo[] = [
     icon: '⌨️',
     color: '#ff6b35',
     steps: [
-      { title: 'Download the skill file', desc: 'Click the download button below to save the SKILL.md file' },
-      { title: 'Save to skills folder', desc: 'Move the downloaded file to: ~/.claude/skills/0nmcp/SKILL.md' },
-      { title: 'Type /0nmcp', desc: 'In Claude Code, type /0nmcp login and enter your 0nmcp.com credentials' },
-      { title: 'You\'re connected', desc: 'Full 0nMCP environment — Vault, Sparks, Store, Brain — right in your terminal' },
+      { title: 'Install with one command', desc: 'Run the installer in your terminal — or choose a method below' },
+      { title: 'Login', desc: 'Type /0nmcp login and enter your credentials' },
+      { title: 'You\'re connected', desc: 'Vault, Sparks, Store, Brain — all in your terminal' },
     ],
   },
 ]
 
+const INSTALL_METHODS: { id: InstallMethod; label: string; desc: string; icon: string; color: string }[] = [
+  { id: 'one-line', label: 'One-Line Installer', desc: 'curl command installs everything + opens dashboard', icon: '⚡', color: '#ff6b35' },
+  { id: 'download', label: 'Download SKILL.md', desc: 'Manual: save to ~/.claude/skills/0nmcp/', icon: '📄', color: '#7ed957' },
+  { id: 'dashboard', label: 'Interactive Dashboard', desc: 'Standalone HTML control panel', icon: '📊', color: '#00d4ff' },
+  { id: 'config', label: 'Project Config', desc: '.claude.json with MCP + skill config', icon: '⚙️', color: '#a78bfa' },
+]
+
 export function SkillInstallClient() {
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null)
+  const [selectedMethod, setSelectedMethod] = useState<InstallMethod | null>(null)
   const [copied, setCopied] = useState(false)
+  const [installerCopied, setInstallerCopied] = useState(false)
   const [detectedPlatform, setDetectedPlatform] = useState<Platform | null>(null)
 
-  // Auto-detect platform
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase()
-    if (/iphone|ipad|ipod/.test(ua)) {
+    if (/iphone|ipad|ipod|android/.test(ua)) {
       setDetectedPlatform('claude-mobile')
       setSelectedPlatform('claude-mobile')
-    } else if (/android/.test(ua)) {
-      setDetectedPlatform('claude-mobile')
-      setSelectedPlatform('claude-mobile')
-    } else if (/mac/.test(ua)) {
-      setDetectedPlatform('claude-desktop')
-      setSelectedPlatform('claude-desktop')
-    } else if (/windows/.test(ua)) {
+    } else if (/mac|windows/.test(ua)) {
       setDetectedPlatform('claude-desktop')
       setSelectedPlatform('claude-desktop')
     } else {
@@ -104,9 +106,16 @@ export function SkillInstallClient() {
       setCopied(true)
       setTimeout(() => setCopied(false), 3000)
     } catch {
-      // Fallback: open in new tab
       window.open('/api/skill/download', '_blank')
     }
+  }
+
+  async function copyInstaller() {
+    try {
+      await navigator.clipboard.writeText('curl -sL https://www.0nmcp.com/api/skill/install | sh')
+      setInstallerCopied(true)
+      setTimeout(() => setInstallerCopied(false), 3000)
+    } catch { /* fallback handled below */ }
   }
 
   return (
@@ -123,68 +132,41 @@ export function SkillInstallClient() {
         padding: '60px 24px 40px',
         textAlign: 'center',
       }}>
-        {/* Back link */}
         <a href="/" style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 6,
-          color: '#78788c',
-          fontSize: 13,
-          textDecoration: 'none',
-          marginBottom: 32,
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          color: '#78788c', fontSize: 13, textDecoration: 'none', marginBottom: 32,
         }}>
           ← Back to 0nmcp.com
         </a>
 
         <div style={{
-          display: 'inline-flex',
-          padding: '6px 16px',
-          borderRadius: 20,
-          background: 'rgba(126, 217, 87, 0.1)',
-          border: '1px solid rgba(126, 217, 87, 0.3)',
-          fontSize: 13,
-          color: '#7ed957',
-          fontWeight: 600,
-          marginBottom: 24,
+          display: 'inline-flex', padding: '6px 16px', borderRadius: 20,
+          background: 'rgba(126, 217, 87, 0.1)', border: '1px solid rgba(126, 217, 87, 0.3)',
+          fontSize: 13, color: '#7ed957', fontWeight: 600, marginBottom: 24,
         }}>
           Free — No credit card needed
         </div>
 
         <h1 style={{
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-          fontWeight: 800,
-          lineHeight: 1.1,
-          margin: '0 0 16px 0',
-          color: '#e2e2e8',
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800,
+          lineHeight: 1.1, margin: '0 0 16px 0', color: '#e2e2e8',
         }}>
           Add <span style={{ color: '#ff6b35' }}>0nMCP</span> to Claude
         </h1>
 
         <p style={{
-          fontSize: 'clamp(16px, 2.5vw, 20px)',
-          color: '#9898a8',
-          maxWidth: 600,
-          margin: '0 auto 40px',
-          lineHeight: 1.6,
+          fontSize: 'clamp(16px, 2.5vw, 20px)', color: '#9898a8',
+          maxWidth: 600, margin: '0 auto 40px', lineHeight: 1.6,
         }}>
-          850 tools. 53 services. Your Vault, workflows, and AI brain — right inside any Claude app. Takes 60 seconds.
+          850 tools. 53 services. Your Vault, workflows, and AI brain — right inside any Claude app.
         </p>
       </div>
 
       {/* Platform Selector */}
-      <div style={{
-        maxWidth: 900,
-        margin: '0 auto',
-        padding: '0 24px',
-      }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
         <h2 style={{
-          fontSize: 15,
-          color: '#78788c',
-          textAlign: 'center',
-          marginBottom: 16,
-          fontWeight: 600,
-          textTransform: 'uppercase',
-          letterSpacing: 1,
+          fontSize: 15, color: '#78788c', textAlign: 'center', marginBottom: 16,
+          fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1,
         }}>
           {detectedPlatform ? 'We detected your platform — choose yours' : 'Choose your platform'}
         </h2>
@@ -192,8 +174,7 @@ export function SkillInstallClient() {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: 12,
-          marginBottom: 40,
+          gap: 12, marginBottom: 40,
         }}>
           {PLATFORMS.map((p) => {
             const isSelected = selectedPlatform === p.id
@@ -201,31 +182,21 @@ export function SkillInstallClient() {
             return (
               <button
                 key={p.id}
-                onClick={() => setSelectedPlatform(p.id)}
+                onClick={() => { setSelectedPlatform(p.id); setSelectedMethod(null) }}
                 style={{
                   position: 'relative',
                   background: isSelected ? `${p.color}12` : 'rgba(255,255,255,0.02)',
                   border: `2px solid ${isSelected ? `${p.color}66` : 'rgba(255,255,255,0.06)'}`,
-                  borderRadius: 14,
-                  padding: '20px 16px',
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                  transition: 'all 0.2s',
-                  color: 'var(--text-primary, #e2e2e8)',
+                  borderRadius: 14, padding: '20px 16px',
+                  cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s',
+                  color: '#e2e2e8',
                 }}
               >
                 {isDetected && (
                   <div style={{
-                    position: 'absolute',
-                    top: -8,
-                    right: -8,
-                    background: p.color,
-                    color: '#0a0a0f',
-                    fontSize: 10,
-                    fontWeight: 700,
-                    padding: '2px 8px',
-                    borderRadius: 10,
-                    letterSpacing: '0.03em',
+                    position: 'absolute', top: -8, right: -8,
+                    background: p.color, color: '#0a0a0f', fontSize: 10, fontWeight: 700,
+                    padding: '2px 8px', borderRadius: 10, letterSpacing: '0.03em',
                   }}>
                     DETECTED
                   </div>
@@ -245,37 +216,18 @@ export function SkillInstallClient() {
 
       {/* Platform-specific instructions */}
       {platform && (
-        <div style={{
-          maxWidth: 700,
-          margin: '0 auto',
-          padding: '0 24px 40px',
-        }}>
-          {/* Step-by-step */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 0,
-          }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 24px 20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {platform.steps.map((step, i) => (
               <div key={i} style={{
-                display: 'flex',
-                gap: 16,
-                padding: '20px 0',
+                display: 'flex', gap: 16, padding: '20px 0',
                 borderBottom: i < platform.steps.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
               }}>
                 <div style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 18,
-                  background: `${platform.color}18`,
-                  border: `2px solid ${platform.color}44`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 800,
-                  color: platform.color,
-                  fontSize: 15,
-                  flexShrink: 0,
+                  width: 36, height: 36, borderRadius: 18,
+                  background: `${platform.color}18`, border: `2px solid ${platform.color}44`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontWeight: 800, color: platform.color, fontSize: 15, flexShrink: 0,
                 }}>
                   {i + 1}
                 </div>
@@ -290,122 +242,246 @@ export function SkillInstallClient() {
               </div>
             ))}
           </div>
+        </div>
+      )}
 
-          {/* Action Button — platform-specific */}
-          <div style={{
-            marginTop: 32,
-            padding: 28,
-            background: `${platform.color}08`,
-            border: `1px solid ${platform.color}22`,
-            borderRadius: 16,
-            textAlign: 'center',
-          }}>
-            {selectedPlatform === 'claude-code' ? (
-              <>
-                <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
-                  Download the skill file and save it to your skills folder:
-                </p>
-                <a
-                  href="/api/skill/download"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    padding: '14px 32px',
-                    background: `linear-gradient(135deg, ${platform.color}, ${platform.color}cc)`,
-                    color: 'white',
-                    borderRadius: 12,
-                    fontWeight: 700,
-                    fontSize: 16,
-                    textDecoration: 'none',
-                    border: 'none',
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  Download SKILL.md
-                </a>
-                <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
-                  Save to: <code style={{ color: platform.color }}>~/.claude/skills/0nmcp/SKILL.md</code>
-                </p>
-              </>
-            ) : (
-              <>
-                <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
-                  Copy the 0nMCP instructions and paste them into your Claude Project:
-                </p>
-                <button
-                  onClick={copyInstructions}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    padding: '14px 32px',
-                    background: copied
-                      ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
-                      : `linear-gradient(135deg, ${platform.color}, ${platform.color}cc)`,
-                    color: 'white',
-                    borderRadius: 12,
-                    fontWeight: 700,
-                    fontSize: 16,
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
-                    minWidth: 260,
-                  }}
-                >
-                  {copied ? (
+      {/* Installation Methods — Claude Code gets all 4, others get copy */}
+      {platform && (
+        <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 24px 40px' }}>
+          {selectedPlatform === 'claude-code' ? (
+            <>
+              <h2 style={{
+                fontSize: 15, color: '#78788c', textAlign: 'center', marginBottom: 16,
+                fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1,
+              }}>
+                Choose install method
+              </h2>
+
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 10, marginBottom: 24,
+              }}>
+                {INSTALL_METHODS.map((m) => {
+                  const isSelected = selectedMethod === m.id
+                  return (
+                    <button
+                      key={m.id}
+                      onClick={() => setSelectedMethod(m.id)}
+                      style={{
+                        padding: '16px 18px', borderRadius: 12, textAlign: 'left',
+                        background: isSelected ? `${m.color}0c` : 'rgba(255,255,255,0.02)',
+                        border: `2px solid ${isSelected ? `${m.color}55` : 'rgba(255,255,255,0.06)'}`,
+                        cursor: 'pointer', transition: 'all 0.15s', color: '#e2e2e8',
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                        <span style={{ fontSize: 20 }}>{m.icon}</span>
+                        <span style={{ fontWeight: 700, fontSize: 14, color: isSelected ? m.color : '#e2e2e8' }}>
+                          {m.label}
+                        </span>
+                      </div>
+                      <p style={{ margin: 0, fontSize: 12, color: '#78788c', lineHeight: 1.4 }}>
+                        {m.desc}
+                      </p>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Method-specific action */}
+              {selectedMethod && (
+                <div style={{
+                  padding: 28,
+                  background: `${INSTALL_METHODS.find(m => m.id === selectedMethod)!.color}08`,
+                  border: `1px solid ${INSTALL_METHODS.find(m => m.id === selectedMethod)!.color}22`,
+                  borderRadius: 16, textAlign: 'center',
+                }}>
+                  {selectedMethod === 'one-line' && (
                     <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      Copied! Now paste in Claude
-                    </>
-                  ) : (
-                    <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                      </svg>
-                      Copy 0nMCP Instructions
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                        Run this in your terminal — installs SKILL.md + dashboard + config:
+                      </p>
+                      <div style={{
+                        background: 'rgba(0,0,0,0.4)', borderRadius: 10,
+                        padding: '16px 20px', marginBottom: 16,
+                        fontFamily: 'JetBrains Mono, SF Mono, monospace',
+                        fontSize: 14, color: '#ff6b35', userSelect: 'all',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        textAlign: 'left',
+                      }}>
+                        curl -sL https://www.0nmcp.com/api/skill/install | sh
+                      </div>
+                      <button
+                        onClick={copyInstaller}
+                        className="btn-primary"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 10,
+                          padding: '14px 32px',
+                          background: installerCopied
+                            ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+                            : 'linear-gradient(135deg, #ff6b35, #e55a2b)',
+                          color: 'white', borderRadius: 12, fontWeight: 700,
+                          fontSize: 16, border: 'none', cursor: 'pointer',
+                          transition: 'all 0.3s', fontFamily: 'inherit',
+                        }}
+                      >
+                        {installerCopied ? 'Copied!' : 'Copy Command'}
+                      </button>
                     </>
                   )}
-                </button>
-                {selectedPlatform === 'claude-mobile' && (
-                  <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
-                    Tip: Set this up on your computer first — Projects sync to mobile automatically.
-                  </p>
+
+                  {selectedMethod === 'download' && (
+                    <>
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                        Download the skill file and save it to your skills folder:
+                      </p>
+                      <a
+                        href="/api/skill/download"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 10,
+                          padding: '14px 32px',
+                          background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                          color: 'white', borderRadius: 12, fontWeight: 700,
+                          fontSize: 16, textDecoration: 'none', border: 'none',
+                        }}
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="7 10 12 15 17 10" />
+                          <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Download SKILL.md
+                      </a>
+                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                        Save to: <code style={{ color: '#7ed957' }}>~/.claude/skills/0nmcp/SKILL.md</code>
+                      </p>
+                    </>
+                  )}
+
+                  {selectedMethod === 'dashboard' && (
+                    <>
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                        A standalone HTML app — open locally to manage your 0nMCP account:
+                      </p>
+                      <a
+                        href="/api/skill/dashboard"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 10,
+                          padding: '14px 32px',
+                          background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
+                          color: 'white', borderRadius: 12, fontWeight: 700,
+                          fontSize: 16, textDecoration: 'none', border: 'none',
+                        }}
+                      >
+                        Download Dashboard
+                      </a>
+                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                        Open <code style={{ color: '#00d4ff' }}>dashboard.html</code> in any browser. Vault, Sparks, Brain — all local.
+                      </p>
+                    </>
+                  )}
+
+                  {selectedMethod === 'config' && (
+                    <>
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                        Pre-configured Claude Code project settings with MCP server reference:
+                      </p>
+                      <a
+                        href="/api/skill/config"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 10,
+                          padding: '14px 32px',
+                          background: 'linear-gradient(135deg, #a78bfa, #8b5cf6)',
+                          color: 'white', borderRadius: 12, fontWeight: 700,
+                          fontSize: 16, textDecoration: 'none', border: 'none',
+                        }}
+                      >
+                        Download .claude.json
+                      </a>
+                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                        Place in your project root. Registers the skill + MCP server config.
+                      </p>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {!selectedMethod && (
+                <div style={{
+                  padding: 24, borderRadius: 14,
+                  border: '1px dashed rgba(255,255,255,0.1)',
+                  textAlign: 'center', color: '#5a5a6a', fontSize: 14,
+                }}>
+                  Select an install method above
+                </div>
+              )}
+            </>
+          ) : (
+            /* Non-Code platforms: copy instructions */
+            <div style={{
+              padding: 28,
+              background: `${platform.color}08`,
+              border: `1px solid ${platform.color}22`,
+              borderRadius: 16, textAlign: 'center',
+            }}>
+              <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                Copy the 0nMCP instructions and paste them into your Claude Project:
+              </p>
+              <button
+                onClick={copyInstructions}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 10,
+                  padding: '14px 32px',
+                  background: copied
+                    ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+                    : `linear-gradient(135deg, ${platform.color}, ${platform.color}cc)`,
+                  color: 'white', borderRadius: 12, fontWeight: 700,
+                  fontSize: 16, border: 'none', cursor: 'pointer',
+                  transition: 'all 0.3s', minWidth: 260, fontFamily: 'inherit',
+                }}
+              >
+                {copied ? (
+                  <>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Copied! Now paste in Claude
+                  </>
+                ) : (
+                  <>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    Copy 0nMCP Instructions
+                  </>
                 )}
-              </>
-            )}
-          </div>
+              </button>
+              {selectedPlatform === 'claude-mobile' && (
+                <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                  Tip: Set this up on your computer first — Projects sync to mobile automatically.
+                </p>
+              )}
+            </div>
+          )}
         </div>
       )}
 
       {/* Account requirement */}
-      <div style={{
-        maxWidth: 600,
-        margin: '0 auto',
-        padding: '0 24px 40px',
-      }}>
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 24px 40px' }}>
         <div style={{
           background: 'rgba(255, 107, 53, 0.06)',
           border: '1px solid rgba(255, 107, 53, 0.15)',
-          borderRadius: 14,
-          padding: '24px 28px',
-          display: 'flex',
-          gap: 16,
-          alignItems: 'center',
+          borderRadius: 14, padding: '24px 28px',
+          display: 'flex', gap: 16, alignItems: 'center',
         }}>
           <div style={{
             width: 48, height: 48, borderRadius: 12,
             background: 'rgba(255, 107, 53, 0.12)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 24,
-            flexShrink: 0,
+            fontSize: 24, flexShrink: 0,
           }}>
             👤
           </div>
@@ -414,22 +490,15 @@ export function SkillInstallClient() {
               Free account required
             </h3>
             <p style={{ margin: '0 0 12px 0', fontSize: 13, color: '#9898a8', lineHeight: 1.5 }}>
-              You need an 0nmcp.com account to use the skill. Sign up takes 30 seconds — no credit card needed.
+              You need an 0nmcp.com account. Sign up takes 30 seconds — no credit card.
             </p>
             <a
               href="/signup"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '8px 20px',
-                background: 'rgba(255, 107, 53, 0.15)',
-                color: '#ff6b35',
-                borderRadius: 8,
-                fontWeight: 600,
-                fontSize: 13,
-                textDecoration: 'none',
-                border: '1px solid rgba(255, 107, 53, 0.3)',
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                padding: '8px 20px', background: 'rgba(255, 107, 53, 0.15)',
+                color: '#ff6b35', borderRadius: 8, fontWeight: 600, fontSize: 13,
+                textDecoration: 'none', border: '1px solid rgba(255, 107, 53, 0.3)',
               }}
             >
               Create Free Account →
@@ -439,18 +508,8 @@ export function SkillInstallClient() {
       </div>
 
       {/* What You Get */}
-      <div style={{
-        maxWidth: 900,
-        margin: '0 auto',
-        padding: '0 24px 60px',
-      }}>
-        <h2 style={{
-          fontSize: 24,
-          fontWeight: 700,
-          textAlign: 'center',
-          marginBottom: 28,
-          color: '#e2e2e8',
-        }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px 60px' }}>
+        <h2 style={{ fontSize: 24, fontWeight: 700, textAlign: 'center', marginBottom: 28, color: '#e2e2e8' }}>
           What you unlock inside Claude
         </h2>
         <div style={{
@@ -459,18 +518,16 @@ export function SkillInstallClient() {
           gap: 14,
         }}>
           {[
-            { icon: '🔐', title: 'Vault — Encrypted API Keys', desc: 'Your API keys, encrypted with AES-256, loaded securely into each conversation', color: '#f59e0b' },
-            { icon: '⚡', title: 'Sparks — Pay Per Action', desc: 'Credits that power everything. Check balance, spend, top up — all inside Claude', color: '#ff6b35' },
-            { icon: '🏪', title: 'Store — 50+ Workflows', desc: 'Browse pre-built automations. Purchase once, run anywhere, anytime', color: '#00d4ff' },
-            { icon: '🧠', title: 'Council Brain', desc: 'A self-training AI with 7 personas. View status, contribute knowledge, level up', color: '#a78bfa' },
-            { icon: '🔧', title: '850 Tools, 53 Services', desc: 'CRM, Stripe, Slack, GitHub, Supabase, and 48 more — orchestrate everything', color: '#7ed957' },
-            { icon: '🔄', title: 'Live Account Sync', desc: 'Connected to your 0nmcp.com account. Everything stays in sync across devices', color: '#00d4ff' },
+            { icon: '🔐', title: 'Vault — Encrypted API Keys', desc: 'AES-256 encrypted. 2-way sync between Claude and the web.', color: '#f59e0b' },
+            { icon: '⚡', title: 'Sparks — Pay Per Action', desc: 'Credits that power everything. Check, spend, top up.', color: '#ff6b35' },
+            { icon: '🏪', title: 'Store — 50+ Workflows', desc: 'Pre-built automations. Purchase once, run anywhere.', color: '#00d4ff' },
+            { icon: '🧠', title: 'Council Brain', desc: '7-persona self-training AI. View status, contribute, level up.', color: '#a78bfa' },
+            { icon: '🔧', title: '850 Tools, 53 Services', desc: 'CRM, Stripe, Slack, GitHub, Supabase, and 48 more.', color: '#7ed957' },
+            { icon: '🔄', title: '4 Install Methods', desc: 'One-liner, download, dashboard, config — however you work.', color: '#00d4ff' },
           ].map((f) => (
             <div key={f.title} style={{
-              padding: '20px 22px',
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
-              borderRadius: 14,
+              padding: '20px 22px', background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                 <span style={{ fontSize: 24 }}>{f.icon}</span>
@@ -483,32 +540,19 @@ export function SkillInstallClient() {
       </div>
 
       {/* Command Reference */}
-      <div style={{
-        maxWidth: 600,
-        margin: '0 auto',
-        padding: '0 24px 60px',
-      }}>
-        <h2 style={{
-          fontSize: 20,
-          fontWeight: 700,
-          textAlign: 'center',
-          marginBottom: 20,
-          color: '#e2e2e8',
-        }}>
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 24px 60px' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginBottom: 20, color: '#e2e2e8' }}>
           Just type these in Claude
         </h2>
         <div style={{
-          background: 'rgba(0,0,0,0.3)',
-          border: '1px solid rgba(255,255,255,0.06)',
-          borderRadius: 14,
-          padding: '20px 24px',
-          fontSize: 14,
-          lineHeight: 2.2,
+          background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)',
+          borderRadius: 14, padding: '20px 24px', fontSize: 14, lineHeight: 2.2,
         }}>
           {[
             { cmd: '/0nmcp login', desc: 'Connect your account' },
             { cmd: '/0nmcp', desc: 'See your status' },
             { cmd: '/0nmcp vault', desc: 'Your API keys' },
+            { cmd: '/0nmcp vault save <svc>', desc: 'Push key to vault' },
             { cmd: '/0nmcp sparks', desc: 'Check your balance' },
             { cmd: '/0nmcp store', desc: 'Browse workflows' },
             { cmd: '/0nmcp brain', desc: 'AI brain status' },
@@ -523,8 +567,7 @@ export function SkillInstallClient() {
 
       {/* Bottom CTA */}
       <div style={{
-        textAlign: 'center',
-        padding: '40px 24px 80px',
+        textAlign: 'center', padding: '40px 24px 80px',
         borderTop: '1px solid rgba(255,255,255,0.05)',
       }}>
         <p style={{ color: '#9898a8', fontSize: 16, marginBottom: 20, fontWeight: 500 }}>
@@ -532,21 +575,13 @@ export function SkillInstallClient() {
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <button
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
+              display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '14px 28px',
               background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-              color: 'white',
-              borderRadius: 12,
-              fontWeight: 700,
-              fontSize: 16,
-              border: 'none',
-              cursor: 'pointer',
+              color: 'white', borderRadius: 12, fontWeight: 700, fontSize: 16,
+              border: 'none', cursor: 'pointer',
             }}
           >
             Get Started ↑
@@ -554,17 +589,10 @@ export function SkillInstallClient() {
           <a
             href="/signup"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '14px 28px',
-              background: 'rgba(255,255,255,0.05)',
-              color: '#e2e2e8',
-              borderRadius: 12,
-              fontWeight: 600,
-              fontSize: 16,
-              textDecoration: 'none',
-              border: '1px solid rgba(255,255,255,0.1)',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '14px 28px', background: 'rgba(255,255,255,0.05)',
+              color: '#e2e2e8', borderRadius: 12, fontWeight: 600, fontSize: 16,
+              textDecoration: 'none', border: '1px solid rgba(255,255,255,0.1)',
             }}
           >
             Create Free Account

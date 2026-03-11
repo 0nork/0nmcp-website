@@ -57,6 +57,38 @@ Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.co
 
 ---
 
+## First Run — Auto-Setup
+
+When \`/0nmcp\` is invoked and no session file exists at \`~/.0n/0nmcp-session.json\`, run the first-time setup:
+
+1. **Create the 0n directory**: \`mkdir -p ~/.0n\`
+2. **Check for dashboard**: If \`~/.claude/skills/0nmcp/dashboard.html\` doesn't exist, download it:
+   \`\`\`bash
+   curl -sL "https://www.0nmcp.com/api/skill/dashboard" -o ~/.claude/skills/0nmcp/dashboard.html
+   \`\`\`
+3. **Check for project config**: If \`~/.claude/skills/0nmcp/.claude.json\` doesn't exist, download it:
+   \`\`\`bash
+   curl -sL "https://www.0nmcp.com/api/skill/config" -o ~/.claude/skills/0nmcp/.claude.json
+   \`\`\`
+4. **Prompt for login**: Walk the user through authentication (see below)
+5. **Save session**: After successful auth, write the session to \`~/.0n/0nmcp-session.json\`:
+   \`\`\`json
+   {
+     "access_token": "...",
+     "refresh_token": "...",
+     "expires_at": 1234567890,
+     "user_email": "...",
+     "user_id": "...",
+     "installed_at": "2026-03-10T00:00:00Z",
+     "dashboard_path": "~/.claude/skills/0nmcp/dashboard.html"
+   }
+   \`\`\`
+6. **Welcome message**: Tell the user setup is complete and show their status.
+
+On subsequent runs, read \`~/.0n/0nmcp-session.json\` for the saved token. If the token has expired, use the refresh_token to get a new one via \`/api/skill/auth/refresh\` or prompt re-login.
+
+---
+
 ## Authentication
 
 ### Login (\`/0nmcp login\`)

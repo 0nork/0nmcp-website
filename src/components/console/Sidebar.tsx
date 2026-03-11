@@ -6,7 +6,7 @@ import {
   Blocks, ShoppingBag, Brain, Zap, RefreshCw,
   Mail, ListChecks, Linkedin, Share2, BarChart3,
   Store, User, Shield, PanelLeftClose, PanelLeft,
-  Search,
+  Search, Globe,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
@@ -54,6 +54,7 @@ const SECTIONS: NavSection[] = [
       { key: 'credentials', label: 'Vault', icon: <KeyRound size={16} />, color: G },
       { key: 'flows', label: 'Create', icon: <Sparkles size={16} />, color: P },
       { key: 'builder', label: 'Builder', icon: <Blocks size={16} />, color: P },
+      { key: 'site-builder', label: 'Site Builder', icon: <Globe size={16} />, color: O },
       { key: 'store', label: 'Store', icon: <ShoppingBag size={16} />, color: O },
     ],
   },

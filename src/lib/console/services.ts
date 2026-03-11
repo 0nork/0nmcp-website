@@ -406,6 +406,27 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
 
+  reddit: {
+    l: "Reddit", logo: "reddit", c: "#ff4500", cat: "social", pri: 44,
+    d: "Community platform - posts, comments, subreddits, karma, and automated engagement.",
+    cap: ["Posts", "Comments", "Subreddits", "Upvotes", "Messages", "Subscriptions", "Search", "Webhooks"],
+    f: [
+      { k: "client_id", lb: "Client ID", ph: "xxxxxxxxxxxxx", h: "Reddit app client ID", lk: "https://www.reddit.com/prefs/apps", ll: "User Settings > Apps > Create App", t: "simple", step: 1, req: true, guide: "Go to reddit.com/prefs/apps. Click 'create another app' at the bottom. Choose 'script', name it, enter a redirect URI (http://localhost). Copy the string under the app name — that's your Client ID." },
+      { k: "client_secret", lb: "Client Secret", ph: "xxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "Reddit app secret", lk: "https://www.reddit.com/prefs/apps", ll: "Apps > Your App > Secret", t: "simple", step: 2, req: true, guide: "On the same apps page, find the 'secret' field under your app. Copy that value." },
+      { k: "username", lb: "Username", ph: "your_reddit_username", h: "Reddit account username", lk: "https://www.reddit.com/", ll: "Your Reddit login name", t: "simple", step: 3, req: true, guide: "Enter the Reddit username for the account that will post. This is the same name you use to log in." },
+      { k: "password", lb: "Password", ph: "your_password", s: true, h: "Reddit account password", lk: "https://www.reddit.com/", ll: "Account password", t: "simple", step: 4, req: true, guide: "Enter the Reddit account password. If you have 2FA enabled, append your 2FA code to the password (e.g. password:123456)." },
+    ],
+  },
+  quora: {
+    l: "Quora", logo: "quora", c: "#b92b27", cat: "social", pri: 45,
+    d: "Q&A platform - questions, answers, topics, and content distribution. Content generation supported, manual posting required.",
+    cap: ["Answers", "Questions", "Topics", "Followers", "Upvotes", "Comments", "Content Gen", "Distribution"],
+    f: [
+      { k: "username", lb: "Username / Email", ph: "you@email.com", h: "Quora login email or username", lk: "https://www.quora.com/settings/account", ll: "Settings > Account", t: "simple", step: 1, req: true, guide: "Enter the email or username you use to sign in to Quora. This is used for content tracking — Quora has no public API for automated posting." },
+      { k: "profile_url", lb: "Profile URL", ph: "https://www.quora.com/profile/Your-Name", h: "Your public Quora profile link", lk: "https://www.quora.com/profile/", ll: "Your Profile Page URL", t: "simple", step: 2, guide: "Go to your Quora profile and copy the full URL from the browser address bar." },
+    ],
+  },
+
   // ─── Advertising ───────────────────────────────────────────
   google_ads: {
     l: "Google Ads", logo: "google_ads", c: "#4285f4", cat: "ads", pri: 44,

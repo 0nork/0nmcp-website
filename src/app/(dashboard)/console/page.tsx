@@ -492,6 +492,7 @@ export default function ConsolePage() {
     }
     // External pages — navigate away from console
     if (v === 'terminal') { window.location.href = '/console/terminal'; return }
+    if (v === 'site-builder') { window.location.href = '/console/site-builder'; return }
     setView(v as View)
     if (v !== 'vault') {
       setVaultService(null)

@@ -493,6 +493,8 @@ export default function ConsolePage() {
     }
     // External pages — navigate away from console
     if (v === 'terminal') { window.location.href = '/console/terminal'; return }
+    if (v === 'tools') { window.location.href = '/console/tools'; return }
+    if (v === 'crew') { window.location.href = '/console/crew'; return }
     if (v === 'site-builder') { setView('site-builder'); setMobileMenuOpen(false); return }
     setView(v as View)
     if (v !== 'vault') {

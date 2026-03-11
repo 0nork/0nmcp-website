@@ -7,7 +7,7 @@ import {
   Blocks, ShoppingBag, Brain, Zap, RefreshCw,
   Mail, ListChecks, Linkedin, Share2, BarChart3,
   Store, User, Shield, PanelLeftClose, PanelLeft,
-  Search, Globe,
+  Search, Globe, Terminal, Wrench, Users,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
@@ -82,6 +82,9 @@ const SECTIONS: NavSection[] = [
       { key: 'social', label: 'Social', icon: <Share2 size={16} />, color: K },
       { key: 'reporting', label: 'Reporting', icon: <BarChart3 size={16} />, color: K },
       { key: 'vendor', label: 'Vendor Hub', icon: <Store size={16} />, color: O },
+      { key: 'terminal', label: 'Terminal', icon: <Terminal size={16} />, color: S },
+      { key: 'tools', label: 'Tools', icon: <Wrench size={16} />, color: S },
+      { key: 'crew', label: '0nCrew', icon: <Users size={16} />, color: C },
     ],
   },
 ]

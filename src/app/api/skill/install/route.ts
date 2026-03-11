@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const dynamic = 'force-dynamic'
 
@@ -44,7 +45,7 @@ RESET="\\033[0m"
 echo ""
 echo "\${BOLD}\${ORANGE}═══════════════════════════════════════\${RESET}"
 echo "\${BOLD}\${ORANGE}  0nMCP Skill Installer\${RESET}"
-echo "\${DIM}  850 tools. 53 services. Your AI hub.\${RESET}"
+echo "\${DIM}  ${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. Your AI hub.\${RESET}"
 echo "\${BOLD}\${ORANGE}═══════════════════════════════════════\${RESET}"
 echo ""
 

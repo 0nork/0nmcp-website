@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { STATS_DISPLAY } from '@/data/stats'
 
 const PHRASES = [
   'Send an invoice and notify the team on Slack',
@@ -111,7 +112,7 @@ export default function ConsoleCTA() {
           Describe it. <span className="console-cta-gradient">0nMCP executes it.</span>
         </p>
         <p className="console-cta-sub">
-          850 tools. 53 services. One command. Try the Console — your AI command center.
+          {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. One command. Try the Console — your AI command center.
         </p>
 
         {/* CTA button */}

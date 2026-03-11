@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import QRCode from '@/components/QRCode'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: 'Downloads — 0nMCP',
@@ -36,7 +37,7 @@ export default function DownloadsPage() {
           style={{ color: 'var(--text-secondary)' }}
         >
           Chrome Extension, Mobile App, and Tablet App with visual builder.
-          850 tools across 53 services — on any device.
+          {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services — on any device.
         </p>
       </div>
 
@@ -71,14 +72,14 @@ export default function DownloadsPage() {
 
               <p className="mb-4" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                 <strong style={{ color: 'var(--accent)' }}>Claude Code MAX</strong> = unlimited AI brain.{' '}
-                <strong style={{ color: 'var(--accent)' }}>0nMCP</strong> = 850-tool orchestration layer.
+                <strong style={{ color: 'var(--accent)' }}>0nMCP</strong> = {STATS_DISPLAY.tools}-tool orchestration layer.
                 Together = <strong style={{ color: 'var(--text-primary)' }}>0nSpark</strong> — zero-cost
                 workflow execution from your terminal. No API keys for Claude, no per-call charges.
               </p>
 
               <ul className="flex flex-col gap-2 mb-6" style={{ color: 'var(--text-secondary)' }}>
                 {[
-                  '850 tools across 53 services — runs locally on your machine',
+                  `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — runs locally on your machine`,
                   'Claude Code provides the AI brain (unlimited with MAX subscription)',
                   '0nMCP provides the tool layer (local server, free forever)',
                   'Console auto-switches to Local Mode when 0nmcp serve is running',

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: 'Examples — Real .0n Workflow Files | 0nMCP',
@@ -762,7 +763,7 @@ export default function ExamplesPage() {
             className="text-lg mb-8 max-w-lg mx-auto"
             style={{ color: 'var(--text-secondary)' }}
           >
-            Create .0n files that orchestrate any of our 53 services.
+            Create .0n files that orchestrate any of our {STATS_DISPLAY.services} services.
             Describe outcomes, not steps.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">

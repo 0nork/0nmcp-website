@@ -4,10 +4,11 @@ import { useState, useCallback } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import ForumSidebar from '@/components/forum/ForumSidebar'
 import ForumSearch from '@/components/forum/ForumSearch'
+import { STATS_DISPLAY } from '@/data/stats'
 
 const TRENDING_POSTS = [
   {
-    title: '0nMCP v2.3.0: 850 Tools Across 53 Services — Full Breakdown',
+    title: `0nMCP v2.3.0: ${STATS_DISPLAY.tools} Tools Across ${STATS_DISPLAY.services} Services — Full Breakdown`,
     date: 'Mar 1, 2026',
     slug: '0nmcp-v2-2-0-release',
   },

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import comparisonsData from '@/data/comparisons.json'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: '0nMCP vs Alternatives — Compare AI Orchestration Platforms',
@@ -49,7 +50,7 @@ export default function ComparePage() {
         {/* Quick stats */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="rounded-xl p-4 text-center" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-            <div className="text-2xl font-black" style={{ color: 'var(--accent)' }}>850</div>
+            <div className="text-2xl font-black" style={{ color: 'var(--accent)' }}>{STATS_DISPLAY.tools}</div>
             <div className="text-xs" style={{ color: 'var(--text-muted)' }}>tools</div>
           </div>
           <div className="rounded-xl p-4 text-center" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>

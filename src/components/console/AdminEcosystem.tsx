@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { STATS_DISPLAY } from '@/data/stats'
 
 // ── Ecosystem Data ──
 
@@ -24,7 +25,7 @@ const ECOSYSTEM: EcoNode[] = [
     type: 'product',
     status: 'live',
     description: 'Universal AI API Orchestrator — the core engine',
-    stats: '850 tools | 53 services | 23 categories',
+    stats: `${STATS_DISPLAY.tools} tools | ${STATS_DISPLAY.services} services | ${STATS_DISPLAY.categories} categories`,
     url: 'https://www.npmjs.com/package/0nmcp',
     color: '#ff6b35',
     connections: ['0n-spec', 'supabase-main', 'crm', 'stripe-main'],

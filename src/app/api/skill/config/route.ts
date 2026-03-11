@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +27,7 @@ function getConfigContent() {
   return {
     "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schema/claude.json",
     "projectName": "0nMCP Environment",
-    "description": "Connected to the 0nMCP ecosystem — 850 tools, 53 services, Vault, Sparks, Council Brain",
+    "description": `Connected to the 0nMCP ecosystem — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, Vault, Sparks, Council Brain`,
     "skills": [
       {
         "name": "0nmcp",

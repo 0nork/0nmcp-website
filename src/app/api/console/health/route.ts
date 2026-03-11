@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -14,9 +15,9 @@ export async function GET() {
       uptime: null,
       connections: 48,
       services: [],
-      tools: 850,
+      tools: STATS.tools,
       mode: 'cloud',
-      message: '0nMCP Cloud — 850 tools ready',
+      message: `0nMCP Cloud — ${STATS_DISPLAY.tools} tools ready`,
     })
   }
 
@@ -30,9 +31,9 @@ export async function GET() {
         status: 'cloud',
         version: '2.2.0',
         connections: 48,
-        tools: 850,
+        tools: STATS.tools,
         mode: 'cloud',
-        message: '0nMCP Cloud — 850 tools ready',
+        message: `0nMCP Cloud — ${STATS_DISPLAY.tools} tools ready`,
       })
     }
 
@@ -54,9 +55,9 @@ export async function GET() {
       status: 'cloud',
       version: '2.2.0',
       connections: 48,
-      tools: 850,
+      tools: STATS.tools,
       mode: 'cloud',
-      message: '0nMCP Cloud — 850 tools ready',
+      message: `0nMCP Cloud — ${STATS_DISPLAY.tools} tools ready`,
     })
   }
 }

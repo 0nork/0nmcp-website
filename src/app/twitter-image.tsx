@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const alt = '0nMCP — Universal AI API Orchestrator'
 export const size = { width: 1200, height: 630 }
@@ -74,7 +75,7 @@ export default function TwitterImage() {
         </span>
 
         <span style={{ fontSize: 20, color: '#55556a' }}>
-          850 tools &middot; 53 services &middot; 80+ automations
+          {STATS_DISPLAY.tools} tools &middot; {STATS_DISPLAY.services} services &middot; 80+ automations
         </span>
 
         {/* Top accent line */}

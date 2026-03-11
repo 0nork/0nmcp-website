@@ -5,10 +5,11 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { BrandIcon, IconStar, IconDiamond, IconSparkle, IconRising, IconBook, IconHammer, IconForum } from '@/components/CategoryIcons'
+import { STATS_DISPLAY } from '@/data/stats'
 
 const PRODUCTS = [
   { name: '0ncore', color: '#a855f7', desc: 'Core infrastructure — vault, signing, execution engine' },
-  { name: '0nmcp', color: '#00d4ff', desc: 'Universal API Protocol — 850 tools, 53 services' },
+  { name: '0nmcp', color: '#00d4ff', desc: `Universal API Protocol — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services` },
   { name: 'app0n', color: '#7ed957', desc: 'Application Layer — workflows, builder, marketplace' },
   { name: 'social0n', color: '#ff8c00', desc: 'Community Platform — forum, groups, reputation' },
   { name: '0nork', color: '#ef4444', desc: 'Parent company — orchestration infrastructure' },
@@ -590,8 +591,8 @@ function OnboardingInner() {
           </div>
 
           <div className="onboarding-stat-row">
-            <div className="onboarding-stat"><span className="onboarding-stat-value">850</span><span className="onboarding-stat-label">Tools</span></div>
-            <div className="onboarding-stat"><span className="onboarding-stat-value">53</span><span className="onboarding-stat-label">Services</span></div>
+            <div className="onboarding-stat"><span className="onboarding-stat-value">{STATS_DISPLAY.tools}</span><span className="onboarding-stat-label">Tools</span></div>
+            <div className="onboarding-stat"><span className="onboarding-stat-value">{STATS_DISPLAY.services}</span><span className="onboarding-stat-label">Services</span></div>
             <div className="onboarding-stat"><span className="onboarding-stat-value">AES-256</span><span className="onboarding-stat-label">Encrypted Vault</span></div>
             <div className="onboarding-stat"><span className="onboarding-stat-value">$0</span><span className="onboarding-stat-label">Free Forever</span></div>
           </div>

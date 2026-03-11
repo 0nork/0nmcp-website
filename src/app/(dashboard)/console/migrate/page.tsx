@@ -1,5 +1,7 @@
 'use client'
 
+import { STATS_DISPLAY } from '@/data/stats'
+
 export default function MigratePage() {
   const sources = [
     { name: 'Zapier', icon: '⚡', color: '#FF4A00', desc: 'Import Zaps as .0n workflows' },
@@ -37,7 +39,7 @@ export default function MigratePage() {
       <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '0.875rem', padding: '1.5rem' }}>
         <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.5rem 0' }}>Credential Import</h2>
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '0 0 1rem 0' }}>
-          Drop a .env file or paste JSON credentials. 0nMCP auto-maps to all 53 services.
+          Drop a .env file or paste JSON credentials. 0nMCP auto-maps to all {STATS_DISPLAY.services} services.
         </p>
         <div style={{
           padding: '3rem', borderRadius: '0.5rem',

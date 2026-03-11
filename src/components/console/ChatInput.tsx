@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { SendHorizontal } from 'lucide-react'
 import { StatusDot } from './StatusDot'
+import { STATS_DISPLAY } from '@/data/stats'
 
 interface ChatInputProps {
   onSend: (text: string) => void
@@ -111,7 +112,7 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
           {mcpOnline ? (
             <span>
               <span style={{ color: 'var(--accent)' }}>0nMCP Live</span>
-              {' \u00b7 '}850 Tools{' \u00b7 '}53 Services
+              {' \u00b7 '}{STATS_DISPLAY.tools} Tools{' \u00b7 '}{STATS_DISPLAY.services} Services
             </span>
           ) : (
             <span>0n Console{' \u00b7 '}Type / for commands</span>

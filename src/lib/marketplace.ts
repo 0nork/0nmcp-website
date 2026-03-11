@@ -5,11 +5,12 @@
  * and dynamic field definitions for the CRM app store listing.
  *
  * App provides:
- * - Actions: "Execute Tool" (850 tools across 53 services), "Run Workflow"
+ * - Actions: "Execute Tool" (1,155 tools across 91 services), "Run Workflow"
  * - Triggers: "Tool Executed", "Workflow Completed"
  */
 
 import { createClient } from '@supabase/supabase-js'
+import { STATS_DISPLAY } from '@/data/stats'
 
 // ─── Supabase service client (bypasses RLS) ─────────────────────────
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
@@ -65,7 +66,7 @@ export const ACTIONS = {
   execute_tool: {
     key: 'execute_tool',
     name: 'Execute 0nMCP Tool',
-    description: 'Execute any of 850+ tools across 53 integrated services. Select a service and tool, provide the inputs, and 0nMCP handles the rest.',
+    description: `Execute any of ${STATS_DISPLAY.tools}+ tools across ${STATS_DISPLAY.services} integrated services. Select a service and tool, provide the inputs, and 0nMCP handles the rest.`,
     version: '1.0',
   },
   run_workflow: {

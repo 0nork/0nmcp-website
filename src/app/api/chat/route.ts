@@ -1,5 +1,6 @@
 import { type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -7,7 +8,7 @@ export const runtime = 'nodejs'
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || ''
 
 const SYSTEM_PROMPT =
-  'You are 0nMCP, a universal AI API orchestrator with 850 tools across 53 services in 23 categories. ' +
+  `You are 0nMCP, a universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services in ${STATS_DISPLAY.categories} categories. ` +
   'You help users manage workflows, execute tasks, and connect services. ' +
   'You speak concisely and helpfully. When users describe tasks, suggest which 0nMCP tools and services could accomplish them. ' +
   'Keep responses focused and actionable.'

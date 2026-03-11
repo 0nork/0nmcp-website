@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { SVC } from '@/lib/console/services'
 import ServicePaletteItem from './ServicePaletteItem'
+import { getCategoryIcon } from '@/components/CategoryIcons'
 
 // ─── Service type compatible with ServicePaletteItem ──────────────────────
 export interface BuilderService {
@@ -442,7 +443,7 @@ export default function ServicePalette() {
       result.push({
         id: 'active',
         label: 'Active',
-        icon: svg('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>', '%237ed957'),
+        icon: '',
         color: '#7ed957',
         services: filteredActive,
         isActive: true,
@@ -494,13 +495,10 @@ export default function ServicePalette() {
                 <span className={`builder-category-chevron${isOpen ? ' open' : ''}`}>
                   &#9654;
                 </span>
-                <img
-                  className="builder-category-icon"
-                  src={cat.icon}
-                  alt=""
-                  width={16}
-                  height={16}
-                />
+                {(() => {
+                  const CatIcon = getCategoryIcon(cat.label)
+                  return <CatIcon size={16} className="builder-category-icon" style={{ color: cat.color }} />
+                })()}
                 <span>{cat.label}</span>
                 {cat.isActive && (
                   <span

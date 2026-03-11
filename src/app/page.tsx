@@ -4,11 +4,12 @@ import HeroSection from '@/components/HeroSection'
 import LogoBanner from '@/components/LogoBanner'
 import DemoPreview from '@/components/DemoPreview'
 import { getCategoryIcon } from '@/components/CategoryIcons'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
-  title: '0nMCP — Universal AI API Orchestrator | 850 Tools, 53 Services',
+  title: `0nMCP — Universal AI API Orchestrator | ${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services`,
   description:
-    '0nMCP is the universal AI API orchestrator. 850 tools across 53 services, 1,142 capabilities, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+    `0nMCP is the universal AI API orchestrator. ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services, ${STATS_DISPLAY.capabilities} capabilities, one install. Stop building workflows. Start describing outcomes. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.`,
   keywords: [
     '0nMCP',
     'MCP',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '850 tools across 53 services. 1,142 capabilities. One install. Stop building workflows. Start describing outcomes.',
+      `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. ${STATS_DISPLAY.capabilities} capabilities. One install. Stop building workflows. Start describing outcomes.`,
     url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Universal AI API Orchestrator',
     description:
-      '850 tools across 53 services. 1,142 capabilities. One install. The universal AI API orchestrator.',
+      `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. ${STATS_DISPLAY.capabilities} capabilities. One install. The universal AI API orchestrator.`,
   },
   alternates: { canonical: 'https://www.0nmcp.com' },
 }
@@ -75,7 +76,7 @@ const faqItems = [
   },
   {
     q: 'How do I combine multiple MCP servers?',
-    a: "Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports 53 services out of the box and provides 1,142 capabilities that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.",
+    a: `Install 0nMCP with 'npm i 0nmcp' and use the built-in orchestrator to federate multiple MCP servers. 0nMCP supports ${STATS_DISPLAY.services} services out of the box and provides ${STATS_DISPLAY.capabilities} capabilities that can be chained together in Pipeline (sequential), Assembly Line (decision), and Radial Burst (parallel) execution patterns.`,
   },
   {
     q: 'Can MCP servers work together automatically?',
@@ -91,11 +92,11 @@ const faqItems = [
   },
   {
     q: 'What services does 0nMCP support?',
-    a: '0nMCP supports 53 services across 23 categories including Stripe, Slack, Discord, GitHub, OpenAI, Anthropic, Gmail, Google Sheets, Google Drive, Airtable, Notion, MongoDB, Supabase, Zendesk, Jira, HubSpot, Mailchimp, Twilio, SendGrid, Shopify, QuickBooks, Asana, Intercom, Dropbox, WhatsApp, Instagram, X (Twitter), TikTok, Google Ads, Facebook Ads, Plaid, Square, LinkedIn, Pipedrive, Azure, Cloudflare, GoDaddy, Resend, and more.',
+    a: `0nMCP supports ${STATS_DISPLAY.services} services across ${STATS_DISPLAY.categories} categories including Stripe, Slack, Discord, GitHub, OpenAI, Anthropic, Gmail, Google Sheets, Google Drive, Airtable, Notion, MongoDB, Supabase, Zendesk, Jira, HubSpot, Mailchimp, Twilio, SendGrid, Shopify, QuickBooks, Asana, Intercom, Dropbox, WhatsApp, Instagram, X (Twitter), TikTok, Google Ads, Facebook Ads, Plaid, Square, LinkedIn, Pipedrive, Azure, Cloudflare, GoDaddy, Resend, and more.`,
   },
   {
     q: 'Is 0nMCP free?',
-    a: '0nMCP is free and open source under the MIT license. All 850 tools, 53 services, and 1,142 capabilities are available for unlimited local use via the CLI with no credit card required. The 0nMCP Console offers a free tier with 25 executions per month, a Pro plan at $19/month for unlimited executions and the visual workflow builder, and a Team plan at $49/month with 5 seats and shared workflows.',
+    a: `0nMCP is free and open source under the MIT license. All ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, and ${STATS_DISPLAY.capabilities} capabilities are available for unlimited local use via the CLI with no credit card required. The 0nMCP Console offers a free tier with 25 executions per month, a Pro plan at $19/month for unlimited executions and the visual workflow builder, and a Team plan at $49/month with 5 seats and shared workflows.`,
   },
 ]
 
@@ -123,7 +124,7 @@ export default function HomePage() {
     '@type': 'WebSite',
     name: '0nMCP',
     url: 'https://www.0nmcp.com',
-    description: 'Universal AI API Orchestrator — 850 tools across 53 services',
+    description: `Universal AI API Orchestrator — ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services`,
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -151,7 +152,7 @@ export default function HomePage() {
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Cross-platform',
     description:
-      'Universal AI API orchestrator with 850 tools across 53 services and 1,142 capabilities. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
+      `Universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services and ${STATS_DISPLAY.capabilities} capabilities. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.`,
     url: 'https://www.0nmcp.com',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
     softwareVersion: '2.3.0',
@@ -166,7 +167,7 @@ export default function HomePage() {
         price: '0',
         priceCurrency: 'USD',
         name: 'Free (CLI)',
-        description: 'All 850 tools, 53 services, unlimited local use, MIT licensed',
+        description: `All ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, unlimited local use, MIT licensed`,
       },
       {
         '@type': 'Offer',
@@ -219,7 +220,7 @@ export default function HomePage() {
       {
         '@type': 'HowToStep',
         name: 'Describe What You Need',
-        text: 'Tell your AI what you want done. 0nMCP routes, orchestrates, and executes across all 53 services automatically.',
+        text: `Tell your AI what you want done. 0nMCP routes, orchestrates, and executes across all ${STATS_DISPLAY.services} services automatically.`,
         url: 'https://www.0nmcp.com/#quickstart',
       },
     ],
@@ -254,8 +255,8 @@ export default function HomePage() {
           <p className="section-desc mb-12">
             Every AI assistant connects to services individually. No chaining.
             No automation. No orchestration. 0nMCP changes that &mdash; one
-            orchestrator that federates 53 services into a single, automated
-            system.
+            orchestrator that federates {STATS_DISPLAY.services} services into a single, automated
+            system. {STATS_DISPLAY.services} services. One orchestrator.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
@@ -302,7 +303,7 @@ export default function HomePage() {
                 { title: 'Digital Deed Transfer', desc: 'Package entire business digital assets into a single encrypted container. Chain of custody tracking with Seal of Truth verification.', color: '#a78bfa' },
                 { title: 'Patent-Pending Architecture', desc: 'Three-Level Execution + Vault Container System. Two US provisional patents protecting the core technology.', color: '#ff6b35' },
                 { title: 'Seal of Truth Verification', desc: 'SHA3-256 content-addressed integrity. Ed25519 digital signatures. Transfer registry with replay prevention.', color: '#00d4ff' },
-                { title: 'Free & Open Source', desc: 'MIT licensed. All 850 tools, 53 services, unlimited local use. No credit card. No trial period. Fully auditable.', color: '#7ed957' },
+                { title: 'Free & Open Source', desc: `MIT licensed. All ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, unlimited local use. No credit card. No trial period. Fully auditable.`, color: '#7ed957' },
               ].map((item) => (
                 <div key={item.title} className="float-card">
                   <div className="w-2 h-2 rounded-full mb-3" style={{ backgroundColor: item.color }} />
@@ -415,9 +416,9 @@ export default function HomePage() {
         <div className="max-w-[1100px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-accent-line mx-auto" />
-            <span className="section-label">53 Services</span>
+            <span className="section-label">{STATS_DISPLAY.services} Services</span>
             <h2 className="section-heading">
-              23 Categories. Every Tool You Need.
+              {STATS_DISPLAY.categories} Categories. Every Tool You Need.
             </h2>
             <p className="section-desc mx-auto">
               From CRM and payments to email marketing and AI &mdash; 0nMCP
@@ -513,7 +514,7 @@ export default function HomePage() {
               </div>
               <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>Open source, unlimited local use</p>
               <ul className="flex flex-col gap-2.5 list-none mb-6">
-                {['All 850 tools', '53 services', '1,142 capabilities', 'MIT licensed', 'CLI + MCP interface', 'Community support'].map((f) => (
+                {[`All ${STATS_DISPLAY.tools} tools`, `${STATS_DISPLAY.services} services`, `${STATS_DISPLAY.capabilities} capabilities`, 'MIT licensed', 'CLI + MCP interface', 'Community support'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span style={{ color: 'var(--accent)' }} className="font-bold text-xs">+</span>{f}
                   </li>
@@ -636,7 +637,7 @@ export default function HomePage() {
             ?
           </h2>
           <p className="text-base mb-8" style={{ color: 'var(--text-secondary)' }}>
-            850 tools. 53 services. One install. Free forever.
+            {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. One install. Free forever.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Link href="/turn-it-on" className="btn-accent no-underline text-base px-8 py-3">

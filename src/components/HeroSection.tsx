@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import CopyButton from './CopyButton'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 /* ── Animated counter that counts up from 0 ── */
 function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
@@ -117,7 +118,7 @@ export default function HeroSection() {
         {/* Badge */}
         <div className="hero-badge animate-fade-in-up">
           <span className="hero-badge-dot" />
-          <span>v2.3.0 — 850 tools live</span>
+          <span>v2.3.0 — {STATS_DISPLAY.tools} tools live</span>
         </div>
 
         {/* Headline */}
@@ -164,10 +165,10 @@ export default function HeroSection() {
           style={{ animationDelay: '0.5s', animationFillMode: 'both' }}
         >
           {[
-            { target: 850, suffix: '', label: 'Tools' },
-            { target: 53, suffix: '', label: 'Services' },
-            { target: 1142, suffix: '', label: 'Capabilities' },
-            { target: 23, suffix: '', label: 'Categories' },
+            { target: STATS.tools, suffix: '', label: 'Tools' },
+            { target: STATS.services, suffix: '', label: 'Services' },
+            { target: STATS.capabilities, suffix: '', label: 'Capabilities' },
+            { target: STATS.categories, suffix: '', label: 'Categories' },
           ].map((stat) => (
             <div key={stat.label} className="hero-stat">
               <span className="hero-stat-num">

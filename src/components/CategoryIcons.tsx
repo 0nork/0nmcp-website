@@ -10,7 +10,7 @@
 
 import type { SVGProps } from 'react'
 
-type IconProps = SVGProps<SVGSVGElement> & { size?: number }
+export type IconProps = SVGProps<SVGSVGElement> & { size?: number }
 
 const defaults = (size = 24): SVGProps<SVGSVGElement> => ({
   width: size,
@@ -600,6 +600,17 @@ export const CATEGORY_ICONS: Record<string, React.ComponentType<IconProps>> = {
   'Data': IconChart,
   'Security': IconShield,
   'Sync': IconSync,
+  // Builder categories (unique names only — duplicates already mapped above)
+  'Live Data': IconGear,
+  'Triggers': IconBolt,
+  'Actions': IconShuffle,
+  'Notifications': IconBubble,
+  'Database': IconChart,
+  'Dev Tools': IconKeyboard,
+  'Productivity': IconClipboard,
+  'Ecommerce': IconShoppingBag,
+  'Logic': IconRepeat,
+  'Active': IconBolt,
 }
 
 // Helper to get an icon component by category name

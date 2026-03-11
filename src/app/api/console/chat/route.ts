@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
 import { decryptVaultData } from '@/lib/vault-crypto'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -120,7 +121,7 @@ async function getCouncilKnowledge(message: string): Promise<string> {
 }
 
 const SYSTEM_PROMPT =
-  'You are 0n Console, the AI assistant for the 0nMCP ecosystem — a universal AI API orchestrator with 850 tools across 53 services in 23 categories.\n\n' +
+  `You are 0n Console, the AI assistant for the 0nMCP ecosystem — a universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services in ${STATS_DISPLAY.categories} categories.\n\n` +
   'You help users with:\n' +
   '- Workflow automation (.0n SWITCH files, RUNs)\n' +
   '- Service connections (Vault credential management)\n' +
@@ -293,7 +294,7 @@ const LOCAL_KNOWLEDGE: Record<string, string> = {
     '2. **Explore the Store** — Browse `/store` for pre-built automation templates\n' +
     '3. **Build Workflows** — Use `/builder` to visually create automations\n' +
     '4. **Run Operations** — Deploy and monitor in `/operations`\n\n' +
-    '0nMCP supports **850 tools** across **53 services**. Start by connecting your most-used services in the Vault.',
+    `0nMCP supports **${STATS_DISPLAY.tools} tools** across **${STATS_DISPLAY.services} services**. Start by connecting your most-used services in the Vault.`,
 
   // Services
   'services': '**48 Connected Services**\n\n' +
@@ -330,7 +331,7 @@ const LOCAL_KNOWLEDGE: Record<string, string> = {
   // Builder
   'builder': '**Visual Workflow Builder**\n\n' +
     'Drag-and-drop workflow creation with:\n' +
-    '- **Service palette** — All 53 services available as draggable nodes\n' +
+    `- **Service palette** — All ${STATS_DISPLAY.services} services available as draggable nodes\n` +
     '- **Step configuration** — Set inputs, outputs, conditions per step\n' +
     '- **Connection lines** — Visual data flow between steps\n' +
     '- **Export** — Download as `.0n` SWITCH file\n' +
@@ -339,7 +340,7 @@ const LOCAL_KNOWLEDGE: Record<string, string> = {
 
   // 0nMCP
   '0nmcp': '**0nMCP — Universal AI API Orchestrator**\n\n' +
-    '- **850 tools** across **53 services** in **23 categories**\n' +
+    `- **${STATS_DISPLAY.tools} tools** across **${STATS_DISPLAY.services} services** in **${STATS_DISPLAY.categories} categories**\n` +
     '- **Three-Level Execution**: Pipeline > Assembly Line > Radial Burst\n' +
     '- **Patent Pending**: US Provisional #63/990,046 (Vault Container)\n' +
     '- **.0n Standard**: Universal portable config format\n' +

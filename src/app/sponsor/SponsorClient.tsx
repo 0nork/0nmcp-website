@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { STATS_DISPLAY } from '@/data/stats'
 
 const tiers = [
   {
@@ -144,7 +145,7 @@ export default function SponsorClient() {
           className="text-lg max-w-[640px] mx-auto leading-relaxed relative z-[2]"
           style={{ color: 'var(--text-secondary)' }}
         >
-          0nMCP is free and open source. 850 tools across 53 services and 23 categories.
+          0nMCP is free and open source. {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services and {STATS_DISPLAY.categories} categories.
           Your sponsorship keeps it that way while funding new integrations,
           better documentation, and a growing community. Every dollar goes
           directly to development.
@@ -306,7 +307,7 @@ export default function SponsorClient() {
             {[
               {
                 title: 'New Service Integrations',
-                desc: 'Every month we add new services to the catalog. Sponsors vote on what gets built next. Currently: 53 services, 850 tools, 23 categories.',
+                desc: `Every month we add new services to the catalog. Sponsors vote on what gets built next. Currently: ${STATS_DISPLAY.services} services, ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.categories} categories.`,
               },
               {
                 title: 'Documentation & Guides',

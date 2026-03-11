@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import glossaryData from '@/data/glossary.json'
+import { STATS_DISPLAY } from '@/data/stats'
 
 type GlossaryTerm = (typeof glossaryData.terms)[number]
 
@@ -198,7 +199,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
               See {term.term} in action with 0nMCP
             </p>
             <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>
-              850 tools. 53 services. One npm install.
+              {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. One npm install.
             </p>
             <Link
               href="/turn-it-on"

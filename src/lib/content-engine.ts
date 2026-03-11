@@ -4,6 +4,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 let _admin: ReturnType<typeof createClient> | null = null
 export function getAdmin() {
@@ -102,7 +103,7 @@ const PLATFORM_GUIDELINES: Record<string, string> = {
 }
 
 const PRODUCT_CONTEXT = `
-0nMCP is the Universal AI API Orchestrator — 850 tools across 53 services in 23 categories.
+0nMCP is the Universal AI API Orchestrator — ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services in ${STATS_DISPLAY.categories} categories.
 One npm install, one config file, zero boilerplate.
 
 Key facts:
@@ -110,9 +111,9 @@ Key facts:
 - GitHub: github.com/0nork/0nMCP
 - Website: 0nmcp.com
 - App: app.0nmcp.com
-- 850 tools: 576 catalog + 245 CRM + 4 vault + 8 vault container + 6 deed + 6 engine + 5 app
-- 53 services: Stripe, Slack, Discord, OpenAI, Supabase, Airtable, Notion, GitHub, Shopify, Twilio, SendGrid, Cloudflare, GoDaddy, Resend, and more
-- 23 categories: Payments, Email, SMS, Communication, AI, Database, Code, Project Mgmt, E-Commerce, CRM, Scheduling, Storage, Support, Cloud, Websites, and more
+- ${STATS_DISPLAY.tools} tools: ${STATS.catalog_tools} catalog + ${STATS.crm_tools} CRM + ${STATS.vault_tools} vault + ${STATS.vault_container_tools} vault container + ${STATS.deed_tools} deed + ${STATS.engine_tools} engine + ${STATS.app_tools} app
+- ${STATS_DISPLAY.services} services: Stripe, Slack, Discord, OpenAI, Supabase, Airtable, Notion, GitHub, Shopify, Twilio, SendGrid, Cloudflare, GoDaddy, Resend, and more
+- ${STATS_DISPLAY.categories} categories: Payments, Email, SMS, Communication, AI, Database, Code, Project Mgmt, E-Commerce, CRM, Scheduling, Storage, Support, Cloud, Websites, and more
 - Three-Level Execution: Pipeline > Assembly Line > Radial Burst (Patent Pending)
 - .0n Standard: Universal config format — SWITCH files, connections, workflows
 - CLI: \`0nmcp\` with named runs/hotkeys, shell/REPL mode

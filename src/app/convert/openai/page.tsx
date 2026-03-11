@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: 'Convert OpenAI GPTs & Assistants to .0n Workflows | 0nMCP',
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 const PAIN_POINTS = [
   { title: 'Vendor Lock-in', desc: 'Your GPT configs, prompts, and actions are trapped inside OpenAI. If they change pricing, deprecate models, or limit API access — you lose everything.' },
   { title: 'No Portability', desc: 'Custom GPTs can\'t run outside ChatGPT. Your carefully crafted assistants are stuck in one ecosystem with no export button.' },
-  { title: 'Limited Integrations', desc: 'OpenAI Actions connect to a handful of services. 0nMCP gives you 850 tools across 53 services — instantly.' },
+  { title: 'Limited Integrations', desc: `OpenAI Actions connect to a handful of services. 0nMCP gives you ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — instantly.` },
   { title: 'Pricing Uncertainty', desc: 'API costs fluctuate. Token pricing changes quarterly. With .0n, you own the workflow and choose your execution platform.' },
 ]
 
@@ -45,7 +46,7 @@ const EXPORT_STEPS = [
 ]
 
 const COMPARISON = [
-  { feature: 'Tool Count', openai: '~20 built-in tools', on: '850 tools across 53 services' },
+  { feature: 'Tool Count', openai: '~20 built-in tools', on: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services` },
   { feature: 'Portability', openai: 'Locked to ChatGPT / API', on: 'Runs anywhere (any AI client)' },
   { feature: 'Format', openai: 'Proprietary JSON', on: 'Open .0n Standard' },
   { feature: 'Pricing', openai: 'Per-token, per-API-call', on: 'Free core, $0.10/execution' },
@@ -114,7 +115,7 @@ export default function ConvertOpenAI() {
             Convert <span style={{ color: '#10a37f' }}>OpenAI</span> to <span className="glow-text" style={{ color: 'var(--accent)' }}>.0n</span>
           </h1>
           <p className="text-xl mb-10 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            Export your Custom GPTs, Assistants, and Actions. Convert them to portable .0n workflows. Run anywhere with 850 tools.
+            Export your Custom GPTs, Assistants, and Actions. Convert them to portable .0n workflows. Run anywhere with {STATS_DISPLAY.tools} tools.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">
@@ -265,7 +266,7 @@ export default function ConvertOpenAI() {
             Free Your <span style={{ color: '#10a37f' }}>GPTs</span>
           </h2>
           <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-            Convert your OpenAI workflows to .0n in seconds. No lock-in. No limits. 850 tools ready to go.
+            Convert your OpenAI workflows to .0n in seconds. No lock-in. No limits. {STATS_DISPLAY.tools} tools ready to go.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">

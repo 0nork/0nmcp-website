@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import comparisonsData from '@/data/comparisons.json'
+import { STATS_DISPLAY } from '@/data/stats'
 
 type Comparison = (typeof comparisonsData.comparisons)[number]
 
@@ -42,7 +43,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: '0nMCP',
-    description: 'Universal AI API Orchestrator — 850 tools, 53 services, one npm install.',
+    description: `Universal AI API Orchestrator — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, one npm install.`,
     url: 'https://www.0nmcp.com',
     brand: { '@type': 'Organization', name: '0nMCP' },
     offers: {
@@ -189,7 +190,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
         {/* CTA */}
         <div className="rounded-xl p-6 text-center" style={{ background: 'rgba(255,107,53,0.05)', border: '1px solid rgba(255,107,53,0.15)' }}>
           <p className="text-base font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Ready to try 0nMCP?</p>
-          <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>850 tools. 53 services. Free and open source.</p>
+          <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>{STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. Free and open source.</p>
           <Link
             href="/turn-it-on"
             className="inline-block px-6 py-2.5 rounded-xl font-bold text-sm no-underline"

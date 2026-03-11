@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback, type ReactNode } from 'react'
+import { Icon0n, LogoConsole } from '@/components/BrandSVG'
 import {
   LayoutDashboard, MessageSquare, KeyRound, Sparkles,
   Blocks, ShoppingBag, Brain, Zap, RefreshCw,
@@ -147,9 +148,9 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
         flexShrink: 0,
       }}>
         {iconsOnly ? (
-          <img src="/brand/icon-green.png" alt="0n" style={{ width: 24, height: 24, borderRadius: 6 }} />
+          <Icon0n size={24} />
         ) : (
-          <img src="/brand/0n-console.png" alt="0n Console" style={{ height: 22 }} />
+          <LogoConsole height={22} />
         )}
       </div>
 

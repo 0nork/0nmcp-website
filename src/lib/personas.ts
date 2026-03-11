@@ -7,6 +7,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { randomUUID } from 'crypto'
+import { STATS_DISPLAY } from '@/data/stats'
 
 let _admin: ReturnType<typeof createClient> | null = null
 function getAdmin() {
@@ -110,7 +111,7 @@ function parseJSON<T>(text: string): T {
 // ==================== 0nMCP Context ====================
 
 const FORUM_CONTEXT = `This is the community forum for 0nMCP — the Universal AI API Orchestrator.
-0nMCP connects 850+ tools across 53 services (Stripe, Slack, Discord, OpenAI, Supabase, Notion, GitHub, Shopify, Twilio, etc).
+0nMCP connects ${STATS_DISPLAY.tools}+ tools across ${STATS_DISPLAY.services} services (Stripe, Slack, Discord, OpenAI, Supabase, Notion, GitHub, Shopify, Twilio, etc).
 One npm install, one config file. The .0n Standard uses SWITCH files for portable configuration.
 Key features: CLI tool, Vault (encrypted credentials), Engine (portable AI Brain bundles), Workflow Runtime.
 Forum groups: general, help, showcase, feature-requests, bug-reports, tutorials, workflows, integrations, off-topic.

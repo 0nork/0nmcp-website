@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { STATS_DISPLAY } from '@/data/stats'
+import { Logo0nMCP } from '@/components/BrandSVG'
 
 const footerColumns = [
   {
@@ -70,14 +72,14 @@ export default function Footer() {
           {/* Logo column */}
           <div className="col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <img src="/brand/logo-white.png" alt="0nMCP" height={28} width={88} style={{ height: 28, width: 'auto' }} />
+              <Logo0nMCP height={28} />
             </Link>
             <p
               className="text-sm leading-relaxed max-w-xs"
               style={{ color: 'var(--text-secondary)' }}
             >
-              The universal AI API orchestrator. 850 tools, 53 services,
-              1,142 capabilities. Stop building workflows. Start describing
+              The universal AI API orchestrator. {STATS_DISPLAY.tools} tools, {STATS_DISPLAY.services} services,{' '}
+              {STATS_DISPLAY.capabilities} capabilities. Stop building workflows. Start describing
               outcomes.
             </p>
 

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const dynamic = 'force-dynamic'
 
@@ -364,7 +365,7 @@ To run a purchased workflow:
 4. **Session tokens expire** — If you get a 401, run \`/0nmcp login\` again
 5. **Brain contributions are free** — Help train the AI and earn recognition
 6. **This skill is free** — No cost to download or install. You only pay for Sparks.
-7. **0nMCP**: 850 tools across 53 services — https://www.0nmcp.com
+7. **0nMCP**: ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — https://www.0nmcp.com
 
 ---
 

@@ -1,10 +1,11 @@
 import type { MetadataRoute } from 'next'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: '0nMCP',
     short_name: '0nMCP',
-    description: 'Universal AI API Orchestrator — 850 tools, 53 services. Manage add0ns, execute tasks, build workflows.',
+    description: `Universal AI API Orchestrator — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services. Manage add0ns, execute tasks, build workflows.`,
     start_url: '/app',
     display: 'standalone',
     background_color: '#0a0a0f',

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: 'Convert OpenClaw Agents to .0n Workflows | 0nMCP',
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 }
 
 const PAIN_POINTS = [
-  { title: 'Limited Ecosystem', desc: 'OpenClaw\'s tool and service ecosystem is still growing. 0nMCP offers 850 ready-to-use tools across 53 services today.' },
+  { title: 'Limited Ecosystem', desc: `OpenClaw's tool and service ecosystem is still growing. 0nMCP offers ${STATS_DISPLAY.tools} ready-to-use tools across ${STATS_DISPLAY.services} services today.` },
   { title: 'No Standard Format', desc: 'Claw configs use a proprietary format with no interoperability. The .0n standard works across 7 AI platforms.' },
   { title: 'Bridge Complexity', desc: 'MCP bridge configurations require manual setup for each service. 0nMCP handles connections automatically with built-in service adapters.' },
   { title: 'Scale Limitations', desc: 'Running multiple agents with OpenClaw requires complex orchestration. 0nMCP\'s three-level execution handles Pipeline, Assembly Line, and Radial Burst patterns.' },
@@ -44,7 +45,7 @@ const EXPORT_STEPS = [
 ]
 
 const COMPARISON = [
-  { feature: 'Tool Count', openclaw: 'Varies by setup', on: '850 tools across 53 services' },
+  { feature: 'Tool Count', openclaw: 'Varies by setup', on: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services` },
   { feature: 'Portability', openclaw: 'OpenClaw runtime only', on: 'Runs anywhere (any AI client)' },
   { feature: 'Format', openclaw: 'Claw / proprietary JSON', on: 'Open .0n Standard' },
   { feature: 'Service Setup', openclaw: 'Manual MCP bridges', on: '26 pre-built connectors' },
@@ -113,7 +114,7 @@ export default function ConvertOpenClaw() {
             Convert <span style={{ color: '#ff6b35' }}>OpenClaw</span> to <span className="glow-text" style={{ color: 'var(--accent)' }}>.0n</span>
           </h1>
           <p className="text-xl mb-10 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            Export your OpenClaw manifests, Claw configs, and MCP bridges. Convert to portable .0n workflows with 850 tools.
+            Export your OpenClaw manifests, Claw configs, and MCP bridges. Convert to portable .0n workflows with {STATS_DISPLAY.tools} tools.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">
@@ -264,7 +265,7 @@ export default function ConvertOpenClaw() {
             Upgrade Your <span style={{ color: '#ff6b35' }}>Agents</span>
           </h2>
           <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-            Convert your OpenClaw agents to .0n and unlock 850 tools, 53 services, and the full 0nMCP ecosystem.
+            Convert your OpenClaw agents to .0n and unlock {STATS_DISPLAY.tools} tools, {STATS_DISPLAY.services} services, and the full 0nMCP ecosystem.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">

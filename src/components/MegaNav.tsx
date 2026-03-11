@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import ServiceIcon, { ALL_SERVICES } from '@/components/ServiceLogos'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
+import { Logo0nMCP } from '@/components/BrandSVG'
 
 /* ── Mega-menu sections ── */
 type MenuLink = { label: string; href: string; desc: string; accent?: boolean; badge?: string }
@@ -23,7 +25,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
       {
         title: 'Get Started',
         links: [
-          { label: 'Turn it 0n', href: '/turn-it-on', desc: 'Browse all 1,142 capabilities' },
+          { label: 'Turn it 0n', href: '/turn-it-on', desc: `Browse all ${STATS_DISPLAY.capabilities} capabilities` },
           { label: 'Interactive Demo', href: '/demo', desc: 'Build your first RUN', accent: true },
           { label: 'Examples', href: '/examples', desc: 'Real-world use cases' },
           { label: 'Downloads', href: '/downloads', desc: 'Chrome extension & more' },
@@ -36,14 +38,14 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
           { label: '.0n Standard', href: '/0n-standard', desc: 'Universal config format' },
           { label: 'Console', href: '/console', desc: 'Dashboard, Store, Builder & more', accent: true },
           { label: 'Pricing', href: '/#pricing', desc: 'Free forever, pay to scale' },
-          { label: 'Integrations', href: '/integrations', desc: '53 connected services' },
+          { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} connected services` },
         ],
       },
     ],
     services: true,
     serviceIds: ['stripe', 'slack', 'github', 'openai', 'anthropic', 'supabase', 'notion', 'discord', 'shopify', 'gmail', 'twilio', 'airtable', 'google-sheets', 'hubspot', 'mongodb', 'zoom'],
     graphic: 'grid',
-    stat: { value: '850', label: 'Tools Ready' },
+    stat: { value: STATS_DISPLAY.tools, label: 'Tools Ready' },
   },
   community: {
     label: 'Community',
@@ -68,7 +70,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
     ],
     serviceIds: ['github', 'discord', 'slack', 'linkedin', 'x', 'reddit'],
     graphic: 'community',
-    stat: { value: '53', label: 'Services' },
+    stat: { value: STATS_DISPLAY.services, label: 'Services' },
   },
   products: {
     label: 'Products',
@@ -76,7 +78,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
       {
         title: '0n Platform',
         links: [
-          { label: '0nMCP', href: '/', desc: '850 tools, 53 services — the core orchestrator', badge: 'Core' },
+          { label: '0nMCP', href: '/', desc: `${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services — the core orchestrator`, badge: 'Core' },
           { label: '0nVault', href: '/security/vault', desc: 'AES-256 encrypted credential storage', badge: 'Patent Pending' },
           { label: '0n Engine', href: '/turn-it-on', desc: 'AI Brain import, export & verify' },
           { label: 'Digital Deed', href: '/security/transfer', desc: 'Business asset transfer system', accent: true },
@@ -95,7 +97,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
     ],
     serviceIds: ['vault', 'vault-container', 'deed', 'engine', 'app-builder', 'crm', 'stripe', 'anthropic', 'supabase'],
     graphic: 'vault',
-    stat: { value: '1,142', label: 'Capabilities' },
+    stat: { value: STATS_DISPLAY.capabilities, label: 'Capabilities' },
   },
   security: {
     label: 'Security',
@@ -341,7 +343,7 @@ export default function MegaNav() {
       <div className="mega-nav-bar">
         {/* Logo */}
         <Link href="/" className="mega-nav-logo no-underline">
-          <img src="/brand/logo-white.png" alt="0nMCP" height={32} width={100} style={{ height: 32, width: 'auto' }} />
+          <Logo0nMCP height={32} />
         </Link>
 
         {/* Desktop menu triggers */}
@@ -390,7 +392,7 @@ export default function MegaNav() {
             </>
           ) : userPlan === 'free' ? (
             <>
-              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative' }}>
+              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative', overflow: 'visible', zIndex: 2 }}>
                 Console
                 <span style={{
                   position: 'absolute', top: -4, right: -6,
@@ -399,6 +401,7 @@ export default function MegaNav() {
                   background: 'rgba(126,217,87,0.15)',
                   color: '#7ed957',
                   border: '1px solid rgba(126,217,87,0.3)',
+                  zIndex: 3, pointerEvents: 'none',
                 }}>
                   Upgrade
                 </span>
@@ -409,7 +412,7 @@ export default function MegaNav() {
             </>
           ) : (
             <>
-              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative' }}>
+              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative', overflow: 'visible', zIndex: 2 }}>
                 Console
                 <span style={{
                   position: 'absolute', top: -4, right: -6,
@@ -419,6 +422,7 @@ export default function MegaNav() {
                   color: userPlan === 'team' ? '#00d4ff' : '#7ed957',
                   border: `1px solid ${userPlan === 'team' ? 'rgba(0,212,255,0.25)' : 'rgba(126,217,87,0.25)'}`,
                   textTransform: 'uppercase',
+                  zIndex: 3, pointerEvents: 'none',
                 }}>
                   {userPlan}
                 </span>
@@ -488,7 +492,7 @@ export default function MegaNav() {
                   )}
 
                   <span className="mega-dropdown-col-title">
-                    {section.services ? '53 Connected Services' : 'Featured'}
+                    {section.services ? `${STATS_DISPLAY.services} Connected Services` : 'Featured'}
                   </span>
                   <div className="mega-dropdown-logo-grid">
                     {getServicesByIds(section.serviceIds).map((s) => (
@@ -503,7 +507,7 @@ export default function MegaNav() {
                         className="mega-dropdown-service mega-dropdown-service-more no-underline"
                         onClick={() => setOpenMenu(null)}
                       >
-                        <span className="mega-dropdown-more-count">+{53 - (section.serviceIds?.length || 0)}</span>
+                        <span className="mega-dropdown-more-count">+{STATS.services - (section.serviceIds?.length || 0)}</span>
                         <span>more</span>
                       </Link>
                     )}

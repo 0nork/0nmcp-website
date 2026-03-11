@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import { User, Zap, CheckCircle2, XCircle, Loader2, Terminal, Sparkles } from 'lucide-react'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export interface ChatMessage {
   role: 'user' | 'system'
@@ -145,7 +146,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
                 Ask 0n anything
               </h3>
               <p className="text-sm max-w-sm" style={{ color: 'var(--text-muted)' }}>
-                Execute tasks across 53 services, manage workflows, or ask about your connected tools.
+                Execute tasks across {STATS_DISPLAY.services} services, manage workflows, or ask about your connected tools.
               </p>
             </>
           )}

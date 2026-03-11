@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { STATS_DISPLAY } from '@/data/stats'
 
 type Platform = 'claude-desktop' | 'claude-web' | 'claude-mobile' | 'claude-code'
 type InstallMethod = 'one-line' | 'download' | 'config' | 'dashboard'
@@ -158,7 +159,7 @@ export function SkillInstallClient() {
           fontSize: 'clamp(16px, 2.5vw, 20px)', color: '#9898a8',
           maxWidth: 600, margin: '0 auto 40px', lineHeight: 1.6,
         }}>
-          850 tools. 53 services. Your Vault, workflows, and AI brain — right inside any Claude app.
+          {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. Your Vault, workflows, and AI brain — right inside any Claude app.
         </p>
       </div>
 
@@ -522,7 +523,7 @@ export function SkillInstallClient() {
             { icon: '⚡', title: 'Sparks — Pay Per Action', desc: 'Credits that power everything. Check, spend, top up.', color: '#ff6b35' },
             { icon: '🏪', title: 'Store — 50+ Workflows', desc: 'Pre-built automations. Purchase once, run anywhere.', color: '#00d4ff' },
             { icon: '🧠', title: 'Council Brain', desc: '7-persona self-training AI. View status, contribute, level up.', color: '#a78bfa' },
-            { icon: '🔧', title: '850 Tools, 53 Services', desc: 'CRM, Stripe, Slack, GitHub, Supabase, and 48 more.', color: '#7ed957' },
+            { icon: '🔧', title: `${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, and more.', color: '#7ed957' },
             { icon: '🔄', title: '4 Install Methods', desc: 'One-liner, download, dashboard, config — however you work.', color: '#00d4ff' },
           ].map((f) => (
             <div key={f.title} style={{

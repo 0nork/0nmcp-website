@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: 'Community -- Join the AI Orchestration Movement',
   description:
-    'Join the 0nMCP community. Contribute to the most comprehensive MCP server available. 53 services, 80+ pre-built automations, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.',
+    `Join the 0nMCP community. Contribute to the most comprehensive MCP server available. ${STATS_DISPLAY.services} services, 80+ pre-built automations, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.`,
   openGraph: {
     title: 'Community -- 0nMCP | Join the AI Orchestration Movement',
     description:
-      'Join the 0nMCP community. 53 services, 80+ pre-built automations, open source forever. Help shape the future of AI orchestration.',
+      `Join the 0nMCP community. ${STATS_DISPLAY.services} services, 80+ pre-built automations, open source forever. Help shape the future of AI orchestration.`,
     url: 'https://www.0nmcp.com/community',
     type: 'website',
   },
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Community -- 0nMCP',
     description:
-      '53 services. 80+ pre-built automations. Open source forever. Join the movement.',
+      `${STATS_DISPLAY.services} services. 80+ pre-built automations. Open source forever. Join the movement.`,
   },
   alternates: { canonical: 'https://www.0nmcp.com/community' },
 }

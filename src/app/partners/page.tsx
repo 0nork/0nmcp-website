@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: 'Partners & Apps — 0nMCP Ecosystem | Featured Businesses Powered by AI',
@@ -69,7 +70,7 @@ const coreApps: AppCard[] = [
       'One-click Vercel deploy',
     ],
     integration:
-      'App0n is the UI layer for 0nMCP. Everything you build generates .0n files that work with the CLI, the marketplace, and any AI platform. 53 services, zero boilerplate.',
+      `App0n is the UI layer for 0nMCP. Everything you build generates .0n files that work with the CLI, the marketplace, and any AI platform. ${STATS_DISPLAY.services} services, zero boilerplate.`,
     color: '#3b82f6',
     badge: '0nCore',
     status: 'Live',

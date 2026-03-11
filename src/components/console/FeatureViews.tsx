@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { STATS_DISPLAY } from '@/data/stats'
 
 /* ─── SHARED STYLES ─────────────────────────────────────────── */
 const card = {
@@ -326,7 +327,7 @@ export function MigrateView() {
       <div style={{ ...card, marginTop: '1rem' }}>
         <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Credential Import</span>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.5rem 0' }}>
-          Drop a .env file or paste JSON credentials to auto-map them to 0nMCP services. Supports all 53 services.
+          Drop a .env file or paste JSON credentials to auto-map them to 0nMCP services. Supports all {STATS_DISPLAY.services} services.
         </p>
         <div style={{
           marginTop: '0.75rem', padding: '2rem', borderRadius: '0.5rem',

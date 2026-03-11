@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
   title: 'Brain Transplant — Convert Any AI to .0n | 0nMCP',
@@ -57,12 +58,12 @@ const PLATFORMS = [
 const STEPS = [
   { num: '01', title: 'Export', desc: 'Follow our free guide to extract your AI config from the source platform' },
   { num: '02', title: 'Upload', desc: 'Drop your config file into Brain Transplant — we auto-detect the format' },
-  { num: '03', title: 'Run', desc: 'Get a portable .0n workflow file — works with 0nMCP and 850 tools instantly' },
+  { num: '03', title: 'Run', desc: `Get a portable .0n workflow file — works with 0nMCP and ${STATS_DISPLAY.tools} tools instantly` },
 ]
 
 const VALUE_PROPS = [
   { title: 'Platform Independent', desc: 'Your workflows run anywhere — no vendor lock-in, ever' },
-  { title: '850 Tools Built In', desc: '53 services, 23 categories — everything connected from day one' },
+  { title: `${STATS_DISPLAY.tools} Tools Built In`, desc: `${STATS_DISPLAY.services} services, ${STATS_DISPLAY.categories} categories — everything connected from day one` },
   { title: 'Open Standard', desc: 'The .0n format is human-readable, version-controllable, and shareable' },
   { title: 'Instant Migration', desc: 'Upload your config, get a working .0n workflow in seconds' },
 ]

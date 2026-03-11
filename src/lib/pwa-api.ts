@@ -1,3 +1,5 @@
+import { STATS_DISPLAY } from '@/data/stats'
+
 export type ConnectionMode = 'server' | 'anthropic' | 'local'
 
 export interface ConnectionConfig {
@@ -33,7 +35,7 @@ export function saveConnectionConfig(config: ConnectionConfig): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
 }
 
-const SYSTEM_PROMPT = `You are 0nMCP, a universal AI API orchestrator with 850 tools across 53 services in 23 categories. You help users manage workflows, execute tasks, and connect services. You speak concisely and helpfully. When users describe tasks, suggest which 0nMCP tools and services could accomplish them.`
+const SYSTEM_PROMPT = `You are 0nMCP, a universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services in ${STATS_DISPLAY.categories} categories. You help users manage workflows, execute tasks, and connect services. You speak concisely and helpfully. When users describe tasks, suggest which 0nMCP tools and services could accomplish them.`
 
 export async function executeTask(
   messages: Message[],

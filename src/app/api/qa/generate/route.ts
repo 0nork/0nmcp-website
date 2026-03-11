@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { MultiPlatformGenerator } from '@/lib/qa/generator'
 import { PlatformId, PLATFORMS } from '@/lib/qa/types'
+import { STATS_DISPLAY } from '@/data/stats'
 
 // Default brand context for 0nMCP
 const BRAND = {
   websiteUrl: 'https://www.0nmcp.com',
   websiteName: '0nMCP',
   businessDescription:
-    '0nMCP is a universal AI API orchestrator with 850 tools across 53 services. It connects Claude, Slack, Stripe, GitHub, and 22 other services through one MCP server. Open source, MIT licensed, available on npm.',
+    `0nMCP is a universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. It connects Claude, Slack, Stripe, GitHub, and dozens of other services through one MCP server. Open source, MIT licensed, available on npm.`,
 }
 
 // GET: Fetch stats and recent activity

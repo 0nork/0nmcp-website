@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { STATS_DISPLAY } from '@/data/stats'
 
 const INQUIRY_TYPES = [
   { value: 'partnership', label: 'Partnership Opportunity', desc: 'Strategic alliances, integrations, and co-development' },
@@ -97,7 +98,7 @@ export default function ConnectPage() {
           <section className="connect-section">
             <h2>Investment Opportunities</h2>
             <p>
-              0nORK is actively accepting strategic investment from qualified partners who understand the trajectory of AI infrastructure. With a patent-pending orchestration architecture spanning 850 tools across 53 services, a fully operational SaaS marketplace generating metered revenue, and a proprietary vault encryption system under US Patent Application #63/990,046 &mdash; we are not a startup searching for product-market fit. We are an infrastructure company executing on a proven thesis. Our technology is live, our intellectual property is protected, and our growth metrics speak for themselves. We engage with investors who bring more than capital: domain expertise in AI, enterprise SaaS, or developer tooling is valued. If you operate at the intersection of venture capital and technical conviction, we should be in conversation.
+              0nORK is actively accepting strategic investment from qualified partners who understand the trajectory of AI infrastructure. With a patent-pending orchestration architecture spanning {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services, a fully operational SaaS marketplace generating metered revenue, and a proprietary vault encryption system under US Patent Application #63/990,046 &mdash; we are not a startup searching for product-market fit. We are an infrastructure company executing on a proven thesis. Our technology is live, our intellectual property is protected, and our growth metrics speak for themselves. We engage with investors who bring more than capital: domain expertise in AI, enterprise SaaS, or developer tooling is valued. If you operate at the intersection of venture capital and technical conviction, we should be in conversation.
             </p>
           </section>
 
@@ -118,7 +119,7 @@ export default function ConnectPage() {
             <h2>By the Numbers</h2>
             <div className="connect-stats">
               <div className="connect-stat">
-                <div className="connect-stat-value">850</div>
+                <div className="connect-stat-value">{STATS_DISPLAY.tools}</div>
                 <div className="connect-stat-label">Production Tools</div>
               </div>
               <div className="connect-stat">

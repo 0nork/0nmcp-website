@@ -2,18 +2,19 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import servicesData from '@/data/services.json'
 import capabilitiesData from '@/data/capabilities.json'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 import { getAllCategories, getServicesInCategory } from '@/lib/sxo-helpers'
 import ServiceLogo from '@/components/ServiceLogo'
 import TurnItOnSignup from '@/components/turn-it-on/TurnItOnSignup'
 
 export const metadata: Metadata = {
-  title: 'Turn it 0n — 53 Services, 850 Tools | 0nMCP',
+  title: `Turn it 0n — ${STATS_DISPLAY.services} Services, ${STATS_DISPLAY.tools} Tools | 0nMCP`,
   description:
-    'Connect 53 services with 850 tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.',
+    `Connect ${STATS_DISPLAY.services} services with ${STATS_DISPLAY.tools} tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.`,
   openGraph: {
-    title: 'Turn it 0n — 53 Services, 80+ Pre-Built Automations | 0nMCP',
+    title: `Turn it 0n — ${STATS_DISPLAY.services} Services, 80+ Pre-Built Automations | 0nMCP`,
     description:
-      'Connect 53 services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.',
+      `Connect ${STATS_DISPLAY.services} services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.`,
     url: 'https://www.0nmcp.com/turn-it-on',
   },
   alternates: {

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { executeTask, type Message } from '@/lib/pwa-api'
+import { STATS_DISPLAY } from '@/data/stats'
 
 const PROMPTS = [
   'Send an invoice via Stripe and notify on Slack',
@@ -70,7 +71,7 @@ export default function Terminal() {
           <div className="terminal-empty">
             <div className="logo">0n</div>
             <p>Describe a task to execute</p>
-            <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>850 tools across 53 services</p>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services</p>
 
             <div style={{
               display: 'flex',

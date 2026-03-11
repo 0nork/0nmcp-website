@@ -6,6 +6,7 @@ import {
   MessageSquare, KeyRound, Sparkles, Blocks,
   ShoppingBag, Brain,
 } from 'lucide-react'
+import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 interface DashboardViewProps {
   mcpOnline: boolean
@@ -69,7 +70,7 @@ export function DashboardView({
         </h1>
         <p style={{ fontSize: '0.875rem', color: '#68687a', margin: 0, lineHeight: 1.5 }}>
           {mcpOnline
-            ? `${mcpHealth?.tools || 850} tools across 53 services — ready to go.`
+            ? `${mcpHealth?.tools || STATS.tools} tools across ${STATS_DISPLAY.services} services — ready to go.`
             : 'Connect 0nMCP to unlock your full workspace.'}
         </p>
       </div>

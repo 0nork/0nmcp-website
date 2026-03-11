@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { type PlatformId } from '@/lib/qa/types'
+import { STATS_DISPLAY } from '@/data/stats'
 
 const PLATFORM_OPTIONS: { id: PlatformId; label: string; color: string }[] = [
   { id: 'quora', label: 'Quora', color: '#B92B27' },
@@ -156,7 +157,7 @@ export default function QAGeneratePage() {
           <input
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            placeholder="e.g., How to connect 53 services with one MCP server"
+            placeholder={`e.g., How to connect ${STATS_DISPLAY.services} services with one MCP server`}
             style={inputStyle}
           />
         </div>

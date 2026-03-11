@@ -14,6 +14,8 @@
  * Confidence is clamped to [45, 97] — always humble, never certain.
  */
 
+import { STATS_DISPLAY } from '@/data/stats'
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -331,7 +333,7 @@ export const ALL_COMMANDS: CommandEntry[] = [
   {
     id: "engine_import",
     label: "Import Credentials",
-    description: "Auto-detect and import API keys from .env files, CSV exports, or JSON configs — maps to all 26 services.",
+    description: `Auto-detect and import API keys from .env files, CSV exports, or JSON configs — maps to all ${STATS_DISPLAY.services} services.`,
     command: "/engine import",
     category: "engine",
     icon: "Download",
@@ -845,7 +847,7 @@ export const ALL_COMMANDS: CommandEntry[] = [
   {
     id: "connect_service",
     label: "Connect New Service",
-    description: "Add API credentials for any of the 26 supported services — instantly activates related tools.",
+    description: `Add API credentials for any of the ${STATS_DISPLAY.services} supported services — instantly activates related tools.`,
     command: "/connect",
     category: "general",
     icon: "Plus",

@@ -175,7 +175,7 @@ const ECOSYSTEM: EcoNode[] = [
     type: 'infrastructure',
     status: 'live',
     description: 'Payments — Sparks, subscriptions, metered billing',
-    stats: 'acct_1PUJi5HThmAuKVQM',
+    stats: 'acct_1T2fHeQjehctdkQR',
     color: '#635bff',
     connections: ['0nmcp-website', 'marketplace'],
   },

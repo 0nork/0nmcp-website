@@ -316,7 +316,7 @@ function VendorViewInner({
         {/* Feature cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
           {[
-            { icon: '80%', title: '80% Revenue Share', desc: 'Keep the majority of every sale. We only take a 20% platform fee.' },
+            { icon: '85%', title: '85% Revenue Share', desc: 'Keep the majority of every sale. Starting at just 15% platform fee.' },
             { icon: '$', title: 'Stripe Express Payouts', desc: 'Automatic payouts to your bank account. Stripe handles everything.' },
             { icon: '~', title: 'Global Marketplace', desc: 'Reach thousands of AI engineers looking for premium workflows.' },
           ].map((feat) => (
@@ -476,9 +476,9 @@ function VendorViewInner({
 
   // ── State 4: Fully Onboarded — Full Dashboard ──
 
-  const tierFee = vendor?.application_fee_percent ?? 20
-  const tierLabel = tierFee <= 10 ? 'Partner' : tierFee <= 15 ? 'Preferred' : 'Standard'
-  const tierColor = tierFee <= 10 ? COLORS.accent : tierFee <= 15 ? COLORS.cyan : COLORS.orange
+  const tierFee = vendor?.application_fee_percent ?? 15
+  const tierLabel = tierFee <= 5 ? 'Partner' : tierFee <= 10 ? 'Preferred' : 'Standard'
+  const tierColor = tierFee <= 5 ? COLORS.accent : tierFee <= 10 ? COLORS.cyan : COLORS.orange
 
   const totalRevenueDollars = (vendor?.total_revenue_cents ?? 0) / 100
   const pendingPayoutsCents = transactions
@@ -731,9 +731,9 @@ function VendorViewInner({
             </h4>
             <div style={{ display: 'flex', gap: 16 }}>
               {[
-                { label: 'Standard', fee: 20, min: 0, color: COLORS.orange },
-                { label: 'Preferred', fee: 15, min: 50, color: COLORS.cyan },
-                { label: 'Partner', fee: 10, min: 200, color: COLORS.accent },
+                { label: 'Standard', fee: 15, min: 0, color: COLORS.orange },
+                { label: 'Preferred', fee: 10, min: 50, color: COLORS.cyan },
+                { label: 'Partner', fee: 5, min: 200, color: COLORS.accent },
               ].map((tier) => {
                 const isActive = tierLabel === tier.label
                 return (

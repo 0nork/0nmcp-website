@@ -189,8 +189,8 @@ export async function syncAccountStatus(stripeAccountId: string) {
  *
  * Flow:
  * 1. Buyer pays $10
- * 2. Platform keeps $2 (20% application fee)
- * 3. Vendor receives $8 (automatic transfer to connected account)
+ * 2. Platform keeps $1.50 (15% application fee at Standard tier)
+ * 3. Vendor receives $8.50 (automatic transfer to connected account)
  */
 export async function createMarketplaceCheckout(opts: {
   buyerId: string
@@ -214,7 +214,7 @@ export async function createMarketplaceCheckout(opts: {
   if (!vendor.stripe_account_id) throw new Error('Vendor has no Stripe account')
   if (!vendor.charges_enabled) throw new Error('Vendor account is not ready for payments')
 
-  const feePercent = vendor.application_fee_percent || 20
+  const feePercent = vendor.application_fee_percent || 15
   const feeCents = Math.round(opts.amountCents * (feePercent / 100))
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -519,10 +519,13 @@ export async function recordPayout(opts: {
  * Platform fee tiers based on vendor performance.
  */
 export const VENDOR_TIERS = {
-  standard: { fee: 20, label: 'Standard', minSales: 0 },
-  preferred: { fee: 15, label: 'Preferred', minSales: 50 },
-  partner: { fee: 10, label: 'Partner', minSales: 200 },
+  standard: { fee: 15, label: 'Standard', minSales: 0 },
+  preferred: { fee: 10, label: 'Preferred', minSales: 50 },
+  partner: { fee: 5, label: 'Partner', minSales: 200 },
 } as const
+
+/** Minimum payout threshold in cents — vendors must accumulate at least $50 before payout */
+export const MINIMUM_PAYOUT_CENTS = 5000
 
 /**
  * Check if a vendor qualifies for a tier upgrade.

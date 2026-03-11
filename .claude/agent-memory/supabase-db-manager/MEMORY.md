@@ -6,12 +6,20 @@
 - Supabase CLI v2.67.1 is installed globally and authenticated (can list all projects)
 - Service role key available via `supabase projects api-keys --project-ref pwujhhmlrtxjmjzyttwn`
 
-## Migration History (42 migrations local, all synced local+remote as of 2026-03-06)
+## Migration History (synced local+remote as of 2026-03-10)
 - See `/Users/rocketopp/Github/0nmcp-website/supabase/migrations/` for full list
-- Latest: `20260306100000_social_engine_listing.sql` - store listing for Social Intelligence Engine
-- Previous: `20260306000000_ai_brain_learning.sql` - user_intelligence_profiles, ai_behavioral_signals, ai_brain_config, product_subscriptions, feature_usage tables
+- Latest: `20260312100000_onboarding_ab_testing.sql` - onboarding_experiments, onboarding_variants, onboarding_assignments, onboarding_events tables + seed data
+- Previous: `20260311200000_seed_automation_content.sql` - seeded persona_content_queue (16 threads + 16 replies), content_queue (5 posts), reddit_content (4 posts), content_topics (8 new topics)
+- Earlier: `20260306100000_social_engine_listing.sql` - store listing for Social Intelligence Engine
 - Notable: `20260305000000_listkit_imports.sql` - targeted at yaehbwimocvvnnlojkxe but also applied to pwujhhmlrtxjmjzyttwn (idempotent, harmless)
 - Notable: `20260302100001_fix_signup_plan_column.sql` - renamed from 20260302100000 to resolve timestamp collision with `_email_settings.sql`
+
+### content_topics_category_check (2026-03-10)
+- `content_topics.category` has a CHECK constraint limiting values to: `mcp_education`, `feature_highlight`, `tutorial`, `comparison`, `community`, `on_standard`, `roadmap`, `use_case`, `release`, `thought_leadership`
+- Original seed migration (20260301100000) used older category values like `security`, `education`, `feature`, `opinion` -- those were migrated at some point to the new enum
+- The CHECK constraint was added directly on remote (no migration file for it)
+- Migration 20260311200000 initially failed because it tried to insert `security`, `business`, `education`, `feature` -- fixed to `feature_highlight`, `use_case`, `mcp_education`
+- Lesson: Always query CHECK constraints before seeding data with enum-like columns
 
 ### Duplicate Timestamp Fix (2026-03-03)
 - Two files had timestamp `20260302100000`: `_email_settings.sql` and `_fix_signup_plan_column.sql`

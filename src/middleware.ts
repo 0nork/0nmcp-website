@@ -1,7 +1,30 @@
-import { updateSession } from '@/lib/supabase/middleware'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 const WEB0N_HOSTS = ['web0n.com', 'www.web0n.com']
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+function applySessionCookies(request: NextRequest, response: NextResponse): NextResponse {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return response
+
+  // Refresh Supabase auth session on the rewrite response
+  createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll()
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) =>
+          response.cookies.set(name, value, options)
+        )
+      },
+    },
+  })
+
+  return response
+}
 
 export async function middleware(request: NextRequest) {
   const hostname = request.headers.get('host')?.split(':')[0] || ''
@@ -10,9 +33,14 @@ export async function middleware(request: NextRequest) {
   if (WEB0N_HOSTS.includes(hostname)) {
     const pathname = request.nextUrl.pathname
 
-    // Skip rewrites for Next.js internals and static files
-    if (pathname.startsWith('/_next') || pathname.startsWith('/api/web0n')) {
-      return updateSession(request)
+    // Skip rewrites for Next.js internals
+    if (pathname.startsWith('/_next')) {
+      return NextResponse.next()
+    }
+
+    // Already targeting web0n API routes — pass through
+    if (pathname.startsWith('/api/web0n')) {
+      return NextResponse.next()
     }
 
     // API routes: web0n.com/api/* → /api/web0n/*
@@ -27,10 +55,12 @@ export async function middleware(request: NextRequest) {
     url.pathname = pathname === '/' ? '/web0n' : `/web0n${pathname}`
     const response = NextResponse.rewrite(url)
 
-    // Still process Supabase session on rewritten request
-    return updateSession(request)
+    // Attach Supabase session cookies to the rewrite response
+    return applySessionCookies(request, response)
   }
 
+  // Default: 0nmcp.com — use standard Supabase session handler
+  const { updateSession } = await import('@/lib/supabase/middleware')
   return updateSession(request)
 }
 

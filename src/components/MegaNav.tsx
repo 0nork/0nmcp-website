@@ -272,6 +272,7 @@ const GRAPHICS: Record<string, () => React.ReactNode> = {
 export default function MegaNav() {
   const [user, setUser] = useState<{ email?: string; id?: string } | null>(null)
   const [userPlan, setUserPlan] = useState<string>('free')
+  const [authReady, setAuthReady] = useState(false)
   const [openMenu, setOpenMenu] = useState<MenuKey | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
@@ -279,7 +280,7 @@ export default function MegaNav() {
 
   useEffect(() => {
     const supabase = createSupabaseBrowser()
-    if (!supabase) return
+    if (!supabase) { setAuthReady(true); return }
 
     const loadUserAndPlan = async (userId: string) => {
       const { data: profile } = await supabase
@@ -293,9 +294,10 @@ export default function MegaNav() {
     supabase.auth.getUser().then(({ data }) => {
       if (data.user) {
         setUser({ email: data.user.email ?? undefined, id: data.user.id })
-        loadUserAndPlan(data.user.id)
+        loadUserAndPlan(data.user.id).then(() => setAuthReady(true))
       } else {
         setUser(null)
+        setAuthReady(true)
       }
     })
     const {
@@ -308,6 +310,7 @@ export default function MegaNav() {
         setUser(null)
         setUserPlan('free')
       }
+      setAuthReady(true)
     })
     return () => subscription.unsubscribe()
   }, [])
@@ -379,8 +382,8 @@ export default function MegaNav() {
           </Link>
         </div>
 
-        {/* Right side CTAs */}
-        <div className="mega-nav-actions">
+        {/* Right side CTAs — hidden until auth resolves to prevent ghost flash */}
+        <div className="mega-nav-actions" style={authReady ? undefined : { visibility: 'hidden' }}>
           {!user ? (
             <>
               <Link href="/signup" className="mega-nav-cta-signup no-underline">
@@ -390,42 +393,10 @@ export default function MegaNav() {
                 Sign in
               </Link>
             </>
-          ) : userPlan === 'free' ? (
-            <>
-              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative', overflow: 'visible', zIndex: 2 }}>
-                Console
-                <span style={{
-                  position: 'absolute', top: -4, right: -6,
-                  fontSize: 9, fontWeight: 700, lineHeight: 1,
-                  padding: '2px 4px', borderRadius: 4,
-                  background: 'rgba(126,217,87,0.15)',
-                  color: '#7ed957',
-                  border: '1px solid rgba(126,217,87,0.3)',
-                  zIndex: 3, pointerEvents: 'none',
-                }}>
-                  Upgrade
-                </span>
-              </Link>
-              <Link href="/account" className="mega-nav-cta-account no-underline">
-                Account
-              </Link>
-            </>
           ) : (
             <>
-              <Link href="/console" className="mega-nav-cta-demo no-underline" style={{ position: 'relative', overflow: 'visible', zIndex: 2 }}>
+              <Link href="/console" className="mega-nav-cta-demo no-underline">
                 Console
-                <span style={{
-                  position: 'absolute', top: -4, right: -6,
-                  fontSize: 9, fontWeight: 700, lineHeight: 1,
-                  padding: '2px 4px', borderRadius: 4,
-                  background: userPlan === 'team' ? 'rgba(0,212,255,0.12)' : 'rgba(126,217,87,0.12)',
-                  color: userPlan === 'team' ? '#00d4ff' : '#7ed957',
-                  border: `1px solid ${userPlan === 'team' ? 'rgba(0,212,255,0.25)' : 'rgba(126,217,87,0.25)'}`,
-                  textTransform: 'uppercase',
-                  zIndex: 3, pointerEvents: 'none',
-                }}>
-                  {userPlan}
-                </span>
               </Link>
               <Link href="/account" className="mega-nav-cta-account no-underline">
                 Account

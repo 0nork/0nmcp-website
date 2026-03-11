@@ -31,6 +31,7 @@ import { VendorView } from '@/components/console/VendorView'
 import { OutreachView } from '@/components/console/OutreachView'
 import { TrainingView } from '@/components/console/TrainingView'
 import { CommandQueueView } from '@/components/console/CommandQueueView'
+import { SeoView } from '@/components/console/SeoView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -39,7 +40,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training' | 'sync'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo'
 
 interface McpHealth {
   version?: string
@@ -401,6 +402,10 @@ export default function ConsolePage() {
         case '/training':
         case '/brain':
           setView('training')
+          break
+        case '/seo':
+        case '/cro9':
+          setView('seo')
           break
         case '/sync':
         case '/queue':
@@ -848,6 +853,13 @@ export default function ConsolePage() {
           {visitedViews.has('sync') && (
             <div style={{ display: view === 'sync' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <CommandQueueView isAdmin={isAdmin} />
+            </div>
+          )}
+
+          {/* SEO Engine */}
+          {visitedViews.has('seo') && (
+            <div style={{ display: view === 'seo' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <SeoView />
             </div>
           )}
         </main>

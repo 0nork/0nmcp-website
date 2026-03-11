@@ -13,40 +13,50 @@ const AdminEcosystem = lazy(() => import('./AdminEcosystem').then(m => ({ defaul
 const AdminOnboardingLab = lazy(() => import('./AdminOnboardingLab').then(m => ({ default: m.AdminOnboardingLab })))
 const AdminIndexing = lazy(() => import('./AdminIndexing').then(m => ({ default: m.AdminIndexing })))
 
+// Lazy-load admin page components (previously iframes)
+const AdminForumPage = lazy(() => import('@/app/(dashboard)/admin/forum/page'))
+const AdminPersonasPage = lazy(() => import('@/app/(dashboard)/admin/personas/page'))
+const AdminContentPage = lazy(() => import('@/app/(dashboard)/admin/content/page'))
+const AdminBlogPage = lazy(() => import('@/app/(dashboard)/admin/blog/page'))
+const AdminQAPage = lazy(() => import('@/app/(dashboard)/admin/qa/page'))
+const AdminAISettingsPage = lazy(() => import('@/app/(dashboard)/admin/ai-settings/page'))
+
 type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'ecosystem' | 'onboarding-lab' | 'indexing' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
 
 interface NavItem {
   key: AdminSection
   label: string
   icon: string
-  type: 'component' | 'iframe'
-  src?: string
 }
 
-const COMPONENT_SECTIONS: NavItem[] = [
-  { key: 'overview', label: 'Overview', icon: '\u{1F4CA}', type: 'component' },
-  { key: 'defender', label: '0nDefender', icon: '\u{1F6E1}\uFE0F', type: 'component' },
-  { key: 'users', label: 'Users', icon: '\u{1F465}', type: 'component' },
-  { key: 'vendors', label: 'Vendors', icon: '\u{1F4B3}', type: 'component' },
-  { key: 'services', label: 'Services', icon: '\u{1F527}', type: 'component' },
-  { key: 'billing', label: 'Billing', icon: '\u{1F4B0}', type: 'component' },
-  { key: 'reddit-engine', label: 'Reddit Engine', icon: '\u{1F680}', type: 'component' },
-  { key: 'sitemap', label: 'Sitemap', icon: '\u{1F5FA}\uFE0F', type: 'component' },
-  { key: 'onboarding-lab', label: 'Onboarding Lab', icon: '\u{1F9EA}', type: 'component' },
-  { key: 'indexing', label: 'Indexing', icon: '\u{1F50D}', type: 'component' },
-  { key: 'ecosystem', label: 'Ecosystem', icon: '\u{1F310}', type: 'component' },
+const SYSTEM_SECTIONS: NavItem[] = [
+  { key: 'overview', label: 'Overview', icon: '\u{1F4CA}' },
+  { key: 'defender', label: '0nDefender', icon: '\u{1F6E1}\uFE0F' },
+  { key: 'users', label: 'Users', icon: '\u{1F465}' },
+  { key: 'vendors', label: 'Vendors', icon: '\u{1F4B3}' },
+  { key: 'services', label: 'Services', icon: '\u{1F527}' },
+  { key: 'billing', label: 'Billing', icon: '\u{1F4B0}' },
+  { key: 'reddit-engine', label: 'Reddit Engine', icon: '\u{1F680}' },
+  { key: 'sitemap', label: 'Sitemap', icon: '\u{1F5FA}\uFE0F' },
+  { key: 'onboarding-lab', label: 'Onboarding Lab', icon: '\u{1F9EA}' },
+  { key: 'indexing', label: 'Indexing', icon: '\u{1F50D}' },
+  { key: 'ecosystem', label: 'Ecosystem', icon: '\u{1F310}' },
 ]
 
-const IFRAME_SECTIONS: NavItem[] = [
-  { key: 'forum', label: 'Forum', icon: '\u{1F4AC}', type: 'iframe', src: '/admin/forum' },
-  { key: 'personas', label: 'Personas', icon: '\u{1F916}', type: 'iframe', src: '/admin/personas' },
-  { key: 'content', label: 'Content', icon: '\u{1F4DD}', type: 'iframe', src: '/admin/content' },
-  { key: 'blog', label: 'Blog Engine', icon: '\u{1F4F0}', type: 'iframe', src: '/admin/blog' },
-  { key: 'qa', label: 'QA Distribution', icon: '\u{1F3AF}', type: 'iframe', src: '/admin/qa' },
-  { key: 'ai-settings', label: 'AI Brain', icon: '\u{1F9E0}', type: 'iframe', src: '/admin/ai-settings' },
+const CONTENT_SECTIONS: NavItem[] = [
+  { key: 'forum', label: 'Forum', icon: '\u{1F4AC}' },
+  { key: 'personas', label: 'Personas', icon: '\u{1F916}' },
+  { key: 'content', label: 'Content', icon: '\u{1F4DD}' },
+  { key: 'blog', label: 'Blog Engine', icon: '\u{1F4F0}' },
+  { key: 'qa', label: 'QA Distribution', icon: '\u{1F3AF}' },
+  { key: 'ai-settings', label: 'AI Brain', icon: '\u{1F9E0}' },
 ]
 
-const ALL_SECTIONS: NavItem[] = [...COMPONENT_SECTIONS, ...IFRAME_SECTIONS]
+const ALL_SECTIONS: NavItem[] = [...SYSTEM_SECTIONS, ...CONTENT_SECTIONS]
+
+const LoadingFallback = ({ label }: { label: string }) => (
+  <div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading {label}...</div>
+)
 
 export function AdminView() {
   const [section, setSection] = useState<AdminSection>('overview')
@@ -66,6 +76,10 @@ export function AdminView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
+      {/* Strip page-level padding from embedded admin pages */}
+      <style>{`
+        .admin-embed > div { padding: 1.25rem !important; max-width: none !important; margin: 0 !important; }
+      `}</style>
       {/* Header */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.75rem',
@@ -113,8 +127,8 @@ export function AdminView() {
           display: 'flex', flexDirection: 'column',
           overflowY: 'auto',
         }}>
-          {/* Component sections */}
-          {COMPONENT_SECTIONS.map(item => (
+          {/* System sections */}
+          {SYSTEM_SECTIONS.map(item => (
             <NavButton
               key={item.key}
               item={item}
@@ -131,8 +145,8 @@ export function AdminView() {
             flexShrink: 0,
           }} />
 
-          {/* Iframe sections */}
-          {IFRAME_SECTIONS.map(item => (
+          {/* Content sections */}
+          {CONTENT_SECTIONS.map(item => (
             <NavButton
               key={item.key}
               item={item}
@@ -150,7 +164,7 @@ export function AdminView() {
           border: '1px solid var(--border)',
           overflow: 'hidden',
         }}>
-          {/* Overview (component) */}
+          {/* Overview */}
           {section === 'overview' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
               <div style={{
@@ -185,105 +199,137 @@ export function AdminView() {
             </div>
           )}
 
-          {/* Defender (component) */}
+          {/* Defender */}
           {section === 'defender' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
               <AdminDefender />
             </div>
           )}
 
-          {/* Users (component) */}
+          {/* Users */}
           {section === 'users' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
               <AdminUsers />
             </div>
           )}
 
-          {/* Vendors (component) */}
+          {/* Vendors */}
           {section === 'vendors' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
-              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading vendors...</div>}>
+              <Suspense fallback={<LoadingFallback label="vendors" />}>
                 <AdminVendorsLazy />
               </Suspense>
             </div>
           )}
 
-          {/* Services (component) */}
+          {/* Services */}
           {section === 'services' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
-              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading services...</div>}>
+              <Suspense fallback={<LoadingFallback label="services" />}>
                 <AdminServices />
               </Suspense>
             </div>
           )}
 
-          {/* Billing (component) */}
+          {/* Billing */}
           {section === 'billing' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
-              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading billing data...</div>}>
+              <Suspense fallback={<LoadingFallback label="billing" />}>
                 <AdminBilling />
               </Suspense>
             </div>
           )}
 
-          {/* Reddit Engine (component) */}
+          {/* Reddit Engine */}
           {section === 'reddit-engine' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
-              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading Reddit Engine...</div>}>
+              <Suspense fallback={<LoadingFallback label="Reddit Engine" />}>
                 <AdminRedditEngine />
               </Suspense>
             </div>
           )}
 
-          {/* Sitemap (component) */}
+          {/* Sitemap */}
           {section === 'sitemap' && (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <AdminSitemap />
             </div>
           )}
 
-          {/* Onboarding Lab (component) */}
+          {/* Onboarding Lab */}
           {section === 'onboarding-lab' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
-              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading onboarding lab...</div>}>
+              <Suspense fallback={<LoadingFallback label="onboarding lab" />}>
                 <AdminOnboardingLab />
               </Suspense>
             </div>
           )}
 
-          {/* Indexing (component) */}
+          {/* Indexing */}
           {section === 'indexing' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
-              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading indexing tools...</div>}>
+              <Suspense fallback={<LoadingFallback label="indexing" />}>
                 <AdminIndexing />
               </Suspense>
             </div>
           )}
 
-          {/* Ecosystem (component) */}
+          {/* Ecosystem */}
           {section === 'ecosystem' && (
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
-              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading ecosystem...</div>}>
+              <Suspense fallback={<LoadingFallback label="ecosystem" />}>
                 <AdminEcosystem />
               </Suspense>
             </div>
           )}
 
-          {/* Iframe sections */}
-          {activeItem.type === 'iframe' && activeItem.src && (
-            <iframe
-              key={activeItem.key}
-              src={activeItem.src}
-              style={{
-                flex: 1,
-                border: 'none',
-                width: '100%',
-                height: '100%',
-                borderRadius: '0 0 0.75rem 0',
-                background: 'var(--bg-primary)',
-              }}
-              title={activeItem.label}
-            />
+          {/* Embedded admin pages — strip their standalone page padding */}
+          {section === 'forum' && (
+            <div className="admin-embed" style={{ overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<LoadingFallback label="forum" />}>
+                <AdminForumPage />
+              </Suspense>
+            </div>
+          )}
+
+          {section === 'personas' && (
+            <div className="admin-embed" style={{ overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<LoadingFallback label="personas" />}>
+                <AdminPersonasPage />
+              </Suspense>
+            </div>
+          )}
+
+          {section === 'content' && (
+            <div className="admin-embed" style={{ overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<LoadingFallback label="content" />}>
+                <AdminContentPage />
+              </Suspense>
+            </div>
+          )}
+
+          {section === 'blog' && (
+            <div className="admin-embed" style={{ overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<LoadingFallback label="blog engine" />}>
+                <AdminBlogPage />
+              </Suspense>
+            </div>
+          )}
+
+          {section === 'qa' && (
+            <div className="admin-embed" style={{ overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<LoadingFallback label="QA distribution" />}>
+                <AdminQAPage />
+              </Suspense>
+            </div>
+          )}
+
+          {section === 'ai-settings' && (
+            <div className="admin-embed" style={{ overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<LoadingFallback label="AI brain" />}>
+                <AdminAISettingsPage />
+              </Suspense>
+            </div>
           )}
         </div>
       </div>

@@ -101,7 +101,7 @@ export default function AuthModal({ open, onClose, onSuccess, defaultMode = 'sig
         password,
         options: {
           data: { full_name: fullName },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/api/auth/callback?redirect=/0nboarding`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/auth/callback?redirect=/0nboarding`,
         },
       })
       if (err) { setError(err.message); setLoading(false); return }
@@ -124,7 +124,7 @@ export default function AuthModal({ open, onClose, onSuccess, defaultMode = 'sig
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/api/auth/callback?redirect=/console`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/auth/callback?redirect=/console`,
       },
     })
 

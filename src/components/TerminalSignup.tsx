@@ -214,7 +214,7 @@ export function TerminalSignup() {
           password,
           options: {
             data: { full_name: name, company },
-            emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/api/auth/callback?redirect=/0nboarding`,
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/auth/callback?redirect=/0nboarding`,
           },
         })
 

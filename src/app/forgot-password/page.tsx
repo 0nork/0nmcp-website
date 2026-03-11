@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
     setLoading(true)
 
     const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/reset-password`,
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/reset-password`,
     })
 
     if (err) {

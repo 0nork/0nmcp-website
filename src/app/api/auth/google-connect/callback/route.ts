@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code')
   const state = searchParams.get('state') // userId
   const error = searchParams.get('error')
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'
 
   // User denied consent
   if (error) {

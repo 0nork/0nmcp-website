@@ -201,5 +201,5 @@ export async function getConnection(userId: string) {
 }
 
 function getRedirectUri(): string {
-  return `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/api/social/reddit/auth/callback`
+  return `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/social/reddit/auth/callback`
 }

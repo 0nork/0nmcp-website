@@ -375,7 +375,7 @@ async function handlePersonaReplyChain(record: Record<string, unknown>) {
     // We call the converse endpoint to generate a reply (fire-and-forget)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : 'https://0nmcp.com')
+      : 'https://www.0nmcp.com')
 
     fetch(`${baseUrl}/api/personas/converse`, {
       method: 'POST',

@@ -158,5 +158,5 @@ export async function getMember(memberId: string) {
 }
 
 function getRedirectUri(): string {
-  return `${process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'}/api/linkedin/auth/callback`
+  return `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/linkedin/auth/callback`
 }

@@ -44,7 +44,7 @@ export default function OAuthButtons({ mode = 'signin', redirectTo = '/0nboardin
     if (!supabase) return
 
     setLoadingProvider(provider as string)
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'
     const callbackUrl = `${siteUrl}/api/auth/callback?redirect=${encodeURIComponent(redirectTo)}`
 
     await supabase.auth.signInWithOAuth({

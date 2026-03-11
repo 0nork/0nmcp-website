@@ -17,7 +17,7 @@ const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 
 function getRedirectUri() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'
   return `${base}/api/auth/google-connect/callback`
 }
 

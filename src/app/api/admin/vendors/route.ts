@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
     )
 
     // Generate onboarding link
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'
     const onboardingUrl = await createOnboardingLink(
       accountId,
       `${baseUrl}/console?view=vendor&vendor=onboarded`,

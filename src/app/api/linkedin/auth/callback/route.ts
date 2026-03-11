@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   const state = searchParams.get('state')
   const error = searchParams.get('error')
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'
 
   if (error) {
     return NextResponse.redirect(new URL(`/console?linkedin_error=${encodeURIComponent(error)}`, baseUrl))

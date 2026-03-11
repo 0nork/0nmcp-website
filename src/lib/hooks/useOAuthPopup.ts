@@ -29,7 +29,7 @@ export function useOAuthPopup(options: UseOAuthPopupOptions = {}) {
       return
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'
     const redirectTo = options.redirectTo || '/0nboarding'
     const callbackUrl = `${siteUrl}/api/auth/callback?redirect=${encodeURIComponent(redirectTo)}`
 

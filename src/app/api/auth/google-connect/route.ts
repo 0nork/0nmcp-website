@@ -14,7 +14,7 @@ export async function GET() {
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    return NextResponse.redirect(new URL('/login?redirect=/console', process.env.NEXT_PUBLIC_SITE_URL || 'https://0nmcp.com'))
+    return NextResponse.redirect(new URL('/login?redirect=/console', process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'))
   }
 
   const url = getGoogleConnectUrl(user.id)

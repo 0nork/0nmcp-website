@@ -35,6 +35,8 @@ Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.co
 | \`login\` | Authenticate with your 0nmcp.com email + password |
 | \`vault\` | List your connected services from the Vault |
 | \`vault <service>\` | Load a specific service's API key for this session |
+| \`vault save <service>\` | Save/update a credential to the web vault |
+| \`vault remove <service>\` | Remove a credential from the web vault |
 | \`sparks\` | Check your Spark balance |
 | \`store\` | Browse available automation templates |
 | \`store <slug>\` | Get details on a specific listing |
@@ -149,6 +151,40 @@ curl -s -X POST "https://www.0nmcp.com/api/skill/vault" \\
 Returns encrypted key data. The key is AES-256-GCM encrypted with the user's ID as the derivation input.
 
 **IMPORTANT**: API keys from the Vault should only be used for the current session. Never write decrypted keys to disk.
+
+### Save a Key to Vault (\`/0nmcp vault save <service>\`)
+
+Push a credential FROM Claude Code back to the web vault:
+
+\`\`\`bash
+curl -s -X PUT "https://www.0nmcp.com/api/skill/vault" \\
+  -H "Authorization: Bearer ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"service_name": "SERVICE_NAME", "encrypted_key": "...", "iv": "...", "salt": "..."}'
+\`\`\`
+
+The key must be encrypted client-side using AES-256-GCM with the user's ID as the PBKDF2 derivation input before sending. This upserts — creates new or updates existing.
+
+Returns:
+\`\`\`json
+{ "ok": true, "service_name": "anthropic", "message": "Credential for anthropic saved to vault." }
+\`\`\`
+
+service_name must be alphanumeric with underscores/dashes (max 64 chars).
+
+### Remove a Key from Vault (\`/0nmcp vault remove <service>\`)
+
+\`\`\`bash
+curl -s -X DELETE "https://www.0nmcp.com/api/skill/vault" \\
+  -H "Authorization: Bearer ACCESS_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"service_name": "SERVICE_NAME"}'
+\`\`\`
+
+Returns:
+\`\`\`json
+{ "ok": true, "service_name": "anthropic", "message": "Credential for anthropic removed from vault." }
+\`\`\`
 
 ---
 

@@ -9,7 +9,7 @@ interface IndexResult {
 }
 
 const ENGINE_LABELS: Record<string, { name: string; color: string }> = {
-  google_ping: { name: 'Google (Sitemap Ping)', color: '#4285f4' },
+  google_gsc: { name: 'Google Search Console', color: '#4285f4' },
   bing_ping: { name: 'Bing (Sitemap Ping)', color: '#00809d' },
   bing_indexnow: { name: 'Bing (IndexNow)', color: '#00809d' },
   yandex_indexnow: { name: 'Yandex (IndexNow)', color: '#ff0000' },
@@ -238,8 +238,8 @@ export function AdminIndexing() {
           { label: 'robots.txt configured', done: true, note: 'Allows all crawlers, references sitemap' },
           { label: 'sitemap.xml auto-generated', done: true, note: '300+ pages, dynamic forum/profile/marketplace content' },
           { label: 'IndexNow key file deployed', done: true, note: 'public/0nmcp-indexnow-2026-03.txt' },
-          { label: 'Google Search Console verified', done: false, note: 'Verify ownership at search.google.com/search-console' },
-          { label: 'Bing Webmaster Tools verified', done: false, note: 'Verify at bing.com/webmasters' },
+          { label: 'Google Search Console', done: true, note: 'Uses OAuth — GOOGLE_CLIENT_ID + SECRET + REFRESH_TOKEN in env' },
+          { label: 'Bing Webmaster Tools', done: true, note: 'IndexNow auto-registers, no manual verification needed' },
           { label: 'Google Analytics connected', done: true, note: 'GA4 Property 444978038' },
         ].map((item, i) => (
           <div key={i} style={{

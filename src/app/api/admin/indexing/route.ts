@@ -4,6 +4,29 @@ export const dynamic = 'force-dynamic'
 
 const SITE_URL = 'https://www.0nmcp.com'
 const INDEXNOW_KEY = '0nmcp-indexnow-2026-03'
+const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
+const SEARCH_CONSOLE_API = 'https://searchconsole.googleapis.com/webmasters/v3'
+
+async function getGoogleAccessToken(): Promise<string | null> {
+  const clientId = process.env.GOOGLE_CLIENT_ID
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN
+  if (!clientId || !clientSecret || !refreshToken) return null
+
+  try {
+    const res = await fetch(GOOGLE_TOKEN_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: clientId, client_secret: clientSecret,
+        refresh_token: refreshToken, grant_type: 'refresh_token',
+      }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.access_token
+  } catch { return null }
+}
 
 /**
  * GET /api/admin/indexing — Get indexing status and available actions
@@ -42,12 +65,25 @@ export async function POST(request: NextRequest) {
   if (action === 'ping_sitemap' || action === 'submit_all') {
     const sitemapUrl = `${SITE_URL}/sitemap.xml`
 
-    // Google sitemap ping
-    try {
-      const googleRes = await fetch(`https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`)
-      results.google_ping = { status: googleRes.ok ? 'success' : 'failed', response: `${googleRes.status} ${googleRes.statusText}` }
-    } catch (e) {
-      results.google_ping = { status: 'error', error: String(e) }
+    // Google Search Console — submit sitemap via API
+    const googleToken = await getGoogleAccessToken()
+    if (googleToken) {
+      try {
+        const encodedSite = encodeURIComponent(`${SITE_URL}/`)
+        const encodedSitemap = encodeURIComponent(sitemapUrl)
+        const gscRes = await fetch(
+          `${SEARCH_CONSOLE_API}/sites/${encodedSite}/sitemaps/${encodedSitemap}`,
+          { method: 'PUT', headers: { Authorization: `Bearer ${googleToken}` } }
+        )
+        results.google_gsc = {
+          status: gscRes.ok || gscRes.status === 204 ? 'success' : 'failed',
+          response: `${gscRes.status} ${gscRes.statusText}`,
+        }
+      } catch (e) {
+        results.google_gsc = { status: 'error', error: String(e) }
+      }
+    } else {
+      results.google_gsc = { status: 'skipped', response: 'No Google OAuth credentials configured' }
     }
 
     // Bing sitemap ping

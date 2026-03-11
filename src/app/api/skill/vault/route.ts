@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
   if (!vault) {
     return NextResponse.json({
       error: 'not_found',
-      message: `No key found for ${service_name}. Add it at https://0nmcp.com/console → Vault.`,
+      message: `No key found for ${service_name}. Add it at https://www.0nmcp.com/console → Vault.`,
     }, { status: 404 })
   }
 

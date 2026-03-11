@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       error: 'insufficient_sparks',
       balance: check.balance,
       cost: check.cost,
-      message: `This action costs ${check.cost} Sparks — you have ${check.balance}. Purchase more at https://0nmcp.com/console`,
+      message: `This action costs ${check.cost} Sparks — you have ${check.balance}. Purchase more at https://www.0nmcp.com/console`,
       alert: check.alert,
     }, { status: 402 })
   }

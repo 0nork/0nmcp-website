@@ -25,7 +25,7 @@ function getSkillContent(): string {
 
 Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.com account and get access to your Vault, workflows, Sparks, and the Council Brain — all from your terminal.
 
-**Sign up first**: https://0nmcp.com/signup
+**Sign up first**: https://www.0nmcp.com/signup
 
 ## Arguments
 
@@ -47,7 +47,7 @@ Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.co
 
 ## Quick Start
 
-1. Sign up at **https://0nmcp.com/signup** (if you haven't)
+1. Sign up at **https://www.0nmcp.com/signup** (if you haven't)
 2. Copy this file to \`~/.claude/skills/0nmcp/SKILL.md\`
 3. In Claude Code, type: \`/0nmcp login\`
 4. Enter your email and password when prompted
@@ -62,7 +62,7 @@ Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.co
 Prompt the user for their email and password, then authenticate:
 
 \`\`\`bash
-curl -s -X POST "https://0nmcp.com/api/skill/auth" \\
+curl -s -X POST "https://www.0nmcp.com/api/skill/auth" \\
   -H "Content-Type: application/json" \\
   -d '{"email": "USER_EMAIL", "password": "USER_PASSWORD"}'
 \`\`\`
@@ -88,14 +88,14 @@ Authorization: Bearer <access_token>
 { "error": "auth_failed", "message": "Invalid email or password" }
 \`\`\`
 
-Tell the user to check their credentials or sign up at https://0nmcp.com/signup
+Tell the user to check their credentials or sign up at https://www.0nmcp.com/signup
 
 ### Session Check
 
 After login, verify the session and show status:
 
 \`\`\`bash
-curl -s "https://0nmcp.com/api/skill/session" \\
+curl -s "https://www.0nmcp.com/api/skill/session" \\
   -H "Authorization: Bearer ACCESS_TOKEN"
 \`\`\`
 
@@ -120,7 +120,7 @@ Print a welcome banner:
 ### List Connected Services
 
 \`\`\`bash
-curl -s "https://0nmcp.com/api/skill/vault" \\
+curl -s "https://www.0nmcp.com/api/skill/vault" \\
   -H "Authorization: Bearer ACCESS_TOKEN"
 \`\`\`
 
@@ -135,12 +135,12 @@ Returns:
 }
 \`\`\`
 
-Print a list of connected services. If none, suggest: "Connect your API keys at https://0nmcp.com/console → Vault"
+Print a list of connected services. If none, suggest: "Connect your API keys at https://www.0nmcp.com/console → Vault"
 
 ### Load a Service Key (\`/0nmcp vault <service>\`)
 
 \`\`\`bash
-curl -s -X POST "https://0nmcp.com/api/skill/vault" \\
+curl -s -X POST "https://www.0nmcp.com/api/skill/vault" \\
   -H "Authorization: Bearer ACCESS_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{"service_name": "SERVICE_NAME"}'
@@ -157,7 +157,7 @@ Returns encrypted key data. The key is AES-256-GCM encrypted with the user's ID 
 ### Check Balance
 
 \`\`\`bash
-curl -s "https://0nmcp.com/api/skill/sparks" \\
+curl -s "https://www.0nmcp.com/api/skill/sparks" \\
   -H "Authorization: Bearer ACCESS_TOKEN"
 \`\`\`
 
@@ -168,14 +168,14 @@ Returns:
 
 Print: "You have {balance} Sparks ⚡"
 
-If balance is low (< 10), suggest: "Running low! Get more at https://0nmcp.com/console → Sparks"
+If balance is low (< 10), suggest: "Running low! Get more at https://www.0nmcp.com/console → Sparks"
 
 ### Deduct Sparks (before running actions)
 
 Before executing any action that costs Sparks, call:
 
 \`\`\`bash
-curl -s -X POST "https://0nmcp.com/api/skill/sparks" \\
+curl -s -X POST "https://www.0nmcp.com/api/skill/sparks" \\
   -H "Authorization: Bearer ACCESS_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{"action": "ACTION_NAME", "description": "What the user is doing"}'
@@ -201,7 +201,7 @@ If the user has insufficient Sparks, the API returns 402 with a purchase link. T
 ### Browse Listings
 
 \`\`\`bash
-curl -s "https://0nmcp.com/api/skill/store" \\
+curl -s "https://www.0nmcp.com/api/skill/store" \\
   -H "Authorization: Bearer ACCESS_TOKEN"
 \`\`\`
 
@@ -210,14 +210,14 @@ Print available workflows with name, description, category, and Spark cost.
 ### Get Listing Details (\`/0nmcp store <slug>\`)
 
 \`\`\`bash
-curl -s "https://0nmcp.com/api/skill/store?slug=SLUG" \\
+curl -s "https://www.0nmcp.com/api/skill/store?slug=SLUG" \\
   -H "Authorization: Bearer ACCESS_TOKEN"
 \`\`\`
 
 ### View Purchased Workflows
 
 \`\`\`bash
-curl -s "https://0nmcp.com/api/skill/store?view=purchased" \\
+curl -s "https://www.0nmcp.com/api/skill/store?view=purchased" \\
   -H "Authorization: Bearer ACCESS_TOKEN"
 \`\`\`
 
@@ -228,7 +228,7 @@ curl -s "https://0nmcp.com/api/skill/store?view=purchased" \\
 ### View Status
 
 \`\`\`bash
-curl -s "https://0nmcp.com/api/training/leaderboard"
+curl -s "https://www.0nmcp.com/api/training/leaderboard"
 \`\`\`
 
 This endpoint is public — no auth needed. Shows:
@@ -242,7 +242,7 @@ This endpoint is public — no auth needed. Shows:
 Available at **Tier 3 (Canopy)** and above. Requires auth.
 
 \`\`\`bash
-curl -s -X POST "https://0nmcp.com/api/training/ingest" \\
+curl -s -X POST "https://www.0nmcp.com/api/training/ingest" \\
   -H "Authorization: Bearer ACCESS_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -284,23 +284,23 @@ To run a purchased workflow:
 | /api/training/leaderboard | GET | None | Brain status (public) |
 | /api/training/ingest | POST | Bearer | Contribute knowledge |
 
-**Base URL**: https://0nmcp.com
+**Base URL**: https://www.0nmcp.com
 
 ---
 
 ## Important Notes
 
-1. **Sign up first** — You need an account at https://0nmcp.com/signup
-2. **Sparks are required** — Most actions cost Sparks. Buy packs at https://0nmcp.com/console
+1. **Sign up first** — You need an account at https://www.0nmcp.com/signup
+2. **Sparks are required** — Most actions cost Sparks. Buy packs at https://www.0nmcp.com/console
 3. **Vault keys are encrypted** — Keys are AES-256-GCM encrypted, never stored in plaintext
 4. **Session tokens expire** — If you get a 401, run \`/0nmcp login\` again
 5. **Brain contributions are free** — Help train the AI and earn recognition
 6. **This skill is free** — No cost to download or install. You only pay for Sparks.
-7. **0nMCP**: 850 tools across 53 services — https://0nmcp.com
+7. **0nMCP**: 850 tools across 53 services — https://www.0nmcp.com
 
 ---
 
 *Built by 0nORK — Stop building workflows. Start describing outcomes.*
-*https://0nmcp.com | npm: 0nmcp*
+*https://www.0nmcp.com | npm: 0nmcp*
 `
 }

@@ -893,7 +893,8 @@
           "name": "Get Profile",
           "description": "Get the authenticated user's email profile."
         }
-      ]
+      ],
+      "logo": "/logos/gmail.svg"
     },
     {
       "id": "slack",
@@ -935,7 +936,8 @@
           "name": "Create Channel",
           "description": "Create a new Slack channel."
         }
-      ]
+      ],
+      "logo": "/logos/slack.svg"
     },
     {
       "id": "google_calendar",
@@ -981,7 +983,8 @@
           "name": "Delete Event",
           "description": "Delete a calendar event."
         }
-      ]
+      ],
+      "logo": "/logos/gcal.svg"
     },
     {
       "id": "google_sheets",
@@ -1042,7 +1045,8 @@
           "name": "Batch Update",
           "description": "Write values to multiple ranges at once."
         }
-      ]
+      ],
+      "logo": "/logos/gsheets.svg"
     },
     {
       "id": "google_drive",
@@ -1113,7 +1117,8 @@
           "name": "Generate IDs",
           "description": "Pre-generate file IDs for uploads."
         }
-      ]
+      ],
+      "logo": "/logos/gdrive.svg"
     },
     {
       "id": "zoom",
@@ -1184,7 +1189,8 @@
           "name": "Get User",
           "description": "Get a specific user's details."
         }
-      ]
+      ],
+      "logo": "/logos/zoom.svg"
     },
     {
       "id": "microsoft",
@@ -1281,7 +1287,8 @@
           "name": "Get User",
           "description": "Get the authenticated user's profile."
         }
-      ]
+      ],
+      "logo": "/logos/m365.svg"
     },
     {
       "id": "notion",
@@ -1327,7 +1334,8 @@
           "name": "List Databases",
           "description": "List all databases in the workspace."
         }
-      ]
+      ],
+      "logo": "/logos/notion.svg"
     },
     {
       "id": "discord",
@@ -1358,7 +1366,8 @@
           "name": "List Channels",
           "description": "List all channels in a server."
         }
-      ]
+      ],
+      "logo": "/logos/discord.svg"
     },
     {
       "id": "twilio",
@@ -1395,7 +1404,8 @@
           "name": "Make Call",
           "description": "Initiate a phone call."
         }
-      ]
+      ],
+      "logo": "/logos/twilio.svg"
     },
     {
       "id": "mailchimp",
@@ -1476,7 +1486,8 @@
           "name": "List Automations",
           "description": "List automation workflows."
         }
-      ]
+      ],
+      "logo": "/logos/mailchimp.svg"
     },
     {
       "id": "sendgrid",
@@ -1522,7 +1533,8 @@
           "name": "List Lists",
           "description": "List marketing contact lists."
         }
-      ]
+      ],
+      "logo": "/logos/sendgrid.svg"
     },
     {
       "id": "resend",
@@ -1548,74 +1560,343 @@
       ],
       "tool_count": 67,
       "tools": [
-        { "id": "resend_send_email", "name": "Send Email", "description": "Send a transactional email with HTML, React templates, scheduling, and attachments." },
-        { "id": "resend_send_batch_emails", "name": "Send Batch Emails", "description": "Send up to 100 emails in a single batch request." },
-        { "id": "resend_list_emails", "name": "List Emails", "description": "List sent emails with pagination." },
-        { "id": "resend_get_email", "name": "Get Email", "description": "Retrieve a single sent email by ID." },
-        { "id": "resend_update_email", "name": "Update Email", "description": "Update a scheduled email before it sends." },
-        { "id": "resend_cancel_email", "name": "Cancel Email", "description": "Cancel a scheduled email before delivery." },
-        { "id": "resend_list_received_emails", "name": "List Received Emails", "description": "List inbound received emails." },
-        { "id": "resend_get_received_email", "name": "Get Received Email", "description": "Retrieve a single received inbound email." },
-        { "id": "resend_list_email_attachments", "name": "List Email Attachments", "description": "List attachments from a sent email." },
-        { "id": "resend_get_email_attachment", "name": "Get Email Attachment", "description": "Retrieve a specific attachment from a sent email." },
-        { "id": "resend_list_received_attachments", "name": "List Received Attachments", "description": "List attachments from a received email." },
-        { "id": "resend_get_received_attachment", "name": "Get Received Attachment", "description": "Retrieve a specific attachment from a received email." },
-        { "id": "resend_create_domain", "name": "Create Domain", "description": "Add a new email domain with region and tracking config." },
-        { "id": "resend_list_domains", "name": "List Domains", "description": "List all configured email domains." },
-        { "id": "resend_get_domain", "name": "Get Domain", "description": "Retrieve domain details including DNS records." },
-        { "id": "resend_update_domain", "name": "Update Domain", "description": "Update domain settings like tracking and TLS." },
-        { "id": "resend_verify_domain", "name": "Verify Domain", "description": "Trigger asynchronous domain DNS verification." },
-        { "id": "resend_delete_domain", "name": "Delete Domain", "description": "Delete an email domain." },
-        { "id": "resend_create_api_key", "name": "Create API Key", "description": "Create a new API key with permission level." },
-        { "id": "resend_list_api_keys", "name": "List API Keys", "description": "List all API keys." },
-        { "id": "resend_delete_api_key", "name": "Delete API Key", "description": "Delete an API key." },
-        { "id": "resend_create_audience", "name": "Create Audience", "description": "Create a new audience (deprecated — use segments)." },
-        { "id": "resend_list_audiences", "name": "List Audiences", "description": "List all audiences." },
-        { "id": "resend_get_audience", "name": "Get Audience", "description": "Retrieve a single audience." },
-        { "id": "resend_delete_audience", "name": "Delete Audience", "description": "Delete an audience." },
-        { "id": "resend_create_contact", "name": "Create Contact", "description": "Create a new contact with email, name, and properties." },
-        { "id": "resend_list_contacts", "name": "List Contacts", "description": "List all contacts with optional segment filter." },
-        { "id": "resend_get_contact", "name": "Get Contact", "description": "Retrieve a contact by ID or email address." },
-        { "id": "resend_update_contact", "name": "Update Contact", "description": "Update contact name, subscription status, or properties." },
-        { "id": "resend_delete_contact", "name": "Delete Contact", "description": "Delete a contact by ID or email." },
-        { "id": "resend_add_contact_to_segment", "name": "Add Contact to Segment", "description": "Add a contact to a segment." },
-        { "id": "resend_remove_contact_from_segment", "name": "Remove Contact from Segment", "description": "Remove a contact from a segment." },
-        { "id": "resend_list_contact_segments", "name": "List Contact Segments", "description": "List all segments a contact belongs to." },
-        { "id": "resend_get_contact_topics", "name": "Get Contact Topics", "description": "Get a contact's topic subscriptions." },
-        { "id": "resend_update_contact_topics", "name": "Update Contact Topics", "description": "Update a contact's topic opt-in/opt-out preferences." },
-        { "id": "resend_create_broadcast", "name": "Create Broadcast", "description": "Create a new broadcast email to a segment." },
-        { "id": "resend_list_broadcasts", "name": "List Broadcasts", "description": "List all broadcasts with pagination." },
-        { "id": "resend_get_broadcast", "name": "Get Broadcast", "description": "Retrieve a single broadcast by ID." },
-        { "id": "resend_update_broadcast", "name": "Update Broadcast", "description": "Update broadcast content, segment, or schedule." },
-        { "id": "resend_send_broadcast", "name": "Send Broadcast", "description": "Send or schedule a broadcast for delivery." },
-        { "id": "resend_delete_broadcast", "name": "Delete Broadcast", "description": "Delete a draft broadcast or cancel a scheduled one." },
-        { "id": "resend_create_segment", "name": "Create Segment", "description": "Create a new contact segment." },
-        { "id": "resend_list_segments", "name": "List Segments", "description": "List all segments." },
-        { "id": "resend_get_segment", "name": "Get Segment", "description": "Retrieve a single segment." },
-        { "id": "resend_delete_segment", "name": "Delete Segment", "description": "Delete a segment." },
-        { "id": "resend_create_contact_property", "name": "Create Contact Property", "description": "Create a new contact property field." },
-        { "id": "resend_list_contact_properties", "name": "List Contact Properties", "description": "List all contact properties." },
-        { "id": "resend_get_contact_property", "name": "Get Contact Property", "description": "Retrieve a single contact property." },
-        { "id": "resend_update_contact_property", "name": "Update Contact Property", "description": "Update a contact property." },
-        { "id": "resend_delete_contact_property", "name": "Delete Contact Property", "description": "Delete a contact property." },
-        { "id": "resend_create_template", "name": "Create Template", "description": "Create a new email template." },
-        { "id": "resend_list_templates", "name": "List Templates", "description": "List all email templates." },
-        { "id": "resend_get_template", "name": "Get Template", "description": "Retrieve a single email template." },
-        { "id": "resend_update_template", "name": "Update Template", "description": "Update an email template." },
-        { "id": "resend_delete_template", "name": "Delete Template", "description": "Delete an email template." },
-        { "id": "resend_duplicate_template", "name": "Duplicate Template", "description": "Duplicate an existing email template." },
-        { "id": "resend_publish_template", "name": "Publish Template", "description": "Publish a template for use." },
-        { "id": "resend_create_topic", "name": "Create Topic", "description": "Create a new email topic for subscription management." },
-        { "id": "resend_list_topics", "name": "List Topics", "description": "List all email topics." },
-        { "id": "resend_get_topic", "name": "Get Topic", "description": "Retrieve a single topic." },
-        { "id": "resend_update_topic", "name": "Update Topic", "description": "Update a topic." },
-        { "id": "resend_delete_topic", "name": "Delete Topic", "description": "Delete a topic." },
-        { "id": "resend_create_webhook", "name": "Create Webhook", "description": "Create a new webhook endpoint for email events." },
-        { "id": "resend_list_webhooks", "name": "List Webhooks", "description": "List all configured webhooks." },
-        { "id": "resend_get_webhook", "name": "Get Webhook", "description": "Retrieve a single webhook." },
-        { "id": "resend_update_webhook", "name": "Update Webhook", "description": "Update a webhook endpoint or events." },
-        { "id": "resend_delete_webhook", "name": "Delete Webhook", "description": "Delete a webhook." }
-      ]
+        {
+          "id": "resend_send_email",
+          "name": "Send Email",
+          "description": "Send a transactional email with HTML, React templates, scheduling, and attachments."
+        },
+        {
+          "id": "resend_send_batch_emails",
+          "name": "Send Batch Emails",
+          "description": "Send up to 100 emails in a single batch request."
+        },
+        {
+          "id": "resend_list_emails",
+          "name": "List Emails",
+          "description": "List sent emails with pagination."
+        },
+        {
+          "id": "resend_get_email",
+          "name": "Get Email",
+          "description": "Retrieve a single sent email by ID."
+        },
+        {
+          "id": "resend_update_email",
+          "name": "Update Email",
+          "description": "Update a scheduled email before it sends."
+        },
+        {
+          "id": "resend_cancel_email",
+          "name": "Cancel Email",
+          "description": "Cancel a scheduled email before delivery."
+        },
+        {
+          "id": "resend_list_received_emails",
+          "name": "List Received Emails",
+          "description": "List inbound received emails."
+        },
+        {
+          "id": "resend_get_received_email",
+          "name": "Get Received Email",
+          "description": "Retrieve a single received inbound email."
+        },
+        {
+          "id": "resend_list_email_attachments",
+          "name": "List Email Attachments",
+          "description": "List attachments from a sent email."
+        },
+        {
+          "id": "resend_get_email_attachment",
+          "name": "Get Email Attachment",
+          "description": "Retrieve a specific attachment from a sent email."
+        },
+        {
+          "id": "resend_list_received_attachments",
+          "name": "List Received Attachments",
+          "description": "List attachments from a received email."
+        },
+        {
+          "id": "resend_get_received_attachment",
+          "name": "Get Received Attachment",
+          "description": "Retrieve a specific attachment from a received email."
+        },
+        {
+          "id": "resend_create_domain",
+          "name": "Create Domain",
+          "description": "Add a new email domain with region and tracking config."
+        },
+        {
+          "id": "resend_list_domains",
+          "name": "List Domains",
+          "description": "List all configured email domains."
+        },
+        {
+          "id": "resend_get_domain",
+          "name": "Get Domain",
+          "description": "Retrieve domain details including DNS records."
+        },
+        {
+          "id": "resend_update_domain",
+          "name": "Update Domain",
+          "description": "Update domain settings like tracking and TLS."
+        },
+        {
+          "id": "resend_verify_domain",
+          "name": "Verify Domain",
+          "description": "Trigger asynchronous domain DNS verification."
+        },
+        {
+          "id": "resend_delete_domain",
+          "name": "Delete Domain",
+          "description": "Delete an email domain."
+        },
+        {
+          "id": "resend_create_api_key",
+          "name": "Create API Key",
+          "description": "Create a new API key with permission level."
+        },
+        {
+          "id": "resend_list_api_keys",
+          "name": "List API Keys",
+          "description": "List all API keys."
+        },
+        {
+          "id": "resend_delete_api_key",
+          "name": "Delete API Key",
+          "description": "Delete an API key."
+        },
+        {
+          "id": "resend_create_audience",
+          "name": "Create Audience",
+          "description": "Create a new audience (deprecated — use segments)."
+        },
+        {
+          "id": "resend_list_audiences",
+          "name": "List Audiences",
+          "description": "List all audiences."
+        },
+        {
+          "id": "resend_get_audience",
+          "name": "Get Audience",
+          "description": "Retrieve a single audience."
+        },
+        {
+          "id": "resend_delete_audience",
+          "name": "Delete Audience",
+          "description": "Delete an audience."
+        },
+        {
+          "id": "resend_create_contact",
+          "name": "Create Contact",
+          "description": "Create a new contact with email, name, and properties."
+        },
+        {
+          "id": "resend_list_contacts",
+          "name": "List Contacts",
+          "description": "List all contacts with optional segment filter."
+        },
+        {
+          "id": "resend_get_contact",
+          "name": "Get Contact",
+          "description": "Retrieve a contact by ID or email address."
+        },
+        {
+          "id": "resend_update_contact",
+          "name": "Update Contact",
+          "description": "Update contact name, subscription status, or properties."
+        },
+        {
+          "id": "resend_delete_contact",
+          "name": "Delete Contact",
+          "description": "Delete a contact by ID or email."
+        },
+        {
+          "id": "resend_add_contact_to_segment",
+          "name": "Add Contact to Segment",
+          "description": "Add a contact to a segment."
+        },
+        {
+          "id": "resend_remove_contact_from_segment",
+          "name": "Remove Contact from Segment",
+          "description": "Remove a contact from a segment."
+        },
+        {
+          "id": "resend_list_contact_segments",
+          "name": "List Contact Segments",
+          "description": "List all segments a contact belongs to."
+        },
+        {
+          "id": "resend_get_contact_topics",
+          "name": "Get Contact Topics",
+          "description": "Get a contact's topic subscriptions."
+        },
+        {
+          "id": "resend_update_contact_topics",
+          "name": "Update Contact Topics",
+          "description": "Update a contact's topic opt-in/opt-out preferences."
+        },
+        {
+          "id": "resend_create_broadcast",
+          "name": "Create Broadcast",
+          "description": "Create a new broadcast email to a segment."
+        },
+        {
+          "id": "resend_list_broadcasts",
+          "name": "List Broadcasts",
+          "description": "List all broadcasts with pagination."
+        },
+        {
+          "id": "resend_get_broadcast",
+          "name": "Get Broadcast",
+          "description": "Retrieve a single broadcast by ID."
+        },
+        {
+          "id": "resend_update_broadcast",
+          "name": "Update Broadcast",
+          "description": "Update broadcast content, segment, or schedule."
+        },
+        {
+          "id": "resend_send_broadcast",
+          "name": "Send Broadcast",
+          "description": "Send or schedule a broadcast for delivery."
+        },
+        {
+          "id": "resend_delete_broadcast",
+          "name": "Delete Broadcast",
+          "description": "Delete a draft broadcast or cancel a scheduled one."
+        },
+        {
+          "id": "resend_create_segment",
+          "name": "Create Segment",
+          "description": "Create a new contact segment."
+        },
+        {
+          "id": "resend_list_segments",
+          "name": "List Segments",
+          "description": "List all segments."
+        },
+        {
+          "id": "resend_get_segment",
+          "name": "Get Segment",
+          "description": "Retrieve a single segment."
+        },
+        {
+          "id": "resend_delete_segment",
+          "name": "Delete Segment",
+          "description": "Delete a segment."
+        },
+        {
+          "id": "resend_create_contact_property",
+          "name": "Create Contact Property",
+          "description": "Create a new contact property field."
+        },
+        {
+          "id": "resend_list_contact_properties",
+          "name": "List Contact Properties",
+          "description": "List all contact properties."
+        },
+        {
+          "id": "resend_get_contact_property",
+          "name": "Get Contact Property",
+          "description": "Retrieve a single contact property."
+        },
+        {
+          "id": "resend_update_contact_property",
+          "name": "Update Contact Property",
+          "description": "Update a contact property."
+        },
+        {
+          "id": "resend_delete_contact_property",
+          "name": "Delete Contact Property",
+          "description": "Delete a contact property."
+        },
+        {
+          "id": "resend_create_template",
+          "name": "Create Template",
+          "description": "Create a new email template."
+        },
+        {
+          "id": "resend_list_templates",
+          "name": "List Templates",
+          "description": "List all email templates."
+        },
+        {
+          "id": "resend_get_template",
+          "name": "Get Template",
+          "description": "Retrieve a single email template."
+        },
+        {
+          "id": "resend_update_template",
+          "name": "Update Template",
+          "description": "Update an email template."
+        },
+        {
+          "id": "resend_delete_template",
+          "name": "Delete Template",
+          "description": "Delete an email template."
+        },
+        {
+          "id": "resend_duplicate_template",
+          "name": "Duplicate Template",
+          "description": "Duplicate an existing email template."
+        },
+        {
+          "id": "resend_publish_template",
+          "name": "Publish Template",
+          "description": "Publish a template for use."
+        },
+        {
+          "id": "resend_create_topic",
+          "name": "Create Topic",
+          "description": "Create a new email topic for subscription management."
+        },
+        {
+          "id": "resend_list_topics",
+          "name": "List Topics",
+          "description": "List all email topics."
+        },
+        {
+          "id": "resend_get_topic",
+          "name": "Get Topic",
+          "description": "Retrieve a single topic."
+        },
+        {
+          "id": "resend_update_topic",
+          "name": "Update Topic",
+          "description": "Update a topic."
+        },
+        {
+          "id": "resend_delete_topic",
+          "name": "Delete Topic",
+          "description": "Delete a topic."
+        },
+        {
+          "id": "resend_create_webhook",
+          "name": "Create Webhook",
+          "description": "Create a new webhook endpoint for email events."
+        },
+        {
+          "id": "resend_list_webhooks",
+          "name": "List Webhooks",
+          "description": "List all configured webhooks."
+        },
+        {
+          "id": "resend_get_webhook",
+          "name": "Get Webhook",
+          "description": "Retrieve a single webhook."
+        },
+        {
+          "id": "resend_update_webhook",
+          "name": "Update Webhook",
+          "description": "Update a webhook endpoint or events."
+        },
+        {
+          "id": "resend_delete_webhook",
+          "name": "Delete Webhook",
+          "description": "Delete a webhook."
+        }
+      ],
+      "logo": "/logos/resend.svg"
     },
     {
       "id": "stripe",
@@ -1697,7 +1978,8 @@
           "name": "Create Price",
           "description": "Create a price for a product."
         }
-      ]
+      ],
+      "logo": "/logos/stripe.svg"
     },
     {
       "id": "shopify",
@@ -1748,7 +2030,8 @@
           "name": "Create Customer",
           "description": "Create a new customer."
         }
-      ]
+      ],
+      "logo": "/logos/shopify.svg"
     },
     {
       "id": "crm",
@@ -2730,7 +3013,8 @@
           "id": "crm_saas_bulk_disable",
           "name": "Saas Bulk Disable"
         }
-      ]
+      ],
+      "logo": "/logos/crm.svg"
     },
     {
       "id": "hubspot",
@@ -2781,7 +3065,8 @@
           "name": "List Deals",
           "description": "List all deals."
         }
-      ]
+      ],
+      "logo": "/logos/hubspot.svg"
     },
     {
       "id": "airtable",
@@ -2827,7 +3112,8 @@
           "name": "Delete Record",
           "description": "Delete a record by ID."
         }
-      ]
+      ],
+      "logo": "/logos/airtable.svg"
     },
     {
       "id": "calendly",
@@ -2863,7 +3149,8 @@
           "name": "Get User",
           "description": "Get the authenticated user's profile."
         }
-      ]
+      ],
+      "logo": "/logos/calendly.svg"
     },
     {
       "id": "linear",
@@ -2889,7 +3176,8 @@
           "name": "GraphQL Query",
           "description": "Execute a GraphQL query or mutation against the Linear API."
         }
-      ]
+      ],
+      "logo": "/logos/linear.svg"
     },
     {
       "id": "jira",
@@ -2970,7 +3258,8 @@
           "name": "Assign Issue",
           "description": "Assign an issue to a user."
         }
-      ]
+      ],
+      "logo": "/logos/jira.svg"
     },
     {
       "id": "zendesk",
@@ -3051,7 +3340,8 @@
           "name": "List Macros",
           "description": "List available macros."
         }
-      ]
+      ],
+      "logo": "/logos/zendesk.svg"
     },
     {
       "id": "openai",
@@ -3093,7 +3383,8 @@
           "name": "Text to Speech",
           "description": "Convert text to spoken audio."
         }
-      ]
+      ],
+      "logo": "/logos/openai.svg"
     },
     {
       "id": "github",
@@ -3139,7 +3430,8 @@
           "name": "List Pull Requests",
           "description": "List pull requests on a repository."
         }
-      ]
+      ],
+      "logo": "/logos/github.svg"
     },
     {
       "id": "supabase",
@@ -3190,7 +3482,8 @@
           "name": "List Buckets",
           "description": "List storage buckets."
         }
-      ]
+      ],
+      "logo": "/logos/supabase.svg"
     },
     {
       "id": "mongodb",
@@ -3251,7 +3544,8 @@
           "name": "Aggregate",
           "description": "Run an aggregation pipeline."
         }
-      ]
+      ],
+      "logo": "/logos/mongodb.svg"
     },
     {
       "id": "quickbooks",
@@ -3358,7 +3652,8 @@
           "name": "Get Company Info",
           "description": "Get company profile information."
         }
-      ]
+      ],
+      "logo": "/logos/quickbooks.svg"
     },
     {
       "id": "asana",
@@ -3450,7 +3745,8 @@
           "name": "Set Task Dependencies",
           "description": "Set dependency relationships between tasks."
         }
-      ]
+      ],
+      "logo": "/logos/asana.svg"
     },
     {
       "id": "intercom",
@@ -3542,7 +3838,8 @@
           "name": "Send Message",
           "description": "Send a targeted message to a user."
         }
-      ]
+      ],
+      "logo": "/logos/intercom.svg"
     },
     {
       "id": "dropbox",
@@ -3624,7 +3921,8 @@
           "name": "Get Account Info",
           "description": "Get the current user's account information."
         }
-      ]
+      ],
+      "logo": "/logos/dropbox.svg"
     },
     {
       "id": "whatsapp",
@@ -3706,7 +4004,8 @@
           "name": "Get Business Profile",
           "description": "Get the business profile information."
         }
-      ]
+      ],
+      "logo": "/logos/whatsapp.svg"
     },
     {
       "id": "instagram",
@@ -3783,7 +4082,8 @@
           "name": "List Mentions",
           "description": "List posts that mention the account."
         }
-      ]
+      ],
+      "logo": "/logos/instagram.svg"
     },
     {
       "id": "twitter",
@@ -3865,7 +4165,8 @@
           "name": "Get Mentions",
           "description": "Get tweets that mention the user."
         }
-      ]
+      ],
+      "logo": "/logos/x_twitter.svg"
     },
     {
       "id": "tiktok",
@@ -3932,7 +4233,8 @@
           "name": "Get Trending Hashtags",
           "description": "Discover currently trending hashtags."
         }
-      ]
+      ],
+      "logo": "/logos/tiktok.svg"
     },
     {
       "id": "linkedin",
@@ -3999,7 +4301,8 @@
           "name": "Search People",
           "description": "Search for people on LinkedIn."
         }
-      ]
+      ],
+      "logo": "/logos/linkedin.svg"
     },
     {
       "id": "google_ads",
@@ -4086,7 +4389,8 @@
           "name": "Get Conversion Data",
           "description": "Get conversion tracking data."
         }
-      ]
+      ],
+      "logo": "/logos/google_ads.svg"
     },
     {
       "id": "facebook_ads",
@@ -4168,7 +4472,8 @@
           "name": "Set Budget",
           "description": "Set or update a campaign budget."
         }
-      ]
+      ],
+      "logo": "/logos/fb_ads.svg"
     },
     {
       "id": "tiktok_ads",
@@ -4250,7 +4555,8 @@
           "name": "Upload Creative",
           "description": "Upload a new creative asset."
         }
-      ]
+      ],
+      "logo": "/logos/tiktok.svg"
     },
     {
       "id": "twitter_ads",
@@ -4322,7 +4628,8 @@
           "name": "Create Audience",
           "description": "Create a tailored audience."
         }
-      ]
+      ],
+      "logo": "/logos/x_twitter.svg"
     },
     {
       "id": "linkedin_ads",
@@ -4399,7 +4706,8 @@
           "name": "Set Budget",
           "description": "Set or update the campaign budget."
         }
-      ]
+      ],
+      "logo": "/logos/linkedin.svg"
     },
     {
       "id": "instagram_ads",
@@ -4476,7 +4784,8 @@
           "name": "Get Reach Estimate",
           "description": "Estimate the reach for targeting criteria."
         }
-      ]
+      ],
+      "logo": "/logos/instagram.svg"
     },
     {
       "id": "plaid",
@@ -4553,7 +4862,8 @@
           "name": "Get Income",
           "description": "Get income data for verification."
         }
-      ]
+      ],
+      "logo": "/logos/plaid.svg"
     },
     {
       "id": "square",
@@ -4640,7 +4950,8 @@
           "name": "List Locations",
           "description": "List all business locations."
         }
-      ]
+      ],
+      "logo": "/logos/square.svg"
     },
     {
       "id": "smartlead",
@@ -4722,7 +5033,8 @@
           "name": "Pause Campaign",
           "description": "Pause a running campaign."
         }
-      ]
+      ],
+      "logo": "/logos/smartlead.svg"
     },
     {
       "id": "zapier",
@@ -4784,7 +5096,8 @@
           "name": "Get Execution Log",
           "description": "View the execution history for a zap."
         }
-      ]
+      ],
+      "logo": "/logos/zapier.svg"
     },
     {
       "id": "mulesoft",
@@ -4856,7 +5169,8 @@
           "name": "Apply Policy",
           "description": "Apply a security policy to an API."
         }
-      ]
+      ],
+      "logo": "/logos/mulesoft.svg"
     },
     {
       "id": "azure",
@@ -4938,7 +5252,8 @@
           "name": "Get Metrics",
           "description": "Get monitoring metrics for a resource."
         }
-      ]
+      ],
+      "logo": "/logos/azure.svg"
     },
     {
       "id": "pipedrive",
@@ -5030,7 +5345,8 @@
           "name": "Add Note",
           "description": "Add a note to a deal, person, or organization."
         }
-      ]
+      ],
+      "logo": "/logos/pipedrive.svg"
     },
     {
       "id": "gohighlevel",
@@ -5067,7 +5383,8 @@
           "name": "Create Opportunity",
           "description": "Create a new pipeline opportunity."
         }
-      ]
+      ],
+      "logo": "/logos/gohighlevel.svg"
     },
     {
       "id": "cohere",
@@ -5104,7 +5421,8 @@
           "name": "Rerank",
           "description": "Rerank search results by relevance."
         }
-      ]
+      ],
+      "logo": "/logos/cohere.svg"
     },
     {
       "id": "mistral",
@@ -5141,7 +5459,8 @@
           "name": "List Models",
           "description": "List available Mistral models."
         }
-      ]
+      ],
+      "logo": "/logos/mistral.svg"
     },
     {
       "id": "replicate",
@@ -5178,7 +5497,8 @@
           "name": "List Models",
           "description": "List available models."
         }
-      ]
+      ],
+      "logo": "/logos/replicate.svg"
     },
     {
       "id": "stability",
@@ -5215,7 +5535,8 @@
           "name": "Upscale Image",
           "description": "Upscale a low-resolution image."
         }
-      ]
+      ],
+      "logo": "/logos/stability.svg"
     },
     {
       "id": "elevenlabs",
@@ -5252,7 +5573,8 @@
           "name": "Clone Voice",
           "description": "Create a voice clone from audio samples."
         }
-      ]
+      ],
+      "logo": "/logos/elevenlabs.svg"
     },
     {
       "id": "deepgram",
@@ -5289,7 +5611,8 @@
           "name": "Detect Language",
           "description": "Detect the language of an audio file."
         }
-      ]
+      ],
+      "logo": "/logos/deepgram.svg"
     },
     {
       "id": "groq",
@@ -5326,7 +5649,8 @@
           "name": "Transcribe Audio",
           "description": "Transcribe audio using Whisper on Groq."
         }
-      ]
+      ],
+      "logo": "/logos/groq.svg"
     },
     {
       "id": "planetscale",
@@ -5363,7 +5687,8 @@
           "name": "Create Deploy Request",
           "description": "Create a deploy request for schema changes."
         }
-      ]
+      ],
+      "logo": "/logos/planetscale.svg"
     },
     {
       "id": "neon",
@@ -5400,7 +5725,8 @@
           "name": "Run Query",
           "description": "Execute a SQL query on a branch."
         }
-      ]
+      ],
+      "logo": "/logos/neon.svg"
     },
     {
       "id": "turso",
@@ -5437,7 +5763,8 @@
           "name": "Run Query",
           "description": "Execute a SQL query on a database."
         }
-      ]
+      ],
+      "logo": "/logos/turso.svg"
     },
     {
       "id": "cockroachdb",
@@ -5474,7 +5801,8 @@
           "name": "Run Query",
           "description": "Execute a SQL query on a cluster."
         }
-      ]
+      ],
+      "logo": "/logos/cockroachdb.svg"
     },
     {
       "id": "telegram",
@@ -5511,7 +5839,8 @@
           "name": "Get Updates",
           "description": "Get incoming updates for a bot."
         }
-      ]
+      ],
+      "logo": "/logos/telegram.svg"
     },
     {
       "id": "postmark",
@@ -5548,7 +5877,8 @@
           "name": "Get Bounces",
           "description": "List bounced email addresses."
         }
-      ]
+      ],
+      "logo": "/logos/postmark.svg"
     },
     {
       "id": "mailgun",
@@ -5585,7 +5915,8 @@
           "name": "List Events",
           "description": "List email delivery events."
         }
-      ]
+      ],
+      "logo": "/logos/mailgun.svg"
     },
     {
       "id": "convertkit",
@@ -5622,7 +5953,8 @@
           "name": "Send Broadcast",
           "description": "Create and send a broadcast email."
         }
-      ]
+      ],
+      "logo": "/logos/convertkit.svg"
     },
     {
       "id": "brevo",
@@ -5659,7 +5991,8 @@
           "name": "Send Campaign",
           "description": "Create and send an email campaign."
         }
-      ]
+      ],
+      "logo": "/logos/brevo.svg"
     },
     {
       "id": "activecampaign",
@@ -5696,7 +6029,8 @@
           "name": "Create Deal",
           "description": "Create a new deal in the CRM."
         }
-      ]
+      ],
+      "logo": "/logos/activecampaign.svg"
     },
     {
       "id": "lemlist",
@@ -5733,7 +6067,8 @@
           "name": "Get Campaign Stats",
           "description": "Get statistics for a campaign."
         }
-      ]
+      ],
+      "logo": "/logos/lemlist.svg"
     },
     {
       "id": "cloudflare",
@@ -5770,7 +6105,8 @@
           "name": "Purge Cache",
           "description": "Purge the CDN cache for a zone."
         }
-      ]
+      ],
+      "logo": "/logos/cloudflare.svg"
     },
     {
       "id": "netlify",
@@ -5807,7 +6143,8 @@
           "name": "List Deploys",
           "description": "List deployments for a site."
         }
-      ]
+      ],
+      "logo": "/logos/netlify.svg"
     },
     {
       "id": "railway",
@@ -5844,7 +6181,8 @@
           "name": "Deploy",
           "description": "Trigger a deployment for a service."
         }
-      ]
+      ],
+      "logo": "/logos/railway.svg"
     },
     {
       "id": "render",
@@ -5881,7 +6219,8 @@
           "name": "Deploy",
           "description": "Trigger a manual deploy for a service."
         }
-      ]
+      ],
+      "logo": "/logos/render.svg"
     },
     {
       "id": "aws",
@@ -5918,7 +6257,8 @@
           "name": "Send Email (SES)",
           "description": "Send an email via Amazon SES."
         }
-      ]
+      ],
+      "logo": "/logos/aws.svg"
     },
     {
       "id": "gcloud",
@@ -5955,7 +6295,8 @@
           "name": "BigQuery Query",
           "description": "Run a BigQuery SQL query."
         }
-      ]
+      ],
+      "logo": "/logos/gcloud.svg"
     },
     {
       "id": "webflow",
@@ -5992,7 +6333,8 @@
           "name": "Create Item",
           "description": "Create a new CMS collection item."
         }
-      ]
+      ],
+      "logo": "/logos/webflow.svg"
     },
     {
       "id": "pinterest",
@@ -6029,7 +6371,8 @@
           "name": "Get Analytics",
           "description": "Get pin and board analytics."
         }
-      ]
+      ],
+      "logo": "/logos/pinterest.svg"
     },
     {
       "id": "youtube",
@@ -6066,7 +6409,8 @@
           "name": "List Comments",
           "description": "List comments on a video."
         }
-      ]
+      ],
+      "logo": "/logos/youtube.svg"
     },
     {
       "id": "twitch",
@@ -6103,7 +6447,8 @@
           "name": "Get Streams",
           "description": "Get information about active streams."
         }
-      ]
+      ],
+      "logo": "/logos/twitch.svg"
     },
     {
       "id": "xero",
@@ -6140,7 +6485,8 @@
           "name": "Get Bank Transactions",
           "description": "List bank transactions."
         }
-      ]
+      ],
+      "logo": "/logos/xero.svg"
     },
     {
       "id": "wave",
@@ -6177,7 +6523,8 @@
           "name": "Create Expense",
           "description": "Record a new expense."
         }
-      ]
+      ],
+      "logo": "/logos/wave.svg"
     },
     {
       "id": "monday",
@@ -6214,7 +6561,8 @@
           "name": "Update Item",
           "description": "Update an item's column values."
         }
-      ]
+      ],
+      "logo": "/logos/monday.svg"
     },
     {
       "id": "figma",
@@ -6251,7 +6599,8 @@
           "name": "Export Images",
           "description": "Export images from a design file."
         }
-      ]
+      ],
+      "logo": "/logos/figma.svg"
     },
     {
       "id": "typeform",
@@ -6288,7 +6637,8 @@
           "name": "Create Form",
           "description": "Create a new form."
         }
-      ]
+      ],
+      "logo": "/logos/typeform.svg"
     },
     {
       "id": "loom",
@@ -6325,7 +6675,8 @@
           "name": "Get Analytics",
           "description": "Get view analytics for a video."
         }
-      ]
+      ],
+      "logo": "/logos/loom.svg"
     },
     {
       "id": "freshdesk",
@@ -6362,7 +6713,8 @@
           "name": "Update Ticket",
           "description": "Update an existing ticket."
         }
-      ]
+      ],
+      "logo": "/logos/freshdesk.svg"
     },
     {
       "id": "woocommerce",
@@ -6399,7 +6751,8 @@
           "name": "List Orders",
           "description": "List all orders."
         }
-      ]
+      ],
+      "logo": "/logos/woocommerce.svg"
     },
     {
       "id": "bigcommerce",
@@ -6436,7 +6789,8 @@
           "name": "List Orders",
           "description": "List all orders."
         }
-      ]
+      ],
+      "logo": "/logos/bigcommerce.svg"
     },
     {
       "id": "make",
@@ -6473,7 +6827,8 @@
           "name": "List Connections",
           "description": "List all configured connections."
         }
-      ]
+      ],
+      "logo": "/logos/make.svg"
     },
     {
       "id": "wordpress",
@@ -6510,7 +6865,8 @@
           "name": "Upload Media",
           "description": "Upload a media file."
         }
-      ]
+      ],
+      "logo": "/logos/wordpress.svg"
     },
     {
       "id": "docusign",
@@ -6547,7 +6903,8 @@
           "name": "Get Envelope Status",
           "description": "Get the signing status of an envelope."
         }
-      ]
+      ],
+      "logo": "/logos/docusign.svg"
     },
     {
       "id": "trello",
@@ -6584,7 +6941,8 @@
           "name": "Move Card",
           "description": "Move a card to a different list."
         }
-      ]
+      ],
+      "logo": "/logos/trello.svg"
     },
     {
       "id": "listkit",
@@ -6628,7 +6986,8 @@
           "name": "Pipeline Placement",
           "description": "Create a pipeline opportunity from a scored ListKit lead with auto-enriched stage and pipeline IDs."
         }
-      ]
+      ],
+      "logo": "/logos/listkit.svg"
     }
   ]
 }

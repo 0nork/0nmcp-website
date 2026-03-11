@@ -88,23 +88,25 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Platform listing — require stripe_price_id
-  if (!listing.stripe_price_id) {
-    return NextResponse.json(
-      { error: 'Listing is paid but has no Stripe price configured' },
-      { status: 500 }
-    )
-  }
-
   // Create Stripe Checkout session (platform-owned listing)
+  // Use stripe_price_id if available, otherwise create dynamic price from listing.price
+  const lineItems = listing.stripe_price_id
+    ? [{ price: listing.stripe_price_id, quantity: 1 }]
+    : [{
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: listing.title,
+            ...(listing.description ? { description: listing.description.slice(0, 500) } : {}),
+          },
+          unit_amount: listing.price, // already in cents
+        },
+        quantity: 1,
+      }]
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
-    line_items: [
-      {
-        price: listing.stripe_price_id,
-        quantity: 1,
-      },
-    ],
+    line_items: lineItems,
     allow_promotion_codes: true,
     success_url: `${SITE_URL}/console?view=store&purchased=true&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${SITE_URL}/console?view=store`,

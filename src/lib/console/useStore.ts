@@ -91,8 +91,8 @@ export function useStore() {
       }
 
       return { url: data.url }
-    } catch {
-      return { error: 'Network error' }
+    } catch (err) {
+      return { error: (err as Error).message || 'Network error' }
     }
   }, [fetchListings, fetchPurchases])
 

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
       `${STATS.tools} tools across ${STATS.services} services and ${STATS.capabilities} pre-built capabilities. The universal MCP server that connects AI to everything.`,
-    url: 'https://0nmcp.com',
+    url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
     locale: 'en_US',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
       `${STATS.tools} tools across ${STATS.services} services and ${STATS.capabilities} pre-built capabilities. The universal MCP server that connects AI to everything.`,
     creator: '@0nork',
   },
-  metadataBase: new URL('https://0nmcp.com'),
+  metadataBase: new URL('https://www.0nmcp.com'),
 }
 
 export default function RootLayout({
@@ -77,7 +77,7 @@ export default function RootLayout({
         {/* CRM tracking removed — keydown listener was causing backwards text in textareas */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('3ed036f8-6ddc-4317-8fcb-f9692bd6ce79');`,
+            __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://www.0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('3ed036f8-6ddc-4317-8fcb-f9692bd6ce79');`,
           }}
         />
       </body>

@@ -270,7 +270,7 @@ export async function crossPostToCommunity(data: {
     ])
 
     // 3. Store post as note
-    const forumLink = data.forumUrl ? `\nForum: https://0nmcp.com/forum/${data.forumUrl}` : ''
+    const forumLink = data.forumUrl ? `\nForum: https://www.0nmcp.com/forum/${data.forumUrl}` : ''
     await addContactNote(contact.id, [
       `[Community Post] ${data.title}`,
       '',
@@ -314,7 +314,7 @@ export const BACKLINK_KEYPHRASES = [
 export function injectBacklinks(body: string, seed: number = 0): string {
   const idx = Math.abs(seed) % BACKLINK_KEYPHRASES.length
   const keyphrase = BACKLINK_KEYPHRASES[idx]
-  return `${body}\n\n---\n*Discuss more at [0n MCP](https://0nmcp.com) — the hub for [${keyphrase}](https://0nmcp.com).*`
+  return `${body}\n\n---\n*Discuss more at [0n MCP](https://www.0nmcp.com) — the hub for [${keyphrase}](https://www.0nmcp.com).*`
 }
 
 // ==================== Core Functions ====================

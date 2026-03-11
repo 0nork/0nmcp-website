@@ -265,7 +265,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud Console OAuth", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials > OAuth", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Click 'Create Credentials' > 'OAuth client ID'. Select 'Web application', name it, and copy the Client ID (ends with .apps.googleusercontent.com)." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 client secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Client Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   sendgrid: {
@@ -415,7 +415,7 @@ export const SVC: Record<string, ServiceConfig> = {
       { k: "developer_token", lb: "Developer Token", ph: "xxxxxxxxxxxxxxxx", s: true, h: "MCC developer token", lk: "https://ads.google.com/aw/apicenter", ll: "Google Ads > Tools > API Center > Developer Token", t: "simple", step: 1, req: true, guide: "Sign in to your Google Ads MCC account. Go to Tools & Settings > API Center. Copy the Developer Token shown on the page." },
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth client", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 2, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Create an OAuth client ID and copy it (ends with .apps.googleusercontent.com)." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth client secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 3, req: true, guide: "On the same OAuth client page in Google Cloud Console, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
       { k: "customer_id", lb: "Customer ID", ph: "123-456-7890", h: "Google Ads customer ID", lk: "https://ads.google.com/", ll: "Top-right of Google Ads dashboard", t: "simple", step: 4, req: true, guide: "Sign in to ads.google.com. Your Customer ID is the 10-digit number shown in the top-right corner (formatted like 123-456-7890)." },
     ],
   },
@@ -507,7 +507,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Same as Gmail if using Google Cloud", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Create an OAuth client ID or reuse the same one from Gmail. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   google_sheets: {
@@ -517,7 +517,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Same Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   google_calendar: {
@@ -527,7 +527,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   google_docs: {
@@ -537,7 +537,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   google_slides: {
@@ -547,7 +547,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   google_forms: {
@@ -557,7 +557,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   google_tasks: {
@@ -567,7 +567,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   ga4: {
@@ -577,7 +577,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
       { k: "property_id", lb: "Property ID", ph: "123456789", h: "GA4 property ID (numeric)", lk: "https://analytics.google.com/analytics/web/#/a/p/admin/account", ll: "Analytics > Admin > Property > Property Details", t: "simple", step: 3, req: true, guide: "Sign in to analytics.google.com. Go to Admin > Property > Property Details. Copy the numeric Property ID (9 digits)." },
     ],
   },
@@ -588,7 +588,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   search_console: {
@@ -598,7 +598,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
       { k: "site_url", lb: "Site URL", ph: "https://yourdomain.com", h: "Verified property URL", lk: "https://search.google.com/search-console", ll: "Search Console > Properties", t: "simple", step: 3, req: true, guide: "Go to search.google.com/search-console. Select your verified property and copy the URL exactly as shown (e.g. https://yourdomain.com)." },
     ],
   },
@@ -609,7 +609,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
       { k: "merchant_id", lb: "Merchant ID", ph: "123456789", h: "Merchant Center account ID", lk: "https://merchants.google.com/", ll: "Merchant Center > Settings > Account Info", t: "simple", step: 3, req: true, guide: "Sign in to merchants.google.com. Go to Settings > Account Info. Copy your Merchant ID (numeric)." },
     ],
   },
@@ -620,7 +620,7 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "Google Cloud OAuth credentials", lk: "https://console.cloud.google.com/apis/credentials", ll: "Cloud Console > APIs > Credentials", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Use the same OAuth client as other Google services or create a new one. Copy the Client ID." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 2, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
 
@@ -954,7 +954,7 @@ export const SVC: Record<string, ServiceConfig> = {
       { k: "api_key", lb: "API Key", ph: "AIzaSy...", h: "YouTube Data API key", lk: "https://console.cloud.google.com/apis/credentials", ll: "Google Cloud > APIs > Credentials > Create API Key", t: "simple", step: 1, req: true, guide: "Go to console.cloud.google.com/apis/credentials. Click 'Create Credentials' > 'API Key'. Restrict it to YouTube Data API v3, then copy the key (starts with AIzaSy)." },
       { k: "client_id", lb: "OAuth Client ID", ph: "xxxxx.apps.googleusercontent.com", h: "For channel management", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Client ID", t: "simple", step: 2, req: true, guide: "On the same Credentials page, create or select an OAuth client ID. Copy the Client ID (ends with .apps.googleusercontent.com)." },
       { k: "client_secret", lb: "OAuth Secret", ph: "GOCSPX-...", s: true, h: "OAuth 2.0 secret", lk: "https://console.cloud.google.com/apis/credentials", ll: "Credentials > OAuth > Secret", t: "simple", step: 3, req: true, guide: "On the same OAuth client page, copy the Client Secret (starts with GOCSPX-)." },
-      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
+      { k: "refresh_token", lb: "Refresh Token", ph: "1//0xxxxx...", s: true, h: "Auto-populated via Connect Google", lk: "https://www.0nmcp.com/console", ll: "Console > Vault > Connect Google", t: "advanced", guide: "This is auto-populated when you click 'Connect Google' in the Console. You do not need to find this manually." },
     ],
   },
   twitch: {

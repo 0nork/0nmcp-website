@@ -194,7 +194,7 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: `https://0nmcp.com/blog/${post.slug}`,
+      url: `https://www.0nmcp.com/blog/${post.slug}`,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author],
@@ -213,7 +213,7 @@ export async function generateMetadata({
       description: post.excerpt,
       images: [post.image],
     },
-    alternates: { canonical: `https://0nmcp.com/blog/${post.slug}` },
+    alternates: { canonical: `https://www.0nmcp.com/blog/${post.slug}` },
   }
 }
 
@@ -242,23 +242,23 @@ export default async function BlogPostPage({
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
-    image: `https://0nmcp.com${post.image}`,
+    image: `https://www.0nmcp.com${post.image}`,
     datePublished: post.date,
     dateModified: post.date,
-    url: `https://0nmcp.com/blog/${post.slug}`,
+    url: `https://www.0nmcp.com/blog/${post.slug}`,
     author: {
       '@type': 'Person',
       name: post.author,
       jobTitle: post.author_title,
-      url: 'https://0nmcp.com/community',
+      url: 'https://www.0nmcp.com/community',
     },
     publisher: {
       '@type': 'Organization',
       name: '0nMCP',
-      url: 'https://0nmcp.com',
+      url: 'https://www.0nmcp.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://0nmcp.com/brand/logo-full.jpg',
+        url: 'https://www.0nmcp.com/brand/logo-full.jpg',
       },
     },
     keywords: post.tags.join(', '),
@@ -266,7 +266,7 @@ export default async function BlogPostPage({
     inLanguage: 'en-US',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://0nmcp.com/blog/${post.slug}`,
+      '@id': `https://www.0nmcp.com/blog/${post.slug}`,
     },
   }
 
@@ -274,9 +274,9 @@ export default async function BlogPostPage({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://0nmcp.com/blog' },
-      { '@type': 'ListItem', position: 3, name: post.title, item: `https://0nmcp.com/blog/${post.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.0nmcp.com/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://www.0nmcp.com/blog/${post.slug}` },
     ],
   }
 

@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: 'Bytespider', allow: '/' },
       { userAgent: 'CCBot', allow: '/' },
     ],
-    sitemap: 'https://0nmcp.com/sitemap.xml',
+    sitemap: 'https://www.0nmcp.com/sitemap.xml',
   }
 }

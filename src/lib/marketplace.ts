@@ -28,7 +28,7 @@ const CRM_AUTH_URL = 'https://marketplace.leadconnectorhq.com/oauth/chooselocati
 const CRM_TOKEN_URL = `${CRM_API_BASE}/oauth/token`
 const CLIENT_ID = process.env.CRM_MARKETPLACE_CLIENT_ID || ''
 const CLIENT_SECRET = process.env.CRM_MARKETPLACE_CLIENT_SECRET || ''
-const REDIRECT_URI = process.env.CRM_MARKETPLACE_REDIRECT_URI || 'https://0nmcp.com/api/marketplace/oauth/callback'
+const REDIRECT_URI = process.env.CRM_MARKETPLACE_REDIRECT_URI || 'https://www.0nmcp.com/api/marketplace/oauth/callback'
 
 // ─── Service Catalog (for dynamic dropdowns) ────────────────────────
 export const SERVICE_CATALOG = [

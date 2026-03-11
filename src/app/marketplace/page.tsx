@@ -14,11 +14,11 @@ export const metadata: Metadata = {
     title: 'Marketplace — .0n Workflow Store | 0nMCP',
     description:
       'App store for AI automations. Browse .0n SWITCH files across 53 services — CRM, Stripe, Gmail, Slack, and more.',
-    url: 'https://0nmcp.com/marketplace',
+    url: 'https://www.0nmcp.com/marketplace',
     siteName: '0nMCP',
     type: 'website',
   },
-  alternates: { canonical: 'https://0nmcp.com/marketplace' },
+  alternates: { canonical: 'https://www.0nmcp.com/marketplace' },
 }
 
 async function getListings() {
@@ -77,8 +77,8 @@ export default async function MarketplacePage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Marketplace', item: 'https://0nmcp.com/marketplace' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Marketplace', item: 'https://www.0nmcp.com/marketplace' },
     ],
   }
 
@@ -87,12 +87,12 @@ export default async function MarketplacePage() {
     '@type': 'CollectionPage',
     name: '0nMCP Marketplace',
     description: 'Browse pre-built .0n workflow automations for 53 services.',
-    url: 'https://0nmcp.com/marketplace',
+    url: 'https://www.0nmcp.com/marketplace',
     numberOfItems: listings.length,
     provider: {
       '@type': 'Organization',
       name: '0nMCP',
-      url: 'https://0nmcp.com',
+      url: 'https://www.0nmcp.com',
     },
   }
 

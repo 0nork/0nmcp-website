@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nVault Container System — .0nv Binary Format',
     description: 'A single .0nv file holds your entire AI orchestration context with military-grade encryption.',
-    url: 'https://0nmcp.com/security/vault',
+    url: 'https://www.0nmcp.com/security/vault',
   },
-  alternates: { canonical: 'https://0nmcp.com/security/vault' },
+  alternates: { canonical: 'https://www.0nmcp.com/security/vault' },
 }
 
 export default function VaultPage() {
@@ -43,9 +43,9 @@ export default function VaultPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://0nmcp.com/security' },
-      { '@type': 'ListItem', position: 3, name: 'Vault', item: 'https://0nmcp.com/security/vault' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://www.0nmcp.com/security' },
+      { '@type': 'ListItem', position: 3, name: 'Vault', item: 'https://www.0nmcp.com/security/vault' },
     ],
   }
 

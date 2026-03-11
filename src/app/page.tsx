@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: '0nMCP — Universal AI API Orchestrator',
     description:
       '850 tools across 53 services. 1,142 capabilities. One install. Stop building workflows. Start describing outcomes.',
-    url: 'https://0nmcp.com',
+    url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     description:
       '850 tools across 53 services. 1,142 capabilities. One install. The universal AI API orchestrator.',
   },
-  alternates: { canonical: 'https://0nmcp.com' },
+  alternates: { canonical: 'https://www.0nmcp.com' },
 }
 
 const categories = [
@@ -104,8 +104,8 @@ export default function HomePage() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'RocketOpp, LLC',
-    url: 'https://0nmcp.com',
-    logo: 'https://0nmcp.com/icon.svg',
+    url: 'https://www.0nmcp.com',
+    logo: 'https://www.0nmcp.com/icon.svg',
     sameAs: [
       'https://github.com/0nork/0nMCP',
       'https://npmjs.com/package/0nmcp',
@@ -122,13 +122,13 @@ export default function HomePage() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: '0nMCP',
-    url: 'https://0nmcp.com',
+    url: 'https://www.0nmcp.com',
     description: 'Universal AI API Orchestrator — 850 tools across 53 services',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://0nmcp.com/forum?search={search_term_string}',
+        urlTemplate: 'https://www.0nmcp.com/forum?search={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },
@@ -152,7 +152,7 @@ export default function HomePage() {
     operatingSystem: 'Cross-platform',
     description:
       'Universal AI API orchestrator with 850 tools across 53 services and 1,142 capabilities. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.',
-    url: 'https://0nmcp.com',
+    url: 'https://www.0nmcp.com',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
     softwareVersion: '2.3.0',
     author: {
@@ -208,19 +208,19 @@ export default function HomePage() {
         '@type': 'HowToStep',
         name: 'Install 0nMCP',
         text: 'Run npm i 0nmcp to install the universal AI API orchestrator. Works with any AI client that supports MCP.',
-        url: 'https://0nmcp.com/#quickstart',
+        url: 'https://www.0nmcp.com/#quickstart',
       },
       {
         '@type': 'HowToStep',
         name: 'Connect Your Services',
         text: 'Run 0nmcp engine import to add your API keys. 0nMCP encrypts and stores them securely in your local ~/.0n/ vault.',
-        url: 'https://0nmcp.com/#quickstart',
+        url: 'https://www.0nmcp.com/#quickstart',
       },
       {
         '@type': 'HowToStep',
         name: 'Describe What You Need',
         text: 'Tell your AI what you want done. 0nMCP routes, orchestrates, and executes across all 53 services automatically.',
-        url: 'https://0nmcp.com/#quickstart',
+        url: 'https://www.0nmcp.com/#quickstart',
       },
     ],
   }

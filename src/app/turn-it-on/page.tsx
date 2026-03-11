@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     title: 'Turn it 0n — 53 Services, 80+ Pre-Built Automations | 0nMCP',
     description:
       'Connect 53 services with 80+ pre-built automations. No monthly fees, no drag-and-drop. Just describe what you want.',
-    url: 'https://0nmcp.com/turn-it-on',
+    url: 'https://www.0nmcp.com/turn-it-on',
   },
   alternates: {
-    canonical: 'https://0nmcp.com/turn-it-on',
+    canonical: 'https://www.0nmcp.com/turn-it-on',
   },
 }
 

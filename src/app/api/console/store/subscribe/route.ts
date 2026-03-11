@@ -4,7 +4,7 @@ import { stripe } from '@/lib/stripe'
 
 export const dynamic = 'force-dynamic'
 
-const SITE_URL = 'https://0nmcp.com'
+const SITE_URL = 'https://www.0nmcp.com'
 const OWNER_EMAIL = 'mike@rocketopp.com'
 
 /**

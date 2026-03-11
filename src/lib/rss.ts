@@ -8,7 +8,7 @@
 import { Feed } from 'feed'
 import Parser from 'rss-parser'
 
-const SITE_URL = 'https://0nmcp.com'
+const SITE_URL = 'https://www.0nmcp.com'
 const AUTHOR = { name: 'Mike Mento', email: 'mike@rocketopp.com', link: SITE_URL }
 
 /** Create a base Feed instance with 0nMCP branding */

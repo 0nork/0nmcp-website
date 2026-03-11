@@ -9,10 +9,11 @@ const AdminServices = lazy(() => import('./AdminServices').then(m => ({ default:
 const AdminBilling = lazy(() => import('./AdminBilling').then(m => ({ default: m.AdminBilling })))
 const AdminRedditEngine = lazy(() => import('./AdminRedditEngine').then(m => ({ default: m.AdminRedditEngine })))
 const AdminVendorsLazy = lazy(() => import('./AdminVendors').then(m => ({ default: m.AdminVendors })))
-
 const AdminEcosystem = lazy(() => import('./AdminEcosystem').then(m => ({ default: m.AdminEcosystem })))
+const AdminOnboardingLab = lazy(() => import('./AdminOnboardingLab').then(m => ({ default: m.AdminOnboardingLab })))
+const AdminIndexing = lazy(() => import('./AdminIndexing').then(m => ({ default: m.AdminIndexing })))
 
-type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'ecosystem' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
+type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'ecosystem' | 'onboarding-lab' | 'indexing' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
 
 interface NavItem {
   key: AdminSection
@@ -31,6 +32,8 @@ const COMPONENT_SECTIONS: NavItem[] = [
   { key: 'billing', label: 'Billing', icon: '\u{1F4B0}', type: 'component' },
   { key: 'reddit-engine', label: 'Reddit Engine', icon: '\u{1F680}', type: 'component' },
   { key: 'sitemap', label: 'Sitemap', icon: '\u{1F5FA}\uFE0F', type: 'component' },
+  { key: 'onboarding-lab', label: 'Onboarding Lab', icon: '\u{1F9EA}', type: 'component' },
+  { key: 'indexing', label: 'Indexing', icon: '\u{1F50D}', type: 'component' },
   { key: 'ecosystem', label: 'Ecosystem', icon: '\u{1F310}', type: 'component' },
 ]
 
@@ -236,6 +239,24 @@ export function AdminView() {
           {section === 'sitemap' && (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <AdminSitemap />
+            </div>
+          )}
+
+          {/* Onboarding Lab (component) */}
+          {section === 'onboarding-lab' && (
+            <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading onboarding lab...</div>}>
+                <AdminOnboardingLab />
+              </Suspense>
+            </div>
+          )}
+
+          {/* Indexing (component) */}
+          {section === 'indexing' && (
+            <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<div style={{ color: 'var(--text-muted)', padding: '2rem', textAlign: 'center' }}>Loading indexing tools...</div>}>
+                <AdminIndexing />
+              </Suspense>
             </div>
           )}
 

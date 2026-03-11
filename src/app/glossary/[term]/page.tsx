@@ -47,10 +47,10 @@ export async function generateMetadata({ params }: { params: Promise<{ term: str
     openGraph: {
       title,
       description,
-      url: `https://0nmcp.com/glossary/${term.slug}`,
+      url: `https://www.0nmcp.com/glossary/${term.slug}`,
       type: 'article',
     },
-    alternates: { canonical: `https://0nmcp.com/glossary/${term.slug}` },
+    alternates: { canonical: `https://www.0nmcp.com/glossary/${term.slug}` },
   }
 }
 
@@ -70,11 +70,11 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
     '@type': 'DefinedTerm',
     name: term.term,
     description: term.definition,
-    url: `https://0nmcp.com/glossary/${term.slug}`,
+    url: `https://www.0nmcp.com/glossary/${term.slug}`,
     inDefinedTermSet: {
       '@type': 'DefinedTermSet',
       name: 'AI Orchestration Glossary',
-      url: 'https://0nmcp.com/glossary',
+      url: 'https://www.0nmcp.com/glossary',
     },
   }
 
@@ -102,9 +102,9 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Glossary', item: 'https://0nmcp.com/glossary' },
-      { '@type': 'ListItem', position: 3, name: term.term, item: `https://0nmcp.com/glossary/${term.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Glossary', item: 'https://www.0nmcp.com/glossary' },
+      { '@type': 'ListItem', position: 3, name: term.term, item: `https://www.0nmcp.com/glossary/${term.slug}` },
     ],
   }
 

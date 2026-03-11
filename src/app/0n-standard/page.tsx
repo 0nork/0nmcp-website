@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: 'The .0n Standard -- Universal AI Config Format',
     description:
       'Like docker-compose.yml for MCP servers. One config format that works across Claude Desktop, Cursor, VS Code, Windsurf, and Gemini CLI.',
-    url: 'https://0nmcp.com/0n-standard',
+    url: 'https://www.0nmcp.com/0n-standard',
     type: 'website',
   },
   twitter: {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     description:
       'Like .env for environment variables, .0n is for AI config. One format, every client, zero fragmentation.',
   },
-  alternates: { canonical: 'https://0nmcp.com/0n-standard' },
+  alternates: { canonical: 'https://www.0nmcp.com/0n-standard' },
   keywords: [
     '.0n standard',
     '0n spec',
@@ -37,7 +37,7 @@ export default function OnStandardPage() {
       'The .0n Standard -- Universal Configuration for AI Orchestration',
     description:
       'The universal configuration format for AI orchestration. Like .env for environment variables, .0n is for AI config.',
-    url: 'https://0nmcp.com/0n-standard',
+    url: 'https://www.0nmcp.com/0n-standard',
     author: {
       '@type': 'Organization',
       name: '0nORK',

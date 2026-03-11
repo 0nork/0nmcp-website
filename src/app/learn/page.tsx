@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Learn — 0nMCP',
     description: 'Free courses on AI orchestration. Getting started, workflows, security, integrations.',
-    url: 'https://0nmcp.com/learn',
+    url: 'https://www.0nmcp.com/learn',
   },
-  alternates: { canonical: 'https://0nmcp.com/learn' },
+  alternates: { canonical: 'https://www.0nmcp.com/learn' },
 }
 
 export default function LearnPage() {

@@ -147,14 +147,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${thread.title} — ${titleSuffix}`,
       description,
-      url: `https://0nmcp.com/forum/${thread.slug}`,
+      url: `https://www.0nmcp.com/forum/${thread.slug}`,
       type: 'article',
       publishedTime: thread.created_at,
     },
     other: {
       'article:published_time': thread.created_at,
     },
-    alternates: { canonical: `https://0nmcp.com/forum/${thread.slug}` },
+    alternates: { canonical: `https://www.0nmcp.com/forum/${thread.slug}` },
   }
 }
 
@@ -171,16 +171,16 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
   const solutionPost = posts.find(p => p.is_solution)
 
   // JSON-LD
-  const threadUrl = `https://0nmcp.com/forum/${thread.slug}`
-  const authorUrl = `https://0nmcp.com/u/${thread.user_id}`
+  const threadUrl = `https://www.0nmcp.com/forum/${thread.slug}`
+  const authorUrl = `https://www.0nmcp.com/u/${thread.user_id}`
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Forum', item: 'https://0nmcp.com/forum' },
-      ...(groupData ? [{ '@type': 'ListItem', position: 3, name: groupData.name, item: `https://0nmcp.com/forum?group=${groupData.slug}` }] : []),
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Forum', item: 'https://www.0nmcp.com/forum' },
+      ...(groupData ? [{ '@type': 'ListItem', position: 3, name: groupData.name, item: `https://www.0nmcp.com/forum?group=${groupData.slug}` }] : []),
       { '@type': 'ListItem', position: groupData ? 4 : 3, name: thread.title, item: threadUrl },
     ],
   }
@@ -206,7 +206,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
             author: {
               '@type': 'Person',
               name: authorName(solutionPost.profiles),
-              url: `https://0nmcp.com/u/${solutionPost.user_id}`,
+              url: `https://www.0nmcp.com/u/${solutionPost.user_id}`,
             },
             upvoteCount: solutionPost.score,
           },
@@ -216,7 +216,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
             '@type': 'Answer',
             text: p.body,
             dateCreated: p.created_at,
-            author: { '@type': 'Person', name: authorName(p.profiles), url: `https://0nmcp.com/u/${p.user_id}` },
+            author: { '@type': 'Person', name: authorName(p.profiles), url: `https://www.0nmcp.com/u/${p.user_id}` },
             upvoteCount: p.score,
           })),
         } : {}),
@@ -240,7 +240,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
           '@type': 'Comment',
           text: p.body,
           dateCreated: p.created_at,
-          author: { '@type': 'Person', name: authorName(p.profiles), url: `https://0nmcp.com/u/${p.user_id}` },
+          author: { '@type': 'Person', name: authorName(p.profiles), url: `https://www.0nmcp.com/u/${p.user_id}` },
           upvoteCount: p.score,
         })),
       } : {}),

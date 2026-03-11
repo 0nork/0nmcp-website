@@ -9,9 +9,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Integrations — Connect 53 Services with AI | 0nMCP',
     description: '80+ pre-built automations across 53 services. AI-native API orchestration.',
-    url: 'https://0nmcp.com/integrations',
+    url: 'https://www.0nmcp.com/integrations',
   },
-  alternates: { canonical: 'https://0nmcp.com/integrations' },
+  alternates: { canonical: 'https://www.0nmcp.com/integrations' },
 }
 
 const logicServices = ['delay', 'schedule', 'condition', 'loop', 'transform', 'trigger', 'error_handling']
@@ -24,8 +24,8 @@ export default function IntegrationsPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Integrations', item: 'https://0nmcp.com/integrations' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Integrations', item: 'https://www.0nmcp.com/integrations' },
     ],
   }
 
@@ -34,7 +34,7 @@ export default function IntegrationsPage() {
     '@type': 'CollectionPage',
     name: '0nMCP Integrations',
     description: '26 service integrations with 80+ pre-built automations for AI-powered orchestration.',
-    url: 'https://0nmcp.com/integrations',
+    url: 'https://www.0nmcp.com/integrations',
     numberOfItems: services.length,
   }
 

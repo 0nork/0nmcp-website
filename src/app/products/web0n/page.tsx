@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Web0n — AI Website Builder & CMS',
     description: 'Build stunning websites with AI and 0nMCP automation.',
-    url: 'https://0nmcp.com/products/web0n',
+    url: 'https://www.0nmcp.com/products/web0n',
     siteName: '0nMCP',
   },
 }

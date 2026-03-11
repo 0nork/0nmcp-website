@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: '7 Semantic Layers — 0nVault Independent Encryption',
     description: '7 independently encrypted layers for complete AI orchestration security. Granular access control per layer.',
-    url: 'https://0nmcp.com/security/layers',
+    url: 'https://www.0nmcp.com/security/layers',
   },
-  alternates: { canonical: 'https://0nmcp.com/security/layers' },
+  alternates: { canonical: 'https://www.0nmcp.com/security/layers' },
 }
 
 export default function LayersPage() {
@@ -33,9 +33,9 @@ export default function LayersPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://0nmcp.com/security' },
-      { '@type': 'ListItem', position: 3, name: 'Layers', item: 'https://0nmcp.com/security/layers' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://www.0nmcp.com/security' },
+      { '@type': 'ListItem', position: 3, name: 'Layers', item: 'https://www.0nmcp.com/security/layers' },
     ],
   }
 

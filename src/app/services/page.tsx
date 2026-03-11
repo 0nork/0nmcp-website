@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: `Stop switching between platforms. 0nMCP connects to ${STATS.services} services with ${STATS.tools} tools — build automations that were never possible before.`,
     type: 'website',
   },
-  alternates: { canonical: 'https://0nmcp.com/services' },
+  alternates: { canonical: 'https://www.0nmcp.com/services' },
 }
 
 export default function ServicesPage() {

@@ -22,7 +22,7 @@ interface VCardConfig {
 
 export default function ToolsPage() {
   const [tab, setTab] = useState<QRTab>('url')
-  const [url, setUrl] = useState('https://0nmcp.com')
+  const [url, setUrl] = useState('https://www.0nmcp.com')
   const [text, setText] = useState('')
   const [wifi, setWifi] = useState<WifiConfig>({ ssid: '', password: '', encryption: 'WPA', hidden: false })
   const [vcard, setVcard] = useState<VCardConfig>({ name: '', phone: '', email: '', url: '', org: '' })
@@ -36,7 +36,7 @@ export default function ToolsPage() {
   const getQRValue = useCallback((): string => {
     switch (tab) {
       case 'url':
-        return url || 'https://0nmcp.com'
+        return url || 'https://www.0nmcp.com'
       case 'text':
         return text || '0nMCP'
       case 'wifi':

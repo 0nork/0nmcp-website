@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
 
     const actionType = email_data?.email_action_type
     const token = email_data?.token_hash || email_data?.token
-    const PRODUCTION_URL = 'https://0nmcp.com'
+    const PRODUCTION_URL = 'https://www.0nmcp.com'
 
     // Sanitize redirect — NEVER allow localhost or non-production URLs in emails
     let redirectTo = email_data?.redirect_to || `${PRODUCTION_URL}/account`

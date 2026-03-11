@@ -5,7 +5,7 @@ import { PlatformId, PLATFORMS } from '@/lib/qa/types'
 
 // Default brand context for 0nMCP
 const BRAND = {
-  websiteUrl: 'https://0nmcp.com',
+  websiteUrl: 'https://www.0nmcp.com',
   websiteName: '0nMCP',
   businessDescription:
     '0nMCP is a universal AI API orchestrator with 850 tools across 53 services. It connects Claude, Slack, Stripe, GitHub, and 22 other services through one MCP server. Open source, MIT licensed, available on npm.',

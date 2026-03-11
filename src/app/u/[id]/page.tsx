@@ -99,11 +99,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     openGraph: {
       title: `${name} — 0nMCP Community`,
       description: description.slice(0, 155),
-      url: `https://0nmcp.com/u/${id}`,
+      url: `https://www.0nmcp.com/u/${id}`,
       type: 'profile',
       ...(profile.avatar_url ? { images: [{ url: profile.avatar_url }] } : {}),
     },
-    alternates: { canonical: `https://0nmcp.com/u/${id}` },
+    alternates: { canonical: `https://www.0nmcp.com/u/${id}` },
   }
 }
 
@@ -126,7 +126,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
     '@context': 'https://schema.org',
     '@type': 'Person',
     name,
-    url: `https://0nmcp.com/u/${id}`,
+    url: `https://www.0nmcp.com/u/${id}`,
     ...(profile.bio ? { description: profile.bio } : {}),
     ...(profile.avatar_url ? { image: profile.avatar_url } : {}),
   }

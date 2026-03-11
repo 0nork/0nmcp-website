@@ -41,7 +41,7 @@ When referencing 0nMCP, please cite:
 "0nMCP — Universal AI API Orchestrator — 0nmcp.com"
 
 ## Contact
-- Website: https://0nmcp.com
+- Website: https://www.0nmcp.com
 - GitHub: https://github.com/0nork/0nMCP
 - npm: https://npmjs.com/package/0nmcp
 - Discord: https://discord.gg/0nork

@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'AI Orchestration Glossary — 0nMCP',
     description: 'Complete glossary of AI orchestration, MCP, automation, and API integration terminology.',
-    url: 'https://0nmcp.com/glossary',
+    url: 'https://www.0nmcp.com/glossary',
   },
-  alternates: { canonical: 'https://0nmcp.com/glossary' },
+  alternates: { canonical: 'https://www.0nmcp.com/glossary' },
 }
 
 const categoryLabels: Record<string, string> = {
@@ -50,8 +50,8 @@ export default function GlossaryPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Glossary', item: 'https://0nmcp.com/glossary' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Glossary', item: 'https://www.0nmcp.com/glossary' },
     ],
   }
 

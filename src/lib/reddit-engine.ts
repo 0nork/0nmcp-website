@@ -240,7 +240,7 @@ export async function draftFromForumThread(thread: {
   // Add Reddit-appropriate footer
   const keyphraseIdx = Math.abs(hashCode(thread.id)) % BACKLINK_KEYPHRASES.length
   const keyphrase = BACKLINK_KEYPHRASES[keyphraseIdx]
-  redditBody += `\n\n---\n\nFull discussion on our forum: [${keyphrase}](https://0nmcp.com/forum/${thread.slug})`
+  redditBody += `\n\n---\n\nFull discussion on our forum: [${keyphrase}](https://www.0nmcp.com/forum/${thread.slug})`
 
   const wordCount = redditBody.split(/\s+/).length
 
@@ -256,7 +256,7 @@ export async function draftFromForumThread(thread: {
       tone: 'casual',
       word_count: wordCount,
       includes_link: true,
-      link_url: `https://0nmcp.com/forum/${thread.slug}`,
+      link_url: `https://www.0nmcp.com/forum/${thread.slug}`,
       status: 'draft',
     })
     .select('id')
@@ -288,7 +288,7 @@ export async function draftCommentForOpportunity(
 
   // 50% chance to include a subtle backlink
   if (Math.random() > 0.5) {
-    body += `\n\nI've been using [0nMCP](https://0nmcp.com) for this kind of thing — works well with ${opportunity.keywords_matched[0] || 'API orchestration'}.`
+    body += `\n\nI've been using [0nMCP](https://www.0nmcp.com) for this kind of thing — works well with ${opportunity.keywords_matched[0] || 'API orchestration'}.`
   }
 
   const wordCount = body.split(/\s+/).length
@@ -304,7 +304,7 @@ export async function draftCommentForOpportunity(
       tone: 'helpful',
       word_count: wordCount,
       includes_link: body.includes('0nmcp.com'),
-      link_url: body.includes('0nmcp.com') ? 'https://0nmcp.com' : null,
+      link_url: body.includes('0nmcp.com') ? 'https://www.0nmcp.com' : null,
       status: 'draft',
     })
     .select('id')

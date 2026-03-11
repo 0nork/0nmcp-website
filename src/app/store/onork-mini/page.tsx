@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: '0nork Mini — Desktop Buddy & Command Widget',
     description:
       'Your AI-powered desktop companion. Connect 10 services, manage credentials, build workflows, and chat with AI.',
-    url: 'https://0nmcp.com/store/onork-mini',
+    url: 'https://www.0nmcp.com/store/onork-mini',
     siteName: '0nMCP',
     type: 'website',
   },

@@ -58,8 +58,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description: description.slice(0, 155),
-    openGraph: { title, description: description.slice(0, 155), url: `https://0nmcp.com/integrations/${service.slug}` },
-    alternates: { canonical: `https://0nmcp.com/integrations/${service.slug}` },
+    openGraph: { title, description: description.slice(0, 155), url: `https://www.0nmcp.com/integrations/${service.slug}` },
+    alternates: { canonical: `https://www.0nmcp.com/integrations/${service.slug}` },
   }
 }
 
@@ -112,9 +112,9 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Integrations', item: 'https://0nmcp.com/integrations' },
-      { '@type': 'ListItem', position: 3, name: service.name, item: `https://0nmcp.com/integrations/${service.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Integrations', item: 'https://www.0nmcp.com/integrations' },
+      { '@type': 'ListItem', position: 3, name: service.name, item: `https://www.0nmcp.com/integrations/${service.slug}` },
     ],
   }
 

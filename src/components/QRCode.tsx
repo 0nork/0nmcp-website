@@ -2,7 +2,7 @@
 
 import { QRCodeSVG } from 'qrcode.react'
 
-export default function QRCode({ url = 'https://0nmcp.com/app' }: { url?: string }) {
+export default function QRCode({ url = 'https://www.0nmcp.com/app' }: { url?: string }) {
   return (
     <div
       style={{

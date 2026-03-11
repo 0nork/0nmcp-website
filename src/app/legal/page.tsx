@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: 'Legal Notice -- 0nMCP Intellectual Property Policy',
     description:
       'Trademark, patent, and IP enforcement policy for 0nMCP, 0nORK, and the 0n ecosystem by RocketOpp, LLC.',
-    url: 'https://0nmcp.com/legal',
+    url: 'https://www.0nmcp.com/legal',
     type: 'website',
   },
   twitter: {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     description:
       'Trademark, patent, and IP enforcement for the 0n ecosystem.',
   },
-  alternates: { canonical: 'https://0nmcp.com/legal' },
+  alternates: { canonical: 'https://www.0nmcp.com/legal' },
   robots: { index: true, follow: true },
 }
 
@@ -591,7 +591,7 @@ export default function LegalPage() {
                   ['Location', 'Pittsburgh, Pennsylvania, United States'],
                   ['Legal Inquiries', 'legal@rocketopp.com'],
                   ['General Contact', 'mike@rocketopp.com'],
-                  ['Website', 'https://0nmcp.com'],
+                  ['Website', 'https://www.0nmcp.com'],
                 ].map(([label, value]) => (
                   <tr key={label}>
                     <td

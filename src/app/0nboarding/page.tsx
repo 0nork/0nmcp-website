@@ -93,6 +93,31 @@ function OnboardingInner() {
   const [vendorBusiness, setVendorBusiness] = useState('')
   const [vendorApplied, setVendorApplied] = useState(false)
 
+  // A/B Testing state
+  const [experimentId, setExperimentId] = useState<string | null>(null)
+  const [variantId, setVariantId] = useState<string | null>(null)
+  const [abStepOrder, setAbStepOrder] = useState<string[]>(['welcome', 'profile', 'tools', 'payment', 'community', 'launch'])
+  const [abStepConfig, setAbStepConfig] = useState<Record<string, Record<string, unknown>>>({})
+  const stepTimerRef = { current: Date.now() }
+
+  // Track A/B testing events
+  const trackEvent = useCallback(async (eventStep: string, eventType: string, metadata?: Record<string, unknown>) => {
+    try {
+      await fetch('/api/onboarding/experiment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          step: eventStep,
+          event_type: eventType,
+          experiment_id: experimentId,
+          variant_id: variantId,
+          metadata,
+          duration_ms: Date.now() - stepTimerRef.current,
+        }),
+      })
+    } catch { /* non-blocking */ }
+  }, [experimentId, variantId, stepTimerRef])
+
   // Load user data
   useEffect(() => {
     async function load() {
@@ -161,6 +186,18 @@ function OnboardingInner() {
         } catch { /* LinkedIn data may not exist yet */ }
       }
 
+      // Fetch A/B experiment variant
+      try {
+        const expRes = await fetch('/api/onboarding/experiment')
+        if (expRes.ok) {
+          const expData = await expRes.json()
+          if (expData.experiment_id) setExperimentId(expData.experiment_id)
+          if (expData.variant_id) setVariantId(expData.variant_id)
+          if (expData.step_order?.length) setAbStepOrder(expData.step_order)
+          if (expData.step_config) setAbStepConfig(expData.step_config)
+        }
+      } catch { /* A/B testing is non-critical */ }
+
       // Detect payment return from Stripe
       const paymentStatus = searchParams.get('payment')
       if (paymentStatus === 'saved') {
@@ -196,16 +233,76 @@ function OnboardingInner() {
       .eq('id', userId)
   }, [supabase, userId])
 
-  // Navigate steps
+  // Map step names to step numbers
+  const STEP_MAP: Record<string, number> = { welcome: 1, profile: 2, tools: 3, payment: 4, community: 5, launch: 6 }
+  const STEP_NAMES: Record<number, string> = { 1: 'welcome', 2: 'profile', 3: 'tools', 4: 'payment', 5: 'community', 6: 'launch' }
+  const currentStepName = STEP_NAMES[step] || 'unknown'
+
+  // Track step view when step changes
+  useEffect(() => {
+    if (!loading && currentStepName !== 'unknown') {
+      trackEvent(currentStepName, 'view')
+      stepTimerRef.current = Date.now()
+    }
+  }, [step, loading]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Navigate steps — respects A/B variant step order and skips
   function goNext() {
-    const next = Math.min(step + 1, TOTAL_STEPS)
-    setStep(next)
-    saveStep(next)
+    // Track completion of current step
+    trackEvent(currentStepName, 'complete')
+
+    // Find current position in A/B step order
+    const currentIndex = abStepOrder.indexOf(currentStepName)
+    let nextIndex = currentIndex + 1
+
+    // Skip steps marked as skip in step_config
+    while (nextIndex < abStepOrder.length) {
+      const nextStepName = abStepOrder[nextIndex]
+      const config = abStepConfig[nextStepName]
+      if (config?.skip) {
+        trackEvent(nextStepName, 'skip')
+        nextIndex++
+      } else {
+        break
+      }
+    }
+
+    if (nextIndex >= abStepOrder.length) {
+      // All done — go to launch
+      const launchStep = STEP_MAP['launch'] || TOTAL_STEPS
+      setStep(launchStep)
+      saveStep(launchStep)
+    } else {
+      const nextStepName = abStepOrder[nextIndex]
+      const nextStepNum = STEP_MAP[nextStepName] || (step + 1)
+      setStep(nextStepNum)
+      saveStep(nextStepNum)
+    }
     setError('')
   }
 
   function goBack() {
-    setStep(Math.max(step - 1, 1))
+    const currentIndex = abStepOrder.indexOf(currentStepName)
+    let prevIndex = currentIndex - 1
+
+    // Skip backwards over skipped steps
+    while (prevIndex >= 0) {
+      const prevStepName = abStepOrder[prevIndex]
+      const config = abStepConfig[prevStepName]
+      if (config?.skip) {
+        prevIndex--
+      } else {
+        break
+      }
+    }
+
+    if (prevIndex >= 0) {
+      const prevStepName = abStepOrder[prevIndex]
+      const prevStepNum = STEP_MAP[prevStepName] || Math.max(step - 1, 1)
+      setStep(prevStepNum)
+    } else {
+      setStep(1)
+    }
     setError('')
   }
 

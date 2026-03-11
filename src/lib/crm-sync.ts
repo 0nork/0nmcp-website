@@ -396,11 +396,11 @@ function emailLayout(params: {
                   <td style="padding:20px 32px;background:#0c0c14;border:1px solid #1a1a2e;border-top:none;border-bottom:none;text-align:center;">
                     <table role="presentation" cellpadding="0" cellspacing="0" align="center">
                       <tr>
-                        <td style="padding:0 8px;"><a href="https://0nmcp.com" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">Website</a></td>
+                        <td style="padding:0 8px;"><a href="https://www.0nmcp.com" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">Website</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
                         <td style="padding:0 8px;"><a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">0nBoard</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
-                        <td style="padding:0 8px;"><a href="https://0nmcp.com/forum" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">Forum</a></td>
+                        <td style="padding:0 8px;"><a href="https://www.0nmcp.com/forum" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">Forum</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
                         <td style="padding:0 8px;"><a href="https://github.com/0nork/0nMCP" style="color:#7ed957;font-size:11px;text-decoration:none;font-weight:600;">GitHub</a></td>
                         <td style="color:#333;font-size:11px;">&middot;</td>
@@ -427,9 +427,9 @@ function emailLayout(params: {
                       651 N Broad St, Suite 201, Middletown, DE 19709
                     </p>
                     <p style="font-size:10px;color:#444;line-height:1.6;margin:0;">
-                      <a href="https://0nmcp.com/account" style="color:#7ed957;text-decoration:none;">Manage preferences</a>
+                      <a href="https://www.0nmcp.com/account" style="color:#7ed957;text-decoration:none;">Manage preferences</a>
                       &nbsp;&middot;&nbsp;
-                      <a href="https://0nmcp.com/unsubscribe" style="color:#888;text-decoration:none;">Unsubscribe</a>
+                      <a href="https://www.0nmcp.com/unsubscribe" style="color:#888;text-decoration:none;">Unsubscribe</a>
                     </p>
                     <p style="font-size:10px;color:#333;margin:12px 0 0;">
                       &copy; ${new Date().getFullYear()} RocketOpp LLC. All rights reserved.
@@ -551,13 +551,13 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<bo
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;">
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
-              <a href="https://0nmcp.com/learn/getting-started" style="color:#7ed957;text-decoration:none;font-weight:600;">Take the Getting Started course</a>
+              <a href="https://www.0nmcp.com/learn/getting-started" style="color:#7ed957;text-decoration:none;font-weight:600;">Take the Getting Started course</a>
               <span style="color:#555;margin-left:6px;">(free, 15 min)</span>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;border-bottom:1px solid #1a1a2e;">
-              <a href="https://0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-weight:600;">Turn it 0n</a>
+              <a href="https://www.0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-weight:600;">Turn it 0n</a>
               <span style="color:#555;margin-left:6px;">&mdash; connect your services</span>
             </td>
           </tr>
@@ -569,13 +569,13 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<bo
           </tr>
           <tr>
             <td style="padding:8px 0;font-size:13px;color:#999;">
-              <a href="https://0nmcp.com/forum" style="color:#7ed957;text-decoration:none;font-weight:600;">Browse the forum</a>
+              <a href="https://www.0nmcp.com/forum" style="color:#7ed957;text-decoration:none;font-weight:600;">Browse the forum</a>
             </td>
           </tr>
         </table>
       `,
       ctaText: 'Go to Your Dashboard',
-      ctaUrl: 'https://0nmcp.com/account',
+      ctaUrl: 'https://www.0nmcp.com/account',
       reason: 'You received this email because you confirmed your account on 0nmcp.com.',
     }),
   })

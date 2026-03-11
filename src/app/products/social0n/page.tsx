@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Social0n — AI-Powered Social Media Automation',
     description: 'Automate your social media presence with AI.',
-    url: 'https://0nmcp.com/products/social0n',
+    url: 'https://www.0nmcp.com/products/social0n',
     siteName: '0nMCP',
   },
 }

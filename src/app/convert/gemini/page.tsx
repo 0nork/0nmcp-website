@@ -8,14 +8,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Convert Google Gemini Gems & ADK Agents to .0n',
     description: 'Migrate from Gemini to the universal .0n standard. Free export guide + instant conversion.',
-    url: 'https://0nmcp.com/convert/gemini',
+    url: 'https://www.0nmcp.com/convert/gemini',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Convert Google Gemini Gems & ADK Agents to .0n',
     description: 'Migrate from Gemini to the universal .0n standard. Free export guide + instant conversion.',
   },
-  alternates: { canonical: 'https://0nmcp.com/convert/gemini' },
+  alternates: { canonical: 'https://www.0nmcp.com/convert/gemini' },
 }
 
 const PAIN_POINTS = [
@@ -90,7 +90,7 @@ export default function ConvertGemini() {
             description: 'Convert Google Gemini Gems and ADK agents to the universal .0n workflow standard',
             applicationCategory: 'DeveloperApplication',
             operatingSystem: 'Any',
-            url: 'https://0nmcp.com/convert/gemini',
+            url: 'https://www.0nmcp.com/convert/gemini',
             offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
           }),
         }}

@@ -47,10 +47,10 @@ export function generateMetadata({
         openGraph: {
           title: `Turn ${service.name} 0n — ${service.tool_count} Tools | 0nMCP`,
           description: service.description_short,
-          url: `https://0nmcp.com/turn-it-on/${slug}`,
+          url: `https://www.0nmcp.com/turn-it-on/${slug}`,
         },
         alternates: {
-          canonical: `https://0nmcp.com/turn-it-on/${slug}`,
+          canonical: `https://www.0nmcp.com/turn-it-on/${slug}`,
         },
       }
     }
@@ -71,10 +71,10 @@ export function generateMetadata({
         openGraph: {
           title: `Connect ${triggerName} to ${actionName} — Automate with 0nMCP`,
           description: capability.description,
-          url: `https://0nmcp.com/turn-it-on/${slug}`,
+          url: `https://www.0nmcp.com/turn-it-on/${slug}`,
         },
         alternates: {
-          canonical: `https://0nmcp.com/turn-it-on/${slug}`,
+          canonical: `https://www.0nmcp.com/turn-it-on/${slug}`,
         },
       }
     }
@@ -145,7 +145,7 @@ function ServicePage({ slug }: { slug: string }) {
     tool: {
       '@type': 'SoftwareApplication',
       name: '0nMCP',
-      url: 'https://0nmcp.com',
+      url: 'https://www.0nmcp.com',
     },
   }
 
@@ -478,7 +478,7 @@ function CapabilityPage({ slug }: { slug: string }) {
     tool: {
       '@type': 'SoftwareApplication',
       name: '0nMCP',
-      url: 'https://0nmcp.com',
+      url: 'https://www.0nmcp.com',
     },
   }
 

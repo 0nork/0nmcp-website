@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Patent-Pending Technology — US Application #63/990,046',
     description: 'Pioneering the future of secure AI orchestration with patent-pending encrypted container technology.',
-    url: 'https://0nmcp.com/security/patent',
+    url: 'https://www.0nmcp.com/security/patent',
   },
-  alternates: { canonical: 'https://0nmcp.com/security/patent' },
+  alternates: { canonical: 'https://www.0nmcp.com/security/patent' },
 }
 
 export default function PatentPage() {
@@ -20,9 +20,9 @@ export default function PatentPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://0nmcp.com/security' },
-      { '@type': 'ListItem', position: 3, name: 'Patent', item: 'https://0nmcp.com/security/patent' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://www.0nmcp.com/security' },
+      { '@type': 'ListItem', position: 3, name: 'Patent', item: 'https://www.0nmcp.com/security/patent' },
     ],
   }
 

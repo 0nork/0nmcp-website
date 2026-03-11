@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description,
-    openGraph: { title, description, url: `https://0nmcp.com/compare/${comp.slug}` },
-    alternates: { canonical: `https://0nmcp.com/compare/${comp.slug}` },
+    openGraph: { title, description, url: `https://www.0nmcp.com/compare/${comp.slug}` },
+    alternates: { canonical: `https://www.0nmcp.com/compare/${comp.slug}` },
   }
 }
 
@@ -43,7 +43,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
     '@type': 'Product',
     name: '0nMCP',
     description: 'Universal AI API Orchestrator — 850 tools, 53 services, one npm install.',
-    url: 'https://0nmcp.com',
+    url: 'https://www.0nmcp.com',
     brand: { '@type': 'Organization', name: '0nMCP' },
     offers: {
       '@type': 'Offer',
@@ -67,9 +67,9 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://0nmcp.com/compare' },
-      { '@type': 'ListItem', position: 3, name: `vs ${comp.competitor}`, item: `https://0nmcp.com/compare/${comp.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://www.0nmcp.com/compare' },
+      { '@type': 'ListItem', position: 3, name: `vs ${comp.competitor}`, item: `https://www.0nmcp.com/compare/${comp.slug}` },
     ],
   }
 

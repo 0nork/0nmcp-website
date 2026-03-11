@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'App0n — Build AI-Native Applications',
     description: 'Ship AI-powered apps faster with pre-built components and 0nMCP orchestration.',
-    url: 'https://0nmcp.com/products/app0n',
+    url: 'https://www.0nmcp.com/products/app0n',
     siteName: '0nMCP',
   },
 }

@@ -161,7 +161,7 @@
         "to": "{{inputs.cart.phone}}",
         "from": "{{launch_codes.TWILIO_FROM_NUMBER}}",
         "body": "{{step.generate_recovery.output}}",
-        "status_callback": "https://0nmcp.com/api/webhooks/twilio"
+        "status_callback": "https://www.0nmcp.com/api/webhooks/twilio"
       },
       "description": "Phase 3 — Recover: Sends the short-form AI-generated recovery SMS via Twilio to the customer's mobile number for immediate impact."
     }

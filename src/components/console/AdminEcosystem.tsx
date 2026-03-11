@@ -36,7 +36,7 @@ const ECOSYSTEM: EcoNode[] = [
     status: 'live',
     description: 'Marketing + Community + Console (0nLive)',
     stats: '91+ pages | 33 API routes | 50+ components',
-    url: 'https://0nmcp.com',
+    url: 'https://www.0nmcp.com',
     color: '#7ed957',
     connections: ['supabase-main', 'stripe-main', '0nmcp', 'brain', 'command-queue'],
   },

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: '0nMCP — Describe It. AI Does It.',
     description:
       '850 tools across 53 services. One natural language command triggers Stripe, SendGrid, and CRM simultaneously. Patent-pending encryption. Free to start.',
-    url: 'https://0nmcp.com/go',
+    url: 'https://www.0nmcp.com/go',
     siteName: '0nMCP',
     type: 'website',
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: '0nMCP — The AI Operating System for Business',
     description: '850 tools. 53 services. One command. Describe what you want — AI does it.',
   },
-  alternates: { canonical: 'https://0nmcp.com/go' },
+  alternates: { canonical: 'https://www.0nmcp.com/go' },
 }
 
 export default function GoPage() {
@@ -40,7 +40,7 @@ export default function GoPage() {
                 name: '0nMCP',
                 applicationCategory: 'BusinessApplication',
                 operatingSystem: 'Web',
-                url: 'https://0nmcp.com',
+                url: 'https://www.0nmcp.com',
                 description: 'Universal AI API Orchestrator — 850 tools across 53 services in one command.',
                 offers: [
                   { '@type': 'Offer', price: '0', priceCurrency: 'USD', name: 'Free' },
@@ -64,8 +64,8 @@ export default function GoPage() {
               {
                 '@type': 'BreadcrumbList',
                 itemListElement: [
-                  { '@type': 'ListItem', position: 1, name: '0nMCP', item: 'https://0nmcp.com' },
-                  { '@type': 'ListItem', position: 2, name: 'Get Started', item: 'https://0nmcp.com/go' },
+                  { '@type': 'ListItem', position: 1, name: '0nMCP', item: 'https://www.0nmcp.com' },
+                  { '@type': 'ListItem', position: 2, name: 'Get Started', item: 'https://www.0nmcp.com/go' },
                 ],
               },
             ],

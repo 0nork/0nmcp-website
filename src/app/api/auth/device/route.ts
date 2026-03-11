@@ -89,8 +89,8 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     device_code: deviceCode,
     user_code: userCode,
-    verification_uri: 'https://0nmcp.com/connect/device',
-    verification_uri_complete: `https://0nmcp.com/connect/device?code=${userCode}`,
+    verification_uri: 'https://www.0nmcp.com/connect/device',
+    verification_uri_complete: `https://www.0nmcp.com/connect/device?code=${userCode}`,
     expires_in: 600, // 10 minutes in seconds
     interval: 5,     // poll every 5 seconds
   })

@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Seal of Truth — SHA3-256 Integrity Verification for 0nVault',
     description: 'Content-addressed integrity verification. Verify encrypted containers without decryption keys.',
-    url: 'https://0nmcp.com/security/seal-of-truth',
+    url: 'https://www.0nmcp.com/security/seal-of-truth',
   },
-  alternates: { canonical: 'https://0nmcp.com/security/seal-of-truth' },
+  alternates: { canonical: 'https://www.0nmcp.com/security/seal-of-truth' },
 }
 
 export default function SealOfTruthPage() {
@@ -32,9 +32,9 @@ export default function SealOfTruthPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://0nmcp.com/security' },
-      { '@type': 'ListItem', position: 3, name: 'Seal of Truth', item: 'https://0nmcp.com/security/seal-of-truth' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://www.0nmcp.com/security' },
+      { '@type': 'ListItem', position: 3, name: 'Seal of Truth', item: 'https://www.0nmcp.com/security/seal-of-truth' },
     ],
   }
 

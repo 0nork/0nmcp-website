@@ -5,7 +5,7 @@ import { createMarketplaceCheckout } from '@/lib/stripe-connect'
 
 export const dynamic = 'force-dynamic'
 
-const SITE_URL = 'https://0nmcp.com'
+const SITE_URL = 'https://www.0nmcp.com'
 
 /**
  * POST /api/console/store/checkout — Purchase a store listing

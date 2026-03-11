@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'CRO9 — Self-Learning SEO Engine',
     description: 'AI-powered SEO optimization that learns and adapts. Automated daily analysis, content briefs, and self-adjusting strategy.',
-    url: 'https://0nmcp.com/products/cro9',
+    url: 'https://www.0nmcp.com/products/cro9',
     siteName: '0nMCP',
   },
   keywords: ['SEO automation', 'CRO9', 'search console optimization', 'AI SEO', 'content briefs', 'SEO engine', 'conversion optimization'],

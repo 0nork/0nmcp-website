@@ -231,8 +231,8 @@ export async function GET(req: NextRequest) {
     copyright: `Copyright ${new Date().getFullYear()} ${cfg.brand}`,
     generator: '0nMCP SXO Engine',
     feedLinks: {
-      rss2: `https://0nmcp.com/api/feed/sxo?brand=${encodeURIComponent(brand)}&format=rss`,
-      atom: `https://0nmcp.com/api/feed/sxo?brand=${encodeURIComponent(brand)}&format=atom`,
+      rss2: `https://www.0nmcp.com/api/feed/sxo?brand=${encodeURIComponent(brand)}&format=rss`,
+      atom: `https://www.0nmcp.com/api/feed/sxo?brand=${encodeURIComponent(brand)}&format=atom`,
     },
     author: { name: cfg.brand, link: baseUrl },
   })

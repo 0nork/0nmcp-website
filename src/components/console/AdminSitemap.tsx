@@ -132,7 +132,7 @@ export function AdminSitemap() {
       .catch(() => setLoading(false))
   }, [])
 
-  const base = 'https://0nmcp.com'
+  const base = 'https://www.0nmcp.com'
 
   // Build full entries list
   const allEntries: SitemapEntry[] = [
@@ -359,7 +359,7 @@ export function AdminSitemap() {
                         }}
                       >
                         <a
-                          href={`https://0nmcp.com${entry.path}`}
+                          href={`https://www.0nmcp.com${entry.path}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{

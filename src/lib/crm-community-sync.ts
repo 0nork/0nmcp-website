@@ -135,7 +135,7 @@ export async function syncThreadCreated(data: {
 
     await addContactNote(
       contact.id,
-      `Created thread: "${data.threadTitle}" in ${data.group}\nhttps://0nmcp.com/forum/${data.threadSlug}`
+      `Created thread: "${data.threadTitle}" in ${data.group}\nhttps://www.0nmcp.com/forum/${data.threadSlug}`
     )
 
     console.log(`[community-sync] Thread synced: "${data.threadTitle}" by ${data.email}`)
@@ -165,7 +165,7 @@ export async function syncReplyCreated(data: {
 
     await addContactNote(
       contact.id,
-      `Replied to: "${data.threadTitle}"\n${data.replyPreview.slice(0, 200)}...\nhttps://0nmcp.com/forum/${data.threadSlug}`
+      `Replied to: "${data.threadTitle}"\n${data.replyPreview.slice(0, 200)}...\nhttps://www.0nmcp.com/forum/${data.threadSlug}`
     )
 
     console.log(`[community-sync] Reply synced in "${data.threadTitle}" by ${data.email}`)
@@ -194,7 +194,7 @@ export async function syncSolutionMarked(data: {
 
     await addContactNote(
       contact.id,
-      `Solution accepted for: "${data.threadTitle}"\nhttps://0nmcp.com/forum/${data.threadSlug}`
+      `Solution accepted for: "${data.threadTitle}"\nhttps://www.0nmcp.com/forum/${data.threadSlug}`
     )
 
     console.log(`[community-sync] Solution synced: ${data.solverEmail} solved "${data.threadTitle}"`)

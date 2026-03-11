@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     title: 'Examples — Real .0n Workflow Files | 0nMCP',
     description:
       'Production-ready .0n workflow examples you can copy and run. Client onboarding, domain checks, website factories.',
-    url: 'https://0nmcp.com/examples',
+    url: 'https://www.0nmcp.com/examples',
   },
-  alternates: { canonical: 'https://0nmcp.com/examples' },
+  alternates: { canonical: 'https://www.0nmcp.com/examples' },
 }
 
 const examples = [

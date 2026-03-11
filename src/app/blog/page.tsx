@@ -10,14 +10,14 @@ export const metadata: Metadata = {
     title: 'Blog — 0nMCP',
     description:
       'Release notes, tutorials, and deep-dives from the team building 0nMCP.',
-    url: 'https://0nmcp.com/blog',
+    url: 'https://www.0nmcp.com/blog',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://0nmcp.com/blog',
+    canonical: 'https://www.0nmcp.com/blog',
     types: {
-      'application/rss+xml': 'https://0nmcp.com/api/feed/blog',
-      'application/atom+xml': 'https://0nmcp.com/api/feed/blog?format=atom',
+      'application/rss+xml': 'https://www.0nmcp.com/api/feed/blog',
+      'application/atom+xml': 'https://www.0nmcp.com/api/feed/blog?format=atom',
     },
   },
 }
@@ -49,16 +49,16 @@ export default function BlogPage() {
     '@type': 'CollectionPage',
     name: 'Blog — 0nMCP',
     description: 'Release notes, tutorials, and deep-dives from the team building 0nMCP.',
-    url: 'https://0nmcp.com/blog',
+    url: 'https://www.0nmcp.com/blog',
     publisher: {
       '@type': 'Organization',
       name: '0nMCP',
-      url: 'https://0nmcp.com',
+      url: 'https://www.0nmcp.com',
     },
     hasPart: posts.map((p) => ({
       '@type': 'BlogPosting',
       headline: p.title,
-      url: `https://0nmcp.com/blog/${p.slug}`,
+      url: `https://www.0nmcp.com/blog/${p.slug}`,
       datePublished: p.date,
       author: { '@type': 'Person', name: p.author },
       description: p.excerpt,
@@ -69,8 +69,8 @@ export default function BlogPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://0nmcp.com/blog' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.0nmcp.com/blog' },
     ],
   }
 

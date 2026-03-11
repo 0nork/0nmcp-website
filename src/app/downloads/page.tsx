@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: 'Downloads — 0nMCP',
     description:
       'Get 0nMCP everywhere — Chrome Extension, Mobile App, and Tablet App.',
-    url: 'https://0nmcp.com/downloads',
+    url: 'https://www.0nmcp.com/downloads',
     siteName: '0nMCP',
     type: 'website',
   },

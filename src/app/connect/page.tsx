@@ -271,11 +271,11 @@ export default function ConnectPage() {
             '@type': 'ContactPage',
             name: 'Connect with 0nORK',
             description: 'Partnership opportunities, investment inquiries, and enterprise licensing for 0nMCP — the universal AI API orchestrator.',
-            url: 'https://0nmcp.com/connect',
+            url: 'https://www.0nmcp.com/connect',
             mainEntity: {
               '@type': 'Organization',
               name: '0nORK',
-              url: 'https://0nmcp.com',
+              url: 'https://www.0nmcp.com',
               email: 'mike@rocketopp.com',
               founder: {
                 '@type': 'Person',

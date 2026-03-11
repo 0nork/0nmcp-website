@@ -304,7 +304,7 @@ ${milestone.metadata ? JSON.stringify(milestone.metadata, null, 2) : ''}
 
 Reached at: ${new Date(milestone.reached_at).toLocaleString()}
 
-View the training dashboard at https://0nmcp.com/console`
+View the training dashboard at https://www.0nmcp.com/console`
 
     if (sendgridKey) {
       try {

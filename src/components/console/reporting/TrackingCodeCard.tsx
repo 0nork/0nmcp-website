@@ -18,7 +18,7 @@ const TABS: { key: InstallTab; label: string }[] = [
 function getTrackingScript(siteId: string): string {
   return `<script>
 (function(s,i,t){var e=new XMLHttpRequest();
-e.open('POST','https://0nmcp.com/api/t');
+e.open('POST','https://www.0nmcp.com/api/t');
 e.setRequestHeader('Content-Type','application/json');
 e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,
 d:navigator.userAgent,t:Date.now()}))})('${siteId}');
@@ -26,7 +26,7 @@ d:navigator.userAgent,t:Date.now()}))})('${siteId}');
 }
 
 function getImgPixel(siteId: string): string {
-  return `<img src="https://0nmcp.com/api/t?s=${siteId}&p={{PAGE_URL}}" style="display:none" alt="" />`
+  return `<img src="https://www.0nmcp.com/api/t?s=${siteId}&p={{PAGE_URL}}" style="display:none" alt="" />`
 }
 
 function getInstructions(tab: InstallTab, siteId: string): string {
@@ -38,7 +38,7 @@ function getInstructions(tab: InstallTab, siteId: string): string {
     case 'shopify':
       return `1. Go to Online Store > Themes > Edit Code\n2. Open theme.liquid\n3. Paste the tracking script just before </body>\n4. Save\n\nThe tracker will automatically capture all page views across your store.`
     case 'react':
-      return `Add this to your root layout or App component:\n\nuseEffect(() => {\n  const data = {\n    s: '${siteId}',\n    p: window.location.href,\n    r: document.referrer,\n    d: navigator.userAgent,\n    t: Date.now()\n  };\n  fetch('https://0nmcp.com/api/t', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data)\n  });\n}, []);`
+      return `Add this to your root layout or App component:\n\nuseEffect(() => {\n  const data = {\n    s: '${siteId}',\n    p: window.location.href,\n    r: document.referrer,\n    d: navigator.userAgent,\n    t: Date.now()\n  };\n  fetch('https://www.0nmcp.com/api/t', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data)\n  });\n}, []);`
     default:
       return ''
   }

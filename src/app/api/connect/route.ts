@@ -58,13 +58,13 @@ In the meantime, explore what we&rsquo;re building:
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-radius:8px 8px 0 0;border-bottom:1px solid #2a2a3a;">
-<a href="https://0nmcp.com/security" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">Patent-Pending 0nVault Security</a>
+<a href="https://www.0nmcp.com/security" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">Patent-Pending 0nVault Security</a>
 <p style="color:#55556a;font-size:13px;margin:4px 0 0;">7-layer encrypted business asset transfer with multi-party escrow</p>
 </td>
 </tr>
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-bottom:1px solid #2a2a3a;">
-<a href="https://0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">850 AI Orchestration Tools</a>
+<a href="https://www.0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">850 AI Orchestration Tools</a>
 <p style="color:#55556a;font-size:13px;margin:4px 0 0;">53 services, 23 categories &mdash; the most comprehensive MCP server available</p>
 </td>
 </tr>
@@ -85,7 +85,7 @@ In the meantime, explore what we&rsquo;re building:
 <!-- Footer -->
 <tr><td style="padding:24px 40px;border-top:1px solid #2a2a3a;background:#0c0c14;">
 <p style="color:#55556a;font-size:11px;line-height:1.6;margin:0;text-align:center;">
-<a href="https://0nmcp.com" style="color:#55556a;">0nmcp.com</a> &middot;
+<a href="https://www.0nmcp.com" style="color:#55556a;">0nmcp.com</a> &middot;
 <a href="https://github.com/0nork/0nMCP" style="color:#55556a;">GitHub</a> &middot;
 <a href="https://npmjs.com/package/0nmcp" style="color:#55556a;">npm</a>
 </p>

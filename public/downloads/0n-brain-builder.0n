@@ -388,7 +388,7 @@
       "inputs": {
         "to": "{{variables.owner_email}}",
         "subject": "Your AI Brain is LIVE — {{variables.business_name}}",
-        "body": "Your autonomous AI brain has been built and deployed.\n\nBusiness: {{variables.business_name}}\nType: {{variables.business_type}}\nOperations: {{step.generate-operations.output.operation_count}}\nAutomations: {{step.create-workflows.output.automation_count}}\nChannels: Email, SMS, Social, Calendar, Payments\nPlatforms: 7 AI environments configured\nRepository: {{step.deploy-to-repo.output.repo_url}}\nBrain File: {{step.encrypt-bundle.output.sealed_path}}\n\nThis brain is encrypted, portable, and autonomous. Hand it to a franchisee, deploy it to a new location, or load it into any supported AI platform.\n\nBuilt by 0n Brain Builder — 0nMCP + MCPFED\nhttps://0nmcp.com"
+        "body": "Your autonomous AI brain has been built and deployed.\n\nBusiness: {{variables.business_name}}\nType: {{variables.business_type}}\nOperations: {{step.generate-operations.output.operation_count}}\nAutomations: {{step.create-workflows.output.automation_count}}\nChannels: Email, SMS, Social, Calendar, Payments\nPlatforms: 7 AI environments configured\nRepository: {{step.deploy-to-repo.output.repo_url}}\nBrain File: {{step.encrypt-bundle.output.sealed_path}}\n\nThis brain is encrypted, portable, and autonomous. Hand it to a franchisee, deploy it to a new location, or load it into any supported AI platform.\n\nBuilt by 0n Brain Builder — 0nMCP + MCPFED\nhttps://www.0nmcp.com"
       },
       "outputs": {
         "email_sent": "true",

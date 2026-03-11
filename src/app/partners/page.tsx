@@ -9,10 +9,10 @@ export const metadata: Metadata = {
     title: 'Partners & Apps — 0nMCP Ecosystem',
     description:
       'The full 0nMCP ecosystem — 0nCore apps, Rocket+ mods, partner integrations, and featured businesses powered by AI orchestration.',
-    url: 'https://0nmcp.com/partners',
+    url: 'https://www.0nmcp.com/partners',
     type: 'website',
   },
-  alternates: { canonical: 'https://0nmcp.com/partners' },
+  alternates: { canonical: 'https://www.0nmcp.com/partners' },
 }
 
 /* ------------------------------------------------------------------ */
@@ -78,7 +78,7 @@ const coreApps: AppCard[] = [
   {
     name: 'Web0n',
     tagline: 'AI-First Website Builder',
-    url: 'https://0nmcp.com/products/web0n',
+    url: 'https://www.0nmcp.com/products/web0n',
     description:
       'Describe your website, deploy it live. AI generates pages, components, and content — all backed by 0nMCP services for forms, analytics, CRM sync, and more.',
     features: [
@@ -320,8 +320,8 @@ export default function PartnersPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Partners', item: 'https://0nmcp.com/partners' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Partners', item: 'https://www.0nmcp.com/partners' },
     ],
   }
 

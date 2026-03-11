@@ -43,8 +43,8 @@ export async function GET(request: NextRequest) {
 
     feed.addItem({
       title: t.title,
-      id: `https://0nmcp.com/forum/${t.slug}`,
-      link: `https://0nmcp.com/forum/${t.slug}`,
+      id: `https://www.0nmcp.com/forum/${t.slug}`,
+      link: `https://www.0nmcp.com/forum/${t.slug}`,
       description: t.body.slice(0, 300).replace(/\n/g, ' '),
       content: t.body,
       author: [{ name: author }],

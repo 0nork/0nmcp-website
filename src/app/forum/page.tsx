@@ -18,9 +18,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'MCP & Agentic AI Forum — 0nMCP Community',
     description: 'The hub for MCP server development, agentic AI workflows, and AI orchestration discussions.',
-    url: 'https://0nmcp.com/forum',
+    url: 'https://www.0nmcp.com/forum',
   },
-  alternates: { canonical: 'https://0nmcp.com/forum' },
+  alternates: { canonical: 'https://www.0nmcp.com/forum' },
 }
 
 async function getInitialData() {
@@ -59,25 +59,25 @@ async function ForumContent() {
     '@type': 'CollectionPage',
     name: 'MCP & Agentic AI Forum — 0nMCP Community',
     description: 'The hub for MCP server development, agentic AI workflows, AI orchestration, and autonomous agent discussions.',
-    url: 'https://0nmcp.com/forum',
+    url: 'https://www.0nmcp.com/forum',
     numberOfItems: total,
     hasPart: threads.slice(0, 10).map((t: { title: string; slug: string; body: string; created_at: string; score: number; reply_count: number; profiles?: { full_name: string | null; email: string }; user_id: string }) => ({
       '@type': 'DiscussionForumPosting',
       headline: t.title,
-      url: `https://0nmcp.com/forum/${t.slug}`,
+      url: `https://www.0nmcp.com/forum/${t.slug}`,
       text: t.body?.slice(0, 200),
       datePublished: t.created_at,
       author: {
         '@type': 'Person',
         name: t.profiles?.full_name || t.profiles?.email?.split('@')[0] || 'Anonymous',
-        url: `https://0nmcp.com/u/${t.user_id}`,
+        url: `https://www.0nmcp.com/u/${t.user_id}`,
       },
       interactionStatistic: [
         { '@type': 'InteractionCounter', interactionType: 'https://schema.org/LikeAction', userInteractionCount: t.score },
         { '@type': 'InteractionCounter', interactionType: 'https://schema.org/CommentAction', userInteractionCount: t.reply_count },
       ],
     })),
-    isPartOf: { '@type': 'WebSite', name: '0nMCP', url: 'https://0nmcp.com' },
+    isPartOf: { '@type': 'WebSite', name: '0nMCP', url: 'https://www.0nmcp.com' },
   }
 
   return (

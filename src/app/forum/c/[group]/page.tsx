@@ -75,9 +75,9 @@ export async function generateMetadata({ params }: { params: Promise<{ group: st
     openGraph: {
       title: `${group.name} — 0nMCP Forum`,
       description: description.slice(0, 155),
-      url: `https://0nmcp.com/forum/c/${group.slug}`,
+      url: `https://www.0nmcp.com/forum/c/${group.slug}`,
     },
-    alternates: { canonical: `https://0nmcp.com/forum/c/${group.slug}` },
+    alternates: { canonical: `https://www.0nmcp.com/forum/c/${group.slug}` },
   }
 }
 
@@ -94,8 +94,8 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
     '@type': 'CollectionPage',
     name: `${group.name} — 0nMCP Forum`,
     description: group.description || `${group.name} discussions in the 0nMCP community.`,
-    url: `https://0nmcp.com/forum/c/${group.slug}`,
-    isPartOf: { '@type': 'WebSite', name: '0nMCP', url: 'https://0nmcp.com' },
+    url: `https://www.0nmcp.com/forum/c/${group.slug}`,
+    isPartOf: { '@type': 'WebSite', name: '0nMCP', url: 'https://www.0nmcp.com' },
     numberOfItems: total,
   }
 
@@ -103,9 +103,9 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Forum', item: 'https://0nmcp.com/forum' },
-      { '@type': 'ListItem', position: 3, name: group.name, item: `https://0nmcp.com/forum/c/${group.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Forum', item: 'https://www.0nmcp.com/forum' },
+      { '@type': 'ListItem', position: 3, name: group.name, item: `https://www.0nmcp.com/forum/c/${group.slug}` },
     ],
   }
 

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Add 0nMCP to Claude',
     description: 'Transform Claude into your AI orchestration hub. Works on Desktop, Web, Mobile, and Claude Code.',
-    url: 'https://0nmcp.com/install/skill',
+    url: 'https://www.0nmcp.com/install/skill',
   },
 }
 

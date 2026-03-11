@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       pageData = uploadedData
     } else {
       // Fetch from Search Console
-      const site = siteUrl || process.env.SITE_URL || 'https://0nmcp.com/'
+      const site = siteUrl || process.env.SITE_URL || 'https://www.0nmcp.com/'
       try {
         pageData = await fetchSearchData(site, days)
       } catch (gscError) {

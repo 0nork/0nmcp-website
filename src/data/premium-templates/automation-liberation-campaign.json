@@ -32,7 +32,7 @@
           { "key": "sender_name", "label": "Sender Name (for emails)", "type": "text", "required": true, "placeholder": "e.g. John from Acme" },
           { "key": "sender_email", "label": "Sender Email", "type": "email", "required": true, "placeholder": "john@acme.com" },
           { "key": "product_name", "label": "Product/Service Name", "type": "text", "required": true, "placeholder": "e.g. 0nMCP" },
-          { "key": "product_url", "label": "Product URL / Landing Page", "type": "url", "required": true, "placeholder": "https://0nmcp.com" },
+          { "key": "product_url", "label": "Product URL / Landing Page", "type": "url", "required": true, "placeholder": "https://www.0nmcp.com" },
           { "key": "industry", "label": "Industry", "type": "select", "required": true, "options": ["SaaS / Technology", "Marketing Agency", "Consulting", "E-Commerce", "Professional Services", "Real Estate", "Healthcare", "Finance", "Education", "Other"] },
           { "key": "calendar_link", "label": "Booking / Calendar Link", "type": "url", "required": false, "placeholder": "https://calendly.com/you" }
         ]
@@ -1112,21 +1112,21 @@
       "api_version": "2021-07-28",
       "auth_type": "Bearer",
       "tools_used": ["crm_send_message", "crm_get_contacts", "crm_add_contact_tags", "crm_create_location_tag", "crm_create_custom_field", "crm_update_contact"],
-      "docs": "https://0nmcp.com/integrations/crm"
+      "docs": "https://www.0nmcp.com/integrations/crm"
     },
     "linkedin": {
       "api_base": "https://api.linkedin.com/v2",
       "auth_type": "OAuth2 Bearer",
       "tools_used": ["linkedin_create_post"],
       "scopes_required": ["w_member_social", "w_organization_social"],
-      "docs": "https://0nmcp.com/integrations/linkedin"
+      "docs": "https://www.0nmcp.com/integrations/linkedin"
     },
     "facebook": {
       "api_base": "https://graph.facebook.com/v18.0",
       "auth_type": "Access Token",
       "tools_used": ["facebook_create_ad_campaign", "facebook_create_ad_set", "facebook_create_ad"],
       "permissions_required": ["ads_management", "ads_read", "business_management"],
-      "docs": "https://0nmcp.com/integrations/facebook"
+      "docs": "https://www.0nmcp.com/integrations/facebook"
     }
   },
   "pricing": {
@@ -1152,7 +1152,7 @@
   },
   "metadata": {
     "format_version": "1.0.0",
-    "schema": "https://0nmcp.com/schemas/campaign.json",
+    "schema": "https://www.0nmcp.com/schemas/campaign.json",
     "generator": "0nMCP Campaign Builder v1.0",
     "word_count_emails": 2840,
     "total_touchpoints": 16,

@@ -8,14 +8,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Brain Transplant — Convert Any AI to .0n',
     description: 'Migrate your AI workflows from OpenAI, Gemini, OpenClaw, and Claude Code to the universal .0n standard.',
-    url: 'https://0nmcp.com/convert',
+    url: 'https://www.0nmcp.com/convert',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Brain Transplant — Convert Any AI to .0n',
     description: 'Migrate your AI workflows from OpenAI, Gemini, OpenClaw, and Claude Code to the universal .0n standard.',
   },
-  alternates: { canonical: 'https://0nmcp.com/convert' },
+  alternates: { canonical: 'https://www.0nmcp.com/convert' },
 }
 
 const PLATFORMS = [
@@ -87,7 +87,7 @@ export default function ConvertHub() {
             description: 'Convert AI workflows from OpenAI, Gemini, OpenClaw, and Claude Code to the universal .0n standard',
             applicationCategory: 'DeveloperApplication',
             operatingSystem: 'Any',
-            url: 'https://0nmcp.com/convert',
+            url: 'https://www.0nmcp.com/convert',
             offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
             author: { '@type': 'Organization', name: 'RocketOpp LLC', url: 'https://rocketopp.com' },
           }),

@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP vs Alternatives — Compare AI Orchestration Platforms',
     description: 'Feature-by-feature comparisons of 0nMCP against 12 automation and orchestration platforms.',
-    url: 'https://0nmcp.com/compare',
+    url: 'https://www.0nmcp.com/compare',
   },
-  alternates: { canonical: 'https://0nmcp.com/compare' },
+  alternates: { canonical: 'https://www.0nmcp.com/compare' },
 }
 
 export default function ComparePage() {
@@ -20,8 +20,8 @@ export default function ComparePage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://0nmcp.com/compare' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://www.0nmcp.com/compare' },
     ],
   }
 

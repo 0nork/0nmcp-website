@@ -17,7 +17,7 @@ function getAdmin() {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = 'https://0nmcp.com'
+  const base = 'https://www.0nmcp.com'
 
   // Static pages
   const staticPages = [

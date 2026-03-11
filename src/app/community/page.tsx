@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: 'Community -- 0nMCP | Join the AI Orchestration Movement',
     description:
       'Join the 0nMCP community. 53 services, 80+ pre-built automations, open source forever. Help shape the future of AI orchestration.',
-    url: 'https://0nmcp.com/community',
+    url: 'https://www.0nmcp.com/community',
     type: 'website',
   },
   twitter: {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     description:
       '53 services. 80+ pre-built automations. Open source forever. Join the movement.',
   },
-  alternates: { canonical: 'https://0nmcp.com/community' },
+  alternates: { canonical: 'https://www.0nmcp.com/community' },
 }
 
 const phases = [
@@ -249,7 +249,7 @@ export default function CommunityPage() {
               {
                 title: 'Spread the Word',
                 desc: 'Tell a developer friend. Post on X/Twitter. Write a blog post. Every mention grows the community.',
-                link: 'https://twitter.com/intent/tweet?text=0nMCP%20-%2026%20services,%2080%20automations,%20zero%20config.%20The%20universal%20AI%20API%20orchestrator.&url=https://0nmcp.com',
+                link: 'https://twitter.com/intent/tweet?text=0nMCP%20-%2026%20services,%2080%20automations,%20zero%20config.%20The%20universal%20AI%20API%20orchestrator.&url=https://www.0nmcp.com',
                 cta: 'Share on X',
               },
             ].map((card) => (

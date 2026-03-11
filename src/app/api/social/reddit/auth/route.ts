@@ -14,7 +14,7 @@ export async function GET() {
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    return NextResponse.redirect(new URL('/login', 'https://0nmcp.com'))
+    return NextResponse.redirect(new URL('/login', 'https://www.0nmcp.com'))
   }
 
   // Generate state token (includes user ID for verification)

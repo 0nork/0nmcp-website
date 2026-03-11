@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Secure Transfer Protocol — Replay Prevention & Chain of Custody',
     description: 'Cryptographic chain of custody for encrypted AI orchestration containers.',
-    url: 'https://0nmcp.com/security/transfer',
+    url: 'https://www.0nmcp.com/security/transfer',
   },
-  alternates: { canonical: 'https://0nmcp.com/security/transfer' },
+  alternates: { canonical: 'https://www.0nmcp.com/security/transfer' },
 }
 
 export default function TransferPage() {
@@ -33,9 +33,9 @@ export default function TransferPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://0nmcp.com/security' },
-      { '@type': 'ListItem', position: 3, name: 'Transfer', item: 'https://0nmcp.com/security/transfer' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://www.0nmcp.com/security' },
+      { '@type': 'ListItem', position: 3, name: 'Transfer', item: 'https://www.0nmcp.com/security/transfer' },
     ],
   }
 

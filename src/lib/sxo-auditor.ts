@@ -412,7 +412,7 @@ export async function auditWebsite(url: string): Promise<AuditResult> {
   const res = await fetch(url, {
     signal: AbortSignal.timeout(15000),
     headers: {
-      'User-Agent': '0nMCP-SXO-Auditor/1.0 (+https://0nmcp.com)',
+      'User-Agent': '0nMCP-SXO-Auditor/1.0 (+https://www.0nmcp.com)',
       'Accept': 'text/html',
     },
   })

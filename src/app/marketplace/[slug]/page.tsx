@@ -62,11 +62,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: `${listing.title} | 0nMCP Marketplace`,
       description: listing.description || undefined,
-      url: `https://0nmcp.com/marketplace/${slug}`,
+      url: `https://www.0nmcp.com/marketplace/${slug}`,
       siteName: '0nMCP',
       type: 'website',
     },
-    alternates: { canonical: `https://0nmcp.com/marketplace/${slug}` },
+    alternates: { canonical: `https://www.0nmcp.com/marketplace/${slug}` },
   }
 }
 
@@ -88,9 +88,9 @@ export default async function MarketplaceDetailPage({ params }: { params: Promis
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Marketplace', item: 'https://0nmcp.com/marketplace' },
-      { '@type': 'ListItem', position: 3, name: listing.title, item: `https://0nmcp.com/marketplace/${slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Marketplace', item: 'https://www.0nmcp.com/marketplace' },
+      { '@type': 'ListItem', position: 3, name: listing.title, item: `https://www.0nmcp.com/marketplace/${slug}` },
     ],
   }
 
@@ -99,7 +99,7 @@ export default async function MarketplaceDetailPage({ params }: { params: Promis
     '@type': 'Product',
     name: listing.title,
     description: listing.description,
-    url: `https://0nmcp.com/marketplace/${slug}`,
+    url: `https://www.0nmcp.com/marketplace/${slug}`,
     brand: { '@type': 'Brand', name: '0nMCP' },
     offers: {
       '@type': 'Offer',

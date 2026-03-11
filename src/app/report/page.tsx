@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: 'Report Infringement -- 0nMCP IP Violation Reporting',
     description:
       'Report impersonators, trademark infringement, and IP violations against 0nMCP and the 0n ecosystem.',
-    url: 'https://0nmcp.com/report',
+    url: 'https://www.0nmcp.com/report',
     type: 'website',
   },
   twitter: {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description:
       'Report brand impersonation and IP violations against the 0n ecosystem.',
   },
-  alternates: { canonical: 'https://0nmcp.com/report' },
+  alternates: { canonical: 'https://www.0nmcp.com/report' },
   robots: { index: true, follow: true },
 }
 

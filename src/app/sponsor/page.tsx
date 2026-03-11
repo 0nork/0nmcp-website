@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: 'Sponsor 0nMCP -- Fund Open Source AI Orchestration',
     description:
       'Help us keep 0nMCP free and open source. 53 services, 850+ tools, zero config. Your support makes it possible.',
-    url: 'https://0nmcp.com/sponsor',
+    url: 'https://www.0nmcp.com/sponsor',
     type: 'website',
   },
   twitter: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     description:
       'Fund the future of AI orchestration. 53 services, 850+ tools, open source forever.',
   },
-  alternates: { canonical: 'https://0nmcp.com/sponsor' },
+  alternates: { canonical: 'https://www.0nmcp.com/sponsor' },
 }
 
 export default function SponsorPage() {

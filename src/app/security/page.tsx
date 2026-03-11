@@ -9,9 +9,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nVault Security System — Patent-Pending Encrypted AI Orchestration',
     description: 'Military-grade encryption for AI orchestration. 7 semantic layers, multi-party escrow, tamper-proof seals, and secure transfer in a single .0nv container.',
-    url: 'https://0nmcp.com/security',
+    url: 'https://www.0nmcp.com/security',
   },
-  alternates: { canonical: 'https://0nmcp.com/security' },
+  alternates: { canonical: 'https://www.0nmcp.com/security' },
 }
 
 const subPages = [
@@ -31,7 +31,7 @@ export default function SecurityPage() {
     '@type': 'Product',
     name: '0nVault',
     description: overview.description,
-    url: 'https://0nmcp.com/security',
+    url: 'https://www.0nmcp.com/security',
     brand: { '@type': 'Organization', name: '0nMCP' },
     offers: {
       '@type': 'Offer',
@@ -55,8 +55,8 @@ export default function SecurityPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://0nmcp.com/security' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://www.0nmcp.com/security' },
     ],
   }
 

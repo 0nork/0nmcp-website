@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Multi-Party Escrow — X25519 ECDH Key Agreement for 0nVault',
     description: 'Share encrypted containers with granular per-layer access control for up to 8 parties.',
-    url: 'https://0nmcp.com/security/escrow',
+    url: 'https://www.0nmcp.com/security/escrow',
   },
-  alternates: { canonical: 'https://0nmcp.com/security/escrow' },
+  alternates: { canonical: 'https://www.0nmcp.com/security/escrow' },
 }
 
 export default function EscrowPage() {
@@ -43,9 +43,9 @@ export default function EscrowPage() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://0nmcp.com' },
-      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://0nmcp.com/security' },
-      { '@type': 'ListItem', position: 3, name: 'Escrow', item: 'https://0nmcp.com/security/escrow' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.0nmcp.com' },
+      { '@type': 'ListItem', position: 2, name: 'Security', item: 'https://www.0nmcp.com/security' },
+      { '@type': 'ListItem', position: 3, name: 'Escrow', item: 'https://www.0nmcp.com/security/escrow' },
     ],
   }
 

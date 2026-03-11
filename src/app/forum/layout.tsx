@@ -5,8 +5,8 @@ import ForumShell from './ForumShell'
 export const metadata: Metadata = {
   alternates: {
     types: {
-      'application/rss+xml': 'https://0nmcp.com/api/feed/forum',
-      'application/atom+xml': 'https://0nmcp.com/api/feed/forum?format=atom',
+      'application/rss+xml': 'https://www.0nmcp.com/api/feed/forum',
+      'application/atom+xml': 'https://www.0nmcp.com/api/feed/forum?format=atom',
     },
   },
 }

@@ -177,7 +177,7 @@ export async function secureExport(
   sanitized._0n_meta = {
     signed_by: '0nMCP',
     signed_at: new Date().toISOString(),
-    origin: origin || (typeof window !== 'undefined' ? window.location.origin : 'https://0nmcp.com'),
+    origin: origin || (typeof window !== 'undefined' ? window.location.origin : 'https://www.0nmcp.com'),
     signature,
     version: '0.2',
     integrity: 'hmac-sha256',

@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'RSS Feeds — 0nMCP',
     description: 'Blog, changelog, and white-label SXO content feeds.',
-    url: 'https://0nmcp.com/feeds',
+    url: 'https://www.0nmcp.com/feeds',
   },
-  alternates: { canonical: 'https://0nmcp.com/feeds' },
+  alternates: { canonical: 'https://www.0nmcp.com/feeds' },
 }
 
 const FEEDS = [

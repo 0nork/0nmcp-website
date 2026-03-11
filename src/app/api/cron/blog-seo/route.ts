@@ -40,7 +40,7 @@ export async function GET() {
 
     // Step 1: Fetch Search Console data
     results.push('[Step 1] Fetching Search Console data...')
-    const siteUrl = process.env.SITE_URL || 'https://0nmcp.com/'
+    const siteUrl = process.env.SITE_URL || 'https://www.0nmcp.com/'
     let pageData: PageData[]
     try {
       pageData = await fetchSearchData(siteUrl, 28)

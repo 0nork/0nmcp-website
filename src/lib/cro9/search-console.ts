@@ -73,7 +73,7 @@ interface GSCRow {
  * to get the top query per page and combined metrics.
  *
  * @param siteUrl - The site URL as registered in Search Console
- *                  (e.g., "https://0nmcp.com/" or "sc-domain:0nmcp.com")
+ *                  (e.g., "https://www.0nmcp.com/" or "sc-domain:0nmcp.com")
  * @param days - Number of days to look back (default 28)
  * @returns Array of PageData, sorted by impressions descending
  */

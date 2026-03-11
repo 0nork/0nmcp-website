@@ -32,6 +32,7 @@ import { OutreachView } from '@/components/console/OutreachView'
 import { TrainingView } from '@/components/console/TrainingView'
 import { CommandQueueView } from '@/components/console/CommandQueueView'
 import { SeoView } from '@/components/console/SeoView'
+import { SiteBuilderView } from '@/components/console/SiteBuilderView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -40,7 +41,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder'
 
 interface McpHealth {
   version?: string
@@ -492,7 +493,7 @@ export default function ConsolePage() {
     }
     // External pages — navigate away from console
     if (v === 'terminal') { window.location.href = '/console/terminal'; return }
-    if (v === 'site-builder') { window.location.href = '/console/site-builder'; return }
+    if (v === 'site-builder') { setView('site-builder'); setMobileMenuOpen(false); return }
     setView(v as View)
     if (v !== 'vault') {
       setVaultService(null)
@@ -861,6 +862,13 @@ export default function ConsolePage() {
           {visitedViews.has('seo') && (
             <div style={{ display: view === 'seo' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <SeoView />
+            </div>
+          )}
+
+          {/* Site Builder */}
+          {visitedViews.has('site-builder') && (
+            <div style={{ display: view === 'site-builder' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
+              <SiteBuilderView />
             </div>
           )}
         </main>

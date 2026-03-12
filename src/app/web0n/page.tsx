@@ -328,7 +328,8 @@ export default function Web0nLanding() {
           box-shadow:0 20px 50px rgba(126,217,87,0.12),0 0 40px rgba(126,217,87,0.06),0 4px 16px rgba(0,0,0,0.4);
           border-color:rgba(126,217,87,0.3)!important;
         }
-        .w0n-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+        .w0n-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+        .w0n-grid-3>div{min-width:0}
         @media(max-width:960px){.w0n-grid-3{grid-template-columns:repeat(2,1fr)}}
         @media(max-width:600px){.w0n-grid-3{grid-template-columns:1fr}}
         .w0n-cta{
@@ -399,7 +400,7 @@ export default function Web0nLanding() {
         }
       `}</style>
 
-      <article itemScope itemType="https://schema.org/WebPage" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.5rem' }}>
+      <article itemScope itemType="https://schema.org/WebPage" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 1.5rem' }}>
 
         {/* ========== HERO ========== */}
         <header style={{ textAlign: 'center', padding: '4rem 0 0', position: 'relative' }}>
@@ -583,7 +584,7 @@ export default function Web0nLanding() {
               {FEATURES.map((f, i) => (
                 <ScrollReveal key={f.title} delay={i * 80}>
                   <div className="w0n-card" style={{
-                    padding: '1.75rem 1.5rem',
+                    padding: '2rem 2rem 2.25rem',
                     borderRadius: '16px',
                     border: '1px solid rgba(255,255,255,0.06)',
                     background: '#0c0c14',
@@ -591,18 +592,18 @@ export default function Web0nLanding() {
                     height: '100%',
                   }}>
                     <div style={{
-                      width: 52, height: 52, borderRadius: '14px',
+                      width: 56, height: 56, borderRadius: '14px',
                       background: 'rgba(126,217,87,0.06)',
                       border: '1px solid rgba(126,217,87,0.1)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      marginBottom: '1rem',
+                      marginBottom: '1.15rem',
                     }}>
                       <FeatureIcon icon={f.icon} />
                     </div>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.6rem', color: '#fff' }}>
                       {f.title}
                     </h3>
-                    <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                       {f.desc}
                     </p>
                   </div>
@@ -694,7 +695,7 @@ export default function Web0nLanding() {
                 return (
                   <ScrollReveal key={page.name} delay={i * 60}>
                     <div className="w0n-card" style={{
-                      padding: '1.75rem 1.5rem',
+                      padding: '2rem 2rem 2.25rem',
                       borderRadius: '16px',
                       border: '1px solid rgba(255,255,255,0.06)',
                       background: '#0c0c14',
@@ -702,18 +703,18 @@ export default function Web0nLanding() {
                       height: '100%',
                     }}>
                       <div style={{
-                        width: 52, height: 52, borderRadius: '14px',
+                        width: 56, height: 56, borderRadius: '14px',
                         background: 'rgba(126,217,87,0.06)',
                         border: '1px solid rgba(126,217,87,0.1)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        marginBottom: '1rem',
+                        marginBottom: '1.15rem',
                       }}>
                         <PageIcon icon={icons[i]} />
                       </div>
-                      <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.6rem', color: '#fff' }}>
                         {page.name}
                       </h3>
-                      <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+                      <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                         {page.desc}
                       </p>
                     </div>
@@ -722,7 +723,7 @@ export default function Web0nLanding() {
               })}
               <ScrollReveal delay={PAGES.length * 60}>
                 <div className="w0n-card" style={{
-                  padding: '1.75rem 1.5rem',
+                  padding: '2rem 2rem 2.25rem',
                   borderRadius: '16px',
                   border: '1px solid rgba(126, 217, 87, 0.2)',
                   background: '#0c0c14',
@@ -730,18 +731,18 @@ export default function Web0nLanding() {
                   height: '100%',
                 }}>
                   <div style={{
-                    width: 52, height: 52, borderRadius: '14px',
+                    width: 56, height: 56, borderRadius: '14px',
                     background: 'rgba(126,217,87,0.1)',
                     border: '1px solid rgba(126,217,87,0.2)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    marginBottom: '1rem',
+                    marginBottom: '1.15rem',
                   }}>
                     <PageIcon icon="crm" />
                   </div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.6rem', color: '#7ed957' }}>
                     + CRM Sub-Account
                   </h3>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                     Starter-tier CRM with contact management, booking calendar, lead capture forms, and pipeline tracking &mdash; included at no extra cost.
                   </p>
                 </div>

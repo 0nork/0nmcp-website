@@ -4,6 +4,7 @@ import Link from 'next/link'
 import WebFactory from '@/components/web0n/WebFactory'
 import ExitIntent from '@/components/web0n/ExitIntent'
 import { ScrollReveal, CountUp, RotatingText } from '@/components/web0n/Interactives'
+import GlassTiltCard from '@/components/web0n/GlassTiltCard'
 
 export const metadata: Metadata = {
   title: 'web0n — Professional Business Websites Built in 5-7 Days | $1,997 Flat Rate',
@@ -357,27 +358,7 @@ export default function Web0nLanding() {
           border-color:rgba(126,217,87,0.3)!important;
           box-shadow:0 4px 24px rgba(126,217,87,0.06);
         }
-        .w0n-crm-card{
-          position:relative;
-          transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;
-        }
-        .w0n-crm-card:hover{
-          transform:translateY(-6px) scale(1.02);
-          box-shadow:0 20px 50px rgba(0,0,0,0.3);
-        }
-        .w0n-crm-card::before{
-          content:'';
-          position:absolute;inset:-1px;
-          border-radius:inherit;padding:1px;
-          background:var(--crm-grad);
-          -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-          mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-          -webkit-mask-composite:xor;
-          mask-composite:exclude;
-          opacity:0.3;
-          transition:opacity .3s ease;
-        }
-        .w0n-crm-card:hover::before{opacity:0.7}
+        /* CRM cards use GlassTiltCard component for hover effects */
         .w0n-stat-card{
           transition:transform .3s ease,box-shadow .3s ease;
         }
@@ -395,8 +376,8 @@ export default function Web0nLanding() {
           50%{transform:translateY(-8px)}
         }
         @media(prefers-reduced-motion:reduce){
-          .w0n-card,.w0n-cta,.w0n-crm-card,.w0n-stat-card,.w0n-step-num,.w0n-faq{transition:none!important}
-          .w0n-card:hover,.w0n-crm-card:hover,.w0n-stat-card:hover{transform:none!important}
+          .w0n-card,.w0n-cta,.w0n-stat-card,.w0n-step-num,.w0n-faq{transition:none!important}
+          .w0n-card:hover,.w0n-stat-card:hover{transform:none!important}
         }
       `}</style>
 
@@ -647,8 +628,9 @@ export default function Web0nLanding() {
             }}>
               {CRM_DATA.map((crm, i) => (
                 <ScrollReveal key={crm.title} delay={i * 100}>
-                  <div
-                    className="w0n-crm-card"
+                  <GlassTiltCard
+                    g1={crm.g1}
+                    g2={crm.g2}
                     style={{
                       padding: '2rem 2rem 2.25rem',
                       borderRadius: '16px',
@@ -656,8 +638,7 @@ export default function Web0nLanding() {
                       border: '1px solid rgba(255,255,255,0.06)',
                       boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
                       height: '100%',
-                      '--crm-grad': `linear-gradient(135deg, ${crm.g1}, ${crm.g2})`,
-                    } as React.CSSProperties}
+                    }}
                   >
                     <div style={{ marginBottom: '1.15rem', filter: `drop-shadow(0 4px 12px ${crm.g1}22)` }}>
                       <CrmIcon index={i} g1={crm.g1} g2={crm.g2} />
@@ -674,7 +655,7 @@ export default function Web0nLanding() {
                     <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                       {crm.desc}
                     </p>
-                  </div>
+                  </GlassTiltCard>
                 </ScrollReveal>
               ))}
             </div>

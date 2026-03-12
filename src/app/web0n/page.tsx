@@ -642,14 +642,14 @@ export default function Web0nLanding() {
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '1.25rem',
+              gap: '1.5rem',
             }}>
               {CRM_DATA.map((crm, i) => (
                 <ScrollReveal key={crm.title} delay={i * 100}>
                   <div
                     className="w0n-crm-card"
                     style={{
-                      padding: '1.75rem 1.5rem',
+                      padding: '2rem 2rem 2.25rem',
                       borderRadius: '16px',
                       background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
                       border: '1px solid rgba(255,255,255,0.06)',
@@ -658,11 +658,11 @@ export default function Web0nLanding() {
                       '--crm-grad': `linear-gradient(135deg, ${crm.g1}, ${crm.g2})`,
                     } as React.CSSProperties}
                   >
-                    <div style={{ marginBottom: '1rem', filter: `drop-shadow(0 4px 12px ${crm.g1}22)` }}>
+                    <div style={{ marginBottom: '1.15rem', filter: `drop-shadow(0 4px 12px ${crm.g1}22)` }}>
                       <CrmIcon index={i} g1={crm.g1} g2={crm.g2} />
                     </div>
                     <h3 style={{
-                      fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.4rem',
+                      fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
                       background: `linear-gradient(135deg, ${crm.g1}, ${crm.g2})`,
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
@@ -670,7 +670,7 @@ export default function Web0nLanding() {
                     }}>
                       {crm.title}
                     </h3>
-                    <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                       {crm.desc}
                     </p>
                   </div>

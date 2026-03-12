@@ -7,11 +7,11 @@ export const metadata: Metadata = {
     default: 'web0n — Professional Websites Built in Days',
     template: '%s | web0n',
   },
-  description: 'Your business website, built in days, not months. 5-page professional website with CRM, booking, and SEO — $1,997.',
+  description: 'Your business website, built in days, not months. 5-page professional website with CRM, booking, and SEO — $1,997 flat rate.',
   metadataBase: new URL('https://web0n.com'),
   icons: {
-    icon: '/brand/icons/web0n.svg',
-    apple: '/brand/icon-green.png',
+    icon: '/brand/web0n-icon.jpg',
+    apple: '/brand/web0n-icon.jpg',
   },
   openGraph: {
     title: 'web0n — Professional Websites Built in Days',
@@ -31,47 +31,38 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
         top: 0,
         zIndex: 50,
         borderBottom: '1px solid var(--border)',
-        background: 'rgba(10, 10, 15, 0.9)',
-        backdropFilter: 'blur(12px)',
+        background: 'rgba(10, 10, 15, 0.92)',
+        backdropFilter: 'blur(16px)',
       }}>
         <div style={{
           maxWidth: 1200,
           margin: '0 auto',
-          padding: '0.75rem 1.5rem',
+          padding: '0.6rem 1.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Image
-              src="/brand/icons/web0n.svg"
+              src="/brand/web0n-logo.png"
               alt="web0n"
-              width={32}
-              height={32}
+              width={120}
+              height={38}
+              priority
               style={{ display: 'block' }}
             />
-            <span style={{
-              fontSize: '1.4rem',
-              fontWeight: 700,
-              fontFamily: 'var(--font-display)',
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              web0n
-            </span>
           </Link>
           <Link
             href="/onboard"
             style={{
-              padding: '0.5rem 1.25rem',
+              padding: '0.45rem 1.15rem',
               borderRadius: '8px',
               background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
               color: '#0a0a0f',
-              fontWeight: 600,
-              fontSize: '0.875rem',
+              fontWeight: 700,
+              fontSize: '0.85rem',
               textDecoration: 'none',
-              transition: 'opacity 0.2s',
+              transition: 'opacity 0.15s',
             }}
           >
             Get Started
@@ -93,11 +84,11 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
             <Image
-              src="/brand/icon-green.png"
+              src="/brand/web0n-icon.jpg"
               alt="0n"
               width={20}
               height={20}
-              style={{ display: 'block', borderRadius: 4 }}
+              style={{ display: 'block', borderRadius: 5 }}
             />
             <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
               Powered by <a href="https://0nmcp.com" style={{ color: '#7ed957', textDecoration: 'none', fontWeight: 500 }}>0nMCP</a>

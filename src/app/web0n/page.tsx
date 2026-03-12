@@ -136,12 +136,12 @@ const STEPS = [
 ]
 
 const FEATURES = [
-  { title: 'Live in 5-7 Days', desc: 'Not weeks. Not months. Your professional website is live within one business week.' },
-  { title: 'Human-Reviewed', desc: 'Every site is built with AI assistance and reviewed by a real person for quality and accuracy.' },
-  { title: 'CRM Included', desc: 'Starter-tier CRM with contact management, booking, forms, and pipeline tracking at no extra cost.' },
-  { title: 'SEO-Optimized', desc: 'Built-in search engine optimization so customers can find you on Google from day one.' },
-  { title: 'Mobile-First', desc: 'Responsive design tested on phones, tablets, and desktops. Perfect on every screen.' },
-  { title: 'No Hidden Fees', desc: '$1,997 flat rate covers everything. No surprise charges, no monthly build fees.' },
+  { title: 'Live in 5-7 Days', desc: 'Not weeks. Not months. Your professional website is live within one business week.', icon: 'bolt' },
+  { title: 'Human-Reviewed', desc: 'Every site is built with AI assistance and reviewed by a real person for quality and accuracy.', icon: 'eye' },
+  { title: 'CRM Included', desc: 'Starter-tier CRM with contact management, booking, forms, and pipeline tracking at no extra cost.', icon: 'layers' },
+  { title: 'SEO-Optimized', desc: 'Built-in search engine optimization so customers can find you on Google from day one.', icon: 'search' },
+  { title: 'Mobile-First', desc: 'Responsive design tested on phones, tablets, and desktops. Perfect on every screen.', icon: 'phone' },
+  { title: 'No Hidden Fees', desc: '$1,997 flat rate covers everything. No surprise charges, no monthly build fees.', icon: 'shield' },
 ]
 
 const CRM_DATA = [
@@ -172,6 +172,60 @@ const FAQS = [
   { q: 'What is included in the $1,997 price?', a: 'Everything: 5 pages, mobile-responsive design, SEO optimization, contact forms, Google Maps, online booking integration, CRM sub-account, 2 rounds of revisions, and hosting. Zero hidden fees.' },
   { q: 'Do I need to provide hosting or a domain?', a: 'Hosting is included. If you already have a domain, we\'ll connect it. If not, we can help you purchase one (domain registration cost is separate, typically $10-15/year).' },
 ]
+
+/* Feature Icons — clean line art */
+function FeatureIcon({ icon }: { icon: string }) {
+  const c = '#7ed957'
+  const props = { width: 36, height: 36, viewBox: '0 0 36 36', fill: 'none', 'aria-hidden': true as const }
+  switch (icon) {
+    case 'bolt': return (
+      <svg {...props}><path d="M20 4L8 20h8l-2 12 14-18h-9l3-10z" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="rgba(126,217,87,0.1)" /></svg>
+    )
+    case 'eye': return (
+      <svg {...props}><path d="M3 18s5-10 15-10 15 10 15 10-5 10-15 10S3 18 3 18z" stroke={c} strokeWidth="2" fill="none" /><circle cx="18" cy="18" r="5" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.15)" /><circle cx="18" cy="18" r="2" fill={c} opacity="0.5" /></svg>
+    )
+    case 'layers': return (
+      <svg {...props}><path d="M18 4l14 8-14 8L4 12l14-8z" stroke={c} strokeWidth="2" strokeLinejoin="round" fill="rgba(126,217,87,0.08)" /><path d="M4 18l14 8 14-8" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 24l14 8 14-8" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    )
+    case 'search': return (
+      <svg {...props}><circle cx="16" cy="16" r="10" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.08)" /><line x1="24" y1="24" x2="32" y2="32" stroke={c} strokeWidth="2.5" strokeLinecap="round" /><path d="M13 13l6 6M19 13l-6 6" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0" /><circle cx="16" cy="16" r="3" fill={c} opacity="0.2" /></svg>
+    )
+    case 'phone': return (
+      <svg {...props}><rect x="9" y="3" width="18" height="30" rx="4" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.06)" /><line x1="15" y1="28" x2="21" y2="28" stroke={c} strokeWidth="2" strokeLinecap="round" /><rect x="12" y="7" width="12" height="16" rx="1" fill="rgba(126,217,87,0.1)" /></svg>
+    )
+    case 'shield': return (
+      <svg {...props}><path d="M18 3L4 9v8c0 8 6 14 14 16 8-2 14-8 14-16V9L18 3z" stroke={c} strokeWidth="2" strokeLinejoin="round" fill="rgba(126,217,87,0.06)" /><path d="M13 18l3 3 7-7" stroke={c} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    )
+    default: return null
+  }
+}
+
+/* Page Icons — for What You Get section */
+function PageIcon({ icon }: { icon: string }) {
+  const c = '#7ed957'
+  const props = { width: 36, height: 36, viewBox: '0 0 36 36', fill: 'none', 'aria-hidden': true as const }
+  switch (icon) {
+    case 'home': return (
+      <svg {...props}><path d="M5 18L18 6l13 12" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M8 16v14h8v-8h4v8h8V16" stroke={c} strokeWidth="2" strokeLinejoin="round" fill="rgba(126,217,87,0.06)" /></svg>
+    )
+    case 'services': return (
+      <svg {...props}><rect x="4" y="4" width="12" height="12" rx="3" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.08)" /><rect x="20" y="4" width="12" height="12" rx="3" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.08)" /><rect x="4" y="20" width="12" height="12" rx="3" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.08)" /><rect x="20" y="20" width="12" height="12" rx="3" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.08)" /></svg>
+    )
+    case 'contact': return (
+      <svg {...props}><rect x="4" y="8" width="28" height="20" rx="3" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.06)" /><path d="M4 12l14 9 14-9" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    )
+    case 'booking': return (
+      <svg {...props}><rect x="5" y="8" width="26" height="24" rx="3" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.06)" /><line x1="5" y1="16" x2="31" y2="16" stroke={c} strokeWidth="2" /><line x1="13" y1="4" x2="13" y2="12" stroke={c} strokeWidth="2" strokeLinecap="round" /><line x1="23" y1="4" x2="23" y2="12" stroke={c} strokeWidth="2" strokeLinecap="round" /><path d="M14 23l3 3 6-6" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    )
+    case 'pricing': return (
+      <svg {...props}><circle cx="18" cy="18" r="14" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.06)" /><path d="M18 8v20M13 12h8a3 3 0 010 6h-6a3 3 0 000 6h8" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    )
+    case 'crm': return (
+      <svg {...props}><rect x="4" y="4" width="28" height="28" rx="4" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.1)" /><circle cx="14" cy="15" r="4" stroke={c} strokeWidth="1.5" /><circle cx="24" cy="15" r="3" stroke={c} strokeWidth="1.5" opacity="0.6" /><path d="M7 28c0-4.5 3-7 7-7s7 2.5 7 7" stroke={c} strokeWidth="1.5" strokeLinecap="round" /><path d="M24 28c0-3 1.5-4.5 4-5" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.6" /></svg>
+    )
+    default: return null
+  }
+}
 
 /* SVG CRM Icons — each with unique gradient */
 function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
@@ -267,13 +321,16 @@ export default function Web0nLanding() {
       {/* ===== GLOBAL HOVER / TRANSITION STYLES ===== */}
       <style>{`
         .w0n-card{
-          transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease,border-color .3s ease;
+          transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease,border-color .35s ease;
         }
         .w0n-card:hover{
-          transform:translateY(-6px);
-          box-shadow:0 16px 48px rgba(126,217,87,0.1),0 4px 16px rgba(0,0,0,0.3);
+          transform:translateY(-8px);
+          box-shadow:0 20px 50px rgba(126,217,87,0.12),0 0 40px rgba(126,217,87,0.06),0 4px 16px rgba(0,0,0,0.4);
           border-color:rgba(126,217,87,0.3)!important;
         }
+        .w0n-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+        @media(max-width:960px){.w0n-grid-3{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:600px){.w0n-grid-3{grid-template-columns:1fr}}
         .w0n-cta{
           transition:transform .2s ease,box-shadow .2s ease;
         }
@@ -522,25 +579,30 @@ export default function Web0nLanding() {
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               We combine AI efficiency with human quality control to deliver professional websites faster than anyone else.
             </p>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '1rem',
-            }}>
+            <div className="w0n-grid-3">
               {FEATURES.map((f, i) => (
                 <ScrollReveal key={f.title} delay={i * 80}>
                   <div className="w0n-card" style={{
-                    padding: '1.5rem 1.5rem',
-                    borderRadius: '14px',
-                    border: '1px solid var(--border)',
-                    background: 'var(--bg-card)',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                    padding: '1.75rem 1.5rem',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                    background: '#0c0c14',
+                    boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
                     height: '100%',
                   }}>
-                    <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.4rem', color: '#7ed957' }}>
+                    <div style={{
+                      width: 52, height: 52, borderRadius: '14px',
+                      background: 'rgba(126,217,87,0.06)',
+                      border: '1px solid rgba(126,217,87,0.1)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      marginBottom: '1rem',
+                    }}>
+                      <FeatureIcon icon={f.icon} />
+                    </div>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>
                       {f.title}
                     </h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
                       {f.desc}
                     </p>
                   </div>
@@ -626,43 +688,60 @@ export default function Web0nLanding() {
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               5 professionally designed pages plus a CRM sub-account &mdash; everything to look great and capture leads from day one.
             </p>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1rem',
-            }}>
-              {PAGES.map((page, i) => (
-                <ScrollReveal key={page.name} delay={i * 60}>
-                  <div className="w0n-card" style={{
-                    padding: '1.5rem',
-                    borderRadius: '14px',
-                    border: '1px solid var(--border)',
-                    background: 'var(--bg-card)',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
-                    height: '100%',
-                  }}>
-                    <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
-                      {page.name}
-                    </h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                      {page.desc}
-                    </p>
-                  </div>
-                </ScrollReveal>
-              ))}
+            <div className="w0n-grid-3">
+              {PAGES.map((page, i) => {
+                const icons = ['home', 'services', 'contact', 'booking', 'pricing'] as const
+                return (
+                  <ScrollReveal key={page.name} delay={i * 60}>
+                    <div className="w0n-card" style={{
+                      padding: '1.75rem 1.5rem',
+                      borderRadius: '16px',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      background: '#0c0c14',
+                      boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
+                      height: '100%',
+                    }}>
+                      <div style={{
+                        width: 52, height: 52, borderRadius: '14px',
+                        background: 'rgba(126,217,87,0.06)',
+                        border: '1px solid rgba(126,217,87,0.1)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        marginBottom: '1rem',
+                      }}>
+                        <PageIcon icon={icons[i]} />
+                      </div>
+                      <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>
+                        {page.name}
+                      </h3>
+                      <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+                        {page.desc}
+                      </p>
+                    </div>
+                  </ScrollReveal>
+                )
+              })}
               <ScrollReveal delay={PAGES.length * 60}>
                 <div className="w0n-card" style={{
-                  padding: '1.5rem',
-                  borderRadius: '14px',
-                  border: '1px solid rgba(126, 217, 87, 0.3)',
-                  background: 'rgba(126, 217, 87, 0.04)',
-                  boxShadow: '0 2px 16px rgba(126,217,87,0.06)',
+                  padding: '1.75rem 1.5rem',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(126, 217, 87, 0.2)',
+                  background: '#0c0c14',
+                  boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
                   height: '100%',
                 }}>
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
+                  <div style={{
+                    width: 52, height: 52, borderRadius: '14px',
+                    background: 'rgba(126,217,87,0.1)',
+                    border: '1px solid rgba(126,217,87,0.2)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    marginBottom: '1rem',
+                  }}>
+                    <PageIcon icon="crm" />
+                  </div>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
                     + CRM Sub-Account
                   </h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                  <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
                     Starter-tier CRM with contact management, booking calendar, lead capture forms, and pipeline tracking &mdash; included at no extra cost.
                   </p>
                 </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { RequestIntegrationView } from './RequestIntegrationView'
 
 type AccountTab = 'profile' | 'requests' | 'history'
@@ -49,6 +50,13 @@ export function AccountView() {
   const [bio, setBio] = useState('')
   const [defaultView, setDefaultView] = useState('dashboard')
   const [notifications, setNotifications] = useState(true)
+
+  // Password change
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [passwordSaving, setPasswordSaving] = useState(false)
+  const [passwordMsg, setPasswordMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   const fetchProfile = useCallback(async () => {
     try {
@@ -131,6 +139,70 @@ export function AccountView() {
     await fetch('/api/auth/signout', { method: 'POST' })
     window.location.href = '/login'
   }
+
+  const handlePasswordChange = async () => {
+    setPasswordMsg(null)
+
+    if (newPassword.length < 8) {
+      setPasswordMsg({ type: 'error', text: 'Password must be at least 8 characters.' })
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordMsg({ type: 'error', text: 'Passwords do not match.' })
+      return
+    }
+
+    setPasswordSaving(true)
+    try {
+      const supabase = createSupabaseBrowser()
+      if (!supabase) {
+        setPasswordMsg({ type: 'error', text: 'Auth not configured.' })
+        return
+      }
+
+      // Re-authenticate with current password to verify identity
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user?.email) {
+        setPasswordMsg({ type: 'error', text: 'Unable to verify your account.' })
+        return
+      }
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: currentPassword,
+      })
+      if (signInError) {
+        setPasswordMsg({ type: 'error', text: 'Current password is incorrect.' })
+        return
+      }
+
+      // Update to new password
+      const { error } = await supabase.auth.updateUser({ password: newPassword })
+      if (error) {
+        setPasswordMsg({ type: 'error', text: error.message })
+        return
+      }
+
+      setPasswordMsg({ type: 'success', text: 'Password updated successfully.' })
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } catch {
+      setPasswordMsg({ type: 'error', text: 'Something went wrong. Try again.' })
+    } finally {
+      setPasswordSaving(false)
+    }
+  }
+
+  const passwordStrength = (() => {
+    if (!newPassword) return 0
+    let s = 0
+    if (newPassword.length >= 8) s++
+    if (/[A-Z]/.test(newPassword) && /[a-z]/.test(newPassword)) s++
+    if (/\d/.test(newPassword)) s++
+    if (/[^A-Za-z0-9]/.test(newPassword)) s++
+    return s
+  })()
 
   if (loading) {
     return (
@@ -490,6 +562,102 @@ export function AccountView() {
           <span style={{ fontSize: 13, color: notifications ? 'var(--text-primary)' : 'var(--text-muted)' }}>
             Email notifications
           </span>
+        </div>
+      </div>
+
+      {/* Change Password */}
+      <div style={cardStyle}>
+        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20, marginTop: 0 }}>Change Password</h2>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 400 }}>
+          <div>
+            <div style={labelStyle}>Current Password</div>
+            <input
+              type="password"
+              style={inputStyle}
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="Enter current password"
+              autoComplete="current-password"
+            />
+          </div>
+          <div>
+            <div style={labelStyle}>New Password</div>
+            <input
+              type="password"
+              style={inputStyle}
+              value={newPassword}
+              onChange={(e) => { setNewPassword(e.target.value); setPasswordMsg(null) }}
+              placeholder="At least 8 characters"
+              autoComplete="new-password"
+            />
+            {newPassword && (
+              <div style={{ display: 'flex', gap: 4, marginTop: 8 }}>
+                {[1, 2, 3, 4].map((level) => (
+                  <div
+                    key={level}
+                    style={{
+                      flex: 1,
+                      height: 4,
+                      borderRadius: 2,
+                      backgroundColor: passwordStrength >= level
+                        ? level <= 1 ? '#ff3b30' : level <= 2 ? '#ff9500' : level <= 3 ? '#ffcc00' : '#34c759'
+                        : 'var(--border)',
+                      transition: 'background-color 0.2s',
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+          <div>
+            <div style={labelStyle}>Confirm New Password</div>
+            <input
+              type="password"
+              style={inputStyle}
+              value={confirmPassword}
+              onChange={(e) => { setConfirmPassword(e.target.value); setPasswordMsg(null) }}
+              placeholder="Re-enter new password"
+              autoComplete="new-password"
+            />
+          </div>
+
+          {passwordMsg && (
+            <div style={{
+              padding: '10px 14px',
+              borderRadius: 10,
+              fontSize: 13,
+              fontWeight: 500,
+              backgroundColor: passwordMsg.type === 'success' ? 'rgba(52,199,89,0.1)' : 'rgba(255,59,48,0.1)',
+              color: passwordMsg.type === 'success' ? '#34c759' : '#ff3b30',
+              border: `1px solid ${passwordMsg.type === 'success' ? 'rgba(52,199,89,0.3)' : 'rgba(255,59,48,0.3)'}`,
+            }}>
+              {passwordMsg.text}
+            </div>
+          )}
+
+          <button
+            onClick={handlePasswordChange}
+            disabled={passwordSaving || !currentPassword || !newPassword || !confirmPassword}
+            style={{
+              padding: '10px 24px',
+              borderRadius: 10,
+              border: 'none',
+              background: (!currentPassword || !newPassword || !confirmPassword)
+                ? 'var(--border)'
+                : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
+              color: (!currentPassword || !newPassword || !confirmPassword) ? 'var(--text-muted)' : '#0a0a0f',
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: (passwordSaving || !currentPassword || !newPassword || !confirmPassword) ? 'not-allowed' : 'pointer',
+              opacity: passwordSaving ? 0.6 : 1,
+              fontFamily: 'var(--font-display)',
+              transition: 'opacity 0.2s',
+              alignSelf: 'flex-start',
+            }}
+          >
+            {passwordSaving ? 'Updating...' : 'Update Password'}
+          </button>
         </div>
       </div>
 

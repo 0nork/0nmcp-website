@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { STATS } from '@/data/stats'
@@ -6,6 +7,8 @@ import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
 import Providers from '@/components/Providers'
 import OnCallLoader from '@/components/oncall/OnCallLoader'
+
+const WEB0N_HOSTS = ['web0n.com', 'www.web0n.com']
 
 export const metadata: Metadata = {
   title: '0nMCP — Universal AI API Orchestrator',
@@ -45,11 +48,15 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.0nmcp.com'),
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const headersList = await headers()
+  const host = headersList.get('host')?.split(':')[0] || ''
+  const isWeb0n = WEB0N_HOSTS.includes(host)
+
   return (
     <html lang="en" dir="ltr">
       <head>
@@ -69,8 +76,8 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <Providers>
-          <SiteChrome>{children}</SiteChrome>
-          <OnCallLoader />
+          <SiteChrome isWeb0n={isWeb0n}>{children}</SiteChrome>
+          {!isWeb0n && <OnCallLoader />}
         </Providers>
         <Analytics />
         <SpeedInsights />

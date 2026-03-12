@@ -400,7 +400,7 @@ export default function Web0nLanding() {
         }
       `}</style>
 
-      <article itemScope itemType="https://schema.org/WebPage" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 1.5rem' }}>
+      <article itemScope itemType="https://schema.org/WebPage" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 1.5rem', width: '100%', boxSizing: 'border-box' }}>
 
         {/* ========== HERO ========== */}
         <header style={{ textAlign: 'center', padding: '4rem 0 0', position: 'relative' }}>
@@ -580,7 +580,7 @@ export default function Web0nLanding() {
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               We combine AI efficiency with human quality control to deliver professional websites faster than anyone else.
             </p>
-            <div className="w0n-grid-3">
+            <div className="w0n-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', width: '100%' }}>
               {FEATURES.map((f, i) => (
                 <ScrollReveal key={f.title} delay={i * 80}>
                   <div className="w0n-card" style={{
@@ -643,6 +643,7 @@ export default function Web0nLanding() {
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
               gap: '1.5rem',
+              width: '100%',
             }}>
               {CRM_DATA.map((crm, i) => (
                 <ScrollReveal key={crm.title} delay={i * 100}>
@@ -689,7 +690,7 @@ export default function Web0nLanding() {
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               5 professionally designed pages plus a CRM sub-account &mdash; everything to look great and capture leads from day one.
             </p>
-            <div className="w0n-grid-3">
+            <div className="w0n-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', width: '100%' }}>
               {PAGES.map((page, i) => {
                 const icons = ['home', 'services', 'contact', 'booking', 'pricing'] as const
                 return (

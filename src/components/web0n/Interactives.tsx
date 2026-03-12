@@ -31,6 +31,8 @@ export function ScrollReveal({ children, delay = 0, className }: { children: Rea
         transform: visible ? 'translateY(0)' : 'translateY(32px)',
         transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
         willChange: 'opacity, transform',
+        width: '100%',
+        minWidth: 0,
       }}
     >
       {children}

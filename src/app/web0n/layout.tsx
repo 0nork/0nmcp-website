@@ -37,7 +37,7 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <Link href="/web0n" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <span style={{
               fontSize: '1.5rem',
               fontWeight: 700,
@@ -50,7 +50,7 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
             </span>
           </Link>
           <Link
-            href="/web0n/onboard"
+            href="/onboard"
             style={{
               padding: '0.5rem 1.25rem',
               borderRadius: '8px',
@@ -83,7 +83,7 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
             &copy; {new Date().getFullYear()} RocketOpp LLC. All rights reserved.
           </p>
           <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', gap: '1.5rem' }}>
-            <Link href="/web0n" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Home</Link>
+            <Link href="/" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Home</Link>
             <Link href="/legal/privacy" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Privacy</Link>
             <Link href="/legal/terms" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Terms</Link>
             <a href="https://0nmcp.com" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Powered by 0nMCP</a>

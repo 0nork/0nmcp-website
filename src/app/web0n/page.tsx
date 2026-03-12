@@ -126,7 +126,7 @@ export default function Web0nLanding() {
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
           <Link
-            href="/web0n/onboard"
+            href="/onboard"
             style={{
               padding: '0.85rem 2rem',
               borderRadius: '10px',
@@ -300,7 +300,7 @@ export default function Web0nLanding() {
             ))}
           </ul>
           <Link
-            href="/web0n/onboard"
+            href="/onboard"
             style={{
               display: 'block',
               padding: '0.85rem',

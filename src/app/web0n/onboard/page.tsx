@@ -196,7 +196,7 @@ export default function Web0nOnboard() {
       if (data.invoiceUrl) {
         window.location.href = data.invoiceUrl
       } else {
-        router.push('/web0n/portal')
+        router.push('/portal')
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')

@@ -38,8 +38,8 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next()
     }
 
-    // Already targeting web0n API routes — pass through
-    if (pathname.startsWith('/api/web0n')) {
+    // Already targeting web0n routes — pass through (prevent double-prefix)
+    if (pathname.startsWith('/api/web0n') || pathname.startsWith('/web0n')) {
       return NextResponse.next()
     }
 

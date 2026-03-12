@@ -118,7 +118,7 @@ export default function Web0nPortal() {
           You haven&apos;t started a web0n project yet. Get started and we&apos;ll build your website.
         </p>
         <a
-          href="/web0n/onboard"
+          href="/onboard"
           style={{
             display: 'inline-block',
             padding: '0.75rem 2rem',

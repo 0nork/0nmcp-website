@@ -25,6 +25,7 @@ interface Project {
   deposit_paid_at?: string
   final_paid_at?: string
   build_brief?: Record<string, unknown>
+  generated_site?: Record<string, string>
   site_url?: string
   admin_notes?: string
   created_at: string
@@ -64,6 +65,8 @@ export default function Web0nAdmin() {
   const [revisions, setRevisions] = useState<Revision[]>([])
   const [loading, setLoading] = useState(true)
   const [generatingBrief, setGeneratingBrief] = useState(false)
+  const [buildingSite, setBuildingSite] = useState(false)
+  const [previewPage, setPreviewPage] = useState<string | null>(null)
   const [adminNotes, setAdminNotes] = useState('')
   const [siteUrl, setSiteUrl] = useState('')
 
@@ -138,6 +141,28 @@ export default function Web0nAdmin() {
       // silent
     } finally {
       setGeneratingBrief(false)
+    }
+  }
+
+  async function buildSite() {
+    if (!selected) return
+    setBuildingSite(true)
+    try {
+      const res = await fetch('/api/web0n/builder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectId: selected.id }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setSelected(prev => prev ? { ...prev, generated_site: { _pages: data.pages } } : null)
+        setPreviewPage('index.html')
+        loadProjects()
+      }
+    } catch {
+      // silent
+    } finally {
+      setBuildingSite(false)
     }
   }
 
@@ -331,6 +356,63 @@ export default function Web0nAdmin() {
                     {JSON.stringify(selected.build_brief, null, 2)}
                   </pre>
                 </details>
+              )}
+            </div>
+
+            {/* Site Builder */}
+            <div style={{ marginBottom: '1rem' }}>
+              <button
+                onClick={buildSite}
+                disabled={buildingSite}
+                style={{
+                  width: '100%',
+                  padding: '0.6rem',
+                  borderRadius: '8px',
+                  background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+                  color: '#fff',
+                  border: 'none',
+                  cursor: buildingSite ? 'not-allowed' : 'pointer',
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.85rem',
+                  opacity: buildingSite ? 0.7 : 1,
+                }}
+              >
+                {buildingSite ? 'Building...' : selected.generated_site ? 'Rebuild Site' : 'Build Site'}
+              </button>
+              {(selected.generated_site || previewPage) && (
+                <div style={{ marginTop: '0.5rem' }}>
+                  <div style={{ display: 'flex', gap: '0.35rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                    {['index.html', 'services.html', 'contact.html', 'booking.html', 'pricing.html'].map(page => (
+                      <button
+                        key={page}
+                        onClick={() => setPreviewPage(page)}
+                        style={{
+                          padding: '0.25rem 0.5rem',
+                          borderRadius: '4px',
+                          border: `1px solid ${previewPage === page ? '#3b82f6' : 'var(--border)'}`,
+                          background: previewPage === page ? 'rgba(59,130,246,0.1)' : 'transparent',
+                          color: previewPage === page ? '#3b82f6' : 'var(--text-muted)',
+                          cursor: 'pointer',
+                          fontSize: '0.7rem',
+                          fontFamily: 'var(--font-display)',
+                        }}
+                      >
+                        {page.replace('.html', '')}
+                      </button>
+                    ))}
+                  </div>
+                  {previewPage && (
+                    <a
+                      href={`/api/web0n/builder/assets/${selected.id}/${previewPage}`}
+                      target="_blank"
+                      rel="noopener"
+                      style={{ fontSize: '0.8rem', color: '#3b82f6', fontWeight: 500 }}
+                    >
+                      Open {previewPage.replace('.html', '')} in new tab &#8599;
+                    </a>
+                  )}
+                </div>
               )}
             </div>
 

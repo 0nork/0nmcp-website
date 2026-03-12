@@ -359,7 +359,7 @@ export default function Web0nLanding() {
           Tell us about your business. We&apos;ll handle the rest.
         </p>
         <Link
-          href="/web0n/onboard"
+          href="/onboard"
           style={{
             padding: '0.85rem 2.5rem',
             borderRadius: '10px',

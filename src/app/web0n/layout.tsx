@@ -84,8 +84,8 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
           </p>
           <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', gap: '1.5rem' }}>
             <Link href="/" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Home</Link>
-            <Link href="/legal/privacy" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Privacy</Link>
-            <Link href="/legal/terms" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Terms</Link>
+            <a href="https://0nmcp.com/legal/privacy" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Privacy</a>
+            <a href="https://0nmcp.com/legal/terms" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Terms</a>
             <a href="https://0nmcp.com" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none' }}>Powered by 0nMCP</a>
           </div>
         </div>

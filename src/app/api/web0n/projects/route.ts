@@ -3,11 +3,7 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 import { createSupabaseAdmin } from '@/lib/supabase/admin'
 import { createWeb0nContact, createWeb0nOpportunity, createDepositInvoice } from '@/lib/web0n'
 
-// Valid coupon codes — couponCode → { discount: 'full' | number, restrictTo?: string }
-const COUPON_CODES: Record<string, { discount: 'full' | number; restrictTo?: string }> = {
-  '0NFREE': { discount: 'full', restrictTo: 'mike@rocketopp.com' },
-  'OWNER': { discount: 'full', restrictTo: 'mike@rocketopp.com' },
-}
+const DEPOSIT_AMOUNT = 998.50
 
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
@@ -17,6 +13,8 @@ export async function POST(request: NextRequest) {
 
   // Auth is optional — guests can submit projects
   const { data: { user } } = await supabase.auth.getUser()
+  const adminSupabase = createSupabaseAdmin()
+  const db = adminSupabase || supabase
 
   try {
     const body = await request.json()
@@ -33,15 +31,54 @@ export async function POST(request: NextRequest) {
 
     // Validate coupon code if provided
     let isFree = false
+    let discountPercent = 0
+    let discountAmount = 0
+    let validatedCode = ''
+
     if (couponCode) {
-      const coupon = COUPON_CODES[couponCode.toUpperCase()]
-      if (!coupon) {
+      const code = couponCode.toUpperCase().trim()
+
+      const { data: coupon, error: couponErr } = await db
+        .from('web0n_coupons')
+        .select('*')
+        .eq('code', code)
+        .eq('active', true)
+        .single()
+
+      if (couponErr || !coupon) {
         return NextResponse.json({ error: 'Invalid coupon code' }, { status: 400 })
       }
-      if (coupon.restrictTo && coupon.restrictTo.toLowerCase() !== email.toLowerCase()) {
+
+      // Check max uses
+      if (coupon.times_used >= coupon.max_uses) {
+        return NextResponse.json({ error: 'This coupon code has already been redeemed' }, { status: 400 })
+      }
+
+      // Check email restriction
+      if (coupon.restrict_to_email && coupon.restrict_to_email.toLowerCase() !== email.toLowerCase()) {
         return NextResponse.json({ error: 'This coupon code is not valid for your email' }, { status: 400 })
       }
-      isFree = coupon.discount === 'full'
+
+      validatedCode = code
+      if (coupon.discount_type === 'full') {
+        isFree = true
+        discountPercent = 100
+        discountAmount = DEPOSIT_AMOUNT
+      } else if (coupon.discount_type === 'percent') {
+        discountPercent = Number(coupon.discount_value)
+        discountAmount = Math.round(DEPOSIT_AMOUNT * (discountPercent / 100) * 100) / 100
+        if (discountPercent >= 100) isFree = true
+      }
+
+      // Mark coupon as used (atomic increment)
+      await db
+        .from('web0n_coupons')
+        .update({
+          times_used: coupon.times_used + 1,
+          redeemed_by_email: email,
+          redeemed_at: new Date().toISOString(),
+        })
+        .eq('id', coupon.id)
     }
 
     // 1. Create CRM contact
@@ -65,10 +102,11 @@ export async function POST(request: NextRequest) {
         console.error('CRM opportunity creation failed (non-fatal):', err)
       }
 
-      // 3. Create deposit invoice (skip if coupon makes it free)
+      // 3. Create deposit invoice (skip if coupon makes it fully free)
       if (!isFree) {
         try {
-          const invoice = await createDepositInvoice(contact.id, { businessName, email, businessType, phone, address, city, state, zip, websiteUrl, googlePlaceId, googleData, brandColors, logoUrl, tagline, services, specialRequests })
+          const depositDue = DEPOSIT_AMOUNT - discountAmount
+          const invoice = await createDepositInvoice(contact.id, { businessName, email, businessType, phone, address, city, state, zip, websiteUrl, googlePlaceId, googleData, brandColors, logoUrl, tagline, services, specialRequests }, depositDue > 0 ? depositDue : undefined)
           depositInvoiceId = invoice.id
           invoiceUrl = invoice.invoiceUrl
         } catch (err) {
@@ -79,11 +117,8 @@ export async function POST(request: NextRequest) {
       console.error('CRM contact creation failed (non-fatal):', err)
     }
 
-    // 4. Insert project into Supabase (use admin client to bypass RLS for guest users)
-    const adminSupabase = createSupabaseAdmin()
-    const insertClient = adminSupabase || supabase
-
-    const { data: project, error } = await insertClient
+    // 4. Insert project into Supabase
+    const { data: project, error } = await db
       .from('web0n_projects')
       .insert({
         user_id: user?.id || null,
@@ -108,6 +143,8 @@ export async function POST(request: NextRequest) {
         crm_contact_id: crmContactId || null,
         crm_opportunity_id: crmOpportunityId || null,
         deposit_invoice_id: depositInvoiceId || null,
+        coupon_code: validatedCode || null,
+        discount_amount: discountAmount || null,
         ...(isFree ? { deposit_paid_at: new Date().toISOString() } : {}),
       })
       .select()
@@ -122,7 +159,14 @@ export async function POST(request: NextRequest) {
       project,
       invoiceUrl: isFree ? null : invoiceUrl,
       isFree,
-      message: isFree ? 'Project created — no payment required!' : 'Project created successfully',
+      discountPercent,
+      discountAmount,
+      depositDue: isFree ? 0 : DEPOSIT_AMOUNT - discountAmount,
+      message: isFree
+        ? 'Project created — no payment required!'
+        : discountAmount > 0
+          ? `Project created — ${discountPercent}% off applied! Deposit: $${(DEPOSIT_AMOUNT - discountAmount).toFixed(2)}`
+          : 'Project created successfully',
     })
   } catch (err) {
     console.error('Project creation error:', err)

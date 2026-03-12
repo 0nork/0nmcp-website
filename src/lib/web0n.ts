@@ -162,13 +162,18 @@ async function createCrmInvoice(params: {
 
 export async function createDepositInvoice(
   contactId: string,
-  data: Web0nProjectData
+  data: Web0nProjectData,
+  customAmount?: number
 ): Promise<{ id: string; invoiceUrl?: string }> {
+  const amount = customAmount ?? DEPOSIT_AMOUNT
+  const desc = customAmount && customAmount < DEPOSIT_AMOUNT
+    ? `web0n Website Build — Deposit (coupon applied, was $${DEPOSIT_AMOUNT.toFixed(2)})`
+    : 'web0n Website Build — 50% Deposit (5-page professional website)'
   return createCrmInvoice({
     contactId,
     name: `web0n Deposit — ${data.businessName}`,
-    amount: DEPOSIT_AMOUNT,
-    description: 'web0n Website Build — 50% Deposit (5-page professional website)',
+    amount,
+    description: desc,
   })
 }
 

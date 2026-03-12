@@ -90,6 +90,15 @@ export default function Web0nOnboard() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [searchTimeout, setSearchTimeoutState] = useState<NodeJS.Timeout | null>(null)
+  const [couponResult, setCouponResult] = useState<{
+    valid: boolean
+    discountPercent?: number
+    discountAmount?: number
+    depositDue?: number
+    isFree?: boolean
+    error?: string
+  } | null>(null)
+  const [checkingCoupon, setCheckingCoupon] = useState(false)
 
   // Debounced Google Places search
   useEffect(() => {
@@ -116,6 +125,34 @@ export default function Web0nOnboard() {
     return () => clearTimeout(t)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.searchQuery])
+
+  // Debounced coupon code validation
+  useEffect(() => {
+    if (!form.couponCode.trim()) {
+      setCouponResult(null)
+      return
+    }
+    setCheckingCoupon(true)
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/web0n/coupon-check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: form.couponCode, email: form.email }),
+        })
+        if (res.ok) {
+          setCouponResult(await res.json())
+        } else {
+          setCouponResult({ valid: false, error: 'Failed to check coupon' })
+        }
+      } catch {
+        setCouponResult({ valid: false, error: 'Failed to check coupon' })
+      } finally {
+        setCheckingCoupon(false)
+      }
+    }, 500)
+    return () => clearTimeout(t)
+  }, [form.couponCode, form.email])
 
   function selectPlace(place: PlaceResult) {
     const addressParts = place.address?.split(',').map(s => s.trim()) || []
@@ -611,32 +648,57 @@ export default function Web0nOnboard() {
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
               <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Coupon Code</h3>
               <input
-                style={inputStyle}
+                style={{
+                  ...inputStyle,
+                  borderColor: couponResult?.valid ? 'rgba(126, 217, 87, 0.5)' : couponResult && !couponResult.valid ? 'rgba(255, 80, 80, 0.5)' : undefined,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                }}
                 value={form.couponCode}
                 onChange={e => setForm(prev => ({ ...prev, couponCode: e.target.value }))}
                 placeholder="Enter coupon code (optional)"
               />
+              {checkingCoupon && (
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>Checking code...</div>
+              )}
+              {couponResult && !checkingCoupon && (
+                <div style={{
+                  fontSize: '0.8rem',
+                  marginTop: '0.35rem',
+                  color: couponResult.valid ? '#7ed957' : '#ff5050',
+                }}>
+                  {couponResult.valid
+                    ? couponResult.isFree
+                      ? '100% off — no payment required!'
+                      : `${couponResult.discountPercent}% off applied — you save $${couponResult.discountAmount?.toFixed(2)}`
+                    : couponResult.error || 'Invalid coupon code'}
+                </div>
+              )}
             </div>
 
             {/* Price */}
             <div style={{
               padding: '1.25rem',
               borderRadius: '12px',
-              border: '1px solid rgba(126, 217, 87, 0.3)',
+              border: `1px solid ${couponResult?.valid ? 'rgba(126, 217, 87, 0.5)' : 'rgba(126, 217, 87, 0.3)'}`,
               background: 'rgba(126, 217, 87, 0.05)',
               textAlign: 'center',
             }}>
               <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#7ed957' }}>
-                {form.couponCode.toUpperCase() === '0NFREE' || form.couponCode.toUpperCase() === 'OWNER' ? (
+                {couponResult?.valid && couponResult.isFree ? (
                   <><s style={{ opacity: 0.4 }}>$998.50</s> FREE</>
+                ) : couponResult?.valid && couponResult.discountPercent ? (
+                  <><s style={{ opacity: 0.4, fontSize: '1.1rem' }}>$998.50</s>{' '}${couponResult.depositDue?.toFixed(2)} Deposit</>
                 ) : (
                   '$998.50 Deposit'
                 )}
               </div>
               <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                {form.couponCode.toUpperCase() === '0NFREE' || form.couponCode.toUpperCase() === 'OWNER'
+                {couponResult?.valid && couponResult.isFree
                   ? 'Coupon applied — no payment required'
-                  : '50% of $1,997 total — remaining 50% due before launch'}
+                  : couponResult?.valid && couponResult.discountPercent
+                    ? `${couponResult.discountPercent}% off deposit — remaining balance due before launch`
+                    : '50% of $1,997 total — remaining 50% due before launch'}
               </div>
             </div>
           </div>
@@ -704,7 +766,13 @@ export default function Web0nOnboard() {
               opacity: submitting ? 0.7 : 1,
             }}
           >
-            {submitting ? 'Creating project...' : (form.couponCode.toUpperCase() === '0NFREE' || form.couponCode.toUpperCase() === 'OWNER' ? 'Submit — No Payment Required' : 'Submit & Pay $998.50 Deposit')}
+            {submitting
+              ? 'Creating project...'
+              : couponResult?.valid && couponResult.isFree
+                ? 'Submit — No Payment Required'
+                : couponResult?.valid && couponResult.depositDue
+                  ? `Submit & Pay $${couponResult.depositDue.toFixed(2)} Deposit`
+                  : 'Submit & Pay $998.50 Deposit'}
           </button>
         )}
       </div>

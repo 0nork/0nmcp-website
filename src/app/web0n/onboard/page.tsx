@@ -42,6 +42,8 @@ interface FormData {
   specialRequests: string
   // Google listing interest
   interestedInGoogleListing: boolean
+  // Coupon code
+  couponCode: string
 }
 
 const INITIAL_FORM: FormData = {
@@ -60,13 +62,14 @@ const INITIAL_FORM: FormData = {
   googleData: null,
   primaryColor: '#1a1a2e',
   secondaryColor: '#16213e',
-  accentColor: '#ff6b35',
+  accentColor: '#7ed957',
   logoFile: null,
   logoPreview: '',
   tagline: '',
   services: [''],
   specialRequests: '',
   interestedInGoogleListing: false,
+  couponCode: '',
 }
 
 const STEP_TITLES = [
@@ -182,6 +185,7 @@ export default function Web0nOnboard() {
           services: form.services.filter(s => s.trim()),
           specialRequests: form.specialRequests,
           interestedInGoogleListing: form.interestedInGoogleListing,
+          couponCode: form.couponCode || undefined,
         }),
       })
 
@@ -192,8 +196,11 @@ export default function Web0nOnboard() {
 
       const data = await res.json()
 
-      // Redirect to invoice payment or portal
-      if (data.invoiceUrl) {
+      // Redirect based on result
+      if (data.isFree) {
+        // Coupon applied — go straight to success
+        router.push('/portal?welcome=free')
+      } else if (data.invoiceUrl) {
         window.location.href = data.invoiceUrl
       } else {
         router.push('/portal')
@@ -243,13 +250,13 @@ export default function Web0nOnboard() {
       <div style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
           <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Step {step + 1} of 6</span>
-          <span style={{ fontSize: '0.8rem', color: '#ff6b35', fontWeight: 500 }}>{STEP_TITLES[step]}</span>
+          <span style={{ fontSize: '0.8rem', color: '#7ed957', fontWeight: 500 }}>{STEP_TITLES[step]}</span>
         </div>
         <div style={{ height: 4, borderRadius: 2, background: 'var(--bg-tertiary)', overflow: 'hidden' }}>
           <div style={{
             width: `${((step + 1) / 6) * 100}%`,
             height: '100%',
-            background: 'linear-gradient(90deg, #ff6b35, #ff8f65)',
+            background: 'linear-gradient(90deg, #7ed957, #a3e87c)',
             borderRadius: 2,
             transition: 'width 0.3s ease',
           }} />
@@ -313,7 +320,7 @@ export default function Web0nOnboard() {
             Can&apos;t find your business?{' '}
             <button
               onClick={() => setStep(1)}
-              style={{ background: 'none', border: 'none', color: '#ff6b35', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}
+              style={{ background: 'none', border: 'none', color: '#7ed957', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}
             >
               Enter info manually
             </button>
@@ -375,8 +382,8 @@ export default function Web0nOnboard() {
               <div style={{
                 padding: '1.25rem',
                 borderRadius: '12px',
-                border: '1px solid rgba(255, 107, 53, 0.2)',
-                background: 'rgba(255, 107, 53, 0.03)',
+                border: '1px solid rgba(126, 217, 87, 0.2)',
+                background: 'rgba(126, 217, 87, 0.03)',
               }}>
                 <label style={{
                   display: 'flex',
@@ -388,7 +395,7 @@ export default function Web0nOnboard() {
                     type="checkbox"
                     checked={form.interestedInGoogleListing}
                     onChange={e => setForm(prev => ({ ...prev, interestedInGoogleListing: e.target.checked }))}
-                    style={{ marginTop: '0.2rem', accentColor: '#ff6b35', width: 18, height: 18 }}
+                    style={{ marginTop: '0.2rem', accentColor: '#7ed957', width: 18, height: 18 }}
                   />
                   <div>
                     <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>
@@ -519,7 +526,7 @@ export default function Web0nOnboard() {
               borderRadius: '8px',
               border: '1px dashed var(--border)',
               background: 'transparent',
-              color: '#ff6b35',
+              color: '#7ed957',
               cursor: 'pointer',
               fontSize: '0.85rem',
               fontFamily: 'var(--font-display)',
@@ -557,7 +564,7 @@ export default function Web0nOnboard() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {/* Business Info Summary */}
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#ff6b35', marginBottom: '0.75rem' }}>Business</h3>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Business</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', fontSize: '0.9rem' }}>
                 <div><span style={{ color: 'var(--text-muted)' }}>Name:</span> {form.businessName}</div>
                 <div><span style={{ color: 'var(--text-muted)' }}>Type:</span> {form.businessType || '—'}</div>
@@ -573,7 +580,7 @@ export default function Web0nOnboard() {
 
             {/* Brand Summary */}
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#ff6b35', marginBottom: '0.75rem' }}>Brand</h3>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Brand</h3>
               <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 {[form.primaryColor, form.secondaryColor, form.accentColor].map((c, i) => (
                   <div key={i} style={{ width: 28, height: 28, borderRadius: 6, background: c, border: '1px solid var(--border)' }} />
@@ -584,7 +591,7 @@ export default function Web0nOnboard() {
 
             {/* Services Summary */}
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#ff6b35', marginBottom: '0.75rem' }}>Services</h3>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Services</h3>
               <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                 {form.services.filter(s => s.trim()).join(' / ') || 'None specified'}
               </div>
@@ -592,25 +599,44 @@ export default function Web0nOnboard() {
 
             {/* Google Listing Interest */}
             {form.interestedInGoogleListing && (
-              <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255, 107, 53, 0.2)', background: 'rgba(255, 107, 53, 0.03)' }}>
-                <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#ff6b35', marginBottom: '0.25rem' }}>Google Business Listing</h3>
+              <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(126, 217, 87, 0.2)', background: 'rgba(126, 217, 87, 0.03)' }}>
+                <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.25rem' }}>Google Business Listing</h3>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                   We&apos;ll reach out to help get your business listed on Google Maps &amp; Search.
                 </div>
               </div>
             )}
 
+            {/* Coupon Code */}
+            <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Coupon Code</h3>
+              <input
+                style={inputStyle}
+                value={form.couponCode}
+                onChange={e => setForm(prev => ({ ...prev, couponCode: e.target.value }))}
+                placeholder="Enter coupon code (optional)"
+              />
+            </div>
+
             {/* Price */}
             <div style={{
               padding: '1.25rem',
               borderRadius: '12px',
-              border: '1px solid rgba(255, 107, 53, 0.3)',
-              background: 'rgba(255, 107, 53, 0.05)',
+              border: '1px solid rgba(126, 217, 87, 0.3)',
+              background: 'rgba(126, 217, 87, 0.05)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ff6b35' }}>$998.50 Deposit</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#7ed957' }}>
+                {form.couponCode.toUpperCase() === '0NFREE' || form.couponCode.toUpperCase() === 'OWNER' ? (
+                  <><s style={{ opacity: 0.4 }}>$998.50</s> FREE</>
+                ) : (
+                  '$998.50 Deposit'
+                )}
+              </div>
               <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                50% of $1,997 total — remaining 50% due before launch
+                {form.couponCode.toUpperCase() === '0NFREE' || form.couponCode.toUpperCase() === 'OWNER'
+                  ? 'Coupon applied — no payment required'
+                  : '50% of $1,997 total — remaining 50% due before launch'}
               </div>
             </div>
           </div>
@@ -650,7 +676,7 @@ export default function Web0nOnboard() {
             style={{
               padding: '0.7rem 1.5rem',
               borderRadius: '8px',
-              background: canProceed() ? 'linear-gradient(135deg, #ff6b35, #e55a2b)' : 'var(--bg-tertiary)',
+              background: canProceed() ? 'linear-gradient(135deg, #7ed957, #5cb83a)' : 'var(--bg-tertiary)',
               color: canProceed() ? '#fff' : 'var(--text-muted)',
               border: 'none',
               cursor: canProceed() ? 'pointer' : 'not-allowed',
@@ -668,8 +694,8 @@ export default function Web0nOnboard() {
             style={{
               padding: '0.7rem 2rem',
               borderRadius: '8px',
-              background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-              color: '#fff',
+              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+              color: '#0a0a0f',
               border: 'none',
               cursor: submitting ? 'not-allowed' : 'pointer',
               fontWeight: 600,
@@ -678,7 +704,7 @@ export default function Web0nOnboard() {
               opacity: submitting ? 0.7 : 1,
             }}
           >
-            {submitting ? 'Creating project...' : 'Submit & Pay $998.50 Deposit'}
+            {submitting ? 'Creating project...' : (form.couponCode.toUpperCase() === '0NFREE' || form.couponCode.toUpperCase() === 'OWNER' ? 'Submit — No Payment Required' : 'Submit & Pay $998.50 Deposit')}
           </button>
         )}
       </div>

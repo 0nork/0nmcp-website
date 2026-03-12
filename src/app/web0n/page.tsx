@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -93,16 +94,19 @@ export default function Web0nLanding() {
       {/* Hero */}
       <section style={{ textAlign: 'center', padding: '5rem 0 4rem' }}>
         <div style={{
-          display: 'inline-block',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.4rem',
           padding: '0.35rem 1rem',
           borderRadius: '999px',
-          background: 'rgba(255, 107, 53, 0.1)',
-          border: '1px solid rgba(255, 107, 53, 0.3)',
+          background: 'rgba(126, 217, 87, 0.1)',
+          border: '1px solid rgba(126, 217, 87, 0.3)',
           fontSize: '0.8rem',
-          color: '#ff6b35',
+          color: '#7ed957',
           fontWeight: 500,
           marginBottom: '1.5rem',
         }}>
+          <Image src="/brand/icon-green.png" alt="" width={16} height={16} style={{ borderRadius: 3 }} />
           Powered by 0nMCP
         </div>
         <h1 style={{
@@ -113,7 +117,7 @@ export default function Web0nLanding() {
           fontFamily: 'var(--font-display)',
         }}>
           Your Business Website.<br />
-          <span style={{ color: '#ff6b35' }}>Built in Days, Not Months.</span>
+          <span style={{ color: '#7ed957' }}>Built in Days, Not Months.</span>
         </h1>
         <p style={{
           fontSize: '1.15rem',
@@ -130,12 +134,12 @@ export default function Web0nLanding() {
             style={{
               padding: '0.85rem 2rem',
               borderRadius: '10px',
-              background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-              color: '#fff',
+              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+              color: '#0a0a0f',
               fontWeight: 600,
               fontSize: '1rem',
               textDecoration: 'none',
-              boxShadow: '0 4px 20px rgba(255, 107, 53, 0.3)',
+              boxShadow: '0 4px 20px rgba(126, 217, 87, 0.3)',
             }}
           >
             Get Started — $1,997
@@ -181,7 +185,7 @@ export default function Web0nLanding() {
                 background: 'var(--bg-card)',
               }}
             >
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#ff6b35' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
                 {page.name}
               </h3>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
@@ -192,10 +196,10 @@ export default function Web0nLanding() {
           <div style={{
             padding: '1.5rem',
             borderRadius: '12px',
-            border: '1px solid rgba(255, 107, 53, 0.3)',
-            background: 'rgba(255, 107, 53, 0.05)',
+            border: '1px solid rgba(126, 217, 87, 0.3)',
+            background: 'rgba(126, 217, 87, 0.05)',
           }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#ff6b35' }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
               + CRM Sub-Account
             </h3>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
@@ -221,14 +225,14 @@ export default function Web0nLanding() {
                 width: 48,
                 height: 48,
                 borderRadius: '12px',
-                background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
+                background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 1rem',
                 fontWeight: 700,
                 fontSize: '1.1rem',
-                color: '#fff',
+                color: '#0a0a0f',
               }}>
                 {step.num}
               </div>
@@ -249,11 +253,11 @@ export default function Web0nLanding() {
           margin: '0 auto',
           padding: '2rem',
           borderRadius: '16px',
-          border: '1px solid rgba(255, 107, 53, 0.3)',
+          border: '1px solid rgba(126, 217, 87, 0.3)',
           background: 'var(--bg-card)',
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '3rem', fontWeight: 700, color: '#ff6b35', marginBottom: '0.25rem' }}>
+          <div style={{ fontSize: '3rem', fontWeight: 700, color: '#7ed957', marginBottom: '0.25rem' }}>
             $1,997
           </div>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
@@ -262,7 +266,7 @@ export default function Web0nLanding() {
           <div style={{
             padding: '1rem',
             borderRadius: '10px',
-            background: 'rgba(255, 107, 53, 0.05)',
+            background: 'rgba(126, 217, 87, 0.05)',
             border: '1px solid var(--border)',
             marginBottom: '1.5rem',
           }}>
@@ -294,7 +298,7 @@ export default function Web0nLanding() {
               'Live within 5-7 days',
             ].map((item) => (
               <li key={item} style={{ color: 'var(--text-secondary)' }}>
-                <span style={{ color: '#ff6b35', marginRight: '0.5rem' }}>&#10003;</span>
+                <span style={{ color: '#7ed957', marginRight: '0.5rem' }}>&#10003;</span>
                 {item}
               </li>
             ))}
@@ -305,8 +309,8 @@ export default function Web0nLanding() {
               display: 'block',
               padding: '0.85rem',
               borderRadius: '10px',
-              background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-              color: '#fff',
+              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+              color: '#0a0a0f',
               fontWeight: 600,
               fontSize: '1rem',
               textDecoration: 'none',
@@ -363,12 +367,12 @@ export default function Web0nLanding() {
           style={{
             padding: '0.85rem 2.5rem',
             borderRadius: '10px',
-            background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-            color: '#fff',
+            background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+            color: '#0a0a0f',
             fontWeight: 600,
             fontSize: '1.1rem',
             textDecoration: 'none',
-            boxShadow: '0 4px 20px rgba(255, 107, 53, 0.3)',
+            boxShadow: '0 4px 20px rgba(126, 217, 87, 0.3)',
           }}
         >
           Get Started — $1,997

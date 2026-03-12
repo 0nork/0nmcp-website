@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { createSupabaseAdmin } from '@/lib/supabase/admin'
 import { createWeb0nContact, createWeb0nOpportunity, createDepositInvoice } from '@/lib/web0n'
+
+// Valid coupon codes — couponCode → { discount: 'full' | number, restrictTo?: string }
+const COUPON_CODES: Record<string, { discount: 'full' | number; restrictTo?: string }> = {
+  '0NFREE': { discount: 'full', restrictTo: 'mike@rocketopp.com' },
+  'OWNER': { discount: 'full', restrictTo: 'mike@rocketopp.com' },
+}
 
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
@@ -8,10 +15,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
   }
 
+  // Auth is optional — guests can submit projects
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
-  }
 
   try {
     const body = await request.json()
@@ -19,11 +24,24 @@ export async function POST(request: NextRequest) {
     const {
       businessName, businessType, phone, email, address, city, state, zip,
       websiteUrl, googlePlaceId, googleData, brandColors, logoUrl, tagline,
-      services, specialRequests, interestedInGoogleListing,
+      services, specialRequests, interestedInGoogleListing, couponCode,
     } = body
 
     if (!businessName?.trim() || !email?.trim()) {
       return NextResponse.json({ error: 'Business name and email are required' }, { status: 400 })
+    }
+
+    // Validate coupon code if provided
+    let isFree = false
+    if (couponCode) {
+      const coupon = COUPON_CODES[couponCode.toUpperCase()]
+      if (!coupon) {
+        return NextResponse.json({ error: 'Invalid coupon code' }, { status: 400 })
+      }
+      if (coupon.restrictTo && coupon.restrictTo.toLowerCase() !== email.toLowerCase()) {
+        return NextResponse.json({ error: 'This coupon code is not valid for your email' }, { status: 400 })
+      }
+      isFree = coupon.discount === 'full'
     }
 
     // 1. Create CRM contact
@@ -47,24 +65,29 @@ export async function POST(request: NextRequest) {
         console.error('CRM opportunity creation failed (non-fatal):', err)
       }
 
-      // 3. Create deposit invoice
-      try {
-        const invoice = await createDepositInvoice(contact.id, { businessName, email, businessType, phone, address, city, state, zip, websiteUrl, googlePlaceId, googleData, brandColors, logoUrl, tagline, services, specialRequests })
-        depositInvoiceId = invoice.id
-        invoiceUrl = invoice.invoiceUrl
-      } catch (err) {
-        console.error('CRM invoice creation failed (non-fatal):', err)
+      // 3. Create deposit invoice (skip if coupon makes it free)
+      if (!isFree) {
+        try {
+          const invoice = await createDepositInvoice(contact.id, { businessName, email, businessType, phone, address, city, state, zip, websiteUrl, googlePlaceId, googleData, brandColors, logoUrl, tagline, services, specialRequests })
+          depositInvoiceId = invoice.id
+          invoiceUrl = invoice.invoiceUrl
+        } catch (err) {
+          console.error('CRM invoice creation failed (non-fatal):', err)
+        }
       }
     } catch (err) {
       console.error('CRM contact creation failed (non-fatal):', err)
     }
 
-    // 4. Insert project into Supabase
-    const { data: project, error } = await supabase
+    // 4. Insert project into Supabase (use admin client to bypass RLS for guest users)
+    const adminSupabase = createSupabaseAdmin()
+    const insertClient = adminSupabase || supabase
+
+    const { data: project, error } = await insertClient
       .from('web0n_projects')
       .insert({
-        user_id: user.id,
-        status: 'intake',
+        user_id: user?.id || null,
+        status: isFree ? 'deposit_paid' : 'intake',
         business_name: businessName,
         business_type: businessType || null,
         phone: phone || null,
@@ -85,6 +108,7 @@ export async function POST(request: NextRequest) {
         crm_contact_id: crmContactId || null,
         crm_opportunity_id: crmOpportunityId || null,
         deposit_invoice_id: depositInvoiceId || null,
+        ...(isFree ? { deposit_paid_at: new Date().toISOString() } : {}),
       })
       .select()
       .single()
@@ -96,8 +120,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       project,
-      invoiceUrl,
-      message: 'Project created successfully',
+      invoiceUrl: isFree ? null : invoiceUrl,
+      isFree,
+      message: isFree ? 'Project created — no payment required!' : 'Project created successfully',
     })
   } catch (err) {
     console.error('Project creation error:', err)

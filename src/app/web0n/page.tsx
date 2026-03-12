@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import WebFactory from '@/components/web0n/WebFactory'
+import ExitIntent from '@/components/web0n/ExitIntent'
+import { ScrollReveal, CountUp, RotatingText } from '@/components/web0n/Interactives'
 
 export const metadata: Metadata = {
   title: 'web0n — Professional Business Websites Built in 5-7 Days | $1,997 Flat Rate',
@@ -142,6 +144,24 @@ const FEATURES = [
   { title: 'No Hidden Fees', desc: '$1,997 flat rate covers everything. No surprise charges, no monthly build fees.' },
 ]
 
+const CRM_DATA = [
+  { title: 'Contact Management', desc: 'Every lead, customer, and interaction organized automatically. Auto-capture from website forms and track the full journey.', g1: '#7ed957', g2: '#00d4ff' },
+  { title: 'Booking Calendar', desc: 'Customers book appointments directly from your site. Syncs with your schedule and sends automatic reminders.', g1: '#00d4ff', g2: '#a78bfa' },
+  { title: 'Lead Capture Forms', desc: 'Smart forms that collect name, email, phone, and custom fields. Data flows straight into your CRM pipeline.', g1: '#a78bfa', g2: '#ff6b9d' },
+  { title: 'Pipeline Tracking', desc: 'Visual deal pipeline from first contact to closed sale. Know exactly where every opportunity stands.', g1: '#ff6b9d', g2: '#ffc832' },
+  { title: 'Email & SMS', desc: 'Send follow-ups, confirmations, and promotions directly from your CRM. Templates and automations included.', g1: '#ffc832', g2: '#7ed957' },
+  { title: 'Reporting Dashboard', desc: 'See website traffic, form submissions, bookings, and revenue in real-time. Make data-driven decisions.', g1: '#00d4ff', g2: '#7ed957' },
+]
+
+const AI_STATS = [
+  { value: 88, suffix: '%', label: 'of consumers research online before visiting a local business' },
+  { value: 75, suffix: '%', label: 'judge a company\'s credibility based on website design' },
+  { value: 46, suffix: '%', label: 'faster growth for businesses with professional websites' },
+  { value: 3, suffix: 's', label: 'is all it takes for visitors to form an opinion of your site' },
+]
+
+const INDUSTRIES = ['restaurants', 'salons', 'contractors', 'dentists', 'gyms', 'agencies', 'law firms', 'clinics', 'realtors', 'coaches']
+
 const FAQS = [
   { q: 'How long does it take to build my website?', a: 'Most websites are live within 5-7 business days after we receive your deposit and business information. Complex customizations may take slightly longer, but we\'ll communicate timelines clearly.' },
   { q: 'What pages are included?', a: 'Every web0n site includes 5 professionally designed pages: Home, Services, Contact, Booking, and Pricing. Need additional pages? We can discuss add-ons during your onboarding.' },
@@ -153,6 +173,89 @@ const FAQS = [
   { q: 'Do I need to provide hosting or a domain?', a: 'Hosting is included. If you already have a domain, we\'ll connect it. If not, we can help you purchase one (domain registration cost is separate, typically $10-15/year).' },
 ]
 
+/* SVG CRM Icons — each with unique gradient */
+function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
+  const id = `w0nCg${index}`
+  const grad = (
+    <defs>
+      <linearGradient id={id} x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor={g1} />
+        <stop offset="100%" stopColor={g2} />
+      </linearGradient>
+    </defs>
+  )
+  const s = `url(#${id})`
+
+  switch (index) {
+    case 0: /* Contacts */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <circle cx="24" cy="16" r="7" stroke={s} strokeWidth="2.5" fill="none" />
+          <path d="M10 40c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke={s} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <circle cx="36" cy="14" r="4" stroke={s} strokeWidth="1.5" fill="none" opacity="0.5" />
+          <path d="M40 26c3.314 2 5 4.686 5 8" stroke={s} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.5" />
+        </svg>
+      )
+    case 1: /* Calendar */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="6" y="10" width="36" height="32" rx="4" stroke={s} strokeWidth="2.5" fill="none" />
+          <line x1="6" y1="20" x2="42" y2="20" stroke={s} strokeWidth="2.5" />
+          <line x1="16" y1="6" x2="16" y2="14" stroke={s} strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="32" y1="6" x2="32" y2="14" stroke={s} strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="24" cy="30" r="4" fill={s} opacity="0.7" />
+        </svg>
+      )
+    case 2: /* Forms */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="8" y="4" width="32" height="40" rx="4" stroke={s} strokeWidth="2.5" fill="none" />
+          <rect x="14" y="14" width="14" height="4" rx="2" fill={s} opacity="0.3" />
+          <rect x="14" y="22" width="20" height="4" rx="2" fill={s} opacity="0.3" />
+          <rect x="14" y="30" width="10" height="4" rx="2" fill={s} opacity="0.3" />
+          <circle cx="34" cy="36" r="3" fill={s} opacity="0.7" />
+          <path d="M32.5 36l1 1 2-2.5" stroke="#0a0a0f" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 3: /* Pipeline */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="4" y="6" width="40" height="8" rx="3" stroke={s} strokeWidth="2" fill="none" />
+          <rect x="8" y="18" width="32" height="8" rx="3" stroke={s} strokeWidth="2" fill="none" />
+          <rect x="12" y="30" width="24" height="8" rx="3" stroke={s} strokeWidth="2" fill="none" />
+          <rect x="18" y="40" width="12" height="4" rx="2" fill={s} opacity="0.7" />
+        </svg>
+      )
+    case 4: /* Email & SMS */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="4" y="10" width="40" height="28" rx="4" stroke={s} strokeWidth="2.5" fill="none" />
+          <path d="M4 14l20 13 20-13" stroke={s} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="38" cy="12" r="6" fill={s} opacity="0.2" />
+          <path d="M36 12h4M38 10v4" stroke={s} strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      )
+    case 5: /* Reporting */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="6" y="30" width="8" height="12" rx="2" fill={s} opacity="0.5" />
+          <rect x="20" y="20" width="8" height="22" rx="2" fill={s} opacity="0.7" />
+          <rect x="34" y="10" width="8" height="32" rx="2" fill={s} />
+          <line x1="4" y1="44" x2="44" y2="44" stroke={s} strokeWidth="2" strokeLinecap="round" />
+          <path d="M10 26l14-12 14-4" stroke={s} strokeWidth="1.5" fill="none" strokeLinecap="round" strokeDasharray="2 3" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
 export default function Web0nLanding() {
   return (
     <>
@@ -161,27 +264,115 @@ export default function Web0nLanding() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
       />
 
+      {/* ===== GLOBAL HOVER / TRANSITION STYLES ===== */}
+      <style>{`
+        .w0n-card{
+          transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease,border-color .3s ease;
+        }
+        .w0n-card:hover{
+          transform:translateY(-6px);
+          box-shadow:0 16px 48px rgba(126,217,87,0.1),0 4px 16px rgba(0,0,0,0.3);
+          border-color:rgba(126,217,87,0.3)!important;
+        }
+        .w0n-cta{
+          transition:transform .2s ease,box-shadow .2s ease;
+        }
+        .w0n-cta:hover{
+          transform:translateY(-2px);
+          box-shadow:0 8px 32px rgba(126,217,87,0.35)!important;
+        }
+        .w0n-step-num{
+          transition:transform .3s ease,box-shadow .3s ease;
+        }
+        .w0n-step-num:hover{
+          transform:scale(1.1);
+          box-shadow:0 0 24px rgba(126,217,87,0.3);
+        }
+        .w0n-faq{
+          transition:border-color .2s ease,box-shadow .2s ease;
+        }
+        .w0n-faq:hover{
+          border-color:rgba(126,217,87,0.25)!important;
+          box-shadow:0 4px 20px rgba(0,0,0,0.2);
+        }
+        .w0n-faq[open]{
+          border-color:rgba(126,217,87,0.3)!important;
+          box-shadow:0 4px 24px rgba(126,217,87,0.06);
+        }
+        .w0n-crm-card{
+          position:relative;
+          transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;
+        }
+        .w0n-crm-card:hover{
+          transform:translateY(-6px) scale(1.02);
+          box-shadow:0 20px 50px rgba(0,0,0,0.3);
+        }
+        .w0n-crm-card::before{
+          content:'';
+          position:absolute;inset:-1px;
+          border-radius:inherit;padding:1px;
+          background:var(--crm-grad);
+          -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+          mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+          -webkit-mask-composite:xor;
+          mask-composite:exclude;
+          opacity:0.3;
+          transition:opacity .3s ease;
+        }
+        .w0n-crm-card:hover::before{opacity:0.7}
+        .w0n-stat-card{
+          transition:transform .3s ease,box-shadow .3s ease;
+        }
+        .w0n-stat-card:hover{
+          transform:translateY(-4px);
+          box-shadow:0 12px 36px rgba(0,0,0,0.3);
+        }
+        @keyframes w0nGradShift{
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
+        }
+        @keyframes w0nFloat{
+          0%,100%{transform:translateY(0)}
+          50%{transform:translateY(-8px)}
+        }
+        @media(prefers-reduced-motion:reduce){
+          .w0n-card,.w0n-cta,.w0n-crm-card,.w0n-stat-card,.w0n-step-num,.w0n-faq{transition:none!important}
+          .w0n-card:hover,.w0n-crm-card:hover,.w0n-stat-card:hover{transform:none!important}
+        }
+      `}</style>
+
       <article itemScope itemType="https://schema.org/WebPage" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 1.5rem' }}>
 
         {/* ========== HERO ========== */}
-        <header style={{ textAlign: 'center', padding: '4rem 0 0' }}>
+        <header style={{ textAlign: 'center', padding: '4rem 0 0', position: 'relative' }}>
+          {/* Decorative radial glow */}
+          <div style={{
+            position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)',
+            width: '600px', height: '400px',
+            background: 'radial-gradient(ellipse, rgba(126,217,87,0.06) 0%, transparent 70%)',
+            pointerEvents: 'none', zIndex: 0,
+          }} />
+
           <Image
             src="/brand/web0n-logo.png"
             alt="web0n — Professional websites built in days"
-            width={280}
-            height={90}
+            width={320}
+            height={105}
             priority
-            style={{ margin: '0 auto 1.5rem', display: 'block' }}
+            style={{ margin: '0 auto 1.5rem', display: 'block', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 4px 24px rgba(126,217,87,0.15))' }}
           />
 
           <h1 style={{
             fontSize: 'clamp(2rem, 5vw, 3.25rem)',
             fontWeight: 700,
-            lineHeight: 1.1,
+            lineHeight: 1.15,
             marginBottom: '1.25rem',
             fontFamily: 'var(--font-display)',
+            position: 'relative', zIndex: 1,
           }}>
-            Your Business Website.{' '}
+            Professional Websites for{' '}
+            <RotatingText words={INDUSTRIES} /><br />
             <span style={{ color: '#7ed957' }}>Built in Days, Not Months.</span>
           </h1>
 
@@ -191,14 +382,16 @@ export default function Web0nLanding() {
             maxWidth: 640,
             margin: '0 auto 2rem',
             lineHeight: 1.65,
+            position: 'relative', zIndex: 1,
           }}>
-            Professional 5-page website with CRM, online booking, and SEO.
+            5-page business website with CRM, online booking, and SEO.
             Human-reviewed. AI-powered. One flat price&nbsp;&mdash;&nbsp;no surprises.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.5rem', position: 'relative', zIndex: 1 }}>
             <Link
               href="/onboard"
+              className="w0n-cta"
               style={{
                 padding: '0.9rem 2.25rem',
                 borderRadius: '10px',
@@ -208,13 +401,13 @@ export default function Web0nLanding() {
                 fontSize: '1.05rem',
                 textDecoration: 'none',
                 boxShadow: '0 4px 24px rgba(126, 217, 87, 0.3)',
-                transition: 'transform 0.15s, box-shadow 0.15s',
               }}
             >
               Get Started &mdash; $1,997
             </Link>
             <a
               href="#how-it-works"
+              className="w0n-cta"
               style={{
                 padding: '0.9rem 2.25rem',
                 borderRadius: '10px',
@@ -235,260 +428,463 @@ export default function Web0nLanding() {
         <WebFactory />
 
         {/* ========== TRUST SIGNALS ========== */}
-        <section aria-label="Key features at a glance" style={{
-          display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap',
-          padding: '2.5rem 0', textAlign: 'center',
-        }}>
-          {[
-            ['5-7 Days', 'To go live'],
-            ['5 Pages', 'Professionally designed'],
-            ['CRM Included', 'At no extra cost'],
-            ['$1,997', 'Flat — no monthly fees'],
-          ].map(([title, sub]) => (
-            <div key={title}>
-              <div style={{ fontSize: '1.35rem', fontWeight: 700, color: '#7ed957' }}>{title}</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{sub}</div>
-            </div>
-          ))}
-        </section>
-
-        {/* ========== WHY WEB0N ========== */}
-        <section aria-labelledby="why-heading" style={{ padding: '2.5rem 0' }}>
-          <h2 id="why-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-            Why Businesses Choose <span style={{ color: '#7ed957' }}>web0n</span>
-          </h2>
-          <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
-            We combine AI efficiency with human quality control to deliver professional websites faster than anyone else.
-          </p>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1rem',
+        <ScrollReveal>
+          <section aria-label="Key features at a glance" style={{
+            display: 'flex', justifyContent: 'center', gap: '2.5rem', flexWrap: 'wrap',
+            padding: '2.5rem 0', textAlign: 'center',
           }}>
-            {FEATURES.map((f) => (
-              <div key={f.title} style={{
-                padding: '1.25rem 1.5rem',
-                borderRadius: '12px',
-                border: '1px solid var(--border)',
-                background: 'var(--bg-card)',
-              }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.35rem', color: '#7ed957' }}>
-                  {f.title}
-                </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
-                  {f.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ========== WHAT YOU GET ========== */}
-        <section aria-labelledby="pages-heading" style={{ padding: '2.5rem 0' }}>
-          <h2 id="pages-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-            Everything Your Business Needs Online
-          </h2>
-          <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
-            5 professionally designed pages plus a CRM sub-account &mdash; everything to look great and capture leads from day one.
-          </p>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1rem',
-          }}>
-            {PAGES.map((page) => (
-              <div key={page.name} style={{
-                padding: '1.5rem',
-                borderRadius: '12px',
-                border: '1px solid var(--border)',
-                background: 'var(--bg-card)',
-              }}>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
-                  {page.name}
-                </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
-                  {page.desc}
-                </p>
-              </div>
-            ))}
-            <div style={{
-              padding: '1.5rem',
-              borderRadius: '12px',
-              border: '1px solid rgba(126, 217, 87, 0.3)',
-              background: 'rgba(126, 217, 87, 0.04)',
-            }}>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
-                + CRM Sub-Account
-              </h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
-                Starter-tier CRM with contact management, booking calendar, lead capture forms, and pipeline tracking &mdash; included at no extra cost.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ========== HOW IT WORKS ========== */}
-        <section id="how-it-works" aria-labelledby="how-heading" style={{ padding: '2.5rem 0' }}>
-          <h2 id="how-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
-            Three Simple Steps to Your New Website
-          </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.5rem',
-          }}>
-            {STEPS.map((step) => (
-              <div key={step.num} style={{ textAlign: 'center' }}>
-                <div style={{
-                  width: 52, height: 52, borderRadius: '14px',
-                  background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  margin: '0 auto 1rem',
-                  fontWeight: 800, fontSize: '1.1rem', color: '#0a0a0f',
-                  fontFamily: 'var(--font-display)',
-                }}>
-                  {step.num}
+            {[
+              { pre: '', val: 5, suf: '-7 Days', sub: 'To go live' },
+              { pre: '', val: 5, suf: ' Pages', sub: 'Professionally designed' },
+              { pre: '', val: 1, suf: ' CRM', sub: 'Included free' },
+              { pre: '$', val: 1997, suf: '', sub: 'Flat — no monthly fees' },
+            ].map((s) => (
+              <div key={s.sub}>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#7ed957' }}>
+                  <CountUp end={s.val} prefix={s.pre} suffix={s.suf} />
                 </div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{step.title}</h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.55 }}>{step.desc}</p>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{s.sub}</div>
               </div>
             ))}
-          </div>
-        </section>
+          </section>
+        </ScrollReveal>
 
-        {/* ========== PRICING ========== */}
-        <section aria-labelledby="pricing-heading" style={{ padding: '2.5rem 0' }}>
-          <h2 id="pricing-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
-            Simple, Transparent Pricing
-          </h2>
-          <div style={{
-            maxWidth: 500, margin: '0 auto', padding: '2.5rem 2rem',
-            borderRadius: '16px',
-            border: '1px solid rgba(126, 217, 87, 0.3)',
-            background: 'var(--bg-card)',
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: '3.25rem', fontWeight: 800, color: '#7ed957', marginBottom: '0.25rem', fontFamily: 'var(--font-display)' }}>
-              $1,997
-            </div>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1rem' }}>
-              One-time flat rate &mdash; no monthly fees for the build
-            </p>
-            <div style={{
-              padding: '1rem', borderRadius: '10px',
-              background: 'rgba(126, 217, 87, 0.05)',
-              border: '1px solid var(--border)',
-              marginBottom: '1.5rem',
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>50% Deposit to Start</span>
-                <span style={{ fontWeight: 600 }}>$998.50</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>50% Before Launch</span>
-                <span style={{ fontWeight: 600 }}>$998.50</span>
-              </div>
-            </div>
-            <ul style={{
-              listStyle: 'none', padding: 0, margin: '0 0 1.5rem',
-              textAlign: 'left', fontSize: '0.9rem', lineHeight: 2.1,
-            }}>
-              {[
-                '5 professionally designed pages',
-                'Mobile-responsive design',
-                'SEO-optimized content',
-                'Contact form + Google Maps',
-                'Online booking integration',
-                'CRM sub-account (starter tier)',
-                '2 rounds of revisions',
-                'Live within 5-7 business days',
-                'Hosting included',
-              ].map((item) => (
-                <li key={item} style={{ color: 'var(--text-secondary)' }}>
-                  <span style={{ color: '#7ed957', marginRight: '0.5rem', fontWeight: 700 }}>&#10003;</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/onboard"
-              style={{
-                display: 'block', padding: '0.9rem', borderRadius: '10px',
-                background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                color: '#0a0a0f', fontWeight: 700, fontSize: '1.05rem',
-                textDecoration: 'none', textAlign: 'center',
-              }}
-            >
-              Get Started
-            </Link>
-          </div>
-        </section>
-
-        {/* ========== FAQ ========== */}
-        <section aria-labelledby="faq-heading" style={{ padding: '2.5rem 0' }}>
-          <h2 id="faq-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
-            Frequently Asked Questions
-          </h2>
-          <div style={{ maxWidth: 720, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {FAQS.map((faq) => (
-              <details
-                key={faq.q}
-                style={{
-                  padding: '1.25rem 1.5rem',
-                  borderRadius: '12px',
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg-card)',
-                }}
-              >
-                <summary style={{
-                  fontWeight: 600, cursor: 'pointer',
-                  fontSize: '1rem', listStyle: 'none',
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                }}>
-                  {faq.q}
-                  <span style={{ color: '#7ed957', fontSize: '1.2rem', marginLeft: '0.75rem', flexShrink: 0 }}>+</span>
-                </summary>
-                <p style={{ color: 'var(--text-secondary)', marginTop: '0.75rem', fontSize: '0.9rem', lineHeight: 1.65 }}>
-                  {faq.a}
-                </p>
-              </details>
-            ))}
-          </div>
-        </section>
-
-        {/* ========== FINAL CTA ========== */}
-        <section aria-label="Get started" style={{ padding: '4rem 0 5rem', textAlign: 'center' }}>
-          <Image
-            src="/brand/web0n-icon.jpg"
-            alt="web0n"
-            width={56}
-            height={56}
-            style={{ borderRadius: 14, margin: '0 auto 1.25rem', display: 'block' }}
-          />
-          <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.75rem' }}>
-            Ready to Launch Your Website?
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.6 }}>
-            Tell us about your business. We&apos;ll handle the design, the code, the CRM, and the SEO. You just show up and launch.
-          </p>
-          <Link
-            href="/onboard"
+        {/* ========== AI STATS — WHY IT MATTERS ========== */}
+        <ScrollReveal>
+          <section
+            aria-labelledby="stats-heading"
             style={{
-              display: 'inline-block',
-              padding: '0.9rem 2.75rem',
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0a0a0f',
-              fontWeight: 700,
-              fontSize: '1.1rem',
-              textDecoration: 'none',
-              boxShadow: '0 4px 24px rgba(126, 217, 87, 0.3)',
+              padding: '3rem 2rem',
+              margin: '1rem -1.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(160deg, rgba(126,217,87,0.04) 0%, rgba(0,212,255,0.03) 50%, rgba(167,139,250,0.03) 100%)',
+              border: '1px solid rgba(126,217,87,0.08)',
+              position: 'relative',
+              overflow: 'hidden',
             }}
           >
-            Get Started &mdash; $1,997
-          </Link>
-        </section>
+            {/* Subtle floating particles */}
+            <div style={{ position: 'absolute', top: '20%', left: '10%', width: 6, height: 6, borderRadius: '50%', background: 'rgba(126,217,87,0.15)', animation: 'w0nFloat 4s ease-in-out infinite' }} />
+            <div style={{ position: 'absolute', top: '60%', right: '15%', width: 4, height: 4, borderRadius: '50%', background: 'rgba(0,212,255,0.15)', animation: 'w0nFloat 5s ease-in-out infinite 1s' }} />
+            <div style={{ position: 'absolute', bottom: '20%', left: '30%', width: 5, height: 5, borderRadius: '50%', background: 'rgba(167,139,250,0.12)', animation: 'w0nFloat 6s ease-in-out infinite 2s' }} />
+
+            <h2 id="stats-heading" style={{ textAlign: 'center', fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.5rem', position: 'relative' }}>
+              Why an <span style={{ color: '#7ed957' }}>AI-Optimized</span> Website Matters
+            </h2>
+            <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.9rem' }}>
+              The numbers don&apos;t lie &mdash; your website is your most important employee.
+            </p>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '1rem',
+              position: 'relative',
+            }}>
+              {AI_STATS.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="w0n-stat-card"
+                  style={{
+                    padding: '1.5rem 1.25rem',
+                    borderRadius: '14px',
+                    background: 'rgba(10,10,15,0.6)',
+                    border: '1px solid rgba(126,217,87,0.1)',
+                    textAlign: 'center',
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                  }}
+                >
+                  <div style={{
+                    fontSize: '2.5rem', fontWeight: 800, color: '#7ed957',
+                    fontFamily: 'var(--font-display)',
+                    textShadow: '0 0 30px rgba(126,217,87,0.2)',
+                    lineHeight: 1,
+                    marginBottom: '0.5rem',
+                  }}>
+                    <CountUp end={stat.value} suffix={stat.suffix} duration={2500} />
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ========== WHY WEB0N ========== */}
+        <ScrollReveal>
+          <section aria-labelledby="why-heading" style={{ padding: '3.5rem 0 2.5rem' }}>
+            <h2 id="why-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+              Why Businesses Choose <span style={{ color: '#7ed957' }}>web0n</span>
+            </h2>
+            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
+              We combine AI efficiency with human quality control to deliver professional websites faster than anyone else.
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '1rem',
+            }}>
+              {FEATURES.map((f, i) => (
+                <ScrollReveal key={f.title} delay={i * 80}>
+                  <div className="w0n-card" style={{
+                    padding: '1.5rem 1.5rem',
+                    borderRadius: '14px',
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg-card)',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                    height: '100%',
+                  }}>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.4rem', color: '#7ed957' }}>
+                      {f.title}
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      {f.desc}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ========== CRM SHOWCASE ========== */}
+        <ScrollReveal>
+          <section
+            aria-labelledby="crm-heading"
+            style={{
+              padding: '3.5rem 2rem',
+              margin: '1rem -1.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(126,217,87,0.02) 50%, rgba(0,0,0,0) 100%)',
+              position: 'relative',
+            }}
+          >
+            {/* Top glow accent */}
+            <div style={{
+              position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+              width: '60%', height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(126,217,87,0.2), transparent)',
+            }} />
+
+            <h2 id="crm-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+              Your Website Comes With a <span style={{ color: '#7ed957' }}>Full CRM</span>
+            </h2>
+            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
+              Every web0n website includes these powerful business tools &mdash; at no extra cost.
+            </p>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '1.25rem',
+            }}>
+              {CRM_DATA.map((crm, i) => (
+                <ScrollReveal key={crm.title} delay={i * 100}>
+                  <div
+                    className="w0n-crm-card"
+                    style={{
+                      padding: '1.75rem 1.5rem',
+                      borderRadius: '16px',
+                      background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+                      height: '100%',
+                      '--crm-grad': `linear-gradient(135deg, ${crm.g1}, ${crm.g2})`,
+                    } as React.CSSProperties}
+                  >
+                    <div style={{ marginBottom: '1rem', filter: `drop-shadow(0 4px 12px ${crm.g1}22)` }}>
+                      <CrmIcon index={i} g1={crm.g1} g2={crm.g2} />
+                    </div>
+                    <h3 style={{
+                      fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.4rem',
+                      background: `linear-gradient(135deg, ${crm.g1}, ${crm.g2})`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}>
+                      {crm.title}
+                    </h3>
+                    <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      {crm.desc}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ========== WHAT YOU GET ========== */}
+        <ScrollReveal>
+          <section aria-labelledby="pages-heading" style={{ padding: '3.5rem 0 2.5rem' }}>
+            <h2 id="pages-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+              Everything Your Business Needs Online
+            </h2>
+            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
+              5 professionally designed pages plus a CRM sub-account &mdash; everything to look great and capture leads from day one.
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1rem',
+            }}>
+              {PAGES.map((page, i) => (
+                <ScrollReveal key={page.name} delay={i * 60}>
+                  <div className="w0n-card" style={{
+                    padding: '1.5rem',
+                    borderRadius: '14px',
+                    border: '1px solid var(--border)',
+                    background: 'var(--bg-card)',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                    height: '100%',
+                  }}>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
+                      {page.name}
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      {page.desc}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+              <ScrollReveal delay={PAGES.length * 60}>
+                <div className="w0n-card" style={{
+                  padding: '1.5rem',
+                  borderRadius: '14px',
+                  border: '1px solid rgba(126, 217, 87, 0.3)',
+                  background: 'rgba(126, 217, 87, 0.04)',
+                  boxShadow: '0 2px 16px rgba(126,217,87,0.06)',
+                  height: '100%',
+                }}>
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.5rem', color: '#7ed957' }}>
+                    + CRM Sub-Account
+                  </h3>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                    Starter-tier CRM with contact management, booking calendar, lead capture forms, and pipeline tracking &mdash; included at no extra cost.
+                  </p>
+                </div>
+              </ScrollReveal>
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ========== HOW IT WORKS ========== */}
+        <ScrollReveal>
+          <section id="how-it-works" aria-labelledby="how-heading" style={{ padding: '3rem 0 2.5rem' }}>
+            <h2 id="how-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
+              Three Simple Steps to Your New Website
+            </h2>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1.5rem',
+            }}>
+              {STEPS.map((step, i) => (
+                <ScrollReveal key={step.num} delay={i * 120}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div
+                      className="w0n-step-num"
+                      style={{
+                        width: 56, height: 56, borderRadius: '16px',
+                        background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        margin: '0 auto 1rem',
+                        fontWeight: 800, fontSize: '1.15rem', color: '#0a0a0f',
+                        fontFamily: 'var(--font-display)',
+                        boxShadow: '0 4px 20px rgba(126,217,87,0.2)',
+                      }}
+                    >
+                      {step.num}
+                    </div>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{step.title}</h3>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{step.desc}</p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ========== PRICING ========== */}
+        <ScrollReveal>
+          <section aria-labelledby="pricing-heading" style={{ padding: '3rem 0' }}>
+            <h2 id="pricing-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
+              Simple, Transparent Pricing
+            </h2>
+            <div style={{
+              maxWidth: 500, margin: '0 auto', padding: '2.5rem 2rem',
+              borderRadius: '20px',
+              border: '1px solid rgba(126, 217, 87, 0.3)',
+              background: 'linear-gradient(160deg, rgba(17,17,25,0.8) 0%, var(--bg-card) 100%)',
+              textAlign: 'center',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.25), 0 0 60px rgba(126,217,87,0.04)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}>
+              {/* Decorative corner glow */}
+              <div style={{
+                position: 'absolute', top: -40, right: -40, width: 120, height: 120,
+                background: 'radial-gradient(circle, rgba(126,217,87,0.08) 0%, transparent 70%)',
+                pointerEvents: 'none',
+              }} />
+
+              <div style={{
+                fontSize: '3.5rem', fontWeight: 800, color: '#7ed957', marginBottom: '0.25rem',
+                fontFamily: 'var(--font-display)',
+                textShadow: '0 0 40px rgba(126,217,87,0.15)',
+              }}>
+                $<CountUp end={1997} duration={2000} />
+              </div>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1rem' }}>
+                One-time flat rate &mdash; no monthly fees for the build
+              </p>
+              <div style={{
+                padding: '1rem', borderRadius: '12px',
+                background: 'rgba(126, 217, 87, 0.04)',
+                border: '1px solid var(--border)',
+                marginBottom: '1.5rem',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>50% Deposit to Start</span>
+                  <span style={{ fontWeight: 600 }}>$998.50</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>50% Before Launch</span>
+                  <span style={{ fontWeight: 600 }}>$998.50</span>
+                </div>
+              </div>
+              <ul style={{
+                listStyle: 'none', padding: 0, margin: '0 0 1.5rem',
+                textAlign: 'left', fontSize: '0.9rem', lineHeight: 2.2,
+              }}>
+                {[
+                  '5 professionally designed pages',
+                  'Mobile-responsive design',
+                  'SEO-optimized content',
+                  'Contact form + Google Maps',
+                  'Online booking integration',
+                  'CRM sub-account (starter tier)',
+                  '2 rounds of revisions',
+                  'Live within 5-7 business days',
+                  'Hosting included',
+                ].map((item) => (
+                  <li key={item} style={{ color: 'var(--text-secondary)' }}>
+                    <span style={{ color: '#7ed957', marginRight: '0.5rem', fontWeight: 700 }}>&#10003;</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/onboard"
+                className="w0n-cta"
+                style={{
+                  display: 'block', padding: '0.9rem', borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                  color: '#0a0a0f', fontWeight: 700, fontSize: '1.05rem',
+                  textDecoration: 'none', textAlign: 'center',
+                  boxShadow: '0 4px 20px rgba(126,217,87,0.25)',
+                }}
+              >
+                Get Started
+              </Link>
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ========== FAQ ========== */}
+        <ScrollReveal>
+          <section aria-labelledby="faq-heading" style={{ padding: '2.5rem 0' }}>
+            <h2 id="faq-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
+              Frequently Asked Questions
+            </h2>
+            <div style={{ maxWidth: 720, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {FAQS.map((faq, i) => (
+                <ScrollReveal key={faq.q} delay={i * 50}>
+                  <details
+                    className="w0n-faq"
+                    style={{
+                      padding: '1.25rem 1.5rem',
+                      borderRadius: '14px',
+                      border: '1px solid var(--border)',
+                      background: 'var(--bg-card)',
+                      boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+                    }}
+                  >
+                    <summary style={{
+                      fontWeight: 600, cursor: 'pointer',
+                      fontSize: '1rem', listStyle: 'none',
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                      {faq.q}
+                      <span style={{ color: '#7ed957', fontSize: '1.2rem', marginLeft: '0.75rem', flexShrink: 0, transition: 'transform 0.2s ease' }}>+</span>
+                    </summary>
+                    <p style={{ color: 'var(--text-secondary)', marginTop: '0.75rem', fontSize: '0.9rem', lineHeight: 1.65 }}>
+                      {faq.a}
+                    </p>
+                  </details>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ========== FINAL CTA ========== */}
+        <ScrollReveal>
+          <section aria-label="Get started" style={{
+            padding: '4rem 2rem 5rem', textAlign: 'center',
+            position: 'relative',
+          }}>
+            {/* Background glow */}
+            <div style={{
+              position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
+              width: '400px', height: '300px',
+              background: 'radial-gradient(ellipse, rgba(126,217,87,0.04) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }} />
+
+            <Image
+              src="/brand/web0n-icon.jpg"
+              alt="web0n"
+              width={60}
+              height={60}
+              style={{
+                borderRadius: 16, margin: '0 auto 1.25rem', display: 'block',
+                boxShadow: '0 4px 24px rgba(126,217,87,0.15)',
+                position: 'relative',
+              }}
+            />
+            <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.75rem', position: 'relative' }}>
+              Ready to Launch Your Website?
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.65, position: 'relative' }}>
+              Tell us about your business. We&apos;ll handle the design, the code, the CRM, and the SEO. You just show up and launch.
+            </p>
+            <Link
+              href="/onboard"
+              className="w0n-cta"
+              style={{
+                display: 'inline-block',
+                padding: '0.95rem 2.75rem',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                color: '#0a0a0f',
+                fontWeight: 700,
+                fontSize: '1.1rem',
+                textDecoration: 'none',
+                boxShadow: '0 4px 24px rgba(126, 217, 87, 0.3)',
+                position: 'relative',
+              }}
+            >
+              Get Started &mdash; $1,997
+            </Link>
+          </section>
+        </ScrollReveal>
       </article>
+
+      <ExitIntent />
     </>
   )
 }

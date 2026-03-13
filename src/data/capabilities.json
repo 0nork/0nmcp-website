@@ -2,7 +2,7 @@
   "meta": {
     "version": "4.0.0",
     "generated": "2026-02-28",
-    "source": "0nMCP v2.3.0 — all services verified against catalog.js + crm/ + vault/ + engine/ + deed/",
+    "source": "0nMCP v2.4.0 — all services verified against catalog.js + crm/ + vault/ + engine/ + deed/",
     "total_capabilities": 1078,
     "schema": "0n-capabilities-v4",
     "pricing_note": "Pre-configured combos are one-time purchase. Per-use execution fees apply on 0nmcp.com."

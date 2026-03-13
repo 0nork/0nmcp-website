@@ -104,7 +104,7 @@ export function TerminalSignup() {
     initialized.current = true
 
     async function boot() {
-      await typeMessage(`0nMCP v2.3.0 — ${STATS.tools} tools, ${STATS.services} services`)
+      await typeMessage(`0nMCP v2.4.0 — ${STATS.tools} tools, ${STATS.services} services`)
       await new Promise(r => setTimeout(r, 300))
       await typeMessage('Initializing account creation...', 'info')
       await new Promise(r => setTimeout(r, 400))

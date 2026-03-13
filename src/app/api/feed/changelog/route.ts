@@ -7,18 +7,18 @@ export const dynamic = 'force-dynamic'
 /** 0nMCP platform changelog feed */
 const CHANGELOG = [
   {
-    version: '2.3.0',
-    date: '2026-03-06',
-    title: '0nMCP v2.3.0 — 877 Tools, 54 Services, RSS Engine',
-    body: `Added RSS feed infrastructure (inbound + outbound), 0nMonitor + 0nUpdater agents, white-label SXO content feeds, and 6 new services. Total: 877 tools across 54 services.`,
-    tags: ['release', 'rss', 'monitoring', 'sxo'],
+    version: '2.4.0',
+    date: '2026-03-12',
+    title: `0nMCP v2.4.0 — ${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services, Free Tier + ROI Calculator`,
+    body: `Free tier with 20 executions/month, 7-layer AI fallback (Gemini + OpenAI + Anthropic), interactive ROI calculator for agencies, vault standalone page with SVG logos. Total: ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services.`,
+    tags: ['release', 'free-tier', 'roi', 'ai-fallback'],
   },
   {
-    version: '2.2.0',
-    date: '2026-03-01',
+    version: '2.3.0',
+    date: '2026-03-06',
     title: `0nMCP v2.3.0 — ${STATS_DISPLAY.tools} Tools Across ${STATS_DISPLAY.services} Services`,
-    body: `The biggest release in 0nMCP history. From 26 services to ${STATS_DISPLAY.services}. From 558 tools to ${STATS_DISPLAY.tools}. Added Resend expansion (3→67 endpoints), Cloudflare, Vercel, Railway, and more.`,
-    tags: ['release', 'services', 'tools'],
+    body: `Added RSS feed infrastructure, 0nMonitor + 0nUpdater agents, white-label SXO content feeds, Resend expansion (3→67 endpoints), Cloudflare, Vercel, Railway, and more.`,
+    tags: ['release', 'rss', 'monitoring', 'services'],
   },
   {
     version: '2.1.0',

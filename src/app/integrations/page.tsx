@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   title: 'Integrations — Connect 53 Services with AI | 0nMCP',
   description: 'Browse all 0nMCP integrations. Connect Gmail, Slack, Stripe, CRM, Shopify, and more services with AI-powered orchestration. 80+ pre-built automations.',
   openGraph: {
-    title: 'Integrations — Connect 53 Services with AI | 0nMCP',
-    description: '80+ pre-built automations across 53 services. AI-native API orchestration.',
+    title: 'Integrations — Connect 91 Services with AI | 0nMCP',
+    description: '80+ pre-built automations across 91 services. AI-native API orchestration.',
     url: 'https://www.0nmcp.com/integrations',
   },
   alternates: { canonical: 'https://www.0nmcp.com/integrations' },

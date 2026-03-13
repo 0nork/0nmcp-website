@@ -8,7 +8,7 @@ import { STATS_DISPLAY } from '@/data/stats'
 
 const TRENDING_POSTS = [
   {
-    title: `0nMCP v2.3.0: ${STATS_DISPLAY.tools} Tools Across ${STATS_DISPLAY.services} Services — Full Breakdown`,
+    title: `0nMCP v2.4.0: ${STATS_DISPLAY.tools} Tools Across ${STATS_DISPLAY.services} Services — Full Breakdown`,
     date: 'Mar 1, 2026',
     slug: '0nmcp-v2-2-0-release',
   },

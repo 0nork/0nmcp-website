@@ -49,6 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/glossary',
     '/compare',
     '/integrations',
+    '/roi-calculator',
     '/security',
     '/security/vault',
     '/security/layers',

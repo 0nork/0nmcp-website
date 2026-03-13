@@ -118,7 +118,7 @@ export default function HeroSection() {
         {/* Badge */}
         <div className="hero-badge animate-fade-in-up">
           <span className="hero-badge-dot" />
-          <span>v2.3.0 — {STATS_DISPLAY.tools} tools live</span>
+          <span>v2.4.0 — {STATS_DISPLAY.tools} tools live</span>
         </div>
 
         {/* Headline */}

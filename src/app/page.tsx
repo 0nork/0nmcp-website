@@ -155,7 +155,7 @@ export default function HomePage() {
       `Universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services and ${STATS_DISPLAY.capabilities} capabilities. Three-Level Execution: Pipeline, Assembly Line, Radial Burst.`,
     url: 'https://www.0nmcp.com',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
-    softwareVersion: '2.3.0',
+    softwareVersion: '2.4.0',
     author: {
       '@type': 'Organization',
       name: 'RocketOpp, LLC',

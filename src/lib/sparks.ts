@@ -185,6 +185,19 @@ export async function checkBalance(userId: string, action: string, email?: strin
     return { allowed: true, balance: 999999, cost: 0 }
   }
 
+  // Fallback owner check by userId → email lookup (in case email wasn't passed)
+  if (!email) {
+    const admin = getAdmin()
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('email')
+      .eq('id', userId)
+      .maybeSingle()
+    if (profile?.email && isOwner(profile.email)) {
+      return { allowed: true, balance: 999999, cost: 0 }
+    }
+  }
+
   const bal = await getBalance(userId)
   const cost = getSparkCost(action)
   const allowed = bal.balance >= cost
@@ -208,7 +221,16 @@ export async function deductSparks(
   const cost = getSparkCost(action)
   if (cost === 0) return { balance: 0, cost: 0, transaction_id: '' }
 
+  // Safety net: never deduct from owner (should be caught upstream but just in case)
   const admin = getAdmin()
+  const { data: profile } = await admin
+    .from('profiles')
+    .select('email')
+    .eq('id', userId)
+    .maybeSingle()
+  if (profile?.email && isOwner(profile.email)) {
+    return { balance: 999999, cost: 0, transaction_id: '' }
+  }
 
   // Atomic deduction: read balance + lifetime_spent, check, update in one go
   const { data: bal } = await admin

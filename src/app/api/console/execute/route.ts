@@ -52,7 +52,13 @@ export async function POST(request: NextRequest) {
   }
 
   // Owner bypass — no billing check, no execution charges
-  const ownerMode = user.email ? isOwnerEmail(user.email) : false
+  let ownerMode = user.email ? isOwnerEmail(user.email) : false
+
+  // Fallback: check profile email if auth email is missing
+  if (!ownerMode && !user.email) {
+    const { data: p } = await getAdmin().from('profiles').select('email').eq('id', user.id).maybeSingle()
+    if (p?.email && isOwnerEmail(p.email)) ownerMode = true
+  }
 
   if (!ownerMode) {
     // Check billing: paid subscription OR free tier (20/month)

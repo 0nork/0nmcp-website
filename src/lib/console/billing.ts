@@ -12,9 +12,13 @@
  */
 
 import Stripe from 'stripe'
+import { createClient } from '@supabase/supabase-js'
 
 const METERED_PRICE_ID = 'price_1T8quFQjehctdkQR4fQkAWm7'
 const METER_EVENT_NAME = 'workflow_execution'
+
+/** Free tier: 20 workflow executions per calendar month */
+export const FREE_TIER_MONTHLY_LIMIT = 20
 
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY
@@ -157,6 +161,29 @@ export async function createBillingPortal(stripeCustomerId: string, returnUrl: s
   })
 
   return session.url
+}
+
+/**
+ * Count a user's executions in the current calendar month.
+ * Uses service role to bypass RLS.
+ */
+export async function getMonthlyExecutionCount(userId: string): Promise<number> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return 0
+
+  const admin = createClient(url, key)
+  const startOfMonth = new Date()
+  startOfMonth.setDate(1)
+  startOfMonth.setHours(0, 0, 0, 0)
+
+  const { count } = await admin
+    .from('console_executions')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .gte('created_at', startOfMonth.toISOString())
+
+  return count || 0
 }
 
 export { METERED_PRICE_ID, METER_EVENT_NAME }

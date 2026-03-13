@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { getActiveSubscription, reportExecution, isOwnerEmail } from '@/lib/console/billing'
+import { getActiveSubscription, reportExecution, isOwnerEmail, getMonthlyExecutionCount, FREE_TIER_MONTHLY_LIMIT } from '@/lib/console/billing'
 
 function getAdmin() {
   return createClient(
@@ -55,32 +55,34 @@ export async function POST(request: NextRequest) {
   const ownerMode = user.email ? isOwnerEmail(user.email) : false
 
   if (!ownerMode) {
-    // Check billing: user must have stripe_customer_id + active metered subscription
+    // Check billing: paid subscription OR free tier (20/month)
     const { data: profile } = await supabase
       .from('profiles')
       .select('stripe_customer_id')
       .eq('id', user.id)
       .single()
 
-    if (!profile?.stripe_customer_id) {
-      return NextResponse.json(
-        {
-          status: 'billing_required',
-          message: 'Activate your Execution Plan to run workflows. $0.10 per execution, billed monthly.',
-        },
-        { status: 402 }
-      )
+    const stripeCustomerId = profile?.stripe_customer_id || null
+    let isPaidUser = false
+
+    if (stripeCustomerId) {
+      const subscription = await getActiveSubscription(stripeCustomerId).catch(() => null)
+      isPaidUser = !!subscription
     }
 
-    const subscription = await getActiveSubscription(profile.stripe_customer_id).catch(() => null)
-    if (!subscription) {
-      return NextResponse.json(
-        {
-          status: 'billing_required',
-          message: 'Activate your Execution Plan to run workflows. $0.10 per execution, billed monthly.',
-        },
-        { status: 402 }
-      )
+    // Free tier check — 20 executions per calendar month
+    if (!isPaidUser) {
+      const monthlyCount = await getMonthlyExecutionCount(user.id)
+      if (monthlyCount >= FREE_TIER_MONTHLY_LIMIT) {
+        return NextResponse.json(
+          {
+            status: 'free_tier_exceeded',
+            message: `You've used all ${FREE_TIER_MONTHLY_LIMIT} free executions this month. Upgrade to the Execution Plan for unlimited runs at $0.10 each.`,
+            usage: { used: monthlyCount, limit: FREE_TIER_MONTHLY_LIMIT },
+          },
+          { status: 402 }
+        )
+      }
     }
 
     // Execute via 0nMCP
@@ -100,17 +102,19 @@ export async function POST(request: NextRequest) {
       services_used: execData?.services || [],
       result_summary: execData?.result ? String(execData.result).slice(0, 500) : undefined,
       error_message: result.error ? 'Execution failed' : undefined,
-      stripe_customer_id: profile.stripe_customer_id,
-      billed: !result.error,
-      billing_amount_cents: 10,
+      stripe_customer_id: stripeCustomerId || undefined,
+      billed: isPaidUser && !result.error,
+      billing_amount_cents: isPaidUser ? 10 : 0,
     })).then(() => {}).catch((err: unknown) => console.error('Failed to log execution:', err))
 
     if (result.error) return result.response
 
-    // Report successful execution to Stripe meter (fire and forget)
-    reportExecution(profile.stripe_customer_id, 1).catch((err) => {
-      console.error('Failed to report execution to Stripe:', err)
-    })
+    // Report to Stripe meter only for paid users
+    if (isPaidUser && stripeCustomerId) {
+      reportExecution(stripeCustomerId, 1).catch((err) => {
+        console.error('Failed to report execution to Stripe:', err)
+      })
+    }
 
     return result.response
   }

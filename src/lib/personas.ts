@@ -648,6 +648,8 @@ export async function createPersonaWithProfile(
   // Create a profile row for the persona with a generated UUID.
   // FK constraint is NOT VALID so service_role inserts bypass auth.users check.
   const personaUUID = randomUUID()
+  // Auto-generate a DiceBear avatar using the UUID as seed
+  const avatarUrl = personaData.avatar_url || `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(personaUUID)}`
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error: profileErr } = await (admin.from('profiles') as any)
     .insert({
@@ -656,7 +658,7 @@ export async function createPersonaWithProfile(
       display_name: personaData.name,
       username: personaData.slug,
       email: `persona-${personaData.slug}@0nmcp.internal`,
-      avatar_url: personaData.avatar_url || null,
+      avatar_url: avatarUrl,
       bio: personaData.bio || null,
       is_persona: true,
       reputation_level: personaData.knowledge_level === 'expert' ? 'contributor' : 'member',
@@ -668,11 +670,12 @@ export async function createPersonaWithProfile(
 
   if (profileErr) throw new Error(`Failed to create profile: ${profileErr.message}`)
 
-  // Create the persona row
+  // Create the persona row with profile_id link
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: persona, error: personaErr } = await (admin.from('community_personas') as any)
     .insert({
       ...personaData,
+      profile_id: personaUUID,
     })
     .select()
     .single()
@@ -789,15 +792,32 @@ export async function insertPersonaReply(
 }
 
 /**
- * Get the profile ID for a persona (from the profiles table)
+ * Get the profile ID for a persona — uses direct profile_id link first,
+ * falls back to email lookup for older personas.
  */
 export async function getPersonaProfileId(persona: Persona): Promise<string | null> {
+  // Fast path: use the direct profile_id link on community_personas
+  if ((persona as Record<string, unknown>).profile_id) {
+    return (persona as Record<string, unknown>).profile_id as string
+  }
+
   const admin = getAdmin()
+
+  // Try profile_id from community_personas table
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: personaRow } = await (admin.from('community_personas') as any)
+    .select('profile_id')
+    .eq('slug', persona.slug)
+    .single()
+
+  if (personaRow?.profile_id) return personaRow.profile_id
+
+  // Legacy fallback: email lookup
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data } = await (admin.from('profiles') as any)
     .select('id')
-    .eq('email', `persona-${persona.slug}@0nmcp.internal`)
     .eq('is_persona', true)
+    .or(`email.eq.persona-${persona.slug}@0nmcp.internal,email.eq.${persona.slug.split('-')[0]}@0nork.community`)
     .single()
 
   return data?.id || null

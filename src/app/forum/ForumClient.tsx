@@ -31,7 +31,7 @@ interface Thread {
   last_reply_at: string | null
   created_at: string
   user_id: string
-  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string }
+  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string; avatar_url?: string | null }
   community_groups?: { name: string; slug: string; icon: string | null; color: string } | null
 }
 
@@ -325,7 +325,16 @@ export default function ForumClient({
                             Pinned
                           </span>
                         )}
-                        <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                        <span className="text-[11px] inline-flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                          {thread.profiles?.avatar_url && (
+                            <img
+                              src={thread.profiles.avatar_url}
+                              alt=""
+                              width={14}
+                              height={14}
+                              style={{ borderRadius: '50%', flexShrink: 0 }}
+                            />
+                          )}
                           <span
                             className="font-semibold"
                             style={{ color: reputationColor(thread.profiles?.reputation_level) }}

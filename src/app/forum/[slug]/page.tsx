@@ -340,7 +340,16 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
               {thread.is_pinned && (
                 <span style={{ fontSize: '0.5625rem', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(255,215,0,0.1)', color: '#FFD700' }}>Pinned</span>
               )}
-              <span style={{ color: 'var(--text-muted)' }}>
+              <span style={{ color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                {thread.profiles?.avatar_url && (
+                  <img
+                    src={thread.profiles.avatar_url}
+                    alt=""
+                    width={18}
+                    height={18}
+                    style={{ borderRadius: '50%', verticalAlign: 'middle' }}
+                  />
+                )}
                 Posted by{' '}
                 <Link
                   href={`/u/${thread.user_id}`}

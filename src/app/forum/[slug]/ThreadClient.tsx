@@ -11,7 +11,7 @@ interface Post {
   created_at: string
   parent_post_id: string | null
   user_id: string
-  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string }
+  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string; avatar_url?: string | null }
 }
 
 function timeAgo(date: string) {
@@ -235,6 +235,15 @@ export default function ThreadClient({
                 fontSize: '0.75rem',
                 flexWrap: 'wrap',
               }}>
+                {post.profiles?.avatar_url && (
+                  <img
+                    src={post.profiles.avatar_url}
+                    alt=""
+                    width={16}
+                    height={16}
+                    style={{ borderRadius: '50%', flexShrink: 0 }}
+                  />
+                )}
                 <Link
                   href={`/u/${post.user_id}`}
                   style={{

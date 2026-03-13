@@ -39,6 +39,13 @@ interface RecentThread {
 
 const sections: Array<{ title: string; description: string; href: string; icon: ReactNode; color: string; external?: boolean }> = [
   {
+    title: 'SERP Analytics',
+    description: 'Keyword rankings, position tracking, Zenserp data.',
+    href: '/admin/analytics',
+    icon: <IconChart size={20} />,
+    color: '#00d4ff',
+  },
+  {
     title: 'Blog Engine',
     description: 'CRO9 auto-blogging — SEO analysis, content generation, adaptive weights.',
     href: '/admin/blog',

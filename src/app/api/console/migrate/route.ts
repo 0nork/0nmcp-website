@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 
 const ONMCP_SERVICES = [
   'crm', 'stripe', 'sendgrid', 'slack', 'discord', 'twilio', 'github',
@@ -80,15 +80,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing or invalid filename' }, { status: 400 })
     }
 
-    const apiKey = process.env.ANTHROPIC_API_KEY
-    if (!apiKey) {
-      // Return mock result when no API key is configured
-      const mockResult = buildMockResult(content, filename)
-      return NextResponse.json(mockResult)
-    }
-
-    const anthropic = new Anthropic({ apiKey })
-
     const systemPrompt = `You are a workflow migration engine for 0nMCP, a universal AI API orchestrator.
 Your job is to analyze workflow files exported from other automation platforms and convert them into .0n workflow format.
 
@@ -126,25 +117,20 @@ Filename: ${filename}
 Content:
 ${content.slice(0, 12000)}`
 
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
-      messages: [
-        { role: 'user', content: userPrompt },
-      ],
+    const result = await callAI({
       system: systemPrompt,
+      user: userPrompt,
+      maxTokens: 4096,
     })
 
-    const textBlock = message.content.find((b) => b.type === 'text')
-    if (!textBlock || textBlock.type !== 'text') {
+    if (!result) {
       const fallback = buildMockResult(content, filename)
       return NextResponse.json(fallback)
     }
 
     let parsed: Record<string, unknown>
     try {
-      // Strip any markdown code fences if present
-      const cleaned = textBlock.text.replace(/^```json?\s*\n?/i, '').replace(/\n?```\s*$/i, '')
+      const cleaned = result.text.replace(/^```json?\s*\n?/i, '').replace(/\n?```\s*$/i, '')
       parsed = JSON.parse(cleaned)
     } catch {
       const fallback = buildMockResult(content, filename)
@@ -152,7 +138,7 @@ ${content.slice(0, 12000)}`
     }
 
     // Validate and normalize the response
-    const result = {
+    const normalized = {
       platform: typeof parsed.platform === 'string' ? parsed.platform : 'unknown',
       confidence: typeof parsed.confidence === 'number' ? Math.min(100, Math.max(0, parsed.confidence)) : 50,
       stepsFound: typeof parsed.stepsFound === 'number' ? parsed.stepsFound : 0,
@@ -161,7 +147,7 @@ ${content.slice(0, 12000)}`
       credentialQueue: Array.isArray(parsed.credentialQueue) ? parsed.credentialQueue : [],
     }
 
-    return NextResponse.json(result)
+    return NextResponse.json(normalized)
   } catch (error) {
     console.error('Migration error:', error)
     return NextResponse.json(

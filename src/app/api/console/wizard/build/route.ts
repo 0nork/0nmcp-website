@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -274,20 +274,7 @@ export async function POST(request: NextRequest) {
   // Determine which services need credentials
   const credentialQueue = buildCredentialQueue(selectedServices, notifications || [])
 
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    // Template-based fallback when no AI key available
-    const workflow = generateFallbackWorkflow(body)
-    return NextResponse.json({
-      workflow,
-      buildSteps,
-      credentialQueue,
-    })
-  }
-
   try {
-    const anthropic = new Anthropic({ apiKey })
-
     const triggerContext = `Trigger: "${trigger.label}" (id: ${trigger.id})${trigger.service ? `, service: ${trigger.service}` : ''}`
     const servicesContext = `Selected services: ${selectedServices.join(', ')}`
     const notifContext = notifications && notifications.length > 0
@@ -363,17 +350,13 @@ export async function POST(request: NextRequest) {
       descContext || 'No additional description provided.',
     ].join('\n')
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
+    const aiResult = await callAI({
       system: systemPrompt,
-      messages: [{ role: 'user', content: userPrompt }],
+      user: userPrompt,
+      maxTokens: 2000,
     })
 
-    const rawText =
-      response.content[0]?.type === 'text'
-        ? response.content[0].text
-        : ''
+    const rawText = aiResult?.text || ''
 
     // Extract JSON from the response
     let workflow: Record<string, unknown> | null = null
@@ -420,7 +403,7 @@ export async function POST(request: NextRequest) {
       credentialQueue,
     })
   } catch (err) {
-    console.error('[wizard/build] Anthropic error:', err)
+    console.error('[wizard/build] AI error:', err)
 
     // Fallback on error
     const workflow = generateFallbackWorkflow(body)

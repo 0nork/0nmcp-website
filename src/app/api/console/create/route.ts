@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { callAIChat } from '@/lib/ai-provider'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -134,43 +134,32 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    return NextResponse.json({
-      text: "I'm not available right now — the AI service isn't configured. Ask your admin to set the ANTHROPIC_API_KEY.",
-      workflow: null,
-    })
-  }
-
   try {
-    const anthropic = new Anthropic({ apiKey })
-
     // Build messages from history
-    const messages: Anthropic.MessageParam[] = []
+    const aiMessages: Array<{ role: 'user' | 'assistant'; content: string }> = []
     const conversationHistory = Array.isArray(history) ? history.slice(-20) : []
 
     for (const entry of conversationHistory) {
       if (entry.role === 'user' || entry.role === 'assistant') {
-        messages.push({
+        aiMessages.push({
           role: entry.role,
           content: String(entry.content).slice(0, 6000),
         })
       }
     }
 
-    messages.push({ role: 'user', content: String(message).slice(0, 6000) })
+    aiMessages.push({ role: 'user', content: String(message).slice(0, 6000) })
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4000,
-      system: SYSTEM_PROMPT,
-      messages,
-    })
+    const result = await callAIChat(SYSTEM_PROMPT, aiMessages, user.id, 4000)
 
-    const rawText =
-      response.content[0]?.type === 'text'
-        ? response.content[0].text
-        : 'Unable to generate a response. Try again!'
+    if (!result) {
+      return NextResponse.json({
+        text: "I'm not available right now — no AI provider is configured. Check your admin settings.",
+        workflow: null,
+      })
+    }
+
+    const rawText = result.text
 
     // Check if the response contains a .0n workflow JSON
     let workflow: Record<string, unknown> | null = null
@@ -226,7 +215,7 @@ export async function POST(request: NextRequest) {
       savedWorkflowId,
     })
   } catch (err) {
-    console.error('[console/create] Anthropic error:', err)
+    console.error('[console/create] AI error:', err)
     return NextResponse.json({
       text: 'Something went wrong generating your workflow. Please try again.',
       workflow: null,

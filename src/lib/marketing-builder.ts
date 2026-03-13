@@ -10,7 +10,7 @@
  * Cost: 10 Sparks per generation
  */
 
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 
 // ── Types ──
 
@@ -155,19 +155,10 @@ ${config.logoUrl ? `Logo URL: ${config.logoUrl}` : ''}
 
 // ── Generator ──
 
-let _client: Anthropic | null = null
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
-  }
-  return _client
-}
-
 /**
- * Generate a marketing asset using Claude.
+ * Generate a marketing asset using the platform AI provider.
  */
 export async function generateAsset(config: BuilderConfig): Promise<BuilderResult> {
-  const client = getClient()
   const systemPrompt = buildSystemPrompt(config)
 
   const assetLabels: Record<AssetType, string> = {
@@ -179,15 +170,13 @@ export async function generateAsset(config: BuilderConfig): Promise<BuilderResul
 
   const userPrompt = `Create a ${assetLabels[config.assetType]} for: ${config.prompt}`
 
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 8192,
+  const result = await callAI({
     system: systemPrompt,
-    messages: [{ role: 'user', content: userPrompt }],
+    user: userPrompt,
+    maxTokens: 8192,
   })
 
-  const textBlock = response.content.find(b => b.type === 'text')
-  let html = textBlock?.text || ''
+  let html = result?.text || ''
 
   // Strip markdown code fences if present
   html = html.replace(/^```html?\n?/i, '').replace(/\n?```$/i, '').trim()
@@ -227,8 +216,6 @@ export type ExportFormat = 'html' | 'react' | 'crm_funnel' | 'crm_email'
 export async function exportAsset(html: string, format: ExportFormat): Promise<string> {
   if (format === 'html') return html
 
-  const client = getClient()
-
   const formatPrompts: Record<ExportFormat, string> = {
     html: '',
     react: `Convert this HTML to a React functional component using TypeScript and Tailwind CSS classes.
@@ -255,17 +242,13 @@ export async function exportAsset(html: string, format: ExportFormat): Promise<s
 - Output ONLY the HTML, no explanations.`,
   }
 
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 8192,
-    messages: [{
-      role: 'user',
-      content: `${formatPrompts[format]}\n\nHTML to convert:\n${html}`,
-    }],
+  const aiResult = await callAI({
+    system: 'You convert HTML to other formats. Output ONLY the converted code.',
+    user: `${formatPrompts[format]}\n\nHTML to convert:\n${html}`,
+    maxTokens: 8192,
   })
 
-  const textBlock = response.content.find(b => b.type === 'text')
-  let result = textBlock?.text || html
+  let result = aiResult?.text || html
 
   // Strip code fences
   result = result.replace(/^```(?:tsx?|html|jsx)?\n?/i, '').replace(/\n?```$/i, '').trim()

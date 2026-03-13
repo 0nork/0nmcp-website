@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 
 function getAdmin() {
   return createClient(
@@ -7,8 +7,6 @@ function getAdmin() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
 }
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || '' })
 
 /**
  * Check if the variant pool has reached a performance plateau.
@@ -89,12 +87,9 @@ export async function generateNewVariants(
     .map((v, i) => `${i + 1}. "${v.question_text}" — Context: ${v.context_hint}`)
     .join('\n')
 
-  const message = await anthropic.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 800,
-    messages: [{
-      role: 'user',
-      content: `These LinkedIn onboarding follow-up questions are performing best for driving user engagement:
+  const aiResult = await callAI({
+    system: 'You generate LinkedIn onboarding follow-up questions. Return ONLY valid JSON.',
+    user: `These LinkedIn onboarding follow-up questions are performing best for driving user engagement:
 
 ${topQuestionsText}
 
@@ -108,10 +103,10 @@ Return a JSON array with exactly ${count} objects:
 [{ "variant_key": "gen_<short_snake_case>", "question_text": "the question", "context_hint": "what this reveals" }]
 
 ONLY return the JSON array.`,
-    }],
+    maxTokens: 800,
   })
 
-  const text = message.content[0].type === 'text' ? message.content[0].text : ''
+  const text = aiResult?.text || ''
 
   try {
     const match = text.match(/\[[\s\S]*\]/)

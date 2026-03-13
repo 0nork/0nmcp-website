@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 import { ContentBrief, BlogPost, ActionBucket } from './types'
 
 /**
@@ -171,32 +171,17 @@ function countWords(text: string): number {
 export async function generateBlogPost(
   brief: ContentBrief
 ): Promise<BlogPost> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    throw new Error('ANTHROPIC_API_KEY environment variable is required')
-  }
-
-  const client = new Anthropic({ apiKey })
-
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 4096,
+  const result = await callAI({
     system: buildSystemPrompt(brief),
-    messages: [
-      {
-        role: 'user',
-        content: buildUserPrompt(brief),
-      },
-    ],
+    user: buildUserPrompt(brief),
+    maxTokens: 4096,
   })
 
-  // Extract text from response
-  const textBlock = response.content.find((block) => block.type === 'text')
-  if (!textBlock || textBlock.type !== 'text') {
-    throw new Error('No text content in AI response')
+  if (!result) {
+    throw new Error('All AI providers failed — check API keys')
   }
 
-  const generated = textBlock.text
+  const generated = result.text
   const { title, body, metaDescription } = parseGeneratedContent(generated)
   const wordCount = countWords(body)
 

@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { callAIChat } from '@/lib/ai-provider'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -254,80 +254,44 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Wizard state is required' }, { status: 400 })
   }
 
-  // Optional auth check -- don't require it
+  // Optional auth check for per-user AI routing
+  let userId: string | undefined
   const supabase = await createSupabaseServer()
   if (supabase) {
     const { data: { user } } = await supabase.auth.getUser()
-    // Log user if present but don't block
-    if (user) {
-      // Authenticated request -- could log analytics here
+    if (user) userId = user.id
+  }
+
+  const systemPrompt = buildSystemPrompt(wizardState)
+
+  // Build messages
+  const aiMessages: Array<{ role: 'user' | 'assistant'; content: string }> = []
+  const conversationHistory = Array.isArray(history) ? history.slice(-16) : []
+
+  for (const entry of conversationHistory) {
+    if (entry.role === 'user' || entry.role === 'assistant') {
+      aiMessages.push({
+        role: entry.role,
+        content: String(entry.text).slice(0, 4000),
+      })
     }
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) {
-    // Return local fallback when no API key configured
-    const fallback = getFallbackResponse(wizardState.step)
-    return NextResponse.json({
-      text: fallback.text,
-      suggestions: fallback.suggestions,
-    })
-  }
+  aiMessages.push({ role: 'user', content: String(message).slice(0, 4000) })
 
   try {
-    const anthropic = new Anthropic({ apiKey })
+    const result = await callAIChat(systemPrompt, aiMessages, userId, 500)
 
-    const systemPrompt = buildSystemPrompt(wizardState)
-
-    // Map conversation history to Anthropic messages format
-    const messages: Anthropic.MessageParam[] = []
-
-    const conversationHistory = Array.isArray(history)
-      ? history.slice(-16)
-      : []
-
-    for (const entry of conversationHistory) {
-      if (entry.role === 'user' || entry.role === 'assistant') {
-        messages.push({
-          role: entry.role,
-          content: String(entry.text).slice(0, 4000),
-        })
-      }
+    if (!result) {
+      const fallback = getFallbackResponse(wizardState.step)
+      return NextResponse.json({ text: fallback.text, suggestions: fallback.suggestions })
     }
 
-    // Add the new user message
-    messages.push({
-      role: 'user',
-      content: String(message).slice(0, 4000),
-    })
-
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 500,
-      system: systemPrompt,
-      messages,
-    })
-
-    const rawText =
-      response.content[0]?.type === 'text'
-        ? response.content[0].text
-        : 'I am having trouble generating a response. Try again!'
-
-    // Parse suggestions from the response
-    const { text, suggestions } = parseSuggestions(rawText)
-
-    return NextResponse.json({
-      text: text || rawText,
-      suggestions,
-    })
+    const { text, suggestions } = parseSuggestions(result.text)
+    return NextResponse.json({ text: text || result.text, suggestions })
   } catch (err) {
-    console.error('[wizard/chat] Anthropic error:', err)
-
-    // Return helpful fallback on error
+    console.error('[wizard/chat] AI error:', err)
     const fallback = getFallbackResponse(wizardState.step)
-    return NextResponse.json({
-      text: fallback.text,
-      suggestions: fallback.suggestions,
-    })
+    return NextResponse.json({ text: fallback.text, suggestions: fallback.suggestions })
   }
 }

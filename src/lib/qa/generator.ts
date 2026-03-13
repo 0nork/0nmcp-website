@@ -5,7 +5,7 @@
 // Uses Claude (Anthropic SDK) for AI generation
 // =============================================================================
 
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 import {
   PlatformId,
   Platform,
@@ -243,15 +243,6 @@ Respond with JSON:
 // ---------------------------------------------------------------------------
 
 export class MultiPlatformGenerator {
-  private client: Anthropic
-  private model: string = 'claude-sonnet-4-20250514'
-
-  constructor(apiKey?: string) {
-    this.client = new Anthropic({
-      apiKey: apiKey || process.env.ANTHROPIC_API_KEY,
-    })
-  }
-
   async generateForPlatform(
     request: ContentRequest,
     platformId: PlatformId,
@@ -260,18 +251,17 @@ export class MultiPlatformGenerator {
     const platform = PLATFORMS[platformId]
     const prompt = buildGenerationPrompt(request, platform, variantNumber)
 
-    const response = await this.client.messages.create({
-      model: this.model,
-      max_tokens: 4000,
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
+    const result = await callAI({
+      system: 'You are a content generation engine. Generate platform-specific content and return valid JSON.',
+      user: prompt,
+      maxTokens: 4000,
     })
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    if (!result) {
+      throw new Error('All AI providers failed — check API keys')
+    }
+
+    const text = result.text
 
     // Parse JSON response
     const jsonMatch = text.match(/\{[\s\S]*\}/)
@@ -391,13 +381,14 @@ Return JSON:
   ]
 }`
 
-    const response = await this.client.messages.create({
-      model: this.model,
-      max_tokens: 3000,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await callAI({
+      system: 'You generate FAQ content. Return valid JSON only.',
+      user: prompt,
+      maxTokens: 3000,
     })
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    if (!result) throw new Error('All AI providers failed')
+    const text = result.text
     const jsonMatch = text.match(/\{[\s\S]*\}/)
     const parsed = JSON.parse(jsonMatch![0])
 
@@ -494,14 +485,6 @@ ${JSON.stringify(schema, null, 2)}
 // ---------------------------------------------------------------------------
 
 export class QuestionFinder {
-  private client: Anthropic
-
-  constructor(apiKey?: string) {
-    this.client = new Anthropic({
-      apiKey: apiKey || process.env.ANTHROPIC_API_KEY,
-    })
-  }
-
   async generateSearchQueries(
     businessNiche: string,
     keywords: string[],
@@ -535,14 +518,14 @@ Return JSON:
   "forumQueries": ["query1", "query2", ...]
 }`
 
-    const response = await this.client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }],
+    const result = await callAI({
+      system: 'You generate search queries for Q&A platforms. Return valid JSON only.',
+      user: prompt,
+      maxTokens: 2000,
     })
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
-    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    if (!result) throw new Error('All AI providers failed')
+    const jsonMatch = result.text.match(/\{[\s\S]*\}/)
     return JSON.parse(jsonMatch![0])
   }
 }

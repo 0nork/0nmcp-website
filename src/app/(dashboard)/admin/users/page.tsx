@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 
+type AIProviderId = 'gemini' | 'openai' | 'anthropic'
+
 interface User {
   id: string
   email: string
@@ -16,6 +18,7 @@ interface User {
   is_persona: boolean
   onboarding_completed: boolean
   created_at: string
+  default_ai_providers: AIProviderId[] | null
 }
 
 interface UserStats {
@@ -45,6 +48,8 @@ export default function UserManagementPage() {
   const [addLoading, setAddLoading] = useState(false)
   const [resetMessage, setResetMessage] = useState('')
   const [resetLoading, setResetLoading] = useState(false)
+  const [aiProviderSaving, setAiProviderSaving] = useState(false)
+  const [aiProviderMsg, setAiProviderMsg] = useState('')
 
   const load = useCallback(async () => {
     if (!supabase) return
@@ -52,7 +57,7 @@ export default function UserManagementPage() {
     const [usersRes, totalRes, personaRes, onboardedRes, weekRes] = await Promise.all([
       supabase
         .from('profiles')
-        .select('id, email, full_name, username, avatar_url, bio, karma, reputation_level, is_persona, onboarding_completed, created_at')
+        .select('id, email, full_name, username, avatar_url, bio, karma, reputation_level, is_persona, onboarding_completed, created_at, default_ai_providers')
         .order('created_at', { ascending: false })
         .limit(100),
       supabase.from('profiles').select('*', { count: 'exact', head: true }),
@@ -130,6 +135,31 @@ export default function UserManagementPage() {
       setResetMessage('Network error')
     }
     setResetLoading(false)
+  }
+
+  async function handleAIProviderChange(userId: string, providers: AIProviderId[] | null) {
+    setAiProviderSaving(true)
+    setAiProviderMsg('')
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, default_ai_providers: providers }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setAiProviderMsg('Saved')
+        // Update local state
+        setUsers(prev => prev.map(u => u.id === userId ? { ...u, default_ai_providers: providers } : u))
+        if (selectedUser?.id === userId) setSelectedUser({ ...selectedUser, default_ai_providers: providers })
+        setTimeout(() => setAiProviderMsg(''), 2000)
+      } else {
+        setAiProviderMsg(data.error || 'Failed')
+      }
+    } catch {
+      setAiProviderMsg('Network error')
+    }
+    setAiProviderSaving(false)
   }
 
   const filteredUsers = users
@@ -323,6 +353,64 @@ export default function UserManagementPage() {
                   </span>
                 )}
               </div>
+
+              {/* AI Provider Default */}
+              <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 600 }}>Default AI Providers:</span>
+                  {aiProviderMsg && (
+                    <span style={{ fontSize: '0.625rem', fontWeight: 600, color: aiProviderMsg === 'Saved' ? 'var(--accent)' : '#ff3d3d' }}>
+                      {aiProviderMsg}
+                    </span>
+                  )}
+                </div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                  {(['gemini', 'openai', 'anthropic'] as AIProviderId[]).map(p => {
+                    const current = selectedUser.default_ai_providers || []
+                    const active = current.includes(p)
+                    const colors: Record<AIProviderId, string> = { gemini: '#4285F4', openai: '#10a37f', anthropic: '#cc785c' }
+                    return (
+                      <button
+                        key={p}
+                        disabled={aiProviderSaving}
+                        onClick={() => {
+                          const current = selectedUser.default_ai_providers || []
+                          const next = active
+                            ? current.filter(x => x !== p)
+                            : [...current, p]
+                          handleAIProviderChange(selectedUser.id, next.length > 0 ? next : null)
+                        }}
+                        style={{
+                          padding: '4px 12px', borderRadius: 6, fontWeight: 700, fontSize: '0.6875rem',
+                          border: `1px solid ${active ? colors[p] : 'var(--border)'}`,
+                          background: active ? `${colors[p]}20` : 'transparent',
+                          color: active ? colors[p] : 'var(--text-muted)',
+                          cursor: aiProviderSaving ? 'wait' : 'pointer',
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {p}
+                      </button>
+                    )
+                  })}
+                  <button
+                    disabled={aiProviderSaving}
+                    onClick={() => handleAIProviderChange(selectedUser.id, null)}
+                    style={{
+                      padding: '4px 10px', borderRadius: 6, fontWeight: 600, fontSize: '0.625rem',
+                      border: '1px solid var(--border)', background: 'transparent',
+                      color: 'var(--text-muted)', cursor: aiProviderSaving ? 'wait' : 'pointer',
+                    }}
+                  >
+                    Reset to Default
+                  </button>
+                </div>
+                <div style={{ fontSize: '0.5625rem', color: 'var(--text-muted)', marginTop: 4 }}>
+                  {selectedUser.default_ai_providers
+                    ? `Order: ${selectedUser.default_ai_providers.join(' → ')}`
+                    : 'Using platform default: gemini → openai → anthropic'}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -364,6 +452,19 @@ export default function UserManagementPage() {
                 {u.email} {u.username ? `(@${u.username})` : ''}
               </div>
             </div>
+            {u.default_ai_providers && (
+              <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
+                {u.default_ai_providers.map(p => (
+                  <span key={p} style={{
+                    fontSize: '0.5rem', padding: '1px 4px', borderRadius: 3, fontWeight: 700,
+                    background: p === 'gemini' ? '#4285F420' : p === 'openai' ? '#10a37f20' : '#cc785c20',
+                    color: p === 'gemini' ? '#4285F4' : p === 'openai' ? '#10a37f' : '#cc785c',
+                  }}>
+                    {p[0].toUpperCase()}
+                  </span>
+                ))}
+              </div>
+            )}
             <div style={{ textAlign: 'right', flexShrink: 0 }}>
               <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent)' }}>{u.karma}</div>
               <div style={{ fontSize: '0.5625rem', color: repColor(u.reputation_level) }}>{u.reputation_level}</div>

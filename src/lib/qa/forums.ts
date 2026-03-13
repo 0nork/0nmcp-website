@@ -4,7 +4,7 @@
 // Identifies and monitors relevant forums for Q&A engagement
 // =============================================================================
 
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 import { ForumInfo } from './types'
 
 // ---------------------------------------------------------------------------
@@ -211,13 +211,6 @@ export const KNOWN_FORUMS: ForumInfo[] = [
 // ---------------------------------------------------------------------------
 
 export class ForumFinder {
-  private client: Anthropic
-
-  constructor(apiKey?: string) {
-    this.client = new Anthropic({
-      apiKey: apiKey || process.env.ANTHROPIC_API_KEY,
-    })
-  }
 
   async discoverForums(
     niche: string,
@@ -275,14 +268,9 @@ Return JSON:
   "recommendations": "Overall strategy recommendations for forum marketing in this niche"
 }`
 
-    const response = await this.client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4000,
-      messages: [{ role: 'user', content: prompt }],
-    })
-
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
-    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    const result = await callAI({ system: 'You discover forums for marketing engagement. Return valid JSON.', user: prompt, maxTokens: 4000 })
+    if (!result) throw new Error('All AI providers failed')
+    const jsonMatch = result.text.match(/\{[\s\S]*\}/)
     return JSON.parse(jsonMatch![0])
   }
 
@@ -316,14 +304,9 @@ Return JSON:
   "risks": ["risk1", "risk2"]
 }`
 
-    const response = await this.client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }],
-    })
-
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
-    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    const result = await callAI({ system: 'You analyze forums for marketing engagement. Return valid JSON.', user: prompt, maxTokens: 2000 })
+    if (!result) throw new Error('All AI providers failed')
+    const jsonMatch = result.text.match(/\{[\s\S]*\}/)
     return JSON.parse(jsonMatch![0])
   }
 }
@@ -333,13 +316,6 @@ Return JSON:
 // ---------------------------------------------------------------------------
 
 export class ForumContentGenerator {
-  private client: Anthropic
-
-  constructor(apiKey?: string) {
-    this.client = new Anthropic({
-      apiKey: apiKey || process.env.ANTHROPIC_API_KEY,
-    })
-  }
 
   async generateForumPost(
     forum: ForumInfo,
@@ -398,14 +374,9 @@ Return JSON:
   ${forum.linkPolicy === 'signature_only' ? '"signature": "Professional signature with link"' : '"signature": null'}
 }`
 
-    const response = await this.client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 3000,
-      messages: [{ role: 'user', content: prompt }],
-    })
-
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
-    const jsonMatch = text.match(/\{[\s\S]*\}/)
+    const result = await callAI({ system: 'You write authentic forum posts for community engagement. Return valid JSON.', user: prompt, maxTokens: 3000 })
+    if (!result) throw new Error('All AI providers failed')
+    const jsonMatch = result.text.match(/\{[\s\S]*\}/)
     return JSON.parse(jsonMatch![0])
   }
 }

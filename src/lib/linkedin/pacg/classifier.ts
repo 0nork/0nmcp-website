@@ -1,7 +1,5 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 import type { Archetype, LinkedInProfile } from '@/lib/linkedin/types'
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || '' })
 
 /**
  * Classify a LinkedIn profile into a professional archetype.
@@ -32,13 +30,13 @@ Rules:
 - Default "vocabularyLevel" to "professional" unless signals suggest otherwise
 - ONLY return the JSON object, no explanation.`
 
-  const message = await anthropic.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 300,
-    messages: [{ role: 'user', content: prompt }],
+  const result = await callAI({
+    system: 'You classify LinkedIn profiles into professional archetypes. Return ONLY valid JSON.',
+    user: prompt,
+    maxTokens: 300,
   })
 
-  const text = message.content[0].type === 'text' ? message.content[0].text : ''
+  const text = result?.text || ''
 
   try {
     // Extract JSON from response (handle markdown code blocks)

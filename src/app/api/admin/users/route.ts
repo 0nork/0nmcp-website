@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error, count } = await admin
     .from('profiles')
-    .select('id, email, full_name, company, role, is_admin, onboarding_completed, created_at, post_count, karma, last_seen_at', { count: 'exact' })
+    .select('id, email, full_name, company, role, is_admin, onboarding_completed, created_at, post_count, karma, last_seen_at, default_ai_providers', { count: 'exact' })
     .order('created_at', { ascending: false })
     .limit(500)
 
@@ -135,7 +135,7 @@ export async function PATCH(request: NextRequest) {
   const admin = getServiceClient()
   if (!admin) return NextResponse.json({ error: 'Service client not available' }, { status: 500 })
 
-  const { userId, is_admin, role } = await request.json()
+  const { userId, is_admin, role, default_ai_providers } = await request.json()
 
   if (!userId) {
     return NextResponse.json({ error: 'userId required' }, { status: 400 })
@@ -149,6 +149,17 @@ export async function PATCH(request: NextRequest) {
   const updates: Record<string, unknown> = {}
   if (typeof is_admin === 'boolean') updates.is_admin = is_admin
   if (typeof role === 'string') updates.role = role
+  if (default_ai_providers !== undefined) {
+    // Accept null (reset to platform default) or string array of provider IDs
+    const valid = ['gemini', 'openai', 'anthropic']
+    if (default_ai_providers === null) {
+      updates.default_ai_providers = null
+    } else if (Array.isArray(default_ai_providers) && default_ai_providers.every((p: string) => valid.includes(p))) {
+      updates.default_ai_providers = default_ai_providers
+    } else {
+      return NextResponse.json({ error: 'Invalid AI providers. Must be array of: gemini, openai, anthropic' }, { status: 400 })
+    }
+  }
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ error: 'No updates provided' }, { status: 400 })

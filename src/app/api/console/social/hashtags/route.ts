@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from '@/lib/ai-provider'
 
 // ─── POST: Generate hashtags for content ─────────────────────────
 
@@ -19,34 +19,18 @@ export async function POST(request: NextRequest) {
 
     contentText = content
 
-    const apiKey = process.env.ANTHROPIC_API_KEY
+    const result = await callAI({
+      system: 'You generate hashtags for social media posts. Return ONLY a JSON array of hashtag strings (without #). No other text.',
+      user: `Generate 5-10 relevant hashtags for this social media post. Return ONLY a JSON array of hashtag strings (without #). No other text, explanation, or markdown formatting. Just the raw JSON array.\n\nContent: ${content}`,
+      maxTokens: 256,
+    })
 
-    // If no API key, return intelligent mock hashtags based on content
-    if (!apiKey) {
+    if (!result) {
       const mockHashtags = generateMockHashtags(content)
       return NextResponse.json({ hashtags: mockHashtags })
     }
 
-    // Call Anthropic API
-    const client = new Anthropic({ apiKey })
-
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 256,
-      messages: [
-        {
-          role: 'user',
-          content: `Generate 5-10 relevant hashtags for this social media post. Return ONLY a JSON array of hashtag strings (without #). No other text, explanation, or markdown formatting. Just the raw JSON array.\n\nContent: ${content}`,
-        },
-      ],
-    })
-
-    // Extract text from response
-    const responseText = message.content
-      .filter((block): block is Anthropic.TextBlock => block.type === 'text')
-      .map((block) => block.text)
-      .join('')
-      .trim()
+    const responseText = result.text.trim()
 
     // Parse the JSON array
     let hashtags: string[]

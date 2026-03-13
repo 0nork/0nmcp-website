@@ -73,33 +73,19 @@ export interface PersonaConversation {
   created_at: string
 }
 
-// ==================== Claude API Helper ====================
+// ==================== AI Helper (uses per-user provider routing) ====================
+
+import { callAI as callAIProvider } from '@/lib/ai-provider'
 
 async function callClaude(prompt: string, maxTokens = 2048): Promise<string> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY required')
-
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-5-20250929',
-      max_tokens: maxTokens,
-      messages: [{ role: 'user', content: prompt }],
-    }),
+  const result = await callAIProvider({
+    system: 'You generate content for an AI forum community. Return valid JSON when asked.',
+    user: prompt,
+    maxTokens,
   })
 
-  if (!response.ok) {
-    const err = await response.text()
-    throw new Error(`Claude API error: ${response.status} — ${err}`)
-  }
-
-  const data = await response.json()
-  return data.content?.[0]?.text || ''
+  if (!result) throw new Error('All AI providers failed — check API keys')
+  return result.text
 }
 
 function parseJSON<T>(text: string): T {

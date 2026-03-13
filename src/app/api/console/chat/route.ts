@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
 import { decryptVaultData } from '@/lib/vault-crypto'
-import { STATS, STATS_DISPLAY } from '@/data/stats'
+import { STATS_DISPLAY } from '@/data/stats'
+import { resolveProviderOrder, callProvider, type AIProviderId } from '@/lib/ai-provider'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -497,35 +498,32 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // ── Layer 3: Platform Gemini key (FREE tier — default for all users) ──
-  if (PLATFORM_GEMINI_KEY) {
-    const result = await callGemini(PLATFORM_GEMINI_KEY, enhancedMessage)
-    if (result) {
-      return NextResponse.json({
-        text: result.text,
-        source: 'gemini-byok' as AISource,
-      })
-    }
+  // ── Layer 3: Platform keys — ordered by user's AI provider preference ──
+  const providerOrder = await resolveProviderOrder(user.id)
+  const providerKeyMap: Record<AIProviderId, string> = {
+    gemini: PLATFORM_GEMINI_KEY,
+    openai: PLATFORM_OPENAI_KEY,
+    anthropic: PLATFORM_ANTHROPIC_KEY,
+  }
+  const providerSourceMap: Record<AIProviderId, AISource> = {
+    gemini: 'gemini-byok',
+    openai: 'openai-byok',
+    anthropic: 'claude',
   }
 
-  // ── Layer 4: Platform OpenAI key (paid fallback) ────────────
-  if (PLATFORM_OPENAI_KEY) {
-    const result = await callOpenAI(PLATFORM_OPENAI_KEY, enhancedMessage)
-    if (result) {
-      return NextResponse.json({
-        text: result.text,
-        source: 'openai-byok' as AISource,
-      })
-    }
-  }
+  for (const provider of providerOrder) {
+    const key = providerKeyMap[provider]
+    if (!key) continue
 
-  // ── Layer 5: Platform Anthropic key (paid fallback) ────────
-  if (PLATFORM_ANTHROPIC_KEY) {
-    const result = await callClaude(PLATFORM_ANTHROPIC_KEY, enhancedMessage, 'claude')
-    if (result) {
+    const text = await callProvider(provider, key, {
+      system: SYSTEM_PROMPT,
+      user: enhancedMessage,
+      maxTokens: 2048,
+    })
+    if (text) {
       return NextResponse.json({
-        text: result.text,
-        source: 'claude' as const,
+        text,
+        source: providerSourceMap[provider],
       })
     }
   }

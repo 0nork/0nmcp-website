@@ -7,6 +7,7 @@ import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
 import Providers from '@/components/Providers'
 import OnCallLoader from '@/components/oncall/OnCallLoader'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const WEB0N_HOSTS = ['web0n.com', 'www.web0n.com']
 
@@ -46,6 +47,24 @@ export const metadata: Metadata = {
     creator: '@0nork',
   },
   metadataBase: new URL('https://www.0nmcp.com'),
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+  },
+  alternates: {
+    canonical: 'https://www.0nmcp.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  category: 'technology',
 }
 
 export default async function RootLayout({
@@ -63,6 +82,8 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://va.vercel-scripts.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -79,6 +100,7 @@ export default async function RootLayout({
           <SiteChrome isWeb0n={isWeb0n}>{children}</SiteChrome>
           {!isWeb0n && <OnCallLoader />}
         </Providers>
+        <GoogleAnalytics />
         <Analytics />
         <SpeedInsights />
         {/* CRM tracking removed — keydown listener was causing backwards text in textareas */}

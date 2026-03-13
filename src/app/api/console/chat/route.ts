@@ -9,6 +9,7 @@ export const runtime = 'nodejs'
 
 const ONMCP_URL = process.env.ONMCP_URL || 'http://localhost:3001'
 const PLATFORM_ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || ''
+const PLATFORM_GEMINI_KEY = process.env.GOOGLE_GEMINI_API_KEY || ''
 
 type AISource = '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'local'
 type AIProvider = 'anthropic' | 'openai' | 'google'
@@ -495,7 +496,18 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // ── Layer 3: Platform Anthropic key ────────────────────────
+  // ── Layer 3: Platform Gemini key (FREE tier — default for all users) ──
+  if (PLATFORM_GEMINI_KEY) {
+    const result = await callGemini(PLATFORM_GEMINI_KEY, enhancedMessage)
+    if (result) {
+      return NextResponse.json({
+        text: result.text,
+        source: 'gemini-byok' as AISource,
+      })
+    }
+  }
+
+  // ── Layer 4: Platform Anthropic key (paid fallback) ────────
   if (PLATFORM_ANTHROPIC_KEY) {
     const result = await callClaude(PLATFORM_ANTHROPIC_KEY, enhancedMessage, 'claude')
     if (result) {
@@ -506,7 +518,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // ── Layer 4: Smart local fallback ──────────────────────────
+  // ── Layer 5: Smart local fallback ──────────────────────────
   const localResponse = getLocalResponse(message)
   if (localResponse) {
     return NextResponse.json({
@@ -515,16 +527,14 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  // ── Layer 5: Generic helpful response ──────────────────────
+  // ── Layer 6: Generic helpful response ──────────────────────
   return NextResponse.json({
     text: '**I can help with that!** To unlock full AI-powered responses, connect an API key in the **Vault** — Claude, GPT-4o, or Gemini.\n\n' +
       'In the meantime, try these commands:\n' +
-      '- `/smartlead` — Cold email campaigns\n' +
       '- `/vault` — Connect services\n' +
       '- `/builder` — Visual workflow builder\n' +
       '- `/store` — Browse automation templates\n' +
-      '- `/help` — See all available commands\n\n' +
-      '*Tip: Add any AI key (Claude, GPT, or Gemini) in the Vault for unlimited AI chat.*',
+      '- `/help` — See all available commands',
     source: 'local' as const,
   })
 }

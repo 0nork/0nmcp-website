@@ -139,6 +139,20 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
         >
           {listing.title}
         </h3>
+        {/* Vendor label */}
+        <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
+          <span>By {listing.vendor_name || '0nMCP'}</span>
+          {listing.vendor_tier && listing.vendor_tier !== 'standard' && (
+            <span style={{
+              fontSize: 8, fontWeight: 700, padding: '1px 5px', borderRadius: 4,
+              backgroundColor: listing.vendor_tier === 'partner' ? 'rgba(126,217,87,0.12)' : 'rgba(0,212,255,0.12)',
+              color: listing.vendor_tier === 'partner' ? '#7ed957' : '#00d4ff',
+              textTransform: 'uppercase', letterSpacing: '0.04em',
+            }}>
+              {listing.vendor_tier === 'partner' ? 'Partner' : 'Top Seller'}
+            </span>
+          )}
+        </div>
         <p
           style={{
             fontSize: 12,

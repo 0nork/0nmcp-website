@@ -23,6 +23,9 @@ const STAGE_IDS: Record<string, string> = {
   supporter: process.env.CRM_STAGE_SUPPORTER || '',
   builder: process.env.CRM_STAGE_BUILDER || '',
   enterprise: process.env.CRM_STAGE_ENTERPRISE || '',
+  pro: process.env.CRM_STAGE_PRO || '',
+  team: process.env.CRM_STAGE_TEAM || '',
+  contributor: process.env.CRM_STAGE_CONTRIBUTOR || '',
 }
 
 const TIER_VALUES: Record<string, number> = {
@@ -30,6 +33,9 @@ const TIER_VALUES: Record<string, number> = {
   supporter: 60,      // $5/mo × 12
   builder: 300,        // $25/mo × 12
   enterprise: 1200,    // $100/mo × 12
+  pro: 228,            // $19/mo × 12
+  team: 588,           // $49/mo × 12
+  contributor: 1188,   // $99/mo × 12
 }
 
 // ==================== COMMUNITY ENROLLMENT (DIRECT API) ====================
@@ -186,6 +192,66 @@ export async function syncTierChange(
     console.log(`[crm-sync] Tier change: ${email} ${oldTier} → ${newTier}`)
   } catch (err) {
     console.error('[crm-sync] syncTierChange error:', err)
+  }
+}
+
+// ==================== CONSOLE PLAN SYNC ====================
+
+/**
+ * Sync a console plan change to CRM tags
+ * Called on: profiles UPDATE webhook (when plan changes)
+ */
+export async function syncConsolePlanChange(
+  record: Record<string, unknown>,
+  oldRecord: Record<string, unknown>
+): Promise<void> {
+  try {
+    const email = record.email as string
+    const newPlan = (record.plan as string) || 'free'
+    const oldPlan = (oldRecord.plan as string) || 'free'
+
+    if (newPlan === oldPlan) return
+
+    const contact = await findContactByEmail(email)
+    if (!contact) return
+
+    // Remove old plan tag, add new
+    const oldTag = `console-${oldPlan}`
+    const newTag = `console-${newPlan}`
+    await removeContactTags(contact.id, [oldTag])
+
+    const tags = [newTag]
+
+    // Contributor-specific tags
+    if (newPlan === 'contributor') {
+      tags.push('contributor', 'marketplace-seller', 'upgraded-contributor')
+    }
+
+    await addContactTags(contact.id, tags)
+
+    // Add note for paid tier changes
+    if (newPlan !== 'free') {
+      const amount = newPlan === 'pro' ? 19 : newPlan === 'team' ? 49 : newPlan === 'contributor' ? 99 : 0
+      const note = newPlan === 'contributor'
+        ? `Upgraded to Contributor ($${amount}/mo) — marketplace seller`
+        : `Upgraded to ${newPlan.charAt(0).toUpperCase() + newPlan.slice(1)} ($${amount}/mo)`
+      await addContactNote(contact.id, note)
+    }
+
+    // Update pipeline if configured
+    if (PIPELINE_ID && STAGE_IDS[newPlan]) {
+      const opp = await findOpportunityByContact(contact.id, PIPELINE_ID)
+      if (opp) {
+        await updateOpportunity(opp.id, {
+          pipelineStageId: STAGE_IDS[newPlan],
+          monetaryValue: TIER_VALUES[newPlan] || 0,
+        })
+      }
+    }
+
+    console.log(`[crm-sync] Console plan change: ${email} ${oldPlan} → ${newPlan}`)
+  } catch (err) {
+    console.error('[crm-sync] syncConsolePlanChange error:', err)
   }
 }
 

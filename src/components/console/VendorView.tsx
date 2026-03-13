@@ -477,7 +477,7 @@ function VendorViewInner({
   // ── State 4: Fully Onboarded — Full Dashboard ──
 
   const tierFee = vendor?.application_fee_percent ?? 15
-  const tierLabel = tierFee <= 5 ? 'Partner' : tierFee <= 10 ? 'Preferred' : 'Standard'
+  const tierLabel = tierFee <= 5 ? 'Partner' : tierFee <= 10 ? 'Top Seller' : 'Contributor'
   const tierColor = tierFee <= 5 ? COLORS.accent : tierFee <= 10 ? COLORS.cyan : COLORS.orange
 
   const totalRevenueDollars = (vendor?.total_revenue_cents ?? 0) / 100
@@ -731,9 +731,9 @@ function VendorViewInner({
             </h4>
             <div style={{ display: 'flex', gap: 16 }}>
               {[
-                { label: 'Standard', fee: 15, min: 0, color: COLORS.orange },
-                { label: 'Preferred', fee: 10, min: 50, color: COLORS.cyan },
-                { label: 'Partner', fee: 5, min: 200, color: COLORS.accent },
+                { label: 'Contributor', fee: 15, min: 0, color: COLORS.orange },
+                { label: 'Top Seller', fee: 10, min: 100, color: COLORS.cyan },
+                { label: 'Partner', fee: 5, min: 500, color: COLORS.accent },
               ].map((tier) => {
                 const isActive = tierLabel === tier.label
                 return (

@@ -20,6 +20,9 @@ export interface StoreListing {
   total_purchases: number
   created_at: string
   updated_at: string
+  vendor_id: string | null
+  vendor_name: string | null
+  vendor_tier: string | null
 }
 
 export interface PurchaseRecord {

@@ -519,9 +519,9 @@ export async function recordPayout(opts: {
  * Platform fee tiers based on vendor performance.
  */
 export const VENDOR_TIERS = {
-  standard: { fee: 15, label: 'Standard', minSales: 0 },
-  preferred: { fee: 10, label: 'Preferred', minSales: 50 },
-  partner: { fee: 5, label: 'Partner', minSales: 200 },
+  standard: { fee: 15, label: 'Contributor', minSales: 0 },
+  preferred: { fee: 10, label: 'Top Seller', minSales: 100 },
+  partner: { fee: 5, label: 'Partner', minSales: 500 },
 } as const
 
 /** Minimum payout threshold in cents — vendors must accumulate at least $50 before payout */

@@ -55,6 +55,18 @@ export const CONSOLE_PLANS: Record<string, {
     name: 'Team', tier: 'team', amount: 49, trialDays: 7,
     features: ['Everything in Pro', '5 team seats', 'Shared workflows & team vault', 'Full API access', 'Dedicated support + SLA'],
   },
+  contributor: {
+    priceId: process.env.STRIPE_PRICE_CONSOLE_CONTRIBUTOR || '',
+    name: 'Contributor', tier: 'contributor', amount: 99, trialDays: 7,
+    features: [
+      'Everything in Team',
+      'Sell on the marketplace',
+      'Automated Stripe payouts',
+      'Revenue dashboard & analytics',
+      '15% platform fee on sales',
+      'Featured listing eligibility',
+    ],
+  },
 }
 
 /** One-time donation amounts */

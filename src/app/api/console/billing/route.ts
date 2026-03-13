@@ -7,6 +7,7 @@ import {
   createBillingCheckout,
   createBillingPortal,
 } from '@/lib/console/billing'
+import { stripe as stripeClient } from '@/lib/stripe'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -39,37 +40,85 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  const admin = getSupabaseAdmin()
+
   // Owner bypass — always subscribed, no billing
   if (user.email && OWNER_EMAILS.includes(user.email)) {
-    return NextResponse.json({ subscribed: true, hasCustomer: true, isOwner: true })
+    return NextResponse.json({ subscribed: true, hasCustomer: true, isOwner: true, plan: 'owner' })
   }
 
-  // Check profile for stripe_customer_id
+  // Check profile for stripe_customer_id, plan, vendor status
   const { data: profile } = await supabase
     .from('profiles')
-    .select('stripe_customer_id')
+    .select('stripe_customer_id, plan, is_vendor, vendor_status')
     .eq('id', user.id)
     .single()
 
+  const plan = profile?.plan || 'free'
+
   if (!profile?.stripe_customer_id) {
+    // Still fetch sparks balance even without customer
+    const { data: sparks } = await admin
+      .from('spark_balances')
+      .select('balance')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
     return NextResponse.json({
       subscribed: false,
       hasCustomer: false,
+      plan,
+      sparksBalance: sparks?.balance ?? 0,
+      executionsThisMonth: 0,
+      vendorStatus: profile?.vendor_status || null,
     })
   }
 
-  // Check for active metered subscription
+  // Fetch extended billing data in parallel
   try {
-    const sub = await getActiveSubscription(profile.stripe_customer_id)
+    const now = new Date()
+    const periodStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+
+    const [sub, sparks, execCount, paymentMethod, invoices] = await Promise.all([
+      getActiveSubscription(profile.stripe_customer_id).catch(() => null),
+
+      admin.from('spark_balances').select('balance').eq('user_id', user.id).maybeSingle(),
+
+      admin.from('console_executions').select('id', { count: 'exact', head: true })
+        .eq('user_id', user.id).gte('created_at', periodStart),
+
+      admin.from('payment_methods').select('card_brand, card_last4, card_exp_month, card_exp_year')
+        .eq('user_id', user.id).eq('is_default', true).eq('is_active', true).maybeSingle(),
+
+      profile.stripe_customer_id
+        ? stripeClient.invoices.list({ customer: profile.stripe_customer_id, limit: 5 }).catch(() => ({ data: [] }))
+        : Promise.resolve({ data: [] }),
+    ])
+
     return NextResponse.json({
       subscribed: !!sub,
       hasCustomer: true,
       subscriptionId: sub?.subscriptionId || null,
+      plan,
+      sparksBalance: sparks?.data?.balance ?? 0,
+      executionsThisMonth: execCount.count ?? 0,
+      paymentMethod: paymentMethod?.data || null,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      invoices: invoices.data.map((inv: any) => ({
+        id: inv.id,
+        amount_paid: inv.amount_paid,
+        currency: inv.currency,
+        status: inv.status,
+        created: inv.created,
+        invoice_pdf: inv.invoice_pdf,
+      })),
+      vendorStatus: profile?.vendor_status || null,
     })
   } catch {
     return NextResponse.json({
       subscribed: false,
       hasCustomer: true,
+      plan,
     })
   }
 }

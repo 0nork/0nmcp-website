@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stripe, CONSOLE_PLANS } from '@/lib/stripe'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { creditSparks } from '@/lib/sparks'
-import { syncAccountStatus, recordMarketplaceTransaction, recordPayout, checkTierUpgrade, savePaymentMethod } from '@/lib/stripe-connect'
+import { syncAccountStatus, recordMarketplaceTransaction, recordPayout, checkTierUpgrade, savePaymentMethod, createConnectedAccount } from '@/lib/stripe-connect'
 
 const CONSOLE_PRICE_IDS = new Set(
   Object.values(CONSOLE_PLANS).map(p => p.priceId).filter(Boolean)
@@ -110,6 +110,19 @@ export async function POST(request: NextRequest) {
             plan: consoleTier,
             stripe_customer_id: session.customer as string,
           }).eq('id', userId)
+
+          // Contributor tier: auto-create vendor profile + Stripe Connect account
+          if (consoleTier === 'contributor') {
+            try {
+              await createConnectedAccount(userId, email)
+              await getSupabaseAdmin().from('profiles').update({
+                is_vendor: true,
+                vendor_status: 'onboarding',
+              }).eq('id', userId)
+            } catch (err) {
+              console.error('Failed to create vendor account for contributor:', err)
+            }
+          }
         } else if (session.mode === 'subscription' && tier !== 'donation') {
           // Sponsor subscription
           await getSupabaseAdmin().from('sponsor_subscriptions').upsert({
@@ -157,7 +170,7 @@ export async function POST(request: NextRequest) {
           if (customerId) {
             const { data: profile } = await getSupabaseAdmin()
               .from('profiles')
-              .select('plan')
+              .select('id, plan')
               .eq('stripe_customer_id', customerId)
               .maybeSingle()
 
@@ -165,6 +178,17 @@ export async function POST(request: NextRequest) {
               await getSupabaseAdmin().from('profiles').update({
                 plan: 'free',
               }).eq('stripe_customer_id', customerId)
+
+              // If they were a contributor, deactivate vendor profile + pause listings
+              if (profile?.plan === 'contributor' && profile?.id) {
+                await getSupabaseAdmin().from('vendor_profiles').update({
+                  is_active: false,
+                }).eq('user_id', profile.id)
+
+                await getSupabaseAdmin().from('store_listings').update({
+                  status: 'draft',
+                }).eq('vendor_id', profile.id).eq('status', 'active')
+              }
             }
           }
         } else {

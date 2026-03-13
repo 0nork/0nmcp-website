@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X, Check, Zap, Users, Loader2 } from 'lucide-react'
+import { X, Check, Zap, Users, Store, Loader2 } from 'lucide-react'
 import { CONSOLE_PLANS } from '@/lib/stripe'
 
 interface UpgradeModalProps {
@@ -43,6 +43,7 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
       color: '#7ed957',
       bg: 'rgba(126,217,87,0.08)',
       borderActive: 'rgba(126,217,87,0.4)',
+      gradientEnd: '#5cb83a',
     },
     {
       key: 'team',
@@ -50,6 +51,16 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
       color: '#00d4ff',
       bg: 'rgba(0,212,255,0.08)',
       borderActive: 'rgba(0,212,255,0.4)',
+      gradientEnd: '#0099cc',
+    },
+    {
+      key: 'contributor',
+      icon: Store,
+      color: '#ff6b35',
+      bg: 'rgba(255,107,53,0.08)',
+      borderActive: 'rgba(255,107,53,0.4)',
+      gradientEnd: '#cc5529',
+      topLabel: 'SELL ON MARKETPLACE',
     },
   ]
 
@@ -68,7 +79,7 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
 
       {/* Card */}
       <div
-        className="relative w-full max-w-2xl mx-4 rounded-xl overflow-hidden"
+        className="relative w-full max-w-4xl mx-4 rounded-xl overflow-hidden"
         style={{
           backgroundColor: 'var(--bg-card)',
           border: '1px solid var(--border)',
@@ -110,8 +121,8 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
         </div>
 
         {/* Plan cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-6 pb-6">
-          {plans.map(({ key, icon: Icon, color, bg, borderActive }) => {
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 px-6 pb-6">
+          {plans.map(({ key, icon: Icon, color, bg, borderActive, gradientEnd, topLabel }) => {
             const plan = CONSOLE_PLANS[key]
             const isCurrent = currentPlan === key
             const isLoading = loading === key
@@ -119,7 +130,7 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
             return (
               <div
                 key={key}
-                className="rounded-xl p-5 transition-all"
+                className="rounded-xl p-5 transition-all relative"
                 style={{
                   backgroundColor: bg,
                   border: isCurrent
@@ -127,6 +138,16 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
                     : '1px solid var(--border)',
                 }}
               >
+                {/* Top label for contributor */}
+                {topLabel && (
+                  <div
+                    className="text-center text-[9px] font-bold tracking-widest mb-3 -mt-1"
+                    style={{ color, letterSpacing: '0.1em' }}
+                  >
+                    {topLabel}
+                  </div>
+                )}
+
                 {/* Plan header */}
                 <div className="flex items-center gap-2 mb-3">
                   <Icon size={18} style={{ color }} />
@@ -163,7 +184,7 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
                   style={{
                     background: isCurrent
                       ? 'rgba(255,255,255,0.06)'
-                      : `linear-gradient(135deg, ${color}, ${key === 'pro' ? '#5cb83a' : '#0099cc'})`,
+                      : `linear-gradient(135deg, ${color}, ${gradientEnd})`,
                     color: isCurrent ? 'var(--text-muted)' : '#0a0a0f',
                     opacity: isCurrent ? 0.7 : 1,
                   }}
@@ -178,6 +199,8 @@ export function UpgradeModal({ currentPlan, onClose }: UpgradeModalProps) {
                     <Loader2 size={16} className="animate-spin mx-auto" />
                   ) : isCurrent ? (
                     'Current Plan'
+                  ) : currentPlan !== 'free' ? (
+                    'Upgrade'
                   ) : (
                     'Start Free Trial'
                   )}

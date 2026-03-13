@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { RequestIntegrationView } from './RequestIntegrationView'
+import { UpgradeModal } from './UpgradeModal'
+import { CONSOLE_PLANS } from '@/lib/stripe'
 
 type AccountTab = 'profile' | 'requests' | 'history'
 
@@ -32,6 +34,25 @@ interface BillingStatus {
   subscribed: boolean
   hasCustomer: boolean
   subscriptionId?: string | null
+  plan?: string
+  sparksBalance?: number
+  executionsThisMonth?: number
+  paymentMethod?: {
+    card_brand: string | null
+    card_last4: string | null
+    card_exp_month: number | null
+    card_exp_year: number | null
+  } | null
+  invoices?: {
+    id: string
+    amount_paid: number
+    currency: string
+    status: string
+    created: number
+    invoice_pdf: string | null
+  }[]
+  isOwner?: boolean
+  vendorStatus?: string | null
 }
 
 export function AccountView() {
@@ -42,6 +63,7 @@ export function AccountView() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [history, setHistory] = useState<HistoryItem[]>([])
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
 
   // Editable fields
   const [fullName, setFullName] = useState('')
@@ -433,72 +455,149 @@ export function AccountView() {
       <div style={cardStyle}>
         <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20, marginTop: 0 }}>Plan & Billing</h2>
 
+        {/* Current Plan */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-          <span
-            style={{
-              padding: '4px 12px',
-              borderRadius: 20,
-              fontSize: 12,
-              fontWeight: 600,
-              fontFamily: 'var(--font-mono)',
-              backgroundColor: billing?.subscribed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.06)',
-              color: billing?.subscribed ? '#7ed957' : 'var(--text-muted)',
-              border: `1px solid ${billing?.subscribed ? 'rgba(126,217,87,0.3)' : 'var(--border)'}`,
-            }}
-          >
-            {billing?.subscribed ? 'Metered Plan' : 'Free Tier'}
-          </span>
-          <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-            {billing?.subscribed ? '$0.10 per execution' : 'Upgrade for pay-per-execution workflows'}
-          </span>
+          {(() => {
+            const planKey = billing?.plan || 'free'
+            const planColors: Record<string, { bg: string; color: string; border: string }> = {
+              free: { bg: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: 'var(--border)' },
+              pro: { bg: 'rgba(126,217,87,0.15)', color: '#7ed957', border: 'rgba(126,217,87,0.3)' },
+              team: { bg: 'rgba(0,212,255,0.15)', color: '#00d4ff', border: 'rgba(0,212,255,0.3)' },
+              contributor: { bg: 'rgba(255,107,53,0.15)', color: '#ff6b35', border: 'rgba(255,107,53,0.3)' },
+              owner: { bg: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: 'rgba(167,139,250,0.3)' },
+            }
+            const c = planColors[planKey] || planColors.free
+            return (
+              <span style={{ padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', backgroundColor: c.bg, color: c.color, border: `1px solid ${c.border}`, textTransform: 'capitalize' }}>
+                {planKey === 'owner' ? 'Owner' : CONSOLE_PLANS[planKey]?.name || 'Free'}
+              </span>
+            )
+          })()}
+          {billing?.vendorStatus && (
+            <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 600, fontFamily: 'var(--font-mono)', backgroundColor: 'rgba(255,107,53,0.1)', color: '#ff6b35', border: '1px solid rgba(255,107,53,0.2)', textTransform: 'uppercase' }}>
+              Vendor: {billing.vendorStatus}
+            </span>
+          )}
         </div>
 
-        <div style={{ display: 'flex', gap: 12 }}>
-          {billing?.subscribed ? (
+        {/* Plan features */}
+        {billing?.plan && CONSOLE_PLANS[billing.plan] && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+            {CONSOLE_PLANS[billing.plan].features.map((f) => (
+              <span key={f} style={{ fontSize: 11, color: 'var(--text-muted)', padding: '3px 8px', borderRadius: 6, backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)' }}>
+                {f}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+          <button
+            onClick={() => setShowUpgradeModal(true)}
+            style={{
+              padding: '8px 20px', borderRadius: 10, border: 'none',
+              background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
+              color: '#0a0a0f', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-display)',
+            }}
+          >
+            {billing?.plan === 'free' || !billing?.plan ? 'Upgrade Plan' : 'Change Plan'}
+          </button>
+          {billing?.hasCustomer && (
             <button
               onClick={handleBillingPortal}
               style={{
-                padding: '8px 20px',
-                borderRadius: 10,
-                border: '1px solid var(--border)',
-                background: 'none',
-                color: 'var(--text-secondary)',
-                fontSize: 13,
-                fontWeight: 500,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
+                padding: '8px 20px', borderRadius: 10, border: '1px solid var(--border)',
+                background: 'none', color: 'var(--text-secondary)', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit',
               }}
             >
               Manage Billing
             </button>
-          ) : (
-            <button
-              onClick={async () => {
-                const res = await fetch('/api/console/billing', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ action: 'subscribe' }),
-                })
-                const data = await res.json()
-                if (data.url) window.open(data.url, '_blank')
-              }}
-              style={{
-                padding: '8px 20px',
-                borderRadius: 10,
-                border: 'none',
-                background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                color: '#0a0a0f',
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontFamily: 'var(--font-display)',
-              }}
-            >
-              Upgrade to Metered
-            </button>
           )}
         </div>
+
+        {/* Usage This Period */}
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginBottom: 16 }}>
+          <div style={{ ...labelStyle, marginBottom: 12 }}>Usage This Period</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                {billing?.sparksBalance ?? 0}
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Sparks Balance</div>
+            </div>
+            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                {billing?.executionsThisMonth ?? 0}
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Executions This Month</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Payment Method */}
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginBottom: 16 }}>
+          <div style={{ ...labelStyle, marginBottom: 12 }}>Payment Method</div>
+          {billing?.paymentMethod ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>
+                {billing.paymentMethod.card_brand || 'Card'}
+              </span>
+              <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
+                **** {billing.paymentMethod.card_last4}
+              </span>
+              <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                {billing.paymentMethod.card_exp_month}/{billing.paymentMethod.card_exp_year}
+              </span>
+            </div>
+          ) : (
+            <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+              No payment method on file.{' '}
+              <button onClick={handleBillingPortal} style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: 13, fontWeight: 600, padding: 0 }}>
+                Add one
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Invoices */}
+        {billing?.invoices && billing.invoices.length > 0 && (
+          <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+            <div style={{ ...labelStyle, marginBottom: 12 }}>Recent Invoices</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {billing.invoices.map((inv) => (
+                <div key={inv.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 12px', borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
+                  <span style={{ fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', minWidth: 72 }}>
+                    {new Date(inv.created * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  </span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', minWidth: 60 }}>
+                    ${(inv.amount_paid / 100).toFixed(2)}
+                  </span>
+                  <span style={{
+                    fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 10, textTransform: 'capitalize',
+                    backgroundColor: inv.status === 'paid' ? 'rgba(126,217,87,0.12)' : 'rgba(245,158,11,0.12)',
+                    color: inv.status === 'paid' ? '#7ed957' : '#f59e0b',
+                  }}>
+                    {inv.status}
+                  </span>
+                  <span style={{ flex: 1 }} />
+                  {inv.invoice_pdf && (
+                    <a href={inv.invoice_pdf} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
+                      PDF
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+
+      {showUpgradeModal && (
+        <UpgradeModal
+          currentPlan={billing?.plan || 'free'}
+          onClose={() => setShowUpgradeModal(false)}
+        />
+      )}
 
       {/* Preferences */}
       <div style={cardStyle}>

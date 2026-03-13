@@ -10,6 +10,7 @@ export const runtime = 'nodejs'
 const ONMCP_URL = process.env.ONMCP_URL || 'http://localhost:3001'
 const PLATFORM_ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || ''
 const PLATFORM_GEMINI_KEY = process.env.GOOGLE_GEMINI_API_KEY || ''
+const PLATFORM_OPENAI_KEY = process.env.OPENAI_API_KEY || ''
 
 type AISource = '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'local'
 type AIProvider = 'anthropic' | 'openai' | 'google'
@@ -507,7 +508,18 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // ── Layer 4: Platform Anthropic key (paid fallback) ────────
+  // ── Layer 4: Platform OpenAI key (paid fallback) ────────────
+  if (PLATFORM_OPENAI_KEY) {
+    const result = await callOpenAI(PLATFORM_OPENAI_KEY, enhancedMessage)
+    if (result) {
+      return NextResponse.json({
+        text: result.text,
+        source: 'openai-byok' as AISource,
+      })
+    }
+  }
+
+  // ── Layer 5: Platform Anthropic key (paid fallback) ────────
   if (PLATFORM_ANTHROPIC_KEY) {
     const result = await callClaude(PLATFORM_ANTHROPIC_KEY, enhancedMessage, 'claude')
     if (result) {
@@ -518,7 +530,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // ── Layer 5: Smart local fallback ──────────────────────────
+  // ── Layer 6: Smart local fallback ──────────────────────────
   const localResponse = getLocalResponse(message)
   if (localResponse) {
     return NextResponse.json({
@@ -527,7 +539,7 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  // ── Layer 6: Generic helpful response ──────────────────────
+  // ── Layer 7: Generic helpful response ──────────────────────
   return NextResponse.json({
     text: '**I can help with that!** To unlock full AI-powered responses, connect an API key in the **Vault** — Claude, GPT-4o, or Gemini.\n\n' +
       'In the meantime, try these commands:\n' +

@@ -36,7 +36,10 @@
     { "source": "/discussions", "destination": "https://github.com/0nork/0nMCP/discussions", "permanent": false },
     { "source": "/issues", "destination": "https://github.com/0nork/0nMCP/issues", "permanent": false },
     { "source": "/spec", "destination": "/0n-standard", "permanent": true },
-    { "source": "/standard", "destination": "/0n-standard", "permanent": true }
+    { "source": "/standard", "destination": "/0n-standard", "permanent": true },
+    { "source": "/install", "destination": "/install0n", "permanent": true },
+    { "source": "/get-started", "destination": "/install0n", "permanent": false },
+    { "source": "/setup", "destination": "/install0n", "permanent": false }
   ],
   "headers": [
     {

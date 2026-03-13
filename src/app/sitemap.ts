@@ -61,11 +61,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/marketplace',
     '/blog',
     '/feeds',
+    '/install0n',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
-    priority: path === '' ? 1.0 : path === '/turn-it-on' ? 0.95 : path.startsWith('/convert') ? 0.9 : 0.7,
+    priority: path === '' ? 1.0 : path === '/install0n' ? 0.95 : path === '/turn-it-on' ? 0.95 : path.startsWith('/convert') ? 0.9 : 0.7,
   }))
 
   // Service hub pages (26)

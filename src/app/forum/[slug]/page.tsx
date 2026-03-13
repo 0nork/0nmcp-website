@@ -64,7 +64,7 @@ interface ThreadData {
   created_at: string
   user_id: string
   group_id: string | null
-  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string }
+  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string; avatar_url?: string | null }
   community_groups?: { name: string; slug: string; icon: string | null; color: string } | null
 }
 
@@ -76,7 +76,7 @@ interface PostData {
   created_at: string
   parent_post_id: string | null
   user_id: string
-  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string }
+  profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string; avatar_url?: string | null }
 }
 
 async function getThread(slug: string) {

@@ -483,12 +483,9 @@ export default function ConsolePage() {
 
   // ─── View Handler (reset vault detail when switching) ─────────
   const handleSetView = useCallback((v: string) => {
-    // Credentials sidebar item → open Vault in credentials sub-view
-    if (v === 'credentials') {
-      setView('vault')
-      setVaultSubView('credentials')
-      setVaultService(null)
-      setMobileMenuOpen(false)
+    // Vault — navigate to standalone vault page
+    if (v === 'credentials' || v === 'vault') {
+      window.location.href = '/console/vault'
       return
     }
     // External pages — navigate away from console

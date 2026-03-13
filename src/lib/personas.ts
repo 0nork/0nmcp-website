@@ -797,8 +797,8 @@ export async function insertPersonaReply(
  */
 export async function getPersonaProfileId(persona: Persona): Promise<string | null> {
   // Fast path: use the direct profile_id link on community_personas
-  if ((persona as Record<string, unknown>).profile_id) {
-    return (persona as Record<string, unknown>).profile_id as string
+  if ((persona as unknown as Record<string, unknown>).profile_id) {
+    return (persona as unknown as Record<string, unknown>).profile_id as string
   }
 
   const admin = getAdmin()

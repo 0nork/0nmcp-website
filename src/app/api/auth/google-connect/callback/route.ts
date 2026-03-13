@@ -27,11 +27,11 @@ export async function GET(request: NextRequest) {
 
   // User denied consent
   if (error) {
-    return NextResponse.redirect(`${baseUrl}/console?google=denied`)
+    return NextResponse.redirect(`${baseUrl}/console/vault?google=denied`)
   }
 
   if (!code || !state) {
-    return NextResponse.redirect(`${baseUrl}/console?google=error`)
+    return NextResponse.redirect(`${baseUrl}/console/vault?google=error`)
   }
 
   try {
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     const tokens = await exchangeGoogleCode(code)
 
     if (!tokens.refresh_token) {
-      return NextResponse.redirect(`${baseUrl}/console?google=error&reason=no_refresh_token`)
+      return NextResponse.redirect(`${baseUrl}/console/vault?google=error&reason=no_refresh_token`)
     }
 
     // Parse granted scopes
@@ -107,10 +107,10 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.redirect(
-      `${baseUrl}/console?google=connected&services=${grantedServices.length}`
+      `${baseUrl}/console/vault?google=connected&services=${grantedServices.length}`
     )
   } catch (err) {
     console.error('[google-connect] Callback error:', err)
-    return NextResponse.redirect(`${baseUrl}/console?google=error`)
+    return NextResponse.redirect(`${baseUrl}/console/vault?google=error`)
   }
 }

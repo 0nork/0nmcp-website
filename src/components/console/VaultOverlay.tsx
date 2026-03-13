@@ -5,6 +5,7 @@ import { Search, Lock, Shield } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 import { SVC, SERVICE_COUNT, CATEGORY_LABELS, CATEGORY_ORDER, type ServiceConfig } from '@/lib/console/services'
 import { GoogleConnectBanner } from './GoogleConnectBanner'
+import { getLogoSrc } from './logo-map'
 
 interface VaultOverlayProps {
   onSelect: (service: string) => void
@@ -295,14 +296,25 @@ function ServiceCard({
 
       <div className="flex items-center gap-2.5 mb-3">
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold overflow-hidden"
           style={{
             backgroundColor: accentColor + '18',
             color: accentColor,
             fontFamily: 'var(--font-mono)',
           }}
         >
-          {svc.l.slice(0, 2)}
+          {getLogoSrc(svc.logo) ? (
+            <img
+              src={getLogoSrc(svc.logo)!}
+              alt={svc.l}
+              width={24}
+              height={24}
+              style={{ objectFit: 'contain' }}
+              loading="lazy"
+            />
+          ) : (
+            svc.l.slice(0, 2)
+          )}
         </div>
         <div className="flex-1 min-w-0">
           <div

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 import { SVC, CATEGORY_LABELS, type ServiceField } from '@/lib/console/services'
+import { getLogoSrc } from './logo-map'
 
 const GOOGLE_OAUTH_SERVICES = new Set([
   'gmail', 'google_calendar', 'google_sheets', 'google_drive', 'google_docs',
@@ -178,14 +179,24 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
       {/* Service header */}
       <div className="flex items-center gap-3.5">
         <div
-          className="w-12 h-12 rounded-2xl flex items-center justify-center text-base font-bold"
+          className="w-12 h-12 rounded-2xl flex items-center justify-center text-base font-bold overflow-hidden"
           style={{
             backgroundColor: accentColor + '18',
             color: accentColor,
             fontFamily: 'var(--font-mono)',
           }}
         >
-          {label.slice(0, 2)}
+          {svcDef && getLogoSrc(svcDef.logo) ? (
+            <img
+              src={getLogoSrc(svcDef.logo)!}
+              alt={label}
+              width={28}
+              height={28}
+              style={{ objectFit: 'contain' }}
+            />
+          ) : (
+            label.slice(0, 2)
+          )}
         </div>
         <div className="flex-1">
           <div className="font-bold text-xl" style={{ color: 'var(--text-primary)' }}>

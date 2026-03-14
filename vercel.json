@@ -35,6 +35,10 @@
     {
       "path": "/api/cron/daily-social",
       "schedule": "0 14 * * *"
+    },
+    {
+      "path": "/api/cron/viral-campaign",
+      "schedule": "0 */4 * * *"
     }
   ],
   "redirects": [

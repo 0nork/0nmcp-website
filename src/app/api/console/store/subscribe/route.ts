@@ -62,6 +62,50 @@ const PRODUCT_TIERS: Record<string, Record<string, {
       label: 'Enterprise — Monthly',
     },
   },
+  'console': {
+    'creator-monthly': {
+      amount: 19,
+      interval: 'month',
+      priceId: process.env.STRIPE_PRICE_CONSOLE_CREATOR_MONTHLY || process.env.STRIPE_PRICE_CONSOLE_PRO || '',
+      label: 'Creator — Monthly',
+    },
+    'creator-yearly': {
+      amount: 190,
+      interval: 'year',
+      priceId: process.env.STRIPE_PRICE_CONSOLE_CREATOR_YEARLY || '',
+      label: 'Creator — Yearly (Save 2 months)',
+    },
+    'operator-monthly': {
+      amount: 49,
+      interval: 'month',
+      priceId: process.env.STRIPE_PRICE_CONSOLE_OPERATOR_MONTHLY || process.env.STRIPE_PRICE_CONSOLE_TEAM || '',
+      label: 'Operator — Monthly',
+    },
+    'operator-yearly': {
+      amount: 490,
+      interval: 'year',
+      priceId: process.env.STRIPE_PRICE_CONSOLE_OPERATOR_YEARLY || '',
+      label: 'Operator — Yearly (Save 2 months)',
+    },
+    'agency-monthly': {
+      amount: 149,
+      interval: 'month',
+      priceId: process.env.STRIPE_PRICE_CONSOLE_AGENCY_MONTHLY || process.env.STRIPE_PRICE_CONSOLE_CONTRIBUTOR || '',
+      label: 'Agency — Monthly',
+    },
+    'agency-yearly': {
+      amount: 1490,
+      interval: 'year',
+      priceId: process.env.STRIPE_PRICE_CONSOLE_AGENCY_YEARLY || '',
+      label: 'Agency — Yearly (Save 2 months)',
+    },
+    'enterprise-monthly': {
+      amount: 499,
+      interval: 'month',
+      priceId: process.env.STRIPE_PRICE_CONSOLE_ENTERPRISE_MONTHLY || '',
+      label: 'Enterprise — Monthly',
+    },
+  },
 }
 
 /**

@@ -489,15 +489,15 @@ export default function AISettingsPage() {
 
           <div style={cardStyle}>
             <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
-              Tier Pricing
+              Tier Pricing — Users & Locations
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
               {[
-                { name: 'Free', price: '$0', color: 'var(--text-muted)' },
-                { name: 'Creator', price: '$19/mo', color: 'var(--accent)' },
-                { name: 'Operator', price: '$49/mo', color: '#ff6b35' },
-                { name: 'Agency', price: '$149/mo', color: '#00d4ff' },
-                { name: 'Enterprise', price: '$499/mo', color: '#a855f7' },
+                { name: 'Free', price: '$0', color: 'var(--text-muted)', users: 1, locations: 0, whiteLabel: false },
+                { name: 'Creator', price: '$19/mo', color: 'var(--accent)', users: 2, locations: 1, whiteLabel: true },
+                { name: 'Operator', price: '$49/mo', color: '#ff6b35', users: 5, locations: 1, whiteLabel: true },
+                { name: 'Agency', price: '$149/mo', color: '#00d4ff', users: 10, locations: 3, whiteLabel: true },
+                { name: 'Enterprise', price: '$499/mo', color: '#a855f7', users: 20, locations: 10, whiteLabel: true },
               ].map((tier) => (
                 <div key={tier.name} style={{
                   padding: 14, borderRadius: 10, border: `1px solid ${tier.color}30`,
@@ -507,6 +507,14 @@ export default function AISettingsPage() {
                   <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', marginTop: 4 }}>
                     {tier.price}
                   </div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 6, fontFamily: 'var(--font-mono)' }}>
+                    {tier.users} user{tier.users !== 1 ? 's' : ''} · {tier.locations} loc{tier.locations !== 1 ? 's' : ''}
+                  </div>
+                  {tier.whiteLabel && (
+                    <div style={{ fontSize: 9, color: tier.color, marginTop: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      White Label
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

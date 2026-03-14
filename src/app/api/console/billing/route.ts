@@ -7,7 +7,8 @@ import {
   createBillingCheckout,
   createBillingPortal,
 } from '@/lib/console/billing'
-import { stripe as stripeClient } from '@/lib/stripe'
+import { stripe as stripeClient, CONSOLE_PLANS } from '@/lib/stripe'
+import { SOCIAL_ENGINE_TIERS } from '@/components/console/StoreTypes'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -56,6 +57,30 @@ export async function GET() {
 
   const plan = profile?.plan || 'free'
 
+  // Resolve tier data from SOCIAL_ENGINE_TIERS
+  const tierData = SOCIAL_ENGINE_TIERS.find(t => t.key === plan) || SOCIAL_ENGINE_TIERS[0]
+
+  // Fetch seat and location counts
+  const [seatCount, locationCount, vendorProfile] = await Promise.all([
+    admin.from('team_seats').select('id', { count: 'exact', head: true })
+      .eq('owner_id', user.id).eq('status', 'active').then(r => r.count ?? 0),
+    admin.from('user_locations').select('id', { count: 'exact', head: true })
+      .eq('owner_id', user.id).eq('is_active', true).then(r => r.count ?? 0),
+    profile?.is_vendor
+      ? admin.from('vendor_profiles').select('business_name, total_revenue_cents, total_sales, charges_enabled')
+          .eq('user_id', user.id).maybeSingle().then(r => r.data)
+      : Promise.resolve(null),
+  ])
+
+  const tierMeta = {
+    maxUsers: tierData.maxUsers,
+    maxLocations: tierData.maxLocations,
+    whiteLabel: tierData.whiteLabel,
+    addOns: tierData.addOns || null,
+  }
+
+  const vendorEligible = ['agency', 'enterprise', 'owner'].includes(plan)
+
   if (!profile?.stripe_customer_id) {
     // Still fetch sparks balance even without customer
     const { data: sparks } = await admin
@@ -71,6 +96,11 @@ export async function GET() {
       sparksBalance: sparks?.balance ?? 0,
       executionsThisMonth: 0,
       vendorStatus: profile?.vendor_status || null,
+      tierData: tierMeta,
+      activeSeats: seatCount,
+      activeLocations: locationCount,
+      vendorEligible,
+      vendorProfile,
     })
   }
 
@@ -113,12 +143,21 @@ export async function GET() {
         invoice_pdf: inv.invoice_pdf,
       })),
       vendorStatus: profile?.vendor_status || null,
+      tierData: tierMeta,
+      activeSeats: seatCount,
+      activeLocations: locationCount,
+      vendorEligible,
+      vendorProfile,
     })
   } catch {
     return NextResponse.json({
       subscribed: false,
       hasCustomer: true,
       plan,
+      tierData: tierMeta,
+      activeSeats: seatCount,
+      activeLocations: locationCount,
+      vendorEligible,
     })
   }
 }

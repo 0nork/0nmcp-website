@@ -4,9 +4,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { RequestIntegrationView } from './RequestIntegrationView'
 import { UpgradeModal } from './UpgradeModal'
-import { CONSOLE_PLANS } from '@/lib/stripe'
+import { CONSOLE_PLANS, LEGACY_PLAN_MAP } from '@/lib/stripe'
+import { SOCIAL_ENGINE_TIERS } from './StoreTypes'
 
-type AccountTab = 'profile' | 'requests' | 'history'
+type AccountTab = 'profile' | 'requests' | 'history' | 'contributor'
 
 interface HistoryItem {
   id: string
@@ -53,6 +54,21 @@ interface BillingStatus {
   }[]
   isOwner?: boolean
   vendorStatus?: string | null
+  tierData?: {
+    maxUsers: number
+    maxLocations: number
+    whiteLabel: boolean
+    addOns: { extraUserMonthly: number; extraLocationMonthly: number } | null
+  }
+  activeSeats?: number
+  activeLocations?: number
+  vendorEligible?: boolean
+  vendorProfile?: {
+    business_name: string | null
+    total_revenue_cents: number
+    total_sales: number
+    charges_enabled: boolean
+  } | null
 }
 
 export function AccountView() {
@@ -311,6 +327,7 @@ export function AccountView() {
       <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
         {([
           { key: 'profile' as AccountTab, label: 'Profile & Settings' },
+          { key: 'contributor' as AccountTab, label: 'Contributor' },
           { key: 'requests' as AccountTab, label: 'Request Integration' },
           { key: 'history' as AccountTab, label: 'History' },
         ]).map(({ key, label }) => (
@@ -376,6 +393,162 @@ export function AccountView() {
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* ─── Contributor Tab ─── */}
+      {tab === 'contributor' && (
+        <div>
+          {/* What is a Contributor? */}
+          <div style={cardStyle}>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 12, marginTop: 0 }}>
+              What is a Contributor?
+            </h2>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 12 }}>
+              Contributors sell workflows, templates, and automations on the 0n Marketplace. You keep <strong style={{ color: '#7ed957' }}>85%</strong> of every sale.
+              Payouts are automated through Stripe Connect.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+              {[
+                { label: 'Revenue Split', value: '85/15', note: 'You keep 85%' },
+                { label: 'Payouts', value: 'Auto', note: 'Via Stripe Connect' },
+                { label: 'Minimum Tier', value: 'Agency', note: '$149/mo or higher' },
+              ].map(item => (
+                <div key={item.label} style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,107,53,0.06)', border: '1px solid rgba(255,107,53,0.15)', textAlign: 'center' }}>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: '#ff6b35', fontFamily: 'var(--font-mono)' }}>{item.value}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{item.label}</div>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2 }}>{item.note}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Status + Action */}
+          <div style={cardStyle}>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 16, marginTop: 0 }}>
+              Your Contributor Status
+            </h2>
+
+            {!billing?.vendorEligible ? (
+              <div>
+                <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>
+                  You need an <strong style={{ color: '#ff6b35' }}>Agency</strong> ($149/mo) or <strong style={{ color: '#a78bfa' }}>Enterprise</strong> ($499/mo) plan to become a Contributor.
+                </p>
+                <button
+                  onClick={() => setShowUpgradeModal(true)}
+                  style={{
+                    padding: '10px 24px', borderRadius: 10, border: 'none',
+                    background: 'linear-gradient(135deg, #ff6b35, #cc5529)',
+                    color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  }}
+                >
+                  Upgrade to Agency
+                </button>
+              </div>
+            ) : !billing?.vendorStatus ? (
+              <div>
+                <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>
+                  Your plan qualifies for Contributor access. Apply to start selling on the marketplace.
+                </p>
+                <button
+                  onClick={async () => {
+                    try {
+                      await fetch('/api/console/vendor/apply', { method: 'POST' })
+                      fetchProfile()
+                    } catch { /* ignore */ }
+                  }}
+                  style={{
+                    padding: '10px 24px', borderRadius: 10, border: 'none',
+                    background: 'linear-gradient(135deg, #ff6b35, #cc5529)',
+                    color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  }}
+                >
+                  Apply as Contributor
+                </button>
+              </div>
+            ) : billing.vendorStatus === 'applied' ? (
+              <div style={{ padding: '16px 20px', borderRadius: 10, backgroundColor: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#f59e0b', marginBottom: 4 }}>Application Pending</div>
+                <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+                  Your contributor application is being reviewed. You&apos;ll be notified when approved.
+                </p>
+              </div>
+            ) : billing.vendorStatus === 'approved' ? (
+              <div>
+                <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>
+                  You&apos;re approved! Complete your Stripe Connect onboarding to start receiving payouts.
+                </p>
+                <button
+                  onClick={async () => {
+                    try {
+                      const res = await fetch('/api/console/vendor/onboard', { method: 'POST' })
+                      const data = await res.json()
+                      if (data.url) window.location.href = data.url
+                    } catch { /* ignore */ }
+                  }}
+                  style={{
+                    padding: '10px 24px', borderRadius: 10, border: 'none',
+                    background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                    color: '#0a0a0f', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  }}
+                >
+                  Complete Stripe Onboarding
+                </button>
+              </div>
+            ) : billing.vendorStatus === 'active' ? (
+              <div>
+                {/* Revenue stats */}
+                {billing.vendorProfile && (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
+                    <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.15)', textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 700, color: '#7ed957', fontFamily: 'var(--font-mono)' }}>
+                        ${((billing.vendorProfile.total_revenue_cents || 0) / 100).toFixed(0)}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Total Revenue</div>
+                    </div>
+                    <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.15)', textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 700, color: '#00d4ff', fontFamily: 'var(--font-mono)' }}>
+                        {billing.vendorProfile.total_sales || 0}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Total Sales</div>
+                    </div>
+                    <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,107,53,0.08)', border: '1px solid rgba(255,107,53,0.15)', textAlign: 'center' }}>
+                      <div style={{ fontSize: 22, fontWeight: 700, color: billing.vendorProfile.charges_enabled ? '#7ed957' : '#f59e0b', fontFamily: 'var(--font-mono)' }}>
+                        {billing.vendorProfile.charges_enabled ? 'Active' : 'Pending'}
+                      </div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Payouts</div>
+                    </div>
+                  </div>
+                )}
+                <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 4 }}>
+                  {billing.vendorProfile?.business_name && (
+                    <strong style={{ color: 'var(--text-primary)' }}>{billing.vendorProfile.business_name} — </strong>
+                  )}
+                  Vendor account active.
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+          {/* Quick Docs */}
+          <div style={cardStyle}>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 16, marginTop: 0 }}>
+              Contributor Guide
+            </h2>
+            <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+              {[
+                { q: 'How payouts work', a: 'You earn 85% of every sale. Payouts are automated via Stripe Connect on a rolling basis. Set up your banking details during onboarding.' },
+                { q: 'Creating listings', a: 'Build workflows in the Console Builder, then publish them to the Store. Set your own price point and description.' },
+                { q: 'Pricing strategies', a: 'Most successful listings are priced between $9-$49 for individual workflows and $99-$299 for bundles.' },
+                { q: 'White-label reports', a: 'Agency+ tiers can generate branded reports for clients showing workflow performance and ROI.' },
+              ].map(item => (
+                <div key={item.q} style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>{item.q}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{item.a}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -456,40 +629,86 @@ export function AccountView() {
         <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20, marginTop: 0 }}>Plan & Billing</h2>
 
         {/* Current Plan */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-          {(() => {
-            const planKey = billing?.plan || 'free'
-            const planColors: Record<string, { bg: string; color: string; border: string }> = {
-              free: { bg: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: 'var(--border)' },
-              pro: { bg: 'rgba(126,217,87,0.15)', color: '#7ed957', border: 'rgba(126,217,87,0.3)' },
-              team: { bg: 'rgba(0,212,255,0.15)', color: '#00d4ff', border: 'rgba(0,212,255,0.3)' },
-              contributor: { bg: 'rgba(255,107,53,0.15)', color: '#ff6b35', border: 'rgba(255,107,53,0.3)' },
-              owner: { bg: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: 'rgba(167,139,250,0.3)' },
-            }
-            const c = planColors[planKey] || planColors.free
-            return (
-              <span style={{ padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', backgroundColor: c.bg, color: c.color, border: `1px solid ${c.border}`, textTransform: 'capitalize' }}>
-                {planKey === 'owner' ? 'Owner' : CONSOLE_PLANS[planKey]?.name || 'Free'}
-              </span>
-            )
-          })()}
-          {billing?.vendorStatus && (
-            <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 600, fontFamily: 'var(--font-mono)', backgroundColor: 'rgba(255,107,53,0.1)', color: '#ff6b35', border: '1px solid rgba(255,107,53,0.2)', textTransform: 'uppercase' }}>
-              Vendor: {billing.vendorStatus}
-            </span>
-          )}
-        </div>
+        {(() => {
+          const rawPlan = billing?.plan || 'free'
+          const planKey = LEGACY_PLAN_MAP[rawPlan] || rawPlan
+          const planColors: Record<string, { bg: string; color: string; border: string }> = {
+            free: { bg: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: 'var(--border)' },
+            creator: { bg: 'rgba(126,217,87,0.15)', color: '#7ed957', border: 'rgba(126,217,87,0.3)' },
+            operator: { bg: 'rgba(0,212,255,0.15)', color: '#00d4ff', border: 'rgba(0,212,255,0.3)' },
+            agency: { bg: 'rgba(255,107,53,0.15)', color: '#ff6b35', border: 'rgba(255,107,53,0.3)' },
+            enterprise: { bg: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: 'rgba(167,139,250,0.3)' },
+            owner: { bg: 'rgba(167,139,250,0.15)', color: '#a78bfa', border: 'rgba(167,139,250,0.3)' },
+          }
+          const c = planColors[planKey] || planColors.free
+          const tierInfo = SOCIAL_ENGINE_TIERS.find(t => t.key === planKey) || SOCIAL_ENGINE_TIERS[0]
+          const td = billing?.tierData
+
+          return (
+            <>
+              {/* Tier badge + vendor badge */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                <span style={{ padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', backgroundColor: c.bg, color: c.color, border: `1px solid ${c.border}`, textTransform: 'capitalize' }}>
+                  {planKey === 'owner' ? 'Owner' : tierInfo.label}
+                </span>
+                {billing?.vendorStatus && (
+                  <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 600, fontFamily: 'var(--font-mono)', backgroundColor: 'rgba(255,107,53,0.1)', color: '#ff6b35', border: '1px solid rgba(255,107,53,0.2)', textTransform: 'uppercase' }}>
+                    Vendor: {billing.vendorStatus}
+                  </span>
+                )}
+              </div>
+
+              {/* Seats & Locations */}
+              {td && planKey !== 'owner' && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <div style={{ fontSize: 22, fontWeight: 700, color: c.color, fontFamily: 'var(--font-mono)' }}>
+                        {billing?.activeSeats ?? 0}/{td.maxUsers}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Team Seats</div>
+                    {td.addOns && (
+                      <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, fontFamily: 'var(--font-mono)' }}>
+                        +${td.addOns.extraUserMonthly}/mo per extra seat
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <div style={{ fontSize: 22, fontWeight: 700, color: c.color, fontFamily: 'var(--font-mono)' }}>
+                        {billing?.activeLocations ?? 0}/{td.maxLocations}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Locations</div>
+                    {td.addOns && (
+                      <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, fontFamily: 'var(--font-mono)' }}>
+                        +${td.addOns.extraLocationMonthly}/mo per extra location
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
+          )
+        })()}
 
         {/* Plan features */}
-        {billing?.plan && CONSOLE_PLANS[billing.plan] && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
-            {CONSOLE_PLANS[billing.plan].features.map((f) => (
-              <span key={f} style={{ fontSize: 11, color: 'var(--text-muted)', padding: '3px 8px', borderRadius: 6, backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)' }}>
-                {f}
-              </span>
-            ))}
-          </div>
-        )}
+        {(() => {
+          const rawPlan = billing?.plan || 'free'
+          const planKey = LEGACY_PLAN_MAP[rawPlan] || rawPlan
+          const planData = CONSOLE_PLANS[planKey]
+          if (!planData) return null
+          return (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+              {planData.features.map((f) => (
+                <span key={f} style={{ fontSize: 11, color: 'var(--text-muted)', padding: '3px 8px', borderRadius: 6, backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)' }}>
+                  {f}
+                </span>
+              ))}
+            </div>
+          )
+        })()}
 
         <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
           <button
@@ -500,7 +719,7 @@ export function AccountView() {
               color: '#0a0a0f', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-display)',
             }}
           >
-            {billing?.plan === 'free' || !billing?.plan ? 'Upgrade Plan' : 'Change Plan'}
+            {billing?.plan === 'free' || !billing?.plan ? 'Upgrade Plan' : 'Switch Plan'}
           </button>
           {billing?.hasCustomer && (
             <button
@@ -596,6 +815,7 @@ export function AccountView() {
         <UpgradeModal
           currentPlan={billing?.plan || 'free'}
           onClose={() => setShowUpgradeModal(false)}
+          onSwitched={() => fetchProfile()}
         />
       )}
 

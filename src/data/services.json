@@ -263,7 +263,41 @@
             }
           ]
         }
-      ]
+      ],
+      "howTo": {
+        "selections": [
+          "Wait",
+          "Wait Until",
+          "Random Delay"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Wait",
+          "Wait Until",
+          "Random Delay"
+        ],
+        "outcomes": [
+          "Flow continued",
+          "Condition evaluated",
+          "Data transformed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Loop iteration"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "schedule",
@@ -355,7 +389,43 @@
             }
           ]
         }
-      ]
+      ],
+      "howTo": {
+        "selections": [
+          "Cron Schedule",
+          "Recurring Interval",
+          "Run Once At",
+          "Business Hours Only"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Cron Schedule",
+          "Recurring Interval",
+          "Run Once At",
+          "Business Hours Only"
+        ],
+        "outcomes": [
+          "Flow continued",
+          "Condition evaluated",
+          "Data transformed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Loop iteration"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "condition",
@@ -464,7 +534,45 @@
             }
           ]
         }
-      ]
+      ],
+      "howTo": {
+        "selections": [
+          "If / Else",
+          "Switch / Case",
+          "Data Exists",
+          "Compare Values",
+          "Gate / Approval"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "If / Else",
+          "Switch / Case",
+          "Data Exists",
+          "Compare Values",
+          "Gate / Approval"
+        ],
+        "outcomes": [
+          "Flow continued",
+          "Condition evaluated",
+          "Data transformed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Loop iteration"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "loop",
@@ -546,7 +654,43 @@
             }
           ]
         }
-      ]
+      ],
+      "howTo": {
+        "selections": [
+          "For Each",
+          "While Loop",
+          "Batch Process",
+          "Parallel For Each"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "For Each",
+          "While Loop",
+          "Batch Process",
+          "Parallel For Each"
+        ],
+        "outcomes": [
+          "Flow continued",
+          "Condition evaluated",
+          "Data transformed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Loop iteration"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "transform",
@@ -647,7 +791,47 @@
             }
           ]
         }
-      ]
+      ],
+      "howTo": {
+        "selections": [
+          "Map Fields",
+          "Filter Array",
+          "Merge Objects",
+          "Extract Value",
+          "Format Text",
+          "Compute"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Map Fields",
+          "Filter Array",
+          "Merge Objects",
+          "Extract Value",
+          "Format Text",
+          "Compute"
+        ],
+        "outcomes": [
+          "Flow continued",
+          "Condition evaluated",
+          "Data transformed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Loop iteration"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "trigger",
@@ -719,7 +903,41 @@
             }
           ]
         }
-      ]
+      ],
+      "howTo": {
+        "selections": [
+          "Webhook Trigger",
+          "Manual Trigger",
+          "Event Listener",
+          "Form Submission"
+        ],
+        "triggers": [
+          "Webhook Trigger event"
+        ],
+        "actions": [
+          "Webhook Trigger",
+          "Manual Trigger",
+          "Event Listener",
+          "Form Submission"
+        ],
+        "outcomes": [
+          "Flow continued",
+          "Condition evaluated",
+          "Data transformed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Loop iteration"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "error_handling",
@@ -806,7 +1024,43 @@
             }
           ]
         }
-      ]
+      ],
+      "howTo": {
+        "selections": [
+          "Try / Catch",
+          "Retry with Backoff",
+          "Error Alert",
+          "Stop Workflow"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Try / Catch",
+          "Retry with Backoff",
+          "Error Alert",
+          "Stop Workflow"
+        ],
+        "outcomes": [
+          "Flow continued",
+          "Condition evaluated",
+          "Data transformed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Loop iteration"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "gmail",
@@ -894,7 +1148,47 @@
           "description": "Get the authenticated user's email profile."
         }
       ],
-      "logo": "/logos/gmail.svg"
+      "logo": "/logos/gmail.svg",
+      "howTo": {
+        "selections": [
+          "List Messages",
+          "Get Message",
+          "Send Message",
+          "Trash Message",
+          "Untrash Message",
+          "List Threads"
+        ],
+        "triggers": [
+          "Send Message event",
+          "Create Draft event",
+          "Create Label event"
+        ],
+        "actions": [
+          "List Messages",
+          "Get Message",
+          "Send Message",
+          "Trash Message",
+          "Untrash Message",
+          "List Threads"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "slack",
@@ -937,7 +1231,41 @@
           "description": "Create a new Slack channel."
         }
       ],
-      "logo": "/logos/slack.svg"
+      "logo": "/logos/slack.svg",
+      "howTo": {
+        "selections": [
+          "Send Message",
+          "List Channels",
+          "List Users",
+          "Create Channel"
+        ],
+        "triggers": [
+          "Create Channel event"
+        ],
+        "actions": [
+          "Send Message",
+          "List Channels",
+          "List Users",
+          "Create Channel"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "google_calendar",
@@ -984,7 +1312,45 @@
           "description": "Delete a calendar event."
         }
       ],
-      "logo": "/logos/gcal.svg"
+      "logo": "/logos/gcal.svg",
+      "howTo": {
+        "selections": [
+          "List Calendars",
+          "List Events",
+          "Create Event",
+          "Update Event",
+          "Delete Event"
+        ],
+        "triggers": [
+          "Create Event event",
+          "Update Event event",
+          "Delete Event event"
+        ],
+        "actions": [
+          "List Calendars",
+          "List Events",
+          "Create Event",
+          "Update Event",
+          "Delete Event"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "google_sheets",
@@ -1046,7 +1412,45 @@
           "description": "Write values to multiple ranges at once."
         }
       ],
-      "logo": "/logos/gsheets.svg"
+      "logo": "/logos/gsheets.svg",
+      "howTo": {
+        "selections": [
+          "Create Spreadsheet",
+          "Get Spreadsheet",
+          "Get Values",
+          "Update Values",
+          "Append Values",
+          "Clear Values"
+        ],
+        "triggers": [
+          "Create Spreadsheet event"
+        ],
+        "actions": [
+          "Create Spreadsheet",
+          "Get Spreadsheet",
+          "Get Values",
+          "Update Values",
+          "Append Values",
+          "Clear Values"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "google_drive",
@@ -1118,7 +1522,47 @@
           "description": "Pre-generate file IDs for uploads."
         }
       ],
-      "logo": "/logos/gdrive.svg"
+      "logo": "/logos/gdrive.svg",
+      "howTo": {
+        "selections": [
+          "List Files",
+          "Get File",
+          "Create File",
+          "Copy File",
+          "Update File",
+          "Delete File"
+        ],
+        "triggers": [
+          "Create File event",
+          "Update File event",
+          "Delete File event"
+        ],
+        "actions": [
+          "List Files",
+          "Get File",
+          "Create File",
+          "Copy File",
+          "Update File",
+          "Delete File"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "zoom",
@@ -1190,7 +1634,48 @@
           "description": "Get a specific user's details."
         }
       ],
-      "logo": "/logos/zoom.svg"
+      "logo": "/logos/zoom.svg",
+      "howTo": {
+        "selections": [
+          "List Meetings",
+          "Create Meeting",
+          "Get Meeting",
+          "Update Meeting",
+          "Delete Meeting",
+          "List Recordings"
+        ],
+        "triggers": [
+          "Create Meeting event",
+          "Update Meeting event",
+          "Delete Meeting event",
+          "Delete Recording event"
+        ],
+        "actions": [
+          "List Meetings",
+          "Create Meeting",
+          "Get Meeting",
+          "Update Meeting",
+          "Delete Meeting",
+          "List Recordings"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "microsoft",
@@ -1288,7 +1773,47 @@
           "description": "Get the authenticated user's profile."
         }
       ],
-      "logo": "/logos/m365.svg"
+      "logo": "/logos/m365.svg",
+      "howTo": {
+        "selections": [
+          "Send Mail",
+          "List Messages",
+          "Get Message",
+          "Delete Message",
+          "List Events",
+          "Create Event"
+        ],
+        "triggers": [
+          "Delete Message event",
+          "Create Event event",
+          "Update Event event"
+        ],
+        "actions": [
+          "Send Mail",
+          "List Messages",
+          "Get Message",
+          "Delete Message",
+          "List Events",
+          "Create Event"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "notion",
@@ -1335,7 +1860,43 @@
           "description": "List all databases in the workspace."
         }
       ],
-      "logo": "/logos/notion.svg"
+      "logo": "/logos/notion.svg",
+      "howTo": {
+        "selections": [
+          "Search",
+          "Create Page",
+          "Get Page",
+          "Query Database",
+          "List Databases"
+        ],
+        "triggers": [
+          "Create Page event"
+        ],
+        "actions": [
+          "Search",
+          "Create Page",
+          "Get Page",
+          "Query Database",
+          "List Databases"
+        ],
+        "outcomes": [
+          "Task completed",
+          "Data synced",
+          "Notification sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "discord",
@@ -1367,7 +1928,39 @@
           "description": "List all channels in a server."
         }
       ],
-      "logo": "/logos/discord.svg"
+      "logo": "/logos/discord.svg",
+      "howTo": {
+        "selections": [
+          "Send Message",
+          "List Channels"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Send Message",
+          "List Channels"
+        ],
+        "outcomes": [
+          "Message sent",
+          "Channel updated",
+          "Thread created"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "twilio",
@@ -1405,7 +1998,39 @@
           "description": "Initiate a phone call."
         }
       ],
-      "logo": "/logos/twilio.svg"
+      "logo": "/logos/twilio.svg",
+      "howTo": {
+        "selections": [
+          "Send SMS",
+          "List Messages",
+          "Make Call"
+        ],
+        "triggers": [
+          "List Messages event"
+        ],
+        "actions": [
+          "Send SMS",
+          "List Messages",
+          "Make Call"
+        ],
+        "outcomes": [
+          "Message sent",
+          "Channel updated",
+          "Thread created"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "mailchimp",
@@ -1487,7 +2112,46 @@
           "description": "List automation workflows."
         }
       ],
-      "logo": "/logos/mailchimp.svg"
+      "logo": "/logos/mailchimp.svg",
+      "howTo": {
+        "selections": [
+          "List Audiences",
+          "Get Audience",
+          "Add Member",
+          "Update Member",
+          "List Members",
+          "Search Members"
+        ],
+        "triggers": [
+          "Update Member event",
+          "Create Campaign event"
+        ],
+        "actions": [
+          "List Audiences",
+          "Get Audience",
+          "Add Member",
+          "Update Member",
+          "List Members",
+          "Search Members"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "sendgrid",
@@ -1534,7 +2198,45 @@
           "description": "List marketing contact lists."
         }
       ],
-      "logo": "/logos/sendgrid.svg"
+      "logo": "/logos/sendgrid.svg",
+      "howTo": {
+        "selections": [
+          "Send Email",
+          "Add Contacts",
+          "Search Contacts",
+          "List Templates",
+          "List Lists"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Send Email",
+          "Add Contacts",
+          "Search Contacts",
+          "List Templates",
+          "List Lists"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "resend",
@@ -1896,7 +2598,48 @@
           "description": "Delete a webhook."
         }
       ],
-      "logo": "/logos/resend.svg"
+      "logo": "/logos/resend.svg",
+      "howTo": {
+        "selections": [
+          "Send Email",
+          "Send Batch Emails",
+          "List Emails",
+          "Get Email",
+          "Update Email",
+          "Cancel Email"
+        ],
+        "triggers": [
+          "Update Email event",
+          "List Received Emails event",
+          "Get Received Email event",
+          "List Received Attachments event"
+        ],
+        "actions": [
+          "Send Email",
+          "Send Batch Emails",
+          "List Emails",
+          "Get Email",
+          "Update Email",
+          "Cancel Email"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "stripe",
@@ -1979,7 +2722,46 @@
           "description": "Create a price for a product."
         }
       ],
-      "logo": "/logos/stripe.svg"
+      "logo": "/logos/stripe.svg",
+      "howTo": {
+        "selections": [
+          "Create Customer",
+          "List Customers",
+          "Get Customer",
+          "Create Charge",
+          "Create Invoice",
+          "Send Invoice"
+        ],
+        "triggers": [
+          "Create Customer event",
+          "Create Invoice event"
+        ],
+        "actions": [
+          "Create Customer",
+          "List Customers",
+          "Get Customer",
+          "Create Charge",
+          "Create Invoice",
+          "Send Invoice"
+        ],
+        "outcomes": [
+          "Payment processed",
+          "Invoice created",
+          "Subscription updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "shopify",
@@ -2031,7 +2813,46 @@
           "description": "Create a new customer."
         }
       ],
-      "logo": "/logos/shopify.svg"
+      "logo": "/logos/shopify.svg",
+      "howTo": {
+        "selections": [
+          "List Products",
+          "Create Product",
+          "List Orders",
+          "Get Order",
+          "List Customers",
+          "Create Customer"
+        ],
+        "triggers": [
+          "Create Product event",
+          "Create Customer event"
+        ],
+        "actions": [
+          "List Products",
+          "Create Product",
+          "List Orders",
+          "Get Order",
+          "List Customers",
+          "Create Customer"
+        ],
+        "outcomes": [
+          "Payment processed",
+          "Invoice created",
+          "Subscription updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "crm",
@@ -3014,7 +3835,47 @@
           "name": "Saas Bulk Disable"
         }
       ],
-      "logo": "/logos/crm.svg"
+      "logo": "/logos/crm.svg",
+      "howTo": {
+        "selections": [
+          "Search Contacts",
+          "Get Contact",
+          "Create Contact",
+          "Update Contact",
+          "Delete Contact",
+          "Upsert Contact"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Search Contacts",
+          "Get Contact",
+          "Create Contact",
+          "Update Contact",
+          "Delete Contact",
+          "Upsert Contact"
+        ],
+        "outcomes": [
+          "Contact updated",
+          "Deal created",
+          "Pipeline moved"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "hubspot",
@@ -3066,7 +3927,46 @@
           "description": "List all deals."
         }
       ],
-      "logo": "/logos/hubspot.svg"
+      "logo": "/logos/hubspot.svg",
+      "howTo": {
+        "selections": [
+          "Create Contact",
+          "List Contacts",
+          "Search Contacts",
+          "Create Company",
+          "Create Deal",
+          "List Deals"
+        ],
+        "triggers": [
+          "Create Contact event",
+          "Create Company event"
+        ],
+        "actions": [
+          "Create Contact",
+          "List Contacts",
+          "Search Contacts",
+          "Create Company",
+          "Create Deal",
+          "List Deals"
+        ],
+        "outcomes": [
+          "Contact updated",
+          "Deal created",
+          "Pipeline moved"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "airtable",
@@ -3113,7 +4013,45 @@
           "description": "Delete a record by ID."
         }
       ],
-      "logo": "/logos/airtable.svg"
+      "logo": "/logos/airtable.svg",
+      "howTo": {
+        "selections": [
+          "List Bases",
+          "List Records",
+          "Create Record",
+          "Update Record",
+          "Delete Record"
+        ],
+        "triggers": [
+          "Create Record event",
+          "Update Record event",
+          "Delete Record event"
+        ],
+        "actions": [
+          "List Bases",
+          "List Records",
+          "Create Record",
+          "Update Record",
+          "Delete Record"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "calendly",
@@ -3150,7 +4088,41 @@
           "description": "Get the authenticated user's profile."
         }
       ],
-      "logo": "/logos/calendly.svg"
+      "logo": "/logos/calendly.svg",
+      "howTo": {
+        "selections": [
+          "List Events",
+          "List Event Types",
+          "Get User"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "List Events",
+          "List Event Types",
+          "Get User"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "linear",
@@ -3177,7 +4149,37 @@
           "description": "Execute a GraphQL query or mutation against the Linear API."
         }
       ],
-      "logo": "/logos/linear.svg"
+      "logo": "/logos/linear.svg",
+      "howTo": {
+        "selections": [
+          "GraphQL Query"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "GraphQL Query"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "jira",
@@ -3259,7 +4261,47 @@
           "description": "Assign an issue to a user."
         }
       ],
-      "logo": "/logos/jira.svg"
+      "logo": "/logos/jira.svg",
+      "howTo": {
+        "selections": [
+          "Search Issues",
+          "Create Issue",
+          "Get Issue",
+          "Update Issue",
+          "Delete Issue",
+          "Transition Issue"
+        ],
+        "triggers": [
+          "Create Issue event",
+          "Update Issue event",
+          "Delete Issue event"
+        ],
+        "actions": [
+          "Search Issues",
+          "Create Issue",
+          "Get Issue",
+          "Update Issue",
+          "Delete Issue",
+          "Transition Issue"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "zendesk",
@@ -3341,7 +4383,47 @@
           "description": "List available macros."
         }
       ],
-      "logo": "/logos/zendesk.svg"
+      "logo": "/logos/zendesk.svg",
+      "howTo": {
+        "selections": [
+          "List Tickets",
+          "Get Ticket",
+          "Create Ticket",
+          "Update Ticket",
+          "Delete Ticket",
+          "List Ticket Comments"
+        ],
+        "triggers": [
+          "Create Ticket event",
+          "Update Ticket event",
+          "Delete Ticket event"
+        ],
+        "actions": [
+          "List Tickets",
+          "Get Ticket",
+          "Create Ticket",
+          "Update Ticket",
+          "Delete Ticket",
+          "List Ticket Comments"
+        ],
+        "outcomes": [
+          "Ticket created",
+          "Issue resolved",
+          "SLA tracked"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "openai",
@@ -3384,7 +4466,41 @@
           "description": "Convert text to spoken audio."
         }
       ],
-      "logo": "/logos/openai.svg"
+      "logo": "/logos/openai.svg",
+      "howTo": {
+        "selections": [
+          "Chat Completion",
+          "Create Image",
+          "Create Embedding",
+          "Text to Speech"
+        ],
+        "triggers": [
+          "Create Embedding event"
+        ],
+        "actions": [
+          "Chat Completion",
+          "Create Image",
+          "Create Embedding",
+          "Text to Speech"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "github",
@@ -3431,7 +4547,44 @@
           "description": "List pull requests on a repository."
         }
       ],
-      "logo": "/logos/github.svg"
+      "logo": "/logos/github.svg",
+      "howTo": {
+        "selections": [
+          "List Repos",
+          "Create Issue",
+          "List Issues",
+          "Create Pull Request",
+          "List Pull Requests"
+        ],
+        "triggers": [
+          "Create Issue event",
+          "Create Pull Request event"
+        ],
+        "actions": [
+          "List Repos",
+          "Create Issue",
+          "List Issues",
+          "Create Pull Request",
+          "List Pull Requests"
+        ],
+        "outcomes": [
+          "Code deployed",
+          "Issue created",
+          "PR merged"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "supabase",
@@ -3483,7 +4636,47 @@
           "description": "List storage buckets."
         }
       ],
-      "logo": "/logos/supabase.svg"
+      "logo": "/logos/supabase.svg",
+      "howTo": {
+        "selections": [
+          "Query Table",
+          "Insert Row",
+          "Update Row",
+          "Delete Row",
+          "List Users",
+          "List Buckets"
+        ],
+        "triggers": [
+          "Insert Row event",
+          "Update Row event",
+          "Delete Row event"
+        ],
+        "actions": [
+          "Query Table",
+          "Insert Row",
+          "Update Row",
+          "Delete Row",
+          "List Users",
+          "List Buckets"
+        ],
+        "outcomes": [
+          "Code deployed",
+          "Issue created",
+          "PR merged"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "mongodb",
@@ -3545,7 +4738,47 @@
           "description": "Run an aggregation pipeline."
         }
       ],
-      "logo": "/logos/mongodb.svg"
+      "logo": "/logos/mongodb.svg",
+      "howTo": {
+        "selections": [
+          "Find One",
+          "Find Many",
+          "Insert One",
+          "Insert Many",
+          "Update One",
+          "Update Many"
+        ],
+        "triggers": [
+          "Update One event",
+          "Update Many event",
+          "Delete One event"
+        ],
+        "actions": [
+          "Find One",
+          "Find Many",
+          "Insert One",
+          "Insert Many",
+          "Update One",
+          "Update Many"
+        ],
+        "outcomes": [
+          "Code deployed",
+          "Issue created",
+          "PR merged"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "quickbooks",
@@ -3653,7 +4886,47 @@
           "description": "Get company profile information."
         }
       ],
-      "logo": "/logos/quickbooks.svg"
+      "logo": "/logos/quickbooks.svg",
+      "howTo": {
+        "selections": [
+          "Create Invoice",
+          "Get Invoice",
+          "List Invoices",
+          "Update Invoice",
+          "Delete Invoice",
+          "Create Customer"
+        ],
+        "triggers": [
+          "Create Invoice event",
+          "Update Invoice event",
+          "Delete Invoice event"
+        ],
+        "actions": [
+          "Create Invoice",
+          "Get Invoice",
+          "List Invoices",
+          "Update Invoice",
+          "Delete Invoice",
+          "Create Customer"
+        ],
+        "outcomes": [
+          "Invoice sent",
+          "Payment recorded",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "asana",
@@ -3746,7 +5019,47 @@
           "description": "Set dependency relationships between tasks."
         }
       ],
-      "logo": "/logos/asana.svg"
+      "logo": "/logos/asana.svg",
+      "howTo": {
+        "selections": [
+          "Create Task",
+          "Get Task",
+          "List Tasks",
+          "Update Task",
+          "Delete Task",
+          "Create Project"
+        ],
+        "triggers": [
+          "Create Task event",
+          "Update Task event",
+          "Delete Task event"
+        ],
+        "actions": [
+          "Create Task",
+          "Get Task",
+          "List Tasks",
+          "Update Task",
+          "Delete Task",
+          "Create Project"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "intercom",
@@ -3839,7 +5152,47 @@
           "description": "Send a targeted message to a user."
         }
       ],
-      "logo": "/logos/intercom.svg"
+      "logo": "/logos/intercom.svg",
+      "howTo": {
+        "selections": [
+          "Create Contact",
+          "List Contacts",
+          "Get Contact",
+          "Update Contact",
+          "Search Contacts",
+          "Create Conversation"
+        ],
+        "triggers": [
+          "Create Contact event",
+          "Update Contact event",
+          "Create Conversation event"
+        ],
+        "actions": [
+          "Create Contact",
+          "List Contacts",
+          "Get Contact",
+          "Update Contact",
+          "Search Contacts",
+          "Create Conversation"
+        ],
+        "outcomes": [
+          "Ticket created",
+          "Issue resolved",
+          "SLA tracked"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "dropbox",
@@ -3922,7 +5275,47 @@
           "description": "Get the current user's account information."
         }
       ],
-      "logo": "/logos/dropbox.svg"
+      "logo": "/logos/dropbox.svg",
+      "howTo": {
+        "selections": [
+          "Upload File",
+          "Download File",
+          "List Folder",
+          "Create Folder",
+          "Delete File",
+          "Move File"
+        ],
+        "triggers": [
+          "Create Folder event",
+          "Delete File event",
+          "Move File event"
+        ],
+        "actions": [
+          "Upload File",
+          "Download File",
+          "List Folder",
+          "Create Folder",
+          "Delete File",
+          "Move File"
+        ],
+        "outcomes": [
+          "File uploaded",
+          "Folder created",
+          "Share link generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "whatsapp",
@@ -4005,7 +5398,46 @@
           "description": "Get the business profile information."
         }
       ],
-      "logo": "/logos/whatsapp.svg"
+      "logo": "/logos/whatsapp.svg",
+      "howTo": {
+        "selections": [
+          "Send Message",
+          "Send Template",
+          "Send Media",
+          "Get Message Status",
+          "List Templates",
+          "Create Template"
+        ],
+        "triggers": [
+          "Create Template event",
+          "Update Profile event"
+        ],
+        "actions": [
+          "Send Message",
+          "Send Template",
+          "Send Media",
+          "Get Message Status",
+          "List Templates",
+          "Create Template"
+        ],
+        "outcomes": [
+          "Message delivered",
+          "Conversation started",
+          "Auto-reply sent"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "instagram",
@@ -4083,7 +5515,45 @@
           "description": "List posts that mention the account."
         }
       ],
-      "logo": "/logos/instagram.svg"
+      "logo": "/logos/instagram.svg",
+      "howTo": {
+        "selections": [
+          "Get Profile",
+          "List Media",
+          "Create Media",
+          "Publish Media",
+          "Get Insights",
+          "List Stories"
+        ],
+        "triggers": [
+          "Create Media event"
+        ],
+        "actions": [
+          "Get Profile",
+          "List Media",
+          "Create Media",
+          "Publish Media",
+          "Get Insights",
+          "List Stories"
+        ],
+        "outcomes": [
+          "Post published",
+          "Engagement tracked",
+          "Content scheduled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "twitter",
@@ -4166,7 +5636,46 @@
           "description": "Get tweets that mention the user."
         }
       ],
-      "logo": "/logos/x_twitter.svg"
+      "logo": "/logos/x_twitter.svg",
+      "howTo": {
+        "selections": [
+          "Create Tweet",
+          "Delete Tweet",
+          "Get Tweet",
+          "Search Tweets",
+          "Get User",
+          "Get Timeline"
+        ],
+        "triggers": [
+          "Create Tweet event",
+          "Delete Tweet event"
+        ],
+        "actions": [
+          "Create Tweet",
+          "Delete Tweet",
+          "Get Tweet",
+          "Search Tweets",
+          "Get User",
+          "Get Timeline"
+        ],
+        "outcomes": [
+          "Post published",
+          "Engagement tracked",
+          "Content scheduled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "tiktok",
@@ -4234,7 +5743,45 @@
           "description": "Discover currently trending hashtags."
         }
       ],
-      "logo": "/logos/tiktok.svg"
+      "logo": "/logos/tiktok.svg",
+      "howTo": {
+        "selections": [
+          "Get User Info",
+          "List Videos",
+          "Upload Video",
+          "Get Video",
+          "Search Videos",
+          "Get Comments"
+        ],
+        "triggers": [
+          "Upload Video event"
+        ],
+        "actions": [
+          "Get User Info",
+          "List Videos",
+          "Upload Video",
+          "Get Video",
+          "Search Videos",
+          "Get Comments"
+        ],
+        "outcomes": [
+          "Post published",
+          "Engagement tracked",
+          "Content scheduled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "linkedin",
@@ -4302,7 +5849,46 @@
           "description": "Search for people on LinkedIn."
         }
       ],
-      "logo": "/logos/linkedin.svg"
+      "logo": "/logos/linkedin.svg",
+      "howTo": {
+        "selections": [
+          "Get Profile",
+          "Share Post",
+          "List Connections",
+          "Send Message",
+          "Get Company",
+          "List Company Updates"
+        ],
+        "triggers": [
+          "List Company Updates event",
+          "Post Company Update event"
+        ],
+        "actions": [
+          "Get Profile",
+          "Share Post",
+          "List Connections",
+          "Send Message",
+          "Get Company",
+          "List Company Updates"
+        ],
+        "outcomes": [
+          "Post published",
+          "Engagement tracked",
+          "Content scheduled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "google_ads",
@@ -4390,7 +5976,47 @@
           "description": "Get conversion tracking data."
         }
       ],
-      "logo": "/logos/google_ads.svg"
+      "logo": "/logos/google_ads.svg",
+      "howTo": {
+        "selections": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "Pause Campaign",
+          "List Ad Groups",
+          "Create Ad Group"
+        ],
+        "triggers": [
+          "Create Campaign event",
+          "Update Campaign event",
+          "Create Ad Group event"
+        ],
+        "actions": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "Pause Campaign",
+          "List Ad Groups",
+          "Create Ad Group"
+        ],
+        "outcomes": [
+          "Ad created",
+          "Campaign optimized",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "facebook_ads",
@@ -4473,7 +6099,47 @@
           "description": "Set or update a campaign budget."
         }
       ],
-      "logo": "/logos/fb_ads.svg"
+      "logo": "/logos/fb_ads.svg",
+      "howTo": {
+        "selections": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Ad Sets",
+          "Create Ad Set",
+          "List Ads"
+        ],
+        "triggers": [
+          "Create Campaign event",
+          "Update Campaign event",
+          "Create Ad Set event"
+        ],
+        "actions": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Ad Sets",
+          "Create Ad Set",
+          "List Ads"
+        ],
+        "outcomes": [
+          "Ad created",
+          "Campaign optimized",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "tiktok_ads",
@@ -4556,7 +6222,47 @@
           "description": "Upload a new creative asset."
         }
       ],
-      "logo": "/logos/tiktok.svg"
+      "logo": "/logos/tiktok.svg",
+      "howTo": {
+        "selections": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Ad Groups",
+          "Create Ad Group",
+          "List Ads"
+        ],
+        "triggers": [
+          "Create Campaign event",
+          "Update Campaign event",
+          "Create Ad Group event"
+        ],
+        "actions": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Ad Groups",
+          "Create Ad Group",
+          "List Ads"
+        ],
+        "outcomes": [
+          "Ad created",
+          "Campaign optimized",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "twitter_ads",
@@ -4629,7 +6335,47 @@
           "description": "Create a tailored audience."
         }
       ],
-      "logo": "/logos/x_twitter.svg"
+      "logo": "/logos/x_twitter.svg",
+      "howTo": {
+        "selections": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Line Items",
+          "Create Line Item",
+          "List Promoted Tweets"
+        ],
+        "triggers": [
+          "Create Campaign event",
+          "Update Campaign event",
+          "Create Line Item event"
+        ],
+        "actions": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Line Items",
+          "Create Line Item",
+          "List Promoted Tweets"
+        ],
+        "outcomes": [
+          "Ad created",
+          "Campaign optimized",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "linkedin_ads",
@@ -4707,7 +6453,47 @@
           "description": "Set or update the campaign budget."
         }
       ],
-      "logo": "/logos/linkedin.svg"
+      "logo": "/logos/linkedin.svg",
+      "howTo": {
+        "selections": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Campaign Groups",
+          "List Creatives",
+          "Create Creative"
+        ],
+        "triggers": [
+          "Create Campaign event",
+          "Update Campaign event",
+          "Create Creative event"
+        ],
+        "actions": [
+          "List Campaigns",
+          "Create Campaign",
+          "Update Campaign",
+          "List Campaign Groups",
+          "List Creatives",
+          "Create Creative"
+        ],
+        "outcomes": [
+          "Ad created",
+          "Campaign optimized",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "instagram_ads",
@@ -4785,7 +6571,46 @@
           "description": "Estimate the reach for targeting criteria."
         }
       ],
-      "logo": "/logos/instagram.svg"
+      "logo": "/logos/instagram.svg",
+      "howTo": {
+        "selections": [
+          "List Campaigns",
+          "Create Campaign",
+          "List Ad Sets",
+          "Create Ad Set",
+          "List Ads",
+          "Create Ad"
+        ],
+        "triggers": [
+          "Create Campaign event",
+          "Create Ad Set event"
+        ],
+        "actions": [
+          "List Campaigns",
+          "Create Campaign",
+          "List Ad Sets",
+          "Create Ad Set",
+          "List Ads",
+          "Create Ad"
+        ],
+        "outcomes": [
+          "Ad created",
+          "Campaign optimized",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "plaid",
@@ -4863,7 +6688,45 @@
           "description": "Get income data for verification."
         }
       ],
-      "logo": "/logos/plaid.svg"
+      "logo": "/logos/plaid.svg",
+      "howTo": {
+        "selections": [
+          "Create Link Token",
+          "Exchange Public Token",
+          "Get Accounts",
+          "Get Transactions",
+          "Get Balance",
+          "Get Identity"
+        ],
+        "triggers": [
+          "Create Link Token event"
+        ],
+        "actions": [
+          "Create Link Token",
+          "Exchange Public Token",
+          "Get Accounts",
+          "Get Transactions",
+          "Get Balance",
+          "Get Identity"
+        ],
+        "outcomes": [
+          "Transaction synced",
+          "Balance checked",
+          "Statement pulled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "square",
@@ -4951,7 +6814,47 @@
           "description": "List all business locations."
         }
       ],
-      "logo": "/logos/square.svg"
+      "logo": "/logos/square.svg",
+      "howTo": {
+        "selections": [
+          "Create Payment",
+          "List Payments",
+          "Get Payment",
+          "Refund Payment",
+          "Create Customer",
+          "List Customers"
+        ],
+        "triggers": [
+          "Create Payment event",
+          "Create Customer event",
+          "Create Invoice event"
+        ],
+        "actions": [
+          "Create Payment",
+          "List Payments",
+          "Get Payment",
+          "Refund Payment",
+          "Create Customer",
+          "List Customers"
+        ],
+        "outcomes": [
+          "Payment processed",
+          "Invoice created",
+          "Subscription updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "smartlead",
@@ -5034,7 +6937,47 @@
           "description": "Pause a running campaign."
         }
       ],
-      "logo": "/logos/smartlead.svg"
+      "logo": "/logos/smartlead.svg",
+      "howTo": {
+        "selections": [
+          "Create Campaign",
+          "List Campaigns",
+          "Get Campaign",
+          "Add Leads",
+          "List Leads",
+          "Get Lead"
+        ],
+        "triggers": [
+          "Create Campaign event",
+          "Update Lead Status event",
+          "Add Email Account event"
+        ],
+        "actions": [
+          "Create Campaign",
+          "List Campaigns",
+          "Get Campaign",
+          "Add Leads",
+          "List Leads",
+          "Get Lead"
+        ],
+        "outcomes": [
+          "Sequence started",
+          "Follow-up sent",
+          "Lead enriched"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "zapier",
@@ -5097,7 +7040,45 @@
           "description": "View the execution history for a zap."
         }
       ],
-      "logo": "/logos/zapier.svg"
+      "logo": "/logos/zapier.svg",
+      "howTo": {
+        "selections": [
+          "Trigger Webhook",
+          "List Zaps",
+          "Get Zap",
+          "Enable Zap",
+          "Disable Zap",
+          "List Connections"
+        ],
+        "triggers": [
+          "Create Zap event"
+        ],
+        "actions": [
+          "Trigger Webhook",
+          "List Zaps",
+          "Get Zap",
+          "Enable Zap",
+          "Disable Zap",
+          "List Connections"
+        ],
+        "outcomes": [
+          "Workflow triggered",
+          "Data mapped",
+          "Action executed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "mulesoft",
@@ -5170,7 +7151,45 @@
           "description": "Apply a security policy to an API."
         }
       ],
-      "logo": "/logos/mulesoft.svg"
+      "logo": "/logos/mulesoft.svg",
+      "howTo": {
+        "selections": [
+          "List APIs",
+          "Get API",
+          "Deploy App",
+          "List Applications",
+          "Get Application",
+          "List Environments"
+        ],
+        "triggers": [
+          "Create API event"
+        ],
+        "actions": [
+          "List APIs",
+          "Get API",
+          "Deploy App",
+          "List Applications",
+          "Get Application",
+          "List Environments"
+        ],
+        "outcomes": [
+          "API called",
+          "Data synced",
+          "Webhook fired"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "azure",
@@ -5253,7 +7272,46 @@
           "description": "Get monitoring metrics for a resource."
         }
       ],
-      "logo": "/logos/azure.svg"
+      "logo": "/logos/azure.svg",
+      "howTo": {
+        "selections": [
+          "List Subscriptions",
+          "List Resource Groups",
+          "Create Resource Group",
+          "List Resources",
+          "Get Resource",
+          "List VMs"
+        ],
+        "triggers": [
+          "Create Resource Group event",
+          "Create VM event"
+        ],
+        "actions": [
+          "List Subscriptions",
+          "List Resource Groups",
+          "Create Resource Group",
+          "List Resources",
+          "Get Resource",
+          "List VMs"
+        ],
+        "outcomes": [
+          "Resource provisioned",
+          "Config updated",
+          "DNS managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "pipedrive",
@@ -5346,7 +7404,47 @@
           "description": "Add a note to a deal, person, or organization."
         }
       ],
-      "logo": "/logos/pipedrive.svg"
+      "logo": "/logos/pipedrive.svg",
+      "howTo": {
+        "selections": [
+          "Create Deal",
+          "List Deals",
+          "Get Deal",
+          "Update Deal",
+          "Create Person",
+          "List Persons"
+        ],
+        "triggers": [
+          "Create Deal event",
+          "Update Deal event",
+          "Create Person event"
+        ],
+        "actions": [
+          "Create Deal",
+          "List Deals",
+          "Get Deal",
+          "Update Deal",
+          "Create Person",
+          "List Persons"
+        ],
+        "outcomes": [
+          "Contact updated",
+          "Deal created",
+          "Pipeline moved"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "gohighlevel",
@@ -5384,7 +7482,40 @@
           "description": "Create a new pipeline opportunity."
         }
       ],
-      "logo": "/logos/gohighlevel.svg"
+      "logo": "/logos/gohighlevel.svg",
+      "howTo": {
+        "selections": [
+          "Create Contact",
+          "List Contacts",
+          "Create Opportunity"
+        ],
+        "triggers": [
+          "Create Contact event",
+          "Create Opportunity event"
+        ],
+        "actions": [
+          "Create Contact",
+          "List Contacts",
+          "Create Opportunity"
+        ],
+        "outcomes": [
+          "Contact updated",
+          "Deal created",
+          "Pipeline moved"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "cohere",
@@ -5422,7 +7553,39 @@
           "description": "Rerank search results by relevance."
         }
       ],
-      "logo": "/logos/cohere.svg"
+      "logo": "/logos/cohere.svg",
+      "howTo": {
+        "selections": [
+          "Generate",
+          "Embed",
+          "Rerank"
+        ],
+        "triggers": [
+          "Embed event"
+        ],
+        "actions": [
+          "Generate",
+          "Embed",
+          "Rerank"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "mistral",
@@ -5460,7 +7623,39 @@
           "description": "List available Mistral models."
         }
       ],
-      "logo": "/logos/mistral.svg"
+      "logo": "/logos/mistral.svg",
+      "howTo": {
+        "selections": [
+          "Chat Completion",
+          "Create Embedding",
+          "List Models"
+        ],
+        "triggers": [
+          "Create Embedding event"
+        ],
+        "actions": [
+          "Chat Completion",
+          "Create Embedding",
+          "List Models"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "replicate",
@@ -5498,7 +7693,41 @@
           "description": "List available models."
         }
       ],
-      "logo": "/logos/replicate.svg"
+      "logo": "/logos/replicate.svg",
+      "howTo": {
+        "selections": [
+          "Run Model",
+          "Get Prediction",
+          "List Models"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Run Model",
+          "Get Prediction",
+          "List Models"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "stability",
@@ -5536,7 +7765,41 @@
           "description": "Upscale a low-resolution image."
         }
       ],
-      "logo": "/logos/stability.svg"
+      "logo": "/logos/stability.svg",
+      "howTo": {
+        "selections": [
+          "Generate Image",
+          "Edit Image",
+          "Upscale Image"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Generate Image",
+          "Edit Image",
+          "Upscale Image"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "elevenlabs",
@@ -5574,7 +7837,39 @@
           "description": "Create a voice clone from audio samples."
         }
       ],
-      "logo": "/logos/elevenlabs.svg"
+      "logo": "/logos/elevenlabs.svg",
+      "howTo": {
+        "selections": [
+          "Text to Speech",
+          "List Voices",
+          "Clone Voice"
+        ],
+        "triggers": [
+          "Clone Voice event"
+        ],
+        "actions": [
+          "Text to Speech",
+          "List Voices",
+          "Clone Voice"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "deepgram",
@@ -5612,7 +7907,41 @@
           "description": "Detect the language of an audio file."
         }
       ],
-      "logo": "/logos/deepgram.svg"
+      "logo": "/logos/deepgram.svg",
+      "howTo": {
+        "selections": [
+          "Transcribe Audio",
+          "Summarize",
+          "Detect Language"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Transcribe Audio",
+          "Summarize",
+          "Detect Language"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "groq",
@@ -5650,7 +7979,41 @@
           "description": "Transcribe audio using Whisper on Groq."
         }
       ],
-      "logo": "/logos/groq.svg"
+      "logo": "/logos/groq.svg",
+      "howTo": {
+        "selections": [
+          "Chat Completion",
+          "List Models",
+          "Transcribe Audio"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Chat Completion",
+          "List Models",
+          "Transcribe Audio"
+        ],
+        "outcomes": [
+          "Response generated",
+          "Content created",
+          "Analysis complete"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "planetscale",
@@ -5688,7 +8051,40 @@
           "description": "Create a deploy request for schema changes."
         }
       ],
-      "logo": "/logos/planetscale.svg"
+      "logo": "/logos/planetscale.svg",
+      "howTo": {
+        "selections": [
+          "List Databases",
+          "Create Branch",
+          "Create Deploy Request"
+        ],
+        "triggers": [
+          "Create Branch event",
+          "Create Deploy Request event"
+        ],
+        "actions": [
+          "List Databases",
+          "Create Branch",
+          "Create Deploy Request"
+        ],
+        "outcomes": [
+          "Code deployed",
+          "Issue created",
+          "PR merged"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "neon",
@@ -5726,7 +8122,39 @@
           "description": "Execute a SQL query on a branch."
         }
       ],
-      "logo": "/logos/neon.svg"
+      "logo": "/logos/neon.svg",
+      "howTo": {
+        "selections": [
+          "List Projects",
+          "Create Branch",
+          "Run Query"
+        ],
+        "triggers": [
+          "Create Branch event"
+        ],
+        "actions": [
+          "List Projects",
+          "Create Branch",
+          "Run Query"
+        ],
+        "outcomes": [
+          "Code deployed",
+          "Issue created",
+          "PR merged"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "turso",
@@ -5764,7 +8192,39 @@
           "description": "Execute a SQL query on a database."
         }
       ],
-      "logo": "/logos/turso.svg"
+      "logo": "/logos/turso.svg",
+      "howTo": {
+        "selections": [
+          "List Databases",
+          "Create Database",
+          "Run Query"
+        ],
+        "triggers": [
+          "Create Database event"
+        ],
+        "actions": [
+          "List Databases",
+          "Create Database",
+          "Run Query"
+        ],
+        "outcomes": [
+          "Code deployed",
+          "Issue created",
+          "PR merged"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "cockroachdb",
@@ -5802,7 +8262,39 @@
           "description": "Execute a SQL query on a cluster."
         }
       ],
-      "logo": "/logos/cockroachdb.svg"
+      "logo": "/logos/cockroachdb.svg",
+      "howTo": {
+        "selections": [
+          "List Clusters",
+          "Create Database",
+          "Run Query"
+        ],
+        "triggers": [
+          "Create Database event"
+        ],
+        "actions": [
+          "List Clusters",
+          "Create Database",
+          "Run Query"
+        ],
+        "outcomes": [
+          "Code deployed",
+          "Issue created",
+          "PR merged"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "telegram",
@@ -5840,7 +8332,39 @@
           "description": "Get incoming updates for a bot."
         }
       ],
-      "logo": "/logos/telegram.svg"
+      "logo": "/logos/telegram.svg",
+      "howTo": {
+        "selections": [
+          "Send Message",
+          "Send Photo",
+          "Get Updates"
+        ],
+        "triggers": [
+          "Get Updates event"
+        ],
+        "actions": [
+          "Send Message",
+          "Send Photo",
+          "Get Updates"
+        ],
+        "outcomes": [
+          "Message sent",
+          "Channel updated",
+          "Thread created"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "postmark",
@@ -5878,7 +8402,41 @@
           "description": "List bounced email addresses."
         }
       ],
-      "logo": "/logos/postmark.svg"
+      "logo": "/logos/postmark.svg",
+      "howTo": {
+        "selections": [
+          "Send Email",
+          "Send Template",
+          "Get Bounces"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Send Email",
+          "Send Template",
+          "Get Bounces"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "mailgun",
@@ -5916,7 +8474,41 @@
           "description": "List email delivery events."
         }
       ],
-      "logo": "/logos/mailgun.svg"
+      "logo": "/logos/mailgun.svg",
+      "howTo": {
+        "selections": [
+          "Send Email",
+          "Validate Email",
+          "List Events"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Send Email",
+          "Validate Email",
+          "List Events"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "convertkit",
@@ -5954,7 +8546,40 @@
           "description": "Create and send a broadcast email."
         }
       ],
-      "logo": "/logos/convertkit.svg"
+      "logo": "/logos/convertkit.svg",
+      "howTo": {
+        "selections": [
+          "List Subscribers",
+          "Add Subscriber",
+          "Send Broadcast"
+        ],
+        "triggers": [
+          "Add Subscriber event",
+          "Send Broadcast event"
+        ],
+        "actions": [
+          "List Subscribers",
+          "Add Subscriber",
+          "Send Broadcast"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "brevo",
@@ -5992,7 +8617,40 @@
           "description": "Create and send an email campaign."
         }
       ],
-      "logo": "/logos/brevo.svg"
+      "logo": "/logos/brevo.svg",
+      "howTo": {
+        "selections": [
+          "Send Email",
+          "Create Contact",
+          "Send Campaign"
+        ],
+        "triggers": [
+          "Create Contact event",
+          "Send Campaign event"
+        ],
+        "actions": [
+          "Send Email",
+          "Create Contact",
+          "Send Campaign"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "activecampaign",
@@ -6030,7 +8688,40 @@
           "description": "Create a new deal in the CRM."
         }
       ],
-      "logo": "/logos/activecampaign.svg"
+      "logo": "/logos/activecampaign.svg",
+      "howTo": {
+        "selections": [
+          "Create Contact",
+          "List Contacts",
+          "Create Deal"
+        ],
+        "triggers": [
+          "Create Contact event",
+          "Create Deal event"
+        ],
+        "actions": [
+          "Create Contact",
+          "List Contacts",
+          "Create Deal"
+        ],
+        "outcomes": [
+          "Email delivered",
+          "Campaign sent",
+          "List updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "lemlist",
@@ -6068,7 +8759,41 @@
           "description": "Get statistics for a campaign."
         }
       ],
-      "logo": "/logos/lemlist.svg"
+      "logo": "/logos/lemlist.svg",
+      "howTo": {
+        "selections": [
+          "List Campaigns",
+          "Add Lead",
+          "Get Campaign Stats"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "List Campaigns",
+          "Add Lead",
+          "Get Campaign Stats"
+        ],
+        "outcomes": [
+          "Sequence started",
+          "Follow-up sent",
+          "Lead enriched"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "cloudflare",
@@ -6106,7 +8831,39 @@
           "description": "Purge the CDN cache for a zone."
         }
       ],
-      "logo": "/logos/cloudflare.svg"
+      "logo": "/logos/cloudflare.svg",
+      "howTo": {
+        "selections": [
+          "List Zones",
+          "Create DNS Record",
+          "Purge Cache"
+        ],
+        "triggers": [
+          "Create DNS Record event"
+        ],
+        "actions": [
+          "List Zones",
+          "Create DNS Record",
+          "Purge Cache"
+        ],
+        "outcomes": [
+          "Resource provisioned",
+          "Config updated",
+          "DNS managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "netlify",
@@ -6144,7 +8901,39 @@
           "description": "List deployments for a site."
         }
       ],
-      "logo": "/logos/netlify.svg"
+      "logo": "/logos/netlify.svg",
+      "howTo": {
+        "selections": [
+          "List Sites",
+          "Create Deploy",
+          "List Deploys"
+        ],
+        "triggers": [
+          "Create Deploy event"
+        ],
+        "actions": [
+          "List Sites",
+          "Create Deploy",
+          "List Deploys"
+        ],
+        "outcomes": [
+          "Resource provisioned",
+          "Config updated",
+          "DNS managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "railway",
@@ -6182,7 +8971,39 @@
           "description": "Trigger a deployment for a service."
         }
       ],
-      "logo": "/logos/railway.svg"
+      "logo": "/logos/railway.svg",
+      "howTo": {
+        "selections": [
+          "List Projects",
+          "Create Service",
+          "Deploy"
+        ],
+        "triggers": [
+          "Create Service event"
+        ],
+        "actions": [
+          "List Projects",
+          "Create Service",
+          "Deploy"
+        ],
+        "outcomes": [
+          "Resource provisioned",
+          "Config updated",
+          "DNS managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "render",
@@ -6220,7 +9041,39 @@
           "description": "Trigger a manual deploy for a service."
         }
       ],
-      "logo": "/logos/render.svg"
+      "logo": "/logos/render.svg",
+      "howTo": {
+        "selections": [
+          "List Services",
+          "Create Service",
+          "Deploy"
+        ],
+        "triggers": [
+          "Create Service event"
+        ],
+        "actions": [
+          "List Services",
+          "Create Service",
+          "Deploy"
+        ],
+        "outcomes": [
+          "Resource provisioned",
+          "Config updated",
+          "DNS managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "aws",
@@ -6258,7 +9111,41 @@
           "description": "Send an email via Amazon SES."
         }
       ],
-      "logo": "/logos/aws.svg"
+      "logo": "/logos/aws.svg",
+      "howTo": {
+        "selections": [
+          "List S3 Buckets",
+          "Invoke Lambda",
+          "Send Email (SES)"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "List S3 Buckets",
+          "Invoke Lambda",
+          "Send Email (SES)"
+        ],
+        "outcomes": [
+          "Resource provisioned",
+          "Config updated",
+          "DNS managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "gcloud",
@@ -6296,7 +9183,41 @@
           "description": "Run a BigQuery SQL query."
         }
       ],
-      "logo": "/logos/gcloud.svg"
+      "logo": "/logos/gcloud.svg",
+      "howTo": {
+        "selections": [
+          "List Storage Buckets",
+          "Invoke Function",
+          "BigQuery Query"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "List Storage Buckets",
+          "Invoke Function",
+          "BigQuery Query"
+        ],
+        "outcomes": [
+          "Resource provisioned",
+          "Config updated",
+          "DNS managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "webflow",
@@ -6334,7 +9255,39 @@
           "description": "Create a new CMS collection item."
         }
       ],
-      "logo": "/logos/webflow.svg"
+      "logo": "/logos/webflow.svg",
+      "howTo": {
+        "selections": [
+          "List Sites",
+          "List Collections",
+          "Create Item"
+        ],
+        "triggers": [
+          "Create Item event"
+        ],
+        "actions": [
+          "List Sites",
+          "List Collections",
+          "Create Item"
+        ],
+        "outcomes": [
+          "Page published",
+          "Content updated",
+          "Site deployed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "pinterest",
@@ -6372,7 +9325,39 @@
           "description": "Get pin and board analytics."
         }
       ],
-      "logo": "/logos/pinterest.svg"
+      "logo": "/logos/pinterest.svg",
+      "howTo": {
+        "selections": [
+          "Create Pin",
+          "List Boards",
+          "Get Analytics"
+        ],
+        "triggers": [
+          "Create Pin event"
+        ],
+        "actions": [
+          "Create Pin",
+          "List Boards",
+          "Get Analytics"
+        ],
+        "outcomes": [
+          "Post published",
+          "Engagement tracked",
+          "Content scheduled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "youtube",
@@ -6410,7 +9395,41 @@
           "description": "List comments on a video."
         }
       ],
-      "logo": "/logos/youtube.svg"
+      "logo": "/logos/youtube.svg",
+      "howTo": {
+        "selections": [
+          "List Videos",
+          "Get Analytics",
+          "List Comments"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "List Videos",
+          "Get Analytics",
+          "List Comments"
+        ],
+        "outcomes": [
+          "Post published",
+          "Engagement tracked",
+          "Content scheduled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "twitch",
@@ -6448,7 +9467,41 @@
           "description": "Get information about active streams."
         }
       ],
-      "logo": "/logos/twitch.svg"
+      "logo": "/logos/twitch.svg",
+      "howTo": {
+        "selections": [
+          "Get Channel",
+          "Send Chat Message",
+          "Get Streams"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Get Channel",
+          "Send Chat Message",
+          "Get Streams"
+        ],
+        "outcomes": [
+          "Post published",
+          "Engagement tracked",
+          "Content scheduled"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "xero",
@@ -6486,7 +9539,39 @@
           "description": "List bank transactions."
         }
       ],
-      "logo": "/logos/xero.svg"
+      "logo": "/logos/xero.svg",
+      "howTo": {
+        "selections": [
+          "Create Invoice",
+          "List Contacts",
+          "Get Bank Transactions"
+        ],
+        "triggers": [
+          "Create Invoice event"
+        ],
+        "actions": [
+          "Create Invoice",
+          "List Contacts",
+          "Get Bank Transactions"
+        ],
+        "outcomes": [
+          "Invoice sent",
+          "Payment recorded",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "wave",
@@ -6524,7 +9609,40 @@
           "description": "Record a new expense."
         }
       ],
-      "logo": "/logos/wave.svg"
+      "logo": "/logos/wave.svg",
+      "howTo": {
+        "selections": [
+          "Create Invoice",
+          "List Customers",
+          "Create Expense"
+        ],
+        "triggers": [
+          "Create Invoice event",
+          "Create Expense event"
+        ],
+        "actions": [
+          "Create Invoice",
+          "List Customers",
+          "Create Expense"
+        ],
+        "outcomes": [
+          "Invoice sent",
+          "Payment recorded",
+          "Report generated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "monday",
@@ -6562,7 +9680,40 @@
           "description": "Update an item's column values."
         }
       ],
-      "logo": "/logos/monday.svg"
+      "logo": "/logos/monday.svg",
+      "howTo": {
+        "selections": [
+          "List Boards",
+          "Create Item",
+          "Update Item"
+        ],
+        "triggers": [
+          "Create Item event",
+          "Update Item event"
+        ],
+        "actions": [
+          "List Boards",
+          "Create Item",
+          "Update Item"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "figma",
@@ -6600,7 +9751,41 @@
           "description": "Export images from a design file."
         }
       ],
-      "logo": "/logos/figma.svg"
+      "logo": "/logos/figma.svg",
+      "howTo": {
+        "selections": [
+          "Get File",
+          "List Comments",
+          "Export Images"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "Get File",
+          "List Comments",
+          "Export Images"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "typeform",
@@ -6638,7 +9823,39 @@
           "description": "Create a new form."
         }
       ],
-      "logo": "/logos/typeform.svg"
+      "logo": "/logos/typeform.svg",
+      "howTo": {
+        "selections": [
+          "List Forms",
+          "Get Responses",
+          "Create Form"
+        ],
+        "triggers": [
+          "Create Form event"
+        ],
+        "actions": [
+          "List Forms",
+          "Get Responses",
+          "Create Form"
+        ],
+        "outcomes": [
+          "Form submitted",
+          "Meeting scheduled",
+          "Document created"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "loom",
@@ -6676,7 +9893,41 @@
           "description": "Get view analytics for a video."
         }
       ],
-      "logo": "/logos/loom.svg"
+      "logo": "/logos/loom.svg",
+      "howTo": {
+        "selections": [
+          "List Videos",
+          "Get Video",
+          "Get Analytics"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "List Videos",
+          "Get Video",
+          "Get Analytics"
+        ],
+        "outcomes": [
+          "Form submitted",
+          "Meeting scheduled",
+          "Document created"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "freshdesk",
@@ -6714,7 +9965,40 @@
           "description": "Update an existing ticket."
         }
       ],
-      "logo": "/logos/freshdesk.svg"
+      "logo": "/logos/freshdesk.svg",
+      "howTo": {
+        "selections": [
+          "Create Ticket",
+          "List Tickets",
+          "Update Ticket"
+        ],
+        "triggers": [
+          "Create Ticket event",
+          "Update Ticket event"
+        ],
+        "actions": [
+          "Create Ticket",
+          "List Tickets",
+          "Update Ticket"
+        ],
+        "outcomes": [
+          "Ticket created",
+          "Issue resolved",
+          "SLA tracked"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "woocommerce",
@@ -6752,7 +10036,39 @@
           "description": "List all orders."
         }
       ],
-      "logo": "/logos/woocommerce.svg"
+      "logo": "/logos/woocommerce.svg",
+      "howTo": {
+        "selections": [
+          "List Products",
+          "Create Order",
+          "List Orders"
+        ],
+        "triggers": [
+          "Create Order event"
+        ],
+        "actions": [
+          "List Products",
+          "Create Order",
+          "List Orders"
+        ],
+        "outcomes": [
+          "Payment processed",
+          "Invoice created",
+          "Subscription updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "bigcommerce",
@@ -6790,7 +10106,39 @@
           "description": "List all orders."
         }
       ],
-      "logo": "/logos/bigcommerce.svg"
+      "logo": "/logos/bigcommerce.svg",
+      "howTo": {
+        "selections": [
+          "List Products",
+          "Create Product",
+          "List Orders"
+        ],
+        "triggers": [
+          "Create Product event"
+        ],
+        "actions": [
+          "List Products",
+          "Create Product",
+          "List Orders"
+        ],
+        "outcomes": [
+          "Payment processed",
+          "Invoice created",
+          "Subscription updated"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "make",
@@ -6828,7 +10176,41 @@
           "description": "List all configured connections."
         }
       ],
-      "logo": "/logos/make.svg"
+      "logo": "/logos/make.svg",
+      "howTo": {
+        "selections": [
+          "List Scenarios",
+          "Run Scenario",
+          "List Connections"
+        ],
+        "triggers": [
+          "Manual trigger",
+          "Webhook",
+          "Scheduled"
+        ],
+        "actions": [
+          "List Scenarios",
+          "Run Scenario",
+          "List Connections"
+        ],
+        "outcomes": [
+          "Workflow triggered",
+          "Data mapped",
+          "Action executed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "wordpress",
@@ -6866,7 +10248,39 @@
           "description": "Upload a media file."
         }
       ],
-      "logo": "/logos/wordpress.svg"
+      "logo": "/logos/wordpress.svg",
+      "howTo": {
+        "selections": [
+          "Create Post",
+          "List Posts",
+          "Upload Media"
+        ],
+        "triggers": [
+          "Create Post event"
+        ],
+        "actions": [
+          "Create Post",
+          "List Posts",
+          "Upload Media"
+        ],
+        "outcomes": [
+          "Page published",
+          "Content updated",
+          "Site deployed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "docusign",
@@ -6904,7 +10318,39 @@
           "description": "Get the signing status of an envelope."
         }
       ],
-      "logo": "/logos/docusign.svg"
+      "logo": "/logos/docusign.svg",
+      "howTo": {
+        "selections": [
+          "Create Envelope",
+          "List Envelopes",
+          "Get Envelope Status"
+        ],
+        "triggers": [
+          "Create Envelope event"
+        ],
+        "actions": [
+          "Create Envelope",
+          "List Envelopes",
+          "Get Envelope Status"
+        ],
+        "outcomes": [
+          "Form submitted",
+          "Meeting scheduled",
+          "Document created"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "trello",
@@ -6942,7 +10388,39 @@
           "description": "Move a card to a different list."
         }
       ],
-      "logo": "/logos/trello.svg"
+      "logo": "/logos/trello.svg",
+      "howTo": {
+        "selections": [
+          "List Boards",
+          "Create Card",
+          "Move Card"
+        ],
+        "triggers": [
+          "Create Card event"
+        ],
+        "actions": [
+          "List Boards",
+          "Create Card",
+          "Move Card"
+        ],
+        "outcomes": [
+          "Task created",
+          "Project updated",
+          "Sprint managed"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     },
     {
       "id": "listkit",
@@ -6987,7 +10465,42 @@
           "description": "Create a pipeline opportunity from a scored ListKit lead with auto-enriched stage and pipeline IDs."
         }
       ],
-      "logo": "/logos/listkit.svg"
+      "logo": "/logos/listkit.svg",
+      "howTo": {
+        "selections": [
+          "Import Leads",
+          "Score Lead",
+          "Create CRM Contact",
+          "Pipeline Placement"
+        ],
+        "triggers": [
+          "Create CRM Contact event",
+          "Pipeline Placement event"
+        ],
+        "actions": [
+          "Import Leads",
+          "Score Lead",
+          "Create CRM Contact",
+          "Pipeline Placement"
+        ],
+        "outcomes": [
+          "Contact updated",
+          "Deal created",
+          "Pipeline moved"
+        ],
+        "frequency": [
+          "On event",
+          "Manual",
+          "Scheduled",
+          "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
     }
   ]
 }

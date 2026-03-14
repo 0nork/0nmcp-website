@@ -64,6 +64,13 @@ export interface ProductTier {
   priceYearly: number | null
   features: string[]
   highlight?: boolean
+  maxUsers: number
+  maxLocations: number
+  whiteLabel: boolean
+  addOns?: {
+    extraUserMonthly: number
+    extraLocationMonthly: number
+  }
 }
 
 export const SOCIAL_ENGINE_TIERS: ProductTier[] = [
@@ -73,7 +80,11 @@ export const SOCIAL_ENGINE_TIERS: ProductTier[] = [
     tagline: 'Turn It On',
     priceMonthly: 0,
     priceYearly: null,
+    maxUsers: 1,
+    maxLocations: 0,
+    whiteLabel: false,
     features: [
+      '1 user account',
       '10 AI posts/month',
       'Basic engagement scoring',
       'LinkedIn generate button',
@@ -86,13 +97,17 @@ export const SOCIAL_ENGINE_TIERS: ProductTier[] = [
     tagline: 'Turn It Up',
     priceMonthly: 19,
     priceYearly: 190,
+    maxUsers: 2,
+    maxLocations: 1,
+    whiteLabel: true,
+    addOns: { extraUserMonthly: 9, extraLocationMonthly: 29 },
     features: [
+      '2 users, 1 location',
       'Unlimited AI posts',
       'Voice learning engine',
       'Advanced scoring',
       'Schedule & queue',
-      'Correction memory',
-      'Export drafts',
+      'White-label branding',
     ],
   },
   {
@@ -102,12 +117,16 @@ export const SOCIAL_ENGINE_TIERS: ProductTier[] = [
     priceMonthly: 49,
     priceYearly: 490,
     highlight: true,
+    maxUsers: 5,
+    maxLocations: 1,
+    whiteLabel: true,
+    addOns: { extraUserMonthly: 9, extraLocationMonthly: 29 },
     features: [
+      '5 users, 1 location',
       'Everything in Creator',
       'Multi-channel distribution',
       'CRM integration',
       'Relationship heat map',
-      'Meeting prep AI',
       'Analytics dashboard',
     ],
   },
@@ -117,11 +136,15 @@ export const SOCIAL_ENGINE_TIERS: ProductTier[] = [
     tagline: 'Run the Whole Stack',
     priceMonthly: 149,
     priceYearly: 1490,
+    maxUsers: 10,
+    maxLocations: 3,
+    whiteLabel: true,
+    addOns: { extraUserMonthly: 9, extraLocationMonthly: 29 },
     features: [
+      '10 users, 3 locations',
       'Everything in Operator',
-      'Up to 10 client accounts',
       'White-label reports',
-      'Team management',
+      'Sell on marketplace',
       'Priority support',
       'API access',
     ],
@@ -132,9 +155,13 @@ export const SOCIAL_ENGINE_TIERS: ProductTier[] = [
     tagline: 'Custom Scale',
     priceMonthly: 499,
     priceYearly: null,
+    maxUsers: 20,
+    maxLocations: 10,
+    whiteLabel: true,
+    addOns: { extraUserMonthly: 7, extraLocationMonthly: 19 },
     features: [
+      '20 users, 10 locations',
       'Everything in Agency',
-      'Unlimited client accounts',
       'Dedicated infrastructure',
       'Custom integrations',
       'SLA guarantee',

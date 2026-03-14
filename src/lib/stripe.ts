@@ -40,33 +40,42 @@ export const SPONSOR_PRICES: Record<string, { priceId: string; tier: string; amo
   },
 }
 
-/** Console membership plans */
+/** Console membership plans — unified with SOCIAL_ENGINE_TIERS */
 export const CONSOLE_PLANS: Record<string, {
   priceId: string; name: string; tier: string; amount: number; trialDays: number;
-  features: string[]
+  features: string[]; maxUsers: number; maxLocations: number
 }> = {
-  pro: {
-    priceId: process.env.STRIPE_PRICE_CONSOLE_PRO || '',
-    name: 'Pro', tier: 'pro', amount: 19, trialDays: 7,
-    features: ['Unlimited executions', 'Visual workflow builder', 'Full marketplace access', 'Vault sync across devices', 'Priority support'],
+  creator: {
+    priceId: process.env.STRIPE_PRICE_CONSOLE_CREATOR_MONTHLY || process.env.STRIPE_PRICE_CONSOLE_PRO || '',
+    name: 'Creator', tier: 'creator', amount: 19, trialDays: 7,
+    maxUsers: 2, maxLocations: 1,
+    features: ['2 users, 1 location', 'Unlimited AI posts', 'Voice learning engine', 'Schedule & queue', 'White-label branding'],
   },
-  team: {
-    priceId: process.env.STRIPE_PRICE_CONSOLE_TEAM || '',
-    name: 'Team', tier: 'team', amount: 49, trialDays: 7,
-    features: ['Everything in Pro', '5 team seats', 'Shared workflows & team vault', 'Full API access', 'Dedicated support + SLA'],
+  operator: {
+    priceId: process.env.STRIPE_PRICE_CONSOLE_OPERATOR_MONTHLY || process.env.STRIPE_PRICE_CONSOLE_TEAM || '',
+    name: 'Operator', tier: 'operator', amount: 49, trialDays: 7,
+    maxUsers: 5, maxLocations: 1,
+    features: ['5 users, 1 location', 'Everything in Creator', 'Multi-channel distribution', 'CRM integration', 'Analytics dashboard'],
   },
-  contributor: {
-    priceId: process.env.STRIPE_PRICE_CONSOLE_CONTRIBUTOR || '',
-    name: 'Contributor', tier: 'contributor', amount: 99, trialDays: 7,
-    features: [
-      'Everything in Team',
-      'Sell on the marketplace',
-      'Automated Stripe payouts',
-      'Revenue dashboard & analytics',
-      '15% platform fee on sales',
-      'Featured listing eligibility',
-    ],
+  agency: {
+    priceId: process.env.STRIPE_PRICE_CONSOLE_AGENCY_MONTHLY || process.env.STRIPE_PRICE_CONSOLE_CONTRIBUTOR || '',
+    name: 'Agency', tier: 'agency', amount: 149, trialDays: 7,
+    maxUsers: 10, maxLocations: 3,
+    features: ['10 users, 3 locations', 'Everything in Operator', 'Sell on marketplace', 'White-label reports', 'Priority support', 'API access'],
   },
+  enterprise: {
+    priceId: process.env.STRIPE_PRICE_CONSOLE_ENTERPRISE_MONTHLY || '',
+    name: 'Enterprise', tier: 'enterprise', amount: 499, trialDays: 7,
+    maxUsers: 20, maxLocations: 10,
+    features: ['20 users, 10 locations', 'Everything in Agency', 'Dedicated infrastructure', 'Custom integrations', 'SLA guarantee'],
+  },
+}
+
+/** Legacy plan key mapping for backwards compatibility */
+export const LEGACY_PLAN_MAP: Record<string, string> = {
+  pro: 'creator',
+  team: 'operator',
+  contributor: 'agency',
 }
 
 /** One-time donation amounts */

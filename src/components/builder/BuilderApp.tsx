@@ -13,6 +13,7 @@ import Toolbar from './Toolbar'
 import ConfigPanel from './ConfigPanel'
 import WorkflowSettingsModal from './WorkflowSettingsModal'
 import AIChat from './AIChat'
+import SimpleBuilderView from './SimpleBuilderView'
 
 const OnTerminal = dynamic(
   () => import('@/components/terminal/OnTerminal'),
@@ -22,6 +23,7 @@ const OnTerminal = dynamic(
 export default function BuilderApp() {
   const [aiChatOpen, setAiChatOpen] = useState(false)
   const [terminalOpen, setTerminalOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<'canvas' | 'simple'>('canvas')
 
   return (
     <BuilderProvider>
@@ -34,10 +36,16 @@ export default function BuilderApp() {
               onToggleAIChat={() => setAiChatOpen(!aiChatOpen)}
               terminalOpen={terminalOpen}
               onToggleTerminal={() => setTerminalOpen(!terminalOpen)}
+              viewMode={viewMode}
+              onToggleView={() => setViewMode(viewMode === 'canvas' ? 'simple' : 'canvas')}
             />
-            <div style={{ flex: 1, minHeight: 0, position: 'relative', width: '100%', height: '100%' }}>
-              <Canvas />
-            </div>
+            {viewMode === 'canvas' ? (
+              <div style={{ flex: 1, minHeight: 0, position: 'relative', width: '100%', height: '100%' }}>
+                <Canvas />
+              </div>
+            ) : (
+              <SimpleBuilderView />
+            )}
             {terminalOpen && (
               <div style={{
                 height: 260,
@@ -53,7 +61,7 @@ export default function BuilderApp() {
               </div>
             )}
           </div>
-          <ConfigPanel />
+          {viewMode === 'canvas' && <ConfigPanel />}
           {aiChatOpen && (
             <AIChat open={aiChatOpen} onClose={() => setAiChatOpen(false)} />
           )}

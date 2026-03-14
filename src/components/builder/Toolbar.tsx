@@ -14,9 +14,11 @@ interface ToolbarProps {
   onToggleAIChat: () => void
   terminalOpen?: boolean
   onToggleTerminal?: () => void
+  viewMode?: 'canvas' | 'simple'
+  onToggleView?: () => void
 }
 
-export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal }: ToolbarProps) {
+export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal, viewMode, onToggleView }: ToolbarProps) {
   const { nodes, edges, settings, canUndo, canRedo, selectedNodeId } = useBuilder()
   const dispatch = useBuilderDispatch()
   const fileRef = useRef<HTMLInputElement>(null)
@@ -26,6 +28,7 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
   const [loginMessage, setLoginMessage] = useState('')
   const [pendingAction, setPendingAction] = useState<'export' | 'import' | 'ai' | null>(null)
   const [user, setUser] = useState<{ id: string } | null>(null)
+  const [importBanner, setImportBanner] = useState<{ message: string; type: 'info' | 'success' | 'warning' } | null>(null)
 
   useEffect(() => {
     const supabase = createSupabaseBrowser()
@@ -167,21 +170,15 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
         const { valid, errors, warnings } = await secureImport(raw)
 
         if (!valid) {
-          alert(
-            'IMPORT BLOCKED\n\n' +
-            errors.join('\n\n') +
-            '\n\nOnly .0n files created by an authorized 0nMCP system are accepted.'
-          )
+          setImportBanner({ message: errors.join(' '), type: 'warning' })
+          setTimeout(() => setImportBanner(null), 8000)
           return
         }
 
+        // Show warnings as a non-blocking info banner (not a blocking confirm)
         if (warnings.length > 0) {
-          const proceed = confirm(
-            'Security warnings:\n\n' +
-            warnings.join('\n') +
-            '\n\nContinue importing?'
-          )
-          if (!proceed) return
+          setImportBanner({ message: warnings[0].replace(/\. For best.*/, ''), type: 'info' })
+          setTimeout(() => setImportBanner(null), 5000)
         }
 
         // Strip _0n_meta before importing to canvas
@@ -189,8 +186,30 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
         void _0n_meta
         const result = importWorkflow(workflow as DotOnWorkflow)
         dispatch({ type: 'IMPORT_WORKFLOW', ...result })
+
+        // Auto-select first node so config panel opens immediately
+        if (result.nodes.length > 0) {
+          setTimeout(() => {
+            dispatch({ type: 'SELECT_NODE', nodeId: result.nodes[0].id })
+          }, 100)
+        }
+
+        // Switch to simple view after import if available
+        if (onToggleView && viewMode === 'canvas') {
+          setTimeout(() => onToggleView(), 200)
+        }
+
+        // Show success banner
+        const stepCount = result.nodes.length
+        const name = workflow.name || file.name.replace(/\.0n$/, '')
+        setImportBanner({
+          message: `Imported "${name}" — ${stepCount} step${stepCount !== 1 ? 's' : ''} loaded`,
+          type: 'success',
+        })
+        setTimeout(() => setImportBanner(null), 4000)
       } catch {
-        alert('Invalid file. Could not parse as a .0n workflow.')
+        setImportBanner({ message: 'Invalid file. Could not parse as a .0n workflow.', type: 'warning' })
+        setTimeout(() => setImportBanner(null), 5000)
       }
     }
     reader.readAsText(file)
@@ -271,6 +290,16 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
           <span className="builder-step-count">
             {nodes.length} step{nodes.length !== 1 ? 's' : ''}
           </span>
+          {onToggleView && (
+            <button
+              className={`builder-toolbar-btn ${viewMode === 'simple' ? 'active' : ''}`}
+              onClick={onToggleView}
+              title={viewMode === 'simple' ? 'Switch to Canvas view' : 'Switch to Simple view'}
+              style={viewMode === 'simple' ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}
+            >
+              {viewMode === 'simple' ? 'Canvas' : 'Simple'}
+            </button>
+          )}
           <button
             className={`builder-toolbar-btn ai ${aiChatOpen ? 'active' : ''}`}
             onClick={handleAIToggle}
@@ -295,6 +324,42 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
           </button>
         </div>
       </div>
+
+      {/* Import notification banner */}
+      {importBanner && (
+        <div
+          className="builder-import-banner"
+          style={{
+            padding: '8px 16px',
+            fontSize: 13,
+            fontFamily: 'var(--font-mono)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            borderBottom: '1px solid var(--border)',
+            animation: 'modalSlideIn 0.2s ease-out',
+            backgroundColor: importBanner.type === 'success'
+              ? 'rgba(126, 217, 87, 0.1)'
+              : importBanner.type === 'warning'
+              ? 'rgba(255, 68, 68, 0.1)'
+              : 'rgba(0, 212, 255, 0.1)',
+            color: importBanner.type === 'success'
+              ? '#7ed957'
+              : importBanner.type === 'warning'
+              ? '#ff4444'
+              : '#00d4ff',
+          }}
+        >
+          <span>{importBanner.type === 'success' ? '\u2713' : importBanner.type === 'warning' ? '\u26A0' : '\u24D8'}</span>
+          <span style={{ flex: 1 }}>{importBanner.message}</span>
+          <button
+            onClick={() => setImportBanner(null)}
+            style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: 14 }}
+          >
+            &times;
+          </button>
+        </div>
+      )}
 
       <LoginModal
         open={loginOpen}

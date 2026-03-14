@@ -490,6 +490,156 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════
+          CTA — INSTALL ON CLAUDE
+          ══════════════════════════════════════════ */}
+      <section
+        className="py-24 px-8 relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, rgba(126,217,87,0.03) 0%, var(--bg-primary) 30%, var(--bg-primary) 70%, rgba(126,217,87,0.03) 100%)',
+          borderTop: '1px solid rgba(126,217,87,0.1)',
+          borderBottom: '1px solid rgba(126,217,87,0.1)',
+        }}
+      >
+        {/* Subtle radial glow */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '600px',
+            height: '400px',
+            background: 'radial-gradient(ellipse, rgba(126,217,87,0.06) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+          aria-hidden="true"
+        />
+        <div className="max-w-[900px] mx-auto text-center relative">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <img
+              src="/brand/icons/0nmcp.svg"
+              alt="0nMCP"
+              width={48}
+              height={48}
+            />
+            <span
+              style={{
+                fontSize: '1.5rem',
+                color: 'var(--text-muted)',
+                fontWeight: 300,
+              }}
+            >
+              +
+            </span>
+            <div
+              className="flex items-center justify-center"
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #d4a574, #c4956a)',
+              }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-2h-2v2zm0-4h2V7h-2v6z" fill="white" fillOpacity="0.9"/>
+              </svg>
+            </div>
+          </div>
+          <span
+            className="inline-block px-4 py-1.5 rounded-full mb-6"
+            style={{
+              background: 'rgba(126,217,87,0.08)',
+              border: '1px solid rgba(126,217,87,0.15)',
+              fontSize: '0.72rem',
+              fontWeight: 600,
+              color: '#7ed957',
+              fontFamily: 'var(--font-mono)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Huge Step &mdash; Install in 60 Seconds
+          </span>
+          <h2
+            className="text-3xl md:text-5xl font-bold mb-4"
+            style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}
+          >
+            Add{' '}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))' }}
+            >
+              {STATS_DISPLAY.tools} AI Tools
+            </span>
+            <br />
+            to Claude. Instantly.
+          </h2>
+          <p
+            className="text-lg mb-4 max-w-[600px] mx-auto"
+            style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}
+          >
+            One install transforms Claude into the ultimate AI command center.
+            {STATS_DISPLAY.services} services, encrypted vault, workflow store, and self-training AI brain &mdash;
+            across Desktop, Web, Mobile, and CLI.
+          </p>
+          <p
+            className="text-sm mb-8 max-w-[500px] mx-auto"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            No credit card. No trial. Free forever. This is the single biggest upgrade you can make to Claude.
+          </p>
+
+          {/* Install command + CTA */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+            <Link
+              href="/install0n"
+              className="no-underline inline-flex items-center gap-2.5 px-8 py-4 rounded-xl text-base font-bold transition-all"
+              style={{
+                background: 'linear-gradient(135deg, var(--accent), var(--accent-dim))',
+                color: 'var(--bg-primary)',
+                boxShadow: '0 0 30px rgba(126,217,87,0.25), 0 4px 16px rgba(0,0,0,0.3)',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Install 0nMCP on Claude
+            </Link>
+            <code
+              className="px-5 py-3.5 rounded-xl text-sm"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                background: 'rgba(126,217,87,0.06)',
+                border: '1px solid rgba(126,217,87,0.15)',
+                color: '#7ed957',
+              }}
+            >
+              npm i 0nmcp
+            </code>
+          </div>
+
+          {/* Platform badges */}
+          <div className="flex items-center justify-center gap-6 flex-wrap">
+            {['Claude Desktop', 'Claude Code', 'Claude Web', 'Claude Mobile'].map(platform => (
+              <span
+                key={platform}
+                className="text-xs font-medium flex items-center gap-1.5"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: '#7ed957' }}
+                />
+                {platform}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
           PRICING — Elevated
           ══════════════════════════════════════════ */}
       <section className="section-elevated py-24 px-8" id="pricing">
@@ -591,6 +741,193 @@ export default function HomePage() {
                 <span className="text-lg font-bold">Need SSO, SLA, or dedicated infra?</span>
               </div>
               <a href="mailto:mike@rocketopp.com?subject=0nMCP%20Enterprise%20Inquiry" className="btn-ghost no-underline whitespace-nowrap">Contact Us &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          CTA — WEB0N.COM DEEP BLACK BREAK
+          ══════════════════════════════════════════ */}
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background: '#000000',
+          borderTop: '1px solid rgba(126,217,87,0.06)',
+          borderBottom: '1px solid rgba(126,217,87,0.06)',
+        }}
+      >
+        {/* Subtle ambient glow */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '20%',
+            transform: 'translate(-50%, -50%)',
+            width: '500px',
+            height: '500px',
+            background: 'radial-gradient(circle, rgba(126,217,87,0.04) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+          aria-hidden="true"
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            right: '10%',
+            transform: 'translate(0, -50%)',
+            width: '400px',
+            height: '400px',
+            background: 'radial-gradient(circle, rgba(0,212,255,0.03) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+          aria-hidden="true"
+        />
+
+        <div className="max-w-[1100px] mx-auto px-8 py-20 md:py-28">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+            {/* Left — web0n branding + messaging */}
+            <div className="relative">
+              <div className="flex items-center gap-3 mb-6">
+                <img
+                  src="/brand/icons/web0n.svg"
+                  alt="web0n"
+                  width={44}
+                  height={44}
+                  style={{ filter: 'drop-shadow(0 0 12px rgba(126,217,87,0.3))' }}
+                />
+                <img
+                  src="/brand/web0n-logo.png"
+                  alt="web0n"
+                  height={28}
+                  style={{ height: '28px', width: 'auto' }}
+                />
+              </div>
+              <h2
+                className="text-3xl md:text-4xl font-bold mb-4"
+                style={{ color: '#ffffff', letterSpacing: '-0.03em', lineHeight: 1.15 }}
+              >
+                A Complete App.
+                <br />
+                <span style={{ color: '#7ed957' }}>Built Entirely with 0nMCP.</span>
+              </h2>
+              <p
+                className="text-base mb-6"
+                style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}
+              >
+                web0n.com is a fully functional business website application &mdash;
+                generated end-to-end using nothing but the 0nMCP platform and its
+                connected tools. No manual coding. No drag-and-drop builder. Just
+                0nMCP orchestrating the entire stack.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-8">
+                {['CRM Integration', 'Online Booking', 'Contact Forms', 'SEO Optimized', 'Mobile Responsive', 'AI-Powered'].map(tag => (
+                  <span
+                    key={tag}
+                    className="text-xs font-medium px-3 py-1 rounded-full"
+                    style={{
+                      background: 'rgba(126,217,87,0.06)',
+                      border: '1px solid rgba(126,217,87,0.12)',
+                      color: 'rgba(255,255,255,0.5)',
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="flex flex-col sm:flex-row items-start gap-3">
+                <a
+                  href="https://web0n.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="no-underline inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all"
+                  style={{
+                    background: '#ffffff',
+                    color: '#000000',
+                    boxShadow: '0 4px 20px rgba(255,255,255,0.1)',
+                  }}
+                >
+                  Visit web0n.com
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+                <Link
+                  href="/install0n"
+                  className="no-underline inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all"
+                  style={{
+                    background: 'rgba(126,217,87,0.08)',
+                    border: '1px solid rgba(126,217,87,0.2)',
+                    color: '#7ed957',
+                  }}
+                >
+                  Build Your Own with 0nMCP
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — proof card */}
+            <div
+              className="rounded-2xl p-6 md:p-8 relative"
+              style={{
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <div
+                className="text-xs font-bold uppercase tracking-widest mb-6"
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  color: '#7ed957',
+                  letterSpacing: '0.12em',
+                }}
+              >
+                Built With 0nMCP
+              </div>
+              <div className="flex flex-col gap-4">
+                {[
+                  { label: 'Website Generation', tool: 'Site Builder + AI Brain', status: '0nMCP' },
+                  { label: 'CRM & Lead Capture', tool: 'HubSpot + Supabase', status: '0nMCP' },
+                  { label: 'Booking System', tool: 'Google Calendar + Stripe', status: '0nMCP' },
+                  { label: 'SEO & Analytics', tool: 'CRO9 Engine + GSC', status: '0nMCP' },
+                  { label: 'Email Automation', tool: 'SendGrid + Resend', status: '0nMCP' },
+                  { label: 'Deployment', tool: 'Vercel + Cloudflare', status: '0nMCP' },
+                ].map(item => (
+                  <div
+                    key={item.label}
+                    className="flex items-center justify-between"
+                    style={{
+                      padding: '0.625rem 0',
+                      borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    }}
+                  >
+                    <div>
+                      <div className="text-sm font-semibold" style={{ color: '#ffffff' }}>{item.label}</div>
+                      <div className="text-xs" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: 'var(--font-mono)' }}>{item.tool}</div>
+                    </div>
+                    <span
+                      className="text-[0.6rem] font-bold px-2 py-0.5 rounded"
+                      style={{
+                        background: 'rgba(126,217,87,0.1)',
+                        color: '#7ed957',
+                        border: '1px solid rgba(126,217,87,0.2)',
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      {item.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div
+                className="mt-6 pt-4 text-center text-xs"
+                style={{ borderTop: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.3)' }}
+              >
+                Zero manual code &mdash; 100% orchestrated by 0nMCP connected tools
+              </div>
             </div>
           </div>
         </div>

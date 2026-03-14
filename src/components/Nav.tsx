@@ -123,12 +123,15 @@ export default function Nav() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 no-underline"
+          className="flex items-center gap-2.5 no-underline"
         >
-          <svg width="28" height="28" viewBox="0 0 40 40" fill="none" className="flex-shrink-0">
-            <rect width="40" height="40" rx="8" fill="#0a0a0f" stroke="#7ed957" strokeWidth="1.5" strokeOpacity="0.4"/>
-            <text x="20" y="27" textAnchor="middle" fill="#7ed957" fontSize="20" fontWeight="700" fontFamily="monospace">0n</text>
-          </svg>
+          <img
+            src="/brand/icons/0nmcp.svg"
+            alt="0nMCP"
+            width={28}
+            height={28}
+            className="flex-shrink-0"
+          />
           <span
             className="text-lg font-bold tracking-tight"
             style={{

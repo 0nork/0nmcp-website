@@ -21,6 +21,9 @@ export async function GET() {
     postsPublished: 0,
     windowsProcessed: 0,
     plateauResult: null as null | { plateauDetected: boolean; newVariantsCreated: number },
+    commentsFetched: 0,
+    commentsClassified: 0,
+    draftsGenerated: 0,
     errors: [] as string[],
   }
 
@@ -112,6 +115,62 @@ export async function GET() {
     }
   } catch (err) {
     results.errors.push(`Auto-posting: ${err instanceof Error ? err.message : 'unknown'}`)
+  }
+
+  // 4. Fetch new comments
+  try {
+    const { data: monitored } = await admin
+      .from('member_comment_settings')
+      .select('member_id')
+      .eq('monitoring_enabled', true)
+    if (monitored?.length) {
+      const { fetchNewCommentsForMember } = await import('@/lib/linkedin/comments/fetcher')
+      for (const { member_id } of monitored) {
+        const r = await fetchNewCommentsForMember(member_id)
+        results.commentsFetched = (results.commentsFetched || 0) + r.new
+      }
+    }
+  } catch (err) {
+    results.errors.push(`Fetch comments: ${err instanceof Error ? err.message : 'unknown'}`)
+  }
+
+  // 5. Classify unprocessed comments
+  try {
+    const { data: unproc } = await admin
+      .from('post_comments')
+      .select('member_id')
+      .is('processed_at', null)
+      .limit(100)
+    const uniqueMembers = [...new Set((unproc || []).map(r => r.member_id))]
+    if (uniqueMembers.length) {
+      const { processUnclassifiedComments } = await import('@/lib/linkedin/comments/classifier')
+      for (const mid of uniqueMembers) {
+        const r = await processUnclassifiedComments(mid)
+        results.commentsClassified = (results.commentsClassified || 0) + r.processed
+      }
+    }
+  } catch (err) {
+    results.errors.push(`Classify comments: ${err instanceof Error ? err.message : 'unknown'}`)
+  }
+
+  // 6. Generate reply drafts
+  try {
+    const { data: pending } = await admin
+      .from('comment_reply_drafts')
+      .select('member_id')
+      .eq('status', 'pending')
+      .eq('draft_text', '[generating...]')
+      .limit(100)
+    const uniqueDraftMembers = [...new Set((pending || []).map(r => r.member_id))]
+    if (uniqueDraftMembers.length) {
+      const { generatePendingDrafts } = await import('@/lib/linkedin/comments/reply-generator')
+      for (const mid of uniqueDraftMembers) {
+        const r = await generatePendingDrafts(mid)
+        results.draftsGenerated = (results.draftsGenerated || 0) + r.generated
+      }
+    }
+  } catch (err) {
+    results.errors.push(`Generate drafts: ${err instanceof Error ? err.message : 'unknown'}`)
   }
 
   return NextResponse.json(results)

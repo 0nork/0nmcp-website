@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export default function LinkedInPage() {
   return (
     <div style={{ padding: '2rem', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
@@ -10,20 +12,23 @@ export default function LinkedInPage() {
         LinkedIn content management and publishing
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
         {[
-          { label: 'Draft Post', desc: 'AI-generated professional content', icon: '✏️', color: '#0077b5' },
-          { label: 'Schedule', desc: 'Queue posts for optimal engagement', icon: '📅', color: '#00d4ff' },
-          { label: 'Analytics', desc: 'Track impressions and engagement', icon: '📊', color: '#7ed957' },
+          { label: 'Draft Post', desc: 'AI-generated professional content', icon: '\u270F\uFE0F', color: '#0077b5', href: '/console/linkedin' },
+          { label: 'Schedule', desc: 'Queue posts for optimal engagement', icon: '\uD83D\uDCC5', color: '#00d4ff', href: '/console/linkedin' },
+          { label: 'Analytics', desc: 'Track impressions and engagement', icon: '\uD83D\uDCCA', color: '#7ed957', href: '/console/linkedin' },
+          { label: 'Comment Queue', desc: 'AI-drafted replies to incoming comments', icon: '\uD83D\uDCAC', color: '#6EE05A', href: '/console/linkedin/comments' },
         ].map(a => (
-          <div key={a.label} style={{
-            background: 'var(--bg-card)', border: `1px solid ${a.color}20`, borderRadius: '0.875rem',
-            padding: '1.5rem', cursor: 'pointer',
-          }}>
-            <span style={{ fontSize: '2rem' }}>{a.icon}</span>
-            <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginTop: '0.75rem' }}>{a.label}</div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{a.desc}</div>
-          </div>
+          <Link key={a.label} href={a.href} style={{ textDecoration: 'none' }}>
+            <div style={{
+              background: 'var(--bg-card)', border: `1px solid ${a.color}20`, borderRadius: '0.875rem',
+              padding: '1.5rem', cursor: 'pointer',
+            }}>
+              <span style={{ fontSize: '2rem' }}>{a.icon}</span>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginTop: '0.75rem' }}>{a.label}</div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{a.desc}</div>
+            </div>
+          </Link>
         ))}
       </div>
 

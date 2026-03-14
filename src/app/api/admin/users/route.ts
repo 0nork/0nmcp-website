@@ -151,13 +151,13 @@ export async function PATCH(request: NextRequest) {
   if (typeof role === 'string') updates.role = role
   if (default_ai_providers !== undefined) {
     // Accept null (reset to platform default) or string array of provider IDs
-    const valid = ['gemini', 'openai', 'anthropic']
+    const valid = ['gemini', 'openai', 'anthropic', 'openrouter']
     if (default_ai_providers === null) {
       updates.default_ai_providers = null
     } else if (Array.isArray(default_ai_providers) && default_ai_providers.every((p: string) => valid.includes(p))) {
       updates.default_ai_providers = default_ai_providers
     } else {
-      return NextResponse.json({ error: 'Invalid AI providers. Must be array of: gemini, openai, anthropic' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid AI providers. Must be array of: gemini, openai, anthropic, openrouter' }, { status: 400 })
     }
   }
 

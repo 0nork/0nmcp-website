@@ -13,13 +13,13 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 // ── Types ──
 
-export type AIProviderId = 'gemini' | 'openai' | 'anthropic'
+export type AIProviderId = 'gemini' | 'openai' | 'anthropic' | 'openrouter'
 
 export interface AICallOptions {
   system: string
   user: string
   maxTokens?: number
-  /** Override model per-provider. Defaults: gemini-2.0-flash, gpt-4o, claude-sonnet-4-20250514 */
+  /** Override model per-provider. Defaults: gemini-2.0-flash, gpt-4o, claude-sonnet-4-20250514, anthropic/claude-sonnet-4-20250514 */
   model?: string
 }
 
@@ -30,7 +30,7 @@ export interface AICallResult {
 
 // ── Platform default order ──
 // Gemini first (free/cheap), OpenAI second, Anthropic last (most expensive)
-const DEFAULT_PROVIDER_ORDER: AIProviderId[] = ['gemini', 'openai', 'anthropic']
+const DEFAULT_PROVIDER_ORDER: AIProviderId[] = ['gemini', 'openai', 'anthropic', 'openrouter']
 
 // ── Admin client (singleton) ──
 
@@ -55,6 +55,8 @@ function getProviderKey(provider: AIProviderId): string {
       return process.env.OPENAI_API_KEY || ''
     case 'anthropic':
       return process.env.ANTHROPIC_API_KEY || ''
+    case 'openrouter':
+      return process.env.OPENROUTER_API_KEY || ''
   }
 }
 
@@ -83,7 +85,7 @@ export async function getUserAIProviders(userId: string): Promise<AIProviderId[]
 
     const providers = data?.default_ai_providers as AIProviderId[] | null
     const valid = Array.isArray(providers)
-      ? providers.filter(p => ['gemini', 'openai', 'anthropic'].includes(p))
+      ? providers.filter(p => ['gemini', 'openai', 'anthropic', 'openrouter'].includes(p))
       : null
 
     const result = valid && valid.length > 0 ? valid : null
@@ -183,6 +185,34 @@ async function callAnthropic(apiKey: string, opts: AICallOptions): Promise<strin
   }
 }
 
+async function callOpenRouter(apiKey: string, opts: AICallOptions): Promise<string | null> {
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': 'https://0nmcp.com',
+        'X-Title': '0nMCP Console',
+      },
+      body: JSON.stringify({
+        model: opts.model || 'anthropic/claude-sonnet-4-20250514',
+        max_tokens: opts.maxTokens || 2048,
+        messages: [
+          { role: 'system', content: opts.system },
+          { role: 'user', content: opts.user },
+        ],
+      }),
+      signal: AbortSignal.timeout(60000),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.choices?.[0]?.message?.content || null
+  } catch {
+    return null
+  }
+}
+
 /**
  * Call a specific provider directly.
  */
@@ -191,6 +221,7 @@ export function callProvider(provider: AIProviderId, apiKey: string, opts: AICal
     case 'gemini': return callGemini(apiKey, opts)
     case 'openai': return callOpenAI(apiKey, opts)
     case 'anthropic': return callAnthropic(apiKey, opts)
+    case 'openrouter': return callOpenRouter(apiKey, opts)
   }
 }
 
@@ -321,6 +352,31 @@ async function callProviderChat(
       if (!res.ok) return null
       const data = await res.json()
       return data.content?.[0]?.type === 'text' ? data.content[0].text : null
+    }
+
+    if (provider === 'openrouter') {
+      const orMessages = [
+        { role: 'system' as const, content: system },
+        ...messages,
+      ]
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': 'https://0nmcp.com',
+          'X-Title': '0nMCP Console',
+        },
+        body: JSON.stringify({
+          model: 'anthropic/claude-sonnet-4-20250514',
+          max_tokens: maxTokens,
+          messages: orMessages,
+        }),
+        signal: AbortSignal.timeout(60000),
+      })
+      if (!res.ok) return null
+      const data = await res.json()
+      return data.choices?.[0]?.message?.content || null
     }
 
     return null

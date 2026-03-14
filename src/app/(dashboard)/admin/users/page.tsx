@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 
-type AIProviderId = 'gemini' | 'openai' | 'anthropic'
+type AIProviderId = 'gemini' | 'openai' | 'anthropic' | 'openrouter'
 
 interface User {
   id: string
@@ -365,10 +365,10 @@ export default function UserManagementPage() {
                   )}
                 </div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                  {(['gemini', 'openai', 'anthropic'] as AIProviderId[]).map(p => {
+                  {(['gemini', 'openai', 'anthropic', 'openrouter'] as AIProviderId[]).map(p => {
                     const current = selectedUser.default_ai_providers || []
                     const active = current.includes(p)
-                    const colors: Record<AIProviderId, string> = { gemini: '#4285F4', openai: '#10a37f', anthropic: '#cc785c' }
+                    const colors: Record<AIProviderId, string> = { gemini: '#4285F4', openai: '#10a37f', anthropic: '#cc785c', openrouter: '#6366f1' }
                     return (
                       <button
                         key={p}
@@ -408,7 +408,7 @@ export default function UserManagementPage() {
                 <div style={{ fontSize: '0.5625rem', color: 'var(--text-muted)', marginTop: 4 }}>
                   {selectedUser.default_ai_providers
                     ? `Order: ${selectedUser.default_ai_providers.join(' → ')}`
-                    : 'Using platform default: gemini → openai → anthropic'}
+                    : 'Using platform default: gemini → openai → anthropic → openrouter'}
                 </div>
               </div>
             </div>
@@ -457,8 +457,8 @@ export default function UserManagementPage() {
                 {u.default_ai_providers.map(p => (
                   <span key={p} style={{
                     fontSize: '0.5rem', padding: '1px 4px', borderRadius: 3, fontWeight: 700,
-                    background: p === 'gemini' ? '#4285F420' : p === 'openai' ? '#10a37f20' : '#cc785c20',
-                    color: p === 'gemini' ? '#4285F4' : p === 'openai' ? '#10a37f' : '#cc785c',
+                    background: p === 'gemini' ? '#4285F420' : p === 'openai' ? '#10a37f20' : p === 'openrouter' ? '#6366f120' : '#cc785c20',
+                    color: p === 'gemini' ? '#4285F4' : p === 'openai' ? '#10a37f' : p === 'openrouter' ? '#6366f1' : '#cc785c',
                   }}>
                     {p[0].toUpperCase()}
                   </span>

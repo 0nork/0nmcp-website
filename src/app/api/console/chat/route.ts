@@ -12,11 +12,12 @@ const ONMCP_URL = process.env.ONMCP_URL || 'http://localhost:3001'
 const PLATFORM_ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || ''
 const PLATFORM_GEMINI_KEY = process.env.GOOGLE_GEMINI_API_KEY || ''
 const PLATFORM_OPENAI_KEY = process.env.OPENAI_API_KEY || ''
+const PLATFORM_OPENROUTER_KEY = process.env.OPENROUTER_API_KEY || ''
 
-type AISource = '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'local'
-type AIProvider = 'anthropic' | 'openai' | 'google'
+type AISource = '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'openrouter-byok' | 'openrouter' | 'local'
+type AIProvider = 'anthropic' | 'openai' | 'google' | 'openrouter'
 
-const AI_SERVICES: AIProvider[] = ['anthropic', 'openai', 'google']
+const AI_SERVICES: AIProvider[] = ['anthropic', 'openai', 'google', 'openrouter']
 
 // Service name aliases for knowledge base lookups
 const SERVICE_ALIASES: Record<string, string> = {
@@ -272,6 +273,41 @@ async function callGemini(apiKey: string, message: string): Promise<{ text: stri
   }
 }
 
+/**
+ * Call OpenRouter API (OpenAI-compatible gateway, 400+ models).
+ */
+async function callOpenRouterChat(apiKey: string, message: string): Promise<{ text: string; source: AISource } | null> {
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': 'https://0nmcp.com',
+        'X-Title': '0nMCP Console',
+      },
+      body: JSON.stringify({
+        model: 'anthropic/claude-sonnet-4-20250514',
+        max_tokens: 2048,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: message },
+        ],
+      }),
+      signal: AbortSignal.timeout(60000),
+    })
+
+    if (!res.ok) return null
+
+    const data = await res.json()
+    const text = data.choices?.[0]?.message?.content || null
+
+    return text ? { text, source: 'openrouter-byok' as AISource } : null
+  } catch {
+    return null
+  }
+}
+
 // ── Smart Local Fallback ──────────────────────────────────────
 // Handles common questions without any external API call.
 
@@ -488,6 +524,8 @@ export async function POST(request: NextRequest) {
       result = await callOpenAI(userKey, enhancedMessage)
     } else if (provider === 'google') {
       result = await callGemini(userKey, enhancedMessage)
+    } else if (provider === 'openrouter') {
+      result = await callOpenRouterChat(userKey, enhancedMessage)
     }
 
     if (result) {
@@ -504,11 +542,13 @@ export async function POST(request: NextRequest) {
     gemini: PLATFORM_GEMINI_KEY,
     openai: PLATFORM_OPENAI_KEY,
     anthropic: PLATFORM_ANTHROPIC_KEY,
+    openrouter: PLATFORM_OPENROUTER_KEY,
   }
   const providerSourceMap: Record<AIProviderId, AISource> = {
     gemini: 'gemini-byok',
     openai: 'openai-byok',
     anthropic: 'claude',
+    openrouter: 'openrouter',
   }
 
   for (const provider of providerOrder) {

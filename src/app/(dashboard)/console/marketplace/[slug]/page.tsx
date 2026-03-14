@@ -26,7 +26,7 @@ export default function MarketplaceDetailPage() {
       const found = (data.listings || []).find((l: StoreListing) => l.slug === slug)
       if (found) {
         setListing(found)
-        setOwned((data.purchasedIds || []).includes(found.id))
+        setOwned((data.purchasedListingIds || data.purchasedIds || []).includes(found.id))
       }
     } catch {
       // ignore
@@ -180,7 +180,7 @@ export default function MarketplaceDetailPage() {
             fontWeight: 900,
             color: listing.price === 0 ? 'var(--accent)' : 'var(--text-primary)',
           }}>
-            {listing.price === 0 ? 'Free' : `$${(listing.price / 100).toFixed(2)}`}
+            {listing.price === 0 ? 'Free' : `$${listing.price.toFixed(2)}`}
           </div>
           {listing.total_purchases > 0 && (
             <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>

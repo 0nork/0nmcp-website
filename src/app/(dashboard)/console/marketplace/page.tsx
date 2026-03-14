@@ -23,7 +23,7 @@ export default function MarketplacePage() {
       const res = await fetch(`/api/console/store?${params}`)
       const data = await res.json()
       setListings(data.listings || [])
-      setPurchasedIds(data.purchasedIds || [])
+      setPurchasedIds(data.purchasedListingIds || data.purchasedIds || [])
     } catch {
       // ignore
     } finally {
@@ -229,7 +229,7 @@ export default function MarketplacePage() {
                       fontWeight: 800,
                       color: listing.price === 0 ? 'var(--accent)' : 'var(--text-primary)',
                     }}>
-                      {listing.price === 0 ? 'Free' : `$${(listing.price / 100).toFixed(2)}`}
+                      {listing.price === 0 ? 'Free' : `$${listing.price.toFixed(2)}`}
                     </span>
                   </div>
                 </div>

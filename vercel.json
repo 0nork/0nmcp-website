@@ -31,6 +31,10 @@
     {
       "path": "/api/cron/serp-track",
       "schedule": "0 8 */2 * *"
+    },
+    {
+      "path": "/api/cron/daily-social",
+      "schedule": "0 14 * * *"
     }
   ],
   "redirects": [

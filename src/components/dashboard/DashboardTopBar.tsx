@@ -1,28 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
-import { DASHBOARD_TABS } from './dashboard-nav'
+import { useRouter } from 'next/navigation'
+import { Menu } from 'lucide-react'
 
-function svgIcon(paths: string, color = 'currentColor', size = 16) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      width={size}
-      height={size}
-      dangerouslySetInnerHTML={{ __html: paths }}
-    />
-  )
-}
-
-export default function DashboardTopBar() {
-  const pathname = usePathname()
+export default function DashboardTopBar({ onMobileMenu }: { onMobileMenu?: () => void }) {
   const router = useRouter()
   const [userName, setUserName] = useState('')
   const [userEmail, setUserEmail] = useState('')
@@ -57,11 +39,6 @@ export default function DashboardTopBar() {
       ? userEmail[0].toUpperCase()
       : '?'
 
-  const activeTab = DASHBOARD_TABS.find((t) => {
-    if (t.key === 'connections') return false // connections shares /console path
-    return pathname === t.href || pathname.startsWith(t.href + '/')
-  })
-
   return (
     <header
       style={{
@@ -76,75 +53,55 @@ export default function DashboardTopBar() {
         zIndex: 50,
       }}
     >
-      {/* Left: brand icon */}
-      <button
-        onClick={() => router.push('/console')}
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: 0,
-        }}
-      >
-        <img
-          src="/brand/icon-green.png"
-          alt="0n"
-          style={{ width: 24, height: 24, borderRadius: 6, objectFit: 'contain' }}
-        />
-      </button>
-
-      {/* Center: tabs */}
-      <nav style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-        {DASHBOARD_TABS.map((tab) => {
-          const isActive = activeTab?.key === tab.key
-          return (
-            <button
-              key={tab.key}
-              onClick={() => {
-                if (tab.external) {
-                  window.open(tab.href, '_blank')
-                } else {
-                  router.push(tab.href)
-                }
-              }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '6px 12px',
-                borderRadius: 8,
-                border: 'none',
-                cursor: 'pointer',
-                background: isActive ? 'var(--accent-glow, rgba(126,217,87,0.1))' : 'transparent',
-                color: isActive ? 'var(--accent, #7ed957)' : 'var(--text-muted)',
-                fontSize: 13,
-                fontWeight: isActive ? 600 : 500,
-                fontFamily: 'inherit',
-                transition: 'all 0.2s ease',
-                borderBottom: isActive ? '2px solid var(--accent, #7ed957)' : '2px solid transparent',
-              }}
-              onMouseEnter={(e) => {
-                if (!isActive) {
-                  e.currentTarget.style.color = 'var(--text-secondary)'
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive) {
-                  e.currentTarget.style.color = 'var(--text-muted)'
-                  e.currentTarget.style.background = 'transparent'
-                }
-              }}
-            >
-              {svgIcon(tab.iconPath, isActive ? 'var(--accent, #7ed957)' : 'currentColor', 14)}
-              <span className="hidden sm:inline">{tab.label}</span>
-            </button>
-          )
-        })}
-      </nav>
+      {/* Left: hamburger (mobile) + brand icon */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {onMobileMenu && (
+          <button
+            onClick={onMobileMenu}
+            className="md:hidden"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'var(--text-muted)',
+              padding: 4,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Menu size={18} />
+          </button>
+        )}
+        <button
+          onClick={() => router.push('/console')}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: 0,
+          }}
+        >
+          <img
+            src="/brand/icon-green.png"
+            alt="0n"
+            style={{ width: 24, height: 24, borderRadius: 6, objectFit: 'contain' }}
+          />
+          <span
+            className="hidden sm:inline"
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            0n Console
+          </span>
+        </button>
+      </div>
 
       {/* Right: avatar dropdown */}
       <div ref={dropdownRef} style={{ position: 'relative' }}>
@@ -195,7 +152,7 @@ export default function DashboardTopBar() {
             </div>
 
             <button
-              onClick={() => { router.push('/account'); setDropdownOpen(false) }}
+              onClick={() => { router.push('/console?view=account'); setDropdownOpen(false) }}
               style={{
                 width: '100%',
                 textAlign: 'left',

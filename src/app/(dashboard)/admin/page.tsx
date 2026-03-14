@@ -196,7 +196,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div style={{ padding: '120px 32px', textAlign: 'center' }}>
+      <div style={{ padding: '60px 32px', textAlign: 'center' }}>
         <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent)', fontSize: '2rem', fontWeight: 900 }}>0n</div>
         <p style={{ color: 'var(--text-secondary)', marginTop: 8 }}>Loading admin...</p>
       </div>
@@ -204,7 +204,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div style={{ padding: '100px 32px 64px', maxWidth: 1200, margin: '0 auto' }}>
+    <div style={{ padding: '32px 32px 64px', maxWidth: 1200, margin: '0 auto' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <div>

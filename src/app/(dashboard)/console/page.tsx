@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 // Components
-import { Sidebar, type SidebarMode } from '@/components/console/Sidebar'
 import { Header } from '@/components/console/Header'
 import { Chat, type ChatMessage } from '@/components/console/Chat'
 import { ChatInput } from '@/components/console/ChatInput'
@@ -19,7 +19,6 @@ import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { CreateView } from '@/components/console/CreateView'
 import { UpgradeModal } from '@/components/console/UpgradeModal'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
-import AuthModal from '@/components/AuthModal'
 import { AccountView } from '@/components/console/AccountView'
 import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
@@ -60,12 +59,12 @@ interface McpWorkflow {
 }
 
 export default function ConsolePage() {
+  const searchParams = useSearchParams()
+
   // ─── View State ───────────────────────────────────────────────
   const [view, setView] = useState<View>('dashboard')
   const [visitedViews, setVisitedViews] = useState<Set<View>>(() => new Set(['dashboard']))
-  const [sidebarMode, setSidebarMode] = useState<SidebarMode>('open')
   const [cmdPaletteOpen, setCmdPaletteOpen] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // ─── MCP State ────────────────────────────────────────────────
   const [mcpOnline, setMcpOnline] = useState(false)
@@ -101,10 +100,6 @@ export default function ConsolePage() {
   // ─── User Profile State (for header avatar) ──────────────
   const [userName, setUserName] = useState('')
   const [userEmail, setUserEmail] = useState('')
-
-  // ─── Auth State (for unauthenticated overlay) ──────────────
-  const [isAuthenticated, setIsAuthenticated] = useState(true) // assume true until checked
-  const [showAuthModal, setShowAuthModal] = useState(false)
 
   // ─── AI Recommendation State ──────────────────────────────────
   const [recentActions, setRecentActions] = useState<string[]>([])
@@ -142,24 +137,16 @@ export default function ConsolePage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages.length, view, recentActions.length, connectedKeys.length, flowsHook.flows.length, store.purchases.length])
 
-  // ─── Sidebar Mode Toggle ───────────────────────────────────
-  const handleToggleSidebarMode = useCallback(() => {
-    setSidebarMode((prev) => {
-      if (prev === 'open') return 'hidden'
-      if (prev === 'hidden') return 'icons'
-      return 'open'
-    })
-  }, [])
-
   // ─── Initialization ───────────────────────────────────────────
+  // ─── Read ?view= URL param on mount ────────────────────────
   useEffect(() => {
-    // Check if user is authenticated
-    fetch('/api/console/account')
-      .then(r => {
-        if (!r.ok) { setIsAuthenticated(false); setShowAuthModal(true) }
-      })
-      .catch(() => { setIsAuthenticated(false); setShowAuthModal(true) })
+    const viewParam = searchParams.get('view')
+    if (viewParam && viewParam !== 'upgrade') {
+      setView(viewParam as View)
+    }
+  }, [searchParams])
 
+  useEffect(() => {
     // Check admin status
     fetch('/api/admin/users?stats=true')
       .then(r => { if (r.ok) setIsAdmin(true) })
@@ -483,16 +470,9 @@ export default function ConsolePage() {
 
   // ─── View Handler (reset vault detail when switching) ─────────
   const handleSetView = useCallback((v: string) => {
-    // Vault — navigate to standalone vault page
-    if (v === 'credentials' || v === 'vault') {
-      window.location.href = '/console/vault'
-      return
-    }
-    // External pages — navigate away from console
-    if (v === 'terminal') { window.location.href = '/console/terminal'; return }
-    if (v === 'tools') { window.location.href = '/console/tools'; return }
-    if (v === 'crew') { window.location.href = '/console/crew'; return }
-    if (v === 'site-builder') { setView('site-builder'); setMobileMenuOpen(false); return }
+    // These are now separate routes — sidebar handles navigation
+    if (v === 'credentials' || v === 'vault') return
+    if (v === 'terminal' || v === 'tools' || v === 'crew') return
     setView(v as View)
     if (v !== 'vault') {
       setVaultService(null)
@@ -500,7 +480,6 @@ export default function ConsolePage() {
       setVaultSubView('files')
       setVaultService(null)
     }
-    setMobileMenuOpen(false)
   }, [])
 
   // ─── Ideas Click Handler ──────────────────────────────────────
@@ -576,36 +555,7 @@ export default function ConsolePage() {
   )
 
   return (
-    <div className="flex h-full overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
-      {/* Mobile sidebar overlay */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-40 md:hidden"
-          style={{
-            backgroundColor: 'rgba(10,10,15,0.7)',
-            backdropFilter: 'blur(4px)',
-          }}
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <div
-        className={`fixed md:relative z-50 h-full transition-transform duration-300 md:translate-x-0 ${
-          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-        }`}
-      >
-        <Sidebar
-          view={view}
-          setView={handleSetView}
-          mode={sidebarMode}
-          onToggleMode={handleToggleSidebarMode}
-          connectedCount={vault.connectedCount}
-          mcpOnline={mcpOnline}
-          isAdmin={isAdmin}
-        />
-      </div>
-
+    <div className="flex flex-col h-full overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0 min-h-0">
         <Header
@@ -617,7 +567,7 @@ export default function ConsolePage() {
           userName={userName}
           userEmail={userEmail}
           onCmdK={() => setCmdPaletteOpen(true)}
-          onMobileMenu={() => setMobileMenuOpen((p) => !p)}
+          onMobileMenu={() => {}}
           onUpgradeClick={() => setShowUpgradeModal(true)}
           onAccountClick={() => { setView('account'); setVisitedViews(prev => new Set([...prev, 'account'])) }}
         />
@@ -914,15 +864,6 @@ export default function ConsolePage() {
         <UpgradeModal
           currentPlan={userPlan}
           onClose={() => setShowUpgradeModal(false)}
-        />
-      )}
-
-      {/* Auth Modal (unauthenticated visitors) */}
-      {!isAuthenticated && (
-        <AuthModal
-          open={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          onSuccess={() => { setIsAuthenticated(true); setShowAuthModal(false); window.location.reload() }}
         />
       )}
 

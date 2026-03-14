@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import WebFactory from '@/components/web0n/WebFactory'
+import LeadJourney from '@/components/web0n/LeadJourney'
 import ExitIntent from '@/components/web0n/ExitIntent'
 import { ScrollReveal, CountUp, RotatingText } from '@/components/web0n/Interactives'
 import GlassTiltCard from '@/components/web0n/GlassTiltCard'
@@ -123,11 +124,11 @@ const SCHEMA = [
 ]
 
 const PAGES = [
-  { name: 'Home Page', desc: 'Eye-catching hero section, about your business, customer testimonials, and clear calls-to-action that convert visitors into leads.' },
-  { name: 'Services Page', desc: 'Complete breakdown of everything you offer with descriptions, pricing tiers, and benefit-focused copy that sells.' },
-  { name: 'Contact Page', desc: 'Professional contact form connected to your CRM, embedded Google Maps, phone number, email, and business hours.' },
-  { name: 'Booking Page', desc: 'Online scheduling integrated directly with your CRM calendar — customers book appointments without calling.' },
-  { name: 'Pricing Page', desc: 'Clear, organized pricing packages or service menus that help customers understand your value instantly.' },
+  { name: 'Home Page', desc: 'Eye-catching hero section, about your business, customer testimonials, and clear calls-to-action that convert visitors into leads.', g1: '#7ed957', g2: '#00d4ff' },
+  { name: 'Services Page', desc: 'Complete breakdown of everything you offer with descriptions, pricing tiers, and benefit-focused copy that sells.', g1: '#00d4ff', g2: '#a78bfa' },
+  { name: 'Contact Page', desc: 'Professional contact form connected to your CRM, embedded Google Maps, phone number, email, and business hours.', g1: '#a78bfa', g2: '#ff6b9d' },
+  { name: 'Booking Page', desc: 'Online scheduling integrated directly with your CRM calendar — customers book appointments without calling.', g1: '#ff6b9d', g2: '#ffc832' },
+  { name: 'Pricing Page', desc: 'Clear, organized pricing packages or service menus that help customers understand your value instantly.', g1: '#ffc832', g2: '#7ed957' },
 ]
 
 const STEPS = [
@@ -137,12 +138,12 @@ const STEPS = [
 ]
 
 const FEATURES = [
-  { title: 'Live in 5-7 Days', desc: 'Not weeks. Not months. Your professional website is live within one business week.', icon: 'bolt' },
-  { title: 'Human-Reviewed', desc: 'Every site is built with AI assistance and reviewed by a real person for quality and accuracy.', icon: 'eye' },
-  { title: 'CRM Included', desc: 'Starter-tier CRM with contact management, booking, forms, and pipeline tracking at no extra cost.', icon: 'layers' },
-  { title: 'SEO-Optimized', desc: 'Built-in search engine optimization so customers can find you on Google from day one.', icon: 'search' },
-  { title: 'Mobile-First', desc: 'Responsive design tested on phones, tablets, and desktops. Perfect on every screen.', icon: 'phone' },
-  { title: 'No Hidden Fees', desc: '$1,997 flat rate covers everything. No surprise charges, no monthly build fees.', icon: 'shield' },
+  { title: 'Live in 5-7 Days', desc: 'Not weeks. Not months. Your professional website is live within one business week.', icon: 'bolt', g1: '#7ed957', g2: '#00d4ff' },
+  { title: 'Human-Reviewed', desc: 'Every site is built with AI assistance and reviewed by a real person for quality and accuracy.', icon: 'eye', g1: '#00d4ff', g2: '#a78bfa' },
+  { title: 'CRM Included', desc: 'Starter-tier CRM with contact management, booking, forms, and pipeline tracking at no extra cost.', icon: 'layers', g1: '#a78bfa', g2: '#ff6b9d' },
+  { title: 'SEO-Optimized', desc: 'Built-in search engine optimization so customers can find you on Google from day one.', icon: 'search', g1: '#ff6b9d', g2: '#ffc832' },
+  { title: 'Mobile-First', desc: 'Responsive design tested on phones, tablets, and desktops. Perfect on every screen.', icon: 'phone', g1: '#ffc832', g2: '#7ed957' },
+  { title: 'No Hidden Fees', desc: '$1,997 flat rate covers everything. No surprise charges, no monthly build fees.', icon: 'shield', g1: '#00d4ff', g2: '#7ed957' },
 ]
 
 const CRM_DATA = [
@@ -304,6 +305,155 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <rect x="34" y="10" width="8" height="32" rx="2" fill={s} />
           <line x1="4" y1="44" x2="44" y2="44" stroke={s} strokeWidth="2" strokeLinecap="round" />
           <path d="M10 26l14-12 14-4" stroke={s} strokeWidth="1.5" fill="none" strokeLinecap="round" strokeDasharray="2 3" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
+/* Feature Icons with gradient fills — matches CRM card style */
+function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
+  const id = `w0nFg${index}`
+  const grad = (
+    <defs>
+      <linearGradient id={id} x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor={g1} />
+        <stop offset="100%" stopColor={g2} />
+      </linearGradient>
+    </defs>
+  )
+  const s = `url(#${id})`
+
+  switch (index) {
+    case 0: /* Bolt — Live in 5-7 Days */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <path d="M26 6L10 26h12l-3 16 18-22H24l4-14z" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          <path d="M26 6L10 26h12l-3 16 18-22H24l4-14z" fill={s} opacity="0.15" />
+        </svg>
+      )
+    case 1: /* Eye — Human-Reviewed */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <path d="M4 24s7-14 20-14 20 14 20 14-7 14-20 14S4 24 4 24z" stroke={s} strokeWidth="2.5" fill="none" />
+          <circle cx="24" cy="24" r="7" stroke={s} strokeWidth="2.5" fill="none" />
+          <circle cx="24" cy="24" r="3" fill={s} opacity="0.7" />
+        </svg>
+      )
+    case 2: /* Layers — CRM Included */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <path d="M24 6l20 10-20 10L4 16l20-10z" stroke={s} strokeWidth="2.5" strokeLinejoin="round" fill={s} fillOpacity="0.1" />
+          <path d="M4 24l20 10 20-10" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 32l20 10 20-10" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 3: /* Search — SEO-Optimized */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <circle cx="21" cy="21" r="13" stroke={s} strokeWidth="2.5" fill="none" />
+          <line x1="31" y1="31" x2="42" y2="42" stroke={s} strokeWidth="3" strokeLinecap="round" />
+          <circle cx="21" cy="21" r="5" fill={s} opacity="0.2" />
+          <path d="M16 18l10 0M16 24l6 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+        </svg>
+      )
+    case 4: /* Phone — Mobile-First */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="12" y="4" width="24" height="40" rx="5" stroke={s} strokeWidth="2.5" fill="none" />
+          <line x1="20" y1="38" x2="28" y2="38" stroke={s} strokeWidth="2.5" strokeLinecap="round" />
+          <rect x="16" y="10" width="16" height="22" rx="2" fill={s} opacity="0.12" />
+          <circle cx="24" cy="21" r="4" fill={s} opacity="0.3" />
+        </svg>
+      )
+    case 5: /* Shield — No Hidden Fees */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <path d="M24 4L6 12v12c0 10 8 18 18 20 10-2 18-10 18-20V12L24 4z" stroke={s} strokeWidth="2.5" strokeLinejoin="round" fill={s} fillOpacity="0.08" />
+          <path d="M17 24l4 4 10-10" stroke={s} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
+/* Page Icons with gradient fills — matches CRM card style */
+function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
+  const id = `w0nPg${index}`
+  const grad = (
+    <defs>
+      <linearGradient id={id} x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor={g1} />
+        <stop offset="100%" stopColor={g2} />
+      </linearGradient>
+    </defs>
+  )
+  const s = `url(#${id})`
+
+  switch (index) {
+    case 0: /* Home Page */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <path d="M6 24L24 8l18 16" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M10 22v18h10v-10h8v10h10V22" stroke={s} strokeWidth="2.5" strokeLinejoin="round" fill={s} fillOpacity="0.1" />
+        </svg>
+      )
+    case 1: /* Services Page */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="5" y="5" width="16" height="16" rx="4" stroke={s} strokeWidth="2.5" fill={s} fillOpacity="0.1" />
+          <rect x="27" y="5" width="16" height="16" rx="4" stroke={s} strokeWidth="2.5" fill={s} fillOpacity="0.15" />
+          <rect x="5" y="27" width="16" height="16" rx="4" stroke={s} strokeWidth="2.5" fill={s} fillOpacity="0.15" />
+          <rect x="27" y="27" width="16" height="16" rx="4" stroke={s} strokeWidth="2.5" fill={s} fillOpacity="0.2" />
+        </svg>
+      )
+    case 2: /* Contact Page */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="4" y="10" width="40" height="28" rx="4" stroke={s} strokeWidth="2.5" fill="none" />
+          <path d="M4 16l20 12 20-12" stroke={s} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="4" y="10" width="40" height="28" rx="4" fill={s} fillOpacity="0.06" />
+        </svg>
+      )
+    case 3: /* Booking Page */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="6" y="10" width="36" height="32" rx="4" stroke={s} strokeWidth="2.5" fill="none" />
+          <line x1="6" y1="20" x2="42" y2="20" stroke={s} strokeWidth="2.5" />
+          <line x1="16" y1="6" x2="16" y2="14" stroke={s} strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="32" y1="6" x2="32" y2="14" stroke={s} strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M19 30l4 4 8-8" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 4: /* Pricing Page */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <circle cx="24" cy="24" r="18" stroke={s} strokeWidth="2.5" fill={s} fillOpacity="0.06" />
+          <path d="M24 10v28M17 16h10a4 4 0 010 8h-8a4 4 0 000 8h10" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 5: /* CRM Sub-Account (bonus card) */
+      return (
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          {grad}
+          <rect x="6" y="6" width="36" height="36" rx="6" stroke={s} strokeWidth="2.5" fill={s} fillOpacity="0.08" />
+          <circle cx="20" cy="20" r="5" stroke={s} strokeWidth="2" fill="none" />
+          <circle cx="32" cy="20" r="3.5" stroke={s} strokeWidth="1.5" fill="none" opacity="0.6" />
+          <path d="M10 38c0-6 4-9 10-9s10 3 10 9" stroke={s} strokeWidth="2" strokeLinecap="round" />
+          <path d="M32 38c0-4 2-6 5.5-7" stroke={s} strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
         </svg>
       )
     default:
@@ -554,40 +704,65 @@ export default function Web0nLanding() {
 
         {/* ========== WHY WEB0N ========== */}
         <ScrollReveal>
-          <section aria-labelledby="why-heading" style={{ padding: '3.5rem 0 2.5rem' }}>
+          <section
+            aria-labelledby="why-heading"
+            style={{
+              padding: '3.5rem 2rem',
+              margin: '1rem -1.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,212,255,0.02) 50%, rgba(0,0,0,0) 100%)',
+              position: 'relative',
+            }}
+          >
+            {/* Top glow accent */}
+            <div style={{
+              position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+              width: '60%', height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent)',
+            }} />
+
             <h2 id="why-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
               Why Businesses Choose <span style={{ color: '#7ed957' }}>web0n</span>
             </h2>
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               We combine AI efficiency with human quality control to deliver professional websites faster than anyone else.
             </p>
-            <div className="w0n-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', width: '100%' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '1.5rem',
+              width: '100%',
+            }}>
               {FEATURES.map((f, i) => (
-                <ScrollReveal key={f.title} delay={i * 80}>
-                  <div className="w0n-card" style={{
-                    padding: '2rem 2rem 2.25rem',
-                    borderRadius: '16px',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                    background: '#0c0c14',
-                    boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
-                    height: '100%',
-                  }}>
-                    <div style={{
-                      width: 56, height: 56, borderRadius: '14px',
-                      background: 'rgba(126,217,87,0.06)',
-                      border: '1px solid rgba(126,217,87,0.1)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      marginBottom: '1.15rem',
-                    }}>
-                      <FeatureIcon icon={f.icon} />
+                <ScrollReveal key={f.title} delay={i * 100}>
+                  <GlassTiltCard
+                    g1={f.g1}
+                    g2={f.g2}
+                    style={{
+                      padding: '2rem 2rem 2.25rem',
+                      borderRadius: '16px',
+                      background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+                      height: '100%',
+                    }}
+                  >
+                    <div style={{ marginBottom: '1.15rem', filter: `drop-shadow(0 4px 12px ${f.g1}22)` }}>
+                      <FeatureGradIcon index={i} g1={f.g1} g2={f.g2} />
                     </div>
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.6rem', color: '#fff' }}>
+                    <h3 style={{
+                      fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
+                      background: `linear-gradient(135deg, ${f.g1}, ${f.g2})`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}>
                       {f.title}
                     </h3>
                     <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                       {f.desc}
                     </p>
-                  </div>
+                  </GlassTiltCard>
                 </ScrollReveal>
               ))}
             </div>
@@ -662,72 +837,101 @@ export default function Web0nLanding() {
           </section>
         </ScrollReveal>
 
+        {/* ========== LEAD JOURNEY ANIMATION ========== */}
+        <LeadJourney />
+
         {/* ========== WHAT YOU GET ========== */}
         <ScrollReveal>
-          <section aria-labelledby="pages-heading" style={{ padding: '3.5rem 0 2.5rem' }}>
+          <section
+            aria-labelledby="pages-heading"
+            style={{
+              padding: '3.5rem 2rem',
+              margin: '1rem -1.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(167,139,250,0.02) 50%, rgba(0,0,0,0) 100%)',
+              position: 'relative',
+            }}
+          >
+            {/* Top glow accent */}
+            <div style={{
+              position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+              width: '60%', height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(167,139,250,0.2), transparent)',
+            }} />
+
             <h2 id="pages-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
               Everything Your Business Needs Online
             </h2>
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               5 professionally designed pages plus a CRM sub-account &mdash; everything to look great and capture leads from day one.
             </p>
-            <div className="w0n-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', width: '100%' }}>
-              {PAGES.map((page, i) => {
-                const icons = ['home', 'services', 'contact', 'booking', 'pricing'] as const
-                return (
-                  <ScrollReveal key={page.name} delay={i * 60}>
-                    <div className="w0n-card" style={{
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '1.5rem',
+              width: '100%',
+            }}>
+              {PAGES.map((page, i) => (
+                <ScrollReveal key={page.name} delay={i * 100}>
+                  <GlassTiltCard
+                    g1={page.g1}
+                    g2={page.g2}
+                    style={{
                       padding: '2rem 2rem 2.25rem',
                       borderRadius: '16px',
+                      background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
                       border: '1px solid rgba(255,255,255,0.06)',
-                      background: '#0c0c14',
-                      boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
                       height: '100%',
-                    }}>
-                      <div style={{
-                        width: 56, height: 56, borderRadius: '14px',
-                        background: 'rgba(126,217,87,0.06)',
-                        border: '1px solid rgba(126,217,87,0.1)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        marginBottom: '1.15rem',
-                      }}>
-                        <PageIcon icon={icons[i]} />
-                      </div>
-                      <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.6rem', color: '#fff' }}>
-                        {page.name}
-                      </h3>
-                      <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                        {page.desc}
-                      </p>
+                    }}
+                  >
+                    <div style={{ marginBottom: '1.15rem', filter: `drop-shadow(0 4px 12px ${page.g1}22)` }}>
+                      <PageGradIcon index={i} g1={page.g1} g2={page.g2} />
                     </div>
-                  </ScrollReveal>
-                )
-              })}
-              <ScrollReveal delay={PAGES.length * 60}>
-                <div className="w0n-card" style={{
-                  padding: '2rem 2rem 2.25rem',
-                  borderRadius: '16px',
-                  border: '1px solid rgba(126, 217, 87, 0.2)',
-                  background: '#0c0c14',
-                  boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
-                  height: '100%',
-                }}>
-                  <div style={{
-                    width: 56, height: 56, borderRadius: '14px',
-                    background: 'rgba(126,217,87,0.1)',
-                    border: '1px solid rgba(126,217,87,0.2)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    marginBottom: '1.15rem',
-                  }}>
-                    <PageIcon icon="crm" />
+                    <h3 style={{
+                      fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
+                      background: `linear-gradient(135deg, ${page.g1}, ${page.g2})`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}>
+                      {page.name}
+                    </h3>
+                    <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                      {page.desc}
+                    </p>
+                  </GlassTiltCard>
+                </ScrollReveal>
+              ))}
+              <ScrollReveal delay={PAGES.length * 100}>
+                <GlassTiltCard
+                  g1="#7ed957"
+                  g2="#5cb83a"
+                  style={{
+                    padding: '2rem 2rem 2.25rem',
+                    borderRadius: '16px',
+                    background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
+                    border: '1px solid rgba(126, 217, 87, 0.15)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+                    height: '100%',
+                  }}
+                >
+                  <div style={{ marginBottom: '1.15rem', filter: 'drop-shadow(0 4px 12px rgba(126,217,87,0.15))' }}>
+                    <PageGradIcon index={5} g1="#7ed957" g2="#5cb83a" />
                   </div>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.6rem', color: '#7ed957' }}>
+                  <h3 style={{
+                    fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
+                    background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}>
                     + CRM Sub-Account
                   </h3>
                   <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
                     Starter-tier CRM with contact management, booking calendar, lead capture forms, and pipeline tracking &mdash; included at no extra cost.
                   </p>
-                </div>
+                </GlassTiltCard>
               </ScrollReveal>
             </div>
           </section>

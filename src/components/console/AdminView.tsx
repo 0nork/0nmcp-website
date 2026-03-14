@@ -12,6 +12,7 @@ const AdminVendorsLazy = lazy(() => import('./AdminVendors').then(m => ({ defaul
 const AdminEcosystem = lazy(() => import('./AdminEcosystem').then(m => ({ default: m.AdminEcosystem })))
 const AdminOnboardingLab = lazy(() => import('./AdminOnboardingLab').then(m => ({ default: m.AdminOnboardingLab })))
 const AdminIndexing = lazy(() => import('./AdminIndexing').then(m => ({ default: m.AdminIndexing })))
+const AdminLinkedInCampaignLazy = lazy(() => import('./AdminLinkedInCampaign').then(m => ({ default: m.AdminLinkedInCampaign })))
 
 // Lazy-load admin page components (previously iframes)
 const AdminForumPage = lazy(() => import('@/app/(dashboard)/admin/forum/page'))
@@ -21,7 +22,7 @@ const AdminBlogPage = lazy(() => import('@/app/(dashboard)/admin/blog/page'))
 const AdminQAPage = lazy(() => import('@/app/(dashboard)/admin/qa/page'))
 const AdminAISettingsPage = lazy(() => import('@/app/(dashboard)/admin/ai-settings/page'))
 
-type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'ecosystem' | 'onboarding-lab' | 'indexing' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
+type AdminSection = 'overview' | 'defender' | 'users' | 'vendors' | 'sitemap' | 'services' | 'billing' | 'reddit-engine' | 'ecosystem' | 'onboarding-lab' | 'indexing' | 'linkedin-campaign' | 'forum' | 'personas' | 'content' | 'blog' | 'qa' | 'ai-settings'
 
 interface NavItem {
   key: AdminSection
@@ -41,6 +42,7 @@ const SYSTEM_SECTIONS: NavItem[] = [
   { key: 'onboarding-lab', label: 'Onboarding Lab', icon: '\u{1F9EA}' },
   { key: 'indexing', label: 'Indexing', icon: '\u{1F50D}' },
   { key: 'ecosystem', label: 'Ecosystem', icon: '\u{1F310}' },
+  { key: 'linkedin-campaign', label: 'LinkedIn Campaign', icon: '\u{1F4E3}' },
 ]
 
 const CONTENT_SECTIONS: NavItem[] = [
@@ -279,6 +281,15 @@ export function AdminView() {
             <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
               <Suspense fallback={<LoadingFallback label="ecosystem" />}>
                 <AdminEcosystem />
+              </Suspense>
+            </div>
+          )}
+
+          {/* LinkedIn Campaign */}
+          {section === 'linkedin-campaign' && (
+            <div style={{ padding: '1.25rem', overflowY: 'auto', flex: 1 }}>
+              <Suspense fallback={<LoadingFallback label="LinkedIn Campaign" />}>
+                <AdminLinkedInCampaignLazy />
               </Suspense>
             </div>
           )}

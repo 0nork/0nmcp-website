@@ -29,7 +29,7 @@ function getAdmin() {
  * Phase 5: TRACK — Check engagement on posted content
  * Phase 6: LEARN — Adjust weights based on performance
  *
- * Vercel cron: "0 */4 * * *" (every 4 hours)
+ * Vercel cron: "0 *\/4 * * *" (every 4 hours)
  */
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization')

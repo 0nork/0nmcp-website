@@ -17,7 +17,11 @@ export default function TriggerCard({ trigger, selected, dimmed, onClick }: Trig
       style={{ '--card-color': trigger.color } as React.CSSProperties}
     >
       <div className="onflow-trigger-card__icon">
-        <img src={trigger.icon} alt="" width={20} height={20} />
+        {trigger.logo ? (
+          <img src={trigger.logo} alt="" width={22} height={22} className="onflow-trigger-card__brand-logo" />
+        ) : (
+          <img src={trigger.icon} alt="" width={20} height={20} />
+        )}
       </div>
       <div className="onflow-trigger-card__text">
         <span className="onflow-trigger-card__title">{trigger.label}</span>

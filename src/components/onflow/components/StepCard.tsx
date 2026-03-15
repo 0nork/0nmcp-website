@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import type { OnFlowStep, DataVariable } from '../types'
 import DataChip from './DataChip'
 import StepConfigDrawer from './StepConfigDrawer'
@@ -14,13 +14,56 @@ interface StepCardProps {
   testResult?: 'success' | 'error' | 'pending'
 }
 
+const FRIENDLY_BADGES: Record<string, string> = {
+  trigger: 'Starts when...',
+  action: 'Then do...',
+  delay: 'Wait',
+  condition: 'Only if...',
+}
+
 export default function StepCard({ step, index, selected, variables, testResult }: StepCardProps) {
   const dispatch = useOnFlowDispatch()
   const [expanded, setExpanded] = useState(false)
+  const [dragOver, setDragOver] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
 
   function handleClick() {
     dispatch({ type: 'SELECT_STEP', stepId: selected ? null : step.id })
     setExpanded(!selected)
+  }
+
+  function handleDragStart(e: React.DragEvent) {
+    e.dataTransfer.setData('text/plain', String(index))
+    e.dataTransfer.effectAllowed = 'move'
+    if (cardRef.current) {
+      cardRef.current.style.opacity = '0.5'
+    }
+  }
+
+  function handleDragEnd() {
+    if (cardRef.current) {
+      cardRef.current.style.opacity = '1'
+    }
+    setDragOver(false)
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    setDragOver(true)
+  }
+
+  function handleDragLeave() {
+    setDragOver(false)
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault()
+    setDragOver(false)
+    const fromIndex = parseInt(e.dataTransfer.getData('text/plain'), 10)
+    if (!isNaN(fromIndex) && fromIndex !== index) {
+      dispatch({ type: 'REORDER_STEPS', fromIndex, toIndex: index })
+    }
   }
 
   const typeBadgeClass = step.type === 'trigger' ? 'onflow-badge--trigger' :
@@ -34,8 +77,15 @@ export default function StepCard({ step, index, selected, variables, testResult 
 
   return (
     <div
-      className={`onflow-step-card ${selected ? 'onflow-step-card--selected' : ''}`}
+      ref={cardRef}
+      className={`onflow-step-card ${selected ? 'onflow-step-card--selected' : ''} ${dragOver ? 'onflow-step-card--drag-over' : ''}`}
       style={{ '--step-color': step.color } as React.CSSProperties}
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
     >
       <button className="onflow-step-card__header" onClick={handleClick}>
         <div className="onflow-step-card__icon">
@@ -48,7 +98,7 @@ export default function StepCard({ step, index, selected, variables, testResult 
         <div className="onflow-step-card__info">
           <div className="onflow-step-card__name-row">
             <span className="onflow-step-card__name">{step.toolName || step.serviceName}</span>
-            <span className={`onflow-badge ${typeBadgeClass}`}>{step.type}</span>
+            <span className={`onflow-badge ${typeBadgeClass}`}>{FRIENDLY_BADGES[step.type] ?? step.type}</span>
             {statusDot && <span className={`onflow-dot ${statusDot}`} />}
           </div>
           <span className="onflow-step-card__desc">{step.description || `${step.serviceName} → ${step.toolId}`}</span>

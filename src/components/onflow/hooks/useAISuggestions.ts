@@ -1,18 +1,26 @@
 import { useMemo } from 'react'
 import type { OnFlowStep, AISuggestion } from '../types'
-import { getAllCapabilities, getActionServiceId } from '@/lib/sxo-helpers'
+import { SERVICE_LOGOS } from '@/components/builder/ServicePalette'
+import { getServiceById } from '@/lib/sxo-helpers'
 
 // Natural complement map: which services naturally pair together
 const COMPLEMENTS: Record<string, string[]> = {
   crm: ['sendgrid', 'slack', 'twilio', 'gmail', 'google_sheets'],
-  stripe: ['sendgrid', 'slack', 'supabase', 'crm'],
+  stripe: ['sendgrid', 'slack', 'supabase', 'crm', 'gmail'],
   github: ['slack', 'discord', 'linear', 'jira'],
   shopify: ['sendgrid', 'stripe', 'slack', 'crm'],
   sendgrid: ['crm', 'slack', 'supabase'],
   gmail: ['crm', 'slack', 'google_sheets'],
-  slack: ['crm', 'github', 'linear'],
+  slack: ['crm', 'github', 'linear', 'gmail'],
   twilio: ['crm', 'sendgrid', 'slack'],
   supabase: ['sendgrid', 'slack', 'stripe'],
+  instagram: ['slack', 'crm', 'google_sheets'],
+  twitter: ['slack', 'crm', 'discord'],
+  linkedin: ['crm', 'slack', 'gmail'],
+  whatsapp: ['crm', 'slack', 'twilio'],
+  discord: ['github', 'slack', 'linear'],
+  anthropic: ['gmail', 'slack', 'crm'],
+  openai: ['gmail', 'slack', 'crm'],
 }
 
 export function useAISuggestions(steps: OnFlowStep[]): AISuggestion[] {
@@ -21,53 +29,38 @@ export function useAISuggestions(steps: OnFlowStep[]): AISuggestion[] {
 
     const lastStep = steps[steps.length - 1]
     const usedServices = new Set(steps.map((s) => s.serviceId))
-    const caps = getAllCapabilities()
 
-    // Filter capabilities where trigger matches last step's service
-    const candidates = caps.filter((c) => {
-      const actionService = getActionServiceId(c)
-      if (!actionService) return false
-      // Must match trigger service
-      if (c.trigger_service !== lastStep.serviceId) return false
-      // Exclude already-used action services
-      if (usedServices.has(actionService)) return false
-      return true
-    })
+    // Get complement services that have real logos
+    const complements = COMPLEMENTS[lastStep.serviceId] ?? []
+    const candidates: { serviceId: string; toolId: string; toolName: string; serviceName: string; score: number }[] = []
 
-    // Score each candidate
-    const scored = candidates.map((c) => {
-      const actionService = getActionServiceId(c)!
-      let score = 70 // base
+    for (const sid of complements) {
+      if (usedServices.has(sid)) continue
+      if (!SERVICE_LOGOS[sid]) continue
 
-      // Complement bonus
-      const complements = COMPLEMENTS[lastStep.serviceId] ?? []
-      if (complements.includes(actionService)) score += 15
+      const svc = getServiceById(sid)
+      if (!svc?.tools?.length) continue
 
-      // SXO queries overlap bonus (up to 15)
-      if ('sxo_queries' in c && Array.isArray(c.sxo_queries)) {
-        const queries = c.sxo_queries as string[]
-        const stepWords = [lastStep.serviceName, lastStep.toolName, lastStep.description]
-          .join(' ').toLowerCase().split(/\s+/)
-        const overlap = queries.filter((q) =>
-          stepWords.some((w) => q.toLowerCase().includes(w))
-        ).length
-        score += Math.min(overlap * 5, 15)
-      }
-
-      return { cap: c, actionService, score }
-    })
+      // Pick the first tool as the suggestion
+      const tool = svc.tools[0] as { id: string; name: string }
+      candidates.push({
+        serviceId: sid,
+        toolId: tool.id,
+        toolName: tool.name,
+        serviceName: svc.name,
+        score: 85,
+      })
+    }
 
     // Sort by score, take top 3
-    scored.sort((a, b) => b.score - a.score)
+    candidates.sort((a, b) => b.score - a.score)
 
-    return scored.slice(0, 3).map((item, i) => ({
+    return candidates.slice(0, 3).map((item, i) => ({
       id: `suggestion_${i}`,
-      title: item.cap.name,
-      description: item.cap.description,
-      serviceId: item.actionService,
-      toolId: typeof item.cap.dot_0n_config === 'string'
-        ? (() => { try { return JSON.parse(item.cap.dot_0n_config).action ?? '' } catch { return '' } })()
-        : '',
+      title: `${item.toolName} via ${item.serviceName}`,
+      description: `Use ${item.serviceName} to ${item.toolName.toLowerCase()}`,
+      serviceId: item.serviceId,
+      toolId: item.toolId,
       matchPercent: Math.min(item.score, 100),
       dataVariables: [],
     }))

@@ -52,6 +52,7 @@ export type OnFlowAction =
   | { type: 'ADD_STEP'; step: OnFlowStep }
   | { type: 'REMOVE_STEP'; stepId: string }
   | { type: 'MOVE_STEP'; stepId: string; direction: 'up' | 'down' }
+  | { type: 'REORDER_STEPS'; fromIndex: number; toIndex: number }
   | { type: 'UPDATE_STEP'; stepId: string; data: Partial<OnFlowStep> }
   | { type: 'SELECT_STEP'; stepId: string | null }
   | { type: 'SET_MODE'; mode: 'empty' | 'building' }
@@ -67,6 +68,7 @@ export interface TriggerDefinition {
   description: string
   color: string
   icon: string
+  logo?: string
   serviceId: string
   defaultTool: string
   outputVariables: { key: string; label: string; type: DataVariable['type'] }[]
@@ -81,4 +83,24 @@ export interface ActionDefinition {
   serviceId: string
   defaultTool: string
   inputFields: { key: string; label: string; placeholder: string }[]
+}
+
+export interface ServiceActionEntry {
+  id: string
+  name: string
+  serviceId: string
+  serviceName: string
+  logo: string
+  color: string
+}
+
+export interface ServiceActionGroup {
+  category: string
+  services: {
+    id: string
+    name: string
+    logo: string
+    color: string
+    tools: { id: string; name: string }[]
+  }[]
 }

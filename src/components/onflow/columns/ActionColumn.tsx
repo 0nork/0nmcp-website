@@ -1,38 +1,65 @@
 'use client'
 
+import { useState, useMemo } from 'react'
 import { useOnFlow, useOnFlowDispatch } from '../OnFlowContext'
-import { ACTION_DEFINITIONS } from '../data/action-definitions'
-import ActionCard from '../components/ActionCard'
-import { SERVICE_LOGOS } from '@/components/builder/ServicePalette'
+import { getServiceActionGroups } from '../data/service-actions'
+import ServiceCard from '../components/ServiceCard'
 import type { OnFlowStep } from '../types'
 
 export default function ActionColumn() {
   const state = useOnFlow()
   const dispatch = useOnFlowDispatch()
+  const [search, setSearch] = useState('')
 
-  function handleActionClick(actionId: string) {
-    const def = ACTION_DEFINITIONS.find((a) => a.id === actionId)
-    if (!def) return
+  const groups = useMemo(() => getServiceActionGroups(), [])
 
+  const filtered = useMemo(() => {
+    if (!search.trim()) return groups
+    const q = search.toLowerCase()
+    return groups
+      .map((g) => ({
+        ...g,
+        services: g.services
+          .filter((s) =>
+            s.name.toLowerCase().includes(q) ||
+            s.tools.some((t) => t.name.toLowerCase().includes(q))
+          )
+          .map((s) => ({
+            ...s,
+            tools: s.tools.filter(
+              (t) => t.name.toLowerCase().includes(q) || s.name.toLowerCase().includes(q)
+            ),
+          })),
+      }))
+      .filter((g) => g.services.length > 0)
+  }, [groups, search])
+
+  function handleSelectTool(
+    toolId: string,
+    toolName: string,
+    serviceId: string,
+    serviceName: string,
+    logo: string,
+    color: string
+  ) {
     const step: OnFlowStep = {
       id: `step_${String(state.stepCounter).padStart(3, '0')}`,
       type: 'action',
-      serviceId: def.serviceId,
-      serviceName: def.label,
-      serviceLogo: SERVICE_LOGOS[def.serviceId] ?? '',
-      toolId: def.defaultTool,
-      toolName: def.label,
-      description: def.description,
-      inputs: Object.fromEntries(def.inputFields.map((f) => [f.key, ''])),
+      serviceId,
+      serviceName,
+      serviceLogo: logo,
+      toolId,
+      toolName,
+      description: `${toolName} via ${serviceName}`,
+      inputs: {},
       outputs: {},
       condition: '',
       onFail: 'halt',
       timeout: 0,
       parallelGroup: '',
       status: 'idle',
-      color: def.color,
+      color,
     }
-
     dispatch({ type: 'ADD_STEP', step })
   }
 
@@ -46,17 +73,33 @@ export default function ActionColumn() {
           <path d="M1 12h2" /><path d="M21 12h2" />
           <path d="M4.22 19.78l1.42-1.42" /><path d="M18.36 5.64l1.42-1.42" />
         </svg>
-        <span>Actions</span>
+        <span>Services</span>
       </div>
 
+      <input
+        className="onflow-service-search"
+        type="text"
+        placeholder="Search services & tools..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
       <div className="onflow-column__list">
-        {ACTION_DEFINITIONS.map((a) => (
-          <ActionCard
-            key={a.id}
-            action={a}
-            onClick={() => handleActionClick(a.id)}
-          />
+        {filtered.map((group) => (
+          <div key={group.category}>
+            <div className="onflow-column__category">{group.category}</div>
+            {group.services.map((svc) => (
+              <ServiceCard
+                key={svc.id}
+                service={svc}
+                onSelectTool={handleSelectTool}
+              />
+            ))}
+          </div>
         ))}
+        {filtered.length === 0 && (
+          <p className="onflow-column__empty">No services match &ldquo;{search}&rdquo;</p>
+        )}
       </div>
     </div>
   )

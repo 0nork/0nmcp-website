@@ -104,7 +104,7 @@ export default function WorkflowColumn() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
               <path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5L12 3z" />
             </svg>
-            AI Suggested Next Steps
+            Suggested next steps
           </div>
           {suggestions.map((s) => (
             <AISuggestionCard key={s.id} suggestion={s} onAdd={() => addSuggestion(s)} />

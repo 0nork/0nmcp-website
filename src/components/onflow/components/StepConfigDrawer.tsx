@@ -71,7 +71,7 @@ export default function StepConfigDrawer({ step }: StepConfigDrawerProps) {
 
       {/* Inputs */}
       <div className="onflow-config-field">
-        <label className="onflow-config-label">Inputs</label>
+        <label className="onflow-config-label">What this step needs</label>
         {Object.entries(step.inputs).map(([k, v]) => (
           <div key={k} className="onflow-config-kv">
             <input className="onflow-config-input" value={k} readOnly />
@@ -92,7 +92,7 @@ export default function StepConfigDrawer({ step }: StepConfigDrawerProps) {
 
       {/* Outputs */}
       <div className="onflow-config-field">
-        <label className="onflow-config-label">Outputs</label>
+        <label className="onflow-config-label">Results</label>
         {Object.entries(step.outputs).map(([k, v]) => (
           <div key={k} className="onflow-config-kv">
             <input className="onflow-config-input" value={k} readOnly />
@@ -113,7 +113,7 @@ export default function StepConfigDrawer({ step }: StepConfigDrawerProps) {
 
       {/* Condition */}
       <div className="onflow-config-field">
-        <label className="onflow-config-label">Condition</label>
+        <label className="onflow-config-label">Only run if...</label>
         <input
           className="onflow-config-input onflow-config-input--full"
           value={step.condition}
@@ -125,27 +125,27 @@ export default function StepConfigDrawer({ step }: StepConfigDrawerProps) {
       {/* On Fail / Timeout row */}
       <div className="onflow-config-row">
         <div className="onflow-config-field onflow-config-field--half">
-          <label className="onflow-config-label">On Fail</label>
+          <label className="onflow-config-label">If something goes wrong</label>
           <select
             className="onflow-config-select"
             value={step.onFail}
             onChange={(e) => updateStep({ onFail: e.target.value as OnFlowStep['onFail'] })}
           >
-            <option value="halt">Halt</option>
-            <option value="skip">Skip</option>
-            <option value="retry:1">Retry 1x</option>
-            <option value="retry:2">Retry 2x</option>
-            <option value="retry:3">Retry 3x</option>
+            <option value="halt">Stop everything</option>
+            <option value="skip">Skip & continue</option>
+            <option value="retry:1">Try again (1x)</option>
+            <option value="retry:2">Try again (2x)</option>
+            <option value="retry:3">Try again (3x)</option>
           </select>
         </div>
         <div className="onflow-config-field onflow-config-field--half">
-          <label className="onflow-config-label">Timeout (ms)</label>
+          <label className="onflow-config-label">Timeout (seconds)</label>
           <input
             className="onflow-config-input"
             type="number"
-            value={step.timeout || ''}
-            onChange={(e) => updateStep({ timeout: parseInt(e.target.value) || 0 })}
-            placeholder="30000"
+            value={step.timeout ? Math.round(step.timeout / 1000) : ''}
+            onChange={(e) => updateStep({ timeout: (parseInt(e.target.value) || 0) * 1000 })}
+            placeholder="30"
           />
         </div>
       </div>
@@ -155,7 +155,7 @@ export default function StepConfigDrawer({ step }: StepConfigDrawerProps) {
         className="onflow-config-remove-step"
         onClick={() => dispatch({ type: 'REMOVE_STEP', stepId: step.id })}
       >
-        Remove Step
+        Delete this step
       </button>
     </div>
   )

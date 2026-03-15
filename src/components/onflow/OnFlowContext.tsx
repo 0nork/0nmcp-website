@@ -54,6 +54,15 @@ function onflowReducer(state: OnFlowState, action: OnFlowAction): OnFlowState {
       ;[arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]]
       return { ...state, steps: arr }
     }
+    case 'REORDER_STEPS': {
+      const { fromIndex, toIndex } = action
+      if (fromIndex === toIndex) return state
+      if (fromIndex < 0 || toIndex < 0 || fromIndex >= state.steps.length || toIndex >= state.steps.length) return state
+      const arr = [...state.steps]
+      const [moved] = arr.splice(fromIndex, 1)
+      arr.splice(toIndex, 0, moved)
+      return { ...state, steps: arr }
+    }
     case 'UPDATE_STEP':
       return {
         ...state,
@@ -114,7 +123,7 @@ type HistoryAction =
   | { type: 'HYDRATE'; state: OnFlowState }
 
 const UNDOABLE: OnFlowAction['type'][] = [
-  'ADD_STEP', 'REMOVE_STEP', 'MOVE_STEP', 'UPDATE_STEP',
+  'ADD_STEP', 'REMOVE_STEP', 'MOVE_STEP', 'REORDER_STEPS', 'UPDATE_STEP',
   'CLEAR_ALL', 'IMPORT_WORKFLOW', 'UPDATE_SETTINGS',
 ]
 

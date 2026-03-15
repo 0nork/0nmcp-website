@@ -9,7 +9,7 @@ import { SERVICE_LOGOS } from './ServiceLogos'
 
 const SERVICES = [
   // Current 26
-  { name: 'CRM', key: 'crm', color: '#ff6b35' },
+  { name: 'Rocket+', key: 'crm', color: '#ff6b35' },
   { name: 'Stripe', key: 'stripe', color: '#635bff' },
   { name: 'SendGrid', key: 'sendgrid', color: '#1a82e2' },
   { name: 'Slack', key: 'slack', color: '#4a154b' },

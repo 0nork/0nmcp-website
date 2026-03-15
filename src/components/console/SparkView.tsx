@@ -28,7 +28,7 @@ interface SparkViewProps {
 
 const QUICK_ACTIONS = [
   { name: 'publish-blog', label: 'Publish Blog', icon: 'M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z', color: '#7ed957' },
-  { name: 'crm-client-check', label: 'CRM Check', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', color: '#00d4ff' },
+  { name: 'crm-client-check', label: 'Rocket+ Check', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', color: '#00d4ff' },
   { name: 'social-blast', label: 'Social Blast', icon: 'M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13', color: '#a78bfa' },
   { name: 'client-onboard', label: 'Onboard Client', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM20 8v6M23 11h-6', color: '#ff6b35' },
   { name: 'deploy-notify', label: 'Deploy Notify', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', color: '#7ed957' },

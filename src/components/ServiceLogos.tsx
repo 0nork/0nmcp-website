@@ -772,7 +772,7 @@ export const SERVICE_LOGOS: Record<string, React.FC<P>> = {
 
 /* ── All service metadata ── */
 export const ALL_SERVICES = [
-  { id: 'crm', name: 'CRM', category: 'CRM', color: '#FF6B35' },
+  { id: 'crm', name: 'Rocket+', category: 'CRM', color: '#FF6B35' },
   { id: 'stripe', name: 'Stripe', category: 'Payments', color: '#635BFF' },
   { id: 'shopify', name: 'Shopify', category: 'Payments', color: '#96BF48' },
   { id: 'square', name: 'Square', category: 'Payments', color: '#006AFF' },

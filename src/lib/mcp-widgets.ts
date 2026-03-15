@@ -311,7 +311,7 @@ export function getWidgetCategories(): { label: string; service: string; count: 
       existing.count++
     } else {
       cats.set(w.service, {
-        label: w.service === 'crm' ? 'CRM' : w.service.charAt(0).toUpperCase() + w.service.slice(1),
+        label: w.service === 'crm' ? 'Rocket+' : w.service.charAt(0).toUpperCase() + w.service.slice(1),
         count: 1,
         color: w.color,
       })

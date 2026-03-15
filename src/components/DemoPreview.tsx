@@ -16,13 +16,13 @@ const COMMAND_TEXT =
 const PIPELINE_STEPS = [
   { service: 'Stripe', action: 'Create Invoice', color: '#635bff' },
   { service: 'SendGrid', action: 'Email Invoice', color: '#1a82e2' },
-  { service: 'CRM', action: 'Log Activity', color: '#ff6b35' },
+  { service: 'Rocket+', action: 'Log Activity', color: '#ff6b35' },
 ];
 
 const RESULT_LINES = [
   'Invoice #INV-2847 created',
   'Email sent to client@example.com',
-  'CRM activity logged',
+  'Rocket+ activity logged',
 ];
 
 // ── Types ──────────────────────────────────────────────────────────────

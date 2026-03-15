@@ -44,8 +44,8 @@ type ExportFormat = 'html' | 'react' | 'crm_funnel' | 'crm_email'
 const EXPORT_OPTIONS: { key: ExportFormat; label: string }[] = [
   { key: 'html', label: 'HTML' },
   { key: 'react', label: 'React' },
-  { key: 'crm_funnel', label: 'CRM Funnel' },
-  { key: 'crm_email', label: 'CRM Email' },
+  { key: 'crm_funnel', label: 'Rocket+ Funnel' },
+  { key: 'crm_email', label: 'Rocket+ Email' },
 ]
 
 /* ──────────────────────────────────────────── */

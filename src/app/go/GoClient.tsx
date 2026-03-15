@@ -30,7 +30,7 @@ const PRODUCTS = [
 /* ─── Carousel Services (real SVG logos) ─────────────────── */
 
 const CAROUSEL_SERVICES = [
-  { name: 'CRM', key: 'crm' },
+  { name: 'Rocket+', key: 'crm' },
   { name: 'Stripe', key: 'stripe' },
   { name: 'SendGrid', key: 'sendgrid' },
   { name: 'Slack', key: 'slack' },
@@ -131,7 +131,7 @@ const FAQS = [
 const PIPELINE_STEPS = [
   { service: 'Stripe', action: 'Create Invoice', color: '#635bff' },
   { service: 'SendGrid', action: 'Email Invoice', color: '#1a82e2' },
-  { service: 'CRM', action: 'Log Activity', color: '#ff6b35' },
+  { service: 'Rocket+', action: 'Log Activity', color: '#ff6b35' },
 ]
 
 /* ─── Shared Components ──────────────────────────────────── */

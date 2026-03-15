@@ -123,8 +123,8 @@ export const TRIGGER_TYPES = [
 /** Available abilities (tool IDs) grouped by service */
 export const ABILITY_GROUPS: Record<string, { label: string; color: string; tools: { id: string; label: string }[] }> = {
   crm: {
-    label: 'CRM',
-    color: '#7c3aed',
+    label: 'Rocket+',
+    color: '#ff6b35',
     tools: [
       { id: 'search_contacts', label: 'Search Contacts' },
       { id: 'create_contact', label: 'Create Contact' },

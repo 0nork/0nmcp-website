@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 const SERVICES = [
-  { name: 'CRM', color: '#7c3aed', icon: '🚀' },
+  { name: 'Rocket+', color: '#ff6b35', icon: '🚀' },
   { name: 'Stripe', color: '#635bff', icon: '💳' },
   { name: 'Anthropic', color: '#d4a574', icon: '🧠' },
   { name: 'OpenAI', color: '#10a37f', icon: '🤖' },

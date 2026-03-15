@@ -750,13 +750,13 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
 
-  // ─── GoHighLevel — THE BOLD MOVE ────────────────────────
+  // ─── Rocket+ CRM (White Label) ─────────────────────────
   gohighlevel: {
-    l: "GoHighLevel", logo: "gohighlevel", c: "#38b2ac", cat: "crm", pri: 6,
-    d: "All-in-one CRM, funnels, websites, email/SMS, pipelines, calendars, workflows, reputation, memberships, invoicing, and blogging.",
+    l: "Rocket+ (White Label)", logo: "rocketplus", c: "#ff6b35", cat: "crm", pri: 6,
+    d: "White-label CRM with funnels, websites, email/SMS, pipelines, calendars, workflows, reputation, memberships, invoicing, and blogging.",
     cap: ["CRM", "Funnels", "Landing Pages", "Email Marketing", "SMS", "Pipelines", "Calendars", "Workflows", "Reputation Management", "Memberships", "Surveys", "Invoicing", "Blogging"],
     f: [
-      { k: "api_key", lb: "API Key", ph: "eyJhbGciOi...", s: true, h: "Agency or Location level API key", lk: "https://marketplace.gohighlevel.com/", ll: "Settings > Business Profile > API Key", t: "simple", step: 1, req: true, guide: "Sign in to your GoHighLevel account. Go to Settings > Business Profile. Copy the API Key (starts with eyJ)." },
+      { k: "api_key", lb: "API Key", ph: "eyJhbGciOi...", s: true, h: "Agency or Location level API key", lk: "https://marketplace.gohighlevel.com/", ll: "Settings > Business Profile > API Key", t: "simple", step: 1, req: true, guide: "Sign in to your CRM account. Go to Settings > Business Profile. Copy the API Key (starts with eyJ)." },
       { k: "location_id", lb: "Location ID", ph: "ve9EPM...", h: "Sub-account Location ID", lk: "https://marketplace.gohighlevel.com/", ll: "Settings > Business Profile > Location ID", t: "simple", step: 2, req: true, guide: "On the same Business Profile page, copy the Location ID for your sub-account (starts with ve9)." },
     ],
   },

@@ -46,7 +46,7 @@ const CAT_ICONS = {
 }
 
 // ─── SERVICE_LOGOS ────────────────────────────────────────────────────────
-const SERVICE_LOGOS: Record<string, string> = {
+export const SERVICE_LOGOS: Record<string, string> = {
   // ─── Real brand logos ───────────────────────────────────────
   stripe: 'https://cdn.simpleicons.org/stripe/635BFF',
   slack: 'https://cdn.simpleicons.org/slack/4A154B',

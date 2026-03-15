@@ -21,13 +21,14 @@ import {
   X,
   Loader2,
   ChevronRight,
+  Package,
 } from 'lucide-react'
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
 
-type VaultCategory = 'all' | 'workflow' | 'brand' | 'template' | 'credentials' | 'deed' | 'drop' | 'puzzle'
+type VaultCategory = 'all' | 'workflow' | 'brand' | 'template' | 'credentials' | 'bundles' | 'deed' | 'drop' | 'puzzle'
 
 interface VaultFile {
   id: string
@@ -41,6 +42,7 @@ interface VaultFile {
 
 interface VaultFilesPanelProps {
   onSwitchToCredentials: () => void
+  onSwitchToBundles?: () => void
   onAddToBuilder?: (data: Record<string, unknown>) => void
 }
 
@@ -93,6 +95,13 @@ const CATEGORY_CONFIG: Record<
     emptyTitle: 'Manage API keys',
     emptyDesc: 'Switch to the credential vault to manage your service API keys and connections.',
   },
+  bundles: {
+    label: 'Bundles',
+    icon: Package,
+    color: '#7ed957',
+    emptyTitle: 'Credential bundles',
+    emptyDesc: 'Create or import encrypted .0n credential bundles for portable transfer.',
+  },
   deed: {
     label: 'Deeds',
     icon: ScrollText,
@@ -116,7 +125,7 @@ const CATEGORY_CONFIG: Record<
   },
 }
 
-const CATEGORIES: VaultCategory[] = ['all', 'workflow', 'brand', 'template', 'credentials', 'deed', 'drop', 'puzzle']
+const CATEGORIES: VaultCategory[] = ['all', 'workflow', 'brand', 'template', 'credentials', 'bundles', 'deed', 'drop', 'puzzle']
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -715,7 +724,7 @@ function FileCard({
 /*  Main Component                                                     */
 /* ------------------------------------------------------------------ */
 
-export function VaultFilesPanel({ onSwitchToCredentials, onAddToBuilder }: VaultFilesPanelProps) {
+export function VaultFilesPanel({ onSwitchToCredentials, onSwitchToBundles, onAddToBuilder }: VaultFilesPanelProps) {
   const [files, setFiles] = useState<VaultFile[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -781,9 +790,13 @@ export function VaultFilesPanel({ onSwitchToCredentials, onAddToBuilder }: Vault
         onSwitchToCredentials()
         return
       }
+      if (cat === 'bundles' && onSwitchToBundles) {
+        onSwitchToBundles()
+        return
+      }
       setActiveCategory(cat)
     },
-    [onSwitchToCredentials],
+    [onSwitchToCredentials, onSwitchToBundles],
   )
 
   const handleDownload = useCallback((file: VaultFile) => {

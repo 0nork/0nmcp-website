@@ -32,6 +32,7 @@ import { TrainingView } from '@/components/console/TrainingView'
 import { CommandQueueView } from '@/components/console/CommandQueueView'
 import { SeoView } from '@/components/console/SeoView'
 import { SiteBuilderView } from '@/components/console/SiteBuilderView'
+import { BundleManager } from '@/components/console/BundleManager'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -78,7 +79,7 @@ export default function ConsolePage() {
   // ─── Vault State ──────────────────────────────────────────────
   const [vaultSearch, setVaultSearch] = useState('')
   const [vaultService, setVaultService] = useState<string | null>(null)
-  const [vaultSubView, setVaultSubView] = useState<'files' | 'credentials'>('files')
+  const [vaultSubView, setVaultSubView] = useState<'files' | 'credentials' | 'bundles'>('files')
 
   // ─── Hooks ────────────────────────────────────────────────────
   const vault = useVault()
@@ -372,6 +373,11 @@ export default function ConsolePage() {
           setVaultService(null)
           setVaultSubView('files')
           break
+        case '/bundles':
+          setView('vault')
+          setVaultService(null)
+          setVaultSubView('bundles')
+          break
         case '/flows':
           setView('flows')
           break
@@ -648,9 +654,17 @@ export default function ConsolePage() {
                   searchQuery={vaultSearch}
                   onSearch={setVaultSearch}
                 />
+              ) : vaultSubView === 'bundles' ? (
+                <BundleManager
+                  connectedServices={connectedKeys}
+                  vault={vault.credentials}
+                  onImport={vault.set}
+                  onSwitchToCredentials={() => setVaultSubView('credentials')}
+                />
               ) : (
                 <VaultFilesPanel
                   onSwitchToCredentials={() => setVaultSubView('credentials')}
+                  onSwitchToBundles={() => setVaultSubView('bundles')}
                   onAddToBuilder={(data) => {
                     localStorage.setItem('0n_builder_import', JSON.stringify(data))
                     window.location.href = '/builder'

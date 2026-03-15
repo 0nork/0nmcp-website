@@ -4,6 +4,8 @@ import { createClient } from '@supabase/supabase-js'
 import { decryptVaultData } from '@/lib/vault-crypto'
 import { STATS_DISPLAY } from '@/data/stats'
 import { resolveProviderOrder, callProvider, type AIProviderId } from '@/lib/ai-provider'
+import { executeAgent } from '@/lib/agent-studio'
+import { getOrCreateCrmAccount, getActiveSession, upsertSession, incrementExecutionCount } from '@/lib/crm-provisioning'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -14,7 +16,7 @@ const PLATFORM_GEMINI_KEY = process.env.GOOGLE_GEMINI_API_KEY || ''
 const PLATFORM_OPENAI_KEY = process.env.OPENAI_API_KEY || ''
 const PLATFORM_OPENROUTER_KEY = process.env.OPENROUTER_API_KEY || ''
 
-type AISource = '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'openrouter-byok' | 'openrouter' | 'local'
+type AISource = '0nmcp' | 'agent-studio' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'openrouter-byok' | 'openrouter' | 'local'
 type AIProvider = 'anthropic' | 'openai' | 'google' | 'openrouter'
 
 const AI_SERVICES: AIProvider[] = ['anthropic', 'openai', 'google', 'openrouter']
@@ -510,6 +512,48 @@ export async function POST(request: NextRequest) {
     }
   } catch {
     // 0nMCP offline — continue
+  }
+
+  // ── Layer 1.5: CRM Agent Studio (Knowledge Base + MCP) ──────
+  if (process.env.CRM_AGENT_STUDIO_KEY) {
+    try {
+      // Auto-provision user's CRM account (idempotent)
+      const crmAccount = await getOrCreateCrmAccount(user.id)
+      const agentId = crmAccount?.default_agent_id || process.env.CRM_AGENT_STUDIO_AGENT_ID || ''
+      const locationId = crmAccount?.location_id || process.env.CRM_AGENT_STUDIO_LOCATION_ID || ''
+
+      if (agentId && locationId) {
+        // Get existing session for conversation continuity
+        const existingSession = await getActiveSession(user.id, agentId).catch(() => null)
+
+        const agentResult = await executeAgent(agentId, {
+          message: enhancedMessage,
+          locationId,
+          executionId: existingSession || undefined,
+          inputVariables: {
+            userId: user.id,
+            userEmail: user.email || '',
+          },
+        })
+
+        if (agentResult.text && !agentResult.error) {
+          // Track session
+          if (agentResult.executionId) {
+            upsertSession({ userId: user.id, executionId: agentResult.executionId, agentId, locationId }).catch(() => {})
+          }
+          incrementExecutionCount(user.id).catch(() => {})
+
+          return NextResponse.json({
+            text: agentResult.text,
+            source: 'agent-studio' as AISource,
+            status: 'completed',
+            executionId: agentResult.executionId,
+          })
+        }
+      }
+    } catch {
+      // Agent Studio failed — fall through to BYOK
+    }
   }
 
   // ── Layer 2: User's own AI key (BYOK — Claude, GPT, or Gemini) ──

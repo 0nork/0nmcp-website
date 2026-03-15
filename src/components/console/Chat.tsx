@@ -7,7 +7,7 @@ import { STATS_DISPLAY } from '@/data/stats'
 export interface ChatMessage {
   role: 'user' | 'system'
   text: string
-  source?: '0nmcp' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'local'
+  source?: '0nmcp' | 'agent-studio' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'local'
   status?: 'completed' | 'failed'
   steps?: number
   services?: string[]
@@ -24,6 +24,7 @@ interface ChatProps {
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   '0nmcp': { label: '0nMCP', color: 'var(--accent)' },
+  'agent-studio': { label: '0n Agent', color: '#7ed957' },
   'claude-byok': { label: 'Claude (Your Key)', color: '#a78bfa' },
   'claude': { label: 'Claude', color: '#00d4ff' },
   'openai-byok': { label: 'GPT-4o (Your Key)', color: '#10a37f' },
@@ -31,7 +32,7 @@ const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   'local': { label: 'Local', color: 'var(--text-muted)' },
 }
 
-const AI_SOURCE_SET = new Set(['claude-byok', 'claude', 'openai-byok', 'gemini-byok'])
+const AI_SOURCE_SET = new Set(['agent-studio', 'claude-byok', 'claude', 'openai-byok', 'gemini-byok'])
 
 function formatTime(ts?: string) {
   if (ts) return ts

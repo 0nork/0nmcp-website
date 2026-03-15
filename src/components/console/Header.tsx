@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Search, Menu, Zap, User, LogOut, Settings, ChevronDown } from 'lucide-react'
+import { Search, Menu, Zap, User, LogOut, Settings, ChevronDown, AlertTriangle } from 'lucide-react'
 import { StatusDot } from './StatusDot'
+import { getLogoSrc } from './logo-map'
 
 const VIEW_LABELS: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -30,6 +31,14 @@ const VIEW_LABELS: Record<string, string> = {
   terminal: 'Terminal',
 }
 
+const CORE_AI_LABELS: Record<string, { label: string; color: string }> = {
+  anthropic: { label: 'Claude', color: '#a78bfa' },
+  openai: { label: 'GPT-4o', color: '#10a37f' },
+  gemini: { label: 'Gemini', color: '#4285f4' },
+  openrouter: { label: 'OpenRouter', color: '#f97316' },
+  perplexity: { label: 'Perplexity', color: '#22d3ee' },
+}
+
 interface HeaderProps {
   view: string
   mcpOnline: boolean
@@ -38,13 +47,19 @@ interface HeaderProps {
   userPlan: string
   userName?: string
   userEmail?: string
+  coreAI?: string | null
+  sparkCount?: number | null
+  sparkLimit?: number | null
+  isOwner?: boolean
   onCmdK: () => void
   onMobileMenu: () => void
   onUpgradeClick: () => void
   onAccountClick: () => void
+  onSetupAI?: () => void
+  onNavigateVault?: () => void
 }
 
-export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, userName, userEmail, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick }: HeaderProps) {
+export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, userName, userEmail, coreAI, sparkCount, sparkLimit, isOwner, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick, onSetupAI, onNavigateVault }: HeaderProps) {
   const [avatarOpen, setAvatarOpen] = useState(false)
   const avatarRef = useRef<HTMLDivElement>(null)
 
@@ -160,6 +175,74 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
             {'\u2318'}K
           </kbd>
         </button>
+
+        {/* Core AI Badge / Warning */}
+        {coreAI ? (() => {
+          const info = CORE_AI_LABELS[coreAI]
+          const logo = getLogoSrc(coreAI)
+          return (
+            <button
+              onClick={onNavigateVault}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 5,
+                padding: '5px 10px', borderRadius: 8,
+                background: `${info?.color || '#7ed957'}08`,
+                border: `1px solid ${info?.color || '#7ed957'}20`,
+                cursor: 'pointer', fontFamily: 'inherit',
+                transition: 'border-color 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = `${info?.color || '#7ed957'}40` }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = `${info?.color || '#7ed957'}20` }}
+            >
+              {logo ? (
+                <img src={logo} alt="" width={14} height={14} style={{ borderRadius: 3 }} />
+              ) : null}
+              <span className="hidden sm:inline" style={{ fontSize: '0.7rem', fontWeight: 600, color: info?.color || '#7ed957' }}>
+                {info?.label || coreAI}
+              </span>
+            </button>
+          )
+        })() : (
+          <button
+            onClick={onSetupAI}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 5,
+              padding: '5px 10px', borderRadius: 8,
+              background: 'rgba(255,107,53,0.06)',
+              border: '1px solid rgba(255,107,53,0.2)',
+              cursor: 'pointer', fontFamily: 'inherit',
+              animation: 'headerPulse 2s ease infinite',
+            }}
+          >
+            <AlertTriangle size={12} style={{ color: '#ff6b35' }} />
+            <span className="hidden sm:inline" style={{ fontSize: '0.7rem', fontWeight: 600, color: '#ff6b35' }}>
+              Set up AI
+            </span>
+          </button>
+        )}
+
+        {/* Spark Counter */}
+        {(sparkCount !== undefined && sparkCount !== null) && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 4,
+            padding: '5px 10px', borderRadius: 8,
+            background: 'rgba(255,255,255,0.02)',
+            border: '1px solid rgba(255,255,255,0.06)',
+          }}>
+            <Zap size={11} style={{
+              color: isOwner ? '#7ed957'
+                : sparkLimit && sparkCount / sparkLimit > 0.5 ? '#7ed957'
+                : sparkLimit && sparkCount / sparkLimit > 0.1 ? '#f59e0b'
+                : '#ef4444'
+            }} />
+            <span style={{
+              fontSize: '0.7rem', fontWeight: 600,
+              color: isOwner ? '#7ed957' : 'var(--text-secondary)',
+            }}>
+              {isOwner ? '\u221E' : sparkLimit ? `${sparkCount}/${sparkLimit}` : sparkCount}
+            </span>
+          </div>
+        )}
 
         {/* Plan badge */}
         {(userPlan === 'free' || !userPlan) ? (
@@ -342,6 +425,10 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
                 @keyframes headerDrop {
                   from { opacity: 0; transform: translateY(-4px) scale(0.97); }
                   to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+                @keyframes headerPulse {
+                  0%, 100% { opacity: 1; }
+                  50% { opacity: 0.7; }
                 }
               `}</style>
             </div>

@@ -19,6 +19,8 @@ import { ListingDetailModal } from '@/components/console/ListingDetailModal'
 import { CreateView } from '@/components/console/CreateView'
 import { UpgradeModal } from '@/components/console/UpgradeModal'
 import FeedbackAgent from '@/components/console/FeedbackAgent'
+import { CoreAIFooter } from '@/components/console/CoreAIFooter'
+import { CoreAITutorial } from '@/components/console/CoreAITutorial'
 import { AccountView } from '@/components/console/AccountView'
 import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
@@ -101,6 +103,12 @@ export default function ConsolePage() {
   // ─── User Profile State (for header avatar) ──────────────
   const [userName, setUserName] = useState('')
   const [userEmail, setUserEmail] = useState('')
+  const [isOwner, setIsOwner] = useState(false)
+
+  // ─── Core AI + Sparks + Tutorial ────────────────────────
+  const [showTutorial, setShowTutorial] = useState(false)
+  const [sparkCount, setSparkCount] = useState<number | null>(null)
+  const [sparkLimit, setSparkLimit] = useState<number | null>(null)
 
   // ─── AI Recommendation State ──────────────────────────────────
   const [recentActions, setRecentActions] = useState<string[]>([])
@@ -166,6 +174,21 @@ export default function ConsolePage() {
         if (data) {
           setUserName(data.full_name || '')
           setUserEmail(data.email || '')
+          if (data.email === 'mike@rocketopp.com') setIsOwner(true)
+        }
+      })
+      .catch(() => {})
+
+    // Fetch spark/usage info
+    fetch('/api/console/billing/status')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data) {
+          if (data.isOwner) setIsOwner(true)
+          if (data.sparksBalance !== undefined) setSparkCount(data.sparksBalance)
+          if (data.plan === 'free') setSparkLimit(20)
+          else if (data.plan === 'pro') setSparkLimit(500)
+          else if (data.plan === 'team') setSparkLimit(5000)
         }
       })
       .catch(() => {})
@@ -572,10 +595,20 @@ export default function ConsolePage() {
           userPlan={userPlan}
           userName={userName}
           userEmail={userEmail}
+          coreAI={vault.coreAI}
+          sparkCount={sparkCount}
+          sparkLimit={sparkLimit}
+          isOwner={isOwner}
           onCmdK={() => setCmdPaletteOpen(true)}
           onMobileMenu={() => {}}
           onUpgradeClick={() => setShowUpgradeModal(true)}
           onAccountClick={() => { setView('account'); setVisitedViews(prev => new Set([...prev, 'account'])) }}
+          onSetupAI={() => {
+            // Scroll to footer by ensuring we're visible
+            const footer = document.getElementById('core-ai-footer')
+            if (footer) footer.scrollIntoView({ behavior: 'smooth' })
+          }}
+          onNavigateVault={() => { setView('vault'); setVaultSubView('credentials') }}
         />
 
         {/* Content — visited views stay mounted for state persistence */}
@@ -835,7 +868,24 @@ export default function ConsolePage() {
             </div>
           )}
         </main>
+
+        {/* Core AI Footer */}
+        <div id="core-ai-footer">
+          <CoreAIFooter
+            coreAI={vault.coreAI}
+            onSetCoreAI={vault.setCoreAI}
+            onTutorialTrigger={() => setShowTutorial(true)}
+          />
+        </div>
       </div>
+
+      {/* Core AI Tutorial Modal */}
+      {showTutorial && vault.coreAI && (
+        <CoreAITutorial
+          provider={vault.coreAI}
+          onClose={() => setShowTutorial(false)}
+        />
+      )}
 
       {/* Command Palette */}
       <CommandPalette

@@ -513,7 +513,22 @@ export async function POST(request: NextRequest) {
   }
 
   // ── Layer 2: User's own AI key (BYOK — Claude, GPT, or Gemini) ──
-  for (const provider of AI_SERVICES) {
+  // Put Core AI provider first if set
+  let byokOrder: AIProvider[] = [...AI_SERVICES]
+  try {
+    const admin = getAdmin()
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('core_ai_provider')
+      .eq('id', user.id)
+      .maybeSingle()
+    const coreProvider = profile?.core_ai_provider as AIProvider | null
+    if (coreProvider && AI_SERVICES.includes(coreProvider)) {
+      byokOrder = [coreProvider, ...AI_SERVICES.filter(p => p !== coreProvider)]
+    }
+  } catch { /* continue with default order */ }
+
+  for (const provider of byokOrder) {
     const userKey = await getUserAIKey(user.id, provider)
     if (!userKey) continue
 

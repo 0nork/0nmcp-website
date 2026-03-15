@@ -30,6 +30,9 @@ interface VaultState {
   disconnect: (service: string) => void
   clearAll: () => void
   loaded: boolean
+  coreAI: string | null
+  setCoreAI: (provider: string) => void
+  hasCoreAI: boolean
 }
 
 const VAULT_CACHE_KEY = '0n_vault'
@@ -57,6 +60,10 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   })
 
   const [loaded, setLoaded] = useState(false)
+  const [coreAI, setCoreAIState] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null
+    return localStorage.getItem('0n_core_ai')
+  })
   const userIdRef = useRef<string | null>(null)
   const rowMapRef = useRef<VaultRowMap>({})
   const supabaseRef = useRef(createSupabaseBrowser())
@@ -160,6 +167,20 @@ export function VaultProvider({ children }: { children: ReactNode }) {
 
       initialLoadDoneRef.current = true
       setLoaded(true)
+
+      // Sync Core AI from profile if not set locally
+      if (!localStorage.getItem('0n_core_ai')) {
+        try {
+          const res = await fetch('/api/console/core-ai')
+          if (res.ok) {
+            const data = await res.json()
+            if (data.provider) {
+              setCoreAIState(data.provider)
+              localStorage.setItem('0n_core_ai', data.provider)
+            }
+          }
+        } catch { /* ignore */ }
+      }
     }
     loadFromSupabase()
     return () => { cancelled = true }
@@ -326,8 +347,16 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  const setCoreAI = useCallback((provider: string) => {
+    setCoreAIState(provider)
+    localStorage.setItem('0n_core_ai', provider)
+  }, [])
+
+  const hasCoreAI = !!(coreAI && isConnected(coreAI))
+
   const value: VaultState = {
     credentials, set, get, isConnected, connectedCount, connectedServices, disconnect, clearAll, loaded,
+    coreAI, setCoreAI, hasCoreAI,
   }
 
   return <VaultContext.Provider value={value}>{children}</VaultContext.Provider>

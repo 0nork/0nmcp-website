@@ -65,70 +65,31 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
         <div className="text-center max-w-lg">
           {!hasAIKey ? (
             <>
-              {/* BYOK Onboarding — Pick Your AI Provider */}
+              {/* Simplified — CoreAIFooter handles BYOK setup */}
               <div
                 className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, rgba(167,139,250,0.2), rgba(0,212,255,0.15))' }}
+                style={{ background: 'linear-gradient(135deg, rgba(126,217,87,0.15), rgba(0,212,255,0.1))' }}
               >
-                <Sparkles size={28} style={{ color: '#a78bfa' }} />
+                <Sparkles size={28} style={{ color: '#7ed957' }} />
               </div>
               <h3
                 className="text-xl font-semibold mb-2"
                 style={{ color: 'var(--text-primary)' }}
               >
-                Connect Your AI
+                Set up your Core AI below
               </h3>
-              <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
-                Pick any provider. Your key is encrypted with AES-256-GCM and only you can access it.
+              <p className="text-sm mb-3" style={{ color: 'var(--text-muted)' }}>
+                Select a provider in the footer to unlock AI-powered chat, automation, and all console features.
               </p>
-
-              {/* 3 Provider Cards */}
-              <div className="flex gap-3 justify-center mb-5">
-                {AI_PROVIDERS.map(p => (
-                  <button
-                    key={p.key}
-                    onClick={() => onNavigateVault?.(p.key)}
-                    className="flex flex-col items-center gap-2 px-5 py-4 rounded-xl cursor-pointer transition-all"
-                    style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border)',
-                      color: 'var(--text-primary)',
-                      minWidth: '120px',
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.borderColor = p.color
-                      e.currentTarget.style.transform = 'translateY(-2px)'
-                      e.currentTarget.style.boxShadow = `0 4px 20px ${p.color}25`
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.borderColor = 'var(--border)'
-                      e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = 'none'
-                    }}
-                  >
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold"
-                      style={{ background: p.gradient, color: '#fff' }}
-                    >
-                      {p.label.slice(0, 2)}
-                    </div>
-                    <span className="text-sm font-semibold" style={{ color: p.color }}>{p.label}</span>
-                    <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{p.sub}</span>
-                  </button>
-                ))}
+              <div style={{ fontSize: 24, color: 'var(--text-muted)', animation: 'chatArrowBounce 1.5s ease infinite' }}>
+                &#8595;
               </div>
-
-              <div
-                className="pt-4"
-                style={{ borderTop: '1px solid var(--border)' }}
-              >
-                <p className="text-xs mb-1" style={{ color: 'var(--text-muted)' }}>
-                  You can still chat — basic commands and local knowledge work without a key.
-                </p>
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  Type <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>/help</span> or describe what you want to automate.
-                </p>
-              </div>
+              <style>{`
+                @keyframes chatArrowBounce {
+                  0%, 100% { transform: translateY(0); opacity: 0.5; }
+                  50% { transform: translateY(6px); opacity: 1; }
+                }
+              `}</style>
             </>
           ) : (
             <>

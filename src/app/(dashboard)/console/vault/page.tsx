@@ -6,6 +6,9 @@ import { useVault } from '@/lib/console/hooks'
 import { VaultOverlay } from '@/components/console/VaultOverlay'
 import { VaultDetail } from '@/components/console/VaultDetail'
 import { VaultFilesPanel } from '@/components/console/VaultFilesPanel'
+import { BundleManager } from '@/components/console/BundleManager'
+
+type SubView = 'credentials' | 'files' | 'bundles'
 
 export default function VaultPage() {
   const searchParams = useSearchParams()
@@ -13,13 +16,12 @@ export default function VaultPage() {
   const vault = useVault()
   const [selectedService, setSelectedService] = useState<string | null>(null)
   const [search, setSearch] = useState('')
-  const [subView, setSubView] = useState<'credentials' | 'files'>('credentials')
+  const [subView, setSubView] = useState<SubView>('credentials')
 
   // Handle Google OAuth callback params
   useEffect(() => {
     const google = searchParams.get('google')
     if (google === 'connected') {
-      // Trigger vault refresh by toggling a state; vault auto-loads on mount
       window.history.replaceState({}, '', '/console/vault')
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,7 +31,16 @@ export default function VaultPage() {
   useEffect(() => {
     const s = searchParams.get('service')
     if (s) setSelectedService(s)
+    const tab = searchParams.get('tab')
+    if (tab === 'bundles') setSubView('bundles')
+    else if (tab === 'files') setSubView('files')
   }, [searchParams])
+
+  const TABS: { key: SubView; label: string }[] = [
+    { key: 'credentials', label: 'Credentials' },
+    { key: 'files', label: 'Files' },
+    { key: 'bundles', label: 'Bundles' },
+  ]
 
   return (
     <div style={{ minHeight: '100%', background: 'var(--bg-primary)' }}>
@@ -48,26 +59,19 @@ export default function VaultPage() {
             className="flex rounded-lg overflow-hidden ml-auto"
             style={{ border: '1px solid var(--border)' }}
           >
-            <button
-              onClick={() => setSubView('credentials')}
-              className="px-3 py-1.5 text-xs font-medium cursor-pointer border-none transition-colors"
-              style={{
-                background: subView === 'credentials' ? 'var(--accent-glow)' : 'transparent',
-                color: subView === 'credentials' ? 'var(--accent)' : 'var(--text-secondary)',
-              }}
-            >
-              Credentials
-            </button>
-            <button
-              onClick={() => setSubView('files')}
-              className="px-3 py-1.5 text-xs font-medium cursor-pointer border-none transition-colors"
-              style={{
-                background: subView === 'files' ? 'var(--accent-glow)' : 'transparent',
-                color: subView === 'files' ? 'var(--accent)' : 'var(--text-secondary)',
-              }}
-            >
-              Files
-            </button>
+            {TABS.map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setSubView(tab.key)}
+                className="px-3 py-1.5 text-xs font-medium cursor-pointer border-none transition-colors"
+                style={{
+                  background: subView === tab.key ? 'var(--accent-glow)' : 'transparent',
+                  color: subView === tab.key ? 'var(--accent)' : 'var(--text-secondary)',
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         )}
       </div>
@@ -90,9 +94,17 @@ export default function VaultPage() {
           searchQuery={search}
           onSearch={setSearch}
         />
+      ) : subView === 'bundles' ? (
+        <BundleManager
+          connectedServices={vault.connectedServices}
+          vault={vault.credentials}
+          onImport={vault.set}
+          onSwitchToCredentials={() => setSubView('credentials')}
+        />
       ) : (
         <VaultFilesPanel
           onSwitchToCredentials={() => setSubView('credentials')}
+          onSwitchToBundles={() => setSubView('bundles')}
           onAddToBuilder={(data) => {
             localStorage.setItem('0n_builder_import', JSON.stringify(data))
             window.location.href = '/builder'

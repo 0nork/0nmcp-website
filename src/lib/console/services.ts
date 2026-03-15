@@ -91,10 +91,18 @@ export const SVC: Record<string, ServiceConfig> = {
       { k: "api_key", lb: "API Key", ph: "pplx-...", s: true, h: "Perplexity API key", lk: "https://www.perplexity.ai/settings/api", ll: "Settings > API > Generate Key", t: "simple", step: 1, req: true, guide: "Go to perplexity.ai/settings/api. Sign in, then click 'Generate' to create a new API key (starts with pplx-)." },
     ],
   },
+  gamma: {
+    l: "Gamma", logo: "gamma", c: "#8b5cf6", cat: "ai", pri: 4.5, docs: "https://gamma.app/docs", apiVer: "v1",
+    d: "AI-powered presentations, documents, and webpages — generate polished content from prompts.",
+    cap: ["Presentations", "Documents", "Webpages", "Social Posts", "Themes", "AI Generation", "Templates", "Export"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "gma_...", s: true, h: "Gamma API key", lk: "https://gamma.app/settings", ll: "Settings > API > Create Key", t: "simple", step: 1, req: true, guide: "Sign in at gamma.app. Go to Settings, find the API section, and create a new API key." },
+    ],
+  },
 
   // ─── CRM / Sales ───────────────────────────────────────────
   crm: {
-    l: "CRM", logo: "rocket", c: "#7c3aed", cat: "crm", pri: 5, docs: "https://highlevel.stoplight.io/docs/integrations/", apiVer: "2021-07-28", stableScopes: ["contact.firstName", "contact.lastName", "contact.email", "contact.phone", "opportunity.name", "opportunity.monetaryValue", "pipeline.name", "pipeline.stages"],
+    l: "Rocket+", logo: "rocketplus", c: "#ff6b35", cat: "crm", pri: 5, docs: "https://highlevel.stoplight.io/docs/integrations/", apiVer: "2021-07-28", stableScopes: ["contact.firstName", "contact.lastName", "contact.email", "contact.phone", "opportunity.name", "opportunity.monetaryValue", "pipeline.name", "pipeline.stages"],
     d: "All-in-one CRM for contacts, pipelines, workflows, calendars, invoicing, and automation. 245 tools.",
     cap: ["Contacts", "Pipelines", "Workflows", "Calendar", "Invoicing", "SMS/Email", "Opportunities", "50+ Webhooks"],
     f: [
@@ -319,6 +327,22 @@ export const SVC: Record<string, ServiceConfig> = {
     f: [
       { k: "token", lb: "Access Token", ph: "vercel_...", s: true, h: "Deployment token", lk: "https://vercel.com/account/tokens", ll: "Account > Tokens > Create", t: "simple", step: 1, req: true, guide: "Go to vercel.com/account/tokens. Click 'Create'. Name your token, set scope, and copy it." },
       { k: "project_id", lb: "Project ID", ph: "prj_...", h: "In project settings", lk: "https://vercel.com/dashboard", ll: "Dashboard > Project > Settings", t: "advanced", guide: "In Vercel Dashboard, select your project > Settings > General. Copy the Project ID (starts with prj_)." },
+    ],
+  },
+  v0: {
+    l: "Vercel v0", logo: "v0", c: "#e2e2e2", cat: "ai", pri: 4.6, docs: "https://v0.dev/docs", apiVer: "v1",
+    d: "AI-powered UI generation — describe a component and get production-ready React/Next.js code.",
+    cap: ["UI Generation", "React Components", "Next.js Pages", "Tailwind CSS", "shadcn/ui", "Iterations", "Code Export", "Deploy"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "v0_...", s: true, h: "v0 API key", lk: "https://v0.dev/settings", ll: "v0.dev > Settings > API Keys", t: "simple", step: 1, req: true, guide: "Sign in at v0.dev. Go to Settings, find API Keys, and generate a new key." },
+    ],
+  },
+  devto: {
+    l: "Dev.to", logo: "devto", c: "#0a0a0a", cat: "social", pri: 60, docs: "https://developers.forem.com/api/v1", apiVer: "v1", stableScopes: ["articles", "comments", "users", "tags"],
+    d: "Developer community — publish articles, manage listings, read analytics, and engage with devs.",
+    cap: ["Articles", "Comments", "Listings", "Tags", "Followers", "Reactions", "Organizations", "Webhooks"],
+    f: [
+      { k: "api_key", lb: "API Key", ph: "xxxxxxxxxxxxxxxxxxxxxxxx", s: true, h: "Dev.to API key", lk: "https://dev.to/settings/extensions", ll: "Settings > Extensions > DEV API Keys", t: "simple", step: 1, req: true, guide: "Sign in at dev.to. Go to Settings > Extensions. Scroll to 'DEV API Keys', enter a description, click 'Generate API Key', and copy it." },
     ],
   },
   linear: {
@@ -1125,7 +1149,7 @@ export const SERVICE_COUNT = SERVICE_KEYS.length;
 /** Category labels for UI display */
 export const CATEGORY_LABELS: Record<ServiceConfig['cat'], string> = {
   ai: 'AI / LLM',
-  crm: 'CRM / Sales / Support',
+  crm: 'Rocket+ / CRM / Sales',
   database: 'Database',
   messaging: 'Messaging / Chat',
   email: 'Email & Marketing',

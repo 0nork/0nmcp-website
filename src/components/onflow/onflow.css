@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: var(--bg-primary);
+  background: #1a1a1f;
   color: var(--text-primary);
   font-family: var(--font-display);
   overflow: hidden;
@@ -31,7 +31,7 @@
   gap: 16px;
   padding: 0 16px;
   height: 52px;
-  background: var(--bg-secondary);
+  background: #050505;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
@@ -149,9 +149,10 @@
 
 .onflow-column--triggers,
 .onflow-column--actions {
-  background: var(--bg-secondary);
+  background: #050505;
   border-right: 1px solid var(--border);
   width: 280px;
+  opacity: 1;
 }
 
 .onflow-column--actions {
@@ -162,6 +163,7 @@
 .onflow-column--workflow {
   padding: 20px 32px;
   overflow-y: auto;
+  background: #1a1a1f;
 }
 
 .onflow-column--center {

@@ -33,7 +33,7 @@ const REDIRECT_URI = process.env.CRM_MARKETPLACE_REDIRECT_URI || 'https://www.0n
 
 // ─── Service Catalog (for dynamic dropdowns) ────────────────────────
 export const SERVICE_CATALOG = [
-  { key: 'crm', label: 'CRM', tools: ['create_contact', 'update_contact', 'search_contacts', 'create_opportunity', 'add_tag', 'remove_tag', 'send_sms', 'send_email', 'create_note', 'enroll_workflow', 'list_pipelines', 'list_contacts', 'get_contact', 'create_task'] },
+  { key: 'crm', label: 'Rocket+', tools: ['create_contact', 'update_contact', 'search_contacts', 'create_opportunity', 'add_tag', 'remove_tag', 'send_sms', 'send_email', 'create_note', 'enroll_workflow', 'list_pipelines', 'list_contacts', 'get_contact', 'create_task'] },
   { key: 'stripe', label: 'Stripe', tools: ['create_customer', 'create_invoice', 'create_payment_link', 'list_payments', 'create_subscription', 'create_product', 'create_price', 'refund_payment'] },
   { key: 'sendgrid', label: 'SendGrid', tools: ['send_email', 'send_template', 'add_contact', 'create_list', 'get_stats'] },
   { key: 'slack', label: 'Slack', tools: ['send_message', 'create_channel', 'upload_file', 'list_channels', 'add_reaction'] },

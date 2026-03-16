@@ -43,6 +43,7 @@ const AI_PROVIDERS = [
   { key: 'anthropic', label: 'Claude', sub: 'Anthropic', color: '#a78bfa', gradient: 'linear-gradient(135deg, #a78bfa, #6366f1)' },
   { key: 'openai', label: 'GPT-4o', sub: 'OpenAI', color: '#10a37f', gradient: 'linear-gradient(135deg, #10a37f, #1a7f5a)' },
   { key: 'google', label: 'Gemini', sub: 'Google', color: '#4285f4', gradient: 'linear-gradient(135deg, #4285f4, #34a853)' },
+  { key: 'groq', label: 'Groq', sub: 'Groq', color: '#f55036', gradient: 'linear-gradient(135deg, #f55036, #c43e28)' },
 ]
 
 export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps) {

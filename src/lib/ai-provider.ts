@@ -164,7 +164,7 @@ export function getProviderKey(provider: AIProviderId): string {
 }
 
 // ── VIP-only providers — require 'vip' or 'owner' label ──
-const VIP_ONLY_PROVIDERS: Set<AIProviderId> = new Set(['groq'])
+const VIP_ONLY_PROVIDERS: Set<AIProviderId> = new Set([])
 
 // ── Per-user provider + labels lookup ──
 

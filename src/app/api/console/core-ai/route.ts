@@ -3,7 +3,7 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-const VALID_PROVIDERS = ['anthropic', 'openai', 'gemini', 'openrouter', 'perplexity']
+const VALID_PROVIDERS = ['anthropic', 'openai', 'gemini', 'groq', 'openrouter', 'perplexity']
 
 export async function GET() {
   const supabase = await createSupabaseServer()

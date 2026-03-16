@@ -8,6 +8,7 @@ const AI_PROVIDERS = [
   { key: 'anthropic', label: 'Claude', color: '#a78bfa' },
   { key: 'openai', label: 'GPT-4o', color: '#10a37f' },
   { key: 'gemini', label: 'Gemini', color: '#4285f4' },
+  { key: 'groq', label: 'Groq', color: '#f55036' },
   { key: 'openrouter', label: 'OpenRouter', color: '#f97316' },
   { key: 'perplexity', label: 'Perplexity', color: '#22d3ee' },
 ]

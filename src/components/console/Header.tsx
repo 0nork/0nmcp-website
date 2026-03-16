@@ -35,6 +35,7 @@ const CORE_AI_LABELS: Record<string, { label: string; color: string }> = {
   anthropic: { label: 'Claude', color: '#a78bfa' },
   openai: { label: 'GPT-4o', color: '#10a37f' },
   gemini: { label: 'Gemini', color: '#4285f4' },
+  groq: { label: 'Groq', color: '#f55036' },
   openrouter: { label: 'OpenRouter', color: '#f97316' },
   perplexity: { label: 'Perplexity', color: '#22d3ee' },
 }

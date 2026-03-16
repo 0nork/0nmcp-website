@@ -6,6 +6,7 @@
 import { upsertContact, createOpportunity, updateOpportunity, addContactTags, createLocation, addContactNote } from './crm'
 import type { CrmContact, CrmOpportunity } from './crm'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { runAutoBuild } from './autobuild'
 
 const PIPELINE_ID = process.env.WEB0N_CRM_PIPELINE_ID || ''
 const DEPOSIT_AMOUNT = 998.50
@@ -304,6 +305,83 @@ export async function runDepositPaidAutomation(projectId: string, db: SupabaseCl
     }
   } catch (err) {
     console.error('[web0n] Failed to add CRM note:', err)
+  }
+
+  // 5. AutoBuild — generate website pages with AI + deploy to CRM funnel
+  if (locationId) {
+    try {
+      // Use the agency key to deploy to the new location's funnel
+      const agencyKey = process.env.CRM_AGENCY_KEY
+      if (!agencyKey) {
+        console.error('[web0n] Skipping autobuild: CRM_AGENCY_KEY not configured')
+        return
+      }
+
+      console.log('[web0n] Starting AutoBuild for:', project.business_name)
+
+      // Move opportunity to in_build stage
+      if (project.crm_opportunity_id) {
+        await updateProjectStage(project.crm_opportunity_id, 'in_build').catch(() => {})
+      }
+      await db.from('web0n_projects').update({ status: 'in_build' }).eq('id', projectId)
+
+      const buildResult = await runAutoBuild({
+        businessName: project.business_name,
+        businessType: project.business_type,
+        services: project.services,
+        phone: project.phone,
+        email: project.email,
+        address: project.address,
+        city: project.city,
+        state: project.state,
+        zip: project.zip,
+        website: project.website_url,
+        brandColor: project.brand_colors?.primary,
+        tagline: project.tagline,
+        googleData: project.google_data,
+        locationId,
+        locationApiKey: agencyKey,
+      })
+
+      if (buildResult.error) {
+        console.error('[web0n] AutoBuild error:', buildResult.error)
+        if (project.crm_contact_id) {
+          await addContactNote(project.crm_contact_id, `AutoBuild error: ${buildResult.error}`).catch(() => {})
+        }
+        return
+      }
+
+      // Update project with funnel info
+      await db.from('web0n_projects').update({
+        status: 'review',
+        site_url: buildResult.funnelUrl || null,
+        build_brief: {
+          funnelId: buildResult.funnelId,
+          funnelUrl: buildResult.funnelUrl,
+          pages: buildResult.pages,
+          builtAt: new Date().toISOString(),
+          engine: 'autobuild-cro9',
+        },
+      }).eq('id', projectId)
+
+      // Move to review stage
+      if (project.crm_opportunity_id) {
+        await updateProjectStage(project.crm_opportunity_id, 'review').catch(() => {})
+      }
+
+      // Add build completion note
+      if (project.crm_contact_id) {
+        const pagesBuilt = buildResult.pages.map(p => p.name).join(', ')
+        await addContactNote(
+          project.crm_contact_id,
+          `Website built! ${buildResult.pages.length} pages deployed: ${pagesBuilt}. Funnel: ${buildResult.funnelId || 'pending'}. URL: ${buildResult.funnelUrl || 'pending'}`
+        ).catch(() => {})
+      }
+
+      console.log('[web0n] AutoBuild complete:', buildResult.funnelId, '→', buildResult.funnelUrl)
+    } catch (err) {
+      console.error('[web0n] AutoBuild failed (non-fatal):', err)
+    }
   }
 }
 

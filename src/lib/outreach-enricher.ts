@@ -6,6 +6,7 @@
  */
 
 import Anthropic from '@anthropic-ai/sdk'
+import { callAI } from './ai-provider'
 
 // ── Types ──
 
@@ -170,47 +171,49 @@ export const REPLY_TEMPLATES = {
 
 // ── Core Functions ──
 
-function getClient(): Anthropic {
-  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-}
-
 /**
- * Run a prompt through Claude with optional web search capability.
- * Uses the Anthropic API with server-side web search tool.
+ * Run a prompt through AI with automatic provider fallback.
+ * Uses ai-provider.ts for multi-provider support (10 providers).
+ * Falls back to Anthropic SDK only when web search tool is required.
  */
 async function runClaude(prompt: string, useWebSearch = false): Promise<string> {
-  const client = getClient()
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const params: any = {
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
-    messages: [{ role: 'user', content: prompt }],
-  }
-
-  if (useWebSearch) {
-    params.tools = [{ type: 'web_search_20250305', name: 'web_search' }]
-  }
-
-  try {
-    const response = await client.messages.create(params)
-
-    // Extract text from response content blocks
-    const textBlocks = response.content.filter(
-      (block: { type: string }) => block.type === 'text'
-    )
-    return textBlocks
-      .map((block: { type: string; text?: string }) => block.text || '')
-      .join('')
-      .trim()
-  } catch (error) {
-    const msg = (error as Error).message
-    // If web search tool type isn't supported, retry without it
-    if (useWebSearch && (msg.includes('tool') || msg.includes('type'))) {
-      return runClaude(prompt, false)
+  // Web search requires Anthropic SDK (provider-specific tool)
+  if (useWebSearch && process.env.ANTHROPIC_API_KEY) {
+    try {
+      const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const params: any = {
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: prompt }],
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+      }
+      const response = await client.messages.create(params)
+      const textBlocks = response.content.filter(
+        (block: { type: string }) => block.type === 'text'
+      )
+      const text = textBlocks
+        .map((block: { type: string; text?: string }) => block.text || '')
+        .join('')
+        .trim()
+      if (text) return text
+    } catch {
+      // Fall through to multi-provider
     }
-    throw error
   }
+
+  // Standard call — use ai-provider with automatic fallback
+  const result = await callAI({
+    system: 'You are an expert lead research and enrichment AI. Be concise and factual.',
+    user: prompt,
+    maxTokens: 1024,
+  })
+
+  if (!result) {
+    throw new Error('All AI providers failed for enrichment. Configure at least one API key.')
+  }
+
+  return result.text
 }
 
 /**

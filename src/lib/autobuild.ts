@@ -4,9 +4,11 @@
  * Flow: Business data → AI generates 5 pages → Deploy to CRM funnel → Live site
  * Based on GHL-AutoBuild (CRO9 methodology)
  *
- * Multi-provider AI with automatic fallback:
- *   Groq (free) → OpenAI → Gemini → Anthropic
+ * Uses ai-provider.ts for multi-provider fallback (10 providers, auto-cascade).
+ * NEVER hardcodes a single AI provider.
  */
+
+import { callAI } from './ai-provider'
 
 const GHL_API = 'https://rest.gohighlevel.com/v1'
 
@@ -37,148 +39,6 @@ interface BusinessInfo {
   brandColor?: string
   tagline?: string
   googleData?: Record<string, unknown>
-}
-
-// ==================== AI PROVIDER ABSTRACTION ====================
-
-interface AiProvider {
-  name: string
-  available: () => boolean
-  generate: (system: string, prompt: string) => Promise<string>
-}
-
-const providers: AiProvider[] = [
-  // 1. Groq — FREE tier, fast, Llama 3.3 70B
-  {
-    name: 'groq',
-    available: () => !!process.env.GROQ_API_KEY,
-    generate: async (system: string, prompt: string) => {
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          max_tokens: 24000,
-          temperature: 0.7,
-          messages: [
-            { role: 'system', content: system },
-            { role: 'user', content: prompt },
-          ],
-        }),
-      })
-      if (!res.ok) throw new Error(`Groq API failed: ${res.status} — ${await res.text()}`)
-      const data = await res.json()
-      return data.choices?.[0]?.message?.content || ''
-    },
-  },
-
-  // 2. OpenAI — GPT-4o
-  {
-    name: 'openai',
-    available: () => !!process.env.OPENAI_API_KEY,
-    generate: async (system: string, prompt: string) => {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o',
-          max_tokens: 16000,
-          messages: [
-            { role: 'system', content: system },
-            { role: 'user', content: prompt },
-          ],
-        }),
-      })
-      if (!res.ok) throw new Error(`OpenAI API failed: ${res.status} — ${await res.text()}`)
-      const data = await res.json()
-      return data.choices?.[0]?.message?.content || ''
-    },
-  },
-
-  // 3. Google Gemini — Gemini 2.0 Flash
-  {
-    name: 'gemini',
-    available: () => !!process.env.GOOGLE_GEMINI_API_KEY,
-    generate: async (system: string, prompt: string) => {
-      const key = process.env.GOOGLE_GEMINI_API_KEY
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: system }] },
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { maxOutputTokens: 24000, temperature: 0.7 },
-          }),
-        }
-      )
-      if (!res.ok) throw new Error(`Gemini API failed: ${res.status} — ${await res.text()}`)
-      const data = await res.json()
-      return data.candidates?.[0]?.content?.parts?.[0]?.text || ''
-    },
-  },
-
-  // 4. Anthropic — Claude Sonnet (paid, last resort)
-  {
-    name: 'anthropic',
-    available: () => !!process.env.ANTHROPIC_API_KEY,
-    generate: async (system: string, prompt: string) => {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.ANTHROPIC_API_KEY!,
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 24000,
-          system,
-          messages: [{ role: 'user', content: prompt }],
-        }),
-      })
-      if (!res.ok) throw new Error(`Anthropic API failed: ${res.status} — ${await res.text()}`)
-      const data = await res.json()
-      return data.content?.[0]?.text || ''
-    },
-  },
-]
-
-/**
- * Call AI with automatic fallback across all configured providers.
- * Order: Groq (free) → OpenAI → Gemini → Anthropic
- */
-async function callAI(system: string, prompt: string): Promise<{ text: string; provider: string }> {
-  const available = providers.filter(p => p.available())
-
-  if (available.length === 0) {
-    throw new Error('No AI providers configured. Set at least one of: GROQ_API_KEY, OPENAI_API_KEY, GOOGLE_GEMINI_API_KEY, ANTHROPIC_API_KEY')
-  }
-
-  const errors: string[] = []
-
-  for (const provider of available) {
-    try {
-      console.log(`[autobuild] Trying ${provider.name}...`)
-      const text = await provider.generate(system, prompt)
-      if (!text) throw new Error('Empty response')
-      console.log(`[autobuild] ${provider.name} succeeded (${text.length} chars)`)
-      return { text, provider: provider.name }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err)
-      console.warn(`[autobuild] ${provider.name} failed:`, msg.slice(0, 200))
-      errors.push(`${provider.name}: ${msg.slice(0, 100)}`)
-    }
-  }
-
-  throw new Error(`All AI providers failed:\n${errors.join('\n')}`)
 }
 
 // ==================== AI PAGE GENERATION ====================
@@ -241,13 +101,23 @@ Return ONLY the JSON array. No markdown, no code fences, no explanation.`
 }
 
 /**
- * Generate 5 website pages using AI (CRO9 methodology)
- * Automatic fallback: Groq (free) → OpenAI → Gemini → Anthropic
+ * Generate 5 website pages using AI (CRO9 methodology).
+ * Uses ai-provider.ts — auto-fallback across all 10 configured providers.
  */
 export async function generatePages(biz: BusinessInfo): Promise<PageContent[]> {
   console.log('[autobuild] Generating pages for:', biz.name)
 
-  const { text, provider } = await callAI(SYSTEM_PROMPT, buildPrompt(biz))
+  const result = await callAI({
+    system: SYSTEM_PROMPT,
+    user: buildPrompt(biz),
+    maxTokens: 24000,
+  })
+
+  if (!result) {
+    throw new Error('All AI providers failed. Configure at least one: GROQ_API_KEY, OPENAI_API_KEY, GOOGLE_GEMINI_API_KEY, ANTHROPIC_API_KEY, XAI_API_KEY, etc.')
+  }
+
+  const { text, provider } = result
 
   // Parse JSON from response (handle potential markdown fences)
   const jsonStr = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
@@ -355,7 +225,7 @@ export async function deployToFunnel(
  * Full autobuild: generate pages with AI + deploy to CRM funnel
  * Called from runDepositPaidAutomation() after sub-account is created
  *
- * Uses automatic provider fallback: Groq (free) → OpenAI → Gemini → Anthropic
+ * Uses ai-provider.ts — auto-fallback across 10 providers.
  */
 export async function runAutoBuild(params: {
   businessName: string

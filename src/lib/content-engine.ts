@@ -1,9 +1,10 @@
 /**
  * 0nMCP Content Engine — AI Marketing Content Generator
- * Uses Claude to generate platform-specific marketing content
+ * Uses ai-provider.ts for multi-provider fallback (10 providers).
  */
 
 import { createClient } from '@supabase/supabase-js'
+import { callAI } from './ai-provider'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
 
 let _admin: ReturnType<typeof createClient> | null = null
@@ -132,9 +133,6 @@ export async function generateContent(
   platform: string,
   contentType: string
 ): Promise<{ title: string; body: string }> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY required for content generation')
-
   const guidelines = PLATFORM_GUIDELINES[platform] || ''
 
   const prompt = `You are a content marketing writer for 0nMCP, an open-source AI orchestration tool.
@@ -159,27 +157,17 @@ Respond in this exact JSON format:
   "body": "The full content body"
 }`
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-5-20250514',
-      max_tokens: 4096,
-      messages: [{ role: 'user', content: prompt }],
-    }),
+  const result = await callAI({
+    system: 'You are a content marketing writer. Respond only with the requested JSON format.',
+    user: prompt,
+    maxTokens: 4096,
   })
 
-  if (!response.ok) {
-    const err = await response.text()
-    throw new Error(`Claude API error: ${response.status} — ${err}`)
+  if (!result) {
+    throw new Error('All AI providers failed. Configure at least one API key.')
   }
 
-  const data = await response.json()
-  const text = data.content?.[0]?.text || ''
+  const text = result.text
 
   // Parse JSON from response
   const jsonMatch = text.match(/\{[\s\S]*\}/)

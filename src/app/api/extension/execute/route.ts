@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { callAI } from '@/lib/ai-provider'
 import { verifyToken } from '../auth/route'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
-
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || ''
 
 function getAdmin() {
   return createClient(
@@ -239,10 +238,6 @@ async function handleSocialPost(
 
 // ── Content Writer ───────────────────────────────────────────
 async function handleContentWriter(action: string, data: Record<string, unknown>) {
-  if (!ANTHROPIC_API_KEY) {
-    return NextResponse.json({ error: 'AI not configured' }, { status: 503 })
-  }
-
   const { pageContent, pageTitle, pageUrl, platform } = data as {
     pageContent?: string
     pageTitle?: string
@@ -266,28 +261,12 @@ Content: ${(pageContent || '').slice(0, 3000)}
 
 Generate the post now:`
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  })
-
-  if (!res.ok) {
-    return NextResponse.json({ error: `AI error: ${res.status}` }, { status: 502 })
+  const result = await callAI({ system: 'You are a social media content writer.', user: prompt, maxTokens: 1024 })
+  if (!result) {
+    return NextResponse.json({ error: 'All AI providers failed' }, { status: 503 })
   }
 
-  const result = await res.json()
-  const text = result.content?.[0]?.text || ''
-
-  return NextResponse.json({ success: true, content: text, platform: platform || 'generic' })
+  return NextResponse.json({ success: true, content: result.text, platform: platform || 'generic' })
 }
 
 // ── Page Scraper ─────────────────────────────────────────────
@@ -296,10 +275,6 @@ async function handlePageScraper(action: string, data: Record<string, unknown>) 
     pageContent?: string
     pageTitle?: string
     pageUrl?: string
-  }
-
-  if (!ANTHROPIC_API_KEY) {
-    return NextResponse.json({ error: 'AI not configured' }, { status: 503 })
   }
 
   const prompts: Record<string, string> = {
@@ -315,26 +290,12 @@ Page: "${pageTitle || 'Untitled'}"
 URL: ${pageUrl || 'N/A'}
 Content: ${(pageContent || '').slice(0, 4000)}`
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  })
-
-  if (!res.ok) {
-    return NextResponse.json({ error: `AI error: ${res.status}` }, { status: 502 })
+  const result = await callAI({ system: 'You are a web page analysis AI. Be concise and structured.', user: prompt, maxTokens: 1024 })
+  if (!result) {
+    return NextResponse.json({ error: 'All AI providers failed' }, { status: 503 })
   }
 
-  const result = await res.json()
-  const text = result.content?.[0]?.text || ''
+  const text = result.text
 
   // Try to parse as JSON if possible
   try {
@@ -426,10 +387,6 @@ async function handleCrmBridge(
 
 // ── SEO Analyzer ─────────────────────────────────────────────
 async function handleSeoAnalyzer(action: string, data: Record<string, unknown>) {
-  if (!ANTHROPIC_API_KEY) {
-    return NextResponse.json({ error: 'AI not configured' }, { status: 503 })
-  }
-
   const { pageContent, pageTitle, pageUrl, metaDescription, headings } = data as {
     pageContent?: string
     pageTitle?: string
@@ -455,26 +412,12 @@ Content (first 3000 chars): ${(pageContent || '').slice(0, 3000)}
 
 Return ONLY valid JSON, no markdown.`
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  })
-
-  if (!res.ok) {
-    return NextResponse.json({ error: `AI error: ${res.status}` }, { status: 502 })
+  const result = await callAI({ system: 'You are an SEO analysis expert. Return only valid JSON.', user: prompt, maxTokens: 1024 })
+  if (!result) {
+    return NextResponse.json({ error: 'All AI providers failed' }, { status: 503 })
   }
 
-  const result = await res.json()
-  const text = result.content?.[0]?.text || ''
+  const text = result.text
 
   try {
     const parsed = JSON.parse(text)

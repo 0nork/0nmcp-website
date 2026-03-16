@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { callAIChat } from '@/lib/ai-provider'
 import servicesData from '@/data/services.json'
 
 const SERVICE_CATALOG = servicesData.services
@@ -87,32 +88,20 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  // Get user's Anthropic key from vault
-  const { data: vaultEntry } = await supabase
+  // Try user's BYOK key first, fall back to platform keys
+  // Check vault for any AI provider key (anthropic, openai, groq, etc.)
+  const { data: vaultEntries } = await supabase
     .from('user_vaults')
-    .select('encrypted_key, iv, salt')
+    .select('service_name, encrypted_key, iv, salt')
     .eq('user_id', user.id)
-    .eq('service_name', 'anthropic')
-    .single()
+    .in('service_name', ['anthropic', 'openai', 'groq', 'gemini', 'xai', 'openrouter'])
 
-  if (!vaultEntry) {
-    return Response.json(
-      { error: 'No Anthropic key found. Add your Anthropic API key in Account > Credentials with service name "anthropic".' },
-      { status: 400 }
-    )
-  }
-
-  // Decrypt the API key server-side using user ID as key material
-  // The client encrypted with PBKDF2(userId) + AES-256-GCM
-  // We need the client to pass the decrypted key, since server can't decrypt PBKDF2(userId) keys
-  // Instead, accept the key from the client header (already decrypted client-side)
+  // Accept client-decrypted key from header
   const clientApiKey = request.headers.get('x-api-key')
-  if (!clientApiKey) {
-    return Response.json(
-      { error: 'API key required. Your browser decrypts the key from your vault before sending.' },
-      { status: 400 }
-    )
-  }
+  const clientProvider = request.headers.get('x-ai-provider') || 'anthropic'
+
+  // If no user key AND no vault entries, we'll use platform keys as fallback
+  const hasUserKey = !!clientApiKey || (vaultEntries && vaultEntries.length > 0)
 
   let body: { messages: { role: string; content: string }[] }
   try {
@@ -131,87 +120,74 @@ export async function POST(request: NextRequest) {
     content: String(m.content).slice(0, 10000),
   }))
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': clientApiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-5-20250929',
-      max_tokens: 8192,
-      system: SYSTEM_PROMPT,
-      stream: true,
-      messages,
-    }),
-  })
+  // Try user's BYOK key first via direct API call
+  if (clientApiKey) {
+    // Determine provider endpoint from client header
+    const providerEndpoints: Record<string, { url: string; headers: Record<string, string>; bodyFn: () => string }> = {
+      anthropic: {
+        url: 'https://api.anthropic.com/v1/messages',
+        headers: { 'x-api-key': clientApiKey, 'anthropic-version': '2023-06-01' },
+        bodyFn: () => JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 8192, system: SYSTEM_PROMPT, stream: true, messages }),
+      },
+      openai: {
+        url: 'https://api.openai.com/v1/chat/completions',
+        headers: { 'Authorization': `Bearer ${clientApiKey}` },
+        bodyFn: () => JSON.stringify({ model: 'gpt-4o', max_tokens: 8192, stream: true, messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages] }),
+      },
+      groq: {
+        url: 'https://api.groq.com/openai/v1/chat/completions',
+        headers: { 'Authorization': `Bearer ${clientApiKey}` },
+        bodyFn: () => JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 8192, stream: true, messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages] }),
+      },
+    }
 
-  if (response.status === 401) {
-    return Response.json(
-      { error: 'Invalid Anthropic API key. Update your key in Account > Credentials.' },
-      { status: 401 }
-    )
+    const endpoint = providerEndpoints[clientProvider] || providerEndpoints.anthropic
+    const response = await fetch(endpoint.url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...endpoint.headers },
+      body: endpoint.bodyFn(),
+    })
+
+    if (response.ok && response.body) {
+      return new Response(response.body, {
+        headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive' },
+      })
+    }
+
+    // BYOK failed — fall through to platform keys
+    console.warn(`[builder] User BYOK (${clientProvider}) failed: ${response.status}`)
   }
 
-  if (!response.ok) {
+  // Fallback: use platform keys via ai-provider (non-streaming)
+  const result = await callAIChat(
+    SYSTEM_PROMPT,
+    messages,
+    user.id,
+    8192
+  )
+
+  if (!result) {
     return Response.json(
-      { error: `AI service error: ${response.status}` },
+      { error: 'All AI providers failed. Add an API key in Account > Credentials, or contact support.' },
       { status: 502 }
     )
   }
 
-  // Stream the response through
+  // Non-streaming fallback — emit result as SSE for frontend compatibility
   const encoder = new TextEncoder()
-  const stream = new ReadableStream({
-    async start(controller) {
-      const reader = response.body?.getReader()
-      if (!reader) {
-        controller.close()
-        return
-      }
-
-      const decoder = new TextDecoder()
-      let buffer = ''
-
-      try {
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-
-          buffer += decoder.decode(value, { stream: true })
-          const lines = buffer.split('\n')
-          buffer = lines.pop() || ''
-
-          for (const line of lines) {
-            if (!line.startsWith('data: ')) continue
-            const data = line.slice(6)
-            if (data === '[DONE]') continue
-
-            try {
-              const event = JSON.parse(data)
-              if (event.type === 'content_block_delta' && event.delta?.text) {
-                controller.enqueue(
-                  encoder.encode(`data: ${JSON.stringify({ text: event.delta.text })}\n\n`)
-                )
-              }
-            } catch {
-              // Skip malformed chunks
-            }
-          }
-        }
-      } finally {
-        controller.enqueue(encoder.encode('data: [DONE]\n\n'))
-        controller.close()
-      }
+  const fallbackStream = new ReadableStream({
+    start(controller) {
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: result.text })}\n\n`))
+      controller.enqueue(encoder.encode('data: [DONE]\n\n'))
+      controller.close()
     },
   })
 
-  return new Response(stream, {
+  return new Response(fallbackStream, {
     headers: {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
+      'Connection': 'keep-alive',
     },
   })
 }

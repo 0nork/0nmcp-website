@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { runDepositPaidAutomation } from '@/lib/web0n'
 
 const WEBHOOK_SECRET = process.env.WEB0N_WEBHOOK_SECRET || ''
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
@@ -48,6 +49,11 @@ export async function POST(request: NextRequest) {
             deposit_paid_at: new Date().toISOString(),
           })
           .eq('id', depositProject.id)
+
+        // Fire deposit-paid automation (opportunity stage + sub-account creation)
+        runDepositPaidAutomation(depositProject.id, supabase).catch(err =>
+          console.error('[web0n] Deposit automation failed:', err)
+        )
 
         return NextResponse.json({ success: true, action: 'deposit_paid', projectId: depositProject.id })
       }

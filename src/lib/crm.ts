@@ -299,6 +299,46 @@ export async function createTag(name: string, location: CrmLocation = 'main'): P
   return result.tag
 }
 
+// ==================== LOCATIONS (Agency-level) ====================
+
+/**
+ * Create a new CRM sub-account (location) under the agency
+ * Requires CRM_AGENCY_KEY with locations.write scope
+ */
+export async function createLocation(data: {
+  companyId: string
+  name: string
+  email?: string
+  phone?: string
+  address?: string
+  city?: string
+  state?: string
+  postalCode?: string
+  website?: string
+  timezone?: string
+  country?: string
+}): Promise<{ id: string; name: string }> {
+  const result = await crmRequest<{ location: { id: string; name: string } }>(
+    'POST',
+    '/locations/',
+    {
+      companyId: data.companyId,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      city: data.city,
+      state: data.state,
+      postalCode: data.postalCode,
+      website: data.website,
+      timezone: data.timezone || 'America/New_York',
+      country: data.country || 'US',
+    },
+    true // useAgencyKey
+  )
+  return result.location
+}
+
 // ==================== CUSTOM FIELDS ====================
 
 /**

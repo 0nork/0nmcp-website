@@ -3,8 +3,9 @@
  * Handles contact creation, opportunities, invoices, and brief generation
  */
 
-import { upsertContact, createOpportunity, updateOpportunity, addContactTags } from './crm'
+import { upsertContact, createOpportunity, updateOpportunity, addContactTags, createLocation, addContactNote } from './crm'
 import type { CrmContact, CrmOpportunity } from './crm'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 const PIPELINE_ID = process.env.WEB0N_CRM_PIPELINE_ID || ''
 const DEPOSIT_AMOUNT = 998.50
@@ -204,6 +205,106 @@ export async function updateProjectStage(
     status,
     ...(stageId ? { pipelineStageId: stageId } : {}),
   })
+}
+
+// ==================== DEPOSIT-PAID AUTOMATION ====================
+
+/**
+ * Create a CRM sub-account (location) for a web0n client
+ */
+export async function createWeb0nSubAccount(data: Web0nProjectData): Promise<{ locationId: string }> {
+  const companyId = process.env.CRM_COMPANY_ID
+  if (!companyId) throw new Error('CRM_COMPANY_ID not configured')
+
+  const location = await createLocation({
+    companyId,
+    name: data.businessName,
+    email: data.email,
+    phone: data.phone,
+    address: data.address,
+    city: data.city,
+    state: data.state,
+    postalCode: data.zip,
+    website: data.websiteUrl,
+    timezone: 'America/New_York',
+    country: 'US',
+  })
+
+  return { locationId: location.id }
+}
+
+/**
+ * Full deposit-paid automation pipeline:
+ * 1. Move opportunity to deposit_paid stage
+ * 2. Create CRM sub-account for the client
+ * 3. Update Supabase with the new location ID
+ * 4. Add CRM note confirming deposit + sub-account
+ */
+export async function runDepositPaidAutomation(projectId: string, db: SupabaseClient): Promise<void> {
+  // Fetch project
+  const { data: project, error } = await db
+    .from('web0n_projects')
+    .select('*')
+    .eq('id', projectId)
+    .single()
+
+  if (error || !project) {
+    console.error('[web0n] Deposit automation: project not found', projectId, error)
+    return
+  }
+
+  // 1. Move opportunity to deposit_paid stage
+  try {
+    if (project.crm_opportunity_id) {
+      await updateProjectStage(project.crm_opportunity_id, 'deposit_paid')
+      console.log('[web0n] Opportunity moved to deposit_paid:', project.crm_opportunity_id)
+    }
+  } catch (err) {
+    console.error('[web0n] Failed to move opportunity stage:', err)
+  }
+
+  // 2. Create CRM sub-account
+  let locationId: string | undefined
+  try {
+    const result = await createWeb0nSubAccount({
+      businessName: project.business_name,
+      email: project.email,
+      phone: project.phone,
+      address: project.address,
+      city: project.city,
+      state: project.state,
+      zip: project.zip,
+      websiteUrl: project.website_url,
+    })
+    locationId = result.locationId
+    console.log('[web0n] Sub-account created:', locationId, 'for', project.business_name)
+  } catch (err) {
+    console.error('[web0n] Failed to create sub-account:', err)
+  }
+
+  // 3. Update Supabase with location ID
+  if (locationId) {
+    try {
+      await db
+        .from('web0n_projects')
+        .update({ crm_location_id: locationId })
+        .eq('id', projectId)
+    } catch (err) {
+      console.error('[web0n] Failed to update project with location ID:', err)
+    }
+  }
+
+  // 4. Add CRM note
+  try {
+    if (project.crm_contact_id) {
+      const noteBody = locationId
+        ? `Deposit received. Sub-account created: ${locationId}`
+        : 'Deposit received. Sub-account creation pending.'
+      await addContactNote(project.crm_contact_id, noteBody)
+    }
+  } catch (err) {
+    console.error('[web0n] Failed to add CRM note:', err)
+  }
 }
 
 // ==================== BUILD BRIEF ====================

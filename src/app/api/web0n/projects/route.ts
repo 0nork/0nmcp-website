@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createSupabaseAdmin } from '@/lib/supabase/admin'
-import { createWeb0nContact, createWeb0nOpportunity, createDepositInvoice } from '@/lib/web0n'
+import { createWeb0nContact, createWeb0nOpportunity, createDepositInvoice, runDepositPaidAutomation } from '@/lib/web0n'
 
 const DEPOSIT_AMOUNT = 998.50
 
@@ -153,6 +153,13 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('Supabase insert error:', error)
       return NextResponse.json({ error: 'Failed to create project' }, { status: 500 })
+    }
+
+    // Fire deposit-paid automation for free coupon projects
+    if (isFree && project?.id) {
+      runDepositPaidAutomation(project.id, db).catch(err =>
+        console.error('[web0n] Free coupon automation failed:', err)
+      )
     }
 
     return NextResponse.json({

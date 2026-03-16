@@ -3,7 +3,7 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
 import { decryptVaultData } from '@/lib/vault-crypto'
 import { STATS_DISPLAY } from '@/data/stats'
-import { resolveProviderOrder, callProvider, type AIProviderId } from '@/lib/ai-provider'
+import { resolveProviderOrder, callProvider, getProviderKey, type AIProviderId } from '@/lib/ai-provider'
 import { executeAgent } from '@/lib/agent-studio'
 import { getOrCreateCrmAccount, getActiveSession, upsertSession, incrementExecutionCount } from '@/lib/crm-provisioning'
 
@@ -11,12 +11,8 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 const ONMCP_URL = process.env.ONMCP_URL || 'http://localhost:3001'
-const PLATFORM_ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY || ''
-const PLATFORM_GEMINI_KEY = process.env.GOOGLE_GEMINI_API_KEY || ''
-const PLATFORM_OPENAI_KEY = process.env.OPENAI_API_KEY || ''
-const PLATFORM_OPENROUTER_KEY = process.env.OPENROUTER_API_KEY || ''
 
-type AISource = '0nmcp' | 'agent-studio' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'openrouter-byok' | 'openrouter' | 'local'
+type AISource = '0nmcp' | 'agent-studio' | 'claude-byok' | 'claude' | 'openai-byok' | 'gemini-byok' | 'openrouter-byok' | 'openrouter' | 'local' | string
 type AIProvider = 'anthropic' | 'openai' | 'google' | 'openrouter'
 
 const AI_SERVICES: AIProvider[] = ['anthropic', 'openai', 'google', 'openrouter']
@@ -264,7 +260,7 @@ async function callGemini(apiKey: string, message: string): Promise<{ text: stri
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Referer': 'https://0nmcp.com' },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
           contents: [{ parts: [{ text: message }] }],
@@ -625,32 +621,17 @@ export async function POST(request: NextRequest) {
   }
   console.log('[chat] Layer 2 (BYOK) — no user keys found or all failed')
 
-  // ── Layer 3: Platform keys — ordered by user's AI provider preference ──
+  // ── Layer 3: Platform keys — all 10 providers, ordered by user preference ──
   const providerOrder = await resolveProviderOrder(user.id)
-  const providerKeyMap: Record<AIProviderId, string> = {
-    gemini: PLATFORM_GEMINI_KEY,
-    openai: PLATFORM_OPENAI_KEY,
-    anthropic: PLATFORM_ANTHROPIC_KEY,
-    openrouter: PLATFORM_OPENROUTER_KEY,
-  }
-  const providerSourceMap: Record<AIProviderId, AISource> = {
-    gemini: 'gemini-byok',
-    openai: 'openai-byok',
-    anthropic: 'claude',
-    openrouter: 'openrouter',
-  }
 
   console.log(`[chat] Layer 3 (Platform keys) order: ${providerOrder.join(' → ')}`)
-  console.log(`[chat] Layer 3 keys present: ${providerOrder.map(p => `${p}=${providerKeyMap[p] ? 'YES' : 'NO'}`).join(', ')}`)
+  console.log(`[chat] Layer 3 keys present: ${providerOrder.map(p => `${p}=${getProviderKey(p) ? 'YES' : 'NO'}`).join(', ')}`)
 
   for (const provider of providerOrder) {
-    const key = providerKeyMap[provider]
-    if (!key) {
-      console.log(`[chat] Layer 3: ${provider} — no platform key`)
-      continue
-    }
+    const key = getProviderKey(provider)
+    if (!key) continue
 
-    console.log(`[chat] Layer 3: trying ${provider} with platform key (${key.slice(0, 8)}...)`)
+    console.log(`[chat] Layer 3: trying ${provider} (${key.slice(0, 8)}...)`)
     const text = await callProvider(provider, key, {
       system: SYSTEM_PROMPT,
       user: enhancedMessage,
@@ -660,12 +641,12 @@ export async function POST(request: NextRequest) {
       console.log(`[chat] Layer 3: ${provider} succeeded`)
       return NextResponse.json({
         text,
-        source: providerSourceMap[provider],
+        source: provider as AISource,
       })
     }
-    console.log(`[chat] Layer 3: ${provider} returned null — moving to next`)
+    console.log(`[chat] Layer 3: ${provider} failed — next`)
   }
-  console.error('[chat] Layer 3 (Platform keys) — ALL platform providers failed')
+  console.error('[chat] Layer 3 — ALL 10 platform providers failed')
 
   // ── Layer 6: Smart local fallback ──────────────────────────
   const localResponse = getLocalResponse(message)

@@ -12,6 +12,18 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse
   }
 
+  const pathname = request.nextUrl.pathname
+
+  // Intercept auth codes on non-callback routes (magic links, email confirmations)
+  // Supabase redirects to site root with ?code=xxx — route it to the auth callback
+  const code = request.nextUrl.searchParams.get('code')
+  if (code && pathname !== '/api/auth/callback') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/api/auth/callback'
+    // Preserve all query params (code, type, etc.)
+    return NextResponse.redirect(url)
+  }
+
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     cookies: {
       getAll() {
@@ -32,8 +44,6 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
-  const pathname = request.nextUrl.pathname
 
   // Admin routes — restricted to admin emails or is_admin flag in DB
   const ADMIN_EMAILS = ['mike@rocketopp.com']

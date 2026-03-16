@@ -150,14 +150,17 @@ export async function POST(request: NextRequest) {
 
     aiMessages.push({ role: 'user', content: String(message).slice(0, 6000) })
 
+    console.log(`[create] Calling callAIChat for user ${user.id} with ${aiMessages.length} messages`)
     const result = await callAIChat(SYSTEM_PROMPT, aiMessages, user.id, 4000)
 
     if (!result) {
+      console.error(`[create] callAIChat returned null — all providers failed for user ${user.id}`)
       return NextResponse.json({
         text: "I'm not available right now — no AI provider is configured. Check your admin settings.",
         workflow: null,
       })
     }
+    console.log(`[create] AI responded via ${result.provider}`)
 
     const rawText = result.text
 

@@ -126,10 +126,15 @@ async function callGemini(apiKey: string, opts: AICallOptions): Promise<string |
         signal: AbortSignal.timeout(45000),
       }
     )
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => 'unable to read body')
+      console.error(`[ai-provider] Gemini ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
     const data = await res.json()
     return data.candidates?.[0]?.content?.parts?.[0]?.text || null
-  } catch {
+  } catch (err) {
+    console.error('[ai-provider] Gemini error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -152,10 +157,15 @@ async function callOpenAI(apiKey: string, opts: AICallOptions): Promise<string |
       }),
       signal: AbortSignal.timeout(45000),
     })
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => 'unable to read body')
+      console.error(`[ai-provider] OpenAI ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
     const data = await res.json()
     return data.choices?.[0]?.message?.content || null
-  } catch {
+  } catch (err) {
+    console.error('[ai-provider] OpenAI error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -177,10 +187,15 @@ async function callAnthropic(apiKey: string, opts: AICallOptions): Promise<strin
       }),
       signal: AbortSignal.timeout(45000),
     })
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => 'unable to read body')
+      console.error(`[ai-provider] Anthropic ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
     const data = await res.json()
     return data.content?.[0]?.type === 'text' ? data.content[0].text : null
-  } catch {
+  } catch (err) {
+    console.error('[ai-provider] Anthropic error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -205,10 +220,15 @@ async function callOpenRouter(apiKey: string, opts: AICallOptions): Promise<stri
       }),
       signal: AbortSignal.timeout(60000),
     })
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => 'unable to read body')
+      console.error(`[ai-provider] OpenRouter ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
     const data = await res.json()
     return data.choices?.[0]?.message?.content || null
-  } catch {
+  } catch (err) {
+    console.error('[ai-provider] OpenRouter error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -239,17 +259,25 @@ export async function callAI(
   userId?: string
 ): Promise<AICallResult | null> {
   const order = await resolveProviderOrder(userId)
+  console.log(`[ai-provider] callAI order: ${order.join(' → ')} (user: ${userId || 'none'})`)
 
   for (const provider of order) {
     const key = getProviderKey(provider)
-    if (!key) continue
+    if (!key) {
+      console.log(`[ai-provider] ${provider}: no key, skipping`)
+      continue
+    }
 
+    console.log(`[ai-provider] Trying ${provider}...`)
     const text = await callProvider(provider, key, opts)
     if (text) {
+      console.log(`[ai-provider] ${provider} succeeded`)
       return { text, provider }
     }
+    console.log(`[ai-provider] ${provider} returned null`)
   }
 
+  console.error('[ai-provider] callAI: ALL providers failed')
   return null
 }
 
@@ -264,17 +292,25 @@ export async function callAIChat(
   maxTokens?: number
 ): Promise<AICallResult | null> {
   const order = await resolveProviderOrder(userId)
+  console.log(`[ai-provider] callAIChat order: ${order.join(' → ')} (user: ${userId || 'none'})`)
 
   for (const provider of order) {
     const key = getProviderKey(provider)
-    if (!key) continue
+    if (!key) {
+      console.log(`[ai-provider] chat ${provider}: no key, skipping`)
+      continue
+    }
 
+    console.log(`[ai-provider] chat trying ${provider}...`)
     const text = await callProviderChat(provider, key, system, messages, maxTokens)
     if (text) {
+      console.log(`[ai-provider] chat ${provider} succeeded`)
       return { text, provider }
     }
+    console.log(`[ai-provider] chat ${provider} returned null`)
   }
 
+  console.error('[ai-provider] callAIChat: ALL providers failed')
   return null
 }
 
@@ -305,7 +341,11 @@ async function callProviderChat(
           signal: AbortSignal.timeout(45000),
         }
       )
-      if (!res.ok) return null
+      if (!res.ok) {
+        const errBody = await res.text().catch(() => '')
+        console.error(`[ai-chat] Gemini ${res.status}: ${errBody.slice(0, 500)}`)
+        return null
+      }
       const data = await res.json()
       return data.candidates?.[0]?.content?.parts?.[0]?.text || null
     }
@@ -328,7 +368,11 @@ async function callProviderChat(
         }),
         signal: AbortSignal.timeout(45000),
       })
-      if (!res.ok) return null
+      if (!res.ok) {
+        const errBody = await res.text().catch(() => '')
+        console.error(`[ai-chat] OpenAI ${res.status}: ${errBody.slice(0, 500)}`)
+        return null
+      }
       const data = await res.json()
       return data.choices?.[0]?.message?.content || null
     }
@@ -349,7 +393,11 @@ async function callProviderChat(
         }),
         signal: AbortSignal.timeout(45000),
       })
-      if (!res.ok) return null
+      if (!res.ok) {
+        const errBody = await res.text().catch(() => '')
+        console.error(`[ai-chat] Anthropic ${res.status}: ${errBody.slice(0, 500)}`)
+        return null
+      }
       const data = await res.json()
       return data.content?.[0]?.type === 'text' ? data.content[0].text : null
     }
@@ -374,13 +422,18 @@ async function callProviderChat(
         }),
         signal: AbortSignal.timeout(60000),
       })
-      if (!res.ok) return null
+      if (!res.ok) {
+        const errBody = await res.text().catch(() => '')
+        console.error(`[ai-chat] OpenRouter ${res.status}: ${errBody.slice(0, 500)}`)
+        return null
+      }
       const data = await res.json()
       return data.choices?.[0]?.message?.content || null
     }
 
     return null
-  } catch {
+  } catch (err) {
+    console.error(`[ai-chat] ${provider} error:`, err instanceof Error ? err.message : err)
     return null
   }
 }

@@ -199,7 +199,11 @@ async function callClaude(apiKey: string, message: string, source: AISource = 'c
       signal: AbortSignal.timeout(30000),
     })
 
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '')
+      console.error(`[chat-byok] Claude ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
 
     const data = await res.json()
     const text = data.content?.[0]?.type === 'text'
@@ -207,7 +211,8 @@ async function callClaude(apiKey: string, message: string, source: AISource = 'c
       : null
 
     return text ? { text, source } : null
-  } catch {
+  } catch (err) {
+    console.error('[chat-byok] Claude error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -234,13 +239,18 @@ async function callOpenAI(apiKey: string, message: string): Promise<{ text: stri
       signal: AbortSignal.timeout(30000),
     })
 
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '')
+      console.error(`[chat-byok] OpenAI ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
 
     const data = await res.json()
     const text = data.choices?.[0]?.message?.content || null
 
     return text ? { text, source: 'openai-byok' as AISource } : null
-  } catch {
+  } catch (err) {
+    console.error('[chat-byok] OpenAI error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -264,13 +274,18 @@ async function callGemini(apiKey: string, message: string): Promise<{ text: stri
       }
     )
 
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '')
+      console.error(`[chat-byok] Gemini ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
 
     const data = await res.json()
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || null
 
     return text ? { text, source: 'gemini-byok' as AISource } : null
-  } catch {
+  } catch (err) {
+    console.error('[chat-byok] Gemini error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -299,13 +314,18 @@ async function callOpenRouterChat(apiKey: string, message: string): Promise<{ te
       signal: AbortSignal.timeout(60000),
     })
 
-    if (!res.ok) return null
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '')
+      console.error(`[chat-byok] OpenRouter ${res.status}: ${errBody.slice(0, 500)}`)
+      return null
+    }
 
     const data = await res.json()
     const text = data.choices?.[0]?.message?.content || null
 
     return text ? { text, source: 'openrouter-byok' as AISource } : null
-  } catch {
+  } catch (err) {
+    console.error('[chat-byok] OpenRouter error:', err instanceof Error ? err.message : err)
     return null
   }
 }
@@ -502,6 +522,7 @@ export async function POST(request: NextRequest) {
 
     if (mcpRes.ok) {
       const data = await mcpRes.json()
+      console.log('[chat] Layer 1 (0nMCP) succeeded')
       return NextResponse.json({
         text: data.result || data.output || data.message || 'Task executed successfully.',
         source: '0nmcp' as const,
@@ -510,20 +531,20 @@ export async function POST(request: NextRequest) {
         services: data.services_used || data.services || [],
       })
     }
-  } catch {
-    // 0nMCP offline — continue
+    console.log(`[chat] Layer 1 (0nMCP) ${mcpRes.status} — skipping`)
+  } catch (err) {
+    console.log('[chat] Layer 1 (0nMCP) offline:', err instanceof Error ? err.message : 'connection refused')
   }
 
   // ── Layer 1.5: CRM Agent Studio (Knowledge Base + MCP) ──────
   if (process.env.CRM_AGENT_STUDIO_KEY) {
     try {
-      // Auto-provision user's CRM account (idempotent)
+      console.log('[chat] Layer 1.5 (Agent Studio) — attempting...')
       const crmAccount = await getOrCreateCrmAccount(user.id)
       const agentId = crmAccount?.default_agent_id || process.env.CRM_AGENT_STUDIO_AGENT_ID || ''
       const locationId = crmAccount?.location_id || process.env.CRM_AGENT_STUDIO_LOCATION_ID || ''
 
       if (agentId && locationId) {
-        // Get existing session for conversation continuity
         const existingSession = await getActiveSession(user.id, agentId).catch(() => null)
 
         const agentResult = await executeAgent(agentId, {
@@ -537,12 +558,12 @@ export async function POST(request: NextRequest) {
         })
 
         if (agentResult.text && !agentResult.error) {
-          // Track session
           if (agentResult.executionId) {
             upsertSession({ userId: user.id, executionId: agentResult.executionId, agentId, locationId }).catch(() => {})
           }
           incrementExecutionCount(user.id).catch(() => {})
 
+          console.log('[chat] Layer 1.5 (Agent Studio) succeeded')
           return NextResponse.json({
             text: agentResult.text,
             source: 'agent-studio' as AISource,
@@ -550,14 +571,18 @@ export async function POST(request: NextRequest) {
             executionId: agentResult.executionId,
           })
         }
+        console.log('[chat] Layer 1.5 (Agent Studio) returned empty/error:', agentResult.error || 'no text')
+      } else {
+        console.log('[chat] Layer 1.5 skipped — no agentId or locationId')
       }
-    } catch {
-      // Agent Studio failed — fall through to BYOK
+    } catch (err) {
+      console.error('[chat] Layer 1.5 (Agent Studio) error:', err instanceof Error ? err.message : err)
     }
+  } else {
+    console.log('[chat] Layer 1.5 skipped — no CRM_AGENT_STUDIO_KEY')
   }
 
   // ── Layer 2: User's own AI key (BYOK — Claude, GPT, or Gemini) ──
-  // Put Core AI provider first if set
   let byokOrder: AIProvider[] = [...AI_SERVICES]
   try {
     const admin = getAdmin()
@@ -572,10 +597,12 @@ export async function POST(request: NextRequest) {
     }
   } catch { /* continue with default order */ }
 
+  console.log(`[chat] Layer 2 (BYOK) order: ${byokOrder.join(' → ')}`)
   for (const provider of byokOrder) {
     const userKey = await getUserAIKey(user.id, provider)
     if (!userKey) continue
 
+    console.log(`[chat] Layer 2: trying BYOK ${provider}...`)
     let result: { text: string; source: AISource } | null = null
     if (provider === 'anthropic') {
       result = await callClaude(userKey, enhancedMessage, 'claude-byok')
@@ -588,12 +615,15 @@ export async function POST(request: NextRequest) {
     }
 
     if (result) {
+      console.log(`[chat] Layer 2: BYOK ${provider} succeeded`)
       return NextResponse.json({
         text: result.text,
         source: result.source,
       })
     }
+    console.log(`[chat] Layer 2: BYOK ${provider} failed`)
   }
+  console.log('[chat] Layer 2 (BYOK) — no user keys found or all failed')
 
   // ── Layer 3: Platform keys — ordered by user's AI provider preference ──
   const providerOrder = await resolveProviderOrder(user.id)
@@ -610,22 +640,32 @@ export async function POST(request: NextRequest) {
     openrouter: 'openrouter',
   }
 
+  console.log(`[chat] Layer 3 (Platform keys) order: ${providerOrder.join(' → ')}`)
+  console.log(`[chat] Layer 3 keys present: ${providerOrder.map(p => `${p}=${providerKeyMap[p] ? 'YES' : 'NO'}`).join(', ')}`)
+
   for (const provider of providerOrder) {
     const key = providerKeyMap[provider]
-    if (!key) continue
+    if (!key) {
+      console.log(`[chat] Layer 3: ${provider} — no platform key`)
+      continue
+    }
 
+    console.log(`[chat] Layer 3: trying ${provider} with platform key (${key.slice(0, 8)}...)`)
     const text = await callProvider(provider, key, {
       system: SYSTEM_PROMPT,
       user: enhancedMessage,
       maxTokens: 2048,
     })
     if (text) {
+      console.log(`[chat] Layer 3: ${provider} succeeded`)
       return NextResponse.json({
         text,
         source: providerSourceMap[provider],
       })
     }
+    console.log(`[chat] Layer 3: ${provider} returned null — moving to next`)
   }
+  console.error('[chat] Layer 3 (Platform keys) — ALL platform providers failed')
 
   // ── Layer 6: Smart local fallback ──────────────────────────
   const localResponse = getLocalResponse(message)

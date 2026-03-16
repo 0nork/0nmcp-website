@@ -132,9 +132,23 @@ export async function provisionUser(params: {
       await addContactTags(contact.id, ['0n-user', 'agent-studio']).catch(() => {})
     }
 
-    // 2. Set up default agent reference (using the platform KB agent)
+    // 2. Fire Agent Studio agent to create sub-account
     const defaultAgentId = process.env.CRM_AGENT_STUDIO_AGENT_ID || ''
     const defaultVersionId = process.env.CRM_AGENT_STUDIO_VERSION_ID || ''
+
+    let agentExecutionId: string | undefined
+    try {
+      const agentResult = await fireNewUserAgent({
+        contactId: contact.id || '',
+        email: params.email,
+        fullName: params.fullName,
+        company: params.company,
+      })
+      agentExecutionId = agentResult.executionId
+      console.log('[provision] Agent fired for', params.email, '→', agentResult.response?.substring(0, 200))
+    } catch (err) {
+      console.error('[provision] Agent fire failed (non-fatal):', err)
+    }
 
     // 3. Store in Supabase
     const { error: insertErr } = await admin
@@ -151,6 +165,7 @@ export async function provisionUser(params: {
           email: params.email,
           provisioned_via: 'auto',
           plan: 'free',
+          agent_execution_id: agentExecutionId || null,
         },
       })
 
@@ -261,6 +276,84 @@ export async function incrementExecutionCount(userId: string): Promise<void> {
       updated_at: new Date().toISOString(),
     })
     .eq('user_id', userId)
+}
+
+// ── Execute Agent Studio Agent ──
+
+export async function executeAgent(params: {
+  message: string
+  agentId?: string
+  versionId?: string
+  locationId?: string
+  executionId?: string
+}): Promise<{ executionId?: string; response?: string; error?: string }> {
+  const agentId = params.agentId || process.env.CRM_AGENT_STUDIO_AGENT_ID
+  const versionId = params.versionId || process.env.CRM_AGENT_STUDIO_VERSION_ID
+  const locationId = params.locationId || process.env.CRM_AGENT_STUDIO_LOCATION_ID || ''
+
+  if (!agentId) return { error: 'No agent ID configured' }
+
+  try {
+    const body: Record<string, unknown> = {
+      message: params.message,
+      locationId,
+    }
+    if (versionId) body.versionId = versionId
+    if (params.executionId) body.executionId = params.executionId
+
+    const res = await fetch(
+      `${API_BASE}/agent-studio/agent/${agentId}/execute`,
+      {
+        method: 'POST',
+        headers: getAgentStudioHeaders(),
+        body: JSON.stringify(body),
+      }
+    )
+
+    if (!res.ok) {
+      const err = await res.text()
+      console.error('[provision] Agent execute failed:', res.status, err)
+      return { error: `Agent execute failed: ${res.status}` }
+    }
+
+    const data = await res.json()
+    return {
+      executionId: data.executionId || data.id,
+      response: data.output || data.message || data.response || JSON.stringify(data),
+    }
+  } catch (err) {
+    console.error('[provision] Agent execute error:', err)
+    return { error: err instanceof Error ? err.message : 'Agent execution failed' }
+  }
+}
+
+/**
+ * Fire the Agent Studio "New User Workflow" agent to set up a user's CRM sub-account.
+ * The agent has MCP Server access and can create locations, deploy agents, set up KB, etc.
+ */
+export async function fireNewUserAgent(params: {
+  contactId: string
+  email: string
+  fullName: string
+  company: string
+}): Promise<{ executionId?: string; response?: string; error?: string }> {
+  const message = [
+    `NEW USER SIGNUP — Create CRM sub-account for this contact.`,
+    ``,
+    `Contact ID: ${params.contactId}`,
+    `Name: ${params.fullName}`,
+    `Email: ${params.email}`,
+    `Company: ${params.company || 'N/A'}`,
+    ``,
+    `Instructions:`,
+    `1. Create a new CRM sub-account (location) for this user under our agency`,
+    `2. Set up their knowledge base with 0nMCP documentation`,
+    `3. Deploy the default support agent to their location`,
+    `4. Tag the contact with "sub-account-created"`,
+    `5. Return the new location ID`,
+  ].join('\n')
+
+  return executeAgent({ message })
 }
 
 // ── List agents for a location ──

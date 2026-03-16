@@ -4,6 +4,17 @@ import Link from 'next/link'
 
 const tools = [
   {
+    name: 'Email Signature',
+    description: 'Build a professional email signature with live preview. Customize colors, socials, and CTA. Copy as rich text or HTML.',
+    href: '/console/tools/email-signature',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </svg>
+    ),
+  },
+  {
     name: 'QR Code Generator',
     description: 'Generate QR codes for URLs, text, WiFi networks, or contact cards. Download as PNG or copy SVG.',
     href: '/console/tools/qr-code',

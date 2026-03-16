@@ -257,7 +257,7 @@ async function callOpenAI(apiKey: string, message: string): Promise<{ text: stri
 async function callGemini(apiKey: string, message: string): Promise<{ text: string; source: AISource } | null> {
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Referer': 'https://0nmcp.com' },
@@ -300,7 +300,7 @@ async function callOpenRouterChat(apiKey: string, message: string): Promise<{ te
         'X-Title': '0nMCP Console',
       },
       body: JSON.stringify({
-        model: 'anthropic/claude-sonnet-4-20250514',
+        model: 'anthropic/claude-4-sonnet-20250522',
         max_tokens: 2048,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },

@@ -42,7 +42,7 @@ function buildTest(provider: AIProviderId, key: string): (() => Promise<Response
   switch (provider) {
     case 'gemini':
       return () => fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${key}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${key}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Referer': 'https://0nmcp.com' },
@@ -84,7 +84,7 @@ function buildTest(provider: AIProviderId, key: string): (() => Promise<Response
       }
       const models: Record<string, string> = {
         openai: 'gpt-4o-mini',
-        openrouter: 'anthropic/claude-sonnet-4-20250514',
+        openrouter: 'anthropic/claude-3-5-haiku',
         groq: 'llama-3.1-8b-instant',
         deepseek: 'deepseek-chat',
         perplexity: 'sonar',

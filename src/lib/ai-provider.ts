@@ -69,15 +69,15 @@ const PROVIDERS: Record<AIProviderId, ProviderConfig> = {
     name: 'Gemini',
     envKeys: ['GOOGLE_GEMINI_API_KEY', 'GOOGLE_AI_KEY', 'GEMINI_API_KEY'],
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/models',
-    defaultModel: 'gemini-1.5-flash-latest',
+    defaultModel: 'gemini-2.5-flash-lite',
     format: 'gemini',
   },
   openrouter: {
     name: 'OpenRouter',
     envKeys: ['OPENROUTER_API_KEY'],
     baseUrl: 'https://openrouter.ai/api/v1/chat/completions',
-    defaultModel: 'anthropic/claude-sonnet-4-20250514',
-    defaultChatModel: 'anthropic/claude-sonnet-4-20250514',
+    defaultModel: 'anthropic/claude-4-sonnet-20250522',
+    defaultChatModel: 'anthropic/claude-4-sonnet-20250522',
     extraHeaders: { 'HTTP-Referer': 'https://0nmcp.com', 'X-Title': '0nMCP Console' },
     format: 'openai',
     timeout: 60000,
@@ -261,7 +261,7 @@ async function callOpenAICompatible(
  */
 async function callGemini(apiKey: string, opts: AICallOptions): Promise<string | null> {
   try {
-    const model = opts.model || 'gemini-1.5-flash-latest'
+    const model = opts.model || 'gemini-2.5-flash-lite'
     const res = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
@@ -412,7 +412,7 @@ async function callProviderChat(
         parts: [{ text: m.content }],
       }))
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: {

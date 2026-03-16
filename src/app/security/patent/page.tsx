@@ -138,28 +138,61 @@ export default function PatentPage() {
           </div>
         </section>
 
+        {/* Additional Patents */}
+        <section className="mb-10">
+          <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Additional Patent Applications</h2>
+          <div className="grid gap-3">
+            <Link href="/technology/0nplex" className="rounded-xl p-5 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-bold group-hover:underline" style={{ color: '#00d4ff' }}>0nPlex — Multi-Persona AI Reasoning</h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full" style={{ background: 'rgba(0,212,255,0.1)', color: '#00d4ff' }}>#64/006,268</span>
+                  </div>
+                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>7 AI personas debate every answer across heterogeneous models. Dual-track scoring, autonomous knowledge improvement, anonymous learning network.</p>
+                  <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>Filed March 15, 2026</span>
+                </div>
+                <span className="text-lg shrink-0 ml-3" style={{ color: '#00d4ff' }}>&rarr;</span>
+              </div>
+            </Link>
+            <Link href="/technology/0ncore" className="rounded-xl p-5 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-bold group-hover:underline" style={{ color: '#ff6b35' }}>0nCore — Adaptive Content Generation</h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,107,53,0.1)', color: '#ff6b35' }}>#64/006,282</span>
+                  </div>
+                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>AI that learns your brand voice. Profile-adaptive generation, language variation optimization, cross-user conversion intelligence.</p>
+                  <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>Filed March 15, 2026</span>
+                </div>
+                <span className="text-lg shrink-0 ml-3" style={{ color: '#ff6b35' }}>&rarr;</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Legal notice */}
         <div className="rounded-xl p-5 mb-10" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
           <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--text-muted)' }}>Legal Notice</h3>
           <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-            Patent Pending. The technologies described on this page are protected under US Patent Application #63/990,046
-            and prior Patent Application #63/968,814. Unauthorized use, reproduction, or implementation of these patented
+            Patent Pending. The technologies described are protected under US Patent Applications #63/968,814, #63/990,046,
+            #64/006,268, and #64/006,282. Unauthorized use, reproduction, or implementation of these patented
             innovations may constitute patent infringement. The 0nMCP software itself is released under the MIT license;
-            the patent covers the specific innovations in encrypted container architecture, multi-party escrow protocols,
-            and content-addressed integrity verification systems described herein.
+            the patents cover specific innovations in encrypted container architecture, multi-party escrow protocols,
+            content-addressed integrity verification, multi-persona AI reasoning, and adaptive content generation systems described herein.
           </p>
         </div>
 
         {/* CTA */}
         <div className="rounded-xl p-6 text-center" style={{ background: 'rgba(255,107,53,0.05)', border: '1px solid rgba(255,107,53,0.15)' }}>
-          <p className="text-base font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Explore the security system</p>
-          <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>See how patent-pending technology protects your AI orchestration stack.</p>
+          <p className="text-base font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Explore all patented technology</p>
+          <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>See how 4 patent-pending innovations power your AI orchestration stack — explained in plain English.</p>
           <Link
-            href="/security"
+            href="/technology"
             className="inline-block px-6 py-2.5 rounded-xl font-bold text-sm no-underline"
             style={{ background: 'var(--accent)', color: 'var(--bg-primary)' }}
           >
-            Security Overview
+            View All Technology
           </Link>
         </div>
 

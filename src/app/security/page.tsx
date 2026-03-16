@@ -131,13 +131,41 @@ export default function SecurityPage() {
           </div>
         </section>
 
+        {/* Technology pages — plain English */}
+        <section className="mb-10">
+          <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Understand the technology</h2>
+          <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
+            Want it explained in plain English? Our <Link href="/technology" className="underline" style={{ color: 'var(--accent)' }}>technology pages</Link> break down every patent in simple terms.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <Link href="/technology/seal-of-truth" className="rounded-xl p-4 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <h3 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: '#7ed957' }}>Seal of Truth</h3>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Tamper-proof data verification — explained simply</p>
+            </Link>
+            <Link href="/technology/0nvault" className="rounded-xl p-4 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <h3 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: '#a78bfa' }}>0nVault Container</h3>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>A digital safe with 7 compartments — explained simply</p>
+            </Link>
+            <Link href="/technology/0nplex" className="rounded-xl p-4 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <h3 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: '#00d4ff' }}>0nPlex</h3>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>7 AI personas debate every answer — explained simply</p>
+            </Link>
+            <Link href="/technology/0ncore" className="rounded-xl p-4 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <h3 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: '#ff6b35' }}>0nCore</h3>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>AI that writes in your voice — explained simply</p>
+            </Link>
+          </div>
+        </section>
+
         {/* Patent notice */}
         <div className="rounded-xl p-5 mb-10" style={{ background: 'rgba(255,107,53,0.05)', border: '1px solid rgba(255,107,53,0.15)' }}>
-          <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--accent)' }}>Patent-Pending Technology</h3>
+          <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--accent)' }}>4 US Patent Applications</h3>
           <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-            US Patent Application #63/990,046 | Filed February 24, 2026 | Inventor: Michael A Mento Jr.
+            #63/968,814 — Seal of Truth (Jan 2026) | #63/990,046 — 0nVault Container (Feb 2026)
             <br />
-            Prior Patent: #63/968,814 (Seal of Truth, December 2025)
+            #64/006,268 — 0nPlex Multi-AI Reasoning (Mar 2026) | #64/006,282 — 0nCore Adaptive Content (Mar 2026)
+            <br />
+            <Link href="/technology" className="underline mt-1 inline-block" style={{ color: 'var(--accent)' }}>View all patented technology &rarr;</Link>
           </p>
         </div>
 

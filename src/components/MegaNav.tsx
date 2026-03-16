@@ -23,22 +23,20 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
     label: 'Product',
     columns: [
       {
-        title: 'Get Started',
+        title: 'Platform',
         links: [
           { label: 'Turn it 0n', href: '/turn-it-on', desc: `Browse all ${STATS_DISPLAY.capabilities} capabilities` },
-          { label: 'Interactive Demo', href: '/demo', desc: 'Build your first RUN', accent: true },
-          { label: 'Examples', href: '/examples', desc: 'Real-world use cases' },
-          { label: 'Downloads', href: '/downloads', desc: 'Chrome extension & more' },
-          { label: 'Convert', href: '/convert', desc: 'Migrate from any AI platform', accent: true },
+          { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} connected services` },
+          { label: 'Technology', href: '/technology', desc: '4 patents powering the platform', badge: 'Patented' },
+          { label: 'Pricing', href: '/#pricing', desc: 'Free forever, pay to scale' },
         ],
       },
       {
-        title: 'Platform',
+        title: 'Tools',
         links: [
+          { label: 'Console', href: '/console', desc: 'Your AI command center', accent: true },
           { label: '.0n Standard', href: '/0n-standard', desc: 'Universal config format' },
-          { label: 'Console', href: '/console', desc: 'Dashboard, Store, Builder & more', accent: true },
-          { label: 'Pricing', href: '/#pricing', desc: 'Free forever, pay to scale' },
-          { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} connected services` },
+          { label: 'Security', href: '/security', desc: 'Vault, encryption & escrow' },
         ],
       },
     ],
@@ -47,50 +45,24 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
     graphic: 'grid',
     stat: { value: STATS_DISPLAY.tools, label: 'Tools Ready' },
   },
-  community: {
-    label: 'Community',
+  solutions: {
+    label: 'Solutions',
     columns: [
       {
-        title: 'Connect',
+        title: 'Build',
         links: [
-          { label: 'Community Hub', href: '/community', desc: 'Discussion & updates' },
-          { label: 'Forum', href: '/forum', desc: 'Ask questions & discuss', accent: true },
-          { label: 'Sponsor', href: '/sponsor', desc: 'Support development' },
-          { label: 'Report an Issue', href: '/report', desc: 'Bug reports & feedback' },
-        ],
-      },
-      {
-        title: 'Learn',
-        links: [
-          { label: 'All Courses', href: '/learn', desc: 'Free & premium courses', accent: true },
-          { label: 'Glossary', href: '/glossary', desc: '80+ AI & MCP terms defined' },
-          { label: 'Compare', href: '/compare', desc: 'vs Zapier, Make, n8n & more' },
-        ],
-      },
-    ],
-    serviceIds: ['github', 'discord', 'slack', 'linkedin', 'x', 'reddit'],
-    graphic: 'community',
-    stat: { value: STATS_DISPLAY.services, label: 'Services' },
-  },
-  products: {
-    label: 'Products',
-    columns: [
-      {
-        title: '0n Platform',
-        links: [
-          { label: '0nMCP', href: '/', desc: `${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services — the core orchestrator`, badge: 'Core' },
-          { label: '0nVault', href: '/security/vault', desc: 'AES-256 encrypted credential storage', badge: 'Patent Pending' },
-          { label: '0n Engine', href: '/turn-it-on', desc: 'AI Brain import, export & verify' },
-          { label: 'Digital Deed', href: '/security/transfer', desc: 'Business asset transfer system', accent: true },
-          { label: 'App Builder', href: '/console', desc: 'Operations, routes, middleware & scheduler' },
+          { label: 'Builder', href: '/builder', desc: 'Visual workflow editor', accent: true },
+          { label: 'Marketplace', href: '/marketplace', desc: 'Browse workflows & automations' },
+          { label: 'Convert', href: '/convert', desc: 'Migrate from any AI platform' },
+          { label: 'Examples', href: '/examples', desc: 'Real-world use cases' },
         ],
       },
       {
         title: 'Ecosystem',
         links: [
-          { label: '0nork Mini', href: '/store/onork-mini', desc: 'Embeddable AI widget' },
-          { label: 'Partners', href: '/partners', desc: 'Partner products & integrations' },
-          { label: 'Marketplace', href: '/marketplace', desc: 'Browse .0n workflows & automations', accent: true },
+          { label: 'Interactive Demo', href: '/demo', desc: 'Build your first RUN' },
+          { label: 'Downloads', href: '/downloads', desc: 'Chrome extension & more' },
+          { label: 'Partners', href: '/partners', desc: 'Partner integrations' },
           { label: 'Connect', href: '/connect', desc: 'Partnerships & investment', accent: true },
         ],
       },
@@ -99,35 +71,35 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
     graphic: 'vault',
     stat: { value: STATS_DISPLAY.capabilities, label: 'Capabilities' },
   },
-  security: {
-    label: 'Security',
+  resources: {
+    label: 'Resources',
     columns: [
       {
-        title: '0nVault',
+        title: 'Learn',
         links: [
-          { label: 'Security Overview', href: '/security', desc: 'Encrypted AI orchestration' },
-          { label: 'Vault Container', href: '/security/vault', desc: '.0nv binary container format', badge: 'Patent Pending' },
-          { label: '7 Semantic Layers', href: '/security/layers', desc: 'Independent encryption per layer' },
-          { label: 'Multi-Party Escrow', href: '/security/escrow', desc: 'X25519 ECDH key agreement' },
+          { label: 'Forum', href: '/forum', desc: 'Ask questions & discuss', accent: true },
+          { label: 'Courses', href: '/learn', desc: 'Free & premium learning paths' },
+          { label: 'Blog', href: '/blog', desc: 'Updates, guides & insights' },
+          { label: 'Glossary', href: '/glossary', desc: '80+ AI & MCP terms defined' },
         ],
       },
       {
-        title: 'Transfer & Verification',
+        title: 'Community',
         links: [
-          { label: 'Digital Deed', href: '/security/transfer', desc: 'Business asset transfer & chain of custody', accent: true },
-          { label: 'Seal of Truth', href: '/security/seal-of-truth', desc: 'SHA3-256 integrity verification' },
-          { label: 'Secure Transfer', href: '/security/transfer', desc: 'Replay prevention & audit trail' },
-          { label: 'Patent-Pending', href: '/security/patent', desc: 'US Application #63/990,046', badge: 'Patent Pending' },
+          { label: 'Community Hub', href: '/community', desc: 'Discussion & updates' },
+          { label: 'Compare', href: '/compare', desc: 'vs Zapier, Make, n8n & more' },
+          { label: 'Sponsor', href: '/sponsor', desc: 'Support development' },
+          { label: 'Report an Issue', href: '/report', desc: 'Bug reports & feedback' },
         ],
       },
     ],
-    serviceIds: ['vault', 'vault-container', 'deed', 'engine'],
-    graphic: 'shield',
-    stat: { value: '2', label: 'Patents Pending' },
+    serviceIds: ['github', 'discord', 'slack', 'linkedin', 'x', 'reddit'],
+    graphic: 'community',
+    stat: { value: STATS_DISPLAY.services, label: 'Services' },
   },
 }
 
-type MenuKey = 'product' | 'community' | 'products' | 'security'
+type MenuKey = 'product' | 'solutions' | 'resources'
 
 /* ── Build a curated service list from IDs ── */
 function getServicesByIds(ids: string[]) {

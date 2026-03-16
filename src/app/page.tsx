@@ -298,18 +298,18 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { title: 'AES-256 Encrypted Vault', desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk. Hardware-bound fingerprinting.', color: '#7ed957' },
-                { title: '0nVault Container System', desc: '7 semantic layers with independent encryption. Multi-party escrow via X25519 ECDH. Patent-pending binary .0nv format.', color: '#00d4ff' },
-                { title: 'Digital Deed Transfer', desc: 'Package entire business digital assets into a single encrypted container. Chain of custody tracking with Seal of Truth verification.', color: '#a78bfa' },
-                { title: 'Patent-Pending Architecture', desc: 'Three-Level Execution + Vault Container System. Two US provisional patents protecting the core technology.', color: '#ff6b35' },
-                { title: 'Seal of Truth Verification', desc: 'SHA3-256 content-addressed integrity. Ed25519 digital signatures. Transfer registry with replay prevention.', color: '#00d4ff' },
-                { title: 'Free & Open Source', desc: `MIT licensed. All ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, unlimited local use. No credit card. No trial period. Fully auditable.`, color: '#7ed957' },
+                { title: 'AES-256 Encrypted Vault', desc: 'Client-side encryption with PBKDF2-SHA512. Your API keys are encrypted before they ever touch disk. Hardware-bound fingerprinting.', color: '#7ed957', href: '/technology/0nvault' },
+                { title: '0nVault Container System', desc: '7 semantic layers with independent encryption. Multi-party escrow via X25519 ECDH. Patent-pending binary .0nv format.', color: '#00d4ff', href: '/technology/0nvault' },
+                { title: 'Digital Deed Transfer', desc: 'Package entire business digital assets into a single encrypted container. Chain of custody tracking with Seal of Truth verification.', color: '#a78bfa', href: '/technology/seal-of-truth' },
+                { title: '4 US Patent Applications', desc: 'Seal of Truth, 0nVault, 0nPlex multi-AI reasoning, and 0nCore adaptive content — all included free.', color: '#ff6b35', href: '/technology' },
+                { title: 'Seal of Truth Verification', desc: 'SHA3-256 content-addressed integrity. Ed25519 digital signatures. Transfer registry with replay prevention.', color: '#00d4ff', href: '/technology/seal-of-truth' },
+                { title: 'Free & Open Source', desc: `MIT licensed. All ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, unlimited local use. No credit card. No trial period. Fully auditable.`, color: '#7ed957', href: '/turn-it-on' },
               ].map((item) => (
-                <div key={item.title} className="float-card">
+                <Link key={item.title} href={item.href} className="float-card no-underline group">
                   <div className="w-2 h-2 rounded-full mb-3" style={{ backgroundColor: item.color }} />
-                  <h4 className="text-sm font-bold mb-1.5" style={{ color: 'var(--text-primary)' }}>{item.title}</h4>
+                  <h4 className="text-sm font-bold mb-1.5 group-hover:underline" style={{ color: 'var(--text-primary)' }}>{item.title}</h4>
                   <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

@@ -156,10 +156,10 @@ export default function SiteBuilderAdmin() {
       {step === 'form' && (
         <div style={{
           padding: '10px 16px', borderRadius: 10, marginBottom: 20,
-          background: 'rgba(255,165,0,0.08)', border: '1px solid rgba(255,165,0,0.25)',
-          color: '#ffa500', fontSize: '0.75rem',
+          background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.25)',
+          color: '#7ed957', fontSize: '0.75rem',
         }}>
-          Generating pages calls the Anthropic API (claude-sonnet) — each build costs ~$0.05-0.15 in API credits.
+          AI provider auto-fallback: Groq (free) → OpenAI → Gemini → Anthropic. Uses the first available provider with credits.
         </div>
       )}
 

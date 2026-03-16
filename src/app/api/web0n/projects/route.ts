@@ -185,22 +185,27 @@ export async function GET() {
     return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
   }
 
+  const adminSupabase = createSupabaseAdmin()
+  const db = adminSupabase || supabase
+
   // Check if admin — admins see all projects
   const { data: profile } = await supabase
     .from('profiles')
-    .select('is_admin')
+    .select('is_admin, email')
     .eq('id', user.id)
     .single()
 
   const isAdmin = profile?.is_admin === true
+  const userEmail = user.email || profile?.email || ''
 
-  let query = supabase
+  let query = db
     .from('web0n_projects')
     .select('*')
     .order('created_at', { ascending: false })
 
   if (!isAdmin) {
-    query = query.eq('user_id', user.id)
+    // Match by user_id OR email (handles projects created before login / as guest)
+    query = query.or(`user_id.eq.${user.id},and(user_id.is.null,email.ilike.${userEmail})`)
   }
 
   const { data: projects, error } = await query
@@ -208,6 +213,17 @@ export async function GET() {
   if (error) {
     console.error('Projects fetch error:', error)
     return NextResponse.json({ error: 'Failed to fetch projects' }, { status: 500 })
+  }
+
+  // Auto-link unlinked projects to this user (by email match)
+  if (projects?.length && userEmail) {
+    const unlinked = projects.filter(p => !p.user_id && p.email?.toLowerCase() === userEmail.toLowerCase())
+    if (unlinked.length > 0) {
+      await db
+        .from('web0n_projects')
+        .update({ user_id: user.id })
+        .in('id', unlinked.map(p => p.id))
+    }
   }
 
   return NextResponse.json({ projects: projects || [] })

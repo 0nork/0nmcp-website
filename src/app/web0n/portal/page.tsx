@@ -19,6 +19,8 @@ interface Project {
   site_url?: string
   deposit_paid_at?: string
   final_paid_at?: string
+  coupon_code?: string
+  discount_amount?: number
   created_at: string
 }
 
@@ -232,20 +234,35 @@ export default function Web0nPortal() {
             marginBottom: '1.5rem',
           }}>
             <h2 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem' }}>Payments</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.9rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Deposit ($998.50)</span>
-                <span style={{ color: selected.deposit_paid_at ? '#22c55e' : '#eab308', fontWeight: 500 }}>
-                  {selected.deposit_paid_at ? 'Paid' : 'Pending'}
-                </span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Final ($998.50)</span>
-                <span style={{ color: selected.final_paid_at ? '#22c55e' : '#eab308', fontWeight: 500 }}>
-                  {selected.final_paid_at ? 'Paid' : 'Pending'}
-                </span>
-              </div>
-            </div>
+            {(() => {
+              const discount = selected.discount_amount || 0
+              const isFree = discount >= 998.50
+              const depositDue = Math.max(0, 998.50 - discount)
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.9rem' }}>
+                  {selected.coupon_code && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.4rem 0.6rem', borderRadius: '6px', background: 'rgba(34, 197, 94, 0.08)' }}>
+                      <span style={{ color: '#22c55e', fontSize: '0.8rem' }}>Coupon: {selected.coupon_code}</span>
+                      <span style={{ color: '#22c55e', fontSize: '0.8rem', fontWeight: 600 }}>
+                        {isFree ? 'FREE' : `-$${discount.toFixed(2)}`}
+                      </span>
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Deposit {isFree ? '(waived)' : `($${depositDue.toFixed(2)})`}</span>
+                    <span style={{ color: selected.deposit_paid_at || isFree ? '#22c55e' : '#eab308', fontWeight: 500 }}>
+                      {selected.deposit_paid_at ? (isFree ? 'Covered' : 'Paid') : 'Pending'}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Final {isFree ? '(waived)' : '($998.50)'}</span>
+                    <span style={{ color: selected.final_paid_at || isFree ? '#22c55e' : '#eab308', fontWeight: 500 }}>
+                      {isFree ? 'Covered' : (selected.final_paid_at ? 'Paid' : 'Pending')}
+                    </span>
+                  </div>
+                </div>
+              )
+            })()}
           </div>
 
           {/* Revisions */}

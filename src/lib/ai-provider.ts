@@ -98,12 +98,17 @@ export async function getUserAIProviders(userId: string): Promise<AIProviderId[]
 
 /**
  * Resolve the provider order for a user.
- * If user has custom preferences, use those. Otherwise use platform default.
+ * User's preferred providers go first, then remaining providers as fallback.
+ * This ensures all providers are always tried even if user only picked 2.
  */
 export async function resolveProviderOrder(userId?: string): Promise<AIProviderId[]> {
   if (userId) {
     const custom = await getUserAIProviders(userId)
-    if (custom) return custom
+    if (custom) {
+      // Append any providers not in the user's list as fallbacks
+      const remaining = DEFAULT_PROVIDER_ORDER.filter(p => !custom.includes(p))
+      return [...custom, ...remaining]
+    }
   }
   return DEFAULT_PROVIDER_ORDER
 }

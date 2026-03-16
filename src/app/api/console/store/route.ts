@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const category = searchParams.get('category')
   const search = searchParams.get('search')
+  const slug = searchParams.get('slug')
 
   // Build listings query
   let query = supabase
@@ -24,12 +25,14 @@ export async function GET(request: NextRequest) {
     .eq('status', 'active')
     .order('total_purchases', { ascending: false })
 
-  if (category) {
+  if (slug) {
+    query = query.eq('slug', slug)
+  } else if (category) {
     query = query.eq('category', category)
   }
 
   if (search) {
-    query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`)
+    query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,slug.ilike.%${search}%`)
   }
 
   const { data: listings, error: listingsError } = await query

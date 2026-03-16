@@ -21,9 +21,9 @@ export default function MarketplaceDetailPage() {
 
   const fetchListing = useCallback(async () => {
     try {
-      const res = await fetch(`/api/console/store?search=${encodeURIComponent(slug)}`)
+      const res = await fetch(`/api/console/store?slug=${encodeURIComponent(slug)}`)
       const data = await res.json()
-      const found = (data.listings || []).find((l: StoreListing) => l.slug === slug)
+      const found = (data.listings || [])[0] as ListingDetail | undefined
       if (found) {
         setListing(found)
         setOwned((data.purchasedListingIds || data.purchasedIds || []).includes(found.id))

@@ -12,11 +12,11 @@ function getAdmin() {
 }
 
 export const metadata: Metadata = {
-  title: 'MCP & Agentic AI Forum — 0nMCP Community',
+  title: '0nboard — MCP & Agentic AI Community',
   description: 'The hub for MCP server development, agentic AI workflows, AI orchestration, generative AI tools, and autonomous agent discussions. Join the 0nMCP community.',
-  keywords: ['MCP server', 'agentic AI', 'AI orchestration', 'generative AI', 'autonomous agents', 'model context protocol', 'AI workflow automation', '0nMCP'],
+  keywords: ['MCP server', 'agentic AI', 'AI orchestration', 'generative AI', 'autonomous agents', 'model context protocol', 'AI workflow automation', '0nMCP', '0nboard'],
   openGraph: {
-    title: 'MCP & Agentic AI Forum — 0nMCP Community',
+    title: '0nboard — MCP & Agentic AI Community',
     description: 'The hub for MCP server development, agentic AI workflows, and AI orchestration discussions.',
     url: 'https://www.0nmcp.com/forum',
   },
@@ -57,7 +57,7 @@ async function ForumContent() {
   const collectionJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'MCP & Agentic AI Forum — 0nMCP Community',
+    name: '0nboard — MCP & Agentic AI Community',
     description: 'The hub for MCP server development, agentic AI workflows, AI orchestration, and autonomous agent discussions.',
     url: 'https://www.0nmcp.com/forum',
     numberOfItems: total,
@@ -83,6 +83,14 @@ async function ForumContent() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+      {/* 0nboard logo header */}
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '1.5rem 1rem 0' }}>
+        <img
+          src="/brand/0n-board.png"
+          alt="0nboard"
+          style={{ height: '2.5rem', objectFit: 'contain' }}
+        />
+      </div>
       <ForumClient
         initialThreads={threads}
         initialGroups={groups}

@@ -170,7 +170,7 @@ export default function ForumClient({
     <div className="py-6 px-4 md:px-6 lg:px-8">
       <div className="max-w-[1280px] mx-auto">
         {/* ==================== MAIN FEED ==================== */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0" style={{ color: '#ffffff' }}>
           {/* Group Header */}
           {activeGroup && (
             <div
@@ -193,17 +193,17 @@ export default function ForumClient({
 
           {/* Sort Bar */}
           <div
-            className="rounded-xl px-4 py-2 mb-3 flex items-center gap-1 flex-wrap"
-            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+            className="rounded-xl px-4 py-2.5 mb-4 flex items-center gap-1 flex-wrap"
+            style={{ background: '#111', border: '1px solid #1a1a1a' }}
           >
             {SORTS.map(s => (
               <button
                 key={s.value}
                 onClick={() => setParam('sort', s.value)}
-                className="text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all"
+                className="text-[12px] font-bold px-3 py-1.5 rounded-lg transition-all"
                 style={{
-                  background: sort === s.value ? 'rgba(255,255,255,0.08)' : 'transparent',
-                  color: sort === s.value ? 'var(--accent)' : 'var(--text-muted)',
+                  background: sort === s.value ? 'rgba(126,217,87,0.1)' : 'transparent',
+                  color: sort === s.value ? 'var(--accent)' : '#666',
                 }}
               >
                 {s.label}
@@ -211,15 +211,15 @@ export default function ForumClient({
             ))}
             {(sort === 'top' || sort === 'controversial') && (
               <>
-                <span className="text-[10px] mx-1" style={{ color: 'var(--border)' }}>|</span>
+                <span className="text-[11px] mx-1" style={{ color: '#222' }}>|</span>
                 {TIMEFRAMES.map(t => (
                   <button
                     key={t.value}
                     onClick={() => setParam('timeframe', t.value)}
-                    className="text-[10px] font-semibold px-2 py-1 rounded transition-all"
+                    className="text-[11px] font-semibold px-2 py-1 rounded transition-all"
                     style={{
                       background: timeframe === t.value ? 'rgba(255,255,255,0.06)' : 'transparent',
-                      color: timeframe === t.value ? 'var(--text-primary)' : 'var(--text-muted)',
+                      color: timeframe === t.value ? '#ffffff' : '#666',
                     }}
                   >
                     {t.label}
@@ -227,7 +227,7 @@ export default function ForumClient({
                 ))}
               </>
             )}
-            <div className="ml-auto text-[10px]" style={{ color: 'var(--text-muted)' }}>
+            <div className="ml-auto text-[11px] font-medium" style={{ color: '#555' }}>
               {total} thread{total !== 1 ? 's' : ''}
             </div>
           </div>
@@ -236,12 +236,12 @@ export default function ForumClient({
           {loading ? (
             <div className="text-center py-20">
               <div className="text-2xl font-black" style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>0n</div>
-              <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>Loading...</p>
+              <p className="text-base mt-2" style={{ color: '#888' }}>Loading...</p>
             </div>
           ) : threads.length === 0 ? (
-            <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>
-              <p className="text-base font-bold mb-1">No threads yet</p>
-              <p className="text-sm">Be the first to start a discussion!</p>
+            <div className="text-center py-20" style={{ color: '#888' }}>
+              <p className="text-lg font-bold mb-1">No threads yet</p>
+              <p className="text-base">Be the first to start a discussion!</p>
             </div>
           ) : (
             <div
@@ -261,12 +261,12 @@ export default function ForumClient({
                     key={thread.id}
                     className="rounded-xl flex overflow-hidden transition-all"
                     style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border)',
+                      background: '#111',
+                      border: '1px solid #1a1a1a',
                       ...(thread.is_pinned ? { gridColumn: '1 / -1' } : {}),
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(126,217,87,0.08)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1a1a1a'; e.currentTarget.style.boxShadow = 'none' }}
                   >
                     {/* Left accent bar */}
                     <div style={{ width: '3px', flexShrink: 0, background: accentColor }} />
@@ -325,7 +325,7 @@ export default function ForumClient({
                             Pinned
                           </span>
                         )}
-                        <span className="text-[11px] inline-flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                        <span className="text-[12px] inline-flex items-center gap-1" style={{ color: '#888' }}>
                           {thread.profiles?.avatar_url && (
                             <img
                               src={thread.profiles.avatar_url}
@@ -350,18 +350,18 @@ export default function ForumClient({
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-lg font-bold tracking-tight mb-1 leading-snug" style={{ color: '#f0f0f5' }}>
+                      <h3 className="text-xl font-bold tracking-tight mb-1.5 leading-snug" style={{ color: '#ffffff' }}>
                         {thread.is_locked && <span className="mr-1 opacity-50">&#128274;</span>}
                         {thread.title}
                       </h3>
 
                       {/* Preview */}
-                      <p className="text-sm leading-relaxed mb-2 line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
+                      <p className="text-[0.9375rem] leading-relaxed mb-2.5 line-clamp-3" style={{ color: '#ccc' }}>
                         {thread.body.slice(0, 280)}
                       </p>
 
                       {/* Actions bar */}
-                      <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
+                      <div className="flex items-center gap-4 text-[13px]" style={{ color: '#777' }}>
                         <span>&#128172; {thread.reply_count} {thread.reply_count === 1 ? 'reply' : 'replies'}</span>
                         <span>&#128065; {thread.view_count}</span>
                       </div>

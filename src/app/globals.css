@@ -61,6 +61,11 @@ body::before {
   background-size: 60px 60px;
 }
 
+/* Hide grid background on forum pages */
+body.forum-active::before {
+  display: none !important;
+}
+
 /* ============================================
    Typography
    ============================================ */

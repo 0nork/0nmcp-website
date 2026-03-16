@@ -52,6 +52,7 @@ const footerColumns = [
     title: 'Company',
     links: [
       { label: 'RocketOpp LLC', href: 'https://rocketopp.com', external: true },
+      { label: 'Investors', href: '/investors' },
       { label: 'mike@rocketopp.com', href: 'mailto:mike@rocketopp.com', external: true },
     ],
   },

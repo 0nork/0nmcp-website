@@ -1,7 +1,7 @@
 /**
  * web0n AutoBuild Engine — Server-side AI website generation + CRM funnel deployment
  *
- * Flow: Business data → Claude generates 4 pages → Deploy to CRM funnel → Live site
+ * Flow: Business data → Claude generates 5 pages → Deploy to CRM funnel → Live site
  * Based on GHL-AutoBuild (CRO9 methodology)
  */
 
@@ -65,7 +65,7 @@ function buildPrompt(biz: BusinessInfo): string {
     if (gd.openingHours) googleContext += `\nHours: ${JSON.stringify(gd.openingHours)}`
   }
 
-  return `Generate 4 complete HTML pages for this business:
+  return `Generate 5 complete HTML pages for this business:
 
 Business: ${biz.name}
 Industry: ${biz.type || 'Local Business'}
@@ -77,17 +77,19 @@ Address: ${[biz.address, biz.city, biz.state, biz.zip].filter(Boolean).join(', '
 Tagline: ${biz.tagline || ''}
 Brand Accent Color: ${color}${googleContext}
 
-Generate these 4 pages as complete HTML documents:
+Generate these 5 pages as complete HTML documents:
 1. HOME — Hero section, intro, services preview, testimonial area, CTA
 2. SERVICES — Detailed service list with descriptions, benefits, pricing hints
 3. ABOUT — Company story, team/expertise, values, why choose us
-4. CONTACT — Contact form (action="#"), hours, address, embedded map placeholder, CTA
+4. BOOKING — Online scheduling page with a clean, functional calendar widget built in pure HTML/CSS/JS (no external dependencies). Show a monthly calendar grid where users can select a date, then pick from available time slots (9am-5pm, 30-min intervals). Include a booking form (name, email, phone, service dropdown using the business services list, preferred date/time). Style it to match the site theme. Add a confirmation message on submit. The calendar should be interactive with JavaScript — clicking a date highlights it and shows time slots for that day.
+5. CONTACT — Contact form (action="#"), hours, address, embedded map placeholder, CTA
 
-Return ONLY a JSON array with 4 objects:
+Return ONLY a JSON array with 5 objects:
 [
   {"name": "Home", "slug": "/", "html": "<!DOCTYPE html>..."},
   {"name": "Services", "slug": "/services", "html": "<!DOCTYPE html>..."},
   {"name": "About", "slug": "/about", "html": "<!DOCTYPE html>..."},
+  {"name": "Booking", "slug": "/booking", "html": "<!DOCTYPE html>..."},
   {"name": "Contact", "slug": "/contact", "html": "<!DOCTYPE html>..."}
 ]
 
@@ -95,7 +97,7 @@ Return ONLY the JSON array. No markdown, no code fences, no explanation.`
 }
 
 /**
- * Generate 4 website pages using Claude AI (CRO9 methodology)
+ * Generate 5 website pages using Claude AI (CRO9 methodology)
  * WARNING: This calls the Anthropic API and costs money!
  */
 export async function generatePages(biz: BusinessInfo): Promise<PageContent[]> {
@@ -113,7 +115,7 @@ export async function generatePages(biz: BusinessInfo): Promise<PageContent[]> {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 16000,
+      max_tokens: 24000,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: buildPrompt(biz) }],
     }),

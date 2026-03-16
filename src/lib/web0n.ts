@@ -406,7 +406,7 @@ export function generateBuildBrief(project: Web0nProject): Record<string, unknow
       tagline: project.tagline,
     },
     services: project.services || [],
-    pages: project.pages || ['home', 'services', 'contact', 'booking', 'pricing'],
+    pages: project.pages || ['home', 'services', 'about', 'booking', 'contact'],
     specialRequests: project.specialRequests,
     googleData: project.googleData ? {
       rating: (project.googleData as Record<string, unknown>).rating,
@@ -415,7 +415,7 @@ export function generateBuildBrief(project: Web0nProject): Record<string, unknow
       openingHours: (project.googleData as Record<string, unknown>).openingHours,
     } : null,
     deliverables: {
-      pages: ['Home', 'Services', 'Contact', 'Booking', 'Pricing'],
+      pages: ['Home', 'Services', 'About', 'Booking', 'Contact'],
       features: [
         'Mobile-responsive design',
         'SEO-optimized content',

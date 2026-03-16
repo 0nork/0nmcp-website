@@ -69,7 +69,7 @@ const PROVIDERS: Record<AIProviderId, ProviderConfig> = {
     name: 'Gemini',
     envKeys: ['GOOGLE_GEMINI_API_KEY', 'GOOGLE_AI_KEY', 'GEMINI_API_KEY'],
     baseUrl: 'https://generativelanguage.googleapis.com/v1beta/models',
-    defaultModel: 'gemini-1.5-flash',
+    defaultModel: 'gemini-1.5-flash-latest',
     format: 'gemini',
   },
   openrouter: {
@@ -261,7 +261,7 @@ async function callOpenAICompatible(
  */
 async function callGemini(apiKey: string, opts: AICallOptions): Promise<string | null> {
   try {
-    const model = opts.model || 'gemini-1.5-flash'
+    const model = opts.model || 'gemini-1.5-flash-latest'
     const res = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
       {
@@ -412,7 +412,7 @@ async function callProviderChat(
         parts: [{ text: m.content }],
       }))
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: {

@@ -163,21 +163,29 @@ export function getProviderKey(provider: AIProviderId): string {
   return ''
 }
 
-// ── Per-user provider lookup ──
+// ── VIP-only providers — require 'vip' or 'owner' label ──
+const VIP_ONLY_PROVIDERS: Set<AIProviderId> = new Set(['groq'])
 
-const providerCache = new Map<string, { providers: AIProviderId[] | null; ts: number }>()
+// ── Per-user provider + labels lookup ──
+
+interface UserAIProfile {
+  providers: AIProviderId[] | null
+  labels: string[]
+}
+
+const profileCache = new Map<string, { data: UserAIProfile; ts: number }>()
 const CACHE_TTL = 5 * 60 * 1000
 
-export async function getUserAIProviders(userId: string): Promise<AIProviderId[] | null> {
-  const cached = providerCache.get(userId)
+async function getUserAIProfile(userId: string): Promise<UserAIProfile> {
+  const cached = profileCache.get(userId)
   if (cached && Date.now() - cached.ts < CACHE_TTL) {
-    return cached.providers
+    return cached.data
   }
 
   try {
     const { data } = await getAdmin()
       .from('profiles')
-      .select('default_ai_providers')
+      .select('default_ai_providers, labels')
       .eq('id', userId)
       .maybeSingle()
 
@@ -186,26 +194,65 @@ export async function getUserAIProviders(userId: string): Promise<AIProviderId[]
       ? providers.filter(p => ALL_PROVIDER_IDS.includes(p))
       : null
 
-    const result = valid && valid.length > 0 ? valid : null
-    providerCache.set(userId, { providers: result, ts: Date.now() })
+    const result: UserAIProfile = {
+      providers: valid && valid.length > 0 ? valid : null,
+      labels: Array.isArray(data?.labels) ? data.labels : [],
+    }
+    profileCache.set(userId, { data: result, ts: Date.now() })
     return result
   } catch {
-    return null
+    return { providers: null, labels: [] }
   }
+}
+
+export async function getUserAIProviders(userId: string): Promise<AIProviderId[] | null> {
+  const profile = await getUserAIProfile(userId)
+  return profile.providers
+}
+
+export async function getUserLabels(userId: string): Promise<string[]> {
+  const profile = await getUserAIProfile(userId)
+  return profile.labels
+}
+
+/**
+ * Check if a user has VIP access (has 'vip' or 'owner' label).
+ */
+export async function isVIPUser(userId: string): Promise<boolean> {
+  const labels = await getUserLabels(userId)
+  return labels.includes('vip') || labels.includes('owner')
 }
 
 /**
  * Resolve provider order: user's preferred first, then remaining as fallback.
+ * VIP-only providers are excluded for non-VIP users.
  */
 export async function resolveProviderOrder(userId?: string): Promise<AIProviderId[]> {
+  let order = [...DEFAULT_PROVIDER_ORDER]
+
   if (userId) {
-    const custom = await getUserAIProviders(userId)
-    if (custom) {
-      const remaining = DEFAULT_PROVIDER_ORDER.filter(p => !custom.includes(p))
+    const profile = await getUserAIProfile(userId)
+    const isVIP = profile.labels.includes('vip') || profile.labels.includes('owner')
+
+    // Filter out VIP-only providers for non-VIP users
+    if (!isVIP) {
+      order = order.filter(p => !VIP_ONLY_PROVIDERS.has(p))
+    }
+
+    if (profile.providers) {
+      // User's preferred first, then remaining
+      const custom = isVIP
+        ? profile.providers
+        : profile.providers.filter(p => !VIP_ONLY_PROVIDERS.has(p))
+      const remaining = order.filter(p => !custom.includes(p))
       return [...custom, ...remaining]
     }
+  } else {
+    // No user context — exclude VIP providers
+    order = order.filter(p => !VIP_ONLY_PROVIDERS.has(p))
   }
-  return DEFAULT_PROVIDER_ORDER
+
+  return order
 }
 
 // ── Unified provider call functions ──
@@ -502,7 +549,7 @@ async function callProviderChat(
  * Invalidate the provider cache for a user.
  */
 export function invalidateProviderCache(userId: string): void {
-  providerCache.delete(userId)
+  profileCache.delete(userId)
 }
 
 /**

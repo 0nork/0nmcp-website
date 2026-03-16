@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error, count } = await admin
     .from('profiles')
-    .select('id, email, full_name, company, role, is_admin, onboarding_completed, created_at, post_count, karma, last_seen_at, default_ai_providers', { count: 'exact' })
+    .select('id, email, full_name, company, role, plan, is_admin, onboarding_completed, created_at, post_count, karma, last_seen_at, default_ai_providers, labels', { count: 'exact' })
     .order('created_at', { ascending: false })
     .limit(500)
 
@@ -135,7 +135,7 @@ export async function PATCH(request: NextRequest) {
   const admin = getServiceClient()
   if (!admin) return NextResponse.json({ error: 'Service client not available' }, { status: 500 })
 
-  const { userId, is_admin, role, default_ai_providers } = await request.json()
+  const { userId, is_admin, role, plan, default_ai_providers, labels } = await request.json()
 
   if (!userId) {
     return NextResponse.json({ error: 'userId required' }, { status: 400 })
@@ -149,15 +149,24 @@ export async function PATCH(request: NextRequest) {
   const updates: Record<string, unknown> = {}
   if (typeof is_admin === 'boolean') updates.is_admin = is_admin
   if (typeof role === 'string') updates.role = role
+  if (typeof plan === 'string') updates.plan = plan
   if (default_ai_providers !== undefined) {
     // Accept null (reset to platform default) or string array of provider IDs
-    const valid = ['gemini', 'openai', 'anthropic', 'openrouter']
+    const validProviders = ['gemini', 'openai', 'anthropic', 'openrouter', 'groq', 'deepseek', 'perplexity', 'mistral', 'xai', 'together']
     if (default_ai_providers === null) {
       updates.default_ai_providers = null
-    } else if (Array.isArray(default_ai_providers) && default_ai_providers.every((p: string) => valid.includes(p))) {
+    } else if (Array.isArray(default_ai_providers) && default_ai_providers.every((p: string) => validProviders.includes(p))) {
       updates.default_ai_providers = default_ai_providers
     } else {
-      return NextResponse.json({ error: 'Invalid AI providers. Must be array of: gemini, openai, anthropic, openrouter' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid AI providers' }, { status: 400 })
+    }
+  }
+  if (labels !== undefined) {
+    const validLabels = ['owner', 'vip', 'beta', 'early-access', 'contributor', 'vendor', 'partner', 'sponsor']
+    if (Array.isArray(labels) && labels.every((l: string) => typeof l === 'string' && validLabels.includes(l))) {
+      updates.labels = labels
+    } else {
+      return NextResponse.json({ error: `Invalid labels. Must be array of: ${validLabels.join(', ')}` }, { status: 400 })
     }
   }
 

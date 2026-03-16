@@ -6,9 +6,10 @@
 - Supabase CLI v2.67.1 is installed globally and authenticated (can list all projects)
 - Service role key available via `supabase projects api-keys --project-ref pwujhhmlrtxjmjzyttwn`
 
-## Migration History (synced local+remote as of 2026-03-10)
+## Migration History (synced local+remote as of 2026-03-12)
 - See `/Users/rocketopp/Github/0nmcp-website/supabase/migrations/` for full list
-- Latest: `20260312100000_onboarding_ab_testing.sql` - onboarding_experiments, onboarding_variants, onboarding_assignments, onboarding_events tables + seed data
+- Latest: `20260312200000_web0n_projects.sql` - web0n_projects (26 cols, status lifecycle, JSONB fields, CRM integration) + web0n_revisions (revision requests with CASCADE delete) + updated_at trigger + 9 RLS policies (user/admin/service_role) + 5 indexes
+- Previous: `20260312100000_onboarding_ab_testing.sql` - onboarding_experiments, onboarding_variants, onboarding_assignments, onboarding_events tables + seed data
 - Previous: `20260311200000_seed_automation_content.sql` - seeded persona_content_queue (16 threads + 16 replies), content_queue (5 posts), reddit_content (4 posts), content_topics (8 new topics)
 - Earlier: `20260306100000_social_engine_listing.sql` - store listing for Social Intelligence Engine
 - Notable: `20260305000000_listkit_imports.sql` - targeted at yaehbwimocvvnnlojkxe but also applied to pwujhhmlrtxjmjzyttwn (idempotent, harmless)
@@ -44,13 +45,14 @@
 - Original had `WHEN (COALESCE(NEW.x, OLD.x))` on DELETE triggers -- PostgreSQL error because DELETE triggers can't reference NEW
 - Fix: Split into separate INSERT/UPDATE and DELETE triggers
 
-## Profiles Table Columns (current, updated 2026-03-02)
-`id, email, display_name, full_name, company, stripe_customer_id, stripe_subscription_id, stripe_subscription_item_id, crm_access_token, crm_refresh_token, crm_location_id, crm_token_expires_at, role, created_at, sponsor_tier, karma, reputation_level, bio, avatar_url, crm_community_contact_id, onboarding_completed, onboarding_step, interests, is_persona, username, is_admin, plan`
+## Profiles Table Columns (current, updated 2026-03-16)
+`id, email, display_name, full_name, company, stripe_customer_id, stripe_subscription_id, stripe_subscription_item_id, crm_access_token, crm_refresh_token, crm_location_id, crm_token_expires_at, role, created_at, sponsor_tier, karma, reputation_level, bio, avatar_url, crm_community_contact_id, onboarding_completed, onboarding_step, interests, is_persona, username, is_admin, plan, labels`
 - Note: both `display_name` (from marketplace) and `full_name` (from 0nmcp-website) exist. Codebase uses `full_name` everywhere.
 - `is_admin` BOOLEAN DEFAULT false -- added 2026-03-01
 - `plan` TEXT DEFAULT 'free' -- added 2026-03-02
+- `labels` TEXT[] DEFAULT '{}' -- added 2026-03-16 (GIN index: idx_profiles_labels)
 - `role` default is 'member', CHECK constraint removed, nullable
-- mike@rocketopp.com has `is_admin = true`
+- mike@rocketopp.com has `is_admin = true`, `labels = ['owner', 'vip']`
 - Only remaining CHECK constraint: `profiles_reputation_level_check`
 
 ## yaehbwimocvvnnlojkxe (0nork Customers) - Ad-hoc Changes

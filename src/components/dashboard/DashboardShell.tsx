@@ -1,12 +1,28 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import DashboardTopBar from './DashboardTopBar'
 import { BackendSidebar, BackendSidebarProvider } from './BackendSidebar'
 import DashboardRightSidebar from './DashboardRightSidebar'
 import ConsoleFooterNav from './ConsoleFooterNav'
 import { ToastProvider } from './ConsoleToast'
 import AuthModal from '@/components/AuthModal'
+
+/** CRM Chat Widget — loads the chat widget for the 0nMCP location */
+function CRMChatWidget() {
+  const loaded = useRef(false)
+  useEffect(() => {
+    if (loaded.current) return
+    loaded.current = true
+    const script = document.createElement('script')
+    script.src = 'https://widgets.leadconnectorhq.com/loader.js'
+    script.setAttribute('data-resources-url', 'https://widgets.leadconnectorhq.com/chat-widget/loader.js')
+    script.setAttribute('data-widget-id', '69b8ed5268d949b1e6991563')
+    script.async = true
+    document.body.appendChild(script)
+  }, [])
+  return null
+}
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
   const [connectedCount,  setConnectedCount]  = useState(0)
@@ -107,6 +123,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
         {/* APEX-style bottom tab bar */}
         <ConsoleFooterNav />
+
+        {/* CRM Chat Widget — 0nMCP location */}
+        <CRMChatWidget />
 
         {!isAuthenticated && (
           <AuthModal

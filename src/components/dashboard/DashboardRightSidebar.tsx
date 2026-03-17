@@ -6,7 +6,7 @@
  * Collapsed: floating pill button on right edge
  * Expanded: 340px floating panel with rounded corners + glassmorphism
  *
- * Tabs: Connectors | Vault | Sparks
+ * Tabs: Connectors | Vault | Credits
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react'
@@ -14,7 +14,7 @@ import { getLogoSrc } from '@/components/console/logo-map'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
-type Tab = 'connectors' | 'vault' | 'sparks'
+type Tab = 'connectors' | 'vault' | 'credits'
 
 interface ConnectedService {
   id: string
@@ -32,7 +32,7 @@ interface VaultSummary {
 }
 
 interface AccountSummary {
-  sparksBalance?: number
+  creditsBalance?: number
   plan?: string
   subscribed?: boolean
 }
@@ -72,10 +72,10 @@ const CONNECTORS: ConnectedService[] = [
   { id: 'wordpress',   name: 'WordPress',    category: 'Commerce', description: 'Content management',         connected: false },
 ]
 
-const SPARKS_PACKAGES = [
-  { key: 'starter', label: 'Starter', sparks: 10,  price: '$5',  url: 'https://0nmcp.com/sparks?package=starter' },
-  { key: 'growth',  label: 'Growth',  sparks: 50,  price: '$19', url: 'https://0nmcp.com/sparks?package=growth', featured: true },
-  { key: 'pro',     label: 'Pro',     sparks: 200, price: '$49', url: 'https://0nmcp.com/sparks?package=pro' },
+const CREDIT_PACKAGES = [
+  { key: 'starter', label: 'Starter',  credits: 10,  price: '$5',  featured: false },
+  { key: 'growth',  label: 'Growth',   credits: 50,  price: '$19', featured: true },
+  { key: 'pro',     label: 'Pro Pack', credits: 200, price: '$49', featured: false },
 ]
 
 // ─── Shared styles ──────────────────────────────────────────────────────────
@@ -512,19 +512,39 @@ function VaultTab({ onOpenVault }: { onOpenVault: () => void }) {
   )
 }
 
-function SparksTab() {
+function CreditsTab() {
   const [balance, setBalance] = useState<number | null>(null)
   const [plan, setPlan] = useState<string>('free')
+  const [purchasing, setPurchasing] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/api/console/billing')
       .then(r => r.ok ? r.json() : null)
       .then((data: AccountSummary | null) => {
-        if (data?.sparksBalance != null) setBalance(data.sparksBalance)
+        if (data?.creditsBalance != null) setBalance(data.creditsBalance)
         if (data?.plan) setPlan(data.plan)
       })
       .catch(() => {})
   }, [])
+
+  const handlePurchase = async (pkg: typeof CREDIT_PACKAGES[0]) => {
+    setPurchasing(pkg.key)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ package: pkg.key, credits: pkg.credits }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        if (data.url) window.location.href = data.url
+      }
+    } catch {
+      // fallback
+    } finally {
+      setPurchasing(null)
+    }
+  }
 
   return (
     <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -532,7 +552,7 @@ function SparksTab() {
       {/* Balance card */}
       <div style={{
         padding: '20px', borderRadius: 12,
-        background: 'rgba(126,217,87,0.05)',
+        background: 'linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.04))',
         border: `1px solid ${ACCENT_BORDER}`,
         textAlign: 'center',
       }}>
@@ -540,11 +560,12 @@ function SparksTab() {
           fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
           letterSpacing: '.1em', color: 'rgba(126,217,87,0.65)', marginBottom: 8,
         }}>
-          Sparks balance
+          Credit balance
         </div>
         <div style={{
           fontSize: 40, fontWeight: 900, color: ACCENT, lineHeight: 1,
           fontFamily: "'JetBrains Mono', monospace",
+          textShadow: '0 0 20px rgba(126,217,87,0.2)',
         }}>
           {balance === null ? '-' : balance.toLocaleString()}
         </div>
@@ -554,35 +575,41 @@ function SparksTab() {
       </div>
 
       <div style={{ fontSize: 12, color: TEXT_SECONDARY, lineHeight: 1.6 }}>
-        Each pipeline execution costs 1-5 Sparks. Purchase below to keep building.
+        Each workflow execution costs 1-5 credits. Purchase below to keep building.
       </div>
 
-      {/* Package cards */}
+      {/* Package cards — in-panel purchase buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {SPARKS_PACKAGES.map(pkg => (
-          <a
+        {CREDIT_PACKAGES.map(pkg => (
+          <button
             key={pkg.key}
-            href={pkg.url}
-            target="_blank"
-            rel="noreferrer"
+            onClick={() => handlePurchase(pkg)}
+            disabled={purchasing === pkg.key}
             style={{
               display: 'flex', alignItems: 'center', gap: 12,
-              padding: '12px 14px', borderRadius: 10, textDecoration: 'none',
+              padding: '12px 14px', borderRadius: 10,
               background: pkg.featured ? 'rgba(126,217,87,0.06)' : CARD_BG,
               border: pkg.featured
                 ? `1px solid ${ACCENT_BORDER}`
                 : `1px solid ${CARD_BORDER}`,
               transition: 'all .2s',
+              cursor: purchasing === pkg.key ? 'wait' : 'pointer',
+              fontFamily: 'inherit',
+              textAlign: 'left',
+              width: '100%',
+              opacity: purchasing === pkg.key ? 0.6 : 1,
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = ACCENT_BORDER
-              ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)'
-              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.3)'
+              if (!purchasing) {
+                (e.currentTarget as HTMLButtonElement).style.borderColor = ACCENT_BORDER
+                ;(e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'
+                ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.3)'
+              }
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = pkg.featured ? ACCENT_BORDER : CARD_BORDER
-              ;(e.currentTarget as HTMLAnchorElement).style.transform = 'none'
-              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none'
+              (e.currentTarget as HTMLButtonElement).style.borderColor = pkg.featured ? ACCENT_BORDER : CARD_BORDER
+              ;(e.currentTarget as HTMLButtonElement).style.transform = 'none'
+              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = 'none'
             }}
           >
             <div style={{ flex: 1 }}>
@@ -596,42 +623,27 @@ function SparksTab() {
                     background: ACCENT_DIM, color: ACCENT,
                     fontWeight: 700, letterSpacing: '.04em',
                   }}>
-                    BEST VALUE
+                    POPULAR
                   </span>
                 )}
               </div>
               <div style={{ fontSize: 11, color: TEXT_MUTED, marginTop: 2 }}>
-                {pkg.sparks} Sparks
+                {pkg.credits} credits
               </div>
             </div>
             <div style={{
-              fontSize: 15, fontWeight: 700, color: ACCENT,
+              fontSize: 14, fontWeight: 700,
+              color: '#080B0F',
+              background: ACCENT,
+              padding: '5px 12px',
+              borderRadius: 6,
               fontFamily: "'JetBrains Mono', monospace",
             }}>
-              {pkg.price}
+              {purchasing === pkg.key ? '...' : pkg.price}
             </div>
-            <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke={TEXT_MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-          </a>
+          </button>
         ))}
       </div>
-
-      <a
-        href="https://0nmcp.com/sparks"
-        target="_blank"
-        rel="noreferrer"
-        style={{
-          display: 'block', textAlign: 'center',
-          fontSize: 11, color: TEXT_MUTED, textDecoration: 'none',
-          transition: 'color .15s',
-        }}
-        onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = TEXT_SECONDARY }}
-        onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = TEXT_MUTED }}
-      >
-        Manage Sparks on 0nmcp.com
-      </a>
     </div>
   )
 }
@@ -739,38 +751,39 @@ export default function DashboardRightSidebar({
       }}>
         {/* Main toggle */}
         <button
+          className={open ? '' : 'sidebar-trigger-pulse'}
           onClick={() => setOpen(p => !p)}
           title="Extensions"
           style={{
-            width: 34,
-            height: 34,
-            borderRadius: 10,
-            border: `1px solid ${open ? ACCENT_BORDER : CARD_BORDER}`,
+            width: 36,
+            height: 36,
+            borderRadius: 11,
+            border: `1px solid ${open ? ACCENT_BORDER : 'rgba(126,217,87,0.2)'}`,
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: open ? ACCENT_DIM : CARD_BG,
-            color: open ? ACCENT : TEXT_MUTED,
+            background: open ? ACCENT_DIM : 'rgba(126,217,87,0.06)',
+            color: open ? ACCENT : '#8ee86a',
             transition: 'all 0.2s ease',
             position: 'relative',
           }}
           onMouseEnter={e => {
             if (!open) {
-              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
-              ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.12)'
+              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(126,217,87,0.15)'
+              ;(e.currentTarget as HTMLButtonElement).style.color = ACCENT
+              ;(e.currentTarget as HTMLButtonElement).style.borderColor = ACCENT_BORDER
             }
           }}
           onMouseLeave={e => {
             if (!open) {
-              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
-              ;(e.currentTarget as HTMLButtonElement).style.borderColor = CARD_BORDER
+              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(126,217,87,0.06)'
+              ;(e.currentTarget as HTMLButtonElement).style.color = '#8ee86a'
+              ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(126,217,87,0.2)'
             }
           }}
         >
-          <PuzzleIcon size={16} />
+          <PuzzleIcon size={17} />
           {/* Badge */}
           {activeConnectedCount > 0 && (
             <div style={{
@@ -787,31 +800,31 @@ export default function DashboardRightSidebar({
           )}
         </button>
 
-        {/* Sparks shortcut */}
+        {/* Credits shortcut */}
         <button
-          onClick={() => { setActiveTab('sparks'); setOpen(true) }}
-          title="Sparks"
+          onClick={() => { setActiveTab('credits'); setOpen(true) }}
+          title="Credits"
           style={{
             width: 34,
             height: 34,
             borderRadius: 10,
-            border: `1px solid ${(open && activeTab === 'sparks') ? ACCENT_BORDER : CARD_BORDER}`,
+            border: `1px solid ${(open && activeTab === 'credits') ? ACCENT_BORDER : CARD_BORDER}`,
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: (open && activeTab === 'sparks') ? ACCENT_DIM : CARD_BG,
-            color: (open && activeTab === 'sparks') ? ACCENT : TEXT_MUTED,
+            background: (open && activeTab === 'credits') ? ACCENT_DIM : CARD_BG,
+            color: (open && activeTab === 'credits') ? ACCENT : TEXT_MUTED,
             transition: 'all 0.2s ease',
           }}
           onMouseEnter={e => {
-            if (!(open && activeTab === 'sparks')) {
+            if (!(open && activeTab === 'credits')) {
               (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
               ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
             }
           }}
           onMouseLeave={e => {
-            if (!(open && activeTab === 'sparks')) {
+            if (!(open && activeTab === 'credits')) {
               (e.currentTarget as HTMLButtonElement).style.background = CARD_BG
               ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
             }
@@ -945,7 +958,7 @@ export default function DashboardRightSidebar({
         }}>
           <TabButton label="Connectors" active={activeTab === 'connectors'} onClick={() => setActiveTab('connectors')} />
           <TabButton label="Vault" active={activeTab === 'vault'} onClick={() => setActiveTab('vault')} />
-          <TabButton label="Sparks" active={activeTab === 'sparks'} onClick={() => setActiveTab('sparks')} />
+          <TabButton label="Credits" active={activeTab === 'credits'} onClick={() => setActiveTab('credits')} />
         </div>
 
         {/* Tab content */}
@@ -963,13 +976,28 @@ export default function DashboardRightSidebar({
               <VaultTab onOpenVault={handleOpenVault} />
             </div>
           )}
-          {activeTab === 'sparks' && (
+          {activeTab === 'credits' && (
             <div style={{ flex: 1, overflowY: 'auto' }}>
-              <SparksTab />
+              <CreditsTab />
             </div>
           )}
         </div>
       </div>
+
+      {/* Pulse animation for trigger buttons */}
+      <style>{`
+        @keyframes sidebarPulseLoop {
+          0%, 90% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0); }
+          93% { box-shadow: 0 0 0 8px rgba(126, 217, 87, 0.35); }
+          96% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0); }
+          98% { box-shadow: 0 0 0 8px rgba(126, 217, 87, 0.25); }
+          100% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0); }
+        }
+        .sidebar-trigger-pulse {
+          animation: sidebarPulseLoop 30s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+      `}</style>
     </div>
   )
 }

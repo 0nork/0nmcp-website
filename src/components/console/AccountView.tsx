@@ -7,7 +7,7 @@ import { UpgradeModal } from './UpgradeModal'
 import { CONSOLE_PLANS, LEGACY_PLAN_MAP } from '@/lib/stripe'
 import { SOCIAL_ENGINE_TIERS } from './StoreTypes'
 
-type AccountTab = 'profile' | 'requests' | 'history' | 'contributor'
+type AccountTab = 'profile' | 'locations' | 'requests' | 'history' | 'contributor'
 
 interface HistoryItem {
   id: string
@@ -70,6 +70,283 @@ interface BillingStatus {
     charges_enabled: boolean
   } | null
 }
+
+// ─── Locations Management Tab ─────────────────────────────────────────────
+
+interface CrmLocationEntry {
+  id: string
+  name: string
+  locationId: string
+  pitToken: string
+  isActive: boolean
+}
+
+function LocationsTab() {
+  const [locations, setLocations] = useState<CrmLocationEntry[]>([])
+  const [loading, setLoading] = useState(true)
+  const [adding, setAdding] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [form, setForm] = useState({ name: '', locationId: '', pitToken: '' })
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
+
+  useEffect(() => {
+    fetch('/api/console/crm/locations')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (d?.locations) {
+          setLocations(d.locations.map((l: { id: string; name: string; isActive: boolean; pitToken?: string }) => ({
+            id: l.id,
+            name: l.name || l.id,
+            locationId: l.id,
+            pitToken: l.pitToken || '',
+            isActive: l.isActive,
+          })))
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  const handleAdd = async () => {
+    if (!form.name.trim() || !form.locationId.trim()) {
+      setMessage({ text: 'Name and Location ID are required', type: 'error' })
+      return
+    }
+    setSaving(true)
+    try {
+      const res = await fetch('/api/console/crm/locations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          locationId: form.locationId.trim(),
+          pitToken: form.pitToken.trim() || undefined,
+          name: form.name.trim(),
+          action: 'add',
+        }),
+      })
+      if (res.ok) {
+        setLocations(prev => [...prev, {
+          id: form.locationId.trim(),
+          name: form.name.trim(),
+          locationId: form.locationId.trim(),
+          pitToken: form.pitToken.trim(),
+          isActive: false,
+        }])
+        setForm({ name: '', locationId: '', pitToken: '' })
+        setAdding(false)
+        setMessage({ text: 'Location added', type: 'success' })
+      } else {
+        setMessage({ text: 'Failed to add location', type: 'error' })
+      }
+    } catch {
+      setMessage({ text: 'Network error', type: 'error' })
+    } finally {
+      setSaving(false)
+      setTimeout(() => setMessage(null), 3000)
+    }
+  }
+
+  const handleUpdate = async (loc: CrmLocationEntry) => {
+    setSaving(true)
+    try {
+      await fetch('/api/console/crm/locations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          locationId: form.locationId.trim() || loc.locationId,
+          pitToken: form.pitToken.trim() || undefined,
+          name: form.name.trim() || loc.name,
+          action: 'update',
+        }),
+      })
+      setLocations(prev => prev.map(l => l.id === loc.id ? {
+        ...l,
+        name: form.name.trim() || l.name,
+        locationId: form.locationId.trim() || l.locationId,
+        pitToken: form.pitToken.trim() || l.pitToken,
+      } : l))
+      setEditingId(null)
+      setForm({ name: '', locationId: '', pitToken: '' })
+      setMessage({ text: 'Location updated', type: 'success' })
+    } catch {
+      setMessage({ text: 'Failed to update', type: 'error' })
+    } finally {
+      setSaving(false)
+      setTimeout(() => setMessage(null), 3000)
+    }
+  }
+
+  const handleRemove = async (locId: string) => {
+    if (!confirm('Remove this location?')) return
+    try {
+      await fetch('/api/console/crm/locations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ locationId: locId, action: 'remove' }),
+      })
+      setLocations(prev => prev.filter(l => l.id !== locId))
+      setMessage({ text: 'Location removed', type: 'success' })
+    } catch {
+      setMessage({ text: 'Failed to remove', type: 'error' })
+    }
+    setTimeout(() => setMessage(null), 3000)
+  }
+
+  const handleSetActive = async (locId: string) => {
+    await fetch('/api/console/crm/locations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ locationId: locId }),
+    })
+    setLocations(prev => prev.map(l => ({ ...l, isActive: l.id === locId })))
+    setMessage({ text: 'Active location switched', type: 'success' })
+    setTimeout(() => setMessage(null), 3000)
+  }
+
+  const inputStyle = {
+    width: '100%', padding: '10px 14px', borderRadius: 8,
+    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+    color: '#e8eaed', fontSize: 13, fontFamily: 'inherit', outline: 'none',
+  } as const
+
+  const cardS = {
+    padding: '1.25rem', borderRadius: 12,
+    background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)',
+  } as const
+
+  return (
+    <div style={cardS}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <h2 style={{ fontSize: 16, fontWeight: 600, color: '#e8eaed', margin: 0 }}>CRM Locations</h2>
+        <button
+          onClick={() => { setAdding(true); setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }}
+          style={{
+            padding: '7px 16px', borderRadius: 8, border: 'none',
+            background: '#7ed957', color: '#080B0F',
+            fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+          }}
+        >
+          + Add Location
+        </button>
+      </div>
+
+      {message && (
+        <div style={{
+          padding: '8px 14px', borderRadius: 8, marginBottom: 12, fontSize: 12,
+          background: message.type === 'success' ? 'rgba(126,217,87,0.08)' : 'rgba(239,68,68,0.08)',
+          border: `1px solid ${message.type === 'success' ? 'rgba(126,217,87,0.2)' : 'rgba(239,68,68,0.2)'}`,
+          color: message.type === 'success' ? '#7ed957' : '#ef4444',
+        }}>
+          {message.text}
+        </div>
+      )}
+
+      {loading ? (
+        <div style={{ color: '#5f6672', fontSize: 13, padding: 20, textAlign: 'center' }}>Loading locations...</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {locations.map(loc => (
+            <div key={loc.id} style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '12px 16px', borderRadius: 10,
+              background: loc.isActive ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
+              border: `1px solid ${loc.isActive ? 'rgba(126,217,87,0.2)' : 'rgba(255,255,255,0.06)'}`,
+            }}>
+              {/* Status dot */}
+              <div style={{
+                width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+                background: loc.isActive ? '#7ed957' : '#5f6672',
+                boxShadow: loc.isActive ? '0 0 6px rgba(126,217,87,0.5)' : 'none',
+              }} />
+
+              {editingId === loc.id ? (
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Location Name" style={inputStyle} />
+                  <input value={form.locationId} onChange={e => setForm(f => ({ ...f, locationId: e.target.value }))} placeholder="Location ID" style={inputStyle} />
+                  <input value={form.pitToken} onChange={e => setForm(f => ({ ...f, pitToken: e.target.value }))} placeholder="PIT Token (optional)" style={{ ...inputStyle, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }} />
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <button onClick={() => handleUpdate(loc)} disabled={saving} style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: '#7ed957', color: '#080B0F', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      {saving ? '...' : 'Save'}
+                    </button>
+                    <button onClick={() => { setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '6px 14px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#9aa0a8', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#e8eaed' }}>
+                      {loc.name}
+                      {loc.isActive && <span style={{ marginLeft: 8, fontSize: 9, padding: '2px 6px', borderRadius: 4, background: 'rgba(126,217,87,0.12)', color: '#7ed957', fontWeight: 700 }}>ACTIVE</span>}
+                    </div>
+                    <div style={{ fontSize: 11, color: '#5f6672', fontFamily: "'JetBrains Mono', monospace", marginTop: 2 }}>
+                      {loc.locationId}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                    {!loc.isActive && (
+                      <button onClick={() => handleSetActive(loc.id)} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(126,217,87,0.2)', background: 'transparent', color: '#7ed957', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>
+                        Set Active
+                      </button>
+                    )}
+                    <button onClick={() => { setEditingId(loc.id); setForm({ name: loc.name, locationId: loc.locationId, pitToken: loc.pitToken }) }} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#9aa0a8', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      Edit
+                    </button>
+                    <button onClick={() => handleRemove(loc.id)} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(239,68,68,0.2)', background: 'transparent', color: '#ef4444', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
+                      Remove
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+
+          {locations.length === 0 && !adding && (
+            <div style={{ textAlign: 'center', padding: 24, color: '#5f6672', fontSize: 13 }}>
+              No locations connected. Add your first CRM location.
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Add Location Form */}
+      {adding && (
+        <div style={{ marginTop: 12, padding: '16px', borderRadius: 10, background: 'rgba(126,217,87,0.03)', border: '1px solid rgba(126,217,87,0.12)' }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#e8eaed', marginBottom: 12 }}>Connect New Location</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#9aa0a8', marginBottom: 4 }}>Location Name *</label>
+              <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. The Spa In Ligonier" style={inputStyle} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#9aa0a8', marginBottom: 4 }}>CRM Location ID *</label>
+              <input value={form.locationId} onChange={e => setForm(f => ({ ...f, locationId: e.target.value }))} placeholder="e.g. F76MNKOMQCMruMrumtdf" style={{ ...inputStyle, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }} />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#9aa0a8', marginBottom: 4 }}>PIT Token (Private Integration Token)</label>
+              <input value={form.pitToken} onChange={e => setForm(f => ({ ...f, pitToken: e.target.value }))} placeholder="pit-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" style={{ ...inputStyle, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }} type="password" />
+              <div style={{ fontSize: 10, color: '#5f6672', marginTop: 4 }}>
+                Find this in your CRM under Settings &gt; Business Profile &gt; Private Integrations
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+              <button onClick={handleAdd} disabled={saving} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#7ed957', color: '#080B0F', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                {saving ? 'Connecting...' : 'Connect Location'}
+              </button>
+              <button onClick={() => { setAdding(false); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#9aa0a8', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─── Main Account View ────────────────────────────────────────────────────
 
 export function AccountView() {
   const [tab, setTab] = useState<AccountTab>('profile')
@@ -327,6 +604,7 @@ export function AccountView() {
       <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
         {([
           { key: 'profile' as AccountTab, label: 'Profile & Settings' },
+          { key: 'locations' as AccountTab, label: 'CRM Locations' },
           { key: 'contributor' as AccountTab, label: 'Contributor' },
           { key: 'requests' as AccountTab, label: 'Request Integration' },
           { key: 'history' as AccountTab, label: 'History' },
@@ -352,6 +630,9 @@ export function AccountView() {
           </button>
         ))}
       </div>
+
+      {/* ─── Locations Tab ─── */}
+      {tab === 'locations' && <LocationsTab />}
 
       {/* ─── Requests Tab ─── */}
       {tab === 'requests' && <RequestIntegrationView />}

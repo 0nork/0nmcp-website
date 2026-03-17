@@ -104,9 +104,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
   }
 
-  const { locationId, pitToken } = body as {
+  const { locationId, pitToken, name, action } = body as {
     locationId?: string
     pitToken?: string
+    name?: string
+    action?: 'add' | 'update' | 'remove' | undefined
   }
 
   if (!locationId) {
@@ -126,6 +128,68 @@ export async function POST(request: NextRequest) {
     .single()
 
   const currentMeta = (existing?.metadata as Record<string, unknown>) || {}
+  const additionalLocations = (currentMeta.additional_locations as Array<{ id: string; name: string; pitToken?: string }>) || []
+
+  // Handle add/update/remove actions for managing location list
+  if (action === 'add') {
+    // Add a new location to the list
+    if (!additionalLocations.some(l => l.id === locationId)) {
+      additionalLocations.push({ id: locationId, name: name || locationId, pitToken: pitToken || undefined })
+    }
+    const updatedMeta: Record<string, unknown> = { ...currentMeta, additional_locations: additionalLocations }
+    // Also store PIT per location
+    if (pitToken) {
+      const pitMap = (currentMeta.pit_tokens as Record<string, string>) || {}
+      pitMap[locationId] = pitToken
+      updatedMeta.pit_tokens = pitMap
+    }
+
+    if (existing) {
+      await admin.from('user_crm_accounts').update({ metadata: updatedMeta }).eq('id', existing.id)
+    } else {
+      await admin.from('user_crm_accounts').insert({ user_id: user.id, location_id: locationId, metadata: updatedMeta })
+    }
+    return NextResponse.json({ success: true, action: 'added', locationId })
+
+  } else if (action === 'update') {
+    // Update an existing location's name/PIT
+    const idx = additionalLocations.findIndex(l => l.id === locationId)
+    if (idx >= 0) {
+      if (name) additionalLocations[idx].name = name
+      if (pitToken) additionalLocations[idx].pitToken = pitToken
+    }
+    const updatedMeta: Record<string, unknown> = { ...currentMeta, additional_locations: additionalLocations }
+    if (pitToken) {
+      const pitMap = (currentMeta.pit_tokens as Record<string, string>) || {}
+      pitMap[locationId] = pitToken
+      updatedMeta.pit_tokens = pitMap
+    }
+    // Also update primary location name if it matches
+    if (existing && locationId === (existing as unknown as { location_id: string }).location_id && name) {
+      updatedMeta.location_name = name
+    }
+
+    if (existing) {
+      await admin.from('user_crm_accounts').update({ metadata: updatedMeta }).eq('id', existing.id)
+    }
+    return NextResponse.json({ success: true, action: 'updated', locationId })
+
+  } else if (action === 'remove') {
+    // Remove a location from the list
+    const filtered = additionalLocations.filter((l: { id: string }) => l.id !== locationId)
+    const updatedMeta: Record<string, unknown> = { ...currentMeta, additional_locations: filtered }
+    // Remove PIT token too
+    const pitMap = (currentMeta.pit_tokens as Record<string, string>) || {}
+    delete pitMap[locationId]
+    updatedMeta.pit_tokens = pitMap
+
+    if (existing) {
+      await admin.from('user_crm_accounts').update({ metadata: updatedMeta }).eq('id', existing.id)
+    }
+    return NextResponse.json({ success: true, action: 'removed', locationId })
+  }
+
+  // Default: switch active location
   const updatedMeta: Record<string, unknown> = {
     ...currentMeta,
     active_location: locationId,
@@ -133,7 +197,6 @@ export async function POST(request: NextRequest) {
   }
 
   if (existing) {
-    // Update existing record
     const { error } = await admin
       .from('user_crm_accounts')
       .update({ metadata: updatedMeta })
@@ -143,7 +206,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to update location', details: error.message }, { status: 500 })
     }
   } else {
-    // Create new record
     const { error } = await admin.from('user_crm_accounts').insert({
       user_id: user.id,
       location_id: locationId,

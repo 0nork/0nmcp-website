@@ -7,7 +7,7 @@ const CRM_BASE = 'https://services.leadconnectorhq.com'
 const CRM_VERSION = '2021-07-28'
 
 function getCrmHeaders(): Record<string, string> {
-  const token = process.env.CRM_PIT || process.env.CRM_API_KEY
+  const token = process.env.CRM_PIT || process.env.CRM_API_KEY || ''
   return {
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ function getCrmHeaders(): Record<string, string> {
 }
 
 function getLocationId(): string {
-  return process.env.CRM_LOCATION_ID || process.env.CRM_COMMUNITY_LOCATION_ID
+  return process.env.CRM_LOCATION_ID || process.env.CRM_COMMUNITY_LOCATION_ID || ''
 }
 
 interface CrmContact {

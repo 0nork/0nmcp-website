@@ -1,215 +1,202 @@
 /* ═══════════════════════════════════════════════════════════════
-   MCP Proxy API Route
-   Proxies requests from the Console/Builder to the 0nMCP HTTP server.
-   Supports both local (localhost:3001) and cloud MCP endpoints.
+   0nMCP — HTTP Streamable MCP Server Endpoint
 
-   POST /api/mcp
-   Body: { tool: "search_contacts", params: { locationId: "...", query: "..." } }
-   Returns: { data: {...}, error?: string, source: "local"|"cloud" }
+   Serves as a standard MCP server that CRM Agent Studio, Cursor,
+   Windsurf, or any MCP client can connect to.
+
+   Also supports legacy console proxy format for backwards compat.
+
+   CRM Agent Studio Config:
+     Server URL: https://0nmcp.com/api/mcp
+     Server Label: 0nMCP
+     Headers:
+       Authorization: Bearer {pit_token}
+       locationId: {location_id}
    ═══════════════════════════════════════════════════════════════ */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 
-const MCP_LOCAL_URL = process.env.MCP_LOCAL_URL || 'http://localhost:3001'
-const MCP_CLOUD_URL = process.env.MCP_CLOUD_URL || ''
+export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
-// CRM API for direct calls when MCP server isn't available
 const CRM_BASE = 'https://services.leadconnectorhq.com'
 const CRM_VERSION = '2021-07-28'
 
-// Tool → CRM endpoint mapping for direct API fallback
-const CRM_TOOL_MAP: Record<string, { method: string; path: string }> = {
-  search_contacts:    { method: 'GET',  path: '/contacts/search' },
-  get_contact:        { method: 'GET',  path: '/contacts/{contactId}' },
-  list_pipelines:     { method: 'GET',  path: '/opportunities/pipelines' },
-  list_opportunities: { method: 'GET',  path: '/opportunities/' },
-  list_calendars:     { method: 'GET',  path: '/calendars/' },
-  list_invoices:      { method: 'GET',  path: '/invoices/' },
-  list_conversations: { method: 'GET',  path: '/conversations/' },
-  list_social_posts:  { method: 'GET',  path: '/social-media-posting/' },
-  list_tags:          { method: 'GET',  path: '/locations/{locationId}/tags' },
-  list_workflows:     { method: 'GET',  path: '/workflows/' },
-}
+// ─── MCP Tool Definitions ───────────────────────────────────────────────────
 
-interface McpRequest {
-  tool: string
-  params?: Record<string, string | number | boolean>
-  service?: string
-}
+const MCP_TOOLS = [
+  { name: 'search_contacts', description: 'Search CRM contacts by name, email, or phone', inputSchema: { type: 'object' as const, properties: { query: { type: 'string' }, limit: { type: 'number' } } } },
+  { name: 'create_contact', description: 'Create a new CRM contact', inputSchema: { type: 'object' as const, properties: { firstName: { type: 'string' }, lastName: { type: 'string' }, email: { type: 'string' }, phone: { type: 'string' }, tags: { type: 'array', items: { type: 'string' } } }, required: ['email'] } },
+  { name: 'get_contact', description: 'Get a CRM contact by ID', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' } }, required: ['contactId'] } },
+  { name: 'update_contact', description: 'Update a CRM contact', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' }, firstName: { type: 'string' }, lastName: { type: 'string' }, email: { type: 'string' }, phone: { type: 'string' } }, required: ['contactId'] } },
+  { name: 'add_contact_tags', description: 'Add tags to a CRM contact', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' }, tags: { type: 'array', items: { type: 'string' } } }, required: ['contactId', 'tags'] } },
+  { name: 'add_contact_note', description: 'Add a note to a CRM contact', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' }, body: { type: 'string' } }, required: ['contactId', 'body'] } },
+  { name: 'search_conversations', description: 'Search CRM conversations', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' }, limit: { type: 'number' } } } },
+  { name: 'send_message', description: 'Send a message (Email, SMS, WhatsApp)', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' }, type: { type: 'string', enum: ['Email', 'SMS', 'WhatsApp'] }, message: { type: 'string' }, subject: { type: 'string' } }, required: ['contactId', 'type', 'message'] } },
+  { name: 'get_pipelines', description: 'List all CRM pipelines and stages', inputSchema: { type: 'object' as const, properties: {} } },
+  { name: 'search_opportunities', description: 'Search CRM opportunities/deals', inputSchema: { type: 'object' as const, properties: { pipelineId: { type: 'string' }, query: { type: 'string' } } } },
+  { name: 'create_opportunity', description: 'Create a new opportunity/deal', inputSchema: { type: 'object' as const, properties: { name: { type: 'string' }, pipelineId: { type: 'string' }, stageId: { type: 'string' }, contactId: { type: 'string' }, monetaryValue: { type: 'number' } }, required: ['name', 'pipelineId', 'stageId'] } },
+  { name: 'get_calendars', description: 'List all CRM calendars', inputSchema: { type: 'object' as const, properties: {} } },
+  { name: 'get_appointments', description: 'Get appointments in a date range', inputSchema: { type: 'object' as const, properties: { startTime: { type: 'string' }, endTime: { type: 'string' }, calendarId: { type: 'string' } } } },
+  { name: 'send_email', description: 'Send an email to a contact', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' }, subject: { type: 'string' }, htmlBody: { type: 'string' } }, required: ['contactId', 'subject', 'htmlBody'] } },
+  { name: 'get_location', description: 'Get CRM location details', inputSchema: { type: 'object' as const, properties: {} } },
+  { name: 'get_custom_fields', description: 'List all custom fields', inputSchema: { type: 'object' as const, properties: {} } },
+]
 
-async function getAuthToken(userId: string): Promise<string | null> {
-  // Check Supabase for stored CRM credentials
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
-  const { data } = await supabase
-    .from('vault_credentials')
-    .select('encrypted_value')
-    .eq('user_id', userId)
-    .eq('service', 'crm')
-    .single()
+// ─── CRM API caller ─────────────────────────────────────────────────────────
 
-  return data?.encrypted_value || null
-}
+async function crmFetch(path: string, token: string, locationId: string, opts?: { method?: string; body?: unknown }) {
+  const url = `${CRM_BASE}${path}`
+  const sep = url.includes('?') ? '&' : '?'
+  const fullUrl = `${url}${sep}locationId=${locationId}`
 
-async function callMcpServer(tool: string, params: Record<string, unknown>): Promise<{ data: unknown; source: string }> {
-  // Try local MCP server first
-  try {
-    const res = await fetch(`${MCP_LOCAL_URL}/api/tool`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tool, params }),
-      signal: AbortSignal.timeout(5000),
-    })
-    if (res.ok) {
-      const data = await res.json()
-      return { data, source: 'local' }
-    }
-  } catch {
-    // Local server not available, fall through
-  }
-
-  // Try cloud MCP if configured
-  if (MCP_CLOUD_URL) {
-    try {
-      const res = await fetch(`${MCP_CLOUD_URL}/api/tool`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tool, params }),
-        signal: AbortSignal.timeout(10000),
-      })
-      if (res.ok) {
-        const data = await res.json()
-        return { data, source: 'cloud' }
-      }
-    } catch {
-      // Cloud also unavailable
-    }
-  }
-
-  throw new Error('MCP server unavailable')
-}
-
-async function callCrmDirect(
-  tool: string,
-  params: Record<string, string | number | boolean>,
-  token: string,
-): Promise<unknown> {
-  const mapping = CRM_TOOL_MAP[tool]
-  if (!mapping) throw new Error(`Unknown CRM tool: ${tool}`)
-
-  let path = mapping.path
-  // Replace path params
-  for (const [key, val] of Object.entries(params)) {
-    if (path.includes(`{${key}}`)) {
-      path = path.replace(`{${key}}`, String(val))
-    }
-  }
-
-  // Build query string for GET requests
-  const url = new URL(`${CRM_BASE}${path}`)
-  if (mapping.method === 'GET') {
-    for (const [key, val] of Object.entries(params)) {
-      if (!path.includes(`{${key}}`)) {
-        url.searchParams.set(key, String(val))
-      }
-    }
-  }
-
-  const res = await fetch(url.toString(), {
-    method: mapping.method,
+  const res = await fetch(fullUrl, {
+    method: opts?.method || 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
       'Version': CRM_VERSION,
+      'Content-Type': 'application/json',
     },
-    ...(mapping.method !== 'GET' ? { body: JSON.stringify(params) } : {}),
-    signal: AbortSignal.timeout(10000),
+    body: opts?.body ? JSON.stringify(opts.body) : undefined,
+    signal: AbortSignal.timeout(15000),
   })
-
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`CRM API error ${res.status}: ${text}`)
-  }
 
   return res.json()
 }
 
-export async function POST(req: NextRequest) {
-  try {
-    const body: McpRequest = await req.json()
-    const { tool, params = {}, service } = body
+// ─── Tool executor ──────────────────────────────────────────────────────────
 
-    if (!tool) {
-      return NextResponse.json({ error: 'Missing tool parameter' }, { status: 400 })
+async function executeTool(name: string, args: Record<string, unknown>, token: string, locationId: string) {
+  switch (name) {
+    case 'search_contacts':
+      return crmFetch(`/contacts/?query=${encodeURIComponent(String(args.query || ''))}&limit=${args.limit || 20}`, token, locationId)
+    case 'create_contact':
+      return crmFetch('/contacts/', token, locationId, { method: 'POST', body: args })
+    case 'get_contact':
+      return crmFetch(`/contacts/${args.contactId}`, token, locationId)
+    case 'update_contact': {
+      const { contactId, ...rest } = args
+      return crmFetch(`/contacts/${contactId}`, token, locationId, { method: 'PUT', body: rest })
     }
-
-    // Try MCP server first (handles all services)
-    try {
-      const result = await callMcpServer(tool, params)
-      return NextResponse.json(result)
-    } catch {
-      // MCP unavailable — try direct API fallback for CRM tools
+    case 'add_contact_tags':
+      return crmFetch(`/contacts/${args.contactId}/tags`, token, locationId, { method: 'POST', body: { tags: args.tags } })
+    case 'add_contact_note':
+      return crmFetch(`/contacts/${args.contactId}/notes`, token, locationId, { method: 'POST', body: { body: args.body } })
+    case 'search_conversations':
+      return crmFetch(`/conversations/search?contactId=${args.contactId || ''}&limit=${args.limit || 20}`, token, locationId)
+    case 'send_message':
+      return crmFetch('/conversations/messages', token, locationId, { method: 'POST', body: { type: args.type, contactId: args.contactId, message: args.message, subject: args.subject } })
+    case 'get_pipelines':
+      return crmFetch('/opportunities/pipelines', token, locationId)
+    case 'search_opportunities':
+      return crmFetch(`/opportunities/search?pipelineId=${args.pipelineId || ''}&q=${encodeURIComponent(String(args.query || ''))}`, token, locationId)
+    case 'create_opportunity':
+      return crmFetch('/opportunities/', token, locationId, { method: 'POST', body: args })
+    case 'get_calendars':
+      return crmFetch('/calendars/', token, locationId)
+    case 'get_appointments': {
+      const start = args.startTime || new Date().toISOString()
+      const end = args.endTime || new Date(Date.now() + 30 * 86400000).toISOString()
+      return crmFetch(`/calendars/events?startTime=${start}&endTime=${end}${args.calendarId ? `&calendarId=${args.calendarId}` : ''}`, token, locationId)
     }
-
-    // Direct CRM API fallback
-    if (service === 'crm' || CRM_TOOL_MAP[tool]) {
-      // Get auth token from request header or vault
-      const authHeader = req.headers.get('x-crm-token')
-      const userId = req.headers.get('x-user-id')
-
-      let token = authHeader
-      if (!token && userId) {
-        token = await getAuthToken(userId)
-      }
-
-      if (!token) {
-        return NextResponse.json(
-          { error: 'CRM not connected. Add your CRM credentials in the Vault.', code: 'NO_AUTH' },
-          { status: 401 }
-        )
-      }
-
-      const data = await callCrmDirect(tool, params, token)
-      return NextResponse.json({ data, source: 'direct' })
-    }
-
-    return NextResponse.json(
-      { error: 'MCP server unavailable and no direct fallback for this tool', code: 'MCP_OFFLINE' },
-      { status: 503 }
-    )
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error'
-    return NextResponse.json({ error: message }, { status: 500 })
+    case 'send_email':
+      return crmFetch('/conversations/messages', token, locationId, { method: 'POST', body: { type: 'Email', contactId: args.contactId, subject: args.subject, html: args.htmlBody } })
+    case 'get_location':
+      return crmFetch(`/locations/${locationId}`, token, locationId)
+    case 'get_custom_fields':
+      return crmFetch(`/locations/${locationId}/customFields`, token, locationId)
+    default:
+      return { error: `Unknown tool: ${name}` }
   }
 }
 
-// GET endpoint for health check / widget discovery
-export async function GET() {
-  let mcpStatus = 'offline'
+// ─── POST — MCP Protocol + Legacy Console Proxy ─────────────────────────────
 
-  try {
-    const res = await fetch(`${MCP_LOCAL_URL}/health`, {
-      signal: AbortSignal.timeout(2000),
-    })
-    if (res.ok) mcpStatus = 'local'
-  } catch {
-    if (MCP_CLOUD_URL) {
-      try {
-        const res = await fetch(`${MCP_CLOUD_URL}/health`, {
-          signal: AbortSignal.timeout(3000),
-        })
-        if (res.ok) mcpStatus = 'cloud'
-      } catch { /* */ }
-    }
+export async function POST(req: NextRequest) {
+  const token = req.headers.get('authorization')?.replace('Bearer ', '') || process.env.CRM_PIT || ''
+  const locationId = req.headers.get('locationid') || req.headers.get('locationId') || process.env.CRM_LOCATION_ID || ''
+
+  if (!token) {
+    return NextResponse.json({ error: 'Authorization required' }, { status: 401 })
   }
 
+  try {
+    const body = await req.json()
+
+    // ── Standard MCP JSON-RPC protocol (Agent Studio, Cursor, etc.) ──
+    if (body.jsonrpc || body.method === 'initialize' || body.method === 'tools/list' || body.method === 'tools/call') {
+      const { method, params, id } = body
+
+      switch (method) {
+        case 'initialize':
+          return NextResponse.json({
+            jsonrpc: '2.0', id,
+            result: {
+              protocolVersion: '2024-11-05',
+              serverInfo: { name: '0nMCP', version: '2.4.0' },
+              capabilities: { tools: { listChanged: false } },
+            },
+          })
+
+        case 'tools/list':
+          return NextResponse.json({
+            jsonrpc: '2.0', id,
+            result: { tools: MCP_TOOLS },
+          })
+
+        case 'tools/call': {
+          const toolName = params?.name || ''
+          const toolArgs = params?.arguments || {}
+          const result = await executeTool(toolName, toolArgs, token, locationId)
+          return NextResponse.json({
+            jsonrpc: '2.0', id,
+            result: { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] },
+          })
+        }
+
+        default:
+          return NextResponse.json({
+            jsonrpc: '2.0', id,
+            error: { code: -32601, message: `Method not found: ${method}` },
+          })
+      }
+    }
+
+    // ── Legacy console proxy format: { tool, params, service } ──
+    const { tool, params: legacyParams = {} } = body
+    if (tool) {
+      const result = await executeTool(tool, legacyParams, token, locationId)
+      return NextResponse.json({ data: result, source: 'direct' })
+    }
+
+    return NextResponse.json({ error: 'Invalid request format' }, { status: 400 })
+  } catch (err) {
+    return NextResponse.json({
+      jsonrpc: '2.0', id: null,
+      error: { code: -32603, message: err instanceof Error ? err.message : 'Internal error' },
+    }, { status: 500 })
+  }
+}
+
+// ─── GET — Discovery + Health ───────────────────────────────────────────────
+
+export async function GET() {
   return NextResponse.json({
-    status: mcpStatus,
-    tools: Object.keys(CRM_TOOL_MAP).length,
-    directFallback: true,
-    services: ['crm', 'stripe', 'cloudflare', 'n8n', 'make'],
+    name: '0nMCP',
+    version: '2.4.0',
+    protocol: 'mcp',
+    transport: 'streamable_http',
+    tools: MCP_TOOLS.length,
+    description: 'Universal AI API Orchestrator — 870+ tools, 54 services',
+    setup: {
+      crm_agent_studio: {
+        server_url: 'https://0nmcp.com/api/mcp',
+        server_label: '0nMCP',
+        headers: { Authorization: 'Bearer {pit_token}', locationId: '{location_id}' },
+      },
+      cursor: {
+        mcpServers: { '0nmcp': { url: 'https://0nmcp.com/api/mcp', transport: 'streamable_http' } },
+      },
+    },
   })
 }

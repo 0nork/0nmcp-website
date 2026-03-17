@@ -61,16 +61,23 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
       return
     }
 
-    // Check for Anthropic vault entry
-    const { data: vaultEntry } = await supabase
-      .from('user_vaults')
-      .select('encrypted_key, iv, salt')
-      .eq('user_id', user.id)
-      .eq('service_name', 'anthropic')
-      .single()
+    // Check for ANY AI provider vault entry (groq, openai, anthropic)
+    const providers = ['groq', 'openai', 'anthropic']
+    let vaultEntry = null
+    for (const provider of providers) {
+      const { data } = await supabase
+        .from('user_vaults')
+        .select('encrypted_key, iv, salt')
+        .eq('user_id', user.id)
+        .eq('service_name', provider)
+        .single()
+      if (data) { vaultEntry = data; break }
+    }
 
+    // No BYOK key? That's OK — use server-side multi-provider fallback
     if (!vaultEntry) {
-      setAuthState('no-key')
+      setDecryptedKey('__server_fallback__')
+      setAuthState('ready')
       return
     }
 
@@ -141,12 +148,13 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
     abortRef.current = new AbortController()
 
     try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (decryptedKey && decryptedKey !== '__server_fallback__') {
+        headers['x-api-key'] = decryptedKey
+      }
       const response = await fetch('/api/builder/generate', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': decryptedKey,
-        },
+        headers,
         body: JSON.stringify({
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
@@ -154,7 +162,7 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
       })
 
       if (response.status === 401) {
-        assistantMsg.content = 'Your Anthropic API key is invalid or expired. Update it in Account > Credentials.'
+        assistantMsg.content = 'API key issue. The server will retry with available providers. Try again.'
         setMessages((prev) => [...prev.slice(0, -1), { ...assistantMsg }])
         return
       }

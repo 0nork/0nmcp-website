@@ -21,29 +21,49 @@ export default function ServicePaletteItem({ service }: Props) {
     e.dataTransfer.effectAllowed = 'move'
   }
 
+  const color = service.brandColor || '#666'
+
   return (
     <div
       className="builder-service-item"
       draggable
       onDragStart={onDragStart}
+      style={{ borderLeftColor: color }}
     >
-      <div className="builder-service-icon">
+      {/* Colored rounded icon square */}
+      <div
+        className="builder-service-icon"
+        style={{ background: `${color}20`, borderRadius: 10 }}
+      >
         {service.logo ? (
-          <img src={service.logo} alt={service.name} width={20} height={20} />
+          <img
+            src={service.logo}
+            alt={service.name}
+            width={20}
+            height={20}
+            style={{ filter: 'brightness(1.2)' }}
+          />
         ) : (
-          service.icon || service.name.charAt(0)
+          <span style={{ fontSize: 16 }}>
+            {service.icon || service.name.charAt(0)}
+          </span>
         )}
       </div>
+
       <div className="builder-service-info">
         <div className="builder-service-name">
-          <span
-            className="builder-service-dot"
-            style={{ backgroundColor: service.brandColor || '#666' }}
-          />
           {service.name}
+          {service.category_id && (
+            <span className="builder-service-badge" style={{ background: `${color}22`, color, borderColor: `${color}44` }}>
+              {service.category_id}
+            </span>
+          )}
         </div>
         <div className="builder-service-tools">
-          {service.tool_count} tool{service.tool_count !== 1 ? 's' : ''}
+          {service.description_short
+            ? service.description_short.slice(0, 40) + (service.description_short.length > 40 ? '...' : '')
+            : `${service.tool_count} tool${service.tool_count !== 1 ? 's' : ''}`
+          }
         </div>
       </div>
     </div>

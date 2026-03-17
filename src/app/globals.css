@@ -3098,9 +3098,9 @@ a:hover {
   max-width: 72rem;
   border: 1px solid var(--border);
   border-radius: 1rem;
-  background: rgba(10, 10, 15, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #000000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   animation: megaDropIn 0.2s ease-out;
   overflow: hidden;
 }

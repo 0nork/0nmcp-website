@@ -1,20 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 import { stripe } from '@/lib/stripe'
 import { createMarketplaceCheckout } from '@/lib/stripe-connect'
 
 export const dynamic = 'force-dynamic'
 
 const SITE_URL = 'https://www.0nmcp.com'
+const MARKETPLACE_URL = process.env.NEXT_PUBLIC_MARKETPLACE_URL || 'https://marketplace.rocketclients.com'
+
+function getAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { persistSession: false } }
+  )
+}
 
 /**
  * POST /api/console/store/checkout — Purchase a store listing
- * Body: { listingId }
+ * Body: { listingId }                        — standard console purchase
+ * Body: { listingId, locationId, successUrl, cancelUrl } — Add0n iframe purchase
  *
  * Free listings: instant purchase + copy workflow to user's workflow_files + user_vault_files
  * Paid listings: create Stripe Checkout session, return { checkoutUrl }
  */
 export async function POST(request: NextRequest) {
+  const body = await request.json()
+  const { listingId, locationId, successUrl, cancelUrl } = body
+
+  if (!listingId) {
+    return NextResponse.json({ error: 'listingId required' }, { status: 400 })
+  }
+
+  // ── Add0n iframe purchase (locationId present = CRM storefront) ──────────
+  if (locationId) {
+    return handleAdd0nCheckout({ listingId, locationId, successUrl, cancelUrl })
+  }
+
+  // ── Standard console purchase flow ───────────────────────────────────────
   const supabase = await createSupabaseServer()
   if (!supabase) {
     return NextResponse.json({ error: 'Not configured' }, { status: 500 })
@@ -23,13 +47,6 @@ export async function POST(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
-  }
-
-  const body = await request.json()
-  const { listingId } = body
-
-  if (!listingId) {
-    return NextResponse.json({ error: 'listingId required' }, { status: 400 })
   }
 
   // Fetch listing
@@ -226,4 +243,82 @@ async function completePurchase({ supabase, user, listing, listingId, amount, st
     .eq('id', listingId)
 
   return NextResponse.json({ free: amount === 0, workflowId: workflowFileId, vaultFileId })
+}
+
+/**
+ * Add0n iframe storefront checkout — per-location purchases from add0n_listings.
+ * Free listings record purchase immediately; paid listings create Stripe Checkout.
+ */
+async function handleAdd0nCheckout({ listingId, locationId, successUrl, cancelUrl }: {
+  listingId: string; locationId: string; successUrl?: string; cancelUrl?: string
+}) {
+  const admin = getAdmin()
+
+  // Fetch from add0n_listings
+  const { data: listing, error: listingError } = await admin
+    .from('add0n_listings')
+    .select('*')
+    .eq('id', listingId)
+    .eq('is_active', true)
+    .single()
+
+  if (listingError || !listing) {
+    return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
+  }
+
+  // Check if already purchased
+  const { data: existing } = await admin
+    .from('add0n_purchases')
+    .select('id')
+    .eq('location_id', locationId)
+    .eq('listing_id', listingId)
+    .eq('status', 'complete')
+    .maybeSingle()
+
+  if (existing) {
+    return NextResponse.json({ purchased: true, alreadyOwned: true })
+  }
+
+  // Free listings — record purchase immediately
+  if (!listing.price_cents || listing.price_cents === 0) {
+    await admin.from('add0n_purchases').upsert({
+      location_id: locationId,
+      listing_id:  listingId,
+      amount_cents: 0,
+      status:      'complete',
+    }, { onConflict: 'location_id,listing_id' })
+    return NextResponse.json({ purchased: true })
+  }
+
+  // Paid listing — create Stripe Checkout Session
+  const defaultSuccess = `${MARKETPLACE_URL}/install/success?session_id={CHECKOUT_SESSION_ID}&location_id=${locationId}`
+  const defaultCancel  = `${MARKETPLACE_URL}/install/error?reason=cancelled`
+
+  const lineItems = listing.stripe_price_id
+    ? [{ price: listing.stripe_price_id, quantity: 1 }]
+    : [{
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: listing.title,
+            ...(listing.tagline ? { description: listing.tagline } : {}),
+          },
+          unit_amount: listing.price_cents,
+        },
+        quantity: 1,
+      }]
+
+  const session = await stripe.checkout.sessions.create({
+    mode: 'payment',
+    line_items: lineItems,
+    success_url: successUrl || defaultSuccess,
+    cancel_url:  cancelUrl  || defaultCancel,
+    metadata: {
+      location_id: locationId,
+      listing_id:  listingId,
+      source:      'add0n_storefront',
+    },
+  })
+
+  return NextResponse.json({ checkoutUrl: session.url })
 }

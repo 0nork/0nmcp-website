@@ -33,6 +33,24 @@ export async function POST(request: NextRequest) {
   // ─── One-time purchase fulfillment ──────────────────────────
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object
+
+    // ── Add0n storefront purchase (per-location, no user auth) ──
+    if (session.metadata?.source === 'add0n_storefront') {
+      const { location_id, listing_id } = session.metadata
+      if (location_id && listing_id) {
+        await admin.from('add0n_purchases').upsert({
+          location_id,
+          listing_id,
+          stripe_session_id: session.id,
+          stripe_payment_id: (session as unknown as Record<string, unknown>).payment_intent as string,
+          amount_cents:      session.amount_total ?? 0,
+          status:            'complete',
+        }, { onConflict: 'location_id,listing_id' })
+        console.log(`Add0n purchase fulfilled: location=${location_id} listing=${listing_id} amount=${session.amount_total}`)
+      }
+      return NextResponse.json({ received: true })
+    }
+
     const { listingId, buyerId } = session.metadata || {}
 
     // Subscription checkouts are handled by customer.subscription.created

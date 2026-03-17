@@ -1,11 +1,42 @@
+// app/install/success/page.tsx
+// Handles both Add0n OAuth install success and existing 0nMCP marketplace install success
+
 import Link from 'next/link'
 import { STATS } from '@/data/stats'
 
 export const metadata = {
-  title: `0nMCP Installed! | ${STATS.tools} Tools Ready`,
+  title: `Installed! | 0nMCP`,
 }
 
-export default function InstallSuccessPage() {
+export default async function InstallSuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ location_id?: string; plan?: string; session_id?: string }>
+}) {
+  const params = await searchParams
+
+  // Add0n OAuth install success — dark branded page
+  if (params.location_id) {
+    return (
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', background:'#080B0F', padding:32 }}>
+        <div style={{ background:'#0E1117', border:'1px solid rgba(110,224,90,.3)', borderRadius:16, padding:40, maxWidth:480, textAlign:'center' }}>
+          <div style={{ fontSize:48, marginBottom:16 }}>&#x2705;</div>
+          <h1 style={{ fontFamily:'Barlow,sans-serif', fontWeight:900, fontSize:28, color:'#e2e8f0', margin:'0 0 12px' }}>
+            Add0n installed
+          </h1>
+          <p style={{ fontFamily:'Space Grotesk,sans-serif', fontSize:15, color:'#7a8694', lineHeight:1.6, margin:'0 0 24px' }}>
+            Rocket+CRM powered by 0nMCP is now active for your location.
+            Open the Add0n menu item in your CRM sidebar to access your storefront.
+          </p>
+          <p style={{ fontFamily:'JetBrains Mono,monospace', fontSize:12, color:'#3d4758', margin:0 }}>
+            location: {params.location_id}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  // Original 0nMCP marketplace install success
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center p-6">
       <div className="max-w-md text-center">
@@ -31,7 +62,7 @@ export default function InstallSuccessPage() {
             </li>
             <li className="flex gap-2">
               <span className="text-[#ff6b35] font-bold shrink-0">2.</span>
-              Add an action → find &quot;0nMCP&quot; in the marketplace actions
+              Add an action &rarr; find &quot;0nMCP&quot; in the marketplace actions
             </li>
             <li className="flex gap-2">
               <span className="text-[#ff6b35] font-bold shrink-0">3.</span>

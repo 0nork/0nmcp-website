@@ -1,22 +1,18 @@
 'use client'
 
 /**
- * DashboardRightSidebar
+ * DashboardRightSidebar — APEX-inspired floating panel
  *
- * Three-tab flyout panel attached to the right edge of the console.
- * Collapsed: 40px strip with puzzle-piece icon.
- * Expanded: 296px panel sliding in from the right.
+ * Collapsed: floating pill button on right edge
+ * Expanded: 340px floating panel with rounded corners + glassmorphism
  *
- * Tabs:
- *   Connectors — APEX-style connected service cards + available connector grid
- *   Vault       — vault file summary + quick-open CTA
- *   ⚡ Sparks   — balance + three package purchase cards
+ * Tabs: Connectors | Vault | Sparks
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { getLogoSrc } from '@/components/console/logo-map'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Types ──────────────────────────────────────────────────────────────────
 
 type Tab = 'connectors' | 'vault' | 'sparks'
 
@@ -24,6 +20,7 @@ interface ConnectedService {
   id: string
   name: string
   category: string
+  description: string
   connected: boolean
 }
 
@@ -40,47 +37,39 @@ interface AccountSummary {
   subscribed?: boolean
 }
 
-// ─── Static connector catalog (maps to APEX connector list) ──────────────────
+// ─── Connector catalog ──────────────────────────────────────────────────────
 
 const CONNECTORS: ConnectedService[] = [
-  // AI
-  { id: 'openai',      name: 'OpenAI',       category: 'AI',          connected: false },
-  { id: 'anthropic',   name: 'Anthropic',    category: 'AI',          connected: false },
-  { id: 'gemini',      name: 'Gemini',       category: 'AI',          connected: false },
-  { id: 'groq',        name: 'GROQ',         category: 'AI',          connected: false },
-  // CRM / Marketing
-  { id: 'crm',         name: 'Rocket+CRM',   category: 'CRM',         connected: false },
-  { id: 'hubspot',     name: 'HubSpot',      category: 'CRM',         connected: false },
-  { id: 'listkit',     name: 'ListKit',      category: 'Sales',       connected: false },
-  { id: 'smartlead',   name: 'Smartlead',    category: 'Sales',       connected: false },
-  // Social
-  { id: 'linkedin',    name: 'LinkedIn',     category: 'Social',      connected: false },
-  { id: 'instagram',   name: 'Instagram',    category: 'Social',      connected: false },
-  { id: 'x_twitter',   name: 'X / Twitter',  category: 'Social',      connected: false },
-  { id: 'reddit',      name: 'Reddit',       category: 'Social',      connected: false },
-  { id: 'discord',     name: 'Discord',      category: 'Social',      connected: false },
-  { id: 'youtube',     name: 'YouTube',      category: 'Social',      connected: false },
-  // Communication
-  { id: 'slack',       name: 'Slack',        category: 'Comms',       connected: false },
-  { id: 'gmail',       name: 'Gmail',        category: 'Comms',       connected: false },
-  { id: 'twilio',      name: 'Twilio',       category: 'Comms',       connected: false },
-  { id: 'sendgrid',    name: 'SendGrid',     category: 'Comms',       connected: false },
-  // Payments
-  { id: 'stripe',      name: 'Stripe',       category: 'Payments',    connected: false },
-  // Dev / Data
-  { id: 'github',      name: 'GitHub',       category: 'Dev',         connected: false },
-  { id: 'vercel',      name: 'Vercel',       category: 'Dev',         connected: false },
-  { id: 'supabase',    name: 'Supabase',     category: 'Dev',         connected: false },
-  { id: 'notion',      name: 'Notion',       category: 'Data',        connected: false },
-  { id: 'airtable',    name: 'Airtable',     category: 'Data',        connected: false },
-  // Google
-  { id: 'gdrive',      name: 'Google Drive', category: 'Google',      connected: false },
-  { id: 'gsheets',     name: 'Sheets',       category: 'Google',      connected: false },
-  { id: 'gcal',        name: 'Calendar',     category: 'Google',      connected: false },
-  // E-commerce
-  { id: 'shopify',     name: 'Shopify',      category: 'Commerce',    connected: false },
-  { id: 'woocommerce', name: 'WooCommerce',  category: 'Commerce',    connected: false },
-  { id: 'wordpress',   name: 'WordPress',    category: 'Commerce',    connected: false },
+  { id: 'openai',      name: 'OpenAI',       category: 'AI',       description: 'GPT models & embeddings',     connected: false },
+  { id: 'anthropic',   name: 'Anthropic',    category: 'AI',       description: 'Claude AI models',            connected: false },
+  { id: 'gemini',      name: 'Gemini',       category: 'AI',       description: 'Google AI platform',          connected: false },
+  { id: 'groq',        name: 'GROQ',         category: 'AI',       description: 'Fast LLM inference',          connected: false },
+  { id: 'crm',         name: 'Rocket+ CRM',  category: 'CRM',      description: 'Contacts, pipelines, email',  connected: false },
+  { id: 'hubspot',     name: 'HubSpot',      category: 'CRM',      description: 'Marketing & sales CRM',       connected: false },
+  { id: 'listkit',     name: 'ListKit',      category: 'Sales',    description: 'Lead list building',          connected: false },
+  { id: 'smartlead',   name: 'Smartlead',    category: 'Sales',    description: 'Cold email automation',       connected: false },
+  { id: 'linkedin',    name: 'LinkedIn',     category: 'Social',   description: 'Professional networking',     connected: false },
+  { id: 'instagram',   name: 'Instagram',    category: 'Social',   description: 'Photo & video sharing',       connected: false },
+  { id: 'x_twitter',   name: 'X / Twitter',  category: 'Social',   description: 'Microblogging platform',      connected: false },
+  { id: 'reddit',      name: 'Reddit',       category: 'Social',   description: 'Community discussions',       connected: false },
+  { id: 'discord',     name: 'Discord',      category: 'Social',   description: 'Team communication',         connected: false },
+  { id: 'youtube',     name: 'YouTube',      category: 'Social',   description: 'Video platform',             connected: false },
+  { id: 'slack',       name: 'Slack',        category: 'Comms',    description: 'Workplace messaging',        connected: false },
+  { id: 'gmail',       name: 'Gmail',        category: 'Comms',    description: 'Email by Google',            connected: false },
+  { id: 'twilio',      name: 'Twilio',       category: 'Comms',    description: 'SMS & voice APIs',           connected: false },
+  { id: 'sendgrid',    name: 'SendGrid',     category: 'Comms',    description: 'Transactional email',        connected: false },
+  { id: 'stripe',      name: 'Stripe',       category: 'Payments', description: 'Payment processing',         connected: false },
+  { id: 'github',      name: 'GitHub',       category: 'Dev',      description: 'Code hosting & CI/CD',       connected: false },
+  { id: 'vercel',      name: 'Vercel',       category: 'Dev',      description: 'Frontend deployment',        connected: false },
+  { id: 'supabase',    name: 'Supabase',     category: 'Dev',      description: 'Postgres & auth',            connected: false },
+  { id: 'notion',      name: 'Notion',       category: 'Data',     description: 'Docs & knowledge base',      connected: false },
+  { id: 'airtable',    name: 'Airtable',     category: 'Data',     description: 'Spreadsheet database',       connected: false },
+  { id: 'gdrive',      name: 'Google Drive', category: 'Google',   description: 'Cloud file storage',         connected: false },
+  { id: 'gsheets',     name: 'Sheets',       category: 'Google',   description: 'Online spreadsheets',        connected: false },
+  { id: 'gcal',        name: 'Calendar',     category: 'Google',   description: 'Scheduling & events',        connected: false },
+  { id: 'shopify',     name: 'Shopify',      category: 'Commerce', description: 'E-commerce platform',        connected: false },
+  { id: 'woocommerce', name: 'WooCommerce',  category: 'Commerce', description: 'WordPress commerce',         connected: false },
+  { id: 'wordpress',   name: 'WordPress',    category: 'Commerce', description: 'Content management',         connected: false },
 ]
 
 const SPARKS_PACKAGES = [
@@ -89,25 +78,38 @@ const SPARKS_PACKAGES = [
   { key: 'pro',     label: 'Pro',     sparks: 200, price: '$49', url: 'https://0nmcp.com/sparks?package=pro' },
 ]
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Shared styles ──────────────────────────────────────────────────────────
+
+const PANEL_BG       = 'rgba(12, 14, 20, 0.92)'
+const PANEL_BORDER   = 'rgba(255, 255, 255, 0.07)'
+const CARD_BG        = 'rgba(255, 255, 255, 0.03)'
+const CARD_BG_HOVER  = 'rgba(255, 255, 255, 0.06)'
+const CARD_BORDER    = 'rgba(255, 255, 255, 0.06)'
+const ACCENT         = '#7ed957'
+const ACCENT_DIM     = 'rgba(126, 217, 87, 0.12)'
+const ACCENT_BORDER  = 'rgba(126, 217, 87, 0.3)'
+const TEXT_PRIMARY   = '#e8eaed'
+const TEXT_SECONDARY = '#9aa0a8'
+const TEXT_MUTED     = '#5f6672'
+
+// ─── Sub-components ─────────────────────────────────────────────────────────
 
 function TabButton({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
       style={{
-        flex:       1,
-        padding:    '6px 0',
-        fontSize:   12,
+        flex: 1,
+        padding: '10px 0',
+        fontSize: 12,
         fontWeight: active ? 600 : 400,
-        color:      active ? 'var(--accent, #7ed957)' : 'var(--text-muted, #64748b)',
+        letterSpacing: active ? '0.01em' : '0',
+        color: active ? ACCENT : TEXT_MUTED,
         background: 'none',
-        border:     'none',
-        borderBottom: active
-          ? '1.5px solid var(--accent, #7ed957)'
-          : '1.5px solid transparent',
-        cursor:    'pointer',
-        transition: 'all 0.15s ease',
+        border: 'none',
+        borderBottom: `2px solid ${active ? ACCENT : 'transparent'}`,
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
         fontFamily: 'inherit',
       }}
     >
@@ -116,7 +118,7 @@ function TabButton({ label, active, onClick }: { label: string; active: boolean;
   )
 }
 
-function ServiceLogo({ id, size = 22 }: { id: string; size?: number }) {
+function ServiceLogo({ id, size = 28 }: { id: string; size?: number }) {
   const src = getLogoSrc(id)
   const initials = id.slice(0, 2).toUpperCase()
   if (src) {
@@ -126,24 +128,24 @@ function ServiceLogo({ id, size = 22 }: { id: string; size?: number }) {
         alt={id}
         width={size}
         height={size}
-        style={{ objectFit: 'contain', borderRadius: 4, flexShrink: 0 }}
+        style={{ objectFit: 'contain', borderRadius: 6, flexShrink: 0 }}
         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
       />
     )
   }
   return (
     <div style={{
-      width: size, height: size, borderRadius: 4, flexShrink: 0,
-      background: 'rgba(126,217,87,0.1)',
+      width: size, height: size, borderRadius: 6, flexShrink: 0,
+      background: ACCENT_DIM,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: 9, fontWeight: 700, color: 'var(--accent, #7ed957)',
+      fontSize: 10, fontWeight: 700, color: ACCENT,
     }}>
       {initials}
     </div>
   )
 }
 
-function ConnectorRow({
+function ConnectorCard({
   connector,
   onConnect,
 }: {
@@ -154,65 +156,76 @@ function ConnectorRow({
 
   return (
     <div
-      style={{
-        display:     'flex',
-        alignItems:  'center',
-        gap:         8,
-        padding:     '7px 10px',
-        borderRadius: 8,
-        border:      connector.connected
-          ? '0.5px solid rgba(126,217,87,0.35)'
-          : `0.5px solid ${hovered ? 'rgba(255,255,255,0.1)' : 'var(--border, rgba(255,255,255,0.06))'}`,
-        background:  connector.connected
-          ? 'rgba(126,217,87,0.04)'
-          : hovered ? 'rgba(255,255,255,0.02)' : 'transparent',
-        transition:  'all 0.15s ease',
-        cursor:      connector.connected ? 'default' : 'pointer',
-      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => !connector.connected && onConnect(connector.id)}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8,
+        padding: '12px',
+        borderRadius: 10,
+        border: connector.connected
+          ? `1px solid ${ACCENT_BORDER}`
+          : `1px solid ${hovered ? 'rgba(255,255,255,0.12)' : CARD_BORDER}`,
+        background: connector.connected
+          ? 'rgba(126,217,87,0.04)'
+          : hovered ? CARD_BG_HOVER : CARD_BG,
+        transition: 'all 0.2s ease',
+        cursor: connector.connected ? 'default' : 'pointer',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
-      <ServiceLogo id={connector.id} size={20} />
+      {/* Top row: logo + status */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+        <ServiceLogo id={connector.id} size={32} />
+        {connector.connected ? (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 4,
+            fontSize: 10, fontWeight: 600, color: ACCENT,
+          }}>
+            <div style={{
+              width: 6, height: 6, borderRadius: '50%',
+              background: ACCENT,
+              boxShadow: `0 0 6px ${ACCENT}`,
+            }} />
+            Active
+          </div>
+        ) : (
+          <div style={{
+            fontSize: 10, fontWeight: 500, padding: '2px 8px',
+            borderRadius: 4,
+            background: hovered ? ACCENT_DIM : 'transparent',
+            color: hovered ? ACCENT : TEXT_MUTED,
+            transition: 'all 0.2s',
+            border: hovered ? `1px solid ${ACCENT_BORDER}` : '1px solid transparent',
+          }}>
+            Connect
+          </div>
+        )}
+      </div>
 
-      <div style={{ flex: 1, minWidth: 0 }}>
+      {/* Name + description */}
+      <div>
         <div style={{
-          fontSize: 12, fontWeight: 500,
-          color: 'var(--text-primary, #f0f0f0)',
-          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY,
+          lineHeight: 1.3,
         }}>
           {connector.name}
         </div>
-        <div style={{ fontSize: 10, color: 'var(--text-muted, #64748b)', marginTop: 1 }}>
-          {connector.category}
+        <div style={{
+          fontSize: 10, color: TEXT_MUTED, marginTop: 2,
+          lineHeight: 1.4,
+        }}>
+          {connector.description}
         </div>
       </div>
-
-      {connector.connected ? (
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 4,
-          fontSize: 10, color: 'var(--accent, #7ed957)',
-        }}>
-          <div style={{
-            width: 6, height: 6, borderRadius: '50%',
-            background: 'var(--accent, #7ed957)',
-          }} />
-          Active
-        </div>
-      ) : (
-        <div style={{
-          fontSize: 10, fontWeight: 500,
-          color: hovered ? 'var(--text-secondary, #94a3b8)' : 'var(--text-muted, #64748b)',
-          transition: 'color 0.15s',
-        }}>
-          Connect
-        </div>
-      )}
     </div>
   )
 }
 
-// ─── Tab content panels ────────────────────────────────────────────────────────
+// ─── Tab panels ─────────────────────────────────────────────────────────────
 
 function ConnectorsTab({
   connectors,
@@ -225,92 +238,111 @@ function ConnectorsTab({
   onConnect: (id: string) => void
   onOpenVault: () => void
 }) {
-  const [filter, setFilter]     = useState('')
+  const [filter, setFilter] = useState('')
   const [category, setCategory] = useState('All')
 
   const categories = ['All', ...Array.from(new Set(connectors.map(c => c.category)))]
 
   const filtered = connectors.filter(c => {
-    const matchesSearch   = filter === '' || c.name.toLowerCase().includes(filter.toLowerCase())
+    const matchesSearch = filter === '' || c.name.toLowerCase().includes(filter.toLowerCase())
     const matchesCategory = category === 'All' || c.category === category
     return matchesSearch && matchesCategory
   })
 
-  const connected    = filtered.filter(c => c.connected)
+  const connected = filtered.filter(c => c.connected)
   const notConnected = filtered.filter(c => !c.connected)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 0, height: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
-      {/* Stats bar */}
+      {/* Header stats */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '8px 14px', borderBottom: '0.5px solid var(--border, rgba(255,255,255,0.06))',
+        padding: '12px 16px',
+        borderBottom: `1px solid ${PANEL_BORDER}`,
         flexShrink: 0,
       }}>
-        <div style={{ fontSize: 11, color: 'var(--text-muted, #64748b)' }}>
-          <span style={{ fontWeight: 600, color: 'var(--accent, #7ed957)', fontSize: 13 }}>
+        <div style={{ fontSize: 12, color: TEXT_SECONDARY }}>
+          <span style={{ fontWeight: 700, color: ACCENT, fontSize: 16 }}>
             {connectedCount}
           </span>
-          {' '}connected · {CONNECTORS.length} available
+          <span style={{ marginLeft: 4 }}>of {CONNECTORS.length}</span>
         </div>
         <button
           onClick={onOpenVault}
           style={{
-            fontSize: 10, padding: '3px 8px', borderRadius: 5,
-            background: 'rgba(126,217,87,0.08)', border: '0.5px solid rgba(126,217,87,0.25)',
-            color: 'var(--accent, #7ed957)', cursor: 'pointer', fontFamily: 'inherit',
+            fontSize: 11, padding: '5px 12px', borderRadius: 6,
+            background: ACCENT_DIM,
+            border: `1px solid ${ACCENT_BORDER}`,
+            color: ACCENT, cursor: 'pointer', fontFamily: 'inherit',
+            fontWeight: 600, transition: 'all 0.15s',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(126,217,87,0.2)'
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = ACCENT_DIM
           }}
         >
-          + Add in Vault
+          + Import
         </button>
       </div>
 
       {/* Search */}
-      <div style={{
-        padding: '8px 10px',
-        borderBottom: '0.5px solid var(--border, rgba(255,255,255,0.06))',
-        flexShrink: 0,
-      }}>
+      <div style={{ padding: '10px 16px', flexShrink: 0 }}>
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 6,
-          padding: '5px 10px', borderRadius: 7,
-          background: 'rgba(255,255,255,0.03)',
-          border: '0.5px solid var(--border, rgba(255,255,255,0.06))',
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '8px 12px', borderRadius: 8,
+          background: CARD_BG,
+          border: `1px solid ${CARD_BORDER}`,
+          transition: 'border-color 0.2s',
         }}>
-          <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted, #64748b)', flexShrink: 0 }}>
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke={TEXT_MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
             <circle cx={11} cy={11} r={8} /><path d="m21 21-4.35-4.35" />
           </svg>
           <input
             value={filter}
             onChange={e => setFilter(e.target.value)}
-            placeholder="Search services..."
+            placeholder="Search connectors..."
             style={{
               flex: 1, background: 'none', border: 'none', outline: 'none',
-              fontSize: 12, color: 'var(--text-primary, #f0f0f0)',
-              fontFamily: 'inherit',
+              fontSize: 12, color: TEXT_PRIMARY, fontFamily: 'inherit',
             }}
           />
+          {filter && (
+            <button
+              onClick={() => setFilter('')}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                color: TEXT_MUTED, padding: 0, display: 'flex',
+              }}
+            >
+              <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <line x1={18} y1={6} x2={6} y2={18} /><line x1={6} y1={6} x2={18} y2={18} />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
       {/* Category pills */}
       <div style={{
-        display: 'flex', gap: 4, padding: '6px 10px', flexWrap: 'wrap', flexShrink: 0,
-        borderBottom: '0.5px solid var(--border, rgba(255,255,255,0.06))',
+        display: 'flex', gap: 6, padding: '0 16px 10px', flexWrap: 'wrap', flexShrink: 0,
       }}>
         {categories.map(cat => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
             style={{
-              fontSize: 10, padding: '2px 7px', borderRadius: 4,
-              background:  category === cat ? 'rgba(126,217,87,0.12)' : 'rgba(255,255,255,0.03)',
-              border:      category === cat
-                ? '0.5px solid rgba(126,217,87,0.4)'
-                : '0.5px solid var(--border, rgba(255,255,255,0.06))',
-              color:       category === cat ? 'var(--accent, #7ed957)' : 'var(--text-muted, #64748b)',
-              cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s',
+              fontSize: 11, padding: '4px 10px', borderRadius: 6,
+              background: category === cat ? ACCENT_DIM : 'transparent',
+              border: category === cat
+                ? `1px solid ${ACCENT_BORDER}`
+                : `1px solid ${CARD_BORDER}`,
+              color: category === cat ? ACCENT : TEXT_MUTED,
+              cursor: 'pointer', fontFamily: 'inherit',
+              fontWeight: category === cat ? 600 : 400,
+              transition: 'all 0.15s',
             }}
           >
             {cat}
@@ -318,34 +350,54 @@ function ConnectorsTab({
         ))}
       </div>
 
-      {/* Connector list */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+      {/* Connector grid */}
+      <div style={{
+        flex: 1, overflowY: 'auto', padding: '4px 16px 16px',
+        display: 'flex', flexDirection: 'column', gap: 8,
+      }}>
         {connected.length > 0 && (
           <>
-            <div style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: 'rgba(126,217,87,0.6)', padding: '4px 2px 2px' }}>
+            <div style={{
+              fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+              letterSpacing: '.08em', color: ACCENT, padding: '8px 0 4px',
+            }}>
               Connected
             </div>
-            {connected.map(c => (
-              <ConnectorRow key={c.id} connector={c} onConnect={onConnect} />
-            ))}
-            <div style={{ height: 6 }} />
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
+            }}>
+              {connected.map(c => (
+                <ConnectorCard key={c.id} connector={c} onConnect={onConnect} />
+              ))}
+            </div>
+            <div style={{ height: 4 }} />
           </>
         )}
 
         {notConnected.length > 0 && (
           <>
-            <div style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: 'var(--text-muted, #64748b)', padding: '4px 2px 2px' }}>
+            <div style={{
+              fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+              letterSpacing: '.08em', color: TEXT_MUTED, padding: '8px 0 4px',
+            }}>
               Available
             </div>
-            {notConnected.map(c => (
-              <ConnectorRow key={c.id} connector={c} onConnect={onConnect} />
-            ))}
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
+            }}>
+              {notConnected.map(c => (
+                <ConnectorCard key={c.id} connector={c} onConnect={onConnect} />
+              ))}
+            </div>
           </>
         )}
 
         {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '24px 0', color: 'var(--text-muted, #64748b)', fontSize: 12 }}>
-            No services match &ldquo;{filter}&rdquo;
+          <div style={{
+            textAlign: 'center', padding: '32px 0',
+            color: TEXT_MUTED, fontSize: 13,
+          }}>
+            No connectors match &ldquo;{filter}&rdquo;
           </div>
         )}
       </div>
@@ -378,75 +430,79 @@ function VaultTab({ onOpenVault }: { onOpenVault: () => void }) {
   }, [])
 
   const stats = [
-    { label: 'SWITCH files',  value: loading ? '—' : String(summary?.workflows  ?? 0), color: '#7ed957' },
-    { label: 'Brand assets',  value: loading ? '—' : String(summary?.brand      ?? 0), color: '#a78bfa' },
-    { label: 'Credentials',   value: loading ? '—' : String(summary?.credentials ?? 0), color: '#00d4ff' },
-    { label: 'Total files',   value: loading ? '—' : String(summary?.total      ?? 0), color: '#ff6b35' },
+    { label: 'SWITCH files',  value: loading ? '-' : String(summary?.workflows  ?? 0), color: ACCENT },
+    { label: 'Brand assets',  value: loading ? '-' : String(summary?.brand      ?? 0), color: '#a78bfa' },
+    { label: 'Credentials',   value: loading ? '-' : String(summary?.credentials ?? 0), color: '#00d4ff' },
+    { label: 'Total files',   value: loading ? '-' : String(summary?.total      ?? 0), color: '#ff6b35' },
   ]
 
   return (
-    <div style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+      {/* Stat grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
         {stats.map(s => (
           <div key={s.label} style={{
-            padding: '10px 12px', borderRadius: 8,
-            background: 'rgba(255,255,255,0.03)',
-            border: '0.5px solid var(--border, rgba(255,255,255,0.06))',
+            padding: '14px', borderRadius: 10,
+            background: CARD_BG,
+            border: `1px solid ${CARD_BORDER}`,
           }}>
-            <div style={{ fontSize: 18, fontWeight: 700, color: s.color, lineHeight: 1 }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: s.color, lineHeight: 1 }}>
               {s.value}
             </div>
-            <div style={{ fontSize: 10, color: 'var(--text-muted, #64748b)', marginTop: 3 }}>
+            <div style={{ fontSize: 10, color: TEXT_MUTED, marginTop: 6, fontWeight: 500 }}>
               {s.label}
             </div>
           </div>
         ))}
       </div>
 
+      {/* .0n info card */}
       <div style={{
-        padding: '10px 12px', borderRadius: 8,
+        padding: '14px', borderRadius: 10,
         background: 'rgba(126,217,87,0.04)',
-        border: '0.5px solid rgba(126,217,87,0.2)',
+        border: `1px solid rgba(126,217,87,0.15)`,
       }}>
-        <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--accent, #7ed957)', marginBottom: 4 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: ACCENT, marginBottom: 6 }}>
           .0n file format
         </div>
-        <div style={{ fontSize: 11, color: 'var(--text-secondary, #94a3b8)', lineHeight: 1.55 }}>
-          SWITCH files are executable .0n workflow definitions. Build in the visual builder, run anywhere.
+        <div style={{ fontSize: 11, color: TEXT_SECONDARY, lineHeight: 1.6 }}>
+          SWITCH files are executable .0n workflow definitions.
+          Build in the visual builder, run anywhere.
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {/* Actions */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <button
           onClick={onOpenVault}
           style={{
-            padding: '9px 14px', borderRadius: 8, border: 'none',
-            background: 'var(--accent, #7ed957)', color: '#080B0F',
-            fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-            transition: 'opacity .15s',
+            padding: '11px 16px', borderRadius: 8, border: 'none',
+            background: ACCENT, color: '#080B0F',
+            fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+            transition: 'all .15s',
           }}
-          onMouseEnter={e => { (e.target as HTMLButtonElement).style.opacity = '.85' }}
-          onMouseLeave={e => { (e.target as HTMLButtonElement).style.opacity = '1' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
         >
           Open Vault
         </button>
         <a
           href="/builder"
           style={{
-            display: 'block', padding: '8px 14px', borderRadius: 8,
-            border: '0.5px solid var(--border, rgba(255,255,255,0.06))',
-            color: 'var(--text-secondary, #94a3b8)', background: 'transparent',
+            display: 'block', padding: '10px 16px', borderRadius: 8,
+            border: `1px solid ${CARD_BORDER}`,
+            color: TEXT_SECONDARY, background: 'transparent',
             fontSize: 12, fontWeight: 500, textAlign: 'center', textDecoration: 'none',
-            transition: 'border-color .15s, color .15s',
+            transition: 'all .15s',
           }}
           onMouseEnter={e => {
-            (e.target as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.2)'
-            ;(e.target as HTMLAnchorElement).style.color = 'var(--text-primary, #f0f0f0)'
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.15)'
+            ;(e.currentTarget as HTMLAnchorElement).style.color = TEXT_PRIMARY
           }}
           onMouseLeave={e => {
-            (e.target as HTMLAnchorElement).style.borderColor = 'var(--border, rgba(255,255,255,0.06))'
-            ;(e.target as HTMLAnchorElement).style.color = 'var(--text-secondary, #94a3b8)'
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = CARD_BORDER
+            ;(e.currentTarget as HTMLAnchorElement).style.color = TEXT_SECONDARY
           }}
         >
           Open Builder
@@ -458,43 +514,51 @@ function VaultTab({ onOpenVault }: { onOpenVault: () => void }) {
 
 function SparksTab() {
   const [balance, setBalance] = useState<number | null>(null)
-  const [plan,    setPlan]    = useState<string>('free')
+  const [plan, setPlan] = useState<string>('free')
 
   useEffect(() => {
     fetch('/api/console/billing')
       .then(r => r.ok ? r.json() : null)
       .then((data: AccountSummary | null) => {
         if (data?.sparksBalance != null) setBalance(data.sparksBalance)
-        if (data?.plan)          setPlan(data.plan)
+        if (data?.plan) setPlan(data.plan)
       })
       .catch(() => {})
   }, [])
 
   return (
-    <div style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
 
+      {/* Balance card */}
       <div style={{
-        padding: '14px 16px', borderRadius: 10,
-        background: 'rgba(126,217,87,0.06)',
-        border: '0.5px solid rgba(126,217,87,0.3)',
+        padding: '20px', borderRadius: 12,
+        background: 'rgba(126,217,87,0.05)',
+        border: `1px solid ${ACCENT_BORDER}`,
         textAlign: 'center',
       }}>
-        <div style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: 'rgba(126,217,87,0.7)', marginBottom: 6 }}>
+        <div style={{
+          fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+          letterSpacing: '.1em', color: 'rgba(126,217,87,0.65)', marginBottom: 8,
+        }}>
           Sparks balance
         </div>
-        <div style={{ fontSize: 36, fontWeight: 900, color: 'var(--accent, #7ed957)', lineHeight: 1, fontFamily: "'Barlow', sans-serif" }}>
-          {balance === null ? '—' : balance.toLocaleString()}
+        <div style={{
+          fontSize: 40, fontWeight: 900, color: ACCENT, lineHeight: 1,
+          fontFamily: "'JetBrains Mono', monospace",
+        }}>
+          {balance === null ? '-' : balance.toLocaleString()}
         </div>
-        <div style={{ fontSize: 10, color: 'var(--text-muted, #64748b)', marginTop: 4 }}>
+        <div style={{ fontSize: 11, color: TEXT_MUTED, marginTop: 6 }}>
           {plan.charAt(0).toUpperCase() + plan.slice(1)} plan
         </div>
       </div>
 
-      <div style={{ fontSize: 11, color: 'var(--text-secondary, #94a3b8)', lineHeight: 1.55 }}>
-        Each pipeline execution costs 1–5 Sparks. Purchase below to keep building.
+      <div style={{ fontSize: 12, color: TEXT_SECONDARY, lineHeight: 1.6 }}>
+        Each pipeline execution costs 1-5 Sparks. Purchase below to keep building.
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {/* Package cards */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {SPARKS_PACKAGES.map(pkg => (
           <a
             key={pkg.key}
@@ -502,48 +566,51 @@ function SparksTab() {
             target="_blank"
             rel="noreferrer"
             style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '9px 12px', borderRadius: 8, textDecoration: 'none',
-              background:  pkg.featured ? 'rgba(126,217,87,0.08)' : 'rgba(255,255,255,0.02)',
-              border:      pkg.featured
-                ? '0.5px solid rgba(126,217,87,0.4)'
-                : '0.5px solid var(--border, rgba(255,255,255,0.06))',
-              transition: 'all .15s',
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '12px 14px', borderRadius: 10, textDecoration: 'none',
+              background: pkg.featured ? 'rgba(126,217,87,0.06)' : CARD_BG,
+              border: pkg.featured
+                ? `1px solid ${ACCENT_BORDER}`
+                : `1px solid ${CARD_BORDER}`,
+              transition: 'all .2s',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(126,217,87,0.5)'
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = ACCENT_BORDER
               ;(e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)'
+              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.3)'
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = pkg.featured
-                ? 'rgba(126,217,87,0.4)'
-                : 'var(--border, rgba(255,255,255,0.06))'
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = pkg.featured ? ACCENT_BORDER : CARD_BORDER
               ;(e.currentTarget as HTMLAnchorElement).style.transform = 'none'
+              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none'
             }}
           >
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary, #f0f0f0)' }}>
+                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
                   {pkg.label}
                 </span>
                 {pkg.featured && (
                   <span style={{
-                    fontSize: 9, padding: '1px 5px', borderRadius: 3,
-                    background: 'rgba(126,217,87,0.15)', color: 'var(--accent, #7ed957)',
-                    fontWeight: 700, letterSpacing: '.05em',
+                    fontSize: 9, padding: '2px 6px', borderRadius: 4,
+                    background: ACCENT_DIM, color: ACCENT,
+                    fontWeight: 700, letterSpacing: '.04em',
                   }}>
                     BEST VALUE
                   </span>
                 )}
               </div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted, #64748b)', marginTop: 1 }}>
+              <div style={{ fontSize: 11, color: TEXT_MUTED, marginTop: 2 }}>
                 {pkg.sparks} Sparks
               </div>
             </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--accent, #7ed957)', fontFamily: "'JetBrains Mono', monospace" }}>
+            <div style={{
+              fontSize: 15, fontWeight: 700, color: ACCENT,
+              fontFamily: "'JetBrains Mono', monospace",
+            }}>
               {pkg.price}
             </div>
-            <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted, #64748b)', flexShrink: 0 }}>
+            <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke={TEXT_MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
               <polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
             </svg>
@@ -557,30 +624,40 @@ function SparksTab() {
         rel="noreferrer"
         style={{
           display: 'block', textAlign: 'center',
-          fontSize: 11, color: 'var(--text-muted, #64748b)', textDecoration: 'none',
+          fontSize: 11, color: TEXT_MUTED, textDecoration: 'none',
           transition: 'color .15s',
         }}
-        onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = 'var(--text-secondary, #94a3b8)' }}
-        onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = 'var(--text-muted, #64748b)' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = TEXT_SECONDARY }}
+        onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = TEXT_MUTED }}
       >
-        Manage Sparks → 0nmcp.com
+        Manage Sparks on 0nmcp.com
       </a>
     </div>
   )
 }
 
-// ─── PuzzleIcon ───────────────────────────────────────────────────────────────
+// ─── Icons ──────────────────────────────────────────────────────────────────
 
 function PuzzleIcon({ size = 16 }: { size?: number }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" width={size} height={size}>
+      strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" width={size} height={size}>
       <path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z" />
     </svg>
   )
 }
 
-// ─── Main component ────────────────────────────────────────────────────────────
+function ChevronIcon({ direction = 'left', size = 14 }: { direction?: 'left' | 'right'; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
+      style={{ transform: direction === 'right' ? 'rotate(180deg)' : 'none' }}>
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  )
+}
+
+// ─── Main component ─────────────────────────────────────────────────────────
 
 interface DashboardRightSidebarProps {
   onOpenVault?: () => void
@@ -591,11 +668,12 @@ export default function DashboardRightSidebar({
   onOpenVault,
   connectedCount = 0,
 }: DashboardRightSidebarProps) {
-  const [open,       setOpen]       = useState(false)
-  const [activeTab,  setActiveTab]  = useState<Tab>('connectors')
+  const [open, setOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<Tab>('connectors')
   const [connectors, setConnectors] = useState<ConnectedService[]>(CONNECTORS)
   const panelRef = useRef<HTMLDivElement>(null)
 
+  // Load connected state when panel opens
   useEffect(() => {
     if (!open) return
     fetch('/api/console/billing')
@@ -610,6 +688,7 @@ export default function DashboardRightSidebar({
       .catch(() => {})
   }, [open])
 
+  // Close on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
@@ -618,6 +697,15 @@ export default function DashboardRightSidebar({
     }
     if (open) document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
+  }, [open])
+
+  // ESC to close
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    if (open) document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
   }, [open])
 
   const handleConnect = useCallback(() => {
@@ -636,59 +724,97 @@ export default function DashboardRightSidebar({
   return (
     <div ref={panelRef} style={{ position: 'relative', flexShrink: 0, height: '100%' }}>
 
-      {/* Collapsed 40px strip */}
+      {/* ── Floating trigger strip ──────────────────────────────────────────── */}
       <div style={{
-        width: 40, height: '100%', display: 'flex', flexDirection: 'column',
-        alignItems: 'center', paddingTop: 12, gap: 8,
-        borderLeft: '1px solid var(--border, rgba(255,255,255,0.06))',
-        background: 'var(--bg-card, #0e1117)', zIndex: 10, position: 'relative',
+        width: 44,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: 16,
+        gap: 6,
+        background: 'transparent',
+        zIndex: 10,
+        position: 'relative',
       }}>
+        {/* Main toggle */}
         <button
           onClick={() => setOpen(p => !p)}
-          title="Connectors & Sparks"
+          title="Extensions"
           style={{
-            width: 28, height: 28, borderRadius: 6, border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: open ? 'rgba(126,217,87,0.12)' : 'transparent',
-            color: open ? 'var(--accent, #7ed957)' : 'var(--text-muted, #64748b)',
-            transition: 'all 0.15s ease',
+            width: 34,
+            height: 34,
+            borderRadius: 10,
+            border: `1px solid ${open ? ACCENT_BORDER : CARD_BORDER}`,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: open ? ACCENT_DIM : CARD_BG,
+            color: open ? ACCENT : TEXT_MUTED,
+            transition: 'all 0.2s ease',
+            position: 'relative',
           }}
           onMouseEnter={e => {
             if (!open) {
-              ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'
-              ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--text-secondary, #94a3b8)'
+              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
+              ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.12)'
             }
           }}
           onMouseLeave={e => {
             if (!open) {
-              ;(e.currentTarget as HTMLButtonElement).style.background = 'transparent'
-              ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted, #64748b)'
+              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
+              ;(e.currentTarget as HTMLButtonElement).style.borderColor = CARD_BORDER
             }
           }}
         >
           <PuzzleIcon size={16} />
+          {/* Badge */}
+          {activeConnectedCount > 0 && (
+            <div style={{
+              position: 'absolute', top: -4, right: -4,
+              width: 16, height: 16, borderRadius: '50%',
+              background: ACCENT, color: '#080B0F',
+              fontSize: 9, fontWeight: 800,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              lineHeight: 1,
+              boxShadow: `0 0 8px rgba(126,217,87,0.4)`,
+            }}>
+              {activeConnectedCount > 9 ? '9+' : activeConnectedCount}
+            </div>
+          )}
         </button>
 
-        {activeConnectedCount > 0 && (
-          <div style={{
-            width: 18, height: 18, borderRadius: '50%',
-            background: 'rgba(126,217,87,0.12)', border: '1px solid rgba(126,217,87,0.3)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 9, fontWeight: 700, color: 'var(--accent, #7ed957)', lineHeight: 1,
-          }}>
-            {activeConnectedCount > 99 ? '99+' : activeConnectedCount}
-          </div>
-        )}
-
+        {/* Sparks shortcut */}
         <button
           onClick={() => { setActiveTab('sparks'); setOpen(true) }}
           title="Sparks"
           style={{
-            width: 28, height: 28, borderRadius: 6, border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: (open && activeTab === 'sparks') ? 'rgba(126,217,87,0.12)' : 'transparent',
-            color: (open && activeTab === 'sparks') ? 'var(--accent, #7ed957)' : 'var(--text-muted, #64748b)',
-            transition: 'all 0.15s ease', marginTop: 4,
+            width: 34,
+            height: 34,
+            borderRadius: 10,
+            border: `1px solid ${(open && activeTab === 'sparks') ? ACCENT_BORDER : CARD_BORDER}`,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: (open && activeTab === 'sparks') ? ACCENT_DIM : CARD_BG,
+            color: (open && activeTab === 'sparks') ? ACCENT : TEXT_MUTED,
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={e => {
+            if (!(open && activeTab === 'sparks')) {
+              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
+            }
+          }}
+          onMouseLeave={e => {
+            if (!(open && activeTab === 'sparks')) {
+              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
+            }
           }}
         >
           <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -696,40 +822,112 @@ export default function DashboardRightSidebar({
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
           </svg>
         </button>
+
+        {/* Vault shortcut */}
+        <button
+          onClick={() => { setActiveTab('vault'); setOpen(true) }}
+          title="Vault"
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: 10,
+            border: `1px solid ${(open && activeTab === 'vault') ? ACCENT_BORDER : CARD_BORDER}`,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: (open && activeTab === 'vault') ? ACCENT_DIM : CARD_BG,
+            color: (open && activeTab === 'vault') ? ACCENT : TEXT_MUTED,
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={e => {
+            if (!(open && activeTab === 'vault')) {
+              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
+            }
+          }}
+          onMouseLeave={e => {
+            if (!(open && activeTab === 'vault')) {
+              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
+            }
+          }}
+        >
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </button>
       </div>
 
-      {/* 296px flyout panel */}
-      <div style={{
-        position: 'absolute', right: 40, top: 0, width: 296, height: '100%',
-        background: 'var(--bg-card, #0e1117)',
-        borderLeft: '1px solid var(--border, rgba(255,255,255,0.06))',
-        boxShadow: open ? '-8px 0 32px rgba(0,0,0,0.5)' : 'none',
-        transform: open ? 'translateX(0)' : 'translateX(100%)',
-        opacity: open ? 1 : 0,
-        transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease',
-        zIndex: 41, pointerEvents: open ? 'auto' : 'none',
-        display: 'flex', flexDirection: 'column', overflow: 'hidden',
-      }}>
-        {/* Header */}
+      {/* ── Floating panel ──────────────────────────────────────────────────── */}
+      <div
+        style={{
+          position: 'fixed',
+          right: 56,
+          top: 60,
+          bottom: 12,
+          width: 360,
+          background: PANEL_BG,
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderRadius: 16,
+          border: `1px solid ${PANEL_BORDER}`,
+          boxShadow: open
+            ? '0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset'
+            : 'none',
+          transform: open ? 'translateX(0) scale(1)' : 'translateX(16px) scale(0.97)',
+          opacity: open ? 1 : 0,
+          transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, box-shadow 0.3s ease',
+          zIndex: 100,
+          pointerEvents: open ? 'auto' : 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Panel header */}
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          padding: '0 14px', height: 44,
-          borderBottom: '0.5px solid var(--border, rgba(255,255,255,0.06))', flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          padding: '14px 18px',
+          borderBottom: `1px solid ${PANEL_BORDER}`,
+          flexShrink: 0,
         }}>
-          <PuzzleIcon size={14} />
-          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary, #f0f0f0)', flex: 1 }}>
-            0nMCP Extensions
+          <div style={{
+            width: 28, height: 28, borderRadius: 8,
+            background: ACCENT_DIM,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: ACCENT,
+          }}>
+            <PuzzleIcon size={14} />
+          </div>
+          <span style={{
+            fontSize: 14, fontWeight: 700, color: TEXT_PRIMARY, flex: 1,
+            letterSpacing: '-0.01em',
+          }}>
+            Extensions
           </span>
           <button
             onClick={() => setOpen(false)}
             style={{
-              width: 24, height: 24, borderRadius: 5, border: 'none',
+              width: 28, height: 28, borderRadius: 8,
+              border: `1px solid ${CARD_BORDER}`,
               background: 'transparent', cursor: 'pointer',
-              color: 'var(--text-muted, #64748b)', display: 'flex',
+              color: TEXT_MUTED, display: 'flex',
               alignItems: 'center', justifyContent: 'center', padding: 0,
+              transition: 'all .15s',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
+              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
+            }}
           >
             <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor"
               strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
@@ -740,15 +938,17 @@ export default function DashboardRightSidebar({
 
         {/* Tabs */}
         <div style={{
-          display: 'flex', borderBottom: '0.5px solid var(--border, rgba(255,255,255,0.06))',
-          flexShrink: 0, padding: '0 6px',
+          display: 'flex',
+          borderBottom: `1px solid ${PANEL_BORDER}`,
+          flexShrink: 0,
+          padding: '0 12px',
         }}>
           <TabButton label="Connectors" active={activeTab === 'connectors'} onClick={() => setActiveTab('connectors')} />
-          <TabButton label="Vault"      active={activeTab === 'vault'}      onClick={() => setActiveTab('vault')} />
-          <TabButton label="⚡ Sparks"  active={activeTab === 'sparks'}     onClick={() => setActiveTab('sparks')} />
+          <TabButton label="Vault" active={activeTab === 'vault'} onClick={() => setActiveTab('vault')} />
+          <TabButton label="Sparks" active={activeTab === 'sparks'} onClick={() => setActiveTab('sparks')} />
         </div>
 
-        {/* Content */}
+        {/* Tab content */}
         <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
           {activeTab === 'connectors' && (
             <ConnectorsTab

@@ -91,10 +91,13 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             {children}
           </main>
 
-          <DashboardRightSidebar
-            connectedCount={connectedCount}
-            onOpenVault={handleOpenVault}
-          />
+          {/* Floating right sidebar — sits outside content flow */}
+          <div className="hidden md:block">
+            <DashboardRightSidebar
+              connectedCount={connectedCount}
+              onOpenVault={handleOpenVault}
+            />
+          </div>
 
         </div>
       </div>

@@ -7,7 +7,7 @@ const CRM_BASE = 'https://services.leadconnectorhq.com'
 const CRM_VERSION = '2021-07-28'
 
 function getCrmHeaders(): Record<string, string> {
-  const token = process.env.CRM_PIT || process.env.CRM_API_KEY || 'pit-0317b406-8a47-478e-ac28-a88763a9bb3f'
+  const token = process.env.CRM_PIT || process.env.CRM_API_KEY
   return {
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json',

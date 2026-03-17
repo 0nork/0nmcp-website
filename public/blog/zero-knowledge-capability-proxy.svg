@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#101825" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="shieldGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#00d4ff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shieldFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGlow)"/>
+
+  <!-- Grid lines -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="75" x2="800" y2="75"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="100" y1="0" x2="100" y2="450"/>
+    <line x1="200" y1="0" x2="200" y2="450"/>
+    <line x1="300" y1="0" x2="300" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/>
+    <line x1="500" y1="0" x2="500" y2="450"/>
+    <line x1="600" y1="0" x2="600" y2="450"/>
+    <line x1="700" y1="0" x2="700" y2="450"/>
+  </g>
+
+  <!-- Central shield glow -->
+  <circle cx="400" cy="210" r="120" fill="url(#shieldGlow)" opacity="0.7"/>
+
+  <!-- Data flow lines — left side (incoming API keys) -->
+  <g stroke="#ff4444" stroke-width="1.5" opacity="0.4" stroke-dasharray="6 4">
+    <line x1="60" y1="120" x2="280" y2="180"/>
+    <line x1="60" y1="210" x2="280" y2="210"/>
+    <line x1="60" y1="300" x2="280" y2="240"/>
+  </g>
+
+  <!-- Data flow lines — right side (clean output) -->
+  <g stroke="#7ed957" stroke-width="1.5" opacity="0.4" stroke-dasharray="6 4">
+    <line x1="520" y1="180" x2="740" y2="120"/>
+    <line x1="520" y1="210" x2="740" y2="210"/>
+    <line x1="520" y1="240" x2="740" y2="300"/>
+  </g>
+
+  <!-- Left nodes (credential sources) -->
+  <g filter="url(#glow)">
+    <circle cx="60" cy="120" r="7" fill="#ff4444" opacity="0.9"/>
+    <circle cx="60" cy="210" r="7" fill="#ff4444" opacity="0.9"/>
+    <circle cx="60" cy="300" r="7" fill="#ff4444" opacity="0.9"/>
+  </g>
+  <!-- Left labels -->
+  <text x="80" y="105" font-family="'JetBrains Mono', monospace" font-size="8" fill="#ff4444" opacity="0.7">API_KEY=sk-...</text>
+  <text x="80" y="195" font-family="'JetBrains Mono', monospace" font-size="8" fill="#ff4444" opacity="0.7">TOKEN=ghp_...</text>
+  <text x="80" y="285" font-family="'JetBrains Mono', monospace" font-size="8" fill="#ff4444" opacity="0.7">SECRET=whsec_...</text>
+
+  <!-- Right nodes (clean outputs) -->
+  <g filter="url(#glow)">
+    <circle cx="740" cy="120" r="7" fill="#7ed957" opacity="0.9"/>
+    <circle cx="740" cy="210" r="7" fill="#7ed957" opacity="0.9"/>
+    <circle cx="740" cy="300" r="7" fill="#7ed957" opacity="0.9"/>
+  </g>
+  <!-- Right labels -->
+  <text x="660" y="105" font-family="'JetBrains Mono', monospace" font-size="8" fill="#7ed957" opacity="0.7">200 OK</text>
+  <text x="660" y="195" font-family="'JetBrains Mono', monospace" font-size="8" fill="#7ed957" opacity="0.7">200 OK</text>
+  <text x="660" y="285" font-family="'JetBrains Mono', monospace" font-size="8" fill="#7ed957" opacity="0.7">200 OK</text>
+
+  <!-- Shield shape -->
+  <path d="M400 130 L460 155 L460 250 L400 290 L340 250 L340 155 Z" fill="url(#shieldFill)" stroke="#00d4ff" stroke-width="2" opacity="0.9" filter="url(#softGlow)"/>
+
+  <!-- Shield lock icon -->
+  <rect x="385" y="195" width="30" height="24" rx="3" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.9"/>
+  <path d="M392 195 L392 185 C392 178 408 178 408 185 L408 195" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.9"/>
+  <circle cx="400" cy="208" r="3" fill="#00d4ff" opacity="0.9"/>
+
+  <!-- "ZERO KNOWLEDGE" text -->
+  <text x="400" y="170" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#00d4ff" letter-spacing="0.2em" opacity="0.8">ZERO KNOWLEDGE</text>
+
+  <!-- Proxy label below shield -->
+  <text x="400" y="320" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d4ff" opacity="0.6" letter-spacing="0.15em">CAPABILITY PROXY</text>
+
+  <!-- Credential wipe visualization (X marks between left and shield) -->
+  <g opacity="0.6">
+    <text x="200" y="184" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" fill="#ff4444" font-weight="700">X</text>
+    <text x="200" y="214" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" fill="#ff4444" font-weight="700">X</text>
+    <text x="200" y="244" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" fill="#ff4444" font-weight="700">X</text>
+  </g>
+  <text x="200" y="262" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" fill="#ff4444" opacity="0.5">WIPED</text>
+
+  <!-- Version badge top-right -->
+  <rect x="636" y="18" width="146" height="28" rx="5" fill="#1a1a25" stroke="#00d4ff" stroke-width="1" opacity="0.9"/>
+  <text x="709" y="36" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#00d4ff">v2.4.0 — LIVE</text>
+
+  <!-- Title bottom-left -->
+  <text x="40" y="395" font-family="'Instrument Sans', sans-serif" font-size="22" font-weight="800" fill="#ffffff" opacity="0.9">Zero-Knowledge Capability Proxy</text>
+  <text x="40" y="418" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d4ff" opacity="0.6">AI sees capabilities, never credentials</text>
+
+  <!-- Decorative rings -->
+  <circle cx="400" cy="210" r="90" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.08"/>
+  <circle cx="400" cy="210" r="140" fill="none" stroke="#7ed957" stroke-width="0.5" opacity="0.06"/>
+  <circle cx="400" cy="210" r="200" fill="none" stroke="#a78bfa" stroke-width="0.5" opacity="0.04"/>
+</svg>

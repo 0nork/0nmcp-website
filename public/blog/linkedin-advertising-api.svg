@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0f1a2a" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="liGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0077b5" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#0077b5" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#0077b5" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGlow)"/>
+
+  <!-- Grid -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="75" x2="800" y2="75"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="100" y1="0" x2="100" y2="450"/>
+    <line x1="200" y1="0" x2="200" y2="450"/>
+    <line x1="300" y1="0" x2="300" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/>
+    <line x1="500" y1="0" x2="500" y2="450"/>
+    <line x1="600" y1="0" x2="600" y2="450"/>
+    <line x1="700" y1="0" x2="700" y2="450"/>
+  </g>
+
+  <!-- Central LinkedIn glow -->
+  <circle cx="400" cy="200" r="120" fill="url(#liGlow)" opacity="0.7"/>
+
+  <!-- LinkedIn logo (simplified "in" box) -->
+  <rect x="372" y="165" width="56" height="56" rx="8" fill="none" stroke="#0077b5" stroke-width="2" opacity="0.9" filter="url(#softGlow)"/>
+  <text x="400" y="203" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="28" font-weight="800" fill="#0077b5" filter="url(#textGlow)">in</text>
+
+  <!-- Connecting lines to 4 capability blocks -->
+  <g stroke="#0077b5" stroke-width="1" opacity="0.3">
+    <line x1="372" y1="190" x2="140" y2="100"/>
+    <line x1="428" y1="190" x2="660" y2="100"/>
+    <line x1="372" y1="210" x2="140" y2="310"/>
+    <line x1="428" y1="210" x2="660" y2="310"/>
+  </g>
+
+  <!-- Capability block: Campaigns -->
+  <rect x="50" y="70" width="180" height="60" rx="6" fill="#1a1a25" stroke="#7ed957" stroke-width="1" opacity="0.9" filter="url(#glow)"/>
+  <text x="140" y="92" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#7ed957" letter-spacing="0.1em">CAMPAIGNS</text>
+  <text x="140" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#7ed957" opacity="0.6">create / pause / budget</text>
+  <text x="140" y="120" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#7ed957" opacity="0.6">targeting / creatives</text>
+
+  <!-- Capability block: Analytics -->
+  <rect x="570" y="70" width="180" height="60" rx="6" fill="#1a1a25" stroke="#00d4ff" stroke-width="1" opacity="0.9" filter="url(#glow)"/>
+  <text x="660" y="92" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#00d4ff" letter-spacing="0.1em">ANALYTICS</text>
+  <text x="660" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00d4ff" opacity="0.6">impressions / clicks / CTR</text>
+  <text x="660" y="120" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00d4ff" opacity="0.6">pivot / granularity</text>
+
+  <!-- Capability block: Conversions -->
+  <rect x="50" y="280" width="180" height="60" rx="6" fill="#1a1a25" stroke="#a78bfa" stroke-width="1" opacity="0.9" filter="url(#glow)"/>
+  <text x="140" y="302" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#a78bfa" letter-spacing="0.1em">CONVERSIONS</text>
+  <text x="140" y="318" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#a78bfa" opacity="0.6">SHA-256 hashed email</text>
+  <text x="140" y="330" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#a78bfa" opacity="0.6">attribution windows</text>
+
+  <!-- Capability block: Content -->
+  <rect x="570" y="280" width="180" height="60" rx="6" fill="#1a1a25" stroke="#ff6b35" stroke-width="1" opacity="0.9" filter="url(#glow)"/>
+  <text x="660" y="302" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#ff6b35" letter-spacing="0.1em">CONTENT</text>
+  <text x="660" y="318" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#ff6b35" opacity="0.6">AI post generation</text>
+  <text x="660" y="330" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#ff6b35" opacity="0.6">auto-publish / schedule</text>
+
+  <!-- Stats bar chart visualization (mini) -->
+  <g opacity="0.5">
+    <rect x="340" y="260" width="14" height="30" rx="2" fill="#7ed957" opacity="0.6"/>
+    <rect x="360" y="250" width="14" height="40" rx="2" fill="#00d4ff" opacity="0.6"/>
+    <rect x="380" y="240" width="14" height="50" rx="2" fill="#a78bfa" opacity="0.6"/>
+    <rect x="400" y="235" width="14" height="55" rx="2" fill="#7ed957" opacity="0.8"/>
+    <rect x="420" y="242" width="14" height="48" rx="2" fill="#00d4ff" opacity="0.6"/>
+    <rect x="440" y="255" width="14" height="35" rx="2" fill="#a78bfa" opacity="0.6"/>
+  </g>
+
+  <!-- OAuth scopes label -->
+  <text x="400" y="240" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" fill="#0077b5" opacity="0.6">r_ads  rw_ads  r_ads_reporting  rw_conversions</text>
+
+  <!-- Title bottom-left -->
+  <text x="40" y="395" font-family="'Instrument Sans', sans-serif" font-size="22" font-weight="800" fill="#ffffff" opacity="0.9">LinkedIn Advertising API</text>
+  <text x="40" y="418" font-family="'JetBrains Mono', monospace" font-size="11" fill="#0077b5" opacity="0.6">Campaigns, analytics, conversions — from your console</text>
+
+  <!-- Version badge -->
+  <rect x="624" y="18" width="158" height="28" rx="5" fill="#1a1a25" stroke="#0077b5" stroke-width="1" opacity="0.9"/>
+  <text x="703" y="36" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#0077b5">LinkedIn Ads</text>
+
+  <!-- Decorative rings -->
+  <circle cx="400" cy="200" r="90" fill="none" stroke="#0077b5" stroke-width="0.5" opacity="0.08"/>
+  <circle cx="400" cy="200" r="150" fill="none" stroke="#7ed957" stroke-width="0.5" opacity="0.06"/>
+  <circle cx="400" cy="200" r="210" fill="none" stroke="#a78bfa" stroke-width="0.5" opacity="0.04"/>
+</svg>

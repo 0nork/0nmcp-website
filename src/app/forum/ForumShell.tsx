@@ -8,19 +8,22 @@ import { STATS_DISPLAY } from '@/data/stats'
 
 const TRENDING_POSTS = [
   {
-    title: `0nMCP v2.4.0: ${STATS_DISPLAY.tools} Tools Across ${STATS_DISPLAY.services} Services — Full Breakdown`,
-    date: 'Mar 1, 2026',
-    slug: '0nmcp-v2-2-0-release',
+    title: 'LinkedIn Advertising API: Manage Campaigns from Your Console',
+    date: 'Mar 16, 2026',
+    slug: 'linkedin-advertising-api',
+    image: '/blog/linkedin-advertising-api.svg',
   },
   {
-    title: 'How to Build a Full CRM Automation with .0n SWITCH Files in 10 Minutes',
-    date: 'Feb 27, 2026',
-    slug: 'crm-automation-switch-files',
+    title: 'Zero-Knowledge Capability Proxy: Credentials Stay Invisible',
+    date: 'Mar 10, 2026',
+    slug: 'zero-knowledge-capability-proxy',
+    image: '/blog/zero-knowledge-capability-proxy.svg',
   },
   {
-    title: 'The 0nVault Container System: Secure AI Brain Transfer Explained',
-    date: 'Feb 24, 2026',
-    slug: '0nvault-container-system',
+    title: 'How We Built 300+ SEO Pages from 4 JSON Files',
+    date: 'Mar 6, 2026',
+    slug: 'programmatic-seo-engine',
+    image: '/blog/programmatic-seo-engine.svg',
   },
 ]
 
@@ -198,18 +201,31 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
                     key={post.slug}
                     href={`/blog/${post.slug}`}
                     style={{
-                      display: 'block', padding: '0.75rem', borderRadius: '10px',
+                      display: 'block', borderRadius: '10px',
                       background: '#111', border: '1px solid #1a1a1a',
                       textDecoration: 'none', transition: 'border-color 0.2s',
+                      overflow: 'hidden',
                     }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = '#1a1a1a')}
                   >
-                    <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#ffffff', lineHeight: 1.4, marginBottom: '0.375rem' }}>
-                      {post.title}
+                    {post.image && (
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        style={{
+                          width: '100%', height: '100px', objectFit: 'cover',
+                          display: 'block', borderBottom: '1px solid #1a1a1a',
+                        }}
+                      />
+                    )}
+                    <div style={{ padding: '0.625rem 0.75rem' }}>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#ffffff', lineHeight: 1.4, marginBottom: '0.375rem' }}>
+                        {post.title}
+                      </div>
+                      <div style={{ fontSize: '0.6875rem', color: '#555', marginBottom: '0.375rem' }}>{post.date}</div>
+                      <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--accent)' }}>Read more &rarr;</div>
                     </div>
-                    <div style={{ fontSize: '0.6875rem', color: '#555', marginBottom: '0.375rem' }}>{post.date}</div>
-                    <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--accent)' }}>Read more &rarr;</div>
                   </a>
                 ))}
               </div>

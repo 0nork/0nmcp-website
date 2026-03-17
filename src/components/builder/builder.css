@@ -16,19 +16,19 @@
 /* ---- Service Palette (Left Sidebar) ---- */
 
 .builder-palette {
-  width: 280px;
-  min-width: 280px;
+  width: 300px;
+  min-width: 300px;
   height: 100%;
   overflow-y: auto;
-  background-color: var(--bg-secondary);
-  border-right: 1px solid var(--border);
+  background-color: rgba(10, 12, 18, 0.98);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
 }
 
 .builder-palette-header {
   padding: 16px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .builder-palette-search {
@@ -200,76 +200,89 @@
   overflow: hidden;
 }
 
-/* ---- Toolbar ---- */
+/* ---- Toolbar — APEX-style ---- */
 
 .builder-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
-  background-color: var(--bg-secondary);
-  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+  background-color: rgba(8, 10, 16, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .builder-toolbar-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .builder-toolbar-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
-  background-color: var(--bg-tertiary);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-secondary);
+  padding: 7px 14px;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #9aa0a8;
   font-family: var(--font-mono);
   font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .builder-toolbar-btn:hover {
-  border-color: var(--accent);
-  color: var(--text-primary);
+  border-color: rgba(126, 217, 87, 0.3);
+  color: #e8eaed;
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .builder-toolbar-btn.accent {
-  background-color: var(--accent);
-  color: var(--bg-primary);
+  background: var(--accent);
+  color: #080B0F;
   border-color: var(--accent);
-  font-weight: 600;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(126, 217, 87, 0.2);
 }
 
 .builder-toolbar-btn.accent:hover {
-  background-color: var(--accent-dim);
+  background: #6bc44a;
+  box-shadow: 0 4px 16px rgba(126, 217, 87, 0.3);
 }
 
 .builder-toolbar-btn.danger:hover {
-  border-color: #ff4444;
-  color: #ff4444;
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.06);
 }
 
 .builder-toolbar-btn.saved {
-  border-color: var(--accent);
+  border-color: rgba(126, 217, 87, 0.4);
   color: var(--accent);
 }
 
 .builder-toolbar-btn:disabled {
-  opacity: 0.35;
+  opacity: 0.3;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .builder-step-count {
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-muted);
-  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5f6672;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
 }
 
 /* ---- React Flow Overrides ---- */
@@ -318,14 +331,15 @@
   fill: var(--text-primary) !important;
 }
 
+/* Edge styling — gradient animated connections */
 .builder-canvas-area .react-flow__edge-path {
-  stroke: var(--accent-dim) !important;
-  stroke-width: 2 !important;
+  stroke: rgba(126, 217, 87, 0.4) !important;
+  stroke-width: 2.5 !important;
 }
 
 .builder-canvas-area .react-flow__edge.animated .react-flow__edge-path {
-  stroke-dasharray: 5 !important;
-  animation: dashdraw 0.5s linear infinite !important;
+  stroke-dasharray: 6 4 !important;
+  animation: dashdraw 0.6s linear infinite !important;
 }
 
 @keyframes dashdraw {
@@ -336,100 +350,141 @@
 
 .builder-canvas-area .react-flow__connection-line {
   stroke: var(--accent) !important;
-  stroke-width: 2 !important;
+  stroke-width: 2.5 !important;
+  filter: drop-shadow(0 0 4px rgba(126, 217, 87, 0.3));
 }
 
+/* ---- APEX-style colored port handles ---- */
+
 .builder-canvas-area .react-flow__handle {
-  width: 10px !important;
-  height: 10px !important;
+  width: 12px !important;
+  height: 12px !important;
   border: 2px solid var(--border) !important;
   background-color: var(--bg-card) !important;
-  transition: border-color 0.15s, background-color 0.15s;
+  transition: all 0.2s ease;
 }
 
 .builder-canvas-area .react-flow__handle:hover {
-  border-color: var(--accent) !important;
-  background-color: var(--accent) !important;
+  transform: scale(1.3);
 }
 
-/* Side handles (left/right) — smaller, centered */
+/* Input ports (left + top) — BLUE */
+.builder-canvas-area .react-flow__handle-left,
+.builder-canvas-area .react-flow__handle[data-handlepos="left"],
+.builder-canvas-area .react-flow__handle[data-handlepos="top"] {
+  background-color: #3b82f6 !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+}
+
+.builder-canvas-area .react-flow__handle-left:hover,
+.builder-canvas-area .react-flow__handle[data-handlepos="left"]:hover,
+.builder-canvas-area .react-flow__handle[data-handlepos="top"]:hover {
+  background-color: #60a5fa !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+}
+
+/* Output ports (right + bottom) — ORANGE */
+.builder-canvas-area .react-flow__handle-right,
+.builder-canvas-area .react-flow__handle[data-handlepos="right"],
+.builder-canvas-area .react-flow__handle[data-handlepos="bottom"] {
+  background-color: #f97316 !important;
+  border-color: #ea580c !important;
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.5);
+}
+
+.builder-canvas-area .react-flow__handle-right:hover,
+.builder-canvas-area .react-flow__handle[data-handlepos="right"]:hover,
+.builder-canvas-area .react-flow__handle[data-handlepos="bottom"]:hover {
+  background-color: #fb923c !important;
+  border-color: #f97316 !important;
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.8);
+}
+
+/* Side handles — centered vertically */
 .builder-canvas-area .react-flow__handle[data-handlepos="left"],
 .builder-canvas-area .react-flow__handle[data-handlepos="right"] {
-  width: 8px !important;
-  height: 8px !important;
+  width: 10px !important;
+  height: 10px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
 }
 
 .builder-canvas-area .react-flow__handle[data-handlepos="left"] {
-  left: -4px !important;
+  left: -5px !important;
 }
 
 .builder-canvas-area .react-flow__handle[data-handlepos="right"] {
-  right: -4px !important;
+  right: -5px !important;
 }
 
-/* ---- Custom Step Node ---- */
+/* ---- Custom Step Node — APEX-style ---- */
 
 .step-node {
-  width: 220px;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  width: 260px;
+  background-color: rgba(14, 17, 23, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--font-display);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .step-node:hover {
-  border-color: var(--border-hover);
-  transform: scale(1.02);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
 }
 
 .step-node.selected {
   border-color: var(--accent);
-  box-shadow: 0 0 16px var(--accent-glow), 0 0 40px rgba(126, 217, 87, 0.06);
-  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(126, 217, 87, 0.15), 0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
 .step-node-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  background-color: var(--bg-tertiary);
-  border-bottom: 1px solid var(--border);
+  gap: 10px;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .step-node-icon {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 16px;
   flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .step-node-service {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #e8eaed;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .step-node-body {
-  padding: 10px 12px;
+  padding: 10px 14px 12px;
 }
 
 .step-node-id {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--text-muted);
+  color: #5f6672;
   margin-bottom: 4px;
+  letter-spacing: 0.02em;
 }
 
 .step-node-tool {
@@ -439,6 +494,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
 }
 
 .step-node-badges {
@@ -760,20 +816,27 @@ select.builder-field-input {
 
 /* ---- AI Chat Panel ---- */
 
+/* AI Wizard button — prominent APEX-style */
 .builder-toolbar-btn.ai {
-  background: linear-gradient(135deg, rgba(126, 217, 87, 0.15), rgba(0, 212, 255, 0.15));
-  border-color: var(--accent);
-  color: var(--accent);
-  font-weight: 600;
+  background: linear-gradient(135deg, #7ed957, #5cb83a);
+  border-color: transparent;
+  color: #080B0F;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 18px;
+  box-shadow: 0 2px 12px rgba(126, 217, 87, 0.3), 0 0 0 1px rgba(126, 217, 87, 0.2);
+  letter-spacing: 0.01em;
 }
 
 .builder-toolbar-btn.ai:hover {
-  background: linear-gradient(135deg, rgba(126, 217, 87, 0.25), rgba(0, 212, 255, 0.25));
+  background: linear-gradient(135deg, #8ce668, #6bc44a);
+  box-shadow: 0 4px 20px rgba(126, 217, 87, 0.4), 0 0 0 1px rgba(126, 217, 87, 0.3);
+  transform: translateY(-1px);
 }
 
 .builder-toolbar-btn.ai.active {
-  background: var(--accent);
-  color: var(--bg-primary);
+  background: linear-gradient(135deg, #5cb83a, #4a9c2e);
+  box-shadow: 0 0 20px rgba(126, 217, 87, 0.5) inset, 0 2px 12px rgba(126, 217, 87, 0.3);
 }
 
 .ai-chat-panel {

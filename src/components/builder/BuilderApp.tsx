@@ -16,6 +16,7 @@ import AIChat from './AIChat'
 import SimpleBuilderView from './SimpleBuilderView'
 import BuilderSuggestions from './BuilderSuggestions'
 import BuilderPrompt from './BuilderPrompt'
+import AIFlowWizard from './AIFlowWizard'
 import { useBuilderSuggestions, type BuilderSuggestion } from './useBuilderSuggestions'
 import { getServiceById } from '@/lib/sxo-helpers'
 import type { StepNodeData, StepNode } from './types'
@@ -29,6 +30,7 @@ function BuilderInner() {
   const { nodes, edges } = useBuilder()
   const dispatch = useBuilderDispatch()
   const [aiChatOpen, setAiChatOpen] = useState(false)
+  const [wizardOpen, setWizardOpen] = useState(false)
   const [terminalOpen, setTerminalOpen] = useState(false)
   const [viewMode, setViewMode] = useState<'canvas' | 'simple'>('simple')
   const [aiLoading, setAiLoading] = useState(false)
@@ -113,6 +115,7 @@ function BuilderInner() {
           onToggleTerminal={() => setTerminalOpen(!terminalOpen)}
           viewMode={viewMode}
           onToggleView={() => setViewMode(viewMode === 'canvas' ? 'simple' : 'canvas')}
+          onOpenWizard={() => setWizardOpen(true)}
         />
 
         {/* AI Prompt bar — always visible */}
@@ -161,6 +164,18 @@ function BuilderInner() {
       {aiChatOpen && (
         <AIChat open={aiChatOpen} onClose={() => setAiChatOpen(false)} />
       )}
+
+      {/* AI Flow Wizard */}
+      <AIFlowWizard
+        open={wizardOpen}
+        onClose={() => setWizardOpen(false)}
+        onSubmit={(prompt) => {
+          setAiChatOpen(true)
+          setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('builder-ai-prefill', { detail: prompt }))
+          }, 100)
+        }}
+      />
 
       {/* Hidden file input for import suggestion */}
       <input

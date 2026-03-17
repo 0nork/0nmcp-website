@@ -16,9 +16,10 @@ interface ToolbarProps {
   onToggleTerminal?: () => void
   viewMode?: 'canvas' | 'simple'
   onToggleView?: () => void
+  onOpenWizard?: () => void
 }
 
-export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal, viewMode, onToggleView }: ToolbarProps) {
+export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal, viewMode, onToggleView, onOpenWizard }: ToolbarProps) {
   const { nodes, edges, settings, canUndo, canRedo, selectedNodeId } = useBuilder()
   const dispatch = useBuilderDispatch()
   const fileRef = useRef<HTMLInputElement>(null)
@@ -300,11 +301,26 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
               {viewMode === 'simple' ? 'Canvas' : 'Simple'}
             </button>
           )}
+          {onOpenWizard && (
+            <button
+              className="builder-toolbar-btn ai"
+              onClick={onOpenWizard}
+              title="Open AI Flow Wizard"
+            >
+              <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+              AI Wizard
+            </button>
+          )}
           <button
-            className={`builder-toolbar-btn ai ${aiChatOpen ? 'active' : ''}`}
+            className={`builder-toolbar-btn ${aiChatOpen ? 'active' : ''}`}
             onClick={handleAIToggle}
+            style={aiChatOpen ? { borderColor: 'rgba(126,217,87,0.4)', color: '#7ed957' } : {}}
           >
-            AI Builder
+            AI Chat
           </button>
           {onToggleTerminal && (
             <button

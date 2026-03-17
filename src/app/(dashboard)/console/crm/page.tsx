@@ -111,6 +111,12 @@ function timeAgo(dateStr: string | undefined): string {
   return `${Math.floor(days / 30)}mo ago`
 }
 
+interface CrmLocation {
+  id: string
+  name: string
+  isActive: boolean
+}
+
 export default function CRMPage() {
   const [data, setData] = useState<CRMData>({
     contacts: [],
@@ -122,6 +128,39 @@ export default function CRMPage() {
   })
   const [loading, setLoading] = useState(true)
   const [expandedContact, setExpandedContact] = useState<string | null>(null)
+  const [locations, setLocations] = useState<CrmLocation[]>([])
+  const [activeLocation, setActiveLocation] = useState<string>('')
+  const [switchingLocation, setSwitchingLocation] = useState(false)
+
+  // Load available locations
+  useEffect(() => {
+    fetch('/api/console/crm/locations')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (d?.locations) {
+          setLocations(d.locations)
+          setActiveLocation(d.activeLocationId || d.locations[0]?.id || '')
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  // Switch location handler
+  const handleSwitchLocation = async (locId: string) => {
+    setSwitchingLocation(true)
+    setActiveLocation(locId)
+    try {
+      await fetch('/api/console/crm/locations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ locationId: locId }),
+      })
+      // Reload CRM data for new location
+      window.location.reload()
+    } catch {
+      setSwitchingLocation(false)
+    }
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -234,7 +273,7 @@ export default function CRMPage() {
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
         </div>
-        <div>
+        <div style={{ flex: 1 }}>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: COLORS.textPrimary, margin: 0, fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
             CRM
           </h1>
@@ -242,6 +281,38 @@ export default function CRMPage() {
             {data.totalContacts} contacts &middot; {data.pipelines.length} pipeline{data.pipelines.length !== 1 ? 's' : ''} &middot; {data.tags.length} tags
           </p>
         </div>
+
+        {/* Location Switcher */}
+        {locations.length > 0 && (
+          <select
+            value={activeLocation}
+            onChange={e => handleSwitchLocation(e.target.value)}
+            disabled={switchingLocation}
+            style={{
+              padding: '8px 32px 8px 14px',
+              borderRadius: 10,
+              background: COLORS.card,
+              border: `1px solid ${COLORS.border}`,
+              color: COLORS.textPrimary,
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              fontFamily: 'inherit',
+              outline: 'none',
+              cursor: switchingLocation ? 'wait' : 'pointer',
+              appearance: 'none',
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right 12px center',
+              minWidth: 180,
+            }}
+          >
+            {locations.map(loc => (
+              <option key={loc.id} value={loc.id}>
+                {loc.name || loc.id.slice(0, 12) + '...'}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       {/* Stat Cards */}

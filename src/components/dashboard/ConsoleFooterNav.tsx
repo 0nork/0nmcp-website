@@ -116,7 +116,7 @@ export default function ConsoleFooterNav() {
         alignItems: 'center',
         justifyContent: 'center',
         gap: 0,
-        zIndex: 200,
+        zIndex: 30,
         padding: '0 8px',
       }}
     >

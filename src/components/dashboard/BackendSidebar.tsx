@@ -272,7 +272,7 @@ export function BackendSidebar() {
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
-                color: 'rgba(255,255,255,0.2)',
+                color: section.items[0]?.color ? `${section.items[0].color}66` : 'rgba(255,255,255,0.2)',
                 padding: '0.875rem 0.75rem 0.375rem',
               }}>
                 {section.label}
@@ -420,10 +420,10 @@ function SidebarItem({ item, active, showLabels, iconsOnly, onClick }: {
           background: active ? `${c}10` : hovered ? 'rgba(255,255,255,0.03)' : 'transparent',
           borderLeft: iconsOnly ? 'none' : active ? `2px solid ${c}` : '2px solid transparent',
           transition: 'all 0.12s ease',
-          color: active ? c : hovered ? '#e2e2e8' : '#808090',
+          color: active ? c : hovered ? '#e2e2e8' : '#9a9aaa',
         }}
       >
-        <span style={{ flexShrink: 0, display: 'flex', opacity: active ? 1 : 0.65 }}>
+        <span style={{ flexShrink: 0, display: 'flex', color: active ? c : hovered ? c : `${c}99`, opacity: active ? 1 : 0.8 }}>
           {item.icon}
         </span>
         {showLabels && (

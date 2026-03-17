@@ -124,9 +124,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         {/* APEX-style bottom tab bar */}
         <ConsoleFooterNav />
 
-        {/* CRM Chat Widget — 0nMCP location */}
-        <CRMChatWidget />
-
         {!isAuthenticated && (
           <AuthModal
             open={showAuthModal}

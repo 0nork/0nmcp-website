@@ -20,6 +20,16 @@ export type {
   LinkedInProfile,
   LinkedInTokens,
   AiManifest,
+  AdAccount,
+  Campaign,
+  CampaignGroup,
+  Creative,
+  AdAnalytics,
+  TargetingFacet,
+  TargetingCriteria,
+  AudienceCount,
+  ConversionRule,
+  ConversionEvent,
 } from './types'
 
 // Auth
@@ -57,3 +67,11 @@ export { generatePost } from './pipeline/post-generator'
 export { buildManifest } from './network/manifest'
 export { logAiInteraction, getInteractionStats } from './network/ai-interaction-logger'
 export { optimizeManifest } from './network/manifest-optimizer'
+
+// Ads
+export {
+  getAdAccounts, getCampaignGroups, getCampaigns,
+  getCampaign, createCampaign, updateCampaign,
+  getCreatives, getAnalytics, getAudienceCount,
+  getTargetingFacets, streamConversionEvent,
+} from './ads'

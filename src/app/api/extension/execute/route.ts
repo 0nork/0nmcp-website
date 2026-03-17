@@ -89,6 +89,8 @@ export async function POST(request: NextRequest) {
         return await handleSeoAnalyzer(action, data || {})
       case 'workflow-runner':
         return await handleWorkflowRunner(action, data || {})
+      case 'linkedin-ads':
+        return await handleLinkedInAds(userId, action, data || {}, admin)
       default:
         return NextResponse.json({ error: 'Unknown module' }, { status: 400 })
     }
@@ -425,6 +427,93 @@ Return ONLY valid JSON, no markdown.`
   } catch {
     return NextResponse.json({ success: true, report: null, raw: text })
   }
+}
+
+// ── LinkedIn Ads ─────────────────────────────────────────────
+async function handleLinkedInAds(
+  userId: string,
+  action: string,
+  data: Record<string, unknown>,
+  admin: ReturnType<typeof getAdmin>
+) {
+  const { data: member } = await admin
+    .from('linkedin_members')
+    .select('linkedin_access_token, token_expires_at, ad_account_ids')
+    .eq('user_id', userId)
+    .maybeSingle()
+
+  if (!member?.linkedin_access_token) {
+    return NextResponse.json({ error: 'LinkedIn not connected' }, { status: 400 })
+  }
+
+  if (member.token_expires_at && new Date(member.token_expires_at) < new Date()) {
+    return NextResponse.json({ error: 'LinkedIn token expired' }, { status: 401 })
+  }
+
+  const token = member.linkedin_access_token
+
+  if (action === 'get_accounts') {
+    const { getAdAccounts } = await import('@/lib/linkedin/ads')
+    const accounts = await getAdAccounts(token)
+    return NextResponse.json({ success: true, accounts })
+  }
+
+  if (action === 'get_analytics') {
+    const { getAnalytics } = await import('@/lib/linkedin/ads')
+    const { accountId, pivot, timeGranularity, startDate, endDate } = data as {
+      accountId?: string; pivot?: string; timeGranularity?: string; startDate?: string; endDate?: string
+    }
+    if (!accountId || !startDate || !endDate) {
+      return NextResponse.json({ error: 'accountId, startDate, endDate required' }, { status: 400 })
+    }
+    const analytics = await getAnalytics(token, {
+      accountId,
+      pivot: (pivot || 'CAMPAIGN') as 'CAMPAIGN' | 'CREATIVE' | 'ACCOUNT' | 'COMPANY',
+      timeGranularity: (timeGranularity || 'ALL') as 'DAILY' | 'MONTHLY' | 'ALL',
+      startDate,
+      endDate,
+    })
+    return NextResponse.json({ success: true, analytics })
+  }
+
+  if (action === 'track_conversion') {
+    const { streamConversionEvent } = await import('@/lib/linkedin/ads')
+    const { conversionRuleId, email, amount, currency } = data as {
+      conversionRuleId?: string; email?: string; amount?: string; currency?: string
+    }
+    if (!conversionRuleId || !email) {
+      return NextResponse.json({ error: 'conversionRuleId and email required' }, { status: 400 })
+    }
+    const encoder = new TextEncoder()
+    const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(email.toLowerCase().trim()))
+    const emailHash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('')
+
+    await streamConversionEvent(token, {
+      conversion: `urn:lla:llaPartnerConversion:${conversionRuleId}`,
+      conversionHappenedAt: Date.now(),
+      conversionValue: amount ? { amount, currencyCode: currency || 'USD' } : undefined,
+      user: { userIds: [{ idType: 'SHA256_EMAIL', idValue: emailHash }] },
+    })
+    return NextResponse.json({ success: true })
+  }
+
+  if (action === 'create_campaign') {
+    const { createCampaign } = await import('@/lib/linkedin/ads')
+    const { accountId, name, type, dailyBudget } = data as {
+      accountId?: string; name?: string; type?: string; dailyBudget?: { amount: string; currencyCode: string }
+    }
+    if (!accountId || !name) {
+      return NextResponse.json({ error: 'accountId and name required' }, { status: 400 })
+    }
+    const campaign = await createCampaign(token, accountId, {
+      name,
+      type: (type as 'TEXT_AD' | 'SPONSORED_UPDATES') || undefined,
+      dailyBudget,
+    })
+    return NextResponse.json({ success: true, campaign })
+  }
+
+  return NextResponse.json({ error: 'Unknown linkedin-ads action' }, { status: 400 })
 }
 
 // ── Workflow Runner ──────────────────────────────────────────

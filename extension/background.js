@@ -155,6 +155,34 @@ async function setupModuleMenus() {
       contexts: ['page']
     })
   }
+
+  // LinkedIn Ads menus
+  if (modules.includes('linkedin-ads')) {
+    chrome.contextMenus.create({
+      id: '0nmcp-sep-linkedin-ads',
+      parentId: '0nmcp-parent',
+      type: 'separator',
+      contexts: ['selection', 'page']
+    })
+    chrome.contextMenus.create({
+      id: '0nmcp-ads-performance',
+      parentId: '0nmcp-parent',
+      title: 'View Ad Performance',
+      contexts: ['page']
+    })
+    chrome.contextMenus.create({
+      id: '0nmcp-ads-create',
+      parentId: '0nmcp-parent',
+      title: 'Create Lead Ad',
+      contexts: ['page']
+    })
+    chrome.contextMenus.create({
+      id: '0nmcp-ads-conversion',
+      parentId: '0nmcp-parent',
+      title: 'Track Conversion',
+      contexts: ['page']
+    })
+  }
 }
 
 // ── Install / Update Handler ──────────────────────────────────
@@ -260,6 +288,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     '0nmcp-crm-contact': { module: 'crm-bridge', action: 'create_contact' },
     '0nmcp-crm-note': { module: 'crm-bridge', action: 'add_note' },
     '0nmcp-seo-audit': { module: 'seo-analyzer', action: 'analyze' },
+    '0nmcp-ads-performance': { module: 'linkedin-ads', action: 'get_analytics' },
+    '0nmcp-ads-create': { module: 'linkedin-ads', action: 'create_campaign' },
+    '0nmcp-ads-conversion': { module: 'linkedin-ads', action: 'track_conversion' },
   }
 
   const coreAction = coreActions[info.menuItemId]

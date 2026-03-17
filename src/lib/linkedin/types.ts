@@ -234,3 +234,90 @@ export interface GeneratePostRequest {
   topic?: string
   context?: string
 }
+
+/* ── LinkedIn Advertising ── */
+
+export interface AdAccount {
+  id: string
+  name: string
+  status: 'ACTIVE' | 'DRAFT' | 'CANCELED' | 'REMOVED'
+  currency: string
+  type: 'BUSINESS' | 'ENTERPRISE'
+  created: string
+}
+
+export interface Campaign {
+  id: string
+  account: string
+  name: string
+  status: 'ACTIVE' | 'PAUSED' | 'ARCHIVED' | 'DRAFT' | 'CANCELED'
+  type: 'TEXT_AD' | 'SPONSORED_UPDATES' | 'SPONSORED_INMAILS' | 'DYNAMIC'
+  dailyBudget?: { amount: string; currencyCode: string }
+  totalBudget?: { amount: string; currencyCode: string }
+  targeting?: TargetingCriteria
+  creativeSelection: 'OPTIMIZED' | 'ROUND_ROBIN'
+  created: string
+}
+
+export interface CampaignGroup {
+  id: string
+  account: string
+  name: string
+  status: 'ACTIVE' | 'PAUSED' | 'ARCHIVED' | 'DRAFT'
+  totalBudget?: { amount: string; currencyCode: string }
+}
+
+export interface Creative {
+  id: string
+  campaign: string
+  status: 'ACTIVE' | 'PAUSED' | 'DRAFT' | 'ARCHIVED'
+  type: 'SPONSORED_STATUS_UPDATE' | 'SPONSORED_VIDEO' | 'TEXT_AD' | 'SPOTLIGHT' | 'MESSAGE_AD'
+  content: Record<string, unknown>
+}
+
+export interface AdAnalytics {
+  impressions: number
+  clicks: number
+  costInLocalCurrency: number
+  conversions: number
+  ctr: number
+  cpm: number
+  cpc: number
+  spend: number
+  dateRange?: { start: string; end: string }
+  pivot?: string
+  pivotValue?: string
+}
+
+export interface TargetingFacet {
+  name: string
+  entities: { urn: string; name: string }[]
+}
+
+export interface TargetingCriteria {
+  include: { and: Record<string, unknown>[] }
+  exclude?: { or: Record<string, unknown>[] }
+}
+
+export interface AudienceCount {
+  targetingCriteria: TargetingCriteria
+  estimatedSize: number
+  estimatedMin: number
+  estimatedMax: number
+}
+
+export interface ConversionRule {
+  id: string
+  name: string
+  type: 'URL_VISIT' | 'LEAD_GEN' | 'ADD_TO_CART' | 'PURCHASE' | 'SIGN_UP' | 'OTHER'
+  attributionType: 'LAST_TOUCH' | 'FIRST_TOUCH'
+  postClickWindow: number
+  viewThroughWindow: number
+}
+
+export interface ConversionEvent {
+  conversion: string
+  conversionHappenedAt: number
+  conversionValue?: { amount: string; currencyCode: string }
+  user: { userIds: { idType: 'SHA256_EMAIL'; idValue: string }[] }
+}

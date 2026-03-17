@@ -12,7 +12,11 @@ const LINKEDIN_AUTH_URL = 'https://www.linkedin.com/oauth/v2/authorization'
 const LINKEDIN_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken'
 const LINKEDIN_PROFILE_URL = 'https://api.linkedin.com/v2/userinfo'
 
-const SCOPES = ['openid', 'profile', 'email', 'w_member_social']
+const SCOPES = [
+  'openid', 'profile', 'email', 'w_member_social',
+  'r_ads', 'rw_ads', 'r_ads_reporting', 'rw_conversions',
+  'r_organization_admin', 'w_organization_social',
+]
 
 /**
  * Build the LinkedIn OAuth authorization URL.

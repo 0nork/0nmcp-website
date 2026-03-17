@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>0nMCP</title>
+  <style>
+    /* ── Reset + tokens ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #080B0F;
+      --card:    #0E1117;
+      --border:  #1e2533;
+      --accent:  #6EE05A;
+      --muted:   #7a8694;
+      --dim:     #3d4758;
+      --text:    #e2e8f0;
+      --error:   #ff6b6b;
+      --warn:    #FFB432;
+      --radius:  10px;
+      --font-display: 'Barlow', system-ui, sans-serif;
+      --font-body:    'Space Grotesk', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    html, body { width: 100%; height: 100%; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+
+    /* ── Layout ───────────────────────────────────────────────────────── */
+    .app   { display: flex; flex-direction: column; height: 100vh; }
+    .header{ align-items: center; background: var(--card); border-bottom: 1px solid var(--border); display: flex; flex-shrink: 0; gap: 12px; padding: 12px 16px; }
+    .logo  { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--accent); letter-spacing: -0.02em; }
+    .tagline { font-size: 11px; color: var(--muted); }
+    .tabs  { display: flex; gap: 4px; margin-left: auto; }
+    .tab   { background: none; border: 1px solid transparent; border-radius: 6px; color: var(--muted); cursor: pointer; font-family: var(--font-body); font-size: 12px; padding: 5px 12px; transition: all .15s; }
+    .tab.active { border-color: var(--border); background: var(--bg); color: var(--text); }
+    .body  { flex: 1; overflow-y: auto; padding: 16px; }
+
+    /* ── Loading / connect screens ────────────────────────────────────── */
+    .center { align-items: center; display: flex; flex-direction: column; gap: 16px; height: 100%; justify-content: center; padding: 32px; text-align: center; }
+    .spinner { animation: spin .7s linear infinite; border: 2px solid var(--border); border-radius: 50%; border-top-color: var(--accent); height: 32px; width: 32px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Dashboard ────────────────────────────────────────────────────── */
+    .stat-row { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin-bottom: 20px; }
+    .stat     { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+    .stat-val { font-family: var(--font-display); font-size: 24px; font-weight: 900; color: var(--accent); }
+    .stat-lbl { color: var(--muted); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; margin-top: 2px; }
+
+    /* ── Section headers ──────────────────────────────────────────────── */
+    .section-title { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; margin-bottom: 10px; text-transform: uppercase; }
+
+    /* ── Build history rows ───────────────────────────────────────────── */
+    .history-row { align-items: center; border-bottom: 1px solid var(--border); display: flex; gap: 10px; padding: 10px 0; font-size: 13px; }
+    .badge { border-radius: 4px; font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; white-space: nowrap; }
+    .badge-complete  { background: rgba(110,224,90,.1); color: var(--accent); }
+    .badge-triggered { background: rgba(100,160,255,.1); color: #64A0FF; }
+    .badge-fallback  { background: rgba(255,180,50,.1);  color: var(--warn); }
+    .badge-error     { background: rgba(255,80,80,.1);   color: var(--error); }
+    .history-name { flex: 1; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .history-date { color: var(--muted); font-size: 11px; white-space: nowrap; }
+
+    /* ── Build console ────────────────────────────────────────────────── */
+    .build-status { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .build-pages  { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .page-chip { align-items: center; background: rgba(110,224,90,.08); border: 1px solid rgba(110,224,90,.2); border-radius: 6px; color: var(--accent); display: flex; font-size: 12px; gap: 6px; padding: 5px 10px; }
+    .page-chip .dot { background: var(--accent); border-radius: 50%; height: 6px; width: 6px; }
+    .conv-id { color: var(--dim); font-family: var(--font-mono); font-size: 11px; margin-top: 10px; }
+
+    /* ── Tool catalog ─────────────────────────────────────────────────── */
+    .tools-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .tool-card  { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; padding: 14px; transition: border-color .15s; }
+    .tool-card:hover { border-color: rgba(110,224,90,.4); }
+    .tool-name  { font-weight: 600; color: var(--text); font-size: 13px; margin-bottom: 4px; }
+    .tool-desc  { color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .tool-cost  { align-items: center; display: flex; gap: 4px; font-family: var(--font-mono); font-size: 10px; color: var(--accent); margin-top: 8px; }
+
+    /* ── Sparks CTA ───────────────────────────────────────────────────── */
+    .sparks-card { background: linear-gradient(135deg, rgba(110,224,90,.08), rgba(110,224,90,.04)); border: 1px solid rgba(110,224,90,.25); border-radius: var(--radius); padding: 20px; text-align: center; }
+    .sparks-card h3 { font-family: var(--font-display); font-weight: 900; font-size: 18px; color: var(--text); margin-bottom: 8px; }
+    .sparks-card p  { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+    .packages { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .pkg { background: var(--card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; padding: 12px 16px; text-align: center; transition: border-color .15s; text-decoration: none; }
+    .pkg:hover { border-color: rgba(110,224,90,.4); }
+    .pkg-sparks { font-family: var(--font-display); font-weight: 900; font-size: 18px; color: var(--accent); }
+    .pkg-price  { color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .pkg-name   { color: var(--text); font-size: 12px; font-weight: 600; }
+
+    /* ── Connect screen ───────────────────────────────────────────────── */
+    .connect-icon { font-size: 48px; }
+    .connect-btn  { background: var(--accent); border: none; border-radius: 8px; color: var(--bg); cursor: pointer; font-family: var(--font-display); font-size: 15px; font-weight: 900; padding: 12px 28px; margin-top: 8px; }
+    .connect-btn:hover { opacity: .88; }
+
+    /* ── Error / low sparks ───────────────────────────────────────────── */
+    .alert { border-radius: var(--radius); margin-bottom: 12px; padding: 12px 16px; font-size: 13px; }
+    .alert-error { background: rgba(255,80,80,.08); border: 1px solid rgba(255,80,80,.2); color: var(--error); }
+    .alert-warn  { background: rgba(255,180,50,.08); border: 1px solid rgba(255,180,50,.2); color: var(--warn); }
+
+    /* ── Scrollbar ────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="center">
+    <div class="spinner"></div>
+    <p style="color:var(--muted);font-size:13px">Connecting to 0nMCP...</p>
+  </div>
+</div>
+
+<script type="module">
+  // ─── MCP Apps Standard PostMessage Bridge ─────────────────────────────────
+  // JSON-RPC 2.0 over postMessage — OpenAI MCP Apps open standard
+  // ref: https://developers.openai.com/apps-sdk/quickstart
+
+  let rpcId = 0
+  const pending = new Map()
+
+  const notify = (method, params) =>
+    window.parent.postMessage({ jsonrpc: '2.0', method, params }, '*')
+
+  const request = (method, params) =>
+    new Promise((resolve, reject) => {
+      const id = ++rpcId
+      pending.set(id, { resolve, reject })
+      window.parent.postMessage({ jsonrpc: '2.0', id, method, params }, '*')
+    })
+
+  window.addEventListener('message', (e) => {
+    if (e.source !== window.parent) return
+    const msg = e.data
+    if (!msg || msg.jsonrpc !== '2.0') return
+
+    if (typeof msg.id === 'number') {
+      const p = pending.get(msg.id)
+      if (!p) return
+      pending.delete(msg.id)
+      msg.error ? p.reject(msg.error) : p.resolve(msg.result)
+      return
+    }
+
+    if (msg.method === 'ui/notifications/tool-result') {
+      handleToolResult(msg.params)
+    }
+  }, { passive: true })
+
+  // Initialize bridge
+  const bridgeReady = (async () => {
+    try {
+      await request('ui/initialize', {
+        appInfo:         { name: '0nMCP', version: '1.0.0' },
+        appCapabilities: {},
+        protocolVersion: '2026-01-26',
+      })
+      notify('ui/notifications/initialized', {})
+    } catch (err) {
+      console.error('[0nMCP widget] Bridge init failed:', err)
+    }
+  })()
+
+  const callTool = async (name, args) => {
+    await bridgeReady
+    return request('tools/call', { name, arguments: args })
+  }
+
+  // ─── State ─────────────────────────────────────────────────────────────────
+  let state = {
+    view:     'loading',  // loading | connect | dashboard | build_status | tool_catalog | sparks_low | error
+    account:  null,
+    lastBuild: null,
+    tools:    null,
+    error:    null,
+    sparksUrl: 'https://0nmcp.com/sparks',
+    activeTab: 'dashboard',
+  }
+
+  // ─── Render ────────────────────────────────────────────────────────────────
+  const app = document.getElementById('app')
+
+  const render = () => {
+    const { view, account, lastBuild, tools, error, sparksUrl, activeTab } = state
+    app.innerHTML = ''
+
+    if (view === 'loading') {
+      app.innerHTML = `<div class="center"><div class="spinner"></div><p style="color:var(--muted);font-size:13px">Loading 0nMCP...</p></div>`
+      return
+    }
+
+    if (view === 'connect') {
+      app.innerHTML = `
+        <div class="center">
+          <div class="connect-icon">⚡</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:900">Connect 0nMCP</div>
+          <p style="color:var(--muted);max-width:300px;text-align:center">
+            Link your 0nMCP account to access 800+ tools, Sparks balance, and the full build suite.
+          </p>
+          <button class="connect-btn" onclick="window.open('https://0nmcp.com/connect','_blank')">
+            Connect account
+          </button>
+        </div>`
+      return
+    }
+
+    // Shell with header + tabs
+    const shell = document.createElement('div')
+    shell.className = 'app'
+    shell.innerHTML = `
+      <div class="header">
+        <div>
+          <div class="logo">0n</div>
+          <div class="tagline">Rocket+CRM powered by 0nMCP</div>
+        </div>
+        <div class="tabs">
+          <button class="tab ${activeTab==='dashboard'?'active':''}" data-tab="dashboard">Dashboard</button>
+          <button class="tab ${activeTab==='tools'?'active':''}"     data-tab="tools">Tools</button>
+          <button class="tab ${activeTab==='sparks'?'active':''}"    data-tab="sparks">Sparks</button>
+        </div>
+      </div>
+      <div class="body" id="tab-body"></div>`
+
+    shell.querySelectorAll('.tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.activeTab = btn.dataset.tab
+        if (btn.dataset.tab === 'tools' && !state.tools) loadTools()
+        render()
+      })
+    })
+
+    app.appendChild(shell)
+    const body = shell.querySelector('#tab-body')
+
+    if (error) {
+      body.innerHTML += `<div class="alert alert-error">${error}</div>`
+    }
+
+    if (activeTab === 'dashboard') renderDashboard(body, account, lastBuild)
+    if (activeTab === 'tools')     renderTools(body, tools)
+    if (activeTab === 'sparks')    renderSparks(body, account?.sparks, sparksUrl)
+  }
+
+  const renderDashboard = (body, account, lastBuild) => {
+    if (!account) {
+      body.innerHTML = `<div class="center"><div class="spinner"></div></div>`
+      return
+    }
+
+    body.innerHTML = `
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-val">${account.sparks ?? 0}</div>
+          <div class="stat-lbl">Sparks</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">${account.services?.length ?? 0}</div>
+          <div class="stat-lbl">Services</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">${account.total_builds ?? 0}</div>
+          <div class="stat-lbl">Builds</div>
+        </div>
+      </div>`
+
+    if (lastBuild) {
+      body.innerHTML += `
+        <p class="section-title">Last build</p>
+        <div class="build-status">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+            <span class="badge badge-${lastBuild.status}">${lastBuild.status}</span>
+            <span style="font-weight:600">${lastBuild.business_name ?? '—'}</span>
+          </div>
+          <div class="build-pages">${
+            (lastBuild.pages ?? ['Home','Services','About','Booking','Contact'])
+              .map(p => `<div class="page-chip"><div class="dot"></div>${p}</div>`).join('')
+          }</div>
+          ${lastBuild.conversation_id
+            ? `<div class="conv-id">conv: ${lastBuild.conversation_id.slice(0,16)}...</div>`
+            : ''}
+        </div>`
+    }
+
+    if (account.recent_builds?.length) {
+      body.innerHTML += `<p class="section-title" style="margin-top:20px">Recent builds</p>`
+      account.recent_builds.slice(0, 8).forEach(b => {
+        body.innerHTML += `
+          <div class="history-row">
+            <span class="badge badge-${b.status}">${b.status}</span>
+            <span class="history-name">${b.business_name ?? b.action ?? '—'}</span>
+            <span class="history-date">${new Date(b.triggered_at).toLocaleDateString()}</span>
+          </div>`
+      })
+    }
+  }
+
+  const renderTools = (body, tools) => {
+    if (!tools) {
+      body.innerHTML = `<div class="center"><div class="spinner"></div><p style="color:var(--muted)">Loading catalog...</p></div>`
+      return
+    }
+
+    const cats = [...new Set(tools.map(t => t.category ?? 'General'))]
+    cats.forEach(cat => {
+      const catTools = tools.filter(t => (t.category ?? 'General') === cat)
+      body.innerHTML += `<p class="section-title">${cat}</p><div class="tools-grid">`
+      catTools.forEach(t => {
+        body.innerHTML += `
+          <div class="tool-card">
+            <div class="tool-name">${t.name}</div>
+            <div class="tool-desc">${t.description?.slice(0, 80) ?? ''}${(t.description?.length??0)>80?'…':''}</div>
+            <div class="tool-cost">⚡ ${t.spark_cost ?? 1} Spark${(t.spark_cost??1)>1?'s':''}</div>
+          </div>`
+      })
+      body.innerHTML += `</div><br/>`
+    })
+  }
+
+  const renderSparks = (body, balance, sparksUrl) => {
+    body.innerHTML = `
+      <div class="sparks-card">
+        <h3>⚡ ${balance ?? '—'} Sparks remaining</h3>
+        <p>Sparks power every 0nMCP pipeline run. Purchase more to keep building.</p>
+        <div class="packages">
+          <a class="pkg" href="${sparksUrl}?package=starter" target="_blank">
+            <div class="pkg-name">Starter</div>
+            <div class="pkg-sparks">10</div>
+            <div class="pkg-price">$5</div>
+          </a>
+          <a class="pkg" href="${sparksUrl}?package=growth" target="_blank">
+            <div class="pkg-name">Growth</div>
+            <div class="pkg-sparks">50</div>
+            <div class="pkg-price">$19</div>
+          </a>
+          <a class="pkg" href="${sparksUrl}?package=pro" target="_blank">
+            <div class="pkg-name">Pro</div>
+            <div class="pkg-sparks">200</div>
+            <div class="pkg-price">$49</div>
+          </a>
+        </div>
+      </div>`
+  }
+
+  // ─── Handle incoming tool results (model-initiated) ────────────────────────
+  const handleToolResult = (params) => {
+    const data = params?.structuredContent
+    if (!data) return
+
+    const view = params?._meta?.ui?.view ?? ''
+
+    if (view === 'dashboard' || data.sparks !== undefined) {
+      state.account  = data
+      state.view     = 'dashboard'
+    }
+
+    if (view === 'build_status' || data.status === 'triggered') {
+      state.lastBuild = data
+      state.view      = 'dashboard'
+      if (state.account) {
+        state.account.sparks = data.sparks_remaining ?? state.account.sparks
+      }
+    }
+
+    if (view === 'tool_catalog' || data.tools) {
+      state.tools    = data.tools ?? []
+      state.activeTab = 'tools'
+    }
+
+    if (view === 'sparks_low') {
+      state.activeTab = 'sparks'
+      state.sparksUrl = data.sparks_url ?? state.sparksUrl
+    }
+
+    if (view === 'connect') {
+      state.view = 'connect'
+    }
+
+    if (view === 'error' || data.error) {
+      state.error = data.error ?? data.message ?? 'An error occurred'
+    }
+
+    render()
+  }
+
+  // ─── Load tools catalog ────────────────────────────────────────────────────
+  const loadTools = async () => {
+    try {
+      const result = await callTool('browse_tools', { limit: 48 })
+      if (result?.structuredContent?.tools) {
+        state.tools = result.structuredContent.tools
+        render()
+      }
+    } catch (err) {
+      console.error('[0nMCP widget] loadTools failed:', err)
+    }
+  }
+
+  // ─── Boot: load account ────────────────────────────────────────────────────
+  const boot = async () => {
+    state.view = 'loading'
+    render()
+
+    try {
+      const result = await callTool('get_account', {})
+      if (result?.isError || result?.structuredContent?.error) {
+        state.view = 'connect'
+      } else {
+        state.account  = result.structuredContent
+        state.view     = 'dashboard'
+      }
+    } catch {
+      state.view = 'connect'
+    }
+
+    render()
+  }
+
+  boot()
+</script>
+</body>
+</html>

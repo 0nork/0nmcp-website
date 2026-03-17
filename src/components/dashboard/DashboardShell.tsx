@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import DashboardTopBar from './DashboardTopBar'
 import { BackendSidebar, BackendSidebarProvider } from './BackendSidebar'
 import DashboardRightSidebar from './DashboardRightSidebar'
+import ConsoleFooterNav from './ConsoleFooterNav'
+import { ToastProvider } from './ConsoleToast'
 import AuthModal from '@/components/AuthModal'
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
@@ -65,54 +67,59 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   }, [])
 
   return (
-    <BackendSidebarProvider connectedCount={connectedCount} mcpOnline={mcpOnline} isAdmin={isAdmin}>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        <DashboardTopBar onMobileMenu={() => setMobileMenuOpen(p => !p)} />
+    <ToastProvider>
+      <BackendSidebarProvider connectedCount={connectedCount} mcpOnline={mcpOnline} isAdmin={isAdmin}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+          <DashboardTopBar onMobileMenu={() => setMobileMenuOpen(p => !p)} />
 
-        <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
+          <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
 
-          {mobileMenuOpen && (
+            {mobileMenuOpen && (
+              <div
+                className="fixed inset-0 z-40 md:hidden"
+                style={{ backgroundColor: 'rgba(10,10,15,0.7)', backdropFilter: 'blur(4px)' }}
+                onClick={() => setMobileMenuOpen(false)}
+              />
+            )}
+
             <div
-              className="fixed inset-0 z-40 md:hidden"
-              style={{ backgroundColor: 'rgba(10,10,15,0.7)', backdropFilter: 'blur(4px)' }}
-              onClick={() => setMobileMenuOpen(false)}
-            />
-          )}
+              className={`fixed md:relative z-50 h-[calc(100vh-48px)] transition-transform duration-300 md:translate-x-0 ${
+                mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+              }`}
+            >
+              <BackendSidebar />
+            </div>
 
-          <div
-            className={`fixed md:relative z-50 h-[calc(100vh-48px)] transition-transform duration-300 md:translate-x-0 ${
-              mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-            }`}
-          >
-            <BackendSidebar />
+            <main style={{ flex: 1, overflow: 'auto', minWidth: 0, paddingBottom: 64 }}>
+              {children}
+            </main>
+
+            {/* Floating right sidebar */}
+            <div className="hidden md:block">
+              <DashboardRightSidebar
+                connectedCount={connectedCount}
+                onOpenVault={handleOpenVault}
+              />
+            </div>
+
           </div>
-
-          <main style={{ flex: 1, overflow: 'auto', minWidth: 0 }}>
-            {children}
-          </main>
-
-          {/* Floating right sidebar — sits outside content flow */}
-          <div className="hidden md:block">
-            <DashboardRightSidebar
-              connectedCount={connectedCount}
-              onOpenVault={handleOpenVault}
-            />
-          </div>
-
         </div>
-      </div>
 
-      {!isAuthenticated && (
-        <AuthModal
-          open={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          onSuccess={() => {
-            setIsAuthenticated(true)
-            setShowAuthModal(false)
-            window.location.reload()
-          }}
-        />
-      )}
-    </BackendSidebarProvider>
+        {/* APEX-style bottom tab bar */}
+        <ConsoleFooterNav />
+
+        {!isAuthenticated && (
+          <AuthModal
+            open={showAuthModal}
+            onClose={() => setShowAuthModal(false)}
+            onSuccess={() => {
+              setIsAuthenticated(true)
+              setShowAuthModal(false)
+              window.location.reload()
+            }}
+          />
+        )}
+      </BackendSidebarProvider>
+    </ToastProvider>
   )
 }

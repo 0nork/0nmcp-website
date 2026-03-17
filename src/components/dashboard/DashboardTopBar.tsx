@@ -80,26 +80,14 @@ export default function DashboardTopBar({ onMobileMenu }: { onMobileMenu?: () =>
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: 8,
             padding: 0,
           }}
         >
           <img
-            src="/brand/icon-green.png"
-            alt="0n"
-            style={{ width: 24, height: 24, borderRadius: 6, objectFit: 'contain' }}
+            src="/brand/logo-white.png"
+            alt="0nMCP"
+            style={{ height: 22, objectFit: 'contain' }}
           />
-          <span
-            className="hidden sm:inline"
-            style={{
-              fontSize: 13,
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-              letterSpacing: '-0.01em',
-            }}
-          >
-            0n Console
-          </span>
         </button>
       </div>
 

@@ -59,10 +59,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
         ],
       },
     ],
-    services: true,
-    serviceIds: ['stripe', 'slack', 'github', 'openai', 'anthropic', 'supabase', 'notion', 'discord', 'shopify', 'gmail', 'twilio', 'hubspot'],
     graphic: 'grid',
-    stat: { value: STATS_DISPLAY.tools, label: 'Tools Ready' },
   },
   resources: {
     label: 'Resources',
@@ -330,7 +327,14 @@ export default function MegaNav() {
             </button>
           ))}
 
-          {/* Direct links: Builder (accented) + Forum */}
+          {/* Direct links */}
+          <Link
+            href="/integrations"
+            className="mega-nav-direct no-underline"
+            onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setOpenMenu(null) }}
+          >
+            Connections
+          </Link>
           <Link
             href="/builder"
             className="mega-nav-direct mega-nav-direct-builder no-underline"

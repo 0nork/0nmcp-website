@@ -88,7 +88,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
   const [progress, setProgress] = useState(100)
   const style = TYPE_STYLES[toast.type]
   const duration = toast.duration ?? 4000
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
   const startRef = useRef(Date.now())
 
   useEffect(() => {

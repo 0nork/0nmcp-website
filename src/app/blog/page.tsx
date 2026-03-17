@@ -1,7 +1,55 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { createClient } from '@supabase/supabase-js'
 import blogData from '@/data/blog-posts.json'
 import { STATS_DISPLAY } from '@/data/stats'
+import BlogSubscribe from '@/components/BlogSubscribe'
+
+interface BlogPost {
+  slug: string
+  title: string
+  date: string
+  category: string
+  author: string
+  author_title: string
+  image: string
+  excerpt: string
+  tags: string[]
+  body: string
+}
+
+async function getAllPosts(): Promise<BlogPost[]> {
+  let dbPosts: BlogPost[] = []
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (url && key) {
+    try {
+      const admin = createClient(url, key)
+      const { data } = await admin
+        .from('blog_posts')
+        .select('*')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+      dbPosts = (data || []).map((p: any) => ({
+        slug: p.slug,
+        title: p.title,
+        date: (p.published_at || p.created_at || '')?.split('T')[0],
+        category: p.category || 'news',
+        author: p.author || 'Mike Mento',
+        author_title: p.author_title || 'Founder, RocketOpp LLC',
+        image: p.image || `/blog/${p.slug}.svg`,
+        excerpt: p.excerpt || p.meta_description || '',
+        tags: p.tags || [],
+        body: p.body || p.content || '',
+      }))
+    } catch { /* fallback to JSON only */ }
+  }
+  const dbSlugs = new Set(dbPosts.map(p => p.slug))
+  return [
+    ...dbPosts,
+    ...(blogData.posts as BlogPost[]).filter(p => !dbSlugs.has(p.slug)),
+  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+}
 
 export const metadata: Metadata = {
   title: 'Blog — 0nMCP',
@@ -40,10 +88,8 @@ function formatDate(dateStr: string): string {
   })
 }
 
-export default function BlogPage() {
-  const posts = [...blogData.posts].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  )
+export default async function BlogPage() {
+  const posts = await getAllPosts()
 
   const collectionJsonLd = {
     '@context': 'https://schema.org',
@@ -310,6 +356,9 @@ export default function BlogPage() {
             )
           })}
         </div>
+
+        {/* Subscribe */}
+        <BlogSubscribe />
 
         {/* Footer nav */}
         <div style={{ marginTop: '4rem', textAlign: 'center' }}>

@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { createClient } from '@supabase/supabase-js'
 import blogData from '@/data/blog-posts.json'
+import BlogSubscribe from '@/components/BlogSubscribe'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -37,8 +39,65 @@ function formatDate(dateStr: string): string {
   })
 }
 
-function getPost(slug: string): BlogPost | undefined {
-  return blogData.posts.find((p) => p.slug === slug)
+async function getPost(slug: string): Promise<BlogPost | undefined> {
+  // Check Supabase first
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (url && key) {
+    try {
+      const admin = createClient(url, key)
+      const { data } = await admin
+        .from('blog_posts')
+        .select('*')
+        .eq('slug', slug)
+        .eq('status', 'published')
+        .single()
+      if (data) {
+        return {
+          slug: data.slug,
+          title: data.title,
+          date: (data.published_at || data.created_at || '')?.split('T')[0],
+          category: data.category || 'news',
+          author: data.author || 'Mike Mento',
+          author_title: data.author_title || 'Founder, RocketOpp LLC',
+          image: data.image || `/blog/${data.slug}.svg`,
+          excerpt: data.excerpt || data.meta_description || '',
+          tags: data.tags || [],
+          body: data.body || data.content || '',
+        }
+      }
+    } catch { /* fallback to JSON */ }
+  }
+  // Fallback to JSON
+  return (blogData.posts as BlogPost[]).find((p) => p.slug === slug)
+}
+
+async function getAllPosts(): Promise<BlogPost[]> {
+  let dbPosts: BlogPost[] = []
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (url && key) {
+    try {
+      const admin = createClient(url, key)
+      const { data } = await admin
+        .from('blog_posts')
+        .select('slug, title, published_at, created_at, category')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+      dbPosts = (data || []).map((p: any) => ({
+        slug: p.slug,
+        title: p.title,
+        date: (p.published_at || p.created_at || '')?.split('T')[0],
+        category: p.category || 'news',
+        author: '', author_title: '', image: '', excerpt: '', tags: [], body: '',
+      }))
+    } catch { /* fallback */ }
+  }
+  const dbSlugs = new Set(dbPosts.map(p => p.slug))
+  return [
+    ...dbPosts,
+    ...(blogData.posts as BlogPost[]).filter(p => !dbSlugs.has(p.slug)),
+  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
 // ─── Markdown Renderer ────────────────────────────────────────────────────────
@@ -173,7 +232,8 @@ function renderMarkdown(md: string): string {
 // ─── Static Params ────────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
-  return blogData.posts.map((p) => ({ slug: p.slug }))
+  const posts = await getAllPosts()
+  return posts.map((p) => ({ slug: p.slug }))
 }
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -184,7 +244,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const post = getPost(slug)
+  const post = await getPost(slug)
   if (!post) return { title: 'Post Not Found — 0nMCP' }
 
   return {
@@ -225,12 +285,10 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = getPost(slug)
+  const post = await getPost(slug)
   if (!post) notFound()
 
-  const posts = [...blogData.posts].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  )
+  const posts = await getAllPosts()
   const currentIndex = posts.findIndex((p) => p.slug === post.slug)
   const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null
   const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null
@@ -742,6 +800,9 @@ export default async function BlogPostPage({
             )}
           </div>
         )}
+
+        {/* Subscribe */}
+        <BlogSubscribe />
 
         {/* Back to blog */}
         <div style={{ marginTop: '3rem', textAlign: 'center' }}>

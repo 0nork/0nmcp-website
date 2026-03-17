@@ -6,7 +6,7 @@ import ForumSidebar from '@/components/forum/ForumSidebar'
 import ForumSearch from '@/components/forum/ForumSearch'
 import { STATS_DISPLAY } from '@/data/stats'
 
-const TRENDING_POSTS = [
+const FALLBACK_TRENDING = [
   {
     title: 'LinkedIn Advertising API: Manage Campaigns from Your Console',
     date: 'Mar 16, 2026',
@@ -35,6 +35,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
   const [chatOpen, setChatOpen] = useState(false)
   const [chatInput, setChatInput] = useState('')
   const [chatMessages, setChatMessages] = useState<{ role: 'user' | 'ai'; text: string }[]>([])
+  const [trendingPosts, setTrendingPosts] = useState(FALLBACK_TRENDING)
 
   let headerTitle = ''
   if (pathname === '/forum/new') headerTitle = 'New Thread'
@@ -45,6 +46,14 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     document.body.classList.add('forum-active')
     return () => document.body.classList.remove('forum-active')
+  }, [])
+
+  // Fetch trending posts from API
+  useEffect(() => {
+    fetch('/api/blog/trending')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data?.length) setTrendingPosts(data) })
+      .catch(() => {})
   }, [])
 
   const handleGroupChange = useCallback((slug: string) => {
@@ -196,7 +205,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
                 Trending Posts
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {TRENDING_POSTS.map(post => (
+                {trendingPosts.map(post => (
                   <a
                     key={post.slug}
                     href={`/blog/${post.slug}`}

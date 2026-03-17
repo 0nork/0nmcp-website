@@ -13,7 +13,7 @@
  *   toast({ title: 'Connected!', description: 'Stripe is now active', type: 'success' })
  */
 
-import { useState, useCallback, createContext, useContext, useRef, useEffect, type ReactNode } from 'react'
+import { useState, useCallback, createContext, useContext, useRef, useEffect, type ReactNode, type ReactElement } from 'react'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -37,7 +37,7 @@ export function useToast() {
 
 // ─── Type-specific styles ───────────────────────────────────────────────────
 
-const TYPE_STYLES: Record<Toast['type'], { accent: string; bg: string; border: string; icon: JSX.Element }> = {
+const TYPE_STYLES: Record<Toast['type'], { accent: string; bg: string; border: string; icon: ReactElement }> = {
   success: {
     accent: '#7ed957',
     bg: 'rgba(126, 217, 87, 0.06)',

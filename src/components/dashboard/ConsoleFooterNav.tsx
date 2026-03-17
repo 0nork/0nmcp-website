@@ -8,6 +8,7 @@
  * On desktop, shown as a sleek dock at the bottom.
  */
 
+import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
@@ -15,7 +16,7 @@ interface FooterTab {
   key: string
   label: string
   href: string
-  icon: JSX.Element
+  icon: ReactNode
   accent?: boolean // highlighted tab (0nMCP brand)
 }
 

@@ -21,12 +21,28 @@ interface Mod {
   status: 'active' | 'coming_soon' | 'beta'
   featured?: boolean
   iconBg: string       // gradient or solid for the icon square
-  iconEmoji?: string   // fallback
+  iconSvg: string      // SVG path(s) for white icon
   price?: string       // null = included
   href?: string
 }
 
 // ─── Product catalog ────────────────────────────────────────────────────────
+
+// SVG paths for mod icons (Lucide-compatible, 24x24 viewBox)
+const MOD_ICONS: Record<string, string> = {
+  'site-builder': '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="m8 21 4-4 4 4"/><path d="m7 10 2 2-2 2"/><line x1="12" y1="14" x2="16" y2="14"/>',
+  'sxo-plugin': '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/>',
+  'social0n': '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+  'operations': '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  'ai-training': '<circle cx="12" cy="12" r="3"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/>',
+  'linkedin-mod': '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>',
+  'email-signature': '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+  'qr-code': '<rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/>',
+  'crew-manager': '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  'reporting': '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+  'migrate': '<polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>',
+  'convert': '<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
+}
 
 const MODS: Mod[] = [
   // ── Featured (large cards) ──
@@ -39,7 +55,7 @@ const MODS: Mod[] = [
     status: 'active',
     featured: true,
     iconBg: 'linear-gradient(135deg, #7ed957, #00d4ff)',
-    iconEmoji: '',
+    iconSvg: '',
     price: '$197/site',
     href: '/console/site-builder',
   },
@@ -52,7 +68,7 @@ const MODS: Mod[] = [
     status: 'active',
     featured: true,
     iconBg: 'linear-gradient(135deg, #f59e0b, #ef4444)',
-    iconEmoji: '',
+    iconSvg: '',
     price: '$97/mo',
     href: '/products/cro9',
   },
@@ -65,7 +81,7 @@ const MODS: Mod[] = [
     version: 'v1.2',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #a78bfa, #ec4899)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/social',
   },
   {
@@ -76,7 +92,7 @@ const MODS: Mod[] = [
     version: 'v1.0',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #00d4ff, #3b82f6)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/operations',
   },
   {
@@ -87,7 +103,7 @@ const MODS: Mod[] = [
     version: 'v0.9',
     status: 'beta',
     iconBg: 'linear-gradient(135deg, #f472b6, #7c3aed)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/tools/ai-training',
   },
   {
@@ -98,7 +114,7 @@ const MODS: Mod[] = [
     version: 'v1.0',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #0077b5, #00a0dc)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/linkedin',
   },
   {
@@ -109,7 +125,7 @@ const MODS: Mod[] = [
     version: 'v1.0',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #10b981, #059669)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/tools/email-signature',
   },
   {
@@ -120,7 +136,7 @@ const MODS: Mod[] = [
     version: 'v1.0',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/tools/qr-code',
   },
   {
@@ -131,7 +147,7 @@ const MODS: Mod[] = [
     version: 'v0.5',
     status: 'coming_soon',
     iconBg: 'linear-gradient(135deg, #f97316, #dc2626)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/crew',
   },
   {
@@ -142,7 +158,7 @@ const MODS: Mod[] = [
     version: 'v1.0',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #14b8a6, #06b6d4)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/reporting',
   },
   {
@@ -153,7 +169,7 @@ const MODS: Mod[] = [
     version: 'v1.0',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #78716c, #a8a29e)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/migrate',
   },
   {
@@ -164,7 +180,7 @@ const MODS: Mod[] = [
     version: 'v1.0',
     status: 'active',
     iconBg: 'linear-gradient(135deg, #84cc16, #22c55e)',
-    iconEmoji: '',
+    iconSvg: '',
     href: '/console/convert',
   },
 ]
@@ -180,16 +196,30 @@ const STATUS_STYLES: Record<string, { bg: string; color: string; label: string }
 // ─── Components ─────────────────────────────────────────────────────────────
 
 function ModIcon({ mod, size = 40 }: { mod: Mod; size?: number }) {
+  const svgPath = MOD_ICONS[mod.id] || mod.iconSvg
   return (
     <div style={{
       width: size, height: size, borderRadius: size * 0.25,
       background: mod.iconBg,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: size * 0.5, lineHeight: 1,
-      boxShadow: `0 4px 12px rgba(0,0,0,0.3)`,
+      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
       flexShrink: 0,
     }}>
-      {mod.iconEmoji}
+      {svgPath ? (
+        <svg
+          width={size * 0.5}
+          height={size * 0.5}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          dangerouslySetInnerHTML={{ __html: svgPath }}
+        />
+      ) : (
+        <span style={{ fontSize: size * 0.4, color: 'white' }}>{mod.id[0].toUpperCase()}</span>
+      )}
     </div>
   )
 }

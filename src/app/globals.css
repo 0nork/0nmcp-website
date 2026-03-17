@@ -3157,16 +3157,17 @@ a:hover {
 }
 
 .mega-dropdown-columns {
-  display: flex;
-  gap: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
 }
 
 .mega-dropdown-col {
-  min-width: 200px;
+  min-width: 0;
 }
 
 .mega-dropdown-col-title {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -3177,24 +3178,47 @@ a:hover {
 }
 
 .mega-dropdown-link {
-  display: block;
-  padding: 0.5rem 0.75rem;
-  margin: 0 -0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.55rem 0.6rem;
+  margin: 0 -0.5rem;
   border-radius: 0.5rem;
-  transition: background-color 0.15s ease;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.mega-dropdown-link::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7ed957, #00d4ff);
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+  opacity: 0.4;
+  transition: all 0.25s ease;
 }
 
 .mega-dropdown-link:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(126, 217, 87, 0.04);
+  transform: translateX(2px);
+}
+
+.mega-dropdown-link:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(126, 217, 87, 0.5);
+  transform: scale(1.3);
 }
 
 .mega-dropdown-link-label {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  letter-spacing: -0.01em;
 }
 
 .mega-dropdown-link:hover .mega-dropdown-link-label {
@@ -3202,10 +3226,11 @@ a:hover {
 }
 
 .mega-dropdown-link-desc {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   display: block;
-  margin-top: 0.125rem;
+  margin-top: 0.1rem;
+  line-height: 1.3;
 }
 
 .mega-dropdown-badge {

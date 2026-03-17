@@ -19,57 +19,50 @@ type MenuSection = {
 }
 
 const MENU_SECTIONS: Record<string, MenuSection> = {
-  product: {
-    label: 'Product',
+  ecosystem: {
+    label: 'Ecosystem',
     columns: [
       {
         title: 'Platform',
         links: [
-          { label: 'Turn it 0n', href: '/turn-it-on', desc: `Browse all ${STATS_DISPLAY.capabilities} capabilities` },
-          { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} connected services` },
-          { label: 'Technology', href: '/technology', desc: '4 patents powering the platform', badge: 'Patented' },
-          { label: 'Pricing', href: '/#pricing', desc: 'Free forever, pay to scale' },
+          { label: 'Console', href: '/console', desc: 'AI command center', accent: true },
+          { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} services` },
+          { label: 'Builder', href: '/builder', desc: 'Visual flow editor' },
+          { label: 'Pricing', href: '/#pricing', desc: 'Free to start' },
         ],
       },
       {
-        title: 'Tools',
+        title: 'Products',
         links: [
-          { label: 'Console', href: '/console', desc: 'Your AI command center', accent: true },
-          { label: '.0n Standard', href: '/0n-standard', desc: 'Universal config format' },
-          { label: 'Security', href: '/security', desc: 'Vault, encryption & escrow' },
+          { label: 'Turn it 0n', href: '/turn-it-on', desc: 'Browse capabilities' },
+          { label: 'Marketplace', href: '/marketplace', desc: 'Workflow store' },
+          { label: 'Technology', href: '/technology', desc: 'Patents & architecture', badge: 'Patented' },
+          { label: 'Security', href: '/security', desc: 'Vault & encryption' },
+        ],
+      },
+      {
+        title: 'Build',
+        links: [
+          { label: 'Convert', href: '/convert', desc: 'Migrate platforms' },
+          { label: '.0n Standard', href: '/0n-standard', desc: 'Config format' },
+          { label: 'Downloads', href: '/downloads', desc: 'Extensions & tools' },
+          { label: 'Examples', href: '/examples', desc: 'Use cases' },
+        ],
+      },
+      {
+        title: 'Connect',
+        links: [
+          { label: 'Partners', href: '/partners', desc: 'Integrations' },
+          { label: 'Demo', href: '/demo', desc: 'Try it live' },
+          { label: 'Invest', href: '/connect', desc: 'Get involved', accent: true },
+          { label: 'Compare', href: '/compare', desc: 'vs competitors' },
         ],
       },
     ],
     services: true,
-    serviceIds: ['stripe', 'slack', 'github', 'openai', 'anthropic', 'supabase', 'notion', 'discord', 'shopify', 'gmail', 'twilio', 'airtable', 'google-sheets', 'hubspot', 'mongodb', 'zoom'],
+    serviceIds: ['stripe', 'slack', 'github', 'openai', 'anthropic', 'supabase', 'notion', 'discord', 'shopify', 'gmail', 'twilio', 'hubspot'],
     graphic: 'grid',
     stat: { value: STATS_DISPLAY.tools, label: 'Tools Ready' },
-  },
-  solutions: {
-    label: 'Solutions',
-    columns: [
-      {
-        title: 'Build',
-        links: [
-          { label: 'Builder', href: '/builder', desc: 'Visual workflow editor', accent: true },
-          { label: 'Marketplace', href: '/marketplace', desc: 'Browse workflows & automations' },
-          { label: 'Convert', href: '/convert', desc: 'Migrate from any AI platform' },
-          { label: 'Examples', href: '/examples', desc: 'Real-world use cases' },
-        ],
-      },
-      {
-        title: 'Ecosystem',
-        links: [
-          { label: 'Interactive Demo', href: '/demo', desc: 'Build your first RUN' },
-          { label: 'Downloads', href: '/downloads', desc: 'Chrome extension & more' },
-          { label: 'Partners', href: '/partners', desc: 'Partner integrations' },
-          { label: 'Connect', href: '/connect', desc: 'Partnerships & investment', accent: true },
-        ],
-      },
-    ],
-    serviceIds: ['vault', 'vault-container', 'deed', 'engine', 'app-builder', 'crm', 'stripe', 'anthropic', 'supabase'],
-    graphic: 'vault',
-    stat: { value: STATS_DISPLAY.capabilities, label: 'Capabilities' },
   },
   resources: {
     label: 'Resources',
@@ -77,29 +70,29 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
       {
         title: 'Learn',
         links: [
-          { label: 'Forum', href: '/forum', desc: 'Ask questions & discuss', accent: true },
-          { label: 'Courses', href: '/learn', desc: 'Free & premium learning paths' },
-          { label: 'Blog', href: '/blog', desc: 'Updates, guides & insights' },
-          { label: 'Glossary', href: '/glossary', desc: '80+ AI & MCP terms defined' },
+          { label: 'Forum', href: '/forum', desc: 'Community Q&A', accent: true },
+          { label: 'Courses', href: '/learn', desc: 'Learning paths' },
+          { label: 'Blog', href: '/blog', desc: 'Guides & updates' },
+          { label: 'Glossary', href: '/glossary', desc: 'AI terms defined' },
         ],
       },
       {
         title: 'Community',
         links: [
-          { label: 'Community Hub', href: '/community', desc: 'Discussion & updates' },
-          { label: 'Compare', href: '/compare', desc: 'vs Zapier, Make, n8n & more' },
-          { label: 'Sponsor', href: '/sponsor', desc: 'Support development' },
-          { label: 'Report an Issue', href: '/report', desc: 'Bug reports & feedback' },
+          { label: 'Hub', href: '/community', desc: 'Discussion' },
+          { label: 'Sponsor', href: '/sponsor', desc: 'Support us' },
+          { label: 'Report', href: '/report', desc: 'Bug reports' },
+          { label: 'GitHub', href: 'https://github.com/0nork/0nmcp', desc: 'Source code' },
         ],
       },
     ],
-    serviceIds: ['github', 'discord', 'slack', 'linkedin', 'x', 'reddit'],
+    serviceIds: ['github', 'discord', 'slack', 'linkedin'],
     graphic: 'community',
     stat: { value: STATS_DISPLAY.services, label: 'Services' },
   },
 }
 
-type MenuKey = 'product' | 'solutions' | 'resources'
+type MenuKey = 'ecosystem' | 'resources'
 
 /* ── Build a curated service list from IDs ── */
 function getServicesByIds(ids: string[]) {

@@ -289,7 +289,7 @@ export default function ThreadClient({
                 fontSize: '0.9375rem',
                 lineHeight: 1.7,
                 whiteSpace: 'pre-wrap',
-                color: 'var(--text-secondary)',
+                color: '#e8e8ee',
                 marginBottom: '0.5rem',
               }}>
                 {post.body}

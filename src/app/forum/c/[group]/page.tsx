@@ -200,7 +200,7 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
                   key={t.id}
                   href={`/forum/${t.slug}`}
                   className="rounded-xl p-4 no-underline transition-all flex items-start gap-3"
-                  style={{ background: '#000000', border: '1px solid var(--border)' }}
+                  style={{ background: '#000000', border: '1px solid #1a1a1a' }}
                 >
                   {/* Score */}
                   <div className="flex flex-col items-center flex-shrink-0" style={{ minWidth: '36px' }}>
@@ -223,7 +223,7 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
                       <span>&middot;</span>
                       <span>{timeAgo(t.created_at)}</span>
                     </div>
-                    <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: '#f0f0f5' }}>
+                    <h3 className="text-sm font-bold mb-1 leading-snug" style={{ color: '#e8e8ee' }}>
                       {t.is_locked && <span className="mr-1 opacity-50">&#128274;</span>}
                       {t.title}
                     </h3>

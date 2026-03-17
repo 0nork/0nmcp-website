@@ -106,27 +106,21 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
             gap: '0.75rem',
           }}
         >
-          {/* Left: Logo + mobile menu */}
+          {/* Left: Mobile menu toggle + breadcrumb */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-            {/* Mobile menu toggle — tap logo */}
+            {/* Mobile menu toggle */}
             <button
               className="lg:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                padding: '0.25rem', display: 'flex',
+                padding: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem',
               }}
             >
-              <img src="/brand/0n-board.png" alt="0nboard" style={{ height: '1.5rem', objectFit: 'contain' }} />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
             </button>
-
-            {/* Desktop logo */}
-            <img
-              src="/brand/0n-board.png"
-              alt="0nboard"
-              className="hidden lg:block"
-              style={{ height: '1.5rem', objectFit: 'contain' }}
-            />
 
             {headerTitle && (
               <span style={{ fontSize: '0.8125rem', color: '#555', fontWeight: 500 }}>

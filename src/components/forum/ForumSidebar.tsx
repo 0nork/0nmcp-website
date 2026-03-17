@@ -15,11 +15,11 @@ interface Group {
 
 const TRANSITION = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
 
-/* ── SVG icon map — glossy black container + branded green icon ── */
-function GroupIcon({ slug }: { slug: string }) {
+/* ── SVG icon map — color comes from parent ── */
+function GroupIcon({ slug, color }: { slug: string; color: string }) {
   const p = {
     width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none',
-    stroke: '#7ed957', strokeWidth: 2,
+    stroke: color, strokeWidth: 2,
     strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const,
   }
 
@@ -68,12 +68,13 @@ function GroupIcon({ slug }: { slug: string }) {
         width: 28,
         height: 28,
         borderRadius: 8,
-        background: 'linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%)',
-        boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.08), 0 2px 4px rgba(0,0,0,0.5)',
+        background: 'linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%)',
+        boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06), 0 2px 4px rgba(0,0,0,0.5)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
+        transition: TRANSITION,
       }}
     >
       {icon}
@@ -179,13 +180,14 @@ export default function ForumSidebar({
           Groups
         </div>
 
-        <GroupButton slug="all" label="All" active={currentGroup === 'all'} onClick={() => handleGroupClick('all')} />
+        <GroupButton slug="all" label="All" color="#7ed957" active={currentGroup === 'all'} onClick={() => handleGroupClick('all')} />
 
         {groups.map(g => (
           <GroupButton
             key={g.id}
             slug={g.slug}
             label={g.name}
+            color={g.color}
             count={g.thread_count}
             active={currentGroup === g.slug}
             onClick={() => handleGroupClick(g.slug)}
@@ -211,10 +213,14 @@ export default function ForumSidebar({
   )
 }
 
-function GroupButton({ slug, label, count, active, onClick }: {
-  slug: string; label: string; count?: number; active: boolean; onClick: () => void
+function GroupButton({ slug, label, color, count, active, onClick }: {
+  slug: string; label: string; color: string; count?: number; active: boolean; onClick: () => void
 }) {
   const [hovered, setHovered] = useState(false)
+
+  // Active: black bg, category color left border, category color icon
+  // Hover: 3px border in category color fades in around the button
+  // Default: transparent bg, no border highlight
 
   return (
     <button
@@ -228,19 +234,23 @@ function GroupButton({ slug, label, count, active, onClick }: {
         gap: '0.625rem',
         borderRadius: '0.75rem',
         cursor: 'pointer',
-        border: 'none',
         padding: '0.5rem 0.75rem',
-        backgroundColor: active ? 'rgba(126, 217, 87, 0.08)' : hovered ? 'rgba(255,255,255,0.03)' : 'transparent',
-        borderLeft: active ? '3px solid var(--accent)' : '3px solid transparent',
-        color: active ? '#ffffff' : '#999',
+        backgroundColor: active ? '#000000' : 'transparent',
+        borderTop: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
+        borderRight: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
+        borderBottom: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
+        borderLeft: active ? `4px solid ${color}` : hovered ? `3px solid ${color}40` : '4px solid transparent',
+        color: active ? '#ffffff' : hovered ? '#ccc' : '#999',
         transition: TRANSITION,
         fontFamily: 'inherit',
         fontSize: '0.8125rem',
         fontWeight: active ? 600 : 500,
         textAlign: 'left',
+        outline: 'none',
+        boxSizing: 'border-box',
       }}
     >
-      <GroupIcon slug={slug} />
+      <GroupIcon slug={slug} color={active ? color : hovered ? color : '#7ed957'} />
       <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{label}</span>
       {count !== undefined && (
         <span style={{ fontSize: '0.625rem', color: '#444' }}>{count}</span>

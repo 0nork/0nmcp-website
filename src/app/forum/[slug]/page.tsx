@@ -404,7 +404,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
                 fontSize: '0.9375rem',
                 lineHeight: 1.7,
                 whiteSpace: 'pre-wrap',
-                color: 'var(--text-secondary)',
+                color: '#e8e8ee',
               }}
             >
               {thread.body}

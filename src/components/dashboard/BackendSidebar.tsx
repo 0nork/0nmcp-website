@@ -123,6 +123,7 @@ const SECTIONS: NavSection[] = [
   {
     label: 'Outreach',
     items: [
+      { key: 'facebook-ads', label: 'Facebook Ads', icon: <Share2 size={16} />, color: '#1877F2', route: '/console/facebook-ads' },
       { key: 'outreach', label: 'Enricher', icon: <Mail size={16} />, color: C, route: '/console', viewParam: 'outreach' },
       { key: 'listkit', label: 'ListKit', icon: <ListChecks size={16} />, color: C, route: '/console', viewParam: 'listkit' },
       { key: 'linkedin', label: 'LinkedIn', icon: <Linkedin size={16} />, color: C, route: '/console', viewParam: 'linkedin' },
@@ -159,6 +160,7 @@ function getActiveKey(pathname: string, searchParams: URLSearchParams): string {
   if (pathname.startsWith('/console/workflows')) return 'store'
   if (pathname.startsWith('/console/terminal')) return 'terminal'
   if (pathname.startsWith('/console/tools')) return 'tools'
+  if (pathname.startsWith('/console/facebook-ads')) return 'facebook-ads'
   if (pathname.startsWith('/console/ai-employee')) return 'ai-employee'
   if (pathname.startsWith('/console/crew')) return 'crew'
 

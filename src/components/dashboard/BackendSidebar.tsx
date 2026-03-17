@@ -115,8 +115,8 @@ const SECTIONS: NavSection[] = [
   {
     label: 'AI',
     items: [
+      { key: 'ai-employee', label: 'AI Employee', icon: <Zap size={16} />, color: G, route: '/console/ai-employee' },
       { key: 'training', label: 'Brain', icon: <Brain size={16} />, color: P, route: '/console', viewParam: 'training' },
-      { key: 'spark', label: 'Spark Runner', icon: <Zap size={16} />, color: G, route: '/console', viewParam: 'spark' },
       { key: 'sync', label: 'Sync', icon: <RefreshCw size={16} />, color: P, route: '/console', viewParam: 'sync' },
     ],
   },
@@ -159,6 +159,7 @@ function getActiveKey(pathname: string, searchParams: URLSearchParams): string {
   if (pathname.startsWith('/console/workflows')) return 'store'
   if (pathname.startsWith('/console/terminal')) return 'terminal'
   if (pathname.startsWith('/console/tools')) return 'tools'
+  if (pathname.startsWith('/console/ai-employee')) return 'ai-employee'
   if (pathname.startsWith('/console/crew')) return 'crew'
 
   // /console with ?view= param

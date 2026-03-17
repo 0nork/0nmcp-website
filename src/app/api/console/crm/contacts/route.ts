@@ -1,23 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { getUserCrmConfig, getCrmHeaders, CRM_BASE } from '@/lib/crm/config'
 
 export const dynamic = 'force-dynamic'
-
-const CRM_BASE = 'https://services.leadconnectorhq.com'
-const CRM_VERSION = '2021-07-28'
-
-function getCrmHeaders(): Record<string, string> {
-  const token = process.env.CRM_PIT || process.env.CRM_API_KEY || ''
-  return {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json',
-    'Version': CRM_VERSION,
-  }
-}
-
-function getLocationId(): string {
-  return process.env.CRM_LOCATION_ID || process.env.CRM_COMMUNITY_LOCATION_ID || ''
-}
 
 interface CrmContact {
   id: string
@@ -46,8 +31,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
+  const config = await getUserCrmConfig(supabase)
+  if (!config) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -55,17 +40,13 @@ export async function GET(request: NextRequest) {
   const query = searchParams.get('query') || ''
   const limit = searchParams.get('limit') || '20'
   const page = searchParams.get('page') || '1'
-  const locationId = getLocationId()
 
   const params = new URLSearchParams({
-    locationId,
+    locationId: config.locationId,
     limit,
     ...(query ? { query } : {}),
   })
 
-  // CRM uses startAfterId for pagination, but we expose page number
-  // For page > 1, we'd need the last contact ID from previous page
-  // For simplicity, offset = (page - 1) * limit via startAfter param
   if (Number(page) > 1) {
     params.set('startAfter', String((Number(page) - 1) * Number(limit)))
   }
@@ -73,7 +54,7 @@ export async function GET(request: NextRequest) {
   try {
     const res = await fetch(`${CRM_BASE}/contacts/?${params.toString()}`, {
       method: 'GET',
-      headers: getCrmHeaders(),
+      headers: getCrmHeaders(config.pitToken),
       signal: AbortSignal.timeout(15000),
     })
 
@@ -108,8 +89,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
+  const config = await getUserCrmConfig(supabase)
+  if (!config) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -136,7 +117,7 @@ export async function POST(request: NextRequest) {
   }
 
   const payload: Record<string, unknown> = {
-    locationId: getLocationId(),
+    locationId: config.locationId,
     ...(firstName ? { firstName } : {}),
     ...(lastName ? { lastName } : {}),
     ...(email ? { email } : {}),
@@ -147,7 +128,7 @@ export async function POST(request: NextRequest) {
   try {
     const res = await fetch(`${CRM_BASE}/contacts/`, {
       method: 'POST',
-      headers: getCrmHeaders(),
+      headers: getCrmHeaders(config.pitToken),
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(15000),
     })
@@ -160,9 +141,123 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const data = await res.json() as { contact: CrmContact }
+    const data = (await res.json()) as { contact: CrmContact }
 
     return NextResponse.json({ contact: data.contact })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'CRM request failed'
+    return NextResponse.json({ error: message }, { status: 502 })
+  }
+}
+
+/**
+ * PUT /api/console/crm/contacts
+ * Update a contact. Body: { contactId, firstName?, lastName?, email?, phone?, tags?, customFields? }
+ */
+export async function PUT(request: NextRequest) {
+  const supabase = await createSupabaseServer()
+  if (!supabase) {
+    return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
+  }
+
+  const config = await getUserCrmConfig(supabase)
+  if (!config) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  let body: Record<string, unknown>
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+  }
+
+  const { contactId, firstName, lastName, email, phone, tags, customFields } = body as {
+    contactId?: string
+    firstName?: string
+    lastName?: string
+    email?: string
+    phone?: string
+    tags?: string[]
+    customFields?: Record<string, unknown>[]
+  }
+
+  if (!contactId) {
+    return NextResponse.json({ error: 'contactId is required' }, { status: 400 })
+  }
+
+  const payload: Record<string, unknown> = {
+    ...(firstName !== undefined ? { firstName } : {}),
+    ...(lastName !== undefined ? { lastName } : {}),
+    ...(email !== undefined ? { email } : {}),
+    ...(phone !== undefined ? { phone } : {}),
+    ...(tags !== undefined ? { tags } : {}),
+    ...(customFields !== undefined ? { customFields } : {}),
+  }
+
+  try {
+    const res = await fetch(`${CRM_BASE}/contacts/${contactId}`, {
+      method: 'PUT',
+      headers: getCrmHeaders(config.pitToken),
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(15000),
+    })
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => 'Unknown error')
+      return NextResponse.json(
+        { error: `CRM API error: ${res.status}`, details: errText },
+        { status: res.status >= 500 ? 502 : res.status }
+      )
+    }
+
+    const data = (await res.json()) as { contact: CrmContact }
+
+    return NextResponse.json({ contact: data.contact })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'CRM request failed'
+    return NextResponse.json({ error: message }, { status: 502 })
+  }
+}
+
+/**
+ * DELETE /api/console/crm/contacts
+ * Delete a contact. Query param: contactId
+ */
+export async function DELETE(request: NextRequest) {
+  const supabase = await createSupabaseServer()
+  if (!supabase) {
+    return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
+  }
+
+  const config = await getUserCrmConfig(supabase)
+  if (!config) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const { searchParams } = request.nextUrl
+  const contactId = searchParams.get('contactId')
+
+  if (!contactId) {
+    return NextResponse.json({ error: 'contactId query param is required' }, { status: 400 })
+  }
+
+  try {
+    const res = await fetch(`${CRM_BASE}/contacts/${contactId}`, {
+      method: 'DELETE',
+      headers: getCrmHeaders(config.pitToken),
+      signal: AbortSignal.timeout(15000),
+    })
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => 'Unknown error')
+      return NextResponse.json(
+        { error: `CRM API error: ${res.status}`, details: errText },
+        { status: res.status >= 500 ? 502 : res.status }
+      )
+    }
+
+    return NextResponse.json({ success: true, contactId })
   } catch (err) {
     const message = err instanceof Error ? err.message : 'CRM request failed'
     return NextResponse.json({ error: message }, { status: 502 })

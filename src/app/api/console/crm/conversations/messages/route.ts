@@ -1,19 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { getUserCrmConfig, getCrmHeaders, CRM_BASE } from '@/lib/crm/config'
 
 export const dynamic = 'force-dynamic'
-
-const CRM_BASE = 'https://services.leadconnectorhq.com'
-const CRM_VERSION = '2021-07-28'
-
-function getCrmHeaders(): Record<string, string> {
-  const token = process.env.CRM_PIT || process.env.CRM_API_KEY
-  return {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json',
-    'Version': CRM_VERSION,
-  }
-}
 
 interface CrmMessage {
   id: string
@@ -42,8 +31,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
+  const config = await getUserCrmConfig(supabase)
+  if (!config) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -57,7 +46,7 @@ export async function GET(request: NextRequest) {
   try {
     const res = await fetch(`${CRM_BASE}/conversations/${conversationId}/messages`, {
       method: 'GET',
-      headers: getCrmHeaders(),
+      headers: getCrmHeaders(config.pitToken),
       signal: AbortSignal.timeout(15000),
     })
 
@@ -90,8 +79,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
+  const config = await getUserCrmConfig(supabase)
+  if (!config) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -131,7 +120,7 @@ export async function POST(request: NextRequest) {
   try {
     const res = await fetch(`${CRM_BASE}/conversations/messages`, {
       method: 'POST',
-      headers: getCrmHeaders(),
+      headers: getCrmHeaders(config.pitToken),
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(15000),
     })
@@ -144,7 +133,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const data = await res.json() as CrmMessage
+    const data = (await res.json()) as CrmMessage
 
     return NextResponse.json({ message: data })
   } catch (err) {

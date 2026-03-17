@@ -3,30 +3,35 @@
 import { useState, useEffect } from 'react'
 import DashboardTopBar from './DashboardTopBar'
 import { BackendSidebar, BackendSidebarProvider } from './BackendSidebar'
+import DashboardRightSidebar from './DashboardRightSidebar'
 import AuthModal from '@/components/AuthModal'
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
-  const [connectedCount, setConnectedCount] = useState(0)
-  const [mcpOnline, setMcpOnline] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [connectedCount,  setConnectedCount]  = useState(0)
+  const [mcpOnline,       setMcpOnline]       = useState(false)
+  const [isAdmin,         setIsAdmin]         = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(true)
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showAuthModal,   setShowAuthModal]   = useState(false)
+  const [mobileMenuOpen,  setMobileMenuOpen]  = useState(false)
+
+  const handleOpenVault = () => {
+    const isConsole = window.location.pathname.startsWith('/console')
+    if (isConsole) {
+      window.dispatchEvent(new CustomEvent('0n:open-vault'))
+    } else {
+      window.location.href = '/console?view=vault'
+    }
+  }
 
   useEffect(() => {
-    // Auth check
     fetch('/api/console/account')
-      .then(r => {
-        if (!r.ok) { setIsAuthenticated(false); setShowAuthModal(true) }
-      })
+      .then(r => { if (!r.ok) { setIsAuthenticated(false); setShowAuthModal(true) } })
       .catch(() => { setIsAuthenticated(false); setShowAuthModal(true) })
 
-    // Admin check
     fetch('/api/admin/users?stats=true')
       .then(r => { if (r.ok) setIsAdmin(true) })
       .catch(() => {})
 
-    // MCP health + connected count
     fetch('/api/console/health')
       .then(r => r.json())
       .then(data => {
@@ -36,7 +41,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       })
       .catch(() => {})
 
-    // Vault connected count
     fetch('/api/console/vault/status')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
@@ -46,7 +50,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       .catch(() => {})
   }, [])
 
-  // Periodic health poll
   useEffect(() => {
     const interval = setInterval(() => {
       fetch('/api/console/health')
@@ -65,8 +68,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     <BackendSidebarProvider connectedCount={connectedCount} mcpOnline={mcpOnline} isAdmin={isAdmin}>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <DashboardTopBar onMobileMenu={() => setMobileMenuOpen(p => !p)} />
+
         <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
-          {/* Mobile sidebar overlay */}
+
           {mobileMenuOpen && (
             <div
               className="fixed inset-0 z-40 md:hidden"
@@ -75,7 +79,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             />
           )}
 
-          {/* Sidebar */}
           <div
             className={`fixed md:relative z-50 h-[calc(100vh-48px)] transition-transform duration-300 md:translate-x-0 ${
               mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
@@ -84,16 +87,27 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <BackendSidebar />
           </div>
 
-          <main style={{ flex: 1, overflow: 'auto', minWidth: 0 }}>{children}</main>
+          <main style={{ flex: 1, overflow: 'auto', minWidth: 0 }}>
+            {children}
+          </main>
+
+          <DashboardRightSidebar
+            connectedCount={connectedCount}
+            onOpenVault={handleOpenVault}
+          />
+
         </div>
       </div>
 
-      {/* Auth Modal (unauthenticated visitors) */}
       {!isAuthenticated && (
         <AuthModal
           open={showAuthModal}
           onClose={() => setShowAuthModal(false)}
-          onSuccess={() => { setIsAuthenticated(true); setShowAuthModal(false); window.location.reload() }}
+          onSuccess={() => {
+            setIsAuthenticated(true)
+            setShowAuthModal(false)
+            window.location.reload()
+          }}
         />
       )}
     </BackendSidebarProvider>

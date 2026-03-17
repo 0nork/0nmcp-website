@@ -102,12 +102,31 @@ function BuilderInner() {
     }, 100)
   }, [])
 
-  return (
-    <div className="builder-layout" style={{ position: 'relative' }}>
-      {/* Service palette — only show in canvas mode */}
-      {viewMode === 'canvas' && <ServicePalette />}
+  const [paletteOpen, setPaletteOpen] = useState(false)
 
-      <div className="builder-canvas-area" style={{ display: 'flex', flexDirection: 'column' }}>
+  return (
+    <div className="builder-layout" style={{ position: 'relative', overflow: 'hidden', maxWidth: '100vw' }}>
+      {/* Service palette — desktop: always visible in canvas mode, mobile: toggle drawer */}
+      {viewMode === 'canvas' && (
+        <>
+          {/* Mobile backdrop */}
+          {paletteOpen && (
+            <div
+              className="md:hidden"
+              onClick={() => setPaletteOpen(false)}
+              style={{
+                position: 'fixed', inset: 0, zIndex: 65,
+                background: 'rgba(0,0,0,0.5)',
+              }}
+            />
+          )}
+          <div className={paletteOpen ? 'mobile-open' : ''} style={{ display: 'contents' }}>
+            <ServicePalette />
+          </div>
+        </>
+      )}
+
+      <div className="builder-canvas-area" style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
         <Toolbar
           aiChatOpen={aiChatOpen}
           onToggleAIChat={() => setAiChatOpen(!aiChatOpen)}
@@ -116,6 +135,7 @@ function BuilderInner() {
           viewMode={viewMode}
           onToggleView={() => setViewMode(viewMode === 'canvas' ? 'simple' : 'canvas')}
           onOpenWizard={() => setWizardOpen(true)}
+          onTogglePalette={() => setPaletteOpen(p => !p)}
         />
 
         {/* AI Prompt bar — always visible */}

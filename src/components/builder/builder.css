@@ -16,14 +16,32 @@
 /* ---- Service Palette (Left Sidebar) ---- */
 
 .builder-palette {
-  width: 300px;
-  min-width: 300px;
+  width: 280px;
+  min-width: 280px;
   height: 100%;
   overflow-y: auto;
   background-color: rgba(10, 12, 18, 0.98);
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
+}
+
+/* Mobile: palette is a slide-over drawer */
+@media (max-width: 768px) {
+  .builder-palette {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 70;
+    box-shadow: 8px 0 32px rgba(0,0,0,0.5);
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .builder-palette.mobile-open {
+    transform: translateX(0);
+  }
 }
 
 .builder-palette-header {
@@ -572,6 +590,20 @@
   flex-direction: column;
 }
 
+/* Mobile: config panel floats over canvas */
+@media (max-width: 768px) {
+  .builder-config {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 320px;
+    z-index: 70;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.5);
+  }
+}
+
 .builder-config-header {
   display: flex;
   align-items: center;
@@ -839,12 +871,18 @@ select.builder-field-input {
   box-shadow: 0 0 20px rgba(126, 217, 87, 0.5) inset, 0 2px 12px rgba(126, 217, 87, 0.3);
 }
 
+/* AI Chat — FLOATING overlay, not a flex child */
 .ai-chat-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
   width: 380px;
-  min-width: 380px;
-  height: 100%;
+  max-width: 100vw;
+  z-index: 80;
   background-color: var(--bg-secondary);
   border-left: 1px solid var(--border);
+  box-shadow: -8px 0 32px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1152,4 +1190,111 @@ select.builder-field-input {
 .ai-chat-messages::-webkit-scrollbar-thumb {
   background: var(--border);
   border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   Mobile & Tablet Responsive
+   ═══════════════════════════════════════════ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .builder-palette {
+    width: 240px;
+    min-width: 240px;
+  }
+  .ai-chat-panel {
+    width: 340px;
+  }
+  .step-node {
+    width: 220px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .builder-layout {
+    flex-direction: column;
+  }
+
+  /* Toolbar wraps on mobile */
+  .builder-toolbar {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 6px;
+  }
+  .builder-toolbar-group {
+    gap: 4px;
+  }
+  .builder-toolbar-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  /* Canvas takes full width */
+  .builder-canvas-area {
+    width: 100%;
+    flex: 1;
+  }
+
+  /* AI Chat full-width on mobile */
+  .ai-chat-panel {
+    width: 100%;
+    max-width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Nodes smaller on mobile */
+  .step-node {
+    width: 180px;
+  }
+  .step-node-header {
+    padding: 8px 10px;
+  }
+  .step-node-body {
+    padding: 8px 10px;
+  }
+  .step-node-icon {
+    width: 22px;
+    height: 22px;
+  }
+  .step-node-service {
+    font-size: 11px;
+  }
+
+  /* Hide desktop-only elements */
+  .builder-canvas-area .react-flow__minimap {
+    display: none !important;
+  }
+  .builder-canvas-area .react-flow__controls {
+    bottom: 8px !important;
+    left: 8px !important;
+  }
+  .builder-canvas-area .react-flow__controls-button {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+/* Small phone */
+@media (max-width: 480px) {
+  .builder-toolbar {
+    padding: 6px 8px;
+  }
+  .builder-toolbar-btn {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+  .builder-step-count {
+    display: none;
+  }
+  .ai-chat-panel {
+    border-radius: 16px 16px 0 0;
+  }
+  .ai-chat-header {
+    padding: 10px 14px;
+  }
+  .step-node {
+    width: 160px;
+  }
 }

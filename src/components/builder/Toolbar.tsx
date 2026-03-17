@@ -17,9 +17,10 @@ interface ToolbarProps {
   viewMode?: 'canvas' | 'simple'
   onToggleView?: () => void
   onOpenWizard?: () => void
+  onTogglePalette?: () => void
 }
 
-export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal, viewMode, onToggleView, onOpenWizard }: ToolbarProps) {
+export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onToggleTerminal, viewMode, onToggleView, onOpenWizard, onTogglePalette }: ToolbarProps) {
   const { nodes, edges, settings, canUndo, canRedo, selectedNodeId } = useBuilder()
   const dispatch = useBuilderDispatch()
   const fileRef = useRef<HTMLInputElement>(null)
@@ -235,6 +236,16 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
     <>
       <div className="builder-toolbar">
         <div className="builder-toolbar-group">
+          {/* Palette toggle (useful on all sizes) */}
+          {onTogglePalette && (
+            <button
+              className="builder-toolbar-btn"
+              onClick={onTogglePalette}
+              title="Toggle service palette"
+            >
+              +
+            </button>
+          )}
           <button
             className="builder-toolbar-btn"
             onClick={() => dispatch({ type: 'UNDO' })}

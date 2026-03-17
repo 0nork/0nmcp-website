@@ -49,7 +49,7 @@ const COMPARISON = [
   { feature: 'Tool Count', openai: '~20 built-in tools', on: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services` },
   { feature: 'Portability', openai: 'Locked to ChatGPT / API', on: 'Runs anywhere (any AI client)' },
   { feature: 'Format', openai: 'Proprietary JSON', on: 'Open .0n Standard' },
-  { feature: 'Pricing', openai: 'Per-token, per-API-call', on: 'Free core, $0.10/execution' },
+  { feature: 'Pricing', openai: 'Per-token, per-API-call', on: 'Free core, $0.01/execution' },
   { feature: 'Integrations', openai: 'Manual Actions setup', on: '26 pre-built service connectors' },
   { feature: 'Version Control', openai: 'No native support', on: 'Git-friendly text files' },
   { feature: 'Multi-AI', openai: 'OpenAI models only', on: 'Works with any LLM' },
@@ -60,7 +60,7 @@ const FAQ = [
   { q: 'Will my converted workflow work exactly the same?', a: 'The .0n workflow preserves all transferable configuration — prompts, tools, functions, and settings. The actual AI responses depend on which model you run with, but the workflow structure is identical.' },
   { q: 'What about my knowledge files?', a: 'File references are preserved in the workflow metadata. The actual files need to be uploaded separately to your 0nMCP instance. We convert the references so you know exactly which files to add.' },
   { q: 'Is the conversion reversible?', a: 'Yes — .0n files are human-readable JSON. You can always extract the original prompts and configs, or convert back to OpenAI format.' },
-  { q: 'Do I need to pay for conversion?', a: 'No — Brain Transplant conversion is free. You only pay when you execute workflows through 0nMCP ($0.10 per execution on the marketplace, or free if self-hosted).' },
+  { q: 'Do I need to pay for conversion?', a: 'No — Brain Transplant conversion is free. You only pay when you execute workflows through 0nMCP ($0.01 per execution on the marketplace, or free if self-hosted).' },
 ]
 
 export default function ConvertOpenAI() {

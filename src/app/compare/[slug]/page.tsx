@@ -50,7 +50,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'USD',
-      description: 'Free and open source (MIT licensed). Marketplace executions $0.10 each.',
+      description: 'Free and open source (MIT licensed). Marketplace executions $0.01 each.',
     },
   }
 

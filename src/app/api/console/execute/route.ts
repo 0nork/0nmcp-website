@@ -21,7 +21,7 @@ const ONMCP_URL = process.env.ONMCP_URL || 'http://localhost:3001'
  * Body: { task: string } or { workflow: object }
  *
  * Billing: requires active metered subscription (owners bypass).
- * Each successful execution reports 1 credit ($0.10) to Stripe.
+ * Each successful execution reports 1 credit ($0.01) to Stripe.
  */
 export async function POST(request: NextRequest) {
   // Verify auth
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             status: 'free_tier_exceeded',
-            message: `You've used all ${FREE_TIER_MONTHLY_LIMIT} free executions this month. Upgrade to the Execution Plan for unlimited runs at $0.10 each.`,
+            message: `You've used all ${FREE_TIER_MONTHLY_LIMIT} free executions this month. Upgrade to the Execution Plan for unlimited runs at $0.01 each.`,
             usage: { used: monthlyCount, limit: FREE_TIER_MONTHLY_LIMIT },
           },
           { status: 402 }

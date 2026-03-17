@@ -50,7 +50,7 @@ const COMPARISON = [
   { feature: 'Tool Count', gemini: '~10 built-in (Google only)', on: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services` },
   { feature: 'Portability', gemini: 'Locked to Google ecosystem', on: 'Runs anywhere (any AI client)' },
   { feature: 'Format', gemini: 'Google-proprietary JSON', on: 'Open .0n Standard' },
-  { feature: 'Pricing', gemini: 'Per-character, per-API-call', on: 'Free core, $0.10/execution' },
+  { feature: 'Pricing', gemini: 'Per-character, per-API-call', on: 'Free core, $0.01/execution' },
   { feature: 'Dependencies', gemini: 'GCP, ADK, Google Cloud SDK', on: 'Zero dependencies (Node.js only)' },
   { feature: 'Version Control', gemini: 'Managed by Google', on: 'Git-friendly text files' },
   { feature: 'Multi-AI', gemini: 'Gemini models only', on: 'Works with any LLM' },
@@ -61,7 +61,7 @@ const FAQ = [
   { q: 'What about ADK agents with custom tools?', a: 'ADK agent configs convert fully — custom function declarations become .0n steps, and any MCP server references transfer as service connections. Your agent logic is preserved in the workflow.' },
   { q: 'Are safety settings preserved?', a: 'Yes. Gemini\'s safety settings (harassment, hate speech, dangerous content, etc.) are mapped to .0n system.safety fields. You can keep, modify, or remove them in the converted workflow.' },
   { q: 'Does Google Vertex AI config work too?', a: 'Yes — Vertex AI uses the same Gemini API schema under the hood. Export your model config as JSON and upload it. The converter handles both AI Studio and Vertex AI formats.' },
-  { q: 'Is the conversion free?', a: 'Yes — Brain Transplant conversion is completely free. You only pay for workflow execution if you use the 0nMCP marketplace ($0.10/run).' },
+  { q: 'Is the conversion free?', a: 'Yes — Brain Transplant conversion is completely free. You only pay for workflow execution if you use the 0nMCP marketplace ($0.01/run).' },
 ]
 
 export default function ConvertGemini() {

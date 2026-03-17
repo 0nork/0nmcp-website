@@ -101,10 +101,10 @@ const coreApps: AppCard[] = [
     tagline: 'Pay-per-execution automation store',
     url: 'https://marketplace.rocketclients.com',
     description:
-      'Browse, purchase, and execute pre-built .0n workflow automations without writing code. Every execution is metered at $0.10/run through Stripe.',
+      'Browse, purchase, and execute pre-built .0n workflow automations without writing code. Every execution is metered at $0.01/run through Stripe.',
     features: [
       'Browse and purchase .0n workflow files',
-      'Pay-per-execution pricing ($0.10/run)',
+      'Pay-per-execution pricing ($0.01/run)',
       'AI-powered workflow generation with Claude',
       'Usage dashboard with execution history',
       'Export any workflow to run locally',

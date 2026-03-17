@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
+import { provisionUser, getUserCrmAccount } from '@/lib/crm-provisioning'
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
@@ -23,6 +24,9 @@ export async function GET(request: NextRequest) {
         if (user) {
           const provider = user.app_metadata?.provider || 'email'
           const meta = user.user_metadata || {}
+
+          // Auto-provision CRM sub-account for EVERY new user (non-blocking)
+          autoProvisionCrm(user.id, user.email || '', meta).catch(() => {})
 
           // For LinkedIn signups: fire PACG pipeline
           if (provider === 'linkedin_oidc') {
@@ -153,4 +157,20 @@ function getAdminClient() {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) return null
   return createClient(url, key)
+}
+
+/**
+ * Auto-provision CRM sub-account for every new user on signup.
+ * Non-blocking — runs in background, failures don't block auth.
+ */
+async function autoProvisionCrm(userId: string, email: string, meta: Record<string, unknown>) {
+  // Skip if already provisioned
+  const existing = await getUserCrmAccount(userId).catch(() => null)
+  if (existing) return
+
+  const fullName = (meta.full_name as string) || (meta.name as string) || email.split('@')[0]
+  const company = (meta.company as string) || ''
+
+  await provisionUser({ userId, email, fullName, company })
+  console.log(`[auth] CRM auto-provisioned for ${email}`)
 }

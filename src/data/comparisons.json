@@ -12,10 +12,10 @@
       "tagline": "AI-native orchestration vs visual workflow builder",
       "description": "Zapier popularized no-code automation with its trigger-action model. 0nMCP takes a fundamentally different approach: instead of clicking through visual builders, you describe outcomes in natural language and AI handles the orchestration.",
       "competitor_summary": "Zapier is the largest iPaaS platform with 7,000+ app integrations and a visual Zap builder. It's designed for non-technical users who want point-and-click automation between web apps.",
-      "pricing_compare": "Zapier starts at $19.99/mo for 750 tasks. 0nMCP is open source and free for local use, with marketplace executions at $0.10 each — no monthly commitment.",
+      "pricing_compare": "Zapier starts at $19.99/mo for 750 tasks. 0nMCP is open source and free for local use, with marketplace executions at $0.01 each — no monthly commitment.",
       "key_differences": [
         { "feature": "Interface", "onmcp": "Natural language + AI reasoning", "competitor": "Visual drag-and-drop builder" },
-        { "feature": "Pricing model", "onmcp": "Free open source + $0.10/execution", "competitor": "$19.99-$799/mo subscription" },
+        { "feature": "Pricing model", "onmcp": "Free open source + $0.01/execution", "competitor": "$19.99-$799/mo subscription" },
         { "feature": "Tool count", "onmcp": "1,155 tools, 91 services", "competitor": "7,000+ apps (basic actions)" },
         { "feature": "Execution model", "onmcp": "Pipeline + Assembly Line + Radial Burst", "competitor": "Sequential Zap chains" },
         { "feature": "Self-hosted", "onmcp": "Yes — runs locally or on your server", "competitor": "No — cloud only" },
@@ -37,10 +37,10 @@
       "tagline": "AI orchestration vs visual scenario builder",
       "description": "Make (formerly Integromat) offers powerful visual automation with a canvas-based scenario builder. 0nMCP replaces visual building entirely with AI-driven orchestration — describe the outcome, not the process.",
       "competitor_summary": "Make is a visual automation platform known for its flexible scenario builder and advanced data manipulation. It offers more complex routing than Zapier but requires more technical understanding of data structures.",
-      "pricing_compare": "Make starts free (1,000 ops/mo) then $9-$16/mo for more operations. 0nMCP is free for local use with $0.10/execution on the marketplace — no operation limits locally.",
+      "pricing_compare": "Make starts free (1,000 ops/mo) then $9-$16/mo for more operations. 0nMCP is free for local use with $0.01/execution on the marketplace — no operation limits locally.",
       "key_differences": [
         { "feature": "Interface", "onmcp": "Natural language + AI", "competitor": "Visual canvas builder" },
-        { "feature": "Pricing", "onmcp": "Free local + $0.10/execution", "competitor": "Free tier then $9-$299/mo" },
+        { "feature": "Pricing", "onmcp": "Free local + $0.01/execution", "competitor": "Free tier then $9-$299/mo" },
         { "feature": "Complexity handling", "onmcp": "AI manages complexity automatically", "competitor": "Manual routing and error handling" },
         { "feature": "Execution patterns", "onmcp": "3 patterns: Pipeline, Assembly Line, Radial Burst", "competitor": "Sequential with routers and iterators" },
         { "feature": "Self-hosted", "onmcp": "Yes — full local execution", "competitor": "No — cloud only" },
@@ -90,7 +90,7 @@
       "pricing_compare": "Power Automate starts at $15/user/mo. 0nMCP is free for local use with no per-user licensing — one install serves your entire team.",
       "key_differences": [
         { "feature": "Ecosystem", "onmcp": "Platform-agnostic, 91 services", "competitor": "Microsoft-centric with connectors" },
-        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "$15/user/mo minimum" },
+        { "feature": "Pricing", "onmcp": "Free + $0.01/execution", "competitor": "$15/user/mo minimum" },
         { "feature": "AI integration", "onmcp": "AI-native via MCP", "competitor": "Copilot as add-on feature" },
         { "feature": "Self-hosted", "onmcp": "Yes — MIT licensed", "competitor": "Cloud only (desktop agent available)" },
         { "feature": "RPA support", "onmcp": "API-based automation only", "competitor": "Full desktop RPA capabilities" },
@@ -162,7 +162,7 @@
       "tagline": "AI MCP server vs open-source automation builder",
       "description": "Activepieces is an open-source alternative to Zapier with a visual builder. 0nMCP is also open source but fundamentally different — it's an MCP server designed for AI agents, not a visual workflow builder for humans.",
       "competitor_summary": "Activepieces is an open-source, self-hostable automation platform with a Zapier-like visual interface. It focuses on being a community-driven alternative to proprietary automation tools.",
-      "pricing_compare": "Both are open source and free to self-host. Activepieces Cloud starts at $5/mo. 0nMCP marketplace executions are $0.10 each with no subscription.",
+      "pricing_compare": "Both are open source and free to self-host. Activepieces Cloud starts at $5/mo. 0nMCP marketplace executions are $0.01 each with no subscription.",
       "key_differences": [
         { "feature": "Architecture", "onmcp": "MCP server for AI agents", "competitor": "Visual workflow builder" },
         { "feature": "License", "onmcp": "MIT", "competitor": "MIT" },
@@ -190,7 +190,7 @@
       "pricing_compare": "Workato pricing starts at ~$10,000/year for enterprise plans. 0nMCP is free for local use, MIT licensed, with no enterprise tax.",
       "key_differences": [
         { "feature": "Target market", "onmcp": "Developers and AI teams of any size", "competitor": "Enterprise IT departments" },
-        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "~$10,000+/year enterprise pricing" },
+        { "feature": "Pricing", "onmcp": "Free + $0.01/execution", "competitor": "~$10,000+/year enterprise pricing" },
         { "feature": "AI approach", "onmcp": "AI-native — describe outcomes", "competitor": "Recipe-based with AI assistants" },
         { "feature": "Setup time", "onmcp": "Minutes (npm install)", "competitor": "Weeks to months (enterprise onboarding)" },
         { "feature": "Open source", "onmcp": "Yes — MIT licensed", "competitor": "No — proprietary" },
@@ -215,7 +215,7 @@
       "pricing_compare": "Tray.io pricing is custom enterprise (typically $5,000+/year). 0nMCP is free for local use with MIT licensing.",
       "key_differences": [
         { "feature": "Architecture", "onmcp": "MCP server + AI orchestration", "competitor": "General Automation Platform" },
-        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "Custom enterprise pricing" },
+        { "feature": "Pricing", "onmcp": "Free + $0.01/execution", "competitor": "Custom enterprise pricing" },
         { "feature": "AI integration", "onmcp": "AI is the core interface", "competitor": "AI features as add-ons" },
         { "feature": "Universal connector", "onmcp": "91 services, extensible", "competitor": "Connect to any API visually" },
         { "feature": "Open source", "onmcp": "MIT licensed", "competitor": "Proprietary" },
@@ -290,7 +290,7 @@
       "pricing_compare": "Relay.app starts free then $9.99/mo. 0nMCP is MIT licensed and free for all local execution.",
       "key_differences": [
         { "feature": "Philosophy", "onmcp": "AI-autonomous with optional oversight", "competitor": "Human-in-the-loop by design" },
-        { "feature": "Pricing", "onmcp": "Free + $0.10/execution", "competitor": "Free tier then $9.99-$39.99/mo" },
+        { "feature": "Pricing", "onmcp": "Free + $0.01/execution", "competitor": "Free tier then $9.99-$39.99/mo" },
         { "feature": "AI role", "onmcp": "AI is the orchestrator", "competitor": "AI assists, humans approve" },
         { "feature": "Protocol", "onmcp": "Model Context Protocol", "competitor": "Proprietary workflow engine" },
         { "feature": "Open source", "onmcp": "MIT licensed", "competitor": "Proprietary" },

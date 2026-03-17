@@ -2,12 +2,12 @@
  * 0n Console — Metered Billing
  *
  * Reports workflow execution usage to Stripe via Billing Meter Events.
- * Users subscribe to a metered plan; each execution = $0.10 credit.
+ * Users subscribe to a metered plan; each execution = $0.01.
  *
  * Stripe Account: 0ncore AI Engineering (acct_1T2fHeQjehctdkQR)
  * Stripe Resources:
  *   Meter:   mtr_61UIErMBoKpXOkupv41QjehctdkQR8im (workflow_execution)
- *   Price:   price_1T8quFQjehctdkQR4fQkAWm7 ($0.10/execution, metered)
+ *   Price:   price_1T8quFQjehctdkQR4fQkAWm7 ($0.01/execution, metered)
  *   Product: prod_U753TL1iK49zmE (Workflow Execution Metered)
  */
 

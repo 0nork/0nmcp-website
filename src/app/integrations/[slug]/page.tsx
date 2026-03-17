@@ -103,7 +103,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
       {
         '@type': 'Question',
         name: `Is the ${service.name} integration free?`,
-        acceptedAnswer: { '@type': 'Answer', text: `Yes. 0nMCP is open source (MIT licensed) and free for local use. Marketplace executions are $0.10 each with no monthly subscription.` },
+        acceptedAnswer: { '@type': 'Answer', text: `Yes. 0nMCP is open source (MIT licensed) and free for local use. Marketplace executions are $0.01 each with no monthly subscription.` },
       },
     ],
   }
@@ -257,7 +257,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
             </div>
             <div className="rounded-xl p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
               <h3 className="text-sm font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Is it free?</h3>
-              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Yes. 0nMCP is open source (MIT). Local execution is free. Marketplace executions cost $0.10 each.</p>
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Yes. 0nMCP is open source (MIT). Local execution is free. Marketplace executions cost $0.01 each.</p>
             </div>
             <div className="rounded-xl p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
               <h3 className="text-sm font-bold mb-1" style={{ color: 'var(--text-primary)' }}>What AI clients work with this?</h3>

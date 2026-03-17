@@ -504,7 +504,7 @@ export default function ROICalculator() {
             },
             {
               q: 'Is it really free?',
-              a: 'Yes — the free tier includes 20 workflow executions per month, which covers most small agency needs. For higher volume, the metered plan charges $0.10 per execution with no monthly fees.',
+              a: 'Yes — the free tier includes 20 workflow executions per month, which covers most small agency needs. For higher volume, the metered plan charges $0.01 per execution with no monthly fees.',
             },
           ].map(({ q, a }) => (
             <details key={q} className="mb-3" style={{ borderBottom: '1px solid var(--border)' }}>

@@ -26,7 +26,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'What is the ROI payback period for 0nMCP?',
-    answer: '0nMCP has a free tier with 20 executions per month — so your payback period is instant. For agencies with higher volume, the metered plan costs $0.10 per execution, meaning you start saving from day one.',
+    answer: '0nMCP has a free tier with 20 executions per month — so your payback period is instant. For agencies with higher volume, the metered plan costs $0.01 per execution, meaning you start saving from day one.',
   },
   {
     question: 'What tasks can 0nMCP automate?',
@@ -34,7 +34,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Is 0nMCP free for agencies?',
-    answer: '0nMCP is open source and free to install. The free tier includes 20 workflow executions per month. For higher volume, the metered plan charges $0.10 per execution with no monthly commitment.',
+    answer: '0nMCP is open source and free to install. The free tier includes 20 workflow executions per month. For higher volume, the metered plan charges $0.01 per execution with no monthly commitment.',
   },
 ]
 

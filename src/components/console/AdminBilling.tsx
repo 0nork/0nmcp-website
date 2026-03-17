@@ -203,7 +203,7 @@ export function AdminBilling() {
                     </td>
                     <td style={{ padding: '0.4rem 0.5rem', color: 'var(--text-secondary)' }}>{e.steps_executed}</td>
                     <td style={{ padding: '0.4rem 0.5rem', color: e.billed ? '#a78bfa' : 'var(--text-muted)' }}>
-                      {e.billed ? '$0.10' : 'Free'}
+                      {e.billed ? '$0.01' : 'Free'}
                     </td>
                     <td style={{ padding: '0.4rem 0.5rem', color: 'var(--text-muted)', fontSize: '0.65rem' }}>
                       {new Date(e.created_at).toLocaleString()}

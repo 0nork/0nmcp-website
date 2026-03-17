@@ -622,6 +622,156 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════
+          INSTALL ON — Claude / ChatGPT / Console
+          ══════════════════════════════════════════ */}
+      <section className="py-20 px-8" style={{ background: '#000' }}>
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
+            Install{' '}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #7ed957, #00d4ff)' }}>
+              everywhere
+            </span>
+          </h2>
+          <p className="text-base mb-12" style={{ color: 'var(--text-secondary)' }}>
+            {STATS_DISPLAY.tools} tools ready in seconds. Pick your platform.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {/* Claude Desktop */}
+            <div style={{
+              padding: '28px 24px',
+              borderRadius: 16,
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              textAlign: 'center',
+              transition: 'all 0.25s ease',
+            }}
+              className="hover:border-[rgba(167,139,250,0.3)] hover:-translate-y-1"
+            >
+              <div style={{
+                width: 56, height: 56, borderRadius: 14, margin: '0 auto 16px',
+                background: 'linear-gradient(135deg, rgba(167,139,250,0.15), rgba(167,139,250,0.05))',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid rgba(167,139,250,0.2)',
+              }}>
+                <svg width={28} height={28} viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold mb-2" style={{ color: '#e8eaed' }}>Claude Desktop</h3>
+              <p className="text-sm mb-4" style={{ color: '#7a8290', lineHeight: 1.6 }}>
+                Add to your MCP config. One JSON block, instant access to all tools.
+              </p>
+              <a
+                href="/install/README-claude.md"
+                download="0nMCP-Claude-Install.md"
+                className="no-underline"
+                style={{
+                  display: 'inline-block', padding: '10px 24px', borderRadius: 8,
+                  background: '#a78bfa', color: '#080B0F',
+                  fontSize: 13, fontWeight: 700, transition: 'opacity 0.15s',
+                }}
+              >
+                Install on Claude
+              </a>
+              <div className="mt-3">
+                <a href="/install/claude-desktop-config.json" download className="no-underline" style={{ fontSize: 11, color: '#7a8290' }}>
+                  Download config.json
+                </a>
+              </div>
+            </div>
+
+            {/* ChatGPT / GPT */}
+            <div style={{
+              padding: '28px 24px',
+              borderRadius: 16,
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              textAlign: 'center',
+              transition: 'all 0.25s ease',
+            }}
+              className="hover:border-[rgba(126,217,87,0.3)] hover:-translate-y-1"
+            >
+              <div style={{
+                width: 56, height: 56, borderRadius: 14, margin: '0 auto 16px',
+                background: 'linear-gradient(135deg, rgba(126,217,87,0.15), rgba(126,217,87,0.05))',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid rgba(126,217,87,0.2)',
+              }}>
+                <svg width={28} height={28} viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold mb-2" style={{ color: '#e8eaed' }}>ChatGPT / GPT</h3>
+              <p className="text-sm mb-4" style={{ color: '#7a8290', lineHeight: 1.6 }}>
+                Paste our system prompt or create a Custom GPT. Generate .0n workflows from chat.
+              </p>
+              <a
+                href="/install/README-chatgpt.md"
+                download="0nMCP-ChatGPT-Install.md"
+                className="no-underline"
+                style={{
+                  display: 'inline-block', padding: '10px 24px', borderRadius: 8,
+                  background: '#7ed957', color: '#080B0F',
+                  fontSize: 13, fontWeight: 700, transition: 'opacity 0.15s',
+                }}
+              >
+                Install on GPT
+              </a>
+              <div className="mt-3">
+                <a href="/chatgpt-0n-builder.md" download className="no-underline" style={{ fontSize: 11, color: '#7a8290' }}>
+                  Download system prompt
+                </a>
+              </div>
+            </div>
+
+            {/* Console (Web) */}
+            <div style={{
+              padding: '28px 24px',
+              borderRadius: 16,
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              textAlign: 'center',
+              transition: 'all 0.25s ease',
+            }}
+              className="hover:border-[rgba(0,212,255,0.3)] hover:-translate-y-1"
+            >
+              <div style={{
+                width: 56, height: 56, borderRadius: 14, margin: '0 auto 16px',
+                background: 'linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,212,255,0.05))',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid rgba(0,212,255,0.2)',
+              }}>
+                <svg width={28} height={28} viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" /><path d="m8 21 4-4 4 4" /><path d="m7 10 2 2-2 2" /><line x1="12" y1="14" x2="16" y2="14" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold mb-2" style={{ color: '#e8eaed' }}>0n Console</h3>
+              <p className="text-sm mb-4" style={{ color: '#7a8290', lineHeight: 1.6 }}>
+                Full CRM, builder, AI employee, and marketplace. No install needed.
+              </p>
+              <Link
+                href="/console"
+                className="no-underline"
+                style={{
+                  display: 'inline-block', padding: '10px 24px', borderRadius: 8,
+                  background: '#00d4ff', color: '#080B0F',
+                  fontSize: 13, fontWeight: 700, transition: 'opacity 0.15s',
+                }}
+              >
+                Open Console
+              </Link>
+              <div className="mt-3">
+                <Link href="/signup" className="no-underline" style={{ fontSize: 11, color: '#7a8290' }}>
+                  Create free account
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
           FINAL CTA — Elevated
           ══════════════════════════════════════════ */}
       <section className="section-elevated py-20 px-8 text-center">

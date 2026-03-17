@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "0nMCP": {
+      "command": "npx",
+      "args": ["-y", "0nmcp@latest"],
+      "env": {}
+    }
+  }
+}

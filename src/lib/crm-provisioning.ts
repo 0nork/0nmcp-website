@@ -1,22 +1,42 @@
 /**
  * CRM Sub-Account Provisioning
  *
- * Auto-provisions a CRM sub-account for each 0n user.
- * Following the web0n pattern: create contact → set up location → deploy agents.
+ * Auto-provisions a REAL CRM sub-account (location) for each 0n user on signup.
  *
- * Each user gets:
- *  - CRM contact in the 0nMCP community location
- *  - Their own agent(s) deployed to the community location
- *  - Knowledge base access for personalized AI
- *  - Session tracking for multi-turn conversations
+ * Flow:
+ *  1. Create CRM contact in community location
+ *  2. Create sub-account (location) under agency using CRM_AGENCY_KEY
+ *  3. Fire Agent Studio agent to deploy KB + support agent to new location
+ *  4. Store location_id, contact_id, agent_id in user_crm_accounts
+ *  5. Update profiles with CRM references
+ *
+ * Every CRM API call is wrapped in retryWithBackoff (3 attempts, exponential).
+ * If provisioning fails entirely, it queues to crm_provision_queue for retry.
  */
 
 import { createClient } from '@supabase/supabase-js'
-import { upsertContact, addContactTags } from './crm'
-import type { CrmContact } from './crm'
 
 const API_BASE = 'https://services.leadconnectorhq.com'
 const API_VERSION = '2021-07-28'
+
+// ── Retry Wrapper ──
+
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  maxAttempts = 3,
+  baseDelayMs = 500
+): Promise<T> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn()
+    } catch (err) {
+      if (attempt === maxAttempts) throw err
+      console.warn(`[CRM Retry] Attempt ${attempt}/${maxAttempts} failed, retrying in ${baseDelayMs * 2 ** (attempt - 1)}ms...`)
+      await new Promise(r => setTimeout(r, baseDelayMs * 2 ** (attempt - 1)))
+    }
+  }
+  throw new Error('retryWithBackoff: exhausted')
+}
 
 // ── Types ──
 
@@ -37,6 +57,7 @@ export interface UserCrmAccount {
   agent_version_id: string | null
   execution_count: number
   status: string
+  metadata?: Record<string, unknown>
 }
 
 // ── Admin Client ──
@@ -48,11 +69,39 @@ function getAdmin() {
   )
 }
 
-function getAgentStudioHeaders(): Record<string, string> {
-  const key = process.env.CRM_AGENT_STUDIO_KEY
-  if (!key) throw new Error('CRM_AGENT_STUDIO_KEY not configured')
+// ── Key Validation ──
+
+function validateCrmKeys() {
+  if (!process.env.CRM_API_KEY && !process.env.CRM_PIT) {
+    throw new Error('[CRM] Missing required CRM_API_KEY — check env vars')
+  }
+}
+
+function validateAgentStudioKeys() {
+  if (!process.env.CRM_AGENT_STUDIO_KEY) {
+    throw new Error('[CRM] Missing required CRM_AGENT_STUDIO_KEY — check env vars')
+  }
+}
+
+function getCrmHeaders(useAgencyKey = false): Record<string, string> {
+  const key = useAgencyKey
+    ? process.env.CRM_AGENCY_KEY
+    : (process.env.CRM_API_KEY || process.env.CRM_PIT)
+
+  if (!key) throw new Error(`[CRM] Missing ${useAgencyKey ? 'CRM_AGENCY_KEY' : 'CRM_API_KEY'} — check env vars`)
+
   return {
     'Authorization': `Bearer ${key}`,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Version': API_VERSION,
+  }
+}
+
+function getAgentStudioHeaders(): Record<string, string> {
+  validateAgentStudioKeys()
+  return {
+    'Authorization': `Bearer ${process.env.CRM_AGENT_STUDIO_KEY}`,
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Version': API_VERSION,
@@ -77,7 +126,6 @@ export async function getOrCreateCrmAccount(userId: string): Promise<UserCrmAcco
   const existing = await getUserCrmAccount(userId)
   if (existing) return existing
 
-  // Get user profile
   const admin = getAdmin()
   const { data: profile } = await admin
     .from('profiles')
@@ -87,7 +135,6 @@ export async function getOrCreateCrmAccount(userId: string): Promise<UserCrmAcco
 
   if (!profile?.email) return null
 
-  // Provision a new account
   const result = await provisionUser({
     userId,
     email: profile.email,
@@ -96,11 +143,10 @@ export async function getOrCreateCrmAccount(userId: string): Promise<UserCrmAcco
   })
 
   if (!result.success) return null
-
   return getUserCrmAccount(userId)
 }
 
-// ── Provision a new user ──
+// ── Provision a new user — creates REAL sub-account ──
 
 export async function provisionUser(params: {
   userId: string
@@ -109,53 +155,122 @@ export async function provisionUser(params: {
   company: string
 }): Promise<ProvisionResult> {
   const admin = getAdmin()
-  const locationId = process.env.CRM_AGENT_STUDIO_LOCATION_ID || process.env.CRM_COMMUNITY_LOCATION_ID || ''
-
-  if (!locationId) {
-    return { success: false, locationId: '', contactId: '', error: 'No location ID configured' }
-  }
+  const communityLocationId = process.env.CRM_AGENT_STUDIO_LOCATION_ID || process.env.CRM_COMMUNITY_LOCATION_ID || ''
 
   try {
-    // 1. Create CRM contact in the 0nMCP community location
-    const nameParts = params.fullName.split(' ')
-    const contact: CrmContact = await upsertContact({
-      email: params.email,
-      firstName: nameParts[0] || params.email.split('@')[0],
-      lastName: nameParts.length > 1 ? nameParts.slice(1).join(' ') : undefined,
-      companyName: params.company || undefined,
-      source: '0n-console',
-      tags: ['0n-user', 'agent-studio', 'auto-provisioned'],
-    }, 'community')
+    validateCrmKeys()
 
-    // Add tags
-    if (contact.id) {
-      await addContactTags(contact.id, ['0n-user', 'agent-studio']).catch(() => {})
+    // ── Step 1: Create CRM contact in community location ──
+    const nameParts = params.fullName.split(' ')
+    const firstName = nameParts[0] || params.email.split('@')[0]
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : ''
+
+    const contact = await retryWithBackoff(async () => {
+      const res = await fetch(`${API_BASE}/contacts/upsert`, {
+        method: 'POST',
+        headers: getCrmHeaders(),
+        body: JSON.stringify({
+          locationId: communityLocationId,
+          email: params.email,
+          firstName,
+          lastName: lastName || undefined,
+          companyName: params.company || undefined,
+          source: '0n-console',
+          tags: ['0n-user', 'agent-studio', 'auto-provisioned'],
+        }),
+        signal: AbortSignal.timeout(15000),
+      })
+      if (!res.ok) {
+        const err = await res.text()
+        throw new Error(`Contact upsert ${res.status}: ${err}`)
+      }
+      const data = await res.json()
+      return data.contact as { id: string }
+    })
+
+    console.log(`[provision] Contact created: ${contact.id} for ${params.email}`)
+
+    // Tag the contact (non-fatal)
+    await retryWithBackoff(async () => {
+      const res = await fetch(`${API_BASE}/contacts/${contact.id}/tags`, {
+        method: 'POST',
+        headers: getCrmHeaders(),
+        body: JSON.stringify({ tags: ['0n-user', 'agent-studio', 'auto-provisioned'] }),
+        signal: AbortSignal.timeout(10000),
+      })
+      if (!res.ok) throw new Error(`Tag failed: ${res.status}`)
+    }).catch(err => console.warn('[provision] Tagging failed (non-fatal):', err.message))
+
+    // ── Step 2: Create sub-account (location) under agency ──
+    let newLocationId = communityLocationId // fallback to community if sub-account creation fails
+
+    if (process.env.CRM_AGENCY_KEY) {
+      try {
+        const locationName = params.company
+          ? `${params.company} — 0n`
+          : `${firstName} ${lastName} — 0n`.trim()
+
+        const location = await retryWithBackoff(async () => {
+          const res = await fetch(`${API_BASE}/locations/`, {
+            method: 'POST',
+            headers: getCrmHeaders(true), // agency key
+            body: JSON.stringify({
+              companyId: process.env.CRM_COMPANY_ID || process.env.CRM_AGENCY_COMPANY_ID || '',
+              name: locationName,
+              email: params.email,
+              timezone: 'America/New_York',
+              country: 'US',
+              settings: {
+                allowDuplicateContact: false,
+                allowDuplicateOpportunity: false,
+              },
+            }),
+            signal: AbortSignal.timeout(20000),
+          })
+          if (!res.ok) {
+            const err = await res.text()
+            throw new Error(`Location create ${res.status}: ${err}`)
+          }
+          const data = await res.json()
+          return data.location || data
+        })
+
+        newLocationId = location.id || newLocationId
+        console.log(`[provision] Sub-account created: ${newLocationId} for ${params.email}`)
+      } catch (err) {
+        console.error('[provision] Sub-account creation failed, using community location:', err instanceof Error ? err.message : err)
+        // Continue with community location as fallback
+      }
+    } else {
+      console.log('[provision] No CRM_AGENCY_KEY — using community location')
     }
 
-    // 2. Fire Agent Studio agent to create sub-account
+    // ── Step 3: Fire Agent Studio agent to deploy KB + agent ──
     const defaultAgentId = process.env.CRM_AGENT_STUDIO_AGENT_ID || ''
     const defaultVersionId = process.env.CRM_AGENT_STUDIO_VERSION_ID || ''
 
     let agentExecutionId: string | undefined
     try {
+      validateAgentStudioKeys()
       const agentResult = await fireNewUserAgent({
-        contactId: contact.id || '',
+        contactId: contact.id,
         email: params.email,
         fullName: params.fullName,
         company: params.company,
+        locationId: newLocationId,
       })
       agentExecutionId = agentResult.executionId
       console.log('[provision] Agent fired for', params.email, '→', agentResult.response?.substring(0, 200))
     } catch (err) {
-      console.error('[provision] Agent fire failed (non-fatal):', err)
+      console.error('[provision] Agent fire failed (non-fatal):', err instanceof Error ? err.message : err)
     }
 
-    // 3. Store in Supabase
+    // ── Step 4: Store in Supabase ──
     const { error: insertErr } = await admin
       .from('user_crm_accounts')
       .insert({
         user_id: params.userId,
-        location_id: locationId,
+        location_id: newLocationId,
         contact_id: contact.id,
         default_agent_id: defaultAgentId,
         agent_version_id: defaultVersionId,
@@ -166,38 +281,54 @@ export async function provisionUser(params: {
           provisioned_via: 'auto',
           plan: 'free',
           agent_execution_id: agentExecutionId || null,
+          is_own_location: newLocationId !== communityLocationId,
+          company: params.company || null,
         },
       })
 
     if (insertErr) {
-      // Might be duplicate — fetch existing
       if (insertErr.code === '23505') {
-        return { success: true, locationId, contactId: contact.id || '', agentId: defaultAgentId }
+        return { success: true, locationId: newLocationId, contactId: contact.id, agentId: defaultAgentId }
       }
-      return { success: false, locationId, contactId: contact.id || '', error: insertErr.message }
+      return { success: false, locationId: newLocationId, contactId: contact.id, error: insertErr.message }
     }
 
-    // 4. Update profile with CRM references for quick access
+    // ── Step 5: Update profile with CRM references ──
     await admin
       .from('profiles')
       .update({
-        crm_location_id: locationId,
+        crm_location_id: newLocationId,
         crm_contact_id: contact.id,
       })
       .eq('id', params.userId)
 
     return {
       success: true,
-      locationId,
-      contactId: contact.id || '',
+      locationId: newLocationId,
+      contactId: contact.id,
       agentId: defaultAgentId,
     }
   } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : 'Provisioning failed'
+    console.error('[CRM Provision Failed]', params.email, errorMsg)
+
+    // Queue for retry
+    await admin
+      .from('crm_provision_queue')
+      .insert({
+        user_id: params.userId,
+        email: params.email,
+        last_error: errorMsg,
+        retry_count: 0,
+      })
+      .then(() => console.log('[provision] Queued for retry:', params.email))
+      .catch(qErr => console.error('[provision] Queue insert failed:', qErr))
+
     return {
       success: false,
-      locationId,
+      locationId: '',
       contactId: '',
-      error: err instanceof Error ? err.message : 'Provisioning failed',
+      error: errorMsg,
     }
   }
 }
@@ -229,7 +360,6 @@ export async function upsertSession(params: {
 }): Promise<void> {
   const admin = getAdmin()
 
-  // Try update first
   const { data: existing } = await admin
     .from('agent_sessions')
     .select('id, message_count')
@@ -294,6 +424,8 @@ export async function executeAgent(params: {
   if (!agentId) return { error: 'No agent ID configured' }
 
   try {
+    validateAgentStudioKeys()
+
     const body: Record<string, unknown> = {
       message: params.message,
       locationId,
@@ -301,13 +433,16 @@ export async function executeAgent(params: {
     if (versionId) body.versionId = versionId
     if (params.executionId) body.executionId = params.executionId
 
-    const res = await fetch(
-      `${API_BASE}/agent-studio/agent/${agentId}/execute`,
-      {
-        method: 'POST',
-        headers: getAgentStudioHeaders(),
-        body: JSON.stringify(body),
-      }
+    const res = await retryWithBackoff(() =>
+      fetch(
+        `${API_BASE}/agent-studio/agent/${agentId}/execute`,
+        {
+          method: 'POST',
+          headers: getAgentStudioHeaders(),
+          body: JSON.stringify(body),
+          signal: AbortSignal.timeout(60000),
+        }
+      )
     )
 
     if (!res.ok) {
@@ -336,24 +471,25 @@ export async function fireNewUserAgent(params: {
   email: string
   fullName: string
   company: string
+  locationId?: string
 }): Promise<{ executionId?: string; response?: string; error?: string }> {
   const message = [
-    `NEW USER SIGNUP — Create CRM sub-account for this contact.`,
+    `NEW USER SIGNUP — Deploy to CRM sub-account.`,
     ``,
     `Contact ID: ${params.contactId}`,
     `Name: ${params.fullName}`,
     `Email: ${params.email}`,
     `Company: ${params.company || 'N/A'}`,
+    `Location ID: ${params.locationId || 'pending'}`,
     ``,
     `Instructions:`,
-    `1. Create a new CRM sub-account (location) for this user under our agency`,
-    `2. Set up their knowledge base with 0nMCP documentation`,
-    `3. Deploy the default support agent to their location`,
-    `4. Tag the contact with "sub-account-created"`,
-    `5. Return the new location ID`,
+    `1. Set up the knowledge base with 0nMCP documentation in this location`,
+    `2. Deploy the default support agent to this location`,
+    `3. Tag the contact with "sub-account-created"`,
+    `4. Confirm setup is complete`,
   ].join('\n')
 
-  return executeAgent({ message })
+  return executeAgent({ message, locationId: params.locationId })
 }
 
 // ── List agents for a location ──
@@ -361,9 +497,13 @@ export async function fireNewUserAgent(params: {
 export async function listLocationAgents(locationId?: string): Promise<Array<{ id: string; name: string }>> {
   const locId = locationId || process.env.CRM_AGENT_STUDIO_LOCATION_ID || ''
   try {
-    const res = await fetch(
-      `${API_BASE}/agent-studio/agent?locationId=${locId}&isPublished=true`,
-      { method: 'GET', headers: getAgentStudioHeaders() }
+    validateAgentStudioKeys()
+
+    const res = await retryWithBackoff(() =>
+      fetch(
+        `${API_BASE}/agent-studio/agent?locationId=${locId}&isPublished=true`,
+        { method: 'GET', headers: getAgentStudioHeaders(), signal: AbortSignal.timeout(10000) }
+      )
     )
     if (!res.ok) return []
     const data = await res.json()

@@ -161,16 +161,27 @@ function getAdminClient() {
 
 /**
  * Auto-provision CRM sub-account for every new user on signup.
+ * NEVER throws — failures are logged and queued for retry.
  * Non-blocking — runs in background, failures don't block auth.
  */
 async function autoProvisionCrm(userId: string, email: string, meta: Record<string, unknown>) {
-  // Skip if already provisioned
-  const existing = await getUserCrmAccount(userId).catch(() => null)
-  if (existing) return
+  try {
+    // Skip if already provisioned
+    const existing = await getUserCrmAccount(userId).catch(() => null)
+    if (existing) return
 
-  const fullName = (meta.full_name as string) || (meta.name as string) || email.split('@')[0]
-  const company = (meta.company as string) || ''
+    const fullName = (meta.full_name as string) || (meta.name as string) || email.split('@')[0]
+    const company = (meta.company as string) || ''
 
-  await provisionUser({ userId, email, fullName, company })
-  console.log(`[auth] CRM auto-provisioned for ${email}`)
+    const result = await provisionUser({ userId, email, fullName, company })
+    if (result.success) {
+      console.log(`[auth] CRM auto-provisioned for ${email} → location: ${result.locationId}`)
+    } else {
+      console.error(`[auth] CRM provision returned error for ${email}: ${result.error}`)
+      // provisionUser already queues to crm_provision_queue on failure
+    }
+  } catch (err) {
+    console.error('[CRM Provision Failed]', email, err instanceof Error ? err.message : err)
+    // Do NOT re-throw — auth callback must never fail due to CRM
+  }
 }

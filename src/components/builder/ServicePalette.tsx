@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { SVC } from '@/lib/console/services'
 import ServicePaletteItem from './ServicePaletteItem'
 import { getCategoryIcon } from '@/components/CategoryIcons'
+import { isExecutable, isComingSoon, getExecutableService } from '@/lib/builder/executable-services'
 
 // ─── Service type compatible with ServicePaletteItem ──────────────────────
 export interface BuilderService {
@@ -143,6 +144,13 @@ export const SERVICE_LOGOS: Record<string, string> = {
   n8n: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#ff6d5a"/><text x="20" y="25" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="white">n8n</text></svg>`)}`,
   pabbly: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#2196F3"/><text x="20" y="25" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="white">P</text></svg>`)}`,
   mcpfed: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#7c3aed"/><text x="20" y="25" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold" fill="white">MCP</text></svg>`)}`,
+  // Ad platforms (in 0nMCP catalog)
+  facebook_ads: 'https://cdn.simpleicons.org/facebook/1877F2',
+  google_ads: 'https://cdn.simpleicons.org/googleads/4285F4',
+  linkedin_ads: 'https://cdn.simpleicons.org/linkedin/0A66C2',
+  instagram_ads: 'https://cdn.simpleicons.org/instagram/E4405F',
+  tiktok_ads: 'https://cdn.simpleicons.org/tiktok/white',
+  x_ads: 'https://cdn.simpleicons.org/x/white',
 
   // ─── Logic / Control Flow nodes (SVG data URIs) ─────────────
   delay: svg('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', '%23f59e0b'),
@@ -208,7 +216,7 @@ const BUILDER_CATEGORIES: BuilderCategory[] = [
     label: 'CRM & Sales',
     icon: CAT_ICONS.crm_sales,
     color: '#f97316',
-    serviceIds: ['crm', 'gohighlevel', 'hubspot', 'salesforce', 'pipedrive', 'intercom', 'freshdesk', 'zendesk'],
+    serviceIds: ['crm', 'hubspot', 'pipedrive', 'intercom', 'zendesk', 'salesforce', 'freshdesk'],
   },
   {
     id: 'database',
@@ -229,7 +237,7 @@ const BUILDER_CATEGORIES: BuilderCategory[] = [
     label: 'Marketing',
     icon: CAT_ICONS.marketing,
     color: '#ec4899',
-    serviceIds: ['mailchimp', 'sendgrid', 'resend', 'gmail', 'outlook', 'postmark', 'mailgun', 'convertkit', 'brevo', 'activecampaign', 'lemlist', 'smartlead'],
+    serviceIds: ['mailchimp', 'sendgrid', 'resend', 'gmail', 'smartlead', 'facebook_ads', 'google_ads', 'linkedin_ads', 'instagram_ads', 'tiktok_ads', 'x_ads', 'outlook', 'postmark', 'mailgun', 'convertkit', 'brevo', 'activecampaign', 'lemlist'],
   },
   {
     id: 'finance',
@@ -301,20 +309,45 @@ const LOGIC_SERVICES: Record<string, { name: string; description: string; color:
 // ─── Build a BuilderService from SVC data or logic definitions ────────────
 function buildService(id: string): BuilderService {
   const svcEntry = SVC[id]
+  const execSvc = getExecutableService(id)
+
   if (svcEntry) {
+    // If this service is in the executable map, use REAL actions from 0nMCP catalog
+    const tools = execSvc
+      ? execSvc.actions.map(a => ({ id: a.id, name: a.name, description: a.description }))
+      : svcEntry.cap.map((c, i) => ({ id: `${id}_${i}`, name: c, description: c }))
+
     return {
       id,
       name: svcEntry.l,
       icon: '',
       slug: id,
       category_id: svcEntry.cat,
-      display_order: svcEntry.pri,
-      status: 'live',
-      tool_count: svcEntry.cap.length || 8,
-      tools: svcEntry.cap.map((c, i) => ({ id: `${id}_${i}`, name: c, description: c })),
+      display_order: isExecutable(id) ? svcEntry.pri : svcEntry.pri + 500,
+      status: isExecutable(id) ? 'live' : (isComingSoon(id) ? 'coming_soon' : 'live'),
+      tool_count: tools.length,
+      tools,
       logo: SERVICE_LOGOS[id] || '',
       brandColor: svcEntry.c,
-      description_short: svcEntry.d,
+      description_short: isComingSoon(id) ? `${svcEntry.d} (coming soon — needs MCP server)` : svcEntry.d,
+    }
+  }
+
+  // Service not in SVC but IS in executable catalog (e.g. ad platforms)
+  if (execSvc) {
+    return {
+      id,
+      name: execSvc.name,
+      icon: '',
+      slug: id,
+      category_id: execSvc.category,
+      display_order: 50,
+      status: 'live',
+      tool_count: execSvc.actions.length,
+      tools: execSvc.actions.map(a => ({ id: a.id, name: a.name, description: a.description })),
+      logo: SERVICE_LOGOS[id] || '',
+      brandColor: '#7ed957',
+      description_short: `${execSvc.name} — ${execSvc.actions.length} tools available`,
     }
   }
 

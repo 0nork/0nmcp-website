@@ -132,6 +132,37 @@ export default function CRMPage() {
   const [activeLocation, setActiveLocation] = useState<string>('')
   const [switchingLocation, setSwitchingLocation] = useState(false)
 
+  // Proof of Life state
+  const [proofRunning, setProofRunning] = useState(false)
+  const [proofResult, setProofResult] = useState<{
+    success: boolean
+    contactId?: string
+    steps: Array<{ step: string; status: string; data?: unknown; error?: string }>
+    message?: string
+  } | null>(null)
+
+  const runProof = async () => {
+    setProofRunning(true)
+    setProofResult(null)
+    try {
+      const res = await fetch('/api/console/crm/proof', { method: 'POST' })
+      const data = await res.json()
+      setProofResult(data)
+      // Refresh contacts list after successful proof
+      if (data.success) {
+        setTimeout(() => window.location.reload(), 2000)
+      }
+    } catch (err) {
+      setProofResult({
+        success: false,
+        steps: [{ step: 'request', status: 'failed', error: err instanceof Error ? err.message : 'Network error' }],
+        message: 'Request failed',
+      })
+    } finally {
+      setProofRunning(false)
+    }
+  }
+
   // Load available locations
   useEffect(() => {
     fetch('/api/console/crm/locations')
@@ -611,6 +642,96 @@ export default function CRMPage() {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Proof of Life */}
+          <div style={{
+            background: proofResult?.success ? 'rgba(126,217,87,0.06)' : COLORS.card,
+            border: `1px solid ${proofResult?.success ? 'rgba(126,217,87,0.3)' : COLORS.border}`,
+            borderRadius: 12, padding: '1.25rem', overflow: 'hidden',
+            transition: 'all 0.3s',
+          }}>
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: COLORS.textPrimary, display: 'block', marginBottom: '0.5rem' }}>
+              Console → CRM Proof
+            </span>
+            <p style={{ fontSize: 11, color: COLORS.textMuted, margin: '0 0 0.875rem 0', lineHeight: 1.5 }}>
+              Creates a real contact in CRM with tags + note. Check your CRM after clicking.
+            </p>
+
+            <button
+              onClick={runProof}
+              disabled={proofRunning}
+              style={{
+                width: '100%', padding: '0.75rem', borderRadius: 10,
+                background: proofRunning
+                  ? COLORS.card
+                  : `linear-gradient(135deg, ${COLORS.accent}, #5cb83a)`,
+                border: 'none', color: proofRunning ? COLORS.textMuted : '#000',
+                fontSize: 13, fontWeight: 700, cursor: proofRunning ? 'wait' : 'pointer',
+                fontFamily: 'inherit', letterSpacing: '-0.01em',
+                boxShadow: proofRunning ? 'none' : `0 2px 12px rgba(126,217,87,0.3)`,
+                transition: 'all 0.2s',
+              }}
+            >
+              {proofRunning ? 'Running proof...' : 'Run Proof of Life'}
+            </button>
+
+            {/* Step-by-step results */}
+            {proofResult && (
+              <div style={{ marginTop: '0.875rem' }}>
+                {proofResult.steps.map((step, i) => (
+                  <div key={i} style={{
+                    display: 'flex', alignItems: 'center', gap: '0.5rem',
+                    padding: '0.375rem 0', fontSize: 11,
+                  }}>
+                    <span style={{
+                      width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 10, fontWeight: 700,
+                      background: step.status === 'success' ? 'rgba(126,217,87,0.2)' : 'rgba(255,107,53,0.2)',
+                      color: step.status === 'success' ? COLORS.accent : COLORS.orange,
+                    }}>
+                      {step.status === 'success' ? '✓' : '✗'}
+                    </span>
+                    <span style={{ color: COLORS.textSecondary, fontFamily: 'var(--font-mono)' }}>
+                      {step.step}
+                    </span>
+                    <span style={{
+                      marginLeft: 'auto', fontSize: 10, fontWeight: 600,
+                      color: step.status === 'success' ? COLORS.accent : COLORS.orange,
+                    }}>
+                      {step.status}
+                    </span>
+                  </div>
+                ))}
+
+                {proofResult.success && proofResult.contactId && (
+                  <div style={{
+                    marginTop: '0.625rem', padding: '0.625rem', borderRadius: 8,
+                    background: 'rgba(126,217,87,0.08)',
+                    border: '1px solid rgba(126,217,87,0.2)',
+                    fontSize: 11, color: COLORS.accent, fontWeight: 600, lineHeight: 1.5,
+                  }}>
+                    Contact created. Open CRM → search &quot;0n-proof-of-life&quot; tag.
+                    <br />
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, opacity: 0.8 }}>
+                      ID: {proofResult.contactId}
+                    </span>
+                  </div>
+                )}
+
+                {!proofResult.success && proofResult.message && (
+                  <div style={{
+                    marginTop: '0.625rem', padding: '0.625rem', borderRadius: 8,
+                    background: 'rgba(255,107,53,0.08)',
+                    border: '1px solid rgba(255,107,53,0.2)',
+                    fontSize: 11, color: COLORS.orange, lineHeight: 1.5,
+                  }}>
+                    {proofResult.message}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Quick Actions */}

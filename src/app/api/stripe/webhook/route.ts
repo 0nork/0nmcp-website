@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import * as Sentry from '@sentry/nextjs'
 import { stripe, CONSOLE_PLANS } from '@/lib/stripe'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { creditSparks } from '@/lib/sparks'
@@ -35,6 +36,9 @@ export async function POST(request: NextRequest) {
     event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET)
   } catch (err) {
     console.error('Webhook signature verification failed:', err)
+    Sentry.captureException(err, {
+      tags: { area: 'stripe-webhook', phase: 'signature-verification' },
+    })
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
@@ -268,6 +272,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true })
   } catch (err) {
     console.error('Webhook handler error:', err)
+    Sentry.captureException(err, {
+      tags: { area: 'stripe-webhook', phase: 'handler' },
+      extra: { eventType: event?.type },
+    })
     return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 })
   }
 }

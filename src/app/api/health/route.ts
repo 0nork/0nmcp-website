@@ -17,6 +17,8 @@ export async function GET() {
     status: 'ok',
     project: '0nmcp-website',
     timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV,
+    sentry: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
     db: false,
     latestMigration: null,
     migrationCount: 0,

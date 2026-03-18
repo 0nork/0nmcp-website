@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
 import { provisionUser, getUserCrmAccount } from '@/lib/crm-provisioning'
+import * as Sentry from '@sentry/nextjs'
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
@@ -182,6 +183,10 @@ async function autoProvisionCrm(userId: string, email: string, meta: Record<stri
     }
   } catch (err) {
     console.error('[CRM Provision Failed]', email, err instanceof Error ? err.message : err)
+    Sentry.captureException(err, {
+      tags: { area: 'crm-provisioning', phase: 'auto-provision' },
+      extra: { userId, email },
+    })
     // Do NOT re-throw — auth callback must never fail due to CRM
   }
 }

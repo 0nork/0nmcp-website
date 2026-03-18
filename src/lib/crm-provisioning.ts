@@ -15,6 +15,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
+import * as Sentry from '@sentry/nextjs'
 
 const API_BASE = 'https://services.leadconnectorhq.com'
 const API_VERSION = '2021-07-28'
@@ -311,6 +312,11 @@ export async function provisionUser(params: {
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : 'Provisioning failed'
     console.error('[CRM Provision Failed]', params.email, errorMsg)
+
+    Sentry.captureException(err, {
+      tags: { area: 'crm-provisioning' },
+      extra: { userId: params.userId, email: params.email, company: params.company },
+    })
 
     // Queue for retry
     await admin

@@ -42,8 +42,8 @@ const nextConfig: NextConfig = {
 }
 
 export default withSentryConfig(nextConfig, {
-  org: process.env.SENTRY_ORG || "rocketopp",
-  project: process.env.SENTRY_PROJECT || "0nmcp-website",
+  org: process.env.SENTRY_ORG || "0nmcp",
+  project: process.env.SENTRY_PROJECT || "javascript-nextjs",
 
   // Source map upload auth token
   authToken: process.env.SENTRY_AUTH_TOKEN,
@@ -57,9 +57,6 @@ export default withSentryConfig(nextConfig, {
   // Suppress non-CI output
   silent: true,
 
-  // Don't crash the build if source map upload fails
-  // (org/project slug mismatch, token issues, etc.)
-  sourcemaps: {
-    disable: !process.env.SENTRY_AUTH_TOKEN,
-  },
+  // Disable source map upload if no auth token configured
+  ...(process.env.SENTRY_AUTH_TOKEN ? {} : { sourcemaps: { disable: true } }),
 })

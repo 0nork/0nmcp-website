@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import { decryptVaultData } from '@/lib/vault-crypto'
 import { STATS_DISPLAY } from '@/data/stats'
 import { resolveProviderOrder, callProvider, getProviderKey, type AIProviderId } from '@/lib/ai-provider'
+import { getServiceListForPrompt, getSnapshotStats } from '@/lib/builder/executable-services'
 import { executeAgent } from '@/lib/agent-studio'
 import { getOrCreateCrmAccount, getActiveSession, upsertSession, incrementExecutionCount } from '@/lib/crm-provisioning'
 
@@ -122,23 +123,28 @@ async function getCouncilKnowledge(message: string): Promise<string> {
   }
 }
 
+// Build system prompt with REAL catalog data from snapshot
+const _stats = getSnapshotStats()
 const SYSTEM_PROMPT =
-  `You are 0n Console, the AI assistant for the 0nMCP ecosystem — a universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services in ${STATS_DISPLAY.categories} categories.\n\n` +
-  'You help users with:\n' +
-  '- Workflow automation (.0n SWITCH files, RUNs)\n' +
-  '- Service connections (Vault credential management)\n' +
-  '- Cold email outreach (Smartlead integration)\n' +
-  '- Social media management\n' +
-  '- CRM operations (contacts, pipelines, conversations)\n' +
-  '- AI orchestration across Claude, GPT, Gemini, Perplexity\n\n' +
-  'Available services include: CRM, Stripe, SendGrid, Slack, Discord, Twilio, GitHub, Shopify, OpenAI, Anthropic, Gmail, Google Sheets, Google Drive, Airtable, Notion, MongoDB, Supabase, Zendesk, Jira, HubSpot, Mailchimp, Google Calendar, Calendly, Zoom, Linear, Microsoft, Smartlead, Facebook Ads, Zapier, and more.\n\n' +
-  'Key features:\n' +
-  '- Three-Level Execution: Pipeline > Assembly Line > Radial Burst\n' +
-  '- 0nVault: AES-256-GCM encrypted credential storage\n' +
-  '- Visual Builder: Drag-and-drop workflow creation\n' +
-  '- Store: Marketplace for pre-built automation templates\n' +
-  '- BYOK: Users bring their own API keys via the Vault\n\n' +
-  'Be concise, technical, and helpful. Use markdown formatting. When users ask about tools or services, give specific actionable guidance.'
+  `You are 0n Console, the AI assistant for the 0nMCP ecosystem — a universal AI API orchestrator with ${_stats.totalTools} tools across ${_stats.services} services.\n\n` +
+  'You help users build and execute .0n workflow files (SWITCH files / RUNs).\n\n' +
+  '## CRITICAL: When generating .0n workflows, you MUST ONLY use services and actions from this exact list.\n' +
+  'Do NOT invent service names or action names. Every step must use a service ID and action ID from below.\n\n' +
+  '## Available Services & Actions (from 0nMCP catalog)\n' +
+  getServiceListForPrompt() + '\n\n' +
+  '## .0n Workflow Format\n' +
+  'Steps must use: { "id": "step_name", "service": "<service_id from above>", "action": "<action_id from above>", "params": {...} }\n\n' +
+  '## Variable Resolution\n' +
+  '- `{{system.*}}` — Auto-injected CRM auth (access_token, location_id, user_id, email)\n' +
+  '- `{{launch.*}}` — Third-party API keys (defined in launch_codes block)\n' +
+  '- `{{inputs.*}}` — Runtime inputs\n' +
+  '- `{{step_id.output.*}}` — Chained output from previous steps\n\n' +
+  '## Rules\n' +
+  '- CRM operations use {{system.*}} — no launch codes needed\n' +
+  '- Third-party services need launch_codes defined with help_url\n' +
+  '- Never hardcode API keys — always use template variables\n' +
+  '- Output workflows as JSON in ```0n code blocks\n' +
+  '- Be concise and technical. Use markdown.'
 
 function getAdmin() {
   return createClient(

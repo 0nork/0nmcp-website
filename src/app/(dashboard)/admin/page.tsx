@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { IconChart, IconSend, IconDocument, IconRobot, IconForum, IconUsers, IconEnvelope, IconGear } from '@/components/CategoryIcons'
 
@@ -142,9 +143,25 @@ const sections: Array<{ title: string; description: string; href: string; icon: 
   },
 ]
 
+// Lazy-loaded TodoModal
+const TodoModal = dynamic(() => import('@/components/admin/TodoModal'), { ssr: false })
+
 export default function AdminDashboard() {
   const supabase = createSupabaseBrowser()
   const [stats, setStats] = useState<Stats | null>(null)
+  const [showTodo, setShowTodo] = useState(false)
+  const [todoCount, setTodoCount] = useState(0)
+
+  // Check for notifications on mount
+  useEffect(() => {
+    fetch('/api/admin/notifications')
+      .then(r => r.json())
+      .then(d => {
+        const unread = d.notifications?.length || 0
+        setTodoCount(unread)
+      })
+      .catch(() => {})
+  }, [])
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([])
   const [recentThreads, setRecentThreads] = useState<RecentThread[]>([])
   const [loading, setLoading] = useState(true)
@@ -230,6 +247,23 @@ export default function AdminDashboard() {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={() => setShowTodo(true)} style={{
+            ...btnGhostStyle,
+            position: 'relative',
+            background: 'linear-gradient(135deg, rgba(126,217,87,0.1), rgba(255,107,53,0.1))',
+            borderColor: 'rgba(126,217,87,0.3)',
+          }}>
+            To-Do List
+            {todoCount > 0 && (
+              <span style={{
+                position: 'absolute', top: -6, right: -6,
+                width: 18, height: 18, borderRadius: '50%',
+                background: '#ef4444', color: '#fff',
+                fontSize: 10, fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>{todoCount}</span>
+            )}
+          </button>
           <Link href="/account" style={{ ...btnGhostStyle, textDecoration: 'none' }}>
             My Account
           </Link>
@@ -237,6 +271,7 @@ export default function AdminDashboard() {
             View Forum
           </Link>
         </div>
+        {showTodo && <TodoModal onClose={() => setShowTodo(false)} />}
       </div>
 
       {/* Live Stats */}

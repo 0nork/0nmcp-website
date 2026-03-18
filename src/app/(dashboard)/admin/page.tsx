@@ -102,6 +102,13 @@ const sections: Array<{ title: string; description: string; href: string; icon: 
     color: '#ff6b35',
   },
   {
+    title: 'Catalog Manager',
+    description: 'Add services, sync snapshot, wire MCP tools into the builder.',
+    href: '/admin/catalog',
+    icon: <IconGear size={20} />,
+    color: '#7ed957',
+  },
+  {
     title: 'CRM Portal',
     description: 'Contacts, pipeline, engagement.',
     href: 'https://0n.app.clientclub.net/',

@@ -55,5 +55,11 @@ export default withSentryConfig(nextConfig, {
   tunnelRoute: "/monitoring",
 
   // Suppress non-CI output
-  silent: !process.env.CI,
+  silent: true,
+
+  // Don't crash the build if source map upload fails
+  // (org/project slug mismatch, token issues, etc.)
+  sourcemaps: {
+    disable: !process.env.SENTRY_AUTH_TOKEN,
+  },
 })

@@ -8,6 +8,7 @@ interface UpgradeModalProps {
   currentPlan: string
   onClose: () => void
   onSwitched?: () => void
+  ref?: string
 }
 
 const TIER_ORDER = ['free', 'creator', 'operator', 'agency', 'enterprise']
@@ -139,6 +140,20 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
           overflowY: 'auto',
         }}
       >
+        {/* Community upgrade banner */}
+        {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('ref') === 'community' && (
+          <div
+            className="w-full py-3 px-6 text-sm font-medium"
+            style={{
+              background: 'linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(126,217,87,0.08) 100%)',
+              color: '#00d4ff',
+              borderBottom: '1px solid rgba(0,212,255,0.2)',
+            }}
+          >
+            Grid access is included with Creator plan and above. Upgrade to join the community, earn Plugs, and unlock Keys.
+          </div>
+        )}
+
         {/* Trial banner */}
         {currentPlan === 'free' && (
           <div

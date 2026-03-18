@@ -7,7 +7,7 @@ import {
   Blocks, ShoppingBag, Brain, Zap, RefreshCw,
   Mail, ListChecks, Linkedin, Share2, BarChart3,
   Store, User, Shield, PanelLeftClose, PanelLeft,
-  Search, Globe, Terminal, Wrench, Users,
+  Search, Globe, Terminal, Wrench, Users, LayoutGrid,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
@@ -85,6 +85,7 @@ const SECTIONS: NavSection[] = [
       { key: 'terminal', label: 'Terminal', icon: <Terminal size={16} />, color: S },
       { key: 'tools', label: 'Tools', icon: <Wrench size={16} />, color: S },
       { key: 'crew', label: '0nCrew', icon: <Users size={16} />, color: C },
+      { key: 'grid', label: 'Grid', icon: <LayoutGrid size={16} />, color: G },
     ],
   },
 ]
@@ -108,7 +109,15 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
   const iconsOnly = mode === 'icons'
   const width = showLabels ? '13.5rem' : iconsOnly ? '3.5rem' : '13.5rem'
 
+  // Items that navigate to separate routes instead of setting view state
+  const ROUTE_ITEMS: Record<string, string> = { grid: '/grid' }
+
   const handleNav = useCallback((item: NavItem) => {
+    const route = ROUTE_ITEMS[item.key]
+    if (route) {
+      window.location.href = route
+      return
+    }
     setView(item.key)
   }, [setView])
 

@@ -153,6 +153,10 @@ export default function ConsolePage() {
     if (viewParam && viewParam !== 'upgrade') {
       setView(viewParam as View)
     }
+    // Auto-open upgrade modal when redirected from Grid gate
+    if (searchParams.get('ref') === 'community') {
+      setShowUpgradeModal(true)
+    }
   }, [searchParams])
 
   useEffect(() => {

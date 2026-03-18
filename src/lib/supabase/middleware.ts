@@ -87,8 +87,34 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Grid community — paid subscribers only
+  if (pathname.startsWith('/grid')) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      url.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(url)
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('plan')
+      .eq('id', user.id)
+      .single()
+
+    // plan column: free, creator, operator, agency, enterprise, owner
+    const isPaid = profile?.plan && profile.plan !== 'free'
+
+    if (!isPaid) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/console'
+      url.searchParams.set('ref', 'community')
+      return NextResponse.redirect(url)
+    }
+  }
+
   // Protected routes — redirect to login if not authenticated
-  const protectedPaths = ['/account', '/vault', '/app', '/store', '/0nboarding', '/oauth', '/console', '/connect']
+  const protectedPaths = ['/account', '/vault', '/app', '/store', '/0nboarding', '/oauth', '/console', '/connect', '/grid']
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p))
 
   if (isProtected && !user) {

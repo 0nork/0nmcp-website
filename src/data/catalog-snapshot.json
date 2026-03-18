@@ -1,0 +1,5471 @@
+{
+  "$meta": {
+    "generated_at": "2026-03-18T02:14:41.657Z",
+    "source": "/Users/rocketopp/Github/0nMCP",
+    "catalog_services": 54,
+    "crm_module_tools": 240,
+    "total_tools": 834,
+    "version": "1.0.0",
+    "description": "Auto-generated from 0nMCP catalog.js. Do not edit manually."
+  },
+  "services": [
+    {
+      "id": "crm",
+      "name": "CRM",
+      "category": "other",
+      "base_url": "https://services.leadconnectorhq.com",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "create_contact",
+          "name": "Create Contact",
+          "method": "POST",
+          "path": "/contacts/",
+          "description": "create contact"
+        },
+        {
+          "id": "search_contacts",
+          "name": "Search Contacts",
+          "method": "GET",
+          "path": "/contacts/search",
+          "description": "search contacts"
+        },
+        {
+          "id": "get_contact",
+          "name": "Get Contact",
+          "method": "GET",
+          "path": "/contacts/{contactId}",
+          "description": "get contact"
+        },
+        {
+          "id": "update_contact",
+          "name": "Update Contact",
+          "method": "PUT",
+          "path": "/contacts/{contactId}",
+          "description": "update contact"
+        },
+        {
+          "id": "delete_contact",
+          "name": "Delete Contact",
+          "method": "DELETE",
+          "path": "/contacts/{contactId}",
+          "description": "delete contact"
+        },
+        {
+          "id": "create_pipeline",
+          "name": "Create Pipeline",
+          "method": "POST",
+          "path": "/opportunities/pipelines",
+          "description": "create pipeline"
+        },
+        {
+          "id": "list_pipelines",
+          "name": "List Pipelines",
+          "method": "GET",
+          "path": "/opportunities/pipelines",
+          "description": "list pipelines"
+        },
+        {
+          "id": "create_opportunity",
+          "name": "Create Opportunity",
+          "method": "POST",
+          "path": "/opportunities/",
+          "description": "create opportunity"
+        },
+        {
+          "id": "create_tag",
+          "name": "Create Tag",
+          "method": "POST",
+          "path": "/locations/{locationId}/tags",
+          "description": "create tag"
+        },
+        {
+          "id": "list_tags",
+          "name": "List Tags",
+          "method": "GET",
+          "path": "/locations/{locationId}/tags",
+          "description": "list tags"
+        },
+        {
+          "id": "create_custom_value",
+          "name": "Create Custom Value",
+          "method": "POST",
+          "path": "/locations/{locationId}/customValues",
+          "description": "create custom value"
+        },
+        {
+          "id": "list_custom_values",
+          "name": "List Custom Values",
+          "method": "GET",
+          "path": "/locations/{locationId}/customValues",
+          "description": "list custom values"
+        },
+        {
+          "id": "list_workflows",
+          "name": "List Workflows",
+          "method": "GET",
+          "path": "/workflows/",
+          "description": "list workflows"
+        },
+        {
+          "id": "list_calendars",
+          "name": "List Calendars",
+          "method": "GET",
+          "path": "/calendars/",
+          "description": "list calendars"
+        }
+      ],
+      "action_count": 14
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "category": "other",
+      "base_url": "https://api.stripe.com/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "create_customer",
+          "name": "Create Customer",
+          "method": "POST",
+          "path": "/customers",
+          "description": "create customer"
+        },
+        {
+          "id": "list_customers",
+          "name": "List Customers",
+          "method": "GET",
+          "path": "/customers",
+          "description": "list customers"
+        },
+        {
+          "id": "get_customer",
+          "name": "Get Customer",
+          "method": "GET",
+          "path": "/customers/{id}",
+          "description": "get customer"
+        },
+        {
+          "id": "create_charge",
+          "name": "Create Charge",
+          "method": "POST",
+          "path": "/charges",
+          "description": "create charge"
+        },
+        {
+          "id": "create_invoice",
+          "name": "Create Invoice",
+          "method": "POST",
+          "path": "/invoices",
+          "description": "create invoice"
+        },
+        {
+          "id": "send_invoice",
+          "name": "Send Invoice",
+          "method": "POST",
+          "path": "/invoices/{id}/send",
+          "description": "send invoice"
+        },
+        {
+          "id": "list_invoices",
+          "name": "List Invoices",
+          "method": "GET",
+          "path": "/invoices",
+          "description": "list invoices"
+        },
+        {
+          "id": "create_subscription",
+          "name": "Create Subscription",
+          "method": "POST",
+          "path": "/subscriptions",
+          "description": "create subscription"
+        },
+        {
+          "id": "get_balance",
+          "name": "Get Balance",
+          "method": "GET",
+          "path": "/balance",
+          "description": "get balance"
+        },
+        {
+          "id": "list_payments",
+          "name": "List Payments",
+          "method": "GET",
+          "path": "/payment_intents",
+          "description": "list payments"
+        },
+        {
+          "id": "create_product",
+          "name": "Create Product",
+          "method": "POST",
+          "path": "/products",
+          "description": "create product"
+        },
+        {
+          "id": "create_price",
+          "name": "Create Price",
+          "method": "POST",
+          "path": "/prices",
+          "description": "create price"
+        }
+      ],
+      "action_count": 12
+    },
+    {
+      "id": "sendgrid",
+      "name": "SendGrid",
+      "category": "other",
+      "base_url": "https://api.sendgrid.com/v3",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "send_email",
+          "name": "Send Email",
+          "method": "POST",
+          "path": "/mail/send",
+          "description": "send email"
+        },
+        {
+          "id": "add_contacts",
+          "name": "Add Contacts",
+          "method": "PUT",
+          "path": "/marketing/contacts",
+          "description": "add contacts"
+        },
+        {
+          "id": "search_contacts",
+          "name": "Search Contacts",
+          "method": "POST",
+          "path": "/marketing/contacts/search",
+          "description": "search contacts"
+        },
+        {
+          "id": "list_templates",
+          "name": "List Templates",
+          "method": "GET",
+          "path": "/templates",
+          "description": "list templates"
+        },
+        {
+          "id": "list_lists",
+          "name": "List Lists",
+          "method": "GET",
+          "path": "/marketing/lists",
+          "description": "list lists"
+        }
+      ],
+      "action_count": 5
+    },
+    {
+      "id": "resend",
+      "name": "Resend",
+      "category": "other",
+      "base_url": "https://api.resend.com",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "send_email",
+          "name": "Send Email",
+          "method": "POST",
+          "path": "/emails",
+          "description": "send email"
+        },
+        {
+          "id": "send_batch_emails",
+          "name": "Send Batch Emails",
+          "method": "POST",
+          "path": "/emails/batch",
+          "description": "send batch emails"
+        },
+        {
+          "id": "list_emails",
+          "name": "List Emails",
+          "method": "GET",
+          "path": "/emails",
+          "description": "list emails"
+        },
+        {
+          "id": "get_email",
+          "name": "Get Email",
+          "method": "GET",
+          "path": "/emails/{email_id}",
+          "description": "get email"
+        },
+        {
+          "id": "update_email",
+          "name": "Update Email",
+          "method": "PATCH",
+          "path": "/emails/{email_id}",
+          "description": "update email"
+        },
+        {
+          "id": "cancel_email",
+          "name": "Cancel Email",
+          "method": "POST",
+          "path": "/emails/{email_id}/cancel",
+          "description": "cancel email"
+        },
+        {
+          "id": "list_received_emails",
+          "name": "List Received Emails",
+          "method": "GET",
+          "path": "/emails/receiving",
+          "description": "list received emails"
+        },
+        {
+          "id": "get_received_email",
+          "name": "Get Received Email",
+          "method": "GET",
+          "path": "/emails/receiving/{email_id}",
+          "description": "get received email"
+        },
+        {
+          "id": "list_email_attachments",
+          "name": "List Email Attachments",
+          "method": "GET",
+          "path": "/emails/{email_id}/attachments",
+          "description": "list email attachments"
+        },
+        {
+          "id": "get_email_attachment",
+          "name": "Get Email Attachment",
+          "method": "GET",
+          "path": "/emails/{email_id}/attachments/{attachment_id}",
+          "description": "get email attachment"
+        },
+        {
+          "id": "list_received_attachments",
+          "name": "List Received Attachments",
+          "method": "GET",
+          "path": "/emails/receiving/{email_id}/attachments",
+          "description": "list received attachments"
+        },
+        {
+          "id": "get_received_attachment",
+          "name": "Get Received Attachment",
+          "method": "GET",
+          "path": "/emails/receiving/{email_id}/attachments/{attachment_id}",
+          "description": "get received attachment"
+        },
+        {
+          "id": "create_domain",
+          "name": "Create Domain",
+          "method": "POST",
+          "path": "/domains",
+          "description": "create domain"
+        },
+        {
+          "id": "list_domains",
+          "name": "List Domains",
+          "method": "GET",
+          "path": "/domains",
+          "description": "list domains"
+        },
+        {
+          "id": "get_domain",
+          "name": "Get Domain",
+          "method": "GET",
+          "path": "/domains/{domain_id}",
+          "description": "get domain"
+        },
+        {
+          "id": "update_domain",
+          "name": "Update Domain",
+          "method": "PATCH",
+          "path": "/domains/{domain_id}",
+          "description": "update domain"
+        },
+        {
+          "id": "verify_domain",
+          "name": "Verify Domain",
+          "method": "POST",
+          "path": "/domains/{domain_id}/verify",
+          "description": "verify domain"
+        },
+        {
+          "id": "delete_domain",
+          "name": "Delete Domain",
+          "method": "DELETE",
+          "path": "/domains/{domain_id}",
+          "description": "delete domain"
+        },
+        {
+          "id": "create_api_key",
+          "name": "Create Api Key",
+          "method": "POST",
+          "path": "/api-keys",
+          "description": "create api key"
+        },
+        {
+          "id": "list_api_keys",
+          "name": "List Api Keys",
+          "method": "GET",
+          "path": "/api-keys",
+          "description": "list api keys"
+        },
+        {
+          "id": "delete_api_key",
+          "name": "Delete Api Key",
+          "method": "DELETE",
+          "path": "/api-keys/{api_key_id}",
+          "description": "delete api key"
+        },
+        {
+          "id": "create_audience",
+          "name": "Create Audience",
+          "method": "POST",
+          "path": "/audiences",
+          "description": "create audience"
+        },
+        {
+          "id": "list_audiences",
+          "name": "List Audiences",
+          "method": "GET",
+          "path": "/audiences",
+          "description": "list audiences"
+        },
+        {
+          "id": "get_audience",
+          "name": "Get Audience",
+          "method": "GET",
+          "path": "/audiences/{audience_id}",
+          "description": "get audience"
+        },
+        {
+          "id": "delete_audience",
+          "name": "Delete Audience",
+          "method": "DELETE",
+          "path": "/audiences/{audience_id}",
+          "description": "delete audience"
+        },
+        {
+          "id": "create_contact",
+          "name": "Create Contact",
+          "method": "POST",
+          "path": "/contacts",
+          "description": "create contact"
+        },
+        {
+          "id": "list_contacts",
+          "name": "List Contacts",
+          "method": "GET",
+          "path": "/contacts",
+          "description": "list contacts"
+        },
+        {
+          "id": "get_contact",
+          "name": "Get Contact",
+          "method": "GET",
+          "path": "/contacts/{contact_id}",
+          "description": "get contact"
+        },
+        {
+          "id": "update_contact",
+          "name": "Update Contact",
+          "method": "PATCH",
+          "path": "/contacts/{contact_id}",
+          "description": "update contact"
+        },
+        {
+          "id": "delete_contact",
+          "name": "Delete Contact",
+          "method": "DELETE",
+          "path": "/contacts/{contact_id}",
+          "description": "delete contact"
+        },
+        {
+          "id": "add_contact_to_segment",
+          "name": "Add Contact To Segment",
+          "method": "POST",
+          "path": "/contacts/{contact_id}/segments/{segment_id}",
+          "description": "add contact to segment"
+        },
+        {
+          "id": "remove_contact_from_segment",
+          "name": "Remove Contact From Segment",
+          "method": "DELETE",
+          "path": "/contacts/{contact_id}/segments/{segment_id}",
+          "description": "remove contact from segment"
+        },
+        {
+          "id": "list_contact_segments",
+          "name": "List Contact Segments",
+          "method": "GET",
+          "path": "/contacts/{contact_id}/segments",
+          "description": "list contact segments"
+        },
+        {
+          "id": "get_contact_topics",
+          "name": "Get Contact Topics",
+          "method": "GET",
+          "path": "/contacts/{contact_id}/topics",
+          "description": "get contact topics"
+        },
+        {
+          "id": "update_contact_topics",
+          "name": "Update Contact Topics",
+          "method": "PATCH",
+          "path": "/contacts/{contact_id}/topics",
+          "description": "update contact topics"
+        },
+        {
+          "id": "create_broadcast",
+          "name": "Create Broadcast",
+          "method": "POST",
+          "path": "/broadcasts",
+          "description": "create broadcast"
+        },
+        {
+          "id": "list_broadcasts",
+          "name": "List Broadcasts",
+          "method": "GET",
+          "path": "/broadcasts",
+          "description": "list broadcasts"
+        },
+        {
+          "id": "get_broadcast",
+          "name": "Get Broadcast",
+          "method": "GET",
+          "path": "/broadcasts/{broadcast_id}",
+          "description": "get broadcast"
+        },
+        {
+          "id": "update_broadcast",
+          "name": "Update Broadcast",
+          "method": "PATCH",
+          "path": "/broadcasts/{broadcast_id}",
+          "description": "update broadcast"
+        },
+        {
+          "id": "send_broadcast",
+          "name": "Send Broadcast",
+          "method": "POST",
+          "path": "/broadcasts/{broadcast_id}/send",
+          "description": "send broadcast"
+        },
+        {
+          "id": "delete_broadcast",
+          "name": "Delete Broadcast",
+          "method": "DELETE",
+          "path": "/broadcasts/{broadcast_id}",
+          "description": "delete broadcast"
+        },
+        {
+          "id": "create_segment",
+          "name": "Create Segment",
+          "method": "POST",
+          "path": "/segments",
+          "description": "create segment"
+        },
+        {
+          "id": "list_segments",
+          "name": "List Segments",
+          "method": "GET",
+          "path": "/segments",
+          "description": "list segments"
+        },
+        {
+          "id": "get_segment",
+          "name": "Get Segment",
+          "method": "GET",
+          "path": "/segments/{segment_id}",
+          "description": "get segment"
+        },
+        {
+          "id": "delete_segment",
+          "name": "Delete Segment",
+          "method": "DELETE",
+          "path": "/segments/{segment_id}",
+          "description": "delete segment"
+        },
+        {
+          "id": "create_contact_property",
+          "name": "Create Contact Property",
+          "method": "POST",
+          "path": "/contact-properties",
+          "description": "create contact property"
+        },
+        {
+          "id": "list_contact_properties",
+          "name": "List Contact Properties",
+          "method": "GET",
+          "path": "/contact-properties",
+          "description": "list contact properties"
+        },
+        {
+          "id": "get_contact_property",
+          "name": "Get Contact Property",
+          "method": "GET",
+          "path": "/contact-properties/{property_id}",
+          "description": "get contact property"
+        },
+        {
+          "id": "update_contact_property",
+          "name": "Update Contact Property",
+          "method": "PATCH",
+          "path": "/contact-properties/{property_id}",
+          "description": "update contact property"
+        },
+        {
+          "id": "delete_contact_property",
+          "name": "Delete Contact Property",
+          "method": "DELETE",
+          "path": "/contact-properties/{property_id}",
+          "description": "delete contact property"
+        },
+        {
+          "id": "create_template",
+          "name": "Create Template",
+          "method": "POST",
+          "path": "/templates",
+          "description": "create template"
+        },
+        {
+          "id": "list_templates",
+          "name": "List Templates",
+          "method": "GET",
+          "path": "/templates",
+          "description": "list templates"
+        },
+        {
+          "id": "get_template",
+          "name": "Get Template",
+          "method": "GET",
+          "path": "/templates/{template_id}",
+          "description": "get template"
+        },
+        {
+          "id": "update_template",
+          "name": "Update Template",
+          "method": "PATCH",
+          "path": "/templates/{template_id}",
+          "description": "update template"
+        },
+        {
+          "id": "delete_template",
+          "name": "Delete Template",
+          "method": "DELETE",
+          "path": "/templates/{template_id}",
+          "description": "delete template"
+        },
+        {
+          "id": "duplicate_template",
+          "name": "Duplicate Template",
+          "method": "POST",
+          "path": "/templates/{template_id}/duplicate",
+          "description": "duplicate template"
+        },
+        {
+          "id": "publish_template",
+          "name": "Publish Template",
+          "method": "POST",
+          "path": "/templates/{template_id}/publish",
+          "description": "publish template"
+        },
+        {
+          "id": "create_topic",
+          "name": "Create Topic",
+          "method": "POST",
+          "path": "/topics",
+          "description": "create topic"
+        },
+        {
+          "id": "list_topics",
+          "name": "List Topics",
+          "method": "GET",
+          "path": "/topics",
+          "description": "list topics"
+        },
+        {
+          "id": "get_topic",
+          "name": "Get Topic",
+          "method": "GET",
+          "path": "/topics/{topic_id}",
+          "description": "get topic"
+        },
+        {
+          "id": "update_topic",
+          "name": "Update Topic",
+          "method": "PATCH",
+          "path": "/topics/{topic_id}",
+          "description": "update topic"
+        },
+        {
+          "id": "delete_topic",
+          "name": "Delete Topic",
+          "method": "DELETE",
+          "path": "/topics/{topic_id}",
+          "description": "delete topic"
+        },
+        {
+          "id": "create_webhook",
+          "name": "Create Webhook",
+          "method": "POST",
+          "path": "/webhooks",
+          "description": "create webhook"
+        },
+        {
+          "id": "list_webhooks",
+          "name": "List Webhooks",
+          "method": "GET",
+          "path": "/webhooks",
+          "description": "list webhooks"
+        },
+        {
+          "id": "get_webhook",
+          "name": "Get Webhook",
+          "method": "GET",
+          "path": "/webhooks/{webhook_id}",
+          "description": "get webhook"
+        },
+        {
+          "id": "update_webhook",
+          "name": "Update Webhook",
+          "method": "PATCH",
+          "path": "/webhooks/{webhook_id}",
+          "description": "update webhook"
+        },
+        {
+          "id": "delete_webhook",
+          "name": "Delete Webhook",
+          "method": "DELETE",
+          "path": "/webhooks/{webhook_id}",
+          "description": "delete webhook"
+        }
+      ],
+      "action_count": 67
+    },
+    {
+      "id": "twilio",
+      "name": "Twilio",
+      "category": "other",
+      "base_url": "https://api.twilio.com/2010-04-01",
+      "auth_type": "basic",
+      "actions": [
+        {
+          "id": "send_sms",
+          "name": "Send Sms",
+          "method": "POST",
+          "path": "/Accounts/{accountSid}/Messages.json",
+          "description": "send sms"
+        },
+        {
+          "id": "list_messages",
+          "name": "List Messages",
+          "method": "GET",
+          "path": "/Accounts/{accountSid}/Messages.json",
+          "description": "list messages"
+        },
+        {
+          "id": "make_call",
+          "name": "Make Call",
+          "method": "POST",
+          "path": "/Accounts/{accountSid}/Calls.json",
+          "description": "make call"
+        }
+      ],
+      "action_count": 3
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "category": "other",
+      "base_url": "https://slack.com/api",
+      "auth_type": "bot_token",
+      "actions": [
+        {
+          "id": "send_message",
+          "name": "Send Message",
+          "method": "POST",
+          "path": "/chat.postMessage",
+          "description": "send message"
+        },
+        {
+          "id": "list_channels",
+          "name": "List Channels",
+          "method": "GET",
+          "path": "/conversations.list",
+          "description": "list channels"
+        },
+        {
+          "id": "list_users",
+          "name": "List Users",
+          "method": "GET",
+          "path": "/users.list",
+          "description": "list users"
+        },
+        {
+          "id": "create_channel",
+          "name": "Create Channel",
+          "method": "POST",
+          "path": "/conversations.create",
+          "description": "create channel"
+        }
+      ],
+      "action_count": 4
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "category": "other",
+      "base_url": "https://discord.com/api/v10",
+      "auth_type": "bot_token",
+      "actions": [
+        {
+          "id": "send_message",
+          "name": "Send Message",
+          "method": "POST",
+          "path": "/channels/{channelId}/messages",
+          "description": "send message"
+        },
+        {
+          "id": "list_channels",
+          "name": "List Channels",
+          "method": "GET",
+          "path": "/guilds/{guildId}/channels",
+          "description": "list channels"
+        }
+      ],
+      "action_count": 2
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "category": "other",
+      "base_url": "https://api.openai.com/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "chat_completion",
+          "name": "Chat Completion",
+          "method": "POST",
+          "path": "/chat/completions",
+          "description": "chat completion"
+        },
+        {
+          "id": "create_image",
+          "name": "Create Image",
+          "method": "POST",
+          "path": "/images/generations",
+          "description": "create image"
+        },
+        {
+          "id": "create_embedding",
+          "name": "Create Embedding",
+          "method": "POST",
+          "path": "/embeddings",
+          "description": "create embedding"
+        },
+        {
+          "id": "text_to_speech",
+          "name": "Text To Speech",
+          "method": "POST",
+          "path": "/audio/speech",
+          "description": "text to speech"
+        }
+      ],
+      "action_count": 4
+    },
+    {
+      "id": "airtable",
+      "name": "Airtable",
+      "category": "other",
+      "base_url": "https://api.airtable.com/v0",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_bases",
+          "name": "List Bases",
+          "method": "GET",
+          "path": "https://api.airtable.com/v0/meta/bases",
+          "description": "list bases"
+        },
+        {
+          "id": "list_records",
+          "name": "List Records",
+          "method": "GET",
+          "path": "/{baseId}/{tableId}",
+          "description": "list records"
+        },
+        {
+          "id": "create_record",
+          "name": "Create Record",
+          "method": "POST",
+          "path": "/{baseId}/{tableId}",
+          "description": "create record"
+        },
+        {
+          "id": "update_record",
+          "name": "Update Record",
+          "method": "PATCH",
+          "path": "/{baseId}/{tableId}/{recordId}",
+          "description": "update record"
+        },
+        {
+          "id": "delete_record",
+          "name": "Delete Record",
+          "method": "DELETE",
+          "path": "/{baseId}/{tableId}/{recordId}",
+          "description": "delete record"
+        }
+      ],
+      "action_count": 5
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "category": "other",
+      "base_url": "https://api.notion.com/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "search",
+          "name": "Search",
+          "method": "POST",
+          "path": "/search",
+          "description": "search"
+        },
+        {
+          "id": "create_page",
+          "name": "Create Page",
+          "method": "POST",
+          "path": "/pages",
+          "description": "create page"
+        },
+        {
+          "id": "get_page",
+          "name": "Get Page",
+          "method": "GET",
+          "path": "/pages/{pageId}",
+          "description": "get page"
+        },
+        {
+          "id": "query_database",
+          "name": "Query Database",
+          "method": "POST",
+          "path": "/databases/{databaseId}/query",
+          "description": "query database"
+        },
+        {
+          "id": "list_databases",
+          "name": "List Databases",
+          "method": "GET",
+          "path": "/databases",
+          "description": "list databases"
+        }
+      ],
+      "action_count": 5
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "category": "other",
+      "base_url": "https://api.github.com",
+      "auth_type": "token",
+      "actions": [
+        {
+          "id": "list_repos",
+          "name": "List Repos",
+          "method": "GET",
+          "path": "/user/repos",
+          "description": "list repos"
+        },
+        {
+          "id": "create_issue",
+          "name": "Create Issue",
+          "method": "POST",
+          "path": "/repos/{owner}/{repo}/issues",
+          "description": "create issue"
+        },
+        {
+          "id": "list_issues",
+          "name": "List Issues",
+          "method": "GET",
+          "path": "/repos/{owner}/{repo}/issues",
+          "description": "list issues"
+        },
+        {
+          "id": "create_pr",
+          "name": "Create Pr",
+          "method": "POST",
+          "path": "/repos/{owner}/{repo}/pulls",
+          "description": "create pr"
+        },
+        {
+          "id": "list_prs",
+          "name": "List Prs",
+          "method": "GET",
+          "path": "/repos/{owner}/{repo}/pulls",
+          "description": "list prs"
+        }
+      ],
+      "action_count": 5
+    },
+    {
+      "id": "linear",
+      "name": "Linear",
+      "category": "other",
+      "base_url": "https://api.linear.app",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "graphql",
+          "name": "Graphql",
+          "method": "POST",
+          "path": "/graphql",
+          "description": "graphql"
+        }
+      ],
+      "action_count": 1
+    },
+    {
+      "id": "shopify",
+      "name": "Shopify",
+      "category": "other",
+      "base_url": "https://{store}.myshopify.com/admin/api/2024-01",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "list_products",
+          "name": "List Products",
+          "method": "GET",
+          "path": "/products.json",
+          "description": "list products"
+        },
+        {
+          "id": "create_product",
+          "name": "Create Product",
+          "method": "POST",
+          "path": "/products.json",
+          "description": "create product"
+        },
+        {
+          "id": "list_orders",
+          "name": "List Orders",
+          "method": "GET",
+          "path": "/orders.json",
+          "description": "list orders"
+        },
+        {
+          "id": "get_order",
+          "name": "Get Order",
+          "method": "GET",
+          "path": "/orders/{orderId}.json",
+          "description": "get order"
+        },
+        {
+          "id": "list_customers",
+          "name": "List Customers",
+          "method": "GET",
+          "path": "/customers.json",
+          "description": "list customers"
+        },
+        {
+          "id": "create_customer",
+          "name": "Create Customer",
+          "method": "POST",
+          "path": "/customers.json",
+          "description": "create customer"
+        }
+      ],
+      "action_count": 6
+    },
+    {
+      "id": "hubspot",
+      "name": "HubSpot",
+      "category": "other",
+      "base_url": "https://api.hubapi.com",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "create_contact",
+          "name": "Create Contact",
+          "method": "POST",
+          "path": "/crm/v3/objects/contacts",
+          "description": "create contact"
+        },
+        {
+          "id": "list_contacts",
+          "name": "List Contacts",
+          "method": "GET",
+          "path": "/crm/v3/objects/contacts",
+          "description": "list contacts"
+        },
+        {
+          "id": "search_contacts",
+          "name": "Search Contacts",
+          "method": "POST",
+          "path": "/crm/v3/objects/contacts/search",
+          "description": "search contacts"
+        },
+        {
+          "id": "create_company",
+          "name": "Create Company",
+          "method": "POST",
+          "path": "/crm/v3/objects/companies",
+          "description": "create company"
+        },
+        {
+          "id": "create_deal",
+          "name": "Create Deal",
+          "method": "POST",
+          "path": "/crm/v3/objects/deals",
+          "description": "create deal"
+        },
+        {
+          "id": "list_deals",
+          "name": "List Deals",
+          "method": "GET",
+          "path": "/crm/v3/objects/deals",
+          "description": "list deals"
+        }
+      ],
+      "action_count": 6
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "category": "other",
+      "base_url": "https://{projectRef}.supabase.co",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "query_table",
+          "name": "Query Table",
+          "method": "GET",
+          "path": "/rest/v1/{table}",
+          "description": "query table"
+        },
+        {
+          "id": "insert_row",
+          "name": "Insert Row",
+          "method": "POST",
+          "path": "/rest/v1/{table}",
+          "description": "insert row"
+        },
+        {
+          "id": "update_row",
+          "name": "Update Row",
+          "method": "PATCH",
+          "path": "/rest/v1/{table}",
+          "description": "update row"
+        },
+        {
+          "id": "delete_row",
+          "name": "Delete Row",
+          "method": "DELETE",
+          "path": "/rest/v1/{table}",
+          "description": "delete row"
+        },
+        {
+          "id": "list_users",
+          "name": "List Users",
+          "method": "GET",
+          "path": "/auth/v1/admin/users",
+          "description": "list users"
+        },
+        {
+          "id": "list_buckets",
+          "name": "List Buckets",
+          "method": "GET",
+          "path": "/storage/v1/bucket",
+          "description": "list buckets"
+        }
+      ],
+      "action_count": 6
+    },
+    {
+      "id": "calendly",
+      "name": "Calendly",
+      "category": "other",
+      "base_url": "https://api.calendly.com",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_events",
+          "name": "List Events",
+          "method": "GET",
+          "path": "/scheduled_events",
+          "description": "list events"
+        },
+        {
+          "id": "list_event_types",
+          "name": "List Event Types",
+          "method": "GET",
+          "path": "/event_types",
+          "description": "list event types"
+        },
+        {
+          "id": "get_user",
+          "name": "Get User",
+          "method": "GET",
+          "path": "/users/me",
+          "description": "get user"
+        }
+      ],
+      "action_count": 3
+    },
+    {
+      "id": "google_calendar",
+      "name": "Google Calendar",
+      "category": "other",
+      "base_url": "https://www.googleapis.com/calendar/v3",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_calendars",
+          "name": "List Calendars",
+          "method": "GET",
+          "path": "/users/me/calendarList",
+          "description": "list calendars"
+        },
+        {
+          "id": "list_events",
+          "name": "List Events",
+          "method": "GET",
+          "path": "/calendars/{calendarId}/events",
+          "description": "list events"
+        },
+        {
+          "id": "create_event",
+          "name": "Create Event",
+          "method": "POST",
+          "path": "/calendars/{calendarId}/events",
+          "description": "create event"
+        },
+        {
+          "id": "update_event",
+          "name": "Update Event",
+          "method": "PUT",
+          "path": "/calendars/{calendarId}/events/{eventId}",
+          "description": "update event"
+        },
+        {
+          "id": "delete_event",
+          "name": "Delete Event",
+          "method": "DELETE",
+          "path": "/calendars/{calendarId}/events/{eventId}",
+          "description": "delete event"
+        }
+      ],
+      "action_count": 5
+    },
+    {
+      "id": "gmail",
+      "name": "Gmail",
+      "category": "other",
+      "base_url": "https://gmail.googleapis.com/gmail/v1",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_messages",
+          "name": "List Messages",
+          "method": "GET",
+          "path": "/users/me/messages",
+          "description": "list messages"
+        },
+        {
+          "id": "get_message",
+          "name": "Get Message",
+          "method": "GET",
+          "path": "/users/me/messages/{messageId}",
+          "description": "get message"
+        },
+        {
+          "id": "send_message",
+          "name": "Send Message",
+          "method": "POST",
+          "path": "/users/me/messages/send",
+          "description": "send message"
+        },
+        {
+          "id": "trash_message",
+          "name": "Trash Message",
+          "method": "POST",
+          "path": "/users/me/messages/{messageId}/trash",
+          "description": "trash message"
+        },
+        {
+          "id": "untrash_message",
+          "name": "Untrash Message",
+          "method": "POST",
+          "path": "/users/me/messages/{messageId}/untrash",
+          "description": "untrash message"
+        },
+        {
+          "id": "list_threads",
+          "name": "List Threads",
+          "method": "GET",
+          "path": "/users/me/threads",
+          "description": "list threads"
+        },
+        {
+          "id": "get_thread",
+          "name": "Get Thread",
+          "method": "GET",
+          "path": "/users/me/threads/{threadId}",
+          "description": "get thread"
+        },
+        {
+          "id": "create_draft",
+          "name": "Create Draft",
+          "method": "POST",
+          "path": "/users/me/drafts",
+          "description": "create draft"
+        },
+        {
+          "id": "list_drafts",
+          "name": "List Drafts",
+          "method": "GET",
+          "path": "/users/me/drafts",
+          "description": "list drafts"
+        },
+        {
+          "id": "send_draft",
+          "name": "Send Draft",
+          "method": "POST",
+          "path": "/users/me/drafts/send",
+          "description": "send draft"
+        },
+        {
+          "id": "list_labels",
+          "name": "List Labels",
+          "method": "GET",
+          "path": "/users/me/labels",
+          "description": "list labels"
+        },
+        {
+          "id": "create_label",
+          "name": "Create Label",
+          "method": "POST",
+          "path": "/users/me/labels",
+          "description": "create label"
+        },
+        {
+          "id": "get_profile",
+          "name": "Get Profile",
+          "method": "GET",
+          "path": "/users/me/profile",
+          "description": "get profile"
+        }
+      ],
+      "action_count": 13
+    },
+    {
+      "id": "google_sheets",
+      "name": "Google Sheets",
+      "category": "other",
+      "base_url": "https://sheets.googleapis.com/v4",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "create_spreadsheet",
+          "name": "Create Spreadsheet",
+          "method": "POST",
+          "path": "/spreadsheets",
+          "description": "create spreadsheet"
+        },
+        {
+          "id": "get_spreadsheet",
+          "name": "Get Spreadsheet",
+          "method": "GET",
+          "path": "/spreadsheets/{spreadsheetId}",
+          "description": "get spreadsheet"
+        },
+        {
+          "id": "get_values",
+          "name": "Get Values",
+          "method": "GET",
+          "path": "/spreadsheets/{spreadsheetId}/values/{range}",
+          "description": "get values"
+        },
+        {
+          "id": "update_values",
+          "name": "Update Values",
+          "method": "PUT",
+          "path": "/spreadsheets/{spreadsheetId}/values/{range}",
+          "description": "update values"
+        },
+        {
+          "id": "append_values",
+          "name": "Append Values",
+          "method": "POST",
+          "path": "/spreadsheets/{spreadsheetId}/values/{range}:append",
+          "description": "append values"
+        },
+        {
+          "id": "clear_values",
+          "name": "Clear Values",
+          "method": "POST",
+          "path": "/spreadsheets/{spreadsheetId}/values/{range}:clear",
+          "description": "clear values"
+        },
+        {
+          "id": "batch_get",
+          "name": "Batch Get",
+          "method": "GET",
+          "path": "/spreadsheets/{spreadsheetId}/values:batchGet",
+          "description": "batch get"
+        },
+        {
+          "id": "batch_update",
+          "name": "Batch Update",
+          "method": "POST",
+          "path": "/spreadsheets/{spreadsheetId}/values:batchUpdate",
+          "description": "batch update"
+        }
+      ],
+      "action_count": 8
+    },
+    {
+      "id": "google_drive",
+      "name": "Google Drive",
+      "category": "other",
+      "base_url": "https://www.googleapis.com/drive/v3",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_files",
+          "name": "List Files",
+          "method": "GET",
+          "path": "/files",
+          "description": "list files"
+        },
+        {
+          "id": "get_file",
+          "name": "Get File",
+          "method": "GET",
+          "path": "/files/{fileId}",
+          "description": "get file"
+        },
+        {
+          "id": "create_file",
+          "name": "Create File",
+          "method": "POST",
+          "path": "/files",
+          "description": "create file"
+        },
+        {
+          "id": "copy_file",
+          "name": "Copy File",
+          "method": "POST",
+          "path": "/files/{fileId}/copy",
+          "description": "copy file"
+        },
+        {
+          "id": "update_file",
+          "name": "Update File",
+          "method": "PATCH",
+          "path": "/files/{fileId}",
+          "description": "update file"
+        },
+        {
+          "id": "delete_file",
+          "name": "Delete File",
+          "method": "DELETE",
+          "path": "/files/{fileId}",
+          "description": "delete file"
+        },
+        {
+          "id": "create_permission",
+          "name": "Create Permission",
+          "method": "POST",
+          "path": "/files/{fileId}/permissions",
+          "description": "create permission"
+        },
+        {
+          "id": "list_permissions",
+          "name": "List Permissions",
+          "method": "GET",
+          "path": "/files/{fileId}/permissions",
+          "description": "list permissions"
+        },
+        {
+          "id": "delete_permission",
+          "name": "Delete Permission",
+          "method": "DELETE",
+          "path": "/files/{fileId}/permissions/{permissionId}",
+          "description": "delete permission"
+        },
+        {
+          "id": "generate_ids",
+          "name": "Generate Ids",
+          "method": "GET",
+          "path": "/files/generateIds",
+          "description": "generate ids"
+        }
+      ],
+      "action_count": 10
+    },
+    {
+      "id": "jira",
+      "name": "Jira",
+      "category": "other",
+      "base_url": "https://{domain}.atlassian.net/rest/api/3",
+      "auth_type": "basic",
+      "actions": [
+        {
+          "id": "search_issues",
+          "name": "Search Issues",
+          "method": "POST",
+          "path": "/search",
+          "description": "search issues"
+        },
+        {
+          "id": "create_issue",
+          "name": "Create Issue",
+          "method": "POST",
+          "path": "/issue",
+          "description": "create issue"
+        },
+        {
+          "id": "get_issue",
+          "name": "Get Issue",
+          "method": "GET",
+          "path": "/issue/{issueIdOrKey}",
+          "description": "get issue"
+        },
+        {
+          "id": "update_issue",
+          "name": "Update Issue",
+          "method": "PUT",
+          "path": "/issue/{issueIdOrKey}",
+          "description": "update issue"
+        },
+        {
+          "id": "delete_issue",
+          "name": "Delete Issue",
+          "method": "DELETE",
+          "path": "/issue/{issueIdOrKey}",
+          "description": "delete issue"
+        },
+        {
+          "id": "transition_issue",
+          "name": "Transition Issue",
+          "method": "POST",
+          "path": "/issue/{issueIdOrKey}/transitions",
+          "description": "transition issue"
+        },
+        {
+          "id": "get_transitions",
+          "name": "Get Transitions",
+          "method": "GET",
+          "path": "/issue/{issueIdOrKey}/transitions",
+          "description": "get transitions"
+        },
+        {
+          "id": "add_comment",
+          "name": "Add Comment",
+          "method": "POST",
+          "path": "/issue/{issueIdOrKey}/comment",
+          "description": "add comment"
+        },
+        {
+          "id": "list_comments",
+          "name": "List Comments",
+          "method": "GET",
+          "path": "/issue/{issueIdOrKey}/comment",
+          "description": "list comments"
+        },
+        {
+          "id": "list_projects",
+          "name": "List Projects",
+          "method": "GET",
+          "path": "/project",
+          "description": "list projects"
+        },
+        {
+          "id": "get_project",
+          "name": "Get Project",
+          "method": "GET",
+          "path": "/project/{projectIdOrKey}",
+          "description": "get project"
+        },
+        {
+          "id": "assign_issue",
+          "name": "Assign Issue",
+          "method": "PUT",
+          "path": "/issue/{issueIdOrKey}/assignee",
+          "description": "assign issue"
+        }
+      ],
+      "action_count": 12
+    },
+    {
+      "id": "zendesk",
+      "name": "Zendesk",
+      "category": "other",
+      "base_url": "https://{subdomain}.zendesk.com/api/v2",
+      "auth_type": "basic",
+      "actions": [
+        {
+          "id": "list_tickets",
+          "name": "List Tickets",
+          "method": "GET",
+          "path": "/tickets.json",
+          "description": "list tickets"
+        },
+        {
+          "id": "get_ticket",
+          "name": "Get Ticket",
+          "method": "GET",
+          "path": "/tickets/{ticketId}.json",
+          "description": "get ticket"
+        },
+        {
+          "id": "create_ticket",
+          "name": "Create Ticket",
+          "method": "POST",
+          "path": "/tickets.json",
+          "description": "create ticket"
+        },
+        {
+          "id": "update_ticket",
+          "name": "Update Ticket",
+          "method": "PUT",
+          "path": "/tickets/{ticketId}.json",
+          "description": "update ticket"
+        },
+        {
+          "id": "delete_ticket",
+          "name": "Delete Ticket",
+          "method": "DELETE",
+          "path": "/tickets/{ticketId}.json",
+          "description": "delete ticket"
+        },
+        {
+          "id": "list_ticket_comments",
+          "name": "List Ticket Comments",
+          "method": "GET",
+          "path": "/tickets/{ticketId}/comments.json",
+          "description": "list ticket comments"
+        },
+        {
+          "id": "search",
+          "name": "Search",
+          "method": "GET",
+          "path": "/search.json",
+          "description": "search"
+        },
+        {
+          "id": "list_users",
+          "name": "List Users",
+          "method": "GET",
+          "path": "/users.json",
+          "description": "list users"
+        },
+        {
+          "id": "create_user",
+          "name": "Create User",
+          "method": "POST",
+          "path": "/users.json",
+          "description": "create user"
+        },
+        {
+          "id": "get_user",
+          "name": "Get User",
+          "method": "GET",
+          "path": "/users/{userId}.json",
+          "description": "get user"
+        },
+        {
+          "id": "list_organizations",
+          "name": "List Organizations",
+          "method": "GET",
+          "path": "/organizations.json",
+          "description": "list organizations"
+        },
+        {
+          "id": "list_macros",
+          "name": "List Macros",
+          "method": "GET",
+          "path": "/macros.json",
+          "description": "list macros"
+        }
+      ],
+      "action_count": 12
+    },
+    {
+      "id": "mailchimp",
+      "name": "Mailchimp",
+      "category": "other",
+      "base_url": "https://{dc}.api.mailchimp.com/3.0",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_audiences",
+          "name": "List Audiences",
+          "method": "GET",
+          "path": "/lists",
+          "description": "list audiences"
+        },
+        {
+          "id": "get_audience",
+          "name": "Get Audience",
+          "method": "GET",
+          "path": "/lists/{listId}",
+          "description": "get audience"
+        },
+        {
+          "id": "add_member",
+          "name": "Add Member",
+          "method": "POST",
+          "path": "/lists/{listId}/members",
+          "description": "add member"
+        },
+        {
+          "id": "update_member",
+          "name": "Update Member",
+          "method": "PATCH",
+          "path": "/lists/{listId}/members/{subscriberHash}",
+          "description": "update member"
+        },
+        {
+          "id": "list_members",
+          "name": "List Members",
+          "method": "GET",
+          "path": "/lists/{listId}/members",
+          "description": "list members"
+        },
+        {
+          "id": "search_members",
+          "name": "Search Members",
+          "method": "GET",
+          "path": "/search-members",
+          "description": "search members"
+        },
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/campaigns",
+          "description": "list campaigns"
+        },
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/campaigns",
+          "description": "create campaign"
+        },
+        {
+          "id": "send_campaign",
+          "name": "Send Campaign",
+          "method": "POST",
+          "path": "/campaigns/{campaignId}/actions/send",
+          "description": "send campaign"
+        },
+        {
+          "id": "get_campaign_report",
+          "name": "Get Campaign Report",
+          "method": "GET",
+          "path": "/reports/{campaignId}",
+          "description": "get campaign report"
+        },
+        {
+          "id": "list_templates",
+          "name": "List Templates",
+          "method": "GET",
+          "path": "/templates",
+          "description": "list templates"
+        },
+        {
+          "id": "list_automations",
+          "name": "List Automations",
+          "method": "GET",
+          "path": "/automations",
+          "description": "list automations"
+        }
+      ],
+      "action_count": 12
+    },
+    {
+      "id": "zoom",
+      "name": "Zoom",
+      "category": "other",
+      "base_url": "https://api.zoom.us/v2",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_meetings",
+          "name": "List Meetings",
+          "method": "GET",
+          "path": "/users/{userId}/meetings",
+          "description": "list meetings"
+        },
+        {
+          "id": "create_meeting",
+          "name": "Create Meeting",
+          "method": "POST",
+          "path": "/users/{userId}/meetings",
+          "description": "create meeting"
+        },
+        {
+          "id": "get_meeting",
+          "name": "Get Meeting",
+          "method": "GET",
+          "path": "/meetings/{meetingId}",
+          "description": "get meeting"
+        },
+        {
+          "id": "update_meeting",
+          "name": "Update Meeting",
+          "method": "PATCH",
+          "path": "/meetings/{meetingId}",
+          "description": "update meeting"
+        },
+        {
+          "id": "delete_meeting",
+          "name": "Delete Meeting",
+          "method": "DELETE",
+          "path": "/meetings/{meetingId}",
+          "description": "delete meeting"
+        },
+        {
+          "id": "list_recordings",
+          "name": "List Recordings",
+          "method": "GET",
+          "path": "/users/{userId}/recordings",
+          "description": "list recordings"
+        },
+        {
+          "id": "get_recording",
+          "name": "Get Recording",
+          "method": "GET",
+          "path": "/meetings/{meetingId}/recordings",
+          "description": "get recording"
+        },
+        {
+          "id": "delete_recording",
+          "name": "Delete Recording",
+          "method": "DELETE",
+          "path": "/meetings/{meetingId}/recordings",
+          "description": "delete recording"
+        },
+        {
+          "id": "list_users",
+          "name": "List Users",
+          "method": "GET",
+          "path": "/users",
+          "description": "list users"
+        },
+        {
+          "id": "get_user",
+          "name": "Get User",
+          "method": "GET",
+          "path": "/users/{userId}",
+          "description": "get user"
+        }
+      ],
+      "action_count": 10
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft 365",
+      "category": "other",
+      "base_url": "https://graph.microsoft.com/v1.0",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "send_mail",
+          "name": "Send Mail",
+          "method": "POST",
+          "path": "/me/sendMail",
+          "description": "send mail"
+        },
+        {
+          "id": "list_messages",
+          "name": "List Messages",
+          "method": "GET",
+          "path": "/me/messages",
+          "description": "list messages"
+        },
+        {
+          "id": "get_message",
+          "name": "Get Message",
+          "method": "GET",
+          "path": "/me/messages/{messageId}",
+          "description": "get message"
+        },
+        {
+          "id": "delete_message",
+          "name": "Delete Message",
+          "method": "DELETE",
+          "path": "/me/messages/{messageId}",
+          "description": "delete message"
+        },
+        {
+          "id": "list_events",
+          "name": "List Events",
+          "method": "GET",
+          "path": "/me/events",
+          "description": "list events"
+        },
+        {
+          "id": "create_event",
+          "name": "Create Event",
+          "method": "POST",
+          "path": "/me/events",
+          "description": "create event"
+        },
+        {
+          "id": "update_event",
+          "name": "Update Event",
+          "method": "PATCH",
+          "path": "/me/events/{eventId}",
+          "description": "update event"
+        },
+        {
+          "id": "delete_event",
+          "name": "Delete Event",
+          "method": "DELETE",
+          "path": "/me/events/{eventId}",
+          "description": "delete event"
+        },
+        {
+          "id": "list_drive_items",
+          "name": "List Drive Items",
+          "method": "GET",
+          "path": "/me/drive/root/children",
+          "description": "list drive items"
+        },
+        {
+          "id": "get_drive_item",
+          "name": "Get Drive Item",
+          "method": "GET",
+          "path": "/me/drive/items/{itemId}",
+          "description": "get drive item"
+        },
+        {
+          "id": "search_drive",
+          "name": "Search Drive",
+          "method": "GET",
+          "path": "/me/drive/root/search(q='{query}')",
+          "description": "search drive"
+        },
+        {
+          "id": "list_teams",
+          "name": "List Teams",
+          "method": "GET",
+          "path": "/me/joinedTeams",
+          "description": "list teams"
+        },
+        {
+          "id": "list_channels",
+          "name": "List Channels",
+          "method": "GET",
+          "path": "/teams/{teamId}/channels",
+          "description": "list channels"
+        },
+        {
+          "id": "send_channel_message",
+          "name": "Send Channel Message",
+          "method": "POST",
+          "path": "/teams/{teamId}/channels/{channelId}/messages",
+          "description": "send channel message"
+        },
+        {
+          "id": "get_user",
+          "name": "Get User",
+          "method": "GET",
+          "path": "/me",
+          "description": "get user"
+        }
+      ],
+      "action_count": 15
+    },
+    {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "category": "other",
+      "base_url": "https://data.mongodb-api.com/app/{appId}/endpoint/data/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "find_one",
+          "name": "Find One",
+          "method": "POST",
+          "path": "/action/findOne",
+          "description": "find one"
+        },
+        {
+          "id": "find_many",
+          "name": "Find Many",
+          "method": "POST",
+          "path": "/action/find",
+          "description": "find many"
+        },
+        {
+          "id": "insert_one",
+          "name": "Insert One",
+          "method": "POST",
+          "path": "/action/insertOne",
+          "description": "insert one"
+        },
+        {
+          "id": "insert_many",
+          "name": "Insert Many",
+          "method": "POST",
+          "path": "/action/insertMany",
+          "description": "insert many"
+        },
+        {
+          "id": "update_one",
+          "name": "Update One",
+          "method": "POST",
+          "path": "/action/updateOne",
+          "description": "update one"
+        },
+        {
+          "id": "update_many",
+          "name": "Update Many",
+          "method": "POST",
+          "path": "/action/updateMany",
+          "description": "update many"
+        },
+        {
+          "id": "delete_one",
+          "name": "Delete One",
+          "method": "POST",
+          "path": "/action/deleteOne",
+          "description": "delete one"
+        },
+        {
+          "id": "aggregate",
+          "name": "Aggregate",
+          "method": "POST",
+          "path": "/action/aggregate",
+          "description": "aggregate"
+        }
+      ],
+      "action_count": 8
+    },
+    {
+      "id": "quickbooks",
+      "name": "QuickBooks",
+      "category": "other",
+      "base_url": "https://quickbooks.api.intuit.com/v3",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "create_invoice",
+          "name": "Create Invoice",
+          "method": "POST",
+          "path": "/company/{realmId}/invoice",
+          "description": "create invoice"
+        },
+        {
+          "id": "list_invoices",
+          "name": "List Invoices",
+          "method": "GET",
+          "path": "/company/{realmId}/query",
+          "description": "list invoices"
+        },
+        {
+          "id": "get_invoice",
+          "name": "Get Invoice",
+          "method": "GET",
+          "path": "/company/{realmId}/invoice/{invoiceId}",
+          "description": "get invoice"
+        },
+        {
+          "id": "send_invoice",
+          "name": "Send Invoice",
+          "method": "POST",
+          "path": "/company/{realmId}/invoice/{invoiceId}/send",
+          "description": "send invoice"
+        },
+        {
+          "id": "create_customer",
+          "name": "Create Customer",
+          "method": "POST",
+          "path": "/company/{realmId}/customer",
+          "description": "create customer"
+        },
+        {
+          "id": "list_customers",
+          "name": "List Customers",
+          "method": "GET",
+          "path": "/company/{realmId}/query",
+          "description": "list customers"
+        },
+        {
+          "id": "get_customer",
+          "name": "Get Customer",
+          "method": "GET",
+          "path": "/company/{realmId}/customer/{customerId}",
+          "description": "get customer"
+        },
+        {
+          "id": "update_customer",
+          "name": "Update Customer",
+          "method": "POST",
+          "path": "/company/{realmId}/customer",
+          "description": "update customer"
+        },
+        {
+          "id": "create_payment",
+          "name": "Create Payment",
+          "method": "POST",
+          "path": "/company/{realmId}/payment",
+          "description": "create payment"
+        },
+        {
+          "id": "list_payments",
+          "name": "List Payments",
+          "method": "GET",
+          "path": "/company/{realmId}/query",
+          "description": "list payments"
+        },
+        {
+          "id": "list_accounts",
+          "name": "List Accounts",
+          "method": "GET",
+          "path": "/company/{realmId}/query",
+          "description": "list accounts"
+        },
+        {
+          "id": "get_account",
+          "name": "Get Account",
+          "method": "GET",
+          "path": "/company/{realmId}/account/{accountId}",
+          "description": "get account"
+        },
+        {
+          "id": "create_bill",
+          "name": "Create Bill",
+          "method": "POST",
+          "path": "/company/{realmId}/bill",
+          "description": "create bill"
+        },
+        {
+          "id": "list_bills",
+          "name": "List Bills",
+          "method": "GET",
+          "path": "/company/{realmId}/query",
+          "description": "list bills"
+        },
+        {
+          "id": "create_estimate",
+          "name": "Create Estimate",
+          "method": "POST",
+          "path": "/company/{realmId}/estimate",
+          "description": "create estimate"
+        },
+        {
+          "id": "send_estimate",
+          "name": "Send Estimate",
+          "method": "POST",
+          "path": "/company/{realmId}/estimate/{estimateId}/send",
+          "description": "send estimate"
+        },
+        {
+          "id": "create_item",
+          "name": "Create Item",
+          "method": "POST",
+          "path": "/company/{realmId}/item",
+          "description": "create item"
+        },
+        {
+          "id": "list_items",
+          "name": "List Items",
+          "method": "GET",
+          "path": "/company/{realmId}/query",
+          "description": "list items"
+        },
+        {
+          "id": "get_item",
+          "name": "Get Item",
+          "method": "GET",
+          "path": "/company/{realmId}/item/{itemId}",
+          "description": "get item"
+        },
+        {
+          "id": "profit_loss_report",
+          "name": "Profit Loss Report",
+          "method": "GET",
+          "path": "/company/{realmId}/reports/ProfitAndLoss",
+          "description": "profit loss report"
+        },
+        {
+          "id": "balance_sheet",
+          "name": "Balance Sheet",
+          "method": "GET",
+          "path": "/company/{realmId}/reports/BalanceSheet",
+          "description": "balance sheet"
+        }
+      ],
+      "action_count": 21
+    },
+    {
+      "id": "asana",
+      "name": "Asana",
+      "category": "other",
+      "base_url": "https://app.asana.com/api/1.0",
+      "auth_type": "token",
+      "actions": [
+        {
+          "id": "create_task",
+          "name": "Create Task",
+          "method": "POST",
+          "path": "/tasks",
+          "description": "create task"
+        },
+        {
+          "id": "list_tasks",
+          "name": "List Tasks",
+          "method": "GET",
+          "path": "/tasks",
+          "description": "list tasks"
+        },
+        {
+          "id": "get_task",
+          "name": "Get Task",
+          "method": "GET",
+          "path": "/tasks/{taskGid}",
+          "description": "get task"
+        },
+        {
+          "id": "update_task",
+          "name": "Update Task",
+          "method": "PUT",
+          "path": "/tasks/{taskGid}",
+          "description": "update task"
+        },
+        {
+          "id": "delete_task",
+          "name": "Delete Task",
+          "method": "DELETE",
+          "path": "/tasks/{taskGid}",
+          "description": "delete task"
+        },
+        {
+          "id": "create_project",
+          "name": "Create Project",
+          "method": "POST",
+          "path": "/projects",
+          "description": "create project"
+        },
+        {
+          "id": "list_projects",
+          "name": "List Projects",
+          "method": "GET",
+          "path": "/projects",
+          "description": "list projects"
+        },
+        {
+          "id": "get_project",
+          "name": "Get Project",
+          "method": "GET",
+          "path": "/projects/{projectGid}",
+          "description": "get project"
+        },
+        {
+          "id": "create_section",
+          "name": "Create Section",
+          "method": "POST",
+          "path": "/projects/{projectGid}/sections",
+          "description": "create section"
+        },
+        {
+          "id": "list_sections",
+          "name": "List Sections",
+          "method": "GET",
+          "path": "/projects/{projectGid}/sections",
+          "description": "list sections"
+        },
+        {
+          "id": "list_workspaces",
+          "name": "List Workspaces",
+          "method": "GET",
+          "path": "/workspaces",
+          "description": "list workspaces"
+        },
+        {
+          "id": "create_tag",
+          "name": "Create Tag",
+          "method": "POST",
+          "path": "/tags",
+          "description": "create tag"
+        },
+        {
+          "id": "list_tags",
+          "name": "List Tags",
+          "method": "GET",
+          "path": "/tags",
+          "description": "list tags"
+        },
+        {
+          "id": "list_teams",
+          "name": "List Teams",
+          "method": "GET",
+          "path": "/organizations/{organizationGid}/teams",
+          "description": "list teams"
+        },
+        {
+          "id": "add_task_to_project",
+          "name": "Add Task To Project",
+          "method": "POST",
+          "path": "/tasks/{taskGid}/addProject",
+          "description": "add task to project"
+        },
+        {
+          "id": "search_tasks",
+          "name": "Search Tasks",
+          "method": "GET",
+          "path": "/workspaces/{workspaceGid}/tasks/search",
+          "description": "search tasks"
+        }
+      ],
+      "action_count": 16
+    },
+    {
+      "id": "intercom",
+      "name": "Intercom",
+      "category": "other",
+      "base_url": "https://api.intercom.io",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "create_contact",
+          "name": "Create Contact",
+          "method": "POST",
+          "path": "/contacts",
+          "description": "create contact"
+        },
+        {
+          "id": "list_contacts",
+          "name": "List Contacts",
+          "method": "GET",
+          "path": "/contacts",
+          "description": "list contacts"
+        },
+        {
+          "id": "search_contacts",
+          "name": "Search Contacts",
+          "method": "POST",
+          "path": "/contacts/search",
+          "description": "search contacts"
+        },
+        {
+          "id": "update_contact",
+          "name": "Update Contact",
+          "method": "PUT",
+          "path": "/contacts/{contactId}",
+          "description": "update contact"
+        },
+        {
+          "id": "create_conversation",
+          "name": "Create Conversation",
+          "method": "POST",
+          "path": "/conversations",
+          "description": "create conversation"
+        },
+        {
+          "id": "list_conversations",
+          "name": "List Conversations",
+          "method": "GET",
+          "path": "/conversations",
+          "description": "list conversations"
+        },
+        {
+          "id": "reply_to_conversation",
+          "name": "Reply To Conversation",
+          "method": "POST",
+          "path": "/conversations/{conversationId}/reply",
+          "description": "reply to conversation"
+        },
+        {
+          "id": "close_conversation",
+          "name": "Close Conversation",
+          "method": "POST",
+          "path": "/conversations/{conversationId}/parts",
+          "description": "close conversation"
+        },
+        {
+          "id": "create_company",
+          "name": "Create Company",
+          "method": "POST",
+          "path": "/companies",
+          "description": "create company"
+        },
+        {
+          "id": "list_companies",
+          "name": "List Companies",
+          "method": "GET",
+          "path": "/companies",
+          "description": "list companies"
+        },
+        {
+          "id": "create_tag",
+          "name": "Create Tag",
+          "method": "POST",
+          "path": "/tags",
+          "description": "create tag"
+        },
+        {
+          "id": "tag_contact",
+          "name": "Tag Contact",
+          "method": "POST",
+          "path": "/contacts/{contactId}/tags",
+          "description": "tag contact"
+        },
+        {
+          "id": "list_tags",
+          "name": "List Tags",
+          "method": "GET",
+          "path": "/tags",
+          "description": "list tags"
+        },
+        {
+          "id": "create_article",
+          "name": "Create Article",
+          "method": "POST",
+          "path": "/articles",
+          "description": "create article"
+        },
+        {
+          "id": "list_articles",
+          "name": "List Articles",
+          "method": "GET",
+          "path": "/articles",
+          "description": "list articles"
+        }
+      ],
+      "action_count": 15
+    },
+    {
+      "id": "dropbox",
+      "name": "Dropbox",
+      "category": "other",
+      "base_url": "https://api.dropboxapi.com/2",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_folder",
+          "name": "List Folder",
+          "method": "POST",
+          "path": "/files/list_folder",
+          "description": "list folder"
+        },
+        {
+          "id": "list_folder_continue",
+          "name": "List Folder Continue",
+          "method": "POST",
+          "path": "/files/list_folder/continue",
+          "description": "list folder continue"
+        },
+        {
+          "id": "get_metadata",
+          "name": "Get Metadata",
+          "method": "POST",
+          "path": "/files/get_metadata",
+          "description": "get metadata"
+        },
+        {
+          "id": "create_folder",
+          "name": "Create Folder",
+          "method": "POST",
+          "path": "/files/create_folder_v2",
+          "description": "create folder"
+        },
+        {
+          "id": "delete",
+          "name": "Delete",
+          "method": "POST",
+          "path": "/files/delete_v2",
+          "description": "delete"
+        },
+        {
+          "id": "move",
+          "name": "Move",
+          "method": "POST",
+          "path": "/files/move_v2",
+          "description": "move"
+        },
+        {
+          "id": "copy",
+          "name": "Copy",
+          "method": "POST",
+          "path": "/files/copy_v2",
+          "description": "copy"
+        },
+        {
+          "id": "search",
+          "name": "Search",
+          "method": "POST",
+          "path": "/files/search_v2",
+          "description": "search"
+        },
+        {
+          "id": "create_shared_link",
+          "name": "Create Shared Link",
+          "method": "POST",
+          "path": "/sharing/create_shared_link_with_settings",
+          "description": "create shared link"
+        },
+        {
+          "id": "list_shared_links",
+          "name": "List Shared Links",
+          "method": "POST",
+          "path": "/sharing/list_shared_links",
+          "description": "list shared links"
+        }
+      ],
+      "action_count": 10
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp Business",
+      "category": "other",
+      "base_url": "https://graph.facebook.com/v19.0",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "send_text_message",
+          "name": "Send Text Message",
+          "method": "POST",
+          "path": "/{phoneNumberId}/messages",
+          "description": "send text message"
+        },
+        {
+          "id": "send_template_message",
+          "name": "Send Template Message",
+          "method": "POST",
+          "path": "/{phoneNumberId}/messages",
+          "description": "send template message"
+        },
+        {
+          "id": "send_media_message",
+          "name": "Send Media Message",
+          "method": "POST",
+          "path": "/{phoneNumberId}/messages",
+          "description": "send media message"
+        },
+        {
+          "id": "list_templates",
+          "name": "List Templates",
+          "method": "GET",
+          "path": "/{businessId}/message_templates",
+          "description": "list templates"
+        },
+        {
+          "id": "upload_media",
+          "name": "Upload Media",
+          "method": "POST",
+          "path": "/{phoneNumberId}/media",
+          "description": "upload media"
+        },
+        {
+          "id": "get_media_url",
+          "name": "Get Media Url",
+          "method": "GET",
+          "path": "/{mediaId}",
+          "description": "get media url"
+        }
+      ],
+      "action_count": 6
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "category": "other",
+      "base_url": "https://graph.facebook.com/v19.0",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "list_media",
+          "name": "List Media",
+          "method": "GET",
+          "path": "/{igUserId}/media",
+          "description": "list media"
+        },
+        {
+          "id": "get_media",
+          "name": "Get Media",
+          "method": "GET",
+          "path": "/{mediaId}",
+          "description": "get media"
+        },
+        {
+          "id": "create_media_container",
+          "name": "Create Media Container",
+          "method": "POST",
+          "path": "/{igUserId}/media",
+          "description": "create media container"
+        },
+        {
+          "id": "publish_media",
+          "name": "Publish Media",
+          "method": "POST",
+          "path": "/{igUserId}/media_publish",
+          "description": "publish media"
+        },
+        {
+          "id": "list_comments",
+          "name": "List Comments",
+          "method": "GET",
+          "path": "/{mediaId}/comments",
+          "description": "list comments"
+        },
+        {
+          "id": "reply_to_comment",
+          "name": "Reply To Comment",
+          "method": "POST",
+          "path": "/{commentId}/replies",
+          "description": "reply to comment"
+        },
+        {
+          "id": "delete_comment",
+          "name": "Delete Comment",
+          "method": "DELETE",
+          "path": "/{commentId}",
+          "description": "delete comment"
+        },
+        {
+          "id": "get_insights",
+          "name": "Get Insights",
+          "method": "GET",
+          "path": "/{igUserId}/insights",
+          "description": "get insights"
+        },
+        {
+          "id": "list_stories",
+          "name": "List Stories",
+          "method": "GET",
+          "path": "/{igUserId}/stories",
+          "description": "list stories"
+        },
+        {
+          "id": "get_profile",
+          "name": "Get Profile",
+          "method": "GET",
+          "path": "/{igUserId}",
+          "description": "get profile"
+        }
+      ],
+      "action_count": 10
+    },
+    {
+      "id": "twitter",
+      "name": "X (Twitter)",
+      "category": "other",
+      "base_url": "https://api.x.com/2",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "create_tweet",
+          "name": "Create Tweet",
+          "method": "POST",
+          "path": "/tweets",
+          "description": "create tweet"
+        },
+        {
+          "id": "delete_tweet",
+          "name": "Delete Tweet",
+          "method": "DELETE",
+          "path": "/tweets/{tweetId}",
+          "description": "delete tweet"
+        },
+        {
+          "id": "get_tweet",
+          "name": "Get Tweet",
+          "method": "GET",
+          "path": "/tweets/{tweetId}",
+          "description": "get tweet"
+        },
+        {
+          "id": "search_tweets",
+          "name": "Search Tweets",
+          "method": "GET",
+          "path": "/tweets/search/recent",
+          "description": "search tweets"
+        },
+        {
+          "id": "get_user",
+          "name": "Get User",
+          "method": "GET",
+          "path": "/users/{userId}",
+          "description": "get user"
+        },
+        {
+          "id": "get_user_by_username",
+          "name": "Get User By Username",
+          "method": "GET",
+          "path": "/users/by/username/{username}",
+          "description": "get user by username"
+        },
+        {
+          "id": "get_user_tweets",
+          "name": "Get User Tweets",
+          "method": "GET",
+          "path": "/users/{userId}/tweets",
+          "description": "get user tweets"
+        },
+        {
+          "id": "get_followers",
+          "name": "Get Followers",
+          "method": "GET",
+          "path": "/users/{userId}/followers",
+          "description": "get followers"
+        },
+        {
+          "id": "get_following",
+          "name": "Get Following",
+          "method": "GET",
+          "path": "/users/{userId}/following",
+          "description": "get following"
+        },
+        {
+          "id": "create_list",
+          "name": "Create List",
+          "method": "POST",
+          "path": "/lists",
+          "description": "create list"
+        },
+        {
+          "id": "get_lists",
+          "name": "Get Lists",
+          "method": "GET",
+          "path": "/users/{userId}/owned_lists",
+          "description": "get lists"
+        },
+        {
+          "id": "send_dm",
+          "name": "Send Dm",
+          "method": "POST",
+          "path": "/dm_conversations/with/{participantId}/messages",
+          "description": "send dm"
+        },
+        {
+          "id": "like_tweet",
+          "name": "Like Tweet",
+          "method": "POST",
+          "path": "/users/{userId}/likes",
+          "description": "like tweet"
+        },
+        {
+          "id": "unlike_tweet",
+          "name": "Unlike Tweet",
+          "method": "DELETE",
+          "path": "/users/{userId}/likes/{tweetId}",
+          "description": "unlike tweet"
+        },
+        {
+          "id": "retweet",
+          "name": "Retweet",
+          "method": "POST",
+          "path": "/users/{userId}/retweets",
+          "description": "retweet"
+        },
+        {
+          "id": "unretweet",
+          "name": "Unretweet",
+          "method": "DELETE",
+          "path": "/users/{userId}/retweets/{tweetId}",
+          "description": "unretweet"
+        }
+      ],
+      "action_count": 16
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok Business",
+      "category": "other",
+      "base_url": "https://business-api.tiktok.com/open_api/v1.3",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "list_videos",
+          "name": "List Videos",
+          "method": "GET",
+          "path": "/video/list/",
+          "description": "list videos"
+        },
+        {
+          "id": "get_video_info",
+          "name": "Get Video Info",
+          "method": "GET",
+          "path": "/video/info/",
+          "description": "get video info"
+        },
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/campaign/create/",
+          "description": "create campaign"
+        },
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/campaign/get/",
+          "description": "list campaigns"
+        },
+        {
+          "id": "get_campaign",
+          "name": "Get Campaign",
+          "method": "GET",
+          "path": "/campaign/get/",
+          "description": "get campaign"
+        },
+        {
+          "id": "update_campaign",
+          "name": "Update Campaign",
+          "method": "POST",
+          "path": "/campaign/update/",
+          "description": "update campaign"
+        },
+        {
+          "id": "create_ad_group",
+          "name": "Create Ad Group",
+          "method": "POST",
+          "path": "/adgroup/create/",
+          "description": "create ad group"
+        },
+        {
+          "id": "list_ad_groups",
+          "name": "List Ad Groups",
+          "method": "GET",
+          "path": "/adgroup/get/",
+          "description": "list ad groups"
+        },
+        {
+          "id": "create_ad",
+          "name": "Create Ad",
+          "method": "POST",
+          "path": "/ad/create/",
+          "description": "create ad"
+        },
+        {
+          "id": "list_ads",
+          "name": "List Ads",
+          "method": "GET",
+          "path": "/ad/get/",
+          "description": "list ads"
+        },
+        {
+          "id": "get_report",
+          "name": "Get Report",
+          "method": "POST",
+          "path": "/report/integrated/get/",
+          "description": "get report"
+        }
+      ],
+      "action_count": 11
+    },
+    {
+      "id": "google_ads",
+      "name": "Google Ads",
+      "category": "other",
+      "base_url": "https://googleads.googleapis.com/v16",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "search",
+          "name": "Search",
+          "method": "POST",
+          "path": "/customers/{customerId}/googleAds:searchStream",
+          "description": "search"
+        },
+        {
+          "id": "mutate_campaigns",
+          "name": "Mutate Campaigns",
+          "method": "POST",
+          "path": "/customers/{customerId}/campaigns:mutate",
+          "description": "mutate campaigns"
+        },
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "POST",
+          "path": "/customers/{customerId}/googleAds:search",
+          "description": "list campaigns"
+        },
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/customers/{customerId}/campaigns:mutate",
+          "description": "create campaign"
+        },
+        {
+          "id": "list_ad_groups",
+          "name": "List Ad Groups",
+          "method": "POST",
+          "path": "/customers/{customerId}/googleAds:search",
+          "description": "list ad groups"
+        },
+        {
+          "id": "create_ad_group",
+          "name": "Create Ad Group",
+          "method": "POST",
+          "path": "/customers/{customerId}/adGroups:mutate",
+          "description": "create ad group"
+        },
+        {
+          "id": "list_ads",
+          "name": "List Ads",
+          "method": "POST",
+          "path": "/customers/{customerId}/googleAds:search",
+          "description": "list ads"
+        },
+        {
+          "id": "create_ad",
+          "name": "Create Ad",
+          "method": "POST",
+          "path": "/customers/{customerId}/adGroupAds:mutate",
+          "description": "create ad"
+        },
+        {
+          "id": "get_report",
+          "name": "Get Report",
+          "method": "POST",
+          "path": "/customers/{customerId}/googleAds:searchStream",
+          "description": "get report"
+        }
+      ],
+      "action_count": 9
+    },
+    {
+      "id": "facebook_ads",
+      "name": "Facebook Ads",
+      "category": "other",
+      "base_url": "https://graph.facebook.com/v19.0",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/act_{adAccountId}/campaigns",
+          "description": "create campaign"
+        },
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/act_{adAccountId}/campaigns",
+          "description": "list campaigns"
+        },
+        {
+          "id": "get_campaign",
+          "name": "Get Campaign",
+          "method": "GET",
+          "path": "/{campaignId}",
+          "description": "get campaign"
+        },
+        {
+          "id": "update_campaign",
+          "name": "Update Campaign",
+          "method": "POST",
+          "path": "/{campaignId}",
+          "description": "update campaign"
+        },
+        {
+          "id": "create_adset",
+          "name": "Create Adset",
+          "method": "POST",
+          "path": "/act_{adAccountId}/adsets",
+          "description": "create adset"
+        },
+        {
+          "id": "list_adsets",
+          "name": "List Adsets",
+          "method": "GET",
+          "path": "/act_{adAccountId}/adsets",
+          "description": "list adsets"
+        },
+        {
+          "id": "create_ad",
+          "name": "Create Ad",
+          "method": "POST",
+          "path": "/act_{adAccountId}/ads",
+          "description": "create ad"
+        },
+        {
+          "id": "list_ads",
+          "name": "List Ads",
+          "method": "GET",
+          "path": "/act_{adAccountId}/ads",
+          "description": "list ads"
+        },
+        {
+          "id": "get_insights",
+          "name": "Get Insights",
+          "method": "GET",
+          "path": "/act_{adAccountId}/insights",
+          "description": "get insights"
+        },
+        {
+          "id": "create_audience",
+          "name": "Create Audience",
+          "method": "POST",
+          "path": "/act_{adAccountId}/customaudiences",
+          "description": "create audience"
+        },
+        {
+          "id": "list_audiences",
+          "name": "List Audiences",
+          "method": "GET",
+          "path": "/act_{adAccountId}/customaudiences",
+          "description": "list audiences"
+        }
+      ],
+      "action_count": 11
+    },
+    {
+      "id": "plaid",
+      "name": "Plaid",
+      "category": "other",
+      "base_url": "https://production.plaid.com",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "create_link_token",
+          "name": "Create Link Token",
+          "method": "POST",
+          "path": "/link/token/create",
+          "description": "create link token"
+        },
+        {
+          "id": "exchange_public_token",
+          "name": "Exchange Public Token",
+          "method": "POST",
+          "path": "/item/public_token/exchange",
+          "description": "exchange public token"
+        },
+        {
+          "id": "get_accounts",
+          "name": "Get Accounts",
+          "method": "POST",
+          "path": "/accounts/get",
+          "description": "get accounts"
+        },
+        {
+          "id": "get_balance",
+          "name": "Get Balance",
+          "method": "POST",
+          "path": "/accounts/balance/get",
+          "description": "get balance"
+        },
+        {
+          "id": "get_transactions",
+          "name": "Get Transactions",
+          "method": "POST",
+          "path": "/transactions/get",
+          "description": "get transactions"
+        },
+        {
+          "id": "sync_transactions",
+          "name": "Sync Transactions",
+          "method": "POST",
+          "path": "/transactions/sync",
+          "description": "sync transactions"
+        },
+        {
+          "id": "get_identity",
+          "name": "Get Identity",
+          "method": "POST",
+          "path": "/identity/get",
+          "description": "get identity"
+        },
+        {
+          "id": "get_auth",
+          "name": "Get Auth",
+          "method": "POST",
+          "path": "/auth/get",
+          "description": "get auth"
+        },
+        {
+          "id": "get_institutions",
+          "name": "Get Institutions",
+          "method": "POST",
+          "path": "/institutions/get",
+          "description": "get institutions"
+        }
+      ],
+      "action_count": 9
+    },
+    {
+      "id": "square",
+      "name": "Square",
+      "category": "other",
+      "base_url": "https://connect.squareup.com/v2",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "create_payment",
+          "name": "Create Payment",
+          "method": "POST",
+          "path": "/payments",
+          "description": "create payment"
+        },
+        {
+          "id": "list_payments",
+          "name": "List Payments",
+          "method": "GET",
+          "path": "/payments",
+          "description": "list payments"
+        },
+        {
+          "id": "get_payment",
+          "name": "Get Payment",
+          "method": "GET",
+          "path": "/payments/{paymentId}",
+          "description": "get payment"
+        },
+        {
+          "id": "create_refund",
+          "name": "Create Refund",
+          "method": "POST",
+          "path": "/refunds",
+          "description": "create refund"
+        },
+        {
+          "id": "create_customer",
+          "name": "Create Customer",
+          "method": "POST",
+          "path": "/customers",
+          "description": "create customer"
+        },
+        {
+          "id": "list_customers",
+          "name": "List Customers",
+          "method": "GET",
+          "path": "/customers",
+          "description": "list customers"
+        },
+        {
+          "id": "get_customer",
+          "name": "Get Customer",
+          "method": "GET",
+          "path": "/customers/{customerId}",
+          "description": "get customer"
+        },
+        {
+          "id": "update_customer",
+          "name": "Update Customer",
+          "method": "PUT",
+          "path": "/customers/{customerId}",
+          "description": "update customer"
+        },
+        {
+          "id": "delete_customer",
+          "name": "Delete Customer",
+          "method": "DELETE",
+          "path": "/customers/{customerId}",
+          "description": "delete customer"
+        },
+        {
+          "id": "create_order",
+          "name": "Create Order",
+          "method": "POST",
+          "path": "/orders",
+          "description": "create order"
+        },
+        {
+          "id": "list_orders",
+          "name": "List Orders",
+          "method": "POST",
+          "path": "/orders/search",
+          "description": "list orders"
+        },
+        {
+          "id": "get_order",
+          "name": "Get Order",
+          "method": "GET",
+          "path": "/orders/{orderId}",
+          "description": "get order"
+        },
+        {
+          "id": "create_catalog_object",
+          "name": "Create Catalog Object",
+          "method": "POST",
+          "path": "/catalog/object",
+          "description": "create catalog object"
+        },
+        {
+          "id": "list_catalog",
+          "name": "List Catalog",
+          "method": "GET",
+          "path": "/catalog/list",
+          "description": "list catalog"
+        },
+        {
+          "id": "search_catalog",
+          "name": "Search Catalog",
+          "method": "POST",
+          "path": "/catalog/search",
+          "description": "search catalog"
+        },
+        {
+          "id": "get_inventory",
+          "name": "Get Inventory",
+          "method": "POST",
+          "path": "/inventory/counts/batch-retrieve",
+          "description": "get inventory"
+        },
+        {
+          "id": "adjust_inventory",
+          "name": "Adjust Inventory",
+          "method": "POST",
+          "path": "/inventory/changes/batch-create",
+          "description": "adjust inventory"
+        }
+      ],
+      "action_count": 17
+    },
+    {
+      "id": "tiktok_ads",
+      "name": "TikTok Ads",
+      "category": "other",
+      "base_url": "https://business-api.tiktok.com/open_api/v1.3",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/campaign/create/",
+          "description": "create campaign"
+        },
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/campaign/get/",
+          "description": "list campaigns"
+        },
+        {
+          "id": "update_campaign_status",
+          "name": "Update Campaign Status",
+          "method": "POST",
+          "path": "/campaign/update/status/",
+          "description": "update campaign status"
+        },
+        {
+          "id": "create_adgroup",
+          "name": "Create Adgroup",
+          "method": "POST",
+          "path": "/adgroup/create/",
+          "description": "create adgroup"
+        },
+        {
+          "id": "list_adgroups",
+          "name": "List Adgroups",
+          "method": "GET",
+          "path": "/adgroup/get/",
+          "description": "list adgroups"
+        },
+        {
+          "id": "update_adgroup",
+          "name": "Update Adgroup",
+          "method": "POST",
+          "path": "/adgroup/update/",
+          "description": "update adgroup"
+        },
+        {
+          "id": "create_ad",
+          "name": "Create Ad",
+          "method": "POST",
+          "path": "/ad/create/",
+          "description": "create ad"
+        },
+        {
+          "id": "list_ads",
+          "name": "List Ads",
+          "method": "GET",
+          "path": "/ad/get/",
+          "description": "list ads"
+        },
+        {
+          "id": "update_ad",
+          "name": "Update Ad",
+          "method": "POST",
+          "path": "/ad/update/",
+          "description": "update ad"
+        },
+        {
+          "id": "get_report",
+          "name": "Get Report",
+          "method": "POST",
+          "path": "/report/integrated/get/",
+          "description": "get report"
+        },
+        {
+          "id": "create_audience",
+          "name": "Create Audience",
+          "method": "POST",
+          "path": "/dmp/custom_audience/create/",
+          "description": "create audience"
+        },
+        {
+          "id": "list_audiences",
+          "name": "List Audiences",
+          "method": "GET",
+          "path": "/dmp/custom_audience/list/",
+          "description": "list audiences"
+        }
+      ],
+      "action_count": 12
+    },
+    {
+      "id": "x_ads",
+      "name": "X Ads",
+      "category": "other",
+      "base_url": "https://ads-api.x.com/12",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/accounts/{accountId}/campaigns",
+          "description": "list campaigns"
+        },
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/accounts/{accountId}/campaigns",
+          "description": "create campaign"
+        },
+        {
+          "id": "get_campaign",
+          "name": "Get Campaign",
+          "method": "GET",
+          "path": "/accounts/{accountId}/campaigns/{campaignId}",
+          "description": "get campaign"
+        },
+        {
+          "id": "update_campaign",
+          "name": "Update Campaign",
+          "method": "PUT",
+          "path": "/accounts/{accountId}/campaigns/{campaignId}",
+          "description": "update campaign"
+        },
+        {
+          "id": "list_line_items",
+          "name": "List Line Items",
+          "method": "GET",
+          "path": "/accounts/{accountId}/line_items",
+          "description": "list line items"
+        },
+        {
+          "id": "create_line_item",
+          "name": "Create Line Item",
+          "method": "POST",
+          "path": "/accounts/{accountId}/line_items",
+          "description": "create line item"
+        },
+        {
+          "id": "list_promoted_tweets",
+          "name": "List Promoted Tweets",
+          "method": "GET",
+          "path": "/accounts/{accountId}/promoted_tweets",
+          "description": "list promoted tweets"
+        },
+        {
+          "id": "create_promoted_tweet",
+          "name": "Create Promoted Tweet",
+          "method": "POST",
+          "path": "/accounts/{accountId}/promoted_tweets",
+          "description": "create promoted tweet"
+        },
+        {
+          "id": "get_stats",
+          "name": "Get Stats",
+          "method": "GET",
+          "path": "/stats/accounts/{accountId}",
+          "description": "get stats"
+        },
+        {
+          "id": "create_audience",
+          "name": "Create Audience",
+          "method": "POST",
+          "path": "/accounts/{accountId}/tailored_audiences",
+          "description": "create audience"
+        },
+        {
+          "id": "list_audiences",
+          "name": "List Audiences",
+          "method": "GET",
+          "path": "/accounts/{accountId}/tailored_audiences",
+          "description": "list audiences"
+        }
+      ],
+      "action_count": 11
+    },
+    {
+      "id": "linkedin_ads",
+      "name": "LinkedIn Ads",
+      "category": "other",
+      "base_url": "https://api.linkedin.com/rest",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/adCampaigns",
+          "description": "list campaigns"
+        },
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/adCampaigns",
+          "description": "create campaign"
+        },
+        {
+          "id": "get_campaign",
+          "name": "Get Campaign",
+          "method": "GET",
+          "path": "/adCampaigns/{campaignId}",
+          "description": "get campaign"
+        },
+        {
+          "id": "update_campaign",
+          "name": "Update Campaign",
+          "method": "POST",
+          "path": "/adCampaigns/{campaignId}",
+          "description": "update campaign"
+        },
+        {
+          "id": "list_campaign_groups",
+          "name": "List Campaign Groups",
+          "method": "GET",
+          "path": "/adCampaignGroups",
+          "description": "list campaign groups"
+        },
+        {
+          "id": "create_campaign_group",
+          "name": "Create Campaign Group",
+          "method": "POST",
+          "path": "/adCampaignGroups",
+          "description": "create campaign group"
+        },
+        {
+          "id": "list_creatives",
+          "name": "List Creatives",
+          "method": "GET",
+          "path": "/adCreatives",
+          "description": "list creatives"
+        },
+        {
+          "id": "create_creative",
+          "name": "Create Creative",
+          "method": "POST",
+          "path": "/adCreatives",
+          "description": "create creative"
+        },
+        {
+          "id": "get_analytics",
+          "name": "Get Analytics",
+          "method": "GET",
+          "path": "/adAnalytics",
+          "description": "get analytics"
+        },
+        {
+          "id": "create_audience",
+          "name": "Create Audience",
+          "method": "POST",
+          "path": "/dmpSegments",
+          "description": "create audience"
+        },
+        {
+          "id": "list_audiences",
+          "name": "List Audiences",
+          "method": "GET",
+          "path": "/dmpSegments",
+          "description": "list audiences"
+        }
+      ],
+      "action_count": 11
+    },
+    {
+      "id": "instagram_ads",
+      "name": "Instagram Ads",
+      "category": "other",
+      "base_url": "https://graph.facebook.com/v19.0",
+      "auth_type": "access_token",
+      "actions": [
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/act_{adAccountId}/campaigns",
+          "description": "create campaign"
+        },
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/act_{adAccountId}/campaigns",
+          "description": "list campaigns"
+        },
+        {
+          "id": "create_adset",
+          "name": "Create Adset",
+          "method": "POST",
+          "path": "/act_{adAccountId}/adsets",
+          "description": "create adset"
+        },
+        {
+          "id": "list_adsets",
+          "name": "List Adsets",
+          "method": "GET",
+          "path": "/act_{adAccountId}/adsets",
+          "description": "list adsets"
+        },
+        {
+          "id": "create_ad",
+          "name": "Create Ad",
+          "method": "POST",
+          "path": "/act_{adAccountId}/ads",
+          "description": "create ad"
+        },
+        {
+          "id": "list_ads",
+          "name": "List Ads",
+          "method": "GET",
+          "path": "/act_{adAccountId}/ads",
+          "description": "list ads"
+        },
+        {
+          "id": "get_insights",
+          "name": "Get Insights",
+          "method": "GET",
+          "path": "/act_{adAccountId}/insights",
+          "description": "get insights"
+        },
+        {
+          "id": "get_ad_previews",
+          "name": "Get Ad Previews",
+          "method": "GET",
+          "path": "/{adId}/previews",
+          "description": "get ad previews"
+        }
+      ],
+      "action_count": 8
+    },
+    {
+      "id": "smartlead",
+      "name": "Smartlead",
+      "category": "other",
+      "base_url": "https://server.smartlead.ai/api/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "create_campaign",
+          "name": "Create Campaign",
+          "method": "POST",
+          "path": "/campaigns/create",
+          "description": "create campaign"
+        },
+        {
+          "id": "list_campaigns",
+          "name": "List Campaigns",
+          "method": "GET",
+          "path": "/campaigns",
+          "description": "list campaigns"
+        },
+        {
+          "id": "get_campaign",
+          "name": "Get Campaign",
+          "method": "GET",
+          "path": "/campaigns/{campaignId}",
+          "description": "get campaign"
+        },
+        {
+          "id": "update_campaign",
+          "name": "Update Campaign",
+          "method": "POST",
+          "path": "/campaigns/{campaignId}/settings",
+          "description": "update campaign"
+        },
+        {
+          "id": "add_leads",
+          "name": "Add Leads",
+          "method": "POST",
+          "path": "/campaigns/{campaignId}/leads",
+          "description": "add leads"
+        },
+        {
+          "id": "list_leads",
+          "name": "List Leads",
+          "method": "GET",
+          "path": "/campaigns/{campaignId}/leads",
+          "description": "list leads"
+        },
+        {
+          "id": "get_lead",
+          "name": "Get Lead",
+          "method": "GET",
+          "path": "/leads/{leadId}",
+          "description": "get lead"
+        },
+        {
+          "id": "add_email_account",
+          "name": "Add Email Account",
+          "method": "POST",
+          "path": "/email-accounts/save",
+          "description": "add email account"
+        },
+        {
+          "id": "list_email_accounts",
+          "name": "List Email Accounts",
+          "method": "GET",
+          "path": "/email-accounts",
+          "description": "list email accounts"
+        },
+        {
+          "id": "get_campaign_stats",
+          "name": "Get Campaign Stats",
+          "method": "GET",
+          "path": "/campaigns/{campaignId}/analytics",
+          "description": "get campaign stats"
+        },
+        {
+          "id": "create_sequence",
+          "name": "Create Sequence",
+          "method": "POST",
+          "path": "/campaigns/{campaignId}/sequences",
+          "description": "create sequence"
+        },
+        {
+          "id": "list_sequences",
+          "name": "List Sequences",
+          "method": "GET",
+          "path": "/campaigns/{campaignId}/sequences",
+          "description": "list sequences"
+        }
+      ],
+      "action_count": 12
+    },
+    {
+      "id": "zapier",
+      "name": "Zapier",
+      "category": "other",
+      "base_url": "https://api.zapier.com/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_zaps",
+          "name": "List Zaps",
+          "method": "GET",
+          "path": "/zaps",
+          "description": "list zaps"
+        },
+        {
+          "id": "get_zap",
+          "name": "Get Zap",
+          "method": "GET",
+          "path": "/zaps/{zapId}",
+          "description": "get zap"
+        },
+        {
+          "id": "enable_zap",
+          "name": "Enable Zap",
+          "method": "PUT",
+          "path": "/zaps/{zapId}",
+          "description": "enable zap"
+        },
+        {
+          "id": "disable_zap",
+          "name": "Disable Zap",
+          "method": "PUT",
+          "path": "/zaps/{zapId}",
+          "description": "disable zap"
+        },
+        {
+          "id": "list_actions",
+          "name": "List Actions",
+          "method": "GET",
+          "path": "/actions",
+          "description": "list actions"
+        }
+      ],
+      "action_count": 5
+    },
+    {
+      "id": "mulesoft",
+      "name": "MuleSoft",
+      "category": "other",
+      "base_url": "https://anypoint.mulesoft.com",
+      "auth_type": "token",
+      "actions": [
+        {
+          "id": "list_organizations",
+          "name": "List Organizations",
+          "method": "GET",
+          "path": "/accounts/api/me",
+          "description": "list organizations"
+        },
+        {
+          "id": "list_environments",
+          "name": "List Environments",
+          "method": "GET",
+          "path": "/accounts/api/organizations/{orgId}/environments",
+          "description": "list environments"
+        },
+        {
+          "id": "list_apis",
+          "name": "List Apis",
+          "method": "GET",
+          "path": "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis",
+          "description": "list apis"
+        },
+        {
+          "id": "get_api",
+          "name": "Get Api",
+          "method": "GET",
+          "path": "/apimanager/api/v1/organizations/{orgId}/environments/{envId}/apis/{apiId}",
+          "description": "get api"
+        },
+        {
+          "id": "list_applications",
+          "name": "List Applications",
+          "method": "GET",
+          "path": "/amc/application-manager/api/v2/organizations/{orgId}/environments/{envId}/deployments",
+          "description": "list applications"
+        },
+        {
+          "id": "get_application",
+          "name": "Get Application",
+          "method": "GET",
+          "path": "/amc/application-manager/api/v2/organizations/{orgId}/environments/{envId}/deployments/{deploymentId}",
+          "description": "get application"
+        },
+        {
+          "id": "deploy_application",
+          "name": "Deploy Application",
+          "method": "POST",
+          "path": "/amc/application-manager/api/v2/organizations/{orgId}/environments/{envId}/deployments",
+          "description": "deploy application"
+        }
+      ],
+      "action_count": 7
+    },
+    {
+      "id": "azure",
+      "name": "Microsoft Azure",
+      "category": "other",
+      "base_url": "https://management.azure.com",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_subscriptions",
+          "name": "List Subscriptions",
+          "method": "GET",
+          "path": "/subscriptions",
+          "description": "list subscriptions"
+        },
+        {
+          "id": "list_resource_groups",
+          "name": "List Resource Groups",
+          "method": "GET",
+          "path": "/subscriptions/{subscriptionId}/resourcegroups",
+          "description": "list resource groups"
+        },
+        {
+          "id": "create_resource_group",
+          "name": "Create Resource Group",
+          "method": "PUT",
+          "path": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
+          "description": "create resource group"
+        },
+        {
+          "id": "list_resources",
+          "name": "List Resources",
+          "method": "GET",
+          "path": "/subscriptions/{subscriptionId}/resources",
+          "description": "list resources"
+        },
+        {
+          "id": "get_resource",
+          "name": "Get Resource",
+          "method": "GET",
+          "path": "/{resourceId}",
+          "description": "get resource"
+        },
+        {
+          "id": "delete_resource",
+          "name": "Delete Resource",
+          "method": "DELETE",
+          "path": "/{resourceId}",
+          "description": "delete resource"
+        },
+        {
+          "id": "list_storage_accounts",
+          "name": "List Storage Accounts",
+          "method": "GET",
+          "path": "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
+          "description": "list storage accounts"
+        },
+        {
+          "id": "list_vms",
+          "name": "List Vms",
+          "method": "GET",
+          "path": "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines",
+          "description": "list vms"
+        },
+        {
+          "id": "get_vm",
+          "name": "Get Vm",
+          "method": "GET",
+          "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
+          "description": "get vm"
+        },
+        {
+          "id": "start_vm",
+          "name": "Start Vm",
+          "method": "POST",
+          "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start",
+          "description": "start vm"
+        },
+        {
+          "id": "stop_vm",
+          "name": "Stop Vm",
+          "method": "POST",
+          "path": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate",
+          "description": "stop vm"
+        }
+      ],
+      "action_count": 11
+    },
+    {
+      "id": "pipedrive",
+      "name": "Pipedrive",
+      "category": "other",
+      "base_url": "https://api.pipedrive.com/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "create_deal",
+          "name": "Create Deal",
+          "method": "POST",
+          "path": "/deals",
+          "description": "create deal"
+        },
+        {
+          "id": "list_deals",
+          "name": "List Deals",
+          "method": "GET",
+          "path": "/deals",
+          "description": "list deals"
+        },
+        {
+          "id": "get_deal",
+          "name": "Get Deal",
+          "method": "GET",
+          "path": "/deals/{dealId}",
+          "description": "get deal"
+        },
+        {
+          "id": "update_deal",
+          "name": "Update Deal",
+          "method": "PUT",
+          "path": "/deals/{dealId}",
+          "description": "update deal"
+        },
+        {
+          "id": "delete_deal",
+          "name": "Delete Deal",
+          "method": "DELETE",
+          "path": "/deals/{dealId}",
+          "description": "delete deal"
+        },
+        {
+          "id": "create_person",
+          "name": "Create Person",
+          "method": "POST",
+          "path": "/persons",
+          "description": "create person"
+        },
+        {
+          "id": "list_persons",
+          "name": "List Persons",
+          "method": "GET",
+          "path": "/persons",
+          "description": "list persons"
+        },
+        {
+          "id": "get_person",
+          "name": "Get Person",
+          "method": "GET",
+          "path": "/persons/{personId}",
+          "description": "get person"
+        },
+        {
+          "id": "update_person",
+          "name": "Update Person",
+          "method": "PUT",
+          "path": "/persons/{personId}",
+          "description": "update person"
+        },
+        {
+          "id": "delete_person",
+          "name": "Delete Person",
+          "method": "DELETE",
+          "path": "/persons/{personId}",
+          "description": "delete person"
+        },
+        {
+          "id": "create_organization",
+          "name": "Create Organization",
+          "method": "POST",
+          "path": "/organizations",
+          "description": "create organization"
+        },
+        {
+          "id": "list_organizations",
+          "name": "List Organizations",
+          "method": "GET",
+          "path": "/organizations",
+          "description": "list organizations"
+        },
+        {
+          "id": "create_activity",
+          "name": "Create Activity",
+          "method": "POST",
+          "path": "/activities",
+          "description": "create activity"
+        },
+        {
+          "id": "list_activities",
+          "name": "List Activities",
+          "method": "GET",
+          "path": "/activities",
+          "description": "list activities"
+        },
+        {
+          "id": "list_pipelines",
+          "name": "List Pipelines",
+          "method": "GET",
+          "path": "/pipelines",
+          "description": "list pipelines"
+        },
+        {
+          "id": "get_pipeline",
+          "name": "Get Pipeline",
+          "method": "GET",
+          "path": "/pipelines/{pipelineId}",
+          "description": "get pipeline"
+        },
+        {
+          "id": "create_note",
+          "name": "Create Note",
+          "method": "POST",
+          "path": "/notes",
+          "description": "create note"
+        },
+        {
+          "id": "list_notes",
+          "name": "List Notes",
+          "method": "GET",
+          "path": "/notes",
+          "description": "list notes"
+        },
+        {
+          "id": "search_items",
+          "name": "Search Items",
+          "method": "GET",
+          "path": "/itemSearch",
+          "description": "search items"
+        }
+      ],
+      "action_count": 19
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "category": "other",
+      "base_url": "https://api.linkedin.com/rest",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "create_post",
+          "name": "Create Post",
+          "method": "POST",
+          "path": "/posts",
+          "description": "create post"
+        },
+        {
+          "id": "get_profile",
+          "name": "Get Profile",
+          "method": "GET",
+          "path": "/me",
+          "description": "get profile"
+        },
+        {
+          "id": "list_connections",
+          "name": "List Connections",
+          "method": "GET",
+          "path": "/connections",
+          "description": "list connections"
+        },
+        {
+          "id": "get_organization",
+          "name": "Get Organization",
+          "method": "GET",
+          "path": "/organizations/{organizationId}",
+          "description": "get organization"
+        },
+        {
+          "id": "list_org_posts",
+          "name": "List Org Posts",
+          "method": "GET",
+          "path": "/posts",
+          "description": "list org posts"
+        },
+        {
+          "id": "delete_post",
+          "name": "Delete Post",
+          "method": "DELETE",
+          "path": "/posts/{postId}",
+          "description": "delete post"
+        },
+        {
+          "id": "get_post",
+          "name": "Get Post",
+          "method": "GET",
+          "path": "/posts/{postId}",
+          "description": "get post"
+        },
+        {
+          "id": "upload_image",
+          "name": "Upload Image",
+          "method": "POST",
+          "path": "/images",
+          "description": "upload image"
+        }
+      ],
+      "action_count": 8
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "category": "other",
+      "base_url": "https://api.cloudflare.com/client/v4",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_zones",
+          "name": "List Zones",
+          "method": "GET",
+          "path": "/zones",
+          "description": "list zones"
+        },
+        {
+          "id": "get_zone",
+          "name": "Get Zone",
+          "method": "GET",
+          "path": "/zones/{zoneId}",
+          "description": "get zone"
+        },
+        {
+          "id": "list_dns_records",
+          "name": "List Dns Records",
+          "method": "GET",
+          "path": "/zones/{zoneId}/dns_records",
+          "description": "list dns records"
+        },
+        {
+          "id": "create_dns_record",
+          "name": "Create Dns Record",
+          "method": "POST",
+          "path": "/zones/{zoneId}/dns_records",
+          "description": "create dns record"
+        },
+        {
+          "id": "update_dns_record",
+          "name": "Update Dns Record",
+          "method": "PUT",
+          "path": "/zones/{zoneId}/dns_records/{recordId}",
+          "description": "update dns record"
+        },
+        {
+          "id": "delete_dns_record",
+          "name": "Delete Dns Record",
+          "method": "DELETE",
+          "path": "/zones/{zoneId}/dns_records/{recordId}",
+          "description": "delete dns record"
+        },
+        {
+          "id": "list_workers",
+          "name": "List Workers",
+          "method": "GET",
+          "path": "/accounts/{accountId}/workers/scripts",
+          "description": "list workers"
+        },
+        {
+          "id": "get_worker",
+          "name": "Get Worker",
+          "method": "GET",
+          "path": "/accounts/{accountId}/workers/scripts/{scriptName}",
+          "description": "get worker"
+        },
+        {
+          "id": "delete_worker",
+          "name": "Delete Worker",
+          "method": "DELETE",
+          "path": "/accounts/{accountId}/workers/scripts/{scriptName}",
+          "description": "delete worker"
+        },
+        {
+          "id": "list_kv_namespaces",
+          "name": "List Kv Namespaces",
+          "method": "GET",
+          "path": "/accounts/{accountId}/storage/kv/namespaces",
+          "description": "list kv namespaces"
+        },
+        {
+          "id": "create_kv_namespace",
+          "name": "Create Kv Namespace",
+          "method": "POST",
+          "path": "/accounts/{accountId}/storage/kv/namespaces",
+          "description": "create kv namespace"
+        },
+        {
+          "id": "read_kv_value",
+          "name": "Read Kv Value",
+          "method": "GET",
+          "path": "/accounts/{accountId}/storage/kv/namespaces/{namespaceId}/values/{keyName}",
+          "description": "read kv value"
+        },
+        {
+          "id": "write_kv_value",
+          "name": "Write Kv Value",
+          "method": "PUT",
+          "path": "/accounts/{accountId}/storage/kv/namespaces/{namespaceId}/values/{keyName}",
+          "description": "write kv value"
+        },
+        {
+          "id": "delete_kv_value",
+          "name": "Delete Kv Value",
+          "method": "DELETE",
+          "path": "/accounts/{accountId}/storage/kv/namespaces/{namespaceId}/values/{keyName}",
+          "description": "delete kv value"
+        },
+        {
+          "id": "list_r2_buckets",
+          "name": "List R2 Buckets",
+          "method": "GET",
+          "path": "/accounts/{accountId}/r2/buckets",
+          "description": "list r2 buckets"
+        },
+        {
+          "id": "create_r2_bucket",
+          "name": "Create R2 Bucket",
+          "method": "POST",
+          "path": "/accounts/{accountId}/r2/buckets",
+          "description": "create r2 bucket"
+        },
+        {
+          "id": "list_d1_databases",
+          "name": "List D1 Databases",
+          "method": "GET",
+          "path": "/accounts/{accountId}/d1/database",
+          "description": "list d1 databases"
+        },
+        {
+          "id": "create_d1_database",
+          "name": "Create D1 Database",
+          "method": "POST",
+          "path": "/accounts/{accountId}/d1/database",
+          "description": "create d1 database"
+        },
+        {
+          "id": "query_d1",
+          "name": "Query D1",
+          "method": "POST",
+          "path": "/accounts/{accountId}/d1/database/{databaseId}/query",
+          "description": "query d1"
+        },
+        {
+          "id": "list_pages_projects",
+          "name": "List Pages Projects",
+          "method": "GET",
+          "path": "/accounts/{accountId}/pages/projects",
+          "description": "list pages projects"
+        },
+        {
+          "id": "get_zone_analytics",
+          "name": "Get Zone Analytics",
+          "method": "GET",
+          "path": "/zones/{zoneId}/analytics/dashboard",
+          "description": "get zone analytics"
+        }
+      ],
+      "action_count": 21
+    },
+    {
+      "id": "godaddy",
+      "name": "GoDaddy",
+      "category": "other",
+      "base_url": "https://api.godaddy.com/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "suggest_domains",
+          "name": "Suggest Domains",
+          "method": "GET",
+          "path": "/domains/suggest",
+          "description": "suggest domains"
+        },
+        {
+          "id": "check_availability",
+          "name": "Check Availability",
+          "method": "GET",
+          "path": "/domains/available",
+          "description": "check availability"
+        },
+        {
+          "id": "list_domains",
+          "name": "List Domains",
+          "method": "GET",
+          "path": "/domains",
+          "description": "list domains"
+        },
+        {
+          "id": "get_domain",
+          "name": "Get Domain",
+          "method": "GET",
+          "path": "/domains/{domain}",
+          "description": "get domain"
+        },
+        {
+          "id": "purchase_domain",
+          "name": "Purchase Domain",
+          "method": "POST",
+          "path": "/domains/purchase",
+          "description": "purchase domain"
+        },
+        {
+          "id": "list_dns_records",
+          "name": "List Dns Records",
+          "method": "GET",
+          "path": "/domains/{domain}/records",
+          "description": "list dns records"
+        },
+        {
+          "id": "add_dns_records",
+          "name": "Add Dns Records",
+          "method": "PATCH",
+          "path": "/domains/{domain}/records",
+          "description": "add dns records"
+        },
+        {
+          "id": "update_dns_record",
+          "name": "Update Dns Record",
+          "method": "PUT",
+          "path": "/domains/{domain}/records/{type}/{name}",
+          "description": "update dns record"
+        },
+        {
+          "id": "delete_dns_record",
+          "name": "Delete Dns Record",
+          "method": "DELETE",
+          "path": "/domains/{domain}/records/{type}/{name}",
+          "description": "delete dns record"
+        }
+      ],
+      "action_count": 9
+    },
+    {
+      "id": "n8n",
+      "name": "n8n",
+      "category": "other",
+      "base_url": "https://app.n8n.cloud/api/v1",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_workflows",
+          "name": "List Workflows",
+          "method": "GET",
+          "path": "/workflows",
+          "description": "list workflows"
+        },
+        {
+          "id": "get_workflow",
+          "name": "Get Workflow",
+          "method": "GET",
+          "path": "/workflows/{workflowId}",
+          "description": "get workflow"
+        },
+        {
+          "id": "create_workflow",
+          "name": "Create Workflow",
+          "method": "POST",
+          "path": "/workflows",
+          "description": "create workflow"
+        },
+        {
+          "id": "update_workflow",
+          "name": "Update Workflow",
+          "method": "PUT",
+          "path": "/workflows/{workflowId}",
+          "description": "update workflow"
+        },
+        {
+          "id": "delete_workflow",
+          "name": "Delete Workflow",
+          "method": "DELETE",
+          "path": "/workflows/{workflowId}",
+          "description": "delete workflow"
+        },
+        {
+          "id": "activate_workflow",
+          "name": "Activate Workflow",
+          "method": "PATCH",
+          "path": "/workflows/{workflowId}",
+          "description": "activate workflow"
+        },
+        {
+          "id": "deactivate_workflow",
+          "name": "Deactivate Workflow",
+          "method": "PATCH",
+          "path": "/workflows/{workflowId}",
+          "description": "deactivate workflow"
+        },
+        {
+          "id": "list_executions",
+          "name": "List Executions",
+          "method": "GET",
+          "path": "/executions",
+          "description": "list executions"
+        },
+        {
+          "id": "get_execution",
+          "name": "Get Execution",
+          "method": "GET",
+          "path": "/executions/{executionId}",
+          "description": "get execution"
+        },
+        {
+          "id": "delete_execution",
+          "name": "Delete Execution",
+          "method": "DELETE",
+          "path": "/executions/{executionId}",
+          "description": "delete execution"
+        },
+        {
+          "id": "list_credentials",
+          "name": "List Credentials",
+          "method": "GET",
+          "path": "/credentials",
+          "description": "list credentials"
+        },
+        {
+          "id": "create_credential",
+          "name": "Create Credential",
+          "method": "POST",
+          "path": "/credentials",
+          "description": "create credential"
+        },
+        {
+          "id": "delete_credential",
+          "name": "Delete Credential",
+          "method": "DELETE",
+          "path": "/credentials/{credentialId}",
+          "description": "delete credential"
+        },
+        {
+          "id": "execute_workflow",
+          "name": "Execute Workflow",
+          "method": "POST",
+          "path": "/workflows/{workflowId}/run",
+          "description": "execute workflow"
+        }
+      ],
+      "action_count": 14
+    },
+    {
+      "id": "pabbly",
+      "name": "Pabbly Connect",
+      "category": "other",
+      "base_url": "https://connect.pabbly.com/api",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_workflows",
+          "name": "List Workflows",
+          "method": "GET",
+          "path": "/workflows",
+          "description": "list workflows"
+        },
+        {
+          "id": "get_workflow",
+          "name": "Get Workflow",
+          "method": "GET",
+          "path": "/workflows/{workflowId}",
+          "description": "get workflow"
+        },
+        {
+          "id": "create_workflow",
+          "name": "Create Workflow",
+          "method": "POST",
+          "path": "/workflows",
+          "description": "create workflow"
+        },
+        {
+          "id": "enable_workflow",
+          "name": "Enable Workflow",
+          "method": "PUT",
+          "path": "/workflows/{workflowId}/enable",
+          "description": "enable workflow"
+        },
+        {
+          "id": "disable_workflow",
+          "name": "Disable Workflow",
+          "method": "PUT",
+          "path": "/workflows/{workflowId}/disable",
+          "description": "disable workflow"
+        },
+        {
+          "id": "list_connections",
+          "name": "List Connections",
+          "method": "GET",
+          "path": "/connections",
+          "description": "list connections"
+        },
+        {
+          "id": "list_executions",
+          "name": "List Executions",
+          "method": "GET",
+          "path": "/workflows/{workflowId}/executions",
+          "description": "list executions"
+        },
+        {
+          "id": "get_execution",
+          "name": "Get Execution",
+          "method": "GET",
+          "path": "/workflows/{workflowId}/executions/{executionId}",
+          "description": "get execution"
+        },
+        {
+          "id": "trigger_webhook",
+          "name": "Trigger Webhook",
+          "method": "POST",
+          "path": "/webhooks/{webhookId}",
+          "description": "trigger webhook"
+        }
+      ],
+      "action_count": 9
+    },
+    {
+      "id": "make",
+      "name": "Make",
+      "category": "other",
+      "base_url": "https://us1.make.com/api/v2",
+      "auth_type": "api_key",
+      "actions": [
+        {
+          "id": "list_scenarios",
+          "name": "List Scenarios",
+          "method": "GET",
+          "path": "/scenarios",
+          "description": "list scenarios"
+        },
+        {
+          "id": "get_scenario",
+          "name": "Get Scenario",
+          "method": "GET",
+          "path": "/scenarios/{scenarioId}",
+          "description": "get scenario"
+        },
+        {
+          "id": "create_scenario",
+          "name": "Create Scenario",
+          "method": "POST",
+          "path": "/scenarios",
+          "description": "create scenario"
+        },
+        {
+          "id": "update_scenario",
+          "name": "Update Scenario",
+          "method": "PATCH",
+          "path": "/scenarios/{scenarioId}",
+          "description": "update scenario"
+        },
+        {
+          "id": "start_scenario",
+          "name": "Start Scenario",
+          "method": "POST",
+          "path": "/scenarios/{scenarioId}/start",
+          "description": "start scenario"
+        },
+        {
+          "id": "stop_scenario",
+          "name": "Stop Scenario",
+          "method": "POST",
+          "path": "/scenarios/{scenarioId}/stop",
+          "description": "stop scenario"
+        },
+        {
+          "id": "run_scenario",
+          "name": "Run Scenario",
+          "method": "POST",
+          "path": "/scenarios/{scenarioId}/run",
+          "description": "run scenario"
+        },
+        {
+          "id": "list_connections",
+          "name": "List Connections",
+          "method": "GET",
+          "path": "/connections",
+          "description": "list connections"
+        },
+        {
+          "id": "get_connection",
+          "name": "Get Connection",
+          "method": "GET",
+          "path": "/connections/{connectionId}",
+          "description": "get connection"
+        },
+        {
+          "id": "verify_connection",
+          "name": "Verify Connection",
+          "method": "POST",
+          "path": "/connections/{connectionId}/test",
+          "description": "verify connection"
+        },
+        {
+          "id": "list_data_stores",
+          "name": "List Data Stores",
+          "method": "GET",
+          "path": "/data-stores",
+          "description": "list data stores"
+        },
+        {
+          "id": "get_data_store_records",
+          "name": "Get Data Store Records",
+          "method": "GET",
+          "path": "/data-stores/{dataStoreId}/data",
+          "description": "get data store records"
+        },
+        {
+          "id": "list_organizations",
+          "name": "List Organizations",
+          "method": "GET",
+          "path": "/organizations",
+          "description": "list organizations"
+        },
+        {
+          "id": "get_organization",
+          "name": "Get Organization",
+          "method": "GET",
+          "path": "/organizations/{organizationId}",
+          "description": "get organization"
+        },
+        {
+          "id": "list_executions",
+          "name": "List Executions",
+          "method": "GET",
+          "path": "/scenarios/{scenarioId}/logs",
+          "description": "list executions"
+        }
+      ],
+      "action_count": 15
+    },
+    {
+      "id": "whimsical",
+      "name": "Whimsical",
+      "category": "other",
+      "base_url": "https://api.whimsical.com",
+      "auth_type": "oauth",
+      "actions": [
+        {
+          "id": "list_workspaces",
+          "name": "List Workspaces",
+          "method": "GET",
+          "path": "/workspaces",
+          "description": "list workspaces"
+        },
+        {
+          "id": "get_workspace",
+          "name": "Get Workspace",
+          "method": "GET",
+          "path": "/workspaces/{workspaceId}",
+          "description": "get workspace"
+        },
+        {
+          "id": "list_boards",
+          "name": "List Boards",
+          "method": "GET",
+          "path": "/workspaces/{workspaceId}/boards",
+          "description": "list boards"
+        },
+        {
+          "id": "get_board",
+          "name": "Get Board",
+          "method": "GET",
+          "path": "/boards/{boardId}",
+          "description": "get board"
+        },
+        {
+          "id": "create_board",
+          "name": "Create Board",
+          "method": "POST",
+          "path": "/workspaces/{workspaceId}/boards",
+          "description": "create board"
+        },
+        {
+          "id": "update_board",
+          "name": "Update Board",
+          "method": "PATCH",
+          "path": "/boards/{boardId}",
+          "description": "update board"
+        },
+        {
+          "id": "delete_board",
+          "name": "Delete Board",
+          "method": "DELETE",
+          "path": "/boards/{boardId}",
+          "description": "delete board"
+        },
+        {
+          "id": "get_board_export",
+          "name": "Get Board Export",
+          "method": "GET",
+          "path": "/boards/{boardId}/export",
+          "description": "get board export"
+        },
+        {
+          "id": "list_docs",
+          "name": "List Docs",
+          "method": "GET",
+          "path": "/workspaces/{workspaceId}/docs",
+          "description": "list docs"
+        },
+        {
+          "id": "get_doc",
+          "name": "Get Doc",
+          "method": "GET",
+          "path": "/docs/{docId}",
+          "description": "get doc"
+        },
+        {
+          "id": "create_doc",
+          "name": "Create Doc",
+          "method": "POST",
+          "path": "/workspaces/{workspaceId}/docs",
+          "description": "create doc"
+        },
+        {
+          "id": "update_doc",
+          "name": "Update Doc",
+          "method": "PATCH",
+          "path": "/docs/{docId}",
+          "description": "update doc"
+        },
+        {
+          "id": "create_from_mermaid",
+          "name": "Create From Mermaid",
+          "method": "POST",
+          "path": "/boards/from-mermaid",
+          "description": "create from mermaid"
+        },
+        {
+          "id": "create_from_text",
+          "name": "Create From Text",
+          "method": "POST",
+          "path": "/boards/from-text",
+          "description": "create from text"
+        },
+        {
+          "id": "list_scim_users",
+          "name": "List Scim Users",
+          "method": "GET",
+          "path": "/scim-v2/Users",
+          "description": "list scim users"
+        },
+        {
+          "id": "create_scim_user",
+          "name": "Create Scim User",
+          "method": "POST",
+          "path": "/scim-v2/Users",
+          "description": "create scim user"
+        },
+        {
+          "id": "update_scim_user",
+          "name": "Update Scim User",
+          "method": "PUT",
+          "path": "/scim-v2/Users/{userId}",
+          "description": "update scim user"
+        },
+        {
+          "id": "deactivate_scim_user",
+          "name": "Deactivate Scim User",
+          "method": "PATCH",
+          "path": "/scim-v2/Users/{userId}",
+          "description": "deactivate scim user"
+        }
+      ],
+      "action_count": 18
+    }
+  ],
+  "service_actions": {
+    "crm": [
+      "create_contact",
+      "search_contacts",
+      "get_contact",
+      "update_contact",
+      "delete_contact",
+      "create_pipeline",
+      "list_pipelines",
+      "create_opportunity",
+      "create_tag",
+      "list_tags",
+      "create_custom_value",
+      "list_custom_values",
+      "list_workflows",
+      "list_calendars"
+    ],
+    "stripe": [
+      "create_customer",
+      "list_customers",
+      "get_customer",
+      "create_charge",
+      "create_invoice",
+      "send_invoice",
+      "list_invoices",
+      "create_subscription",
+      "get_balance",
+      "list_payments",
+      "create_product",
+      "create_price"
+    ],
+    "sendgrid": [
+      "send_email",
+      "add_contacts",
+      "search_contacts",
+      "list_templates",
+      "list_lists"
+    ],
+    "resend": [
+      "send_email",
+      "send_batch_emails",
+      "list_emails",
+      "get_email",
+      "update_email",
+      "cancel_email",
+      "list_received_emails",
+      "get_received_email",
+      "list_email_attachments",
+      "get_email_attachment",
+      "list_received_attachments",
+      "get_received_attachment",
+      "create_domain",
+      "list_domains",
+      "get_domain",
+      "update_domain",
+      "verify_domain",
+      "delete_domain",
+      "create_api_key",
+      "list_api_keys",
+      "delete_api_key",
+      "create_audience",
+      "list_audiences",
+      "get_audience",
+      "delete_audience",
+      "create_contact",
+      "list_contacts",
+      "get_contact",
+      "update_contact",
+      "delete_contact",
+      "add_contact_to_segment",
+      "remove_contact_from_segment",
+      "list_contact_segments",
+      "get_contact_topics",
+      "update_contact_topics",
+      "create_broadcast",
+      "list_broadcasts",
+      "get_broadcast",
+      "update_broadcast",
+      "send_broadcast",
+      "delete_broadcast",
+      "create_segment",
+      "list_segments",
+      "get_segment",
+      "delete_segment",
+      "create_contact_property",
+      "list_contact_properties",
+      "get_contact_property",
+      "update_contact_property",
+      "delete_contact_property",
+      "create_template",
+      "list_templates",
+      "get_template",
+      "update_template",
+      "delete_template",
+      "duplicate_template",
+      "publish_template",
+      "create_topic",
+      "list_topics",
+      "get_topic",
+      "update_topic",
+      "delete_topic",
+      "create_webhook",
+      "list_webhooks",
+      "get_webhook",
+      "update_webhook",
+      "delete_webhook"
+    ],
+    "twilio": [
+      "send_sms",
+      "list_messages",
+      "make_call"
+    ],
+    "slack": [
+      "send_message",
+      "list_channels",
+      "list_users",
+      "create_channel"
+    ],
+    "discord": [
+      "send_message",
+      "list_channels"
+    ],
+    "openai": [
+      "chat_completion",
+      "create_image",
+      "create_embedding",
+      "text_to_speech"
+    ],
+    "airtable": [
+      "list_bases",
+      "list_records",
+      "create_record",
+      "update_record",
+      "delete_record"
+    ],
+    "notion": [
+      "search",
+      "create_page",
+      "get_page",
+      "query_database",
+      "list_databases"
+    ],
+    "github": [
+      "list_repos",
+      "create_issue",
+      "list_issues",
+      "create_pr",
+      "list_prs"
+    ],
+    "linear": [
+      "graphql"
+    ],
+    "shopify": [
+      "list_products",
+      "create_product",
+      "list_orders",
+      "get_order",
+      "list_customers",
+      "create_customer"
+    ],
+    "hubspot": [
+      "create_contact",
+      "list_contacts",
+      "search_contacts",
+      "create_company",
+      "create_deal",
+      "list_deals"
+    ],
+    "supabase": [
+      "query_table",
+      "insert_row",
+      "update_row",
+      "delete_row",
+      "list_users",
+      "list_buckets"
+    ],
+    "calendly": [
+      "list_events",
+      "list_event_types",
+      "get_user"
+    ],
+    "google_calendar": [
+      "list_calendars",
+      "list_events",
+      "create_event",
+      "update_event",
+      "delete_event"
+    ],
+    "gmail": [
+      "list_messages",
+      "get_message",
+      "send_message",
+      "trash_message",
+      "untrash_message",
+      "list_threads",
+      "get_thread",
+      "create_draft",
+      "list_drafts",
+      "send_draft",
+      "list_labels",
+      "create_label",
+      "get_profile"
+    ],
+    "google_sheets": [
+      "create_spreadsheet",
+      "get_spreadsheet",
+      "get_values",
+      "update_values",
+      "append_values",
+      "clear_values",
+      "batch_get",
+      "batch_update"
+    ],
+    "google_drive": [
+      "list_files",
+      "get_file",
+      "create_file",
+      "copy_file",
+      "update_file",
+      "delete_file",
+      "create_permission",
+      "list_permissions",
+      "delete_permission",
+      "generate_ids"
+    ],
+    "jira": [
+      "search_issues",
+      "create_issue",
+      "get_issue",
+      "update_issue",
+      "delete_issue",
+      "transition_issue",
+      "get_transitions",
+      "add_comment",
+      "list_comments",
+      "list_projects",
+      "get_project",
+      "assign_issue"
+    ],
+    "zendesk": [
+      "list_tickets",
+      "get_ticket",
+      "create_ticket",
+      "update_ticket",
+      "delete_ticket",
+      "list_ticket_comments",
+      "search",
+      "list_users",
+      "create_user",
+      "get_user",
+      "list_organizations",
+      "list_macros"
+    ],
+    "mailchimp": [
+      "list_audiences",
+      "get_audience",
+      "add_member",
+      "update_member",
+      "list_members",
+      "search_members",
+      "list_campaigns",
+      "create_campaign",
+      "send_campaign",
+      "get_campaign_report",
+      "list_templates",
+      "list_automations"
+    ],
+    "zoom": [
+      "list_meetings",
+      "create_meeting",
+      "get_meeting",
+      "update_meeting",
+      "delete_meeting",
+      "list_recordings",
+      "get_recording",
+      "delete_recording",
+      "list_users",
+      "get_user"
+    ],
+    "microsoft": [
+      "send_mail",
+      "list_messages",
+      "get_message",
+      "delete_message",
+      "list_events",
+      "create_event",
+      "update_event",
+      "delete_event",
+      "list_drive_items",
+      "get_drive_item",
+      "search_drive",
+      "list_teams",
+      "list_channels",
+      "send_channel_message",
+      "get_user"
+    ],
+    "mongodb": [
+      "find_one",
+      "find_many",
+      "insert_one",
+      "insert_many",
+      "update_one",
+      "update_many",
+      "delete_one",
+      "aggregate"
+    ],
+    "quickbooks": [
+      "create_invoice",
+      "list_invoices",
+      "get_invoice",
+      "send_invoice",
+      "create_customer",
+      "list_customers",
+      "get_customer",
+      "update_customer",
+      "create_payment",
+      "list_payments",
+      "list_accounts",
+      "get_account",
+      "create_bill",
+      "list_bills",
+      "create_estimate",
+      "send_estimate",
+      "create_item",
+      "list_items",
+      "get_item",
+      "profit_loss_report",
+      "balance_sheet"
+    ],
+    "asana": [
+      "create_task",
+      "list_tasks",
+      "get_task",
+      "update_task",
+      "delete_task",
+      "create_project",
+      "list_projects",
+      "get_project",
+      "create_section",
+      "list_sections",
+      "list_workspaces",
+      "create_tag",
+      "list_tags",
+      "list_teams",
+      "add_task_to_project",
+      "search_tasks"
+    ],
+    "intercom": [
+      "create_contact",
+      "list_contacts",
+      "search_contacts",
+      "update_contact",
+      "create_conversation",
+      "list_conversations",
+      "reply_to_conversation",
+      "close_conversation",
+      "create_company",
+      "list_companies",
+      "create_tag",
+      "tag_contact",
+      "list_tags",
+      "create_article",
+      "list_articles"
+    ],
+    "dropbox": [
+      "list_folder",
+      "list_folder_continue",
+      "get_metadata",
+      "create_folder",
+      "delete",
+      "move",
+      "copy",
+      "search",
+      "create_shared_link",
+      "list_shared_links"
+    ],
+    "whatsapp": [
+      "send_text_message",
+      "send_template_message",
+      "send_media_message",
+      "list_templates",
+      "upload_media",
+      "get_media_url"
+    ],
+    "instagram": [
+      "list_media",
+      "get_media",
+      "create_media_container",
+      "publish_media",
+      "list_comments",
+      "reply_to_comment",
+      "delete_comment",
+      "get_insights",
+      "list_stories",
+      "get_profile"
+    ],
+    "twitter": [
+      "create_tweet",
+      "delete_tweet",
+      "get_tweet",
+      "search_tweets",
+      "get_user",
+      "get_user_by_username",
+      "get_user_tweets",
+      "get_followers",
+      "get_following",
+      "create_list",
+      "get_lists",
+      "send_dm",
+      "like_tweet",
+      "unlike_tweet",
+      "retweet",
+      "unretweet"
+    ],
+    "tiktok": [
+      "list_videos",
+      "get_video_info",
+      "create_campaign",
+      "list_campaigns",
+      "get_campaign",
+      "update_campaign",
+      "create_ad_group",
+      "list_ad_groups",
+      "create_ad",
+      "list_ads",
+      "get_report"
+    ],
+    "google_ads": [
+      "search",
+      "mutate_campaigns",
+      "list_campaigns",
+      "create_campaign",
+      "list_ad_groups",
+      "create_ad_group",
+      "list_ads",
+      "create_ad",
+      "get_report"
+    ],
+    "facebook_ads": [
+      "create_campaign",
+      "list_campaigns",
+      "get_campaign",
+      "update_campaign",
+      "create_adset",
+      "list_adsets",
+      "create_ad",
+      "list_ads",
+      "get_insights",
+      "create_audience",
+      "list_audiences"
+    ],
+    "plaid": [
+      "create_link_token",
+      "exchange_public_token",
+      "get_accounts",
+      "get_balance",
+      "get_transactions",
+      "sync_transactions",
+      "get_identity",
+      "get_auth",
+      "get_institutions"
+    ],
+    "square": [
+      "create_payment",
+      "list_payments",
+      "get_payment",
+      "create_refund",
+      "create_customer",
+      "list_customers",
+      "get_customer",
+      "update_customer",
+      "delete_customer",
+      "create_order",
+      "list_orders",
+      "get_order",
+      "create_catalog_object",
+      "list_catalog",
+      "search_catalog",
+      "get_inventory",
+      "adjust_inventory"
+    ],
+    "tiktok_ads": [
+      "create_campaign",
+      "list_campaigns",
+      "update_campaign_status",
+      "create_adgroup",
+      "list_adgroups",
+      "update_adgroup",
+      "create_ad",
+      "list_ads",
+      "update_ad",
+      "get_report",
+      "create_audience",
+      "list_audiences"
+    ],
+    "x_ads": [
+      "list_campaigns",
+      "create_campaign",
+      "get_campaign",
+      "update_campaign",
+      "list_line_items",
+      "create_line_item",
+      "list_promoted_tweets",
+      "create_promoted_tweet",
+      "get_stats",
+      "create_audience",
+      "list_audiences"
+    ],
+    "linkedin_ads": [
+      "list_campaigns",
+      "create_campaign",
+      "get_campaign",
+      "update_campaign",
+      "list_campaign_groups",
+      "create_campaign_group",
+      "list_creatives",
+      "create_creative",
+      "get_analytics",
+      "create_audience",
+      "list_audiences"
+    ],
+    "instagram_ads": [
+      "create_campaign",
+      "list_campaigns",
+      "create_adset",
+      "list_adsets",
+      "create_ad",
+      "list_ads",
+      "get_insights",
+      "get_ad_previews"
+    ],
+    "smartlead": [
+      "create_campaign",
+      "list_campaigns",
+      "get_campaign",
+      "update_campaign",
+      "add_leads",
+      "list_leads",
+      "get_lead",
+      "add_email_account",
+      "list_email_accounts",
+      "get_campaign_stats",
+      "create_sequence",
+      "list_sequences"
+    ],
+    "zapier": [
+      "list_zaps",
+      "get_zap",
+      "enable_zap",
+      "disable_zap",
+      "list_actions"
+    ],
+    "mulesoft": [
+      "list_organizations",
+      "list_environments",
+      "list_apis",
+      "get_api",
+      "list_applications",
+      "get_application",
+      "deploy_application"
+    ],
+    "azure": [
+      "list_subscriptions",
+      "list_resource_groups",
+      "create_resource_group",
+      "list_resources",
+      "get_resource",
+      "delete_resource",
+      "list_storage_accounts",
+      "list_vms",
+      "get_vm",
+      "start_vm",
+      "stop_vm"
+    ],
+    "pipedrive": [
+      "create_deal",
+      "list_deals",
+      "get_deal",
+      "update_deal",
+      "delete_deal",
+      "create_person",
+      "list_persons",
+      "get_person",
+      "update_person",
+      "delete_person",
+      "create_organization",
+      "list_organizations",
+      "create_activity",
+      "list_activities",
+      "list_pipelines",
+      "get_pipeline",
+      "create_note",
+      "list_notes",
+      "search_items"
+    ],
+    "linkedin": [
+      "create_post",
+      "get_profile",
+      "list_connections",
+      "get_organization",
+      "list_org_posts",
+      "delete_post",
+      "get_post",
+      "upload_image"
+    ],
+    "cloudflare": [
+      "list_zones",
+      "get_zone",
+      "list_dns_records",
+      "create_dns_record",
+      "update_dns_record",
+      "delete_dns_record",
+      "list_workers",
+      "get_worker",
+      "delete_worker",
+      "list_kv_namespaces",
+      "create_kv_namespace",
+      "read_kv_value",
+      "write_kv_value",
+      "delete_kv_value",
+      "list_r2_buckets",
+      "create_r2_bucket",
+      "list_d1_databases",
+      "create_d1_database",
+      "query_d1",
+      "list_pages_projects",
+      "get_zone_analytics"
+    ],
+    "godaddy": [
+      "suggest_domains",
+      "check_availability",
+      "list_domains",
+      "get_domain",
+      "purchase_domain",
+      "list_dns_records",
+      "add_dns_records",
+      "update_dns_record",
+      "delete_dns_record"
+    ],
+    "n8n": [
+      "list_workflows",
+      "get_workflow",
+      "create_workflow",
+      "update_workflow",
+      "delete_workflow",
+      "activate_workflow",
+      "deactivate_workflow",
+      "list_executions",
+      "get_execution",
+      "delete_execution",
+      "list_credentials",
+      "create_credential",
+      "delete_credential",
+      "execute_workflow"
+    ],
+    "pabbly": [
+      "list_workflows",
+      "get_workflow",
+      "create_workflow",
+      "enable_workflow",
+      "disable_workflow",
+      "list_connections",
+      "list_executions",
+      "get_execution",
+      "trigger_webhook"
+    ],
+    "make": [
+      "list_scenarios",
+      "get_scenario",
+      "create_scenario",
+      "update_scenario",
+      "start_scenario",
+      "stop_scenario",
+      "run_scenario",
+      "list_connections",
+      "get_connection",
+      "verify_connection",
+      "list_data_stores",
+      "get_data_store_records",
+      "list_organizations",
+      "get_organization",
+      "list_executions"
+    ],
+    "whimsical": [
+      "list_workspaces",
+      "get_workspace",
+      "list_boards",
+      "get_board",
+      "create_board",
+      "update_board",
+      "delete_board",
+      "get_board_export",
+      "list_docs",
+      "get_doc",
+      "create_doc",
+      "update_doc",
+      "create_from_mermaid",
+      "create_from_text",
+      "list_scim_users",
+      "create_scim_user",
+      "update_scim_user",
+      "deactivate_scim_user"
+    ]
+  },
+  "service_ids": [
+    "crm",
+    "stripe",
+    "sendgrid",
+    "resend",
+    "twilio",
+    "slack",
+    "discord",
+    "openai",
+    "airtable",
+    "notion",
+    "github",
+    "linear",
+    "shopify",
+    "hubspot",
+    "supabase",
+    "calendly",
+    "google_calendar",
+    "gmail",
+    "google_sheets",
+    "google_drive",
+    "jira",
+    "zendesk",
+    "mailchimp",
+    "zoom",
+    "microsoft",
+    "mongodb",
+    "quickbooks",
+    "asana",
+    "intercom",
+    "dropbox",
+    "whatsapp",
+    "instagram",
+    "twitter",
+    "tiktok",
+    "google_ads",
+    "facebook_ads",
+    "plaid",
+    "square",
+    "tiktok_ads",
+    "x_ads",
+    "linkedin_ads",
+    "instagram_ads",
+    "smartlead",
+    "zapier",
+    "mulesoft",
+    "azure",
+    "pipedrive",
+    "linkedin",
+    "cloudflare",
+    "godaddy",
+    "n8n",
+    "pabbly",
+    "make",
+    "whimsical"
+  ]
+}

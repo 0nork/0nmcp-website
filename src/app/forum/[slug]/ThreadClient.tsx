@@ -341,7 +341,9 @@ export default function ThreadClient({
                       resize: 'vertical',
                       fontFamily: 'inherit',
                       direction: 'ltr',
-                      unicodeBidi: 'normal',
+                      unicodeBidi: 'plaintext',
+                      textAlign: 'left',
+                      writingMode: 'horizontal-tb',
                       outline: 'none',
                       boxSizing: 'border-box',
                     } as React.CSSProperties}
@@ -509,7 +511,9 @@ export default function ThreadClient({
               resize: 'vertical',
               fontFamily: 'inherit',
               direction: 'ltr',
-              unicodeBidi: 'normal',
+              unicodeBidi: 'plaintext',
+              textAlign: 'left',
+              writingMode: 'horizontal-tb',
               outline: 'none',
               boxSizing: 'border-box',
             } as React.CSSProperties}

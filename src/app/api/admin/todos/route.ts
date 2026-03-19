@@ -11,7 +11,8 @@ function getAdmin() {
   return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 }
 
-async function checkAdmin(supabase: ReturnType<typeof createClient>) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function checkAdmin(supabase: any) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user?.email || !ADMIN_EMAILS.includes(user.email)) return null
   return user

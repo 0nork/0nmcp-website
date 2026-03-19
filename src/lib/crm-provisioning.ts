@@ -327,8 +327,8 @@ export async function provisionUser(params: {
         last_error: errorMsg,
         retry_count: 0,
       })
-      .then(() => console.log('[provision] Queued for retry:', params.email))
-      .catch(qErr => console.error('[provision] Queue insert failed:', qErr))
+      .then(() => { console.log('[provision] Queued for retry:', params.email) })
+      .then(undefined, (qErr: unknown) => { console.error('[provision] Queue insert failed:', qErr) })
 
     return {
       success: false,

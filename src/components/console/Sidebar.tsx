@@ -4,7 +4,7 @@ import { useState, useRef, useCallback, type ReactNode } from 'react'
 import { Icon0n, LogoConsole } from '@/components/BrandSVG'
 import {
   LayoutDashboard, MessageSquare, KeyRound, Sparkles,
-  Blocks, ShoppingBag, Brain, Zap, RefreshCw,
+  Blocks, ShoppingBag, Brain, Zap, RefreshCw, Cpu,
   Mail, ListChecks, Linkedin, Share2, BarChart3,
   Store, User, Shield, PanelLeftClose, PanelLeft,
   Search, Globe, Terminal, Wrench, Users, LayoutGrid,
@@ -54,7 +54,7 @@ const SECTIONS: NavSection[] = [
     items: [
       { key: 'credentials', label: 'Vault', icon: <KeyRound size={16} />, color: G },
       { key: 'flows', label: 'Create', icon: <Sparkles size={16} />, color: P },
-      { key: 'builder', label: 'Builder', icon: <Blocks size={16} />, color: P },
+      { key: 'engine', label: '0nEngine', icon: <Cpu size={16} />, color: G },
       { key: 'site-builder', label: 'Site Builder', icon: <Globe size={16} />, color: O },
       { key: 'store', label: 'Store', icon: <ShoppingBag size={16} />, color: O },
     ],

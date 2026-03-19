@@ -31,7 +31,8 @@ interface CommandPaletteProps {
 const COMMANDS = [
   { cmd: '/chat', desc: 'Open chat', icon: MessageSquare, group: 'Navigate' },
   { cmd: '/community', desc: 'The 0nBoard', icon: Users, group: 'Navigate' },
-  { cmd: '/builder', desc: 'Workflow builder', icon: Blocks, group: 'Navigate' },
+  { cmd: '/engine', desc: '0nEngine — Agentic AI builder', icon: Blocks, group: 'Navigate' },
+  { cmd: '/builder', desc: 'Workflow builder (legacy)', icon: Blocks, group: 'Navigate' },
   { cmd: '/terminal', desc: 'Browser-native web terminal', icon: TerminalSquare, group: 'Navigate' },
   { cmd: '/code', desc: 'Chat + Terminal unified (0n Code)', icon: Code2, group: 'Navigate' },
   { cmd: '/vault', desc: 'Manage credentials', icon: Shield, group: 'Navigate' },

@@ -10,6 +10,7 @@ const VIEW_LABELS: Record<string, string> = {
   chat: 'Chat',
   vault: 'Vault',
   flows: 'Create',
+  engine: '0nEngine',
   builder: 'Builder',
   store: 'Store',
   training: 'Brain',

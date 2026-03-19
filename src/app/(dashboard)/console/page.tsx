@@ -28,6 +28,7 @@ import { PinnedCommands } from '@/components/console/PinnedCommands'
 import { OperationsView, SocialView, ReportingView, CodeView, LinkedInView, MigrateView, ConvertView } from '@/components/console/FeatureViews'
 import { SparkView } from '@/components/console/SparkView'
 import { BuilderView } from '@/components/console/BuilderView'
+import { EngineView } from '@/components/console/EngineView'
 import { VendorView } from '@/components/console/VendorView'
 import { OutreachView } from '@/components/console/OutreachView'
 import { TrainingView } from '@/components/console/TrainingView'
@@ -43,7 +44,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'engine' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder'
 
 interface McpHealth {
   version?: string
@@ -820,6 +821,13 @@ export default function ConsolePage() {
           {visitedViews.has('builder') && (
             <div style={{ display: view === 'builder' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
               <BuilderView />
+            </div>
+          )}
+
+          {/* 0nEngine — Agentic AI Builder */}
+          {visitedViews.has('engine') && (
+            <div style={{ display: view === 'engine' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
+              <EngineView />
             </div>
           )}
 

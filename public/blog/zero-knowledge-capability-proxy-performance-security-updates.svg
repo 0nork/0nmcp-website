@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#152010" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7ed957" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#7ed957" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#7ed957" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="wideGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="barFill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7ed957" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7ed957" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGlow)"/>
+
+  <!-- Grid lines -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="75" x2="800" y2="75"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="100" y1="0" x2="100" y2="450"/>
+    <line x1="200" y1="0" x2="200" y2="450"/>
+    <line x1="300" y1="0" x2="300" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/>
+    <line x1="500" y1="0" x2="500" y2="450"/>
+    <line x1="600" y1="0" x2="600" y2="450"/>
+    <line x1="700" y1="0" x2="700" y2="450"/>
+  </g>
+
+  <!-- Central glow -->
+  <circle cx="400" cy="200" r="140" fill="url(#centerGlow)" opacity="0.8"/>
+
+  <!-- Performance gauge arcs -->
+  <g transform="translate(400, 190)" opacity="0.7">
+    <!-- Outer ring (latency reduction) -->
+    <circle cx="0" cy="0" r="110" fill="none" stroke="#7ed957" stroke-width="2" stroke-dasharray="520 172" stroke-dashoffset="-86" opacity="0.3" filter="url(#softGlow)"/>
+    <!-- Middle ring (throughput) -->
+    <circle cx="0" cy="0" r="85" fill="none" stroke="#7ed957" stroke-width="2.5" stroke-dasharray="440 94" stroke-dashoffset="-47" opacity="0.4" filter="url(#softGlow)"/>
+    <!-- Inner ring (security score) -->
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#7ed957" stroke-width="3" stroke-dasharray="358 19" stroke-dashoffset="-10" opacity="0.5" filter="url(#softGlow)"/>
+  </g>
+
+  <!-- Shield icon at center -->
+  <g transform="translate(400, 190)" filter="url(#glow)">
+    <path d="M0 -30 L25 -17 L25 12 L0 28 L-25 12 L-25 -17 Z" fill="none" stroke="#7ed957" stroke-width="2" opacity="0.9"/>
+    <path d="M0 -16 L-8 -10 L-8 4 L0 10 L8 4 L8 -10 Z" fill="#7ed957" opacity="0.25"/>
+    <circle cx="0" cy="-2" r="4" fill="#7ed957" opacity="0.9"/>
+  </g>
+
+  <!-- Metric labels around gauge -->
+  <text x="540" y="135" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957" opacity="0.6">LATENCY -42%</text>
+  <text x="540" y="195" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957" opacity="0.6">THROUGHPUT +3.2x</text>
+  <text x="540" y="255" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957" opacity="0.6">SEC SCORE 98/100</text>
+
+  <!-- Sparkline left side -->
+  <polyline points="80,160 110,155 140,162 170,148 200,152 230,140 260,135" fill="none" stroke="#7ed957" stroke-width="1.5" opacity="0.35" filter="url(#glow)"/>
+  <circle cx="260" cy="135" r="3" fill="#7ed957" opacity="0.7" filter="url(#glow)"/>
+
+  <!-- Small dots scattered -->
+  <g filter="url(#glow)">
+    <circle cx="150" cy="100" r="2" fill="#7ed957" opacity="0.4"/>
+    <circle cx="680" cy="90" r="2" fill="#7ed957" opacity="0.3"/>
+    <circle cx="620" cy="310" r="2" fill="#7ed957" opacity="0.35"/>
+    <circle cx="120" cy="280" r="2" fill="#7ed957" opacity="0.3"/>
+    <circle cx="700" cy="180" r="2" fill="#7ed957" opacity="0.25"/>
+  </g>
+
+  <!-- Version badge top-right -->
+  <rect x="636" y="18" width="146" height="28" rx="5" fill="#1a1a25" stroke="#7ed957" stroke-width="1" opacity="0.9"/>
+  <text x="709" y="36" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#7ed957">v2.4 UPDATE</text>
+
+  <!-- Decorative rings -->
+  <circle cx="400" cy="190" r="160" fill="none" stroke="#7ed957" stroke-width="0.5" opacity="0.06"/>
+  <circle cx="400" cy="190" r="200" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.04"/>
+  <circle cx="400" cy="190" r="240" fill="none" stroke="#a78bfa" stroke-width="0.5" opacity="0.03"/>
+
+  <!-- Category label -->
+  <text x="40" y="385" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7ed957" opacity="0.6" letter-spacing="0.15em">RELEASE</text>
+
+  <!-- Title bottom-left -->
+  <text x="40" y="410" font-family="'Instrument Sans', sans-serif" font-size="22" font-weight="800" fill="#ffffff" opacity="0.9">Zero-Knowledge Capability Proxy:</text>
+  <text x="40" y="435" font-family="'Instrument Sans', sans-serif" font-size="22" font-weight="800" fill="#ffffff" opacity="0.9">Performance and Security Updates in v2.4</text>
+</svg>

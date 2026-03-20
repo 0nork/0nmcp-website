@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bgGlow" cx="55%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#141f12" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7ed957" stop-opacity="0.3"/>
+      <stop offset="55%" stop-color="#7ed957" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#7ed957" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7ed957" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#7ed957" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="barGradOld" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bgGlow)"/>
+
+  <!-- Grid lines -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="75" x2="800" y2="75"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="100" y1="0" x2="100" y2="450"/>
+    <line x1="200" y1="0" x2="200" y2="450"/>
+    <line x1="300" y1="0" x2="300" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/>
+    <line x1="500" y1="0" x2="500" y2="450"/>
+    <line x1="600" y1="0" x2="600" y2="450"/>
+    <line x1="700" y1="0" x2="700" y2="450"/>
+  </g>
+
+  <!-- Central glow -->
+  <circle cx="420" cy="185" r="150" fill="url(#centerGlow)" opacity="0.7"/>
+
+  <!-- Tool count comparison bars -->
+  <g transform="translate(160, 90)">
+    <!-- v1.0 bar -->
+    <text x="-10" y="18" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffffff" opacity="0.4">v1.0</text>
+    <rect x="0" y="6" width="120" height="16" rx="2" fill="url(#barGradOld)"/>
+    <text x="130" y="18" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffffff" opacity="0.35">290</text>
+
+    <!-- v1.5 bar -->
+    <text x="-10" y="50" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffffff" opacity="0.4">v1.5</text>
+    <rect x="0" y="38" width="180" height="16" rx="2" fill="url(#barGradOld)"/>
+    <text x="190" y="50" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffffff" opacity="0.35">540</text>
+
+    <!-- v2.0 bar -->
+    <text x="-10" y="82" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffffff" opacity="0.5">v2.0</text>
+    <rect x="0" y="70" width="200" height="16" rx="2" fill="url(#barGradOld)"/>
+    <text x="210" y="82" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffffff" opacity="0.4">558</text>
+
+    <!-- v2.4 bar (highlighted) -->
+    <text x="-10" y="114" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957" opacity="0.9" font-weight="700">v2.4</text>
+    <rect x="0" y="102" width="340" height="18" rx="2" fill="url(#barGrad)" filter="url(#softGlow)"/>
+    <text x="350" y="116" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7ed957" opacity="0.9" font-weight="700">870+</text>
+  </g>
+
+  <!-- Growth arrow -->
+  <g transform="translate(560, 130)" filter="url(#glow)">
+    <polyline points="0,80 0,0 12,-15" fill="none" stroke="#7ed957" stroke-width="2" opacity="0.6"/>
+    <polygon points="12,-15 4,-5 16,-3" fill="#7ed957" opacity="0.6"/>
+    <text x="20" y="-8" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" opacity="0.7">+56%</text>
+  </g>
+
+  <!-- Security shield cluster -->
+  <g transform="translate(580, 260)">
+    <circle cx="0" cy="0" r="50" fill="none" stroke="#7ed957" stroke-width="1" opacity="0.12"/>
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#7ed957" stroke-width="1" opacity="0.18"/>
+    <!-- Shield -->
+    <path d="M0 -20 L18 -10 L18 8 L0 20 L-18 8 L-18 -10 Z" fill="none" stroke="#7ed957" stroke-width="1.5" opacity="0.7" filter="url(#glow)"/>
+    <text x="0" y="4" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957" opacity="0.8" font-weight="700">ZK</text>
+  </g>
+
+  <!-- Scattered node dots (tools) -->
+  <g filter="url(#glow)">
+    <circle cx="100" cy="260" r="2.5" fill="#7ed957" opacity="0.4"/>
+    <circle cx="140" cy="290" r="2" fill="#7ed957" opacity="0.3"/>
+    <circle cx="180" cy="270" r="1.5" fill="#7ed957" opacity="0.35"/>
+    <circle cx="220" cy="295" r="2" fill="#7ed957" opacity="0.25"/>
+    <circle cx="260" cy="260" r="2.5" fill="#7ed957" opacity="0.3"/>
+    <circle cx="300" cy="285" r="1.5" fill="#7ed957" opacity="0.4"/>
+    <circle cx="340" cy="265" r="2" fill="#7ed957" opacity="0.3"/>
+    <circle cx="380" cy="290" r="2.5" fill="#7ed957" opacity="0.35"/>
+    <circle cx="420" cy="270" r="2" fill="#7ed957" opacity="0.4"/>
+    <circle cx="460" cy="295" r="1.5" fill="#7ed957" opacity="0.3"/>
+    <circle cx="680" cy="150" r="2" fill="#7ed957" opacity="0.25"/>
+    <circle cx="720" cy="280" r="2" fill="#7ed957" opacity="0.2"/>
+  </g>
+
+  <!-- Connection lines between nodes -->
+  <g stroke="#7ed957" stroke-width="0.5" opacity="0.1">
+    <line x1="100" y1="260" x2="180" y2="270"/>
+    <line x1="180" y1="270" x2="260" y2="260"/>
+    <line x1="260" y1="260" x2="340" y2="265"/>
+    <line x1="340" y1="265" x2="420" y2="270"/>
+    <line x1="140" y1="290" x2="220" y2="295"/>
+    <line x1="300" y1="285" x2="380" y2="290"/>
+  </g>
+
+  <!-- Version badge top-right -->
+  <rect x="636" y="18" width="146" height="28" rx="5" fill="#1a1a25" stroke="#7ed957" stroke-width="1" opacity="0.9"/>
+  <text x="709" y="36" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#7ed957">v2.4.0 — LIVE</text>
+
+  <!-- Decorative outer rings -->
+  <circle cx="420" cy="185" r="180" fill="none" stroke="#7ed957" stroke-width="0.5" opacity="0.05"/>
+  <circle cx="420" cy="185" r="220" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.04"/>
+  <circle cx="420" cy="185" r="270" fill="none" stroke="#a78bfa" stroke-width="0.5" opacity="0.03"/>
+
+  <!-- Category label -->
+  <text x="40" y="385" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7ed957" opacity="0.6" letter-spacing="0.15em">RELEASE</text>
+
+  <!-- Title bottom-left -->
+  <text x="40" y="410" font-family="'Instrument Sans', sans-serif" font-size="22" font-weight="800" fill="#ffffff" opacity="0.9">From 558 to 870+ Tools: How 0nMCP v2.4</text>
+  <text x="40" y="435" font-family="'Instrument Sans', sans-serif" font-size="22" font-weight="800" fill="#ffffff" opacity="0.9">Rewrites AI Security</text>
+</svg>

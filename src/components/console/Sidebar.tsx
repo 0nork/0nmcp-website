@@ -30,6 +30,7 @@ interface NavItem {
   label: string
   icon: ReactNode
   color?: string
+  paidOnly?: boolean
 }
 
 interface NavSection {
@@ -89,7 +90,7 @@ const SECTIONS: NavSection[] = [
       { key: 'terminal', label: 'Terminal', icon: <Terminal size={16} />, color: S },
       { key: 'tools', label: 'Tools', icon: <Wrench size={16} />, color: S },
       { key: 'crew', label: '0nCrew', icon: <Users size={16} />, color: C },
-      ...(isPaid ? [{ key: 'grid', label: 'Grid', icon: <LayoutGrid size={16} />, color: G }] : []),
+      { key: 'grid', label: 'Grid', icon: <LayoutGrid size={16} />, color: G, paidOnly: true },
       { key: 'affiliate', label: 'Affiliates', icon: <Gift size={16} />, color: G },
     ],
   },
@@ -198,7 +199,7 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
             {iconsOnly && si > 0 && (
               <div style={{ height: 1, background: 'rgba(255,255,255,0.04)', margin: '6px 10px' }} />
             )}
-            {section.items.map(item => (
+            {section.items.filter(item => !item.paidOnly || isPaid).map(item => (
               <SidebarItem
                 key={item.key}
                 item={item}

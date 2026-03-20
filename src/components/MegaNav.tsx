@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import ServiceIcon, { ALL_SERVICES } from '@/components/ServiceLogos'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
-import { Logo0nMCP } from '@/components/BrandSVG'
+import Image from 'next/image'
 
 /* ── Mega-menu sections ── */
 type MenuLink = { label: string; href: string; desc: string; accent?: boolean; badge?: string }
@@ -308,7 +308,7 @@ export default function MegaNav() {
       <div className="mega-nav-bar">
         {/* Logo */}
         <Link href="/" className="mega-nav-logo no-underline">
-          <Logo0nMCP height={32} />
+          <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={140} height={49} style={{ objectFit: 'contain' }} priority />
         </Link>
 
         {/* Desktop menu triggers */}

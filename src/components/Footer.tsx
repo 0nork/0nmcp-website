@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
-import { Logo0nMCP } from '@/components/BrandSVG'
+import Image from 'next/image'
 
 const footerColumns = [
   {
@@ -73,7 +73,7 @@ export default function Footer() {
           {/* Logo column */}
           <div className="col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <Logo0nMCP height={28} />
+              <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={130} height={46} style={{ objectFit: 'contain' }} />
             </Link>
             <p
               className="text-sm leading-relaxed max-w-xs"

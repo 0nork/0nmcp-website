@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useRef, useCallback, type ReactNode } from 'react'
-import { Icon0n, LogoConsole } from '@/components/BrandSVG'
+import { Icon0n } from '@/components/BrandSVG'
+import Image from 'next/image'
 import {
   LayoutDashboard, MessageSquare, KeyRound, Sparkles,
   Blocks, ShoppingBag, Brain, Zap, RefreshCw, Cpu,
@@ -164,7 +165,7 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
         {iconsOnly ? (
           <Icon0n size={24} />
         ) : (
-          <LogoConsole height={22} />
+          <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={120} height={42} style={{ objectFit: 'contain' }} priority />
         )}
       </div>
 

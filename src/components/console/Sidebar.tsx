@@ -22,6 +22,7 @@ interface SidebarProps {
   connectedCount: number
   mcpOnline: boolean
   isAdmin?: boolean
+  isPaid?: boolean
 }
 
 interface NavItem {
@@ -88,7 +89,7 @@ const SECTIONS: NavSection[] = [
       { key: 'terminal', label: 'Terminal', icon: <Terminal size={16} />, color: S },
       { key: 'tools', label: 'Tools', icon: <Wrench size={16} />, color: S },
       { key: 'crew', label: '0nCrew', icon: <Users size={16} />, color: C },
-      { key: 'grid', label: 'Grid', icon: <LayoutGrid size={16} />, color: G },
+      ...(isPaid ? [{ key: 'grid', label: 'Grid', icon: <LayoutGrid size={16} />, color: G }] : []),
       { key: 'affiliate', label: 'Affiliates', icon: <Gift size={16} />, color: G },
     ],
   },
@@ -105,7 +106,7 @@ function isActiveView(key: string, view: string): boolean {
   return key === view
 }
 
-export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcpOnline, isAdmin }: SidebarProps) {
+export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcpOnline, isAdmin, isPaid }: SidebarProps) {
   const [hoverVisible, setHoverVisible] = useState(false)
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 

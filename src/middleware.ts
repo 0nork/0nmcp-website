@@ -59,6 +59,38 @@ export async function middleware(request: NextRequest) {
     return applySessionCookies(request, response)
   }
 
+  // Grid community — paid subscribers only
+  if (request.nextUrl.pathname.startsWith('/grid')) {
+    const { updateSession } = await import('@/lib/supabase/middleware')
+    const response = await updateSession(request)
+
+    // Check subscription after session refresh
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        cookies: {
+          getAll() { return request.cookies.getAll() },
+          setAll(cookiesToSet) { cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) },
+        },
+      })
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        return NextResponse.redirect(new URL('/login?redirect=/grid', request.url))
+      }
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('plan')
+        .eq('id', user.id)
+        .single()
+
+      const isPaid = profile?.plan && profile.plan !== 'free'
+      if (!isPaid) {
+        return NextResponse.redirect(new URL('/console?ref=community', request.url))
+      }
+    }
+
+    return response
+  }
+
   // Default: 0nmcp.com — use standard Supabase session handler
   const { updateSession } = await import('@/lib/supabase/middleware')
   return updateSession(request)

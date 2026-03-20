@@ -31,6 +31,7 @@ const VIEW_LABELS: Record<string, string> = {
   community: 'Community',
   terminal: 'Terminal',
   affiliate: 'Affiliates',
+  blog: '0nBlog',
 }
 
 const CORE_AI_LABELS: Record<string, { label: string; color: string }> = {

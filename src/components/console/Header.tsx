@@ -31,6 +31,7 @@ const VIEW_LABELS: Record<string, string> = {
   community: 'Community',
   terminal: 'Terminal',
   affiliate: 'Affiliates',
+  downloads: 'Downloads',
   blog: '0nBlog',
 }
 

@@ -20,6 +20,7 @@ import {
   TerminalSquare,
   GraduationCap,
   Code2,
+  Download,
 } from 'lucide-react'
 
 interface CommandPaletteProps {
@@ -44,6 +45,7 @@ const COMMANDS = [
   { cmd: '/learn', desc: 'Courses & community learning', icon: GraduationCap, group: 'Navigate' },
   { cmd: '/store', desc: 'Browse premium workflows', icon: ShoppingBag, group: 'Navigate' },
   { cmd: '/linkedin', desc: 'LinkedIn onboarding & posts', icon: Linkedin, group: 'Navigate' },
+  { cmd: '/downloads', desc: 'Available tools and apps', icon: Download, group: 'Navigate' },
   { cmd: '/request', desc: 'Request a new integration', icon: PlusCircle, group: 'Navigate' },
   { cmd: '/history', desc: 'Activity log', icon: Clock, group: 'Navigate' },
   { cmd: '/help', desc: 'Show all commands', icon: HelpCircle, group: 'Actions' },

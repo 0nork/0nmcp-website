@@ -8,7 +8,7 @@ import {
   Blocks, ShoppingBag, Brain, Zap, RefreshCw, Cpu,
   Mail, ListChecks, Linkedin, Share2, BarChart3,
   Store, User, Shield, PanelLeftClose, PanelLeft,
-  Search, Globe, Terminal, Wrench, Users, LayoutGrid, Gift, PenLine,
+  Search, Globe, Terminal, Wrench, Users, LayoutGrid, Gift, PenLine, Download,
 } from 'lucide-react'
 import { StatusDot } from './StatusDot'
 
@@ -58,6 +58,7 @@ const SECTIONS: NavSection[] = [
       { key: 'engine', label: '0nEngine', icon: <Cpu size={16} />, color: G },
       { key: 'site-builder', label: 'Site Builder', icon: <Globe size={16} />, color: O },
       { key: 'store', label: 'Store', icon: <ShoppingBag size={16} />, color: O },
+      { key: 'downloads', label: 'Downloads', icon: <Download size={16} />, color: G },
     ],
   },
   {

@@ -37,6 +37,7 @@ import { SeoView } from '@/components/console/SeoView'
 import { SiteBuilderView } from '@/components/console/SiteBuilderView'
 import { BundleManager } from '@/components/console/BundleManager'
 import { AffiliateView } from '@/components/console/AffiliateView'
+import { DownloadsView } from '@/components/console/DownloadsView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -45,7 +46,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'engine' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder' | 'affiliate'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'engine' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder' | 'affiliate' | 'downloads'
 
 interface McpHealth {
   version?: string
@@ -471,6 +472,9 @@ export default function ConsolePage() {
         case '/referral':
           setView('affiliate')
           break
+        case '/downloads':
+          setView('downloads')
+          break
         case '/help':
           setView('chat')
           handleChatSend('What commands are available in the 0n Console?')
@@ -889,6 +893,13 @@ export default function ConsolePage() {
           {visitedViews.has('affiliate') && (
             <div style={{ display: view === 'affiliate' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
               <AffiliateView />
+            </div>
+          )}
+
+          {/* Downloads */}
+          {visitedViews.has('downloads') && (
+            <div style={{ display: view === 'downloads' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <DownloadsView />
             </div>
           )}
         </main>

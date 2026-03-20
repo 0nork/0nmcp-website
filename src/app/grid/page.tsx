@@ -26,7 +26,7 @@ export default async function GridPage() {
   const hasAccess = profile?.plan && profile.plan !== 'free'
 
   if (!hasAccess) {
-    redirect('/console/billing?ref=community')
+    redirect('/console?ref=community')
   }
 
   const hasCrmSetup = !!profile?.crm_contact_id

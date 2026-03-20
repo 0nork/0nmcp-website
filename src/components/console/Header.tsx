@@ -30,6 +30,7 @@ const VIEW_LABELS: Record<string, string> = {
   migrate: 'Migrate',
   community: 'Community',
   terminal: 'Terminal',
+  affiliate: 'Affiliates',
 }
 
 const CORE_AI_LABELS: Record<string, { label: string; color: string }> = {

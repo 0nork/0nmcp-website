@@ -36,6 +36,7 @@ import { CommandQueueView } from '@/components/console/CommandQueueView'
 import { SeoView } from '@/components/console/SeoView'
 import { SiteBuilderView } from '@/components/console/SiteBuilderView'
 import { BundleManager } from '@/components/console/BundleManager'
+import { AffiliateView } from '@/components/console/AffiliateView'
 
 // Hooks & data
 import { useVault, useFlows, useHistory } from '@/lib/console/hooks'
@@ -44,7 +45,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'engine' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'engine' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder' | 'affiliate'
 
 interface McpHealth {
   version?: string
@@ -466,6 +467,10 @@ export default function ConsolePage() {
             })
             .catch(() => {})
           break
+        case '/affiliate':
+        case '/referral':
+          setView('affiliate')
+          break
         case '/help':
           setView('chat')
           handleChatSend('What commands are available in the 0n Console?')
@@ -877,6 +882,13 @@ export default function ConsolePage() {
           {visitedViews.has('site-builder') && (
             <div style={{ display: view === 'site-builder' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-hidden">
               <SiteBuilderView />
+            </div>
+          )}
+
+          {/* Affiliate */}
+          {visitedViews.has('affiliate') && (
+            <div style={{ display: view === 'affiliate' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <AffiliateView />
             </div>
           )}
         </main>

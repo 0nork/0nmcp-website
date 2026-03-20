@@ -355,20 +355,17 @@ export default function MegaNav() {
         <div className="mega-nav-actions" style={authReady ? undefined : { visibility: 'hidden' }}>
           {!user ? (
             <>
-              <Link href="/signup" className="mega-nav-cta-signup no-underline">
-                Sign Up Free
-              </Link>
               <Link href="/login" className="mega-nav-cta-signin no-underline">
-                Sign in
+                Login
+              </Link>
+              <Link href="/signup" className="mega-nav-cta-signup no-underline">
+                Register
               </Link>
             </>
           ) : (
             <>
               <Link href="/console" className="mega-nav-cta-demo no-underline">
                 Console
-              </Link>
-              <Link href="/account" className="mega-nav-cta-account no-underline">
-                Account
               </Link>
             </>
           )}

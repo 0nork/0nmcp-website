@@ -2868,24 +2868,24 @@ a:hover {
   z-index: 100;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0 1.5rem;
+  align-items: stretch;
+  padding: 0;
 }
 
 .mega-nav-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  padding: 0 2rem;
-  margin-top: 0.5rem;
+  justify-content: flex-start;
+  gap: 1rem;
+  height: auto;
+  padding: 0.75rem 1.5rem;
   width: 100%;
-  max-width: 72rem;
-  background: rgba(10, 10, 15, 0.88);
+  background: rgba(10, 10, 15, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0;
 }
 
 .mega-nav-logo {
@@ -2976,11 +2976,12 @@ a:hover {
   transform: rotate(180deg);
 }
 
-/* Right actions */
+/* Right actions — pushed to far right */
 .mega-nav-actions {
   display: none;
   align-items: center;
   gap: 0.75rem;
+  margin-left: auto;
 }
 
 @media (min-width: 768px) {
@@ -3093,11 +3094,12 @@ a:hover {
 /* ── Mega dropdown ── */
 .mega-dropdown {
   position: relative;
-  margin-top: 0.25rem;
-  width: 100%;
-  max-width: 72rem;
+  margin: 0 1.5rem;
+  width: calc(100% - 3rem);
+  max-width: none;
   border: 1px solid var(--border);
-  border-radius: 1rem;
+  border-top: none;
+  border-radius: 0 0 1rem 1rem;
   background: #000000;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;

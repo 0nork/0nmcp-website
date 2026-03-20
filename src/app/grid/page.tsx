@@ -29,7 +29,6 @@ export default async function GridPage() {
     redirect('/console?ref=community')
   }
 
-  const hasCrmSetup = !!profile?.crm_contact_id
-
-  return <GridEmbed gridUrl={GRID_URL} hasCrmSetup={hasCrmSetup} />
+  // Show Grid for all paid users — CRM setup is optional enhancement
+  return <GridEmbed gridUrl={GRID_URL} hasCrmSetup={true} />
 }

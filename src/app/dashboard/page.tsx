@@ -36,7 +36,7 @@ const ALL_MODULES: Module[] = [
   { id: 'analytics',  label: 'Analytics',         desc: 'Track performance across channels',       href: '/dashboard/analytics', icon: <BarChart3 size={22} />,   color: '#60a5fa', enabled: false },
   { id: 'email',      label: 'Email Campaigns',   desc: 'Drip sequences and broadcasts',           href: '/dashboard/email',     icon: <Mail size={22} />,        color: '#fb7185', enabled: false },
   { id: 'affiliates', label: 'Affiliates',        desc: 'Refer and earn commissions',              href: '/dashboard/affiliates', icon: <Gift size={22} />,       color: '#c084fc', enabled: false },
-  { id: 'store',      label: 'Add0n Store',       desc: 'Browse plugins and tools',                href: '/dashboard/store',     icon: <ShoppingBag size={22} />, color: '#f97316', enabled: false },
+  { id: 'store',      label: 'Marketplace',       desc: 'Browse plugins and tools',                href: '/dashboard/store',     icon: <ShoppingBag size={22} />, color: '#f97316', enabled: false },
 ]
 
 /* ─── Styles ─────────────────────────────────────────────── */
@@ -129,7 +129,7 @@ export default function DashboardPage() {
             </Link>
           </div>
           <nav className="dash-header-nav" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-            <Link href="/dashboard/store" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Add0n Store</Link>
+            <Link href="/dashboard/store" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Marketplace</Link>
             <Link href="/dashboard/billing" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Billing</Link>
             <div style={{
               padding: '0.3rem 0.75rem', borderRadius: '8px',
@@ -147,7 +147,7 @@ export default function DashboardPage() {
             padding: '0.5rem',
           }}>
             {[
-              { label: 'Add0n Store', href: '/dashboard/store' },
+              { label: 'Marketplace', href: '/dashboard/store' },
               { label: 'Billing', href: '/dashboard/billing' },
               { label: 'Settings', href: '/dashboard/settings' },
               { label: 'Admin', href: '/dashboard/admin' },
@@ -212,7 +212,7 @@ export default function DashboardPage() {
                   display: 'inline-block', padding: '0.5rem 1.25rem', borderRadius: '10px',
                   background: ACCENT, color: '#000', fontWeight: 700, fontSize: '0.875rem',
                   textDecoration: 'none',
-                }}>Browse Add0n Store</Link>
+                }}>Browse Marketplace</Link>
               </div>
             )}
 

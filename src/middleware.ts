@@ -59,6 +59,36 @@ export async function middleware(request: NextRequest) {
     return applySessionCookies(request, response)
   }
 
+  // ── MAINTENANCE MODE — redirect public pages for logged-out users ──
+  // TODO: Remove this block when maintenance is complete (Mike: remind me!)
+  const MAINTENANCE_MODE = true
+  if (MAINTENANCE_MODE) {
+    const publicPaths = ['/', '/integrations', '/turn-it-on', '/technology', '/security',
+      '/examples', '/downloads', '/convert', '/0n-standard', '/compare', '/glossary',
+      '/pricing', '/marketplace', '/learn', '/partners', '/sponsor']
+    const isPublicPage = publicPaths.includes(request.nextUrl.pathname) ||
+      request.nextUrl.pathname.startsWith('/integrations/') ||
+      request.nextUrl.pathname.startsWith('/compare/') ||
+      request.nextUrl.pathname.startsWith('/glossary/') ||
+      request.nextUrl.pathname.startsWith('/turn-it-on/')
+
+    if (isPublicPage && !request.nextUrl.pathname.startsWith('/maintenance')) {
+      // Check if user is logged in — if not, redirect to maintenance
+      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+        const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          cookies: {
+            getAll() { return request.cookies.getAll() },
+            setAll() {},
+          },
+        })
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+          return NextResponse.redirect(new URL('/maintenance', request.url))
+        }
+      }
+    }
+  }
+
   // Grid community — paid subscribers only
   if (request.nextUrl.pathname.startsWith('/grid')) {
     const { updateSession } = await import('@/lib/supabase/middleware')

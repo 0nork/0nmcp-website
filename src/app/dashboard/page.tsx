@@ -40,7 +40,7 @@ const ALL_MODULES: Module[] = [
   { id: 'seo',        label: 'SEO Engine',        desc: 'Search optimization tools',               href: '/dashboard/seo',    icon: <Search size={22} />,    color: '#34d399', enabled: false },
   { id: 'analytics',  label: 'Analytics',         desc: 'Track performance across channels',       href: '/dashboard/analytics', icon: <BarChart3 size={22} />, color: '#60a5fa', enabled: false },
   { id: 'email',      label: 'Email Campaigns',   desc: 'Drip sequences and broadcasts',           href: '/dashboard/email',  icon: <Mail size={22} />,      color: '#fb7185', enabled: false },
-  { id: 'grid',       label: 'Grid Community',    desc: 'Connect with other builders',             href: '/grid',             icon: <LayoutGrid size={22} />, color: '#7ed957', enabled: false },
+  { id: 'grid',       label: 'Grid Community',    desc: 'Connect with other builders',             href: '/dashboard/grid',   icon: <LayoutGrid size={22} />, color: '#7ed957', enabled: true },
   { id: 'affiliates', label: 'Affiliates',        desc: 'Refer and earn commissions',              href: '/dashboard/affiliates', icon: <Gift size={22} />,  color: '#c084fc', enabled: false },
 ]
 

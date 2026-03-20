@@ -21,20 +21,22 @@ interface Module {
   enabled: boolean
 }
 
-/* ─── Module Registry ────────────────────────────────────── */
+/* ─── Plugin Registry (Add0ns) ───────────────────────────── */
 
 const ALL_MODULES: Module[] = [
-  { id: 'engine',     label: '0nEngine',         desc: 'Build AI agents that think and execute',   href: '/0nengine',          icon: <Cpu size={22} />,         color: '#7ed957', enabled: true },
-  { id: 'crm',        label: 'CRM',              desc: 'Contacts, deals, conversations',           href: '/dashboard/crm',     icon: <Users size={22} />,       color: '#00d4ff', enabled: true },
-  { id: 'blog',       label: '0nBlog',           desc: 'AI-generated content engine',              href: '/blog',              icon: <PenLine size={22} />,     color: '#a78bfa', enabled: true },
-  { id: 'social',     label: 'Social Publisher',  desc: 'Post to all platforms at once',            href: '/dashboard/social',  icon: <Share2 size={22} />,      color: '#f472b6', enabled: true },
-  { id: 'brain',      label: 'Knowledge Base',    desc: 'Train your personal AI',                  href: '/dashboard/brain',   icon: <Brain size={22} />,       color: '#fbbf24', enabled: true },
-  { id: 'grid',       label: 'Grid Community',    desc: 'Connect with other builders',             href: '/dashboard/grid',    icon: <LayoutGrid size={22} />,  color: '#7ed957', enabled: true },
-  { id: 'store',      label: 'Module Shop',       desc: 'Browse tools and workflows',              href: '/dashboard/store',   icon: <ShoppingBag size={22} />, color: '#f97316', enabled: false },
-  { id: 'seo',        label: 'SEO Engine',        desc: 'Search optimization tools',               href: '/dashboard/seo',     icon: <Search size={22} />,      color: '#34d399', enabled: false },
-  { id: 'analytics',  label: 'Analytics',         desc: 'Track performance across channels',       href: '/dashboard/analytics', icon: <BarChart3 size={22} />, color: '#60a5fa', enabled: false },
-  { id: 'email',      label: 'Email Campaigns',   desc: 'Drip sequences and broadcasts',           href: '/dashboard/email',   icon: <Mail size={22} />,        color: '#fb7185', enabled: false },
-  { id: 'affiliates', label: 'Affiliates',        desc: 'Refer and earn commissions',              href: '/dashboard/affiliates', icon: <Gift size={22} />,     color: '#c084fc', enabled: false },
+  // Core Plugins — enabled by default
+  { id: 'engine',     label: '0nEngine',         desc: 'Build AI agents that think and execute',   href: '/0nengine',            icon: <Cpu size={22} />,         color: '#7ed957', enabled: true },
+  { id: 'crm',        label: 'CRM',              desc: 'Contacts, deals, conversations',           href: '/dashboard/crm',       icon: <Users size={22} />,       color: '#00d4ff', enabled: true },
+  { id: 'social',     label: 'Social Publisher',  desc: 'Post to all platforms at once',            href: '/dashboard/social',    icon: <Share2 size={22} />,      color: '#f472b6', enabled: true },
+  { id: 'blog',       label: '0nBlog',           desc: 'AI-generated content engine',              href: '/blog',                icon: <PenLine size={22} />,     color: '#a78bfa', enabled: true },
+  { id: 'brain',      label: 'Knowledge Base',    desc: 'Train your personal AI',                  href: '/dashboard/brain',     icon: <Brain size={22} />,       color: '#fbbf24', enabled: true },
+  { id: 'grid',       label: 'Grid Community',    desc: 'Connect with other builders',             href: '/dashboard/grid',      icon: <LayoutGrid size={22} />,  color: '#7ed957', enabled: true },
+  // Available Plugins — install to enable
+  { id: 'seo',        label: 'SEO Engine',        desc: 'Search optimization tools',               href: '/dashboard/seo',       icon: <Search size={22} />,      color: '#34d399', enabled: false },
+  { id: 'analytics',  label: 'Analytics',         desc: 'Track performance across channels',       href: '/dashboard/analytics', icon: <BarChart3 size={22} />,   color: '#60a5fa', enabled: false },
+  { id: 'email',      label: 'Email Campaigns',   desc: 'Drip sequences and broadcasts',           href: '/dashboard/email',     icon: <Mail size={22} />,        color: '#fb7185', enabled: false },
+  { id: 'affiliates', label: 'Affiliates',        desc: 'Refer and earn commissions',              href: '/dashboard/affiliates', icon: <Gift size={22} />,       color: '#c084fc', enabled: false },
+  { id: 'store',      label: 'Add0n Store',       desc: 'Browse plugins and tools',                href: '/dashboard/store',     icon: <ShoppingBag size={22} />, color: '#f97316', enabled: false },
 ]
 
 /* ─── Styles ─────────────────────────────────────────────── */
@@ -57,7 +59,7 @@ export default function DashboardPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const saved = localStorage.getItem('0n_dashboard_modules')
+    const saved = localStorage.getItem('0n_dashboard_addons')
     if (saved) {
       try {
         const savedIds: Record<string, boolean> = JSON.parse(saved)
@@ -78,7 +80,7 @@ export default function DashboardPage() {
       const next = prev.map(m => m.id === id ? { ...m, enabled: !m.enabled } : m)
       const state: Record<string, boolean> = {}
       next.forEach(m => { state[m.id] = m.enabled })
-      localStorage.setItem('0n_dashboard_modules', JSON.stringify(state))
+      localStorage.setItem('0n_dashboard_addons', JSON.stringify(state))
       return next
     })
   }, [])
@@ -127,7 +129,7 @@ export default function DashboardPage() {
             </Link>
           </div>
           <nav className="dash-header-nav" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-            <Link href="/dashboard/store" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Module Shop</Link>
+            <Link href="/dashboard/store" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Add0n Store</Link>
             <Link href="/dashboard/billing" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Billing</Link>
             <div style={{
               padding: '0.3rem 0.75rem', borderRadius: '8px',
@@ -145,7 +147,7 @@ export default function DashboardPage() {
             padding: '0.5rem',
           }}>
             {[
-              { label: 'Module Shop', href: '/dashboard/store' },
+              { label: 'Add0n Store', href: '/dashboard/store' },
               { label: 'Billing', href: '/dashboard/billing' },
               { label: 'Settings', href: '/dashboard/settings' },
               { label: 'Admin', href: '/dashboard/admin' },
@@ -170,13 +172,13 @@ export default function DashboardPage() {
                 My <span style={{ color: ACCENT }}>0nMCP</span>
               </h1>
               <p style={{ fontSize: '0.9375rem', color: TEXT_DIM, margin: 0 }}>
-                {userName ? `Welcome back, ${userName}.` : 'Your active modules and AI-powered tools'}
+                {userName ? `Welcome back, ${userName}.` : 'Your plugins and AI-powered tools'}
               </p>
             </div>
 
             {/* Active Modules Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.875rem' }}>
-              <h2 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>Your Active Modules</h2>
+              <h2 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>Your Add0ns</h2>
               <button
                 onClick={() => setEditing(!editing)}
                 style={{
@@ -186,7 +188,7 @@ export default function DashboardPage() {
                   fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                 }}
               >
-                {editing ? 'Done' : 'Customize'}
+                {editing ? 'Done' : 'Manage'}
               </button>
             </div>
 
@@ -204,20 +206,20 @@ export default function DashboardPage() {
                 marginBottom: '1.5rem',
               }}>
                 <ShoppingBag size={36} style={{ color: TEXT_MUTED, margin: '0 auto 0.75rem' }} />
-                <p style={{ fontSize: '1rem', fontWeight: 600, color: TEXT, margin: '0 0 0.25rem' }}>No modules added yet</p>
-                <p style={{ fontSize: '0.875rem', color: TEXT_DIM, margin: '0 0 1rem' }}>Tap Customize to enable modules.</p>
+                <p style={{ fontSize: '1rem', fontWeight: 600, color: TEXT, margin: '0 0 0.25rem' }}>No Add0ns installed yet</p>
+                <p style={{ fontSize: '0.875rem', color: TEXT_DIM, margin: '0 0 1rem' }}>Tap Manage to install plugins.</p>
                 <Link href="/dashboard/store" style={{
                   display: 'inline-block', padding: '0.5rem 1.25rem', borderRadius: '10px',
                   background: ACCENT, color: '#000', fontWeight: 700, fontSize: '0.875rem',
                   textDecoration: 'none',
-                }}>Browse Module Shop</Link>
+                }}>Browse Add0n Store</Link>
               </div>
             )}
 
-            {/* Available Modules (when editing) */}
+            {/* Available Plugins (when editing) */}
             {editing && disabledModules.length > 0 && (
               <>
-                <h3 style={{ fontSize: '0.875rem', fontWeight: 700, color: TEXT_DIM, margin: '0 0 0.625rem' }}>Available Modules</h3>
+                <h3 style={{ fontSize: '0.875rem', fontWeight: 700, color: TEXT_DIM, margin: '0 0 0.625rem' }}>Available Plugins</h3>
                 <div className="dash-module-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.625rem', marginBottom: '1.5rem' }}>
                   {disabledModules.map(mod => (
                     <ModuleCard key={mod.id} mod={mod} editing={editing} onToggle={toggleModule} disabled />

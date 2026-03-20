@@ -2875,10 +2875,8 @@ a:hover {
 .mega-nav-bar {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
   height: auto;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 2rem;
   width: 100%;
   background: rgba(10, 10, 15, 0.92);
   backdrop-filter: blur(16px);
@@ -2907,7 +2905,9 @@ a:hover {
 .mega-nav-links {
   display: none;
   align-items: center;
+  justify-content: center;
   gap: 0.25rem;
+  flex: 1;
 }
 
 @media (min-width: 768px) {
@@ -2976,12 +2976,12 @@ a:hover {
   transform: rotate(180deg);
 }
 
-/* Right actions — pushed to far right */
+/* Right actions */
 .mega-nav-actions {
   display: none;
   align-items: center;
   gap: 0.75rem;
-  margin-left: auto;
+  flex-shrink: 0;
 }
 
 @media (min-width: 768px) {

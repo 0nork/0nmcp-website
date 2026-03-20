@@ -21,14 +21,17 @@ interface Group {
   slug: string
   description?: string
   icon?: string
+  color?: string
   threadCount: number
 }
 
 interface ThreadAuthor {
   id: string
   full_name?: string
-  handle?: string
+  email?: string
   avatar_url?: string
+  karma?: number
+  reputation_level?: string
 }
 
 interface Thread {

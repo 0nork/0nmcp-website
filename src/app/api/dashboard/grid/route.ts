@@ -32,34 +32,28 @@ export async function GET(request: NextRequest) {
 
   const admin = getAdmin()
 
-  // Fetch groups with thread counts
+  // Fetch groups — thread_count is maintained by DB trigger
   const { data: groups } = await admin
     .from('community_groups')
-    .select('id, name, slug, description, icon, sort_order')
+    .select('id, name, slug, description, icon, color, sort_order, thread_count')
     .order('sort_order', { ascending: true })
 
-  // Count threads per group
-  const groupsWithCounts = await Promise.all(
-    (groups || []).map(async (g) => {
-      const { count } = await admin
-        .from('community_threads')
-        .select('id', { count: 'exact', head: true })
-        .eq('group_id', g.id)
-      return { ...g, threadCount: count || 0 }
-    })
-  )
+  const groupsWithCounts = (groups || []).map(g => ({
+    ...g,
+    threadCount: g.thread_count || 0,
+  }))
 
   // If requesting a specific thread
   if (threadId) {
     const { data: thread } = await admin
       .from('community_threads')
-      .select('*, profiles!community_threads_author_id_fkey(id, full_name, handle, avatar_url, role)')
+      .select('*, profiles(id, full_name, email, karma, reputation_level, avatar_url)')
       .eq('id', threadId)
       .single()
 
     const { data: posts } = await admin
       .from('community_posts')
-      .select('*, profiles!community_posts_author_id_fkey(id, full_name, handle, avatar_url, role)')
+      .select('*, profiles(id, full_name, email, karma, reputation_level, avatar_url)')
       .eq('thread_id', threadId)
       .order('created_at', { ascending: true })
 
@@ -74,8 +68,9 @@ export async function GET(request: NextRequest) {
   // Fetch threads (optionally filtered by group)
   let threadsQuery = admin
     .from('community_threads')
-    .select('id, title, slug, body, vote_count, created_at, group_id, profiles!community_threads_author_id_fkey(id, full_name, handle, avatar_url)')
-    .order('created_at', { ascending: false })
+    .select('id, title, slug, body, score, reply_count, created_at, group_id, is_pinned, profiles(id, full_name, email, karma, reputation_level, avatar_url)')
+    .order('is_pinned', { ascending: false })
+    .order('hot_score', { ascending: false })
     .limit(30)
 
   if (groupSlug && groupSlug !== 'all') {
@@ -87,16 +82,12 @@ export async function GET(request: NextRequest) {
 
   const { data: threads } = await threadsQuery
 
-  // Count posts per thread
-  const threadsWithCounts = await Promise.all(
-    (threads || []).map(async (t) => {
-      const { count } = await admin
-        .from('community_posts')
-        .select('id', { count: 'exact', head: true })
-        .eq('thread_id', t.id)
-      return { ...t, replyCount: count || 0 }
-    })
-  )
+  // reply_count is already on the thread record (maintained by DB trigger)
+  const threadsWithCounts = (threads || []).map(t => ({
+    ...t,
+    vote_count: t.score || 0,
+    replyCount: t.reply_count || 0,
+  }))
 
   return NextResponse.json({
     groups: groupsWithCounts,

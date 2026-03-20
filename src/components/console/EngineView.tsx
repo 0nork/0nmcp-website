@@ -11,11 +11,12 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import {
-  Cpu, Plus, Play, Pause, Trash2, ChevronRight, Brain,
-  Database, Zap, Settings, Rocket, CheckCircle2, AlertCircle,
-  MessageSquare, Globe, Shield, ArrowUpRight, Loader2,
-  BookOpen, Mic, Bot,
+  Cpu, Plus, Play, Trash2, ChevronRight,
+  Zap, CheckCircle2, AlertCircle,
+  MessageSquare, Loader2,
+  BookOpen, Bot, LayoutDashboard, Settings, Layers,
 } from 'lucide-react'
+import { AppShell, type AppNavItem } from './AppShell'
 
 interface Agent {
   id: string
@@ -160,15 +161,6 @@ export function EngineView() {
   }
 
   const S = {
-    page: { display: 'flex', flexDirection: 'column' as const, height: '100%', background: '#0a0a0f' },
-    header: { padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)' },
-    tabs: { display: 'flex', gap: '4px', padding: '0 24px 0', marginTop: '12px' },
-    tab: (active: boolean) => ({
-      padding: '8px 16px', borderRadius: '8px', border: 'none', fontSize: '13px', fontWeight: 600,
-      cursor: 'pointer', transition: 'all 0.15s', fontFamily: 'inherit',
-      background: active ? 'rgba(126,217,87,0.15)' : 'transparent',
-      color: active ? '#7ed957' : '#666',
-    }),
     body: { flex: 1, overflow: 'auto', padding: '20px 24px' },
     card: {
       background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
@@ -193,34 +185,35 @@ export function EngineView() {
     }),
   }
 
-  return (
-    <div style={S.page}>
-      {/* Header */}
-      <div style={S.header}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #7ed957, #00d4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Cpu size={20} color="#0a0a0f" />
-          </div>
-          <div>
-            <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#e8e8ef' }}>0nEngine</h2>
-            <p style={{ margin: 0, fontSize: '11px', color: '#666' }}>Agentic AI — thinks, decides, executes, learns</p>
-          </div>
-        </div>
-      </div>
+  const engineNav: AppNavItem[] = [
+    { key: 'agents', label: 'My Agents', icon: <Bot size={16} />, count: agents.length },
+    { key: 'create', label: 'Create Agent', icon: <Plus size={16} /> },
+    { key: 'knowledge', label: 'Knowledge Bases', icon: <BookOpen size={16} />, count: knowledgeBases.length },
+    { key: 'execute', label: 'Test Agent', icon: <Play size={16} /> },
+    { key: 'settings', label: 'Settings', icon: <Settings size={16} /> },
+  ]
 
-      {/* Tabs */}
-      <div style={S.tabs}>
-        {([
-          { key: 'agents', label: 'My Agents', icon: <Bot size={14} /> },
-          { key: 'create', label: 'Create Agent', icon: <Plus size={14} /> },
-          { key: 'knowledge', label: 'Knowledge Bases', icon: <BookOpen size={14} /> },
-          { key: 'execute', label: 'Test Agent', icon: <Play size={14} /> },
-        ] as { key: Tab; label: string; icon: React.ReactNode }[]).map(t => (
-          <button key={t.key} onClick={() => setTab(t.key)} style={S.tab(tab === t.key)}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{t.icon} {t.label}</span>
-          </button>
-        ))}
+  const engineLogo = (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #7ed957, #00d4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Cpu size={18} color="#0a0a0f" />
       </div>
+      <span style={{ fontSize: '16px', fontWeight: 800, color: '#e8e8ef' }}>0nEngine</span>
+    </div>
+  )
+
+  return (
+    <AppShell config={{
+      appName: '0nEngine',
+      logo: engineLogo,
+      ctaLabel: '+ Create Agent',
+      onCta: () => setTab('create'),
+      breadcrumb: `/ ${tab === 'agents' ? 'My Agents' : tab === 'create' ? 'Create' : tab === 'knowledge' ? 'Knowledge Bases' : tab === 'execute' ? 'Test' : tab}`,
+      sectionLabel: 'MODULES',
+      navItems: engineNav,
+      activeNav: tab,
+      onNav: (key) => setTab(key as Tab),
+    }}>
 
       {/* Error */}
       {error && (
@@ -418,6 +411,6 @@ export function EngineView() {
           </div>
         )}
       </div>
-    </div>
+    </AppShell>
   )
 }

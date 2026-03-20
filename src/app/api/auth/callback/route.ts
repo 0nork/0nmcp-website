@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
 import { provisionUser, getUserCrmAccount } from '@/lib/crm-provisioning'
+import { stripe } from '@/lib/stripe'
 import * as Sentry from '@sentry/nextjs'
 
 export async function GET(request: NextRequest) {
@@ -28,6 +29,9 @@ export async function GET(request: NextRequest) {
 
           // Auto-provision CRM sub-account for EVERY new user (non-blocking)
           autoProvisionCrm(user.id, user.email || '', meta).catch(() => {})
+
+          // Create Stripe customer if not already created (non-blocking)
+          ensureStripeCustomer(user.id, user.email || '', meta).catch(() => {})
 
           // For LinkedIn signups: fire PACG pipeline
           if (provider === 'linkedin_oidc') {
@@ -158,6 +162,52 @@ function getAdminClient() {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) return null
   return createClient(url, key)
+}
+
+/**
+ * Ensure a Stripe customer exists for this user.
+ * NEVER throws — failures are logged but don't block auth.
+ * Non-blocking — runs in background via fire-and-forget.
+ */
+async function ensureStripeCustomer(userId: string, email: string, meta: Record<string, unknown>) {
+  try {
+    const admin = getAdminClient()
+    if (!admin) return
+
+    // Check if user already has a stripe_customer_id
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('stripe_customer_id')
+      .eq('id', userId)
+      .single()
+
+    if (profile?.stripe_customer_id) return
+
+    // Create Stripe customer
+    const fullName = (meta.full_name as string) || (meta.name as string) || email.split('@')[0]
+    const customer = await stripe.customers.create({
+      email,
+      name: fullName,
+      metadata: {
+        supabase_user_id: userId,
+      },
+    })
+
+    // Store the stripe_customer_id on the profile
+    await admin
+      .from('profiles')
+      .update({ stripe_customer_id: customer.id })
+      .eq('id', userId)
+
+    console.log(`[auth] Stripe customer created for ${email} → ${customer.id}`)
+  } catch (err) {
+    console.error('[Stripe Customer Creation Failed]', email, err instanceof Error ? err.message : err)
+    Sentry.captureException(err, {
+      tags: { area: 'stripe-customer-creation', phase: 'auth-callback' },
+      extra: { userId, email },
+    })
+    // Do NOT re-throw — auth callback must never fail due to Stripe
+  }
 }
 
 /**

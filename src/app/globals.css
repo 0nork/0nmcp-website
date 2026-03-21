@@ -5,16 +5,16 @@
    ============================================ */
 
 :root {
-  /* Backgrounds */
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #111118;
-  --bg-tertiary: #16161f;
-  --bg-card: #1a1a25;
+  /* Backgrounds — Dashboard Standard (2026-03-21) */
+  --bg-primary: #0f1419;
+  --bg-secondary: #151d27;
+  --bg-tertiary: #1a2332;
+  --bg-card: rgba(255, 255, 255, 0.03);
 
   /* Text */
-  --text-primary: #e8e8ef;
-  --text-secondary: #8888a0;
-  --text-muted: #55556a;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.35);
 
   /* Accent — Brand Green #7ed957 */
   --accent: #7ed957;
@@ -23,8 +23,8 @@
   --accent-secondary: #00d4ff;
 
   /* Borders */
-  --border: #2a2a3a;
-  --border-hover: #3a3a50;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.1);
 
   /* Fonts */
   --font-display: 'Instrument Sans', sans-serif;
@@ -48,23 +48,7 @@ body {
   min-height: 100vh;
 }
 
-/* Subtle pixel grid background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* Hide grid background on forum pages */
-body.forum-active::before {
-  display: none !important;
-}
+/* Grid background removed — brand standard 2026-03-21 */
 
 /* ============================================
    Typography
@@ -1868,22 +1852,9 @@ a:hover {
   overflow: hidden;
 }
 
-/* Animated grid overlay */
+/* Hero grid removed — brand standard 2026-03-21 */
 .hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(126, 217, 87, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(126, 217, 87, 0.04) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 70% 50% at 50% 40%, black 10%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 40%, black 10%, transparent 70%);
-  animation: heroGridPulse 5s ease-in-out infinite;
-}
-
-@keyframes heroGridPulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
+  display: none;
 }
 
 /* Multi-color radial glows */
@@ -5833,20 +5804,7 @@ nav[aria-label="Breadcrumb"] a:hover {
   flex-direction: column;
 }
 
-.on-terminal-container::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 255, 102, 0.015) 2px,
-    rgba(0, 255, 102, 0.015) 4px
-  );
-  pointer-events: none;
-  z-index: 1;
-}
+/* Terminal scanlines removed — brand standard 2026-03-21 */
 
 .on-terminal-header {
   display: flex;

@@ -526,10 +526,12 @@ async function handleCourseCompletion(record: Record<string, unknown>) {
       .maybeSingle()
 
     if (badge) {
-      await supabase.from('community_user_badges').upsert({
-        user_id: userId,
-        badge_id: badge.id,
-      }, { onConflict: 'user_id,badge_id' }).catch(() => {})
+      try {
+        await supabase.from('community_user_badges').upsert({
+          user_id: userId,
+          badge_id: badge.id,
+        }, { onConflict: 'user_id,badge_id' })
+      } catch { /* badge may already exist */ }
     }
 
     // Grant 25 Runs for course completion
@@ -566,8 +568,9 @@ async function handleCourseCompletion(record: Record<string, unknown>) {
       await syncCertification({
         email: user.email,
         fullName: user.fullName,
-        courseTitle: course.title,
-        courseSlug: course.slug,
+        courseName: course.title,
+        courseId: course.slug,
+        completedAt: new Date().toISOString(),
       }).catch(() => {})
     }
 

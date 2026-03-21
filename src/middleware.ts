@@ -89,6 +89,26 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // Dashboard — login required
+  if (request.nextUrl.pathname.startsWith('/dashboard')) {
+    const { updateSession } = await import('@/lib/supabase/middleware')
+    const response = await updateSession(request)
+
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        cookies: {
+          getAll() { return request.cookies.getAll() },
+          setAll(cookiesToSet) { cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) },
+        },
+      })
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        return NextResponse.redirect(new URL('/login?redirect=/dashboard', request.url))
+      }
+    }
+    return response
+  }
+
   // Grid community — paid subscribers only
   if (request.nextUrl.pathname.startsWith('/grid')) {
     const { updateSession } = await import('@/lib/supabase/middleware')

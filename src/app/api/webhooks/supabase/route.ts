@@ -10,6 +10,7 @@ import {
   syncBadgeAwarded,
   syncGroupJoined,
   syncGroupLeft,
+  syncCertification,
 } from '@/lib/crm-community-sync'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
@@ -66,7 +67,7 @@ export async function POST(request: NextRequest) {
           if (record.onboarding_completed === true && old_record.onboarding_completed === false) {
             await syncOnboardingComplete(record)
           }
-          // Reputation level change → community CRM
+          // Reputation level change → CRM sync + Runs bonus + affiliate tier
           if (record.reputation_level !== old_record.reputation_level) {
             await syncEngagementLevel({
               email: record.email as string,
@@ -75,6 +76,12 @@ export async function POST(request: NextRequest) {
               oldLevel: (old_record.reputation_level as string) || 'newcomer',
               karma: (record.karma as number) || 0,
             })
+            // Grant Runs bonus on reputation milestones
+            await grantReputationRuns(
+              record.id as string,
+              record.reputation_level as string,
+              old_record.reputation_level as string
+            )
           }
         }
         break
@@ -90,6 +97,12 @@ export async function POST(request: NextRequest) {
       case 'lesson_progress':
         if ((type === 'INSERT' || type === 'UPDATE') && record) {
           await handleLessonComplete(record)
+          // Check if course is now fully complete → award badge + Runs
+          if (record.completed) {
+            await handleCourseCompletion(record).catch(err =>
+              console.error('[webhook] course completion error:', err)
+            )
+          }
         }
         break
 
@@ -401,5 +414,165 @@ async function handleNewSponsor(record: Record<string, unknown>) {
         await addContactTags(contact.id, [`sponsor`, `${tier}-tier`, 'paying-customer'])
       }
     } catch { /* non-critical */ }
+  }
+}
+
+// ==================== RUNS BONUS ON REPUTATION MILESTONES ====================
+
+const REPUTATION_RUNS: Record<string, number> = {
+  member: 10,        // 5+ karma
+  contributor: 25,   // 25+ karma
+  'power-user': 100, // 100+ karma
+  expert: 250,       // 500+ karma
+  legend: 500,       // 1000+ karma
+}
+
+async function grantReputationRuns(userId: string, newLevel: string, oldLevel: string) {
+  const bonus = REPUTATION_RUNS[newLevel]
+  if (!bonus) return
+  if (newLevel === oldLevel) return // shouldn't happen but safety check
+
+  try {
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+
+    // Grant Runs
+    await supabase.from('run_transactions').insert({
+      user_id: userId,
+      amount: bonus,
+      type: 'bonus',
+      description: `Reputation milestone: reached ${newLevel} (+${bonus} Runs)`,
+    })
+
+    // Update balance
+    const { data: balance } = await supabase
+      .from('run_balances')
+      .select('balance, lifetime_earned')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (balance) {
+      await supabase.from('run_balances').update({
+        balance: (balance.balance || 0) + bonus,
+        lifetime_earned: (balance.lifetime_earned || 0) + bonus,
+      }).eq('user_id', userId)
+    } else {
+      await supabase.from('run_balances').insert({
+        user_id: userId,
+        balance: bonus,
+        lifetime_earned: bonus,
+        lifetime_spent: 0,
+      })
+    }
+
+    console.log(`[webhook] Granted ${bonus} Runs to ${userId} for reaching ${newLevel}`)
+  } catch (err) {
+    console.error('[webhook] grantReputationRuns error:', err)
+  }
+}
+
+// ==================== COURSE COMPLETION → BADGE + RUNS ====================
+
+async function handleCourseCompletion(record: Record<string, unknown>) {
+  const userId = record.user_id as string
+  const courseId = record.course_id as string
+  if (!userId || !courseId) return
+
+  try {
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+
+    // Check if ALL lessons in this course are completed
+    const { data: course } = await supabase
+      .from('courses')
+      .select('id, title, slug, lesson_count')
+      .eq('id', courseId)
+      .single()
+
+    if (!course) return
+
+    const { count: completedCount } = await supabase
+      .from('lesson_progress')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .eq('course_id', courseId)
+      .eq('completed', true)
+
+    if (!completedCount || completedCount < (course.lesson_count || 1)) return
+
+    // Check if already marked complete in enrollments
+    const { data: enrollment } = await supabase
+      .from('enrollments')
+      .select('completed')
+      .eq('user_id', userId)
+      .eq('course_id', courseId)
+      .maybeSingle()
+
+    if (enrollment?.completed) return // Already completed
+
+    // Mark course as completed
+    await supabase.from('enrollments').upsert({
+      user_id: userId,
+      course_id: courseId,
+      completed: true,
+      progress: 100,
+    }, { onConflict: 'user_id,course_id' })
+
+    // Award Grid badge — find or create "course-completer" badge
+    const { data: badge } = await supabase
+      .from('community_badges')
+      .select('id')
+      .eq('slug', `course-${course.slug}`)
+      .maybeSingle()
+
+    if (badge) {
+      await supabase.from('community_user_badges').upsert({
+        user_id: userId,
+        badge_id: badge.id,
+      }, { onConflict: 'user_id,badge_id' }).catch(() => {})
+    }
+
+    // Grant 25 Runs for course completion
+    await supabase.from('run_transactions').insert({
+      user_id: userId,
+      amount: 25,
+      type: 'bonus',
+      description: `Course completed: ${course.title} (+25 Runs)`,
+    })
+
+    const { data: balance } = await supabase
+      .from('run_balances')
+      .select('balance, lifetime_earned')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (balance) {
+      await supabase.from('run_balances').update({
+        balance: (balance.balance || 0) + 25,
+        lifetime_earned: (balance.lifetime_earned || 0) + 25,
+      }).eq('user_id', userId)
+    } else {
+      await supabase.from('run_balances').insert({
+        user_id: userId,
+        balance: 25,
+        lifetime_earned: 25,
+        lifetime_spent: 0,
+      })
+    }
+
+    // Sync to CRM
+    const user = await lookupUserEmail(userId)
+    if (user) {
+      await syncCertification({
+        email: user.email,
+        fullName: user.fullName,
+        courseTitle: course.title,
+        courseSlug: course.slug,
+      }).catch(() => {})
+    }
+
+    console.log(`[webhook] Course completed: ${course.title} by ${userId} → badge + 25 Runs`)
+  } catch (err) {
+    console.error('[webhook] handleCourseCompletion error:', err)
   }
 }

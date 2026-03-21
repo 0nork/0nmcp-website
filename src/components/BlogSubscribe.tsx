@@ -113,7 +113,7 @@ export default function BlogSubscribe() {
               borderRadius: '0.5rem',
               border: 'none',
               background: 'var(--accent)',
-              color: '#0a0a0f',
+              color: '#0f1419',
               fontSize: '0.8125rem',
               fontWeight: 700,
               fontFamily: 'var(--font-display)',

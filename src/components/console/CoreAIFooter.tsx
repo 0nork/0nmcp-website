@@ -291,7 +291,7 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                   ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
                   : 'rgba(255,255,255,0.04)',
                 border: 'none',
-                color: keyValue.trim() ? '#0a0a0f' : 'var(--text-muted)',
+                color: keyValue.trim() ? '#0f1419' : 'var(--text-muted)',
                 fontSize: 13,
                 fontWeight: 800,
                 cursor: keyValue.trim() ? 'pointer' : 'default',

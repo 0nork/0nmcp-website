@@ -108,7 +108,7 @@ export default function BuilderPrompt({ onSubmit, loading, stepCount }: BuilderP
             background: value.trim()
               ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
               : 'rgba(255, 255, 255, 0.06)',
-            color: value.trim() ? '#0a0a0f' : 'var(--text-muted)',
+            color: value.trim() ? '#0f1419' : 'var(--text-muted)',
             cursor: value.trim() ? 'pointer' : 'default',
             display: 'flex',
             alignItems: 'center',
@@ -125,7 +125,7 @@ export default function BuilderPrompt({ onSubmit, loading, stepCount }: BuilderP
               width: 14,
               height: 14,
               border: '2px solid rgba(10,10,15,0.3)',
-              borderTopColor: '#0a0a0f',
+              borderTopColor: '#0f1419',
               borderRadius: '50%',
               animation: 'spin 0.6s linear infinite',
             }} />

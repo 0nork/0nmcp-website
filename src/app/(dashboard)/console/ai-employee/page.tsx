@@ -61,7 +61,7 @@ const HOURS = Array.from({ length: 24 }, (_, i) => {
 // ── Colors ──
 
 const C = {
-  bg: '#0a0a0f',
+  bg: '#0f1419',
   card: 'rgba(255,255,255,0.03)',
   cardHover: 'rgba(255,255,255,0.055)',
   border: 'rgba(255,255,255,0.06)',
@@ -775,7 +775,7 @@ export default function AiEmployeePage(): ReactNode {
             background: saving
               ? 'rgba(126,217,87,0.2)'
               : `linear-gradient(135deg, ${C.accent}, #5cb83a)`,
-            color: saving ? C.textMuted : '#0a0a0f',
+            color: saving ? C.textMuted : '#0f1419',
             fontSize: 15,
             fontWeight: 700,
             cursor: saving ? 'not-allowed' : 'pointer',

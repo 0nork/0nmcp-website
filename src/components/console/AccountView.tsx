@@ -585,7 +585,7 @@ export function AccountView() {
                 borderRadius: 12,
                 border: 'none',
                 background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                color: '#0a0a0f',
+                color: '#0f1419',
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: saving ? 'wait' : 'pointer',
@@ -770,7 +770,7 @@ export function AccountView() {
                   style={{
                     padding: '10px 24px', borderRadius: 10, border: 'none',
                     background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                    color: '#0a0a0f', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                    color: '#0f1419', fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   }}
                 >
                   Complete Stripe Onboarding
@@ -853,7 +853,7 @@ export function AccountView() {
               flexShrink: 0,
             }}
           >
-            <span style={{ fontSize: 22, fontWeight: 800, color: '#0a0a0f' }}>
+            <span style={{ fontSize: 22, fontWeight: 800, color: '#0f1419' }}>
               {fullName ? fullName[0].toUpperCase() : '?'}
             </span>
           </div>
@@ -997,7 +997,7 @@ export function AccountView() {
             style={{
               padding: '8px 20px', borderRadius: 10, border: 'none',
               background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: '#0a0a0f', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-display)',
+              color: '#0f1419', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-display)',
             }}
           >
             {billing?.plan === 'free' || !billing?.plan ? 'Upgrade Plan' : 'Switch Plan'}
@@ -1154,7 +1154,7 @@ export function AccountView() {
                 width: 18,
                 height: 18,
                 borderRadius: '50%',
-                backgroundColor: notifications ? '#0a0a0f' : 'var(--text-muted)',
+                backgroundColor: notifications ? '#0f1419' : 'var(--text-muted)',
                 transition: 'left 0.2s, background-color 0.2s',
               }}
             />
@@ -1246,7 +1246,7 @@ export function AccountView() {
               background: (!currentPassword || !newPassword || !confirmPassword)
                 ? 'var(--border)'
                 : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: (!currentPassword || !newPassword || !confirmPassword) ? 'var(--text-muted)' : '#0a0a0f',
+              color: (!currentPassword || !newPassword || !confirmPassword) ? 'var(--text-muted)' : '#0f1419',
               fontSize: 14,
               fontWeight: 600,
               cursor: (passwordSaving || !currentPassword || !newPassword || !confirmPassword) ? 'not-allowed' : 'pointer',

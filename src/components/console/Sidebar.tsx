@@ -150,7 +150,7 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
       display: 'flex',
       flexDirection: 'column',
       flexShrink: 0,
-      background: '#0a0a0f',
+      background: '#0f1419',
       borderRight: '1px solid rgba(255,255,255,0.06)',
       transition: 'width 0.2s ease',
       overflow: 'hidden',

@@ -309,7 +309,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#0a0a0f' }}>{initials}</span>
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#0f1419' }}>{initials}</span>
             </div>
             <ChevronDown
               size={12}

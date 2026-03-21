@@ -229,7 +229,7 @@ export default async function ServiceToolPage({ params }: Props) {
             className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold"
             style={{
               background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary, #5cb83a))',
-              color: '#0a0a0f',
+              color: '#0f1419',
               textDecoration: 'none',
             }}
           >

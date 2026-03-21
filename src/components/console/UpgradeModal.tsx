@@ -327,7 +327,7 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
                       ? 'var(--text-muted)'
                       : isDowngrade
                         ? 'var(--text-secondary)'
-                        : '#0a0a0f',
+                        : '#0f1419',
                     opacity: isCurrent ? 0.7 : 1,
                     border: isDowngrade && !isCurrent ? '1px solid var(--border)' : 'none',
                   }}

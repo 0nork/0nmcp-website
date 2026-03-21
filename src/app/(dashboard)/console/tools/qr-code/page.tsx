@@ -346,7 +346,7 @@ export default function ToolsPage() {
                   border: 'none',
                   cursor: 'pointer',
                   background: 'var(--accent, #7ed957)',
-                  color: '#0a0a0f',
+                  color: '#0f1419',
                   fontSize: 13,
                   fontWeight: 600,
                   fontFamily: 'inherit',

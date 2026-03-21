@@ -32,7 +32,7 @@ function getDashboardHtml(): string {
 <title>0nMCP Dashboard</title>
 <style>
   :root {
-    --bg: #0a0a0f;
+    --bg: #0f1419;
     --bg-card: rgba(255,255,255,0.02);
     --border: rgba(255,255,255,0.06);
     --text: #e2e2e8;

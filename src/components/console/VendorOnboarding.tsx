@@ -246,7 +246,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
               style={{
                 flex: 1, padding: '12px 24px', borderRadius: 12, border: 'none',
                 background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-                color: '#0a0a0f', fontSize: 14, fontWeight: 600, cursor: loading ? 'wait' : 'pointer',
+                color: '#0f1419', fontSize: 14, fontWeight: 600, cursor: loading ? 'wait' : 'pointer',
                 fontFamily: 'var(--font-display)', opacity: loading ? 0.7 : 1,
               }}
             >
@@ -302,7 +302,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
               style={{
                 flex: 1, padding: '12px 24px', borderRadius: 12, border: 'none',
                 background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                color: '#0a0a0f', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                color: '#0f1419', fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'var(--font-display)',
               }}
             >

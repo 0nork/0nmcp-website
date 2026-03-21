@@ -334,7 +334,7 @@ export default function ThreadClient({
                       borderRadius: '8px',
                       fontSize: '0.875rem',
                       marginBottom: '0.5rem',
-                      background: '#111118',
+                      background: '#151d27',
                       border: '1px solid var(--border)',
                       color: 'var(--text-primary)',
                       lineHeight: 1.7,

@@ -50,7 +50,7 @@ interface CRMData {
 }
 
 const COLORS = {
-  bg: '#0a0a0f',
+  bg: '#0f1419',
   card: 'rgba(255,255,255,0.03)',
   cardHover: 'rgba(255,255,255,0.055)',
   border: 'rgba(255,255,255,0.06)',

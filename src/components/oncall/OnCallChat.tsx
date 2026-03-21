@@ -101,7 +101,7 @@ export function OnCallChat({ messages, loading, onSend, onClose, focus }: OnCall
             className="w-6 h-6 rounded-lg flex items-center justify-center"
             style={{ background: 'linear-gradient(135deg, #7ed957, #00d4ff)' }}
           >
-            <span className="text-[8px] font-black" style={{ color: '#0a0a0f' }}>0n</span>
+            <span className="text-[8px] font-black" style={{ color: '#0f1419' }}>0n</span>
           </div>
           <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
             0ncall
@@ -276,7 +276,7 @@ export function OnCallChat({ messages, loading, onSend, onClose, focus }: OnCall
             className="h-10 w-10 shrink-0 rounded-lg flex items-center justify-center cursor-pointer transition-all self-end"
             style={{
               background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: '#0a0a0f',
+              color: '#0f1419',
               opacity: loading || !input.trim() ? 0.4 : 1,
             }}
           >

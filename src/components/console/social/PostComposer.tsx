@@ -155,7 +155,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
           maxWidth: 640,
           maxHeight: '90vh',
           overflowY: 'auto',
-          background: 'linear-gradient(180deg, #1a1a25 0%, #111118 100%)',
+          background: 'linear-gradient(180deg, #151d27 0%, #151d27 100%)',
           border: '1px solid var(--border)',
           borderRadius: 20,
           padding: 28,
@@ -501,7 +501,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
             color:
               !content.trim() || selectedPlatforms.length === 0 || isPosting
                 ? 'var(--text-muted)'
-                : '#0a0a0f',
+                : '#0f1419',
             fontSize: 15,
             fontWeight: 700,
             fontFamily: 'var(--font-display)',

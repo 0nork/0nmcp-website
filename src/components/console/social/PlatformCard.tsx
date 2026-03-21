@@ -67,7 +67,7 @@ export function PlatformCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: 'linear-gradient(160deg, #1a1a25 0%, #111118 100%)',
+        background: 'linear-gradient(160deg, #151d27 0%, #151d27 100%)',
         borderRadius: 20,
         border: '1px solid var(--border)',
         borderLeft: `3px solid ${color}`,

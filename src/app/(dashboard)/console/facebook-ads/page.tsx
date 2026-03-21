@@ -103,7 +103,7 @@ function todayStr(): string {
 const styles = {
   page: {
     minHeight: '100vh',
-    background: '#0a0a0f',
+    background: '#0f1419',
     padding: '32px 24px 80px',
   } as React.CSSProperties,
 
@@ -202,7 +202,7 @@ const styles = {
     fontSize: 14,
     fontWeight: 700,
     background: complete ? '#7ed957' : active ? 'rgba(24, 119, 242, 0.2)' : 'rgba(255,255,255,0.05)',
-    color: complete ? '#0a0a0f' : active ? '#1877F2' : '#5f6672',
+    color: complete ? '#0f1419' : active ? '#1877F2' : '#5f6672',
     border: `2px solid ${complete ? '#7ed957' : active ? '#1877F2' : 'rgba(255,255,255,0.08)'}`,
     transition: 'all 0.2s ease',
   } as React.CSSProperties),
@@ -350,7 +350,7 @@ const styles = {
     borderRadius: 10,
     border: 'none',
     background: '#7ed957',
-    color: '#0a0a0f',
+    color: '#0f1419',
     fontSize: 14,
     fontWeight: 700,
     cursor: 'pointer',

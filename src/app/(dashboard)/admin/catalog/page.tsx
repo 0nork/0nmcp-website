@@ -31,7 +31,7 @@ interface NewAction {
 }
 
 const C = {
-  bg: '#0a0a0f',
+  bg: '#0f1419',
   card: 'rgba(255,255,255,0.03)',
   border: 'rgba(255,255,255,0.06)',
   borderLight: 'rgba(255,255,255,0.12)',

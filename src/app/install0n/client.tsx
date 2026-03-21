@@ -135,7 +135,7 @@ export function Install0nClient() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: '#e8e8ef', fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#0f1419', color: '#e8e8ef', fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
 
       {/* ═══════════════════════════ HERO ═══════════════════════════ */}
       <section style={{ position: 'relative', overflow: 'hidden', paddingBottom: 40 }}>
@@ -277,7 +277,7 @@ export function Install0nClient() {
                   {isDetected && (
                     <div style={{
                       position: 'absolute', top: -9, left: '50%', transform: 'translateX(-50%)',
-                      background: pl.color, color: '#0a0a0f', fontSize: 9, fontWeight: 800,
+                      background: pl.color, color: '#0f1419', fontSize: 9, fontWeight: 800,
                       padding: '3px 10px', borderRadius: 10, letterSpacing: '0.06em', whiteSpace: 'nowrap',
                     }}>
                       YOUR DEVICE

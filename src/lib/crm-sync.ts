@@ -371,7 +371,7 @@ function emailLayout(params: {
 }): string {
   const cta = params.ctaUrl && params.ctaText
     ? `<div style="text-align:center;margin:28px 0;">
-        <a href="${params.ctaUrl}" style="display:inline-block;padding:14px 36px;background:#7ed957;color:#0a0a0f;font-weight:800;font-size:15px;border-radius:10px;text-decoration:none;letter-spacing:-0.01em;mso-padding-alt:14px 36px;">
+        <a href="${params.ctaUrl}" style="display:inline-block;padding:14px 36px;background:#7ed957;color:#0f1419;font-weight:800;font-size:15px;border-radius:10px;text-decoration:none;letter-spacing:-0.01em;mso-padding-alt:14px 36px;">
           ${params.ctaText}
         </a>
       </div>`
@@ -607,7 +607,7 @@ export async function sendWelcomeEmail(email: string, name?: string): Promise<bo
         <p style="font-size:14px;color:#999;line-height:1.7;margin:0 0 20px;">
           Your account is confirmed. You now have access to the most comprehensive MCP server available &mdash; ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, zero boilerplate.
         </p>
-        <div style="background:#111118;border:1px solid #1a1a2e;border-radius:10px;padding:16px 20px;margin:0 0 20px;">
+        <div style="background:#151d27;border:1px solid #1a1a2e;border-radius:10px;padding:16px 20px;margin:0 0 20px;">
           <p style="font-size:12px;color:#7ed957;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 10px;">Quick Start</p>
           <div style="background:#0a0a10;border-radius:6px;padding:12px 16px;font-family:'Courier New',Courier,monospace;font-size:13px;color:#e0e0e0;">
             npm install -g 0nmcp<br />

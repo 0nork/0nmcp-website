@@ -8,7 +8,7 @@ export default function WebFactory() {
         position: 'relative',
         margin: '2.5rem -1.5rem 0',
         padding: '2.5rem 1.5rem 1.5rem',
-        background: 'linear-gradient(180deg, #0d0d16 0%, #0a0a0f 100%)',
+        background: 'linear-gradient(180deg, #0d0d16 0%, #0f1419 100%)',
         borderTop: '1px solid rgba(126, 217, 87, 0.12)',
         borderBottom: '1px solid rgba(126, 217, 87, 0.12)',
         overflow: 'hidden',
@@ -28,7 +28,7 @@ export default function WebFactory() {
         .w0n-st{flex:0 0 170px;text-align:center;position:relative}
         .w0n-arr{flex:0 0 32px;display:flex;align-items:center;justify-content:center;align-self:center;margin-top:6px;position:relative;height:90px}
 
-        .w0n-num{width:30px;height:30px;margin:0 auto 6px;border-radius:50%;background:linear-gradient(135deg,#7ed957,#5cb83a);color:#0a0a0f;font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-display)}
+        .w0n-num{width:30px;height:30px;margin:0 auto 6px;border-radius:50%;background:linear-gradient(135deg,#7ed957,#5cb83a);color:#0f1419;font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-display)}
         .w0n-card{width:150px;height:95px;margin:0 auto;border-radius:10px;background:#111119;border:1px solid rgba(126,217,87,0.12);overflow:hidden;position:relative}
         .w0n-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.15em;color:#7ed957;margin-top:8px;text-transform:uppercase}
         .w0n-desc{font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:2px}

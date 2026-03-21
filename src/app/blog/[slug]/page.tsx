@@ -456,7 +456,7 @@ export default async function BlogPostPage({
                 justifyContent: 'center',
                 fontSize: '0.75rem',
                 fontWeight: 700,
-                color: '#0a0a0f',
+                color: '#0f1419',
                 fontFamily: 'var(--font-mono)',
                 flexShrink: 0,
               }}

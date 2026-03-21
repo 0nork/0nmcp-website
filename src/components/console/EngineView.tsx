@@ -175,7 +175,7 @@ export function EngineView() {
       padding: '10px 20px', borderRadius: '10px', border: 'none', fontSize: '13px',
       fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s',
       background: primary ? '#7ed957' : 'rgba(255,255,255,0.08)',
-      color: primary ? '#0a0a0f' : '#aaa',
+      color: primary ? '#0f1419' : '#aaa',
     }),
     badge: (color: string) => ({
       display: 'inline-flex', alignItems: 'center', gap: '4px',
@@ -196,7 +196,7 @@ export function EngineView() {
   const engineLogo = (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #7ed957, #00d4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Cpu size={18} color="#0a0a0f" />
+        <Cpu size={18} color="#0f1419" />
       </div>
       <span style={{ fontSize: '16px', fontWeight: 800, color: '#e8e8ef' }}>0nEngine</span>
     </div>

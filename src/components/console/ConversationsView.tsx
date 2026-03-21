@@ -246,7 +246,7 @@ export default function ConversationsView() {
                   {conv.unreadCount > 0 && (
                     <span style={{
                       fontSize: '0.6rem', fontWeight: 700, padding: '0.1rem 0.4rem',
-                      borderRadius: 8, background: '#7ed957', color: '#0a0a0f', flexShrink: 0,
+                      borderRadius: 8, background: '#7ed957', color: '#0f1419', flexShrink: 0,
                     }}>
                       {conv.unreadCount}
                     </span>
@@ -368,7 +368,7 @@ export default function ConversationsView() {
                 style={{
                   padding: '0.625rem 1.25rem', borderRadius: 8, border: 'none',
                   background: messageText.trim() ? '#7ed957' : 'rgba(255,255,255,0.05)',
-                  color: messageText.trim() ? '#0a0a0f' : '#5f6672',
+                  color: messageText.trim() ? '#0f1419' : '#5f6672',
                   fontSize: '0.8rem', fontWeight: 700, cursor: messageText.trim() ? 'pointer' : 'default',
                   fontFamily: 'inherit', transition: 'all 0.15s ease',
                   opacity: sending ? 0.6 : 1,

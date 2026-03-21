@@ -166,7 +166,7 @@ export default function AISettingsPage() {
             padding: '10px 24px',
             borderRadius: 8,
             backgroundColor: 'var(--accent)',
-            color: '#0a0a0f',
+            color: '#0f1419',
             fontWeight: 600,
             fontSize: 14,
             textDecoration: 'none',
@@ -295,7 +295,7 @@ export default function AISettingsPage() {
                         disabled={saving}
                         style={{
                           padding: '6px 16px', borderRadius: 6, border: 'none', cursor: 'pointer',
-                          background: 'var(--accent)', color: '#0a0a0f', fontSize: 12, fontWeight: 600,
+                          background: 'var(--accent)', color: '#0f1419', fontSize: 12, fontWeight: 600,
                           opacity: saving ? 0.5 : 1,
                         }}
                       >

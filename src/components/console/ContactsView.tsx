@@ -206,7 +206,7 @@ export default function ContactsView() {
             disabled={addLoading}
             style={{
               padding: '0.5rem 1.25rem', borderRadius: 8, border: 'none',
-              background: '#7ed957', color: '#0a0a0f', fontSize: '0.8rem',
+              background: '#7ed957', color: '#0f1419', fontSize: '0.8rem',
               fontWeight: 700, cursor: addLoading ? 'not-allowed' : 'pointer',
               fontFamily: 'inherit', opacity: addLoading ? 0.6 : 1,
             }}

@@ -11,7 +11,7 @@ import Link from 'next/link'
 
 export default function OnEnginePage() {
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: '#e8e8ef', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: '#0f1419', color: '#e8e8ef', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
 
       {/* ── Header ──────────────────────────────────── */}
       <header style={{
@@ -27,7 +27,7 @@ export default function OnEnginePage() {
           </Link>
           <Link href="/signup" style={{
             padding: '0.5rem 1.25rem', fontSize: '0.8125rem', fontWeight: 700,
-            background: '#7ed957', color: '#0a0a0f', borderRadius: '8px', textDecoration: 'none',
+            background: '#7ed957', color: '#0f1419', borderRadius: '8px', textDecoration: 'none',
           }}>
             Get Started Free
           </Link>
@@ -70,7 +70,7 @@ export default function OnEnginePage() {
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', position: 'relative' }}>
           <Link href="/signup" style={{
             padding: '0.875rem 2rem', fontSize: '1rem', fontWeight: 700,
-            background: '#7ed957', color: '#0a0a0f', borderRadius: '12px',
+            background: '#7ed957', color: '#0f1419', borderRadius: '12px',
             textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
             boxShadow: '0 4px 24px rgba(126,217,87,0.3)',
             transition: 'transform 0.15s, box-shadow 0.15s',
@@ -152,7 +152,7 @@ export default function OnEnginePage() {
         </p>
         <Link href="/signup" style={{
           padding: '1rem 2.5rem', fontSize: '1.125rem', fontWeight: 800,
-          background: '#7ed957', color: '#0a0a0f', borderRadius: '14px',
+          background: '#7ed957', color: '#0f1419', borderRadius: '14px',
           textDecoration: 'none', display: 'inline-block',
           boxShadow: '0 4px 30px rgba(126,217,87,0.35)',
         }}>

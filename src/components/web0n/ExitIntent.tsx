@@ -58,7 +58,7 @@ export default function ExitIntent() {
           style={{
             maxWidth: 460, width: '100%', padding: '2.75rem 2rem',
             borderRadius: '20px',
-            background: 'linear-gradient(160deg, #13131d 0%, #0a0a0f 100%)',
+            background: 'linear-gradient(160deg, #13131d 0%, #0f1419 100%)',
             border: '1px solid rgba(126,217,87,0.2)',
             boxShadow: '0 0 80px rgba(126,217,87,0.06), 0 25px 60px rgba(0,0,0,0.6)',
             textAlign: 'center', position: 'relative',
@@ -111,7 +111,7 @@ export default function ExitIntent() {
               display: 'block', padding: '0.9rem 1.5rem',
               borderRadius: '12px',
               background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0a0a0f', fontWeight: 700, fontSize: '1.05rem',
+              color: '#0f1419', fontWeight: 700, fontSize: '1.05rem',
               textDecoration: 'none',
               boxShadow: '0 4px 24px rgba(126,217,87,0.3)',
             }}

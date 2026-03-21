@@ -49,7 +49,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
   return (
     <div
       style={{
-        background: 'var(--bg-card, #1a1a25)',
+        background: 'var(--bg-card, #151d27)',
         border: '1px solid var(--border, #2a2a3a)',
         borderRadius: 12,
         padding: 24,
@@ -141,7 +141,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
           style={{
             height: 6,
             borderRadius: 3,
-            background: 'var(--bg-primary, #0a0a0f)',
+            background: 'var(--bg-primary, #0f1419)',
             overflow: 'hidden',
           }}
         >
@@ -166,7 +166,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
           gap: 8,
           marginBottom: 16,
           padding: '10px 14px',
-          background: 'var(--bg-primary, #0a0a0f)',
+          background: 'var(--bg-primary, #0f1419)',
           borderRadius: 8,
           border: '1px solid var(--border, #2a2a3a)',
         }}

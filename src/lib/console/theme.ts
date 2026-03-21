@@ -4,10 +4,10 @@
  * theme object for console components.
  *
  * The 0nmcp.com design system (defined in globals.css) uses:
- *   --bg-primary:       #0a0a0f
- *   --bg-secondary:     #111118
+ *   --bg-primary:       #0f1419
+ *   --bg-secondary:     #151d27
  *   --bg-tertiary:      #16161f
- *   --bg-card:          #1a1a25
+ *   --bg-card:          #151d27
  *   --accent:           #7ed957  (green)
  *   --accent-dim:       #5cb83a
  *   --accent-glow:      rgba(126, 217, 87, 0.15)
@@ -66,10 +66,10 @@ export const THEME = {
 // ─── Raw Hex Values (for non-CSS contexts) ──────────────────────
 
 export const HEX = {
-  bgPrimary: "#0a0a0f",
-  bgSecondary: "#111118",
+  bgPrimary: "#0f1419",
+  bgSecondary: "#151d27",
   bgTertiary: "#16161f",
-  bgCard: "#1a1a25",
+  bgCard: "#151d27",
   accent: "#7ed957",
   accentDim: "#5cb83a",
   accentSecondary: "#00d4ff",

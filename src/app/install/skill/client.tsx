@@ -122,7 +122,7 @@ export function SkillInstallClient() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0a0a0f',
+      background: '#0f1419',
       color: '#e2e2e8',
       fontFamily: 'system-ui, -apple-system, sans-serif',
     }}>
@@ -196,7 +196,7 @@ export function SkillInstallClient() {
                 {isDetected && (
                   <div style={{
                     position: 'absolute', top: -8, right: -8,
-                    background: p.color, color: '#0a0a0f', fontSize: 10, fontWeight: 700,
+                    background: p.color, color: '#0f1419', fontSize: 10, fontWeight: 700,
                     padding: '2px 8px', borderRadius: 10, letterSpacing: '0.03em',
                   }}>
                     DETECTED

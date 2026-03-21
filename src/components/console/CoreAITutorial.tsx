@@ -190,7 +190,7 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '12px 32px', borderRadius: 12,
               background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              border: 'none', color: '#0a0a0f',
+              border: 'none', color: '#0f1419',
               fontSize: 14, fontWeight: 700,
               cursor: 'pointer',
               transition: 'transform 0.15s, box-shadow 0.15s',

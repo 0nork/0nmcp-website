@@ -178,7 +178,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
                     gap: 10,
                     padding: '10px 12px',
                     borderRadius: 8,
-                    background: 'var(--bg-card, #1a1a25)',
+                    background: 'var(--bg-card, #151d27)',
                     border: '1px solid var(--border, #2a2a3a)',
                     cursor: 'default',
                     transition: 'border-color 0.2s',
@@ -241,7 +241,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
             cursor: 'pointer',
             background: dragOver
               ? 'var(--accent-glow, rgba(126,217,87,0.05))'
-              : 'var(--bg-card, #1a1a25)',
+              : 'var(--bg-card, #151d27)',
             transition: 'all 0.2s ease',
           }}
         >
@@ -288,7 +288,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
           style={{
             textAlign: 'center',
             padding: '48px 24px',
-            background: 'var(--bg-card, #1a1a25)',
+            background: 'var(--bg-card, #151d27)',
             borderRadius: 16,
             border: '1px solid var(--border, #2a2a3a)',
           }}
@@ -458,7 +458,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
           style={{
             textAlign: 'center',
             padding: '40px 24px',
-            background: 'var(--bg-card, #1a1a25)',
+            background: 'var(--bg-card, #151d27)',
             borderRadius: 16,
             border: '1px solid #ff444440',
           }}

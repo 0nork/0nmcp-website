@@ -8,7 +8,7 @@ export default function LeadJourney() {
         position: 'relative',
         margin: '2rem -1.5rem 0',
         padding: '2.5rem 1.5rem 1.5rem',
-        background: 'linear-gradient(180deg, #0d0d16 0%, #0a0a0f 100%)',
+        background: 'linear-gradient(180deg, #0d0d16 0%, #0f1419 100%)',
         borderTop: '1px solid rgba(0, 212, 255, 0.12)',
         borderBottom: '1px solid rgba(0, 212, 255, 0.12)',
         overflow: 'hidden',
@@ -144,7 +144,7 @@ export default function LeadJourney() {
         <div className="lj-row">
           {/* FORM FILL */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)', color: '#0a0a0f' }}>01</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)', color: '#0f1419' }}>01</div>
             <div className="lj-card" style={{ border: '1px solid rgba(126,217,87,0.12)' }}>
               <div className="lj-mk-form">
                 <div className="lj-mk-field" />
@@ -166,7 +166,7 @@ export default function LeadJourney() {
 
           {/* EMAIL */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #00d4ff, #0099cc)', color: '#0a0a0f' }}>02</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #00d4ff, #0099cc)', color: '#0f1419' }}>02</div>
             <div className="lj-card" style={{ border: '1px solid rgba(0,212,255,0.12)' }}>
               <div className="lj-mk-email">
                 <div className="lj-mk-env">
@@ -191,7 +191,7 @@ export default function LeadJourney() {
 
           {/* BOOKING */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #a78bfa, #7c5fc7)', color: '#0a0a0f' }}>03</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #a78bfa, #7c5fc7)', color: '#0f1419' }}>03</div>
             <div className="lj-card" style={{ border: '1px solid rgba(167,139,250,0.12)' }}>
               <div className="lj-mk-book">
                 <div className="lj-mk-cal-head">
@@ -229,7 +229,7 @@ export default function LeadJourney() {
 
           {/* PURCHASE */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #ffc832, #ff9500)', color: '#0a0a0f' }}>04</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #ffc832, #ff9500)', color: '#0f1419' }}>04</div>
             <div className="lj-card" style={{ border: '1px solid rgba(255,200,50,0.12)' }}>
               <div className="lj-mk-buy">
                 <div className="lj-mk-product">
@@ -256,7 +256,7 @@ export default function LeadJourney() {
 
           {/* 5-STAR REVIEW */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)', color: '#0a0a0f' }}>05</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)', color: '#0f1419' }}>05</div>
             <div className="lj-card" style={{ borderColor: 'rgba(126,217,87,0.25)' }}>
               <div className="lj-mk-rev">
                 <div className="lj-mk-stars">

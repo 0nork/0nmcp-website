@@ -145,7 +145,7 @@ function CtaButton({ children, href, size = 'lg', variant = 'primary' }: {
         padding: size === 'lg' ? '16px 40px' : '12px 28px',
         fontSize: size === 'lg' ? '16px' : '14px',
         background: variant === 'primary' ? 'linear-gradient(135deg, #7ed957, #5cb83a)' : 'rgba(255,255,255,0.06)',
-        color: variant === 'primary' ? '#0a0a0f' : '#e8e8ef',
+        color: variant === 'primary' ? '#0f1419' : '#e8e8ef',
         border: variant === 'primary' ? 'none' : '1px solid rgba(255,255,255,0.1)',
         textDecoration: 'none',
       }}
@@ -225,7 +225,7 @@ function DemoSection() {
 
   const termStyle: React.CSSProperties = {
     borderRadius: 12,
-    background: '#111118',
+    background: '#151d27',
     border: '1px solid var(--border)',
     overflow: 'hidden',
   }
@@ -384,7 +384,7 @@ export default function GoClient() {
           <Link href="/signup?redirect=/console" className="no-underline" style={{
             padding: '8px 24px', borderRadius: 10,
             background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-            color: '#0a0a0f', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+            color: '#0f1419', fontWeight: 600, fontSize: 14, textDecoration: 'none',
           }}>Start Free</Link>
         </div>
       </header>
@@ -667,7 +667,7 @@ export default function GoClient() {
                   position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
                   padding: '4px 16px', borderRadius: 100,
                   background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                  color: '#0a0a0f', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em',
+                  color: '#0f1419', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em',
                 }}>Most Popular</div>
               )}
               <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>{plan.tag}</div>
@@ -689,7 +689,7 @@ export default function GoClient() {
                 display: 'block', textAlign: 'center', padding: 12, borderRadius: 12,
                 fontWeight: 700, fontSize: 14, textDecoration: 'none',
                 background: plan.popular ? `linear-gradient(135deg, ${plan.color}, ${plan.color === '#7ed957' ? '#5cb83a' : '#0099cc'})` : 'rgba(255,255,255,0.06)',
-                color: plan.popular ? '#0a0a0f' : 'var(--text-primary)',
+                color: plan.popular ? '#0f1419' : 'var(--text-primary)',
                 border: plan.popular ? 'none' : '1px solid var(--border)',
               }}>{plan.cta}</Link>
             </div>

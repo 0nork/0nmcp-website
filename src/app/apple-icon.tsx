@@ -10,7 +10,7 @@ export default function AppleIcon() {
         style={{
           width: 180,
           height: 180,
-          background: 'linear-gradient(135deg, #0a0a0f 0%, #111118 100%)',
+          background: 'linear-gradient(135deg, #0f1419 0%, #151d27 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

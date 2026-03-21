@@ -75,7 +75,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#0a0a0f' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#0f1419' }}>
       {/* Desktop sidebar */}
       <div className="hidden lg:block" style={{ height: '100%' }}>
         <ForumSidebar
@@ -183,7 +183,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
 
         {/* Scrollable content + right sidebar */}
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-          <main style={{ flex: 1, overflow: 'auto', background: '#0a0a0f' }}>
+          <main style={{ flex: 1, overflow: 'auto', background: '#0f1419' }}>
             {children}
           </main>
 

@@ -273,7 +273,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <rect x="14" y="22" width="20" height="4" rx="2" fill={s} opacity="0.3" />
           <rect x="14" y="30" width="10" height="4" rx="2" fill={s} opacity="0.3" />
           <circle cx="34" cy="36" r="3" fill={s} opacity="0.7" />
-          <path d="M32.5 36l1 1 2-2.5" stroke="#0a0a0f" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M32.5 36l1 1 2-2.5" stroke="#0f1419" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       )
     case 3: /* Pipeline */
@@ -585,7 +585,7 @@ export default function Web0nLanding() {
                 padding: '0.9rem 2.25rem',
                 borderRadius: '10px',
                 background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                color: '#0a0a0f',
+                color: '#0f1419',
                 fontWeight: 700,
                 fontSize: '1.05rem',
                 textDecoration: 'none',
@@ -958,7 +958,7 @@ export default function Web0nLanding() {
                         background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         margin: '0 auto 1rem',
-                        fontWeight: 800, fontSize: '1.15rem', color: '#0a0a0f',
+                        fontWeight: 800, fontSize: '1.15rem', color: '#0f1419',
                         fontFamily: 'var(--font-display)',
                         boxShadow: '0 4px 20px rgba(126,217,87,0.2)',
                       }}
@@ -1049,7 +1049,7 @@ export default function Web0nLanding() {
                 style={{
                   display: 'block', padding: '0.9rem', borderRadius: '10px',
                   background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                  color: '#0a0a0f', fontWeight: 700, fontSize: '1.05rem',
+                  color: '#0f1419', fontWeight: 700, fontSize: '1.05rem',
                   textDecoration: 'none', textAlign: 'center',
                   boxShadow: '0 4px 20px rgba(126,217,87,0.25)',
                 }}
@@ -1136,7 +1136,7 @@ export default function Web0nLanding() {
                 padding: '0.95rem 2.75rem',
                 borderRadius: '12px',
                 background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                color: '#0a0a0f',
+                color: '#0f1419',
                 fontWeight: 700,
                 fontSize: '1.1rem',
                 textDecoration: 'none',

@@ -757,7 +757,7 @@ export default function Web0nOnboard() {
               padding: '0.7rem 2rem',
               borderRadius: '8px',
               background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0a0a0f',
+              color: '#0f1419',
               border: 'none',
               cursor: submitting ? 'not-allowed' : 'pointer',
               fontWeight: 600,

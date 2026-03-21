@@ -125,7 +125,7 @@ export default function PremiumOnboarding({
           maxWidth: 640,
           maxHeight: '90vh',
           overflow: 'auto',
-          background: 'var(--bg-card, #1a1a25)',
+          background: 'var(--bg-card, #151d27)',
           border: '1px solid var(--border, #2a2a3a)',
           borderRadius: 16,
           padding: 0,
@@ -326,7 +326,7 @@ export default function PremiumOnboarding({
                         border: `1.5px solid ${isSelected ? platform.color : 'var(--border, #2a2a3a)'}`,
                         background: isSelected
                           ? `${platform.color}12`
-                          : 'var(--bg-primary, #0a0a0f)',
+                          : 'var(--bg-primary, #0f1419)',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
                       }}
@@ -336,7 +336,7 @@ export default function PremiumOnboarding({
                           width: 36,
                           height: 36,
                           borderRadius: 8,
-                          background: isSelected ? platform.color : 'var(--bg-card, #1a1a25)',
+                          background: isSelected ? platform.color : 'var(--bg-card, #151d27)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -413,7 +413,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0a0a0f)',
+                      background: 'var(--bg-primary, #0f1419)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -452,7 +452,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0a0a0f)',
+                      background: 'var(--bg-primary, #0f1419)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -491,7 +491,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0a0a0f)',
+                      background: 'var(--bg-primary, #0f1419)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -528,7 +528,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0a0a0f)',
+                      background: 'var(--bg-primary, #0f1419)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -589,7 +589,7 @@ export default function PremiumOnboarding({
                         border: `1.5px solid ${isSelected ? 'var(--accent, #7ed957)' : 'var(--border, #2a2a3a)'}`,
                         background: isSelected
                           ? 'var(--accent-glow, rgba(126,217,87,0.08))'
-                          : 'var(--bg-primary, #0a0a0f)',
+                          : 'var(--bg-primary, #0f1419)',
                         cursor: 'pointer',
                         textAlign: 'left',
                         transition: 'all 0.2s',
@@ -658,7 +658,7 @@ export default function PremiumOnboarding({
                         border: `1px solid ${isTested ? 'var(--accent, #7ed957)40' : 'var(--border, #2a2a3a)'}`,
                         background: isTested
                           ? 'rgba(126,217,87,0.04)'
-                          : 'var(--bg-primary, #0a0a0f)',
+                          : 'var(--bg-primary, #0f1419)',
                       }}
                     >
                       <div
@@ -719,7 +719,7 @@ export default function PremiumOnboarding({
                             padding: '8px 12px',
                             borderRadius: 6,
                             border: '1px solid var(--border, #2a2a3a)',
-                            background: 'var(--bg-card, #1a1a25)',
+                            background: 'var(--bg-card, #151d27)',
                             color: 'var(--text-primary, #e8e8ef)',
                             fontSize: 13,
                             fontFamily: 'var(--font-mono, monospace)',
@@ -811,7 +811,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0a0a0f)',
+                    background: 'var(--bg-primary, #0f1419)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >
@@ -855,7 +855,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0a0a0f)',
+                    background: 'var(--bg-primary, #0f1419)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >
@@ -895,7 +895,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0a0a0f)',
+                    background: 'var(--bg-primary, #0f1419)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >
@@ -921,7 +921,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0a0a0f)',
+                    background: 'var(--bg-primary, #0f1419)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >

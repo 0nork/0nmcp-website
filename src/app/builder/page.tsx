@@ -21,7 +21,7 @@ export default function BuilderPage() {
   if (!authed) return (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      height: '100vh', background: '#0a0a0f', color: '#5f6672',
+      height: '100vh', background: '#0f1419', color: '#5f6672',
       fontSize: 14, fontFamily: 'inherit',
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
@@ -42,7 +42,7 @@ export default function BuilderPage() {
   )
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#0a0a0f' }}>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#0f1419' }}>
       <BuilderApp />
     </div>
   )

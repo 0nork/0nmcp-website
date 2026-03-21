@@ -58,7 +58,7 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
               padding: '0.45rem 1.15rem',
               borderRadius: '8px',
               background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0a0a0f',
+              color: '#0f1419',
               fontWeight: 700,
               fontSize: '0.85rem',
               textDecoration: 'none',

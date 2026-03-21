@@ -54,7 +54,7 @@ export function OnCallIcon({ focus, onClick, hasNotification }: OnCallIconProps)
           className="absolute rounded-full flex items-center justify-center"
           style={{
             inset: '3px',
-            background: '#0a0a0f',
+            background: '#0f1419',
           }}
         >
           <span
@@ -75,7 +75,7 @@ export function OnCallIcon({ focus, onClick, hasNotification }: OnCallIconProps)
             className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"
             style={{
               backgroundColor: '#ff6b35',
-              borderColor: '#0a0a0f',
+              borderColor: '#0f1419',
               animation: 'oncall-notif-pulse 2s ease-in-out infinite',
             }}
           />

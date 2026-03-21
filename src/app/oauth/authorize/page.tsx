@@ -93,7 +93,7 @@ function ConsentForm() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0a0a0f',
+      background: '#0f1419',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -115,7 +115,7 @@ function ConsentForm() {
       <div style={{
         width: '100%',
         maxWidth: '440px',
-        background: '#1a1a25',
+        background: '#151d27',
         border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: '20px',
         padding: '36px 32px',
@@ -140,7 +140,7 @@ function ConsentForm() {
               justifyContent: 'center',
               fontSize: '16px',
               fontWeight: 800,
-              color: '#0a0a0f',
+              color: '#0f1419',
               fontFamily: "'JetBrains Mono', monospace",
             }}>
               0n
@@ -265,7 +265,7 @@ function ConsentForm() {
               background: loading === 'allow' ? '#5cb83a' : '#7ed957',
               border: 'none',
               borderRadius: '10px',
-              color: '#0a0a0f',
+              color: '#0f1419',
               fontSize: '14px',
               fontWeight: 700,
               cursor: loading ? 'not-allowed' : 'pointer',
@@ -309,7 +309,7 @@ export default function OAuthAuthorizePage() {
     <Suspense fallback={
       <div style={{
         minHeight: '100vh',
-        background: '#0a0a0f',
+        background: '#0f1419',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

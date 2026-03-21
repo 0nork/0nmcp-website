@@ -49,7 +49,7 @@ Rules:
 - Write compelling, SEO-optimized copy that converts visitors into customers
 - Use semantic HTML5 with inline styles (no external CSS needed)
 - Mobile-responsive design using modern CSS (flexbox, grid, clamp)
-- Dark professional theme: background #0a0a0f, text #e8e8ef, accent provided by user
+- Dark professional theme: background #0f1419, text #e8e8ef, accent provided by user
 - Include proper meta tags, Open Graph, and structured data (JSON-LD)
 - Every page must have clear CTAs (call, book, contact)
 - Write real, specific copy — not lorem ipsum or generic filler

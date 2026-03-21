@@ -130,7 +130,7 @@ export function SiteBuilderView() {
   // ── Loading state ──
   if (owned === null) {
     return (
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0f' }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f1419' }}>
         <Loader2 size={24} className="animate-spin" style={{ color: 'var(--accent)' }} />
       </div>
     )
@@ -139,7 +139,7 @@ export function SiteBuilderView() {
   // ── Not purchased — show upgrade CTA ──
   if (!owned) {
     return (
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0f', padding: '2rem' }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f1419', padding: '2rem' }}>
         <div style={{ textAlign: 'center', maxWidth: 520 }}>
           <div style={{
             width: 80, height: 80, borderRadius: 24,
@@ -194,7 +194,7 @@ export function SiteBuilderView() {
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '14px 32px', borderRadius: 12,
               background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0a0a0f', fontSize: 15, fontWeight: 800,
+              color: '#0f1419', fontSize: 15, fontWeight: 800,
               textDecoration: 'none', transition: 'transform 0.15s, box-shadow 0.15s',
             }}
             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(126,217,87,0.3)' }}
@@ -212,7 +212,7 @@ export function SiteBuilderView() {
   // ── Owned — show the builder form ──
   return (
     <div style={{
-      flex: 1, overflow: 'auto', background: '#0a0a0f',
+      flex: 1, overflow: 'auto', background: '#0f1419',
       padding: '2rem 1.5rem',
     }}>
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
@@ -242,7 +242,7 @@ export function SiteBuilderView() {
 
         {/* Build Form */}
         <div style={{
-          background: '#111118', border: '1px solid rgba(255,255,255,0.06)',
+          background: '#151d27', border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: 16, padding: 28,
         }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -353,7 +353,7 @@ export function SiteBuilderView() {
                     onChange={handleChange}
                     style={{
                       width: 40, height: 40, border: '1px solid rgba(255,255,255,0.08)',
-                      borderRadius: 8, padding: 3, background: '#0a0a0f', cursor: 'pointer',
+                      borderRadius: 8, padding: 3, background: '#0f1419', cursor: 'pointer',
                     }}
                   />
                   <input
@@ -375,7 +375,7 @@ export function SiteBuilderView() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 padding: '14px 28px', borderRadius: 12, marginTop: 8,
                 background: status === 'loading' ? 'rgba(126,217,87,0.3)' : 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                border: 'none', color: '#0a0a0f', fontSize: 15, fontWeight: 800,
+                border: 'none', color: '#0f1419', fontSize: 15, fontWeight: 800,
                 cursor: status === 'loading' ? 'not-allowed' : 'pointer',
                 fontFamily: 'inherit', transition: 'all 0.15s',
                 opacity: status === 'loading' ? 0.7 : 1,
@@ -425,7 +425,7 @@ export function SiteBuilderView() {
 
         {/* How it works */}
         <div style={{
-          marginTop: 24, background: '#111118', border: '1px solid rgba(255,255,255,0.06)',
+          marginTop: 24, background: '#151d27', border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: 16, padding: 24,
         }}>
           <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 16 }}>How it works</h3>
@@ -457,7 +457,7 @@ export function SiteBuilderView() {
         {/* Recent builds */}
         {recentBuilds.length > 0 && (
           <div style={{
-            marginTop: 24, background: '#111118', border: '1px solid rgba(255,255,255,0.06)',
+            marginTop: 24, background: '#151d27', border: '1px solid rgba(255,255,255,0.06)',
             borderRadius: 16, padding: 24,
           }}>
             <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 16 }}>Recent builds</h3>
@@ -516,7 +516,7 @@ const labelStyle: React.CSSProperties = {
 }
 
 const inputStyle: React.CSSProperties = {
-  background: '#0a0a0f', border: '1px solid rgba(255,255,255,0.08)',
+  background: '#0f1419', border: '1px solid rgba(255,255,255,0.08)',
   borderRadius: 10, color: '#ffffff', fontFamily: 'inherit',
   fontSize: 14, padding: '10px 14px', outline: 'none',
   transition: 'border-color 0.15s',

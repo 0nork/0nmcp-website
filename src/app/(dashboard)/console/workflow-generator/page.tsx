@@ -276,7 +276,7 @@ export default function WorkflowGeneratorPage() {
           </div>
           <pre style={{
             padding: '16px', borderRadius: 10,
-            background: '#0a0a0f', border: '1px solid rgba(255,255,255,0.04)',
+            background: '#0f1419', border: '1px solid rgba(255,255,255,0.04)',
             color: '#7ed957', fontSize: 12, lineHeight: 1.6,
             overflow: 'auto', maxHeight: 400,
             fontFamily: "'JetBrains Mono', monospace",

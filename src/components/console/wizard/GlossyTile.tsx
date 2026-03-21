@@ -185,7 +185,7 @@ export function GlossyTile({
         gap: 8,
         padding: 8,
         borderRadius: 20,
-        background: 'linear-gradient(145deg, #1a1a25, #111118)',
+        background: 'linear-gradient(145deg, #151d27, #151d27)',
         border: `1px solid ${
           isActive
             ? accentColor
@@ -236,7 +236,7 @@ export function GlossyTile({
             padding: '1px 6px',
             borderRadius: 9999,
             backgroundColor: accentColor,
-            color: '#0a0a0f',
+            color: '#0f1419',
             fontSize: '0.5rem',
             fontWeight: 700,
             lineHeight: '14px',

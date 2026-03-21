@@ -39,7 +39,7 @@ function buildWelcomeEmail(firstName: string, inquiryType: string): string {
 <body style="margin:0;padding:0;background:#0c0c14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0c0c14;">
 <tr><td align="center" style="padding:40px 20px;">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#111118;border:1px solid #2a2a3a;border-radius:12px;overflow:hidden;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#151d27;border:1px solid #2a2a3a;border-radius:12px;overflow:hidden;">
 
 <!-- Header -->
 <tr><td style="padding:32px 40px 24px;border-bottom:1px solid #2a2a3a;">

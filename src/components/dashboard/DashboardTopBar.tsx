@@ -105,7 +105,7 @@ export default function DashboardTopBar({ onMobileMenu }: { onMobileMenu?: () =>
             alignItems: 'center',
             justifyContent: 'center',
             background: 'linear-gradient(135deg, var(--accent, #7ed957), #00d4ff)',
-            color: '#0a0a0f',
+            color: '#0f1419',
             fontSize: 11,
             fontWeight: 800,
             fontFamily: 'inherit',

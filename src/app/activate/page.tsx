@@ -159,7 +159,7 @@ function ActivateFlow() {
         width: '100%',
         maxWidth: '440px',
         padding: '2.5rem',
-        background: '#0a0a0f',
+        background: '#0f1419',
         border: '1px solid #1a1a2e',
         borderRadius: '16px',
         boxShadow: '0 0 60px rgba(126, 217, 87, 0.05)',
@@ -218,7 +218,7 @@ function ActivateFlow() {
                     fontSize: '1.25rem',
                     fontWeight: 700,
                     fontFamily: 'var(--font-mono, monospace)',
-                    background: '#111118',
+                    background: '#151d27',
                     border: '2px solid #1a1a2e',
                     borderRadius: '8px',
                     color: '#7ed957',
@@ -336,7 +336,7 @@ function ActivateFlow() {
               Your device is connected. Return to your terminal to continue.
             </p>
             <Link href="/dashboard" style={{
-              display: 'inline-block', padding: '10px 24px', background: '#111118', border: '1px solid #1a1a2e',
+              display: 'inline-block', padding: '10px 24px', background: '#151d27', border: '1px solid #1a1a2e',
               borderRadius: '8px', color: '#fff', fontSize: '0.8125rem', fontWeight: 600, textDecoration: 'none',
             }}>
               Go to Console
@@ -357,7 +357,7 @@ function ActivateFlow() {
 
 const inputStyle: React.CSSProperties = {
   padding: '12px 14px',
-  background: '#111118',
+  background: '#151d27',
   border: '1px solid #1a1a2e',
   borderRadius: '8px',
   color: '#fff',

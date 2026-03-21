@@ -37,6 +37,9 @@ export async function GET(request: NextRequest) {
           // Send welcome email for NEW users (non-blocking)
           sendWelcomeIfNew(user.id, user.email || '', meta).catch(() => {})
 
+          // Convert affiliate referral + grant Runs bonus (non-blocking)
+          convertReferral(user.id, user.email || '').catch(() => {})
+
           // For LinkedIn signups: fire PACG pipeline
           if (provider === 'linkedin_oidc') {
             try {
@@ -273,5 +276,78 @@ async function sendWelcomeIfNew(userId: string, email: string, meta: Record<stri
   } catch (err) {
     console.error('[Welcome Email Failed]', email, err instanceof Error ? err.message : err)
     // Do NOT re-throw — auth callback must never fail due to email
+  }
+}
+
+/**
+ * Convert affiliate referral when a referred user signs up.
+ * Checks if the user was referred (referred_by on profile), finds the pending referral,
+ * marks it converted, and grants 50 Runs to the referrer.
+ * NEVER throws — failures don't block auth.
+ */
+async function convertReferral(userId: string, email: string) {
+  try {
+    const admin = getAdminClient()
+    if (!admin) return
+
+    // Check if this user has a referral code on their profile
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('referred_by')
+      .eq('id', userId)
+      .single()
+
+    if (!profile?.referred_by) return // Not a referred user
+
+    // Find the pending referral
+    const { data: referral } = await admin
+      .from('affiliate_referrals')
+      .select('id, referrer_id, status')
+      .eq('referral_code', profile.referred_by)
+      .eq('status', 'pending')
+      .maybeSingle()
+
+    if (!referral) return // Already converted or doesn't exist
+
+    // Convert the referral
+    await admin
+      .from('affiliate_referrals')
+      .update({
+        status: 'converted',
+        referred_user_id: userId,
+        referred_email: email,
+        converted_at: new Date().toISOString(),
+      })
+      .eq('id', referral.id)
+
+    // Grant 50 Runs to the referrer
+    try {
+      // Credit the referrer's run balance
+      await admin.rpc('credit_runs', {
+        p_user_id: referral.referrer_id,
+        p_amount: 50,
+        p_type: 'bonus',
+        p_description: `Referral bonus: ${email} signed up`,
+      })
+      console.log(`[affiliate] Converted referral: ${email} → 50 Runs to referrer ${referral.referrer_id}`)
+    } catch {
+      // If RPC doesn't exist yet, try manual insert
+      await admin.from('run_balances').upsert({
+        user_id: referral.referrer_id,
+        balance: 50,
+        lifetime_earned: 50,
+      }, { onConflict: 'user_id' })
+
+      await admin.from('run_transactions').insert({
+        user_id: referral.referrer_id,
+        amount: 50,
+        type: 'bonus',
+        description: `Referral bonus: ${email} signed up`,
+      })
+      console.log(`[affiliate] Converted referral (manual): ${email} → 50 Runs to referrer`)
+    }
+  } catch (err) {
+    console.error('[Referral Conversion Failed]', email, err instanceof Error ? err.message : err)
+    // Do NOT re-throw — auth callback must never fail due to affiliates
   }
 }

@@ -194,7 +194,7 @@ export default function ForumClient({
           {/* Sort Bar */}
           <div
             className="rounded-xl px-4 py-2.5 mb-4 flex items-center gap-1 flex-wrap"
-            style={{ background: '#111', border: '1px solid #1a1a1a' }}
+            style={{ background: '#151d27', border: '1px solid rgba(255,255,255,0.06)' }}
           >
             {SORTS.map(s => (
               <button
@@ -211,7 +211,7 @@ export default function ForumClient({
             ))}
             {(sort === 'top' || sort === 'controversial') && (
               <>
-                <span className="text-[11px] mx-1" style={{ color: '#222' }}>|</span>
+                <span className="text-[11px] mx-1" style={{ color: 'rgba(255,255,255,0.08)' }}>|</span>
                 {TIMEFRAMES.map(t => (
                   <button
                     key={t.value}
@@ -261,12 +261,12 @@ export default function ForumClient({
                     key={thread.id}
                     className="rounded-xl flex overflow-hidden transition-all"
                     style={{
-                      background: '#111',
-                      border: '1px solid #1a1a1a',
+                      background: '#151d27',
+                      border: '1px solid rgba(255,255,255,0.06)',
                       ...(thread.is_pinned ? { gridColumn: '1 / -1' } : {}),
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(126,217,87,0.08)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1a1a1a'; e.currentTarget.style.boxShadow = 'none' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
                   >
                     {/* Left accent bar */}
                     <div style={{ width: '3px', flexShrink: 0, background: accentColor }} />

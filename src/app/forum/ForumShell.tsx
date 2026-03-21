@@ -111,8 +111,8 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '0 1rem',
-            backgroundColor: '#000000',
-            borderBottom: '1px solid #1a1a1a',
+            backgroundColor: '#0f1419',
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
             position: 'relative',
             zIndex: 10,
             gap: '0.75rem',
@@ -155,7 +155,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
               style={{
                 display: 'flex', alignItems: 'center', gap: '0.375rem',
                 padding: '5px 12px', borderRadius: '8px',
-                border: '1px solid #1a1a1a',
+                border: '1px solid rgba(255,255,255,0.06)',
                 background: 'rgba(126,217,87,0.06)',
                 color: 'var(--accent)', cursor: 'pointer',
                 fontSize: '0.75rem', fontWeight: 700, fontFamily: 'inherit',
@@ -167,8 +167,8 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
               <span className="hidden sm:inline">Ask AI</span>
             </button>
 
-            <div style={{ display: 'flex', gap: 4, padding: 3, borderRadius: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid #1a1a1a' }}>
-              <span style={{ padding: '5px 14px', borderRadius: 7, fontSize: '0.75rem', fontWeight: 700, background: 'var(--accent)', color: '#000' }}>
+            <div style={{ display: 'flex', gap: 4, padding: 3, borderRadius: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <span style={{ padding: '5px 14px', borderRadius: 7, fontSize: '0.75rem', fontWeight: 700, background: 'var(--accent)', color: '#0f1419' }}>
                 0nboard
               </span>
               <a
@@ -193,8 +193,8 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
             style={{
               width: '280px', flexShrink: 0, flexDirection: 'column',
               gap: '1rem', padding: '1.25rem 1rem',
-              borderLeft: '1px solid #1a1a1a',
-              overflowY: 'auto', background: '#000000',
+              borderLeft: '1px solid rgba(255,255,255,0.06)',
+              overflowY: 'auto', background: '#0f1419',
             }}
           >
             <div>
@@ -211,12 +211,12 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
                     href={`/blog/${post.slug}`}
                     style={{
                       display: 'block', borderRadius: '10px',
-                      background: '#111', border: '1px solid #1a1a1a',
+                      background: '#151d27', border: '1px solid rgba(255,255,255,0.06)',
                       textDecoration: 'none', transition: 'border-color 0.2s',
                       overflow: 'hidden',
                     }}
                     onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = '#1a1a1a')}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)')}
                   >
                     {post.image && (
                       <img
@@ -224,7 +224,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
                         alt={post.title}
                         style={{
                           width: '100%', height: '100px', objectFit: 'cover',
-                          display: 'block', borderBottom: '1px solid #1a1a1a',
+                          display: 'block', borderBottom: '1px solid rgba(255,255,255,0.06)',
                         }}
                       />
                     )}
@@ -269,7 +269,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
       <div
         style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 201,
-          background: '#000000', borderTop: '1px solid #1a1a1a',
+          background: '#0f1419', borderTop: '1px solid rgba(255,255,255,0.06)',
           borderRadius: '18px 18px 0 0',
           height: chatOpen ? 'clamp(320px, 60vh, 540px)' : '0',
           overflow: 'hidden', transition: 'height 0.38s cubic-bezier(0.32, 0, 0, 1)',
@@ -278,7 +278,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
         }}
       >
         <div style={{ padding: '0.75rem 1rem 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', top: '0.625rem', width: '40px', height: '4px', borderRadius: '2px', background: '#1a1a1a' }} />
+          <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', top: '0.625rem', width: '40px', height: '4px', borderRadius: '2px', background: 'rgba(255,255,255,0.06)' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -309,8 +309,8 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
                 alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
                 maxWidth: '80%', padding: '0.5rem 0.875rem',
                 borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                background: msg.role === 'user' ? 'rgba(126,217,87,0.12)' : '#111',
-                border: msg.role === 'user' ? '1px solid rgba(126,217,87,0.3)' : '1px solid #1a1a1a',
+                background: msg.role === 'user' ? 'rgba(126,217,87,0.12)' : '#151d27',
+                border: msg.role === 'user' ? '1px solid rgba(126,217,87,0.3)' : '1px solid rgba(255,255,255,0.06)',
                 color: '#ffffff', fontSize: '0.875rem', lineHeight: 1.5,
               }}
             >
@@ -330,7 +330,7 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
             rows={1}
             placeholder="Ask about 0nMCP..."
             style={{
-              flex: 1, background: '#111', border: '1px solid #1a1a1a', borderRadius: '10px',
+              flex: 1, background: '#151d27', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px',
               color: '#ffffff', padding: '0.625rem 0.875rem', fontSize: '0.9375rem',
               resize: 'none', fontFamily: 'inherit', lineHeight: 1.5, outline: 'none', minHeight: '44px',
             }}
@@ -340,11 +340,11 @@ export default function ForumShell({ children }: { children: React.ReactNode }) 
             disabled={!chatInput.trim()}
             style={{
               flexShrink: 0, width: '44px', height: '44px', borderRadius: '10px',
-              background: chatInput.trim() ? 'var(--accent)' : '#111',
+              background: chatInput.trim() ? 'var(--accent)' : '#151d27',
               border: 'none', cursor: chatInput.trim() ? 'pointer' : 'default',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'background 0.2s',
-              color: chatInput.trim() ? '#000' : '#555', fontFamily: 'inherit',
+              color: chatInput.trim() ? '#0f1419' : '#555', fontFamily: 'inherit',
             }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

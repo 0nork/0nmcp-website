@@ -216,7 +216,7 @@ export default function ThreadClient({
         {/* Comment card — black background */}
         <div
           style={{
-            background: '#000000',
+            background: '#0f1419',
             border: '1px solid var(--border)',
             borderRadius: depth === 0 ? '10px' : '8px',
             marginBottom: '6px',
@@ -504,7 +504,7 @@ export default function ThreadClient({
               borderRadius: '10px',
               fontSize: '0.9375rem',
               marginBottom: '0.625rem',
-              background: '#000000',
+              background: '#0f1419',
               border: '1px solid var(--border)',
               color: 'var(--text-primary)',
               lineHeight: 1.7,

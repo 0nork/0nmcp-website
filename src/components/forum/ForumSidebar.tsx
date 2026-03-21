@@ -68,7 +68,7 @@ function GroupIcon({ slug, color }: { slug: string; color: string }) {
         width: 28,
         height: 28,
         borderRadius: 8,
-        background: 'linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%)',
+        background: 'linear-gradient(145deg, rgba(255,255,255,0.06) 0%, #0f1419 100%)',
         boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06), 0 2px 4px rgba(0,0,0,0.5)',
         display: 'flex',
         alignItems: 'center',
@@ -112,8 +112,8 @@ export default function ForumSidebar({
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
-        backgroundColor: '#000000',
-        borderRight: '1px solid #1a1a1a',
+        backgroundColor: '#0f1419',
+        borderRight: '1px solid rgba(255,255,255,0.06)',
         transition: TRANSITION,
         overflow: 'hidden',
       }}
@@ -149,7 +149,7 @@ export default function ForumSidebar({
             textAlign: 'center',
             textDecoration: 'none',
             background: 'var(--accent)',
-            color: '#000000',
+            color: '#0f1419',
             transition: TRANSITION,
           }}
         >
@@ -196,7 +196,7 @@ export default function ForumSidebar({
       </nav>
 
       {/* Footer */}
-      <div style={{ flexShrink: 0, padding: '0.75rem', borderTop: '1px solid #1a1a1a' }}>
+      <div style={{ flexShrink: 0, padding: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
         <Link
           href="/console"
           style={{
@@ -235,7 +235,7 @@ function GroupButton({ slug, label, color, count, active, onClick }: {
         borderRadius: '0.75rem',
         cursor: 'pointer',
         padding: '0.5rem 0.75rem',
-        backgroundColor: active ? '#000000' : 'transparent',
+        backgroundColor: active ? '#0f1419' : 'transparent',
         borderTop: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
         borderRight: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
         borderBottom: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',

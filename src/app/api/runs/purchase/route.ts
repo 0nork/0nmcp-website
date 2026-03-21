@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
         packs: packs.map(p => ({
           id: p.id,
           name: p.name,
-          runs: p.sparks,
+          runs: p.runs,
           price: `$${(p.price_cents / 100).toFixed(0)}`,
           bonus: p.bonus_pct > 0 ? `${p.bonus_pct}% bonus` : null,
           badge: p.badge,

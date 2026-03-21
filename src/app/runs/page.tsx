@@ -203,7 +203,7 @@ export default function RunsPage() {
           {packs.map((pack, i) => {
             const isPopular = i === 1
             const isPro = i === 2
-            const perCredit = (pack.price_cents / 100 / pack.sparks).toFixed(3)
+            const perCredit = (pack.price_cents / 100 / pack.runs).toFixed(3)
             return (
               <div
                 key={pack.id}
@@ -240,7 +240,7 @@ export default function RunsPage() {
                 <div style={{
                   fontSize: '2rem', fontWeight: 800, color: highlightColor, marginBottom: 4,
                 }}>
-                  {pack.sparks.toLocaleString()} <span style={{ fontSize: '1rem', fontWeight: 500 }}>Credits</span>
+                  {pack.runs.toLocaleString()} <span style={{ fontSize: '1rem', fontWeight: 500 }}>Credits</span>
                 </div>
 
                 {pack.bonus && (

@@ -39,7 +39,7 @@ export interface SparkTransaction {
   created_at: string
 }
 
-export interface SparkPack {
+export interface RunPack {
   id: string
   name: string
   runs: number
@@ -349,7 +349,7 @@ export async function getHistory(
 /**
  * Get all available Spark packs.
  */
-export async function getPacks(): Promise<SparkPack[]> {
+export async function getPacks(): Promise<RunPack[]> {
   const { data, error } = await getAdmin()
     .from('run_packs')
     .select('*')
@@ -404,10 +404,10 @@ export async function createSparkCheckout(
         price_data: {
           currency: 'usd',
           product_data: {
-            name: `${pack.sparks} Runs ⚡ — ${pack.name} Pack`,
+            name: `${pack.runs} Runs ⚡ — ${pack.name} Pack`,
             description: pack.bonus_pct > 0
-              ? `${pack.sparks} Runs (includes ${pack.bonus_pct}% bonus)`
-              : `${pack.sparks} Runs`,
+              ? `${pack.runs} Runs (includes ${pack.bonus_pct}% bonus)`
+              : `${pack.runs} Runs`,
           },
           unit_amount: pack.price_cents,
         },
@@ -424,7 +424,7 @@ export async function createSparkCheckout(
     metadata: {
       plan_type: 'runs',
       pack_id: packId,
-      runs_amount: String(pack.sparks),
+      runs_amount: String(pack.runs),
       user_id: userId,
       user_email: email,
     },

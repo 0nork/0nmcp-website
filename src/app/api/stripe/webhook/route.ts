@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 
         // ── Runs purchase ──
         if (planType === 'runs' && userId) {
-          const runsAmount = parseInt(session.metadata?.sparks_amount || '0')
+          const runsAmount = parseInt(session.metadata?.runs_amount || '0')
           const packId = session.metadata?.pack_id || 'starter'
           if (runsAmount > 0) {
             await creditRuns(userId, runsAmount, 'purchase', `Purchased ${runsAmount} Runs — ${packId} pack`, {

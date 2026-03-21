@@ -2,7 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
 
 const API_BASE = process.env.NEXT_PUBLIC_WEB0N_API_BASE ?? 'https://0nmcp.com'
-const SPARKS_URL = `${API_BASE}/runs`
+const RUNS_URL = `${API_BASE}/runs`
 
 let _server: McpServer | null = null
 
@@ -140,7 +140,7 @@ export function getMCPServer(): McpServer {
       return {
         content: [{
           type: 'text' as const,
-          text: `Purchase ${sel.sparks} Runs for $${sel.price} at ${SPARKS_URL}?package=${args.package}`,
+          text: `Purchase ${sel.runs} Runs for $${sel.price} at ${RUNS_URL}?package=${args.package}`,
         }],
       }
     }

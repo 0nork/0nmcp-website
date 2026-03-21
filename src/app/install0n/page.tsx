@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   publisher: 'RocketOpp LLC',
   openGraph: {
     title: 'Install 0nMCP — 1,155 AI Tools Inside Claude in 60 Seconds',
-    description: 'Transform Claude into your AI command center. Vault, Sparks, Store, Brain — all platforms. Free.',
+    description: 'Transform Claude into your AI command center. Vault, Runs, Store, Brain — all platforms. Free.',
     url: 'https://www.0nmcp.com/install0n',
     siteName: '0nMCP',
     type: 'website',
@@ -87,7 +87,7 @@ export default function Install0nPage() {
           { '@type': 'HowToStep', name: 'Choose your platform', text: 'Select Claude Desktop, Web, Mobile, or Code' },
           { '@type': 'HowToStep', name: 'Copy or install', text: 'Copy instructions or run the one-line installer' },
           { '@type': 'HowToStep', name: 'Login', text: 'Type /0nmcp login in Claude to connect your account' },
-          { '@type': 'HowToStep', name: 'Start using', text: 'Access vault, sparks, store, and brain directly in Claude' },
+          { '@type': 'HowToStep', name: 'Start using', text: 'Access vault, runs, store, and brain directly in Claude' },
         ],
       },
       {
@@ -96,7 +96,7 @@ export default function Install0nPage() {
           {
             '@type': 'Question',
             name: 'Is 0nMCP free?',
-            acceptedAnswer: { '@type': 'Answer', text: 'Yes. 0nMCP is free to install and use. You get 50 free Sparks and 20 executions per month. No credit card required.' },
+            acceptedAnswer: { '@type': 'Answer', text: 'Yes. 0nMCP is free to install and use. You get 50 free Runs and 20 executions per month. No credit card required.' },
           },
           {
             '@type': 'Question',

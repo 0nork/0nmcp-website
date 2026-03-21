@@ -15,7 +15,7 @@ export async function GET(): Promise<NextResponse> {
     token_endpoint_auth_methods_supported: ['client_secret_post'],
     scopes_supported: [
       'vault:read', 'vault:write',
-      'sparks:read', 'sparks:spend',
+      'runs:read', 'runs:spend',
       'workflows:execute',
       'brain:read', 'brain:contribute',
     ],

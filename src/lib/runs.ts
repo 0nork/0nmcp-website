@@ -1,15 +1,15 @@
 /**
- * Sparks ⚡ — Pre-paid Credit System
+ * Runs ⚡ — Pre-paid Credit System
  *
- * Every API call, workflow execution, and premium feature costs Sparks.
+ * Every API call, workflow execution, and premium feature costs Runs.
  * Users buy packs via Stripe. Low balance triggers purchase prompts.
  * Every 400/402 error is a $5 upsell opportunity.
  *
  * Packs:
- *   Starter   — $5  →  50 Sparks
- *   Builder   — $20 → 250 Sparks (25% bonus)
- *   Pro       — $50 → 750 Sparks (50% bonus)
- *   Unlimited — $100 → 2,000 Sparks (100% bonus)
+ *   Starter   — $5  →  50 Runs
+ *   Builder   — $20 → 250 Runs (25% bonus)
+ *   Pro       — $50 → 750 Runs (50% bonus)
+ *   Unlimited — $100 → 2,000 Runs (100% bonus)
  */
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
@@ -42,7 +42,7 @@ export interface SparkTransaction {
 export interface SparkPack {
   id: string
   name: string
-  sparks: number
+  runs: number
   price_cents: number
   bonus_pct: number
   stripe_price_id: string | null
@@ -65,8 +65,8 @@ export interface LowBalanceAlert {
 }
 
 // ── Cost Table ──
-// Everyone pays Sparks for platform usage. BYOK just means their AI key
-// is used instead of the platform key — but they still pay Sparks.
+// Everyone pays Runs for platform usage. BYOK just means their AI key
+// is used instead of the platform key — but they still pay Runs.
 // Only the OWNER gets free everything.
 
 export const SPARK_COSTS: Record<string, number> = {
@@ -88,7 +88,7 @@ export const SPARK_COSTS: Record<string, number> = {
 
   // Outreach enricher
   'api.outreach.enrich': 1,    // 1 Spark per lead enriched
-  'api.outreach.sequence': 5,  // 5 Sparks per email sequence
+  'api.outreach.sequence': 5,  // 5 Runs per email sequence
 
   // Training contributions
   'api.training.ingest': 0,  // free — user contributions are encouraged
@@ -109,10 +109,10 @@ export function getSparkCost(action: string): number {
 // ── Low Balance Thresholds ──
 
 const LOW_BALANCE_THRESHOLDS = [
-  { level: 'empty' as const, threshold: 0, message: 'You\'re out of Sparks! Purchase more to continue.', pack: 'starter' },
-  { level: 'critical' as const, threshold: 5, message: 'Almost out of Sparks — only {balance} left.', pack: 'starter' },
-  { level: 'warning' as const, threshold: 20, message: 'Running low — {balance} Sparks remaining.', pack: 'builder' },
-  { level: 'notice' as const, threshold: 50, message: 'Heads up — {balance} Sparks left. Top up to keep building.', pack: 'builder' },
+  { level: 'empty' as const, threshold: 0, message: 'You\'re out of Runs! Purchase more to continue.', pack: 'starter' },
+  { level: 'critical' as const, threshold: 5, message: 'Almost out of Runs — only {balance} left.', pack: 'starter' },
+  { level: 'warning' as const, threshold: 20, message: 'Running low — {balance} Runs remaining.', pack: 'builder' },
+  { level: 'notice' as const, threshold: 50, message: 'Heads up — {balance} Runs left. Top up to keep building.', pack: 'builder' },
 ]
 
 // ── Owner bypass ──
@@ -139,12 +139,12 @@ function getAdmin(): SupabaseClient {
 // ── Core Functions ──
 
 /**
- * Get a user's current Spark balance.
+ * Get a user's current Runs balance.
  * Creates a balance row with 0 if none exists.
  */
 export async function getBalance(userId: string): Promise<SparkBalance> {
   const { data, error } = await getAdmin()
-    .from('spark_balances')
+    .from('run_balances')
     .select('*')
     .eq('user_id', userId)
     .maybeSingle()
@@ -154,7 +154,7 @@ export async function getBalance(userId: string): Promise<SparkBalance> {
   if (!data) {
     // Create balance row
     const { data: created, error: createErr } = await getAdmin()
-      .from('spark_balances')
+      .from('run_balances')
       .insert({ user_id: userId, balance: 0, lifetime_earned: 0, lifetime_spent: 0 })
       .select()
       .single()
@@ -166,13 +166,13 @@ export async function getBalance(userId: string): Promise<SparkBalance> {
 }
 
 /**
- * Check if user has enough Sparks for an action.
+ * Check if user has enough Runs for an action.
  * Returns { allowed, balance, cost, alert? }
  *
  * Policy:
  * - Owner (mike@rocketopp.com): ALWAYS free, infinite balance
- * - Everyone else: pays Sparks, period. BYOK just routes to their AI key,
- *   it does NOT exempt them from Sparks.
+ * - Everyone else: pays Runs, period. BYOK just routes to their AI key,
+ *   it does NOT exempt them from Runs.
  */
 export async function checkBalance(userId: string, action: string, email?: string): Promise<{
   allowed: boolean
@@ -180,7 +180,7 @@ export async function checkBalance(userId: string, action: string, email?: strin
   cost: number
   alert?: LowBalanceAlert
 }> {
-  // Owner bypass — infinite sparks, always free
+  // Owner bypass — infinite runs, always free
   if (email && isOwner(email)) {
     return { allowed: true, balance: 999999, cost: 0 }
   }
@@ -209,10 +209,10 @@ export async function checkBalance(userId: string, action: string, email?: strin
 }
 
 /**
- * Deduct Sparks from a user's balance.
+ * Deduct Runs from a user's balance.
  * Returns the new balance. Throws if insufficient.
  */
-export async function deductSparks(
+export async function deductRuns(
   userId: string,
   action: string,
   description: string,
@@ -234,7 +234,7 @@ export async function deductSparks(
 
   // Atomic deduction: read balance + lifetime_spent, check, update in one go
   const { data: bal } = await admin
-    .from('spark_balances')
+    .from('run_balances')
     .select('balance, lifetime_spent')
     .eq('user_id', userId)
     .single()
@@ -247,7 +247,7 @@ export async function deductSparks(
 
   // Atomic update with balance check constraint — if concurrent request
   // already deducted, the CHECK(balance >= 0) constraint catches it
-  const { error: updateErr } = await admin.from('spark_balances').update({
+  const { error: updateErr } = await admin.from('run_balances').update({
     balance: newBalance,
     lifetime_spent: (bal.lifetime_spent || 0) + cost,
     last_deduction_at: new Date().toISOString(),
@@ -262,7 +262,7 @@ export async function deductSparks(
   }
 
   // Log transaction
-  const { data: tx } = await admin.from('spark_transactions').insert({
+  const { data: tx } = await admin.from('run_transactions').insert({
     user_id: userId,
     type: 'deduction',
     amount: -cost,
@@ -275,9 +275,9 @@ export async function deductSparks(
 }
 
 /**
- * Credit Sparks to a user's balance (purchase, bonus, grant, refund).
+ * Credit Runs to a user's balance (purchase, bonus, grant, refund).
  */
-export async function creditSparks(
+export async function creditRuns(
   userId: string,
   amount: number,
   type: 'purchase' | 'bonus' | 'grant' | 'refund',
@@ -292,7 +292,7 @@ export async function creditSparks(
   const admin = getAdmin()
 
   const { data: bal } = await admin
-    .from('spark_balances')
+    .from('run_balances')
     .select('balance')
     .eq('user_id', userId)
     .maybeSingle()
@@ -301,7 +301,7 @@ export async function creditSparks(
   const newBalance = currentBalance + amount
 
   // Upsert balance
-  await admin.from('spark_balances').upsert({
+  await admin.from('run_balances').upsert({
     user_id: userId,
     balance: newBalance,
     lifetime_earned: currentBalance + amount,
@@ -310,7 +310,7 @@ export async function creditSparks(
   }, { onConflict: 'user_id' })
 
   // Log transaction
-  await admin.from('spark_transactions').insert({
+  await admin.from('run_transactions').insert({
     user_id: userId,
     type,
     amount,
@@ -335,7 +335,7 @@ export async function getHistory(
   const admin = getAdmin()
 
   const { data, count, error } = await admin
-    .from('spark_transactions')
+    .from('run_transactions')
     .select('*', { count: 'exact' })
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
@@ -351,7 +351,7 @@ export async function getHistory(
  */
 export async function getPacks(): Promise<SparkPack[]> {
   const { data, error } = await getAdmin()
-    .from('spark_packs')
+    .from('run_packs')
     .select('*')
     .eq('active', true)
     .order('sort_order')
@@ -379,7 +379,7 @@ export function getLowBalanceAlert(balance: number): LowBalanceAlert | null {
 // ── Stripe Integration ──
 
 /**
- * Create a Stripe Checkout session for purchasing Sparks.
+ * Create a Stripe Checkout session for purchasing Runs.
  */
 export async function createSparkCheckout(
   userId: string,
@@ -389,7 +389,7 @@ export async function createSparkCheckout(
 ): Promise<string> {
   // Get pack details
   const { data: pack } = await getAdmin()
-    .from('spark_packs')
+    .from('run_packs')
     .select('*')
     .eq('id', packId)
     .eq('active', true)
@@ -404,10 +404,10 @@ export async function createSparkCheckout(
         price_data: {
           currency: 'usd',
           product_data: {
-            name: `${pack.sparks} Sparks ⚡ — ${pack.name} Pack`,
+            name: `${pack.sparks} Runs ⚡ — ${pack.name} Pack`,
             description: pack.bonus_pct > 0
-              ? `${pack.sparks} Sparks (includes ${pack.bonus_pct}% bonus)`
-              : `${pack.sparks} Sparks`,
+              ? `${pack.sparks} Runs (includes ${pack.bonus_pct}% bonus)`
+              : `${pack.sparks} Runs`,
           },
           unit_amount: pack.price_cents,
         },
@@ -422,9 +422,9 @@ export async function createSparkCheckout(
     cancel_url: `${returnUrl}?sparks=canceled`,
     customer_email: email,
     metadata: {
-      plan_type: 'sparks',
+      plan_type: 'runs',
       pack_id: packId,
-      sparks_amount: String(pack.sparks),
+      runs_amount: String(pack.sparks),
       user_id: userId,
       user_email: email,
     },
@@ -439,39 +439,39 @@ export class SparkInsufficientError extends Error {
   balance: number
   cost: number
   action: string
-  packs: Array<{ id: string; name: string; sparks: number; price: string }>
+  packs: Array<{ id: string; name: string; runs: number; price: string }>
 
   constructor(balance: number, cost: number, action: string) {
-    super(`Insufficient Sparks: need ${cost}, have ${balance}`)
+    super(`Insufficient Runs: need ${cost}, have ${balance}`)
     this.name = 'SparkInsufficientError'
     this.balance = balance
     this.cost = cost
     this.action = action
     this.packs = [
-      { id: 'starter', name: 'Starter', sparks: 50, price: '$5' },
-      { id: 'builder', name: 'Builder', sparks: 250, price: '$20' },
-      { id: 'pro', name: 'Pro', sparks: 750, price: '$50' },
-      { id: 'unlimited', name: 'Unlimited', sparks: 2000, price: '$100' },
+      { id: 'starter', name: 'Starter', runs: 50, price: '$5' },
+      { id: 'builder', name: 'Builder', runs: 250, price: '$20' },
+      { id: 'pro', name: 'Pro', runs: 750, price: '$50' },
+      { id: 'unlimited', name: 'Unlimited', runs: 2000, price: '$100' },
     ]
   }
 
   toResponse() {
     return {
-      error: 'insufficient_sparks',
-      message: `This action costs ${this.cost} Sparks ⚡ — you have ${this.balance}. Purchase more to continue.`,
+      error: 'insufficient_runs',
+      message: `This action costs ${this.cost} Runs ⚡ — you have ${this.balance}. Purchase more to continue.`,
       balance: this.balance,
       cost: this.cost,
       action: this.action,
       purchase: {
         quick_buy: {
           pack: 'starter',
-          sparks: 50,
+          runs: 50,
           price: '$5',
-          url: '/api/sparks/purchase?pack=starter',
+          url: '/api/runs/purchase?pack=starter',
         },
         all_packs: this.packs.map(p => ({
           ...p,
-          url: `/api/sparks/purchase?pack=${p.id}`,
+          url: `/api/runs/purchase?pack=${p.id}`,
         })),
       },
     }
@@ -481,7 +481,7 @@ export class SparkInsufficientError extends Error {
 // ── 402 Response Builder ──
 
 /**
- * Build a 402 Payment Required response with Sparks purchase prompts.
+ * Build a 402 Payment Required response with Runs purchase prompts.
  * Used by middleware and API routes when balance is insufficient.
  */
 export function build402Response(balance: number, cost: number, action: string) {
@@ -491,25 +491,25 @@ export function build402Response(balance: number, cost: number, action: string) 
 
 /**
  * Build a purchase prompt to attach to any error response.
- * Every 400-level error is a chance to sell Sparks.
+ * Every 400-level error is a chance to sell Runs.
  */
 export function buildPurchasePrompt(balance: number) {
   const alert = getLowBalanceAlert(balance)
   if (!alert) return null
 
   return {
-    sparks_alert: {
+    runs_alert: {
       level: alert.level,
       message: alert.message,
       balance,
       buy_sparks: {
         recommended: alert.suggestedPack,
-        url: `/api/sparks/purchase?pack=${alert.suggestedPack}`,
+        url: `/api/runs/purchase?pack=${alert.suggestedPack}`,
         packs: [
-          { id: 'starter', sparks: 50, price: '$5' },
-          { id: 'builder', sparks: 250, price: '$20' },
-          { id: 'pro', sparks: 750, price: '$50' },
-          { id: 'unlimited', sparks: 2000, price: '$100' },
+          { id: 'starter', runs: 50, price: '$5' },
+          { id: 'builder', runs: 250, price: '$20' },
+          { id: 'pro', runs: 750, price: '$50' },
+          { id: 'unlimited', runs: 2000, price: '$100' },
         ],
       },
     },

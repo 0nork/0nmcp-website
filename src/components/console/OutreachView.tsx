@@ -871,8 +871,8 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   }}
                 >
                   {enrichPhase === 'sample-done'
-                    ? `3 Sparks used`
-                    : `${enrichPhase === 'uploaded' ? uploadResult.totalRows : uploadResult.totalRows - 3} Sparks`}{' '}
+                    ? `3 Runs used`
+                    : `${enrichPhase === 'uploaded' ? uploadResult.totalRows : uploadResult.totalRows - 3} Runs`}{' '}
                   (1 Spark per lead)
                 </span>
               </div>
@@ -1489,7 +1489,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                   </svg>
-                  Generate Sequence (5 Sparks)
+                  Generate Sequence (5 Runs)
                 </>
               )}
             </button>

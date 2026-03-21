@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifySkillToken } from '@/lib/skill-auth'
-import { checkBalance, deductSparks, getBalance, isOwner } from '@/lib/sparks'
+import { checkBalance, deductRuns, getBalance, isOwner } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 
 /**
- * GET /api/skill/sparks — Check current Spark balance
- * POST /api/skill/sparks — Deduct Sparks for an action
+ * GET /api/skill/runs — Check current Runs balance
+ * POST /api/skill/runs — Deduct Runs for an action
  *
  * Body (POST): { action: string, description?: string }
  */
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       balance: 999999,
       is_owner: true,
-      message: 'Owner — unlimited Sparks',
+      message: 'Owner — unlimited Runs',
     })
   }
 
@@ -53,16 +53,16 @@ export async function POST(request: NextRequest) {
   const check = await checkBalance(user.id, action, user.email)
   if (!check.allowed) {
     return NextResponse.json({
-      error: 'insufficient_sparks',
+      error: 'insufficient_runs',
       balance: check.balance,
       cost: check.cost,
-      message: `This action costs ${check.cost} Sparks — you have ${check.balance}. Purchase more at https://www.0nmcp.com/console`,
+      message: `This action costs ${check.cost} Runs — you have ${check.balance}. Purchase more at https://www.0nmcp.com/console`,
       alert: check.alert,
     }, { status: 402 })
   }
 
   // Deduct
-  const result = await deductSparks(
+  const result = await deductRuns(
     user.id,
     action,
     description || `Skill: ${action}`,

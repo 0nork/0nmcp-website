@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { generateAsset, type BuilderConfig } from '@/lib/marketing-builder'
-import { checkBalance, deductSparks, isOwner } from '@/lib/sparks'
+import { checkBalance, deductRuns, isOwner } from '@/lib/runs'
 
 const SPARK_ACTION = 'api.builder.generate'
 
@@ -32,13 +32,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Invalid assetType. Must be one of: ${validTypes.join(', ')}` }, { status: 400 })
     }
 
-    // Check Sparks balance (owner is free)
+    // Check Runs balance (owner is free)
     if (!isOwner(user.email || '')) {
       const balance = await checkBalance(user.id, SPARK_ACTION, user.email || '')
       if (!balance.allowed) {
         return NextResponse.json({
-          error: 'insufficient_sparks',
-          message: `This action costs 10 Sparks. You have ${balance.balance}.`,
+          error: 'insufficient_runs',
+          message: `This action costs 10 Runs. You have ${balance.balance}.`,
           balance: balance.balance,
           cost: 10,
         }, { status: 402 })
@@ -60,9 +60,9 @@ export async function POST(req: NextRequest) {
 
     const result = await generateAsset(config)
 
-    // Deduct Sparks
+    // Deduct Runs
     if (!isOwner(user.email || '')) {
-      await deductSparks(user.id, SPARK_ACTION, `Generated ${assetType}: ${result.title}`)
+      await deductRuns(user.id, SPARK_ACTION, `Generated ${assetType}: ${result.title}`)
     }
 
     // Save to database

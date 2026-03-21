@@ -67,7 +67,7 @@ const SECTIONS: NavSection[] = [
     label: 'AI',
     items: [
       { key: 'training', label: 'Brain', icon: <Brain size={16} />, color: P },
-      { key: 'spark', label: 'Spark Runner', icon: <Zap size={16} />, color: G },
+      { key: 'runs', label: 'Spark Runner', icon: <Zap size={16} />, color: G },
       { key: 'sync', label: 'Sync', icon: <RefreshCw size={16} />, color: P },
     ],
   },

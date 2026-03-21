@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { exportAsset, type ExportFormat } from '@/lib/marketing-builder'
-import { deductSparks, isOwner } from '@/lib/sparks'
+import { deductRuns, isOwner } from '@/lib/runs'
 
 function getAdmin() {
   return createClient(
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     // HTML export is free, others cost 1 Spark (for the AI conversion)
     if (format !== 'html' && !isOwner(user.email || '')) {
-      await deductSparks(user.id, 'console.export', `Export ${asset.asset_type} as ${format}`)
+      await deductRuns(user.id, 'console.export', `Export ${asset.asset_type} as ${format}`)
     }
 
     const exported = await exportAsset(asset.html, format)

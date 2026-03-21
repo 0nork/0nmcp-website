@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auditWebsite } from '@/lib/sxo-auditor'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { checkBalance, deductSparks, build402Response, isOwner } from '@/lib/sparks'
+import { checkBalance, deductRuns, build402Response, isOwner } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -12,7 +12,7 @@ export const runtime = 'nodejs'
  *
  * Free for unauthenticated users (lead gen).
  * BYOK users (own AI key in vault): free — they're paying their own way.
- * Platform users: costs 5 Sparks.
+ * Platform users: costs 5 Runs.
  * Owner: always free.
  */
 export async function POST(req: NextRequest) {
@@ -36,10 +36,10 @@ export async function POST(req: NextRequest) {
 
     const result = await auditWebsite(url)
 
-    // Deduct Sparks after success (owner is already bypassed above)
+    // Deduct Runs after success (owner is already bypassed above)
     if (user && !isOwner(user.email || '')) {
       try {
-        await deductSparks(user.id, 'api.sxo.audit', `SXO audit: ${url}`)
+        await deductRuns(user.id, 'api.sxo.audit', `SXO audit: ${url}`)
       } catch {
         // Non-critical — don't fail the response
       }
@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
         GET: '/api/sxo/audit?url=https://example.com',
         POST: { url: 'https://example.com' },
       },
-      cost: '5 Sparks per audit. Free for guests (lead gen).',
+      cost: '5 Runs per audit. Free for guests (lead gen).',
       scoring: {
         categories: [
           'Technical SEO (20 pts) — title, meta, headings, canonical, viewport',
@@ -94,7 +94,7 @@ export async function GET(req: NextRequest) {
 
     if (user && !isOwner(user.email || '')) {
       try {
-        await deductSparks(user.id, 'api.sxo.audit', `SXO audit: ${url}`)
+        await deductRuns(user.id, 'api.sxo.audit', `SXO audit: ${url}`)
       } catch {
         // Non-critical
       }

@@ -22,8 +22,8 @@ const REFRESH_TTL_MS = 30 * 24 * 60 * 60 * 1000  // 30 days
 export const ALLOWED_SCOPES = [
   'vault:read',
   'vault:write',
-  'sparks:read',
-  'sparks:spend',
+  'runs:read',
+  'runs:spend',
   'workflows:execute',
   'brain:read',
   'brain:contribute',

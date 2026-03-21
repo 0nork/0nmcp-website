@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import * as Sentry from '@sentry/nextjs'
 import { stripe, CONSOLE_PLANS } from '@/lib/stripe'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
-import { creditSparks } from '@/lib/sparks'
+import { creditRuns } from '@/lib/runs'
 import { syncAccountStatus, recordMarketplaceTransaction, recordPayout, checkTierUpgrade, savePaymentMethod, createConnectedAccount } from '@/lib/stripe-connect'
 
 const CONSOLE_PRICE_IDS = new Set(
@@ -93,12 +93,12 @@ export async function POST(request: NextRequest) {
           break
         }
 
-        // ── Sparks purchase ──
-        if (planType === 'sparks' && userId) {
-          const sparksAmount = parseInt(session.metadata?.sparks_amount || '0')
+        // ── Runs purchase ──
+        if (planType === 'runs' && userId) {
+          const runsAmount = parseInt(session.metadata?.sparks_amount || '0')
           const packId = session.metadata?.pack_id || 'starter'
-          if (sparksAmount > 0) {
-            await creditSparks(userId, sparksAmount, 'purchase', `Purchased ${sparksAmount} Sparks — ${packId} pack`, {
+          if (runsAmount > 0) {
+            await creditRuns(userId, runsAmount, 'purchase', `Purchased ${runsAmount} Runs — ${packId} pack`, {
               stripeCheckoutSessionId: session.id,
               stripeCustomerId: session.customer as string,
               metadata: { pack_id: packId },

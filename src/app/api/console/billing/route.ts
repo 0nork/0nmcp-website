@@ -82,9 +82,9 @@ export async function GET() {
   const vendorEligible = ['agency', 'enterprise', 'owner'].includes(plan)
 
   if (!profile?.stripe_customer_id) {
-    // Still fetch sparks balance even without customer
-    const { data: sparks } = await admin
-      .from('spark_balances')
+    // Still fetch runs balance even without customer
+    const { data: runs } = await admin
+      .from('run_balances')
       .select('balance')
       .eq('user_id', user.id)
       .maybeSingle()
@@ -93,7 +93,7 @@ export async function GET() {
       subscribed: false,
       hasCustomer: false,
       plan,
-      sparksBalance: sparks?.balance ?? 0,
+      runsBalance: runs?.balance ?? 0,
       executionsThisMonth: 0,
       vendorStatus: profile?.vendor_status || null,
       tierData: tierMeta,
@@ -109,10 +109,10 @@ export async function GET() {
     const now = new Date()
     const periodStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
-    const [sub, sparks, execCount, paymentMethod, invoices] = await Promise.all([
+    const [sub, runs, execCount, paymentMethod, invoices] = await Promise.all([
       getActiveSubscription(profile.stripe_customer_id).catch(() => null),
 
-      admin.from('spark_balances').select('balance').eq('user_id', user.id).maybeSingle(),
+      admin.from('run_balances').select('balance').eq('user_id', user.id).maybeSingle(),
 
       admin.from('console_executions').select('id', { count: 'exact', head: true })
         .eq('user_id', user.id).gte('created_at', periodStart),
@@ -130,7 +130,7 @@ export async function GET() {
       hasCustomer: true,
       subscriptionId: sub?.subscriptionId || null,
       plan,
-      sparksBalance: sparks?.data?.balance ?? 0,
+      runsBalance: runs?.data?.balance ?? 0,
       executionsThisMonth: execCount.count ?? 0,
       paymentMethod: paymentMethod?.data || null,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

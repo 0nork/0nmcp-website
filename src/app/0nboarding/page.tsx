@@ -845,7 +845,7 @@ function OnboardingInner() {
         <div className="onboarding-card fadeInUp">
           <h1 className="onboarding-title">Connect payment method</h1>
           <p className="onboarding-subtitle">
-            Add a card for marketplace purchases, subscriptions, and Sparks. Powered by Stripe — we never store your card details.
+            Add a card for marketplace purchases, subscriptions, and Runs. Powered by Stripe — we never store your card details.
           </p>
 
           {/* Benefits */}
@@ -857,7 +857,7 @@ function OnboardingInner() {
           }}>
             {[
               { icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z', label: 'One-click marketplace', color: '#7ed957' },
-              { icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', label: 'Instant Sparks top-up', color: '#00d4ff' },
+              { icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', label: 'Instant Runs top-up', color: '#00d4ff' },
               { icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', label: 'Stripe secured', color: '#a78bfa' },
             ].map(({ icon, label, color }) => (
               <div key={label} style={{

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifySkillToken, getSkillAdmin } from '@/lib/skill-auth'
-import { isOwner } from '@/lib/sparks'
+import { isOwner } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 
 /**
  * GET /api/skill/session — Get current session info
  *
- * Returns: user profile, Spark balance, Vault summary, brain tier
+ * Returns: user profile, Runs balance, Vault summary, brain tier
  * Used by /0nmcp skill on startup to show status.
  */
 export async function GET(request: NextRequest) {
@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
   const admin = getSkillAdmin()
 
   // Parallel queries
-  const [sparksRes, vaultRes, tierRes] = await Promise.all([
-    admin.from('spark_balances').select('balance, lifetime_earned, lifetime_spent').eq('user_id', user.id).maybeSingle(),
+  const [runsRes, vaultRes, tierRes] = await Promise.all([
+    admin.from('run_balances').select('balance, lifetime_earned, lifetime_spent').eq('user_id', user.id).maybeSingle(),
     admin.from('user_vaults').select('service_name').eq('user_id', user.id),
     admin.from('council_knowledge').select('id', { count: 'exact', head: true }),
   ])
@@ -41,11 +41,11 @@ export async function GET(request: NextRequest) {
       full_name: user.full_name,
       is_owner: isOwner(user.email),
     },
-    sparks: {
-      balance: sparksRes.data?.balance || 0,
-      lifetime_earned: sparksRes.data?.lifetime_earned || 0,
-      lifetime_spent: sparksRes.data?.lifetime_spent || 0,
-      is_owner: isOwner(user.email), // owners have infinite sparks
+    runs: {
+      balance: runsRes.data?.balance || 0,
+      lifetime_earned: runsRes.data?.lifetime_earned || 0,
+      lifetime_spent: runsRes.data?.lifetime_spent || 0,
+      is_owner: isOwner(user.email), // owners have infinite runs
     },
     vault: {
       connected_services: vaultRes.data?.map(v => v.service_name) || [],

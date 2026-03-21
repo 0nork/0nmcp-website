@@ -9,7 +9,7 @@ export async function GET(): Promise<NextResponse> {
     scopes_supported: [
       'openid', 'profile', 'email',
       '0nmcp:tools:read', '0nmcp:tools:execute',
-      '0nmcp:account:read', '0nmcp:sparks:read', '0nmcp:sparks:purchase',
+      '0nmcp:account:read', '0nmcp:runs:read', '0nmcp:runs:purchase',
     ],
     bearer_methods_supported: ['header'],
     resource_signing_alg_values: ['RS256'],

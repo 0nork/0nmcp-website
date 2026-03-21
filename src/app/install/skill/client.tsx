@@ -64,7 +64,7 @@ const PLATFORMS: PlatformInfo[] = [
     steps: [
       { title: 'Install with one command', desc: 'Run the installer in your terminal — or choose a method below' },
       { title: 'Login', desc: 'Type /0nmcp login and enter your credentials' },
-      { title: 'You\'re connected', desc: 'Vault, Sparks, Store, Brain — all in your terminal' },
+      { title: 'You\'re connected', desc: 'Vault, Runs, Store, Brain — all in your terminal' },
     ],
   },
 ]
@@ -379,7 +379,7 @@ export function SkillInstallClient() {
                         Download Dashboard
                       </a>
                       <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
-                        Open <code style={{ color: '#00d4ff' }}>dashboard.html</code> in any browser. Vault, Sparks, Brain — all local.
+                        Open <code style={{ color: '#00d4ff' }}>dashboard.html</code> in any browser. Vault, Runs, Brain — all local.
                       </p>
                     </>
                   )}
@@ -520,7 +520,7 @@ export function SkillInstallClient() {
         }}>
           {[
             { icon: '🔐', title: 'Vault — Encrypted API Keys', desc: 'AES-256 encrypted. 2-way sync between Claude and the web.', color: '#f59e0b' },
-            { icon: '⚡', title: 'Sparks — Pay Per Action', desc: 'Credits that power everything. Check, spend, top up.', color: '#ff6b35' },
+            { icon: '⚡', title: 'Runs — Pay Per Action', desc: 'Credits that power everything. Check, spend, top up.', color: '#ff6b35' },
             { icon: '🏪', title: 'Store — 50+ Workflows', desc: 'Pre-built automations. Purchase once, run anywhere.', color: '#00d4ff' },
             { icon: '🧠', title: 'Council Brain', desc: '7-persona self-training AI. View status, contribute, level up.', color: '#a78bfa' },
             { icon: '🔧', title: `${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, and more.', color: '#7ed957' },
@@ -554,7 +554,7 @@ export function SkillInstallClient() {
             { cmd: '/0nmcp', desc: 'See your status' },
             { cmd: '/0nmcp vault', desc: 'Your API keys' },
             { cmd: '/0nmcp vault save <svc>', desc: 'Push key to vault' },
-            { cmd: '/0nmcp sparks', desc: 'Check your balance' },
+            { cmd: '/0nmcp runs', desc: 'Check your balance' },
             { cmd: '/0nmcp store', desc: 'Browse workflows' },
             { cmd: '/0nmcp brain', desc: 'AI brain status' },
           ].map((c) => (

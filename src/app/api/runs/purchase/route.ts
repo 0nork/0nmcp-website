@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { createSparkCheckout, getPacks, isOwner } from '@/lib/sparks'
+import { createSparkCheckout, getPacks, isOwner } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 
 /**
- * GET /api/sparks/purchase?pack=starter
+ * GET /api/runs/purchase?pack=starter
  *
- * Creates a Stripe Checkout session for purchasing Sparks.
+ * Creates a Stripe Checkout session for purchasing Runs.
  * Redirects to Stripe checkout page.
  */
 export async function GET(req: NextRequest) {
@@ -22,13 +22,13 @@ export async function GET(req: NextRequest) {
         packs: packs.map(p => ({
           id: p.id,
           name: p.name,
-          sparks: p.sparks,
+          runs: p.sparks,
           price: `$${(p.price_cents / 100).toFixed(0)}`,
           bonus: p.bonus_pct > 0 ? `${p.bonus_pct}% bonus` : null,
           badge: p.badge,
-          url: `/api/sparks/purchase?pack=${p.id}`,
+          url: `/api/runs/purchase?pack=${p.id}`,
         })),
-        usage: '/api/sparks/purchase?pack=starter',
+        usage: '/api/runs/purchase?pack=starter',
       })
     }
 
@@ -36,11 +36,11 @@ export async function GET(req: NextRequest) {
     const { data: { user } } = await supabase!.auth.getUser()
 
     if (!user) {
-      return NextResponse.json({ error: 'Login required to purchase Sparks' }, { status: 401 })
+      return NextResponse.json({ error: 'Login required to purchase Runs' }, { status: 401 })
     }
 
     if (isOwner(user.email || '')) {
-      return NextResponse.json({ message: 'Owner accounts have unlimited Sparks ⚡' })
+      return NextResponse.json({ message: 'Owner accounts have unlimited Runs ⚡' })
     }
 
     const checkoutUrl = await createSparkCheckout(
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
 }
 
 /**
- * POST /api/sparks/purchase
+ * POST /api/runs/purchase
  * Body: { pack: "starter" | "builder" | "pro" | "unlimited" }
  *
  * JSON API version of purchase — always returns checkout URL.
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (isOwner(user.email || '')) {
-      return NextResponse.json({ message: 'Owner accounts have unlimited Sparks ⚡' })
+      return NextResponse.json({ message: 'Owner accounts have unlimited Runs ⚡' })
     }
 
     const url = await createSparkCheckout(user.id, user.email || '', packId, returnUrl)

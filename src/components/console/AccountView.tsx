@@ -36,7 +36,7 @@ interface BillingStatus {
   hasCustomer: boolean
   subscriptionId?: string | null
   plan?: string
-  sparksBalance?: number
+  runsBalance?: number
   executionsThisMonth?: number
   paymentMethod?: {
     card_brand: string | null
@@ -1021,9 +1021,9 @@ export function AccountView() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
-                {billing?.sparksBalance ?? 0}
+                {billing?.runsBalance ?? 0}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Sparks Balance</div>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Runs Balance</div>
             </div>
             <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>

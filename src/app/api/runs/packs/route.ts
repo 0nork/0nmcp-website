@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
-import { getPacks } from '@/lib/sparks'
+import { getPacks } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 
 /**
- * GET /api/sparks/packs
+ * GET /api/runs/packs
  *
  * Returns all active Spark packs with pricing.
  * Public endpoint — no auth required.
@@ -17,12 +17,12 @@ export async function GET() {
       packs: packs.map(p => ({
         id: p.id,
         name: p.name,
-        sparks: p.sparks,
+        runs: p.sparks,
         price: `$${(p.price_cents / 100).toFixed(0)}`,
         price_cents: p.price_cents,
         bonus: p.bonus_pct > 0 ? `${p.bonus_pct}% bonus` : null,
         badge: p.badge,
-        purchase_url: `/api/sparks/purchase?pack=${p.id}`,
+        purchase_url: `/api/runs/purchase?pack=${p.id}`,
       })),
     })
   } catch (err) {

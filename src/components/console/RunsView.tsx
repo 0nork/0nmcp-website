@@ -19,7 +19,7 @@ interface McpWorkflow {
   version?: string
 }
 
-interface SparkViewProps {
+interface RunsViewProps {
   mcpOnline: boolean
   mcpHealth: McpHealth | null
   mcpWorkflows: McpWorkflow[]
@@ -35,7 +35,7 @@ const QUICK_ACTIONS = [
   { name: 'rss-update', label: 'RSS Update', icon: 'M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16M5 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z', color: '#00d4ff' },
 ]
 
-export function SparkView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: SparkViewProps) {
+export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: RunsViewProps) {
   const [runningWorkflow, setRunningWorkflow] = useState<string | null>(null)
   const [recentRuns, setRecentRuns] = useState<{ name: string; time: string; status: string }[]>([])
 
@@ -134,7 +134,7 @@ export function SparkView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }:
         </svg>
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '0.875rem', fontWeight: 700, color: isLocal ? '#7ed957' : '#00d4ff' }}>
-            {isLocal ? 'Local Mode (Free)' : 'Cloud Mode (Sparks)'}
+            {isLocal ? 'Local Mode (Free)' : 'Cloud Mode (Runs)'}
           </span>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 8 }}>
             {mcpHealth?.tools || 0} tools | v{mcpHealth?.version || '2.2.0'}

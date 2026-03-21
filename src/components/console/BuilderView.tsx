@@ -659,7 +659,7 @@ export function BuilderView() {
                   fontWeight: 500,
                 }}
               >
-                10 Sparks
+                10 Runs
               </span>
             )}
           </button>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { enrichRow, type FieldKey, type CustomField, type LeadRow } from '@/lib/outreach-enricher'
-import { checkBalance, deductSparks, isOwner } from '@/lib/sparks'
+import { checkBalance, deductRuns, isOwner } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60 // Allow up to 60 seconds for enrichment
@@ -32,13 +32,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Row data required' }, { status: 400 })
   }
 
-  // Check Sparks balance (owner bypass)
+  // Check Runs balance (owner bypass)
   if (!isOwner(user.email || '')) {
     const check = await checkBalance(user.id, 'api.outreach.enrich', user.email || '')
     if (!check.allowed) {
       return NextResponse.json({
-        error: 'insufficient_sparks',
-        message: `Need ${check.cost} Sparks, have ${check.balance}.`,
+        error: 'insufficient_runs',
+        message: `Need ${check.cost} Runs, have ${check.balance}.`,
       }, { status: 402 })
     }
   }
@@ -46,9 +46,9 @@ export async function POST(request: NextRequest) {
   try {
     const result = await enrichRow(row, fields || [], customFields || [])
 
-    // Deduct Sparks after successful enrichment
+    // Deduct Runs after successful enrichment
     if (!isOwner(user.email || '')) {
-      await deductSparks(user.id, 'api.outreach.enrich', 'Outreach: enrich lead')
+      await deductRuns(user.id, 'api.outreach.enrich', 'Outreach: enrich lead')
     }
 
     return NextResponse.json({ result })

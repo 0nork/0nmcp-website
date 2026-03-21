@@ -14,7 +14,7 @@ const VIEW_LABELS: Record<string, string> = {
   builder: 'Builder',
   store: 'Store',
   training: 'Brain',
-  spark: 'Spark Runner',
+  runs: 'Runs Manager',
   sync: 'Sync',
   outreach: 'Enricher',
   listkit: 'ListKit',
@@ -53,8 +53,8 @@ interface HeaderProps {
   userName?: string
   userEmail?: string
   coreAI?: string | null
-  sparkCount?: number | null
-  sparkLimit?: number | null
+  runCount?: number | null
+  runLimit?: number | null
   isOwner?: boolean
   onCmdK: () => void
   onMobileMenu: () => void
@@ -64,7 +64,7 @@ interface HeaderProps {
   onNavigateVault?: () => void
 }
 
-export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, userName, userEmail, coreAI, sparkCount, sparkLimit, isOwner, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick, onSetupAI, onNavigateVault }: HeaderProps) {
+export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, userName, userEmail, coreAI, runCount, runLimit, isOwner, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick, onSetupAI, onNavigateVault }: HeaderProps) {
   const [avatarOpen, setAvatarOpen] = useState(false)
   const avatarRef = useRef<HTMLDivElement>(null)
 
@@ -227,7 +227,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
         )}
 
         {/* Spark Counter */}
-        {(sparkCount !== undefined && sparkCount !== null) && (
+        {(runCount !== undefined && runCount !== null) && (
           <div style={{
             display: 'flex', alignItems: 'center', gap: 4,
             padding: '5px 10px', borderRadius: 8,
@@ -236,15 +236,15 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
           }}>
             <Zap size={11} style={{
               color: isOwner ? '#7ed957'
-                : sparkLimit && sparkCount / sparkLimit > 0.5 ? '#7ed957'
-                : sparkLimit && sparkCount / sparkLimit > 0.1 ? '#f59e0b'
+                : runLimit && runCount / runLimit > 0.5 ? '#7ed957'
+                : runLimit && runCount / runLimit > 0.1 ? '#f59e0b'
                 : '#ef4444'
             }} />
             <span style={{
               fontSize: '0.7rem', fontWeight: 600,
               color: isOwner ? '#7ed957' : 'var(--text-secondary)',
             }}>
-              {isOwner ? '\u221E' : sparkLimit ? `${sparkCount}/${sparkLimit}` : sparkCount}
+              {isOwner ? '\u221E' : runLimit ? `${runCount}/${runLimit}` : runCount}
             </span>
           </div>
         )}

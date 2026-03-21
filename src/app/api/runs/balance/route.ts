@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { getBalance, getLowBalanceAlert, isOwner } from '@/lib/sparks'
+import { getBalance, getLowBalanceAlert, isOwner } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 
 /**
- * GET /api/sparks/balance
+ * GET /api/runs/balance
  *
- * Returns the current user's Spark balance + low balance alert if applicable.
+ * Returns the current user's Runs balance + low balance alert if applicable.
  */
 export async function GET() {
   try {
@@ -41,7 +41,7 @@ export async function GET() {
         level: alert.level,
         message: alert.message,
         suggested_pack: alert.suggestedPack,
-        purchase_url: `/api/sparks/purchase?pack=${alert.suggestedPack}`,
+        purchase_url: `/api/runs/purchase?pack=${alert.suggestedPack}`,
       } : null,
     })
   } catch (err) {

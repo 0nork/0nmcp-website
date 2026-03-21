@@ -2,7 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
 
 const API_BASE = process.env.NEXT_PUBLIC_WEB0N_API_BASE ?? 'https://0nmcp.com'
-const SPARKS_URL = `${API_BASE}/sparks`
+const SPARKS_URL = `${API_BASE}/runs`
 
 let _server: McpServer | null = null
 
@@ -109,7 +109,7 @@ export function getMCPServer(): McpServer {
   // ── get_account ───────────────────────────────────────────────────────────
   server.tool(
     'get_account',
-    'Get the connected 0nMCP account: Sparks balance, recent pipeline runs, active services.',
+    'Get the connected 0nMCP account: Runs balance, recent pipeline runs, active services.',
     {},
     async () => {
       return {
@@ -121,26 +121,26 @@ export function getMCPServer(): McpServer {
     }
   )
 
-  // ── purchase_sparks ───────────────────────────────────────────────────────
+  // ── purchase_runs ───────────────────────────────────────────────────────
   server.tool(
-    'purchase_sparks',
-    'Direct the user to purchase Sparks at 0nmcp.com.',
+    'purchase_runs',
+    'Direct the user to purchase Runs at 0nmcp.com.',
     {
       package: z.enum(['starter', 'growth', 'pro']).default('growth')
-        .describe('Sparks package: starter (10/$5), growth (50/$19), pro (200/$49)'),
+        .describe('Runs package: starter (10/$5), growth (50/$19), pro (200/$49)'),
     },
     async (args) => {
       const packages = {
-        starter: { sparks: 10, price: 5 },
-        growth: { sparks: 50, price: 19 },
-        pro: { sparks: 200, price: 49 },
+        starter: { runs: 10, price: 5 },
+        growth: { runs: 50, price: 19 },
+        pro: { runs: 200, price: 49 },
       }
       const sel = packages[args.package]
 
       return {
         content: [{
           type: 'text' as const,
-          text: `Purchase ${sel.sparks} Sparks for $${sel.price} at ${SPARKS_URL}?package=${args.package}`,
+          text: `Purchase ${sel.sparks} Runs for $${sel.price} at ${SPARKS_URL}?package=${args.package}`,
         }],
       }
     }

@@ -27,12 +27,12 @@ function getConfigContent() {
   return {
     "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schema/claude.json",
     "projectName": "0nMCP Environment",
-    "description": `Connected to the 0nMCP ecosystem — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, Vault, Sparks, Council Brain`,
+    "description": `Connected to the 0nMCP ecosystem — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, Vault, Runs, Council Brain`,
     "skills": [
       {
         "name": "0nmcp",
         "path": "~/.claude/skills/0nmcp/SKILL.md",
-        "description": "Turn Claude into an 0nMCP Environment — Vault, Sparks, Store, Brain"
+        "description": "Turn Claude into an 0nMCP Environment — Vault, Runs, Store, Brain"
       }
     ],
     "mcpServers": {
@@ -45,7 +45,7 @@ function getConfigContent() {
     },
     "instructions": [
       "This project is connected to the 0nMCP ecosystem.",
-      "Use /0nmcp to interact with the platform — login, vault, sparks, store, brain.",
+      "Use /0nmcp to interact with the platform — login, vault, runs, store, brain.",
       "API keys are stored encrypted in the Vault. Never write decrypted keys to disk.",
       "All API calls go through https://www.0nmcp.com/api/skill/*"
     ],

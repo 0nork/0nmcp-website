@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateSxoPages, type SxoInput } from '@/lib/sxo-engine'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { checkBalance, deductSparks, build402Response, isOwner } from '@/lib/sparks'
+import { checkBalance, deductRuns, build402Response, isOwner } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -10,7 +10,7 @@ export const runtime = 'nodejs'
  * POST /api/sxo/generate
  *
  * Free for unauthenticated users (lead gen).
- * Platform users: costs 10 Sparks.
+ * Platform users: costs 10 Runs.
  * Owner: always free.
  */
 export async function POST(req: NextRequest) {
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     if (user && !isOwner(user.email || '')) {
       try {
-        await deductSparks(user.id, 'api.sxo.generate', `SXO generate: ${body.brand}`)
+        await deductRuns(user.id, 'api.sxo.generate', `SXO generate: ${body.brand}`)
       } catch {
         // Non-critical
       }
@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
   if (!brand) {
     return NextResponse.json({
       error: 'Missing required parameter: brand',
-      cost: '10 Sparks per generation. Free for guests (lead gen).',
+      cost: '10 Runs per generation. Free for guests (lead gen).',
       usage: {
         endpoint: '/api/sxo/generate',
         method: 'POST (recommended) or GET',
@@ -119,7 +119,7 @@ export async function GET(req: NextRequest) {
 
     if (user && !isOwner(user.email || '')) {
       try {
-        await deductSparks(user.id, 'api.sxo.generate', `SXO generate: ${brand}`)
+        await deductRuns(user.id, 'api.sxo.generate', `SXO generate: ${brand}`)
       } catch {
         // Non-critical
       }

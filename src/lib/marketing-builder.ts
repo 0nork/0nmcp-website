@@ -7,7 +7,7 @@
  * - Forms (high-conversion with validation)
  * - Product pages (showcase with optional Stripe checkout)
  *
- * Cost: 10 Sparks per generation
+ * Cost: 10 Runs per generation
  */
 
 import { callAI } from '@/lib/ai-provider'

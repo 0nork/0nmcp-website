@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
   // All available listings
   const { data: listings } = await admin
     .from('store_listings')
-    .select('id, slug, name, description, category, tier, price_sparks, created_at')
+    .select('id, slug, name, description, category, tier, price_runs, created_at')
     .eq('status', 'published')
     .order('created_at', { ascending: false })
     .limit(50)

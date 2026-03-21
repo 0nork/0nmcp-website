@@ -175,7 +175,7 @@ const ECOSYSTEM: EcoNode[] = [
     name: 'Stripe',
     type: 'infrastructure',
     status: 'live',
-    description: 'Payments — Sparks, subscriptions, metered billing',
+    description: 'Payments — Runs, subscriptions, metered billing',
     stats: 'acct_1T2fHeQjehctdkQR',
     color: '#635bff',
     connections: ['0nmcp-website', 'marketplace'],
@@ -208,7 +208,7 @@ const ECOSYSTEM: EcoNode[] = [
     type: 'skill',
     status: 'planned',
     description: 'Downloadable skill — turns Claude Code into 0nMCP environment',
-    stats: 'Auth → Vault → Tools → Sparks',
+    stats: 'Auth → Vault → Tools → Runs',
     color: '#ff6b35',
     connections: ['0nmcp-website', 'supabase-main', 'vault'],
   },
@@ -527,7 +527,7 @@ Claude Code (MAX plan)               Message Bus                 Vercel (0nmcp.c
         <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
           Users download a skill file, import it into Claude Code, authenticate with their 0nmcp.com account,
           and instantly turn Claude into a full 0nMCP environment. They get access to their Vault keys,
-          workflows, training data — all powered by their Sparks balance.
+          workflows, training data — all powered by their Runs balance.
           This turns every Claude Code user into a potential 0nMCP customer.
         </div>
         <div style={{

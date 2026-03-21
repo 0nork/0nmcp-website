@@ -50,7 +50,7 @@ export default function ReportingPage() {
         <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '0.875rem', padding: '1.5rem' }}>
           <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem 0' }}>Cost Analysis</h2>
           <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            Track Sparks usage, API costs per provider, and execution costs across all workflows.
+            Track Runs usage, API costs per provider, and execution costs across all workflows.
           </p>
         </div>
       </div>

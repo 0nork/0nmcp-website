@@ -1,17 +1,17 @@
 /**
- * Sparks Guard ⚡ — API Route Protection
+ * Runs Guard ⚡ — API Route Protection
  *
  * Wraps API route handlers to:
- * 1. Check Spark balance before execution
- * 2. Deduct Sparks on success
+ * 1. Check Runs balance before execution
+ * 2. Deduct Runs on success
  * 3. Return 402 with purchase prompt on insufficient balance
  * 4. Attach purchase prompts to ALL error responses (400, 401, 403, 500)
  *
  * Usage:
- *   import { withSparks } from '@/lib/sparks-guard'
+ *   import { withRuns } from '@/lib/runs-guard'
  *
- *   export const POST = withSparks('api.sxo.audit', async (req, { user, balance }) => {
- *     // Your handler logic — Sparks already checked
+ *   export const POST = withRuns('api.sxo.audit', async (req, { user, balance }) => {
+ *     // Your handler logic — Runs already checked
  *     return NextResponse.json(result)
  *   })
  */
@@ -20,12 +20,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import {
   checkBalance,
-  deductSparks,
+  deductRuns,
   build402Response,
   buildPurchasePrompt,
   getBalance,
   isOwner,
-} from '@/lib/sparks'
+} from '@/lib/runs'
 
 interface SparkContext {
   user: { id: string; email: string }
@@ -40,14 +40,14 @@ type SparkHandler = (
 ) => Promise<NextResponse>
 
 /**
- * Wrap an API route handler with Spark balance checking.
+ * Wrap an API route handler with Runs balance checking.
  *
  * - Checks balance BEFORE the handler runs
  * - Returns 402 if insufficient
- * - Deducts Sparks AFTER successful execution
+ * - Deducts Runs AFTER successful execution
  * - Enriches error responses with purchase prompts
  */
-export function withSparks(action: string, handler: SparkHandler) {
+export function withRuns(action: string, handler: SparkHandler) {
   return async (req: NextRequest) => {
     try {
       // Get user
@@ -58,7 +58,7 @@ export function withSparks(action: string, handler: SparkHandler) {
         return NextResponse.json({
           error: 'Authentication required',
           buy_sparks: {
-            message: 'Sign up for 10 free Sparks ⚡',
+            message: 'Sign up for 10 free Runs ⚡',
             signup_url: '/signup',
           },
         }, { status: 401 })
@@ -67,7 +67,7 @@ export function withSparks(action: string, handler: SparkHandler) {
       const email = user.email || ''
       const ownerAccount = isOwner(email)
 
-      // Check balance — owner gets free, everyone else pays Sparks
+      // Check balance — owner gets free, everyone else pays Runs
       const { allowed, balance, cost, alert } = await checkBalance(user.id, action, email)
 
       if (!allowed) {
@@ -84,11 +84,11 @@ export function withSparks(action: string, handler: SparkHandler) {
 
       const response = await handler(req, ctx)
 
-      // Deduct Sparks on success (2xx responses)
+      // Deduct Runs on success (2xx responses)
       // Skip deduction for: owners, BYOK users (on exempt actions), zero-cost actions
       if (response.status >= 200 && response.status < 300 && !ownerAccount && cost > 0) {
         try {
-          await deductSparks(user.id, action, `${action} execution`)
+          await deductRuns(user.id, action, `${action} execution`)
         } catch {
           // Deduction failed — log but don't fail the response
           console.error(`Spark deduction failed for ${user.id}:${action}`)
@@ -100,7 +100,7 @@ export function withSparks(action: string, handler: SparkHandler) {
         return enrichErrorResponse(response, user.id)
       }
 
-      // Add Spark balance header to successful responses
+      // Add Runs balance header to successful responses
       if (alert) {
         const body = await response.json()
         return NextResponse.json({
@@ -110,7 +110,7 @@ export function withSparks(action: string, handler: SparkHandler) {
             alert: {
               level: alert.level,
               message: alert.message,
-              purchase_url: `/api/sparks/purchase?pack=${alert.suggestedPack}`,
+              purchase_url: `/api/runs/purchase?pack=${alert.suggestedPack}`,
             },
           },
         }, { status: response.status })
@@ -121,8 +121,8 @@ export function withSparks(action: string, handler: SparkHandler) {
       return NextResponse.json({
         error: err instanceof Error ? err.message : 'Internal error',
         buy_sparks: {
-          message: 'Need more Sparks? Grab a pack.',
-          url: '/api/sparks/packs',
+          message: 'Need more Runs? Grab a pack.',
+          url: '/api/runs/packs',
         },
       }, { status: 500 })
     }
@@ -130,7 +130,7 @@ export function withSparks(action: string, handler: SparkHandler) {
 }
 
 /**
- * Enrich any error response with a Sparks purchase prompt.
+ * Enrich any error response with a Runs purchase prompt.
  * Every error is a sales opportunity.
  */
 async function enrichErrorResponse(response: NextResponse, userId: string): Promise<NextResponse> {
@@ -152,7 +152,7 @@ async function enrichErrorResponse(response: NextResponse, userId: string): Prom
  * Light version — just checks balance and returns alert.
  * For routes that don't want full deduction wrapping.
  */
-export async function sparkBalanceCheck(userId: string, email: string): Promise<{
+export async function runBalanceCheck(userId: string, email: string): Promise<{
   balance: number
   alert: ReturnType<typeof buildPurchasePrompt>
 }> {

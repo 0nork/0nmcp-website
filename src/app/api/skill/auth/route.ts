@@ -42,9 +42,9 @@ export async function POST(request: NextRequest) {
     .eq('id', data.user.id)
     .maybeSingle()
 
-  // Get Spark balance
-  const { data: sparks } = await admin
-    .from('spark_balances')
+  // Get Runs balance
+  const { data: runs } = await admin
+    .from('run_balances')
     .select('balance')
     .eq('user_id', data.user.id)
     .maybeSingle()
@@ -59,6 +59,6 @@ export async function POST(request: NextRequest) {
       full_name: profile?.full_name || null,
       handle: profile?.handle || null,
     },
-    sparks: sparks?.balance || 0,
+    runs: runs?.balance || 0,
   })
 }

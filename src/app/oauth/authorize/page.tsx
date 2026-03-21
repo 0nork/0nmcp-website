@@ -15,8 +15,8 @@ import { useState, Suspense } from 'react'
 const SCOPE_META: Record<string, { label: string; description: string; icon: string }> = {
   'vault:read':          { label: 'Read Vault',          description: 'Load your encrypted API keys for active sessions', icon: '🔑' },
   'vault:write':         { label: 'Write Vault',         description: 'Save and remove credentials in your vault',        icon: '🔐' },
-  'sparks:read':         { label: 'Check Sparks',        description: 'View your Spark balance and transaction history',  icon: '⚡' },
-  'sparks:spend':        { label: 'Spend Sparks',        description: 'Deduct Sparks when running automations',           icon: '💸' },
+  'runs:read':         { label: 'Check Runs',        description: 'View your Runs balance and transaction history',  icon: '⚡' },
+  'runs:spend':        { label: 'Spend Runs',        description: 'Deduct Runs when running automations',           icon: '💸' },
   'workflows:execute':   { label: 'Run Workflows',       description: 'Execute your purchased SWITCH file workflows',     icon: '⚙️' },
   'brain:read':          { label: 'Read Brain',          description: 'View Council Brain status and leaderboard',        icon: '🧠' },
   'brain:contribute':    { label: 'Contribute to Brain', description: 'Submit knowledge entries to the Council Brain',    icon: '📡' },

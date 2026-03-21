@@ -57,7 +57,7 @@ const PLATFORMS = [
     steps: [
       { n: '1', title: 'Run one command', desc: 'Paste the installer below in your terminal' },
       { n: '2', title: 'Login', desc: 'Type /0nmcp login in Claude Code' },
-      { n: '3', title: 'You\'re live', desc: 'Vault, Sparks, Store, Brain — all in terminal.' },
+      { n: '3', title: 'You\'re live', desc: 'Vault, Runs, Store, Brain — all in terminal.' },
     ],
     method: 'install',
   },
@@ -399,7 +399,7 @@ export function Install0nClient() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
             {[
               { icon: '🔐', title: 'Vault', sub: 'Encrypted API Keys', desc: 'AES-256 encrypted. Bidirectional sync between Claude and the web. Your keys never leave your vault.', color: '#f59e0b', glow: 'rgba(245,158,11,0.08)' },
-              { icon: '⚡', title: 'Sparks', sub: 'Pay-Per-Action Credits', desc: 'Credits that power everything. Check balance, spend on executions, top up anytime. Start with 50 free.', color: '#ff6b35', glow: 'rgba(255,107,53,0.08)' },
+              { icon: '⚡', title: 'Runs', sub: 'Pay-Per-Action Credits', desc: 'Credits that power everything. Check balance, spend on executions, top up anytime. Start with 50 free.', color: '#ff6b35', glow: 'rgba(255,107,53,0.08)' },
               { icon: '🏪', title: 'Store', sub: '50+ Pre-Built Workflows', desc: 'Marketing, sales, devops, data — ready-made automations you can run instantly or customize.', color: '#00d4ff', glow: 'rgba(0,212,255,0.08)' },
               { icon: '🧠', title: 'Council Brain', sub: 'Self-Training AI', desc: '7 distinct personas that learn and improve. View training status, contribute knowledge, level up.', color: '#a78bfa', glow: 'rgba(167,139,250,0.08)' },
               { icon: '🔧', title: `${STATS_DISPLAY.tools}+ Tools`, sub: `${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, SendGrid, Discord, Shopify, Notion, and dozens more.', color: '#7ed957', glow: 'rgba(126,217,87,0.08)' },
@@ -442,7 +442,7 @@ export function Install0nClient() {
               { cmd: '/0nmcp', desc: 'See your status', c: '#7ed957' },
               { cmd: '/0nmcp vault', desc: 'Manage API keys', c: '#f59e0b' },
               { cmd: '/0nmcp vault save <svc>', desc: 'Push key to vault', c: '#f59e0b' },
-              { cmd: '/0nmcp sparks', desc: 'Check your balance', c: '#ff6b35' },
+              { cmd: '/0nmcp runs', desc: 'Check your balance', c: '#ff6b35' },
               { cmd: '/0nmcp store', desc: 'Browse workflows', c: '#00d4ff' },
               { cmd: '/0nmcp brain', desc: 'AI brain status', c: '#a78bfa' },
             ].map((c, i) => (
@@ -466,7 +466,7 @@ export function Install0nClient() {
             Questions? Answered.
           </h2>
           {[
-            { q: 'Is 0nMCP really free?', a: 'Yes. Free to install, free to use. You get 50 Sparks and 20 executions per month. No credit card required. Upgrade only if you want more.' },
+            { q: 'Is 0nMCP really free?', a: 'Yes. Free to install, free to use. You get 50 Runs and 20 executions per month. No credit card required. Upgrade only if you want more.' },
             { q: 'What Claude plans does it work with?', a: 'Claude MAX, Pro, and Team. Works on Desktop (Mac & Windows), Web (claude.ai), Mobile (iPhone & iPad), and Claude Code (terminal).' },
             { q: 'Is my data safe?', a: 'Your API keys are stored in an AES-256 encrypted vault with PBKDF2-SHA512 key derivation. We never see your keys in plaintext. Patent pending.' },
             { q: 'Can I uninstall it?', a: 'Yes. Just delete the project from Claude. No files modified, no system changes, nothing to clean up.' },

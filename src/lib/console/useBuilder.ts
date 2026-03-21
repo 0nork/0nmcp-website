@@ -85,8 +85,8 @@ export function useBuilder() {
       const data = await res.json()
 
       if (!res.ok) {
-        const errMsg = data.error === 'insufficient_sparks'
-          ? data.message || 'Insufficient Sparks'
+        const errMsg = data.error === 'insufficient_runs'
+          ? data.message || 'Insufficient Runs'
           : data.error || 'Generation failed'
         setState((s) => ({ ...s, generating: false, error: errMsg }))
         return null

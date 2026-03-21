@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
-import { getHistory } from '@/lib/sparks'
+import { getHistory } from '@/lib/runs'
 
 export const dynamic = 'force-dynamic'
 
 /**
- * GET /api/sparks/history?limit=50&offset=0
+ * GET /api/runs/history?limit=50&offset=0
  *
  * Returns the user's Spark transaction history.
  */

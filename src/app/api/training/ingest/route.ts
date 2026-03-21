@@ -21,7 +21,7 @@ function getAdmin() {
  * - Current tier >= 3 (Canopy)
  * - opted_in: true in body
  * - Rate limit: 50 contributions per user per day
- * - 0 Sparks cost (contributions are free)
+ * - 0 Runs cost (contributions are free)
  */
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()

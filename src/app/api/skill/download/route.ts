@@ -24,7 +24,7 @@ export async function GET() {
 function getSkillContent(): string {
   return `# /0nmcp — Turn Claude into an 0nMCP Environment
 
-Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.com account and get access to your Vault, workflows, Sparks, and the Council Brain — all from your terminal.
+Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.com account and get access to your Vault, workflows, Runs, and the Council Brain — all from your terminal.
 
 **Sign up first**: https://www.0nmcp.com/signup
 
@@ -32,13 +32,13 @@ Connect to the 0nMCP ecosystem from Claude Code. Authenticate with your 0nmcp.co
 
 | Argument | Action |
 |----------|--------|
-| (none) | Show status — connected services, Spark balance, brain tier |
+| (none) | Show status — connected services, Runs balance, brain tier |
 | \`login\` | Authenticate with your 0nmcp.com email + password |
 | \`vault\` | List your connected services from the Vault |
 | \`vault <service>\` | Load a specific service's API key for this session |
 | \`vault save <service>\` | Save/update a credential to the web vault |
 | \`vault remove <service>\` | Remove a credential from the web vault |
-| \`sparks\` | Check your Spark balance |
+| \`sparks\` | Check your Runs balance |
 | \`store\` | Browse available automation templates |
 | \`store <slug>\` | Get details on a specific listing |
 | \`brain\` | View brain training status |
@@ -109,7 +109,7 @@ curl -s -X POST "https://www.0nmcp.com/api/skill/auth" \\
   "refresh_token": "...",
   "expires_at": 1234567890,
   "user": { "id": "...", "email": "...", "full_name": "..." },
-  "sparks": 50
+  "runs": 50
 }
 \`\`\`
 
@@ -140,7 +140,7 @@ Print a welcome banner:
   0nMCP Environment — Connected
 ============================================
   User:     {full_name} ({email})
-  Sparks:   {balance} ⚡
+  Runs:   {balance} ⚡
   Vault:    {count} services connected
   Brain:    Tier {tier} — {tier_name}
 ============================================
@@ -221,12 +221,12 @@ Returns:
 
 ---
 
-## Sparks (\`/0nmcp sparks\`)
+## Runs (\`/0nmcp runs\`)
 
 ### Check Balance
 
 \`\`\`bash
-curl -s "https://www.0nmcp.com/api/skill/sparks" \\
+curl -s "https://www.0nmcp.com/api/skill/runs" \\
   -H "Authorization: Bearer ACCESS_TOKEN"
 \`\`\`
 
@@ -235,16 +235,16 @@ Returns:
 { "balance": 47, "lifetime_earned": 100, "lifetime_spent": 53 }
 \`\`\`
 
-Print: "You have {balance} Sparks ⚡"
+Print: "You have {balance} Runs ⚡"
 
-If balance is low (< 10), suggest: "Running low! Get more at https://www.0nmcp.com/console → Sparks"
+If balance is low (< 10), suggest: "Running low! Get more at https://www.0nmcp.com/console → Runs"
 
-### Deduct Sparks (before running actions)
+### Deduct Runs (before running actions)
 
-Before executing any action that costs Sparks, call:
+Before executing any action that costs Runs, call:
 
 \`\`\`bash
-curl -s -X POST "https://www.0nmcp.com/api/skill/sparks" \\
+curl -s -X POST "https://www.0nmcp.com/api/skill/runs" \\
   -H "Authorization: Bearer ACCESS_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{"action": "ACTION_NAME", "description": "What the user is doing"}'
@@ -253,15 +253,15 @@ curl -s -X POST "https://www.0nmcp.com/api/skill/sparks" \\
 **Action costs:**
 | Action | Cost |
 |--------|------|
-| api.chat | 3 Sparks |
-| api.execute | 5 Sparks |
-| console.workflow.run | 5 Sparks |
-| console.workflow.create | 2 Sparks |
-| api.builder.generate | 10 Sparks |
+| api.chat | 3 Runs |
+| api.execute | 5 Runs |
+| console.workflow.run | 5 Runs |
+| console.workflow.create | 2 Runs |
+| api.builder.generate | 10 Runs |
 | api.convert | 1 Spark |
-| api.training.ingest | 0 Sparks (free) |
+| api.training.ingest | 0 Runs (free) |
 
-If the user has insufficient Sparks, the API returns 402 with a purchase link. Tell the user and provide the link.
+If the user has insufficient Runs, the API returns 402 with a purchase link. Tell the user and provide the link.
 
 ---
 
@@ -324,7 +324,7 @@ curl -s -X POST "https://www.0nmcp.com/api/training/ingest" \\
 
 Valid domains: logic, systems, business, ethics, workflow, cross-domain, optimization, self-optimization
 
-Rate limit: 50 contributions per day. Contributions are free (0 Sparks).
+Rate limit: 50 contributions per day. Contributions are free (0 Runs).
 
 ---
 
@@ -333,7 +333,7 @@ Rate limit: 50 contributions per day. Contributions are free (0 Sparks).
 To run a purchased workflow:
 
 1. Check the user has the workflow: \`/0nmcp store purchased\`
-2. Deduct Sparks: POST to /api/skill/sparks with action "console.workflow.run"
+2. Deduct Runs: POST to /api/skill/runs with action "console.workflow.run"
 3. Fetch the workflow data from the listing
 4. Execute the .0n workflow steps locally
 
@@ -347,8 +347,8 @@ To run a purchased workflow:
 | /api/skill/session | GET | Bearer | Session info + status |
 | /api/skill/vault | GET | Bearer | List connected services |
 | /api/skill/vault | POST | Bearer | Get encrypted key data |
-| /api/skill/sparks | GET | Bearer | Check Spark balance |
-| /api/skill/sparks | POST | Bearer | Deduct Sparks |
+| /api/skill/runs | GET | Bearer | Check Runs balance |
+| /api/skill/runs | POST | Bearer | Deduct Runs |
 | /api/skill/store | GET | Bearer | Browse/search store |
 | /api/training/leaderboard | GET | None | Brain status (public) |
 | /api/training/ingest | POST | Bearer | Contribute knowledge |
@@ -360,11 +360,11 @@ To run a purchased workflow:
 ## Important Notes
 
 1. **Sign up first** — You need an account at https://www.0nmcp.com/signup
-2. **Sparks are required** — Most actions cost Sparks. Buy packs at https://www.0nmcp.com/console
+2. **Runs are required** — Most actions cost Runs. Buy packs at https://www.0nmcp.com/console
 3. **Vault keys are encrypted** — Keys are AES-256-GCM encrypted, never stored in plaintext
 4. **Session tokens expire** — If you get a 401, run \`/0nmcp login\` again
 5. **Brain contributions are free** — Help train the AI and earn recognition
-6. **This skill is free** — No cost to download or install. You only pay for Sparks.
+6. **This skill is free** — No cost to download or install. You only pay for Runs.
 7. **0nMCP**: ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — https://www.0nmcp.com
 
 ---

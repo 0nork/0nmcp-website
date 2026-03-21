@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
  *
  * A single-file HTML app that:
  *   - Authenticates with 0nmcp.com
- *   - Shows Vault services, Spark balance, Brain status
+ *   - Shows Vault services, Runs balance, Brain status
  *   - Manages credentials (2-way sync)
  *   - All API calls go to 0nmcp.com endpoints
  */
@@ -234,8 +234,8 @@ function getDashboardHtml(): string {
         <div class="stat-value" style="color:var(--green)" id="stat-vault">—</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Sparks</div>
-        <div class="stat-value" style="color:var(--orange)" id="stat-sparks">—</div>
+        <div class="stat-label">Runs</div>
+        <div class="stat-value" style="color:var(--orange)" id="stat-runs">—</div>
       </div>
       <div class="stat">
         <div class="stat-label">Brain Tier</div>
@@ -365,7 +365,7 @@ async function apiFetch(path) {
 }
 
 async function refreshAll() {
-  await Promise.all([loadVault(), loadSparks(), loadBrain()])
+  await Promise.all([loadVault(), loadRuns(), loadBrain()])
 }
 
 async function loadVault() {
@@ -387,12 +387,12 @@ async function loadVault() {
   } catch { document.getElementById('vault-list').innerHTML = '<div class="empty">Failed to load</div>' }
 }
 
-async function loadSparks() {
+async function loadRuns() {
   try {
-    const data = await apiFetch('/sparks')
+    const data = await apiFetch('/runs')
     if (!data) return
-    document.getElementById('stat-sparks').textContent = data.is_owner ? '∞' : String(data.balance)
-  } catch { document.getElementById('stat-sparks').textContent = '—' }
+    document.getElementById('stat-runs').textContent = data.is_owner ? '∞' : String(data.balance)
+  } catch { document.getElementById('stat-runs').textContent = '—' }
 }
 
 async function loadBrain() {

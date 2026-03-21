@@ -26,7 +26,7 @@ import { AdminView } from '@/components/console/AdminView'
 import { SmartPrompts } from '@/components/console/SmartPrompts'
 import { PinnedCommands } from '@/components/console/PinnedCommands'
 import { OperationsView, SocialView, ReportingView, CodeView, LinkedInView, MigrateView, ConvertView } from '@/components/console/FeatureViews'
-import { SparkView } from '@/components/console/SparkView'
+import { RunsView } from '@/components/console/RunsView'
 import { BuilderView } from '@/components/console/BuilderView'
 import { EngineView } from '@/components/console/EngineView'
 import { VendorView } from '@/components/console/VendorView'
@@ -46,7 +46,7 @@ import { getIdeas } from '@/lib/console/ideas'
 import { getRecommendations, type RecommendationContext, type Recommendation } from '@/lib/console/recommendations'
 import type { PurchaseWithWorkflow, StoreListing } from '@/components/console/StoreTypes'
 
-type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'spark' | 'vendor' | 'builder' | 'engine' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder' | 'affiliate' | 'downloads'
+type View = 'dashboard' | 'chat' | 'vault' | 'flows' | 'store' | 'account' | 'admin' | 'operations' | 'social' | 'reporting' | 'code' | 'linkedin' | 'migrate' | 'convert' | 'runs' | 'vendor' | 'builder' | 'engine' | 'outreach' | 'listkit' | 'training' | 'sync' | 'seo' | 'site-builder' | 'affiliate' | 'downloads'
 
 interface McpHealth {
   version?: string
@@ -108,10 +108,10 @@ export default function ConsolePage() {
   const [userEmail, setUserEmail] = useState('')
   const [isOwner, setIsOwner] = useState(false)
 
-  // ─── Core AI + Sparks + Tutorial ────────────────────────
+  // ─── Core AI + Runs + Tutorial ────────────────────────
   const [showTutorial, setShowTutorial] = useState(false)
-  const [sparkCount, setSparkCount] = useState<number | null>(null)
-  const [sparkLimit, setSparkLimit] = useState<number | null>(null)
+  const [runCount, setRunCount] = useState<number | null>(null)
+  const [runLimit, setRunLimit] = useState<number | null>(null)
 
   // ─── AI Recommendation State ──────────────────────────────────
   const [recentActions, setRecentActions] = useState<string[]>([])
@@ -192,10 +192,10 @@ export default function ConsolePage() {
       .then(data => {
         if (data) {
           if (data.isOwner) setIsOwner(true)
-          if (data.sparksBalance !== undefined) setSparkCount(data.sparksBalance)
-          if (data.plan === 'free') setSparkLimit(20)
-          else if (data.plan === 'pro') setSparkLimit(500)
-          else if (data.plan === 'team') setSparkLimit(5000)
+          if (data.runsBalance !== undefined) setRunCount(data.runsBalance)
+          if (data.plan === 'free') setRunLimit(20)
+          else if (data.plan === 'pro') setRunLimit(500)
+          else if (data.plan === 'team') setRunLimit(5000)
         }
       })
       .catch(() => {})
@@ -207,7 +207,7 @@ export default function ConsolePage() {
         if (data.status === 'online' || data.status === 'cloud') {
           setMcpOnline(true)
           setMcpHealth(data)
-          if (data.mode === 'local') setView('spark')
+          if (data.mode === 'local') setView('runs')
         }
       })
       .catch(() => {})
@@ -451,8 +451,8 @@ export default function ConsolePage() {
         case '/admin':
           if (isAdmin) setView('admin')
           break
-        case '/spark':
-          setView('spark')
+        case '/runs':
+          setView('runs')
           break
         case '/status':
           fetch('/api/console/health')
@@ -610,8 +610,8 @@ export default function ConsolePage() {
           userName={userName}
           userEmail={userEmail}
           coreAI={vault.coreAI}
-          sparkCount={sparkCount}
-          sparkLimit={sparkLimit}
+          runCount={runCount}
+          runLimit={runLimit}
           isOwner={isOwner}
           onCmdK={() => setCmdPaletteOpen(true)}
           onMobileMenu={() => {}}
@@ -815,9 +815,9 @@ export default function ConsolePage() {
           )}
 
           {/* Spark Runner */}
-          {visitedViews.has('spark') && (
-            <div style={{ display: view === 'spark' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
-              <SparkView
+          {visitedViews.has('runs') && (
+            <div style={{ display: view === 'runs' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+              <RunsView
                 mcpOnline={mcpOnline}
                 mcpHealth={mcpHealth}
                 mcpWorkflows={mcpWorkflows}

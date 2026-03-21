@@ -6,7 +6,7 @@ import Link from 'next/link'
 interface Pack {
   id: string
   name: string
-  sparks: number
+  runs: number
   price: string
   price_cents: number
   bonus: string | null
@@ -28,10 +28,10 @@ interface Balance {
 }
 
 const FALLBACK_PACKS: Pack[] = [
-  { id: 'starter', name: 'Starter', sparks: 50, price: '$5', price_cents: 500, bonus: null, badge: 'Try It', purchase_url: '/api/sparks/purchase?pack=starter' },
-  { id: 'builder', name: 'Builder', sparks: 250, price: '$20', price_cents: 2000, bonus: '25% bonus', badge: 'Popular', purchase_url: '/api/sparks/purchase?pack=builder' },
-  { id: 'pro', name: 'Pro', sparks: 750, price: '$50', price_cents: 5000, bonus: '50% bonus', badge: 'Best Value', purchase_url: '/api/sparks/purchase?pack=pro' },
-  { id: 'unlimited', name: 'Unlimited', sparks: 2000, price: '$100', price_cents: 10000, bonus: '100% bonus', badge: 'Power User', purchase_url: '/api/sparks/purchase?pack=unlimited' },
+  { id: 'starter', name: 'Starter', runs: 50, price: '$5', price_cents: 500, bonus: null, badge: 'Try It', purchase_url: '/api/runs/purchase?pack=starter' },
+  { id: 'builder', name: 'Builder', runs: 250, price: '$20', price_cents: 2000, bonus: '25% bonus', badge: 'Popular', purchase_url: '/api/runs/purchase?pack=builder' },
+  { id: 'pro', name: 'Pro', runs: 750, price: '$50', price_cents: 5000, bonus: '50% bonus', badge: 'Best Value', purchase_url: '/api/runs/purchase?pack=pro' },
+  { id: 'unlimited', name: 'Unlimited', runs: 2000, price: '$100', price_cents: 10000, bonus: '100% bonus', badge: 'Power User', purchase_url: '/api/runs/purchase?pack=unlimited' },
 ]
 
 const COST_TABLE = [
@@ -47,7 +47,7 @@ const COST_TABLE = [
   { action: 'File Export', cost: 1 },
 ]
 
-export default function SparksPage() {
+export default function RunsPage() {
   const [packs, setPacks] = useState<Pack[]>(FALLBACK_PACKS)
   const [balance, setBalance] = useState<Balance | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -56,17 +56,17 @@ export default function SparksPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    if (params.get('sparks') === 'purchased') {
+    if (params.get('runs') === 'purchased') {
       setSuccess(true)
-      window.history.replaceState({}, '', '/sparks')
+      window.history.replaceState({}, '', '/runs')
     }
 
-    fetch('/api/sparks/packs')
+    fetch('/api/runs/packs')
       .then(r => r.json())
       .then(d => { if (d.packs?.length) setPacks(d.packs) })
       .catch(() => {})
 
-    fetch('/api/sparks/balance')
+    fetch('/api/runs/balance')
       .then(r => {
         if (r.ok) return r.json()
         throw new Error('Not logged in')
@@ -80,11 +80,11 @@ export default function SparksPage() {
 
   const handlePurchase = (packId: string) => {
     if (!isLoggedIn) {
-      window.location.href = `/login?redirect=/sparks`
+      window.location.href = `/login?redirect=/runs`
       return
     }
     setPurchasing(packId)
-    window.location.href = `/api/sparks/purchase?pack=${packId}&return=${encodeURIComponent('/sparks')}`
+    window.location.href = `/api/runs/purchase?pack=${packId}&return=${encodeURIComponent('/runs')}`
   }
 
   const highlightColor = '#7ed957'
@@ -112,7 +112,7 @@ export default function SparksPage() {
             </Link>
           ) : (
             <>
-              <Link href="/login?redirect=/sparks" style={{ fontSize: '0.85rem', color: '#a1a1aa', textDecoration: 'none' }}>
+              <Link href="/login?redirect=/runs" style={{ fontSize: '0.85rem', color: '#a1a1aa', textDecoration: 'none' }}>
                 Log in
               </Link>
               <Link href="/signup" style={{

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { createClient } from '@supabase/supabase-js'
 import { provisionUser, getUserCrmAccount } from '@/lib/crm-provisioning'
+import { sendWelcomeEmail } from '@/lib/crm-sync'
 import { stripe } from '@/lib/stripe'
 import * as Sentry from '@sentry/nextjs'
 
@@ -32,6 +33,9 @@ export async function GET(request: NextRequest) {
 
           // Create Stripe customer if not already created (non-blocking)
           ensureStripeCustomer(user.id, user.email || '', meta).catch(() => {})
+
+          // Send welcome email for NEW users (non-blocking)
+          sendWelcomeIfNew(user.id, user.email || '', meta).catch(() => {})
 
           // For LinkedIn signups: fire PACG pipeline
           if (provider === 'linkedin_oidc') {
@@ -238,5 +242,36 @@ async function autoProvisionCrm(userId: string, email: string, meta: Record<stri
       extra: { userId, email },
     })
     // Do NOT re-throw — auth callback must never fail due to CRM
+  }
+}
+
+/**
+ * Send welcome email only for NEW users (first time through callback).
+ * Checks if user already has onboarding_completed or crm_contact_id — if so, skip.
+ * NEVER throws — failures don't block auth.
+ */
+async function sendWelcomeIfNew(userId: string, email: string, meta: Record<string, unknown>) {
+  try {
+    const admin = getAdminClient()
+    if (!admin) return
+
+    const { data: profile } = await admin
+      .from('profiles')
+      .select('onboarding_completed, crm_contact_id')
+      .eq('id', userId)
+      .single()
+
+    // Skip if returning user (already onboarded = not first login)
+    if (profile?.onboarding_completed || profile?.crm_contact_id) return
+
+    const fullName = (meta.full_name as string) || (meta.name as string) || ''
+    const sent = await sendWelcomeEmail(email, fullName || undefined)
+
+    if (sent) {
+      console.log(`[auth] Welcome email sent to ${email}`)
+    }
+  } catch (err) {
+    console.error('[Welcome Email Failed]', email, err instanceof Error ? err.message : err)
+    // Do NOT re-throw — auth callback must never fail due to email
   }
 }

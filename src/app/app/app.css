@@ -414,6 +414,21 @@
   border: 1px solid rgba(255, 68, 102, 0.2);
 }
 
+/* Offline Banner */
+.offline-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 170, 0, 0.08);
+  border-bottom: 1px solid rgba(255, 170, 0, 0.2);
+  flex-shrink: 0;
+  font-size: 13px;
+  color: #ffaa00;
+  font-weight: 500;
+}
+
 /* Install Prompt Banner */
 .install-banner {
   display: flex;

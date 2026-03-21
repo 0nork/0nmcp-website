@@ -17,8 +17,21 @@ export default function Terminal() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isStreaming, setIsStreaming] = useState(false)
+  const [isOffline, setIsOffline] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const abortRef = useRef<AbortController | null>(null)
+
+  useEffect(() => {
+    setIsOffline(!navigator.onLine)
+    const goOffline = () => setIsOffline(true)
+    const goOnline = () => setIsOffline(false)
+    window.addEventListener('offline', goOffline)
+    window.addEventListener('online', goOnline)
+    return () => {
+      window.removeEventListener('offline', goOffline)
+      window.removeEventListener('online', goOnline)
+    }
+  }, [])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -118,12 +131,12 @@ export default function Terminal() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Describe a task..."
-          disabled={isStreaming}
+          placeholder={isOffline ? 'Offline — connect to send tasks' : 'Describe a task...'}
+          disabled={isStreaming || isOffline}
           autoFocus
         />
-        <button type="submit" disabled={isStreaming || !input.trim()}>
-          {isStreaming ? 'Stop' : 'Send'}
+        <button type="submit" disabled={isStreaming || isOffline || !input.trim()}>
+          {isOffline ? 'Offline' : isStreaming ? 'Stop' : 'Send'}
         </button>
       </form>
     </div>

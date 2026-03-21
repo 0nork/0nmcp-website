@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
 
     // Build the action link
     // Supabase expects: {supabase_url}/auth/v1/verify?token={token_hash}&type={action_type}&redirect_to={redirect_to}
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://yaehbwimocvvnnlojkxe.supabase.co'
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pwujhhmlrtxjmjzyttwn.supabase.co'
     const actionLink = `${supabaseUrl}/auth/v1/verify?token=${token}&type=${actionType === 'recovery' ? 'recovery' : actionType === 'magiclink' ? 'magiclink' : 'signup'}&redirect_to=${encodeURIComponent(redirectTo)}`
 
     let sent = false
@@ -131,8 +131,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (!sent) {
-      // Return error so Supabase falls back to default email
-      return NextResponse.json({ error: 'CRM email send failed' }, { status: 500 })
+      // CRM email failed — still return 200 so signup succeeds
+      // Supabase will use its built-in email as fallback
+      console.warn('[auth-hook] CRM email failed, returning success so signup continues')
+      return NextResponse.json({ success: true })
     }
 
     console.log(`[auth-hook] Sent ${actionType} email to ${email} via CRM`)

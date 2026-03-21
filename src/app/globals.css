@@ -3310,82 +3310,140 @@ a:hover {
   border-radius: 50%;
 }
 
-/* ── Mobile menu ── */
-.mega-mobile {
+/* ── Mobile menu — off-canvas fly-in ── */
+
+/* Backdrop overlay */
+.mega-mobile::before {
+  content: '';
   position: fixed;
-  top: 56px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99;
-  background: var(--bg-primary);
-  padding: 1.5rem;
-  overflow-y: auto;
-  animation: megaMobileIn 0.25s ease-out;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: -1;
+  animation: megaOverlayIn 0.3s ease-out;
 }
 
-@keyframes megaMobileIn {
+@keyframes megaOverlayIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
+.mega-mobile {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 85vw;
+  z-index: 99;
+  background: var(--bg-primary);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 5rem 1.5rem 2rem;
+  overflow-y: auto;
+  animation: megaSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes megaSlideIn {
+  from { transform: translateX(100%); opacity: 0.5; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Top accent line */
+.mega-mobile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-secondary), transparent);
+  opacity: 0.6;
+}
+
 .mega-mobile-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .mega-mobile-section-title {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 600;
+  font-size: 0.6rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  color: var(--accent);
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(126, 217, 87, 0.1);
 }
 
 .mega-mobile-links {
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
   margin-bottom: 1.5rem;
 }
 
 .mega-mobile-link {
-  display: block;
-  padding: 0.75rem 0;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: color 0.15s ease;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-.mega-mobile-link:hover { color: var(--text-primary); }
+.mega-mobile-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateX(4px);
+}
+
+/* Staggered entrance */
+.mega-mobile-links .mega-mobile-link:nth-child(1) { animation: megaLinkIn 0.4s 0.05s both; }
+.mega-mobile-links .mega-mobile-link:nth-child(2) { animation: megaLinkIn 0.4s 0.1s both; }
+.mega-mobile-links .mega-mobile-link:nth-child(3) { animation: megaLinkIn 0.4s 0.15s both; }
+.mega-mobile-links .mega-mobile-link:nth-child(4) { animation: megaLinkIn 0.4s 0.2s both; }
+.mega-mobile-links .mega-mobile-link:nth-child(5) { animation: megaLinkIn 0.4s 0.25s both; }
+
+@keyframes megaLinkIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
 
 .mega-mobile-link-builder {
-  color: var(--accent);
+  color: var(--accent) !important;
   font-weight: 700;
 }
 
-.mega-mobile-link-builder:hover { color: var(--accent); }
+.mega-mobile-link-builder:hover {
+  color: var(--accent) !important;
+  background: rgba(126, 217, 87, 0.06);
+}
 
 .mega-mobile-auth-link {
   display: block;
   text-align: center;
   font-size: 0.85rem;
   color: var(--text-muted);
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
   transition: color 0.15s ease;
 }
 
-.mega-mobile-auth-link:hover { color: var(--text-secondary); }
+.mega-mobile-auth-link:hover { color: var(--accent); }
 
 .mega-mobile-ctas {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  animation: megaLinkIn 0.4s 0.3s both;
 }
 
 /* ============================================

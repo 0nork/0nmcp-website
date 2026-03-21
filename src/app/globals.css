@@ -3031,6 +3031,7 @@ a:hover {
   background: none;
   border: none;
   cursor: pointer;
+  margin-left: auto;
 }
 
 @media (min-width: 768px) {

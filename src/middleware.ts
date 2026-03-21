@@ -61,7 +61,7 @@ export async function middleware(request: NextRequest) {
 
   // ── MAINTENANCE MODE — redirect public pages for logged-out users ──
   // TODO: Remove this block when maintenance is complete (Mike: remind me!)
-  const MAINTENANCE_MODE = true
+  const MAINTENANCE_MODE = false
   if (MAINTENANCE_MODE) {
     const publicPaths = ['/', '/integrations', '/turn-it-on', '/technology', '/security',
       '/examples', '/downloads', '/convert', '/0n-standard', '/compare', '/glossary',

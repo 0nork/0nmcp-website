@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes, createHmac } from 'crypto'
 import { createClient } from '@supabase/supabase-js'
+import { provisionUser, getUserCrmAccount } from '@/lib/crm-provisioning'
+import { sendWelcomeEmail } from '@/lib/crm-sync'
+import { stripe } from '@/lib/stripe'
 
 export const dynamic = 'force-dynamic'
 
@@ -135,6 +138,11 @@ export async function POST(request: NextRequest) {
 
     pollLimitMap.delete(device_code)
 
+    // Auto-provision CRM + Stripe + welcome email (non-blocking)
+    if (email) {
+      autoProvisionCLIUser(dc.user_id, email, profile?.full_name || null).catch(() => {})
+    }
+
     return NextResponse.json({
       access_token: accessToken,
       refresh_token: refreshToken,
@@ -149,4 +157,59 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ error: 'Unknown status' }, { status: 500 })
+}
+
+/**
+ * Auto-provision everything for a new CLI user.
+ * Fires in background — never blocks the token response.
+ */
+async function autoProvisionCLIUser(userId: string, email: string, fullName: string | null) {
+  const admin = getAdmin()
+
+  // Check current profile state
+  const { data: profile } = await admin
+    .from('profiles')
+    .select('crm_contact_id, stripe_customer_id, company')
+    .eq('id', userId)
+    .single()
+
+  // 1. CRM contact + sub-account
+  if (!profile?.crm_contact_id) {
+    try {
+      const existing = await getUserCrmAccount(userId).catch(() => null)
+      if (!existing) {
+        const result = await provisionUser({
+          userId,
+          email,
+          fullName: fullName || email.split('@')[0],
+          company: profile?.company || '',
+        })
+        if (result.success) console.log(`[device-auth] CRM provisioned: ${email} → ${result.locationId}`)
+      }
+    } catch (err) {
+      console.error('[device-auth] CRM provision failed:', err instanceof Error ? err.message : err)
+    }
+  }
+
+  // 2. Stripe customer
+  if (!profile?.stripe_customer_id) {
+    try {
+      const customer = await stripe.customers.create({
+        email,
+        name: fullName || email.split('@')[0],
+        metadata: { supabase_user_id: userId, source: '0nmcp-cli' },
+      })
+      await admin.from('profiles').update({ stripe_customer_id: customer.id }).eq('id', userId)
+      console.log(`[device-auth] Stripe customer: ${email} → ${customer.id}`)
+    } catch (err) {
+      console.error('[device-auth] Stripe failed:', err instanceof Error ? err.message : err)
+    }
+  }
+
+  // 3. Welcome email
+  try {
+    await sendWelcomeEmail(email, fullName || undefined)
+  } catch {
+    // Non-fatal
+  }
 }

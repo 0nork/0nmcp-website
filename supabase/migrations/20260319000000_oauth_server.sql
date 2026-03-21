@@ -66,7 +66,7 @@ create policy "service role only" on oauth_tokens   for all using (false);
 insert into oauth_clients (client_id, client_secret, name, redirect_uris, allowed_scopes)
 values (
   'anthropic-claude',
-  '3ee5175c905e6b9c3d3b4e7fd04abe962508b0473ffb6cbeab523d0f1385b2b0',
+  'd390fe807566dcf79950bc164d20c64b3ff6afbe4349b0cff444829cda0c0d3f',
   'Anthropic Claude',
   array[
     'https://claude.ai/api/mcp/auth_callback',

@@ -225,13 +225,15 @@ export async function POST(request: NextRequest) {
     // 6. Save to DB if user_id provided
     if (user_id) {
       const admin = getAdmin()
-      await admin.from('social_drafts').insert({
-        user_id,
-        platform: socialPlatform,
-        content: finalContent,
-        archetype,
-        status: 'draft',
-      }).catch(() => {}) // non-fatal
+      try {
+        await admin.from('social_drafts').insert({
+          user_id,
+          platform: socialPlatform,
+          content: finalContent,
+          archetype,
+          status: 'draft',
+        })
+      } catch { /* non-fatal — table may not exist yet */ }
     }
 
     return NextResponse.json({

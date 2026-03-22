@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
+import DataFlowAnimation from '@/components/DataFlowAnimation'
 
 export default function LoginPage() {
   return (
@@ -66,7 +67,7 @@ function LoginForm() {
   if (magicLinkSent) {
     return (
       <div className="signup-page">
-        <div className="signup-brand"><div className="signup-brand-inner"><RadialBurstAnimation /></div></div>
+        <div className="signup-brand"><div className="signup-brand-inner"><DataFlowAnimation /></div></div>
         <div className="signup-form-side">
           <div className="auth-card signup-card" style={{ textAlign: 'center' }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', border: '2px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
@@ -86,7 +87,7 @@ function LoginForm() {
       {/* Left: Radial Burst Animation */}
       <div className="signup-brand">
         <div className="signup-brand-inner">
-          <RadialBurstAnimation />
+          <DataFlowAnimation />
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { STATS } from '@/data/stats'
 import OAuthButtons from '@/components/OAuthButtons'
+import DataFlowAnimation from '@/components/DataFlowAnimation'
 
 export default function SignupPage() {
   return (
@@ -135,46 +136,10 @@ function SignupForm() {
 
   return (
     <div className="signup-page">
-      {/* Left: Brand + Features */}
+      {/* Left: Data Flow Animation */}
       <div className="signup-brand">
         <div className="signup-brand-inner">
-          <div className="signup-brand-logo">0nMCP</div>
-          <h2 className="signup-brand-headline">
-            Your AI command center.<br />
-            <span>Encrypted. Signed. Yours.</span>
-          </h2>
-          <p className="signup-brand-sub">
-            One account secures your API keys, workflow files, and AI builder access.
-            Zero plaintext. Zero compromise.
-          </p>
-
-          <div className="signup-stats">
-            {SIGNUP_STATS.map((s) => (
-              <div key={s.label} className="signup-stat">
-                <span className="signup-stat-value">{s.value}</span>
-                <span className="signup-stat-label">{s.label}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="signup-features">
-            {FEATURES.map((f) => (
-              <div key={f.title} className="signup-feature">
-                <div className="signup-feature-icon">{f.icon}</div>
-                <div>
-                  <div className="signup-feature-title">{f.title}</div>
-                  <div className="signup-feature-desc">{f.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="signup-trust">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent)">
-              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-            </svg>
-            <span>Client-side encryption — we never see your keys</span>
-          </div>
+          <DataFlowAnimation />
         </div>
       </div>
 

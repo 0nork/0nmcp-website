@@ -3,22 +3,40 @@
 import { usePathname } from 'next/navigation'
 import MegaNav from '@/components/MegaNav'
 import Footer from '@/components/Footer'
+import FooterSimple from '@/components/FooterSimple'
 import ConsoleCTA from '@/components/ConsoleCTA'
 
 export default function SiteChrome({ children, isWeb0n }: { children: React.ReactNode; isWeb0n?: boolean }) {
   const pathname = usePathname()
-  const isChromeless = isWeb0n || pathname.startsWith('/app') || pathname.startsWith('/0nboarding') || pathname.startsWith('/oauth') || pathname.startsWith('/console') || pathname.startsWith('/go') || pathname.startsWith('/forum') || pathname.startsWith('/builder') || pathname.startsWith('/admin') || pathname.startsWith('/web0n') || pathname.startsWith('/0nengine') || pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/dashboard') || pathname.startsWith('/grid') || pathname.startsWith('/maintenance') || pathname.startsWith('/start')
+
+  // Chromeless — no nav, no footer (dashboard, console, builder, auth pages)
+  const isChromeless = isWeb0n || [
+    '/app', '/0nboarding', '/oauth', '/console', '/go',
+    '/forum', '/builder', '/admin', '/web0n', '/0nengine',
+    '/login', '/signup', '/dashboard', '/grid', '/maintenance',
+    '/start', '/activate', '/checkout',
+  ].some(p => pathname.startsWith(p))
 
   if (isChromeless) {
     return <>{children}</>
   }
 
+  // Landing pages — simple footer, no ConsoleCTA
+  const isLandingPage = [
+    '/demo', '/connect', '/security', '/technology',
+    '/sponsor', '/partners', '/compare',
+  ].some(p => pathname.startsWith(p))
+
+  // Pages that show the ConsoleCTA (only homepage + a few key pages)
+  const showCTA = pathname === '/' || pathname === '/integrations' || pathname === '/turn-it-on'
+
+  // Full footer pages — everything else (blog, learn, glossary, etc.)
   return (
     <>
       <MegaNav />
       <main className="relative z-[1] pt-[72px]">{children}</main>
-      <ConsoleCTA />
-      <Footer />
+      {showCTA && <ConsoleCTA />}
+      {isLandingPage ? <FooterSimple /> : <Footer />}
     </>
   )
 }

@@ -6,7 +6,8 @@ import Link from 'next/link'
 import {
   Cpu, Brain, PenLine, ShoppingBag, Users, BarChart3,
   Settings, Zap, Search, LayoutGrid, Gift, Mail, Share2,
-  ChevronRight, Plus, X, Menu, Home, Star,
+  ChevronRight, Plus, X, Menu, Home, Star, ArrowRight,
+  Play, Pause, Circle,
 } from 'lucide-react'
 
 /* ─── Types ──────────────────────────────────────────────── */
@@ -19,14 +20,6 @@ interface Plugin {
   icon: React.ReactNode
   color: string
   enabled: boolean
-}
-
-interface QuickLink {
-  id: string
-  label: string
-  href: string
-  icon: React.ReactNode
-  color: string
 }
 
 /* ─── Plugin Registry ────────────────────────────────────── */
@@ -45,27 +38,51 @@ const ALL_PLUGINS: Plugin[] = [
   { id: 'store',      label: 'Marketplace',       desc: 'Browse plugins and add0ns',               href: '/dashboard/store',     icon: <ShoppingBag size={24} />, color: '#f97316', enabled: false },
 ]
 
-const DEFAULT_QUICK_LINKS: QuickLink[] = [
-  { id: 'contacts',  label: 'Contacts',     href: '/dashboard/crm',     icon: <Users size={18} />,    color: '#00d4ff' },
-  { id: 'engine',    label: '0nEngine',      href: '/0nengine',          icon: <Cpu size={18} />,      color: '#7ed957' },
-  { id: 'social',    label: 'Social',        href: '/dashboard/social',  icon: <Share2 size={18} />,   color: '#f472b6' },
-  { id: 'blog',      label: 'Blog',          href: '/blog',              icon: <PenLine size={18} />,  color: '#a78bfa' },
-  { id: 'kb',        label: 'Knowledge',     href: '/dashboard/brain',   icon: <Brain size={18} />,    color: '#fbbf24' },
-  { id: 'analytics', label: 'Analytics',     href: '/dashboard/analytics', icon: <BarChart3 size={18} />, color: '#60a5fa' },
-  { id: 'settings',  label: 'Settings',      href: '/dashboard/settings', icon: <Settings size={18} />, color: '#7d8a9a' },
-  { id: 'admin',     label: 'Admin',         href: '/dashboard/admin',   icon: <Star size={18} />,     color: '#ff3d3d' },
+/* ─── Mini Engine Flow Templates (IFTTT-style) ───────────── */
+
+const FLOW_TEMPLATES = [
+  {
+    id: 'welcome',
+    label: 'Welcome Flow',
+    trigger: { icon: <Users size={14} />, label: 'New Contact', color: '#00d4ff' },
+    actions: [
+      { icon: <Mail size={14} />, label: 'Send Email', color: '#fb7185' },
+      { icon: <Share2 size={14} />, label: 'Notify Slack', color: '#f472b6' },
+    ],
+    active: true,
+  },
+  {
+    id: 'social',
+    label: 'Auto Post',
+    trigger: { icon: <PenLine size={14} />, label: 'Blog Published', color: '#a78bfa' },
+    actions: [
+      { icon: <Share2 size={14} />, label: 'Post LinkedIn', color: '#0077b5' },
+      { icon: <Share2 size={14} />, label: 'Post X', color: '#fff' },
+    ],
+    active: true,
+  },
+  {
+    id: 'lead',
+    label: 'Lead Scoring',
+    trigger: { icon: <Search size={14} />, label: 'Page Visited', color: '#34d399' },
+    actions: [
+      { icon: <Cpu size={14} />, label: 'Score Lead', color: '#7ed957' },
+      { icon: <Users size={14} />, label: 'Update CRM', color: '#00d4ff' },
+    ],
+    active: false,
+  },
+  {
+    id: 'onboard',
+    label: 'Onboarding',
+    trigger: { icon: <Zap size={14} />, label: 'User Signs Up', color: '#7ed957' },
+    actions: [
+      { icon: <Brain size={14} />, label: 'Create Profile', color: '#fbbf24' },
+      { icon: <Mail size={14} />, label: 'Welcome Email', color: '#fb7185' },
+      { icon: <Users size={14} />, label: 'Add to CRM', color: '#00d4ff' },
+    ],
+    active: true,
+  },
 ]
-
-/* ─── Colors ─────────────────────────────────────────────── */
-
-const BG = '#0f1419'
-const SIDEBAR_BG = '#000000'
-const CARD = '#1a2332'
-const CARD_BORDER = '#243042'
-const TEXT = '#e1e8f0'
-const TEXT_DIM = '#7d8a9a'
-const TEXT_MUTED = '#4a5568'
-const ACCENT = '#7ed957'
 
 /* ─── Component ──────────────────────────────────────────── */
 
@@ -75,6 +92,7 @@ export default function DashboardPage() {
   const [userName, setUserName] = useState('')
   const [plan, setPlan] = useState('free')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('0n_dashboard_addons')
@@ -120,85 +138,236 @@ export default function DashboardPage() {
         .plugin-card:hover .plugin-text { text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
         .plugin-card:hover .plugin-icon { filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
         .plugin-card:active { transform: scale(0.96) translateY(2px); }
-        .quick-btn {
+        .flow-card {
           transition: all 0.2s ease;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
-        .quick-btn:hover {
-          transform: scale(0.97) translateY(1px);
-          box-shadow: 0 1px 4px rgba(0,0,0,0.5), inset 0 1px 2px rgba(0,0,0,0.15);
+        .flow-card:hover {
+          background: rgba(255,255,255,0.04) !important;
+          transform: translateX(2px);
         }
-        .quick-btn:active { transform: scale(0.95); }
         @media (max-width: 768px) {
-          .dash-sidebar { display: none !important; }
+          .dash-left-sidebar { display: none !important; }
           .dash-main { padding: 1rem !important; }
           .dash-header-nav { display: none !important; }
           .dash-mobile-btn { display: flex !important; }
-          .dash-layout { flex-direction: column !important; padding: 0 !important; }
         }
         @media (min-width: 769px) {
           .dash-mobile-btn { display: none !important; }
           .dash-mobile-nav { display: none !important; }
-          .dash-mobile-bottom { display: none !important; }
         }
       `}</style>
 
-      <div style={{ minHeight: '100vh', background: BG, color: TEXT, fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+      <div style={{ minHeight: '100vh', background: '#0f1419', color: '#e1e8f0', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
 
-        {/* ── Header ───────────────────────────────── */}
+        {/* ══════ HEADER ══════════════════════════════════════ */}
         <header style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '0.75rem 1.25rem',
-          borderBottom: `1px solid ${CARD_BORDER}`,
-          background: BG, position: 'sticky', top: 0, zIndex: 50,
+          padding: '0 1.5rem', height: '56px',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(15,20,25,0.95)', backdropFilter: 'blur(20px)',
+          position: 'sticky', top: 0, zIndex: 50,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <button className="dash-mobile-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{ background: 'none', border: 'none', color: TEXT_DIM, cursor: 'pointer', padding: '0.25rem', display: 'none' }}>
+              style={{ background: 'none', border: 'none', color: '#7d8a9a', cursor: 'pointer', padding: '0.25rem', display: 'none' }}>
               <Menu size={22} />
             </button>
             <Link href="/" style={{ textDecoration: 'none', display: 'flex' }}>
               <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={100} height={35} style={{ objectFit: 'contain' }} priority />
             </Link>
           </div>
-          <nav className="dash-header-nav" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-            <Link href="/dashboard/store" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Marketplace</Link>
-            <Link href="/dashboard/billing" style={{ color: TEXT_DIM, textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>Billing</Link>
-            <div style={{
-              padding: '0.3rem 0.75rem', borderRadius: '8px',
-              background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)',
-              fontSize: '0.6875rem', fontWeight: 700, color: ACCENT,
-              textTransform: 'uppercase', letterSpacing: '0.05em',
-            }}>{plan}</div>
+
+          {/* Center nav — key links */}
+          <nav className="dash-header-nav" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            {[
+              { label: 'Dashboard', href: '/dashboard', active: true },
+              { label: 'Engine', href: '/0nengine' },
+              { label: 'Grid', href: '/dashboard/grid' },
+              { label: 'Marketplace', href: '/dashboard/store' },
+              { label: 'Courses', href: '/learn' },
+            ].map(item => (
+              <Link key={item.label} href={item.href} style={{
+                padding: '0.4rem 0.875rem', borderRadius: '8px',
+                color: item.active ? '#7ed957' : 'rgba(255,255,255,0.5)',
+                background: item.active ? 'rgba(126,217,87,0.08)' : 'transparent',
+                textDecoration: 'none', fontSize: '0.8125rem', fontWeight: 600,
+                transition: 'all 0.15s',
+              }}>{item.label}</Link>
+            ))}
           </nav>
+
+          {/* Right — plan badge + settings */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{
+              padding: '0.25rem 0.625rem', borderRadius: '6px',
+              background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.15)',
+              fontSize: '0.625rem', fontWeight: 700, color: '#7ed957',
+              textTransform: 'uppercase', letterSpacing: '0.08em',
+            }}>{plan}</div>
+            <Link href="/dashboard/settings" style={{ color: '#4a5568', display: 'flex' }}>
+              <Settings size={18} />
+            </Link>
+          </div>
         </header>
 
         {/* Mobile dropdown */}
         {mobileMenuOpen && (
-          <div className="dash-mobile-nav" style={{ background: CARD, borderBottom: `1px solid ${CARD_BORDER}`, padding: '0.5rem' }}>
-            {[{ label: 'Marketplace', href: '/dashboard/store' }, { label: 'Billing', href: '/dashboard/billing' },
-              { label: 'Settings', href: '/dashboard/settings' }, { label: 'Admin', href: '/dashboard/admin' }].map(item => (
+          <div className="dash-mobile-nav" style={{ background: '#151d27', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0.5rem' }}>
+            {[
+              { label: 'Engine', href: '/0nengine' },
+              { label: 'Grid', href: '/dashboard/grid' },
+              { label: 'Marketplace', href: '/dashboard/store' },
+              { label: 'Courses', href: '/learn' },
+              { label: 'Settings', href: '/dashboard/settings' },
+            ].map(item => (
               <Link key={item.label} href={item.href} style={{
-                display: 'block', padding: '0.75rem 1rem', color: TEXT, textDecoration: 'none',
+                display: 'block', padding: '0.75rem 1rem', color: '#e1e8f0', textDecoration: 'none',
                 fontSize: '0.9375rem', fontWeight: 500, borderRadius: '8px',
               }}>{item.label}</Link>
             ))}
           </div>
         )}
 
-        {/* ── Layout ───────────────────────────────── */}
-        <div className="dash-layout" style={{ display: 'flex', width: '100%', minHeight: 'calc(100vh - 56px)' }}>
+        {/* ══════ LAYOUT: LEFT SIDEBAR + MAIN ════════════════ */}
+        <div style={{ display: 'flex', width: '100%', minHeight: 'calc(100vh - 56px - 52px)' }}>
 
-          {/* ── Main ───────────────────────────────── */}
-          <main className="dash-main" style={{ flex: 1, padding: '2rem 2.5rem', minWidth: 0 }}>
+          {/* ── LEFT SIDEBAR — Mini 0nEngine (IFTTT-style) ─── */}
+          <aside className="dash-left-sidebar" style={{
+            width: sidebarCollapsed ? '52px' : '260px',
+            flexShrink: 0,
+            background: '#0b1015',
+            borderRight: '1px solid rgba(255,255,255,0.06)',
+            padding: sidebarCollapsed ? '1rem 0.5rem' : '1rem',
+            display: 'flex', flexDirection: 'column',
+            transition: 'width 0.25s ease',
+            overflow: 'hidden',
+          }}>
+            {/* Sidebar header */}
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              marginBottom: '1rem', padding: '0 0.25rem',
+            }}>
+              {!sidebarCollapsed && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Zap size={14} style={{ color: '#7ed957' }} />
+                  <span style={{
+                    fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase',
+                    letterSpacing: '0.1em', color: '#7ed957',
+                  }}>0nEngine</span>
+                </div>
+              )}
+              <button onClick={() => setSidebarCollapsed(!sidebarCollapsed)} style={{
+                background: 'none', border: 'none', color: '#4a5568', cursor: 'pointer',
+                padding: '0.25rem', display: 'flex',
+              }}>
+                <ChevronRight size={14} style={{ transform: sidebarCollapsed ? 'rotate(0)' : 'rotate(180deg)', transition: 'transform 0.2s' }} />
+              </button>
+            </div>
 
+            {/* Flow cards */}
+            {!sidebarCollapsed && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1, overflowY: 'auto' }}>
+                {FLOW_TEMPLATES.map(flow => (
+                  <div key={flow.id} className="flow-card" style={{
+                    padding: '0.75rem',
+                    borderRadius: '10px',
+                    border: '1px solid rgba(255,255,255,0.04)',
+                    cursor: 'pointer',
+                  }}>
+                    {/* Flow header */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#e1e8f0' }}>{flow.label}</span>
+                      <div style={{
+                        width: 8, height: 8, borderRadius: '50%',
+                        background: flow.active ? '#7ed957' : '#4a5568',
+                        boxShadow: flow.active ? '0 0 6px rgba(126,217,87,0.5)' : 'none',
+                      }} />
+                    </div>
+
+                    {/* Trigger → Actions chain */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      {/* Trigger */}
+                      <div style={{
+                        display: 'flex', alignItems: 'center', gap: '0.5rem',
+                        padding: '0.375rem 0.5rem', borderRadius: '6px',
+                        background: `${flow.trigger.color}10`,
+                        border: `1px solid ${flow.trigger.color}20`,
+                      }}>
+                        <span style={{ color: flow.trigger.color, display: 'flex' }}>{flow.trigger.icon}</span>
+                        <span style={{ fontSize: '0.6875rem', color: flow.trigger.color, fontWeight: 600 }}>
+                          {flow.trigger.label}
+                        </span>
+                      </div>
+
+                      {/* Connector line */}
+                      <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ width: '1px', height: '8px', background: 'rgba(255,255,255,0.1)' }} />
+                      </div>
+
+                      {/* Actions */}
+                      {flow.actions.map((action, i) => (
+                        <div key={i}>
+                          <div style={{
+                            display: 'flex', alignItems: 'center', gap: '0.5rem',
+                            padding: '0.375rem 0.5rem', borderRadius: '6px',
+                            background: 'rgba(255,255,255,0.02)',
+                            border: '1px solid rgba(255,255,255,0.04)',
+                          }}>
+                            <span style={{ color: action.color, display: 'flex' }}>{action.icon}</span>
+                            <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>
+                              {action.label}
+                            </span>
+                          </div>
+                          {i < flow.actions.length - 1 && (
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                              <div style={{ width: '1px', height: '4px', background: 'rgba(255,255,255,0.06)' }} />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                {/* Create new flow CTA */}
+                <Link href="/0nengine" style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
+                  padding: '0.625rem', borderRadius: '10px', marginTop: '0.5rem',
+                  border: '1px dashed rgba(126,217,87,0.2)',
+                  color: '#7ed957', fontWeight: 600, fontSize: '0.75rem', textDecoration: 'none',
+                  transition: 'all 0.2s',
+                }}>
+                  <Plus size={14} /> New Flow
+                </Link>
+              </div>
+            )}
+
+            {/* Collapsed state — just icons */}
+            {sidebarCollapsed && (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+                {FLOW_TEMPLATES.map(flow => (
+                  <div key={flow.id} title={flow.label} style={{
+                    width: 32, height: 32, borderRadius: '8px',
+                    background: flow.active ? 'rgba(126,217,87,0.08)' : 'rgba(255,255,255,0.02)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}>
+                    <Circle size={8} fill={flow.active ? '#7ed957' : '#4a5568'} stroke="none" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </aside>
+
+          {/* ── MAIN CONTENT ────────────────────────────────── */}
+          <main className="dash-main" style={{ flex: 1, padding: '2rem 2.5rem', minWidth: 0, overflowY: 'auto' }}>
             <div style={{ maxWidth: '960px' }}>
               {/* Welcome */}
               <div style={{ marginBottom: '2rem' }}>
-                <h1 style={{ fontSize: '1.625rem', fontWeight: 800, color: TEXT, margin: '0 0 0.25rem', letterSpacing: '-0.02em' }}>
-                  My <span style={{ color: ACCENT }}>0nMCP</span>
+                <h1 style={{ fontSize: '1.625rem', fontWeight: 800, color: '#e1e8f0', margin: '0 0 0.25rem', letterSpacing: '-0.02em' }}>
+                  My <span style={{ color: '#7ed957' }}>0nMCP</span>
                 </h1>
-                <p style={{ fontSize: '0.9375rem', color: TEXT_DIM, margin: 0 }}>
+                <p style={{ fontSize: '0.9375rem', color: '#7d8a9a', margin: 0 }}>
                   {userName ? `Welcome back, ${userName}.` : 'Your plugins and AI-powered tools'}
                 </p>
               </div>
@@ -207,9 +376,10 @@ export default function DashboardPage() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <h2 style={{ fontSize: '1rem', fontWeight: 700, margin: 0 }}>Your Add0ns</h2>
                 <button onClick={() => setEditing(!editing)} style={{
-                  padding: '0.375rem 0.75rem', borderRadius: '8px', border: `1px solid ${CARD_BORDER}`,
+                  padding: '0.375rem 0.75rem', borderRadius: '8px',
+                  border: '1px solid rgba(255,255,255,0.06)',
                   background: editing ? 'rgba(126,217,87,0.1)' : 'transparent',
-                  color: editing ? ACCENT : TEXT_DIM,
+                  color: editing ? '#7ed957' : '#7d8a9a',
                   fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                 }}>{editing ? 'Done' : 'Manage'}</button>
               </div>
@@ -224,14 +394,14 @@ export default function DashboardPage() {
               ) : (
                 <div style={{
                   padding: '3rem 1.5rem', textAlign: 'center', borderRadius: '16px',
-                  border: `1px dashed ${CARD_BORDER}`, marginBottom: '2rem',
+                  border: '1px dashed rgba(255,255,255,0.06)', marginBottom: '2rem',
                 }}>
-                  <ShoppingBag size={36} style={{ color: TEXT_MUTED, margin: '0 auto 0.75rem' }} />
-                  <p style={{ fontSize: '1rem', fontWeight: 600, color: TEXT, margin: '0 0 0.25rem' }}>No Add0ns installed yet</p>
-                  <p style={{ fontSize: '0.875rem', color: TEXT_DIM, margin: '0 0 1rem' }}>Tap Manage to install plugins.</p>
+                  <ShoppingBag size={36} style={{ color: '#4a5568', margin: '0 auto 0.75rem' }} />
+                  <p style={{ fontSize: '1rem', fontWeight: 600, color: '#e1e8f0', margin: '0 0 0.25rem' }}>No Add0ns installed yet</p>
+                  <p style={{ fontSize: '0.875rem', color: '#7d8a9a', margin: '0 0 1rem' }}>Tap Manage to install plugins.</p>
                   <Link href="/dashboard/store" style={{
                     display: 'inline-block', padding: '0.5rem 1.25rem', borderRadius: '10px',
-                    background: ACCENT, color: '#000', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none',
+                    background: '#7ed957', color: '#0f1419', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none',
                   }}>Browse Marketplace</Link>
                 </div>
               )}
@@ -239,7 +409,7 @@ export default function DashboardPage() {
               {/* Available Plugins (editing) */}
               {editing && disabledPlugins.length > 0 && (
                 <>
-                  <h3 style={{ fontSize: '0.875rem', fontWeight: 700, color: TEXT_DIM, margin: '0 0 0.75rem' }}>Available Plugins</h3>
+                  <h3 style={{ fontSize: '0.875rem', fontWeight: 700, color: '#7d8a9a', margin: '0 0 0.75rem' }}>Available Plugins</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.75rem', marginBottom: '2rem' }}>
                     {disabledPlugins.map(p => (
                       <PluginCard key={p.id} plugin={p} editing={editing} onToggle={togglePlugin} disabled />
@@ -249,71 +419,40 @@ export default function DashboardPage() {
               )}
             </div>
           </main>
-
-          {/* ── Right Sidebar — Quick Actions ──────── */}
-          <aside className="dash-sidebar" style={{
-            width: '220px', flexShrink: 0, background: SIDEBAR_BG,
-            borderLeft: `1px solid ${CARD_BORDER}`,
-            padding: '1.25rem 0.75rem',
-            display: 'flex', flexDirection: 'column',
-          }}>
-            <div style={{
-              fontSize: '0.625rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: TEXT_MUTED, padding: '0 0.5rem',
-              marginBottom: '0.75rem',
-            }}>
-              Quick Actions
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem', flex: 1 }}>
-              {DEFAULT_QUICK_LINKS.map(link => (
-                <Link key={link.id} href={link.href} className="quick-btn" style={{
-                  display: 'flex', alignItems: 'center', gap: '0.75rem',
-                  padding: '0.625rem 0.75rem', borderRadius: '10px',
-                  background: CARD, border: `1px solid ${CARD_BORDER}`,
-                  color: TEXT, textDecoration: 'none', fontSize: '0.8125rem', fontWeight: 600,
-                }}>
-                  <span style={{ color: link.color, display: 'flex' }}>{link.icon}</span>
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Builder CTA */}
-            <Link href="/0nengine" style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem',
-              padding: '0.75rem', borderRadius: '12px', marginTop: '0.75rem',
-              background: `linear-gradient(135deg, ${ACCENT}, #00d4ff)`,
-              color: '#000', fontWeight: 700, fontSize: '0.8125rem', textDecoration: 'none',
-              boxShadow: `0 4px 20px rgba(126,217,87,0.25)`,
-              transition: 'all 0.2s',
-            }}>
-              <Zap size={16} /> Open Builder
-            </Link>
-          </aside>
         </div>
 
-        {/* ── Mobile Bottom Nav ─────────────────────── */}
-        <nav className="dash-mobile-bottom" style={{
-          position: 'fixed', bottom: 0, left: 0, right: 0,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-around',
-          padding: '0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom))',
-          background: '#000', borderTop: `1px solid ${CARD_BORDER}`, zIndex: 50,
+        {/* ══════ FOOTER NAV ═════════════════════════════════ */}
+        <footer style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '0.75rem 1.5rem',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          background: '#0b1015',
+          gap: '0.25rem', flexWrap: 'wrap',
+          position: 'sticky', bottom: 0, zIndex: 40,
         }}>
           {[
-            { icon: <Home size={20} />, label: 'Home', href: '/dashboard', active: true },
-            { icon: <Cpu size={20} />, label: 'Engine', href: '/0nengine', active: false },
-            { icon: <LayoutGrid size={20} />, label: 'Grid', href: '/dashboard/grid', active: false },
-            { icon: <PenLine size={20} />, label: 'Blog', href: '/blog', active: false },
-            { icon: <Settings size={20} />, label: 'More', href: '/dashboard/admin', active: false },
-          ].map(tab => (
-            <Link key={tab.label} href={tab.href} style={{
-              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem',
-              color: tab.active ? ACCENT : TEXT_MUTED, textDecoration: 'none',
-              fontSize: '0.625rem', fontWeight: 600, padding: '0.25rem 0.75rem',
-            }}>{tab.icon}{tab.label}</Link>
+            { label: 'Dashboard', href: '/dashboard', icon: <Home size={14} />, active: true },
+            { label: 'Engine', href: '/0nengine', icon: <Cpu size={14} /> },
+            { label: 'Grid', href: '/dashboard/grid', icon: <LayoutGrid size={14} /> },
+            { label: 'Courses', href: '/learn', icon: <Brain size={14} /> },
+            { label: 'Marketplace', href: '/dashboard/store', icon: <ShoppingBag size={14} /> },
+            { label: 'Affiliates', href: '/dashboard/affiliates', icon: <Gift size={14} /> },
+            { label: 'Billing', href: '/dashboard/billing', icon: <BarChart3 size={14} /> },
+            { label: 'Settings', href: '/dashboard/settings', icon: <Settings size={14} /> },
+          ].map(item => (
+            <Link key={item.label} href={item.href} style={{
+              display: 'flex', alignItems: 'center', gap: '0.375rem',
+              padding: '0.4rem 0.75rem', borderRadius: '6px',
+              color: item.active ? '#7ed957' : '#4a5568',
+              background: item.active ? 'rgba(126,217,87,0.06)' : 'transparent',
+              textDecoration: 'none', fontSize: '0.6875rem', fontWeight: 600,
+              transition: 'all 0.15s',
+            }}>
+              {item.icon}
+              <span className="hidden sm:inline">{item.label}</span>
+            </Link>
           ))}
-        </nav>
+        </footer>
       </div>
     </>
   )
@@ -338,13 +477,13 @@ function PluginCard({ plugin, editing, onToggle, disabled }: {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div className="plugin-text" style={{
           fontSize: '1rem', fontWeight: 700,
-          color: disabled ? TEXT_DIM : TEXT, marginBottom: '0.15rem',
+          color: disabled ? '#7d8a9a' : '#e1e8f0', marginBottom: '0.15rem',
           transition: 'text-shadow 0.25s',
         }}>
           {plugin.label}
         </div>
         <div className="plugin-text" style={{
-          fontSize: '0.8125rem', color: TEXT_DIM, lineHeight: 1.4,
+          fontSize: '0.8125rem', color: '#7d8a9a', lineHeight: 1.4,
           transition: 'text-shadow 0.25s',
         }}>
           {plugin.desc}
@@ -353,14 +492,14 @@ function PluginCard({ plugin, editing, onToggle, disabled }: {
       {editing ? (
         <div style={{
           width: 28, height: 28, borderRadius: '8px',
-          background: plugin.enabled ? `${ACCENT}22` : 'rgba(255,255,255,0.05)',
-          border: `1.5px solid ${plugin.enabled ? ACCENT : CARD_BORDER}`,
+          background: plugin.enabled ? 'rgba(126,217,87,0.12)' : 'rgba(255,255,255,0.05)',
+          border: `1.5px solid ${plugin.enabled ? '#7ed957' : 'rgba(255,255,255,0.06)'}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
         }}>
-          {plugin.enabled ? <X size={14} style={{ color: ACCENT }} /> : <Plus size={14} style={{ color: TEXT_MUTED }} />}
+          {plugin.enabled ? <X size={14} style={{ color: '#7ed957' }} /> : <Plus size={14} style={{ color: '#4a5568' }} />}
         </div>
       ) : (
-        <ChevronRight size={18} style={{ color: TEXT_MUTED, flexShrink: 0 }} />
+        <ChevronRight size={18} style={{ color: '#4a5568', flexShrink: 0 }} />
       )}
     </>
   )
@@ -368,8 +507,8 @@ function PluginCard({ plugin, editing, onToggle, disabled }: {
   const cardStyle: React.CSSProperties = {
     display: 'flex', alignItems: 'center', gap: '1rem',
     padding: '1rem 1.25rem', borderRadius: '14px',
-    background: CARD,
-    border: `1px solid ${CARD_BORDER}`,
+    background: '#1a2332',
+    border: '1px solid rgba(255,255,255,0.06)',
     opacity: disabled ? 0.5 : 1,
     cursor: 'pointer', width: '100%', textAlign: 'left',
     fontFamily: 'inherit', textDecoration: 'none',

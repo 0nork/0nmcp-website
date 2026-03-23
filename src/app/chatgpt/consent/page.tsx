@@ -50,8 +50,8 @@ export default function ConsentPage() {
     '0nmcp:tools:read': 'Browse your available tools',
     '0nmcp:tools:execute': 'Execute tools on your behalf',
     '0nmcp:account:read': 'Read your account details',
-    '0nmcp:runs:read': 'Read your Runs balance',
-    '0nmcp:runs:purchase': 'Purchase Runs',
+    '0nmcp:sparks:read': 'Read your Sparks balance',
+    '0nmcp:sparks:purchase': 'Purchase Sparks',
   }
 
   const scopeList = scope.split(' ').filter(Boolean)
@@ -89,7 +89,7 @@ export default function ConsentPage() {
         <div style={s.logo}>0n</div>
         <h2 style={s.h2}>{clientName} wants to connect to 0nMCP</h2>
         <p style={s.p}>
-          This will allow {clientName} to use your 0nMCP tools and Runs balance
+          This will allow {clientName} to use your 0nMCP tools and Sparks balance
           directly inside your conversations.
         </p>
 

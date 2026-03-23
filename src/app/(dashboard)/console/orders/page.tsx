@@ -245,7 +245,7 @@ export default function OrdersPage() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation()
-                            router.push(`/console/marketplace/${listing.slug as string}`)
+                            router.push(`/console/marketplace/${listing!.slug as string}`)
                           }}
                           style={{
                             padding: '6px 14px',

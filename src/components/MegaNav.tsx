@@ -25,7 +25,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
       {
         title: 'Platform',
         links: [
-          { label: 'Console', href: '/console', desc: 'AI command center', accent: true },
+          { label: 'Dashboard', href: '/dashboard', desc: 'AI command center', accent: true },
           { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} services` },
           { label: 'Builder', href: '/builder', desc: 'Visual flow editor' },
           { label: 'Pricing', href: '/#pricing', desc: 'Free to start' },
@@ -364,8 +364,8 @@ export default function MegaNav() {
             </>
           ) : (
             <>
-              <Link href="/console" className="mega-nav-cta-demo no-underline">
-                Console
+              <Link href="/dashboard" className="mega-nav-cta-demo no-underline">
+                Dashboard
               </Link>
             </>
           )}
@@ -468,11 +468,11 @@ export default function MegaNav() {
               Builder
             </Link>
             <Link
-              href="/console"
+              href="/dashboard"
               className="mega-mobile-link no-underline"
               onClick={() => setMobileOpen(false)}
             >
-              Console
+              Dashboard
             </Link>
             <Link
               href="/forum"
@@ -491,11 +491,11 @@ export default function MegaNav() {
               </Link>
             ) : (
               <Link
-                href="/console?view=store"
+                href="/dashboard/downloads"
                 className="mega-mobile-link no-underline"
                 onClick={() => setMobileOpen(false)}
               >
-                Marketplace
+                Extensions
               </Link>
             )}
           </div>
@@ -521,11 +521,11 @@ export default function MegaNav() {
             ) : (
               <>
                 <Link
-                  href="/console"
+                  href="/dashboard"
                   className="btn-accent w-full text-center justify-center no-underline"
                   onClick={() => setMobileOpen(false)}
                 >
-                  Console
+                  Dashboard
                 </Link>
                 <Link
                   href="/account"

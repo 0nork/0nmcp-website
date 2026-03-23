@@ -72,16 +72,16 @@ export default function ConsoleCTA() {
   let ctaClass = 'console-cta-btn console-cta-btn-signup no-underline'
 
   if (authState === 'free') {
-    ctaHref = '/console?view=upgrade'
-    ctaText = 'Start Free Trial \u2014 7 Days'
+    ctaHref = '/dashboard'
+    ctaText = 'Open Dashboard'
     ctaClass = 'console-cta-btn console-cta-btn-trial no-underline'
   } else if (authState === 'subscribed') {
-    ctaHref = '/console'
-    ctaText = 'Open Console'
+    ctaHref = '/dashboard'
+    ctaText = 'Open Dashboard'
     ctaClass = 'console-cta-btn console-cta-btn-ghost no-underline'
   } else if (authState === 'loading') {
-    ctaHref = '/console'
-    ctaText = 'Open Console'
+    ctaHref = '/dashboard'
+    ctaText = 'Open Dashboard'
     ctaClass = 'console-cta-btn no-underline'
   }
 

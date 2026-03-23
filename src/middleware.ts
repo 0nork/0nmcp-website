@@ -26,10 +26,22 @@ function applySessionCookies(request: NextRequest, response: NextResponse): Next
   return response
 }
 
+async function getUser(request: NextRequest) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null
+  const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    cookies: {
+      getAll() { return request.cookies.getAll() },
+      setAll() {},
+    },
+  })
+  const { data: { user } } = await supabase.auth.getUser()
+  return user
+}
+
 export async function middleware(request: NextRequest) {
   const hostname = request.headers.get('host')?.split(':')[0] || ''
 
-  // web0n.com hostname → rewrite to /web0n/* routes internally
+  // web0n.com hostname — rewrite to /web0n/* routes internally
   if (WEB0N_HOSTS.includes(hostname)) {
     const pathname = request.nextUrl.pathname
 
@@ -59,54 +71,14 @@ export async function middleware(request: NextRequest) {
     return applySessionCookies(request, response)
   }
 
-  // ── MAINTENANCE MODE — redirect public pages for logged-out users ──
-  // TODO: Remove this block when maintenance is complete (Mike: remind me!)
-  const MAINTENANCE_MODE = false
-  if (MAINTENANCE_MODE) {
-    const publicPaths = ['/', '/integrations', '/turn-it-on', '/technology', '/security',
-      '/examples', '/downloads', '/convert', '/0n-standard', '/compare', '/glossary',
-      '/pricing', '/marketplace', '/learn', '/partners', '/sponsor']
-    const isPublicPage = publicPaths.includes(request.nextUrl.pathname) ||
-      request.nextUrl.pathname.startsWith('/integrations/') ||
-      request.nextUrl.pathname.startsWith('/compare/') ||
-      request.nextUrl.pathname.startsWith('/glossary/') ||
-      request.nextUrl.pathname.startsWith('/turn-it-on/')
-
-    if (isPublicPage && !request.nextUrl.pathname.startsWith('/maintenance')) {
-      // Check if user is logged in — if not, redirect to maintenance
-      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-        const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-          cookies: {
-            getAll() { return request.cookies.getAll() },
-            setAll() {},
-          },
-        })
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) {
-          return NextResponse.redirect(new URL('/maintenance', request.url))
-        }
-      }
+  // ── Login / Signup — redirect to /dashboard if already authenticated ──
+  if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup') {
+    const user = await getUser(request)
+    if (user) {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
-  }
-
-  // Console — login required
-  if (request.nextUrl.pathname.startsWith('/console')) {
     const { updateSession } = await import('@/lib/supabase/middleware')
-    const response = await updateSession(request)
-
-    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-      const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        cookies: {
-          getAll() { return request.cookies.getAll() },
-          setAll(cookiesToSet) { cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) },
-        },
-      })
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        return NextResponse.redirect(new URL(`/login?redirect=${request.nextUrl.pathname}`, request.url))
-      }
-    }
-    return response
+    return updateSession(request)
   }
 
   // Dashboard — login required
@@ -124,6 +96,26 @@ export async function middleware(request: NextRequest) {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
         return NextResponse.redirect(new URL('/login?redirect=/dashboard', request.url))
+      }
+    }
+    return response
+  }
+
+  // Console — login required
+  if (request.nextUrl.pathname.startsWith('/console')) {
+    const { updateSession } = await import('@/lib/supabase/middleware')
+    const response = await updateSession(request)
+
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        cookies: {
+          getAll() { return request.cookies.getAll() },
+          setAll(cookiesToSet) { cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) },
+        },
+      })
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        return NextResponse.redirect(new URL(`/login?redirect=${request.nextUrl.pathname}`, request.url))
       }
     }
     return response

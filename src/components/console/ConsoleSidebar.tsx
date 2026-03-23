@@ -48,6 +48,26 @@ const navGroups: NavGroup[] = [
     label: 'Workspace',
     items: [
       {
+        name: 'Mail',
+        href: '/console/mail',
+        badgeCyan: 'NEW',
+        icon: (
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.75}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        ),
+        children: [
+          { name: 'Dashboard', href: '/console/mail' },
+          { name: 'Inboxes', href: '/console/mail/inboxes' },
+          { name: 'Sequences', href: '/console/mail/sequences' },
+          { name: 'Campaigns', href: '/console/mail/campaigns' },
+          { name: 'Deliverability', href: '/console/mail/deliverability' },
+          { name: 'Replies', href: '/console/mail/replies' },
+          { name: 'Analytics', href: '/console/mail/analytics' },
+          { name: 'Settings', href: '/console/mail/settings' },
+        ],
+      },
+      {
         name: 'Vault',
         href: '/console/vault',
         icon: (

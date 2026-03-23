@@ -926,7 +926,7 @@
 }
 
 .jp-submenu.open {
-  max-height: 200px;
+  max-height: 400px;
   opacity: 1;
   border-left-color: var(--jp-green);
 }

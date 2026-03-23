@@ -241,11 +241,11 @@ export default function OrdersPage() {
                           Open in Builder
                         </button>
                       )}
-                      {listing?.slug && (
+                      {(listing?.slug as string) && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation()
-                            router.push(`/console/marketplace/${listing.slug}`)
+                            router.push(`/console/marketplace/${listing.slug as string}`)
                           }}
                           style={{
                             padding: '6px 14px',

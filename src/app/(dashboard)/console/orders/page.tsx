@@ -116,7 +116,7 @@ export default function OrdersPage() {
 
           {/* Rows */}
           {purchases.map((purchase) => {
-            const listing = purchase.listing as Record<string, unknown> | null
+            const listing = purchase.listing as unknown as Record<string, unknown> | null
             const title = (listing?.title as string) || purchase.workflow_name || 'Unknown Item'
             const statusStyle = getStatusStyle(purchase.status)
             const isExpanded = expandedId === purchase.id

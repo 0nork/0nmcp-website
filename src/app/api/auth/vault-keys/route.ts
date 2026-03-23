@@ -3,6 +3,18 @@ import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic'
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: corsHeaders })
+}
+
+
+
 /**
  * GET /api/auth/vault-keys
  * Returns the user's stored API keys from user_vaults.
@@ -14,7 +26,7 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
   if (!authHeader?.startsWith('Bearer ')) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders })
   }
 
   const token = authHeader.slice(7)
@@ -28,7 +40,7 @@ export async function GET(request: Request) {
 
   const { data: { user }, error } = await supabase.auth.getUser(token)
   if (error || !user) {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401, headers: corsHeaders })
   }
 
   // Fetch vault keys using service role (bypasses RLS)

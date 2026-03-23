@@ -199,12 +199,29 @@ export function LearnView() {
         if (lessons.length > 0) {
           openLesson(activeCourse, lessons[0])
         }
+      } else if (res.status === 403 && data.required_tier) {
+        // Needs tier upgrade — redirect to checkout
+        handleCheckout(activeCourse.slug)
       } else {
         setCourseError(data.error || 'Enrollment failed')
       }
     } catch { setCourseError('Network error') }
     setEnrolling(false)
   }, [activeCourse, lessons, openLesson])
+
+  // ─── Stripe Checkout ─────────────────────────────────────────
+  const handleCheckout = useCallback(async (courseSlug: string) => {
+    setCourseError('')
+    try {
+      const res = await fetch(`/api/courses/${courseSlug}/checkout`, { method: 'POST' })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        window.location.href = data.url
+      } else {
+        setCourseError(data.error || 'Checkout failed')
+      }
+    } catch { setCourseError('Network error') }
+  }, [])
 
   // ─── Mark lesson complete ──────────────────────────────────────
   const markComplete = useCallback(async () => {

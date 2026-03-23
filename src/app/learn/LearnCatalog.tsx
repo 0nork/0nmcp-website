@@ -64,9 +64,25 @@ export default function LearnCatalog() {
             0nMCP
           </span>
         </h1>
-        <p className="text-[var(--text-secondary)] max-w-lg mx-auto relative z-[2]">
+        <p className="text-[var(--text-secondary)] max-w-lg mx-auto relative z-[2] mb-6">
           From first install to enterprise deployment. Free courses, hands-on tutorials, tier-gated masterclasses.
         </p>
+        <div className="flex items-center justify-center gap-3 relative z-[2]">
+          <Link
+            href="/login?redirect=/console/learn"
+            className="inline-block px-6 py-3 rounded-xl font-bold text-sm transition-all"
+            style={{ background: 'var(--accent)', color: 'var(--bg-primary)', textDecoration: 'none' }}
+          >
+            Sign In to Start Learning
+          </Link>
+          <Link
+            href="/signup?redirect=/console/learn"
+            className="inline-block px-6 py-3 rounded-xl font-bold text-sm transition-all"
+            style={{ background: 'var(--bg-card)', color: 'var(--text-secondary)', border: '1px solid var(--border)', textDecoration: 'none' }}
+          >
+            Create Free Account
+          </Link>
+        </div>
       </section>
 
       {/* Filters */}
@@ -105,10 +121,9 @@ export default function LearnCatalog() {
             {courses.map(course => {
               const tier = TIER_BADGE[course.tier_required] || TIER_BADGE.free
               return (
-                <Link
+                <div
                   key={course.id}
-                  href={`/learn/${course.slug}`}
-                  className="block rounded-2xl p-5 transition-all hover:scale-[1.01]"
+                  className="block rounded-2xl p-5 transition-all"
                   style={{
                     background: 'var(--bg-card)',
                     border: '1px solid var(--border)',
@@ -134,11 +149,25 @@ export default function LearnCatalog() {
                   </p>
 
                   {/* Stats */}
-                  <div className="flex items-center gap-4 text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                  <div className="flex items-center gap-4 text-[11px] mb-4" style={{ color: 'var(--text-muted)' }}>
                     <span>{course.lesson_count} lesson{course.lesson_count !== 1 ? 's' : ''}</span>
                     <span>{course.estimated_minutes} min</span>
                     <span>{course.enrollment_count} enrolled</span>
                   </div>
+
+                  {/* CTA */}
+                  <Link
+                    href={`/login?redirect=/console/learn/${course.slug}`}
+                    className="inline-block px-4 py-2 rounded-lg font-bold text-xs transition-all"
+                    style={{
+                      background: 'rgba(126,217,87,0.1)',
+                      color: '#7ed957',
+                      textDecoration: 'none',
+                      border: '1px solid rgba(126,217,87,0.2)',
+                    }}
+                  >
+                    Sign In to Enroll
+                  </Link>
 
                   {/* Tags */}
                   {course.tags?.length > 0 && (
@@ -150,7 +179,7 @@ export default function LearnCatalog() {
                       ))}
                     </div>
                   )}
-                </Link>
+                </div>
               )
             })}
           </div>

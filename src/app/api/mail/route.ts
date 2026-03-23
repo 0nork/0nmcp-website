@@ -14,6 +14,7 @@ function getAdmin() {
 
 async function getUser() {
   const supabase = await createSupabaseServer()
+  if (!supabase) return null
   const { data: { user } } = await supabase.auth.getUser()
   return user
 }

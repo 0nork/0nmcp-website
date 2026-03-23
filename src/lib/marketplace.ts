@@ -81,6 +81,12 @@ export const ACTIONS = {
     description: 'Generate text, emails, social posts, or any content using AI (Claude or GPT) with context from the contact.',
     version: '1.0',
   },
+  ai_course_generator: {
+    key: 'ai_course_generator',
+    name: 'AI Course Generator',
+    description: 'Generate complete courses with AI — topics, modules, lessons, quizzes. One-click deploy to your CRM.',
+    version: '1.0',
+  },
 }
 
 // ─── Trigger Definitions ────────────────────────────────────────────

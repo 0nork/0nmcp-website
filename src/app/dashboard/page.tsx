@@ -57,8 +57,9 @@ export default function DashboardPage() {
 
   const quickActions = [
     { label: 'Install Extension', href: '/dashboard/downloads', desc: 'Get the Chrome extension', color: '#7ed957' },
-    { label: 'Browse Courses', href: '/learn', desc: 'Learn AI automation', color: '#00d4ff' },
-    { label: 'Visit Forum', href: '/forum', desc: 'Connect with builders', color: '#a78bfa' },
+    { label: 'Generate a Course', href: '/console/courses/generate', desc: 'AI-powered course creator', color: '#00d4ff' },
+    { label: 'Browse Courses', href: '/learn', desc: 'Learn AI automation', color: '#a78bfa' },
+    { label: 'Visit Forum', href: '/forum', desc: 'Connect with builders', color: '#fbbf24' },
   ]
 
   if (loading) {

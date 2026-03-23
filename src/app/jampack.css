@@ -11,23 +11,24 @@
   --jp-header-height: 64px;
   --jp-green: #7ed957;
   --jp-green-dim: #5cb83a;
-  --jp-green-glow: rgba(126, 217, 87, 0.12);
+  --jp-green-glow: rgba(126, 217, 87, 0.15);
   --jp-cyan: #00d4ff;
   --jp-cyan-dim: #00a8cc;
   --jp-purple: #a78bfa;
   --jp-amber: #fbbf24;
   --jp-red: #f87171;
   --jp-bg: #0a0a0a;
+  --jp-surface: #111111;
   --jp-bg-elevated: #111111;
-  --jp-bg-card: #141414;
+  --jp-bg-card: #161616;
   --jp-bg-card-hover: #1a1a1a;
   --jp-bg-input: #0d0d0d;
-  --jp-border: #1e1e1e;
-  --jp-border-hi: #2a2a2a;
+  --jp-border: #262626;
+  --jp-border-hi: #333333;
   --jp-border-focus: #333333;
   --jp-text: #f0f0f0;
-  --jp-text-secondary: #a0a0a0;
-  --jp-text-muted: #606060;
+  --jp-text-secondary: #9aa0a8;
+  --jp-text-muted: #666666;
   --jp-radius: 12px;
   --jp-radius-sm: 8px;
   --jp-radius-xs: 6px;
@@ -717,6 +718,122 @@
   border-color: var(--jp-border-hi);
   color: var(--jp-text);
   background: rgba(255, 255, 255, 0.03);
+}
+
+.jp-btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--jp-text-secondary);
+}
+
+.jp-btn-ghost:hover {
+  color: var(--jp-text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ======= Form Elements ======= */
+.jp-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  background: var(--jp-bg-input);
+  border: 1px solid var(--jp-border);
+  border-radius: var(--jp-radius-sm);
+  color: var(--jp-text);
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  transition: all var(--jp-transition);
+}
+
+.jp-input::placeholder {
+  color: var(--jp-text-muted);
+}
+
+.jp-input:focus {
+  border-color: var(--jp-border-focus);
+  background: var(--jp-bg-card);
+}
+
+.jp-select {
+  height: 40px;
+  padding: 0 32px 0 14px;
+  background: var(--jp-bg-input);
+  border: 1px solid var(--jp-border);
+  border-radius: var(--jp-radius-sm);
+  color: var(--jp-text);
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23606060' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+  transition: all var(--jp-transition);
+}
+
+.jp-select:focus {
+  border-color: var(--jp-border-focus);
+}
+
+.jp-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--jp-bg-input);
+  border: 1px solid var(--jp-border);
+  border-radius: var(--jp-radius-sm);
+  color: var(--jp-text);
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--jp-transition);
+}
+
+.jp-textarea:focus {
+  border-color: var(--jp-green-dim);
+}
+
+.jp-textarea::placeholder {
+  color: var(--jp-text-muted);
+}
+
+/* ======= Badge ======= */
+.jp-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  letter-spacing: 0.02em;
+}
+
+.jp-badge.green {
+  background: var(--jp-green-glow);
+  color: var(--jp-green);
+}
+
+.jp-badge.cyan {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--jp-cyan);
+}
+
+.jp-badge.purple {
+  background: rgba(167, 139, 250, 0.1);
+  color: var(--jp-purple);
+}
+
+.jp-badge.amber {
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--jp-amber);
+}
+
+.jp-badge.red {
+  background: rgba(248, 113, 113, 0.1);
+  color: var(--jp-red);
 }
 
 /* ======= Tabs ======= */

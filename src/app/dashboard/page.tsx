@@ -49,17 +49,17 @@ export default function DashboardPage() {
   }, [])
 
   const statCards = [
-    { label: 'Sparks Balance', value: data.sparks, color: '#7ed957', icon: sparkIcon },
-    { label: 'Messages Sent', value: data.messagesSent, color: '#00d4ff', icon: messageIcon },
-    { label: 'Leads Saved', value: data.leadsSaved, color: '#a78bfa', icon: leadIcon },
-    { label: 'AI Queries', value: data.aiQueries, color: '#fbbf24', icon: queryIcon },
+    { label: 'Sparks Balance', value: data.sparks, accent: 'green', icon: sparkIcon },
+    { label: 'Messages Sent', value: data.messagesSent, accent: 'cyan', icon: messageIcon },
+    { label: 'Leads Saved', value: data.leadsSaved, accent: 'purple', icon: leadIcon },
+    { label: 'AI Queries', value: data.aiQueries, accent: 'amber', icon: queryIcon },
   ]
 
   const quickActions = [
-    { label: 'Install Extension', href: '/dashboard/downloads', desc: 'Get the Chrome extension', color: '#7ed957' },
-    { label: 'Generate a Course', href: '/console/courses/generate', desc: 'AI-powered course creator', color: '#00d4ff' },
-    { label: 'Browse Courses', href: '/learn', desc: 'Learn AI automation', color: '#a78bfa' },
-    { label: 'Visit Forum', href: '/forum', desc: 'Connect with builders', color: '#fbbf24' },
+    { label: 'Install Extension', href: '/dashboard/downloads', desc: 'Get the Chrome extension', accent: 'green' },
+    { label: 'Generate a Course', href: '/console/courses/generate', desc: 'AI-powered course creator', accent: 'cyan' },
+    { label: 'Browse Courses', href: '/learn', desc: 'Learn AI automation', accent: 'purple' },
+    { label: 'Visit Forum', href: '/forum', desc: 'Connect with builders', accent: 'amber' },
   ]
 
   if (loading) {
@@ -78,75 +78,36 @@ export default function DashboardPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '960px' }}>
-      {/* ── WELCOME ── */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{
-          fontSize: '1.5rem',
-          fontWeight: 800,
-          color: 'var(--jp-text)',
-          margin: '0 0 0.25rem',
-          letterSpacing: '-0.02em',
-        }}>
+      {/* -- WELCOME -- */}
+      <div className="jp-page-header">
+        <h1 className="jp-page-title">
           {data.userName ? `Welcome back, ${data.userName}` : 'Welcome to 0nMCP'}
         </h1>
-        <p style={{
-          fontSize: '0.875rem',
-          color: 'var(--jp-text-secondary)',
-          margin: 0,
-        }}>
+        <p className="jp-page-subtitle">
           Your AI command center is ready.
         </p>
       </div>
 
-      {/* ── STAT CARDS ── */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-        gap: '1rem',
-        marginBottom: '2rem',
-      }}>
+      {/* -- STAT CARDS -- */}
+      <div className="jp-stat-grid" style={{ marginBottom: '2rem' }}>
         {statCards.map(card => (
-          <div key={card.label} style={{
-            padding: '1.25rem',
-            borderRadius: 'var(--jp-radius)',
-            background: 'var(--jp-bg-card)',
-            border: '1px solid var(--jp-border)',
-          }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              marginBottom: '0.75rem',
-            }}>
-              <span style={{ color: card.color, display: 'flex' }}>{card.icon}</span>
-              <span style={{
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                color: 'var(--jp-text-muted)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-              }}>
-                {card.label}
-              </span>
+          <div key={card.label} className={`jp-stat-card ${card.accent}`}>
+            <div className="jp-stat-header">
+              <span className="jp-stat-label">{card.label}</span>
+              <span className={`jp-stat-icon ${card.accent}`}>{card.icon}</span>
             </div>
-            <div style={{
-              fontSize: '1.75rem',
-              fontWeight: 800,
-              color: card.color,
-              letterSpacing: '-0.02em',
-            }}>
+            <div className="jp-stat-value" style={{ color: `var(--jp-${card.accent})` }}>
               {card.value.toLocaleString()}
             </div>
           </div>
         ))}
       </div>
 
-      {/* ── INSTALL EXTENSION CTA ── */}
-      <div style={{
+      {/* -- INSTALL EXTENSION CTA -- */}
+      <div className="jp-card" style={{
         padding: '1.5rem',
-        borderRadius: 'var(--jp-radius)',
-        background: 'rgba(126, 217, 87, 0.06)',
-        border: '1px solid rgba(126, 217, 87, 0.15)',
+        background: 'var(--jp-green-glow)',
+        borderColor: 'rgba(126, 217, 87, 0.15)',
         marginBottom: '2rem',
         display: 'flex',
         alignItems: 'center',
@@ -171,80 +132,27 @@ export default function DashboardPage() {
             Get AI compose, multi-AI council, and LinkedIn tools in your browser.
           </p>
         </div>
-        <Link
-          href="/dashboard/downloads"
-          style={{
-            padding: '0.625rem 1.5rem',
-            borderRadius: 'var(--jp-radius-sm)',
-            background: 'var(--jp-green)',
-            color: '#0a0a0a',
-            fontSize: '0.875rem',
-            fontWeight: 700,
-            textDecoration: 'none',
-            flexShrink: 0,
-          }}
-        >
+        <Link href="/dashboard/downloads" className="jp-btn jp-btn-primary">
           Get Extension
         </Link>
       </div>
 
-      {/* ── QUICK ACTIONS ── */}
-      <h2 style={{
-        fontSize: '0.75rem',
-        fontWeight: 700,
-        color: 'var(--jp-text-muted)',
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
-        margin: '0 0 1rem',
-      }}>
+      {/* -- QUICK ACTIONS -- */}
+      <div className="jp-menu-group-label" style={{ marginBottom: '1rem' }}>
         Quick Actions
-      </h2>
+      </div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-        gap: '1rem',
-      }}>
+      <div className="jp-quick-actions">
         {quickActions.map(action => (
           <Link
             key={action.label}
             href={action.href}
-            style={{
-              padding: '1.25rem',
-              borderRadius: 'var(--jp-radius)',
-              background: 'var(--jp-bg-card)',
-              border: '1px solid var(--jp-border)',
-              textDecoration: 'none',
-              color: 'inherit',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              transition: 'all 0.2s',
-            }}
+            className="jp-quick-action"
           >
-            <div style={{
-              width: 10,
-              height: 10,
-              borderRadius: '50%',
-              background: action.color,
-              flexShrink: 0,
-              boxShadow: `0 0 10px ${action.color}33`,
-            }} />
+            <div className={`jp-activity-dot ${action.accent}`} style={{ width: 10, height: 10 }} />
             <div>
-              <div style={{
-                fontSize: '0.9375rem',
-                fontWeight: 700,
-                color: 'var(--jp-text)',
-                marginBottom: '0.15rem',
-              }}>
-                {action.label}
-              </div>
-              <div style={{
-                fontSize: '0.8125rem',
-                color: 'var(--jp-text-secondary)',
-              }}>
-                {action.desc}
-              </div>
+              <div className="jp-quick-action-label">{action.label}</div>
+              <div className="jp-quick-action-desc">{action.desc}</div>
             </div>
             <svg
               width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -260,7 +168,7 @@ export default function DashboardPage() {
   )
 }
 
-/* ── Inline SVG Icons ── */
+/* -- Inline SVG Icons -- */
 
 const sparkIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

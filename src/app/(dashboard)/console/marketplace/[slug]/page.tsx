@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, ShoppingBag, Sparkles, Tag, Download, Blocks, Zap, CheckCircle } from 'lucide-react'
+import { ArrowLeft, ShoppingBag, ShoppingCart, Sparkles, Tag, Download, Blocks, Zap, CheckCircle, Check } from 'lucide-react'
 import type { StoreListing } from '@/components/console/StoreTypes'
+import { addToCart, isInCart } from '@/lib/cart'
 
 interface ListingDetail extends StoreListing {
   workflow_data?: Record<string, unknown> | null
@@ -18,6 +19,8 @@ export default function MarketplaceDetailPage() {
   const [owned, setOwned] = useState(false)
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [inCart, setInCart] = useState(false)
+  const [justAdded, setJustAdded] = useState(false)
 
   const fetchListing = useCallback(async () => {
     try {
@@ -38,6 +41,14 @@ export default function MarketplaceDetailPage() {
   useEffect(() => {
     fetchListing()
   }, [fetchListing])
+
+  // Sync cart state
+  useEffect(() => {
+    if (listing) setInCart(isInCart(listing.id))
+    const handler = () => { if (listing) setInCart(isInCart(listing.id)) }
+    window.addEventListener('cart-updated', handler)
+    return () => window.removeEventListener('cart-updated', handler)
+  }, [listing])
 
   const handleCheckout = async () => {
     if (!listing) return
@@ -314,31 +325,74 @@ export default function MarketplaceDetailPage() {
             </button>
           </>
         ) : (
-          <button
-            onClick={handleCheckout}
-            disabled={checkoutLoading}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '12px 28px',
-              borderRadius: 10,
-              background: checkoutLoading ? 'var(--text-muted)' : 'var(--accent)',
-              color: '#0f1419',
-              border: 'none',
-              cursor: checkoutLoading ? 'wait' : 'pointer',
-              fontWeight: 800,
-              fontSize: '0.9375rem',
-              fontFamily: 'inherit',
-            }}
-          >
-            <ShoppingBag size={16} />
-            {checkoutLoading
-              ? 'Processing...'
-              : listing.price === 0
-                ? 'Get Workflow (Free)'
-                : `Get Workflow — $${(listing.price / 100).toFixed(2)}`}
-          </button>
+          <>
+            <button
+              onClick={handleCheckout}
+              disabled={checkoutLoading}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '12px 28px',
+                borderRadius: 10,
+                background: checkoutLoading ? 'var(--text-muted)' : 'var(--accent)',
+                color: '#0f1419',
+                border: 'none',
+                cursor: checkoutLoading ? 'wait' : 'pointer',
+                fontWeight: 800,
+                fontSize: '0.9375rem',
+                fontFamily: 'inherit',
+              }}
+            >
+              <ShoppingBag size={16} />
+              {checkoutLoading
+                ? 'Processing...'
+                : listing.price === 0
+                  ? 'Get Workflow (Free)'
+                  : `Buy Now — $${listing.price.toFixed(2)}`}
+            </button>
+            {listing.price > 0 && (
+              <button
+                onClick={() => {
+                  addToCart({
+                    listingId: listing.id,
+                    name: listing.title,
+                    price: Math.round(listing.price * 100),
+                    vendorId: listing.vendor_id,
+                    vendorName: listing.vendor_name,
+                    image: listing.cover_image_url,
+                    slug: listing.slug,
+                    category: listing.category,
+                  })
+                  setJustAdded(true)
+                  setTimeout(() => setJustAdded(false), 1500)
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '12px 24px',
+                  borderRadius: 10,
+                  background: inCart || justAdded ? 'rgba(126,217,87,0.08)' : 'var(--bg-card)',
+                  color: inCart || justAdded ? 'var(--accent)' : 'var(--text-secondary)',
+                  border: inCart || justAdded ? '1px solid rgba(126,217,87,0.2)' : '1px solid var(--border)',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                  fontSize: '0.875rem',
+                  fontFamily: 'inherit',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {justAdded ? (
+                  <><Check size={16} /> Added!</>
+                ) : inCart ? (
+                  <><Check size={16} /> In Cart</>
+                ) : (
+                  <><ShoppingCart size={16} /> Add to Cart</>
+                )}
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

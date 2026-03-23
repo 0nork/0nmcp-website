@@ -51,11 +51,93 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ received: true })
     }
 
-    const { listingId, buyerId } = session.metadata || {}
+    const { listingId, buyerId, listingIds, source } = session.metadata || {}
 
     // Subscription checkouts are handled by customer.subscription.created
     if (session.mode === 'subscription') {
       return NextResponse.json({ received: true, note: 'subscription handled by sub events' })
+    }
+
+    // ── Cart checkout (multiple items) ──
+    if (source === 'cart-checkout' && listingIds && buyerId) {
+      const ids = listingIds.split(',').filter(Boolean)
+      for (const lid of ids) {
+        // Idempotency check
+        const { data: existing } = await admin
+          .from('store_purchases')
+          .select('id')
+          .eq('buyer_id', buyerId)
+          .eq('listing_id', lid)
+          .eq('status', 'completed')
+          .maybeSingle()
+
+        if (existing) continue
+
+        const { data: listing } = await admin
+          .from('store_listings')
+          .select('*')
+          .eq('id', lid)
+          .single()
+
+        if (!listing) continue
+
+        let workflowFileId: string | null = null
+        if (listing.workflow_data) {
+          const wfData = listing.workflow_data as Record<string, unknown>
+          const header = wfData.$0n as Record<string, string> | undefined
+          const workflowName = header?.name || listing.title
+          const fileType = header?.type || 'workflow'
+
+          const { data: wf } = await admin
+            .from('workflow_files')
+            .insert({
+              owner_id: buyerId,
+              file_key: `store_${listing.slug}_${Date.now()}`,
+              name: workflowName,
+              description: listing.description,
+              version: header?.version || '1.0.0',
+              step_count: listing.step_count || 0,
+              services_used: listing.services || [],
+              tags: listing.tags || [],
+              status: 'active',
+              workflow_data: listing.workflow_data,
+            })
+            .select('id')
+            .single()
+          if (wf) workflowFileId = wf.id
+
+          await admin.from('user_vault_files').insert({
+            user_id: buyerId,
+            name: workflowName,
+            file_type: fileType,
+            category: fileType,
+            description: listing.description,
+            file_data: listing.workflow_data,
+            source: 'store',
+            source_id: lid,
+            version: header?.version || '1.0.0',
+            tags: listing.tags || [],
+          })
+        }
+
+        await admin.from('store_purchases').insert({
+          buyer_id: buyerId,
+          listing_id: lid,
+          workflow_id: workflowFileId,
+          stripe_session_id: session.id,
+          amount: (listing.price || 0) / 100,
+          currency: 'usd',
+          status: 'completed',
+        })
+
+        await admin
+          .from('store_listings')
+          .update({ total_purchases: (listing.total_purchases || 0) + 1 })
+          .eq('id', lid)
+
+        console.log(`Cart purchase fulfilled: buyer=${buyerId} listing=${lid} session=${session.id}`)
+      }
+      return NextResponse.json({ received: true })
     }
 
     if (!listingId || !buyerId) {

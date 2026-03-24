@@ -184,7 +184,7 @@ function RenderComponent({
 
   switch (def.id) {
     case 'heading': {
-      const HeadingTag = (props.level || 'h1') as keyof JSX.IntrinsicElements
+      const HeadingTag = (props.level || 'h1') as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
       return (
         <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', textAlign: props.align }}>
           <HeadingTag

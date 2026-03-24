@@ -2,45 +2,50 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useUser, getAccessibleModules, ALL_MODULES, type UserTier } from '@/lib/user-context'
+import { ModuleCard } from '@/components/module-card'
+import { UserProvider } from '@/lib/user-context'
 
 interface DashboardData {
   userName: string
   sparks: number
-  messagesSent: number
-  leadsSaved: number
-  aiQueries: number
+  tools: number
+  services: number
+  executions: number
 }
 
-export default function DashboardPage() {
+function DashboardContent() {
+  const { tier } = useUser()
+  const accessibleModules = getAccessibleModules(tier)
+  const lockedCount = ALL_MODULES.length - accessibleModules.length
+
   const [data, setData] = useState<DashboardData>({
     userName: '',
     sparks: 0,
-    messagesSent: 0,
-    leadsSaved: 0,
-    aiQueries: 0,
+    tools: 1171,
+    services: 54,
+    executions: 0,
   })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function load() {
       try {
-        // Fetch user info
         const accountRes = await fetch('/api/console/account')
         const account = accountRes.ok ? await accountRes.json() : {}
 
-        // Fetch sparks balance
         const sparksRes = await fetch('/api/sparks/balance')
         const sparks = sparksRes.ok ? await sparksRes.json() : { balance: 0 }
 
         setData({
           userName: account.full_name?.split(' ')[0] || '',
           sparks: sparks.balance ?? 0,
-          messagesSent: 0,
-          leadsSaved: 0,
-          aiQueries: 0,
+          tools: 1171,
+          services: 54,
+          executions: 0,
         })
       } catch {
-        // Silent fail — show defaults
+        // Silent fail
       } finally {
         setLoading(false)
       }
@@ -48,27 +53,13 @@ export default function DashboardPage() {
     load()
   }, [])
 
-  const statCards = [
-    { label: 'Sparks Balance', value: data.sparks, accent: 'green', icon: sparkIcon },
-    { label: 'Messages Sent', value: data.messagesSent, accent: 'cyan', icon: messageIcon },
-    { label: 'Leads Saved', value: data.leadsSaved, accent: 'purple', icon: leadIcon },
-    { label: 'AI Queries', value: data.aiQueries, accent: 'amber', icon: queryIcon },
-  ]
-
-  const quickActions = [
-    { label: 'Install Extension', href: '/dashboard/downloads', desc: 'Get the Chrome extension', accent: 'green' },
-    { label: 'Generate a Course', href: '/console/courses/generate', desc: 'AI-powered course creator', accent: 'cyan' },
-    { label: 'Browse Courses', href: '/learn', desc: 'Learn AI automation', accent: 'purple' },
-    { label: 'Visit Forum', href: '/forum', desc: 'Connect with builders', accent: 'amber' },
-  ]
-
   if (loading) {
     return (
       <div style={{ padding: '3rem 2rem', display: 'flex', justifyContent: 'center' }}>
         <div style={{
           width: 32, height: 32,
-          border: '2px solid var(--jp-border)',
-          borderTopColor: 'var(--jp-green)',
+          border: '2px solid var(--border)',
+          borderTopColor: 'var(--accent)',
           borderRadius: '50%',
           animation: 'spin 0.8s linear infinite',
         }} />
@@ -76,99 +67,128 @@ export default function DashboardPage() {
     )
   }
 
+  const statCards = [
+    { label: 'Sparks Balance', value: data.sparks, color: '#6EE05A', icon: sparkIcon },
+    { label: 'Tools Available', value: data.tools, color: '#60A5FA', icon: toolIcon },
+    { label: 'Services', value: data.services, color: '#A78BFA', icon: serviceIcon },
+    { label: 'Executions', value: data.executions, color: '#F59E0B', icon: execIcon },
+  ]
+
   return (
-    <div style={{ padding: '2rem', maxWidth: '960px' }}>
-      {/* -- WELCOME -- */}
-      <div className="jp-page-header">
-        <h1 className="jp-page-title">
+    <div className="dashboard-r0n">
+      {/* Header */}
+      <div className="dashboard-r0n-header">
+        <h1 className="dashboard-r0n-title">
           {data.userName ? `Welcome back, ${data.userName}` : 'Welcome to 0nMCP'}
         </h1>
-        <p className="jp-page-subtitle">
-          Your AI command center is ready.
-        </p>
+        <p className="dashboard-r0n-subtitle">Your AI command center is ready.</p>
       </div>
 
-      {/* -- STAT CARDS -- */}
-      <div className="jp-stat-grid" style={{ marginBottom: '2rem' }}>
-        {statCards.map(card => (
-          <div key={card.label} className={`jp-stat-card ${card.accent}`}>
-            <div className="jp-stat-header">
-              <span className="jp-stat-label">{card.label}</span>
-              <span className={`jp-stat-icon ${card.accent}`}>{card.icon}</span>
-            </div>
-            <div className="jp-stat-value" style={{ color: `var(--jp-${card.accent})` }}>
-              {card.value.toLocaleString()}
-            </div>
+      <div className="dashboard-r0n-layout">
+        {/* Main content */}
+        <div className="dashboard-r0n-main">
+          {/* Stat Cards */}
+          <div className="dashboard-r0n-stats">
+            {statCards.map(card => (
+              <div key={card.label} className="module-card stat-card">
+                <div className="stat-card-header">
+                  <span className="stat-card-label">{card.label}</span>
+                  <span className="stat-card-icon" style={{ color: card.color }}>
+                    {card.icon}
+                  </span>
+                </div>
+                <div className="stat-card-value" style={{ color: card.color }}>
+                  {card.value.toLocaleString()}
+                </div>
+                <p className="stat-card-sub">
+                  {card.label === 'Sparks Balance' && (lockedCount > 0 ? `${lockedCount} modules locked` : 'All modules unlocked')}
+                  {card.label === 'Tools Available' && '0nMCP v2.5.0'}
+                  {card.label === 'Services' && '22 categories'}
+                  {card.label === 'Executions' && 'This month'}
+                </p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* -- INSTALL EXTENSION CTA -- */}
-      <div className="jp-card" style={{
-        padding: '1.5rem',
-        background: 'var(--jp-green-glow)',
-        borderColor: 'rgba(110, 224, 90, 0.15)',
-        marginBottom: '2rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '1rem',
-      }}>
-        <div>
-          <h3 style={{
-            fontSize: '1rem',
-            fontWeight: 700,
-            color: 'var(--jp-text)',
-            margin: '0 0 0.25rem',
-          }}>
-            Install the Chrome Extension
-          </h3>
-          <p style={{
-            fontSize: '0.8125rem',
-            color: 'var(--jp-text-secondary)',
-            margin: 0,
-          }}>
-            Get AI compose, multi-AI council, and LinkedIn tools in your browser.
-          </p>
-        </div>
-        <Link href="/dashboard/downloads" className="jp-btn jp-btn-primary">
-          Get Extension
-        </Link>
-      </div>
+          {/* Module Grid */}
+          <h2 className="dashboard-r0n-section-title">Your Modules</h2>
+          <div className="dashboard-r0n-modules">
+            {ALL_MODULES.map((module) => {
+              const isComingSoon = module.id === 'analytics'
+              return (
+                <ModuleCard
+                  key={module.id}
+                  module={module}
+                  userTier={tier}
+                  onAction={() => {
+                    if (module.href) window.location.href = module.href
+                  }}
+                  comingSoon={isComingSoon}
+                />
+              )
+            })}
+          </div>
 
-      {/* -- QUICK ACTIONS -- */}
-      <div className="jp-menu-group-label" style={{ marginBottom: '1rem' }}>
-        Quick Actions
-      </div>
-
-      <div className="jp-quick-actions">
-        {quickActions.map(action => (
-          <Link
-            key={action.label}
-            href={action.href}
-            className="jp-quick-action"
-          >
-            <div className={`jp-activity-dot ${action.accent}`} style={{ width: 10, height: 10 }} />
-            <div>
-              <div className="jp-quick-action-label">{action.label}</div>
-              <div className="jp-quick-action-desc">{action.desc}</div>
+          {/* Upgrade prompt */}
+          {tier !== 'enterprise' && (
+            <div className="dashboard-r0n-upgrade">
+              <div>
+                <h3 className="dashboard-r0n-upgrade-title">Unlock More Power</h3>
+                <p className="dashboard-r0n-upgrade-desc">
+                  {tier === 'free'
+                    ? 'Upgrade to Supporter to access Analytics and more features'
+                    : 'Upgrade to unlock all modules and priority support'}
+                </p>
+              </div>
+              <Link href="/console/pricing" className="dashboard-r0n-upgrade-btn">
+                View Plans
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
             </div>
-            <svg
-              width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="var(--jp-text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-              style={{ marginLeft: 'auto', flexShrink: 0 }}
-            >
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </Link>
-        ))}
+          )}
+        </div>
+
+        {/* Quick Actions Sidebar */}
+        <div className="dashboard-r0n-sidebar">
+          <h3 className="dashboard-r0n-sidebar-title">Quick Actions</h3>
+          <div className="dashboard-r0n-actions">
+            {[
+              { label: 'Canvas Builder', href: '/console/builder/canvas', desc: 'Visual page builder', color: '#6EE05A' },
+              { label: 'Generate a Course', href: '/console/courses/generate', desc: 'AI-powered course creator', color: '#60A5FA' },
+              { label: 'Browse Store', href: '/console/marketplace', desc: 'Discover add-ons', color: '#A78BFA' },
+              { label: 'Workflow Builder', href: '/builder', desc: 'Create .0n workflows', color: '#F59E0B' },
+              { label: 'Visit Forum', href: '/forum', desc: 'Connect with builders', color: '#EC4899' },
+            ].map(action => (
+              <Link key={action.label} href={action.href} className="dashboard-r0n-action">
+                <div className="dashboard-r0n-action-dot" style={{ backgroundColor: action.color }} />
+                <div>
+                  <div className="dashboard-r0n-action-label">{action.label}</div>
+                  <div className="dashboard-r0n-action-desc">{action.desc}</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
-/* -- Inline SVG Icons -- */
+export default function DashboardPage() {
+  return (
+    <UserProvider>
+      <DashboardContent />
+    </UserProvider>
+  )
+}
+
+/* Inline SVG Icons */
 
 const sparkIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -176,24 +196,21 @@ const sparkIcon = (
   </svg>
 )
 
-const messageIcon = (
+const toolIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
   </svg>
 )
 
-const leadIcon = (
+const serviceIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
   </svg>
 )
 
-const queryIcon = (
+const execIcon = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="11" cy="11" r="8" />
-    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
   </svg>
 )

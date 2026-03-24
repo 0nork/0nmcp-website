@@ -7,6 +7,24 @@ export const dynamic = 'force-dynamic'
 
 const SITE_URL = 'https://www.0nmcp.com'
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+/** Preflight for browser extension access */
+export function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: CORS_HEADERS })
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function corsJson(data: any, init?: { status?: number }) {
+  const res = NextResponse.json(data, init)
+  Object.entries(CORS_HEADERS).forEach(([k, v]) => res.headers.set(k, v))
+  return res
+}
+
 function getAdmin() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -34,19 +52,19 @@ interface CartItem {
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) {
-    return NextResponse.json({ error: 'Not configured' }, { status: 500 })
+    return corsJson({ error: 'Not configured' }, { status: 500 })
   }
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    return corsJson({ error: 'Not authenticated' }, { status: 401 })
   }
 
   const body = await request.json()
   const items: CartItem[] = body.items || []
 
   if (!items.length) {
-    return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
+    return corsJson({ error: 'Cart is empty' }, { status: 400 })
   }
 
   // Fetch all listing IDs
@@ -60,11 +78,11 @@ export async function POST(request: NextRequest) {
     .eq('status', 'active')
 
   if (listingsError) {
-    return NextResponse.json({ error: listingsError.message }, { status: 500 })
+    return corsJson({ error: listingsError.message }, { status: 500 })
   }
 
   if (!listings || listings.length === 0) {
-    return NextResponse.json({ error: 'No valid listings found' }, { status: 404 })
+    return corsJson({ error: 'No valid listings found' }, { status: 404 })
   }
 
   // Check already purchased
@@ -90,7 +108,7 @@ export async function POST(request: NextRequest) {
 
   // If no paid items, we're done
   if (paidListings.length === 0) {
-    return NextResponse.json({
+    return corsJson({
       success: true,
       freeItems: freeItemIds,
       alreadyOwned: Array.from(alreadyOwned),
@@ -159,7 +177,7 @@ export async function POST(request: NextRequest) {
     },
   })
 
-  return NextResponse.json({
+  return corsJson({
     checkoutUrl: session.url,
     freeItems: freeItemIds,
     alreadyOwned: Array.from(alreadyOwned),

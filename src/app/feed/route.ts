@@ -26,11 +26,15 @@ export async function GET() {
     const description = post.meta_description || post.excerpt || post.content?.slice(0, 300) || ''
     const tags = Array.isArray(post.tags) ? post.tags : []
 
+    const imageUrl = `${SITE_URL}/api/og/blog?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category || '')}`
+
     return `    <item>
       <title><![CDATA[${post.title}]]></title>
       <link>${SITE_URL}/blog/${post.slug}</link>
       <guid isPermaLink="true">${SITE_URL}/blog/${post.slug}</guid>
       <description><![CDATA[${description}]]></description>
+      <enclosure url="${imageUrl}" type="image/png" length="0" />
+      <media:content url="${imageUrl}" type="image/png" width="1200" height="630" />
       <pubDate>${pubDate}</pubDate>
       <author>${post.author || 'mike@rocketopp.com (Mike Mento)'}</author>
       ${post.category ? `<category>${post.category}</category>` : ''}
@@ -39,7 +43,7 @@ export async function GET() {
   }).join('\n')
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>${SITE_TITLE}</title>
     <link>${SITE_URL}</link>

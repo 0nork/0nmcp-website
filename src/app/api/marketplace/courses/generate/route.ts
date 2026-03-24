@@ -220,7 +220,13 @@ Return ONLY valid JSON with this structure:
 
 Rules:
 - Create exactly ${courseInput.module_count} modules with ${courseInput.lessons_per_module} lessons each
-- Each lesson MUST have 600+ words of genuine, useful educational content
+- Each lesson MUST have 800-1200 words of genuine, useful, ACTIONABLE educational content
+- DO NOT write summaries or outlines — write the ACTUAL lesson content a student would read
+- Include real-world examples, step-by-step instructions, and practical exercises
+- Use Markdown formatting: ## headers, bullet points, numbered lists, **bold** for key terms
+- Each lesson should teach ONE specific skill the student can immediately apply
+- Include a "Key Takeaway" at the end of each lesson
+- Include a "Try This Now" action step at the end of each lesson
 - Content tone: ${courseInput.tone}
 - Skill level: ${courseInput.skill_level}
 ${quizLine}

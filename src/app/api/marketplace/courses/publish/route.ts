@@ -24,11 +24,15 @@ interface PublishBody {
   draftId: string
   locationId: string
   accessToken?: string  // optional — falls back to token-store
+  pricing?: {
+    type: 'free' | 'one_time' | 'recurring'
+    amount: number  // in dollars
+  }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { draftId, locationId, accessToken: directToken } = (await request.json()) as PublishBody
+    const { draftId, locationId, accessToken: directToken, pricing } = (await request.json()) as PublishBody
 
     if (!draftId || !locationId) {
       return NextResponse.json({ error: 'draftId and locationId are required' }, { status: 400 })
@@ -103,6 +107,15 @@ export async function POST(request: NextRequest) {
         description: structure.description,
         productType: 'DIGITAL',
         statementDescriptor: structure.title.slice(0, 22),
+        ...(pricing && pricing.type !== 'free' ? {
+          prices: [{
+            name: pricing.type === 'recurring' ? 'Monthly Access' : 'Full Access',
+            type: pricing.type === 'recurring' ? 'recurring' : 'one_time',
+            amount: Math.round(pricing.amount * 100), // cents
+            currency: 'USD',
+            ...(pricing.type === 'recurring' ? { recurring: { interval: 'month', intervalCount: 1 } } : {}),
+          }],
+        } : {}),
       }),
     })
 

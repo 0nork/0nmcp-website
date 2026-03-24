@@ -22,6 +22,8 @@ export default function CourseReview({ structure, source, onSave, onPublish, onR
   const [editingField, setEditingField] = useState<string | null>(null)
   const [showPublishModal, setShowPublishModal] = useState(false)
   const [accessToken, setAccessToken] = useState('')
+  const [coursePrice, setCoursePrice] = useState('0')
+  const [pricingType, setPricingType] = useState<'free' | 'one_time' | 'recurring'>('free')
 
   const totalLessons = data.modules.reduce((s, m) => s + m.lessons.length, 0)
   const totalDuration = data.modules.reduce((s, m) => s + m.lessons.reduce((ls, l) => ls + l.duration_minutes, 0), 0)
@@ -178,6 +180,64 @@ export default function CourseReview({ structure, source, onSave, onPublish, onR
               Provide your CRM access token to deploy this course. If your location is connected via OAuth, leave this blank.
             </p>
 
+            {/* Pricing */}
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#9AA0A8', marginBottom: 6 }}>
+              Course Pricing
+            </label>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+              {(['free', 'one_time', 'recurring'] as const).map(t => (
+                <button
+                  key={t}
+                  onClick={() => { setPricingType(t); if (t === 'free') setCoursePrice('0') }}
+                  style={{
+                    flex: 1, padding: '10px 12px', borderRadius: 8, fontSize: 13, fontWeight: 600,
+                    cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s',
+                    background: pricingType === t ? 'rgba(110,224,90,0.12)' : '#080B0F',
+                    border: `1px solid ${pricingType === t ? 'rgba(110,224,90,0.4)' : '#1a1f2e'}`,
+                    color: pricingType === t ? '#6EE05A' : '#7A8290',
+                  }}
+                >
+                  {t === 'free' ? 'Free' : t === 'one_time' ? 'One-Time' : 'Monthly'}
+                </button>
+              ))}
+            </div>
+
+            {pricingType !== 'free' && (
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#9AA0A8', marginBottom: 6 }}>
+                  Price (USD)
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#6EE05A', fontSize: 16, fontWeight: 700 }}>$</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={coursePrice}
+                    onChange={e => setCoursePrice(e.target.value)}
+                    placeholder="29"
+                    style={{
+                      width: '100%', padding: '12px 14px 12px 30px', borderRadius: 10,
+                      border: '1px solid #1a1f2e', background: '#080B0F',
+                      color: '#E8EAED', fontSize: 16, fontWeight: 700, fontFamily: 'inherit',
+                      outline: 'none', boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+                <p style={{ fontSize: 11, color: '#555', margin: '6px 0 0' }}>
+                  {pricingType === 'recurring' ? 'Charged monthly to enrolled students' : 'One-time payment for lifetime access'}
+                </p>
+              </div>
+            )}
+
+            <div style={{ padding: '12px 14px', borderRadius: 8, background: 'rgba(110,224,90,0.05)', border: '1px solid rgba(110,224,90,0.1)', marginBottom: 16, fontSize: 13, color: '#9AA0A8' }}>
+              <strong style={{ color: '#6EE05A' }}>
+                {pricingType === 'free' ? 'Free Course' : pricingType === 'one_time' ? `$${coursePrice || '0'} one-time` : `$${coursePrice || '0'}/month`}
+              </strong>
+              {' '}— {totalLessons} lessons across {data.modules.length} modules
+            </div>
+
+            {/* Access Token */}
             <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#9AA0A8', marginBottom: 6 }}>
               Access Token (optional)
             </label>
@@ -194,7 +254,7 @@ export default function CourseReview({ structure, source, onSave, onPublish, onR
               }}
             />
             <p style={{ fontSize: 11, color: '#555', margin: '6px 0 0' }}>
-              Found in CRM Settings. Never shared or stored in your browser.
+              Leave blank to use stored OAuth. Or paste a CRM access token.
             </p>
 
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>

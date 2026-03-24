@@ -98,7 +98,7 @@ export function RotatingText({ words, interval = 2800 }: { words: string[]; inte
         opacity: vis ? 1 : 0,
         transform: vis ? 'translateY(0)' : 'translateY(10px)',
         transition: 'opacity 0.35s ease, transform 0.35s ease',
-        color: '#7ed957',
+        color: '#6EE05A',
       }}
     >
       {words[index]}

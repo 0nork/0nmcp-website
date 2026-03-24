@@ -10,7 +10,7 @@ const categories = [
   {
     name: 'Contacts',
     count: 23,
-    color: '#7ed957',
+    color: '#6EE05A',
     icon: '01',
     desc: 'Full CRUD on every contact field — search, create, update, upsert, bulk operations, tags, notes, tasks, and DND settings.',
     tools: [
@@ -219,7 +219,7 @@ const painPoints = [
 ]
 
 const useCases = [
-  { title: 'AI AutoResponder', desc: 'Instant AI replies to every conversation across SMS, email, and chat.', price: '$29/mo value', color: '#7ed957' },
+  { title: 'AI AutoResponder', desc: 'Instant AI replies to every conversation across SMS, email, and chat.', price: '$29/mo value', color: '#6EE05A' },
   { title: 'Lead Scoring', desc: 'AI scores every contact 0-100 based on engagement, behavior, and fit.', price: '$49/mo value', color: '#00d4ff' },
   { title: 'Course Generator', desc: 'Generate complete courses with AI, deploy directly to your CRM.', price: 'Hours saved', color: '#a78bfa' },
   { title: 'Social Automation', desc: 'Post to all platforms — Facebook, Instagram, Google, LinkedIn — from one command.', price: '35 tools', color: '#fb923c' },
@@ -347,7 +347,7 @@ function FAQItem({ item }: { item: typeof faqItems[0] }) {
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>{item.q}</h3>
-        <span style={{ color: '#7ed957', fontSize: '1.25rem', flexShrink: 0, marginLeft: '1rem' }}>{open ? '-' : '+'}</span>
+        <span style={{ color: '#6EE05A', fontSize: '1.25rem', flexShrink: 0, marginLeft: '1rem' }}>{open ? '-' : '+'}</span>
       </div>
       {open && (
         <p style={{ margin: '0.75rem 0 0', fontSize: '0.9375rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
@@ -415,7 +415,7 @@ export default function CrmApiPage() {
         ],
       }) }} />
 
-      <div style={{ minHeight: '100vh', background: '#0f1419', color: '#f0f0f0', fontFamily: "var(--font-display, 'Instrument Sans', system-ui, sans-serif)" }}>
+      <div style={{ minHeight: '100vh', background: '#0B0F19', color: '#E8EAED', fontFamily: "var(--font-display, 'Instrument Sans', system-ui, sans-serif)" }}>
 
         {/* ════════════════════════════════════════════
             HERO SECTION
@@ -438,7 +438,7 @@ export default function CrmApiPage() {
             display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
             padding: '0.5rem 1rem', borderRadius: 100,
             background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)',
-            fontSize: '0.8125rem', fontWeight: 600, color: '#7ed957',
+            fontSize: '0.8125rem', fontWeight: 600, color: '#6EE05A',
             marginBottom: '2rem', position: 'relative',
           }}>
             The #1 CRM API Integration Platform
@@ -451,7 +451,7 @@ export default function CrmApiPage() {
           }}>
             Every CRM API Endpoint.{' '}
             <span style={{
-              background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
+              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             }}>
               One Platform.
@@ -473,8 +473,8 @@ export default function CrmApiPage() {
             <Link href="/signup" style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
               padding: '1rem 2.25rem', borderRadius: 14,
-              background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
-              color: '#0a0a0a', fontSize: '1.0625rem', fontWeight: 700,
+              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
+              color: '#0B0F19', fontSize: '1.0625rem', fontWeight: 700,
               textDecoration: 'none', boxShadow: '0 0 40px rgba(126,217,87,0.25)',
               transition: 'transform 0.15s, box-shadow 0.15s',
             }}>
@@ -505,7 +505,7 @@ export default function CrmApiPage() {
               { val: '7+', label: 'AI Platforms' },
             ].map((s) => (
               <div key={s.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.375rem', fontWeight: 800, color: '#7ed957' }}>{s.val}</div>
+                <div style={{ fontSize: '1.375rem', fontWeight: 800, color: '#6EE05A' }}>{s.val}</div>
                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.125rem' }}>{s.label}</div>
               </div>
             ))}
@@ -557,7 +557,7 @@ export default function CrmApiPage() {
         <section style={{ padding: '5rem 1.5rem', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
           <p style={{
             fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '0.12em', color: '#7ed957', marginBottom: '0.75rem',
+            letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
           }}>
             The solution
           </p>
@@ -581,7 +581,7 @@ export default function CrmApiPage() {
             }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fbbf24' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#7ed957' }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#6EE05A' }} />
               <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.3)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>
                 natural language
               </span>
@@ -602,9 +602,9 @@ export default function CrmApiPage() {
               }}>
                 <div style={{
                   width: 10, height: 10, borderRadius: '50%',
-                  background: '#7ed957', boxShadow: '0 0 8px rgba(126,217,87,0.5)',
+                  background: '#6EE05A', boxShadow: '0 0 8px rgba(126,217,87,0.5)',
                 }} />
-                <span style={{ fontSize: '0.875rem', fontFamily: 'var(--font-mono)', color: '#7ed957' }}>
+                <span style={{ fontSize: '0.875rem', fontFamily: 'var(--font-mono)', color: '#6EE05A' }}>
                   0nMCP executed 4 API calls in 2.1 seconds
                 </span>
               </div>
@@ -619,7 +619,7 @@ export default function CrmApiPage() {
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <p style={{
               fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#7ed957', marginBottom: '0.75rem',
+              letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
             }}>
               The showstopper
             </p>
@@ -668,7 +668,7 @@ export default function CrmApiPage() {
                 num: '01',
                 title: 'Natural Language',
                 desc: 'Describe what you want in English. 0nMCP plans and executes the API calls automatically — no code required.',
-                color: '#7ed957',
+                color: '#6EE05A',
               },
               {
                 num: '02',
@@ -790,7 +790,7 @@ export default function CrmApiPage() {
             }}>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Feature</span>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center' }}>DIY</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#7ed957', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center' }}>0nMCP</span>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6EE05A', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center' }}>0nMCP</span>
             </div>
             {comparisonRows.map((row, i) => (
               <div key={row.label} style={{
@@ -801,7 +801,7 @@ export default function CrmApiPage() {
               }}>
                 <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.7)' }}>{row.label}</span>
                 <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.35)', textAlign: 'center' }}>{row.diy}</span>
-                <span style={{ fontSize: '0.875rem', color: '#7ed957', textAlign: 'center', fontWeight: 600 }}>{row.onmcp}</span>
+                <span style={{ fontSize: '0.875rem', color: '#6EE05A', textAlign: 'center', fontWeight: 600 }}>{row.onmcp}</span>
               </div>
             ))}
           </div>
@@ -814,7 +814,7 @@ export default function CrmApiPage() {
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <p style={{
               fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#7ed957', marginBottom: '0.75rem',
+              letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
             }}>
               Pricing
             </p>
@@ -861,8 +861,8 @@ export default function CrmApiPage() {
                   <div style={{
                     position: 'absolute', top: '-0.75rem', left: '50%', transform: 'translateX(-50%)',
                     padding: '0.25rem 1rem', borderRadius: 100,
-                    background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                    fontSize: '0.6875rem', fontWeight: 700, color: '#0a0a0a',
+                    background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+                    fontSize: '0.6875rem', fontWeight: 700, color: '#0B0F19',
                     whiteSpace: 'nowrap',
                   }}>
                     Most Popular
@@ -870,7 +870,7 @@ export default function CrmApiPage() {
                 )}
                 <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: '0 0 0.25rem' }}>{plan.name}</h3>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', margin: '0 0 0.25rem' }}>
-                  <span style={{ fontSize: '2.5rem', fontWeight: 800, color: plan.highlight ? '#7ed957' : '#fff' }}>{plan.price}</span>
+                  <span style={{ fontSize: '2.5rem', fontWeight: 800, color: plan.highlight ? '#6EE05A' : '#fff' }}>{plan.price}</span>
                   <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.4)' }}>{plan.period}</span>
                 </div>
                 <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)', margin: '0 0 1.5rem' }}>{plan.desc}</p>
@@ -881,7 +881,7 @@ export default function CrmApiPage() {
                       padding: '0.375rem 0',
                       display: 'flex', alignItems: 'center', gap: '0.5rem',
                     }}>
-                      <span style={{ color: '#7ed957', fontWeight: 700, fontSize: '0.75rem' }}>+</span>
+                      <span style={{ color: '#6EE05A', fontWeight: 700, fontSize: '0.75rem' }}>+</span>
                       {f}
                     </li>
                   ))}
@@ -889,8 +889,8 @@ export default function CrmApiPage() {
                 <Link href="/signup" style={{
                   display: 'block', textAlign: 'center',
                   padding: '0.75rem', borderRadius: 10,
-                  background: plan.highlight ? 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)' : 'rgba(255,255,255,0.06)',
-                  color: plan.highlight ? '#0a0a0a' : '#fff',
+                  background: plan.highlight ? 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)' : 'rgba(255,255,255,0.06)',
+                  color: plan.highlight ? '#0B0F19' : '#fff',
                   fontSize: '0.9375rem', fontWeight: 700,
                   textDecoration: 'none', border: plan.highlight ? 'none' : '1px solid rgba(255,255,255,0.1)',
                 }}>
@@ -945,7 +945,7 @@ export default function CrmApiPage() {
             }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fbbf24' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#7ed957' }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#6EE05A' }} />
               <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.3)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>
                 mcp.json
               </span>
@@ -998,7 +998,7 @@ export default function CrmApiPage() {
               <Link href="/connect" style={{
                 padding: '0.75rem 1.5rem', borderRadius: 10,
                 background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)',
-                color: '#7ed957', fontSize: '0.9375rem', fontWeight: 600,
+                color: '#6EE05A', fontSize: '0.9375rem', fontWeight: 600,
                 textDecoration: 'none',
               }}>
                 CRM Marketplace Install
@@ -1014,7 +1014,7 @@ export default function CrmApiPage() {
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <p style={{
               fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#7ed957', marginBottom: '0.75rem',
+              letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
             }}>
               FAQ
             </p>
@@ -1050,7 +1050,7 @@ export default function CrmApiPage() {
           }}>
             Your CRM. Unlimited API Access.{' '}
             <span style={{
-              background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
+              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             }}>
               Start Free.
@@ -1065,8 +1065,8 @@ export default function CrmApiPage() {
           <Link href="/signup" style={{
             display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
             padding: '1rem 3rem', borderRadius: 14,
-            background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
-            color: '#0a0a0a', fontSize: '1.125rem', fontWeight: 700,
+            background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
+            color: '#0B0F19', fontSize: '1.125rem', fontWeight: 700,
             textDecoration: 'none',
             boxShadow: '0 0 50px rgba(126,217,87,0.3)',
             position: 'relative',

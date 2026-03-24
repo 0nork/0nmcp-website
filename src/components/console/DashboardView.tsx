@@ -38,7 +38,7 @@ interface QuickAction {
 
 const ACTIONS: QuickAction[] = [
   { key: 'chat', label: 'Chat', desc: 'Talk to AI assistant', icon: <MessageSquare size={18} />, color: '#a78bfa', jpColor: 'purple' },
-  { key: 'credentials', label: 'Vault', desc: 'Manage API keys', icon: <KeyRound size={18} />, color: '#7ed957', jpColor: 'green' },
+  { key: 'credentials', label: 'Vault', desc: 'Manage API keys', icon: <KeyRound size={18} />, color: '#6EE05A', jpColor: 'green' },
   { key: 'flows', label: 'Create', desc: 'Build a workflow', icon: <Sparkles size={18} />, color: '#fbbf24', jpColor: 'amber' },
   { key: 'builder', label: 'Builder', desc: 'Visual editor', icon: <Blocks size={18} />, color: '#a78bfa', jpColor: 'purple' },
   { key: 'store', label: 'Store', desc: 'Browse marketplace', icon: <ShoppingBag size={18} />, color: '#00d4ff', jpColor: 'cyan' },

@@ -52,7 +52,7 @@ const ICON_MAP: Record<string, string> = {
 const DEFAULT_PLATFORMS: SocialPlatform[] = [
   { id: 'linkedin', name: 'LinkedIn', icon: '/logos/linkedin.svg', connected: false, postCount: 0, lastPosted: null, color: '#0077b5', method: 'oauth', username: null, avatar: null, connectUrl: '/api/linkedin/auth' },
   { id: 'reddit', name: 'Reddit', icon: '/logos/reddit.svg', connected: false, postCount: 0, lastPosted: null, color: '#ff4500', method: 'oauth', username: null, avatar: null, connectUrl: '/api/social/reddit/auth' },
-  { id: 'dev_to', name: 'Dev.to', icon: '/logos/devto.svg', connected: false, postCount: 0, lastPosted: null, color: '#0a0a0a', method: 'api_key', username: null, avatar: null, connectUrl: null },
+  { id: 'dev_to', name: 'Dev.to', icon: '/logos/devto.svg', connected: false, postCount: 0, lastPosted: null, color: '#0B0F19', method: 'api_key', username: null, avatar: null, connectUrl: null },
   { id: 'x_twitter', name: 'X / Twitter', icon: '/logos/x_twitter.svg', connected: false, postCount: 0, lastPosted: null, color: '#000000', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
   { id: 'facebook', name: 'Facebook', icon: '/logos/facebook.svg', connected: false, postCount: 0, lastPosted: null, color: '#1877f2', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },
   { id: 'instagram', name: 'Instagram', icon: '/logos/instagram.svg', connected: false, postCount: 0, lastPosted: null, color: '#e4405f', method: 'oauth', username: null, avatar: null, connectUrl: null, comingSoon: true },

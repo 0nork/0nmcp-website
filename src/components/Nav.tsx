@@ -126,8 +126,8 @@ export default function Nav() {
           className="flex items-center gap-2 no-underline"
         >
           <svg width="28" height="28" viewBox="0 0 40 40" fill="none" className="flex-shrink-0">
-            <rect width="40" height="40" rx="8" fill="#0f1419" stroke="#7ed957" strokeWidth="1.5" strokeOpacity="0.4"/>
-            <text x="20" y="27" textAnchor="middle" fill="#7ed957" fontSize="20" fontWeight="700" fontFamily="monospace">0n</text>
+            <rect width="40" height="40" rx="8" fill="#0B0F19" stroke="#6EE05A" strokeWidth="1.5" strokeOpacity="0.4"/>
+            <text x="20" y="27" textAnchor="middle" fill="#6EE05A" fontSize="20" fontWeight="700" fontFamily="monospace">0n</text>
           </svg>
           <span
             className="text-lg font-bold tracking-tight"
@@ -227,7 +227,7 @@ export default function Nav() {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'rgba(126,217,87,0.08)'
-                      e.currentTarget.style.color = '#7ed957'
+                      e.currentTarget.style.color = '#6EE05A'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'transparent'
@@ -244,7 +244,7 @@ export default function Nav() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: '#7ed957',
+                        color: '#6EE05A',
                         flexShrink: 0,
                       }}
                     >
@@ -294,7 +294,7 @@ export default function Nav() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'rgba(126,217,87,0.06)'
-                    e.currentTarget.style.color = '#7ed957'
+                    e.currentTarget.style.color = '#6EE05A'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'transparent'
@@ -395,7 +395,7 @@ export default function Nav() {
               <div style={{
                 fontSize: '0.65rem',
                 fontWeight: 700,
-                color: '#7ed957',
+                color: '#6EE05A',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 fontFamily: 'var(--font-mono)',
@@ -429,7 +429,7 @@ export default function Nav() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#7ed957',
+                      color: '#6EE05A',
                       flexShrink: 0,
                     }}>
                       {item.icon}

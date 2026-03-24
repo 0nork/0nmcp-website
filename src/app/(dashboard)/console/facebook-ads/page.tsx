@@ -103,7 +103,7 @@ function todayStr(): string {
 const styles = {
   page: {
     minHeight: '100vh',
-    background: '#0f1419',
+    background: '#0B0F19',
     padding: '32px 24px 80px',
   } as React.CSSProperties,
 
@@ -147,7 +147,7 @@ const styles = {
 
   subtitle: {
     fontSize: 14,
-    color: '#9aa0a8',
+    color: '#7A8290',
     margin: 0,
     marginTop: 2,
   } as React.CSSProperties,
@@ -161,7 +161,7 @@ const styles = {
     fontSize: 12,
     fontWeight: 600,
     background: connected ? 'rgba(126,217,87,0.10)' : 'rgba(255,107,53,0.10)',
-    color: connected ? '#7ed957' : '#ff6b35',
+    color: connected ? '#6EE05A' : '#ff6b35',
     border: `1px solid ${connected ? 'rgba(126,217,87,0.2)' : 'rgba(255,107,53,0.2)'}`,
     marginTop: 12,
   } as React.CSSProperties),
@@ -170,7 +170,7 @@ const styles = {
     width: 6,
     height: 6,
     borderRadius: '50%',
-    background: connected ? '#7ed957' : '#ff6b35',
+    background: connected ? '#6EE05A' : '#ff6b35',
   } as React.CSSProperties),
 
   // Steps
@@ -201,16 +201,16 @@ const styles = {
     justifyContent: 'center',
     fontSize: 14,
     fontWeight: 700,
-    background: complete ? '#7ed957' : active ? 'rgba(24, 119, 242, 0.2)' : 'rgba(255,255,255,0.05)',
-    color: complete ? '#0f1419' : active ? '#1877F2' : '#5f6672',
-    border: `2px solid ${complete ? '#7ed957' : active ? '#1877F2' : 'rgba(255,255,255,0.08)'}`,
+    background: complete ? '#6EE05A' : active ? 'rgba(24, 119, 242, 0.2)' : 'rgba(255,255,255,0.05)',
+    color: complete ? '#0B0F19' : active ? '#1877F2' : '#5f6672',
+    border: `2px solid ${complete ? '#6EE05A' : active ? '#1877F2' : 'rgba(255,255,255,0.08)'}`,
     transition: 'all 0.2s ease',
   } as React.CSSProperties),
 
   stepLabel: (active: boolean, complete: boolean) => ({
     fontSize: 11,
     fontWeight: 600,
-    color: complete ? '#7ed957' : active ? '#e8eaed' : '#5f6672',
+    color: complete ? '#6EE05A' : active ? '#e8eaed' : '#5f6672',
     textAlign: 'center' as const,
     letterSpacing: '0.02em',
     textTransform: 'uppercase' as const,
@@ -222,7 +222,7 @@ const styles = {
     left: 'calc(50% + 22px)',
     right: 'calc(-50% + 22px)',
     height: 2,
-    background: complete ? '#7ed957' : 'rgba(255,255,255,0.06)',
+    background: complete ? '#6EE05A' : 'rgba(255,255,255,0.06)',
     zIndex: 0,
   } as React.CSSProperties),
 
@@ -251,7 +251,7 @@ const styles = {
     display: 'block',
     fontSize: 13,
     fontWeight: 600,
-    color: '#9aa0a8',
+    color: '#7A8290',
     marginBottom: 6,
     letterSpacing: '0.02em',
   } as React.CSSProperties,
@@ -325,7 +325,7 @@ const styles = {
     borderRadius: 10,
     border: `1px solid ${checked ? 'rgba(24,119,242,0.3)' : 'rgba(255,255,255,0.08)'}`,
     background: checked ? 'rgba(24,119,242,0.08)' : 'rgba(255,255,255,0.02)',
-    color: checked ? '#1877F2' : '#9aa0a8',
+    color: checked ? '#1877F2' : '#7A8290',
     fontSize: 13,
     fontWeight: 500,
     cursor: 'pointer',
@@ -337,7 +337,7 @@ const styles = {
     borderRadius: 20,
     border: `1px solid ${active ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.08)'}`,
     background: active ? 'rgba(126,217,87,0.10)' : 'rgba(255,255,255,0.03)',
-    color: active ? '#7ed957' : '#9aa0a8',
+    color: active ? '#6EE05A' : '#7A8290',
     fontSize: 12,
     fontWeight: 600,
     cursor: 'pointer',
@@ -349,8 +349,8 @@ const styles = {
     padding: '12px 28px',
     borderRadius: 10,
     border: 'none',
-    background: '#7ed957',
-    color: '#0f1419',
+    background: '#6EE05A',
+    color: '#0B0F19',
     fontSize: 14,
     fontWeight: 700,
     cursor: 'pointer',
@@ -433,7 +433,7 @@ const styles = {
 
   previewText: {
     fontSize: 13,
-    color: '#9aa0a8',
+    color: '#7A8290',
     lineHeight: 1.5,
     margin: '8px 0 16px',
   } as React.CSSProperties,
@@ -463,7 +463,7 @@ const styles = {
 
   estimateLabel: {
     fontSize: 13,
-    color: '#9aa0a8',
+    color: '#7A8290',
   } as React.CSSProperties,
 
   estimateValue: {
@@ -483,7 +483,7 @@ const styles = {
     borderRadius: 12,
     background: 'rgba(126,217,87,0.08)',
     border: '1px solid rgba(126,217,87,0.2)',
-    color: '#7ed957',
+    color: '#6EE05A',
     fontSize: 14,
     fontWeight: 600,
     marginBottom: 24,
@@ -916,7 +916,7 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
                       borderRadius: 10,
                       border: `1px solid ${campaign.gender === g ? 'rgba(24,119,242,0.3)' : 'rgba(255,255,255,0.08)'}`,
                       background: campaign.gender === g ? 'rgba(24,119,242,0.10)' : 'rgba(255,255,255,0.03)',
-                      color: campaign.gender === g ? '#1877F2' : '#9aa0a8',
+                      color: campaign.gender === g ? '#1877F2' : '#7A8290',
                       fontSize: 13,
                       fontWeight: 600,
                       cursor: 'pointer',
@@ -987,7 +987,7 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
                       borderRadius: 10,
                       border: `1px solid ${campaign.adFormat === f.value ? 'rgba(24,119,242,0.3)' : 'rgba(255,255,255,0.08)'}`,
                       background: campaign.adFormat === f.value ? 'rgba(24,119,242,0.10)' : 'rgba(255,255,255,0.03)',
-                      color: campaign.adFormat === f.value ? '#1877F2' : '#9aa0a8',
+                      color: campaign.adFormat === f.value ? '#1877F2' : '#7A8290',
                       fontSize: 13,
                       fontWeight: 600,
                       cursor: 'pointer',
@@ -1122,7 +1122,7 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
               </div>
               <div style={{ marginLeft: 'auto', textAlign: 'right' as const }}>
                 <div style={styles.estimateLabel}>Daily budget</div>
-                <div style={{ ...styles.estimateValue, color: '#7ed957' }}>
+                <div style={{ ...styles.estimateValue, color: '#6EE05A' }}>
                   ${parseFloat(campaign.dailyBudget).toFixed(2)}
                 </div>
               </div>

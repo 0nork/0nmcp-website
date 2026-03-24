@@ -31,7 +31,7 @@ const PLATFORM_COLORS: Record<string, string> = {
   x_twitter: '#000000',
   google: '#4285f4',
   reddit: '#ff4500',
-  dev_to: '#0a0a0a',
+  dev_to: '#0B0F19',
 }
 
 const PLATFORM_LABELS: Record<string, string> = {
@@ -45,7 +45,7 @@ const PLATFORM_LABELS: Record<string, string> = {
 }
 
 const STATUS_CONFIG: Record<string, { color: string; bg: string; label: string }> = {
-  posted: { color: '#7ed957', bg: 'rgba(126,217,87,0.1)', label: 'Posted' },
+  posted: { color: '#6EE05A', bg: 'rgba(126,217,87,0.1)', label: 'Posted' },
   failed: { color: '#ff6b6b', bg: 'rgba(255,59,48,0.1)', label: 'Failed' },
   scheduled: { color: '#ffbb33', bg: 'rgba(255,187,51,0.1)', label: 'Scheduled' },
   pending: { color: 'var(--text-muted)', bg: 'rgba(255,255,255,0.04)', label: 'Pending' },
@@ -186,7 +186,7 @@ export function PostFeed({ posts }: PostFeedProps) {
                 {post.platforms.map((plat) => {
                   const bgColor = PLATFORM_COLORS[plat] || '#333'
                   const label = PLATFORM_LABELS[plat] || plat
-                  const isDark = bgColor === '#0a0a0a' || bgColor === '#000000' || bgColor === '#010101'
+                  const isDark = bgColor === '#0B0F19' || bgColor === '#000000' || bgColor === '#010101'
                   // Find the result for this platform to get the live URL
                   const result = post.results?.find((r) => r.platform === plat)
                   const liveUrl = result?.url

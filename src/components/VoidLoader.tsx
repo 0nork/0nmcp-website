@@ -44,7 +44,7 @@ export default function VoidLoader({ fullscreen = false, message, size = 400 }: 
           position: absolute;
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
-          border: 1px solid rgba(126, 217, 87, 0.25);
+          border: 1px solid rgba(110, 224, 90, 0.25);
           border-radius: 50%;
           animation: void-ripple 4s infinite linear;
         }
@@ -62,7 +62,7 @@ export default function VoidLoader({ fullscreen = false, message, size = 400 }: 
         }
         .void-mote {
           width: 4px; height: 4px;
-          background: #7ed957;
+          background: #6EE05A;
           position: absolute;
           border-radius: 50%;
           filter: blur(1px);
@@ -118,7 +118,7 @@ export default function VoidLoader({ fullscreen = false, message, size = 400 }: 
         .void-tendril {
           position: absolute;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(126, 217, 87, 0.3), transparent);
+          background: linear-gradient(90deg, transparent, rgba(110, 224, 90, 0.3), transparent);
           transform-origin: left center;
           animation: void-tendril-pulse 3s infinite ease-in-out;
         }

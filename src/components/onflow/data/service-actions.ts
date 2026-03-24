@@ -91,7 +91,7 @@ export function getServiceActionGroups(): ServiceActionGroup[] {
           id: sid,
           name: svc.name,
           logo: SERVICE_LOGOS[sid],
-          color: SERVICE_COLORS[sid] ?? '#7ed957',
+          color: SERVICE_COLORS[sid] ?? '#6EE05A',
           tools: (svc.tools ?? []).map((t: { id: string; name: string }) => ({
             id: t.id,
             name: t.name,

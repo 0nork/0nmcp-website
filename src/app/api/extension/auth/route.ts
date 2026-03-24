@@ -136,11 +136,11 @@ function getLoginHTML() {
   <title>0n for Chrome — Connect Account</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    .card { background: #141414; border: 1px solid #222; border-radius: 16px; padding: 48px; max-width: 420px; text-align: center; }
-    .logo { font-size: 32px; font-weight: 800; color: #7ed957; margin-bottom: 8px; }
+    body { background: #0B0F19; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: #111827; border: 1px solid #222; border-radius: 16px; padding: 48px; max-width: 420px; text-align: center; }
+    .logo { font-size: 32px; font-weight: 800; color: #6EE05A; margin-bottom: 8px; }
     .subtitle { color: #888; font-size: 14px; margin-bottom: 32px; }
-    .btn { display: inline-block; background: #7ed957; color: #0a0a0a; font-weight: 700; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; }
+    .btn { display: inline-block; background: #6EE05A; color: #0B0F19; font-weight: 700; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; }
     .btn:hover { background: #6cc948; }
   </style>
 </head>
@@ -163,16 +163,16 @@ function getSuccessHTML(token: string, email: string) {
   <title>0n for Chrome — Connected</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    .card { background: #141414; border: 1px solid #222; border-radius: 16px; padding: 48px; max-width: 480px; text-align: center; }
-    .logo { font-size: 32px; font-weight: 800; color: #7ed957; margin-bottom: 8px; }
+    body { background: #0B0F19; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: #111827; border: 1px solid #222; border-radius: 16px; padding: 48px; max-width: 480px; text-align: center; }
+    .logo { font-size: 32px; font-weight: 800; color: #6EE05A; margin-bottom: 8px; }
     .check { font-size: 48px; margin-bottom: 16px; }
     .title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
     .email { color: #888; font-size: 13px; margin-bottom: 24px; }
-    .token-box { background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; word-break: break-all; color: #7ed957; margin-bottom: 16px; max-height: 80px; overflow: auto; }
-    .btn { display: inline-block; background: #7ed957; color: #0a0a0a; font-weight: 700; padding: 12px 32px; border-radius: 8px; border: none; cursor: pointer; font-size: 15px; width: 100%; }
+    .token-box { background: #0B0F19; border: 1px solid #333; border-radius: 8px; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; word-break: break-all; color: #6EE05A; margin-bottom: 16px; max-height: 80px; overflow: auto; }
+    .btn { display: inline-block; background: #6EE05A; color: #0B0F19; font-weight: 700; padding: 12px 32px; border-radius: 8px; border: none; cursor: pointer; font-size: 15px; width: 100%; }
     .btn:hover { background: #6cc948; }
-    .btn.copied { background: #333; color: #7ed957; }
+    .btn.copied { background: #333; color: #6EE05A; }
     .hint { color: #666; font-size: 12px; margin-top: 16px; line-height: 1.5; }
   </style>
 </head>

@@ -39,8 +39,8 @@ export default function TurnItOnPage() {
               style={{
                 fontFamily: 'var(--font-mono)',
                 color: 'var(--accent)',
-                backgroundColor: 'rgba(126, 217, 87, 0.1)',
-                border: '1px solid rgba(126, 217, 87, 0.2)',
+                backgroundColor: 'rgba(110, 224, 90, 0.1)',
+                border: '1px solid rgba(110, 224, 90, 0.2)',
               }}
             >
               Integrations
@@ -192,7 +192,7 @@ export default function TurnItOnPage() {
             style={{
               backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--accent)',
-              boxShadow: '0 0 30px rgba(126, 217, 87, 0.1)',
+              boxShadow: '0 0 30px rgba(110, 224, 90, 0.1)',
             }}
           >
             <span
@@ -240,12 +240,12 @@ function StatusBadge({ status }: { status: string }) {
       className="text-[10px] uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded flex-shrink-0"
       style={{
         fontFamily: 'var(--font-mono)',
-        color: isLive ? '#7ed957' : '#00d4ff',
+        color: isLive ? '#6EE05A' : '#00d4ff',
         backgroundColor: isLive
-          ? 'rgba(126, 217, 87, 0.1)'
+          ? 'rgba(110, 224, 90, 0.1)'
           : 'rgba(0, 212, 255, 0.1)',
         border: `1px solid ${
-          isLive ? 'rgba(126, 217, 87, 0.2)' : 'rgba(0, 212, 255, 0.2)'
+          isLive ? 'rgba(110, 224, 90, 0.2)' : 'rgba(0, 212, 255, 0.2)'
         }`,
       }}
     >

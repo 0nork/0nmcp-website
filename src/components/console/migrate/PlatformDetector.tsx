@@ -41,7 +41,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
 
   const confidenceColor =
     result.confidence >= 75
-      ? 'var(--accent, #7ed957)'
+      ? 'var(--accent, #6EE05A)'
       : result.confidence >= 50
         ? '#ffaa00'
         : '#ff4444'
@@ -49,7 +49,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
   return (
     <div
       style={{
-        background: 'var(--bg-card, #151d27)',
+        background: 'var(--bg-card, #111827)',
         border: '1px solid var(--border, #2a2a3a)',
         borderRadius: 12,
         padding: 24,
@@ -141,7 +141,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
           style={{
             height: 6,
             borderRadius: 3,
-            background: 'var(--bg-primary, #0f1419)',
+            background: 'var(--bg-primary, #0B0F19)',
             overflow: 'hidden',
           }}
         >
@@ -166,7 +166,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
           gap: 8,
           marginBottom: 16,
           padding: '10px 14px',
-          background: 'var(--bg-primary, #0f1419)',
+          background: 'var(--bg-primary, #0B0F19)',
           borderRadius: 8,
           border: '1px solid var(--border, #2a2a3a)',
         }}
@@ -234,14 +234,14 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
             padding: '12px 14px',
             borderRadius: 8,
             background: 'var(--accent-glow, rgba(126,217,87,0.05))',
-            border: '1px solid var(--accent, #7ed957)20',
+            border: '1px solid var(--accent, #6EE05A)20',
           }}
         >
           <div
             style={{
               fontSize: 12,
               fontWeight: 600,
-              color: 'var(--accent, #7ed957)',
+              color: 'var(--accent, #6EE05A)',
               marginBottom: 6,
             }}
           >

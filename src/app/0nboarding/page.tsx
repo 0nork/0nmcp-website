@@ -10,7 +10,7 @@ import { STATS_DISPLAY } from '@/data/stats'
 const PRODUCTS = [
   { name: '0ncore', color: '#a855f7', desc: 'Core infrastructure — vault, signing, execution engine' },
   { name: '0nmcp', color: '#00d4ff', desc: `Universal API Protocol — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services` },
-  { name: 'app0n', color: '#7ed957', desc: 'Application Layer — workflows, builder, marketplace' },
+  { name: 'app0n', color: '#6EE05A', desc: 'Application Layer — workflows, builder, marketplace' },
   { name: 'social0n', color: '#ff8c00', desc: 'Community Platform — forum, groups, reputation' },
   { name: '0nork', color: '#ef4444', desc: 'Parent company — orchestration infrastructure' },
 ]
@@ -36,7 +36,7 @@ export default function OnboardingPage() {
 const ARCHETYPE_DISPLAY: Record<string, { icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>; title: string; color: string; desc: string }> = {
   executive: { icon: IconStar, title: 'Executive Visionary', color: '#a78bfa', desc: 'You lead with strategy and big-picture thinking. Your content carries weight.' },
   manager: { icon: IconDiamond, title: 'Growth Catalyst', color: '#00d4ff', desc: 'You bridge strategy and execution. People look to you for actionable insight.' },
-  individual: { icon: IconHammer, title: 'Builder & Maker', color: '#7ed957', desc: 'You ship. Your hands-on expertise makes your perspective invaluable.' },
+  individual: { icon: IconHammer, title: 'Builder & Maker', color: '#6EE05A', desc: 'You ship. Your hands-on expertise makes your perspective invaluable.' },
   student: { icon: IconRising, title: 'Rising Voice', color: '#ff8c00', desc: 'Fresh perspective is your superpower. The community is excited to hear from you.' },
 }
 
@@ -614,19 +614,19 @@ function OnboardingInner() {
           {/* Archetype Card */}
           <div style={{
             background: 'rgba(126,217,87,0.06)',
-            border: `1px solid ${ARCHETYPE_DISPLAY[archetypeTier]?.color || '#7ed957'}40`,
+            border: `1px solid ${ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A'}40`,
             borderRadius: '1rem',
             padding: '2rem',
             textAlign: 'center',
             margin: '1.5rem 0',
           }}>
-            <div style={{ marginBottom: '0.5rem', color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#7ed957' }}>
+            <div style={{ marginBottom: '0.5rem', color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A' }}>
               {(() => { const AIcon = ARCHETYPE_DISPLAY[archetypeTier]?.icon || IconStar; return <AIcon size={48} /> })()}
             </div>
             <div style={{
               fontSize: '1.5rem',
               fontWeight: 800,
-              color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#7ed957',
+              color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A',
               fontFamily: 'var(--font-display)',
               marginBottom: '0.5rem',
             }}>
@@ -856,7 +856,7 @@ function OnboardingInner() {
             marginBottom: '1.5rem',
           }}>
             {[
-              { icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z', label: 'One-click marketplace', color: '#7ed957' },
+              { icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z', label: 'One-click marketplace', color: '#6EE05A' },
               { icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', label: 'Instant Runs top-up', color: '#00d4ff' },
               { icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', label: 'Stripe secured', color: '#a78bfa' },
             ].map(({ icon, label, color }) => (
@@ -910,7 +910,7 @@ function OnboardingInner() {
                     </div>
                     {pm.is_default && (
                       <span style={{
-                        fontSize: '0.65rem', fontWeight: 700, color: '#7ed957',
+                        fontSize: '0.65rem', fontWeight: 700, color: '#6EE05A',
                         fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
                         padding: '2px 8px', borderRadius: 4,
                         background: 'rgba(126,217,87,0.12)',
@@ -1079,10 +1079,10 @@ function OnboardingInner() {
 
             {vendorApplied ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="#7ed957">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#6EE05A">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                 </svg>
-                <span style={{ fontSize: '0.85rem', color: '#7ed957', fontWeight: 600 }}>
+                <span style={{ fontSize: '0.85rem', color: '#6EE05A', fontWeight: 600 }}>
                   Vendor application submitted! We&apos;ll review and set up your Stripe Connect account.
                 </span>
               </div>
@@ -1149,7 +1149,7 @@ function OnboardingInner() {
               <div className="onboarding-path-desc">Describe what you need — AI builds your .0n file</div>
             </Link>
             <Link href="/forum" className="onboarding-path-card">
-              <div className="onboarding-path-icon" style={{ color: '#7ed957' }}><IconForum size={28} /></div>
+              <div className="onboarding-path-icon" style={{ color: '#6EE05A' }}><IconForum size={28} /></div>
               <div className="onboarding-path-title">Browse Forum</div>
               <div className="onboarding-path-desc">Ask questions, share tips, earn reputation</div>
             </Link>

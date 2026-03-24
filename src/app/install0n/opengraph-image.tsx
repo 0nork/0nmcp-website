@@ -11,7 +11,7 @@ export default function OGImage() {
         style={{
           width: 1200,
           height: 630,
-          background: '#0f1419',
+          background: '#0B0F19',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -68,7 +68,7 @@ export default function OGImage() {
             left: 0,
             right: 0,
             height: 5,
-            background: 'linear-gradient(90deg, #ff6b35, #7ed957, #00d4ff)',
+            background: 'linear-gradient(90deg, #ff6b35, #6EE05A, #00d4ff)',
             display: 'flex',
           }}
         />
@@ -117,7 +117,7 @@ export default function OGImage() {
             style={{
               fontSize: 72,
               fontWeight: 900,
-              color: '#7ed957',
+              color: '#6EE05A',
               fontFamily: 'monospace',
               letterSpacing: '-0.04em',
               lineHeight: 1,
@@ -153,7 +153,7 @@ export default function OGImage() {
           {[
             { label: 'Desktop', color: '#a78bfa' },
             { label: 'Web', color: '#00d4ff' },
-            { label: 'Mobile', color: '#7ed957' },
+            { label: 'Mobile', color: '#6EE05A' },
             { label: 'CLI', color: '#ff6b35' },
           ].map((p) => (
             <div

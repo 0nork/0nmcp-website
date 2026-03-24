@@ -18,7 +18,7 @@ const FEEDS = [
     description: 'Latest threads from the 0nMCP community — agentic AI, MCP servers, workflows, integrations, and more.',
     url: '/api/feed/forum',
     icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',
-    color: '#7ed957',
+    color: '#6EE05A',
     formats: ['rss', 'atom', 'json'],
   },
   {
@@ -26,7 +26,7 @@ const FEEDS = [
     description: 'Release notes, tutorials, and deep-dives from the 0nMCP team.',
     url: '/api/feed/blog',
     icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2',
-    color: '#7ed957',
+    color: '#6EE05A',
     formats: ['rss', 'atom', 'json'],
   },
   {

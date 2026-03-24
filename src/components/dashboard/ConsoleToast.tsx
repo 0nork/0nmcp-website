@@ -39,11 +39,11 @@ export function useToast() {
 
 const TYPE_STYLES: Record<Toast['type'], { accent: string; bg: string; border: string; icon: ReactElement }> = {
   success: {
-    accent: '#7ed957',
-    bg: 'rgba(126, 217, 87, 0.06)',
-    border: 'rgba(126, 217, 87, 0.2)',
+    accent: '#6EE05A',
+    bg: 'rgba(110, 224, 90, 0.06)',
+    border: 'rgba(110, 224, 90, 0.2)',
     icon: (
-      <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+      <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
       </svg>
     ),
@@ -161,7 +161,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
         </div>
         {toast.description && (
           <div style={{
-            fontSize: 12, color: '#9aa0a8', marginTop: 3,
+            fontSize: 12, color: '#7A8290', marginTop: 3,
             lineHeight: 1.4,
           }}>
             {toast.description}
@@ -179,7 +179,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           padding: 0, flexShrink: 0, transition: 'color 0.15s',
         }}
-        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#9aa0a8' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7A8290' }}
         onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#5f6672' }}
       >
         <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">

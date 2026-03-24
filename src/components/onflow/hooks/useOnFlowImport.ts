@@ -63,7 +63,7 @@ export function importToOnFlow(workflow: DotOnWorkflow): ImportResult {
       timeout: step.timeout ?? 0,
       parallelGroup: step.parallel_group ?? '',
       status: 'idle' as const,
-      color: service?.id === 'crm' ? '#ff6b35' : '#7ed957',
+      color: service?.id === 'crm' ? '#ff6b35' : '#6EE05A',
     }
   })
 

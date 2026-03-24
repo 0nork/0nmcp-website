@@ -59,7 +59,7 @@ const CATEGORIES = [
 ]
 
 const TIER_BADGE: Record<string, { label: string; color: string }> = {
-  free: { label: 'Free', color: '#7ed957' },
+  free: { label: 'Free', color: '#6EE05A' },
   supporter: { label: 'Supporter', color: '#ff6b35' },
   builder: { label: 'Builder', color: '#00d4ff' },
   enterprise: { label: 'Enterprise', color: '#9945ff' },
@@ -493,7 +493,7 @@ function CoursePanel({
     )
   }
 
-  const tierColor = TIER_BADGE[course.tier_required]?.color || '#7ed957'
+  const tierColor = TIER_BADGE[course.tier_required]?.color || '#6EE05A'
   const completedCount = Object.values(progress).filter(Boolean).length
 
   return (
@@ -591,7 +591,7 @@ function CoursePanel({
                 className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
                 style={{
                   background: completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
-                  color: completed ? '#7ed957' : 'var(--text-muted)',
+                  color: completed ? '#6EE05A' : 'var(--text-muted)',
                 }}
               >
                 {completed ? <CheckCircle size={12} /> : i + 1}
@@ -601,7 +601,7 @@ function CoursePanel({
                 <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
                   {lesson.duration_minutes} min
                   {lesson.is_free_preview && (
-                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#6EE05A' }}>
                       Free Preview
                     </span>
                   )}
@@ -702,12 +702,12 @@ function LessonPanel({
       <div className="flex items-center gap-3 text-[11px] mb-6" style={{ color: 'var(--text-muted)' }}>
         <span className="flex items-center gap-1"><Clock size={10} />{lesson.duration_minutes} min</span>
         {lesson.is_free_preview && (
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#6EE05A' }}>
             Free Preview
           </span>
         )}
         {completed && (
-          <span className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+          <span className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#6EE05A' }}>
             <CheckCircle size={9} /> Completed
           </span>
         )}
@@ -742,7 +742,7 @@ function LessonPanel({
           </button>
         )}
         {completed && (
-          <span className="text-xs font-bold" style={{ color: '#7ed957' }}>Lesson complete</span>
+          <span className="text-xs font-bold" style={{ color: '#6EE05A' }}>Lesson complete</span>
         )}
         <button
           onClick={onBack}

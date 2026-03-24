@@ -67,7 +67,7 @@ export function PlatformCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: 'linear-gradient(160deg, #151d27 0%, #151d27 100%)',
+        background: 'linear-gradient(160deg, #111827 0%, #111827 100%)',
         borderRadius: 20,
         border: '1px solid var(--border)',
         borderLeft: `3px solid ${color}`,
@@ -125,11 +125,11 @@ export function PlatformCard({
                     width: 22,
                     height: 22,
                     objectFit: 'contain',
-                    filter: color === '#0a0a0a' || color === '#000000' ? 'invert(1)' : 'none',
+                    filter: color === '#0B0F19' || color === '#000000' ? 'invert(1)' : 'none',
                   }}
                 />
               ) : (
-                <span style={{ fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-mono)', color: color === '#0a0a0a' || color === '#000000' ? 'var(--text-primary)' : color }}>
+                <span style={{ fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-mono)', color: color === '#0B0F19' || color === '#000000' ? 'var(--text-primary)' : color }}>
                   {icon}
                 </span>
               )}
@@ -154,7 +154,7 @@ export function PlatformCard({
               width: 8,
               height: 8,
               borderRadius: '50%',
-              backgroundColor: connected && !expired ? '#7ed957' : expired ? '#ffbb33' : 'var(--text-muted)',
+              backgroundColor: connected && !expired ? '#6EE05A' : expired ? '#ffbb33' : 'var(--text-muted)',
               boxShadow: connected && !expired ? '0 0 8px rgba(126,217,87,0.4)' : 'none',
               display: 'inline-block',
             }}
@@ -163,7 +163,7 @@ export function PlatformCard({
             style={{
               fontSize: 11,
               fontFamily: 'var(--font-mono)',
-              color: connected && !expired ? '#7ed957' : expired ? '#ffbb33' : 'var(--text-muted)',
+              color: connected && !expired ? '#6EE05A' : expired ? '#ffbb33' : 'var(--text-muted)',
               fontWeight: 500,
             }}
           >
@@ -231,7 +231,7 @@ export function PlatformCard({
                 borderRadius: 10,
                 border: `1px solid ${color}40`,
                 backgroundColor: `${color}15`,
-                color: color === '#0a0a0a' || color === '#000000' ? 'var(--text-primary)' : color,
+                color: color === '#0B0F19' || color === '#000000' ? 'var(--text-primary)' : color,
                 fontSize: 12,
                 fontWeight: 600,
                 fontFamily: 'var(--font-mono)',

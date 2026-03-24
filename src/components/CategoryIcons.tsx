@@ -535,7 +535,7 @@ export function BrandIcon({ name, size = 40 }: { name: string; size?: number }) 
         width: size,
         height: size,
         borderRadius: '50%',
-        background: '#7ed957',
+        background: '#6EE05A',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

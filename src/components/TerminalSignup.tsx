@@ -26,7 +26,7 @@ function getStrength(pw: string): { score: number; label: string; color: string 
   if (/[^A-Za-z0-9]/.test(pw)) s++
   const score = Math.min(s, 4)
   const labels = ['weak', 'fair', 'good', 'strong']
-  const colors = ['#ef4444', '#f59e0b', '#00d4ff', '#7ed957']
+  const colors = ['#ef4444', '#f59e0b', '#00d4ff', '#6EE05A']
   return {
     score,
     label: score === 0 ? 'too short' : labels[score - 1],
@@ -446,7 +446,7 @@ export function TerminalSignup() {
 
         .terminal-line-system { color: var(--text-secondary); }
         .terminal-line-info { color: var(--text-muted); }
-        .terminal-line-success { color: #7ed957; }
+        .terminal-line-success { color: #6EE05A; }
         .terminal-line-error { color: #ef4444; }
         .terminal-line-input { color: #00d4ff; }
         .terminal-line-prompt { color: var(--text-primary); }

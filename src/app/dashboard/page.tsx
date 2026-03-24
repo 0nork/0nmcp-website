@@ -107,7 +107,7 @@ export default function DashboardPage() {
       <div className="jp-card" style={{
         padding: '1.5rem',
         background: 'var(--jp-green-glow)',
-        borderColor: 'rgba(126, 217, 87, 0.15)',
+        borderColor: 'rgba(110, 224, 90, 0.15)',
         marginBottom: '2rem',
         display: 'flex',
         alignItems: 'center',

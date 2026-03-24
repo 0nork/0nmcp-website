@@ -61,7 +61,7 @@ export default function SealOfTruthPage() {
 
         {/* Hero */}
         <div className="heading-glow">
-          <span className="text-xs font-mono uppercase tracking-widest mb-3 block" style={{ color: '#7ed957' }}>
+          <span className="text-xs font-mono uppercase tracking-widest mb-3 block" style={{ color: '#6EE05A' }}>
             US Patent Application #63/968,814
           </span>
           <h1 className="text-3xl md:text-5xl font-black mb-4" style={{ color: 'var(--text-primary)' }}>
@@ -103,7 +103,7 @@ export default function SealOfTruthPage() {
               { step: '3', title: 'Verify', desc: 'Anytime you want, run the verification. If the seal matches, your data is untouched. If it doesn\'t — something changed.' },
             ].map((s) => (
               <div key={s.step} className="rounded-xl p-5" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black mb-3" style={{ backgroundColor: 'rgba(126,217,87,0.15)', color: '#7ed957' }}>
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black mb-3" style={{ backgroundColor: 'rgba(126,217,87,0.15)', color: '#6EE05A' }}>
                   {s.step}
                 </div>
                 <h3 className="font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{s.title}</h3>
@@ -126,7 +126,7 @@ export default function SealOfTruthPage() {
               { title: 'Public verification', desc: 'Anyone can verify the seal without needing to see the encrypted data inside. The fingerprint proves integrity without revealing contents.' },
             ].map((item) => (
               <div key={item.title} className="flex gap-4 rounded-xl p-5" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-                <span className="text-lg shrink-0" style={{ color: '#7ed957' }}>&#10003;</span>
+                <span className="text-lg shrink-0" style={{ color: '#6EE05A' }}>&#10003;</span>
                 <div>
                   <h3 className="font-bold text-sm mb-1" style={{ color: 'var(--text-primary)' }}>{item.title}</h3>
                   <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{item.desc}</p>
@@ -160,7 +160,7 @@ export default function SealOfTruthPage() {
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>The encrypted container that the Seal of Truth protects</p>
             </Link>
             <Link href="/security/seal-of-truth" className="rounded-xl p-5 no-underline group" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <h3 className="font-bold text-sm mb-1 group-hover:underline" style={{ color: '#7ed957' }}>Technical Specifications</h3>
+              <h3 className="font-bold text-sm mb-1 group-hover:underline" style={{ color: '#6EE05A' }}>Technical Specifications</h3>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>SHA3-256 algorithm details, formula, and implementation</p>
             </Link>
           </div>

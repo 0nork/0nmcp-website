@@ -16,7 +16,7 @@ interface PlatformDef {
 const ALL_PLATFORMS: PlatformDef[] = [
   { id: 'linkedin', name: 'LinkedIn', icon: '/logos/linkedin.svg', color: '#0077b5', charLimit: 3000 },
   { id: 'reddit', name: 'Reddit', icon: '/logos/reddit.svg', color: '#ff4500', charLimit: 40000 },
-  { id: 'dev_to', name: 'Dev.to', icon: '/logos/devto.svg', color: '#0a0a0a', charLimit: Infinity },
+  { id: 'dev_to', name: 'Dev.to', icon: '/logos/devto.svg', color: '#0B0F19', charLimit: Infinity },
   { id: 'x_twitter', name: 'X', icon: '/logos/x_twitter.svg', color: '#000000', charLimit: 280 },
   { id: 'facebook', name: 'Facebook', icon: '/logos/facebook.svg', color: '#1877f2', charLimit: 63206 },
   { id: 'instagram', name: 'Instagram', icon: '/logos/instagram.svg', color: '#e4405f', charLimit: 2200 },
@@ -155,7 +155,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
           maxWidth: 640,
           maxHeight: '90vh',
           overflowY: 'auto',
-          background: 'linear-gradient(180deg, #151d27 0%, #151d27 100%)',
+          background: 'linear-gradient(180deg, #111827 0%, #111827 100%)',
           border: '1px solid var(--border)',
           borderRadius: 20,
           padding: 28,
@@ -385,7 +385,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
                           width: 14,
                           height: 14,
                           objectFit: 'contain',
-                          filter: (plat.color === '#0a0a0a' || plat.color === '#000000') ? 'invert(1)' : selected ? 'brightness(10)' : 'none',
+                          filter: (plat.color === '#0B0F19' || plat.color === '#000000') ? 'invert(1)' : selected ? 'brightness(10)' : 'none',
                         }}
                       />
                     ) : (
@@ -501,7 +501,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
             color:
               !content.trim() || selectedPlatforms.length === 0 || isPosting
                 ? 'var(--text-muted)'
-                : '#0f1419',
+                : '#0B0F19',
             fontSize: 15,
             fontWeight: 700,
             fontFamily: 'var(--font-display)',

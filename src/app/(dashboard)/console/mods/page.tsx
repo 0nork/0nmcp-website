@@ -54,7 +54,7 @@ const MODS: Mod[] = [
     version: 'v2.0',
     status: 'active',
     featured: true,
-    iconBg: 'linear-gradient(135deg, #7ed957, #00d4ff)',
+    iconBg: 'linear-gradient(135deg, #6EE05A, #00d4ff)',
     iconSvg: '',
     price: '$197/site',
     href: '/console/site-builder',
@@ -188,7 +188,7 @@ const MODS: Mod[] = [
 const CATEGORIES = ['All', ...Array.from(new Set(MODS.map(m => m.category)))]
 
 const STATUS_STYLES: Record<string, { bg: string; color: string; label: string }> = {
-  active:      { bg: 'rgba(126,217,87,0.12)', color: '#7ed957', label: 'Active' },
+  active:      { bg: 'rgba(126,217,87,0.12)', color: '#6EE05A', label: 'Active' },
   beta:        { bg: 'rgba(167,139,250,0.12)', color: '#a78bfa', label: 'Beta' },
   coming_soon: { bg: 'rgba(245,158,11,0.12)',  color: '#f59e0b', label: 'Soon' },
 }
@@ -270,7 +270,7 @@ function FeaturedCard({ mod }: { mod: Mod }) {
             fontSize: 10, padding: '3px 8px', borderRadius: 5,
             background: 'rgba(255,255,255,0.04)',
             border: '1px solid rgba(255,255,255,0.06)',
-            color: '#9aa0a8', fontWeight: 600, fontFamily: "'JetBrains Mono', monospace",
+            color: '#7A8290', fontWeight: 600, fontFamily: "'JetBrains Mono', monospace",
           }}>
             {mod.version}
           </span>
@@ -282,7 +282,7 @@ function FeaturedCard({ mod }: { mod: Mod }) {
           {mod.name}
         </div>
         <div style={{
-          fontSize: 13, color: '#9aa0a8', marginTop: 6,
+          fontSize: 13, color: '#7A8290', marginTop: 6,
           lineHeight: 1.6, maxWidth: 420,
         }}>
           {mod.description}
@@ -292,7 +292,7 @@ function FeaturedCard({ mod }: { mod: Mod }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
         {mod.price && (
           <span style={{
-            fontSize: 15, fontWeight: 700, color: '#7ed957',
+            fontSize: 15, fontWeight: 700, color: '#6EE05A',
             fontFamily: "'JetBrains Mono', monospace",
           }}>
             {mod.price}
@@ -300,7 +300,7 @@ function FeaturedCard({ mod }: { mod: Mod }) {
         )}
         <span style={{
           fontSize: 12, fontWeight: 600,
-          color: hovered ? '#7ed957' : '#5f6672',
+          color: hovered ? '#6EE05A' : '#5f6672',
           transition: 'color 0.2s',
           display: 'flex', alignItems: 'center', gap: 4,
         }}>
@@ -410,7 +410,7 @@ export default function ModsPage() {
         </h1>
         <p style={{ fontSize: 14, color: '#7a8290', marginTop: 6 }}>
           Modules and plugins that extend your 0nMCP console.
-          {' '}<span style={{ color: '#7ed957', fontWeight: 600 }}>{MODS.filter(m => m.status === 'active').length} active</span>
+          {' '}<span style={{ color: '#6EE05A', fontWeight: 600 }}>{MODS.filter(m => m.status === 'active').length} active</span>
           {' '} · {MODS.length} total
         </p>
       </div>
@@ -451,7 +451,7 @@ export default function ModsPage() {
                 border: category === cat
                   ? '1px solid rgba(126,217,87,0.3)'
                   : '1px solid rgba(255,255,255,0.06)',
-                color: category === cat ? '#7ed957' : '#7a8290',
+                color: category === cat ? '#6EE05A' : '#7a8290',
                 cursor: 'pointer', fontFamily: 'inherit',
                 fontWeight: category === cat ? 600 : 400,
                 transition: 'all 0.15s',

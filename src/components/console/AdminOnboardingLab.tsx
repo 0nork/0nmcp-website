@@ -36,7 +36,7 @@ const STEP_LABELS: Record<string, string> = {
 
 const STATUS_COLORS: Record<string, string> = {
   draft: '#94a3b8',
-  active: '#7ed957',
+  active: '#6EE05A',
   paused: '#f59e0b',
   completed: '#00d4ff',
 }
@@ -161,7 +161,7 @@ export function AdminOnboardingLab() {
             disabled={creating || !newName.trim()}
             style={{
               padding: '0.5rem 1rem', borderRadius: '0.5rem', border: 'none',
-              background: '#7ed957', color: '#000', fontWeight: 600,
+              background: '#6EE05A', color: '#000', fontWeight: 600,
               fontSize: '0.85rem', cursor: 'pointer', opacity: creating || !newName.trim() ? 0.5 : 1,
               fontFamily: 'inherit',
             }}
@@ -214,7 +214,7 @@ export function AdminOnboardingLab() {
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>users</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: '#7ed957', fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
                     {exp.completionRate || 0}%
                   </div>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>completion</div>
@@ -321,7 +321,7 @@ function ExperimentDetail({
                 <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>users</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#7ed957', fontFamily: 'var(--font-mono)' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
                   {v.completionRate || 0}%
                 </div>
                 <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>completed</div>

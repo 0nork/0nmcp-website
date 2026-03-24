@@ -54,7 +54,7 @@ export default function WorkflowColumn() {
       timeout: 0,
       parallelGroup: '',
       status: 'idle',
-      color: '#7ed957',
+      color: '#6EE05A',
     }
     dispatch({ type: 'ADD_STEP', step })
   }

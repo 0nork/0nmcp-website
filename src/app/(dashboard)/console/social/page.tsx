@@ -31,7 +31,7 @@ export default function SocialPage() {
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{p.name}</div>
               <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{p.desc}</div>
-              <div style={{ fontSize: '0.65rem', color: p.status === 'ready' ? '#7ed957' : 'var(--text-muted)', marginTop: '0.25rem', fontWeight: 600 }}>
+              <div style={{ fontSize: '0.65rem', color: p.status === 'ready' ? '#6EE05A' : 'var(--text-muted)', marginTop: '0.25rem', fontWeight: 600 }}>
                 {p.status === 'ready' ? '● Connected' : '○ Coming soon'}
               </div>
             </div>

@@ -8,12 +8,12 @@ import { ArrowLeft, Shield, CheckSquare, Bell } from 'lucide-react'
 
 const TodoModal = dynamic(() => import('@/components/admin/TodoModal'), { ssr: false })
 
-const BG = '#0f1419'
-const CARD = '#1a2332'
+const BG = '#0B0F19'
+const CARD = '#162032'
 const CARD_BORDER = '#243042'
 const TEXT = '#e1e8f0'
 const TEXT_DIM = '#7d8a9a'
-const ACCENT = '#7ed957'
+const ACCENT = '#6EE05A'
 
 export default function DashboardAdminPage() {
   const [showTodo, setShowTodo] = useState(true) // Open by default
@@ -80,7 +80,7 @@ export default function DashboardAdminPage() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
           {[
-            { label: 'Tier Switcher', desc: 'Switch subscription view', href: '/api/admin/tier-switch', color: '#7ed957' },
+            { label: 'Tier Switcher', desc: 'Switch subscription view', href: '/api/admin/tier-switch', color: '#6EE05A' },
             { label: 'Blog Manager', desc: 'Manage blog posts', href: '/admin/blog', color: '#a78bfa' },
             { label: 'Catalog Manager', desc: 'Add/edit services', href: '/admin/catalog', color: '#00d4ff' },
             { label: 'Content Engine', desc: 'Manage content queue', href: '/admin/content', color: '#f472b6' },

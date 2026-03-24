@@ -21,7 +21,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   cloud:          '#6366f1',
   project_mgmt:   '#14b8a6',
   support:        '#3b82f6',
-  everyday:       '#7ed957',
+  everyday:       '#6EE05A',
   logic:          '#f59e0b',
   messaging:      '#3b82f6',
   advertising:    '#ec4899',
@@ -113,7 +113,7 @@ export default function IntegrationsPage(): ReactNode {
               Home
             </Link>
             <span>/</span>
-            <span style={{ color: '#7ed957' }}>Connections</span>
+            <span style={{ color: '#6EE05A' }}>Connections</span>
           </nav>
 
           {/* Header */}
@@ -127,8 +127,8 @@ export default function IntegrationsPage(): ReactNode {
                   Connections
                 </h1>
                 <p className="text-base md:text-lg max-w-2xl" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  <span style={{ color: '#7ed957', fontWeight: 700 }}>{allServices.length}</span> services.{' '}
-                  <span style={{ color: '#7ed957', fontWeight: 700 }}>1,400+</span> automations.{' '}
+                  <span style={{ color: '#6EE05A', fontWeight: 700 }}>{allServices.length}</span> services.{' '}
+                  <span style={{ color: '#6EE05A', fontWeight: 700 }}>1,400+</span> automations.{' '}
                   Connect anything to anything with AI-native orchestration.
                 </p>
               </div>
@@ -176,7 +176,7 @@ export default function IntegrationsPage(): ReactNode {
               style={{
                 background: !activeCategory ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
                 border: `1px solid ${!activeCategory ? 'rgba(126,217,87,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                color: !activeCategory ? '#7ed957' : 'rgba(255,255,255,0.5)',
+                color: !activeCategory ? '#6EE05A' : 'rgba(255,255,255,0.5)',
               }}
             >
               All ({allServices.length})
@@ -184,7 +184,7 @@ export default function IntegrationsPage(): ReactNode {
             {allCategories.map((cat) => {
               const count = categoryCounts[cat.id] || 0
               if (count === 0) return null
-              const color = CATEGORY_COLORS[cat.id] || '#7ed957'
+              const color = CATEGORY_COLORS[cat.id] || '#6EE05A'
               const isActive = activeCategory === cat.id
               return (
                 <button
@@ -244,7 +244,7 @@ export default function IntegrationsPage(): ReactNode {
               <Link
                 href="/turn-it-on"
                 className="inline-flex items-center px-6 py-2.5 rounded-xl font-bold text-sm no-underline transition-all"
-                style={{ background: '#7ed957', color: '#000000' }}
+                style={{ background: '#6EE05A', color: '#000000' }}
               >
                 Get Started
               </Link>
@@ -283,7 +283,7 @@ interface ServiceCardProps {
 
 function ServiceCard({ service }: ServiceCardProps): ReactNode {
   const [hovered, setHovered] = useState(false)
-  const color = CATEGORY_COLORS[service.category_id] || '#7ed957'
+  const color = CATEGORY_COLORS[service.category_id] || '#6EE05A'
   const logoUrl = SERVICE_LOGOS[service.id]
 
   return (

@@ -85,7 +85,7 @@ function LiveDataNodeComponent({ data, selected }: NodeProps<StepNode>) {
   const accentColor = data.serviceId === 'crm' ? '#ff6b35'
     : data.serviceId === 'stripe' ? '#635bff'
     : data.serviceId === 'whimsical' ? '#a855f7'
-    : '#7ed957'
+    : '#6EE05A'
 
   return (
     <div

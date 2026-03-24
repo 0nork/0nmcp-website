@@ -185,7 +185,7 @@ export function GlossyTile({
         gap: 8,
         padding: 8,
         borderRadius: 20,
-        background: 'linear-gradient(145deg, #151d27, #151d27)',
+        background: 'linear-gradient(145deg, #111827, #111827)',
         border: `1px solid ${
           isActive
             ? accentColor
@@ -194,7 +194,7 @@ export function GlossyTile({
               : 'rgba(42, 42, 58, 0.6)'
         }`,
         boxShadow: isActive
-          ? `0 0 20px rgba(126, 217, 87, 0.15)`
+          ? `0 0 20px rgba(110, 224, 90, 0.15)`
           : 'none',
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.4 : 1,
@@ -236,7 +236,7 @@ export function GlossyTile({
             padding: '1px 6px',
             borderRadius: 9999,
             backgroundColor: accentColor,
-            color: '#0f1419',
+            color: '#0B0F19',
             fontSize: '0.5rem',
             fontWeight: 700,
             lineHeight: '14px',

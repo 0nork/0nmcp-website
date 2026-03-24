@@ -61,23 +61,23 @@ const HOURS = Array.from({ length: 24 }, (_, i) => {
 // ── Colors ──
 
 const C = {
-  bg: '#0f1419',
+  bg: '#0B0F19',
   card: 'rgba(255,255,255,0.03)',
   cardHover: 'rgba(255,255,255,0.055)',
   border: 'rgba(255,255,255,0.06)',
   borderFocus: 'rgba(126,217,87,0.4)',
-  accent: '#7ed957',
+  accent: '#6EE05A',
   accentDim: 'rgba(126,217,87,0.12)',
   accentGlow: 'rgba(126,217,87,0.15)',
   cyan: '#00d4ff',
   cyanDim: 'rgba(0,212,255,0.08)',
   textPrimary: '#e8eaed',
-  textSecondary: '#9aa0a8',
+  textSecondary: '#7A8290',
   textMuted: '#5f6672',
   heroGradient: 'linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.04))',
   inputBg: 'rgba(255,255,255,0.04)',
   toggleOff: 'rgba(255,255,255,0.1)',
-  toggleOn: '#7ed957',
+  toggleOn: '#6EE05A',
   red: '#ef4444',
 }
 
@@ -774,8 +774,8 @@ export default function AiEmployeePage(): ReactNode {
             border: 'none',
             background: saving
               ? 'rgba(126,217,87,0.2)'
-              : `linear-gradient(135deg, ${C.accent}, #5cb83a)`,
-            color: saving ? C.textMuted : '#0f1419',
+              : `linear-gradient(135deg, ${C.accent}, #4CAF3D)`,
+            color: saving ? C.textMuted : '#0B0F19',
             fontSize: 15,
             fontWeight: 700,
             cursor: saving ? 'not-allowed' : 'pointer',

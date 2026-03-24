@@ -350,7 +350,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                       backgroundColor: generatedPost.valid
                         ? 'rgba(126,217,87,0.1)'
                         : 'rgba(255,59,48,0.1)',
-                      color: generatedPost.valid ? '#7ed957' : '#ff6b6b',
+                      color: generatedPost.valid ? '#6EE05A' : '#ff6b6b',
                     }}
                   >
                     {generatedPost.valid ? 'Valid' : 'Issues found'}
@@ -419,7 +419,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
               style={{
                 backgroundColor: 'rgba(126,217,87,0.06)',
                 border: '1px solid rgba(126,217,87,0.2)',
-                color: '#7ed957',
+                color: '#6EE05A',
               }}
             >
               <Check size={16} />
@@ -429,7 +429,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline ml-1"
-                style={{ color: '#7ed957' }}
+                style={{ color: '#6EE05A' }}
               >
                 View on LinkedIn
               </a>
@@ -472,7 +472,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                 border: member?.automated_posting_enabled
                   ? '1px solid rgba(255,59,48,0.2)'
                   : '1px solid rgba(126,217,87,0.2)',
-                color: member?.automated_posting_enabled ? '#ff6b6b' : '#7ed957',
+                color: member?.automated_posting_enabled ? '#ff6b6b' : '#6EE05A',
               }}
             >
               {member?.automated_posting_enabled ? 'Disable' : 'Enable'}
@@ -506,11 +506,11 @@ function StatCard({
       <Icon
         size={16}
         className="mx-auto mb-1"
-        style={{ color: accent ? '#7ed957' : 'var(--text-muted)' }}
+        style={{ color: accent ? '#6EE05A' : 'var(--text-muted)' }}
       />
       <div
         className="text-lg font-bold"
-        style={{ color: accent ? '#7ed957' : 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}
+        style={{ color: accent ? '#6EE05A' : 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}
       >
         {value}
       </div>

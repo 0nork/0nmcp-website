@@ -183,7 +183,7 @@ export function CommunityView() {
               borderRadius: 12,
               border: 'none',
               background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: '#0f1419',
+              color: '#0B0F19',
               fontSize: 14,
               fontWeight: 600,
               cursor: 'pointer',
@@ -306,7 +306,7 @@ export function CommunityView() {
                 borderRadius: 10,
                 border: 'none',
                 background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                color: '#0f1419',
+                color: '#0B0F19',
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: posting ? 'wait' : 'pointer',
@@ -425,7 +425,7 @@ export function CommunityView() {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
                   {thread.is_pinned && (
-                    <span style={{ fontSize: 10, fontWeight: 700, color: '#7ed957', fontFamily: 'var(--font-mono)', textTransform: 'uppercase' }}>PINNED</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)', textTransform: 'uppercase' }}>PINNED</span>
                   )}
                   {thread.community_groups && (
                     <span

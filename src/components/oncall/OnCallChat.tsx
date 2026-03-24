@@ -20,7 +20,7 @@ interface OnCallChatProps {
 }
 
 const PROVIDER_BADGES: Record<string, { label: string; color: string; abbr: string }> = {
-  '0nmcp':       { label: '0nMCP',         color: '#7ed957', abbr: '0n' },
+  '0nmcp':       { label: '0nMCP',         color: '#6EE05A', abbr: '0n' },
   'claude-byok': { label: 'Claude (BYOK)', color: '#a78bfa', abbr: 'Cl' },
   'claude':      { label: 'Claude',        color: '#00d4ff', abbr: 'Cl' },
   'openai-byok': { label: 'GPT-4o (BYOK)', color: '#10a37f', abbr: 'GP' },
@@ -99,9 +99,9 @@ export function OnCallChat({ messages, loading, onSend, onClose, focus }: OnCall
         <div className="flex items-center gap-2">
           <div
             className="w-6 h-6 rounded-lg flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #7ed957, #00d4ff)' }}
+            style={{ background: 'linear-gradient(135deg, #6EE05A, #00d4ff)' }}
           >
-            <span className="text-[8px] font-black" style={{ color: '#0f1419' }}>0n</span>
+            <span className="text-[8px] font-black" style={{ color: '#0B0F19' }}>0n</span>
           </div>
           <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
             0ncall
@@ -130,7 +130,7 @@ export function OnCallChat({ messages, loading, onSend, onClose, focus }: OnCall
                 className="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center"
                 style={{ background: 'rgba(126,217,87,0.1)' }}
               >
-                <Sparkles size={18} style={{ color: '#7ed957' }} />
+                <Sparkles size={18} style={{ color: '#6EE05A' }} />
               </div>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 Ask anything or describe what you want to automate.
@@ -160,7 +160,7 @@ export function OnCallChat({ messages, loading, onSend, onClose, focus }: OnCall
                     {PROVIDER_BADGES[m.source].abbr}
                   </span>
                 ) : (
-                  <span className="text-[8px] font-black" style={{ color: '#7ed957' }}>0n</span>
+                  <span className="text-[8px] font-black" style={{ color: '#6EE05A' }}>0n</span>
                 )}
               </div>
             ) : (
@@ -276,7 +276,7 @@ export function OnCallChat({ messages, loading, onSend, onClose, focus }: OnCall
             className="h-10 w-10 shrink-0 rounded-lg flex items-center justify-center cursor-pointer transition-all self-end"
             style={{
               background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: '#0f1419',
+              color: '#0B0F19',
               opacity: loading || !input.trim() ? 0.4 : 1,
             }}
           >

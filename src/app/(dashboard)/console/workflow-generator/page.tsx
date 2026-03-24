@@ -128,7 +128,7 @@ export default function WorkflowGeneratorPage() {
             <div style={{ fontSize: 15, fontWeight: 700, color: '#e8eaed' }}>
               Use with ChatGPT
             </div>
-            <div style={{ fontSize: 12, color: '#9aa0a8', marginTop: 2 }}>
+            <div style={{ fontSize: 12, color: '#7A8290', marginTop: 2 }}>
               Copy our system prompt into any ChatGPT conversation to generate .0n workflows
             </div>
           </div>
@@ -141,8 +141,8 @@ export default function WorkflowGeneratorPage() {
             }}
             style={{
               padding: '10px 20px', borderRadius: 8, border: 'none',
-              background: copiedPrompt ? 'rgba(126,217,87,0.2)' : '#7ed957',
-              color: copiedPrompt ? '#7ed957' : '#080B0F',
+              background: copiedPrompt ? 'rgba(126,217,87,0.2)' : '#6EE05A',
+              color: copiedPrompt ? '#6EE05A' : '#080B0F',
               fontSize: 13, fontWeight: 700, cursor: 'pointer',
               transition: 'all 0.2s', fontFamily: 'inherit',
             }}
@@ -182,7 +182,7 @@ export default function WorkflowGeneratorPage() {
           disabled={loading || !prompt.trim()}
           style={{
             marginTop: 10, padding: '12px 24px', borderRadius: 8, border: 'none',
-            background: loading ? 'rgba(126,217,87,0.3)' : '#7ed957',
+            background: loading ? 'rgba(126,217,87,0.3)' : '#6EE05A',
             color: '#080B0F', fontSize: 14, fontWeight: 700,
             cursor: loading ? 'wait' : 'pointer', fontFamily: 'inherit',
           }}
@@ -193,7 +193,7 @@ export default function WorkflowGeneratorPage() {
 
       {/* Example Workflows */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: '#9aa0a8', marginBottom: 10 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: '#7A8290', marginBottom: 10 }}>
           Or start with an example:
         </div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -236,7 +236,7 @@ export default function WorkflowGeneratorPage() {
                   padding: '6px 14px', borderRadius: 6,
                   background: copied ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(255,255,255,0.08)',
-                  color: copied ? '#7ed957' : '#9aa0a8',
+                  color: copied ? '#6EE05A' : '#7A8290',
                   fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
                 }}
               >
@@ -256,7 +256,7 @@ export default function WorkflowGeneratorPage() {
                   padding: '6px 14px', borderRadius: 6,
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(255,255,255,0.08)',
-                  color: '#9aa0a8', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
+                  color: '#7A8290', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
                 }}
               >
                 Download .0n
@@ -265,7 +265,7 @@ export default function WorkflowGeneratorPage() {
                 onClick={handleImportToBuilder}
                 style={{
                   padding: '6px 14px', borderRadius: 6,
-                  background: '#7ed957', border: 'none',
+                  background: '#6EE05A', border: 'none',
                   color: '#080B0F', fontSize: 12, fontWeight: 700,
                   cursor: 'pointer', fontFamily: 'inherit',
                 }}
@@ -276,8 +276,8 @@ export default function WorkflowGeneratorPage() {
           </div>
           <pre style={{
             padding: '16px', borderRadius: 10,
-            background: '#0f1419', border: '1px solid rgba(255,255,255,0.04)',
-            color: '#7ed957', fontSize: 12, lineHeight: 1.6,
+            background: '#0B0F19', border: '1px solid rgba(255,255,255,0.04)',
+            color: '#6EE05A', fontSize: 12, lineHeight: 1.6,
             overflow: 'auto', maxHeight: 400,
             fontFamily: "'JetBrains Mono', monospace",
           }}>

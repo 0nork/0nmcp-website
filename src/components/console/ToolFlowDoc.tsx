@@ -18,7 +18,7 @@ interface ToolFlowDocProps {
 }
 
 const STEPS = [
-  { key: 'selections' as const, label: 'Select', color: '#7ed957', desc: 'What tools are available' },
+  { key: 'selections' as const, label: 'Select', color: '#6EE05A', desc: 'What tools are available' },
   { key: 'triggers' as const, label: 'Trigger', color: '#00d4ff', desc: 'What events start a flow' },
   { key: 'actions' as const, label: 'Actions', color: '#ff6b35', desc: 'What this service can do' },
   { key: 'outcomes' as const, label: 'Outcomes', color: '#a78bfa', desc: 'Common results' },

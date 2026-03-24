@@ -97,7 +97,7 @@ export default function VaultPage() {
             You can put your passwords in one compartment, your workflow recipes in another, your website settings in a third. When you need to share something with a business partner, you hand them the key to just the compartments they need — they never see what&apos;s in the others.
           </p>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-            Everything is encrypted with military-grade AES-256 encryption. Your passwords get an extra layer of protection on top of that. And the entire container is sealed with a <Link href="/technology/seal-of-truth" className="underline" style={{ color: '#7ed957' }}>Seal of Truth</Link> — so you can always verify nothing&apos;s been tampered with.
+            Everything is encrypted with military-grade AES-256 encryption. Your passwords get an extra layer of protection on top of that. And the entire container is sealed with a <Link href="/technology/seal-of-truth" className="underline" style={{ color: '#6EE05A' }}>Seal of Truth</Link> — so you can always verify nothing&apos;s been tampered with.
           </p>
         </section>
 
@@ -177,7 +177,7 @@ export default function VaultPage() {
           </h2>
           <div className="grid sm:grid-cols-3 gap-4">
             <Link href="/technology/seal-of-truth" className="rounded-xl p-4 no-underline group" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <h3 className="font-bold text-sm mb-1 group-hover:underline" style={{ color: '#7ed957' }}>Seal of Truth</h3>
+              <h3 className="font-bold text-sm mb-1 group-hover:underline" style={{ color: '#6EE05A' }}>Seal of Truth</h3>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>The tamper-proof fingerprint that protects every container</p>
             </Link>
             <Link href="/security/vault" className="rounded-xl p-4 no-underline group" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
@@ -193,7 +193,7 @@ export default function VaultPage() {
 
         {/* Nav */}
         <div className="flex items-center justify-between pt-6" style={{ borderTop: '1px solid var(--border)' }}>
-          <Link href="/technology/seal-of-truth" className="text-sm font-bold no-underline" style={{ color: '#7ed957' }}>
+          <Link href="/technology/seal-of-truth" className="text-sm font-bold no-underline" style={{ color: '#6EE05A' }}>
             &larr; Seal of Truth
           </Link>
           <Link href="/technology/0nplex" className="text-sm font-bold no-underline" style={{ color: '#00d4ff' }}>

@@ -10,7 +10,7 @@ export default function AppleIcon() {
         style={{
           width: 180,
           height: 180,
-          background: 'linear-gradient(135deg, #0f1419 0%, #151d27 100%)',
+          background: 'linear-gradient(135deg, #0B0F19 0%, #111827 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -21,7 +21,7 @@ export default function AppleIcon() {
           style={{
             fontSize: 80,
             fontWeight: 900,
-            color: '#7ed957',
+            color: '#6EE05A',
             fontFamily: 'monospace',
             letterSpacing: '-0.05em',
           }}

@@ -28,7 +28,7 @@ interface Lesson {
 }
 
 const TIER_COLORS: Record<string, string> = {
-  free: '#7ed957',
+  free: '#6EE05A',
   supporter: '#ff6b35',
   builder: '#00d4ff',
   enterprise: '#9945ff',
@@ -71,7 +71,7 @@ export default function CourseDetailPage() {
     )
   }
 
-  const tierColor = TIER_COLORS[course.tier_required] || '#7ed957'
+  const tierColor = TIER_COLORS[course.tier_required] || '#6EE05A'
 
   return (
     <div className="pt-32 pb-24 px-8 max-w-4xl mx-auto">
@@ -160,7 +160,7 @@ export default function CourseDetailPage() {
               <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
                 {lesson.duration_minutes} min
                 {lesson.is_free_preview && (
-                  <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+                  <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#6EE05A' }}>
                     Free Preview
                   </span>
                 )}

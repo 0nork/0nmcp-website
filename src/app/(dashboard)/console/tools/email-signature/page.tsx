@@ -42,13 +42,13 @@ const DEFAULT: SignatureData = {
   linkedin: 'https://linkedin.com/in/mikemento',
   discord: 'https://discord.gg/0nmcp',
   twitter: 'https://x.com/0nmcp',
-  accentColor: '#7ed957',
-  accentSecondary: '#5cb83a',
+  accentColor: '#6EE05A',
+  accentSecondary: '#4CAF3D',
 }
 
 function generateHTML(d: SignatureData): string {
-  const accent = d.accentColor || '#7ed957'
-  const accentDim = d.accentSecondary || '#5cb83a'
+  const accent = d.accentColor || '#6EE05A'
+  const accentDim = d.accentSecondary || '#4CAF3D'
   const accentRgb = hexToRgb(accent)
   const accentBg = accentRgb ? `rgba(${accentRgb},0.1)` : 'rgba(126,217,87,0.1)'
   const accentBorder = accentRgb ? `rgba(${accentRgb},0.2)` : 'rgba(126,217,87,0.2)'
@@ -75,7 +75,7 @@ function generateHTML(d: SignatureData): string {
           <td style="vertical-align:top;padding-right:20px">
             <table cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td style="width:72px;height:72px;background:#0f1419;border-radius:16px;text-align:center;vertical-align:middle;overflow:hidden">
+                <td style="width:72px;height:72px;background:#0B0F19;border-radius:16px;text-align:center;vertical-align:middle;overflow:hidden">
                   <a href="${esc(d.companyUrl)}" style="text-decoration:none">
                     <img src="${esc(d.iconUrl)}" alt="${esc(d.company)}" width="72" height="72" style="display:block;border-radius:16px;object-fit:cover">
                   </a>
@@ -412,7 +412,7 @@ export default function EmailSignaturePage() {
               onClick={handleCopyRich}
               style={{
                 padding: '10px 20px', borderRadius: 10,
-                background: 'var(--accent, #7ed957)', color: '#0f1419',
+                background: 'var(--accent, #6EE05A)', color: '#0B0F19',
                 border: 'none', cursor: 'pointer', fontWeight: 700,
                 fontSize: '0.85rem', fontFamily: 'inherit',
               }}

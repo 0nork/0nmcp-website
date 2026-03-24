@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       state: payload.state,
       zip: payload.zip,
       website: payload.website,
-      brandColor: payload.brandColor || '#7ed957',
+      brandColor: payload.brandColor || '#6EE05A',
     })
 
     // 2. Deploy to CRM funnel

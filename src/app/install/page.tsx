@@ -13,7 +13,7 @@ export default function InstallPage({
   searchParams: Promise<{ error?: string; location?: string }>
 }) {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#0B0F19] text-white">
       {/* Hero */}
       <div className="max-w-4xl mx-auto px-6 py-20 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-full text-sm text-[#ff6b35] mb-6">

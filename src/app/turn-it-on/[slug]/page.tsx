@@ -168,11 +168,11 @@ function ServicePage({ slug }: { slug: string }) {
                   service.status === 'live' ? 'var(--accent)' : '#00d4ff',
                 backgroundColor:
                   service.status === 'live'
-                    ? 'rgba(126, 217, 87, 0.1)'
+                    ? 'rgba(110, 224, 90, 0.1)'
                     : 'rgba(0, 212, 255, 0.1)',
                 border: `1px solid ${
                   service.status === 'live'
-                    ? 'rgba(126, 217, 87, 0.2)'
+                    ? 'rgba(110, 224, 90, 0.2)'
                     : 'rgba(0, 212, 255, 0.2)'
                 }`,
               }}
@@ -403,7 +403,7 @@ function ServicePage({ slug }: { slug: string }) {
             style={{
               backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--accent)',
-              boxShadow: '0 0 30px rgba(126, 217, 87, 0.1)',
+              boxShadow: '0 0 30px rgba(110, 224, 90, 0.1)',
             }}
           >
             <span
@@ -609,7 +609,7 @@ function CapabilityPage({ slug }: { slug: string }) {
               style={{
                 backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--accent)',
-                boxShadow: '0 0 30px rgba(126, 217, 87, 0.1)',
+                boxShadow: '0 0 30px rgba(110, 224, 90, 0.1)',
               }}
             >
               <span
@@ -652,8 +652,8 @@ function StepCard({
       <div
         className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4"
         style={{
-          backgroundColor: 'rgba(126, 217, 87, 0.1)',
-          border: '1px solid rgba(126, 217, 87, 0.3)',
+          backgroundColor: 'rgba(110, 224, 90, 0.1)',
+          border: '1px solid rgba(110, 224, 90, 0.3)',
         }}
       >
         <span

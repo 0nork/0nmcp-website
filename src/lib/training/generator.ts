@@ -28,7 +28,7 @@ export const TIERS: TierConfig[] = [
     personaCount: 5,
     domains: ['logic', 'systems', 'business', 'ethics', 'workflow'],
     scoreThreshold: 0.72,
-    color: '#7ed957',
+    color: '#6EE05A',
   },
   {
     tier: 2,

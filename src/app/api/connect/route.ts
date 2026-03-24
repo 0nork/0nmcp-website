@@ -39,11 +39,11 @@ function buildWelcomeEmail(firstName: string, inquiryType: string): string {
 <body style="margin:0;padding:0;background:#0c0c14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0c0c14;">
 <tr><td align="center" style="padding:40px 20px;">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#151d27;border:1px solid #2a2a3a;border-radius:12px;overflow:hidden;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#111827;border:1px solid #2a2a3a;border-radius:12px;overflow:hidden;">
 
 <!-- Header -->
 <tr><td style="padding:32px 40px 24px;border-bottom:1px solid #2a2a3a;">
-<span style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:900;color:#7ed957;letter-spacing:-0.03em;">0nORK</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:900;color:#6EE05A;letter-spacing:-0.03em;">0nORK</span>
 </td></tr>
 
 <!-- Body -->
@@ -59,19 +59,19 @@ In the meantime, explore what we&rsquo;re building:
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-radius:8px 8px 0 0;border-bottom:1px solid #2a2a3a;">
-<a href="https://www.0nmcp.com/security" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">Patent-Pending 0nVault Security</a>
+<a href="https://www.0nmcp.com/security" style="color:#6EE05A;text-decoration:none;font-size:14px;font-weight:600;">Patent-Pending 0nVault Security</a>
 <p style="color:#55556a;font-size:13px;margin:4px 0 0;">7-layer encrypted business asset transfer with multi-party escrow</p>
 </td>
 </tr>
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-bottom:1px solid #2a2a3a;">
-<a href="https://www.0nmcp.com/turn-it-on" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">${STATS_DISPLAY.tools} AI Orchestration Tools</a>
+<a href="https://www.0nmcp.com/turn-it-on" style="color:#6EE05A;text-decoration:none;font-size:14px;font-weight:600;">${STATS_DISPLAY.tools} AI Orchestration Tools</a>
 <p style="color:#55556a;font-size:13px;margin:4px 0 0;">${STATS_DISPLAY.services} services, ${STATS_DISPLAY.categories} categories &mdash; the most comprehensive MCP server available</p>
 </td>
 </tr>
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-radius:0 0 8px 8px;">
-<a href="https://github.com/0nork/0nMCP" style="color:#7ed957;text-decoration:none;font-size:14px;font-weight:600;">Open Source on GitHub</a>
+<a href="https://github.com/0nork/0nMCP" style="color:#6EE05A;text-decoration:none;font-size:14px;font-weight:600;">Open Source on GitHub</a>
 <p style="color:#55556a;font-size:13px;margin:4px 0 0;">MIT licensed &mdash; free forever for the community</p>
 </td>
 </tr>

@@ -10,7 +10,7 @@ const LABEL_COLORS: Record<string, string> = {
   vip: '#eab308',
   beta: '#a855f7',
   'early-access': '#00d4ff',
-  contributor: '#7ed957',
+  contributor: '#6EE05A',
   vendor: '#3b82f6',
   partner: '#ec4899',
   sponsor: '#f59e0b',
@@ -119,7 +119,7 @@ export function AdminUsers() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '0.75rem', marginBottom: '1.25rem' }}>
         {[
-          { label: 'Total', value: users.length, color: '#7ed957' },
+          { label: 'Total', value: users.length, color: '#6EE05A' },
           { label: 'Admins', value: adminCount, color: '#f97316' },
           { label: 'VIP', value: vipCount, color: '#eab308' },
           { label: 'Active Today', value: todayCount, color: '#00d4ff' },
@@ -179,7 +179,7 @@ export function AdminUsers() {
             ? 'rgba(239,68,68,0.2)' : 'rgba(126,217,87,0.2)'}`,
           fontSize: '0.75rem',
           color: message.includes('Failed') || message.includes('error') || message.includes('Invalid')
-            ? '#ef4444' : '#7ed957',
+            ? '#ef4444' : '#6EE05A',
         }}>
           {message}
         </div>
@@ -237,7 +237,7 @@ export function AdminUsers() {
                   {u.is_admin && (
                     <span style={{
                       fontSize: '0.55rem', padding: '0.1rem 0.35rem', borderRadius: '9999px',
-                      background: 'rgba(126,217,87,0.12)', color: '#7ed957',
+                      background: 'rgba(126,217,87,0.12)', color: '#6EE05A',
                       fontWeight: 700, letterSpacing: '0.03em',
                     }}>
                       ADMIN
@@ -269,7 +269,7 @@ export function AdminUsers() {
                   <span style={{
                     padding: '0.1rem 0.35rem', borderRadius: '4px',
                     background: u.plan === 'free' ? 'rgba(255,255,255,0.05)' : 'rgba(126,217,87,0.08)',
-                    color: u.plan === 'free' ? 'var(--text-muted)' : '#7ed957',
+                    color: u.plan === 'free' ? 'var(--text-muted)' : '#6EE05A',
                     fontWeight: 600, fontSize: '0.6rem', textTransform: 'uppercase',
                   }}>
                     {u.plan}
@@ -338,9 +338,9 @@ export function AdminUsers() {
                           disabled={actionLoading === u.id}
                           style={{
                             padding: '0.25rem 0.625rem', borderRadius: '6px',
-                            border: `1px solid ${u.is_admin ? '#7ed957' : 'var(--border)'}`,
+                            border: `1px solid ${u.is_admin ? '#6EE05A' : 'var(--border)'}`,
                             background: u.is_admin ? 'rgba(126,217,87,0.1)' : 'transparent',
-                            color: u.is_admin ? '#7ed957' : 'var(--text-muted)',
+                            color: u.is_admin ? '#6EE05A' : 'var(--text-muted)',
                             fontSize: '0.7rem', fontWeight: 600,
                             cursor: actionLoading === u.id ? 'not-allowed' : 'pointer',
                             fontFamily: 'inherit',

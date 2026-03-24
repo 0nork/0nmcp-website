@@ -46,13 +46,13 @@ const AVAILABLE_SERVICES = [
 ]
 
 const COLORS = {
-  bg: '#0a0a0a',
-  card: '#111111',
+  bg: '#0B0F19',
+  card: '#111827',
   border: '#222222',
-  borderFocus: '#7ed957',
-  accent: '#7ed957',
-  accentGlow: 'rgba(126, 217, 87, 0.12)',
-  accentBorder: 'rgba(126, 217, 87, 0.3)',
+  borderFocus: '#6EE05A',
+  accent: '#6EE05A',
+  accentGlow: 'rgba(110, 224, 90, 0.12)',
+  accentBorder: 'rgba(110, 224, 90, 0.3)',
   orange: '#ff6b35',
   red: '#ef4444',
   textPrimary: '#ffffff',

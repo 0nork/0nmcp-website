@@ -26,12 +26,12 @@ const C = {
   bg: '#0d0d14',
   card: 'rgba(255,255,255,0.04)',
   border: 'rgba(255,255,255,0.08)',
-  accent: '#7ed957',
+  accent: '#6EE05A',
   orange: '#ff6b35',
   red: '#ef4444',
   cyan: '#00d4ff',
   text: '#e8eaed',
-  textSec: '#9aa0a8',
+  textSec: '#7A8290',
   textMuted: '#5f6672',
 }
 
@@ -320,7 +320,7 @@ export default function TodoModal({ onClose }: { onClose: () => void }) {
 
           <button onClick={handleSubmit} disabled={submitting || !title.trim()} style={{
             width: '100%', padding: '0.6rem', borderRadius: 8, border: 'none',
-            background: title.trim() ? `linear-gradient(135deg, ${C.accent}, #5cb83a)` : C.card,
+            background: title.trim() ? `linear-gradient(135deg, ${C.accent}, #4CAF3D)` : C.card,
             color: title.trim() ? '#000' : C.textMuted,
             fontSize: 13, fontWeight: 700, cursor: title.trim() ? 'pointer' : 'default',
             fontFamily: 'inherit',

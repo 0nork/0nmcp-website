@@ -56,13 +56,13 @@ interface Post {
 
 /* ─── Styles ─────────────────────────────────────────────── */
 
-const BG = '#0f1419'
-const CARD = '#1a2332'
+const BG = '#0B0F19'
+const CARD = '#162032'
 const CARD_BORDER = '#243042'
 const TEXT = '#e1e8f0'
 const TEXT_DIM = '#7d8a9a'
 const TEXT_MUTED = '#4a5568'
-const ACCENT = '#7ed957'
+const ACCENT = '#6EE05A'
 
 /* ─── Component ──────────────────────────────────────────── */
 

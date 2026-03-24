@@ -191,7 +191,7 @@ export const ASSET_TYPE_LABELS: Record<AssetType, string> = {
 }
 
 export const ASSET_TYPE_COLORS: Record<AssetType, string> = {
-  workflow: '#7ed957',
+  workflow: '#6EE05A',
   landing_page: '#6366f1',
   email: '#06b6d4',
   form: '#f59e0b',

@@ -206,7 +206,7 @@ export default function UserManagementPage() {
           onClick={() => setShowAddModal(!showAddModal)}
           style={{
             padding: '8px 16px', borderRadius: 8, background: 'rgba(126,217,87,0.15)',
-            color: '#7ed957', border: 'none', fontWeight: 700, fontSize: '0.75rem', cursor: 'pointer',
+            color: '#6EE05A', border: 'none', fontWeight: 700, fontSize: '0.75rem', cursor: 'pointer',
           }}
         >
           + Add User

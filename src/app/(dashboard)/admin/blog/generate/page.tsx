@@ -37,7 +37,7 @@ const BUCKET_COLORS: Record<string, string> = {
   CTR_FIX: '#ff3d3d',
   STRIKING_DISTANCE: '#ff6b35',
   RELEVANCE_REBUILD: '#ff69b4',
-  LOCAL_BOOST: '#7ed957',
+  LOCAL_BOOST: '#6EE05A',
 }
 
 export default function GeneratePage() {
@@ -513,7 +513,7 @@ export default function GeneratePage() {
                     <button
                       onClick={() => handlePublish(post.id)}
                       disabled={publishing === post.id}
-                      style={btnStyle('#7ed957')}
+                      style={btnStyle('#6EE05A')}
                     >
                       {publishing === post.id ? 'Publishing...' : 'Publish'}
                     </button>

@@ -118,7 +118,7 @@ async function upsertContact(
       website: payload.website,
       tags: ['web0n-client', 'build-site'],
       customFields: [
-        { key: 'brand_color', value: payload.brandColor ?? '#7ed957' },
+        { key: 'brand_color', value: payload.brandColor ?? '#6EE05A' },
       ],
     }),
   })

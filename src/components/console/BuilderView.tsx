@@ -53,20 +53,20 @@ const EXPORT_OPTIONS: { key: ExportFormat; label: string }[] = [
 /* ──────────────────────────────────────────── */
 
 const colors = {
-  bg: '#0a0a0a',
-  card: '#111111',
-  cardHover: '#161616',
+  bg: '#0B0F19',
+  card: '#111827',
+  cardHover: '#111827',
   border: '#222222',
-  borderHover: '#333333',
+  borderHover: '#2D3748',
   text: '#e5e5e5',
   textSecondary: '#999999',
-  textMuted: '#666666',
+  textMuted: '#4A5568',
   accent: '#ff6b35',
   accentDim: 'rgba(255, 107, 53, 0.15)',
   accentBorder: 'rgba(255, 107, 53, 0.3)',
-  green: '#7ed957',
-  greenDim: 'rgba(126, 217, 87, 0.15)',
-  greenBorder: 'rgba(126, 217, 87, 0.3)',
+  green: '#6EE05A',
+  greenDim: 'rgba(110, 224, 90, 0.15)',
+  greenBorder: 'rgba(110, 224, 90, 0.3)',
   red: '#ef4444',
   redDim: 'rgba(239, 68, 68, 0.15)',
 }
@@ -83,8 +83,8 @@ export function BuilderView() {
   const [prompt, setPrompt] = useState('')
   const [companyName, setCompanyName] = useState('')
   const [primaryColor, setPrimaryColor] = useState('#ff6b35')
-  const [secondaryColor, setSecondaryColor] = useState('#0a0a0a')
-  const [accentColor, setAccentColor] = useState('#7ed957')
+  const [secondaryColor, setSecondaryColor] = useState('#0B0F19')
+  const [accentColor, setAccentColor] = useState('#6EE05A')
   const [style, setStyle] = useState<GenerateConfig['style']>('minimal')
   const [sections, setSections] = useState<string[]>(['hero', 'features', 'cta'])
   const [crmWebhook, setCrmWebhook] = useState('')
@@ -840,7 +840,7 @@ export function BuilderView() {
                 padding: 16,
                 borderRadius: 10,
                 border: `1px solid ${colors.border}`,
-                backgroundColor: '#0d0d0d',
+                backgroundColor: '#0B0F19',
                 color: '#c8d6e5',
                 fontSize: 12,
                 lineHeight: 1.6,

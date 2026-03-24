@@ -65,7 +65,7 @@ export function PremiumFlowActionModal({
       label: 'Run',
       desc: 'Execute this workflow',
       icon: Play,
-      color: '#7ed957',
+      color: '#6EE05A',
       bg: 'rgba(126,217,87,0.1)',
       onClick: handleRun,
       disabled: !purchase.workflow_data,

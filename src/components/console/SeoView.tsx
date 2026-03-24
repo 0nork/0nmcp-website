@@ -40,7 +40,7 @@ const ENGINE_LABELS: Record<string, { name: string; color: string }> = {
   yandex_indexnow: { name: 'Yandex', color: '#ff0000' },
   seznam_indexnow: { name: 'Seznam', color: '#cc0000' },
   naver_indexnow: { name: 'Naver', color: '#03c75a' },
-  urls_submitted: { name: 'URLs Submitted', color: '#7ed957' },
+  urls_submitted: { name: 'URLs Submitted', color: '#6EE05A' },
 }
 
 export function SeoView() {
@@ -147,9 +147,9 @@ export function SeoView() {
               style={{
                 padding: '0.375rem 0.75rem',
                 borderRadius: '0.375rem',
-                border: period === d ? '1px solid #7ed957' : '1px solid var(--border)',
+                border: period === d ? '1px solid #6EE05A' : '1px solid var(--border)',
                 background: period === d ? 'rgba(126,217,87,0.1)' : 'transparent',
-                color: period === d ? '#7ed957' : 'var(--text-muted)',
+                color: period === d ? '#6EE05A' : 'var(--text-muted)',
                 fontSize: '0.75rem',
                 fontWeight: 600,
                 cursor: 'pointer',
@@ -189,7 +189,7 @@ export function SeoView() {
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
             {[
-              { label: 'Total Clicks', value: summary.totalClicks.toLocaleString(), color: '#7ed957', sub: `${summary.period} period` },
+              { label: 'Total Clicks', value: summary.totalClicks.toLocaleString(), color: '#6EE05A', sub: `${summary.period} period` },
               { label: 'Impressions', value: summary.totalImpressions.toLocaleString(), color: '#00d4ff', sub: `${summary.totalPages} pages` },
               { label: 'Avg CTR', value: `${summary.avgCtr}%`, color: '#a78bfa', sub: summary.avgCtr > 3 ? 'Above average' : 'Room to grow' },
               { label: 'Avg Position', value: summary.avgPosition.toFixed(1), color: '#ff6b35', sub: summary.avgPosition < 20 ? 'Page 1-2 avg' : 'Optimization needed' },
@@ -215,7 +215,7 @@ export function SeoView() {
                   borderRadius: '0.375rem',
                   border: 'none',
                   background: tab === t ? 'rgba(126,217,87,0.1)' : 'transparent',
-                  color: tab === t ? '#7ed957' : 'var(--text-muted)',
+                  color: tab === t ? '#6EE05A' : 'var(--text-muted)',
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -244,7 +244,7 @@ export function SeoView() {
                   <tbody>
                     {topPages.map((page, i) => (
                       <tr key={i} style={{ borderBottom: i < topPages.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none' }}>
-                        <td style={{ padding: '0.625rem 1rem', color: '#7ed957', fontWeight: 500, fontFamily: 'var(--font-mono)', fontSize: '0.75rem', maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <td style={{ padding: '0.625rem 1rem', color: '#6EE05A', fontWeight: 500, fontFamily: 'var(--font-mono)', fontSize: '0.75rem', maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {page.url || '/'}
                         </td>
                         <td style={{ padding: '0.625rem 1rem', color: 'var(--text-secondary)', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -256,10 +256,10 @@ export function SeoView() {
                         <td style={{ padding: '0.625rem 1rem', textAlign: 'right', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                           {page.impressions.toLocaleString()}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', fontFamily: 'var(--font-mono)', color: page.ctr > 0.05 ? '#7ed957' : page.ctr > 0.02 ? '#ff6b35' : 'var(--text-muted)' }}>
+                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', fontFamily: 'var(--font-mono)', color: page.ctr > 0.05 ? '#6EE05A' : page.ctr > 0.02 ? '#ff6b35' : 'var(--text-muted)' }}>
                           {(page.ctr * 100).toFixed(1)}%
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', fontFamily: 'var(--font-mono)', color: page.position <= 10 ? '#7ed957' : page.position <= 20 ? '#00d4ff' : 'var(--text-muted)' }}>
+                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', fontFamily: 'var(--font-mono)', color: page.position <= 10 ? '#6EE05A' : page.position <= 20 ? '#00d4ff' : 'var(--text-muted)' }}>
                           {page.position.toFixed(1)}
                         </td>
                       </tr>
@@ -337,7 +337,7 @@ export function SeoView() {
             disabled={indexing}
             style={{
               padding: '0.625rem 1.25rem', borderRadius: '0.5rem', border: 'none',
-              background: '#7ed957', color: '#000', fontWeight: 700,
+              background: '#6EE05A', color: '#000', fontWeight: 700,
               fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'inherit',
               opacity: indexing ? 0.6 : 1,
             }}
@@ -364,7 +364,7 @@ export function SeoView() {
           {[
             { label: 'Google GSC', color: '#4285f4', desc: 'OAuth sitemap submit' },
             { label: 'IndexNow', color: '#00d4ff', desc: '4 engines simultaneous' },
-            { label: 'Sitemap', color: '#7ed957', desc: 'sitemap.xml (300+ pages)' },
+            { label: 'Sitemap', color: '#6EE05A', desc: 'sitemap.xml (300+ pages)' },
           ].map((card, i) => (
             <div key={i} style={{ ...cardStyle, padding: '0.875rem' }}>
               <div style={labelStyle}>{card.label}</div>
@@ -422,7 +422,7 @@ export function SeoView() {
                   }}>
                     <div style={{
                       width: 8, height: 8, borderRadius: '50%',
-                      background: isSuccess ? '#7ed957' : isInfo ? '#00d4ff' : '#ef4444',
+                      background: isSuccess ? '#6EE05A' : isInfo ? '#00d4ff' : '#ef4444',
                       flexShrink: 0,
                     }} />
                     <span style={{ fontSize: '0.8rem', fontWeight: 600, color: engine.color, flex: 1 }}>{engine.name}</span>

@@ -159,18 +159,18 @@ export default function ConsoleFooterNav() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: tab.accent
-                  ? '#7ed957'
+                  ? '#6EE05A'
                   : active
-                    ? 'rgba(126, 217, 87, 0.12)'
+                    ? 'rgba(110, 224, 90, 0.12)'
                     : 'transparent',
                 color: tab.accent
                   ? '#080B0F'
                   : active
-                    ? '#7ed957'
+                    ? '#6EE05A'
                     : '#5f6672',
                 transition: 'all 0.2s ease',
                 marginTop: tab.accent ? -8 : 0,
-                boxShadow: tab.accent ? '0 4px 16px rgba(126, 217, 87, 0.3)' : 'none',
+                boxShadow: tab.accent ? '0 4px 16px rgba(110, 224, 90, 0.3)' : 'none',
               }}
             >
               {tab.icon}
@@ -181,9 +181,9 @@ export default function ConsoleFooterNav() {
                 fontSize: 10,
                 fontWeight: active || tab.accent ? 700 : 500,
                 color: tab.accent
-                  ? '#7ed957'
+                  ? '#6EE05A'
                   : active
-                    ? '#7ed957'
+                    ? '#6EE05A'
                     : '#5f6672',
                 letterSpacing: '0.01em',
                 transition: 'color 0.2s',

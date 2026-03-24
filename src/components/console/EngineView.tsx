@@ -174,8 +174,8 @@ export function EngineView() {
     btn: (primary?: boolean) => ({
       padding: '10px 20px', borderRadius: '10px', border: 'none', fontSize: '13px',
       fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s',
-      background: primary ? '#7ed957' : 'rgba(255,255,255,0.08)',
-      color: primary ? '#0f1419' : '#aaa',
+      background: primary ? '#6EE05A' : 'rgba(255,255,255,0.08)',
+      color: primary ? '#0B0F19' : '#aaa',
     }),
     badge: (color: string) => ({
       display: 'inline-flex', alignItems: 'center', gap: '4px',
@@ -195,8 +195,8 @@ export function EngineView() {
 
   const engineLogo = (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #7ed957, #00d4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Cpu size={18} color="#0f1419" />
+      <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #6EE05A, #00d4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Cpu size={18} color="#0B0F19" />
       </div>
       <span style={{ fontSize: '16px', fontWeight: 800, color: '#e8e8ef' }}>0nEngine</span>
     </div>
@@ -243,9 +243,9 @@ export function EngineView() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                        <Bot size={16} style={{ color: '#7ed957' }} />
+                        <Bot size={16} style={{ color: '#6EE05A' }} />
                         <span style={{ fontSize: '14px', fontWeight: 700, color: '#e8e8ef' }}>{agent.name}</span>
-                        <span style={S.badge(agent.status === 'active' ? '#7ed957' : '#f59e0b')}>
+                        <span style={S.badge(agent.status === 'active' ? '#6EE05A' : '#f59e0b')}>
                           {agent.status}
                         </span>
                       </div>
@@ -278,12 +278,12 @@ export function EngineView() {
             </div>
 
             <div style={{ ...S.card, background: 'rgba(126,217,87,0.05)', borderColor: 'rgba(126,217,87,0.15)' }}>
-              <p style={{ fontSize: '12px', color: '#7ed957', fontWeight: 600, margin: '0 0 6px' }}>What happens when you create an agent:</p>
+              <p style={{ fontSize: '12px', color: '#6EE05A', fontWeight: 600, margin: '0 0 6px' }}>What happens when you create an agent:</p>
               <div style={{ fontSize: '11px', color: '#888', lineHeight: 1.8 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#7ed957' }} /> Agent created in your CRM sub-location</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#7ed957' }} /> Connected to 0nMCP&apos;s 1,229 tools via MCP Server</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#7ed957' }} /> Attach Knowledge Bases for business-specific intelligence</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#7ed957' }} /> Deploy to production when ready</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#6EE05A' }} /> Agent created in your CRM sub-location</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#6EE05A' }} /> Connected to 0nMCP&apos;s 1,229 tools via MCP Server</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#6EE05A' }} /> Attach Knowledge Bases for business-specific intelligence</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CheckCircle2 size={12} style={{ color: '#6EE05A' }} /> Deploy to production when ready</div>
               </div>
             </div>
 
@@ -338,7 +338,7 @@ export function EngineView() {
                     onClick={() => { setSelectedAgent(a); setChatMessages([]); setExecutionId(null) }}
                     style={{ ...S.card, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', width: '100%', textAlign: 'left' as const }}
                   >
-                    <Bot size={18} style={{ color: '#7ed957' }} />
+                    <Bot size={18} style={{ color: '#6EE05A' }} />
                     <div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: '#e8e8ef' }}>{a.name}</div>
                       {a.description && <div style={{ fontSize: '11px', color: '#666' }}>{a.description}</div>}
@@ -347,14 +347,14 @@ export function EngineView() {
                   </button>
                 ))}
                 {agents.length === 0 && (
-                  <p style={{ color: '#555', fontSize: '13px' }}>No agents created yet. <button onClick={() => setTab('create')} style={{ color: '#7ed957', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'underline' }}>Create one first</button>.</p>
+                  <p style={{ color: '#555', fontSize: '13px' }}>No agents created yet. <button onClick={() => setTab('create')} style={{ color: '#6EE05A', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textDecoration: 'underline' }}>Create one first</button>.</p>
                 )}
               </div>
             ) : (
               <>
                 {/* Chat header */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <Bot size={20} style={{ color: '#7ed957' }} />
+                  <Bot size={20} style={{ color: '#6EE05A' }} />
                   <div style={{ flex: 1 }}>
                     <span style={{ fontSize: '14px', fontWeight: 700, color: '#e8e8ef' }}>{selectedAgent.name}</span>
                     {executionId && <span style={{ fontSize: '10px', color: '#555', marginLeft: '8px', fontFamily: 'monospace' }}>session: {executionId.slice(0, 12)}...</span>}

@@ -329,7 +329,7 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
           <button
             className={`builder-toolbar-btn ${aiChatOpen ? 'active' : ''}`}
             onClick={handleAIToggle}
-            style={aiChatOpen ? { borderColor: 'rgba(126,217,87,0.4)', color: '#7ed957' } : {}}
+            style={aiChatOpen ? { borderColor: 'rgba(126,217,87,0.4)', color: '#6EE05A' } : {}}
           >
             AI Chat
           </button>
@@ -366,12 +366,12 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
             borderBottom: '1px solid var(--border)',
             animation: 'modalSlideIn 0.2s ease-out',
             backgroundColor: importBanner.type === 'success'
-              ? 'rgba(126, 217, 87, 0.1)'
+              ? 'rgba(110, 224, 90, 0.1)'
               : importBanner.type === 'warning'
               ? 'rgba(255, 68, 68, 0.1)'
               : 'rgba(0, 212, 255, 0.1)',
             color: importBanner.type === 'success'
-              ? '#7ed957'
+              ? '#6EE05A'
               : importBanner.type === 'warning'
               ? '#ff4444'
               : '#00d4ff',

@@ -48,14 +48,14 @@ interface VendorViewProps {
 // ── Shared Styles ──
 
 const COLORS = {
-  bg: '#0a0a0a',
-  card: '#111111',
-  cardHover: '#161616',
+  bg: '#0B0F19',
+  card: '#111827',
+  cardHover: '#111827',
   border: '#222222',
-  borderHover: '#333333',
-  accent: '#7ed957',
-  accentGlow: 'rgba(126, 217, 87, 0.12)',
-  accentBorder: 'rgba(126, 217, 87, 0.3)',
+  borderHover: '#2D3748',
+  accent: '#6EE05A',
+  accentGlow: 'rgba(110, 224, 90, 0.12)',
+  accentBorder: 'rgba(110, 224, 90, 0.3)',
   orange: '#ff6b35',
   cyan: '#00d4ff',
   purple: '#a78bfa',
@@ -67,13 +67,13 @@ const COLORS = {
 } as const
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; border: string }> = {
-  active: { bg: 'rgba(126,217,87,0.12)', color: '#7ed957', border: 'rgba(126,217,87,0.3)' },
+  active: { bg: 'rgba(126,217,87,0.12)', color: '#6EE05A', border: 'rgba(126,217,87,0.3)' },
   draft: { bg: 'rgba(245,158,11,0.12)', color: '#f59e0b', border: 'rgba(245,158,11,0.3)' },
   archived: { bg: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)', border: 'rgba(255,255,255,0.1)' },
 }
 
 const ASSET_TYPE_COLORS: Record<string, string> = {
-  workflow: '#7ed957',
+  workflow: '#6EE05A',
   landing_page: '#6366f1',
   email: '#06b6d4',
   form: '#f59e0b',

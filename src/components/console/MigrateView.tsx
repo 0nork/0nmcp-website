@@ -124,7 +124,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
         <div
           style={{
             fontSize: 14,
-            color: 'var(--accent, #7ed957)',
+            color: 'var(--accent, #6EE05A)',
             fontWeight: 600,
             fontFamily: 'var(--font-mono, monospace)',
             marginTop: 4,
@@ -178,7 +178,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
                     gap: 10,
                     padding: '10px 12px',
                     borderRadius: 8,
-                    background: 'var(--bg-card, #151d27)',
+                    background: 'var(--bg-card, #111827)',
                     border: '1px solid var(--border, #2a2a3a)',
                     cursor: 'default',
                     transition: 'border-color 0.2s',
@@ -234,14 +234,14 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
           onDrop={handleFileDrop}
           onClick={() => fileInputRef.current?.click()}
           style={{
-            border: `2px dashed ${dragOver ? 'var(--accent, #7ed957)' : 'var(--border, #2a2a3a)'}`,
+            border: `2px dashed ${dragOver ? 'var(--accent, #6EE05A)' : 'var(--border, #2a2a3a)'}`,
             borderRadius: 16,
             padding: '48px 24px',
             textAlign: 'center',
             cursor: 'pointer',
             background: dragOver
               ? 'var(--accent-glow, rgba(126,217,87,0.05))'
-              : 'var(--bg-card, #151d27)',
+              : 'var(--bg-card, #111827)',
             transition: 'all 0.2s ease',
           }}
         >
@@ -288,7 +288,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
           style={{
             textAlign: 'center',
             padding: '48px 24px',
-            background: 'var(--bg-card, #151d27)',
+            background: 'var(--bg-card, #111827)',
             borderRadius: 16,
             border: '1px solid var(--border, #2a2a3a)',
           }}
@@ -298,7 +298,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
             style={{
               fontSize: 18,
               fontWeight: 600,
-              color: 'var(--accent, #7ed957)',
+              color: 'var(--accent, #6EE05A)',
               marginTop: 24,
               fontFamily: 'var(--font-mono, monospace)',
             }}
@@ -332,7 +332,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
               padding: '10px 14px',
               borderRadius: 8,
               background: 'linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.08))',
-              border: '1px solid var(--accent, #7ed957)30',
+              border: '1px solid var(--accent, #6EE05A)30',
             }}
           >
             <span
@@ -341,8 +341,8 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
-                color: 'var(--accent, #7ed957)',
-                background: 'var(--accent, #7ed957)18',
+                color: 'var(--accent, #6EE05A)',
+                background: 'var(--accent, #6EE05A)18',
                 padding: '2px 8px',
                 borderRadius: 4,
               }}
@@ -373,7 +373,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
               style={{
                 padding: '12px 16px',
                 borderRadius: 8,
-                background: 'var(--accent, #7ed957)',
+                background: 'var(--accent, #6EE05A)',
                 color: '#000',
                 border: 'none',
                 fontSize: 13,
@@ -458,7 +458,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
           style={{
             textAlign: 'center',
             padding: '40px 24px',
-            background: 'var(--bg-card, #151d27)',
+            background: 'var(--bg-card, #111827)',
             borderRadius: 16,
             border: '1px solid #ff444440',
           }}
@@ -506,7 +506,7 @@ export default function MigrateView({ onAddToBuilder, onAddToOperations }: Migra
               style={{
                 padding: '10px 20px',
                 borderRadius: 8,
-                background: 'var(--accent, #7ed957)',
+                background: 'var(--accent, #6EE05A)',
                 color: '#000',
                 border: 'none',
                 fontSize: 13,

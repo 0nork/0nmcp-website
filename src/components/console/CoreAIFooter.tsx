@@ -125,12 +125,12 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
           {logo ? (
             <img src={logo} alt="" width={16} height={16} style={{ borderRadius: 3 }} />
           ) : (
-            <div style={{ width: 16, height: 16, borderRadius: 3, background: activeProvider?.color || '#7ed957' }} />
+            <div style={{ width: 16, height: 16, borderRadius: 3, background: activeProvider?.color || '#6EE05A' }} />
           )}
           <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
             Core AI: <strong style={{ color: 'var(--text-primary)' }}>{activeProvider?.label || coreAI}</strong>
           </span>
-          <div style={{ width: 6, height: 6, borderRadius: 3, background: '#7ed957', boxShadow: '0 0 8px rgba(126,217,87,0.5)' }} />
+          <div style={{ width: 6, height: 6, borderRadius: 3, background: '#6EE05A', boxShadow: '0 0 8px rgba(126,217,87,0.5)' }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button
@@ -141,7 +141,7 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
               color: 'var(--text-muted)', fontSize: 11, cursor: 'pointer',
               fontFamily: 'inherit',
             }}
-            onMouseEnter={e => { e.currentTarget.style.color = '#7ed957' }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#6EE05A' }}
             onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)' }}
           >
             Change
@@ -230,7 +230,7 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                     <div style={{
                       position: 'absolute', bottom: -2, right: -2,
                       width: 10, height: 10, borderRadius: 5,
-                      background: '#7ed957', border: '2px solid #080810',
+                      background: '#6EE05A', border: '2px solid #080810',
                     }} />
                   )}
                 </button>
@@ -288,10 +288,10 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                 padding: '10px 20px',
                 borderRadius: 10,
                 background: keyValue.trim()
-                  ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+                  ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                   : 'rgba(255,255,255,0.04)',
                 border: 'none',
-                color: keyValue.trim() ? '#0f1419' : 'var(--text-muted)',
+                color: keyValue.trim() ? '#0B0F19' : 'var(--text-muted)',
                 fontSize: 13,
                 fontWeight: 800,
                 cursor: keyValue.trim() ? 'pointer' : 'default',
@@ -320,7 +320,7 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                   fontSize: 11, color: 'var(--text-muted)',
                   textDecoration: 'none',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#7ed957' }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#6EE05A' }}
                 onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)' }}
               >
                 Where do I find this? <ExternalLink size={10} />

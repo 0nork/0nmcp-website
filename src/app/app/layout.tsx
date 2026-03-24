@@ -19,7 +19,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#7ed957',
+  themeColor: '#6EE05A',
 }
 
 export default function AppLayout({

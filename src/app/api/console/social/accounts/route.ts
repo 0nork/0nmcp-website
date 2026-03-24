@@ -78,7 +78,7 @@ export async function GET() {
     {
       id: 'dev_to',
       name: 'Dev.to',
-      color: '#0a0a0a',
+      color: '#0B0F19',
       method: 'api_key' as const,
       connected: connectionMap.has('dev_to'),
       username: connectionMap.get('dev_to')?.platform_username || null,

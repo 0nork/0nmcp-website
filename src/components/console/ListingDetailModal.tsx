@@ -192,7 +192,7 @@ export function ListingDetailModal({
                 Yearly
                 <span
                   className="ml-1"
-                  style={{ color: billing === 'yearly' ? 'var(--bg-primary)' : '#7ed957', fontSize: 10 }}
+                  style={{ color: billing === 'yearly' ? 'var(--bg-primary)' : '#6EE05A', fontSize: 10 }}
                 >
                   Save 2mo
                 </span>
@@ -206,7 +206,7 @@ export function ListingDetailModal({
                 style={{
                   backgroundColor: 'rgba(126,217,87,0.1)',
                   border: '1px solid rgba(126,217,87,0.25)',
-                  color: '#7ed957',
+                  color: '#6EE05A',
                   verticalAlign: 'middle',
                 }}
               >
@@ -298,7 +298,7 @@ export function ListingDetailModal({
                           fontWeight: 700,
                           textTransform: 'uppercase',
                           letterSpacing: '0.08em',
-                          color: tier.highlight ? '#7ed957' : 'var(--text-muted)',
+                          color: tier.highlight ? '#6EE05A' : 'var(--text-muted)',
                           marginBottom: 2,
                           fontFamily: 'var(--font-mono)',
                         }}
@@ -361,7 +361,7 @@ export function ListingDetailModal({
                             <Check
                               size={12}
                               style={{
-                                color: tier.highlight ? '#7ed957' : 'var(--text-muted)',
+                                color: tier.highlight ? '#6EE05A' : 'var(--text-muted)',
                                 flexShrink: 0,
                                 marginTop: 1,
                               }}
@@ -378,7 +378,7 @@ export function ListingDetailModal({
                           className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border-none"
                           style={{
                             backgroundColor: 'rgba(126,217,87,0.1)',
-                            color: '#7ed957',
+                            color: '#6EE05A',
                             cursor: 'default',
                           }}
                         >
@@ -394,9 +394,9 @@ export function ListingDetailModal({
                             background: tier.key === 'free'
                               ? 'rgba(255,255,255,0.06)'
                               : tier.highlight
-                                ? 'linear-gradient(135deg, var(--accent), #5cb83a)'
+                                ? 'linear-gradient(135deg, var(--accent), #4CAF3D)'
                                 : 'rgba(126,217,87,0.12)',
-                            color: tier.highlight ? 'var(--bg-primary)' : tier.key === 'free' ? 'var(--text-secondary)' : '#7ed957',
+                            color: tier.highlight ? 'var(--bg-primary)' : tier.key === 'free' ? 'var(--text-secondary)' : '#6EE05A',
                             opacity: purchasing ? 0.6 : 1,
                           }}
                           onMouseEnter={e => {
@@ -604,7 +604,7 @@ export function ListingDetailModal({
               className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all cursor-pointer border-none"
               style={{
                 backgroundColor: 'rgba(126,217,87,0.1)',
-                color: '#7ed957',
+                color: '#6EE05A',
                 border: '1px solid rgba(126,217,87,0.3)',
               }}
               onMouseEnter={(e) => {

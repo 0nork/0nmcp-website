@@ -166,7 +166,7 @@ export default function AISettingsPage() {
             padding: '10px 24px',
             borderRadius: 8,
             backgroundColor: 'var(--accent)',
-            color: '#0f1419',
+            color: '#0B0F19',
             fontWeight: 600,
             fontSize: 14,
             textDecoration: 'none',
@@ -232,7 +232,7 @@ export default function AISettingsPage() {
               border: 'none',
               cursor: 'pointer',
               background: activeTab === tab ? 'var(--accent-glow, rgba(126,217,87,0.15))' : 'transparent',
-              color: activeTab === tab ? 'var(--accent, #7ed957)' : 'var(--text-muted)',
+              color: activeTab === tab ? 'var(--accent, #6EE05A)' : 'var(--text-muted)',
               fontSize: 13,
               fontWeight: activeTab === tab ? 600 : 500,
               fontFamily: 'inherit',
@@ -295,7 +295,7 @@ export default function AISettingsPage() {
                         disabled={saving}
                         style={{
                           padding: '6px 16px', borderRadius: 6, border: 'none', cursor: 'pointer',
-                          background: 'var(--accent)', color: '#0f1419', fontSize: 12, fontWeight: 600,
+                          background: 'var(--accent)', color: '#0B0F19', fontSize: 12, fontWeight: 600,
                           opacity: saving ? 0.5 : 1,
                         }}
                       >

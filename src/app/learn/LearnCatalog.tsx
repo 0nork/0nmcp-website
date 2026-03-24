@@ -28,7 +28,7 @@ const CATEGORIES = [
 ]
 
 const TIER_BADGE: Record<string, { label: string; color: string }> = {
-  free: { label: 'Free', color: '#7ed957' },
+  free: { label: 'Free', color: '#6EE05A' },
   supporter: { label: 'Supporter', color: '#ff6b35' },
   builder: { label: 'Builder', color: '#00d4ff' },
   enterprise: { label: 'Enterprise', color: '#9945ff' },
@@ -161,7 +161,7 @@ export default function LearnCatalog() {
                     className="inline-block px-4 py-2 rounded-lg font-bold text-xs transition-all"
                     style={{
                       background: 'rgba(126,217,87,0.1)',
-                      color: '#7ed957',
+                      color: '#6EE05A',
                       textDecoration: 'none',
                       border: '1px solid rgba(126,217,87,0.2)',
                     }}

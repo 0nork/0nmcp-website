@@ -198,7 +198,7 @@ export default function CorePage() {
               <p className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>Generic. Sounds like every other AI email.</p>
             </div>
             <div className="rounded-xl p-5" style={{ backgroundColor: 'rgba(126,217,87,0.05)', border: '1px solid rgba(126,217,87,0.15)' }}>
-              <h3 className="font-bold text-sm mb-3" style={{ color: '#7ed957' }}>With 0nCore</h3>
+              <h3 className="font-bold text-sm mb-3" style={{ color: '#6EE05A' }}>With 0nCore</h3>
               <p className="text-sm italic" style={{ color: 'var(--text-secondary)' }}>
                 &ldquo;Hey Sarah — quick heads up. We just launched the automation tools I mentioned in our last call. Figured you&apos;d want first crack at them. Worth a 10-minute look?&rdquo;
               </p>
@@ -221,7 +221,7 @@ export default function CorePage() {
               'You can opt out of cross-user learning at any time',
             ].map((point) => (
               <div key={point} className="flex gap-3">
-                <span style={{ color: '#7ed957' }}>&#10003;</span>
+                <span style={{ color: '#6EE05A' }}>&#10003;</span>
                 <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{point}</span>
               </div>
             ))}

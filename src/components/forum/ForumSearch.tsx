@@ -117,20 +117,20 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
-        background: '#0d0d0d',
-        border: focused ? '1px solid rgba(126, 217, 87, 0.5)' : '1px solid #222',
+        background: '#0B0F19',
+        border: focused ? '1px solid rgba(110, 224, 90, 0.5)' : '1px solid #222',
         borderRadius: '12px',
         padding: '0.45rem 0.75rem',
         transition: 'border-color 0.3s, box-shadow 0.3s',
         boxShadow: focused
-          ? '0 0 12px rgba(126, 217, 87, 0.2), 0 0 24px rgba(126, 217, 87, 0.08), inset 0 0 8px rgba(126, 217, 87, 0.04)'
-          : '0 0 0 rgba(126, 217, 87, 0)',
+          ? '0 0 12px rgba(110, 224, 90, 0.2), 0 0 24px rgba(110, 224, 90, 0.08), inset 0 0 8px rgba(110, 224, 90, 0.04)'
+          : '0 0 0 rgba(110, 224, 90, 0)',
       }
     : {
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
-        background: '#151d27',
+        background: '#111827',
         border: `1px solid ${focused ? '#3a3a50' : '#2a2a3a'}`,
         borderRadius: '0.75rem',
         padding: '0.4rem 0.625rem',
@@ -146,7 +146,7 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
           height={isHeader ? 15 : 13}
           viewBox="0 0 24 24"
           fill="none"
-          stroke={focused ? '#7ed957' : '#555'}
+          stroke={focused ? '#6EE05A' : '#555'}
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -207,7 +207,7 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
             top: 'calc(100% + 6px)',
             left: 0,
             right: 0,
-            background: '#0f1419',
+            background: '#0B0F19',
             border: '1px solid #222',
             borderRadius: '0.875rem',
             overflow: 'hidden',
@@ -249,7 +249,7 @@ function ResultItem({ result, onClick }: { result: SearchResult; onClick: () => 
         onMouseLeave={() => setHovered(false)}
         style={{
           width: '100%', textAlign: 'left',
-          background: hovered ? 'rgba(126, 217, 87, 0.08)' : 'transparent',
+          background: hovered ? 'rgba(110, 224, 90, 0.08)' : 'transparent',
           border: 'none', borderRadius: '0.625rem',
           padding: '0.5rem 0.625rem', cursor: 'pointer',
           transition: 'background 0.15s ease',
@@ -266,7 +266,7 @@ function ThreadResultContent({ result }: { result: ThreadResult }) {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#7ed957', background: 'rgba(126, 217, 87, 0.12)', padding: '1px 5px', borderRadius: '4px', flexShrink: 0 }}>
+        <span style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#6EE05A', background: 'rgba(110, 224, 90, 0.12)', padding: '1px 5px', borderRadius: '4px', flexShrink: 0 }}>
           Thread
         </span>
         {result.group_name && (

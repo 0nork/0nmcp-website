@@ -26,7 +26,7 @@ function SuccessContent() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0f1419',
+      background: '#0B0F19',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -44,15 +44,15 @@ function SuccessContent() {
           <>
             <div style={{
               width: '72px', height: '72px', borderRadius: '50%',
-              background: 'rgba(126, 217, 87, 0.15)',
+              background: 'rgba(110, 224, 90, 0.15)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 1.5rem',
             }}>
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#7ed957', marginBottom: '0.75rem' }}>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#6EE05A', marginBottom: '0.75rem' }}>
               You&apos;re 0n.
             </h1>
             <p style={{ fontSize: '0.9375rem', color: 'rgba(255,255,255,0.5)', marginBottom: '2rem', lineHeight: 1.6 }}>
@@ -60,13 +60,13 @@ function SuccessContent() {
             </p>
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
               <Link href="/dashboard" style={{
-                padding: '12px 24px', background: '#7ed957', color: '#0f1419',
+                padding: '12px 24px', background: '#6EE05A', color: '#0B0F19',
                 borderRadius: '8px', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none',
               }}>
                 Go to Dashboard
               </Link>
               <Link href="/learn" style={{
-                padding: '12px 24px', background: '#151d27', color: '#fff',
+                padding: '12px 24px', background: '#111827', color: '#fff',
                 border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px',
                 fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none',
               }}>
@@ -85,7 +85,7 @@ function SuccessContent() {
               Your payment may have been processed. Check your email for confirmation.
             </p>
             <Link href="/dashboard" style={{
-              padding: '12px 24px', background: '#151d27', color: '#fff',
+              padding: '12px 24px', background: '#111827', color: '#fff',
               border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px',
               fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none',
             }}>

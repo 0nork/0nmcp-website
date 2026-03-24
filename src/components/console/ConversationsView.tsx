@@ -37,7 +37,7 @@ function Spinner({ size = 20 }: { size?: number }): ReactNode {
   return (
     <div style={{
       width: size, height: size, border: '2px solid rgba(255,255,255,0.1)',
-      borderTopColor: '#7ed957', borderRadius: '50%',
+      borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'conv-spin 0.6s linear infinite',
     }} />
   )
@@ -218,7 +218,7 @@ export default function ConversationsView() {
                   background: active ? 'rgba(126,217,87,0.06)' : 'transparent',
                   border: 'none', borderBottom: '1px solid rgba(255,255,255,0.04)',
                   cursor: 'pointer', fontFamily: 'inherit',
-                  borderLeft: active ? '2px solid #7ed957' : '2px solid transparent',
+                  borderLeft: active ? '2px solid #6EE05A' : '2px solid transparent',
                   transition: 'all 0.1s ease',
                 }}
                 onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.02)' }}
@@ -227,7 +227,7 @@ export default function ConversationsView() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                   <span style={{
                     fontSize: '0.8rem', fontWeight: conv.unreadCount > 0 ? 700 : 500,
-                    color: conv.unreadCount > 0 ? '#e8eaed' : '#9aa0a8',
+                    color: conv.unreadCount > 0 ? '#e8eaed' : '#7A8290',
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1,
                   }}>
                     {conv.contactName || 'Unknown'}
@@ -246,7 +246,7 @@ export default function ConversationsView() {
                   {conv.unreadCount > 0 && (
                     <span style={{
                       fontSize: '0.6rem', fontWeight: 700, padding: '0.1rem 0.4rem',
-                      borderRadius: 8, background: '#7ed957', color: '#0f1419', flexShrink: 0,
+                      borderRadius: 8, background: '#6EE05A', color: '#0B0F19', flexShrink: 0,
                     }}>
                       {conv.unreadCount}
                     </span>
@@ -281,7 +281,7 @@ export default function ConversationsView() {
                 width: 32, height: 32, borderRadius: '50%', background: 'rgba(126,217,87,0.12)',
                 border: '1px solid rgba(126,217,87,0.2)', display: 'flex',
                 alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem',
-                fontWeight: 700, color: '#7ed957', flexShrink: 0,
+                fontWeight: 700, color: '#6EE05A', flexShrink: 0,
               }}>
                 {(selectedConv?.contactName || '?')[0].toUpperCase()}
               </div>
@@ -324,7 +324,7 @@ export default function ConversationsView() {
                       borderBottomLeftRadius: outbound ? 12 : 4,
                     }}>
                       <div style={{
-                        fontSize: '0.8rem', color: outbound ? '#c8f0b0' : '#9aa0a8',
+                        fontSize: '0.8rem', color: outbound ? '#c8f0b0' : '#7A8290',
                         lineHeight: 1.5, wordBreak: 'break-word',
                       }}>
                         {msg.body}
@@ -367,8 +367,8 @@ export default function ConversationsView() {
                 disabled={!messageText.trim() || sending}
                 style={{
                   padding: '0.625rem 1.25rem', borderRadius: 8, border: 'none',
-                  background: messageText.trim() ? '#7ed957' : 'rgba(255,255,255,0.05)',
-                  color: messageText.trim() ? '#0f1419' : '#5f6672',
+                  background: messageText.trim() ? '#6EE05A' : 'rgba(255,255,255,0.05)',
+                  color: messageText.trim() ? '#0B0F19' : '#5f6672',
                   fontSize: '0.8rem', fontWeight: 700, cursor: messageText.trim() ? 'pointer' : 'default',
                   fontFamily: 'inherit', transition: 'all 0.15s ease',
                   opacity: sending ? 0.6 : 1,

@@ -7,7 +7,7 @@ const formats = [
   { name: 'Gemini → 0nMCP', desc: 'Convert Google AI tool configs', color: '#1A73E8' },
   { name: 'LangChain → 0nMCP', desc: 'Convert LangChain tool definitions', color: '#1C3C3C' },
   { name: '.0n → JSON', desc: 'Export .0n workflows as standard JSON', color: '#ff6b35' },
-  { name: 'JSON → .0n', desc: 'Convert JSON configs to .0n format', color: '#7ed957' },
+  { name: 'JSON → .0n', desc: 'Convert JSON configs to .0n format', color: '#6EE05A' },
   { name: 'MCP → OpenAI', desc: 'Generate OpenAI function schemas from MCP tools', color: '#00d4ff' },
 ]
 

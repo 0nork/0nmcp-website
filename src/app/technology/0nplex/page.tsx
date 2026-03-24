@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 }
 
 const PERSONAS = [
-  { name: 'The Empiricist', desc: 'Only trusts hard data. Demands evidence, statistics, and proven research before accepting any claim.', color: '#7ed957' },
+  { name: 'The Empiricist', desc: 'Only trusts hard data. Demands evidence, statistics, and proven research before accepting any claim.', color: '#6EE05A' },
   { name: 'The Behavioralist', desc: 'Focuses on human behavior. Asks "how will real people actually react to this?" instead of assuming rational decisions.', color: '#00d4ff' },
   { name: 'The Systems Architect', desc: 'Sees the big picture. Maps out how all the pieces connect and identifies hidden dependencies.', color: '#a78bfa' },
   { name: 'The Ethicist', desc: 'The moral compass. Considers fairness, bias, unintended consequences, and long-term impact.', color: '#ff6b35' },

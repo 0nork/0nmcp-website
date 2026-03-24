@@ -38,7 +38,7 @@ const ECOSYSTEM: EcoNode[] = [
     description: 'Marketing + Community + Console (0nLive)',
     stats: '91+ pages | 33 API routes | 50+ components',
     url: 'https://www.0nmcp.com',
-    color: '#7ed957',
+    color: '#6EE05A',
     connections: ['supabase-main', 'stripe-main', '0nmcp', 'brain', 'command-queue'],
   },
   {
@@ -215,7 +215,7 @@ const ECOSYSTEM: EcoNode[] = [
 ]
 
 const TYPE_LABELS: Record<string, { label: string; bg: string }> = {
-  product: { label: 'PRODUCT', bg: 'rgba(126, 217, 87, 0.15)' },
+  product: { label: 'PRODUCT', bg: 'rgba(110, 224, 90, 0.15)' },
   service: { label: 'SERVICE', bg: 'rgba(0, 212, 255, 0.15)' },
   database: { label: 'DATABASE', bg: 'rgba(62, 207, 142, 0.15)' },
   skill: { label: 'SKILL', bg: 'rgba(167, 139, 250, 0.15)' },
@@ -223,7 +223,7 @@ const TYPE_LABELS: Record<string, { label: string; bg: string }> = {
 }
 
 const STATUS_DOTS: Record<string, string> = {
-  live: '#7ed957',
+  live: '#6EE05A',
   building: '#ffb74d',
   planned: '#78788c',
 }
@@ -281,7 +281,7 @@ export function AdminEcosystem() {
         marginBottom: 20,
       }}>
         {[
-          { label: 'Products', value: ECOSYSTEM.filter(n => n.type === 'product').length, color: '#7ed957' },
+          { label: 'Products', value: ECOSYSTEM.filter(n => n.type === 'product').length, color: '#6EE05A' },
           { label: 'Services', value: ECOSYSTEM.filter(n => n.type === 'service').length, color: '#00d4ff' },
           { label: 'Brain Tier', value: brainStats?.tier ?? '...', color: '#a78bfa' },
           { label: 'Knowledge', value: brainStats?.knowledge ?? '...', color: '#a78bfa' },

@@ -34,7 +34,7 @@ const CATEGORIES = [
 ]
 
 const TIER_BADGE: Record<string, { label: string; color: string; price: string }> = {
-  free: { label: 'Free', color: '#7ed957', price: '' },
+  free: { label: 'Free', color: '#6EE05A', price: '' },
   supporter: { label: 'Supporter', color: '#ff6b35', price: '$9/mo' },
   builder: { label: 'Builder', color: '#00d4ff', price: '$29/mo' },
   enterprise: { label: 'Enterprise', color: '#9945ff', price: '$99/mo' },
@@ -147,7 +147,7 @@ export default function ConsoleLearnPage() {
                     {course.category.replace(/-/g, ' ')}
                   </span>
                   {isCompleted && (
-                    <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded" style={{ background: 'rgba(126,217,87,0.12)', color: '#7ed957' }}>
+                    <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded" style={{ background: 'rgba(126,217,87,0.12)', color: '#6EE05A' }}>
                       Completed
                     </span>
                   )}
@@ -184,7 +184,7 @@ export default function ConsoleLearnPage() {
                 {/* Action hint */}
                 <div className="mt-4 pt-3" style={{ borderTop: '1px solid var(--jp-border)' }}>
                   {isCompleted ? (
-                    <span className="text-[11px] font-bold" style={{ color: '#7ed957' }}>Review Course</span>
+                    <span className="text-[11px] font-bold" style={{ color: '#6EE05A' }}>Review Course</span>
                   ) : isInProgress ? (
                     <span className="text-[11px] font-bold" style={{ color: 'var(--jp-cyan)' }}>Continue Learning</span>
                   ) : isEnrolled ? (

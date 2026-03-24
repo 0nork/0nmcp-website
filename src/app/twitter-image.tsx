@@ -12,7 +12,7 @@ export default function TwitterImage() {
         style={{
           width: 1200,
           height: 630,
-          background: '#0f1419',
+          background: '#0B0F19',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -53,7 +53,7 @@ export default function TwitterImage() {
           style={{
             fontSize: 120,
             fontWeight: 900,
-            color: '#7ed957',
+            color: '#6EE05A',
             fontFamily: 'monospace',
             letterSpacing: '-0.04em',
             lineHeight: 1,
@@ -86,7 +86,7 @@ export default function TwitterImage() {
             left: 0,
             right: 0,
             height: 4,
-            background: 'linear-gradient(90deg, transparent, #7ed957, transparent)',
+            background: 'linear-gradient(90deg, transparent, #6EE05A, transparent)',
             display: 'flex',
           }}
         />

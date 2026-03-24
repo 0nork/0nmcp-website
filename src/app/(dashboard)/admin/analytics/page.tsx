@@ -201,7 +201,7 @@ export default function AnalyticsDashboard() {
           disabled={running}
           style={{
             padding: '8px 20px', borderRadius: 10,
-            background: running ? 'var(--bg-card)' : 'linear-gradient(135deg, #00d4ff, #7ed957)',
+            background: running ? 'var(--bg-card)' : 'linear-gradient(135deg, #00d4ff, #6EE05A)',
             border: 'none', color: running ? 'var(--text-muted)' : '#000',
             fontWeight: 700, fontSize: '0.8125rem', cursor: running ? 'not-allowed' : 'pointer',
           }}
@@ -213,10 +213,10 @@ export default function AnalyticsDashboard() {
       {/* Stats Row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8, marginBottom: 24 }}>
         <StatCard label="Keywords" value={summaries.length} color="#00d4ff" />
-        <StatCard label="Ranked" value={ranked.length} color="#7ed957" />
+        <StatCard label="Ranked" value={ranked.length} color="#6EE05A" />
         <StatCard label="Top 10" value={top10} color="#ff6b35" />
         <StatCard label="Avg Position" value={avgPosition !== null ? avgPosition : '—'} color="#a78bfa" />
-        <StatCard label="Improved" value={improved} color="#7ed957" sub="vs last check" />
+        <StatCard label="Improved" value={improved} color="#6EE05A" sub="vs last check" />
       </div>
 
       {/* Tabs */}
@@ -270,7 +270,7 @@ export default function AnalyticsDashboard() {
                     <td style={{ ...tdStyle, textAlign: 'center' }}>
                       <span style={{
                         fontWeight: 900, fontSize: '1rem',
-                        color: s.current! <= 3 ? '#7ed957' : s.current! <= 10 ? '#00d4ff' : s.current! <= 30 ? '#ff6b35' : 'var(--text-secondary)',
+                        color: s.current! <= 3 ? '#6EE05A' : s.current! <= 10 ? '#00d4ff' : s.current! <= 30 ? '#ff6b35' : 'var(--text-secondary)',
                       }}>
                         {s.current}
                       </span>
@@ -279,7 +279,7 @@ export default function AnalyticsDashboard() {
                       {s.change !== null && s.change !== 0 && (
                         <span style={{
                           fontWeight: 700,
-                          color: s.change > 0 ? '#7ed957' : '#ff3d3d',
+                          color: s.change > 0 ? '#6EE05A' : '#ff3d3d',
                         }}>
                           {s.change > 0 ? `+${s.change}` : s.change}
                         </span>
@@ -293,7 +293,7 @@ export default function AnalyticsDashboard() {
                         <span style={{
                           fontSize: '0.625rem', padding: '2px 6px', borderRadius: 4,
                           background: s.category === 'brand' ? 'rgba(126,217,87,0.1)' : s.category === 'comparison' ? 'rgba(255,107,53,0.1)' : 'rgba(0,212,255,0.1)',
-                          color: s.category === 'brand' ? '#7ed957' : s.category === 'comparison' ? '#ff6b35' : '#00d4ff',
+                          color: s.category === 'brand' ? '#6EE05A' : s.category === 'comparison' ? '#ff6b35' : '#00d4ff',
                           fontWeight: 700,
                         }}>
                           {s.category}
@@ -401,7 +401,7 @@ export default function AnalyticsDashboard() {
                   style={{
                     padding: '3px 8px', borderRadius: 6, border: 'none', cursor: 'pointer',
                     background: kw.is_active ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
-                    color: kw.is_active ? '#7ed957' : 'var(--text-muted)',
+                    color: kw.is_active ? '#6EE05A' : 'var(--text-muted)',
                     fontSize: '0.625rem', fontWeight: 700,
                   }}
                 >
@@ -442,7 +442,7 @@ export default function AnalyticsDashboard() {
               >
                 {s.keyword}
                 {s.current !== null && (
-                  <span style={{ marginLeft: 4, color: s.current <= 10 ? '#7ed957' : 'var(--text-muted)' }}>
+                  <span style={{ marginLeft: 4, color: s.current <= 10 ? '#6EE05A' : 'var(--text-muted)' }}>
                     #{s.current}
                   </span>
                 )}
@@ -462,13 +462,13 @@ export default function AnalyticsDashboard() {
                   const height = pos ? Math.max(4, ((100 - Math.min(pos, 100)) / 100) * 100) : 2
                   return (
                     <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                      <span style={{ fontSize: '0.5rem', color: pos ? (pos <= 10 ? '#7ed957' : '#ff6b35') : 'var(--text-muted)' }}>
+                      <span style={{ fontSize: '0.5rem', color: pos ? (pos <= 10 ? '#6EE05A' : '#ff6b35') : 'var(--text-muted)' }}>
                         {pos || '—'}
                       </span>
                       <div style={{
                         width: '100%', height: `${height}%`, minHeight: 2, borderRadius: 3,
                         background: pos
-                          ? pos <= 3 ? '#7ed957' : pos <= 10 ? '#00d4ff' : pos <= 30 ? '#ff6b35' : 'var(--text-muted)'
+                          ? pos <= 3 ? '#6EE05A' : pos <= 10 ? '#00d4ff' : pos <= 30 ? '#ff6b35' : 'var(--text-muted)'
                           : 'rgba(255,255,255,0.05)',
                       }} />
                     </div>
@@ -490,7 +490,7 @@ export default function AnalyticsDashboard() {
                   {history.map(h => (
                     <tr key={h.id} style={{ borderBottom: '1px solid var(--border)' }}>
                       <td style={tdStyle}>{new Date(h.tracked_at).toLocaleDateString()}</td>
-                      <td style={{ ...tdStyle, textAlign: 'center', fontWeight: 700, color: h.position ? (h.position <= 10 ? '#7ed957' : '#ff6b35') : 'var(--text-muted)' }}>
+                      <td style={{ ...tdStyle, textAlign: 'center', fontWeight: 700, color: h.position ? (h.position <= 10 ? '#6EE05A' : '#ff6b35') : 'var(--text-muted)' }}>
                         {h.position || '—'}
                       </td>
                       <td style={{ ...tdStyle, color: 'var(--text-muted)', fontSize: '0.6875rem' }}>

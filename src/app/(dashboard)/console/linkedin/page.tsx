@@ -359,9 +359,9 @@ export default function LinkedInPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
                 {[
                   { label: 'Total Posts', value: member.total_posts, color: '#0077b5' },
-                  { label: 'Engagements', value: member.total_engagements, color: '#7ed957' },
+                  { label: 'Engagements', value: member.total_engagements, color: '#6EE05A' },
                   { label: 'Ad Accounts', value: member.ad_account_ids?.length || 0, color: '#00d4ff' },
-                  { label: 'Auto-posting', value: member.automated_posting_enabled ? 'ON' : 'OFF', color: member.automated_posting_enabled ? '#7ed957' : '#666' },
+                  { label: 'Auto-posting', value: member.automated_posting_enabled ? 'ON' : 'OFF', color: member.automated_posting_enabled ? '#6EE05A' : '#666' },
                 ].map(s => (
                   <div key={s.label} style={card}>
                     <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -656,7 +656,7 @@ export default function LinkedInPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
                 {[
                   { label: 'Impressions', value: totals.impressions.toLocaleString(), color: '#0077b5' },
-                  { label: 'Clicks', value: totals.clicks.toLocaleString(), color: '#7ed957' },
+                  { label: 'Clicks', value: totals.clicks.toLocaleString(), color: '#6EE05A' },
                   { label: 'Spend', value: `$${totals.spend.toFixed(2)}`, color: '#00d4ff' },
                   { label: 'Conversions', value: totals.conversions.toLocaleString(), color: '#a78bfa' },
                 ].map(m => (
@@ -725,10 +725,10 @@ export default function LinkedInPage() {
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, { bg: string; text: string }> = {
-    ACTIVE: { bg: '#7ed95720', text: '#7ed957' },
+    ACTIVE: { bg: '#6EE05A20', text: '#6EE05A' },
     PAUSED: { bg: '#f5a62320', text: '#f5a623' },
     DRAFT: { bg: '#0077b520', text: '#0077b5' },
-    ARCHIVED: { bg: '#66666620', text: '#666' },
+    ARCHIVED: { bg: '#4A556820', text: '#666' },
     CANCELED: { bg: '#ff4d4f20', text: '#ff4d4f' },
   }
   const c = colors[status] || colors.DRAFT

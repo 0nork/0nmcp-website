@@ -21,7 +21,7 @@ const PLATFORM_LABELS: Record<string, string> = {
 
 const PLATFORM_COLORS: Record<string, string> = {
   cli: '#00d4ff',
-  extension: '#7ed957',
+  extension: '#6EE05A',
   web: '#a78bfa',
   app: '#ff6b35',
 }
@@ -160,8 +160,8 @@ export function DevicesView() {
           <p style={{ color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
             Run <code style={{
               fontFamily: 'JetBrains Mono, monospace',
-              color: '#7ed957',
-              background: 'rgba(126, 217, 87, 0.1)',
+              color: '#6EE05A',
+              background: 'rgba(110, 224, 90, 0.1)',
               padding: '0.15em 0.4em',
               borderRadius: '0.25rem',
             }}>0nmcp login</code> in your terminal to connect a device.
@@ -254,16 +254,16 @@ export function DevicesView() {
           Sync your vault credentials across devices with end-to-end encryption.
           Set a sync passphrase in your CLI with <code style={{
             fontFamily: 'JetBrains Mono, monospace',
-            color: '#7ed957',
-            background: 'rgba(126, 217, 87, 0.1)',
+            color: '#6EE05A',
+            background: 'rgba(110, 224, 90, 0.1)',
             padding: '0.1em 0.3em',
             borderRadius: '0.2rem',
             fontSize: '0.75rem',
           }}>0nmcp vault sync-passphrase</code>, then
           use <code style={{
             fontFamily: 'JetBrains Mono, monospace',
-            color: '#7ed957',
-            background: 'rgba(126, 217, 87, 0.1)',
+            color: '#6EE05A',
+            background: 'rgba(110, 224, 90, 0.1)',
             padding: '0.1em 0.3em',
             borderRadius: '0.2rem',
             fontSize: '0.75rem',

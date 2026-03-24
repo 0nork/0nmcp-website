@@ -700,7 +700,7 @@ export function ServicesClient({
           letter-spacing: -0.02em;
         }
 
-        .services-stat-green { color: #7ed957; text-shadow: 0 0 30px rgba(126,217,87,0.3); }
+        .services-stat-green { color: #6EE05A; text-shadow: 0 0 30px rgba(126,217,87,0.3); }
         .services-stat-cyan { color: #00d4ff; text-shadow: 0 0 30px rgba(0,212,255,0.3); }
         .services-stat-purple { color: #a78bfa; text-shadow: 0 0 30px rgba(167,139,250,0.3); }
         .services-stat-orange { color: #ff6b35; text-shadow: 0 0 30px rgba(255,107,53,0.3); }
@@ -728,7 +728,7 @@ export function ServicesClient({
           transition: width 2.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .services-stat-bar-green { background: linear-gradient(90deg, #5cb83a, #7ed957); box-shadow: 0 0 8px rgba(126,217,87,0.4); }
+        .services-stat-bar-green { background: linear-gradient(90deg, #4CAF3D, #6EE05A); box-shadow: 0 0 8px rgba(126,217,87,0.4); }
         .services-stat-bar-cyan { background: linear-gradient(90deg, #0090b0, #00d4ff); box-shadow: 0 0 8px rgba(0,212,255,0.4); }
         .services-stat-bar-purple { background: linear-gradient(90deg, #7c5cbf, #a78bfa); box-shadow: 0 0 8px rgba(167,139,250,0.4); }
         .services-stat-bar-orange { background: linear-gradient(90deg, #cc5020, #ff6b35); box-shadow: 0 0 8px rgba(255,107,53,0.4); }
@@ -1103,7 +1103,7 @@ export function ServicesClient({
 
 function getServiceColor(service: ServiceData): string {
   const colors: Record<string, string> = {
-    logic: '#7ed957',
+    logic: '#6EE05A',
     everyday: '#f59e0b',
     communication: '#1DA1F2',
     email_marketing: '#7c3aed',
@@ -1112,7 +1112,7 @@ function getServiceColor(service: ServiceData): string {
     project_mgmt: '#3b82f6',
     support: '#ec4899',
     ai: '#a78bfa',
-    developer: '#7ed957',
+    developer: '#6EE05A',
     social_media: '#1DA1F2',
     advertising: '#f97316',
     messaging: '#22d3ee',
@@ -1124,5 +1124,5 @@ function getServiceColor(service: ServiceData): string {
     integration: '#00d4ff',
     cloud: '#3b82f6',
   }
-  return colors[service.category_id] || '#7ed957'
+  return colors[service.category_id] || '#6EE05A'
 }

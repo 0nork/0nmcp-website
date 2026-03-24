@@ -66,7 +66,7 @@ interface QueueItem {
 type Tab = 'personas' | 'generate' | 'seeds' | 'activity' | 'workflows' | 'queue'
 
 const ROLE_COLORS: Record<string, string> = {
-  developer: '#7ed957',
+  developer: '#6EE05A',
   founder: '#9945ff',
   agency_owner: '#ff6b35',
   freelancer: '#00d4ff',
@@ -507,7 +507,7 @@ export default function PersonasAdmin() {
           {/* Stats row */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
             <StatBox label="Total" value={personas.length} color="var(--text)" />
-            <StatBox label="Active" value={personas.filter(p => p.is_active).length} color="#7ed957" />
+            <StatBox label="Active" value={personas.filter(p => p.is_active).length} color="#6EE05A" />
             <StatBox label="Threads" value={personas.reduce((s, p) => s + p.thread_count, 0)} color="#9945ff" />
             <StatBox label="Replies" value={personas.reduce((s, p) => s + p.reply_count, 0)} color="#00d4ff" />
           </div>
@@ -550,7 +550,7 @@ export default function PersonasAdmin() {
                       padding: '4px 10px',
                       borderRadius: 6,
                       background: p.is_active ? 'rgba(126,217,87,0.1)' : 'rgba(255,61,61,0.1)',
-                      color: p.is_active ? '#7ed957' : '#ff3d3d',
+                      color: p.is_active ? '#6EE05A' : '#ff3d3d',
                       border: 'none',
                       fontWeight: 700,
                       fontSize: '0.625rem',
@@ -711,7 +711,7 @@ export default function PersonasAdmin() {
                   style={{
                     padding: '8px 20px',
                     borderRadius: 10,
-                    background: saving ? 'var(--bg-card)' : '#7ed957',
+                    background: saving ? 'var(--bg-card)' : '#6EE05A',
                     color: saving ? 'var(--text-muted)' : '#000',
                     border: 'none',
                     fontWeight: 700,
@@ -795,7 +795,7 @@ export default function PersonasAdmin() {
                   ))}
                 </select>
               </div>
-              <button onClick={addSeed} style={btnStyle('#7ed957')}>Add</button>
+              <button onClick={addSeed} style={btnStyle('#6EE05A')}>Add</button>
             </div>
             <div style={{ marginTop: 8 }}>
               <label style={labelStyle}>Prompt Hint (optional)</label>
@@ -920,7 +920,7 @@ export default function PersonasAdmin() {
             <button
               onClick={runAllWorkflows}
               disabled={runningAll}
-              style={btnStyle('#7ed957')}
+              style={btnStyle('#6EE05A')}
             >
               {runningAll ? 'Running...' : 'Run All Enabled'}
             </button>
@@ -1028,7 +1028,7 @@ export default function PersonasAdmin() {
                         style={{
                           padding: '4px 10px', borderRadius: 6,
                           background: config.enabled ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
-                          color: config.enabled ? '#7ed957' : 'var(--text-muted)',
+                          color: config.enabled ? '#6EE05A' : 'var(--text-muted)',
                           border: 'none', fontWeight: 700, fontSize: '0.5625rem',
                           cursor: 'pointer', textTransform: 'uppercase',
                           minWidth: 48,
@@ -1087,7 +1087,7 @@ export default function PersonasAdmin() {
           {/* Stats */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
             <StatBox label="Queued" value={queue.filter(q => q.status === 'queued').length} color="#9945ff" />
-            <StatBox label="Posted" value={queue.filter(q => q.status === 'posted').length} color="#7ed957" />
+            <StatBox label="Posted" value={queue.filter(q => q.status === 'posted').length} color="#6EE05A" />
             <StatBox label="Failed" value={queue.filter(q => q.status === 'failed').length} color="#ff3d3d" />
           </div>
 
@@ -1114,7 +1114,7 @@ export default function PersonasAdmin() {
                     fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
                     padding: '2px 6px', borderRadius: 4, minWidth: 48, textAlign: 'center',
                     background: item.status === 'queued' ? 'rgba(153,69,255,0.15)' : item.status === 'posted' ? 'rgba(126,217,87,0.15)' : 'rgba(255,61,61,0.15)',
-                    color: item.status === 'queued' ? '#9945ff' : item.status === 'posted' ? '#7ed957' : '#ff3d3d',
+                    color: item.status === 'queued' ? '#9945ff' : item.status === 'posted' ? '#6EE05A' : '#ff3d3d',
                   }}>
                     {item.status}
                   </span>

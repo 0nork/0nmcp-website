@@ -11,7 +11,7 @@ import Link from 'next/link'
 
 export default function OnEnginePage() {
   return (
-    <div style={{ minHeight: '100vh', background: '#0f1419', color: '#e8e8ef', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: '#0B0F19', color: '#e8e8ef', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
 
       {/* ── Header ──────────────────────────────────── */}
       <header style={{
@@ -27,7 +27,7 @@ export default function OnEnginePage() {
           </Link>
           <Link href="/signup" style={{
             padding: '0.5rem 1.25rem', fontSize: '0.8125rem', fontWeight: 700,
-            background: '#7ed957', color: '#0f1419', borderRadius: '8px', textDecoration: 'none',
+            background: '#6EE05A', color: '#0B0F19', borderRadius: '8px', textDecoration: 'none',
           }}>
             Get Started Free
           </Link>
@@ -54,7 +54,7 @@ export default function OnEnginePage() {
           lineHeight: 1.05, letterSpacing: '-0.03em',
           margin: '0 auto 1.5rem', maxWidth: '700px', position: 'relative',
         }}>
-          <span style={{ color: '#7ed957' }}>Agentic AI</span>
+          <span style={{ color: '#6EE05A' }}>Agentic AI</span>
           <br />
           <span style={{ color: '#ffffff' }}>That Actually Executes</span>
         </h1>
@@ -70,7 +70,7 @@ export default function OnEnginePage() {
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', position: 'relative' }}>
           <Link href="/signup" style={{
             padding: '0.875rem 2rem', fontSize: '1rem', fontWeight: 700,
-            background: '#7ed957', color: '#0f1419', borderRadius: '12px',
+            background: '#6EE05A', color: '#0B0F19', borderRadius: '12px',
             textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
             boxShadow: '0 4px 24px rgba(126,217,87,0.3)',
             transition: 'transform 0.15s, box-shadow 0.15s',
@@ -90,7 +90,7 @@ export default function OnEnginePage() {
 
       {/* ── Three-Level Execution ───────────────────── */}
       <section style={{ padding: '4rem 2rem', maxWidth: '1000px', margin: '0 auto' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#7ed957', marginBottom: '3rem' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#6EE05A', marginBottom: '3rem' }}>
           Three-Level Execution System
         </h2>
 
@@ -98,7 +98,7 @@ export default function OnEnginePage() {
           <ExecutionCard
             level="01"
             name="Pipeline"
-            color="#7ed957"
+            color="#6EE05A"
             desc="Sequential. Step-by-step. Each action feeds the next. Perfect for linear processes — onboarding flows, data enrichment, lead qualification."
             visual={<PipelineVisual />}
           />
@@ -132,7 +132,7 @@ export default function OnEnginePage() {
               padding: '1.5rem', background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px',
             }}>
-              <div style={{ fontSize: '2rem', fontWeight: 900, color: '#7ed957', fontFamily: "'JetBrains Mono', monospace" }}>{s.num}</div>
+              <div style={{ fontSize: '2rem', fontWeight: 900, color: '#6EE05A', fontFamily: "'JetBrains Mono', monospace" }}>{s.num}</div>
               <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#e8e8ef', marginTop: '0.25rem' }}>{s.label}</div>
               <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.25rem' }}>{s.desc}</div>
             </div>
@@ -145,14 +145,14 @@ export default function OnEnginePage() {
         <h2 style={{ fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: '1rem' }}>
           Stop building workflows.
           <br />
-          <span style={{ color: '#7ed957' }}>Start describing outcomes.</span>
+          <span style={{ color: '#6EE05A' }}>Start describing outcomes.</span>
         </h2>
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', marginBottom: '2rem' }}>
           Free forever. No credit card. Your agents. Your data. Your rules.
         </p>
         <Link href="/signup" style={{
           padding: '1rem 2.5rem', fontSize: '1.125rem', fontWeight: 800,
-          background: '#7ed957', color: '#0f1419', borderRadius: '14px',
+          background: '#6EE05A', color: '#0B0F19', borderRadius: '14px',
           textDecoration: 'none', display: 'inline-block',
           boxShadow: '0 4px 30px rgba(126,217,87,0.35)',
         }}>
@@ -211,13 +211,13 @@ function PipelineVisual() {
     <svg viewBox="0 0 200 100" width="200" height="100">
       {[0, 1, 2, 3, 4].map(i => (
         <g key={i}>
-          {i < 4 && <line x1={25 + i * 40} y1="50" x2={55 + i * 40} y2="50" stroke="#7ed957" strokeWidth="2" opacity="0.3">
+          {i < 4 && <line x1={25 + i * 40} y1="50" x2={55 + i * 40} y2="50" stroke="#6EE05A" strokeWidth="2" opacity="0.3">
             <animate attributeName="opacity" values="0.1;0.5;0.1" dur="2s" begin={`${i * 0.4}s`} repeatCount="indefinite" />
           </line>}
-          <circle cx={20 + i * 40} cy="50" r="8" fill="#7ed957" opacity="0.15">
+          <circle cx={20 + i * 40} cy="50" r="8" fill="#6EE05A" opacity="0.15">
             <animate attributeName="opacity" values="0.1;0.6;0.1" dur="2s" begin={`${i * 0.4}s`} repeatCount="indefinite" />
           </circle>
-          <circle cx={20 + i * 40} cy="50" r="4" fill="#7ed957">
+          <circle cx={20 + i * 40} cy="50" r="4" fill="#6EE05A">
             <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin={`${i * 0.4}s`} repeatCount="indefinite" />
           </circle>
         </g>

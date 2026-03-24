@@ -68,7 +68,7 @@ function GroupIcon({ slug, color }: { slug: string; color: string }) {
         width: 28,
         height: 28,
         borderRadius: 8,
-        background: 'linear-gradient(145deg, rgba(255,255,255,0.06) 0%, #0f1419 100%)',
+        background: 'linear-gradient(145deg, rgba(255,255,255,0.06) 0%, #0B0F19 100%)',
         boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06), 0 2px 4px rgba(0,0,0,0.5)',
         display: 'flex',
         alignItems: 'center',
@@ -112,7 +112,7 @@ export default function ForumSidebar({
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
-        backgroundColor: '#0f1419',
+        backgroundColor: '#0B0F19',
         borderRight: '1px solid rgba(255,255,255,0.06)',
         transition: TRANSITION,
         overflow: 'hidden',
@@ -149,7 +149,7 @@ export default function ForumSidebar({
             textAlign: 'center',
             textDecoration: 'none',
             background: 'var(--accent)',
-            color: '#0f1419',
+            color: '#0B0F19',
             transition: TRANSITION,
           }}
         >
@@ -180,7 +180,7 @@ export default function ForumSidebar({
           Groups
         </div>
 
-        <GroupButton slug="all" label="All" color="#7ed957" active={currentGroup === 'all'} onClick={() => handleGroupClick('all')} />
+        <GroupButton slug="all" label="All" color="#6EE05A" active={currentGroup === 'all'} onClick={() => handleGroupClick('all')} />
 
         {groups.map(g => (
           <GroupButton
@@ -235,7 +235,7 @@ function GroupButton({ slug, label, color, count, active, onClick }: {
         borderRadius: '0.75rem',
         cursor: 'pointer',
         padding: '0.5rem 0.75rem',
-        backgroundColor: active ? '#0f1419' : 'transparent',
+        backgroundColor: active ? '#0B0F19' : 'transparent',
         borderTop: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
         borderRight: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
         borderBottom: active ? 'none' : hovered ? `3px solid ${color}40` : '3px solid transparent',
@@ -250,7 +250,7 @@ function GroupButton({ slug, label, color, count, active, onClick }: {
         boxSizing: 'border-box',
       }}
     >
-      <GroupIcon slug={slug} color={active ? color : hovered ? color : '#7ed957'} />
+      <GroupIcon slug={slug} color={active ? color : hovered ? color : '#6EE05A'} />
       <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{label}</span>
       {count !== undefined && (
         <span style={{ fontSize: '0.625rem', color: '#444' }}>{count}</span>

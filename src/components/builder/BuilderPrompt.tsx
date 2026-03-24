@@ -44,7 +44,7 @@ export default function BuilderPrompt({ onSubmit, loading, stepCount }: BuilderP
       padding: '12px 16px',
       borderBottom: '1px solid var(--border)',
       background: focused
-        ? 'rgba(126, 217, 87, 0.02)'
+        ? 'rgba(110, 224, 90, 0.02)'
         : 'rgba(10, 10, 15, 0.4)',
       transition: 'background 200ms ease',
     }}>
@@ -53,10 +53,10 @@ export default function BuilderPrompt({ onSubmit, loading, stepCount }: BuilderP
         alignItems: 'flex-end',
         gap: '10px',
         background: 'var(--bg-card)',
-        border: `1px solid ${focused ? 'rgba(126, 217, 87, 0.3)' : 'var(--border)'}`,
+        border: `1px solid ${focused ? 'rgba(110, 224, 90, 0.3)' : 'var(--border)'}`,
         borderRadius: '12px',
         padding: '10px 14px',
-        boxShadow: focused ? '0 0 20px rgba(126, 217, 87, 0.06)' : 'none',
+        boxShadow: focused ? '0 0 20px rgba(110, 224, 90, 0.06)' : 'none',
         transition: 'border-color 200ms ease, box-shadow 200ms ease',
       }}>
         {/* AI icon */}
@@ -106,9 +106,9 @@ export default function BuilderPrompt({ onSubmit, loading, stepCount }: BuilderP
             borderRadius: '8px',
             border: 'none',
             background: value.trim()
-              ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+              ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
               : 'rgba(255, 255, 255, 0.06)',
-            color: value.trim() ? '#0f1419' : 'var(--text-muted)',
+            color: value.trim() ? '#0B0F19' : 'var(--text-muted)',
             cursor: value.trim() ? 'pointer' : 'default',
             display: 'flex',
             alignItems: 'center',
@@ -125,7 +125,7 @@ export default function BuilderPrompt({ onSubmit, loading, stepCount }: BuilderP
               width: 14,
               height: 14,
               border: '2px solid rgba(10,10,15,0.3)',
-              borderTopColor: '#0f1419',
+              borderTopColor: '#0B0F19',
               borderRadius: '50%',
               animation: 'spin 0.6s linear infinite',
             }} />

@@ -107,7 +107,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
                 border: `1px solid ${isDone ? 'rgba(126,217,87,0.3)' : isActive ? 'rgba(255,107,53,0.3)' : 'var(--border)'}`,
               }}>
                 {isDone ? (
-                  <Check size={14} style={{ color: '#7ed957' }} />
+                  <Check size={14} style={{ color: '#6EE05A' }} />
                 ) : (
                   <Icon size={14} style={{ color: isActive ? '#ff6b35' : 'var(--text-muted)' }} />
                 )}
@@ -246,7 +246,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
               style={{
                 flex: 1, padding: '12px 24px', borderRadius: 12, border: 'none',
                 background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-                color: '#0f1419', fontSize: 14, fontWeight: 600, cursor: loading ? 'wait' : 'pointer',
+                color: '#0B0F19', fontSize: 14, fontWeight: 600, cursor: loading ? 'wait' : 'pointer',
                 fontFamily: 'var(--font-display)', opacity: loading ? 0.7 : 1,
               }}
             >
@@ -277,7 +277,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               border: '1px solid rgba(126,217,87,0.2)',
             }}>
-              <Package size={24} style={{ color: '#7ed957' }} />
+              <Package size={24} style={{ color: '#6EE05A' }} />
             </div>
             <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px' }}>
               You&apos;re all set!
@@ -301,8 +301,8 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
               onClick={onComplete}
               style={{
                 flex: 1, padding: '12px 24px', borderRadius: 12, border: 'none',
-                background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                color: '#0f1419', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+                color: '#0B0F19', fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'var(--font-display)',
               }}
             >

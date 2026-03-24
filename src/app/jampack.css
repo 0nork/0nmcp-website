@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------
   Jampack Admin Styles — Ported for 0nMCP Console
-  Dark theme with brand green #7ed957 accent
+  Dark navy theme with brand green #6EE05A accent
   Works alongside Tailwind — all classes prefixed with .jp-
 ------------------------------------------------------------------*/
 
@@ -9,29 +9,35 @@
   --jp-sidebar-width: 260px;
   --jp-sidebar-collapsed-width: 0px;
   --jp-header-height: 64px;
-  --jp-green: #7ed957;
-  --jp-green-dim: #5cb83a;
-  --jp-green-glow: rgba(126, 217, 87, 0.15);
-  --jp-cyan: #00d4ff;
-  --jp-cyan-dim: #00a8cc;
-  --jp-purple: #a78bfa;
-  --jp-amber: #fbbf24;
-  --jp-red: #f87171;
-  --jp-bg: #0a0a0a;
-  --jp-surface: #111111;
-  --jp-bg-elevated: #111111;
-  --jp-bg-card: #161616;
-  --jp-bg-card-hover: #1a1a1a;
-  --jp-bg-input: #0d0d0d;
-  --jp-border: #262626;
-  --jp-border-hi: #333333;
-  --jp-border-focus: #333333;
-  --jp-text: #f0f0f0;
-  --jp-text-secondary: #9aa0a8;
-  --jp-text-muted: #666666;
+  --jp-bg: #0B0F19;
+  --jp-surface: #111827;
+  --jp-bg-elevated: #162032;
+  --jp-bg-card: #111827;
+  --jp-bg-card-hover: #162032;
+  --jp-bg-input: #0B0F19;
+  --jp-border: #1E293B;
+  --jp-border-hi: #2D3748;
+  --jp-border-focus: #2D3748;
+  --jp-green: #6EE05A;
+  --jp-green-dim: #4CAF3D;
+  --jp-green-glow: rgba(110, 224, 90, 0.15);
+  --jp-cyan: #60A5FA;
+  --jp-cyan-dim: #3B82F6;
+  --jp-purple: #A78BFA;
+  --jp-amber: #FBBF24;
+  --jp-red: #F87171;
+  --jp-pink: #F472B6;
+  --jp-teal: #34D399;
+  --jp-orange: #F59E0B;
+  --jp-text: #E8EAED;
+  --jp-text-secondary: #7A8290;
+  --jp-text-muted: #4A5568;
+  --jp-font: -apple-system, BlinkMacSystemFont, 'Space Grotesk', 'Segoe UI', sans-serif;
+  --jp-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --jp-radius: 12px;
   --jp-radius-sm: 8px;
   --jp-radius-xs: 6px;
+  --jp-radius-lg: 16px;
   --jp-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

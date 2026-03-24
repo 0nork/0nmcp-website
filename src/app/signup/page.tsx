@@ -221,7 +221,7 @@ function SignupForm() {
                           backgroundColor: i < passwordStrength
                             ? passwordStrength <= 1 ? '#ff5050'
                               : passwordStrength <= 2 ? '#ffc800'
-                                : '#7ed957'
+                                : '#6EE05A'
                             : 'var(--border)',
                         }}
                       />

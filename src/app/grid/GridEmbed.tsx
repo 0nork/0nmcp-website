@@ -24,7 +24,7 @@ export default function GridEmbed({ gridUrl, hasCrmSetup }: GridEmbedProps) {
             border: '1px solid rgba(126,217,87,0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
               <rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
             </svg>
@@ -32,7 +32,7 @@ export default function GridEmbed({ gridUrl, hasCrmSetup }: GridEmbedProps) {
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#e8eaed', margin: '0 0 0.5rem' }}>
             Your Grid access is being set up
           </h1>
-          <p style={{ fontSize: '0.875rem', color: '#9aa0a8', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
+          <p style={{ fontSize: '0.875rem', color: '#7A8290', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
             This usually takes less than a minute after signup.
             If this persists, reconnect below.
           </p>
@@ -41,7 +41,7 @@ export default function GridEmbed({ gridUrl, hasCrmSetup }: GridEmbedProps) {
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
               padding: '0.65rem 1.5rem', borderRadius: 10,
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+              background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
               color: '#000', fontSize: '0.875rem', fontWeight: 700,
               textDecoration: 'none', fontFamily: 'inherit',
             }}
@@ -65,7 +65,7 @@ export default function GridEmbed({ gridUrl, hasCrmSetup }: GridEmbedProps) {
           <div style={{
             width: 32, height: 32, borderRadius: '50%',
             border: '3px solid rgba(126,217,87,0.15)',
-            borderTopColor: '#7ed957',
+            borderTopColor: '#6EE05A',
             animation: 'grid-spin 0.8s linear infinite',
           }} />
           <style>{`@keyframes grid-spin { to { transform: rotate(360deg) } }`}</style>

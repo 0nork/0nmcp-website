@@ -16,7 +16,7 @@ export const QA_DISTRIBUTION_TEMPLATE = {
   platforms: [
     { id: 'linkedin', name: 'LinkedIn', icon: 'Linkedin', color: '#0077b5' },
     { id: 'reddit', name: 'Reddit', icon: 'MessageCircle', color: '#ff4500' },
-    { id: 'dev_to', name: 'Dev.to', icon: 'Code2', color: '#0a0a0a' },
+    { id: 'dev_to', name: 'Dev.to', icon: 'Code2', color: '#0B0F19' },
     { id: 'x_twitter', name: 'X (Twitter)', icon: 'Twitter', color: '#000000' },
     { id: 'instagram', name: 'Instagram', icon: 'Instagram', color: '#e4405f' },
     { id: 'tiktok', name: 'TikTok', icon: 'Smartphone', color: '#010101' },

@@ -83,24 +83,24 @@ const CATEGORIES = [
 ]
 
 const CATEGORY_COLORS: Record<string, string> = {
-  'Core': '#7ed957',
+  'Core': '#6EE05A',
   'Auth': '#8888a0',
   'Products': '#00d4ff',
   'Community': '#a78bfa',
   'Security': '#ef4444',
   'Tools': '#fbbf24',
-  'SEO Hub': '#7ed957',
+  'SEO Hub': '#6EE05A',
   'Marketplace': '#f97316',
   'Meta': '#55556a',
-  'Programmatic: Services': '#7ed957',
-  'Programmatic: Capabilities': '#7ed957',
+  'Programmatic: Services': '#6EE05A',
+  'Programmatic: Capabilities': '#6EE05A',
   'Programmatic: Integrations': '#00d4ff',
   'Programmatic: Glossary': '#a78bfa',
   'Programmatic: Comparisons': '#fbbf24',
   'Dynamic: Forum': '#a78bfa',
   'Dynamic: Profiles': '#00d4ff',
   'Dynamic: Marketplace': '#f97316',
-  'Dynamic: Learn': '#7ed957',
+  'Dynamic: Learn': '#6EE05A',
 }
 
 interface DynamicCounts {
@@ -208,7 +208,7 @@ export function AdminSitemap() {
         flexShrink: 0,
       }}>
         {[
-          { label: 'Total Pages', value: totalPages, color: '#7ed957' },
+          { label: 'Total Pages', value: totalPages, color: '#6EE05A' },
           { label: 'Static', value: staticCount, color: '#00d4ff' },
           { label: 'Programmatic', value: ssgCount, color: '#a78bfa' },
           { label: 'Dynamic', value: dynamicCount, color: '#fbbf24' },

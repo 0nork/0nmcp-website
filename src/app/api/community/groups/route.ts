@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       slug,
       description: description?.trim() || null,
       icon: icon || null,
-      color: color || '#7ed957',
+      color: color || '#6EE05A',
       created_by: user.id,
     })
     .select()

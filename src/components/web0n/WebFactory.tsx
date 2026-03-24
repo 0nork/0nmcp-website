@@ -8,9 +8,9 @@ export default function WebFactory() {
         position: 'relative',
         margin: '2.5rem -1.5rem 0',
         padding: '2.5rem 1.5rem 1.5rem',
-        background: 'linear-gradient(180deg, #0d0d16 0%, #0f1419 100%)',
-        borderTop: '1px solid rgba(126, 217, 87, 0.12)',
-        borderBottom: '1px solid rgba(126, 217, 87, 0.12)',
+        background: 'linear-gradient(180deg, #0d0d16 0%, #0B0F19 100%)',
+        borderTop: '1px solid rgba(110, 224, 90, 0.12)',
+        borderBottom: '1px solid rgba(110, 224, 90, 0.12)',
         overflow: 'hidden',
       }}
     >
@@ -18,8 +18,8 @@ export default function WebFactory() {
       <div style={{
         position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
         width: '50%', height: '1px',
-        background: 'linear-gradient(90deg, transparent, #7ed957, transparent)',
-        boxShadow: '0 0 30px 8px rgba(126, 217, 87, 0.1)',
+        background: 'linear-gradient(90deg, transparent, #6EE05A, transparent)',
+        boxShadow: '0 0 30px 8px rgba(110, 224, 90, 0.1)',
       }} />
 
       <style>{`
@@ -28,13 +28,13 @@ export default function WebFactory() {
         .w0n-st{flex:0 0 170px;text-align:center;position:relative}
         .w0n-arr{flex:0 0 32px;display:flex;align-items:center;justify-content:center;align-self:center;margin-top:6px;position:relative;height:90px}
 
-        .w0n-num{width:30px;height:30px;margin:0 auto 6px;border-radius:50%;background:linear-gradient(135deg,#7ed957,#5cb83a);color:#0f1419;font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-display)}
+        .w0n-num{width:30px;height:30px;margin:0 auto 6px;border-radius:50%;background:linear-gradient(135deg,#6EE05A,#4CAF3D);color:#0B0F19;font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-display)}
         .w0n-card{width:150px;height:95px;margin:0 auto;border-radius:10px;background:#111119;border:1px solid rgba(126,217,87,0.12);overflow:hidden;position:relative}
-        .w0n-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.15em;color:#7ed957;margin-top:8px;text-transform:uppercase}
+        .w0n-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.15em;color:#6EE05A;margin-top:8px;text-transform:uppercase}
         .w0n-desc{font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:2px}
 
         /* === FLOW ARROWS === */
-        .w0n-dot{width:5px;height:5px;border-radius:50%;background:#7ed957;position:absolute;opacity:0;animation:w0nFlow 2s ease-in-out infinite}
+        .w0n-dot{width:5px;height:5px;border-radius:50%;background:#6EE05A;position:absolute;opacity:0;animation:w0nFlow 2s ease-in-out infinite}
         .w0n-dot:nth-child(1){animation-delay:0s}
         .w0n-dot:nth-child(2){animation-delay:0.5s}
         .w0n-dot:nth-child(3){animation-delay:1s}
@@ -62,12 +62,12 @@ export default function WebFactory() {
         /* === BUILD MOCKUP === */
         .w0n-mk-build{padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;line-height:1.7;display:flex;flex-direction:column;gap:1px}
         .w0n-mk-ln{opacity:0;animation:w0nCode 4s ease-in-out infinite;white-space:nowrap;overflow:hidden}
-        .w0n-mk-ln:nth-child(1){color:#7ed957;animation-delay:0s}
+        .w0n-mk-ln:nth-child(1){color:#6EE05A;animation-delay:0s}
         .w0n-mk-ln:nth-child(2){color:#00d4ff;animation-delay:0.5s;padding-left:8px}
         .w0n-mk-ln:nth-child(3){color:#a78bfa;animation-delay:1s;padding-left:8px}
-        .w0n-mk-ln:nth-child(4){color:#7ed957;animation-delay:1.5s;padding-left:8px}
+        .w0n-mk-ln:nth-child(4){color:#6EE05A;animation-delay:1.5s;padding-left:8px}
         .w0n-mk-ln:nth-child(5){color:rgba(255,255,255,0.5);animation-delay:2s}
-        .w0n-mk-cursor{display:inline-block;width:4px;height:8px;background:#7ed957;animation:w0nBlink 1s step-end infinite;vertical-align:middle;margin-left:2px}
+        .w0n-mk-cursor{display:inline-block;width:4px;height:8px;background:#6EE05A;animation:w0nBlink 1s step-end infinite;vertical-align:middle;margin-left:2px}
 
         /* === REVIEW MOCKUP === */
         .w0n-mk-review{padding:8px 10px;display:flex;flex-direction:column;gap:5px}
@@ -76,16 +76,16 @@ export default function WebFactory() {
         .w0n-mk-chk:nth-child(2){animation:w0nCheck 5s ease-in-out infinite;animation-delay:0.7s}
         .w0n-mk-chk:nth-child(3){animation:w0nCheck 5s ease-in-out infinite;animation-delay:1.2s}
         .w0n-mk-chk:nth-child(4){animation:w0nCheck 5s ease-in-out infinite;animation-delay:1.7s}
-        .w0n-mk-chk-icon{width:14px;height:14px;border-radius:50%;background:rgba(126,217,87,0.2);display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:#7ed957;flex-shrink:0}
+        .w0n-mk-chk-icon{width:14px;height:14px;border-radius:50%;background:rgba(126,217,87,0.2);display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:#6EE05A;flex-shrink:0}
 
         /* === LAUNCH MOCKUP === */
         .w0n-mk-launch{position:relative;height:100%}
         .w0n-mk-bbar{height:16px;background:#1a1a24;display:flex;align-items:center;padding:0 6px;gap:3px;border-bottom:1px solid rgba(255,255,255,0.06)}
         .w0n-mk-bdot{width:5px;height:5px;border-radius:50%}
         .w0n-mk-burl{font-size:0.45rem;color:rgba(255,255,255,0.3);margin-left:4px;flex:1}
-        .w0n-mk-live{font-size:0.4rem;font-weight:800;color:#7ed957;letter-spacing:0.05em;padding:1px 5px;border-radius:3px;background:rgba(126,217,87,0.15);animation:w0nPulse 2s ease-in-out infinite}
+        .w0n-mk-live{font-size:0.4rem;font-weight:800;color:#6EE05A;letter-spacing:0.05em;padding:1px 5px;border-radius:3px;background:rgba(126,217,87,0.15);animation:w0nPulse 2s ease-in-out infinite}
         .w0n-mk-site{padding:6px;display:flex;flex-direction:column;gap:4px}
-        .w0n-mk-shero{height:24px;border-radius:4px;background:linear-gradient(135deg,#7ed957,#5cb83a);opacity:0.7}
+        .w0n-mk-shero{height:24px;border-radius:4px;background:linear-gradient(135deg,#6EE05A,#4CAF3D);opacity:0.7}
         .w0n-mk-srow{display:flex;gap:3px}
         .w0n-mk-sblock{flex:1;height:12px;border-radius:3px;background:rgba(126,217,87,0.12)}
         .w0n-mk-scta{height:10px;width:60%;border-radius:3px;background:rgba(126,217,87,0.3);margin:0 auto}
@@ -96,11 +96,11 @@ export default function WebFactory() {
         .w0n-belt-set{display:flex;align-items:center;gap:0;flex-shrink:0}
         .w0n-belt-item{flex-shrink:0;height:26px;padding:0 10px;border-radius:4px;font-size:0.6rem;font-weight:600;display:flex;align-items:center;gap:4px;margin:0 6px;white-space:nowrap}
         .w0n-belt-arr{color:rgba(126,217,87,0.3);font-size:0.7rem;flex-shrink:0;margin:0 2px}
-        .w0n-bi-intake{background:rgba(126,217,87,0.1);color:#7ed957;border:1px solid rgba(126,217,87,0.15)}
+        .w0n-bi-intake{background:rgba(126,217,87,0.1);color:#6EE05A;border:1px solid rgba(126,217,87,0.15)}
         .w0n-bi-design{background:rgba(0,212,255,0.1);color:#00d4ff;border:1px solid rgba(0,212,255,0.15)}
         .w0n-bi-build{background:rgba(167,139,250,0.1);color:#a78bfa;border:1px solid rgba(167,139,250,0.15)}
         .w0n-bi-review{background:rgba(255,200,50,0.1);color:#ffc832;border:1px solid rgba(255,200,50,0.15)}
-        .w0n-bi-launch{background:rgba(126,217,87,0.15);color:#7ed957;border:1px solid rgba(126,217,87,0.25);box-shadow:0 0 8px rgba(126,217,87,0.1)}
+        .w0n-bi-launch{background:rgba(126,217,87,0.15);color:#6EE05A;border:1px solid rgba(126,217,87,0.25);box-shadow:0 0 8px rgba(126,217,87,0.1)}
         .w0n-belt-line{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(126,217,87,0.2),rgba(126,217,87,0.4),rgba(126,217,87,0.2),transparent)}
 
         /* === GEARS === */
@@ -109,9 +109,9 @@ export default function WebFactory() {
         /* === KEYFRAMES === */
         @keyframes w0nFlow{0%{left:-5px;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% + 5px);opacity:0}}
         @keyframes w0nFill{0%,10%{width:0}30%,70%{width:var(--fw,60%)}85%,100%{width:0}}
-        @keyframes w0nC1{0%,100%{background:#7ed957}33%{background:#00d4ff}66%{background:#a78bfa}}
-        @keyframes w0nC2{0%,100%{background:#00d4ff}33%{background:#a78bfa}66%{background:#7ed957}}
-        @keyframes w0nC3{0%,100%{background:#a78bfa}33%{background:#7ed957}66%{background:#00d4ff}}
+        @keyframes w0nC1{0%,100%{background:#6EE05A}33%{background:#00d4ff}66%{background:#a78bfa}}
+        @keyframes w0nC2{0%,100%{background:#00d4ff}33%{background:#a78bfa}66%{background:#6EE05A}}
+        @keyframes w0nC3{0%,100%{background:#a78bfa}33%{background:#6EE05A}66%{background:#00d4ff}}
         @keyframes w0nCode{0%,10%{opacity:0;transform:translateX(-4px)}20%,80%{opacity:1;transform:translateX(0)}90%,100%{opacity:0;transform:translateX(0)}}
         @keyframes w0nCheck{0%,10%{opacity:0;transform:translateX(-4px)}25%,75%{opacity:1;transform:translateX(0)}90%,100%{opacity:0;transform:translateX(-4px)}}
         @keyframes w0nPulse{0%,100%{box-shadow:0 0 4px rgba(126,217,87,0.3)}50%{box-shadow:0 0 10px rgba(126,217,87,0.6),0 0 20px rgba(126,217,87,0.2)}}
@@ -135,7 +135,7 @@ export default function WebFactory() {
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <span style={{
             fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.2em',
-            textTransform: 'uppercase', color: '#7ed957', opacity: 0.7,
+            textTransform: 'uppercase', color: '#6EE05A', opacity: 0.7,
           }}>
             The web0n Factory
           </span>
@@ -284,15 +284,15 @@ export default function WebFactory() {
 
       {/* Decorative gears */}
       <svg className="w0n-gear" style={{ position: 'absolute', top: 20, left: '8%', width: 40, height: 40 }} viewBox="0 0 40 40">
-        <circle cx="20" cy="20" r="8" fill="none" stroke="#7ed957" strokeWidth="2"/>
+        <circle cx="20" cy="20" r="8" fill="none" stroke="#6EE05A" strokeWidth="2"/>
         {[0,45,90,135,180,225,270,315].map(a => (
-          <rect key={a} x="18" y="4" width="4" height="6" rx="1" fill="#7ed957" transform={`rotate(${a} 20 20)`}/>
+          <rect key={a} x="18" y="4" width="4" height="6" rx="1" fill="#6EE05A" transform={`rotate(${a} 20 20)`}/>
         ))}
       </svg>
       <svg className="w0n-gear" style={{ position: 'absolute', bottom: 55, right: '6%', width: 50, height: 50, animationDirection: 'reverse', animationDuration: '8s' }} viewBox="0 0 40 40">
-        <circle cx="20" cy="20" r="8" fill="none" stroke="#7ed957" strokeWidth="2"/>
+        <circle cx="20" cy="20" r="8" fill="none" stroke="#6EE05A" strokeWidth="2"/>
         {[0,45,90,135,180,225,270,315].map(a => (
-          <rect key={a} x="18" y="4" width="4" height="6" rx="1" fill="#7ed957" transform={`rotate(${a} 20 20)`}/>
+          <rect key={a} x="18" y="4" width="4" height="6" rx="1" fill="#6EE05A" transform={`rotate(${a} 20 20)`}/>
         ))}
       </svg>
     </section>

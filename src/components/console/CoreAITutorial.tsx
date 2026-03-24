@@ -25,7 +25,7 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
 
   const steps = [
     {
-      icon: <Zap size={32} style={{ color: '#7ed957' }} />,
+      icon: <Zap size={32} style={{ color: '#6EE05A' }} />,
       title: 'Your AI, Your Console',
       body: (
         <>
@@ -60,7 +60,7 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
       ),
     },
     {
-      icon: <Shield size={32} style={{ color: '#7ed957' }} />,
+      icon: <Shield size={32} style={{ color: '#6EE05A' }} />,
       title: 'Your Key Is Safe',
       body: (
         <>
@@ -74,9 +74,9 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
             border: '1px solid rgba(126,217,87,0.15)',
             margin: '0 auto', maxWidth: 280,
           }}>
-            <Shield size={18} style={{ color: '#7ed957', flexShrink: 0 }} />
+            <Shield size={18} style={{ color: '#6EE05A', flexShrink: 0 }} />
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#7ed957' }}>BYOK Encrypted</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#6EE05A' }}>BYOK Encrypted</div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Stored in your personal vault</div>
             </div>
           </div>
@@ -84,7 +84,7 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
       ),
     },
     {
-      icon: <PartyPopper size={32} style={{ color: '#7ed957' }} />,
+      icon: <PartyPopper size={32} style={{ color: '#6EE05A' }} />,
       title: "You're Ready",
       body: (
         <>
@@ -98,9 +98,9 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
             border: '1px solid rgba(126,217,87,0.15)',
             margin: '0 auto', maxWidth: 280,
           }}>
-            <Zap size={18} style={{ color: '#7ed957', flexShrink: 0 }} />
+            <Zap size={18} style={{ color: '#6EE05A', flexShrink: 0 }} />
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#7ed957' }}>Console Unlocked</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#6EE05A' }}>Console Unlocked</div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>All AI features are now active</div>
             </div>
           </div>
@@ -176,7 +176,7 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
                 key={i}
                 style={{
                   width: i === step ? 20 : 6, height: 6, borderRadius: 3,
-                  background: i === step ? '#7ed957' : 'rgba(255,255,255,0.1)',
+                  background: i === step ? '#6EE05A' : 'rgba(255,255,255,0.1)',
                   transition: 'all 0.3s',
                 }}
               />
@@ -189,8 +189,8 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '12px 32px', borderRadius: 12,
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              border: 'none', color: '#0f1419',
+              background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+              border: 'none', color: '#0B0F19',
               fontSize: 14, fontWeight: 700,
               cursor: 'pointer',
               transition: 'transform 0.15s, box-shadow 0.15s',

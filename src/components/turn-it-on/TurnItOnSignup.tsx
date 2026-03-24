@@ -157,8 +157,8 @@ export default function TurnItOnSignup() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%',
-    background: 'rgba(126, 217, 87, 0.04)',
-    border: '1px solid rgba(126, 217, 87, 0.25)',
+    background: 'rgba(110, 224, 90, 0.04)',
+    border: '1px solid rgba(110, 224, 90, 0.25)',
     borderRadius: '14px',
     padding: '0.875rem 1.125rem',
     fontSize: '1rem',
@@ -166,7 +166,7 @@ export default function TurnItOnSignup() {
     color: '#ffffff',
     fontFamily: 'var(--font-display)',
     outline: 'none',
-    caretColor: '#7ed957',
+    caretColor: '#6EE05A',
     boxSizing: 'border-box',
   }
 
@@ -175,7 +175,7 @@ export default function TurnItOnSignup() {
     padding: '0.75rem',
     borderRadius: '14px',
     border: 'none',
-    background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+    background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
     color: '#000000',
     fontSize: '0.9375rem',
     fontWeight: 800,
@@ -183,7 +183,7 @@ export default function TurnItOnSignup() {
     fontFamily: 'var(--font-display)',
     letterSpacing: '0.02em',
     transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-    boxShadow: '0 4px 20px rgba(126, 217, 87, 0.3)',
+    boxShadow: '0 4px 20px rgba(110, 224, 90, 0.3)',
   }
 
   const oauthBtnStyle = (bg: string): React.CSSProperties => ({
@@ -192,7 +192,7 @@ export default function TurnItOnSignup() {
     justifyContent: 'center',
     width: 44, height: 44,
     borderRadius: '12px',
-    border: bg === 'transparent' ? '1px solid rgba(126, 217, 87, 0.2)' : 'none',
+    border: bg === 'transparent' ? '1px solid rgba(110, 224, 90, 0.2)' : 'none',
     background: bg,
     cursor: 'pointer',
     transition: 'transform 0.15s, opacity 0.15s',
@@ -205,10 +205,10 @@ export default function TurnItOnSignup() {
         maxWidth: '520px',
         margin: '0 auto 2.5rem',
         background: '#000000',
-        border: '2px solid #7ed957',
+        border: '2px solid #6EE05A',
         borderRadius: '27px',
         padding: '2rem 2rem 1.75rem',
-        boxShadow: '0 0 40px rgba(126, 217, 87, 0.15), 0 0 80px rgba(126, 217, 87, 0.06), inset 0 0 30px rgba(126, 217, 87, 0.03)',
+        boxShadow: '0 0 40px rgba(110, 224, 90, 0.15), 0 0 80px rgba(110, 224, 90, 0.06), inset 0 0 30px rgba(110, 224, 90, 0.03)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -216,7 +216,7 @@ export default function TurnItOnSignup() {
       {/* Glow line */}
       <div style={{
         position: 'absolute', top: 0, left: '20%', right: '20%',
-        height: '1px', background: 'linear-gradient(90deg, transparent, #7ed957, transparent)', opacity: 0.6,
+        height: '1px', background: 'linear-gradient(90deg, transparent, #6EE05A, transparent)', opacity: 0.6,
       }} />
 
       {/* Magic link sent state */}
@@ -227,14 +227,14 @@ export default function TurnItOnSignup() {
             Check your email
           </div>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-            We sent a magic link to <strong style={{ color: '#7ed957' }}>{email}</strong>. Click it to sign in instantly.
+            We sent a magic link to <strong style={{ color: '#6EE05A' }}>{email}</strong>. Click it to sign in instantly.
           </div>
           <button
             onClick={() => { setMagicSent(false); setStep('email'); setEmail('') }}
             style={{
               marginTop: '1rem', padding: '0.5rem 1.5rem', borderRadius: '10px',
-              border: '1px solid rgba(126, 217, 87, 0.3)', background: 'transparent',
-              color: '#7ed957', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer',
+              border: '1px solid rgba(110, 224, 90, 0.3)', background: 'transparent',
+              color: '#6EE05A', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer',
               fontFamily: 'var(--font-display)',
             }}
           >
@@ -265,15 +265,15 @@ export default function TurnItOnSignup() {
                   placeholder="you@company.com"
                   autoComplete="email"
                   style={inputStyle}
-                  onFocus={(e) => e.currentTarget.style.borderColor = '#7ed957'}
-                  onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(126, 217, 87, 0.25)'}
+                  onFocus={(e) => e.currentTarget.style.borderColor = '#6EE05A'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(110, 224, 90, 0.25)'}
                 />
                 {error && <div style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '0.5rem', fontWeight: 600 }}>{error}</div>}
                 <button
                   type="submit"
                   style={{ ...btnStyle, marginTop: '1rem' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(126, 217, 87, 0.4)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(126, 217, 87, 0.3)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(110, 224, 90, 0.4)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(110, 224, 90, 0.3)' }}
                 >
                   Continue
                 </button>
@@ -285,14 +285,14 @@ export default function TurnItOnSignup() {
                   disabled={loading}
                   style={{
                     width: '100%', marginTop: '0.625rem', padding: '0.625rem',
-                    borderRadius: '12px', border: '1px solid rgba(126, 217, 87, 0.2)',
+                    borderRadius: '12px', border: '1px solid rgba(110, 224, 90, 0.2)',
                     background: 'transparent', color: 'var(--text-secondary)',
                     fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer',
                     fontFamily: 'var(--font-display)',
                     transition: 'color 0.15s, border-color 0.15s',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#7ed957'; e.currentTarget.style.borderColor = 'rgba(126, 217, 87, 0.4)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'rgba(126, 217, 87, 0.2)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#6EE05A'; e.currentTarget.style.borderColor = 'rgba(110, 224, 90, 0.4)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'rgba(110, 224, 90, 0.2)' }}
                 >
                   {loading ? 'Sending...' : 'Send magic link instead'}
                 </button>
@@ -318,16 +318,16 @@ export default function TurnItOnSignup() {
                   placeholder="6+ characters"
                   autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
                   style={inputStyle}
-                  onFocus={(e) => e.currentTarget.style.borderColor = '#7ed957'}
-                  onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(126, 217, 87, 0.25)'}
+                  onFocus={(e) => e.currentTarget.style.borderColor = '#6EE05A'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = 'rgba(110, 224, 90, 0.25)'}
                 />
                 {error && <div style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '0.5rem', fontWeight: 600 }}>{error}</div>}
                 <button
                   type="submit"
                   disabled={loading}
                   style={{ ...btnStyle, marginTop: '1rem', opacity: loading ? 0.7 : 1 }}
-                  onMouseEnter={(e) => { if (!loading) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(126, 217, 87, 0.4)' } }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(126, 217, 87, 0.3)' }}
+                  onMouseEnter={(e) => { if (!loading) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(110, 224, 90, 0.4)' } }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(110, 224, 90, 0.3)' }}
                 >
                   {loading ? 'One moment...' : mode === 'signup' ? 'Create Account' : 'Sign In'}
                 </button>
@@ -353,7 +353,7 @@ export default function TurnItOnSignup() {
                   Confirm your email
                 </div>
                 <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                  We sent a confirmation link to <strong style={{ color: '#7ed957' }}>{email}</strong>.
+                  We sent a confirmation link to <strong style={{ color: '#6EE05A' }}>{email}</strong>.
                 </div>
               </div>
             )}
@@ -366,11 +366,11 @@ export default function TurnItOnSignup() {
                 display: 'flex', alignItems: 'center', gap: 12,
                 margin: '1.25rem 0',
               }}>
-                <div style={{ flex: 1, height: 1, background: 'rgba(126, 217, 87, 0.12)' }} />
+                <div style={{ flex: 1, height: 1, background: 'rgba(110, 224, 90, 0.12)' }} />
                 <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                   or continue with
                 </span>
-                <div style={{ flex: 1, height: 1, background: 'rgba(126, 217, 87, 0.12)' }} />
+                <div style={{ flex: 1, height: 1, background: 'rgba(110, 224, 90, 0.12)' }} />
               </div>
 
               {/* OAuth buttons row */}
@@ -415,7 +415,7 @@ export default function TurnItOnSignup() {
                   width: step === s ? '24px' : '6px',
                   height: '6px',
                   borderRadius: '3px',
-                  background: i <= ['email', 'password'].indexOf(step) ? '#7ed957' : 'rgba(126, 217, 87, 0.15)',
+                  background: i <= ['email', 'password'].indexOf(step) ? '#6EE05A' : 'rgba(110, 224, 90, 0.15)',
                   transition: 'all 0.3s ease',
                 }}
               />
@@ -438,7 +438,7 @@ export default function TurnItOnSignup() {
               }}
               style={{
                 background: 'none', border: 'none',
-                color: '#7ed957', fontWeight: 700, cursor: 'pointer',
+                color: '#6EE05A', fontWeight: 700, cursor: 'pointer',
                 fontSize: 'inherit', fontFamily: 'inherit',
               }}
             >

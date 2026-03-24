@@ -84,7 +84,7 @@ export function AdminVendors() {
           gap: '0.75rem',
         }}>
           {[
-            { label: 'Total GMV', value: formatCurrency(stats.totalGMV), color: '#7ed957' },
+            { label: 'Total GMV', value: formatCurrency(stats.totalGMV), color: '#6EE05A' },
             { label: 'Platform Fees', value: formatCurrency(stats.totalFees), color: '#00d4ff' },
             { label: 'Active Vendors', value: stats.activeVendors, color: '#a78bfa' },
             { label: 'Pending', value: stats.pendingApplications, color: '#f59e0b' },
@@ -119,9 +119,9 @@ export function AdminVendors() {
               padding: '0.375rem 0.75rem',
               borderRadius: '0.375rem',
               border: '1px solid',
-              borderColor: filter === f ? '#7ed957' : 'var(--border)',
+              borderColor: filter === f ? '#6EE05A' : 'var(--border)',
               background: filter === f ? 'rgba(126,217,87,0.1)' : 'transparent',
-              color: filter === f ? '#7ed957' : 'var(--text-secondary)',
+              color: filter === f ? '#6EE05A' : 'var(--text-secondary)',
               fontSize: '0.75rem',
               fontWeight: 500,
               cursor: 'pointer',
@@ -193,7 +193,7 @@ export function AdminVendors() {
                 <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem' }}>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ color: 'var(--text-muted)', fontSize: '0.6rem', textTransform: 'uppercase' }}>Revenue</div>
-                    <div style={{ color: '#7ed957', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
+                    <div style={{ color: '#6EE05A', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
                       {formatCurrency(v.total_revenue)}
                     </div>
                   </div>
@@ -217,7 +217,7 @@ export function AdminVendors() {
                       borderRadius: '0.375rem',
                       border: '1px solid rgba(126,217,87,0.3)',
                       background: 'rgba(126,217,87,0.1)',
-                      color: '#7ed957',
+                      color: '#6EE05A',
                       fontSize: '0.7rem',
                       fontWeight: 600,
                       cursor: actionLoading === v.id ? 'not-allowed' : 'pointer',

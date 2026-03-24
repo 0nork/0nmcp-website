@@ -5,26 +5,26 @@
    ============================================ */
 
 :root {
-  /* Backgrounds — Dashboard Standard (2026-03-21) */
-  --bg-primary: #0f1419;
-  --bg-secondary: #151d27;
-  --bg-tertiary: #1a2332;
-  --bg-card: rgba(255, 255, 255, 0.03);
+  /* Backgrounds — Dark Navy Scheme (2026-03-24) */
+  --bg-primary: #0B0F19;
+  --bg-secondary: #111827;
+  --bg-tertiary: #162032;
+  --bg-card: #111827;
 
   /* Text */
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --text-muted: rgba(255, 255, 255, 0.35);
+  --text-primary: #E8EAED;
+  --text-secondary: #7A8290;
+  --text-muted: #4A5568;
 
-  /* Accent — Brand Green #7ed957 */
-  --accent: #7ed957;
-  --accent-dim: #5cb83a;
-  --accent-glow: rgba(126, 217, 87, 0.15);
-  --accent-secondary: #00d4ff;
+  /* Accent — Brand Green #6EE05A */
+  --accent: #6EE05A;
+  --accent-dim: #4CAF3D;
+  --accent-glow: rgba(110, 224, 90, 0.15);
+  --accent-secondary: #60A5FA;
 
   /* Borders */
-  --border: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(255, 255, 255, 0.1);
+  --border: #1E293B;
+  --border-hover: #2D3748;
 
   /* Fonts */
   --font-display: 'Instrument Sans', sans-serif;
@@ -131,8 +131,8 @@ a:hover {
   transform: translateY(-2px);
   box-shadow:
     0 0 20px var(--accent-glow),
-    0 0 60px rgba(126, 217, 87, 0.05),
-    inset 0 0 20px rgba(126, 217, 87, 0.03),
+    0 0 60px rgba(110, 224, 90, 0.05),
+    inset 0 0 20px rgba(110, 224, 90, 0.03),
     0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
@@ -199,7 +199,7 @@ a:hover {
 .btn-accent:hover {
   background-color: var(--accent-dim);
   color: var(--bg-primary);
-  box-shadow: 0 0 20px var(--accent-glow), 0 4px 16px rgba(126, 217, 87, 0.2);
+  box-shadow: 0 0 20px var(--accent-glow), 0 4px 16px rgba(110, 224, 90, 0.2);
   transform: translateY(-1px);
 }
 
@@ -238,7 +238,7 @@ a:hover {
 
 /* Glow text */
 .glow-text {
-  text-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(126, 217, 87, 0.1);
+  text-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(110, 224, 90, 0.1);
 }
 
 /* ============================================
@@ -257,7 +257,7 @@ a:hover {
   width: 500px;
   height: 300px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse at center, rgba(126, 217, 87, 0.18) 0%, rgba(126, 217, 87, 0.06) 40%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(110, 224, 90, 0.18) 0%, rgba(110, 224, 90, 0.06) 40%, transparent 70%);
   pointer-events: none;
   z-index: 0;
   filter: blur(30px);
@@ -289,7 +289,7 @@ a:hover {
     box-shadow: 0 0 10px var(--accent-glow);
   }
   50% {
-    box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(126, 217, 87, 0.1);
+    box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(110, 224, 90, 0.1);
   }
 }
 
@@ -567,7 +567,7 @@ a:hover {
 .account-message.success {
   background-color: var(--accent-glow);
   color: var(--accent);
-  border: 1px solid rgba(126, 217, 87, 0.3);
+  border: 1px solid rgba(110, 224, 90, 0.3);
 }
 
 .account-message.error {
@@ -856,7 +856,7 @@ a:hover {
   justify-content: center;
   padding: 3rem;
   background:
-    linear-gradient(135deg, rgba(126, 217, 87, 0.04) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(110, 224, 90, 0.04) 0%, transparent 60%),
     linear-gradient(225deg, rgba(0, 212, 255, 0.03) 0%, transparent 60%),
     var(--bg-secondary);
   border-right: 1px solid var(--border);
@@ -871,7 +871,7 @@ a:hover {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 30% 40%, rgba(126, 217, 87, 0.06) 0%, transparent 50%);
+  background: radial-gradient(circle at 30% 40%, rgba(110, 224, 90, 0.06) 0%, transparent 50%);
   animation: brandGlow 15s ease-in-out infinite alternate;
   pointer-events: none;
 }
@@ -968,7 +968,7 @@ a:hover {
   min-width: 36px;
   border-radius: 10px;
   background: linear-gradient(135deg, var(--accent-glow), rgba(0, 212, 255, 0.1));
-  border: 1px solid rgba(126, 217, 87, 0.2);
+  border: 1px solid rgba(110, 224, 90, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1871,7 +1871,7 @@ a:hover {
   width: 900px;
   height: 900px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(126, 217, 87, 0.12) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(110, 224, 90, 0.12) 0%, transparent 60%);
   animation: heroGlowDrift1 8s ease-in-out infinite;
 }
 
@@ -1954,7 +1954,7 @@ a:hover {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(126, 217, 87, 0.06) 15%,
+    rgba(110, 224, 90, 0.06) 15%,
     rgba(0, 212, 255, 0.1) 50%,
     rgba(167, 139, 250, 0.06) 85%,
     transparent 100%
@@ -1970,7 +1970,7 @@ a:hover {
     180deg,
     transparent 0%,
     rgba(167, 139, 250, 0.06) 15%,
-    rgba(126, 217, 87, 0.08) 50%,
+    rgba(110, 224, 90, 0.08) 50%,
     rgba(0, 212, 255, 0.06) 85%,
     transparent 100%
   );
@@ -2007,8 +2007,8 @@ a:hover {
   gap: 0.5rem;
   padding: 0.375rem 1rem;
   border-radius: 999px;
-  background: rgba(126, 217, 87, 0.06);
-  border: 1px solid rgba(126, 217, 87, 0.2);
+  background: rgba(110, 224, 90, 0.06);
+  border: 1px solid rgba(110, 224, 90, 0.2);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--accent);
@@ -2027,7 +2027,7 @@ a:hover {
 
 @keyframes heroBadgePulse {
   0%, 100% { box-shadow: 0 0 4px var(--accent); transform: scale(1); }
-  50% { box-shadow: 0 0 16px var(--accent), 0 0 32px rgba(126, 217, 87, 0.3); transform: scale(1.2); }
+  50% { box-shadow: 0 0 16px var(--accent), 0 0 32px rgba(110, 224, 90, 0.3); transform: scale(1.2); }
 }
 
 .hero-headline {
@@ -2058,24 +2058,24 @@ a:hover {
   color: var(--accent);
   margin-bottom: 1rem;
   text-shadow:
-    0 0 20px rgba(126, 217, 87, 0.5),
-    0 0 40px rgba(126, 217, 87, 0.25),
-    0 0 80px rgba(126, 217, 87, 0.1);
+    0 0 20px rgba(110, 224, 90, 0.5),
+    0 0 40px rgba(110, 224, 90, 0.25),
+    0 0 80px rgba(110, 224, 90, 0.1);
   animation: heroGlowPulse 3s ease-in-out infinite;
 }
 
 @keyframes heroGlowPulse {
   0%, 100% {
     text-shadow:
-      0 0 20px rgba(126, 217, 87, 0.5),
-      0 0 40px rgba(126, 217, 87, 0.25),
-      0 0 80px rgba(126, 217, 87, 0.1);
+      0 0 20px rgba(110, 224, 90, 0.5),
+      0 0 40px rgba(110, 224, 90, 0.25),
+      0 0 80px rgba(110, 224, 90, 0.1);
   }
   50% {
     text-shadow:
-      0 0 30px rgba(126, 217, 87, 0.7),
-      0 0 60px rgba(126, 217, 87, 0.35),
-      0 0 120px rgba(126, 217, 87, 0.15);
+      0 0 30px rgba(110, 224, 90, 0.7),
+      0 0 60px rgba(110, 224, 90, 0.35),
+      0 0 120px rgba(110, 224, 90, 0.15);
   }
 }
 
@@ -2137,8 +2137,8 @@ a:hover {
 .hero-cta-primary:hover {
   color: var(--bg-primary);
   box-shadow:
-    0 0 30px rgba(126, 217, 87, 0.4),
-    0 0 60px rgba(126, 217, 87, 0.15);
+    0 0 30px rgba(110, 224, 90, 0.4),
+    0 0 60px rgba(110, 224, 90, 0.15);
   transform: translateY(-2px);
 }
 
@@ -2253,7 +2253,7 @@ a:hover {
   position: relative;
   padding: 5rem 2rem;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(126, 217, 87, 0.02) 50%, var(--bg-primary) 100%);
+  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(110, 224, 90, 0.02) 50%, var(--bg-primary) 100%);
   border-top: 1px solid var(--border);
 }
 
@@ -2264,7 +2264,7 @@ a:hover {
   width: 800px;
   height: 600px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse, rgba(126, 217, 87, 0.06) 0%, transparent 60%);
+  background: radial-gradient(ellipse, rgba(110, 224, 90, 0.06) 0%, transparent 60%);
   filter: blur(60px);
   pointer-events: none;
   animation: consoleCTAGlow 6s ease-in-out infinite;
@@ -2304,9 +2304,9 @@ a:hover {
   backdrop-filter: blur(16px);
   margin-bottom: 2.5rem;
   box-shadow:
-    0 0 0 1px rgba(126, 217, 87, 0.05),
+    0 0 0 1px rgba(110, 224, 90, 0.05),
     0 8px 32px rgba(0, 0, 0, 0.4),
-    0 0 60px rgba(126, 217, 87, 0.03);
+    0 0 60px rgba(110, 224, 90, 0.03);
 }
 
 .console-cta-prompt-bar {
@@ -2407,22 +2407,22 @@ a:hover {
   align-items: center;
   padding: 1rem 2.5rem;
   border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent) 0%, #5cb83a 50%, var(--accent-secondary) 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #4CAF3D 50%, var(--accent-secondary) 100%);
   background-size: 200% 200%;
   animation: consoleBtnShimmer 4s ease-in-out infinite;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   box-shadow:
-    0 4px 20px rgba(126, 217, 87, 0.25),
-    0 0 40px rgba(126, 217, 87, 0.08),
+    0 4px 20px rgba(110, 224, 90, 0.25),
+    0 0 40px rgba(110, 224, 90, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .console-cta-btn:hover {
   transform: translateY(-3px) scale(1.03);
   box-shadow:
-    0 8px 40px rgba(126, 217, 87, 0.4),
-    0 0 80px rgba(126, 217, 87, 0.12),
+    0 8px 40px rgba(110, 224, 90, 0.4),
+    0 0 80px rgba(110, 224, 90, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -2530,11 +2530,11 @@ a:hover {
 
 /* Variant with accent glow on hover */
 .float-card-accent:hover {
-  border-color: rgba(126, 217, 87, 0.2);
+  border-color: rgba(110, 224, 90, 0.2);
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.3),
     0 1px 3px rgba(0, 0, 0, 0.2),
-    0 0 20px rgba(126, 217, 87, 0.04);
+    0 0 20px rgba(110, 224, 90, 0.04);
 }
 
 /* Larger float card for featured content */
@@ -2561,14 +2561,14 @@ a:hover {
   box-shadow:
     0 12px 48px rgba(0, 0, 0, 0.5),
     0 6px 16px rgba(0, 0, 0, 0.4),
-    0 0 50px rgba(126, 217, 87, 0.06);
+    0 0 50px rgba(110, 224, 90, 0.06);
 }
 
 .float-card-featured:hover {
   box-shadow:
     0 3px 12px rgba(0, 0, 0, 0.35),
     0 1px 4px rgba(0, 0, 0, 0.25),
-    0 0 20px rgba(126, 217, 87, 0.04);
+    0 0 20px rgba(110, 224, 90, 0.04);
 }
 
 /* Demo preview panels */
@@ -2612,7 +2612,7 @@ a:hover {
 
 /* Section label + heading inside recessed sections get subtle text shadow */
 .section-recessed .section-label {
-  text-shadow: 0 0 20px rgba(126, 217, 87, 0.2);
+  text-shadow: 0 0 20px rgba(110, 224, 90, 0.2);
 }
 
 .section-recessed .section-heading {
@@ -2723,7 +2723,7 @@ a:hover {
 /* Pricing highlight card */
 .pricing-featured {
   border-color: var(--accent) !important;
-  box-shadow: 0 0 50px rgba(126, 217, 87, 0.08), 0 0 100px rgba(126, 217, 87, 0.04);
+  box-shadow: 0 0 50px rgba(110, 224, 90, 0.08), 0 0 100px rgba(110, 224, 90, 0.04);
 }
 
 /* Before/After comparison cards */
@@ -2786,7 +2786,7 @@ a:hover {
 }
 
 .faq-item[open] {
-  border-color: rgba(126, 217, 87, 0.2);
+  border-color: rgba(110, 224, 90, 0.2);
 }
 
 .faq-item summary {
@@ -2938,7 +2938,7 @@ a:hover {
 
 .mega-nav-direct-builder:hover {
   color: var(--accent);
-  background: rgba(126, 217, 87, 0.06);
+  background: rgba(110, 224, 90, 0.06);
 }
 
 .mega-nav-chevron {
@@ -2992,7 +2992,7 @@ a:hover {
   font-weight: 600;
   padding: 0.4rem 1rem;
   border-radius: 0.5rem;
-  background: linear-gradient(135deg, var(--accent), #5cb83a);
+  background: linear-gradient(135deg, var(--accent), #4CAF3D);
   color: var(--bg-primary);
   transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
@@ -3182,7 +3182,7 @@ a:hover {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7ed957, #00d4ff);
+  background: linear-gradient(135deg, #6EE05A, #00d4ff);
   flex-shrink: 0;
   margin-top: 0.45rem;
   opacity: 0.4;
@@ -3197,7 +3197,7 @@ a:hover {
 
 .mega-dropdown-link:hover::before {
   opacity: 1;
-  box-shadow: 0 0 8px rgba(126, 217, 87, 0.5);
+  box-shadow: 0 0 8px rgba(110, 224, 90, 0.5);
   transform: scale(1.3);
 }
 
@@ -3233,7 +3233,7 @@ a:hover {
   text-transform: uppercase;
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
-  background: rgba(126, 217, 87, 0.1);
+  background: rgba(110, 224, 90, 0.1);
   color: var(--accent);
   letter-spacing: 0.05em;
 }
@@ -3305,7 +3305,7 @@ a:hover {
   font-family: var(--font-mono);
   font-size: 0.6rem;
   font-weight: 700;
-  background: rgba(126, 217, 87, 0.1);
+  background: rgba(110, 224, 90, 0.1);
   color: var(--accent);
   border-radius: 50%;
 }
@@ -3376,7 +3376,7 @@ a:hover {
   display: block;
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(126, 217, 87, 0.1);
+  border-bottom: 1px solid rgba(110, 224, 90, 0.1);
 }
 
 .mega-mobile-links {
@@ -3423,7 +3423,7 @@ a:hover {
 
 .mega-mobile-link-builder:hover {
   color: var(--accent) !important;
-  background: rgba(126, 217, 87, 0.06);
+  background: rgba(110, 224, 90, 0.06);
 }
 
 .mega-mobile-auth-link {
@@ -3529,7 +3529,7 @@ a:hover {
 
 .demo-progress-step.done .demo-progress-dot {
   border-color: var(--accent);
-  background: rgba(126, 217, 87, 0.15);
+  background: rgba(110, 224, 90, 0.15);
   color: var(--accent);
 }
 
@@ -3590,8 +3590,8 @@ a:hover {
   letter-spacing: 0.12em;
   padding: 0.375rem 1rem;
   border-radius: 999px;
-  background: rgba(126, 217, 87, 0.08);
-  border: 1px solid rgba(126, 217, 87, 0.2);
+  background: rgba(110, 224, 90, 0.08);
+  border: 1px solid rgba(110, 224, 90, 0.2);
   color: var(--accent);
   margin-bottom: 1.5rem;
 }
@@ -3656,7 +3656,7 @@ a:hover {
 
 .demo-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(126, 217, 87, 0.08);
+  box-shadow: 0 0 0 3px rgba(110, 224, 90, 0.08);
 }
 
 .demo-input::placeholder {
@@ -3696,7 +3696,7 @@ a:hover {
 
 .demo-option.selected {
   border-color: var(--accent);
-  background: rgba(126, 217, 87, 0.06);
+  background: rgba(110, 224, 90, 0.06);
   color: var(--accent);
 }
 
@@ -3761,7 +3761,7 @@ a:hover {
 
 .demo-service-card.selected {
   border-color: var(--accent);
-  background: rgba(126, 217, 87, 0.05);
+  background: rgba(110, 224, 90, 0.05);
   box-shadow: 0 0 16px var(--accent-glow);
 }
 
@@ -3834,7 +3834,7 @@ a:hover {
 
 .demo-goal-card.selected {
   border-color: var(--accent);
-  background: rgba(126, 217, 87, 0.05);
+  background: rgba(110, 224, 90, 0.05);
 }
 
 .demo-goal-label {
@@ -3896,7 +3896,7 @@ a:hover {
 
 .demo-build-step.active {
   opacity: 1;
-  background: rgba(126, 217, 87, 0.04);
+  background: rgba(110, 224, 90, 0.04);
 }
 
 .demo-build-step.done {
@@ -3920,7 +3920,7 @@ a:hover {
 
 .demo-build-step.done .demo-build-step-icon {
   border-color: var(--accent);
-  background: rgba(126, 217, 87, 0.1);
+  background: rgba(110, 224, 90, 0.1);
 }
 
 .demo-build-step.active .demo-build-step-icon {
@@ -3955,7 +3955,7 @@ a:hover {
 .demo-build-spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(126, 217, 87, 0.2);
+  border: 2px solid rgba(110, 224, 90, 0.2);
   border-top-color: var(--accent);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
@@ -3970,8 +3970,8 @@ a:hover {
   gap: 1rem;
   padding: 1.25rem;
   margin-top: 1.5rem;
-  background: rgba(126, 217, 87, 0.06);
-  border: 1px solid rgba(126, 217, 87, 0.2);
+  background: rgba(110, 224, 90, 0.06);
+  border: 1px solid rgba(110, 224, 90, 0.2);
   border-radius: 0.75rem;
   animation: demoStepIn 0.5s ease-out;
 }
@@ -4013,7 +4013,7 @@ a:hover {
   transform: translateX(-50%);
   width: 600px;
   height: 400px;
-  background: radial-gradient(ellipse, rgba(126, 217, 87, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(110, 224, 90, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -4063,7 +4063,7 @@ a:hover {
   letter-spacing: 0.08em;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
-  background: rgba(126, 217, 87, 0.1);
+  background: rgba(110, 224, 90, 0.1);
   color: var(--accent);
 }
 
@@ -4107,7 +4107,7 @@ a:hover {
 }
 
 .demo-switch-download:hover {
-  box-shadow: 0 0 30px rgba(126, 217, 87, 0.4), 0 0 60px rgba(126, 217, 87, 0.15);
+  box-shadow: 0 0 30px rgba(110, 224, 90, 0.4), 0 0 60px rgba(110, 224, 90, 0.15);
   transform: translateY(-2px);
 }
 
@@ -4169,7 +4169,7 @@ a:hover {
   font-size: 0.75rem;
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
-  background: rgba(126, 217, 87, 0.08);
+  background: rgba(110, 224, 90, 0.08);
   color: var(--accent);
 }
 
@@ -4258,7 +4258,7 @@ a:hover {
 }
 
 .composer-card:hover {
-  box-shadow: 0 0 20px rgba(126, 217, 87, 0.05);
+  box-shadow: 0 0 20px rgba(110, 224, 90, 0.05);
 }
 
 .composer-card-header {
@@ -4378,13 +4378,13 @@ a:hover {
 
 .composer-dropzone:hover {
   border-color: var(--accent-dim);
-  background: rgba(126, 217, 87, 0.03);
+  background: rgba(110, 224, 90, 0.03);
 }
 
 .composer-dropzone.dragging {
   border-color: var(--accent);
-  background: rgba(126, 217, 87, 0.08);
-  box-shadow: 0 0 30px rgba(126, 217, 87, 0.1);
+  background: rgba(110, 224, 90, 0.08);
+  box-shadow: 0 0 30px rgba(110, 224, 90, 0.1);
 }
 
 .composer-dropzone-icon {
@@ -4890,8 +4890,8 @@ a:hover {
 }
 
 .onboarding-success {
-  background: rgba(126, 217, 87, 0.08);
-  border: 1px solid rgba(126, 217, 87, 0.2);
+  background: rgba(110, 224, 90, 0.08);
+  border: 1px solid rgba(110, 224, 90, 0.2);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   font-size: 0.85rem;
@@ -5337,7 +5337,7 @@ a:hover {
 .auth-field input:focus,
 .builder-field-input:focus,
 .builder-palette-search:focus {
-  box-shadow: 0 0 0 3px rgba(126, 217, 87, 0.08);
+  box-shadow: 0 0 0 3px rgba(110, 224, 90, 0.08);
 }
 
 /* Smooth section reveals on scroll (for future IntersectionObserver use) */
@@ -5365,8 +5365,8 @@ a:hover {
 
 /* Status dot pulse */
 @keyframes statusPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(126, 217, 87, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(110, 224, 90, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(110, 224, 90, 0); }
 }
 
 .status-dot {
@@ -5672,7 +5672,7 @@ nav[aria-label="Breadcrumb"] a:hover {
 .connect-form textarea:focus {
   outline: none;
   border-color: var(--accent);
-  background-color: rgba(126, 217, 87, 0.02);
+  background-color: rgba(110, 224, 90, 0.02);
 }
 
 .connect-form textarea::placeholder {
@@ -5706,7 +5706,7 @@ nav[aria-label="Breadcrumb"] a:hover {
 
 .connect-inquiry-option.active {
   border-color: var(--accent);
-  background: rgba(126, 217, 87, 0.04);
+  background: rgba(110, 224, 90, 0.04);
 }
 
 .connect-inquiry-label {
@@ -5740,7 +5740,7 @@ nav[aria-label="Breadcrumb"] a:hover {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(126, 217, 87, 0.1);
+  background: rgba(110, 224, 90, 0.1);
   border: 2px solid var(--accent);
   color: var(--accent);
   font-size: 1.75rem;

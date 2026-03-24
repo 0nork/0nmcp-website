@@ -87,11 +87,11 @@ export function AdminBilling() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       {/* KPI Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem' }}>
-        <KPICard label="Total Executions" value={String(data.executions.total)} color="#7ed957" />
+        <KPICard label="Total Executions" value={String(data.executions.total)} color="#6EE05A" />
         <KPICard label="Billed Executions" value={String(data.executions.billed)} color="#00d4ff" />
         <KPICard label="Revenue" value={`$${data.executions.totalRevenueDollars}`} color="#a78bfa" />
         <KPICard label="Subscribers" value={String(data.subscribers.total)} color="#f59e0b" />
-        <KPICard label="Store Purchases" value={String(data.storePurchases)} color="#7ed957" />
+        <KPICard label="Store Purchases" value={String(data.storePurchases)} color="#6EE05A" />
       </div>
 
       {/* Monthly Breakdown */}
@@ -116,7 +116,7 @@ export function AdminBilling() {
                       {new Date(m.month).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
                     </td>
                     <td style={{ padding: '0.5rem 0.75rem', color: 'var(--text-secondary)' }}>{m.total_executions}</td>
-                    <td style={{ padding: '0.5rem 0.75rem', color: '#7ed957' }}>{m.successful}</td>
+                    <td style={{ padding: '0.5rem 0.75rem', color: '#6EE05A' }}>{m.successful}</td>
                     <td style={{ padding: '0.5rem 0.75rem', color: m.failed > 0 ? '#ef4444' : 'var(--text-muted)' }}>{m.failed}</td>
                     <td style={{ padding: '0.5rem 0.75rem', color: 'var(--text-secondary)' }}>{m.billed_executions}</td>
                     <td style={{ padding: '0.5rem 0.75rem', color: '#a78bfa', fontFamily: 'var(--font-mono)' }}>
@@ -192,7 +192,7 @@ export function AdminBilling() {
                     <td style={{ padding: '0.4rem 0.5rem' }}>
                       <span style={{
                         display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%',
-                        background: e.status === 'completed' ? '#7ed957' : e.status === 'failed' ? '#ef4444' : '#f59e0b',
+                        background: e.status === 'completed' ? '#6EE05A' : e.status === 'failed' ? '#ef4444' : '#f59e0b',
                       }} />
                     </td>
                     <td style={{ padding: '0.4rem 0.5rem', color: 'var(--text-primary)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -242,7 +242,7 @@ export function AdminBilling() {
                   <span style={{
                     fontSize: '0.6rem', fontWeight: 600, padding: '0.15rem 0.5rem',
                     borderRadius: '9999px', background: 'rgba(126,217,87,0.1)',
-                    color: '#7ed957', border: '1px solid rgba(126,217,87,0.2)',
+                    color: '#6EE05A', border: '1px solid rgba(126,217,87,0.2)',
                   }}>
                     {s.plan}
                   </span>

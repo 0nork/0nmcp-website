@@ -23,7 +23,7 @@ interface ContactsResponse {
 }
 
 const TAG_COLORS: Record<string, string> = {
-  lead: '#7ed957',
+  lead: '#6EE05A',
   customer: '#00d4ff',
   vip: '#a78bfa',
   prospect: '#ff6b35',
@@ -36,7 +36,7 @@ function getTagColor(tag: string): string {
     if (lower.includes(key)) return color
   }
   const hash = tag.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
-  const palette = ['#7ed957', '#00d4ff', '#a78bfa', '#ff6b35', '#f472b6', '#fbbf24']
+  const palette = ['#6EE05A', '#00d4ff', '#a78bfa', '#ff6b35', '#f472b6', '#fbbf24']
   return palette[hash % palette.length]
 }
 
@@ -50,7 +50,7 @@ function Spinner(): ReactNode {
   return (
     <div style={{
       width: 20, height: 20, border: '2px solid rgba(255,255,255,0.1)',
-      borderTopColor: '#7ed957', borderRadius: '50%',
+      borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'crm-spin 0.6s linear infinite',
     }} />
   )
@@ -150,7 +150,7 @@ export default function ContactsView() {
           onClick={() => setShowAddForm(f => !f)}
           style={{
             padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid rgba(126,217,87,0.3)',
-            background: 'rgba(126,217,87,0.08)', color: '#7ed957', fontSize: '0.8rem',
+            background: 'rgba(126,217,87,0.08)', color: '#6EE05A', fontSize: '0.8rem',
             fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
           }}
           onMouseEnter={e => { e.currentTarget.style.background = 'rgba(126,217,87,0.15)' }}
@@ -206,7 +206,7 @@ export default function ContactsView() {
             disabled={addLoading}
             style={{
               padding: '0.5rem 1.25rem', borderRadius: 8, border: 'none',
-              background: '#7ed957', color: '#0f1419', fontSize: '0.8rem',
+              background: '#6EE05A', color: '#0B0F19', fontSize: '0.8rem',
               fontWeight: 700, cursor: addLoading ? 'not-allowed' : 'pointer',
               fontFamily: 'inherit', opacity: addLoading ? 0.6 : 1,
             }}
@@ -235,7 +235,7 @@ export default function ContactsView() {
           onClick={handleSearch}
           style={{
             padding: '0.625rem 1rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(255,255,255,0.04)', color: '#9aa0a8', fontSize: '0.8rem',
+            background: 'rgba(255,255,255,0.04)', color: '#7A8290', fontSize: '0.8rem',
             fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
           }}
           onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
@@ -317,7 +317,7 @@ export default function ContactsView() {
                   {/* Status dot */}
                   <div style={{
                     width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-                    background: recent ? '#7ed957' : '#3a3a4a',
+                    background: recent ? '#6EE05A' : '#3a3a4a',
                     boxShadow: recent ? '0 0 6px rgba(126,217,87,0.4)' : 'none',
                   }} />
 
@@ -386,7 +386,7 @@ export default function ContactsView() {
                           }}>
                             {field.label}
                           </div>
-                          <div style={{ fontSize: '0.8rem', color: '#9aa0a8' }}>
+                          <div style={{ fontSize: '0.8rem', color: '#7A8290' }}>
                             {field.value}
                           </div>
                         </div>
@@ -400,7 +400,7 @@ export default function ContactsView() {
                         }}>
                           Address
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#9aa0a8' }}>{contact.address}</div>
+                        <div style={{ fontSize: '0.8rem', color: '#7A8290' }}>{contact.address}</div>
                       </div>
                     )}
                     {(contact.tags || []).length > 0 && (
@@ -443,7 +443,7 @@ export default function ContactsView() {
             disabled={loadingMore}
             style={{
               padding: '0.625rem 1.5rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-              background: 'rgba(255,255,255,0.03)', color: '#9aa0a8', fontSize: '0.8rem',
+              background: 'rgba(255,255,255,0.03)', color: '#7A8290', fontSize: '0.8rem',
               fontWeight: 600, cursor: loadingMore ? 'not-allowed' : 'pointer',
               fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: 8,
             }}

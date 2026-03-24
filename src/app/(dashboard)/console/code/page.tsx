@@ -113,7 +113,7 @@ export default function CodePage() {
                   fontSize: '0.75rem', color: 'var(--text-muted)',
                   fontFamily: 'var(--font-mono)', cursor: 'pointer',
                 }}>
-                  <span style={{ color: '#7ed957', fontSize: '0.8rem' }}>📄</span>
+                  <span style={{ color: '#6EE05A', fontSize: '0.8rem' }}>📄</span>
                   {child.name}
                 </div>
               ))}

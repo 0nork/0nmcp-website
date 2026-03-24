@@ -176,7 +176,7 @@ const BUILDER_CATEGORIES: BuilderCategory[] = [
     id: 'live_data',
     label: 'Live Data',
     icon: svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>', '%237ed957'),
-    color: '#7ed957',
+    color: '#6EE05A',
     serviceIds: [
       'live_contacts', 'live_pipeline', 'live_deals', 'live_calendar',
       'live_inbox', 'live_invoices', 'live_social', 'live_payments',
@@ -295,7 +295,7 @@ const LOGIC_SERVICES: Record<string, { name: string; description: string; color:
   // Live Data nodes — drop onto canvas with live MCP data preview
   live_contacts:  { name: 'Contacts',     description: 'Live CRM contacts feed',    color: '#ff6b35', defaultTool: 'search_contacts' },
   live_pipeline:  { name: 'Pipeline',     description: 'Live deal pipeline',         color: '#00d4ff', defaultTool: 'list_pipelines' },
-  live_deals:     { name: 'Deals',        description: 'Live opportunity list',      color: '#7ed957', defaultTool: 'list_opportunities' },
+  live_deals:     { name: 'Deals',        description: 'Live opportunity list',      color: '#6EE05A', defaultTool: 'list_opportunities' },
   live_calendar:  { name: 'Calendar',     description: 'Live appointment feed',      color: '#a78bfa', defaultTool: 'list_calendars' },
   live_inbox:     { name: 'Inbox',        description: 'Live conversation feed',     color: '#f59e0b', defaultTool: 'list_conversations' },
   live_invoices:  { name: 'Invoices',     description: 'Live invoice list',          color: '#635bff', defaultTool: 'list_invoices' },
@@ -346,7 +346,7 @@ function buildService(id: string): BuilderService {
       tool_count: execSvc.actions.length,
       tools: execSvc.actions.map(a => ({ id: a.id, name: a.name, description: a.description })),
       logo: SERVICE_LOGOS[id] || '',
-      brandColor: '#7ed957',
+      brandColor: '#6EE05A',
       description_short: `${execSvc.name} — ${execSvc.actions.length} tools available`,
     }
   }
@@ -390,7 +390,7 @@ function buildService(id: string): BuilderService {
     tool_count: 8,
     tools: [],
     logo: SERVICE_LOGOS[id] || '',
-    brandColor: '#666666',
+    brandColor: '#4A5568',
     description_short: '',
   }
 }
@@ -477,7 +477,7 @@ export default function ServicePalette() {
         id: 'active',
         label: 'Active',
         icon: '',
-        color: '#7ed957',
+        color: '#6EE05A',
         services: filteredActive,
         isActive: true,
         serviceCount: filteredActive.length,

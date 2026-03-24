@@ -34,7 +34,7 @@ const features = [
   {
     title: 'AI Compose',
     desc: 'Generate messages, posts, emails — anywhere you type.',
-    color: '#7ed957',
+    color: '#6EE05A',
   },
   {
     title: 'Multi-AI Council',
@@ -78,8 +78,8 @@ export default function HomePage() {
 
       <div style={{
         minHeight: '100vh',
-        background: '#0a0a0a',
-        color: '#f0f0f0',
+        background: '#0B0F19',
+        color: '#E8EAED',
         fontFamily: "'Instrument Sans', system-ui, sans-serif",
       }}>
         {/* ── HERO ── */}
@@ -102,7 +102,7 @@ export default function HomePage() {
           }}>
             Your AI{' '}
             <span style={{
-              background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
+              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
@@ -128,14 +128,14 @@ export default function HomePage() {
               gap: '0.5rem',
               padding: '1rem 2.5rem',
               borderRadius: '14px',
-              background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
-              color: '#0a0a0a',
+              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
+              color: '#0B0F19',
               fontSize: '1.125rem',
               fontWeight: 700,
               textDecoration: 'none',
               border: 'none',
               cursor: 'pointer',
-              boxShadow: '0 0 40px rgba(126, 217, 87, 0.25)',
+              boxShadow: '0 0 40px rgba(110, 224, 90, 0.25)',
               transition: 'transform 0.2s, box-shadow 0.2s',
             }}
           >
@@ -162,7 +162,7 @@ export default function HomePage() {
             fontWeight: 700,
             textTransform: 'uppercase',
             letterSpacing: '0.12em',
-            color: '#7ed957',
+            color: '#6EE05A',
             textAlign: 'center',
             marginBottom: '2.5rem',
           }}>
@@ -186,13 +186,13 @@ export default function HomePage() {
                   width: 48,
                   height: 48,
                   borderRadius: '50%',
-                  border: '2px solid #7ed957',
+                  border: '2px solid #6EE05A',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: '1.25rem',
                   fontWeight: 800,
-                  color: '#7ed957',
+                  color: '#6EE05A',
                 }}>
                   {step.num}
                 </div>
@@ -227,7 +227,7 @@ export default function HomePage() {
             fontWeight: 700,
             textTransform: 'uppercase',
             letterSpacing: '0.12em',
-            color: '#7ed957',
+            color: '#6EE05A',
             textAlign: 'center',
             marginBottom: '2.5rem',
           }}>
@@ -243,7 +243,7 @@ export default function HomePage() {
               <div key={f.title} style={{
                 padding: '1.5rem',
                 borderRadius: '14px',
-                background: '#111111',
+                background: '#111827',
                 border: '1px solid #1e1e1e',
               }}>
                 <div style={{
@@ -316,12 +316,12 @@ export default function HomePage() {
               gap: '0.5rem',
               padding: '0.875rem 2rem',
               borderRadius: '12px',
-              background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
-              color: '#0a0a0a',
+              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
+              color: '#0B0F19',
               fontSize: '1rem',
               fontWeight: 700,
               textDecoration: 'none',
-              boxShadow: '0 0 30px rgba(126, 217, 87, 0.2)',
+              boxShadow: '0 0 30px rgba(110, 224, 90, 0.2)',
             }}
           >
             Get Started Free

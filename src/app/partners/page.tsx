@@ -50,7 +50,7 @@ const coreApps: AppCard[] = [
     ],
     integration:
       'Social0n connects to the CRM social media endpoints through 0nMCP, giving users full programmatic control over their social presence. Every post, schedule, and analytics query flows through 0nMCP.',
-    color: '#7ed957',
+    color: '#6EE05A',
     badge: '0nCore',
     status: 'Live',
     productPage: '/products/social0n',
@@ -111,7 +111,7 @@ const coreApps: AppCard[] = [
     ],
     integration:
       'Built entirely on 0nMCP. Every workflow in the marketplace is a .0n file that uses 0nMCP services. Export any workflow and run it with your own installation.',
-    color: '#7ed957',
+    color: '#6EE05A',
     badge: '0nCore',
     status: 'Live',
   },
@@ -416,9 +416,9 @@ export default function PartnersPage() {
             <span
               className="text-[0.55rem] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full"
               style={{
-                background: 'rgba(126, 217, 87, 0.1)',
-                color: '#7ed957',
-                border: '1px solid rgba(126, 217, 87, 0.2)',
+                background: 'rgba(110, 224, 90, 0.1)',
+                color: '#6EE05A',
+                border: '1px solid rgba(110, 224, 90, 0.2)',
               }}
             >
               First Party
@@ -518,9 +518,9 @@ export default function PartnersPage() {
                 <div
                   className="absolute top-5 right-6 text-[0.55rem] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full"
                   style={{
-                    background: 'rgba(126, 217, 87, 0.15)',
-                    color: '#7ed957',
-                    border: '1px solid rgba(126, 217, 87, 0.25)',
+                    background: 'rgba(110, 224, 90, 0.15)',
+                    color: '#6EE05A',
+                    border: '1px solid rgba(110, 224, 90, 0.25)',
                   }}
                 >
                   Featured Partner
@@ -620,7 +620,7 @@ export default function PartnersPage() {
                           className="text-xs font-mono px-3 py-1.5 rounded-full"
                           style={{
                             background: 'rgba(126,217,87,0.08)',
-                            color: '#7ed957',
+                            color: '#6EE05A',
                             border: '1px solid rgba(126,217,87,0.2)',
                           }}
                         >

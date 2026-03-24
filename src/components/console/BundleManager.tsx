@@ -514,7 +514,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
                 <div key={i} style={{
                   height: 3, flex: 1, borderRadius: 2,
                   background: passphrase.length >= i * 4
-                    ? passphrase.length >= 16 ? '#7ed957' : passphrase.length >= 12 ? '#fbbf24' : '#f97316'
+                    ? passphrase.length >= 16 ? '#6EE05A' : passphrase.length >= 12 ? '#fbbf24' : '#f97316'
                     : 'rgba(255,255,255,0.06)',
                 }} />
               ))}
@@ -751,7 +751,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
               </div>
               <div style={{
                 width: 8, height: 8, borderRadius: '50%',
-                background: s.sealed ? '#fbbf24' : '#7ed957',
+                background: s.sealed ? '#fbbf24' : '#6EE05A',
               }} />
             </div>
           ))}
@@ -871,7 +871,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             }}>
               <ServiceLogo service={r.service} size={18} />
               <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', flex: 1 }}>{r.name}</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>

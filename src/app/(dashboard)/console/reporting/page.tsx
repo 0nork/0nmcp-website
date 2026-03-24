@@ -25,7 +25,7 @@ export default function ReportingPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
         {[
-          { label: 'Actions', value: stats.actions, color: '#7ed957' },
+          { label: 'Actions', value: stats.actions, color: '#6EE05A' },
           { label: 'Messages', value: stats.messages, color: '#00d4ff' },
           { label: 'Services', value: stats.services, color: '#ff6b35' },
           { label: 'Uptime', value: '99.9%', color: '#a78bfa' },

@@ -194,7 +194,7 @@ export default function ForumClient({
           {/* Sort Bar */}
           <div
             className="rounded-xl px-4 py-2.5 mb-4 flex items-center gap-1 flex-wrap"
-            style={{ background: '#151d27', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.06)' }}
           >
             {SORTS.map(s => (
               <button
@@ -261,7 +261,7 @@ export default function ForumClient({
                     key={thread.id}
                     className="rounded-xl flex overflow-hidden transition-all"
                     style={{
-                      background: '#151d27',
+                      background: '#111827',
                       border: '1px solid rgba(255,255,255,0.06)',
                       ...(thread.is_pinned ? { gridColumn: '1 / -1' } : {}),
                     }}

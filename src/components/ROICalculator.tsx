@@ -244,11 +244,11 @@ export default function ROICalculator() {
           border-radius: 50%;
           background: var(--accent);
           cursor: pointer;
-          box-shadow: 0 0 12px rgba(126, 217, 87, 0.3);
+          box-shadow: 0 0 12px rgba(110, 224, 90, 0.3);
           transition: box-shadow 0.2s ease;
         }
         .roi-slider::-webkit-slider-thumb:hover {
-          box-shadow: 0 0 24px rgba(126, 217, 87, 0.5);
+          box-shadow: 0 0 24px rgba(110, 224, 90, 0.5);
         }
         .roi-slider::-moz-range-thumb {
           width: 20px;
@@ -257,7 +257,7 @@ export default function ROICalculator() {
           background: var(--accent);
           cursor: pointer;
           border: none;
-          box-shadow: 0 0 12px rgba(126, 217, 87, 0.3);
+          box-shadow: 0 0 12px rgba(110, 224, 90, 0.3);
         }
         .roi-metric-card {
           padding: 1.5rem;

@@ -139,7 +139,7 @@ export default function SecurityPage() {
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
             <Link href="/technology/seal-of-truth" className="rounded-xl p-4 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <h3 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: '#7ed957' }}>Seal of Truth</h3>
+              <h3 className="text-sm font-bold mb-1 group-hover:underline" style={{ color: '#6EE05A' }}>Seal of Truth</h3>
               <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Tamper-proof data verification — explained simply</p>
             </Link>
             <Link href="/technology/0nvault" className="rounded-xl p-4 no-underline group" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>

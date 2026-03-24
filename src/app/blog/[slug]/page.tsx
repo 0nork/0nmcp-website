@@ -23,7 +23,7 @@ interface BlogPost {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const categoryMeta: Record<string, { label: string; color: string; bg: string }> = {
-  release: { label: 'Release', color: '#7ed957', bg: 'rgba(126,217,87,0.12)' },
+  release: { label: 'Release', color: '#6EE05A', bg: 'rgba(126,217,87,0.12)' },
   tutorial: { label: 'Tutorial', color: '#00d4ff', bg: 'rgba(0,212,255,0.12)' },
   'deep-dive': { label: 'Deep Dive', color: '#a78bfa', bg: 'rgba(167,139,250,0.12)' },
   news: { label: 'News', color: '#fbbf24', bg: 'rgba(251,191,36,0.12)' },
@@ -456,7 +456,7 @@ export default async function BlogPostPage({
                 justifyContent: 'center',
                 fontSize: '0.75rem',
                 fontWeight: 700,
-                color: '#0f1419',
+                color: '#0B0F19',
                 fontFamily: 'var(--font-mono)',
                 flexShrink: 0,
               }}

@@ -248,7 +248,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: '#0f1419',
+    background: '#0B0F19',
     padding: '1rem',
   },
   card: {
@@ -263,7 +263,7 @@ const styles: Record<string, React.CSSProperties> = {
   logo: {
     fontSize: '2rem',
     fontWeight: 800,
-    color: '#7ed957',
+    color: '#6EE05A',
     marginBottom: '0.5rem',
     fontFamily: 'JetBrains Mono, monospace',
   },
@@ -290,17 +290,17 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     textAlign: 'center' as const,
     letterSpacing: '0.2em',
-    background: '#0f1419',
+    background: '#0B0F19',
     border: '2px solid #2a2a3a',
     borderRadius: '0.75rem',
-    color: '#7ed957',
+    color: '#6EE05A',
     outline: 'none',
   },
   btn: {
     width: '100%',
     padding: '0.875rem 2rem',
-    background: '#7ed957',
-    color: '#0f1419',
+    background: '#6EE05A',
+    color: '#0B0F19',
     fontWeight: 700,
     fontSize: '0.9375rem',
     border: 'none',
@@ -332,8 +332,8 @@ const styles: Record<string, React.CSSProperties> = {
   },
   code: {
     fontFamily: 'JetBrains Mono, monospace',
-    color: '#7ed957',
-    background: 'rgba(126, 217, 87, 0.1)',
+    color: '#6EE05A',
+    background: 'rgba(110, 224, 90, 0.1)',
     padding: '0.15em 0.4em',
     borderRadius: '0.25rem',
     fontSize: '0.8rem',
@@ -344,7 +344,7 @@ const styles: Record<string, React.CSSProperties> = {
     marginBottom: '0.75rem',
   },
   infoBox: {
-    background: '#0f1419',
+    background: '#0B0F19',
     border: '1px solid #2a2a3a',
     borderRadius: '0.75rem',
     padding: '1rem',
@@ -368,7 +368,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   check: {
     fontSize: '3rem',
-    color: '#7ed957',
+    color: '#6EE05A',
     marginBottom: '0.5rem',
   },
 }

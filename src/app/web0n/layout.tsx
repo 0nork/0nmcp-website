@@ -57,8 +57,8 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
             style={{
               padding: '0.45rem 1.15rem',
               borderRadius: '8px',
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0f1419',
+              background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+              color: '#0B0F19',
               fontWeight: 700,
               fontSize: '0.85rem',
               textDecoration: 'none',
@@ -91,7 +91,7 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
               style={{ display: 'block', borderRadius: 5 }}
             />
             <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-              Powered by <a href="https://0nmcp.com" style={{ color: '#7ed957', textDecoration: 'none', fontWeight: 500 }}>0nMCP</a>
+              Powered by <a href="https://0nmcp.com" style={{ color: '#6EE05A', textDecoration: 'none', fontWeight: 500 }}>0nMCP</a>
             </span>
           </div>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>

@@ -134,8 +134,8 @@ export function AdminDefender() {
           disabled={scanning}
           style={{
             padding: '0.5rem 1.25rem', borderRadius: '0.625rem', border: 'none',
-            background: scanning ? 'rgba(126,217,87,0.1)' : 'linear-gradient(135deg, #7ed957, #5cb83a)',
-            color: scanning ? '#7ed957' : '#000', fontSize: '0.8rem', fontWeight: 600,
+            background: scanning ? 'rgba(126,217,87,0.1)' : 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+            color: scanning ? '#6EE05A' : '#000', fontSize: '0.8rem', fontWeight: 600,
             cursor: scanning ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
             display: 'flex', alignItems: 'center', gap: '0.5rem',
           }}
@@ -175,7 +175,7 @@ export function AdminDefender() {
         <div style={{
           padding: '0.625rem 1rem', borderRadius: '0.625rem', marginBottom: '1rem',
           background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)',
-          fontSize: '0.8rem', color: '#7ed957',
+          fontSize: '0.8rem', color: '#6EE05A',
         }}>
           {message}
         </div>

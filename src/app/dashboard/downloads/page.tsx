@@ -51,7 +51,7 @@ const DOWNLOADS: Download[] = [
     platform: 'macOS / Linux / Windows',
     size: '~2 MB',
     icon: '0n',
-    color: '#7ed957',
+    color: '#6EE05A',
     downloadUrl: null,
     repoUrl: 'https://github.com/0nork/0nMCP',
     status: 'available',

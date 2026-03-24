@@ -39,7 +39,7 @@ export default function EmbeddedCheckoutForm({ priceId, mode = 'subscription', s
       maxWidth: '600px',
       margin: '0 auto',
       padding: '1.5rem',
-      background: '#0f1419',
+      background: '#0B0F19',
       borderRadius: '12px',
       border: '1px solid rgba(255,255,255,0.06)',
     }}>

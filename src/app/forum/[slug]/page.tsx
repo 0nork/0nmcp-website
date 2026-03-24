@@ -317,7 +317,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
         {/* Thread — server-rendered for SEO, black background */}
         <article
           className="rounded-xl mb-0"
-          style={{ background: '#0f1419', border: '1px solid var(--border)' }}
+          style={{ background: '#0B0F19', border: '1px solid var(--border)' }}
         >
           {/* Content */}
           <div className="py-5 px-5 flex-1 min-w-0">

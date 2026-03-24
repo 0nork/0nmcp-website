@@ -173,7 +173,7 @@ export default function DeliverabilityPage() {
                           display: 'flex', alignItems: 'center', gap: 6,
                           padding: '6px 10px', borderRadius: 6,
                           background: dns.ok ? 'var(--jp-green-glow)' : 'rgba(248, 113, 113, 0.06)',
-                          border: `1px solid ${dns.ok ? 'rgba(126, 217, 87, 0.2)' : 'rgba(248, 113, 113, 0.2)'}`,
+                          border: `1px solid ${dns.ok ? 'rgba(110, 224, 90, 0.2)' : 'rgba(248, 113, 113, 0.2)'}`,
                         }}>
                           {dns.ok ? (
                             <svg width="14" height="14" fill="none" stroke="var(--jp-green)" viewBox="0 0 24 24" strokeWidth={2.5}>

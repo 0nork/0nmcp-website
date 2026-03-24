@@ -21,8 +21,8 @@ export default function CapabilityHero({
             style={{
               fontFamily: 'var(--font-mono)',
               color: 'var(--accent)',
-              backgroundColor: 'rgba(126, 217, 87, 0.1)',
-              border: '1px solid rgba(126, 217, 87, 0.2)',
+              backgroundColor: 'rgba(110, 224, 90, 0.1)',
+              border: '1px solid rgba(110, 224, 90, 0.2)',
             }}
           >
             Turn it 0n

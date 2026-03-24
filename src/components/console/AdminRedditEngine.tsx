@@ -89,7 +89,7 @@ export function AdminRedditEngine() {
                 padding: '0.3rem 0.6rem', borderRadius: '0.375rem',
                 border: '1px solid var(--border)', cursor: running ? 'not-allowed' : 'pointer',
                 background: running === phase ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.02)',
-                color: running === phase ? '#7ed957' : 'var(--text-secondary)',
+                color: running === phase ? '#6EE05A' : 'var(--text-secondary)',
                 fontSize: '0.65rem', fontWeight: 600, fontFamily: 'var(--font-mono)',
                 textTransform: 'uppercase', letterSpacing: '0.05em',
                 opacity: running && running !== phase ? 0.5 : 1,
@@ -105,7 +105,7 @@ export function AdminRedditEngine() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
         <KPICard label="Opportunities" value={String(data.totalOpportunities)} color="#00d4ff" />
         <KPICard label="Content Drafted" value={String(data.totalContent)} color="#a78bfa" />
-        <KPICard label="Posted" value={String(data.totalPosted)} color="#7ed957" />
+        <KPICard label="Posted" value={String(data.totalPosted)} color="#6EE05A" />
         <KPICard label="Engagements" value={String(data.totalEngagements)} color="#f59e0b" />
         <KPICard label="Avg Score" value={String(data.avgScore)} color="#00d4ff" />
       </div>
@@ -216,7 +216,7 @@ function WeightTable({ title, items }: {
                 <div style={{
                   width: `${Math.min(100, (item.weight / 2) * 100)}%`,
                   height: '100%', borderRadius: '3px',
-                  background: item.weight > 1.2 ? '#7ed957' : item.weight > 0.8 ? '#f59e0b' : '#ef4444',
+                  background: item.weight > 1.2 ? '#6EE05A' : item.weight > 0.8 ? '#f59e0b' : '#ef4444',
                 }} />
               </div>
               <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', width: '32px', textAlign: 'right' }}>
@@ -237,7 +237,7 @@ function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, { bg: string; text: string }> = {
     draft: { bg: 'rgba(245,158,11,0.1)', text: '#f59e0b' },
     approved: { bg: 'rgba(0,212,255,0.1)', text: '#00d4ff' },
-    posted: { bg: 'rgba(126,217,87,0.1)', text: '#7ed957' },
+    posted: { bg: 'rgba(126,217,87,0.1)', text: '#6EE05A' },
     failed: { bg: 'rgba(239,68,68,0.1)', text: '#ef4444' },
   }
   const c = colors[status] || { bg: 'rgba(255,255,255,0.05)', text: 'var(--text-muted)' }

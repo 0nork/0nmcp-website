@@ -200,7 +200,7 @@ export default async function ForumGroupPage({ params }: { params: Promise<{ gro
                   key={t.id}
                   href={`/forum/${t.slug}`}
                   className="rounded-xl p-4 no-underline transition-all flex items-start gap-3"
-                  style={{ background: '#0f1419', border: '1px solid rgba(255,255,255,0.06)' }}
+                  style={{ background: '#0B0F19', border: '1px solid rgba(255,255,255,0.06)' }}
                 >
                   {/* Score */}
                   <div className="flex flex-col items-center flex-shrink-0" style={{ minWidth: '36px' }}>

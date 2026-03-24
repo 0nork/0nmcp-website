@@ -5,7 +5,7 @@
  *
  * The OAuth consent screen.
  * Shown after user is authenticated — asks them to approve scopes for the connecting app.
- * Dark theme, 0nORK brand (#7ed957 accent).
+ * Dark theme, 0nORK brand (#6EE05A accent).
  */
 
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -31,8 +31,8 @@ function ScopePill({ scope }: { scope: string }) {
       alignItems: 'flex-start',
       gap: '12px',
       padding: '14px 16px',
-      background: 'rgba(126, 217, 87, 0.06)',
-      border: '1px solid rgba(126, 217, 87, 0.15)',
+      background: 'rgba(110, 224, 90, 0.06)',
+      border: '1px solid rgba(110, 224, 90, 0.15)',
       borderRadius: '10px',
       marginBottom: '8px',
     }}>
@@ -93,7 +93,7 @@ function ConsentForm() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0f1419',
+      background: '#0B0F19',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -115,7 +115,7 @@ function ConsentForm() {
       <div style={{
         width: '100%',
         maxWidth: '440px',
-        background: '#151d27',
+        background: '#111827',
         border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: '20px',
         padding: '36px 32px',
@@ -133,14 +133,14 @@ function ConsentForm() {
             <div style={{
               width: '32px',
               height: '32px',
-              background: '#7ed957',
+              background: '#6EE05A',
               borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '16px',
               fontWeight: 800,
-              color: '#0f1419',
+              color: '#0B0F19',
               fontFamily: "'JetBrains Mono', monospace",
             }}>
               0n
@@ -176,7 +176,7 @@ function ConsentForm() {
               border: '1px solid rgba(126,217,87,0.2)',
               borderRadius: '20px',
               fontSize: '12px',
-              color: '#7ed957',
+              color: '#6EE05A',
               fontFamily: "'JetBrains Mono', monospace",
             }}>
               0nMCP
@@ -262,10 +262,10 @@ function ConsentForm() {
             style={{
               flex: 2,
               padding: '13px',
-              background: loading === 'allow' ? '#5cb83a' : '#7ed957',
+              background: loading === 'allow' ? '#4CAF3D' : '#6EE05A',
               border: 'none',
               borderRadius: '10px',
-              color: '#0f1419',
+              color: '#0B0F19',
               fontSize: '14px',
               fontWeight: 700,
               cursor: loading ? 'not-allowed' : 'pointer',
@@ -293,7 +293,7 @@ function ConsentForm() {
             href="https://www.0nmcp.com/console"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#7ed957', textDecoration: 'none' }}
+            style={{ color: '#6EE05A', textDecoration: 'none' }}
           >
             0nmcp.com/console
           </a>
@@ -309,12 +309,12 @@ export default function OAuthAuthorizePage() {
     <Suspense fallback={
       <div style={{
         minHeight: '100vh',
-        background: '#0f1419',
+        background: '#0B0F19',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <div style={{ color: '#7ed957', fontFamily: 'JetBrains Mono, monospace' }}>
+        <div style={{ color: '#6EE05A', fontFamily: 'JetBrains Mono, monospace' }}>
           Loading…
         </div>
       </div>

@@ -124,11 +124,11 @@ const SCHEMA = [
 ]
 
 const PAGES = [
-  { name: 'Home Page', desc: 'Eye-catching hero section, about your business, customer testimonials, and clear calls-to-action that convert visitors into leads.', g1: '#7ed957', g2: '#00d4ff' },
+  { name: 'Home Page', desc: 'Eye-catching hero section, about your business, customer testimonials, and clear calls-to-action that convert visitors into leads.', g1: '#6EE05A', g2: '#00d4ff' },
   { name: 'Services Page', desc: 'Complete breakdown of everything you offer with descriptions, pricing tiers, and benefit-focused copy that sells.', g1: '#00d4ff', g2: '#a78bfa' },
   { name: 'Contact Page', desc: 'Professional contact form connected to your CRM, embedded Google Maps, phone number, email, and business hours.', g1: '#a78bfa', g2: '#ff6b9d' },
   { name: 'Booking Page', desc: 'Online scheduling integrated directly with your CRM calendar — customers book appointments without calling.', g1: '#ff6b9d', g2: '#ffc832' },
-  { name: 'Pricing Page', desc: 'Clear, organized pricing packages or service menus that help customers understand your value instantly.', g1: '#ffc832', g2: '#7ed957' },
+  { name: 'Pricing Page', desc: 'Clear, organized pricing packages or service menus that help customers understand your value instantly.', g1: '#ffc832', g2: '#6EE05A' },
 ]
 
 const STEPS = [
@@ -138,21 +138,21 @@ const STEPS = [
 ]
 
 const FEATURES = [
-  { title: 'Live in 5-7 Days', desc: 'Not weeks. Not months. Your professional website is live within one business week.', icon: 'bolt', g1: '#7ed957', g2: '#00d4ff' },
+  { title: 'Live in 5-7 Days', desc: 'Not weeks. Not months. Your professional website is live within one business week.', icon: 'bolt', g1: '#6EE05A', g2: '#00d4ff' },
   { title: 'Human-Reviewed', desc: 'Every site is built with AI assistance and reviewed by a real person for quality and accuracy.', icon: 'eye', g1: '#00d4ff', g2: '#a78bfa' },
   { title: 'CRM Included', desc: 'Starter-tier CRM with contact management, booking, forms, and pipeline tracking at no extra cost.', icon: 'layers', g1: '#a78bfa', g2: '#ff6b9d' },
   { title: 'SEO-Optimized', desc: 'Built-in search engine optimization so customers can find you on Google from day one.', icon: 'search', g1: '#ff6b9d', g2: '#ffc832' },
-  { title: 'Mobile-First', desc: 'Responsive design tested on phones, tablets, and desktops. Perfect on every screen.', icon: 'phone', g1: '#ffc832', g2: '#7ed957' },
-  { title: 'No Hidden Fees', desc: '$1,997 flat rate covers everything. No surprise charges, no monthly build fees.', icon: 'shield', g1: '#00d4ff', g2: '#7ed957' },
+  { title: 'Mobile-First', desc: 'Responsive design tested on phones, tablets, and desktops. Perfect on every screen.', icon: 'phone', g1: '#ffc832', g2: '#6EE05A' },
+  { title: 'No Hidden Fees', desc: '$1,997 flat rate covers everything. No surprise charges, no monthly build fees.', icon: 'shield', g1: '#00d4ff', g2: '#6EE05A' },
 ]
 
 const CRM_DATA = [
-  { title: 'Contact Management', desc: 'Every lead, customer, and interaction organized automatically. Auto-capture from website forms and track the full journey.', g1: '#7ed957', g2: '#00d4ff' },
+  { title: 'Contact Management', desc: 'Every lead, customer, and interaction organized automatically. Auto-capture from website forms and track the full journey.', g1: '#6EE05A', g2: '#00d4ff' },
   { title: 'Booking Calendar', desc: 'Customers book appointments directly from your site. Syncs with your schedule and sends automatic reminders.', g1: '#00d4ff', g2: '#a78bfa' },
   { title: 'Lead Capture Forms', desc: 'Smart forms that collect name, email, phone, and custom fields. Data flows straight into your CRM pipeline.', g1: '#a78bfa', g2: '#ff6b9d' },
   { title: 'Pipeline Tracking', desc: 'Visual deal pipeline from first contact to closed sale. Know exactly where every opportunity stands.', g1: '#ff6b9d', g2: '#ffc832' },
-  { title: 'Email & SMS', desc: 'Send follow-ups, confirmations, and promotions directly from your CRM. Templates and automations included.', g1: '#ffc832', g2: '#7ed957' },
-  { title: 'Reporting Dashboard', desc: 'See website traffic, form submissions, bookings, and revenue in real-time. Make data-driven decisions.', g1: '#00d4ff', g2: '#7ed957' },
+  { title: 'Email & SMS', desc: 'Send follow-ups, confirmations, and promotions directly from your CRM. Templates and automations included.', g1: '#ffc832', g2: '#6EE05A' },
+  { title: 'Reporting Dashboard', desc: 'See website traffic, form submissions, bookings, and revenue in real-time. Make data-driven decisions.', g1: '#00d4ff', g2: '#6EE05A' },
 ]
 
 const AI_STATS = [
@@ -177,7 +177,7 @@ const FAQS = [
 
 /* Feature Icons — clean line art */
 function FeatureIcon({ icon }: { icon: string }) {
-  const c = '#7ed957'
+  const c = '#6EE05A'
   const props = { width: 36, height: 36, viewBox: '0 0 36 36', fill: 'none', 'aria-hidden': true as const }
   switch (icon) {
     case 'bolt': return (
@@ -204,7 +204,7 @@ function FeatureIcon({ icon }: { icon: string }) {
 
 /* Page Icons — for What You Get section */
 function PageIcon({ icon }: { icon: string }) {
-  const c = '#7ed957'
+  const c = '#6EE05A'
   const props = { width: 36, height: 36, viewBox: '0 0 36 36', fill: 'none', 'aria-hidden': true as const }
   switch (icon) {
     case 'home': return (
@@ -273,7 +273,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <rect x="14" y="22" width="20" height="4" rx="2" fill={s} opacity="0.3" />
           <rect x="14" y="30" width="10" height="4" rx="2" fill={s} opacity="0.3" />
           <circle cx="34" cy="36" r="3" fill={s} opacity="0.7" />
-          <path d="M32.5 36l1 1 2-2.5" stroke="#0f1419" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M32.5 36l1 1 2-2.5" stroke="#0B0F19" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       )
     case 3: /* Pipeline */
@@ -562,7 +562,7 @@ export default function Web0nLanding() {
           }}>
             Professional Websites for{' '}
             <RotatingText words={INDUSTRIES} /><br />
-            <span style={{ color: '#7ed957' }}>Built in Days, Not Months.</span>
+            <span style={{ color: '#6EE05A' }}>Built in Days, Not Months.</span>
           </h1>
 
           <p style={{
@@ -584,12 +584,12 @@ export default function Web0nLanding() {
               style={{
                 padding: '0.9rem 2.25rem',
                 borderRadius: '10px',
-                background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                color: '#0f1419',
+                background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+                color: '#0B0F19',
                 fontWeight: 700,
                 fontSize: '1.05rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 24px rgba(126, 217, 87, 0.3)',
+                boxShadow: '0 4px 24px rgba(110, 224, 90, 0.3)',
               }}
             >
               Get Started &mdash; $1,997
@@ -629,7 +629,7 @@ export default function Web0nLanding() {
               { pre: '$', val: 1997, suf: '', sub: 'Flat — no monthly fees' },
             ].map((s) => (
               <div key={s.sub}>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#7ed957' }}>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#6EE05A' }}>
                   <CountUp end={s.val} prefix={s.pre} suffix={s.suf} />
                 </div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{s.sub}</div>
@@ -658,7 +658,7 @@ export default function Web0nLanding() {
             <div style={{ position: 'absolute', bottom: '20%', left: '30%', width: 5, height: 5, borderRadius: '50%', background: 'rgba(167,139,250,0.12)', animation: 'w0nFloat 6s ease-in-out infinite 2s' }} />
 
             <h2 id="stats-heading" style={{ textAlign: 'center', fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.5rem', position: 'relative' }}>
-              Why an <span style={{ color: '#7ed957' }}>AI-Optimized</span> Website Matters
+              Why an <span style={{ color: '#6EE05A' }}>AI-Optimized</span> Website Matters
             </h2>
             <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.9rem' }}>
               The numbers don&apos;t lie &mdash; your website is your most important employee.
@@ -685,7 +685,7 @@ export default function Web0nLanding() {
                   }}
                 >
                   <div style={{
-                    fontSize: '2.5rem', fontWeight: 800, color: '#7ed957',
+                    fontSize: '2.5rem', fontWeight: 800, color: '#6EE05A',
                     fontFamily: 'var(--font-display)',
                     textShadow: '0 0 30px rgba(126,217,87,0.2)',
                     lineHeight: 1,
@@ -722,7 +722,7 @@ export default function Web0nLanding() {
             }} />
 
             <h2 id="why-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-              Why Businesses Choose <span style={{ color: '#7ed957' }}>web0n</span>
+              Why Businesses Choose <span style={{ color: '#6EE05A' }}>web0n</span>
             </h2>
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               We combine AI efficiency with human quality control to deliver professional websites faster than anyone else.
@@ -789,7 +789,7 @@ export default function Web0nLanding() {
             }} />
 
             <h2 id="crm-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-              Your Website Comes With a <span style={{ color: '#7ed957' }}>Full CRM</span>
+              Your Website Comes With a <span style={{ color: '#6EE05A' }}>Full CRM</span>
             </h2>
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
               Every web0n website includes these powerful business tools &mdash; at no extra cost.
@@ -905,23 +905,23 @@ export default function Web0nLanding() {
               ))}
               <ScrollReveal delay={PAGES.length * 100}>
                 <GlassTiltCard
-                  g1="#7ed957"
-                  g2="#5cb83a"
+                  g1="#6EE05A"
+                  g2="#4CAF3D"
                   style={{
                     padding: '2rem 2rem 2.25rem',
                     borderRadius: '16px',
                     background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
-                    border: '1px solid rgba(126, 217, 87, 0.15)',
+                    border: '1px solid rgba(110, 224, 90, 0.15)',
                     boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
                     height: '100%',
                   }}
                 >
                   <div style={{ marginBottom: '1.15rem', filter: 'drop-shadow(0 4px 12px rgba(126,217,87,0.15))' }}>
-                    <PageGradIcon index={5} g1="#7ed957" g2="#5cb83a" />
+                    <PageGradIcon index={5} g1="#6EE05A" g2="#4CAF3D" />
                   </div>
                   <h3 style={{
                     fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
-                    background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                    background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
@@ -955,10 +955,10 @@ export default function Web0nLanding() {
                       className="w0n-step-num"
                       style={{
                         width: 56, height: 56, borderRadius: '16px',
-                        background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                        background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         margin: '0 auto 1rem',
-                        fontWeight: 800, fontSize: '1.15rem', color: '#0f1419',
+                        fontWeight: 800, fontSize: '1.15rem', color: '#0B0F19',
                         fontFamily: 'var(--font-display)',
                         boxShadow: '0 4px 20px rgba(126,217,87,0.2)',
                       }}
@@ -983,7 +983,7 @@ export default function Web0nLanding() {
             <div style={{
               maxWidth: 500, margin: '0 auto', padding: '2.5rem 2rem',
               borderRadius: '20px',
-              border: '1px solid rgba(126, 217, 87, 0.3)',
+              border: '1px solid rgba(110, 224, 90, 0.3)',
               background: 'linear-gradient(160deg, rgba(17,17,25,0.8) 0%, var(--bg-card) 100%)',
               textAlign: 'center',
               boxShadow: '0 8px 40px rgba(0,0,0,0.25), 0 0 60px rgba(126,217,87,0.04)',
@@ -998,7 +998,7 @@ export default function Web0nLanding() {
               }} />
 
               <div style={{
-                fontSize: '3.5rem', fontWeight: 800, color: '#7ed957', marginBottom: '0.25rem',
+                fontSize: '3.5rem', fontWeight: 800, color: '#6EE05A', marginBottom: '0.25rem',
                 fontFamily: 'var(--font-display)',
                 textShadow: '0 0 40px rgba(126,217,87,0.15)',
               }}>
@@ -1009,7 +1009,7 @@ export default function Web0nLanding() {
               </p>
               <div style={{
                 padding: '1rem', borderRadius: '12px',
-                background: 'rgba(126, 217, 87, 0.04)',
+                background: 'rgba(110, 224, 90, 0.04)',
                 border: '1px solid var(--border)',
                 marginBottom: '1.5rem',
               }}>
@@ -1038,7 +1038,7 @@ export default function Web0nLanding() {
                   'Hosting included',
                 ].map((item) => (
                   <li key={item} style={{ color: 'var(--text-secondary)' }}>
-                    <span style={{ color: '#7ed957', marginRight: '0.5rem', fontWeight: 700 }}>&#10003;</span>
+                    <span style={{ color: '#6EE05A', marginRight: '0.5rem', fontWeight: 700 }}>&#10003;</span>
                     {item}
                   </li>
                 ))}
@@ -1048,8 +1048,8 @@ export default function Web0nLanding() {
                 className="w0n-cta"
                 style={{
                   display: 'block', padding: '0.9rem', borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                  color: '#0f1419', fontWeight: 700, fontSize: '1.05rem',
+                  background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+                  color: '#0B0F19', fontWeight: 700, fontSize: '1.05rem',
                   textDecoration: 'none', textAlign: 'center',
                   boxShadow: '0 4px 20px rgba(126,217,87,0.25)',
                 }}
@@ -1085,7 +1085,7 @@ export default function Web0nLanding() {
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     }}>
                       {faq.q}
-                      <span style={{ color: '#7ed957', fontSize: '1.2rem', marginLeft: '0.75rem', flexShrink: 0, transition: 'transform 0.2s ease' }}>+</span>
+                      <span style={{ color: '#6EE05A', fontSize: '1.2rem', marginLeft: '0.75rem', flexShrink: 0, transition: 'transform 0.2s ease' }}>+</span>
                     </summary>
                     <p style={{ color: 'var(--text-secondary)', marginTop: '0.75rem', fontSize: '0.9rem', lineHeight: 1.65 }}>
                       {faq.a}
@@ -1135,12 +1135,12 @@ export default function Web0nLanding() {
                 display: 'inline-block',
                 padding: '0.95rem 2.75rem',
                 borderRadius: '12px',
-                background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                color: '#0f1419',
+                background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+                color: '#0B0F19',
                 fontWeight: 700,
                 fontSize: '1.1rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 24px rgba(126, 217, 87, 0.3)',
+                boxShadow: '0 4px 24px rgba(110, 224, 90, 0.3)',
                 position: 'relative',
               }}
             >

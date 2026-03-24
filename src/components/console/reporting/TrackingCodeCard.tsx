@@ -130,7 +130,7 @@ export function TrackingCodeCard({ siteId }: TrackingCodeCardProps) {
       {/* Code block */}
       <div
         style={{
-          backgroundColor: '#0a0a0a',
+          backgroundColor: '#0B0F19',
           border: '1px solid var(--accent)',
           borderRadius: '10px',
           padding: '16px',

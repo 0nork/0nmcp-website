@@ -15,7 +15,7 @@ const ENGINE_LABELS: Record<string, { name: string; color: string }> = {
   yandex_indexnow: { name: 'Yandex (IndexNow)', color: '#ff0000' },
   seznam_indexnow: { name: 'Seznam (IndexNow)', color: '#cc0000' },
   naver_indexnow: { name: 'Naver (IndexNow)', color: '#03c75a' },
-  urls_submitted: { name: 'URLs Submitted', color: '#7ed957' },
+  urls_submitted: { name: 'URLs Submitted', color: '#6EE05A' },
 }
 
 export function AdminIndexing() {
@@ -99,7 +99,7 @@ export function AdminIndexing() {
           disabled={submitting}
           style={{
             padding: '0.625rem 1.25rem', borderRadius: '0.5rem', border: 'none',
-            background: '#7ed957', color: '#000', fontWeight: 700,
+            background: '#6EE05A', color: '#000', fontWeight: 700,
             fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'inherit',
             opacity: submitting ? 0.6 : 1,
           }}
@@ -124,7 +124,7 @@ export function AdminIndexing() {
       {/* Info Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.75rem' }}>
         {[
-          { label: 'Sitemap', value: 'sitemap.xml', color: '#7ed957', desc: 'Auto-generated, 300+ pages' },
+          { label: 'Sitemap', value: 'sitemap.xml', color: '#6EE05A', desc: 'Auto-generated, 300+ pages' },
           { label: 'IndexNow', value: '5 engines', color: '#00d4ff', desc: 'Bing, Yandex, Seznam, Naver, DuckDuckGo' },
           { label: 'Protocol', value: 'Active', color: '#a78bfa', desc: 'Key file at /0nmcp-indexnow-2026-03.txt' },
         ].map((card, i) => (
@@ -210,7 +210,7 @@ export function AdminIndexing() {
                 }}>
                   <div style={{
                     width: '8px', height: '8px', borderRadius: '50%',
-                    background: isSuccess ? '#7ed957' : isInfo ? '#00d4ff' : '#ef4444',
+                    background: isSuccess ? '#6EE05A' : isInfo ? '#00d4ff' : '#ef4444',
                     flexShrink: 0,
                   }} />
                   <div style={{ flex: 1 }}>

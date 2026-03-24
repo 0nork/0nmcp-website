@@ -56,11 +56,11 @@ export default function MaintenancePage() {
               <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
             <linearGradient id="grad-gc" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#7ed957" />
+              <stop offset="0%" stopColor="#6EE05A" />
               <stop offset="100%" stopColor="#00d4ff" />
             </linearGradient>
             <linearGradient id="grad-gp" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#7ed957" />
+              <stop offset="0%" stopColor="#6EE05A" />
               <stop offset="100%" stopColor="#a78bfa" />
             </linearGradient>
           </defs>
@@ -83,7 +83,7 @@ export default function MaintenancePage() {
             const delay = i * 0.3
             return (
               <g key={`p-${i}`}>
-                <circle r="3" fill="#7ed957" filter="url(#glow-g)">
+                <circle r="3" fill="#6EE05A" filter="url(#glow-g)">
                   <animate attributeName="cx" values={`${startX};${endX}`} dur="2s" begin={`${delay}s`} repeatCount="indefinite" />
                   <animate attributeName="cy" values={`${startY};${endY}`} dur="2s" begin={`${delay}s`} repeatCount="indefinite" />
                   <animate attributeName="opacity" values="0;1;0" dur="2s" begin={`${delay}s`} repeatCount="indefinite" />
@@ -125,7 +125,7 @@ export default function MaintenancePage() {
                 const angle = (i / 24) * Math.PI * 2
                 const endX = 200 + Math.cos(angle) * 170
                 const endY = 200 + Math.sin(angle) * 170
-                const color = i % 3 === 0 ? '#7ed957' : i % 3 === 1 ? '#00d4ff' : '#a78bfa'
+                const color = i % 3 === 0 ? '#6EE05A' : i % 3 === 1 ? '#00d4ff' : '#a78bfa'
                 return (
                   <g key={`b-${i}`}>
                     <line x1="200" y1="200" x2={endX} y2={endY} stroke={color} strokeWidth="0.5" opacity="0">
@@ -156,7 +156,7 @@ export default function MaintenancePage() {
           </circle>
 
           {/* Phase labels */}
-          <text x="200" y="360" textAnchor="middle" fill={phase === 0 ? '#7ed957' : phase === 1 ? '#00d4ff' : '#a78bfa'}
+          <text x="200" y="360" textAnchor="middle" fill={phase === 0 ? '#6EE05A' : phase === 1 ? '#00d4ff' : '#a78bfa'}
             fontFamily="'JetBrains Mono', monospace" fontSize="9" fontWeight="700" letterSpacing="3" opacity="0.5"
           >
             {phase === 0 ? 'PIPELINE' : phase === 1 ? 'ASSEMBLY' : 'RADIAL BURST'}
@@ -165,7 +165,7 @@ export default function MaintenancePage() {
 
         {/* Phase dots */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '-1rem' }}>
-          {['#7ed957', '#00d4ff', '#a78bfa'].map((color, i) => (
+          {['#6EE05A', '#00d4ff', '#a78bfa'].map((color, i) => (
             <div key={i} style={{
               width: i === phase ? '24px' : '8px', height: '8px', borderRadius: '4px',
               background: i === phase ? color : 'rgba(255,255,255,0.1)',
@@ -187,7 +187,7 @@ export default function MaintenancePage() {
           fontSize: 'clamp(0.875rem, 2vw, 1.125rem)',
           color: 'rgba(255,255,255,0.4)', margin: 0, lineHeight: 1.6,
         }}>
-          We&apos;ll be back <span style={{ color: '#7ed957', fontWeight: 700 }}>0n</span> in a few minutes!
+          We&apos;ll be back <span style={{ color: '#6EE05A', fontWeight: 700 }}>0n</span> in a few minutes!
         </p>
       </div>
 

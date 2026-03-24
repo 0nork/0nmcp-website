@@ -27,7 +27,7 @@ interface Stats {
 
 const STATUS_COLORS: Record<string, string> = {
   draft: '#484e78',
-  published: '#7ed957',
+  published: '#6EE05A',
   scheduled: '#00d4ff',
 }
 
@@ -35,7 +35,7 @@ const BUCKET_COLORS: Record<string, string> = {
   CTR_FIX: '#ff3d3d',
   STRIKING_DISTANCE: '#ff6b35',
   RELEVANCE_REBUILD: '#ff69b4',
-  LOCAL_BOOST: '#7ed957',
+  LOCAL_BOOST: '#6EE05A',
 }
 
 export default function BlogDashboard() {
@@ -268,7 +268,7 @@ export default function BlogDashboard() {
           <StatBox
             label="Published"
             value={stats.published}
-            color="#7ed957"
+            color="#6EE05A"
           />
           <StatBox label="Drafts" value={stats.drafts} color="#ff6b35" />
           <StatBox
@@ -456,7 +456,7 @@ export default function BlogDashboard() {
                   {post.status === 'draft' && (
                     <button
                       onClick={() => handlePublish(post.id)}
-                      style={btnStyle('#7ed957')}
+                      style={btnStyle('#6EE05A')}
                     >
                       Publish
                     </button>

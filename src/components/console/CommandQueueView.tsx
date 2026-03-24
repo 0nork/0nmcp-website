@@ -40,7 +40,7 @@ const COMMAND_LABELS: Record<string, { label: string; desc: string; icon: string
 const STATUS_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
   pending: { bg: 'rgba(255, 183, 77, 0.1)', text: '#ffb74d', dot: '#ffb74d' },
   running: { bg: 'rgba(0, 212, 255, 0.1)', text: '#00d4ff', dot: '#00d4ff' },
-  completed: { bg: 'rgba(126, 217, 87, 0.1)', text: '#7ed957', dot: '#7ed957' },
+  completed: { bg: 'rgba(110, 224, 90, 0.1)', text: '#6EE05A', dot: '#6EE05A' },
   failed: { bg: 'rgba(255, 82, 82, 0.1)', text: '#ff5252', dot: '#ff5252' },
   cancelled: { bg: 'rgba(120, 120, 140, 0.1)', text: '#78788c', dot: '#78788c' },
 }
@@ -180,7 +180,7 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
         {[
           { label: 'Pending', value: stats?.pending || 0, color: '#ffb74d' },
           { label: 'Running', value: stats?.running || 0, color: '#00d4ff' },
-          { label: 'Completed Today', value: stats?.completed_today || 0, color: '#7ed957' },
+          { label: 'Completed Today', value: stats?.completed_today || 0, color: '#6EE05A' },
           { label: 'Failed Today', value: stats?.failed_today || 0, color: '#ff5252' },
         ].map((card) => (
           <div key={card.label} style={{
@@ -318,7 +318,7 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
                   {/* Direction indicator */}
                   <div style={{
                     width: 32, height: 32, borderRadius: 8,
-                    background: cmd.direction === 'to_offline' ? 'rgba(0, 212, 255, 0.1)' : 'rgba(126, 217, 87, 0.1)',
+                    background: cmd.direction === 'to_offline' ? 'rgba(0, 212, 255, 0.1)' : 'rgba(110, 224, 90, 0.1)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 14,
                     flexShrink: 0,

@@ -181,7 +181,7 @@ export default function EmailSettingsPage() {
       }}>
         <div style={{
           width: 10, height: 10, borderRadius: '50%',
-          background: crmStatus === 'connected' ? '#7ed957' : crmStatus === 'checking' ? '#ff6b35' : '#ff3d3d',
+          background: crmStatus === 'connected' ? '#6EE05A' : crmStatus === 'checking' ? '#ff6b35' : '#ff3d3d',
           boxShadow: crmStatus === 'connected' ? '0 0 6px rgba(126,217,87,0.5)' : 'none',
         }} />
         <div>
@@ -291,7 +291,7 @@ function NotificationToggle({
         <div style={{
           width: 18, height: 18, borderRadius: '50%', position: 'absolute', top: 3,
           left: enabled ? 23 : 3, transition: 'left 0.2s',
-          background: enabled ? '#7ed957' : 'var(--text-muted)',
+          background: enabled ? '#6EE05A' : 'var(--text-muted)',
         }} />
       </button>
     </div>

@@ -216,7 +216,7 @@ export default function ThreadClient({
         {/* Comment card — black background */}
         <div
           style={{
-            background: '#0f1419',
+            background: '#0B0F19',
             border: '1px solid var(--border)',
             borderRadius: depth === 0 ? '10px' : '8px',
             marginBottom: '6px',
@@ -277,7 +277,7 @@ export default function ThreadClient({
                     padding: '2px 8px',
                     borderRadius: '4px',
                     background: 'rgba(126,217,87,0.1)',
-                    color: '#7ed957',
+                    color: '#6EE05A',
                   }}>
                     Solution
                   </span>
@@ -334,7 +334,7 @@ export default function ThreadClient({
                       borderRadius: '8px',
                       fontSize: '0.875rem',
                       marginBottom: '0.5rem',
-                      background: '#151d27',
+                      background: '#111827',
                       border: '1px solid var(--border)',
                       color: 'var(--text-primary)',
                       lineHeight: 1.7,
@@ -504,7 +504,7 @@ export default function ThreadClient({
               borderRadius: '10px',
               fontSize: '0.9375rem',
               marginBottom: '0.625rem',
-              background: '#0f1419',
+              background: '#0B0F19',
               border: '1px solid var(--border)',
               color: 'var(--text-primary)',
               lineHeight: 1.7,

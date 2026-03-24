@@ -155,7 +155,7 @@ export function ConvertView({ onOpenInBuilder }: ConvertViewProps) {
               background: status === 'converting' || !input.trim()
                 ? 'var(--border)'
                 : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: status === 'converting' || !input.trim() ? 'var(--text-muted)' : '#0f1419',
+              color: status === 'converting' || !input.trim() ? 'var(--text-muted)' : '#0B0F19',
               fontSize: 14,
               fontWeight: 600,
               cursor: status === 'converting' || !input.trim() ? 'wait' : 'pointer',
@@ -299,7 +299,7 @@ export function ConvertView({ onOpenInBuilder }: ConvertViewProps) {
                   borderRadius: 10,
                   border: savedVault ? '1px solid rgba(126,217,87,0.3)' : 'none',
                   background: savedVault ? 'rgba(126,217,87,0.15)' : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                  color: savedVault ? '#7ed957' : '#0f1419',
+                  color: savedVault ? '#6EE05A' : '#0B0F19',
                   fontSize: 13,
                   fontWeight: 600,
                   cursor: savingVault ? 'wait' : 'pointer',

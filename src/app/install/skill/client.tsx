@@ -47,7 +47,7 @@ const PLATFORMS: PlatformInfo[] = [
     name: 'Claude Mobile',
     subtitle: 'iPhone & iPad',
     icon: '📱',
-    color: '#7ed957',
+    color: '#6EE05A',
     steps: [
       { title: 'Set up on the web first', desc: 'Create a project at claude.ai — Projects sync to mobile' },
       { title: 'Add instructions', desc: 'Paste 0nMCP instructions as custom instructions' },
@@ -71,7 +71,7 @@ const PLATFORMS: PlatformInfo[] = [
 
 const INSTALL_METHODS: { id: InstallMethod; label: string; desc: string; icon: string; color: string }[] = [
   { id: 'one-line', label: 'One-Line Installer', desc: 'curl command installs everything + opens dashboard', icon: '⚡', color: '#ff6b35' },
-  { id: 'download', label: 'Download SKILL.md', desc: 'Manual: save to ~/.claude/skills/0nmcp/', icon: '📄', color: '#7ed957' },
+  { id: 'download', label: 'Download SKILL.md', desc: 'Manual: save to ~/.claude/skills/0nmcp/', icon: '📄', color: '#6EE05A' },
   { id: 'dashboard', label: 'Interactive Dashboard', desc: 'Standalone HTML control panel', icon: '📊', color: '#00d4ff' },
   { id: 'config', label: 'Project Config', desc: '.claude.json with MCP + skill config', icon: '⚙️', color: '#a78bfa' },
 ]
@@ -122,7 +122,7 @@ export function SkillInstallClient() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0f1419',
+      background: '#0B0F19',
       color: '#e2e2e8',
       fontFamily: 'system-ui, -apple-system, sans-serif',
     }}>
@@ -142,8 +142,8 @@ export function SkillInstallClient() {
 
         <div style={{
           display: 'inline-flex', padding: '6px 16px', borderRadius: 20,
-          background: 'rgba(126, 217, 87, 0.1)', border: '1px solid rgba(126, 217, 87, 0.3)',
-          fontSize: 13, color: '#7ed957', fontWeight: 600, marginBottom: 24,
+          background: 'rgba(110, 224, 90, 0.1)', border: '1px solid rgba(110, 224, 90, 0.3)',
+          fontSize: 13, color: '#6EE05A', fontWeight: 600, marginBottom: 24,
         }}>
           Free — No credit card needed
         </div>
@@ -196,7 +196,7 @@ export function SkillInstallClient() {
                 {isDetected && (
                   <div style={{
                     position: 'absolute', top: -8, right: -8,
-                    background: p.color, color: '#0f1419', fontSize: 10, fontWeight: 700,
+                    background: p.color, color: '#0B0F19', fontSize: 10, fontWeight: 700,
                     padding: '2px 8px', borderRadius: 10, letterSpacing: '0.03em',
                   }}>
                     DETECTED
@@ -321,7 +321,7 @@ export function SkillInstallClient() {
                           display: 'inline-flex', alignItems: 'center', gap: 10,
                           padding: '14px 32px',
                           background: installerCopied
-                            ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+                            ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                             : 'linear-gradient(135deg, #ff6b35, #e55a2b)',
                           color: 'white', borderRadius: 12, fontWeight: 700,
                           fontSize: 16, border: 'none', cursor: 'pointer',
@@ -343,7 +343,7 @@ export function SkillInstallClient() {
                         style={{
                           display: 'inline-flex', alignItems: 'center', gap: 10,
                           padding: '14px 32px',
-                          background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+                          background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
                           color: 'white', borderRadius: 12, fontWeight: 700,
                           fontSize: 16, textDecoration: 'none', border: 'none',
                         }}
@@ -356,7 +356,7 @@ export function SkillInstallClient() {
                         Download SKILL.md
                       </a>
                       <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
-                        Save to: <code style={{ color: '#7ed957' }}>~/.claude/skills/0nmcp/SKILL.md</code>
+                        Save to: <code style={{ color: '#6EE05A' }}>~/.claude/skills/0nmcp/SKILL.md</code>
                       </p>
                     </>
                   )}
@@ -436,7 +436,7 @@ export function SkillInstallClient() {
                   display: 'inline-flex', alignItems: 'center', gap: 10,
                   padding: '14px 32px',
                   background: copied
-                    ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+                    ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                     : `linear-gradient(135deg, ${platform.color}, ${platform.color}cc)`,
                   color: 'white', borderRadius: 12, fontWeight: 700,
                   fontSize: 16, border: 'none', cursor: 'pointer',
@@ -523,7 +523,7 @@ export function SkillInstallClient() {
             { icon: '⚡', title: 'Runs — Pay Per Action', desc: 'Credits that power everything. Check, spend, top up.', color: '#ff6b35' },
             { icon: '🏪', title: 'Store — 50+ Workflows', desc: 'Pre-built automations. Purchase once, run anywhere.', color: '#00d4ff' },
             { icon: '🧠', title: 'Council Brain', desc: '7-persona self-training AI. View status, contribute, level up.', color: '#a78bfa' },
-            { icon: '🔧', title: `${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, and more.', color: '#7ed957' },
+            { icon: '🔧', title: `${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, and more.', color: '#6EE05A' },
             { icon: '🔄', title: '4 Install Methods', desc: 'One-liner, download, dashboard, config — however you work.', color: '#00d4ff' },
           ].map((f) => (
             <div key={f.title} style={{

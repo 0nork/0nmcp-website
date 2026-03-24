@@ -141,7 +141,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
           <span style={{
             fontSize: '0.7rem',
             fontWeight: 600,
-            color: mcpOnline ? '#7ed957' : '#4a4a5a',
+            color: mcpOnline ? '#6EE05A' : '#4a4a5a',
           }}>
             {mcpOnline ? (mcpMode === 'local' ? 'Local' : 'Cloud') : 'Offline'}
           </span>
@@ -191,18 +191,18 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               style={{
                 display: 'flex', alignItems: 'center', gap: 5,
                 padding: '5px 10px', borderRadius: 8,
-                background: `${info?.color || '#7ed957'}08`,
-                border: `1px solid ${info?.color || '#7ed957'}20`,
+                background: `${info?.color || '#6EE05A'}08`,
+                border: `1px solid ${info?.color || '#6EE05A'}20`,
                 cursor: 'pointer', fontFamily: 'inherit',
                 transition: 'border-color 0.15s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = `${info?.color || '#7ed957'}40` }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = `${info?.color || '#7ed957'}20` }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = `${info?.color || '#6EE05A'}40` }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = `${info?.color || '#6EE05A'}20` }}
             >
               {logo ? (
                 <img src={logo} alt="" width={14} height={14} style={{ borderRadius: 3 }} />
               ) : null}
-              <span className="hidden sm:inline" style={{ fontSize: '0.7rem', fontWeight: 600, color: info?.color || '#7ed957' }}>
+              <span className="hidden sm:inline" style={{ fontSize: '0.7rem', fontWeight: 600, color: info?.color || '#6EE05A' }}>
                 {info?.label || coreAI}
               </span>
             </button>
@@ -235,14 +235,14 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
             border: '1px solid rgba(255,255,255,0.06)',
           }}>
             <Zap size={11} style={{
-              color: isOwner ? '#7ed957'
-                : runLimit && runCount / runLimit > 0.5 ? '#7ed957'
+              color: isOwner ? '#6EE05A'
+                : runLimit && runCount / runLimit > 0.5 ? '#6EE05A'
                 : runLimit && runCount / runLimit > 0.1 ? '#f59e0b'
                 : '#ef4444'
             }} />
             <span style={{
               fontSize: '0.7rem', fontWeight: 600,
-              color: isOwner ? '#7ed957' : 'var(--text-secondary)',
+              color: isOwner ? '#6EE05A' : 'var(--text-secondary)',
             }}>
               {isOwner ? '\u221E' : runLimit ? `${runCount}/${runLimit}` : runCount}
             </span>
@@ -261,7 +261,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               borderRadius: 8,
               background: 'rgba(126,217,87,0.06)',
               border: '1px solid rgba(126,217,87,0.15)',
-              color: '#7ed957',
+              color: '#6EE05A',
               fontSize: '0.7rem',
               fontWeight: 700,
               cursor: 'pointer',
@@ -280,7 +280,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
             background: 'rgba(126,217,87,0.06)',
-            color: '#7ed957',
+            color: '#6EE05A',
             border: '1px solid rgba(126,217,87,0.12)',
           }}>
             {userPlan}
@@ -306,10 +306,10 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
           >
             <div style={{
               width: 28, height: 28, borderRadius: 7,
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+              background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#0f1419' }}>{initials}</span>
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#0B0F19' }}>{initials}</span>
             </div>
             <ChevronDown
               size={12}
@@ -356,7 +356,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
                     textTransform: 'uppercase',
                     letterSpacing: '0.06em',
                     background: userPlan === 'free' ? 'rgba(255,255,255,0.04)' : 'rgba(126,217,87,0.08)',
-                    color: userPlan === 'free' ? '#4a4a5a' : '#7ed957',
+                    color: userPlan === 'free' ? '#4a4a5a' : '#6EE05A',
                     border: `1px solid ${userPlan === 'free' ? 'rgba(255,255,255,0.06)' : 'rgba(126,217,87,0.15)'}`,
                   }}>
                     {userPlan}

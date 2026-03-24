@@ -62,7 +62,7 @@ const INITIAL_FORM: FormData = {
   googleData: null,
   primaryColor: '#1a1a2e',
   secondaryColor: '#16213e',
-  accentColor: '#7ed957',
+  accentColor: '#6EE05A',
   logoFile: null,
   logoPreview: '',
   tagline: '',
@@ -287,13 +287,13 @@ export default function Web0nOnboard() {
       <div style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
           <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Step {step + 1} of 6</span>
-          <span style={{ fontSize: '0.8rem', color: '#7ed957', fontWeight: 500 }}>{STEP_TITLES[step]}</span>
+          <span style={{ fontSize: '0.8rem', color: '#6EE05A', fontWeight: 500 }}>{STEP_TITLES[step]}</span>
         </div>
         <div style={{ height: 4, borderRadius: 2, background: 'var(--bg-tertiary)', overflow: 'hidden' }}>
           <div style={{
             width: `${((step + 1) / 6) * 100}%`,
             height: '100%',
-            background: 'linear-gradient(90deg, #7ed957, #a3e87c)',
+            background: 'linear-gradient(90deg, #6EE05A, #a3e87c)',
             borderRadius: 2,
             transition: 'width 0.3s ease',
           }} />
@@ -357,7 +357,7 @@ export default function Web0nOnboard() {
             Can&apos;t find your business?{' '}
             <button
               onClick={() => setStep(1)}
-              style={{ background: 'none', border: 'none', color: '#7ed957', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}
+              style={{ background: 'none', border: 'none', color: '#6EE05A', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}
             >
               Enter info manually
             </button>
@@ -419,8 +419,8 @@ export default function Web0nOnboard() {
               <div style={{
                 padding: '1.25rem',
                 borderRadius: '12px',
-                border: '1px solid rgba(126, 217, 87, 0.2)',
-                background: 'rgba(126, 217, 87, 0.03)',
+                border: '1px solid rgba(110, 224, 90, 0.2)',
+                background: 'rgba(110, 224, 90, 0.03)',
               }}>
                 <label style={{
                   display: 'flex',
@@ -432,7 +432,7 @@ export default function Web0nOnboard() {
                     type="checkbox"
                     checked={form.interestedInGoogleListing}
                     onChange={e => setForm(prev => ({ ...prev, interestedInGoogleListing: e.target.checked }))}
-                    style={{ marginTop: '0.2rem', accentColor: '#7ed957', width: 18, height: 18 }}
+                    style={{ marginTop: '0.2rem', accentColor: '#6EE05A', width: 18, height: 18 }}
                   />
                   <div>
                     <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>
@@ -563,7 +563,7 @@ export default function Web0nOnboard() {
               borderRadius: '8px',
               border: '1px dashed var(--border)',
               background: 'transparent',
-              color: '#7ed957',
+              color: '#6EE05A',
               cursor: 'pointer',
               fontSize: '0.85rem',
               fontFamily: 'var(--font-display)',
@@ -601,7 +601,7 @@ export default function Web0nOnboard() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {/* Business Info Summary */}
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Business</h3>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Business</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', fontSize: '0.9rem' }}>
                 <div><span style={{ color: 'var(--text-muted)' }}>Name:</span> {form.businessName}</div>
                 <div><span style={{ color: 'var(--text-muted)' }}>Type:</span> {form.businessType || '—'}</div>
@@ -617,7 +617,7 @@ export default function Web0nOnboard() {
 
             {/* Brand Summary */}
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Brand</h3>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Brand</h3>
               <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 {[form.primaryColor, form.secondaryColor, form.accentColor].map((c, i) => (
                   <div key={i} style={{ width: 28, height: 28, borderRadius: 6, background: c, border: '1px solid var(--border)' }} />
@@ -628,7 +628,7 @@ export default function Web0nOnboard() {
 
             {/* Services Summary */}
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Services</h3>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Services</h3>
               <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                 {form.services.filter(s => s.trim()).join(' / ') || 'None specified'}
               </div>
@@ -636,8 +636,8 @@ export default function Web0nOnboard() {
 
             {/* Google Listing Interest */}
             {form.interestedInGoogleListing && (
-              <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(126, 217, 87, 0.2)', background: 'rgba(126, 217, 87, 0.03)' }}>
-                <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.25rem' }}>Google Business Listing</h3>
+              <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(110, 224, 90, 0.2)', background: 'rgba(110, 224, 90, 0.03)' }}>
+                <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.25rem' }}>Google Business Listing</h3>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                   We&apos;ll reach out to help get your business listed on Google Maps &amp; Search.
                 </div>
@@ -646,11 +646,11 @@ export default function Web0nOnboard() {
 
             {/* Coupon Code */}
             <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7ed957', marginBottom: '0.75rem' }}>Coupon Code</h3>
+              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Coupon Code</h3>
               <input
                 style={{
                   ...inputStyle,
-                  borderColor: couponResult?.valid ? 'rgba(126, 217, 87, 0.5)' : couponResult && !couponResult.valid ? 'rgba(255, 80, 80, 0.5)' : undefined,
+                  borderColor: couponResult?.valid ? 'rgba(110, 224, 90, 0.5)' : couponResult && !couponResult.valid ? 'rgba(255, 80, 80, 0.5)' : undefined,
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                 }}
@@ -665,7 +665,7 @@ export default function Web0nOnboard() {
                 <div style={{
                   fontSize: '0.8rem',
                   marginTop: '0.35rem',
-                  color: couponResult.valid ? '#7ed957' : '#ff5050',
+                  color: couponResult.valid ? '#6EE05A' : '#ff5050',
                 }}>
                   {couponResult.valid
                     ? couponResult.isFree
@@ -680,11 +680,11 @@ export default function Web0nOnboard() {
             <div style={{
               padding: '1.25rem',
               borderRadius: '12px',
-              border: `1px solid ${couponResult?.valid ? 'rgba(126, 217, 87, 0.5)' : 'rgba(126, 217, 87, 0.3)'}`,
-              background: 'rgba(126, 217, 87, 0.05)',
+              border: `1px solid ${couponResult?.valid ? 'rgba(110, 224, 90, 0.5)' : 'rgba(110, 224, 90, 0.3)'}`,
+              background: 'rgba(110, 224, 90, 0.05)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#7ed957' }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#6EE05A' }}>
                 {couponResult?.valid && couponResult.isFree ? (
                   <><s style={{ opacity: 0.4 }}>$998.50</s> FREE</>
                 ) : couponResult?.valid && couponResult.discountPercent ? (
@@ -738,7 +738,7 @@ export default function Web0nOnboard() {
             style={{
               padding: '0.7rem 1.5rem',
               borderRadius: '8px',
-              background: canProceed() ? 'linear-gradient(135deg, #7ed957, #5cb83a)' : 'var(--bg-tertiary)',
+              background: canProceed() ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)' : 'var(--bg-tertiary)',
               color: canProceed() ? '#fff' : 'var(--text-muted)',
               border: 'none',
               cursor: canProceed() ? 'pointer' : 'not-allowed',
@@ -756,8 +756,8 @@ export default function Web0nOnboard() {
             style={{
               padding: '0.7rem 2rem',
               borderRadius: '8px',
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0f1419',
+              background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+              color: '#0B0F19',
               border: 'none',
               cursor: submitting ? 'not-allowed' : 'pointer',
               fontWeight: 600,

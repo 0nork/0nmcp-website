@@ -18,7 +18,7 @@ interface DownloadItem {
   link?: string
 }
 
-const G = '#7ed957'
+const G = '#6EE05A'
 const P = '#a78bfa'
 const C = '#00d4ff'
 

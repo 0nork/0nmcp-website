@@ -12,7 +12,7 @@ export default function PublicLessonPage() {
         className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
         style={{ background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)' }}
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth={2}>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth={2}>
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
           <path d="M7 11V7a5 5 0 0110 0v4" />
         </svg>

@@ -31,7 +31,7 @@ export const AGENT_TEMPLATES: CrewAgent[] = [
     name: 'Scout',
     role: 'Monitors new leads and enriches contact data',
     avatar: '\u{1F50D}',
-    color: '#7ed957',
+    color: '#6EE05A',
     abilities: ['search_contacts', 'create_contact', 'update_contact'],
     status: 'idle',
     triggers: ['webhook:new_contact'],

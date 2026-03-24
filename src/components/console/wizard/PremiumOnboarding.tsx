@@ -125,7 +125,7 @@ export default function PremiumOnboarding({
           maxWidth: 640,
           maxHeight: '90vh',
           overflow: 'auto',
-          background: 'var(--bg-card, #151d27)',
+          background: 'var(--bg-card, #111827)',
           border: '1px solid var(--border, #2a2a3a)',
           borderRadius: 16,
           padding: 0,
@@ -151,7 +151,7 @@ export default function PremiumOnboarding({
                   borderRadius: 4,
                   background:
                     i === step
-                      ? 'var(--accent, #7ed957)'
+                      ? 'var(--accent, #6EE05A)'
                       : i < step
                         ? 'var(--accent-secondary, #00d4ff)'
                         : 'var(--border, #2a2a3a)',
@@ -186,7 +186,7 @@ export default function PremiumOnboarding({
                   width: 64,
                   height: 64,
                   borderRadius: 16,
-                  background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--accent-secondary, #00d4ff))',
+                  background: 'linear-gradient(135deg, var(--accent, #6EE05A), var(--accent-secondary, #00d4ff))',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -253,7 +253,7 @@ export default function PremiumOnboarding({
                   >
                     <span
                       style={{
-                        color: 'var(--accent, #7ed957)',
+                        color: 'var(--accent, #6EE05A)',
                         fontSize: 14,
                         fontWeight: 700,
                       }}
@@ -294,7 +294,7 @@ export default function PremiumOnboarding({
                     fontWeight: 600,
                     color:
                       selectedPlatforms.length >= 3
-                        ? 'var(--accent, #7ed957)'
+                        ? 'var(--accent, #6EE05A)'
                         : 'var(--text-muted, #55556a)',
                     fontFamily: 'var(--font-mono, monospace)',
                   }}
@@ -326,7 +326,7 @@ export default function PremiumOnboarding({
                         border: `1.5px solid ${isSelected ? platform.color : 'var(--border, #2a2a3a)'}`,
                         background: isSelected
                           ? `${platform.color}12`
-                          : 'var(--bg-primary, #0f1419)',
+                          : 'var(--bg-primary, #0B0F19)',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
                       }}
@@ -336,7 +336,7 @@ export default function PremiumOnboarding({
                           width: 36,
                           height: 36,
                           borderRadius: 8,
-                          background: isSelected ? platform.color : 'var(--bg-card, #151d27)',
+                          background: isSelected ? platform.color : 'var(--bg-card, #111827)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -413,7 +413,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0f1419)',
+                      background: 'var(--bg-primary, #0B0F19)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -421,7 +421,7 @@ export default function PremiumOnboarding({
                       boxSizing: 'border-box',
                     }}
                     onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = 'var(--accent, #7ed957)')
+                      (e.currentTarget.style.borderColor = 'var(--accent, #6EE05A)')
                     }
                     onBlur={(e) =>
                       (e.currentTarget.style.borderColor = 'var(--border, #2a2a3a)')
@@ -452,7 +452,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0f1419)',
+                      background: 'var(--bg-primary, #0B0F19)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -460,7 +460,7 @@ export default function PremiumOnboarding({
                       boxSizing: 'border-box',
                     }}
                     onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = 'var(--accent, #7ed957)')
+                      (e.currentTarget.style.borderColor = 'var(--accent, #6EE05A)')
                     }
                     onBlur={(e) =>
                       (e.currentTarget.style.borderColor = 'var(--border, #2a2a3a)')
@@ -491,7 +491,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0f1419)',
+                      background: 'var(--bg-primary, #0B0F19)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -499,7 +499,7 @@ export default function PremiumOnboarding({
                       boxSizing: 'border-box',
                     }}
                     onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = 'var(--accent, #7ed957)')
+                      (e.currentTarget.style.borderColor = 'var(--accent, #6EE05A)')
                     }
                     onBlur={(e) =>
                       (e.currentTarget.style.borderColor = 'var(--border, #2a2a3a)')
@@ -528,7 +528,7 @@ export default function PremiumOnboarding({
                       padding: '10px 14px',
                       borderRadius: 8,
                       border: '1px solid var(--border, #2a2a3a)',
-                      background: 'var(--bg-primary, #0f1419)',
+                      background: 'var(--bg-primary, #0B0F19)',
                       color: 'var(--text-primary, #e8e8ef)',
                       fontSize: 14,
                       fontFamily: 'inherit',
@@ -586,10 +586,10 @@ export default function PremiumOnboarding({
                       style={{
                         padding: '18px 16px',
                         borderRadius: 10,
-                        border: `1.5px solid ${isSelected ? 'var(--accent, #7ed957)' : 'var(--border, #2a2a3a)'}`,
+                        border: `1.5px solid ${isSelected ? 'var(--accent, #6EE05A)' : 'var(--border, #2a2a3a)'}`,
                         background: isSelected
                           ? 'var(--accent-glow, rgba(126,217,87,0.08))'
-                          : 'var(--bg-primary, #0f1419)',
+                          : 'var(--bg-primary, #0B0F19)',
                         cursor: 'pointer',
                         textAlign: 'left',
                         transition: 'all 0.2s',
@@ -600,7 +600,7 @@ export default function PremiumOnboarding({
                           fontSize: 15,
                           fontWeight: 700,
                           color: isSelected
-                            ? 'var(--accent, #7ed957)'
+                            ? 'var(--accent, #6EE05A)'
                             : 'var(--text-primary, #e8e8ef)',
                           marginBottom: 4,
                         }}
@@ -655,10 +655,10 @@ export default function PremiumOnboarding({
                       style={{
                         padding: '14px 16px',
                         borderRadius: 10,
-                        border: `1px solid ${isTested ? 'var(--accent, #7ed957)40' : 'var(--border, #2a2a3a)'}`,
+                        border: `1px solid ${isTested ? 'var(--accent, #6EE05A)40' : 'var(--border, #2a2a3a)'}`,
                         background: isTested
                           ? 'rgba(126,217,87,0.04)'
-                          : 'var(--bg-primary, #0f1419)',
+                          : 'var(--bg-primary, #0B0F19)',
                       }}
                     >
                       <div
@@ -695,7 +695,7 @@ export default function PremiumOnboarding({
                             style={{
                               fontSize: 11,
                               fontWeight: 600,
-                              color: 'var(--accent, #7ed957)',
+                              color: 'var(--accent, #6EE05A)',
                               fontFamily: 'var(--font-mono, monospace)',
                             }}
                           >
@@ -719,7 +719,7 @@ export default function PremiumOnboarding({
                             padding: '8px 12px',
                             borderRadius: 6,
                             border: '1px solid var(--border, #2a2a3a)',
-                            background: 'var(--bg-card, #151d27)',
+                            background: 'var(--bg-card, #111827)',
                             color: 'var(--text-primary, #e8e8ef)',
                             fontSize: 13,
                             fontFamily: 'var(--font-mono, monospace)',
@@ -728,7 +728,7 @@ export default function PremiumOnboarding({
                           }}
                           onFocus={(e) =>
                             (e.currentTarget.style.borderColor =
-                              'var(--accent, #7ed957)')
+                              'var(--accent, #6EE05A)')
                           }
                           onBlur={(e) =>
                             (e.currentTarget.style.borderColor =
@@ -746,7 +746,7 @@ export default function PremiumOnboarding({
                               ? 'var(--accent-glow, rgba(126,217,87,0.1))'
                               : 'transparent',
                             color: serviceKeys[service]
-                              ? 'var(--accent, #7ed957)'
+                              ? 'var(--accent, #6EE05A)'
                               : 'var(--text-muted, #55556a)',
                             fontSize: 12,
                             fontWeight: 600,
@@ -811,7 +811,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0f1419)',
+                    background: 'var(--bg-primary, #0B0F19)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >
@@ -855,7 +855,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0f1419)',
+                    background: 'var(--bg-primary, #0B0F19)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >
@@ -895,7 +895,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0f1419)',
+                    background: 'var(--bg-primary, #0B0F19)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >
@@ -911,7 +911,7 @@ export default function PremiumOnboarding({
                   >
                     Frequency
                   </div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--accent, #7ed957)' }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--accent, #6EE05A)' }}>
                     {frequencyOptions.find((o) => o.value === frequency)?.label ?? frequency}
                   </div>
                 </div>
@@ -921,7 +921,7 @@ export default function PremiumOnboarding({
                   style={{
                     padding: '12px 16px',
                     borderRadius: 8,
-                    background: 'var(--bg-primary, #0f1419)',
+                    background: 'var(--bg-primary, #0B0F19)',
                     border: '1px solid var(--border, #2a2a3a)',
                   }}
                 >
@@ -954,7 +954,7 @@ export default function PremiumOnboarding({
                             height: 8,
                             borderRadius: '50%',
                             background: testedServices.has(svc)
-                              ? 'var(--accent, #7ed957)'
+                              ? 'var(--accent, #6EE05A)'
                               : serviceKeys[svc]
                                 ? '#ffaa00'
                                 : '#ff4444',
@@ -1015,7 +1015,7 @@ export default function PremiumOnboarding({
                   padding: '10px 24px',
                   borderRadius: 8,
                   background: canAdvance()
-                    ? 'var(--accent, #7ed957)'
+                    ? 'var(--accent, #6EE05A)'
                     : 'var(--border, #2a2a3a)',
                   color: canAdvance() ? '#000' : 'var(--text-muted, #55556a)',
                   border: 'none',
@@ -1037,7 +1037,7 @@ export default function PremiumOnboarding({
                 style={{
                   padding: '10px 28px',
                   borderRadius: 8,
-                  background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--accent-secondary, #00d4ff))',
+                  background: 'linear-gradient(135deg, var(--accent, #6EE05A), var(--accent-secondary, #00d4ff))',
                   color: '#000',
                   border: 'none',
                   fontSize: 14,

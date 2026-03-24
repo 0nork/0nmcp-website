@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: `Universal AI API Orchestrator — ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services. Manage add0ns, execute tasks, build workflows.`,
     start_url: '/app',
     display: 'standalone',
-    background_color: '#0f1419',
-    theme_color: '#7ed957',
+    background_color: '#0B0F19',
+    theme_color: '#6EE05A',
     orientation: 'any',
     categories: ['developer', 'productivity', 'utilities'],
     icons: [

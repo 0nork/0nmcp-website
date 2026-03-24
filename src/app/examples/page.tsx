@@ -437,7 +437,7 @@ const examples = [
 ]
 
 const tierColors: Record<string, { color: string; bg: string; border: string }> = {
-  starter: { color: '#7ed957', bg: 'rgba(126, 217, 87, 0.1)', border: 'rgba(126, 217, 87, 0.2)' },
+  starter: { color: '#6EE05A', bg: 'rgba(110, 224, 90, 0.1)', border: 'rgba(110, 224, 90, 0.2)' },
   pro: { color: '#00d4ff', bg: 'rgba(0, 212, 255, 0.1)', border: 'rgba(0, 212, 255, 0.2)' },
   burst: { color: '#ff6b35', bg: 'rgba(255, 107, 53, 0.1)', border: 'rgba(255, 107, 53, 0.2)' },
 }
@@ -454,8 +454,8 @@ export default function ExamplesPage() {
               style={{
                 fontFamily: 'var(--font-mono)',
                 color: 'var(--accent)',
-                backgroundColor: 'rgba(126, 217, 87, 0.1)',
-                border: '1px solid rgba(126, 217, 87, 0.2)',
+                backgroundColor: 'rgba(110, 224, 90, 0.1)',
+                border: '1px solid rgba(110, 224, 90, 0.2)',
               }}
             >
               .0n Files
@@ -772,7 +772,7 @@ export default function ExamplesPage() {
               style={{
                 backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--accent)',
-                boxShadow: '0 0 30px rgba(126, 217, 87, 0.1)',
+                boxShadow: '0 0 30px rgba(110, 224, 90, 0.1)',
               }}
             >
               <span

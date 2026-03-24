@@ -345,7 +345,7 @@ function WidgetBoard({
                   {String(item.name || item.title || `Deal ${i + 1}`)}
                 </div>
                 {item.monetaryValue ? (
-                  <div style={{ color: '#7ed957', fontFamily: 'var(--font-mono)', fontSize: '0.6rem' }}>
+                  <div style={{ color: '#6EE05A', fontFamily: 'var(--font-mono)', fontSize: '0.6rem' }}>
                     ${Number(item.monetaryValue).toLocaleString()}
                   </div>
                 ) : null}
@@ -414,7 +414,7 @@ function renderCell(item: Record<string, unknown>, col: WidgetColumn, color: str
     case 'date':
       return formatRelativeTime(String(val))
     case 'currency':
-      return <span style={{ color: '#7ed957', fontFamily: 'var(--font-mono)' }}>${Number(val).toLocaleString()}</span>
+      return <span style={{ color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>${Number(val).toLocaleString()}</span>
     case 'badge':
       return (
         <span style={{
@@ -447,7 +447,7 @@ function autoColumns(items: Record<string, unknown>[]): WidgetColumn[] {
 
 function inferStages(items: Record<string, unknown>[]): { id: string; label: string; color: string }[] {
   const seen = new Set<string>()
-  const colors = ['#7ed957', '#00d4ff', '#f59e0b', '#a78bfa', '#ef4444', '#ff6b35']
+  const colors = ['#6EE05A', '#00d4ff', '#f59e0b', '#a78bfa', '#ef4444', '#ff6b35']
   const stages: { id: string; label: string; color: string }[] = []
   for (const item of items) {
     const key = String(item.pipelineStageId || item.stageId || item.status || 'unknown')

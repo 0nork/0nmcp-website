@@ -62,8 +62,8 @@ interface AppShellProps {
 
 // ── Styles ──────────────────────────────────────────────────────
 
-const G = '#7ed957'
-const BG = '#0f1419'
+const G = '#6EE05A'
+const BG = '#0B0F19'
 const BORDER = 'rgba(255,255,255,0.08)'
 
 // ── Component ───────────────────────────────────────────────────

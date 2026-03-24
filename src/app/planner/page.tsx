@@ -54,7 +54,7 @@ export default function PlannerPage() {
             borderRadius: '9999px',
             background: 'rgba(126,217,87,0.1)',
             border: '1px solid rgba(126,217,87,0.25)',
-            color: '#7ed957',
+            color: '#6EE05A',
             fontFamily: 'var(--font-mono)',
             letterSpacing: '0.05em',
           }}>
@@ -121,7 +121,7 @@ export default function PlannerPage() {
             justifyContent: 'center',
             margin: '0 auto 1.5rem',
           }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" />
               <line x1="3" y1="9" x2="21" y2="9" />
               <line x1="9" y1="21" x2="9" y2="9" />

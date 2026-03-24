@@ -149,7 +149,7 @@ function RadialBurstAnimation() {
   }, [])
 
   const phases = [
-    { label: 'PIPELINE', desc: 'Sequential execution', color: '#7ed957' },
+    { label: 'PIPELINE', desc: 'Sequential execution', color: '#6EE05A' },
     { label: 'ASSEMBLY LINE', desc: 'Parallel processing', color: '#00d4ff' },
     { label: 'RADIAL BURST', desc: 'Simultaneous deployment', color: '#a78bfa' },
   ]
@@ -187,10 +187,10 @@ function RadialBurstAnimation() {
             <>
               {[0, 1, 2, 3, 4].map(i => (
                 <g key={i}>
-                  <line x1={60 + i * 40} y1="140" x2={100 + i * 40} y2="140" stroke="#7ed957" strokeWidth="2" opacity="0.3">
+                  <line x1={60 + i * 40} y1="140" x2={100 + i * 40} y2="140" stroke="#6EE05A" strokeWidth="2" opacity="0.3">
                     <animate attributeName="opacity" values="0.1;0.6;0.1" dur="1.5s" begin={`${i * 0.3}s`} repeatCount="indefinite" />
                   </line>
-                  <circle cx={80 + i * 40} cy="140" r="6" fill="#7ed957" opacity="0.6">
+                  <circle cx={80 + i * 40} cy="140" r="6" fill="#6EE05A" opacity="0.6">
                     <animate attributeName="opacity" values="0.2;0.8;0.2" dur="1.5s" begin={`${i * 0.3}s`} repeatCount="indefinite" />
                   </circle>
                 </g>
@@ -273,7 +273,7 @@ function RadialBurstAnimation() {
       {/* Selling points */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '260px' }}>
         {[
-          { text: '1,229 tools across 54 services', color: '#7ed957' },
+          { text: '1,229 tools across 54 services', color: '#6EE05A' },
           { text: 'Your own AI agent in seconds', color: '#00d4ff' },
           { text: 'Zero-knowledge encryption', color: '#a78bfa' },
         ].map((item, i) => (

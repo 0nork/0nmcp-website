@@ -36,7 +36,7 @@ interface OpportunitiesResponse {
 }
 
 const STATUS_DOT: Record<string, string> = {
-  open: '#7ed957',
+  open: '#6EE05A',
   won: '#00d4ff',
   lost: '#ef4444',
   abandoned: '#5f6672',
@@ -46,7 +46,7 @@ function Spinner(): ReactNode {
   return (
     <div style={{
       width: 20, height: 20, border: '2px solid rgba(255,255,255,0.1)',
-      borderTopColor: '#7ed957', borderRadius: '50%',
+      borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'pipe-spin 0.6s linear infinite',
     }} />
   )
@@ -178,7 +178,7 @@ export default function PipelinesView() {
                     padding: '0.4rem 0.875rem', borderRadius: 6, fontFamily: 'inherit',
                     border: `1px solid ${active ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.08)'}`,
                     background: active ? 'rgba(126,217,87,0.08)' : 'rgba(255,255,255,0.03)',
-                    color: active ? '#7ed957' : '#9aa0a8',
+                    color: active ? '#6EE05A' : '#7A8290',
                     fontSize: '0.75rem', fontWeight: active ? 600 : 500, cursor: 'pointer',
                     transition: 'all 0.15s ease',
                   }}
@@ -269,7 +269,7 @@ export default function PipelinesView() {
                     </span>
                     <span style={{
                       fontSize: '0.65rem', fontWeight: 600, padding: '0.15rem 0.4rem',
-                      borderRadius: 4, background: 'rgba(255,255,255,0.05)', color: '#9aa0a8',
+                      borderRadius: 4, background: 'rgba(255,255,255,0.05)', color: '#7A8290',
                     }}>
                       {totals.count}
                     </span>
@@ -298,7 +298,7 @@ export default function PipelinesView() {
                   )}
 
                   {stageOpps.map(opp => {
-                    const statusColor = STATUS_DOT[opp.status] || '#7ed957'
+                    const statusColor = STATUS_DOT[opp.status] || '#6EE05A'
                     return (
                       <div key={opp.id} style={{
                         padding: '0.75rem 0.875rem', borderRadius: 8,
@@ -335,7 +335,7 @@ export default function PipelinesView() {
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           {opp.monetaryValue > 0 ? (
                             <span style={{
-                              fontSize: '0.8rem', fontWeight: 700, color: '#7ed957',
+                              fontSize: '0.8rem', fontWeight: 700, color: '#6EE05A',
                               fontFamily: 'var(--font-mono)',
                             }}>
                               {formatCurrency(opp.monetaryValue)}

@@ -19,7 +19,7 @@ interface CalendarResponse {
 }
 
 const STATUS_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  confirmed: { bg: 'rgba(126,217,87,0.1)', text: '#7ed957', border: 'rgba(126,217,87,0.25)' },
+  confirmed: { bg: 'rgba(126,217,87,0.1)', text: '#6EE05A', border: 'rgba(126,217,87,0.25)' },
   pending: { bg: 'rgba(251,191,36,0.1)', text: '#fbbf24', border: 'rgba(251,191,36,0.25)' },
   cancelled: { bg: 'rgba(239,68,68,0.1)', text: '#ef4444', border: 'rgba(239,68,68,0.25)' },
   completed: { bg: 'rgba(0,212,255,0.1)', text: '#00d4ff', border: 'rgba(0,212,255,0.25)' },
@@ -37,7 +37,7 @@ function Spinner(): ReactNode {
   return (
     <div style={{
       width: 20, height: 20, border: '2px solid rgba(255,255,255,0.1)',
-      borderTopColor: '#7ed957', borderRadius: '50%',
+      borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'cal-spin 0.6s linear infinite',
     }} />
   )
@@ -154,7 +154,7 @@ export default function CalendarView() {
           onClick={goToToday}
           style={{
             padding: '0.5rem 1rem', borderRadius: 8, border: '1px solid rgba(126,217,87,0.3)',
-            background: 'rgba(126,217,87,0.08)', color: '#7ed957', fontSize: '0.8rem',
+            background: 'rgba(126,217,87,0.08)', color: '#6EE05A', fontSize: '0.8rem',
             fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
           }}
           onMouseEnter={e => { e.currentTarget.style.background = 'rgba(126,217,87,0.15)' }}
@@ -194,7 +194,7 @@ export default function CalendarView() {
           onClick={goToPrevMonth}
           style={{
             width: 36, height: 36, borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(255,255,255,0.03)', color: '#9aa0a8', fontSize: '1rem',
+            background: 'rgba(255,255,255,0.03)', color: '#7A8290', fontSize: '1rem',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: 'inherit',
           }}
@@ -212,7 +212,7 @@ export default function CalendarView() {
           onClick={goToNextMonth}
           style={{
             width: 36, height: 36, borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(255,255,255,0.03)', color: '#9aa0a8', fontSize: '1rem',
+            background: 'rgba(255,255,255,0.03)', color: '#7A8290', fontSize: '1rem',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: 'inherit',
           }}
@@ -284,7 +284,7 @@ export default function CalendarView() {
               >
                 <div style={{
                   fontSize: '0.8rem', fontWeight: isToday ? 700 : 400,
-                  color: isToday ? '#7ed957' : isSelected ? '#e8eaed' : '#9aa0a8',
+                  color: isToday ? '#6EE05A' : isSelected ? '#e8eaed' : '#7A8290',
                   marginBottom: 4,
                 }}>
                   {cell.day}
@@ -292,7 +292,7 @@ export default function CalendarView() {
                 {dayAppts.length > 0 && (
                   <div style={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
                     {dayAppts.slice(0, 3).map((apt, i) => {
-                      const statusColor = STATUS_COLORS[apt.status]?.text || '#7ed957'
+                      const statusColor = STATUS_COLORS[apt.status]?.text || '#6EE05A'
                       return (
                         <div key={i} style={{
                           width: 5, height: 5, borderRadius: '50%', background: statusColor,

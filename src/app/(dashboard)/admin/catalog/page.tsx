@@ -31,17 +31,17 @@ interface NewAction {
 }
 
 const C = {
-  bg: '#0f1419',
+  bg: '#0B0F19',
   card: 'rgba(255,255,255,0.03)',
   border: 'rgba(255,255,255,0.06)',
   borderLight: 'rgba(255,255,255,0.12)',
-  accent: '#7ed957',
+  accent: '#6EE05A',
   accentDim: 'rgba(126,217,87,0.12)',
   cyan: '#00d4ff',
   orange: '#ff6b35',
   orangeDim: 'rgba(255,107,53,0.12)',
   text: '#e8eaed',
-  textSec: '#9aa0a8',
+  textSec: '#7A8290',
   textMuted: '#5f6672',
 }
 
@@ -188,7 +188,7 @@ export default function CatalogAdminPage() {
           onClick={() => { setShowAdd(!showAdd); setResult(null) }}
           style={{
             padding: '0.6rem 1.25rem', borderRadius: 10, border: 'none',
-            background: showAdd ? C.card : `linear-gradient(135deg, ${C.accent}, #5cb83a)`,
+            background: showAdd ? C.card : `linear-gradient(135deg, ${C.accent}, #4CAF3D)`,
             color: showAdd ? C.textSec : '#000', fontSize: 13, fontWeight: 700,
             cursor: 'pointer', fontFamily: 'inherit',
           }}
@@ -302,7 +302,7 @@ export default function CatalogAdminPage() {
 
           <button onClick={handleSubmit} disabled={adding} style={{
             padding: '0.65rem 1.5rem', borderRadius: 10, border: 'none',
-            background: adding ? C.card : `linear-gradient(135deg, ${C.accent}, #5cb83a)`,
+            background: adding ? C.card : `linear-gradient(135deg, ${C.accent}, #4CAF3D)`,
             color: adding ? C.textMuted : '#000', fontSize: 13, fontWeight: 700,
             cursor: adding ? 'wait' : 'pointer', fontFamily: 'inherit',
           }}>

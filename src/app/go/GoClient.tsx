@@ -9,20 +9,20 @@ import { STATS, STATS_DISPLAY } from '@/data/stats'
 /* ─── Product Suite ──────────────────────────────────────── */
 
 const PRODUCTS = [
-  { name: '0nMCP', tag: 'Orchestrator', icon: '/brand/icons/0nmcp.svg', desc: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. One command triggers Stripe, SendGrid, and CRM simultaneously.`, href: '/', color: '#7ed957' },
-  { name: '0nConsole', tag: 'Dashboard', icon: '/brand/icons/0nconsole.svg', desc: 'AI-powered control panel. Chat interface, visual builder, encrypted vault — all in one screen.', href: '/console', color: '#7ed957' },
-  { name: '0nVault', tag: 'Security', icon: '/brand/icons/0nvault.svg', desc: 'Patent-pending AES-256-GCM encryption. 7 semantic layers. Multi-party escrow. Your keys stay yours.', href: '/security/vault', color: '#7ed957' },
-  { name: '0nBrain', tag: 'AI Learning', icon: '/brand/icons/0nbrain.svg', desc: 'Adaptive learning engine. Signal weights, user intelligence profiles, behavioral fingerprints that improve over time.', href: '/console', color: '#7ed957' },
-  { name: '0nArena', tag: 'AI Training', icon: '/brand/icons/0narena.svg', desc: '7 AI personas reason independently on any question. Empiricist, Adversary, Visionary — then synthesize a verdict.', href: '/console/tools/ai-training', color: '#7ed957' },
+  { name: '0nMCP', tag: 'Orchestrator', icon: '/brand/icons/0nmcp.svg', desc: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. One command triggers Stripe, SendGrid, and CRM simultaneously.`, href: '/', color: '#6EE05A' },
+  { name: '0nConsole', tag: 'Dashboard', icon: '/brand/icons/0nconsole.svg', desc: 'AI-powered control panel. Chat interface, visual builder, encrypted vault — all in one screen.', href: '/console', color: '#6EE05A' },
+  { name: '0nVault', tag: 'Security', icon: '/brand/icons/0nvault.svg', desc: 'Patent-pending AES-256-GCM encryption. 7 semantic layers. Multi-party escrow. Your keys stay yours.', href: '/security/vault', color: '#6EE05A' },
+  { name: '0nBrain', tag: 'AI Learning', icon: '/brand/icons/0nbrain.svg', desc: 'Adaptive learning engine. Signal weights, user intelligence profiles, behavioral fingerprints that improve over time.', href: '/console', color: '#6EE05A' },
+  { name: '0nArena', tag: 'AI Training', icon: '/brand/icons/0narena.svg', desc: '7 AI personas reason independently on any question. Empiricist, Adversary, Visionary — then synthesize a verdict.', href: '/console/tools/ai-training', color: '#6EE05A' },
   { name: 'Social0n', tag: 'Social Media', icon: '/brand/icons/social0n.svg', desc: 'AI-powered multi-platform content generation. Smart scheduling, brand voice learning, and audience analytics.', href: '/products/social0n', color: '#00d4ff' },
   { name: 'App0n', tag: 'App Builder', icon: '/brand/icons/app0n.svg', desc: 'Build AI-native applications with auth, payments, and 0nMCP integration. One-click deploy to Vercel.', href: '/products/app0n', color: '#a78bfa' },
   { name: 'Web0n', tag: 'Website Builder', icon: '/brand/icons/web0n.svg', desc: 'Visual editor with AI page generation. Headless CMS, SEO automation, form capture, and analytics.', href: '/products/web0n', color: '#a78bfa' },
   { name: 'CRO9', tag: 'SEO Engine', icon: '/brand/icons/cro9.svg', desc: 'Self-learning SEO engine. Google Search Console integration, adaptive scoring, CTR gap detection, daily auto-analysis.', href: '/products/cro9', color: '#00d4ff' },
-  { name: '0nBoard', tag: 'Community', icon: '/brand/icons/0nboard.svg', desc: 'Built-in community forum with profiles, karma, badges, and tag-triggered automation workflows.', href: '/community', color: '#7ed957' },
-  { name: '0nStore', tag: 'Marketplace', icon: '/brand/icons/0nstore.svg', desc: 'Premium .0n workflows, Chrome extensions, and AI packs. Buy, sell, and share automation recipes.', href: '/store', color: '#7ed957' },
+  { name: '0nBoard', tag: 'Community', icon: '/brand/icons/0nboard.svg', desc: 'Built-in community forum with profiles, karma, badges, and tag-triggered automation workflows.', href: '/community', color: '#6EE05A' },
+  { name: '0nStore', tag: 'Marketplace', icon: '/brand/icons/0nstore.svg', desc: 'Premium .0n workflows, Chrome extensions, and AI packs. Buy, sell, and share automation recipes.', href: '/store', color: '#6EE05A' },
   { name: '0nCall', tag: 'AI Assistant', icon: '/brand/icons/0ncall.svg', desc: 'Interactive sidebar AI that understands your context. Multi-persona reasoning with vault integration.', href: '/console', color: '#00d4ff' },
-  { name: '0nDefender', tag: 'Security Scanner', icon: '/brand/icons/0ndefender.svg', desc: 'Automated security scanning, threat detection, email reporting. Guard your digital infrastructure.', href: '/security', color: '#7ed957' },
-  { name: '0nSwitch', tag: 'Workflows', icon: '/brand/icons/0nswitch.svg', desc: 'Portable .0n workflow files. Create, share, and run automation recipes across any 0nMCP-compatible platform.', href: '/0n-standard', color: '#7ed957' },
+  { name: '0nDefender', tag: 'Security Scanner', icon: '/brand/icons/0ndefender.svg', desc: 'Automated security scanning, threat detection, email reporting. Guard your digital infrastructure.', href: '/security', color: '#6EE05A' },
+  { name: '0nSwitch', tag: 'Workflows', icon: '/brand/icons/0nswitch.svg', desc: 'Portable .0n workflow files. Create, share, and run automation recipes across any 0nMCP-compatible platform.', href: '/0n-standard', color: '#6EE05A' },
 ]
 
 /* ─── Services ───────────────────────────────────────────── */
@@ -85,21 +85,21 @@ const CAROUSEL_SERVICES = [
 const PLANS = [
   {
     name: 'Free', tag: 'Turn It On', price: '$0', period: 'forever',
-    desc: 'Get started. No credit card.', color: '#7ed957',
+    desc: 'Get started. No credit card.', color: '#6EE05A',
     bg: 'rgba(126,217,87,0.06)', border: 'rgba(126,217,87,0.2)',
     cta: 'Start Free', href: '/signup?redirect=/console',
     features: ['Console access', 'Encrypted Vault (5 services)', 'Visual workflow builder', 'Community access', '10 AI posts/month'],
   },
   {
     name: 'Creator', tag: 'Turn It Up', price: '$19', period: '/month',
-    desc: '7-day free trial. Cancel anytime.', color: '#7ed957',
+    desc: '7-day free trial. Cancel anytime.', color: '#6EE05A',
     bg: 'rgba(126,217,87,0.08)', border: 'rgba(126,217,87,0.35)',
     cta: 'Start Free Trial', href: '/signup?redirect=/console',
     features: ['Everything in Free', 'Unlimited executions', 'AI chat (BYOK)', 'Voice learning + correction memory', 'Full marketplace access', 'Vault sync across devices'],
   },
   {
     name: 'Operator', tag: 'The Full Stack', price: '$49', period: '/month',
-    desc: '7-day free trial. Cancel anytime.', color: '#7ed957',
+    desc: '7-day free trial. Cancel anytime.', color: '#6EE05A',
     bg: 'rgba(126,217,87,0.10)', border: 'rgba(126,217,87,0.45)',
     cta: 'Start Free Trial', href: '/signup?redirect=/console', popular: true,
     features: ['Everything in Creator', 'Multi-channel Social0n', 'CRM integration', 'Council Arena access', 'Analytics dashboard', 'Priority support'],
@@ -144,8 +144,8 @@ function CtaButton({ children, href, size = 'lg', variant = 'primary' }: {
       style={{
         padding: size === 'lg' ? '16px 40px' : '12px 28px',
         fontSize: size === 'lg' ? '16px' : '14px',
-        background: variant === 'primary' ? 'linear-gradient(135deg, #7ed957, #5cb83a)' : 'rgba(255,255,255,0.06)',
-        color: variant === 'primary' ? '#0f1419' : '#e8e8ef',
+        background: variant === 'primary' ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)' : 'rgba(255,255,255,0.06)',
+        color: variant === 'primary' ? '#0B0F19' : '#e8e8ef',
         border: variant === 'primary' ? 'none' : '1px solid rgba(255,255,255,0.1)',
         textDecoration: 'none',
       }}
@@ -156,7 +156,7 @@ function CtaButton({ children, href, size = 'lg', variant = 'primary' }: {
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ textAlign: 'center', marginBottom: 16 }}>
-      <div style={{ width: 40, height: 3, background: 'linear-gradient(90deg, #7ed957, #00d4ff)', borderRadius: 2, margin: '0 auto 16px' }} />
+      <div style={{ width: 40, height: 3, background: 'linear-gradient(90deg, #6EE05A, #00d4ff)', borderRadius: 2, margin: '0 auto 16px' }} />
       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--accent)' }}>
         {children}
       </span>
@@ -225,7 +225,7 @@ function DemoSection() {
 
   const termStyle: React.CSSProperties = {
     borderRadius: 12,
-    background: '#151d27',
+    background: '#111827',
     border: '1px solid var(--border)',
     overflow: 'hidden',
   }
@@ -256,8 +256,8 @@ function DemoSection() {
           </div>
           {phase !== 'typing' && (
             <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: phase === 'done' ? '#7ed957' : '#fbbf24', animation: phase === 'processing' ? 'pulse-dot 1s infinite' : 'none' }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: phase === 'done' ? '#7ed957' : '#fbbf24' }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: phase === 'done' ? '#6EE05A' : '#fbbf24', animation: phase === 'processing' ? 'pulse-dot 1s infinite' : 'none' }} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: phase === 'done' ? '#6EE05A' : '#fbbf24' }}>
                 {phase === 'done' ? 'Complete — 3 services executed' : 'Processing 3 services...'}
               </span>
             </div>
@@ -284,7 +284,7 @@ function DemoSection() {
               <div style={{ width: 80, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
                 <div style={{ height: '100%', borderRadius: 2, background: step.color, width: `${progress[i]}%`, transition: 'width 0.6s ease' }} />
               </div>
-              {progress[i] === 100 && <span style={{ color: '#7ed957', fontSize: 14 }}>&#x2713;</span>}
+              {progress[i] === 100 && <span style={{ color: '#6EE05A', fontSize: 14 }}>&#x2713;</span>}
             </div>
           ))}
         </div>
@@ -301,7 +301,7 @@ function DemoSection() {
         <div style={{ padding: '20px', minHeight: 140 }}>
           {phase === 'done' ? (
             <div style={{ animation: 'fade-in 0.3s ease' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: '#7ed957', marginBottom: 12 }}>&#x2713; All 3 services completed</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: '#6EE05A', marginBottom: 12 }}>&#x2713; All 3 services completed</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
                   <span style={{ color: 'var(--text-muted)' }}>Invoice</span>
@@ -317,7 +317,7 @@ function DemoSection() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginTop: 8, paddingTop: 8, borderTop: '1px solid var(--border)' }}>
                   <span style={{ color: 'var(--text-muted)' }}>Time</span>
-                  <span style={{ color: '#7ed957', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>1.2s</span>
+                  <span style={{ color: '#6EE05A', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>1.2s</span>
                 </div>
               </div>
             </div>
@@ -383,8 +383,8 @@ export default function GoClient() {
           <Link href="/login" style={{ fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none' }}>Sign In</Link>
           <Link href="/signup?redirect=/console" className="no-underline" style={{
             padding: '8px 24px', borderRadius: 10,
-            background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-            color: '#0f1419', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+            background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+            color: '#0B0F19', fontWeight: 600, fontSize: 14, textDecoration: 'none',
           }}>Start Free</Link>
         </div>
       </header>
@@ -394,7 +394,7 @@ export default function GoClient() {
         <div style={{
           display: 'inline-block', padding: '6px 16px', borderRadius: 100,
           background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)',
-          color: '#7ed957', fontSize: 13, fontWeight: 600, marginBottom: 24, letterSpacing: '0.03em',
+          color: '#6EE05A', fontSize: 13, fontWeight: 600, marginBottom: 24, letterSpacing: '0.03em',
         }}>
           {STATS_DISPLAY.tools} tools &middot; {STATS_DISPLAY.services} services &middot; Patent pending
         </div>
@@ -404,7 +404,7 @@ export default function GoClient() {
           letterSpacing: '-0.035em', color: 'var(--text-primary)', marginBottom: 24,
         }}>
           Describe it.{' '}
-          <span style={{ background: 'linear-gradient(135deg, #7ed957, #00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <span style={{ background: 'linear-gradient(135deg, #6EE05A, #00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             AI does it.
           </span>
         </h1>
@@ -577,7 +577,7 @@ export default function GoClient() {
                       width: 24, height: 24, borderRadius: 6,
                       background: 'rgba(126,217,87,0.15)', display: 'flex',
                       alignItems: 'center', justifyContent: 'center',
-                      fontSize: 12, fontWeight: 700, color: '#7ed957',
+                      fontSize: 12, fontWeight: 700, color: '#6EE05A',
                     }}>{s.name[0]}</span>
                   )}
                   <span style={{
@@ -599,7 +599,7 @@ export default function GoClient() {
                       width: 24, height: 24, borderRadius: 6,
                       background: 'rgba(126,217,87,0.15)', display: 'flex',
                       alignItems: 'center', justifyContent: 'center',
-                      fontSize: 12, fontWeight: 700, color: '#7ed957',
+                      fontSize: 12, fontWeight: 700, color: '#6EE05A',
                     }}>{s.name[0]}</span>
                   )}
                   <span style={{
@@ -624,7 +624,7 @@ export default function GoClient() {
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
           {[
-            { num: '01', title: 'Sign up', desc: 'Free. 30 seconds. No credit card required.', color: '#7ed957' },
+            { num: '01', title: 'Sign up', desc: 'Free. 30 seconds. No credit card required.', color: '#6EE05A' },
             { num: '02', title: 'Connect your tools', desc: 'Paste your API keys into the encrypted Vault. We can\'t see them — ever.', color: '#00d4ff' },
             { num: '03', title: 'Describe what you need', desc: 'Type in plain English or drag and drop in the visual builder. AI handles the rest.', color: '#a78bfa' },
           ].map(s => (
@@ -666,8 +666,8 @@ export default function GoClient() {
                 <div style={{
                   position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
                   padding: '4px 16px', borderRadius: 100,
-                  background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                  color: '#0f1419', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em',
+                  background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+                  color: '#0B0F19', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em',
                 }}>Most Popular</div>
               )}
               <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>{plan.tag}</div>
@@ -688,8 +688,8 @@ export default function GoClient() {
               <Link href={plan.href} className="no-underline" style={{
                 display: 'block', textAlign: 'center', padding: 12, borderRadius: 12,
                 fontWeight: 700, fontSize: 14, textDecoration: 'none',
-                background: plan.popular ? `linear-gradient(135deg, ${plan.color}, ${plan.color === '#7ed957' ? '#5cb83a' : '#0099cc'})` : 'rgba(255,255,255,0.06)',
-                color: plan.popular ? '#0f1419' : 'var(--text-primary)',
+                background: plan.popular ? `linear-gradient(135deg, ${plan.color}, ${plan.color === '#6EE05A' ? '#4CAF3D' : '#0099cc'})` : 'rgba(255,255,255,0.06)',
+                color: plan.popular ? '#0B0F19' : 'var(--text-primary)',
                 border: plan.popular ? 'none' : '1px solid var(--border)',
               }}>{plan.cta}</Link>
             </div>
@@ -716,7 +716,7 @@ export default function GoClient() {
           letterSpacing: '-0.035em', color: 'var(--text-primary)', marginBottom: 16, lineHeight: 1.1,
         }}>
           Ready to{' '}
-          <span style={{ background: 'linear-gradient(135deg, #7ed957, #00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <span style={{ background: 'linear-gradient(135deg, #6EE05A, #00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Turn it 0n?
           </span>
         </h2>

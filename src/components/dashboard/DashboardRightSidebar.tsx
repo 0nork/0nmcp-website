@@ -85,11 +85,11 @@ const PANEL_BORDER   = 'rgba(255, 255, 255, 0.07)'
 const CARD_BG        = 'rgba(255, 255, 255, 0.03)'
 const CARD_BG_HOVER  = 'rgba(255, 255, 255, 0.06)'
 const CARD_BORDER    = 'rgba(255, 255, 255, 0.06)'
-const ACCENT         = '#7ed957'
-const ACCENT_DIM     = 'rgba(126, 217, 87, 0.12)'
-const ACCENT_BORDER  = 'rgba(126, 217, 87, 0.3)'
+const ACCENT         = '#6EE05A'
+const ACCENT_DIM     = 'rgba(110, 224, 90, 0.12)'
+const ACCENT_BORDER  = 'rgba(110, 224, 90, 0.3)'
 const TEXT_PRIMARY   = '#e8eaed'
-const TEXT_SECONDARY = '#9aa0a8'
+const TEXT_SECONDARY = '#7A8290'
 const TEXT_MUTED     = '#5f6672'
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
@@ -987,11 +987,11 @@ export default function DashboardRightSidebar({
       {/* Pulse animation for trigger buttons */}
       <style>{`
         @keyframes sidebarPulseLoop {
-          0%, 90% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0); }
-          93% { box-shadow: 0 0 0 8px rgba(126, 217, 87, 0.35); }
-          96% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0); }
-          98% { box-shadow: 0 0 0 8px rgba(126, 217, 87, 0.25); }
-          100% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0); }
+          0%, 90% { box-shadow: 0 0 0 0 rgba(110, 224, 90, 0); }
+          93% { box-shadow: 0 0 0 8px rgba(110, 224, 90, 0.35); }
+          96% { box-shadow: 0 0 0 0 rgba(110, 224, 90, 0); }
+          98% { box-shadow: 0 0 0 8px rgba(110, 224, 90, 0.25); }
+          100% { box-shadow: 0 0 0 0 rgba(110, 224, 90, 0); }
         }
         .sidebar-trigger-pulse {
           animation: sidebarPulseLoop 30s ease-in-out infinite;

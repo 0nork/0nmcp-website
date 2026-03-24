@@ -87,7 +87,7 @@ export default function RunsPage() {
     window.location.href = `/api/runs/purchase?pack=${packId}&return=${encodeURIComponent('/runs')}`
   }
 
-  const highlightColor = '#7ed957'
+  const highlightColor = '#6EE05A'
 
   return (
     <div style={{ minHeight: '100vh', background: '#080B0F', color: '#e4e4e7' }}>

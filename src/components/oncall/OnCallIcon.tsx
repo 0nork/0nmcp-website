@@ -9,11 +9,11 @@ interface OnCallIconProps {
 }
 
 const FOCUS_GRADIENTS: Record<FocusArea, string> = {
-  idle: '#7ed957, #5cb83a',
+  idle: '#6EE05A, #4CAF3D',
   thinking: '#00d4ff, #a78bfa, #00d4ff',
   vault: '#ff6b35, #ff9f43',
-  learning: '#7ed957, #00d4ff, #a78bfa, #ff6b35',
-  suggesting: '#7ed957, #5cb83a',
+  learning: '#6EE05A, #00d4ff, #a78bfa, #ff6b35',
+  suggesting: '#6EE05A, #4CAF3D',
   federation: '#a78bfa, #10a37f, #4285f4',
 }
 
@@ -54,7 +54,7 @@ export function OnCallIcon({ focus, onClick, hasNotification }: OnCallIconProps)
           className="absolute rounded-full flex items-center justify-center"
           style={{
             inset: '3px',
-            background: '#0f1419',
+            background: '#0B0F19',
           }}
         >
           <span
@@ -75,7 +75,7 @@ export function OnCallIcon({ focus, onClick, hasNotification }: OnCallIconProps)
             className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"
             style={{
               backgroundColor: '#ff6b35',
-              borderColor: '#0f1419',
+              borderColor: '#0B0F19',
               animation: 'oncall-notif-pulse 2s ease-in-out infinite',
             }}
           />
@@ -92,8 +92,8 @@ export function OnCallIcon({ focus, onClick, hasNotification }: OnCallIconProps)
           to { --oncall-angle: 360deg; }
         }
         @keyframes oncall-pulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0.4); }
-          50% { box-shadow: 0 0 0 8px rgba(126, 217, 87, 0); }
+          0%, 100% { box-shadow: 0 0 0 0 rgba(110, 224, 90, 0.4); }
+          50% { box-shadow: 0 0 0 8px rgba(110, 224, 90, 0); }
         }
         @keyframes oncall-spin {
           0%, 100% { box-shadow: 0 0 12px rgba(0, 212, 255, 0.3); }

@@ -886,7 +886,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   vault:    "#a78bfa",
   engine:   "#00d4ff",
   deed:     "#f59e0b",
-  workflow: "#7ed957",
+  workflow: "#6EE05A",
   store:    "#ec4899",
   builder:  "#6366f1",
   social:   "#38bdf8",

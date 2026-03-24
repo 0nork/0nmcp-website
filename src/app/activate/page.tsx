@@ -159,10 +159,10 @@ function ActivateFlow() {
         width: '100%',
         maxWidth: '440px',
         padding: '2.5rem',
-        background: '#0f1419',
+        background: '#0B0F19',
         border: '1px solid #1a1a2e',
         borderRadius: '16px',
-        boxShadow: '0 0 60px rgba(126, 217, 87, 0.05)',
+        boxShadow: '0 0 60px rgba(110, 224, 90, 0.05)',
       }}>
 
         {/* Logo */}
@@ -171,7 +171,7 @@ function ActivateFlow() {
             fontFamily: 'var(--font-mono, monospace)',
             fontSize: '2rem',
             fontWeight: 800,
-            color: '#7ed957',
+            color: '#6EE05A',
             letterSpacing: '-0.02em',
           }}>0n</div>
           <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)', marginTop: '0.25rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
@@ -218,10 +218,10 @@ function ActivateFlow() {
                     fontSize: '1.25rem',
                     fontWeight: 700,
                     fontFamily: 'var(--font-mono, monospace)',
-                    background: '#151d27',
+                    background: '#111827',
                     border: '2px solid #1a1a2e',
                     borderRadius: '8px',
-                    color: '#7ed957',
+                    color: '#6EE05A',
                     outline: 'none',
                     ...(i === 3 ? { marginRight: '12px' } : {}),
                   }}
@@ -231,7 +231,7 @@ function ActivateFlow() {
             </div>
 
             {error && <p style={{ color: '#ef4444', fontSize: '0.8125rem', textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
-            {loading && <p style={{ color: '#7ed957', fontSize: '0.8125rem', textAlign: 'center' }}>Verifying...</p>}
+            {loading && <p style={{ color: '#6EE05A', fontSize: '0.8125rem', textAlign: 'center' }}>Verifying...</p>}
           </>
         )}
 
@@ -242,7 +242,7 @@ function ActivateFlow() {
               {isSignup ? 'Create your 0n account' : 'Sign in to approve'}
             </h1>
             <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginBottom: '1.5rem' }}>
-              Connecting device: <span style={{ color: '#7ed957', fontFamily: 'var(--font-mono, monospace)' }}>{deviceInfo?.device_name || 'CLI'}</span>
+              Connecting device: <span style={{ color: '#6EE05A', fontFamily: 'var(--font-mono, monospace)' }}>{deviceInfo?.device_name || 'CLI'}</span>
             </p>
 
             {error && <p style={{ color: '#ef4444', fontSize: '0.8125rem', textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
@@ -278,7 +278,7 @@ function ActivateFlow() {
               />
               <button type="submit" disabled={loading} style={{
                 padding: '12px',
-                background: '#7ed957',
+                background: '#6EE05A',
                 color: '#000',
                 fontWeight: 700,
                 fontSize: '0.875rem',
@@ -294,7 +294,7 @@ function ActivateFlow() {
             <p style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)' }}>
               {isSignup ? 'Already have an account? ' : "Don't have an account? "}
               <button onClick={() => { setIsSignup(!isSignup); setError('') }} style={{
-                background: 'none', border: 'none', color: '#7ed957', cursor: 'pointer', fontWeight: 600, fontSize: '0.8125rem',
+                background: 'none', border: 'none', color: '#6EE05A', cursor: 'pointer', fontWeight: 600, fontSize: '0.8125rem',
               }}>
                 {isSignup ? 'Sign in' : 'Create one'}
               </button>
@@ -307,10 +307,10 @@ function ActivateFlow() {
           <div style={{ textAlign: 'center' }}>
             <div style={{
               width: '64px', height: '64px', borderRadius: '50%',
-              border: '3px solid #7ed957', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '3px solid #6EE05A', display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 1.5rem', animation: 'pulse 1.5s infinite',
             }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2.5">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2.5">
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
             </div>
@@ -324,19 +324,19 @@ function ActivateFlow() {
           <div style={{ textAlign: 'center' }}>
             <div style={{
               width: '64px', height: '64px', borderRadius: '50%',
-              background: 'rgba(126, 217, 87, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'rgba(110, 224, 90, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 1.5rem',
             }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#7ed957', marginBottom: '0.5rem' }}>You&apos;re 0n.</h1>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#6EE05A', marginBottom: '0.5rem' }}>You&apos;re 0n.</h1>
             <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)', marginBottom: '1.5rem' }}>
               Your device is connected. Return to your terminal to continue.
             </p>
             <Link href="/dashboard" style={{
-              display: 'inline-block', padding: '10px 24px', background: '#151d27', border: '1px solid #1a1a2e',
+              display: 'inline-block', padding: '10px 24px', background: '#111827', border: '1px solid #1a1a2e',
               borderRadius: '8px', color: '#fff', fontSize: '0.8125rem', fontWeight: 600, textDecoration: 'none',
             }}>
               Go to Console
@@ -357,7 +357,7 @@ function ActivateFlow() {
 
 const inputStyle: React.CSSProperties = {
   padding: '12px 14px',
-  background: '#151d27',
+  background: '#111827',
   border: '1px solid #1a1a2e',
   borderRadius: '8px',
   color: '#fff',

@@ -41,7 +41,7 @@ const BUCKET_COLORS: Record<string, string> = {
   CTR_FIX: '#ff3d3d',
   STRIKING_DISTANCE: '#ff6b35',
   RELEVANCE_REBUILD: '#ff69b4',
-  LOCAL_BOOST: '#7ed957',
+  LOCAL_BOOST: '#6EE05A',
 }
 
 const BUCKET_LABELS: Record<string, string> = {
@@ -676,7 +676,7 @@ export default function SEODashboard() {
                     fontWeight: 700,
                     color:
                       run.status === 'completed'
-                        ? '#7ed957'
+                        ? '#6EE05A'
                         : run.status === 'failed'
                           ? '#ff3d3d'
                           : '#ff6b35',

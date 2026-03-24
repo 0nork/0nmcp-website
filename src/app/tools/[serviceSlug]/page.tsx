@@ -104,7 +104,7 @@ export default async function ServiceToolPage({ params }: Props) {
               </span>
               <span className="text-xs px-2 py-0.5 rounded-full" style={{
                 backgroundColor: service.status === 'live' ? 'rgba(126,217,87,0.1)' : 'rgba(245,158,11,0.1)',
-                color: service.status === 'live' ? '#7ed957' : '#f59e0b',
+                color: service.status === 'live' ? '#6EE05A' : '#f59e0b',
               }}>
                 {service.status}
               </span>
@@ -228,8 +228,8 @@ export default async function ServiceToolPage({ params }: Props) {
             href="/console"
             className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold"
             style={{
-              background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary, #5cb83a))',
-              color: '#0f1419',
+              background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary, #4CAF3D))',
+              color: '#0B0F19',
               textDecoration: 'none',
             }}
           >

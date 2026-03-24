@@ -63,14 +63,14 @@ const CATEGORY_CONFIG: Record<
   all: {
     label: 'All Files',
     icon: FolderOpen,
-    color: '#7ed957',
+    color: '#6EE05A',
     emptyTitle: 'No vault files yet',
     emptyDesc: 'Purchase SWITCH files from the store or create them in the builder to see them here.',
   },
   workflow: {
     label: 'SWITCH / RUNs',
     icon: Workflow,
-    color: '#7ed957',
+    color: '#6EE05A',
     emptyTitle: 'No SWITCH files',
     emptyDesc: 'SWITCH files are executable .0n workflow definitions. Create one in the builder or purchase from the store.',
   },
@@ -98,7 +98,7 @@ const CATEGORY_CONFIG: Record<
   bundles: {
     label: 'Bundles',
     icon: Package,
-    color: '#7ed957',
+    color: '#6EE05A',
     emptyTitle: 'Credential bundles',
     emptyDesc: 'Create or import encrypted .0n credential bundles for portable transfer.',
   },

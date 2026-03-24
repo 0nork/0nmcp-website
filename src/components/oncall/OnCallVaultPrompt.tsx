@@ -46,8 +46,8 @@ export function OnCallVaultPrompt({ serviceKey, onSave, onDismiss }: OnCallVault
           animation: 'oncall-msg-in 0.2s ease both',
         }}
       >
-        <Check size={14} style={{ color: '#7ed957' }} />
-        <span className="text-[13px]" style={{ color: '#7ed957' }}>
+        <Check size={14} style={{ color: '#6EE05A' }} />
+        <span className="text-[13px]" style={{ color: '#6EE05A' }}>
           {svc.l} connected and encrypted
         </span>
       </div>

@@ -50,12 +50,12 @@ interface CRMData {
 }
 
 const COLORS = {
-  bg: '#0f1419',
+  bg: '#0B0F19',
   card: 'rgba(255,255,255,0.03)',
   cardHover: 'rgba(255,255,255,0.055)',
   border: 'rgba(255,255,255,0.06)',
   borderLight: 'rgba(255,255,255,0.1)',
-  accent: '#7ed957',
+  accent: '#6EE05A',
   accentDim: 'rgba(126,217,87,0.12)',
   cyan: '#00d4ff',
   cyanDim: 'rgba(0,212,255,0.12)',
@@ -64,17 +64,17 @@ const COLORS = {
   orange: '#ff6b35',
   orangeDim: 'rgba(255,107,53,0.12)',
   textPrimary: '#e8eaed',
-  textSecondary: '#9aa0a8',
+  textSecondary: '#7A8290',
   textMuted: '#5f6672',
 }
 
 const STAGE_COLORS = [
-  '#7ed957', '#00d4ff', '#a78bfa', '#ff6b35', '#f472b6',
+  '#6EE05A', '#00d4ff', '#a78bfa', '#ff6b35', '#f472b6',
   '#fbbf24', '#34d399', '#60a5fa', '#e879f9', '#fb923c',
 ]
 
 const AVATAR_COLORS = [
-  '#7ed957', '#00d4ff', '#a78bfa', '#ff6b35', '#f472b6',
+  '#6EE05A', '#00d4ff', '#a78bfa', '#ff6b35', '#f472b6',
   '#fbbf24', '#34d399', '#60a5fa', '#818cf8', '#fb923c',
 ]
 
@@ -665,7 +665,7 @@ export default function CRMPage() {
                 width: '100%', padding: '0.75rem', borderRadius: 10,
                 background: proofRunning
                   ? COLORS.card
-                  : `linear-gradient(135deg, ${COLORS.accent}, #5cb83a)`,
+                  : `linear-gradient(135deg, ${COLORS.accent}, #4CAF3D)`,
                 border: 'none', color: proofRunning ? COLORS.textMuted : '#000',
                 fontSize: 13, fontWeight: 700, cursor: proofRunning ? 'wait' : 'pointer',
                 fontFamily: 'inherit', letterSpacing: '-0.01em',
@@ -745,7 +745,7 @@ export default function CRMPage() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
               {[
-                { label: 'Add Contact', gradient: `linear-gradient(135deg, ${COLORS.accent}, #5cb83a)`, icon: addContactIcon() },
+                { label: 'Add Contact', gradient: `linear-gradient(135deg, ${COLORS.accent}, #4CAF3D)`, icon: addContactIcon() },
                 { label: 'Send Message', gradient: `linear-gradient(135deg, ${COLORS.cyan}, #0099cc)`, icon: sendMessageIcon() },
                 { label: 'View Calendar', gradient: `linear-gradient(135deg, ${COLORS.purple}, #7c3aed)`, icon: calendarIcon() },
                 { label: 'View Pipeline', gradient: `linear-gradient(135deg, ${COLORS.orange}, #e85d2a)`, icon: pipelineIcon() },

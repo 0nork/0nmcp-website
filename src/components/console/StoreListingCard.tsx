@@ -146,7 +146,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
             <span style={{
               fontSize: 8, fontWeight: 700, padding: '1px 5px', borderRadius: 4,
               backgroundColor: listing.vendor_tier === 'partner' ? 'rgba(126,217,87,0.12)' : 'rgba(0,212,255,0.12)',
-              color: listing.vendor_tier === 'partner' ? '#7ed957' : '#00d4ff',
+              color: listing.vendor_tier === 'partner' ? '#6EE05A' : '#00d4ff',
               textTransform: 'uppercase', letterSpacing: '0.04em',
             }}>
               {listing.vendor_tier === 'partner' ? 'Partner' : 'Top Seller'}
@@ -197,7 +197,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
                 padding: '3px 8px',
                 borderRadius: 20,
                 backgroundColor: 'rgba(126,217,87,0.15)',
-                color: '#7ed957',
+                color: '#6EE05A',
               }}
             >
               <Check size={10} />
@@ -228,7 +228,7 @@ function getCategoryColor(category: string): string {
     devops: '#f59e0b',
     custom: '#ec4899',
     extensions: '#4285f4',
-    automation: '#7ed957',
+    automation: '#6EE05A',
   }
   return colors[category] || '#ff6b35'
 }

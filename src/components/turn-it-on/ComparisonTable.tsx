@@ -67,7 +67,7 @@ export default function ComparisonTable() {
                   style={
                     row.highlight
                       ? {
-                          backgroundColor: 'rgba(126, 217, 87, 0.06)',
+                          backgroundColor: 'rgba(110, 224, 90, 0.06)',
                           borderLeft: '3px solid var(--accent)',
                         }
                       : {}

@@ -198,7 +198,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   plaid: {
-    l: "Plaid", logo: "plaid", c: "#111111", cat: "finance", pri: 31,
+    l: "Plaid", logo: "plaid", c: "#111827", cat: "finance", pri: 31,
     d: "Financial data API - bank connections, transactions, identity, and income verification.",
     cap: ["Bank Connect", "Transactions", "Balance", "Identity", "Income", "Assets", "Investments", "Liabilities"],
     f: [
@@ -338,7 +338,7 @@ export const SVC: Record<string, ServiceConfig> = {
     ],
   },
   devto: {
-    l: "Dev.to", logo: "devto", c: "#0a0a0a", cat: "social", pri: 60, docs: "https://developers.forem.com/api/v1", apiVer: "v1", stableScopes: ["articles", "comments", "users", "tags"],
+    l: "Dev.to", logo: "devto", c: "#0B0F19", cat: "social", pri: 60, docs: "https://developers.forem.com/api/v1", apiVer: "v1", stableScopes: ["articles", "comments", "users", "tags"],
     d: "Developer community — publish articles, manage listings, read analytics, and engage with devs.",
     cap: ["Articles", "Comments", "Listings", "Tags", "Followers", "Reactions", "Organizations", "Webhooks"],
     f: [

@@ -163,8 +163,8 @@ export function calculateComposite(scores: EvaluationScores): number {
 // ─── Score Band Labels ────────────────────────────────────────
 
 export function getScoreBand(score: number): { label: string; color: string } {
-  if (score >= 0.90) return { label: 'Exceptional', color: '#7ed957' }
-  if (score >= 0.85) return { label: 'Excellent', color: '#7ed957' }
+  if (score >= 0.90) return { label: 'Exceptional', color: '#6EE05A' }
+  if (score >= 0.85) return { label: 'Excellent', color: '#6EE05A' }
   if (score >= 0.75) return { label: 'Good', color: '#facc15' }
   if (score >= 0.65) return { label: 'Adequate', color: '#fb923c' }
   return { label: 'Needs Improvement', color: '#ef4444' }

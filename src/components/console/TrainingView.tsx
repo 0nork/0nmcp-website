@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import type { LeaderboardData } from '@/lib/training/types'
 
 const TIER_COLORS: Record<number, string> = {
-  0: '#64748b', 1: '#7ed957', 2: '#00d4ff', 3: '#a78bfa', 4: '#ff6b35',
+  0: '#64748b', 1: '#6EE05A', 2: '#00d4ff', 3: '#a78bfa', 4: '#ff6b35',
 }
 
 const TIER_ICONS: Record<number, string> = {
@@ -12,7 +12,7 @@ const TIER_ICONS: Record<number, string> = {
 }
 
 const card: React.CSSProperties = {
-  background: 'var(--bg-card, #0a0a0a)',
+  background: 'var(--bg-card, #0B0F19)',
   border: '1px solid var(--border, #1a1a1a)',
   borderRadius: '0.75rem',
   padding: '1.25rem',
@@ -55,7 +55,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
         <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🧠</div>
         <div style={{ color: 'var(--text-primary, #e5e5e5)' }}>Brain Training Factory</div>
         <div style={{ ...sub, marginTop: '0.5rem' }}>
-          No training data yet. Run <code style={{ color: '#7ed957' }}>/training</code> in Claude Code to start the first session.
+          No training data yet. Run <code style={{ color: '#6EE05A' }}>/training</code> in Claude Code to start the first session.
         </div>
       </div>
     )
@@ -134,7 +134,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
 
           {/* Stats */}
           <div style={{ display: 'flex', gap: '1.5rem' }}>
-            <StatPill label="Last Trained" value={lastTrainedAgo} color={lastTrainedRun ? '#7ed957' : '#64748b'} pulse={!!lastTrainedRun} />
+            <StatPill label="Last Trained" value={lastTrainedAgo} color={lastTrainedRun ? '#6EE05A' : '#64748b'} pulse={!!lastTrainedRun} />
             <StatPill label="Avg Score" value={data.avgScore ? data.avgScore.toFixed(3) : '—'} color={getScoreColor(data.avgScore)} />
             <StatPill label="Brain Health" value={brainHealth ? brainHealth.toFixed(3) : '—'} color={getScoreColor(brainHealth)} />
           </div>
@@ -153,7 +153,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
               <div key={p.id} style={{
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.5rem 0.75rem',
-                background: p.isActive ? '#111' : '#0a0a0a',
+                background: p.isActive ? '#111' : '#0B0F19',
                 borderRadius: '0.5rem',
                 border: `1px solid ${p.isActive ? '#1a1a1a' : '#111'}`,
                 opacity: p.isActive ? 1 : 0.45,
@@ -248,8 +248,8 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
                     <td style={{ padding: '0.5rem' }}>
                       <span style={{
                         fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px',
-                        background: run.run_type === 'offline' ? '#7ed95722' : run.run_type === 'housekeeping' ? '#64748b22' : '#ff6b3522',
-                        color: run.run_type === 'offline' ? '#7ed957' : run.run_type === 'housekeeping' ? '#64748b' : '#ff6b35',
+                        background: run.run_type === 'offline' ? '#6EE05A22' : run.run_type === 'housekeeping' ? '#64748b22' : '#ff6b3522',
+                        color: run.run_type === 'offline' ? '#6EE05A' : run.run_type === 'housekeeping' ? '#64748b' : '#ff6b35',
                       }}>
                         {run.run_type}
                       </span>
@@ -259,7 +259,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
                     <td style={{ padding: '0.5rem', color: getScoreColor(run.avg_composite_score || 0), fontFamily: 'JetBrains Mono, monospace' }}>
                       {run.avg_composite_score ? run.avg_composite_score.toFixed(3) : '—'}
                     </td>
-                    <td style={{ padding: '0.5rem', color: run.entries_added ? '#7ed957' : '#666', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <td style={{ padding: '0.5rem', color: run.entries_added ? '#6EE05A' : '#666', fontFamily: 'JetBrains Mono, monospace' }}>
                       {run.entries_added ? `+${run.entries_added}` : '—'}
                     </td>
                     <td style={{ padding: '0.5rem', color: run.entries_pruned ? '#ef4444' : '#666', fontFamily: 'JetBrains Mono, monospace' }}>
@@ -294,14 +294,14 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
               }} />
               {data.milestones.map((m, i) => {
                 const isTier = m.milestone_key.startsWith('tier_')
-                const color = isTier ? (TIER_COLORS[parseInt(m.milestone_key.replace('tier_', '').replace('_reached', ''))] || '#7ed957') : '#7ed957'
+                const color = isTier ? (TIER_COLORS[parseInt(m.milestone_key.replace('tier_', '').replace('_reached', ''))] || '#6EE05A') : '#6EE05A'
                 return (
                   <div key={m.milestone_key} style={{ position: 'relative', marginBottom: '1rem' }}>
                     {/* Dot */}
                     <div style={{
                       position: 'absolute', left: '-1.5rem', top: '4px',
                       width: '10px', height: '10px', borderRadius: '50%',
-                      background: color, border: '2px solid #0a0a0a',
+                      background: color, border: '2px solid #0B0F19',
                       boxShadow: `0 0 8px ${color}44`,
                     }} />
                     <div style={{ fontSize: '0.85rem', color: 'var(--text-primary, #e5e5e5)', fontWeight: 600 }}>
@@ -339,7 +339,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
             </button>
             <div style={sub}>
               Housekeeping prunes expired entries, checks tier upgrades, and sends milestone notifications.
-              Actual training runs happen offline via <code style={{ color: '#7ed957' }}>/training</code>.
+              Actual training runs happen offline via <code style={{ color: '#6EE05A' }}>/training</code>.
             </div>
 
             {/* Quick Stats */}
@@ -394,7 +394,7 @@ function MiniStat({ label, value }: { label: string; value: string }) {
 // ─── Helpers ─────────────────────────────────────────────────
 
 function getScoreColor(score: number): string {
-  if (score >= 0.85) return '#7ed957'
+  if (score >= 0.85) return '#6EE05A'
   if (score >= 0.75) return '#facc15'
   if (score >= 0.65) return '#fb923c'
   return '#ef4444'

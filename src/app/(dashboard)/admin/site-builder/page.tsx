@@ -16,7 +16,7 @@ interface DeployResult {
   error?: string
 }
 
-const DEFAULT_COLOR = '#7ed957'
+const DEFAULT_COLOR = '#6EE05A'
 
 export default function SiteBuilderAdmin() {
   // Form state
@@ -157,7 +157,7 @@ export default function SiteBuilderAdmin() {
         <div style={{
           padding: '10px 16px', borderRadius: 10, marginBottom: 20,
           background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.25)',
-          color: '#7ed957', fontSize: '0.75rem',
+          color: '#6EE05A', fontSize: '0.75rem',
         }}>
           AI provider auto-fallback: Groq (free) → OpenAI → Gemini → Anthropic. Uses the first available provider with credits.
         </div>

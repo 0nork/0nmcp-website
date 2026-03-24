@@ -106,7 +106,7 @@ export function AdminView() {
           marginLeft: 'auto',
           padding: '0.25rem 0.75rem', borderRadius: '9999px',
           background: 'rgba(126,217,87,0.12)', border: '1px solid rgba(126,217,87,0.25)',
-          fontSize: '0.7rem', fontWeight: 600, color: '#7ed957',
+          fontSize: '0.7rem', fontWeight: 600, color: '#6EE05A',
           fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
         }}>
           ADMIN
@@ -173,7 +173,7 @@ export function AdminView() {
                 gap: '1rem',
               }}>
                 {[
-                  { label: 'Total Users', value: stats?.users ?? '...', color: '#7ed957' },
+                  { label: 'Total Users', value: stats?.users ?? '...', color: '#6EE05A' },
                   { label: 'Active Threats', value: stats?.threats ?? '...', color: '#ef4444' },
                   { label: 'Scans Run', value: stats?.scans ?? '...', color: '#00d4ff' },
                 ].map((s, i) => (
@@ -354,7 +354,7 @@ function NavButton({ item, active, onClick }: { item: NavItem; active: boolean; 
           : hovered
             ? 'rgba(255,255,255,0.04)'
             : 'transparent',
-        color: active ? '#7ed957' : 'var(--text-secondary)',
+        color: active ? '#6EE05A' : 'var(--text-secondary)',
         fontSize: '0.8rem', fontWeight: active ? 600 : 500,
         fontFamily: 'inherit',
         transition: 'all 0.15s ease',
@@ -368,7 +368,7 @@ function NavButton({ item, active, onClick }: { item: NavItem; active: boolean; 
         <div style={{
           position: 'absolute', left: 0, top: '25%', bottom: '25%',
           width: '2.5px', borderRadius: '2px',
-          background: '#7ed957',
+          background: '#6EE05A',
         }} />
       )}
       <span style={{ fontSize: '0.9rem', lineHeight: 1 }}>{item.icon}</span>

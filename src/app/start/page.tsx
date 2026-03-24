@@ -93,7 +93,7 @@ function StartForm() {
             </div>
             <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center' }}>
               {[
-                { label: 'Pipeline', color: '#7ed957' },
+                { label: 'Pipeline', color: '#6EE05A' },
                 { label: 'Assembly', color: '#00d4ff' },
                 { label: 'Radial Burst', color: '#a78bfa' },
               ].map(p => (
@@ -107,7 +107,7 @@ function StartForm() {
 
           <div style={{ marginTop: '2.5rem', textAlign: 'center', maxWidth: '320px' }}>
             <p style={{ fontSize: '1.25rem', fontWeight: 700, color: '#e1e8f0', lineHeight: 1.4, margin: '0 0 0.5rem' }}>
-              Build AI agents that <span style={{ color: '#7ed957' }}>actually execute.</span>
+              Build AI agents that <span style={{ color: '#6EE05A' }}>actually execute.</span>
             </p>
             <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.6, margin: 0 }}>
               1,229 tools. 54 services. Your agents think, decide, and take action — across everything.
@@ -130,7 +130,7 @@ function StartForm() {
           <div style={{ marginBottom: '2rem' }}>
             <div style={{
               fontFamily: "'JetBrains Mono', monospace", fontSize: '1.5rem',
-              fontWeight: 800, color: '#7ed957', marginBottom: '0.375rem',
+              fontWeight: 800, color: '#6EE05A', marginBottom: '0.375rem',
             }}>
               0nMCP
             </div>
@@ -215,7 +215,7 @@ function StartForm() {
 
             <button type="submit" disabled={loading} style={{
               padding: '0.875rem', borderRadius: '10px', border: 'none',
-              background: loading ? 'rgba(126,217,87,0.3)' : '#7ed957',
+              background: loading ? 'rgba(126,217,87,0.3)' : '#6EE05A',
               color: '#000', fontSize: '0.9375rem', fontWeight: 700,
               cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
               marginTop: '0.25rem', transition: 'all 0.15s',
@@ -227,7 +227,7 @@ function StartForm() {
 
           <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.8125rem', color: 'rgba(255,255,255,0.3)' }}>
             Already have an account?{' '}
-            <a href="/login" style={{ color: '#7ed957', textDecoration: 'none', fontWeight: 600 }}>Sign in</a>
+            <a href="/login" style={{ color: '#6EE05A', textDecoration: 'none', fontWeight: 600 }}>Sign in</a>
           </p>
         </div>
       </div>

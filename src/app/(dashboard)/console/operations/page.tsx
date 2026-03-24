@@ -45,7 +45,7 @@ export default function OperationsPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
         {[
           { label: 'Total Runs', value: stats.total, color: '#22d3ee' },
-          { label: 'Successful', value: stats.success, color: '#7ed957' },
+          { label: 'Successful', value: stats.success, color: '#6EE05A' },
           { label: 'Errors', value: stats.errors, color: '#ef4444' },
         ].map(s => (
           <div key={s.label} style={{
@@ -82,7 +82,7 @@ export default function OperationsPage() {
               }}>
                 <div style={{
                   width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-                  background: entry.status === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#22d3ee' : '#7ed957',
+                  background: entry.status === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#22d3ee' : '#6EE05A',
                 }} />
                 <span style={{ flex: 1, fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{entry.detail}</span>
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>

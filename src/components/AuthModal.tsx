@@ -177,7 +177,7 @@ export default function AuthModal({ open, onClose, onSuccess, defaultMode = 'sig
             fontSize: '1.25rem',
             fontWeight: 800,
             fontFamily: 'var(--font-mono)',
-            color: '#7ed957',
+            color: '#6EE05A',
           }}>
             0n
           </div>

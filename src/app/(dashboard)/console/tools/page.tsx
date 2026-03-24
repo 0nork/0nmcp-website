@@ -78,7 +78,7 @@ export default function ToolsPage() {
               transition: 'all 0.2s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--accent, #7ed957)'
+              e.currentTarget.style.borderColor = 'var(--accent, #6EE05A)'
               e.currentTarget.style.background = 'rgba(126,217,87,0.04)'
             }}
             onMouseLeave={(e) => {
@@ -86,7 +86,7 @@ export default function ToolsPage() {
               e.currentTarget.style.background = 'var(--bg-card)'
             }}
           >
-            <div style={{ color: 'var(--accent, #7ed957)' }}>{tool.icon}</div>
+            <div style={{ color: 'var(--accent, #6EE05A)' }}>{tool.icon}</div>
             <div>
               <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>
                 {tool.name}

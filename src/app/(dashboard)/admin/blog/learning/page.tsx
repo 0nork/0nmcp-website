@@ -26,7 +26,7 @@ const FACTOR_COLORS: Record<string, string> = {
   impressions: '#ff6b35',
   position: '#00d4ff',
   ctr_gap: '#ff3d3d',
-  conversions: '#7ed957',
+  conversions: '#6EE05A',
   freshness: '#9945ff',
 }
 
@@ -469,7 +469,7 @@ export default function LearningDashboard() {
                       fontWeight: 900,
                       color:
                         o.rate > 0.6
-                          ? '#7ed957'
+                          ? '#6EE05A'
                           : o.rate > 0.3
                             ? '#ff6b35'
                             : '#ff3d3d',
@@ -511,7 +511,7 @@ export default function LearningDashboard() {
                       borderRadius: 2,
                       background:
                         o.rate > 0.6
-                          ? '#7ed957'
+                          ? '#6EE05A'
                           : o.rate > 0.3
                             ? '#ff6b35'
                             : '#ff3d3d',
@@ -570,7 +570,7 @@ export default function LearningDashboard() {
                       padding: '2px 6px',
                       borderRadius: 4,
                       background: 'rgba(126,217,87,0.15)',
-                      color: '#7ed957',
+                      color: '#6EE05A',
                       textTransform: 'uppercase',
                     }}
                   >

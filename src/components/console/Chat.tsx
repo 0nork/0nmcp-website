@@ -24,7 +24,7 @@ interface ChatProps {
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   '0nmcp': { label: '0nMCP', color: 'var(--accent)' },
-  'agent-studio': { label: '0n Agent', color: '#7ed957' },
+  'agent-studio': { label: '0n Agent', color: '#6EE05A' },
   'claude-byok': { label: 'Claude (Your Key)', color: '#a78bfa' },
   'claude': { label: 'Claude', color: '#00d4ff' },
   'openai-byok': { label: 'GPT-4o (Your Key)', color: '#10a37f' },
@@ -72,7 +72,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
                 className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
                 style={{ background: 'linear-gradient(135deg, rgba(126,217,87,0.15), rgba(0,212,255,0.1))' }}
               >
-                <Sparkles size={28} style={{ color: '#7ed957' }} />
+                <Sparkles size={28} style={{ color: '#6EE05A' }} />
               </div>
               <h3
                 className="text-xl font-semibold mb-2"

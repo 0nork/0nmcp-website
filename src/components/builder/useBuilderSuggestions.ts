@@ -21,7 +21,7 @@ interface SuggestionInput {
 }
 
 const SERVICE_SUGGESTIONS: Record<string, { text: string; description: string; color: string }> = {
-  crm: { text: 'Add CRM step', description: 'Create or update contacts, trigger workflows', color: '#7ed957' },
+  crm: { text: 'Add CRM step', description: 'Create or update contacts, trigger workflows', color: '#6EE05A' },
   stripe: { text: 'Add Stripe step', description: 'Process payments, create invoices', color: '#635bff' },
   slack: { text: 'Add Slack notification', description: 'Send messages to channels or users', color: '#e01e5a' },
   sendgrid: { text: 'Add email step', description: 'Send transactional or marketing emails', color: '#00b2e3' },
@@ -45,7 +45,7 @@ export function useBuilderSuggestions({ nodes, edges, viewMode }: SuggestionInpu
         description: 'Tell the AI what your workflow should do and it will generate the steps',
         action: 'ai_prompt',
         payload: '',
-        color: '#7ed957',
+        color: '#6EE05A',
         icon: '✦',
       })
       suggestions.push({
@@ -143,7 +143,7 @@ export function useBuilderSuggestions({ nodes, edges, viewMode }: SuggestionInpu
         text: 'Export as .0n file',
         description: `Save your ${stepCount}-step workflow as a signed .0n file`,
         action: 'export',
-        color: '#7ed957',
+        color: '#6EE05A',
         icon: '↓',
       })
 
@@ -172,7 +172,7 @@ export function useBuilderSuggestions({ nodes, edges, viewMode }: SuggestionInpu
         description: 'Get suggestions for optimization, error handling, or new steps',
         action: 'ai_prompt',
         payload: `Analyze my ${stepCount}-step workflow and suggest improvements`,
-        color: '#7ed957',
+        color: '#6EE05A',
         icon: '✦',
       })
     }

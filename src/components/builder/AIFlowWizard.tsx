@@ -93,9 +93,9 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
           {/* Icon */}
           <div style={{
             width: 40, height: 40, borderRadius: 12,
-            background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+            background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(126, 217, 87, 0.3)',
+            boxShadow: '0 4px 12px rgba(110, 224, 90, 0.3)',
             flexShrink: 0,
           }}>
             <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#080B0F" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
@@ -124,7 +124,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
             }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'
-              ;(e.currentTarget as HTMLButtonElement).style.color = '#9aa0a8'
+              ;(e.currentTarget as HTMLButtonElement).style.color = '#7A8290'
             }}
             onMouseLeave={e => {
               (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
@@ -160,16 +160,16 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
                   fontFamily: 'inherit',
                   transition: 'all 0.2s ease',
                   background: i === step
-                    ? '#7ed957'
+                    ? '#6EE05A'
                     : i < step
-                      ? 'rgba(126, 217, 87, 0.2)'
+                      ? 'rgba(110, 224, 90, 0.2)'
                       : 'rgba(255, 255, 255, 0.05)',
                   color: i === step
                     ? '#080B0F'
                     : i < step
-                      ? '#7ed957'
+                      ? '#6EE05A'
                       : '#5f6672',
-                  boxShadow: i === step ? '0 4px 12px rgba(126, 217, 87, 0.3)' : 'none',
+                  boxShadow: i === step ? '0 4px 12px rgba(110, 224, 90, 0.3)' : 'none',
                 }}
               >
                 {i + 1}
@@ -177,7 +177,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
               {i < STEPS.length - 1 && (
                 <div style={{
                   width: 40, height: 2,
-                  background: i < step ? 'rgba(126, 217, 87, 0.3)' : 'rgba(255, 255, 255, 0.06)',
+                  background: i < step ? 'rgba(110, 224, 90, 0.3)' : 'rgba(255, 255, 255, 0.06)',
                   transition: 'background 0.2s',
                 }} />
               )}
@@ -203,11 +203,11 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
             <div style={{
               display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10,
             }}>
-              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2L2 7l10 5 10-5-10-5z" />
                 <path d="M2 17l10 5 10-5" />
               </svg>
-              <span style={{ fontSize: 13, fontWeight: 700, color: '#7ed957' }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#6EE05A' }}>
                 AI Assistant
               </span>
             </div>
@@ -237,7 +237,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
                       borderRadius: 10,
                       background: 'transparent',
                       border: '1px solid rgba(255, 255, 255, 0.06)',
-                      color: '#9aa0a8',
+                      color: '#7A8290',
                       fontSize: 13,
                       cursor: 'pointer',
                       textAlign: 'left',
@@ -245,17 +245,17 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
                       transition: 'all 0.15s',
                     }}
                     onMouseEnter={e => {
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(126, 217, 87, 0.3)'
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(110, 224, 90, 0.3)'
                       ;(e.currentTarget as HTMLButtonElement).style.color = '#e8eaed'
-                      ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(126, 217, 87, 0.04)'
+                      ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(110, 224, 90, 0.04)'
                     }}
                     onMouseLeave={e => {
                       (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255, 255, 255, 0.06)'
-                      ;(e.currentTarget as HTMLButtonElement).style.color = '#9aa0a8'
+                      ;(e.currentTarget as HTMLButtonElement).style.color = '#7A8290'
                       ;(e.currentTarget as HTMLButtonElement).style.background = 'transparent'
                     }}
                   >
-                    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                     {s}
@@ -286,7 +286,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
               fontFamily: 'inherit', outline: 'none',
               transition: 'border-color 0.2s',
             }}
-            onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(126, 217, 87, 0.3)' }}
+            onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(110, 224, 90, 0.3)' }}
             onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(255, 255, 255, 0.08)' }}
             autoFocus
           />
@@ -297,7 +297,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
               width: 44, height: 44,
               borderRadius: 12,
               border: 'none',
-              background: message.trim() ? '#7ed957' : 'rgba(255, 255, 255, 0.05)',
+              background: message.trim() ? '#6EE05A' : 'rgba(255, 255, 255, 0.05)',
               color: message.trim() ? '#080B0F' : '#5f6672',
               cursor: message.trim() ? 'pointer' : 'default',
               display: 'flex', alignItems: 'center', justifyContent: 'center',

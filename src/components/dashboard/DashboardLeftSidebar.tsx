@@ -60,7 +60,7 @@ export default function DashboardLeftSidebar() {
             alignItems: 'center',
             justifyContent: 'center',
             background: open ? 'var(--accent-glow, rgba(126,217,87,0.1))' : 'transparent',
-            color: open ? 'var(--accent, #7ed957)' : 'var(--text-muted)',
+            color: open ? 'var(--accent, #6EE05A)' : 'var(--text-muted)',
             transition: 'all 0.2s ease',
           }}
           onMouseEnter={(e) => {
@@ -132,7 +132,7 @@ export default function DashboardLeftSidebar() {
                   border: 'none',
                   cursor: 'pointer',
                   background: isActive ? 'var(--accent-glow, rgba(126,217,87,0.1))' : 'transparent',
-                  color: isActive ? 'var(--accent, #7ed957)' : 'var(--text-secondary)',
+                  color: isActive ? 'var(--accent, #6EE05A)' : 'var(--text-secondary)',
                   fontSize: 13,
                   fontWeight: isActive ? 600 : 400,
                   fontFamily: 'inherit',

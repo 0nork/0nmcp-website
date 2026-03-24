@@ -24,7 +24,7 @@ interface AffiliateData {
   referrals: Referral[]
 }
 
-const G = '#7ed957'
+const G = '#6EE05A'
 const P = '#a78bfa'
 const C = '#00d4ff'
 
@@ -307,7 +307,7 @@ function ShareButton({ label, color, onClick }: { label: string; color: string; 
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, { bg: string; text: string }> = {
-    converted: { bg: 'rgba(126,217,87,0.1)', text: '#7ed957' },
+    converted: { bg: 'rgba(126,217,87,0.1)', text: '#6EE05A' },
     pending: { bg: 'rgba(167,139,250,0.1)', text: '#a78bfa' },
     expired: { bg: 'rgba(255,255,255,0.04)', text: '#4a4a5a' },
   }

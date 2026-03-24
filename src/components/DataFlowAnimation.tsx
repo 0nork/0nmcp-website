@@ -25,12 +25,12 @@ const SCENES: FlowScene[] = [
   {
     title: '0nEngine',
     subtitle: 'AI-powered execution',
-    color: '#7ed957',
+    color: '#6EE05A',
     steps: [
-      { label: 'Describe outcome', color: '#7ed957', icon: '⌘' },
+      { label: 'Describe outcome', color: '#6EE05A', icon: '⌘' },
       { label: 'Resolve services', color: '#00d4ff', icon: '⚡' },
       { label: 'Execute workflow', color: '#a78bfa', icon: '▶' },
-      { label: 'Deliver result', color: '#7ed957', icon: '✓' },
+      { label: 'Deliver result', color: '#6EE05A', icon: '✓' },
     ],
   },
   {
@@ -41,7 +41,7 @@ const SCENES: FlowScene[] = [
       { label: 'New lead arrives', color: '#00d4ff', icon: '◉' },
       { label: 'Enrich profile', color: '#fbbf24', icon: '◈' },
       { label: 'Score + assign', color: '#a78bfa', icon: '◇' },
-      { label: 'Auto-nurture', color: '#7ed957', icon: '↗' },
+      { label: 'Auto-nurture', color: '#6EE05A', icon: '↗' },
     ],
   },
   {
@@ -52,7 +52,7 @@ const SCENES: FlowScene[] = [
       { label: 'Draft content', color: '#f472b6', icon: '✎' },
       { label: 'PACG classify', color: '#a78bfa', icon: '◎' },
       { label: 'Adapt per platform', color: '#00d4ff', icon: '⊕' },
-      { label: 'Publish everywhere', color: '#7ed957', icon: '◈' },
+      { label: 'Publish everywhere', color: '#6EE05A', icon: '◈' },
     ],
   },
   {
@@ -61,7 +61,7 @@ const SCENES: FlowScene[] = [
     color: '#f97316',
     steps: [
       { label: 'Browse workflows', color: '#f97316', icon: '☰' },
-      { label: 'One-click buy', color: '#7ed957', icon: '⚡' },
+      { label: 'One-click buy', color: '#6EE05A', icon: '⚡' },
       { label: 'Auto-configure', color: '#00d4ff', icon: '⚙' },
       { label: 'Execute instantly', color: '#a78bfa', icon: '▶' },
     ],
@@ -107,7 +107,7 @@ export default function DataFlowAnimation() {
       <div style={{ textAlign: 'center' }}>
         <div style={{
           fontFamily: 'var(--font-mono, monospace)', fontSize: '2rem', fontWeight: 800,
-          color: '#7ed957', letterSpacing: '-0.02em',
+          color: '#6EE05A', letterSpacing: '-0.02em',
         }}>0nMCP</div>
         <div style={{
           fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)', marginTop: '0.25rem',
@@ -203,7 +203,7 @@ export default function DataFlowAnimation() {
           <div key={stat.label} style={{ textAlign: 'center' }}>
             <div style={{
               fontFamily: 'var(--font-mono, monospace)', fontSize: '1.125rem',
-              fontWeight: 800, color: '#7ed957', letterSpacing: '-0.02em',
+              fontWeight: 800, color: '#6EE05A', letterSpacing: '-0.02em',
             }}>{stat.value}</div>
             <div style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               {stat.label}

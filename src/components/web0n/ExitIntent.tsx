@@ -58,7 +58,7 @@ export default function ExitIntent() {
           style={{
             maxWidth: 460, width: '100%', padding: '2.75rem 2rem',
             borderRadius: '20px',
-            background: 'linear-gradient(160deg, #13131d 0%, #0f1419 100%)',
+            background: 'linear-gradient(160deg, #13131d 0%, #0B0F19 100%)',
             border: '1px solid rgba(126,217,87,0.2)',
             boxShadow: '0 0 80px rgba(126,217,87,0.06), 0 25px 60px rgba(0,0,0,0.6)',
             textAlign: 'center', position: 'relative',
@@ -86,7 +86,7 @@ export default function ExitIntent() {
           />
           <h3 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem', lineHeight: 1.2 }}>
             Wait &mdash; Your Competitors<br />
-            <span style={{ color: '#7ed957' }}>Already Have Websites</span>
+            <span style={{ color: '#6EE05A' }}>Already Have Websites</span>
           </h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.65, marginBottom: '1.5rem', maxWidth: 360, margin: '0 auto 1.5rem' }}>
             <strong style={{ color: '#fff' }}>88% of consumers</strong> research businesses online before visiting.
@@ -99,7 +99,7 @@ export default function ExitIntent() {
           }}>
             {['5 Pages', 'CRM Included', 'Live in Days'].map(t => (
               <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                <span style={{ color: '#7ed957', fontWeight: 700 }}>&#10003;</span> {t}
+                <span style={{ color: '#6EE05A', fontWeight: 700 }}>&#10003;</span> {t}
               </span>
             ))}
           </div>
@@ -110,8 +110,8 @@ export default function ExitIntent() {
             style={{
               display: 'block', padding: '0.9rem 1.5rem',
               borderRadius: '12px',
-              background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-              color: '#0f1419', fontWeight: 700, fontSize: '1.05rem',
+              background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+              color: '#0B0F19', fontWeight: 700, fontSize: '1.05rem',
               textDecoration: 'none',
               boxShadow: '0 4px 24px rgba(126,217,87,0.3)',
             }}

@@ -71,8 +71,8 @@ export function OperationsView({ flowCount, history }: {
           <span style={{ fontSize: '2rem', fontWeight: 800, color: '#22d3ee', fontFamily: 'var(--font-mono)' }}>{flowCount}</span>
           <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Saved Workflows</span>
         </div>
-        <div style={statBlock('#7ed957')}>
-          <span style={{ fontSize: '2rem', fontWeight: 800, color: '#7ed957', fontFamily: 'var(--font-mono)' }}>{history.filter(h => h.type === 'workflow').length}</span>
+        <div style={statBlock('#6EE05A')}>
+          <span style={{ fontSize: '2rem', fontWeight: 800, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>{history.filter(h => h.type === 'workflow').length}</span>
           <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Runs This Session</span>
         </div>
         <div style={statBlock('#ff6b35')}>
@@ -100,7 +100,7 @@ export function OperationsView({ flowCount, history }: {
               }}>
                 <div style={{
                   width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-                  background: entry.type === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#22d3ee' : '#7ed957',
+                  background: entry.type === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#22d3ee' : '#6EE05A',
                 }} />
                 <span style={{ flex: 1, fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{entry.detail}</span>
                 <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
@@ -142,12 +142,12 @@ export function SocialView() {
             <span style={{ fontSize: '1.5rem' }}>{p.icon}</span>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>{p.name}</div>
-              <div style={{ fontSize: '0.65rem', color: p.status === 'ready' ? '#7ed957' : 'var(--text-muted)' }}>
+              <div style={{ fontSize: '0.65rem', color: p.status === 'ready' ? '#6EE05A' : 'var(--text-muted)' }}>
                 {p.status === 'ready' ? 'Connected' : 'Coming soon'}
               </div>
             </div>
             {p.status === 'ready' && (
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#7ed957' }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#6EE05A' }} />
             )}
           </div>
         ))}
@@ -174,7 +174,7 @@ export function ReportingView({ historyCount, messageCount, connectedCount }: {
 
       <div style={{ ...grid, marginTop: '1.25rem', gridTemplateColumns: 'repeat(4, 1fr)' }}>
         {[
-          { label: 'Actions', value: historyCount, color: '#7ed957' },
+          { label: 'Actions', value: historyCount, color: '#6EE05A' },
           { label: 'Messages', value: messageCount, color: '#00d4ff' },
           { label: 'Services', value: connectedCount, color: '#ff6b35' },
           { label: 'Uptime', value: '99.9%', color: '#a78bfa' },
@@ -240,21 +240,21 @@ export function CodeView() {
           </div>
         ) : (
           <div style={{
-            background: '#0f1419', borderRadius: '0.5rem', padding: '1rem',
+            background: '#0B0F19', borderRadius: '0.5rem', padding: '1rem',
             fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#a78bfa',
             lineHeight: 1.8, minHeight: '300px',
           }}>
             <span style={{ color: 'var(--text-muted)' }}>{'# Select a .0n file to edit'}</span>
             <br />
-            <span style={{ color: '#7ed957' }}>name</span>: <span style={{ color: '#ff6b35' }}>my-workflow</span>
+            <span style={{ color: '#6EE05A' }}>name</span>: <span style={{ color: '#ff6b35' }}>my-workflow</span>
             <br />
-            <span style={{ color: '#7ed957' }}>version</span>: <span style={{ color: '#ff6b35' }}>&quot;1.0&quot;</span>
+            <span style={{ color: '#6EE05A' }}>version</span>: <span style={{ color: '#ff6b35' }}>&quot;1.0&quot;</span>
             <br />
-            <span style={{ color: '#7ed957' }}>steps</span>:
+            <span style={{ color: '#6EE05A' }}>steps</span>:
             <br />
-            <span style={{ color: 'var(--text-muted)' }}>{'  '}- <span style={{ color: '#7ed957' }}>id</span>: <span style={{ color: '#ff6b35' }}>step_001</span></span>
+            <span style={{ color: 'var(--text-muted)' }}>{'  '}- <span style={{ color: '#6EE05A' }}>id</span>: <span style={{ color: '#ff6b35' }}>step_001</span></span>
             <br />
-            <span style={{ color: 'var(--text-muted)' }}>{'    '}<span style={{ color: '#7ed957' }}>tool</span>: <span style={{ color: '#ff6b35' }}>search_contacts</span></span>
+            <span style={{ color: 'var(--text-muted)' }}>{'    '}<span style={{ color: '#6EE05A' }}>tool</span>: <span style={{ color: '#ff6b35' }}>search_contacts</span></span>
           </div>
         )}
       </div>
@@ -273,7 +273,7 @@ export function LinkedInView() {
         {[
           { label: 'Draft Post', desc: 'AI-generated LinkedIn post', icon: '✏️', color: '#0077b5' },
           { label: 'Schedule', desc: 'Queue posts for optimal times', icon: '📅', color: '#00d4ff' },
-          { label: 'Analytics', desc: 'Track engagement metrics', icon: '📊', color: '#7ed957' },
+          { label: 'Analytics', desc: 'Track engagement metrics', icon: '📊', color: '#6EE05A' },
         ].map(a => (
           <div key={a.label} style={{ ...card, cursor: 'pointer', borderColor: `${a.color}20` }}>
             <span style={{ fontSize: '1.5rem' }}>{a.icon}</span>
@@ -300,7 +300,7 @@ export function MigrateView() {
     { name: 'Make (Integromat)', icon: '🔄', color: '#6D00CC' },
     { name: 'n8n', icon: '🔗', color: '#EA4B71' },
     { name: 'IFTTT', icon: '🔲', color: '#000' },
-    { name: '.env File', icon: '📄', color: '#7ed957' },
+    { name: '.env File', icon: '📄', color: '#6EE05A' },
     { name: 'JSON Config', icon: '{ }', color: '#00d4ff' },
   ]
 
@@ -373,7 +373,7 @@ export function ConvertView() {
           placeholder='Paste your OpenAI function_call JSON, Gemini tool config, or any AI platform config here...'
           style={{
             width: '100%', marginTop: '0.75rem', padding: '0.75rem',
-            background: '#0f1419', border: '1px solid var(--border)',
+            background: '#0B0F19', border: '1px solid var(--border)',
             borderRadius: '0.5rem', color: 'var(--text-secondary)',
             fontFamily: 'var(--font-mono)', fontSize: '0.75rem',
             minHeight: '150px', resize: 'vertical',

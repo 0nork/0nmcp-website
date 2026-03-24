@@ -38,7 +38,7 @@ const PLATFORMS = [
     id: 'claude-mobile' as Platform,
     name: 'Claude Mobile',
     sub: 'iPhone & iPad',
-    color: '#7ed957',
+    color: '#6EE05A',
     glow: 'rgba(126,217,87,0.15)',
     steps: [
       { n: '1', title: 'Set up on the web', desc: 'Create a project at claude.ai first' },
@@ -135,7 +135,7 @@ export function Install0nClient() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0f1419', color: '#e8e8ef', fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#0B0F19', color: '#e8e8ef', fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
 
       {/* ═══════════════════════════ HERO ═══════════════════════════ */}
       <section style={{ position: 'relative', overflow: 'hidden', paddingBottom: 40 }}>
@@ -149,12 +149,12 @@ export function Install0nClient() {
           <nav aria-label="Breadcrumb" style={{ marginBottom: 24 }}>
             <a href="/" style={{ color: '#55556a', fontSize: 13, textDecoration: 'none' }}>Home</a>
             <span style={{ color: '#55556a', margin: '0 8px', fontSize: 13 }}>/</span>
-            <span style={{ color: '#7ed957', fontSize: 13, fontWeight: 600 }}>Install 0nMCP</span>
+            <span style={{ color: '#6EE05A', fontSize: 13, fontWeight: 600 }}>Install 0nMCP</span>
           </nav>
 
           {/* Trust badges */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 28, flexWrap: 'wrap' }}>
-            <span style={{ padding: '5px 14px', borderRadius: 20, background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)', fontSize: 12, color: '#7ed957', fontWeight: 700, letterSpacing: '0.02em' }}>
+            <span style={{ padding: '5px 14px', borderRadius: 20, background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)', fontSize: 12, color: '#6EE05A', fontWeight: 700, letterSpacing: '0.02em' }}>
               FREE
             </span>
             <span style={{ padding: '5px 14px', borderRadius: 20, background: 'rgba(255,107,53,0.08)', border: '1px solid rgba(255,107,53,0.2)', fontSize: 12, color: '#ff6b35', fontWeight: 700 }}>
@@ -226,7 +226,7 @@ export function Install0nClient() {
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16,
         }}>
           {[
-            { n: 1155, label: 'Tools', color: '#7ed957' },
+            { n: 1155, label: 'Tools', color: '#6EE05A' },
             { n: 91, label: 'Services', color: '#00d4ff' },
             { n: 50, label: 'Workflows', color: '#ff6b35' },
             { n: 4, label: 'Platforms', color: '#a78bfa' },
@@ -277,7 +277,7 @@ export function Install0nClient() {
                   {isDetected && (
                     <div style={{
                       position: 'absolute', top: -9, left: '50%', transform: 'translateX(-50%)',
-                      background: pl.color, color: '#0f1419', fontSize: 9, fontWeight: 800,
+                      background: pl.color, color: '#0B0F19', fontSize: 9, fontWeight: 800,
                       padding: '3px 10px', borderRadius: 10, letterSpacing: '0.06em', whiteSpace: 'nowrap',
                     }}>
                       YOUR DEVICE
@@ -343,7 +343,7 @@ export function Install0nClient() {
                     style={{
                       width: '100%', padding: '16px 24px', borderRadius: 14, border: 'none',
                       background: installerCopied
-                        ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+                        ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                         : 'linear-gradient(135deg, #ff6b35, #e55a2b)',
                       color: '#fff', fontWeight: 800, fontSize: 17, cursor: 'pointer',
                       fontFamily: 'inherit', transition: 'all 0.3s',
@@ -365,7 +365,7 @@ export function Install0nClient() {
                     style={{
                       width: '100%', padding: '16px 24px', borderRadius: 14, border: 'none',
                       background: copied
-                        ? 'linear-gradient(135deg, #7ed957, #5cb83a)'
+                        ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                         : `linear-gradient(135deg, ${p.color}, ${p.color}bb)`,
                       color: '#fff', fontWeight: 800, fontSize: 17, cursor: 'pointer',
                       fontFamily: 'inherit', transition: 'all 0.3s', minWidth: 260,
@@ -402,7 +402,7 @@ export function Install0nClient() {
               { icon: '⚡', title: 'Runs', sub: 'Pay-Per-Action Credits', desc: 'Credits that power everything. Check balance, spend on executions, top up anytime. Start with 50 free.', color: '#ff6b35', glow: 'rgba(255,107,53,0.08)' },
               { icon: '🏪', title: 'Store', sub: '50+ Pre-Built Workflows', desc: 'Marketing, sales, devops, data — ready-made automations you can run instantly or customize.', color: '#00d4ff', glow: 'rgba(0,212,255,0.08)' },
               { icon: '🧠', title: 'Council Brain', sub: 'Self-Training AI', desc: '7 distinct personas that learn and improve. View training status, contribute knowledge, level up.', color: '#a78bfa', glow: 'rgba(167,139,250,0.08)' },
-              { icon: '🔧', title: `${STATS_DISPLAY.tools}+ Tools`, sub: `${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, SendGrid, Discord, Shopify, Notion, and dozens more.', color: '#7ed957', glow: 'rgba(126,217,87,0.08)' },
+              { icon: '🔧', title: `${STATS_DISPLAY.tools}+ Tools`, sub: `${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, SendGrid, Discord, Shopify, Notion, and dozens more.', color: '#6EE05A', glow: 'rgba(126,217,87,0.08)' },
               { icon: '🚀', title: '4 Install Methods', sub: 'However You Work', desc: 'One-liner curl, SKILL.md download, interactive dashboard, or .claude.json config.', color: '#00d4ff', glow: 'rgba(0,212,255,0.08)' },
             ].map((f) => (
               <div key={f.title} style={{
@@ -439,7 +439,7 @@ export function Install0nClient() {
           }}>
             {[
               { cmd: '/0nmcp login', desc: 'Connect your account', c: '#ff6b35' },
-              { cmd: '/0nmcp', desc: 'See your status', c: '#7ed957' },
+              { cmd: '/0nmcp', desc: 'See your status', c: '#6EE05A' },
               { cmd: '/0nmcp vault', desc: 'Manage API keys', c: '#f59e0b' },
               { cmd: '/0nmcp vault save <svc>', desc: 'Push key to vault', c: '#f59e0b' },
               { cmd: '/0nmcp runs', desc: 'Check your balance', c: '#ff6b35' },

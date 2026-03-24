@@ -27,11 +27,11 @@ interface RunsViewProps {
 }
 
 const QUICK_ACTIONS = [
-  { name: 'publish-blog', label: 'Publish Blog', icon: 'M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z', color: '#7ed957' },
+  { name: 'publish-blog', label: 'Publish Blog', icon: 'M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z', color: '#6EE05A' },
   { name: 'crm-client-check', label: 'Rocket+ Check', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75', color: '#00d4ff' },
   { name: 'social-blast', label: 'Social Blast', icon: 'M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13', color: '#a78bfa' },
   { name: 'client-onboard', label: 'Onboard Client', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM20 8v6M23 11h-6', color: '#ff6b35' },
-  { name: 'deploy-notify', label: 'Deploy Notify', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', color: '#7ed957' },
+  { name: 'deploy-notify', label: 'Deploy Notify', icon: 'M22 12h-4l-3 9L9 3l-3 9H2', color: '#6EE05A' },
   { name: 'rss-update', label: 'RSS Update', icon: 'M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16M5 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z', color: '#00d4ff' },
 ]
 
@@ -96,14 +96,14 @@ export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: 
                   flexShrink: 0, width: 24, height: 24, borderRadius: 8,
                   background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.7rem', fontWeight: 700, color: '#7ed957', fontFamily: 'var(--font-mono)',
+                  fontSize: '0.7rem', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)',
                 }}>
                   {step}
                 </span>
                 <div>
                   <code style={{
                     display: 'block', fontSize: '0.8rem', fontFamily: 'var(--font-mono)',
-                    color: '#7ed957', marginBottom: 2,
+                    color: '#6EE05A', marginBottom: 2,
                   }}>
                     {cmd}
                   </code>
@@ -129,11 +129,11 @@ export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: 
         background: isLocal ? 'rgba(126,217,87,0.06)' : 'rgba(0,212,255,0.06)',
         border: `1px solid ${isLocal ? 'rgba(126,217,87,0.2)' : 'rgba(0,212,255,0.2)'}`,
       }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isLocal ? '#7ed957' : '#00d4ff'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isLocal ? '#6EE05A' : '#00d4ff'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
         </svg>
         <div style={{ flex: 1 }}>
-          <span style={{ fontSize: '0.875rem', fontWeight: 700, color: isLocal ? '#7ed957' : '#00d4ff' }}>
+          <span style={{ fontSize: '0.875rem', fontWeight: 700, color: isLocal ? '#6EE05A' : '#00d4ff' }}>
             {isLocal ? 'Local Mode (Free)' : 'Cloud Mode (Runs)'}
           </span>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 8 }}>
@@ -145,7 +145,7 @@ export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: 
           padding: '3px 10px', borderRadius: 6, fontSize: '0.65rem', fontWeight: 800,
           fontFamily: 'var(--font-mono)', letterSpacing: '0.08em',
           background: isLocal ? 'rgba(126,217,87,0.15)' : 'rgba(0,212,255,0.15)',
-          color: isLocal ? '#7ed957' : '#00d4ff',
+          color: isLocal ? '#6EE05A' : '#00d4ff',
         }}>
           {isLocal ? 'LOCAL' : 'CLOUD'}
         </div>
@@ -225,7 +225,7 @@ export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{
                     width: 6, height: 6, borderRadius: 3, flexShrink: 0,
-                    background: QUICK_ACTIONS.find(q => q.name === wf.name) ? '#7ed957' : 'var(--text-muted)',
+                    background: QUICK_ACTIONS.find(q => q.name === wf.name) ? '#6EE05A' : 'var(--text-muted)',
                   }} />
                   <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
                     {wf.name}
@@ -243,7 +243,7 @@ export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: 
                     padding: '4px 12px', borderRadius: 6, fontSize: '0.7rem', fontWeight: 600,
                     cursor: 'pointer', border: '1px solid rgba(126,217,87,0.3)',
                     background: runningWorkflow === wf.name ? 'rgba(126,217,87,0.2)' : 'rgba(126,217,87,0.08)',
-                    color: '#7ed957', fontFamily: 'var(--font-mono)',
+                    color: '#6EE05A', fontFamily: 'var(--font-mono)',
                     transition: 'all 0.15s',
                   }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(126,217,87,0.2)' }}
@@ -282,7 +282,7 @@ export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{
                     width: 6, height: 6, borderRadius: 3,
-                    background: run.status === 'running' ? '#ff6b35' : '#7ed957',
+                    background: run.status === 'running' ? '#ff6b35' : '#6EE05A',
                     animation: run.status === 'running' ? 'sparkPulse 1s ease-in-out infinite' : 'none',
                   }} />
                   <span style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>

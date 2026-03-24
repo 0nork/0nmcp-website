@@ -18,7 +18,7 @@ const PATENTS = [
     name: 'Seal of Truth',
     number: '#63/968,814',
     filed: 'January 2026',
-    color: '#7ed957',
+    color: '#6EE05A',
     icon: '🔒',
     headline: 'A tamper-proof fingerprint for your data',
     description: 'Think of it like a wax seal on a letter. If anyone changes even a single character in your files, you\'ll know instantly. We use advanced cryptography to create a unique "fingerprint" of your data that\'s mathematically impossible to fake.',
@@ -234,7 +234,7 @@ export default function TechnologyPage() {
             <Link href="/security/escrow" className="text-sm px-4 py-2 rounded-lg no-underline" style={{ backgroundColor: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)', color: '#a78bfa' }}>
               Multi-Party Escrow
             </Link>
-            <Link href="/security/seal-of-truth" className="text-sm px-4 py-2 rounded-lg no-underline" style={{ backgroundColor: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)', color: '#7ed957' }}>
+            <Link href="/security/seal-of-truth" className="text-sm px-4 py-2 rounded-lg no-underline" style={{ backgroundColor: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)', color: '#6EE05A' }}>
               Seal of Truth Specs
             </Link>
             <Link href="/security/patent" className="text-sm px-4 py-2 rounded-lg no-underline" style={{ backgroundColor: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.2)', color: '#00d4ff' }}>

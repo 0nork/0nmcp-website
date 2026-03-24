@@ -391,7 +391,7 @@ export default function QAGeneratePage() {
 }
 
 function ScoreBadge({ label, value }: { label: string; value: number }) {
-  const color = value >= 8 ? '#7ed957' : value >= 6 ? '#ff6b35' : '#ff3d3d'
+  const color = value >= 8 ? '#6EE05A' : value >= 6 ? '#ff6b35' : '#ff3d3d'
   return (
     <div style={{ padding: '8px 10px', borderRadius: 8, background: 'var(--bg-primary)', border: '1px solid var(--border)' }}>
       <div style={{ fontSize: '1rem', fontWeight: 900, color }}>{value}/10</div>

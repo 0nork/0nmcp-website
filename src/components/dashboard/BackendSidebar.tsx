@@ -86,7 +86,7 @@ export function useSidebarContext() {
 
 /* ────────── Colors ────────── */
 
-const G = '#7ed957'
+const G = '#6EE05A'
 const P = '#a78bfa'
 const C = '#00d4ff'
 const O = '#ff6b35'
@@ -230,7 +230,7 @@ export function BackendSidebar() {
       display: 'flex',
       flexDirection: 'column',
       flexShrink: 0,
-      background: '#0f1419',
+      background: '#0B0F19',
       borderRight: '1px solid rgba(255,255,255,0.06)',
       transition: 'width 0.2s ease',
       overflow: 'hidden',
@@ -401,7 +401,7 @@ function SidebarItem({ item, active, showLabels, iconsOnly, onClick }: {
   onClick: () => void
 }) {
   const [hovered, setHovered] = useState(false)
-  const c = item.color || '#7ed957'
+  const c = item.color || '#6EE05A'
 
   return (
     <div style={{ position: 'relative' }}>

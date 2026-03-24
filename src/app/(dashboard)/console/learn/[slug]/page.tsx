@@ -34,7 +34,7 @@ interface Enrollment {
 }
 
 const TIER_COLORS: Record<string, string> = {
-  free: '#7ed957',
+  free: '#6EE05A',
   supporter: '#ff6b35',
   builder: '#00d4ff',
   enterprise: '#9945ff',
@@ -151,7 +151,7 @@ export default function ConsoleCoursePage() {
     )
   }
 
-  const tierColor = TIER_COLORS[course.tier_required] || '#7ed957'
+  const tierColor = TIER_COLORS[course.tier_required] || '#6EE05A'
   const completedCount = Object.values(progress).filter(Boolean).length
   const tierHierarchy: Record<string, number> = { free: 0, supporter: 1, builder: 2, enterprise: 3 }
   const userHasTier = (tierHierarchy[userTier] || 0) >= (tierHierarchy[course.tier_required] || 0)
@@ -292,7 +292,7 @@ export default function ConsoleCoursePage() {
                 className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0"
                 style={{
                   background: completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
-                  color: completed ? '#7ed957' : 'var(--jp-text-muted)',
+                  color: completed ? '#6EE05A' : 'var(--jp-text-muted)',
                 }}
               >
                 {completed ? (
@@ -308,7 +308,7 @@ export default function ConsoleCoursePage() {
                 <div className="text-[10px]" style={{ color: 'var(--jp-text-muted)' }}>
                   {lesson.duration_minutes} min
                   {lesson.is_free_preview && (
-                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+                    <span className="ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#6EE05A' }}>
                       Free Preview
                     </span>
                   )}

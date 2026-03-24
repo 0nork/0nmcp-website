@@ -8,7 +8,7 @@ export default function MigratePage() {
     { name: 'Make (Integromat)', icon: '🔄', color: '#6D00CC', desc: 'Convert Make scenarios' },
     { name: 'n8n', icon: '🔗', color: '#EA4B71', desc: 'Import n8n workflow JSON' },
     { name: 'IFTTT', icon: '🔲', color: '#333', desc: 'Convert IFTTT applets' },
-    { name: '.env File', icon: '📄', color: '#7ed957', desc: 'Import credentials from .env' },
+    { name: '.env File', icon: '📄', color: '#6EE05A', desc: 'Import credentials from .env' },
     { name: 'JSON Config', icon: '{ }', color: '#00d4ff', desc: 'Import from any JSON config' },
   ]
 

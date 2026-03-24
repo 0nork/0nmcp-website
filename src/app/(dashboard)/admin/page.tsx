@@ -51,7 +51,7 @@ const sections: Array<{ title: string; description: string; href: string; icon: 
     description: 'AI website generation — Claude builds 4 pages, deploy to CRM funnel.',
     href: '/admin/site-builder',
     icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>,
-    color: '#7ed957',
+    color: '#6EE05A',
   },
   {
     title: 'Blog Engine',
@@ -72,7 +72,7 @@ const sections: Array<{ title: string; description: string; href: string; icon: 
     description: 'AI marketing — review, edit, approve, post.',
     href: '/admin/content',
     icon: <IconDocument size={20} />,
-    color: '#7ed957',
+    color: '#6EE05A',
   },
   {
     title: 'AI Personas',
@@ -107,7 +107,7 @@ const sections: Array<{ title: string; description: string; href: string; icon: 
     description: 'Add services, sync snapshot, wire MCP tools into the builder.',
     href: '/admin/catalog',
     icon: <IconGear size={20} />,
-    color: '#7ed957',
+    color: '#6EE05A',
   },
   {
     title: 'CRM Portal',

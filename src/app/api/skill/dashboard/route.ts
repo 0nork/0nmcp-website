@@ -32,13 +32,13 @@ function getDashboardHtml(): string {
 <title>0nMCP Dashboard</title>
 <style>
   :root {
-    --bg: #0f1419;
+    --bg: #0B0F19;
     --bg-card: rgba(255,255,255,0.02);
     --border: rgba(255,255,255,0.06);
     --text: #e2e2e8;
     --text-dim: #78788c;
     --text-muted: #4a4a5a;
-    --green: #7ed957;
+    --green: #6EE05A;
     --orange: #ff6b35;
     --cyan: #00d4ff;
     --purple: #a78bfa;
@@ -403,7 +403,7 @@ async function loadBrain() {
 
     const tier = data.currentTier || 0
     const tierNames = ['Seed', 'Sprout', 'Growth', 'Canopy', 'Neural']
-    const tierColors = ['#64748b', '#7ed957', '#00d4ff', '#a78bfa', '#ff6b35']
+    const tierColors = ['#64748b', '#6EE05A', '#00d4ff', '#a78bfa', '#ff6b35']
     const name = tierNames[tier] || 'Seed'
     const color = tierColors[tier] || '#64748b'
 

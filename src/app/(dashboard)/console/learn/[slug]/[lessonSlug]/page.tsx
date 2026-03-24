@@ -194,7 +194,7 @@ export default function ConsoleLessonPage() {
                 className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
                 style={{
                   background: l.completed ? 'rgba(126,217,87,0.15)' : l.slug === lessonSlug ? 'var(--jp-green-glow)' : 'rgba(255,255,255,0.04)',
-                  color: l.completed ? '#7ed957' : l.slug === lessonSlug ? 'var(--jp-green)' : 'var(--jp-text-muted)',
+                  color: l.completed ? '#6EE05A' : l.slug === lessonSlug ? 'var(--jp-green)' : 'var(--jp-text-muted)',
                 }}
               >
                 {l.completed ? (
@@ -272,7 +272,7 @@ export default function ConsoleLessonPage() {
                     className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
                     style={{
                       background: l.completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
-                      color: l.completed ? '#7ed957' : 'var(--jp-text-muted)',
+                      color: l.completed ? '#6EE05A' : 'var(--jp-text-muted)',
                     }}
                   >
                     {l.completed ? (
@@ -319,12 +319,12 @@ export default function ConsoleLessonPage() {
         <div className="flex items-center gap-3 text-[11px] mb-6" style={{ color: 'var(--jp-text-muted)' }}>
           <span>{lesson.duration_minutes} min</span>
           {lesson.is_free_preview && (
-            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#6EE05A' }}>
               Free Preview
             </span>
           )}
           {completed && (
-            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#7ed957' }}>
+            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(126,217,87,0.1)', color: '#6EE05A' }}>
               Completed
             </span>
           )}
@@ -360,7 +360,7 @@ export default function ConsoleLessonPage() {
             </button>
           )}
           {completed && (
-            <span className="text-xs font-bold" style={{ color: '#7ed957' }}>Lesson complete</span>
+            <span className="text-xs font-bold" style={{ color: '#6EE05A' }}>Lesson complete</span>
           )}
         </div>
 

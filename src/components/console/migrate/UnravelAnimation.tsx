@@ -92,7 +92,7 @@ export default function UnravelAnimation() {
         }
 
         .unravel-node {
-          fill: var(--accent, #7ed957);
+          fill: var(--accent, #6EE05A);
           filter: drop-shadow(0 0 6px var(--accent-glow, rgba(126,217,87,0.3)));
         }
 
@@ -110,7 +110,7 @@ export default function UnravelAnimation() {
         }
 
         .unravel-new-line {
-          stroke: var(--accent, #7ed957);
+          stroke: var(--accent, #6EE05A);
           stroke-width: 1.5;
           fill: none;
           stroke-dasharray: 4 3;

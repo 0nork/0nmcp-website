@@ -137,7 +137,7 @@ export function SocialView() {
                   width: 18,
                   height: 18,
                   borderRadius: '50%',
-                  backgroundColor: autoPostEnabled ? '#0f1419' : 'var(--text-muted)',
+                  backgroundColor: autoPostEnabled ? '#0B0F19' : 'var(--text-muted)',
                   transition: 'left 0.2s ease, background-color 0.2s ease',
                 }}
               />
@@ -155,7 +155,7 @@ export function SocialView() {
               background: connectedCount > 0
                 ? 'linear-gradient(135deg, var(--accent), var(--accent-secondary))'
                 : 'rgba(255,255,255,0.06)',
-              color: connectedCount > 0 ? '#0f1419' : 'var(--text-muted)',
+              color: connectedCount > 0 ? '#0B0F19' : 'var(--text-muted)',
               fontSize: 14,
               fontWeight: 600,
               fontFamily: 'var(--font-display)',
@@ -277,7 +277,7 @@ export function SocialView() {
               position: 'relative',
               width: '100%',
               maxWidth: 420,
-              background: 'linear-gradient(180deg, #151d27 0%, #151d27 100%)',
+              background: 'linear-gradient(180deg, #111827 0%, #111827 100%)',
               border: '1px solid var(--border)',
               borderRadius: 20,
               padding: 28,
@@ -352,7 +352,7 @@ export function SocialView() {
                   background: devtoKey.trim() && !devtoConnecting
                     ? 'linear-gradient(135deg, var(--accent), var(--accent-secondary))'
                     : 'rgba(255,255,255,0.06)',
-                  color: devtoKey.trim() && !devtoConnecting ? '#0f1419' : 'var(--text-muted)',
+                  color: devtoKey.trim() && !devtoConnecting ? '#0B0F19' : 'var(--text-muted)',
                   fontSize: 13,
                   fontWeight: 600,
                   fontFamily: 'var(--font-mono)',

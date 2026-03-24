@@ -124,8 +124,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="jp-sidebar-header">
           <Link href="/" className="jp-sidebar-brand" style={{ textDecoration: 'none' }}>
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="14" stroke="#7ed957" strokeWidth="2" />
-              <circle cx="16" cy="16" r="6" fill="#7ed957" />
+              <circle cx="16" cy="16" r="14" stroke="#6EE05A" strokeWidth="2" />
+              <circle cx="16" cy="16" r="6" fill="#6EE05A" />
             </svg>
             0nMCP
           </Link>

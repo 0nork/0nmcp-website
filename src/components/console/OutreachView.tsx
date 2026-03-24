@@ -398,7 +398,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           display: 'flex',
           gap: '6px',
           marginBottom: '24px',
-          backgroundColor: '#111111',
+          backgroundColor: '#111827',
           border: '1px solid #222222',
           borderRadius: '12px',
           padding: '4px',
@@ -417,8 +417,8 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             style={{
-              backgroundColor: activeTab === tab.key ? '#7ed957' : 'transparent',
-              color: activeTab === tab.key ? '#0a0a0a' : 'rgba(255,255,255,0.45)',
+              backgroundColor: activeTab === tab.key ? '#6EE05A' : 'transparent',
+              color: activeTab === tab.key ? '#0B0F19' : 'rgba(255,255,255,0.45)',
               border: 'none',
               borderRadius: '8px',
               padding: '8px 20px',
@@ -441,8 +441,8 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── File Upload Zone ── */}
           <div
             style={{
-              backgroundColor: '#111111',
-              border: dragOver ? '2px dashed #7ed957' : '2px dashed #222222',
+              backgroundColor: '#111827',
+              border: dragOver ? '2px dashed #6EE05A' : '2px dashed #222222',
               borderRadius: '16px',
               padding: '40px 24px',
               textAlign: 'center',
@@ -472,7 +472,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     width: '32px',
                     height: '32px',
                     border: '3px solid #222222',
-                    borderTopColor: '#7ed957',
+                    borderTopColor: '#6EE05A',
                     borderRadius: '50%',
                     animation: 'spin 0.8s linear infinite',
                   }}
@@ -493,10 +493,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     marginBottom: '8px',
                   }}
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
-                  <span style={{ fontSize: '14px', color: '#7ed957', fontWeight: 600 }}>
+                  <span style={{ fontSize: '14px', color: '#6EE05A', fontWeight: 600 }}>
                     {uploadResult.totalRows} leads loaded
                   </span>
                 </div>
@@ -511,7 +511,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   height="40"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke={dragOver ? '#7ed957' : 'rgba(255,255,255,0.3)'}
+                  stroke={dragOver ? '#6EE05A' : 'rgba(255,255,255,0.3)'}
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -572,7 +572,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {uploadResult && enrichPhase === 'uploaded' && (
             <div
               style={{
-                backgroundColor: '#111111',
+                backgroundColor: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -637,7 +637,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {uploadResult && (enrichPhase === 'uploaded' || enrichPhase === 'sample-done') && (
             <div
               style={{
-                backgroundColor: '#111111',
+                backgroundColor: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -670,7 +670,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                         checked={checked}
                         onChange={() => toggleField(key)}
                         style={{
-                          accentColor: '#7ed957',
+                          accentColor: '#6EE05A',
                           marginTop: '2px',
                           cursor: 'pointer',
                           width: '16px',
@@ -782,7 +782,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {uploadResult && (enrichPhase === 'uploaded' || enrichPhase === 'sample-done') && (
             <div
               style={{
-                backgroundColor: '#111111',
+                backgroundColor: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -816,7 +816,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                         backgroundColor: canRun ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.04)',
                         border: canRun ? '1px solid rgba(126,217,87,0.3)' : '1px solid #222222',
                         borderRadius: '10px',
-                        color: canRun ? '#7ed957' : 'rgba(255,255,255,0.3)',
+                        color: canRun ? '#6EE05A' : 'rgba(255,255,255,0.3)',
                         fontSize: '13px',
                         fontWeight: 600,
                         cursor: canRun ? 'pointer' : 'not-allowed',
@@ -836,7 +836,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                         backgroundColor: 'rgba(126,217,87,0.1)',
                         border: '1px solid rgba(126,217,87,0.3)',
                         borderRadius: '10px',
-                        color: '#7ed957',
+                        color: '#6EE05A',
                         fontSize: '13px',
                         fontWeight: 600,
                         cursor: 'pointer',
@@ -883,7 +883,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {isRunning && (
             <div
               style={{
-                backgroundColor: '#111111',
+                backgroundColor: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -911,7 +911,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   style={{
                     width: `${(enrichProgress.current / enrichProgress.total) * 100}%`,
                     height: '100%',
-                    backgroundColor: '#7ed957',
+                    backgroundColor: '#6EE05A',
                     borderRadius: '4px',
                     transition: 'width 0.3s ease',
                   }}
@@ -921,7 +921,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                 <span style={{ color: 'rgba(255,255,255,0.7)' }}>
                   Company: <span style={{ color: '#ffffff', fontWeight: 500 }}>{enrichProgress.company}</span>
                 </span>
-                <span style={{ color: '#7ed957' }}>Qualified: {qualifiedCount}</span>
+                <span style={{ color: '#6EE05A' }}>Qualified: {qualifiedCount}</span>
                 <span style={{ color: '#ff6b35' }}>Skipped: {skippedCount}</span>
               </div>
             </div>
@@ -931,7 +931,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {(enrichPhase === 'done' || enrichPhase === 'sample-done') && (
             <div
               style={{
-                backgroundColor: '#111111',
+                backgroundColor: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -951,7 +951,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     backgroundColor: 'rgba(126,217,87,0.1)',
                     border: '1px solid rgba(126,217,87,0.2)',
                     borderRadius: '8px',
-                    color: '#7ed957',
+                    color: '#6EE05A',
                     fontSize: '13px',
                     fontWeight: 600,
                     cursor: 'pointer',
@@ -979,7 +979,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     flex: 1,
                   }}
                 >
-                  <div style={{ fontSize: '22px', fontWeight: 700, color: '#7ed957', fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ fontSize: '22px', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
                     {qualifiedCount}
                   </div>
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -1067,7 +1067,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                                     padding: '8px 12px',
                                     color: isQualCol
                                       ? isQualified
-                                        ? '#7ed957'
+                                        ? '#6EE05A'
                                         : '#ff6b35'
                                       : 'rgba(255,255,255,0.7)',
                                     borderBottom: '1px solid rgba(34,34,34,0.5)',
@@ -1101,7 +1101,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
             return (
               <div
                 style={{
-                  backgroundColor: '#111111',
+                  backgroundColor: '#111827',
                   border: '1px solid #222222',
                   borderRadius: '16px',
                   padding: '20px',
@@ -1149,7 +1149,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                                   padding: '8px 12px',
                                   color: isQualCol
                                     ? isQualified
-                                      ? '#7ed957'
+                                      ? '#6EE05A'
                                       : '#ff6b35'
                                     : 'rgba(255,255,255,0.7)',
                                   borderBottom: '1px solid rgba(34,34,34,0.5)',
@@ -1191,7 +1191,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Input Form ── */}
           <div
             style={{
-              backgroundColor: '#111111',
+              backgroundColor: '#111827',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1300,7 +1300,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Template Style Selection ── */}
           <div
             style={{
-              backgroundColor: '#111111',
+              backgroundColor: '#111827',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1363,7 +1363,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {hasEnrichResults && (
             <div
               style={{
-                backgroundColor: '#111111',
+                backgroundColor: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -1437,7 +1437,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Generate Button ── */}
           <div
             style={{
-              backgroundColor: '#111111',
+              backgroundColor: '#111827',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1457,13 +1457,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                 backgroundColor:
                   !seqService.trim() || generatingSequence
                     ? 'rgba(255,255,255,0.04)'
-                    : '#7ed957',
+                    : '#6EE05A',
                 border: 'none',
                 borderRadius: '10px',
                 color:
                   !seqService.trim() || generatingSequence
                     ? 'rgba(255,255,255,0.3)'
-                    : '#0a0a0a',
+                    : '#0B0F19',
                 fontSize: '14px',
                 fontWeight: 700,
                 cursor: !seqService.trim() || generatingSequence ? 'not-allowed' : 'pointer',
@@ -1504,7 +1504,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {generatedSequence && (
             <div
               style={{
-                backgroundColor: '#111111',
+                backgroundColor: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -1524,7 +1524,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     backgroundColor: seqCopied ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.06)',
                     border: seqCopied ? '1px solid rgba(126,217,87,0.2)' : '1px solid #222222',
                     borderRadius: '8px',
-                    color: seqCopied ? '#7ed957' : 'rgba(255,255,255,0.7)',
+                    color: seqCopied ? '#6EE05A' : 'rgba(255,255,255,0.7)',
                     fontSize: '13px',
                     fontWeight: 500,
                     cursor: 'pointer',
@@ -1546,7 +1546,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               </div>
               <pre
                 style={{
-                  backgroundColor: '#0a0a0a',
+                  backgroundColor: '#0B0F19',
                   border: '1px solid #222222',
                   borderRadius: '10px',
                   padding: '20px',
@@ -1587,7 +1587,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Pricing Inquiry ── */}
           <div
             style={{
-              backgroundColor: '#111111',
+              backgroundColor: '#111827',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1623,7 +1623,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       ? '1px solid rgba(126,217,87,0.2)'
                       : '1px solid #222222',
                   borderRadius: '8px',
-                  color: copiedTemplate === 'pricing' ? '#7ed957' : 'rgba(255,255,255,0.7)',
+                  color: copiedTemplate === 'pricing' ? '#6EE05A' : 'rgba(255,255,255,0.7)',
                   fontSize: '13px',
                   fontWeight: 500,
                   cursor: 'pointer',
@@ -1645,7 +1645,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
             </div>
             <pre
               style={{
-                backgroundColor: '#0a0a0a',
+                backgroundColor: '#0B0F19',
                 border: '1px solid #222222',
                 borderRadius: '10px',
                 padding: '16px',
@@ -1667,7 +1667,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Video Request Follow-up ── */}
           <div
             style={{
-              backgroundColor: '#111111',
+              backgroundColor: '#111827',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1704,7 +1704,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       ? '1px solid rgba(126,217,87,0.2)'
                       : '1px solid #222222',
                   borderRadius: '8px',
-                  color: copiedTemplate === 'video' ? '#7ed957' : 'rgba(255,255,255,0.7)',
+                  color: copiedTemplate === 'video' ? '#6EE05A' : 'rgba(255,255,255,0.7)',
                   fontSize: '13px',
                   fontWeight: 500,
                   cursor: 'pointer',
@@ -1749,7 +1749,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
             <pre
               style={{
-                backgroundColor: '#0a0a0a',
+                backgroundColor: '#0B0F19',
                 border: '1px solid #222222',
                 borderRadius: '10px',
                 padding: '16px',
@@ -1794,7 +1794,7 @@ const INTEGRATION_WORKFLOWS = [
     title: 'ListKit CSV → Enrich → Sequence',
     desc: 'Export from ListKit, drop CSV here, AI qualifies + enriches all leads, then generate personalized email sequences.',
     steps: ['Export CSV from ListKit', 'Upload to Enrich tab', 'Select enrichment fields', 'Run enrichment', 'Switch to Sequence tab', 'Generate emails'],
-    color: '#7ed957',
+    color: '#6EE05A',
     ready: true,
   },
   {
@@ -1886,7 +1886,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
       {/* Quick Start */}
       <div
         style={{
-          background: '#111111',
+          background: '#111827',
           border: '1px solid #222222',
           borderRadius: '16px',
           padding: '24px',
@@ -1898,7 +1898,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
         <div style={{ display: 'flex', gap: '12px', alignItems: 'stretch' }}>
           {[
             { step: '1', title: 'Build List in ListKit', desc: 'Use AI Company Search or Data Stream to find leads. Triple-verified emails included.', color: LISTKIT_CYAN },
-            { step: '2', title: 'Export CSV', desc: 'Download your lead list as CSV. ListKit includes Company Name, URL, Industry, and more.', color: '#7ed957' },
+            { step: '2', title: 'Export CSV', desc: 'Download your lead list as CSV. ListKit includes Company Name, URL, Industry, and more.', color: '#6EE05A' },
             { step: '3', title: 'Drop in Enricher', desc: 'Upload CSV to the Enrich tab. AI qualifies leads, adds location hooks, bad reviews, news, and more.', color: '#ff6b35' },
             { step: '4', title: 'Generate Sequences', desc: 'Switch to Sequence tab. Generate personalized 3-email cold sequences with merge tags.', color: '#a78bfa' },
           ].map((s) => (
@@ -1944,10 +1944,10 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
           style={{
             marginTop: '16px',
             padding: '10px 24px',
-            background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
+            background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
             border: 'none',
             borderRadius: '10px',
-            color: '#0a0a0a',
+            color: '#0B0F19',
             fontSize: '13px',
             fontWeight: 700,
             cursor: 'pointer',
@@ -1968,7 +1968,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
             <div
               key={i}
               style={{
-                background: '#111111',
+                background: '#111827',
                 border: '1px solid #222222',
                 borderRadius: '14px',
                 padding: '20px',
@@ -1989,7 +1989,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                     background: wf.ready ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.04)',
-                    color: wf.ready ? '#7ed957' : 'rgba(255,255,255,0.35)',
+                    color: wf.ready ? '#6EE05A' : 'rgba(255,255,255,0.35)',
                     border: `1px solid ${wf.ready ? 'rgba(126,217,87,0.2)' : '#222222'}`,
                   }}
                 >
@@ -2024,7 +2024,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
       {/* Column Mapping */}
       <div
         style={{
-          background: '#111111',
+          background: '#111827',
           border: '1px solid #222222',
           borderRadius: '16px',
           padding: '24px',
@@ -2061,14 +2061,14 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
         {[
           { label: 'B2B Contacts', value: '731M+', color: LISTKIT_CYAN },
-          { label: 'Email Deliverability', value: '~98%', color: '#7ed957' },
+          { label: 'Email Deliverability', value: '~98%', color: '#6EE05A' },
           { label: 'Intent Topics', value: '21,000+', color: '#a78bfa' },
           { label: 'Enrichment Cost', value: '1 Spark/lead', color: '#ff6b35' },
         ].map((stat) => (
           <div
             key={stat.label}
             style={{
-              background: '#111111',
+              background: '#111827',
               border: '1px solid #222222',
               borderRadius: '12px',
               padding: '16px',

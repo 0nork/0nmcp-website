@@ -46,7 +46,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   ads: '#f97316',
   productivity: '#14b8a6',
   ecommerce: '#84cc16',
-  automation: '#7ed957',
+  automation: '#6EE05A',
   video: '#e879f9',
 }
 
@@ -145,7 +145,7 @@ export function AdminServices() {
           }}>
             Enabled
           </div>
-          <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#7ed957', fontFamily: 'var(--font-mono)' }}>
+          <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
             {enabledCount}
           </div>
         </div>
@@ -398,7 +398,7 @@ function ServiceRow({
             borderRadius: '9999px',
             border: 'none',
             cursor: saving ? 'wait' : 'pointer',
-            background: service.is_enabled ? '#7ed957' : 'rgba(255,255,255,0.1)',
+            background: service.is_enabled ? '#6EE05A' : 'rgba(255,255,255,0.1)',
             position: 'relative',
             transition: 'background 0.2s ease',
             flexShrink: 0,

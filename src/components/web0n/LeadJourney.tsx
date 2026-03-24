@@ -8,7 +8,7 @@ export default function LeadJourney() {
         position: 'relative',
         margin: '2rem -1.5rem 0',
         padding: '2.5rem 1.5rem 1.5rem',
-        background: 'linear-gradient(180deg, #0d0d16 0%, #0f1419 100%)',
+        background: 'linear-gradient(180deg, #0d0d16 0%, #0B0F19 100%)',
         borderTop: '1px solid rgba(0, 212, 255, 0.12)',
         borderBottom: '1px solid rgba(0, 212, 255, 0.12)',
         overflow: 'hidden',
@@ -46,7 +46,7 @@ export default function LeadJourney() {
         .lj-mk-field:nth-child(1)::after{animation-delay:0s;--lj-fw:75%}
         .lj-mk-field:nth-child(2)::after{animation-delay:0.4s;--lj-fw:90%}
         .lj-mk-field:nth-child(3)::after{animation-delay:0.8s;--lj-fw:55%}
-        .lj-mk-submit{height:14px;border-radius:4px;background:linear-gradient(135deg,rgba(126,217,87,0.4),rgba(126,217,87,0.25));margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:0.4rem;font-weight:700;color:#7ed957;letter-spacing:0.05em;animation:ljPulseBtn 3s ease-in-out infinite}
+        .lj-mk-submit{height:14px;border-radius:4px;background:linear-gradient(135deg,rgba(126,217,87,0.4),rgba(126,217,87,0.25));margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:0.4rem;font-weight:700;color:#6EE05A;letter-spacing:0.05em;animation:ljPulseBtn 3s ease-in-out infinite}
 
         /* === EMAIL MOCKUP === */
         .lj-mk-email{padding:8px 10px;display:flex;flex-direction:column;gap:4px}
@@ -91,7 +91,7 @@ export default function LeadJourney() {
         .lj-mk-star:nth-child(4){animation:ljStarPop 5s ease-in-out infinite;animation-delay:1.1s}
         .lj-mk-star:nth-child(5){animation:ljStarPop 5s ease-in-out infinite;animation-delay:1.4s}
         .lj-mk-rev-text{font-size:0.45rem;color:rgba(255,255,255,0.4);text-align:center;line-height:1.4;opacity:0;animation:ljRevealText 5s ease-in-out infinite 1.8s}
-        .lj-mk-rev-badge{margin-top:4px;font-size:0.35rem;font-weight:700;color:#7ed957;padding:2px 6px;border-radius:3px;background:rgba(126,217,87,0.15);border:1px solid rgba(126,217,87,0.2);opacity:0;animation:ljRevealText 5s ease-in-out infinite 2.2s}
+        .lj-mk-rev-badge{margin-top:4px;font-size:0.35rem;font-weight:700;color:#6EE05A;padding:2px 6px;border-radius:3px;background:rgba(126,217,87,0.15);border:1px solid rgba(126,217,87,0.2);opacity:0;animation:ljRevealText 5s ease-in-out infinite 2.2s}
 
         /* === CONVEYOR BELT === */
         .lj-belt{margin-top:20px;height:40px;overflow:hidden;position:relative;border-radius:6px;background:#08080d;border:1px solid rgba(0,212,255,0.08)}
@@ -99,11 +99,11 @@ export default function LeadJourney() {
         .lj-belt-set{display:flex;align-items:center;gap:0;flex-shrink:0}
         .lj-belt-item{flex-shrink:0;height:26px;padding:0 10px;border-radius:4px;font-size:0.6rem;font-weight:600;display:flex;align-items:center;gap:4px;margin:0 6px;white-space:nowrap}
         .lj-belt-arr{color:rgba(0,212,255,0.3);font-size:0.7rem;flex-shrink:0;margin:0 2px}
-        .lj-bi-form{background:rgba(126,217,87,0.1);color:#7ed957;border:1px solid rgba(126,217,87,0.15)}
+        .lj-bi-form{background:rgba(126,217,87,0.1);color:#6EE05A;border:1px solid rgba(126,217,87,0.15)}
         .lj-bi-email{background:rgba(0,212,255,0.1);color:#00d4ff;border:1px solid rgba(0,212,255,0.15)}
         .lj-bi-book{background:rgba(167,139,250,0.1);color:#a78bfa;border:1px solid rgba(167,139,250,0.15)}
         .lj-bi-buy{background:rgba(255,200,50,0.1);color:#ffc832;border:1px solid rgba(255,200,50,0.15)}
-        .lj-bi-review{background:rgba(126,217,87,0.15);color:#7ed957;border:1px solid rgba(126,217,87,0.25);box-shadow:0 0 8px rgba(126,217,87,0.1)}
+        .lj-bi-review{background:rgba(126,217,87,0.15);color:#6EE05A;border:1px solid rgba(126,217,87,0.25);box-shadow:0 0 8px rgba(126,217,87,0.1)}
         .lj-belt-line{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.2),rgba(126,217,87,0.4),rgba(0,212,255,0.2),transparent)}
 
         /* === KEYFRAMES === */
@@ -144,7 +144,7 @@ export default function LeadJourney() {
         <div className="lj-row">
           {/* FORM FILL */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)', color: '#0f1419' }}>01</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)', color: '#0B0F19' }}>01</div>
             <div className="lj-card" style={{ border: '1px solid rgba(126,217,87,0.12)' }}>
               <div className="lj-mk-form">
                 <div className="lj-mk-field" />
@@ -153,20 +153,20 @@ export default function LeadJourney() {
                 <div className="lj-mk-submit">SUBMIT</div>
               </div>
             </div>
-            <div className="lj-lbl" style={{ color: '#7ed957' }}>Form Fill</div>
+            <div className="lj-lbl" style={{ color: '#6EE05A' }}>Form Fill</div>
             <div className="lj-desc">Lead submits info</div>
           </div>
 
           {/* Arrow 1 */}
           <div className="lj-arr">
-            <div className="lj-dot" style={{ background: '#7ed957' }} />
+            <div className="lj-dot" style={{ background: '#6EE05A' }} />
             <div className="lj-dot" style={{ background: '#00d4ff' }} />
             <div className="lj-dot" style={{ background: '#00d4ff' }} />
           </div>
 
           {/* EMAIL */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #00d4ff, #0099cc)', color: '#0f1419' }}>02</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #00d4ff, #0099cc)', color: '#0B0F19' }}>02</div>
             <div className="lj-card" style={{ border: '1px solid rgba(0,212,255,0.12)' }}>
               <div className="lj-mk-email">
                 <div className="lj-mk-env">
@@ -191,7 +191,7 @@ export default function LeadJourney() {
 
           {/* BOOKING */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #a78bfa, #7c5fc7)', color: '#0f1419' }}>03</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #a78bfa, #7c5fc7)', color: '#0B0F19' }}>03</div>
             <div className="lj-card" style={{ border: '1px solid rgba(167,139,250,0.12)' }}>
               <div className="lj-mk-book">
                 <div className="lj-mk-cal-head">
@@ -229,7 +229,7 @@ export default function LeadJourney() {
 
           {/* PURCHASE */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #ffc832, #ff9500)', color: '#0f1419' }}>04</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #ffc832, #ff9500)', color: '#0B0F19' }}>04</div>
             <div className="lj-card" style={{ border: '1px solid rgba(255,200,50,0.12)' }}>
               <div className="lj-mk-buy">
                 <div className="lj-mk-product">
@@ -250,13 +250,13 @@ export default function LeadJourney() {
           {/* Arrow 4 */}
           <div className="lj-arr">
             <div className="lj-dot" style={{ background: '#ffc832' }} />
-            <div className="lj-dot" style={{ background: '#7ed957' }} />
-            <div className="lj-dot" style={{ background: '#7ed957' }} />
+            <div className="lj-dot" style={{ background: '#6EE05A' }} />
+            <div className="lj-dot" style={{ background: '#6EE05A' }} />
           </div>
 
           {/* 5-STAR REVIEW */}
           <div className="lj-st">
-            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)', color: '#0f1419' }}>05</div>
+            <div className="lj-num" style={{ background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)', color: '#0B0F19' }}>05</div>
             <div className="lj-card" style={{ borderColor: 'rgba(126,217,87,0.25)' }}>
               <div className="lj-mk-rev">
                 <div className="lj-mk-stars">
@@ -270,7 +270,7 @@ export default function LeadJourney() {
                 <div className="lj-mk-rev-badge">VERIFIED</div>
               </div>
             </div>
-            <div className="lj-lbl" style={{ color: '#7ed957' }}>5-Star Review</div>
+            <div className="lj-lbl" style={{ color: '#6EE05A' }}>5-Star Review</div>
             <div className="lj-desc">Customer for life</div>
           </div>
         </div>

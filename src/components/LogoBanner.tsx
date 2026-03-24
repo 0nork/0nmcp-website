@@ -46,7 +46,7 @@ const SERVICES = [
   { name: 'TikTok', key: 'tiktok', color: '#ff0050' },
   { name: 'Google Ads', key: 'google-ads', color: '#4285f4' },
   { name: 'Facebook Ads', key: 'facebook-ads', color: '#1877f2' },
-  { name: 'Plaid', key: 'plaid', color: '#111111' },
+  { name: 'Plaid', key: 'plaid', color: '#111827' },
   { name: 'Square', key: 'square', color: '#006aff' },
   { name: 'TikTok Ads', key: 'tiktok-ads', color: '#ff0050' },
   { name: 'X Ads', key: 'x-ads', color: '#f0f6fc' },
@@ -65,7 +65,7 @@ const ROW_1 = SERVICES.slice(0, 24)
 const ROW_2 = SERVICES.slice(24)
 
 function ServiceBadge({ name, color, logoKey }: { name: string; color: string; logoKey: string }) {
-  const isDark = color === '#111111' || color === '#03363d'
+  const isDark = color === '#111827' || color === '#03363d'
   const dotColor = isDark ? '#888888' : color
   const Logo = SERVICE_LOGOS[logoKey]
 

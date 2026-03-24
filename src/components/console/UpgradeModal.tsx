@@ -30,10 +30,10 @@ const TIER_STYLES: Record<string, {
   },
   creator: {
     icon: Rocket,
-    color: '#7ed957',
+    color: '#6EE05A',
     bg: 'rgba(126,217,87,0.08)',
     borderActive: 'rgba(126,217,87,0.4)',
-    gradientEnd: '#5cb83a',
+    gradientEnd: '#4CAF3D',
   },
   operator: {
     icon: Users,
@@ -160,7 +160,7 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
             className="w-full py-2.5 text-center text-sm font-semibold"
             style={{
               background: 'linear-gradient(135deg, rgba(126,217,87,0.15) 0%, rgba(0,212,255,0.1) 100%)',
-              color: '#7ed957',
+              color: '#6EE05A',
               borderBottom: '1px solid rgba(126,217,87,0.2)',
             }}
           >
@@ -191,7 +191,7 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
                   className="px-3 py-1.5 text-xs font-semibold border-none cursor-pointer transition-all"
                   style={{
                     backgroundColor: billing === b ? 'rgba(126,217,87,0.15)' : 'transparent',
-                    color: billing === b ? '#7ed957' : 'var(--text-muted)',
+                    color: billing === b ? '#6EE05A' : 'var(--text-muted)',
                   }}
                 >
                   {b === 'monthly' ? 'Monthly' : 'Yearly (Save 2mo)'}
@@ -327,7 +327,7 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
                       ? 'var(--text-muted)'
                       : isDowngrade
                         ? 'var(--text-secondary)'
-                        : '#0f1419',
+                        : '#0B0F19',
                     opacity: isCurrent ? 0.7 : 1,
                     border: isDowngrade && !isCurrent ? '1px solid var(--border)' : 'none',
                   }}

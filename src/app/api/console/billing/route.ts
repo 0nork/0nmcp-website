@@ -188,7 +188,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { action } = body
-  const returnUrl = 'https://www.0nmcp.com/console'
+  const returnUrl = 'https://www.0nmcp.com/dashboard/billing'
 
   // Ensure Stripe customer exists
   const { data: profile } = await supabase

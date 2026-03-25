@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase/server'
+import { createSupabaseServer } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-  const supabase = await createClient()
+  const supabase = await createSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -22,7 +22,8 @@ export async function GET(req: NextRequest) {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
   if (companyId) projectQuery = projectQuery.eq('company_id', companyId)
-  const { data: projects } = await projectQuery
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: projects } = await projectQuery as { data: any[] | null }
 
   // Get tasks summary
   const { data: tasks } = await supabase
@@ -35,7 +36,8 @@ export async function GET(req: NextRequest) {
     projects: (projects || []).map(p => ({
       ...p,
       task_count: p.tasks?.length || 0,
-      done_count: p.tasks?.filter((t: { status: string }) => t.status === 'done').length || 0,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      done_count: p.tasks?.filter((t: any) => t.status === 'done').length || 0,
     })),
     stats: {
       total_companies: companies?.length || 0,
@@ -50,7 +52,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = await createClient()
+  const supabase = await createSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -91,7 +93,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const supabase = await createClient()
+  const supabase = await createSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -117,7 +119,7 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const supabase = await createClient()
+  const supabase = await createSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

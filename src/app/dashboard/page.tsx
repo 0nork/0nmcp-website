@@ -22,8 +22,8 @@ function DashboardContent() {
   const [data, setData] = useState<DashboardData>({
     userName: '',
     sparks: 0,
-    tools: 1171,
-    services: 54,
+    tools: 1183,
+    services: 55,
     executions: 0,
   })
   const [loading, setLoading] = useState(true)

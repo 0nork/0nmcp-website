@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: '0nMCP — Your AI Command Center',
   description:
-    'One extension. 1,171 tools. Every platform. AI Compose, Multi-AI Council, LinkedIn Automation, CRM Integration. Start free with 100 Sparks.',
+    'One extension. 1,183 tools. Every platform. AI Compose, Multi-AI Council, LinkedIn Automation, CRM Integration. Start free with 100 Sparks.',
   keywords: [
     '0nMCP',
     'AI command center',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: '0nMCP — Your AI Command Center',
-    description: 'One extension. 1,171 tools. Every platform. Start free with 100 Sparks.',
+    description: 'One extension. 1,183 tools. Every platform. Start free with 100 Sparks.',
     url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: '0nMCP — Your AI Command Center',
-    description: 'One extension. 1,171 tools. Every platform. Start free with 100 Sparks.',
+    description: 'One extension. 1,183 tools. Every platform. Start free with 100 Sparks.',
   },
   alternates: { canonical: 'https://www.0nmcp.com' },
 }
@@ -117,7 +117,7 @@ export default function HomePage() {
             maxWidth: '500px',
             lineHeight: 1.5,
           }}>
-            One extension. 1,171 tools. Every platform.
+            One extension. 1,183 tools. Every platform.
           </p>
 
           <Link
@@ -284,7 +284,7 @@ export default function HomePage() {
             color: '#606060',
             letterSpacing: '0.02em',
           }}>
-            1,171 tools &middot; 54 services &middot; AES-256 encrypted
+            1,183 tools &middot; 55 services &middot; AES-256 encrypted
           </p>
         </section>
 

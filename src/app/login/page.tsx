@@ -273,7 +273,7 @@ function RadialBurstAnimation() {
       {/* Selling points */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '260px' }}>
         {[
-          { text: '1,229 tools across 54 services', color: '#6EE05A' },
+          { text: '1,241 tools across 55 services', color: '#6EE05A' },
           { text: 'Your own AI agent in seconds', color: '#00d4ff' },
           { text: 'Zero-knowledge encryption', color: '#a78bfa' },
         ].map((item, i) => (

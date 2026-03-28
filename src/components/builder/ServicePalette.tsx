@@ -81,6 +81,7 @@ export const SERVICE_LOGOS: Record<string, string> = {
   instagram: 'https://cdn.simpleicons.org/instagram/E4405F',
   twitter: 'https://cdn.simpleicons.org/x/white',
   tiktok: 'https://cdn.simpleicons.org/tiktok/white',
+  reddit: 'https://cdn.simpleicons.org/reddit/FF4500',
   clickup: 'https://cdn.simpleicons.org/clickup/7B68EE',
   asana: 'https://cdn.simpleicons.org/asana/F06A6A',
   square: 'https://cdn.simpleicons.org/square/006AFF',
@@ -251,7 +252,7 @@ const BUILDER_CATEGORIES: BuilderCategory[] = [
     label: 'Social',
     icon: CAT_ICONS.social,
     color: '#3b82f6',
-    serviceIds: ['linkedin', 'instagram', 'twitter', 'tiktok', 'pinterest', 'youtube', 'twitch'],
+    serviceIds: ['linkedin', 'instagram', 'twitter', 'tiktok', 'reddit', 'pinterest', 'youtube', 'twitch'],
   },
   {
     id: 'productivity',

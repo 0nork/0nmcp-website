@@ -110,7 +110,7 @@ function StartForm() {
               Build AI agents that <span style={{ color: '#6EE05A' }}>actually execute.</span>
             </p>
             <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.6, margin: 0 }}>
-              1,229 tools. 54 services. Your agents think, decide, and take action — across everything.
+              1,241 tools. 55 services. Your agents think, decide, and take action — across everything.
             </p>
           </div>
         </div>

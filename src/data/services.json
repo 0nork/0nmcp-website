@@ -3,16 +3,16 @@
     "version": "5.0.0",
     "generated": "2026-03-17",
     "source": "0nMCP v2.5.0 catalog.js + crm/ + vault/ + engine/ + deed/ + mcp-server/",
-    "total_services": 91,
-    "total_tools": 1171,
-    "catalog_tools": 881,
+    "total_services": 99,
+    "total_tools": 1183,
+    "catalog_tools": 893,
     "crm_module_tools": 245,
     "vault_tools": 4,
     "vault_container_tools": 8,
     "deed_tools": 6,
     "engine_tools": 6,
     "app_tools": 5,
-    "total_capabilities": 1430,
+    "total_capabilities": 1437,
     "categories": 22,
     "schema": "0n-services-v4",
     "mcp_server_tools": 16
@@ -5882,6 +5882,131 @@
           "Manual",
           "Scheduled",
           "Daily sync"
+        ],
+        "notifications": [
+          "Console log",
+          "Webhook",
+          "Email",
+          "Slack"
+        ]
+      }
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "slug": "reddit",
+      "icon": "alien",
+      "category_id": "social_media",
+      "display_order": 104,
+      "status": "live",
+      "federation_source": "catalog",
+      "auth_type": "oauth",
+      "description_short": "Social platform -- posts, comments, subreddits, monitoring with auto/manual safety modes.",
+      "description_long": "Connect Reddit to 0nMCP to submit posts, post comments, search content, monitor keywords, browse subreddits, and check community rules -- all with built-in safety controls. Default mode is MANUAL (requires confirmation before posting). Auto mode requires double confirmation. Rate limits enforced: max 3 posts/hr, 10 comments/hr. Reddit requires pre-approved OAuth apps since Nov 2025.",
+      "sxo_keywords": [
+        "reddit automation",
+        "reddit api integration",
+        "reddit posting automation",
+        "reddit monitoring",
+        "reddit mcp",
+        "safe reddit automation"
+      ],
+      "tool_count": 12,
+      "tools": [
+        {
+          "id": "reddit_get_mode",
+          "name": "Get Safety Mode",
+          "description": "Check current Reddit safety mode (auto/manual)."
+        },
+        {
+          "id": "reddit_set_mode",
+          "name": "Set Safety Mode",
+          "description": "Switch between auto and manual mode (auto requires double confirmation)."
+        },
+        {
+          "id": "reddit_submit_post",
+          "name": "Submit Post",
+          "description": "Submit a text or link post to a subreddit."
+        },
+        {
+          "id": "reddit_confirm_post",
+          "name": "Confirm Post",
+          "description": "Confirm a pending post in manual mode."
+        },
+        {
+          "id": "reddit_post_comment",
+          "name": "Post Comment",
+          "description": "Reply to a post or comment in a subreddit."
+        },
+        {
+          "id": "reddit_confirm_comment",
+          "name": "Confirm Comment",
+          "description": "Confirm a pending comment in manual mode."
+        },
+        {
+          "id": "reddit_search",
+          "name": "Search Reddit",
+          "description": "Search posts, comments, and subreddits by keyword."
+        },
+        {
+          "id": "reddit_get_subreddit_rules",
+          "name": "Get Subreddit Rules",
+          "description": "Fetch rules for a subreddit before posting."
+        },
+        {
+          "id": "reddit_get_posts",
+          "name": "Get Posts",
+          "description": "Browse hot, new, or top posts from a subreddit."
+        },
+        {
+          "id": "reddit_monitor_keywords",
+          "name": "Monitor Keywords",
+          "description": "Search for brand mentions or topics across Reddit."
+        },
+        {
+          "id": "reddit_bulk_post",
+          "name": "Bulk Post",
+          "description": "Post to multiple subreddits with enforced delays (max 3, 10min+ apart)."
+        },
+        {
+          "id": "reddit_get_profile",
+          "name": "Get Profile",
+          "description": "Get the authenticated Reddit user profile info."
+        }
+      ],
+      "logo": "/logos/reddit.svg",
+      "howTo": {
+        "selections": [
+          "Submit Post",
+          "Post Comment",
+          "Search Reddit",
+          "Get Subreddit Rules",
+          "Monitor Keywords",
+          "Get Posts"
+        ],
+        "triggers": [
+          "Keyword match found",
+          "New post in subreddit"
+        ],
+        "actions": [
+          "Submit Post",
+          "Post Comment",
+          "Search Reddit",
+          "Get Subreddit Rules",
+          "Get Posts",
+          "Monitor Keywords"
+        ],
+        "outcomes": [
+          "Post published (after confirmation)",
+          "Keyword matches found",
+          "Subreddit rules retrieved",
+          "Content monitored"
+        ],
+        "frequency": [
+          "Manual (default)",
+          "On event (auto mode)",
+          "Scheduled",
+          "Daily monitoring"
         ],
         "notifications": [
           "Console log",

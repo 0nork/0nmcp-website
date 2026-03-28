@@ -152,7 +152,7 @@ THE POST MUST:
 3. Mention something SPECIFIC to their industry/domain that 0n helps with
 4. Sound genuinely impressed but NOT salesy — like telling a friend about something cool
 5. Include the fact that they ran ONE command (npx 0nmcp install) and it set everything up
-6. Reference that 0n has 1,171 tools across 54 services
+6. Reference that 0n has 1,183 tools across 55 services
 7. End with something that makes the reader want to try it
 
 CRITICAL: This post should feel like a REAL person sharing a genuine discovery.

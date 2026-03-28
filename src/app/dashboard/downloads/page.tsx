@@ -45,7 +45,7 @@ const DOWNLOADS: Download[] = [
   {
     id: '0nmcp-cli',
     name: '0nMCP CLI',
-    description: 'Universal AI API Orchestrator. 1,171 tools across 54 services. Run workflows, manage credentials, execute tasks from your terminal.',
+    description: 'Universal AI API Orchestrator. 1,183 tools across 55 services. Run workflows, manage credentials, execute tasks from your terminal.',
     version: '2.6.0',
     category: 'cli',
     platform: 'macOS / Linux / Windows',
@@ -56,7 +56,7 @@ const DOWNLOADS: Download[] = [
     repoUrl: 'https://github.com/0nork/0nMCP',
     status: 'available',
     features: [
-      '1,171 tools across 54 services',
+      '1,183 tools across 55 services',
       'MCP protocol (works with Claude, Cursor, Windsurf)',
       'Encrypted vault (AES-256-GCM)',
       '.0n workflow runtime',

@@ -142,6 +142,190 @@ const CRM_WORKFLOWS: Record<string, { trigger: string; action: string; result: s
     { trigger: 'CRM contact updated', action: 'Sync changes to matching Pipedrive person', result: 'Contact data stays consistent everywhere' },
     { trigger: 'Pipedrive activity completed', action: 'Log to CRM timeline + update engagement score', result: 'Sales activities tracked across both systems' },
   ],
+  // Google Workspace
+  gmail: [
+    { trigger: 'CRM form submitted', action: 'Send branded confirmation email via Gmail', result: 'Every lead gets instant professional response' },
+    { trigger: 'Gmail reply received', action: 'Update CRM contact timeline + trigger follow-up workflow', result: 'Email conversations tracked in your CRM' },
+    { trigger: 'CRM deal stage changed', action: 'Send Gmail notification to deal owner', result: 'Sales team stays informed automatically' },
+  ],
+  google_calendar: [
+    { trigger: 'CRM appointment booked', action: 'Create Google Calendar event + send invite', result: 'Appointments sync to your calendar instantly' },
+    { trigger: 'Google Calendar event approaching', action: 'Send CRM reminder SMS/email to contact', result: 'Automated reminders reduce no-shows' },
+    { trigger: 'Google Calendar event completed', action: 'Log to CRM timeline + trigger post-meeting workflow', result: 'Meeting outcomes tracked in CRM automatically' },
+  ],
+  google_sheets: [
+    { trigger: 'New CRM contact created', action: 'Add row to Google Sheet with contact data', result: 'Spreadsheet reporting auto-updated from CRM' },
+    { trigger: 'Google Sheet row updated', action: 'Sync changes to matching CRM contact', result: 'Bulk edits in Sheets flow to your CRM' },
+    { trigger: 'CRM monthly report due', action: 'Generate Google Sheet with pipeline + revenue data', result: 'Automated monthly reporting from CRM data' },
+  ],
+  google_drive: [
+    { trigger: 'CRM deal closed', action: 'Create Google Drive folder from template + share with client', result: 'Client onboarding folders auto-created' },
+    { trigger: 'File uploaded to Google Drive', action: 'Attach to CRM contact record + notify team', result: 'Documents linked to CRM contacts automatically' },
+    { trigger: 'CRM proposal requested', action: 'Generate doc in Google Drive from template + CRM data', result: 'Proposals auto-populated with CRM deal info' },
+  ],
+  google_ads: [
+    { trigger: 'Google Ads lead form submitted', action: 'Create CRM contact + tag "google-ads" + score lead', result: 'Ad leads enter CRM pipeline instantly' },
+    { trigger: 'CRM contact converts to customer', action: 'Send conversion event to Google Ads', result: 'Ad optimization from actual revenue data' },
+    { trigger: 'CRM lead score drops below threshold', action: 'Exclude from Google Ads remarketing list', result: 'Stop spending on cold leads automatically' },
+  ],
+  // Social media
+  instagram: [
+    { trigger: 'Instagram DM received', action: 'Create CRM contact + trigger follow-up workflow', result: 'Social conversations become CRM leads' },
+    { trigger: 'CRM tag "post-feature" added', action: 'Queue Instagram post featuring the client', result: 'Client spotlights automated from CRM tags' },
+    { trigger: 'Instagram comment on business post', action: 'Log to CRM contact timeline if known contact', result: 'Social engagement tracked in CRM' },
+  ],
+  twitter: [
+    { trigger: 'Twitter/X mention received', action: 'Create CRM contact + tag "twitter-lead"', result: 'Social mentions become trackable leads' },
+    { trigger: 'CRM content calendar triggers', action: 'Auto-post to Twitter/X from CRM workflow', result: 'Social media posting driven by CRM automations' },
+    { trigger: 'Twitter/X DM received', action: 'Route to CRM conversations + assign agent', result: 'DMs handled through CRM support system' },
+  ],
+  linkedin: [
+    { trigger: 'LinkedIn connection accepted', action: 'Create CRM contact + add to nurture workflow', result: 'LinkedIn network feeds your CRM pipeline' },
+    { trigger: 'CRM deal stage "proposal sent"', action: 'Send LinkedIn InMail follow-up', result: 'Multi-channel follow-up from CRM triggers' },
+    { trigger: 'LinkedIn message received', action: 'Log to CRM timeline + assign to sales rep', result: 'LinkedIn conversations tracked in CRM' },
+  ],
+  facebook_ads: [
+    { trigger: 'Facebook lead ad submitted', action: 'Create CRM contact + enroll in nurture workflow', result: 'Facebook leads enter CRM within seconds' },
+    { trigger: 'CRM customer lifetime value updated', action: 'Sync to Facebook Ads custom audience', result: 'Lookalike audiences built from CRM data' },
+    { trigger: 'CRM deal closed won', action: 'Send purchase event to Facebook Ads', result: 'ROAS tracking from actual CRM revenue' },
+  ],
+  linkedin_ads: [
+    { trigger: 'LinkedIn Ads lead gen form submitted', action: 'Create CRM contact + tag "linkedin-ad"', result: 'B2B ad leads flow directly to CRM' },
+    { trigger: 'CRM contact tagged "decision-maker"', action: 'Add to LinkedIn Ads matched audience', result: 'CRM segmentation powers ad targeting' },
+    { trigger: 'CRM deal stage "qualified"', action: 'Remove from LinkedIn prospecting campaigns', result: 'Stop advertising to already-qualified leads' },
+  ],
+  tiktok_ads: [
+    { trigger: 'TikTok lead form submitted', action: 'Create CRM contact + assign to sales', result: 'TikTok leads in your CRM pipeline instantly' },
+    { trigger: 'CRM conversion tracked', action: 'Send TikTok Ads conversion event', result: 'Optimize TikTok spend with real CRM data' },
+    { trigger: 'CRM audience segment updated', action: 'Sync to TikTok Ads custom audience', result: 'CRM-driven ad targeting on TikTok' },
+  ],
+  // Support
+  jira: [
+    { trigger: 'CRM support ticket escalated', action: 'Create Jira issue + link to CRM contact', result: 'Customer issues become dev tickets automatically' },
+    { trigger: 'Jira issue resolved', action: 'Notify CRM contact + close support ticket', result: 'Customers notified when bugs are fixed' },
+    { trigger: 'Jira sprint completed', action: 'Generate CRM release notes email to stakeholders', result: 'Sprint completions trigger customer updates' },
+  ],
+  zendesk: [
+    { trigger: 'CRM contact submits support request', action: 'Create Zendesk ticket + attach CRM history', result: 'Support agents see full customer context' },
+    { trigger: 'Zendesk ticket resolved', action: 'Update CRM timeline + trigger satisfaction survey', result: 'Support outcomes tracked in CRM' },
+    { trigger: 'Zendesk satisfaction score received', action: 'Update CRM engagement score + tag accordingly', result: 'Support quality drives CRM intelligence' },
+  ],
+  intercom: [
+    { trigger: 'Intercom conversation started', action: 'Create CRM contact + log chat to timeline', result: 'Live chat visitors become CRM leads' },
+    { trigger: 'CRM contact tagged "upsell"', action: 'Trigger Intercom targeted message', result: 'CRM segments power in-app messaging' },
+    { trigger: 'Intercom user qualifies as lead', action: 'Create CRM opportunity + assign to sales', result: 'Product-qualified leads flow to sales pipeline' },
+  ],
+  freshdesk: [
+    { trigger: 'CRM contact submits ticket', action: 'Create Freshdesk ticket with CRM contact context', result: 'Support tickets enriched with CRM data' },
+    { trigger: 'Freshdesk ticket SLA breach', action: 'Escalate in CRM + notify manager', result: 'SLA tracking bridges both systems' },
+    { trigger: 'Freshdesk resolution achieved', action: 'Log to CRM timeline + send thank-you email', result: 'Closed tickets trigger CRM follow-up' },
+  ],
+  // E-commerce
+  woocommerce: [
+    { trigger: 'WooCommerce order placed', action: 'Create CRM contact + log purchase + tag "customer"', result: 'E-commerce buyers auto-enter your CRM' },
+    { trigger: 'CRM contact tagged "vip"', action: 'Apply WooCommerce discount coupon + notify', result: 'CRM loyalty programs drive e-commerce sales' },
+    { trigger: 'WooCommerce cart abandoned', action: 'Trigger CRM abandoned cart email workflow', result: 'Cart recovery powered by CRM automation' },
+  ],
+  square: [
+    { trigger: 'Square payment received', action: 'Create/update CRM contact + log transaction', result: 'In-person payments tracked in CRM' },
+    { trigger: 'CRM contact created from referral', action: 'Generate Square loyalty reward', result: 'CRM referral program drives POS rewards' },
+    { trigger: 'Square inventory alert', action: 'Create CRM task + notify purchasing team', result: 'Inventory management through CRM tasks' },
+  ],
+  // Messaging
+  whatsapp: [
+    { trigger: 'WhatsApp message received', action: 'Create CRM contact + route to conversations', result: 'WhatsApp messages managed through CRM' },
+    { trigger: 'CRM appointment booked', action: 'Send WhatsApp confirmation with details', result: 'Appointment confirmations via WhatsApp' },
+    { trigger: 'CRM lead scored above 80', action: 'Send WhatsApp template message with offer', result: 'Hot leads get instant WhatsApp outreach' },
+  ],
+  telegram: [
+    { trigger: 'Telegram message received', action: 'Create CRM contact + log conversation', result: 'Telegram contacts tracked in your CRM' },
+    { trigger: 'CRM workflow triggers notification', action: 'Send Telegram message to team channel', result: 'Team alerts via Telegram from CRM events' },
+    { trigger: 'CRM deal won', action: 'Post celebration to Telegram team group', result: 'Sales wins shared on Telegram automatically' },
+  ],
+  // Email marketing
+  resend: [
+    { trigger: 'CRM contact created', action: 'Send branded welcome email via Resend', result: 'Every new contact gets professional welcome' },
+    { trigger: 'CRM workflow step "send email"', action: 'Deliver transactional email via Resend API', result: 'CRM automations use Resend for delivery' },
+    { trigger: 'Resend email bounced', action: 'Update CRM contact email status + remove from lists', result: 'Bounce management synced to CRM' },
+  ],
+  activecampaign: [
+    { trigger: 'ActiveCampaign contact tagged', action: 'Mirror tag to CRM + update engagement score', result: 'Email marketing segments sync to CRM' },
+    { trigger: 'CRM deal stage changed', action: 'Move ActiveCampaign contact to matching automation', result: 'CRM pipeline drives email sequences' },
+    { trigger: 'ActiveCampaign form submitted', action: 'Create CRM contact + enroll in CRM workflow', result: 'Email signups flow directly to CRM' },
+  ],
+  convertkit: [
+    { trigger: 'ConvertKit subscriber added', action: 'Create CRM contact + tag "newsletter"', result: 'Email subscribers tracked in your CRM' },
+    { trigger: 'CRM contact reaches milestone', action: 'Add to ConvertKit sequence', result: 'CRM milestones trigger email sequences' },
+    { trigger: 'ConvertKit email link clicked', action: 'Update CRM engagement score', result: 'Email clicks feed CRM lead scoring' },
+  ],
+  // Project management
+  asana: [
+    { trigger: 'CRM deal closed won', action: 'Create Asana project from template + assign team', result: 'Won deals auto-kick-off project management' },
+    { trigger: 'Asana task completed', action: 'Update CRM project timeline + notify client', result: 'Task completion tracked in CRM' },
+    { trigger: 'CRM support ticket created', action: 'Create Asana task + assign to support team', result: 'Support tickets become trackable tasks' },
+  ],
+  trello: [
+    { trigger: 'CRM deal stage changed', action: 'Move Trello card to matching list', result: 'Trello boards mirror CRM pipeline stages' },
+    { trigger: 'Trello card completed', action: 'Update CRM timeline + move to next stage', result: 'Task completion advances CRM pipeline' },
+    { trigger: 'CRM onboarding started', action: 'Create Trello board from onboarding template', result: 'Client onboarding boards auto-created' },
+  ],
+  monday: [
+    { trigger: 'CRM deal won', action: 'Create Monday.com project + populate with client data', result: 'Sales wins auto-create project workspaces' },
+    { trigger: 'Monday.com status changed to "Done"', action: 'Update CRM timeline + trigger next workflow', result: 'Project milestones synced to CRM' },
+    { trigger: 'CRM task assigned', action: 'Create Monday.com item + assign to team member', result: 'CRM tasks reflected in Monday boards' },
+  ],
+  // Databases
+  mongodb: [
+    { trigger: 'CRM contact data updated', action: 'Sync to MongoDB customer collection', result: 'CRM data mirrored to your app database' },
+    { trigger: 'MongoDB user action logged', action: 'Update CRM contact engagement timeline', result: 'App usage tracked in CRM' },
+    { trigger: 'CRM webhook fires', action: 'Insert event record to MongoDB for analytics', result: 'CRM events stored for custom analytics' },
+  ],
+  // Cloud & hosting
+  cloudflare: [
+    { trigger: 'CRM customer onboarded', action: 'Create Cloudflare DNS zone + configure domain', result: 'Customer domains provisioned from CRM' },
+    { trigger: 'Cloudflare security event detected', action: 'Create CRM alert task + notify security team', result: 'Security events trigger CRM workflows' },
+    { trigger: 'CRM customer churned', action: 'Archive Cloudflare zone + cleanup DNS', result: 'Infrastructure deprovisioning from CRM' },
+  ],
+  wordpress: [
+    { trigger: 'WordPress form submitted', action: 'Create CRM contact + tag by form name', result: 'WordPress leads enter CRM automatically' },
+    { trigger: 'CRM content workflow triggers', action: 'Create/update WordPress post via API', result: 'CRM automations publish to WordPress' },
+    { trigger: 'WordPress WooCommerce order', action: 'Create CRM contact + log purchase history', result: 'WordPress sales tracked in CRM' },
+  ],
+  webflow: [
+    { trigger: 'Webflow form submitted', action: 'Create CRM contact + enroll in workflow', result: 'Webflow leads flow to CRM instantly' },
+    { trigger: 'CRM content approved', action: 'Publish to Webflow CMS collection', result: 'CRM-approved content goes live on Webflow' },
+    { trigger: 'Webflow e-commerce order', action: 'Create CRM contact + tag "webflow-customer"', result: 'Webflow sales tracked in CRM pipeline' },
+  ],
+  // Cold email
+  smartlead: [
+    { trigger: 'Smartlead reply received', action: 'Create CRM opportunity + tag "warm-lead"', result: 'Cold email replies become CRM opportunities' },
+    { trigger: 'CRM contact tagged "outbound"', action: 'Add to Smartlead campaign sequence', result: 'CRM tags trigger outbound email campaigns' },
+    { trigger: 'Smartlead email bounced', action: 'Update CRM contact email validity', result: 'Email deliverability synced to CRM' },
+  ],
+  // Forms
+  typeform: [
+    { trigger: 'Typeform response submitted', action: 'Create CRM contact + map all fields', result: 'Survey and form data flows to CRM' },
+    { trigger: 'CRM workflow needs data collection', action: 'Send Typeform link via email/SMS', result: 'CRM triggers personalized form collection' },
+    { trigger: 'Typeform NPS score submitted', action: 'Update CRM satisfaction score + tag accordingly', result: 'NPS data enriches CRM profiles' },
+  ],
+  // Signing
+  docusign: [
+    { trigger: 'CRM deal stage "contract"', action: 'Generate DocuSign envelope from template + CRM data', result: 'Contracts auto-generated from CRM deals' },
+    { trigger: 'DocuSign envelope signed', action: 'Move CRM deal to "signed" + trigger onboarding', result: 'Signed contracts advance CRM pipeline' },
+    { trigger: 'DocuSign envelope declined', action: 'Update CRM deal status + notify sales rep', result: 'Declined contracts trigger follow-up' },
+  ],
+  // AI/Voice
+  elevenlabs: [
+    { trigger: 'CRM voicemail workflow triggered', action: 'Generate AI voicemail via ElevenLabs + deliver', result: 'AI-generated personalized voicemails from CRM' },
+    { trigger: 'CRM content needs audio', action: 'Convert text to speech via ElevenLabs', result: 'CRM content goes audio automatically' },
+    { trigger: 'ElevenLabs audio generated', action: 'Attach to CRM contact record + send via SMS', result: 'AI voice messages delivered through CRM' },
+  ],
+  // Accounting
+  xero: [
+    { trigger: 'CRM invoice sent', action: 'Create matching Xero invoice + sync line items', result: 'CRM invoicing mirrors to Xero accounting' },
+    { trigger: 'Xero payment received', action: 'Mark CRM invoice paid + advance pipeline stage', result: 'Payment status synced from accounting to CRM' },
+    { trigger: 'CRM deal closed', action: 'Create Xero contact + invoice', result: 'Won deals auto-generate accounting records' },
+  ],
   default: [
     { trigger: 'Event in this service', action: 'Create or update CRM contact + log activity', result: 'Every touchpoint tracked in your CRM' },
     { trigger: 'CRM workflow triggers', action: 'Execute action in this service', result: 'CRM becomes the orchestration hub' },

@@ -67,7 +67,7 @@ const MEGA_TABLE = [
   { dim: 'AI-Native Orchestration', onmcp: 'Yes (describe outcomes)', claude: 'Chat only', gpt: 'Chat only', gemini: 'Chat only', zapier: 'No (visual builder)', make: 'No (visual builder)', n8n: 'No (visual builder)', openclaw: 'Partial' },
   { dim: 'MCP Protocol Support', onmcp: 'Native (built on MCP)', claude: 'Client only', gpt: 'No', gemini: 'No', zapier: 'No', make: 'No', n8n: 'No', openclaw: 'Yes' },
   { dim: 'CRM Integration', onmcp: '245 tools (12 modules)', claude: 'No', gpt: 'No', gemini: 'No', zapier: 'Basic triggers', make: 'Basic triggers', n8n: 'Basic node', openclaw: 'No' },
-  { dim: 'Vault Encryption', onmcp: 'AES-256-GCM + hardware bind', claude: 'No', gpt: 'No', gemini: 'No', zapier: 'Cloud-stored keys', make: 'Cloud-stored keys', n8n: 'Plain .env', openclaw: 'No' },
+  { dim: 'Vault Encryption', onmcp: 'AES-256-GCM + hardware bind', claude: 'No', gpt: 'No', gemini: 'No', zapier: 'Cloud-stored keys', make: 'Cloud-stored keys', n8n: 'Plain .env', openclaw: '⚠️ BREACH' },
   { dim: 'Multi-AI Platform', onmcp: '7+ platforms (Claude, Gemini, Grok, Cursor...)', claude: 'Claude only', gpt: 'GPT only', gemini: 'Gemini only', zapier: 'Platform agnostic', make: 'Platform agnostic', n8n: 'Platform agnostic', openclaw: '2-3 platforms' },
   { dim: 'Workflow Format', onmcp: '.0n portable files', claude: 'N/A', gpt: 'N/A', gemini: 'N/A', zapier: 'Proprietary Zaps', make: 'Proprietary Scenarios', n8n: 'JSON workflows', openclaw: 'JSON' },
   { dim: 'Execution Model', onmcp: 'Pipeline + Assembly Line + Radial Burst', claude: 'Sequential chat', gpt: 'Sequential chat', gemini: 'Sequential chat', zapier: 'Sequential Zaps', make: 'Scenario paths', n8n: 'Node graph', openclaw: 'Sequential' },
@@ -499,33 +499,41 @@ export default function ComparePage() {
         <h2 className="section-label">The Definitive AI Tool Comparison Table</h2>
         <p className="section-desc">0nMCP vs Claude vs GPT vs Gemini vs Zapier vs Make vs n8n vs OpenClaw across {MEGA_TABLE.length} dimensions</p>
 
-        <div className="compare-table-wrap" style={{ overflowX: 'auto' }}>
-          <table className="compare-table" style={{ minWidth: 1100, fontSize: '0.75rem' }}>
+        <div style={{ overflowX: 'auto', maxWidth: '100%', margin: '0 auto', borderRadius: 16, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.02)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
             <thead>
-              <tr>
-                <th style={{ minWidth: 160 }}>Dimension</th>
-                <th className="compare-us" style={{ minWidth: 120 }}>0nMCP</th>
-                <th style={{ minWidth: 100, color: '#d4a574' }}>Claude</th>
-                <th style={{ minWidth: 100, color: '#10a37f' }}>ChatGPT</th>
-                <th style={{ minWidth: 100, color: '#4285f4' }}>Gemini</th>
-                <th style={{ minWidth: 110, color: '#ff4a00' }}>Zapier</th>
-                <th style={{ minWidth: 100, color: '#6d00cc' }}>Make</th>
-                <th style={{ minWidth: 100, color: '#ea4b71' }}>n8n</th>
-                <th style={{ minWidth: 100, color: '#ef4444' }}>OpenClaw</th>
+              <tr style={{ background: 'var(--bg-secondary)', borderBottom: '2px solid var(--border)' }}>
+                <th style={{ padding: '1rem 1.25rem', textAlign: 'left', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', minWidth: 160, position: 'sticky', left: 0, background: 'var(--bg-secondary)', zIndex: 1 }}>Dimension</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: 'var(--accent)', fontWeight: 700, fontSize: '0.8125rem', minWidth: 140 }}>0nMCP</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#d4a574', fontWeight: 600, fontSize: '0.8125rem', minWidth: 120 }}>Claude</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#10a37f', fontWeight: 600, fontSize: '0.8125rem', minWidth: 120 }}>ChatGPT</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#4285f4', fontWeight: 600, fontSize: '0.8125rem', minWidth: 120 }}>Gemini</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#ff4a00', fontWeight: 600, fontSize: '0.8125rem', minWidth: 120 }}>Zapier</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#6d00cc', fontWeight: 600, fontSize: '0.8125rem', minWidth: 120 }}>Make</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#ea4b71', fontWeight: 600, fontSize: '0.8125rem', minWidth: 110 }}>n8n</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#ef4444', fontWeight: 600, fontSize: '0.8125rem', minWidth: 120 }}>OpenClaw</th>
               </tr>
             </thead>
             <tbody>
-              {MEGA_TABLE.map((row) => (
-                <tr key={row.dim}>
-                  <td className="compare-feature">{row.dim}</td>
-                  <td className="compare-us-val">{row.onmcp}</td>
-                  <td className="compare-them-val">{row.claude}</td>
-                  <td className="compare-them-val">{row.gpt}</td>
-                  <td className="compare-them-val">{row.gemini}</td>
-                  <td className="compare-them-val">{row.zapier}</td>
-                  <td className="compare-them-val">{row.make}</td>
-                  <td className="compare-them-val">{row.n8n}</td>
-                  <td className="compare-them-val">{row.openclaw}</td>
+              {MEGA_TABLE.map((row, i) => (
+                <tr key={row.dim} style={{ borderBottom: '1px solid var(--border)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)' }}>
+                  <td style={{ padding: '0.875rem 1.25rem', fontWeight: 600, color: 'var(--text-secondary)', fontSize: '0.8125rem', position: 'sticky', left: 0, background: i % 2 === 0 ? 'var(--bg-primary)' : 'rgba(17,24,39,0.95)', zIndex: 1 }}>{row.dim}</td>
+                  <td style={{ padding: '0.875rem 1rem', color: 'var(--accent)', fontWeight: 700, fontFamily: 'var(--font-mono)', fontSize: '0.8125rem' }}>{row.onmcp}</td>
+                  <td style={{ padding: '0.875rem 1rem', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>{row.claude}</td>
+                  <td style={{ padding: '0.875rem 1rem', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>{row.gpt}</td>
+                  <td style={{ padding: '0.875rem 1rem', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>{row.gemini}</td>
+                  <td style={{ padding: '0.875rem 1rem', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>{row.zapier}</td>
+                  <td style={{ padding: '0.875rem 1rem', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>{row.make}</td>
+                  <td style={{ padding: '0.875rem 1rem', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>{row.n8n}</td>
+                  <td style={{ padding: '0.875rem 1rem', fontSize: '0.8125rem' }}>
+                    {row.openclaw === '⚠️ BREACH' ? (
+                      <Link href="/blog/cisco-openclaw-security-nightmare" title="Cisco called OpenClaw a 'Security Nightmare' — credential exposure, no sandboxing, supply chain risks" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', color: '#ef4444', fontWeight: 700, textDecoration: 'none', background: 'rgba(239,68,68,0.1)', padding: '2px 8px', borderRadius: 6, fontSize: '0.75rem' }}>
+                        ⚠️ BREACH
+                      </Link>
+                    ) : (
+                      <span style={{ color: 'var(--text-muted)' }}>{row.openclaw}</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

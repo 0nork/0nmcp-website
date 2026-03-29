@@ -337,6 +337,12 @@ export default function ComparePage() {
               Competitor Deep Dives
             </Link>
           </div>
+
+          <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+            <Link href="/compare/interactive" style={{ fontSize: '0.8125rem', color: 'var(--accent)', fontWeight: 600 }}>
+              Try the Interactive Comparison Tool — pick 2-4 platforms and compare side by side →
+            </Link>
+          </div>
         </div>
       </section>
 

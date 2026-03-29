@@ -17,7 +17,7 @@ function CRMChatWidget() {
     const script = document.createElement('script')
     script.src = 'https://widgets.leadconnectorhq.com/loader.js'
     script.setAttribute('data-resources-url', 'https://widgets.leadconnectorhq.com/chat-widget/loader.js')
-    script.setAttribute('data-widget-id', '69b8ed5268d949b1e6991563')
+    script.setAttribute('data-widget-id', 'nphConTwfHcVE1oA0uep')
     script.async = true
     document.body.appendChild(script)
   }, [])
@@ -135,6 +135,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             }}
           />
         )}
+
+        {/* 0nTask AI Chat Widget — CRM Conversation AI */}
+        {isAdmin && <CRMChatWidget />}
       </BackendSidebarProvider>
     </ToastProvider>
   )

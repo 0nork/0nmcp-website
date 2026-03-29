@@ -222,7 +222,7 @@ export default function ComparePage() {
         </p>
         <div className="hero-ctas" style={{ justifyContent: 'center' }}>
           <Link href="/signup" className="hero-cta-primary">
-            Start Free — No Credit Card
+            Request Early Access
           </Link>
           <Link href="/integrations" className="hero-cta-secondary">
             Browse {STATS_DISPLAY.services} Integrations

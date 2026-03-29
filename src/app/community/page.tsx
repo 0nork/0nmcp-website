@@ -122,7 +122,7 @@ export default function CommunityPage() {
                     Join the 0nBoard
                   </a>
                   <a href="/signup" className="btn-ghost no-underline">
-                    Create Account First
+                    Request Access
                   </a>
                 </div>
               </div>

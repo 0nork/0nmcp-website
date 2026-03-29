@@ -686,7 +686,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
         </p>
         <div className="hero-ctas" style={{ justifyContent: 'center' }}>
           <Link href="/signup" className="hero-cta-primary">
-            Get Started Free
+            Request Early Access
           </Link>
           <Link href="/integrations" className="hero-cta-secondary">
             ← All Integrations

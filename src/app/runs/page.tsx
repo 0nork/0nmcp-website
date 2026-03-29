@@ -381,7 +381,7 @@ export default function RunsPage() {
               fontSize: '1rem', fontWeight: 700, background: highlightColor, color: '#080B0F',
               textDecoration: 'none',
             }}>
-              Get Started Free
+              Request Early Access
             </Link>
           </section>
         )}

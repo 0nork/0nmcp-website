@@ -68,7 +68,7 @@ export default function ConsoleCTA() {
 
   // Determine CTA based on auth state
   let ctaHref = '/signup'
-  let ctaText = 'Sign Up Free'
+  let ctaText = 'Request Access'
   let ctaClass = 'console-cta-btn console-cta-btn-signup no-underline'
 
   if (authState === 'free') {

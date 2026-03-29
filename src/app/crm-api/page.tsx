@@ -478,7 +478,7 @@ export default function CrmApiPage() {
               textDecoration: 'none', boxShadow: '0 0 40px rgba(126,217,87,0.25)',
               transition: 'transform 0.15s, box-shadow 0.15s',
             }}>
-              Start Free — 100 Sparks
+              Request Early Access
             </Link>
             <a href="#tools" style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
@@ -1071,7 +1071,7 @@ export default function CrmApiPage() {
             boxShadow: '0 0 50px rgba(126,217,87,0.3)',
             position: 'relative',
           }}>
-            Get Started Free — 100 Sparks
+            Request Early Access
           </Link>
         </section>
 

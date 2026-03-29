@@ -152,7 +152,7 @@ export default function LoginModal({ open, onClose, onSuccess, message, redirect
               <p className="auth-footer">
                 No account?{' '}
                 <Link href="/signup" onClick={onClose}>
-                  Create one
+                  Request access
                 </Link>
               </p>
             </>

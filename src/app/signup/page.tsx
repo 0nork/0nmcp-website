@@ -1,282 +1,245 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { createSupabaseBrowser } from '@/lib/supabase/client'
-import { STATS } from '@/data/stats'
-import OAuthButtons from '@/components/OAuthButtons'
-import DataFlowAnimation from '@/components/DataFlowAnimation'
+import { STATS_DISPLAY } from '@/data/stats'
 
-export default function SignupPage() {
-  return (
-    <Suspense>
-      <SignupForm />
-    </Suspense>
-  )
+const LAUNCH_DATE = new Date('2026-05-01T00:00:00-04:00').getTime()
+
+function useCountdown() {
+  const [now, setNow] = useState(Date.now())
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const diff = Math.max(0, LAUNCH_DATE - now)
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+  const minutes = Math.floor((diff / (1000 * 60)) % 60)
+  const seconds = Math.floor((diff / 1000) % 60)
+
+  return { days, hours, minutes, seconds }
 }
 
-const FEATURES = [
-  {
-    icon: '0n',
-    title: 'Encrypted Vault',
-    desc: 'AES-256-GCM client-side encryption. Your API keys never leave your browser unencrypted.',
-  },
-  {
-    icon: '\u29BF',
-    title: 'Signed .0n Files',
-    desc: 'Every workflow is HMAC-signed. Tampered or unauthorized files are rejected on import.',
-  },
-  {
-    icon: '\u2737',
-    title: 'AI Workflow Builder',
-    desc: 'Describe what you need in plain English. Get a production-ready .0n workflow in seconds.',
-  },
-  {
-    icon: '\u229A',
-    title: 'Execution Tracking',
-    desc: 'Every run is logged — domain, platform, license key, step results. Full audit trail.',
-  },
-]
-
-const SIGNUP_STATS = [
-  { value: String(STATS.tools), label: 'Tools' },
-  { value: String(STATS.services), label: 'Services' },
-  { value: 'AES-256', label: 'Encryption' },
-  { value: 'HMAC', label: 'File Signing' },
-]
-
-function SignupForm() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') || '/dashboard'
-  const refCode = searchParams.get('ref') || ''
-
+export default function RequestAccessPage() {
+  const countdown = useCountdown()
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [fullName, setFullName] = useState('')
   const [company, setCompany] = useState('')
   const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
-  const [confirmSent, setConfirmSent] = useState(false)
-  const [passwordStrength, setPasswordStrength] = useState(0)
 
-  const supabase = createSupabaseBrowser()
-
-  // Store referral code in cookie for attribution (survives page navigation)
-  useEffect(() => {
-    if (refCode) {
-      document.cookie = `0n_ref=${refCode};path=/;max-age=${60 * 60 * 24 * 90};samesite=lax`
-      // Track the click
-      fetch('/api/affiliate/click', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: refCode, page: window.location.href }),
-      }).catch(() => {})
-    }
-  }, [refCode])
-
-  function checkStrength(pw: string) {
-    let s = 0
-    if (pw.length >= 8) s++
-    if (pw.length >= 12) s++
-    if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) s++
-    if (/\d/.test(pw)) s++
-    if (/[^A-Za-z0-9]/.test(pw)) s++
-    setPasswordStrength(Math.min(s, 4))
-  }
-
-  async function handleSignup(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters')
-      return
-    }
-
-    if (!supabase) {
-      setError('Authentication service is not configured. Please contact support.')
-      return
-    }
-
     setLoading(true)
 
-    // Get referral code from URL param or cookie
-    const ref = refCode || document.cookie.match(/0n_ref=([^;]+)/)?.[1] || ''
+    try {
+      const res = await fetch('/api/request-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, company }),
+      })
 
-    const { error: err } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName, company, referred_by: ref || undefined },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/auth/callback?redirect=${encodeURIComponent(redirect)}`,
-      },
-    })
+      const data = await res.json()
 
-    if (err) {
-      setError(err.message)
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong. Please try again.')
+        setLoading(false)
+        return
+      }
+
+      setSubmitted(true)
+    } catch {
+      setError('Network error. Please try again.')
+    } finally {
       setLoading(false)
-      return
     }
-
-    setConfirmSent(true)
-    setLoading(false)
-  }
-
-  if (confirmSent) {
-    return (
-      <div className="signup-page">
-        <div className="signup-confirm">
-          <div className="signup-confirm-icon">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="23" stroke="var(--accent)" strokeWidth="2" />
-              <path d="M14 24l7 7 13-13" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          <h1 className="auth-title" style={{ textAlign: 'center' }}>Check your email</h1>
-          <p className="auth-subtitle" style={{ textAlign: 'center', maxWidth: '320px', margin: '0 auto' }}>
-            We sent a verification link to <strong>{email}</strong>. Click it to activate your vault.
-          </p>
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1.5rem' }}>
-            <button className="auth-btn secondary" style={{ maxWidth: '160px' }} onClick={() => { setConfirmSent(false); router.push('/login') }}>
-              Sign in
-            </button>
-            <button className="auth-btn secondary" style={{ maxWidth: '160px' }} onClick={() => setConfirmSent(false)}>
-              Back
-            </button>
-          </div>
-        </div>
-      </div>
-    )
   }
 
   return (
-    <div className="signup-page">
-      {/* Left: Data Flow Animation */}
-      <div className="signup-brand">
-        <div className="signup-brand-inner">
-          <DataFlowAnimation />
-        </div>
-      </div>
+    <div className="homepage">
+      {/* Hero Section */}
+      <section className="hero-section" style={{ minHeight: '100vh', paddingTop: '8rem' }}>
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="hero-glow-secondary" aria-hidden="true" />
 
-      {/* Right: Form */}
-      <div className="signup-form-side">
-        <div className="auth-card signup-card">
-          <h1 className="auth-title">Create your vault</h1>
-          <p className="auth-subtitle">Free forever. No credit card required.</p>
-
-          <OAuthButtons mode="signup" redirectTo={redirect} />
-
-          <div className="auth-divider" style={{ margin: '1rem 0' }}>
-            <span>or sign up with email</span>
+        <div className="hero-content" style={{ maxWidth: '820px' }}>
+          <div className="hero-badge">
+            <span className="hero-badge-dot" />
+            <span>Launching May 1, 2026</span>
           </div>
 
-          {error && <div className="auth-error">{error}</div>}
+          <h1 className="hero-title" style={{ marginBottom: '2rem' }}>
+            The Future of<br />
+            <span className="hero-title-accent">AI Orchestration</span><br />
+            is Almost Here.
+          </h1>
 
-          <form onSubmit={handleSignup} className="auth-form">
-            <div className="signup-name-row">
-              <div className="auth-field">
-                <label htmlFor="fullName">Full name</label>
-                <input
-                  id="fullName"
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Jane Smith"
-                  required
-                  autoFocus
-                  autoComplete="name"
-                />
-              </div>
-              <div className="auth-field">
-                <label htmlFor="company">Company <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
-                <input
-                  id="company"
-                  type="text"
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                  placeholder="Acme Inc"
-                  autoComplete="organization"
-                />
-              </div>
+          {/* Countdown Timer */}
+          <div className="ra-countdown">
+            <div className="ra-countdown-item">
+              <span className="ra-countdown-number">{String(countdown.days).padStart(2, '0')}</span>
+              <span className="ra-countdown-label">Days</span>
             </div>
-
-            <div className="auth-field">
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@company.com"
-                required
-                autoComplete="email"
-              />
+            <span className="ra-countdown-sep">:</span>
+            <div className="ra-countdown-item">
+              <span className="ra-countdown-number">{String(countdown.hours).padStart(2, '0')}</span>
+              <span className="ra-countdown-label">Hours</span>
             </div>
+            <span className="ra-countdown-sep">:</span>
+            <div className="ra-countdown-item">
+              <span className="ra-countdown-number">{String(countdown.minutes).padStart(2, '0')}</span>
+              <span className="ra-countdown-label">Minutes</span>
+            </div>
+            <span className="ra-countdown-sep">:</span>
+            <div className="ra-countdown-item">
+              <span className="ra-countdown-number">{String(countdown.seconds).padStart(2, '0')}</span>
+              <span className="ra-countdown-label">Seconds</span>
+            </div>
+          </div>
 
-            <div className="auth-field">
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); checkStrength(e.target.value) }}
-                placeholder="Min 8 characters"
-                required
-                minLength={8}
-                autoComplete="new-password"
-              />
-              {password.length > 0 && (
-                <div className="password-strength">
-                  <div className="password-strength-bar">
-                    {[0, 1, 2, 3].map((i) => (
-                      <div
-                        key={i}
-                        className="password-strength-segment"
-                        style={{
-                          backgroundColor: i < passwordStrength
-                            ? passwordStrength <= 1 ? '#ff5050'
-                              : passwordStrength <= 2 ? '#ffc800'
-                                : '#6EE05A'
-                            : 'var(--border)',
-                        }}
-                      />
-                    ))}
+          <p className="hero-subtitle" style={{ maxWidth: '620px', marginBottom: '3rem' }}>
+            The universal AI orchestrator launches May 1st. <strong>{STATS_DISPLAY.tools} tools</strong> across <strong>{STATS_DISPLAY.services} services</strong>.
+            Request early access now.
+          </p>
+
+          {/* Form or Thank You */}
+          {!submitted ? (
+            <div className="ra-form-container">
+              <h2 className="ra-form-title">Request Early Access</h2>
+              {error && <div className="ra-error">{error}</div>}
+
+              <form onSubmit={handleSubmit} className="ra-form">
+                <div className="ra-form-row">
+                  <div className="ra-field">
+                    <label htmlFor="ra-name">Full name</label>
+                    <input
+                      id="ra-name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Jane Smith"
+                      required
+                      autoFocus
+                      autoComplete="name"
+                    />
                   </div>
-                  <span className="password-strength-label">
-                    {passwordStrength <= 1 ? 'Weak' : passwordStrength <= 2 ? 'Fair' : passwordStrength <= 3 ? 'Strong' : 'Excellent'}
-                  </span>
+                  <div className="ra-field">
+                    <label htmlFor="ra-company">Company <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
+                    <input
+                      id="ra-company"
+                      type="text"
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                      placeholder="Acme Inc"
+                      autoComplete="organization"
+                    />
+                  </div>
                 </div>
-              )}
+
+                <div className="ra-field">
+                  <label htmlFor="ra-email">Email</label>
+                  <input
+                    id="ra-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@company.com"
+                    required
+                    autoComplete="email"
+                  />
+                </div>
+
+                <button type="submit" className="hero-cta-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={loading}>
+                  {loading ? 'Reserving your spot...' : 'Request Early Access'}
+                </button>
+              </form>
+
+              <p className="ra-note">
+                Already have an account? <Link href="/login">Sign in</Link>
+              </p>
             </div>
+          ) : (
+            <div className="ra-thankyou">
+              <div className="ra-thankyou-icon">
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                  <circle cx="28" cy="28" r="27" stroke="var(--accent)" strokeWidth="2" />
+                  <path d="M16 28l8 8 16-16" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <h2 className="ra-thankyou-title">Your spot is reserved.</h2>
+              <p className="ra-thankyou-subtitle">
+                Launch: <strong>May 1, 2026</strong>. We&apos;ll send you early access details at <strong>{email}</strong>.
+              </p>
 
-            <button type="submit" className="auth-btn primary" disabled={loading}>
-              {loading ? (
-                <span className="signup-loading">
-                  <span className="signup-spinner" />
-                  Creating vault...
-                </span>
-              ) : (
-                'Create account'
-              )}
-            </button>
-          </form>
+              {/* Pre-reserve upsell */}
+              <div className="ra-prereserve">
+                <h3 className="ra-prereserve-title">Want guaranteed access on day one?</h3>
+                <p className="ra-prereserve-desc">
+                  Pre-reserve your account for <strong>$50</strong> (credited to your first month).
+                  Skip the waitlist and get priority onboarding.
+                </p>
+                <a
+                  href="https://buy.stripe.com/test_00g00000000000000"
+                  className="hero-cta-primary"
+                  style={{ display: 'inline-flex' }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    // Build Stripe checkout URL with prefilled email
+                    const url = new URL('https://buy.stripe.com/test_00g00000000000000')
+                    url.searchParams.set('prefilled_email', email)
+                    window.open(url.toString(), '_blank')
+                  }}
+                >
+                  Pre-reserve for $50
+                </a>
+                <p className="ra-prereserve-note">
+                  100% credited to your first month. Cancel anytime before launch for a full refund.
+                </p>
+              </div>
 
-          <p className="auth-footer">
-            Already have an account?{' '}
-            <Link href={`/login${redirect !== '/account' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`}>
-              Sign in
-            </Link>
-          </p>
-
-          <p className="signup-legal">
-            By creating an account you agree to our{' '}
-            <Link href="/legal">Terms of Service</Link> and{' '}
-            <Link href="/legal">Privacy Policy</Link>.
-          </p>
+              <p className="ra-note" style={{ marginTop: '2rem' }}>
+                Already have an account? <Link href="/login">Sign in</Link>
+              </p>
+            </div>
+          )}
         </div>
-      </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="stats-bar">
+        <div className="stats-bar-inner">
+          <div className="stat-item">
+            <span className="stat-value">{STATS_DISPLAY.tools}</span>
+            <span className="stat-label">Tools</span>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <span className="stat-value">{STATS_DISPLAY.services}</span>
+            <span className="stat-label">Services</span>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <span className="stat-value">7</span>
+            <span className="stat-label">AI Platforms</span>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <span className="stat-value">5</span>
+            <span className="stat-label">Patents</span>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <span className="stat-value">MIT</span>
+            <span className="stat-label">Licensed</span>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

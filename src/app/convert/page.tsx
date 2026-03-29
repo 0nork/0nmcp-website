@@ -109,7 +109,7 @@ export default function ConvertHub() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup" className="btn-accent no-underline text-base px-8 py-3">
-              Start Converting Free
+              Request Early Access
             </Link>
             <Link href="/0n-standard" className="btn-ghost no-underline text-base px-8 py-3">
               Learn about .0n

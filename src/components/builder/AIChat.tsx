@@ -250,7 +250,7 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
             style={{ marginTop: '0.5rem', background: 'none', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
             onClick={() => router.push('/signup?redirect=/builder')}
           >
-            Create account
+            Request access
           </button>
         </div>
       )}

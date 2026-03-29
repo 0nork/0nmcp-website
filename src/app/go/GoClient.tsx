@@ -87,21 +87,21 @@ const PLANS = [
     name: 'Free', tag: 'Turn It On', price: '$0', period: 'forever',
     desc: 'Get started. No credit card.', color: '#6EE05A',
     bg: 'rgba(126,217,87,0.06)', border: 'rgba(126,217,87,0.2)',
-    cta: 'Start Free', href: '/signup?redirect=/console',
+    cta: 'Request Access', href: '/signup?redirect=/console',
     features: ['Console access', 'Encrypted Vault (5 services)', 'Visual workflow builder', 'Community access', '10 AI posts/month'],
   },
   {
     name: 'Creator', tag: 'Turn It Up', price: '$19', period: '/month',
     desc: '7-day free trial. Cancel anytime.', color: '#6EE05A',
     bg: 'rgba(126,217,87,0.08)', border: 'rgba(126,217,87,0.35)',
-    cta: 'Start Free Trial', href: '/signup?redirect=/console',
+    cta: 'Request Early Access', href: '/signup?redirect=/console',
     features: ['Everything in Free', 'Unlimited executions', 'AI chat (BYOK)', 'Voice learning + correction memory', 'Full marketplace access', 'Vault sync across devices'],
   },
   {
     name: 'Operator', tag: 'The Full Stack', price: '$49', period: '/month',
     desc: '7-day free trial. Cancel anytime.', color: '#6EE05A',
     bg: 'rgba(126,217,87,0.10)', border: 'rgba(126,217,87,0.45)',
-    cta: 'Start Free Trial', href: '/signup?redirect=/console', popular: true,
+    cta: 'Request Early Access', href: '/signup?redirect=/console', popular: true,
     features: ['Everything in Creator', 'Multi-channel Social0n', 'CRM integration', 'Council Arena access', 'Analytics dashboard', 'Priority support'],
   },
   {
@@ -385,7 +385,7 @@ export default function GoClient() {
             padding: '8px 24px', borderRadius: 10,
             background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
             color: '#0B0F19', fontWeight: 600, fontSize: 14, textDecoration: 'none',
-          }}>Start Free</Link>
+          }}>Request Access</Link>
         </div>
       </header>
 
@@ -418,7 +418,7 @@ export default function GoClient() {
         </p>
 
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <CtaButton href="/signup?redirect=/console">Start Free &mdash; No Credit Card</CtaButton>
+          <CtaButton href="/signup?redirect=/console">Request Early Access</CtaButton>
           <CtaButton href="#demo" variant="secondary" size="md">See it in action</CtaButton>
         </div>
       </section>
@@ -723,7 +723,7 @@ export default function GoClient() {
         <p style={{ fontSize: 17, color: 'var(--text-secondary)', marginBottom: 32, lineHeight: 1.6 }}>
           Free account. No credit card. Start automating in 5 minutes.
         </p>
-        <CtaButton href="/signup?redirect=/console">Create Your Free Account &rarr;</CtaButton>
+        <CtaButton href="/signup?redirect=/console">Request Early Access &rarr;</CtaButton>
       </section>
 
       {/* ── Footer ───────────────────────────────────────── */}

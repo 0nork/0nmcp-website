@@ -283,7 +283,7 @@ export default function TechnologyPage() {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/signup" className="btn-accent no-underline px-6 py-2.5 rounded-xl font-bold text-sm">
-              Get Started Free
+              Request Early Access
             </Link>
             <Link href="/turn-it-on" className="no-underline px-6 py-2.5 rounded-xl font-bold text-sm" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
               Browse Capabilities

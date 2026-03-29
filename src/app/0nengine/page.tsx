@@ -29,7 +29,7 @@ export default function OnEnginePage() {
             padding: '0.5rem 1.25rem', fontSize: '0.8125rem', fontWeight: 700,
             background: '#6EE05A', color: '#0B0F19', borderRadius: '8px', textDecoration: 'none',
           }}>
-            Get Started Free
+            Request Access
           </Link>
         </div>
       </header>
@@ -75,7 +75,7 @@ export default function OnEnginePage() {
             boxShadow: '0 4px 24px rgba(126,217,87,0.3)',
             transition: 'transform 0.15s, box-shadow 0.15s',
           }}>
-            Start Building Free →
+            Request Early Access →
           </Link>
           <Link href="/builder" style={{
             padding: '0.875rem 2rem', fontSize: '1rem', fontWeight: 600,
@@ -156,7 +156,7 @@ export default function OnEnginePage() {
           textDecoration: 'none', display: 'inline-block',
           boxShadow: '0 4px 30px rgba(126,217,87,0.35)',
         }}>
-          Create Your First Agent
+          Request Early Access
         </Link>
       </section>
 

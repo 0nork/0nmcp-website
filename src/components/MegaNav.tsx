@@ -341,7 +341,7 @@ export default function MegaNav() {
                 Login
               </Link>
               <Link href="/signup" className="mega-nav-cta-signup no-underline">
-                Register
+                Request Access
               </Link>
             </>
           ) : (
@@ -489,7 +489,7 @@ export default function MegaNav() {
                   className="btn-accent w-full text-center justify-center no-underline"
                   onClick={() => setMobileOpen(false)}
                 >
-                  Sign Up Free
+                  Request Access
                 </Link>
                 <Link
                   href="/login"

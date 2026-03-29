@@ -109,6 +109,12 @@ export default async function RootLayout({
             __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://www.0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('3ed036f8-6ddc-4317-8fcb-f9692bd6ce79');`,
           }}
         />
+        {/* 0nAI Chat Widget — Agent Studio powered, on all public pages */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var s=document.createElement('script');s.src='https://widgets.leadconnectorhq.com/loader.js';s.setAttribute('data-resources-url','https://widgets.leadconnectorhq.com/chat-widget/loader.js');s.setAttribute('data-widget-id','nphConTwfHcVE1oA0uep');s.async=true;document.body.appendChild(s);})();`,
+          }}
+        />
       </body>
     </html>
   )

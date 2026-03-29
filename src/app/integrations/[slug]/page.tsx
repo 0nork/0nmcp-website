@@ -67,6 +67,31 @@ const CRM_WORKFLOWS: Record<string, { trigger: string; action: string; result: s
     { trigger: 'PR merged to main', action: 'Post to CRM timeline + trigger deployment notification', result: 'Development milestones tracked in CRM' },
     { trigger: 'CRM feature request tagged', action: 'Create GitHub issue + assign team', result: 'Customer feedback to dev pipeline' },
   ],
+  figma: [
+    { trigger: 'Figma design finalized (version created)', action: 'Export as HTML → create CRM funnel page + notify team on Slack', result: 'Design to live landing page — no developer needed' },
+    { trigger: 'Figma design comment posted', action: 'Create CRM task for design review + assign to team member', result: 'Design feedback tracked as CRM tasks' },
+    { trigger: 'Figma library published with changes', action: 'Export design tokens → update CRM email templates + commit to GitHub', result: 'Brand consistency across every channel' },
+  ],
+  notion: [
+    { trigger: 'CRM contact created', action: 'Create Notion page with client brief template', result: 'Every new client gets a documented workspace' },
+    { trigger: 'Notion page updated', action: 'Sync content to CRM custom fields', result: 'Project notes visible in CRM timeline' },
+    { trigger: 'CRM deal closed', action: 'Create Notion project workspace from template', result: 'Automatic project kickoff documentation' },
+  ],
+  hubspot: [
+    { trigger: 'HubSpot form submitted', action: 'Create CRM contact + enroll in 0nMCP workflow', result: 'Leads from HubSpot flow into your CRM automation' },
+    { trigger: 'CRM contact tagged "enterprise"', action: 'Create HubSpot deal + trigger sales sequence', result: 'Enterprise leads get VIP treatment across both CRMs' },
+    { trigger: 'HubSpot deal stage changed', action: 'Mirror to CRM pipeline + notify Slack', result: 'Unified pipeline across CRM platforms' },
+  ],
+  shopify: [
+    { trigger: 'New Shopify order placed', action: 'Create CRM contact + add "customer" tag + log purchase', result: 'E-commerce customers auto-enter your CRM' },
+    { trigger: 'CRM contact tagged "vip"', action: 'Apply Shopify discount code + send personalized email', result: 'CRM segmentation drives e-commerce loyalty' },
+    { trigger: 'Shopify product inventory low', action: 'Create CRM task + alert team on Slack', result: 'Inventory management through CRM workflows' },
+  ],
+  twilio: [
+    { trigger: 'CRM form submitted', action: 'Send SMS confirmation via Twilio', result: 'Instant lead acknowledgment via text' },
+    { trigger: 'Twilio call completed', action: 'Log call recording + duration to CRM contact timeline', result: 'Every call tracked in customer history' },
+    { trigger: 'CRM appointment reminder due', action: 'Send Twilio SMS with appointment details', result: 'Automated appointment reminders reduce no-shows' },
+  ],
   default: [
     { trigger: 'Event in this service', action: 'Create or update CRM contact + log activity', result: 'Every touchpoint tracked in your CRM' },
     { trigger: 'CRM workflow triggers', action: 'Execute action in this service', result: 'CRM becomes the orchestration hub' },

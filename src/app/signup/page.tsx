@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
@@ -50,6 +50,7 @@ function SignupForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirect = searchParams.get('redirect') || '/dashboard'
+  const refCode = searchParams.get('ref') || ''
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -61,6 +62,19 @@ function SignupForm() {
   const [passwordStrength, setPasswordStrength] = useState(0)
 
   const supabase = createSupabaseBrowser()
+
+  // Store referral code in cookie for attribution (survives page navigation)
+  useEffect(() => {
+    if (refCode) {
+      document.cookie = `0n_ref=${refCode};path=/;max-age=${60 * 60 * 24 * 90};samesite=lax`
+      // Track the click
+      fetch('/api/affiliate/click', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: refCode, page: window.location.href }),
+      }).catch(() => {})
+    }
+  }, [refCode])
 
   function checkStrength(pw: string) {
     let s = 0
@@ -88,11 +102,14 @@ function SignupForm() {
 
     setLoading(true)
 
+    // Get referral code from URL param or cookie
+    const ref = refCode || document.cookie.match(/0n_ref=([^;]+)/)?.[1] || ''
+
     const { error: err } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { full_name: fullName, company },
+        data: { full_name: fullName, company, referred_by: ref || undefined },
         emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/auth/callback?redirect=${encodeURIComponent(redirect)}`,
       },
     })

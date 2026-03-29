@@ -216,6 +216,45 @@ export async function POST(request: NextRequest) {
         break
       }
 
+      case 'invoice.payment_succeeded': {
+        // Track affiliate commission on every successful subscription payment
+        const invoice = event.data.object as unknown as Record<string, unknown>
+        const customerId = invoice.customer as string
+        const amountPaid = invoice.amount_paid as number
+        const subscriptionId = invoice.subscription as string
+
+        if (customerId && amountPaid > 0 && subscriptionId) {
+          // Find the user by stripe_customer_id
+          const { data: payer } = await getSupabaseAdmin()
+            .from('profiles')
+            .select('id, referred_by')
+            .eq('stripe_customer_id', customerId)
+            .maybeSingle()
+
+          if (payer?.referred_by) {
+            // This user was referred — create affiliate commission
+            try {
+              await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'}/api/affiliate/convert`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+                },
+                body: JSON.stringify({
+                  referredUserId: payer.id,
+                  paymentAmountCents: amountPaid,
+                  stripeInvoiceId: invoice.id as string,
+                  stripeSubscriptionId: subscriptionId,
+                }),
+              })
+            } catch (err) {
+              console.error('Failed to record affiliate commission:', err)
+            }
+          }
+        }
+        break
+      }
+
       case 'invoice.payment_failed': {
         const invoice = event.data.object as unknown as Record<string, unknown>
         if (invoice.subscription) {

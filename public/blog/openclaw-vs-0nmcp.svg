@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#0d1510"/><stop offset="100%" stop-color="#0a0a0f"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="tg"><feGaussianBlur stdDeviation="4"/><feMerge><feMergeNode/><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g opacity="0.03" stroke="#fff" stroke-width="0.5">
+    <line x1="0" y1="90" x2="800" y2="90"/><line x1="0" y1="180" x2="800" y2="180"/>
+    <line x1="0" y1="270" x2="800" y2="270"/><line x1="0" y1="360" x2="800" y2="360"/>
+    <line x1="160" y1="0" x2="160" y2="450"/><line x1="320" y1="0" x2="320" y2="450"/>
+    <line x1="480" y1="0" x2="480" y2="450"/><line x1="640" y1="0" x2="640" y2="450"/>
+  </g>
+
+  <!-- VS Banner -->
+  <text x="400" y="50" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="11" font-weight="600" fill="#8888a0" letter-spacing="0.15em">HEAD TO HEAD COMPARISON</text>
+
+  <!-- OpenClaw side -->
+  <g transform="translate(60, 80)">
+    <rect x="0" y="0" width="300" height="320" rx="12" fill="#111118" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="150" y="35" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="20" font-weight="900" fill="#ef4444">OpenClaw</text>
+    <text x="150" y="55" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0">MCP Hosting</text>
+    <line x1="20" y1="68" x2="280" y2="68" stroke="#2a2a3a"/>
+    <text x="30" y="95" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Services</text><text x="220" y="95" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">1-5</text>
+    <text x="30" y="120" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Tools</text><text x="220" y="120" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">10-50</text>
+    <text x="30" y="145" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">CRM</text><text x="220" y="145" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">None</text>
+    <text x="30" y="170" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Security</text><text x="220" y="170" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">Cloud keys</text>
+    <text x="30" y="195" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">AI Platforms</text><text x="220" y="195" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">1</text>
+    <text x="30" y="220" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Portability</text><text x="220" y="220" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">Lock-in</text>
+    <text x="30" y="245" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Price</text><text x="220" y="245" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">$29+/mo</text>
+    <text x="30" y="270" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Open Source</text><text x="220" y="270" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">Partial</text>
+    <text x="30" y="295" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Patents</text><text x="220" y="295" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ef4444" font-weight="700">0</text>
+  </g>
+
+  <!-- VS circle -->
+  <circle cx="400" cy="240" r="24" fill="#1a1a25" stroke="#7ed957" stroke-width="2"/>
+  <text x="400" y="245" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="14" font-weight="900" fill="#7ed957">VS</text>
+
+  <!-- 0nMCP side -->
+  <g transform="translate(440, 80)">
+    <rect x="0" y="0" width="300" height="320" rx="12" fill="#111118" stroke="#7ed957" stroke-width="1.5"/>
+    <text x="150" y="35" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="20" font-weight="900" fill="#7ed957">0nMCP</text>
+    <text x="150" y="55" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#5cb83a">Universal Orchestrator</text>
+    <line x1="20" y1="68" x2="280" y2="68" stroke="#2a2a3a"/>
+    <text x="30" y="95" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Services</text><text x="220" y="95" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">95</text>
+    <text x="30" y="120" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Tools</text><text x="220" y="120" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">1,171</text>
+    <text x="30" y="145" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">CRM</text><text x="220" y="145" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">245 tools</text>
+    <text x="30" y="170" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Security</text><text x="220" y="170" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">AES-256 Vault</text>
+    <text x="30" y="195" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">AI Platforms</text><text x="220" y="195" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">7+</text>
+    <text x="30" y="220" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Portability</text><text x="220" y="220" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">.0n files</text>
+    <text x="30" y="245" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Price</text><text x="220" y="245" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">Free (MIT)</text>
+    <text x="30" y="270" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Open Source</text><text x="220" y="270" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">100%</text>
+    <text x="30" y="295" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8888a0">Patents</text><text x="220" y="295" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7ed957" font-weight="700">5 pending</text>
+  </g>
+
+  <!-- Bottom label -->
+  <text x="400" y="430" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="12" font-weight="600" fill="#7ed957" filter="url(#tg)">One orchestrator. Every service. Zero limits.</text>
+
+  <circle cx="740" cy="40" r="3" fill="#7ed957" opacity="0.4"/>
+  <circle cx="755" cy="40" r="3" fill="#7ed957" opacity="0.25"/>
+</svg>

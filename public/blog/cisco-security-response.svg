@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#0d1510"/><stop offset="100%" stop-color="#0a0a0f"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="tg"><feGaussianBlur stdDeviation="4"/><feMerge><feMergeNode/><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g opacity="0.03" stroke="#fff" stroke-width="0.5">
+    <line x1="0" y1="90" x2="800" y2="90"/><line x1="0" y1="180" x2="800" y2="180"/>
+    <line x1="0" y1="270" x2="800" y2="270"/><line x1="0" y1="360" x2="800" y2="360"/>
+    <line x1="160" y1="0" x2="160" y2="450"/><line x1="320" y1="0" x2="320" y2="450"/>
+    <line x1="480" y1="0" x2="480" y2="450"/><line x1="640" y1="0" x2="640" y2="450"/>
+  </g>
+
+  <!-- Shield icon -->
+  <g transform="translate(330, 30)">
+    <path d="M70 0 L140 30 L140 80 C140 130 70 160 70 160 C70 160 0 130 0 80 L0 30 Z" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.8"/>
+    <path d="M70 20 L120 42 L120 78 C120 110 70 135 70 135 C70 135 20 110 20 78 L20 42 Z" fill="#ef4444" opacity="0.08"/>
+    <!-- X mark -->
+    <line x1="50" y1="60" x2="90" y2="100" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+    <line x1="90" y1="60" x2="50" y2="100" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Title -->
+  <text x="400" y="220" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="11" fill="#8888a0" letter-spacing="0.15em">CISCO SECURITY RESEARCH</text>
+  <text x="400" y="250" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="22" font-weight="900" fill="#ef4444">"Security Nightmare"</text>
+  <text x="400" y="278" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="14" font-weight="600" fill="#e8e8ef">OpenClaw MCP Hosting Vulnerabilities</text>
+
+  <!-- Vulnerability cards -->
+  <g font-family="'JetBrains Mono', monospace" font-size="9">
+    <g><rect x="60" y="305" width="160" height="50" rx="6" fill="#111118" stroke="#ef4444" stroke-width="1"/><text x="76" y="326" fill="#ef4444" font-weight="700">Credential Exposure</text><text x="76" y="342" fill="#8888a0">Cloud-stored API keys</text></g>
+    <g><rect x="240" y="305" width="160" height="50" rx="6" fill="#111118" stroke="#ef4444" stroke-width="1"/><text x="256" y="326" fill="#ef4444" font-weight="700">No Sandboxing</text><text x="256" y="342" fill="#8888a0">Shared infrastructure</text></g>
+    <g><rect x="420" y="305" width="160" height="50" rx="6" fill="#111118" stroke="#ef4444" stroke-width="1"/><text x="436" y="326" fill="#ef4444" font-weight="700">Supply Chain Risk</text><text x="436" y="342" fill="#8888a0">Unverified packages</text></g>
+    <g><rect x="600" y="305" width="160" height="50" rx="6" fill="#111118" stroke="#ef4444" stroke-width="1"/><text x="616" y="326" fill="#ef4444" font-weight="700">Data Leakage</text><text x="616" y="342" fill="#8888a0">Cross-tenant exposure</text></g>
+  </g>
+
+  <!-- 0nMCP response badge -->
+  <g transform="translate(240, 375)">
+    <rect x="0" y="0" width="320" height="50" rx="8" fill="#1a1a25" stroke="#7ed957" stroke-width="1.5"/>
+    <text x="20" y="22" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0">0nMCP RESPONSE</text>
+    <text x="20" y="40" font-family="'Instrument Sans', sans-serif" font-size="14" font-weight="700" fill="#7ed957">AES-256-GCM + Hardware Fingerprint</text>
+  </g>
+
+  <circle cx="740" cy="40" r="3" fill="#ef4444" opacity="0.4"/>
+  <circle cx="755" cy="40" r="3" fill="#ef4444" opacity="0.25"/>
+</svg>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#0d1510"/><stop offset="100%" stop-color="#0a0a0f"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="tg"><feGaussianBlur stdDeviation="4"/><feMerge><feMergeNode/><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g opacity="0.03" stroke="#fff" stroke-width="0.5">
+    <line x1="0" y1="90" x2="800" y2="90"/><line x1="0" y1="180" x2="800" y2="180"/>
+    <line x1="0" y1="270" x2="800" y2="270"/><line x1="0" y1="360" x2="800" y2="360"/>
+    <line x1="160" y1="0" x2="160" y2="450"/><line x1="320" y1="0" x2="320" y2="450"/>
+    <line x1="480" y1="0" x2="480" y2="450"/><line x1="640" y1="0" x2="640" y2="450"/>
+  </g>
+
+  <!-- Lock comparison -->
+  <!-- OpenClaw - broken lock -->
+  <g transform="translate(150, 60)">
+    <rect x="0" y="0" width="200" height="300" rx="12" fill="#111118" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="100" y="35" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="16" font-weight="900" fill="#ef4444">OpenClaw</text>
+
+    <!-- Open padlock -->
+    <path d="M70 100 L70 80 C70 55 130 55 130 80" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+    <rect x="55" y="100" width="90" height="70" rx="8" fill="#ef4444" opacity="0.15" stroke="#ef4444" stroke-width="2"/>
+    <!-- Unlocked indicator -->
+    <text x="100" y="145" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="24" fill="#ef4444">!</text>
+
+    <text x="100" y="200" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0">Cloud-stored keys</text>
+    <text x="100" y="218" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0">No hardware binding</text>
+    <text x="100" y="236" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0">Shared infrastructure</text>
+    <text x="100" y="254" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#8888a0">No escrow system</text>
+    <text x="100" y="280" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ef4444">VULNERABLE</text>
+  </g>
+
+  <!-- VS -->
+  <text x="400" y="220" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="16" font-weight="900" fill="#8888a0">VS</text>
+
+  <!-- 0nMCP - secure lock -->
+  <g transform="translate(450, 60)">
+    <rect x="0" y="0" width="200" height="300" rx="12" fill="#111118" stroke="#7ed957" stroke-width="1.5"/>
+    <text x="100" y="35" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="16" font-weight="900" fill="#7ed957">0nMCP</text>
+
+    <!-- Closed padlock -->
+    <path d="M70 100 L70 80 C70 55 130 55 130 80 L130 100" fill="none" stroke="#7ed957" stroke-width="4" stroke-linecap="round"/>
+    <rect x="55" y="100" width="90" height="70" rx="8" fill="#7ed957" opacity="0.08" stroke="#7ed957" stroke-width="2"/>
+    <!-- Locked indicator -->
+    <circle cx="100" cy="130" r="8" fill="none" stroke="#7ed957" stroke-width="2"/>
+    <line x1="100" y1="133" x2="100" y2="148" stroke="#7ed957" stroke-width="2"/>
+
+    <text x="100" y="200" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957">AES-256-GCM encryption</text>
+    <text x="100" y="218" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957">Hardware fingerprint</text>
+    <text x="100" y="236" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957">Local-first architecture</text>
+    <text x="100" y="254" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#7ed957">Multi-party escrow</text>
+    <text x="100" y="280" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#7ed957">PATENT PENDING</text>
+  </g>
+
+  <!-- Bottom -->
+  <text x="400" y="400" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="11" fill="#8888a0" letter-spacing="0.1em">SECURITY ARCHITECTURE COMPARISON</text>
+  <text x="400" y="425" text-anchor="middle" font-family="'Instrument Sans', sans-serif" font-size="14" font-weight="700" fill="#7ed957" filter="url(#tg)">Your credentials never leave your machine.</text>
+
+  <circle cx="740" cy="40" r="3" fill="#7ed957" opacity="0.4"/>
+  <circle cx="755" cy="40" r="3" fill="#7ed957" opacity="0.25"/>
+</svg>

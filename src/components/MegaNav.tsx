@@ -19,43 +19,25 @@ type MenuSection = {
 }
 
 const MENU_SECTIONS: Record<string, MenuSection> = {
-  ecosystem: {
-    label: 'Ecosystem',
+  product: {
+    label: 'Product',
     columns: [
       {
         title: 'Platform',
         links: [
-          { label: 'Dashboard', href: '/dashboard', desc: 'AI command center', accent: true },
-          { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} services` },
-          { label: 'Builder', href: '/builder', desc: 'Visual flow editor' },
-          { label: 'Pricing', href: '/#pricing', desc: 'Free to start' },
+          { label: 'Integrations', href: '/integrations', desc: `${STATS_DISPLAY.services} connected services` },
+          { label: 'Turn it 0n', href: '/turn-it-on', desc: 'Browse all capabilities' },
+          { label: 'Security', href: '/security', desc: 'Vault & AES-256 encryption', badge: 'Patented' },
+          { label: 'Technology', href: '/technology', desc: 'Patents & architecture' },
         ],
       },
       {
-        title: 'Products',
+        title: 'Solutions',
         links: [
-          { label: 'Turn it 0n', href: '/turn-it-on', desc: 'Browse capabilities' },
+          { label: 'Compare', href: '/compare', desc: 'vs Zapier, Make, n8n' },
+          { label: 'Examples', href: '/examples', desc: 'Real use cases' },
           { label: 'Marketplace', href: '/marketplace', desc: 'Workflow store' },
-          { label: 'Technology', href: '/technology', desc: 'Patents & architecture', badge: 'Patented' },
-          { label: 'Security', href: '/security', desc: 'Vault & encryption' },
-        ],
-      },
-      {
-        title: 'Build',
-        links: [
-          { label: 'Convert', href: '/convert', desc: 'Migrate platforms' },
-          { label: '.0n Standard', href: '/0n-standard', desc: 'Config format' },
-          { label: 'Downloads', href: '/downloads', desc: 'Extensions & tools' },
-          { label: 'Examples', href: '/examples', desc: 'Use cases' },
-        ],
-      },
-      {
-        title: 'Connect',
-        links: [
-          { label: 'Partners', href: '/partners', desc: 'Integrations' },
-          { label: 'Demo', href: '/demo', desc: 'Try it live' },
-          { label: 'Invest', href: '/connect', desc: 'Get involved', accent: true },
-          { label: 'Compare', href: '/compare', desc: 'vs competitors' },
+          { label: 'Partners', href: '/partners', desc: 'Integration partners' },
         ],
       },
     ],
@@ -67,19 +49,19 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
       {
         title: 'Learn',
         links: [
-          { label: 'Forum', href: '/forum', desc: 'Community Q&A', accent: true },
+          { label: 'Blog', href: '/blog', desc: 'Guides & updates', accent: true },
           { label: 'Courses', href: '/learn', desc: 'Learning paths' },
-          { label: 'Blog', href: '/blog', desc: 'Guides & updates' },
           { label: 'Glossary', href: '/glossary', desc: 'AI terms defined' },
+          { label: '.0n Standard', href: '/0n-standard', desc: 'The universal config format' },
         ],
       },
       {
         title: 'Community',
         links: [
-          { label: 'Hub', href: '/community', desc: 'Discussion' },
-          { label: 'Sponsor', href: '/sponsor', desc: 'Support us' },
-          { label: 'Report', href: '/report', desc: 'Bug reports' },
+          { label: 'Forum', href: '/forum', desc: 'Community Q&A' },
           { label: 'GitHub', href: 'https://github.com/0nork/0nmcp', desc: 'Source code' },
+          { label: 'Discord', href: 'https://discord.gg/0nork', desc: 'Join the community' },
+          { label: 'Sponsor', href: '/sponsor', desc: 'Support the project' },
         ],
       },
     ],
@@ -89,7 +71,7 @@ const MENU_SECTIONS: Record<string, MenuSection> = {
   },
 }
 
-type MenuKey = 'ecosystem' | 'resources'
+type MenuKey = 'product' | 'resources'
 
 /* ── Build a curated service list from IDs ── */
 function getServicesByIds(ids: string[]) {
@@ -329,25 +311,25 @@ export default function MegaNav() {
 
           {/* Direct links */}
           <Link
-            href="/integrations"
+            href="/#pricing"
             className="mega-nav-direct no-underline"
             onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setOpenMenu(null) }}
           >
-            Connections
+            Pricing
           </Link>
           <Link
-            href="/builder"
-            className="mega-nav-direct mega-nav-direct-builder no-underline"
-            onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setOpenMenu(null) }}
-          >
-            Builder
-          </Link>
-          <Link
-            href="/forum"
+            href="/blog"
             className="mega-nav-direct no-underline"
             onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setOpenMenu(null) }}
           >
-            Forum
+            Blog
+          </Link>
+          <Link
+            href="/compare"
+            className="mega-nav-direct no-underline"
+            onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setOpenMenu(null) }}
+          >
+            Compare
           </Link>
         </div>
 
@@ -461,41 +443,40 @@ export default function MegaNav() {
         <div className="mega-mobile">
           <div className="mega-mobile-links">
             <Link
-              href="/builder"
-              className="mega-mobile-link mega-mobile-link-builder no-underline"
-              onClick={() => setMobileOpen(false)}
-            >
-              Builder
-            </Link>
-            <Link
-              href="/dashboard"
+              href="/integrations"
               className="mega-mobile-link no-underline"
               onClick={() => setMobileOpen(false)}
             >
-              Dashboard
+              Integrations
             </Link>
             <Link
-              href="/forum"
+              href="/#pricing"
               className="mega-mobile-link no-underline"
               onClick={() => setMobileOpen(false)}
             >
-              Forum
+              Pricing
             </Link>
-            {!user ? (
+            <Link
+              href="/compare"
+              className="mega-mobile-link no-underline"
+              onClick={() => setMobileOpen(false)}
+            >
+              Compare
+            </Link>
+            <Link
+              href="/blog"
+              className="mega-mobile-link no-underline"
+              onClick={() => setMobileOpen(false)}
+            >
+              Blog
+            </Link>
+            {user && (
               <Link
-                href="/#pricing"
+                href="/dashboard"
                 className="mega-mobile-link no-underline"
                 onClick={() => setMobileOpen(false)}
               >
-                Pricing
-              </Link>
-            ) : (
-              <Link
-                href="/dashboard/downloads"
-                className="mega-mobile-link no-underline"
-                onClick={() => setMobileOpen(false)}
-              >
-                Extensions
+                Dashboard
               </Link>
             )}
           </div>

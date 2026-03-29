@@ -220,6 +220,39 @@ async function callClaude(apiKey: string, message: string, source: AISource = 'c
 }
 
 /**
+ * Call Groq API (FREE — primary fallback for all users).
+ * Uses system GROQ_API_KEYS pool with round-robin rotation.
+ */
+async function callGroq(message: string, knowledgeContext: string = ''): Promise<{ text: string; source: AISource } | null> {
+  try {
+    const pool = (process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || '').split(',').filter(Boolean)
+    if (pool.length === 0) return null
+    const key = pool[Math.floor(Math.random() * pool.length)]
+
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key.trim()}` },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 2048,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT + (knowledgeContext ? '\n\n' + knowledgeContext : '') },
+          { role: 'user', content: message },
+        ],
+      }),
+      signal: AbortSignal.timeout(30000),
+    })
+
+    if (!res.ok) return null
+    const data = await res.json()
+    const text = data.choices?.[0]?.message?.content
+    return text ? { text, source: 'groq-system' as AISource } : null
+  } catch {
+    return null
+  }
+}
+
+/**
  * Call OpenAI (GPT) API.
  */
 async function callOpenAI(apiKey: string, message: string): Promise<{ text: string; source: AISource } | null> {
@@ -653,6 +686,14 @@ export async function POST(request: NextRequest) {
     console.log(`[chat] Layer 3: ${provider} failed — next`)
   }
   console.error('[chat] Layer 3 — ALL 10 platform providers failed')
+
+  // ── Layer 5: System Groq (FREE — always available) ──────────
+  console.log('[chat] Layer 5: Trying system Groq (free)')
+  const groqResult = await callGroq(enhancedMessage, knowledgeContext)
+  if (groqResult) {
+    return NextResponse.json(groqResult)
+  }
+  console.log('[chat] Layer 5: Groq failed')
 
   // ── Layer 6: Smart local fallback ──────────────────────────
   const localResponse = getLocalResponse(message)

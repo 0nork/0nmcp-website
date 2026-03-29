@@ -1227,6 +1227,13 @@ a:hover {
   text-decoration: none;
 }
 
+/* Compare card hover */
+.compare-card-hover:hover {
+  border-color: rgba(110, 224, 90, 0.25) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(110, 224, 90, 0.04);
+}
+
 /* Footer link hover — secondary to primary */
 .footer-link {
   color: var(--text-secondary);

@@ -92,6 +92,56 @@ const CRM_WORKFLOWS: Record<string, { trigger: string; action: string; result: s
     { trigger: 'Twilio call completed', action: 'Log call recording + duration to CRM contact timeline', result: 'Every call tracked in customer history' },
     { trigger: 'CRM appointment reminder due', action: 'Send Twilio SMS with appointment details', result: 'Automated appointment reminders reduce no-shows' },
   ],
+  airtable: [
+    { trigger: 'CRM deal stage changed', action: 'Update Airtable project tracker row', result: 'Project management synced with sales pipeline' },
+    { trigger: 'Airtable record created', action: 'Create CRM contact from intake form data', result: 'Intake forms flow directly to your CRM' },
+    { trigger: 'CRM task completed', action: 'Mark Airtable row as done + update status', result: 'Cross-platform task completion tracking' },
+  ],
+  openai: [
+    { trigger: 'New CRM lead created', action: 'Generate AI lead score + personalized follow-up email via OpenAI', result: 'Every lead gets AI-powered personalization' },
+    { trigger: 'CRM form response received', action: 'Analyze sentiment with OpenAI + tag contact accordingly', result: 'AI sentiment analysis drives CRM segmentation' },
+    { trigger: 'CRM support ticket opened', action: 'Draft AI response via OpenAI + queue for agent review', result: 'AI-assisted support with human oversight' },
+  ],
+  anthropic: [
+    { trigger: 'CRM contact asks a question', action: 'Route to Claude AI for intelligent response + log to timeline', result: 'AI handles first-line support automatically' },
+    { trigger: 'New CRM opportunity created', action: 'Generate deal analysis and talking points via Claude', result: 'Sales team gets AI-powered preparation' },
+    { trigger: 'CRM workflow needs content', action: 'Generate email sequences, proposals, or reports via Claude', result: 'AI content generation inside CRM workflows' },
+  ],
+  zoom: [
+    { trigger: 'Zoom meeting ended', action: 'Log meeting duration + attendees to CRM contact timeline', result: 'Every meeting tracked in customer history' },
+    { trigger: 'CRM appointment booked', action: 'Create Zoom meeting + send invite to contact', result: 'Appointments auto-generate video calls' },
+    { trigger: 'Zoom recording available', action: 'Attach to CRM contact + generate AI summary', result: 'Meeting recordings and notes in one place' },
+  ],
+  calendly: [
+    { trigger: 'Calendly booking created', action: 'Create CRM contact + add "booked" tag + assign to rep', result: 'Every booking becomes a trackable CRM lead' },
+    { trigger: 'Calendly booking canceled', action: 'Update CRM contact status + trigger re-engagement workflow', result: 'No-shows and cancels trigger automated follow-up' },
+    { trigger: 'CRM lead scored above 80', action: 'Send Calendly booking link via SMS/email', result: 'Hot leads get instant scheduling options' },
+  ],
+  mailchimp: [
+    { trigger: 'CRM tag "newsletter" added', action: 'Subscribe to Mailchimp list + add to welcome automation', result: 'CRM tagging drives email list management' },
+    { trigger: 'Mailchimp email clicked', action: 'Update CRM engagement score + add "engaged" tag', result: 'Email engagement feeds CRM intelligence' },
+    { trigger: 'CRM deal closed won', action: 'Move contact to "customer" Mailchimp segment', result: 'Lifecycle marketing driven by CRM pipeline' },
+  ],
+  discord: [
+    { trigger: 'CRM customer reaches "VIP" tier', action: 'Grant Discord role + send welcome DM', result: 'Premium CRM segments get exclusive community access' },
+    { trigger: 'New Discord member joins', action: 'Create CRM contact + tag "community"', result: 'Community members tracked in your CRM' },
+    { trigger: 'CRM product launched', action: 'Post announcement to Discord channels', result: 'Product launches reach your community instantly' },
+  ],
+  linear: [
+    { trigger: 'CRM feature request tagged', action: 'Create Linear issue + link to CRM contact', result: 'Customer feedback becomes dev tickets automatically' },
+    { trigger: 'Linear issue completed', action: 'Notify CRM contact who requested it + update timeline', result: 'Customers know when their requests ship' },
+    { trigger: 'Linear sprint completed', action: 'Generate CRM release notes + email to stakeholders', result: 'Sprint updates reach customers automatically' },
+  ],
+  quickbooks: [
+    { trigger: 'CRM invoice sent', action: 'Create matching QuickBooks invoice + sync line items', result: 'CRM invoicing mirrors to your accounting system' },
+    { trigger: 'QuickBooks payment received', action: 'Mark CRM invoice as paid + update pipeline stage', result: 'Payment status synced across both systems' },
+    { trigger: 'CRM deal closed', action: 'Create QuickBooks customer + generate invoice', result: 'Won deals auto-generate accounting records' },
+  ],
+  pipedrive: [
+    { trigger: 'Pipedrive deal created', action: 'Mirror to CRM opportunity + sync contact data', result: 'Unified pipeline across both CRM platforms' },
+    { trigger: 'CRM contact updated', action: 'Sync changes to matching Pipedrive person', result: 'Contact data stays consistent everywhere' },
+    { trigger: 'Pipedrive activity completed', action: 'Log to CRM timeline + update engagement score', result: 'Sales activities tracked across both systems' },
+  ],
   default: [
     { trigger: 'Event in this service', action: 'Create or update CRM contact + log activity', result: 'Every touchpoint tracked in your CRM' },
     { trigger: 'CRM workflow triggers', action: 'Execute action in this service', result: 'CRM becomes the orchestration hub' },

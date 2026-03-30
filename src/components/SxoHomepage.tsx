@@ -18,8 +18,8 @@ const TABLE_CATEGORIES = [
 
 const TABLE_DATA: Record<string, { metric: string; typical: string; onmcp: string; highlight?: boolean }[]> = {
   overview: [
-    { metric: 'Total Tools', typical: '10-50', onmcp: '945+', highlight: true },
-    { metric: 'Connected Services', typical: '1-5', onmcp: '54 services' },
+    { metric: 'Total Tools', typical: '10-50', onmcp: '1,183', highlight: true },
+    { metric: 'Connected Services', typical: '1-5', onmcp: '99 services' },
     { metric: 'Configuration', typical: 'Manual YAML/JSON', onmcp: 'Zero config' },
     { metric: 'License', typical: 'Varies', onmcp: 'MIT — free forever' },
     { metric: 'Patents Filed', typical: 'None', onmcp: '4 US provisionals', highlight: true },
@@ -49,7 +49,7 @@ const TABLE_DATA: Record<string, { metric: string; typical: string; onmcp: strin
 }
 
 const TRENDING = [
-  '0nMCP v2.9 published on npm — 945 tools across 54 services',
+  '0nMCP v2.9 published on npm — 1,183 tools across 99 services',
   'Cisco calls OpenClaw a "security nightmare" — 0nMCP is the alternative',
   'New: Multi-AI Council (0nPlex) — 5 models debate for best answers',
   'May 1st public launch — pre-register for 30 days free',
@@ -58,7 +58,7 @@ const TRENDING = [
 export default function SxoHomepage() {
   const [mutationNotice, setMutationNotice] = useState('')
   const [bluf, setBluf] = useState(
-    '0nMCP is the most comprehensive open-source MCP Server: <strong>945 tools</strong>, <strong>54 services</strong>, <strong>13 categories</strong>, zero configuration. Powered by 4 patented technologies (Seal of Truth, 0nVault, 0nPlex, 0nCore). Automate MCP server integration and build powerful agentic workflows — launching May 1, 2026.'
+    '0nMCP is the most comprehensive open-source MCP Server: <strong>1,183 tools</strong>, <strong>99 services</strong>, <strong>22 categories</strong>, zero configuration. Powered by 4 patented technologies (Seal of Truth, 0nVault, 0nPlex, 0nCore). Automate MCP server integration and build powerful agentic workflows — launching May 1, 2026.'
   )
   const [tableCategory, setTableCategory] = useState('overview')
   const [trendingIdx, setTrendingIdx] = useState(0)
@@ -362,10 +362,10 @@ export default function SxoHomepage() {
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
         <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 20 }}>Frequently Asked Questions</h2>
         {[
-          { q: 'What is 0nMCP?', a: '0nMCP is the Universal AI API Orchestrator — the most comprehensive MCP Server connecting 945 tools and 54 services with zero configuration. Open source, MIT licensed, and powered by 4 patented technologies.' },
+          { q: 'What is 0nMCP?', a: '0nMCP is the Universal AI API Orchestrator — the most comprehensive MCP Server connecting 1,183 tools and 99 services with zero configuration. Open source, MIT licensed, and powered by 4 patented technologies.' },
           { q: 'How do I install 0nMCP?', a: 'Run npx 0nmcp@latest in your terminal. That\'s it. Zero config. Works with npm, pnpm, yarn, and bun.' },
           { q: 'Is 0nMCP free?', a: 'The core server is MIT licensed and free forever. Marketplace executions cost $0.01 each. 0nCore dashboard starts at $80/mo.' },
-          { q: 'How is 0nMCP different from Zapier?', a: '0nMCP runs locally with zero cloud dependency. Your AI talks directly to 54 services through natural language — no drag-and-drop, no monthly limits, no vendor lock-in.' },
+          { q: 'How is 0nMCP different from Zapier?', a: '0nMCP runs locally with zero cloud dependency. Your AI talks directly to 99 services through natural language — no drag-and-drop, no monthly limits, no vendor lock-in.' },
           { q: 'Is 0nMCP secure?', a: '0nVault uses AES-256-GCM with hardware fingerprint binding. 4 US patents filed. Cisco called the competition a "security nightmare."' },
         ].map(faq => (
           <div key={faq.q} style={{
@@ -393,7 +393,7 @@ export default function SxoHomepage() {
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 4rem' }}>
         <div style={{ borderRadius: 16, padding: '3rem 2rem', textAlign: 'center', background: '#1a1a1a', color: '#fff', boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
           <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Ready to Try 0nMCP?</h2>
-          <p style={{ fontSize: 15, color: '#aaa', marginBottom: 24 }}>945 tools. 54 services. One command.</p>
+          <p style={{ fontSize: 15, color: '#aaa', marginBottom: 24 }}>1,183 tools. 99 services. One command.</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
             <Link href="/signup" style={{ padding: '12px 28px', borderRadius: 10, background: '#6EE05A', color: '#1a1a1a', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>Request Access</Link>
             <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{ padding: '12px 28px', borderRadius: 10, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)' }}>View on GitHub</Link>

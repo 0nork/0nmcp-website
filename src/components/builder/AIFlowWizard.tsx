@@ -213,7 +213,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
             </div>
             <div style={{ fontSize: 14, color: '#c8ccd2', lineHeight: 1.6 }}>
               {step === 0 && "What would you like to automate? Describe your workflow in plain English and I'll build it for you."}
-              {step === 1 && "Which services should be connected? I can integrate any of the 54 services in your 0nMCP installation."}
+              {step === 1 && "Which services should be connected? I can integrate any of the 99 services in your 0nMCP installation."}
               {step === 2 && "Do you need any conditional logic? Branches, loops, error handling, or time delays?"}
               {step === 3 && "Here's your workflow. Review the steps and connections, then make any adjustments."}
               {step === 4 && "Ready to deploy! Test the flow first, then save it as a .0n SWITCH file."}

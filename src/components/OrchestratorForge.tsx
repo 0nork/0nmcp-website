@@ -106,7 +106,7 @@ export default function OrchestratorForge() {
             0nMCP Live Orchestrator
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', maxWidth: 480, margin: '0 auto' }}>
-            Watch 945+ tools come alive. See patented orchestration in action. Then get this power for yourself.
+            Watch 1,183 tools come alive. See patented orchestration in action. Then get this power for yourself.
           </p>
         </div>
 
@@ -124,7 +124,7 @@ export default function OrchestratorForge() {
               onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.4)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.3)' }}
             >
-              Connect Your AI to 945+ Tools
+              Connect Your AI to 1,183 Tools
               <span style={{ fontSize: 24 }}>→</span>
             </button>
             <p style={{ fontSize: 12, color: '#6EE05A', marginTop: 16 }}>Zero config. Patented security. MIT licensed.</p>
@@ -151,7 +151,7 @@ export default function OrchestratorForge() {
             </div>
 
             <p style={{ fontSize: 13, color: '#6EE05A', textAlign: 'center', marginBottom: 12 }}>
-              945+ tools discovered. Type any task to see 0nMCP orchestrate it:
+              1,183 tools discovered. Type any task to see 0nMCP orchestrate it:
             </p>
             <div style={{ display: 'flex', gap: 8, maxWidth: 560, margin: '0 auto' }}>
               <input

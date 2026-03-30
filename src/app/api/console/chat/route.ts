@@ -139,6 +139,31 @@ const SYSTEM_PROMPT =
   '- `{{launch.*}}` — Third-party API keys (defined in launch_codes block)\n' +
   '- `{{inputs.*}}` — Runtime inputs\n' +
   '- `{{step_id.output.*}}` — Chained output from previous steps\n\n' +
+  '## Course Generation\n' +
+  'You can generate full AI-powered courses for authenticated users.\n\n' +
+  '**Marketplace endpoint** (purchase-gated): `POST /api/marketplace/courses/generate`\n' +
+  'Required fields:\n' +
+  '- `course_title` (string, required) — the course name\n' +
+  '- `skill_level` (string) — "beginner", "intermediate", or "advanced"\n' +
+  '- `module_count` (number, 2-8) — how many modules to generate\n' +
+  '- `lessons_per_module` (number, 1-6) — lessons in each module\n' +
+  '- `tone` (string) — "professional", "casual", "academic", etc.\n' +
+  'Optional fields:\n' +
+  '- `course_subtitle` (string)\n' +
+  '- `target_audience` (string) — who the course is for\n' +
+  '- `course_goal` (string) — learning objective\n' +
+  '- `course_category` (string)\n' +
+  '- `include_quizzes` (boolean, default true)\n' +
+  '- `include_assignments` (boolean, default false)\n' +
+  '- `keywords` (string[]) — focus topics\n' +
+  '- `additional_instructions` (string) — extra guidance for the AI\n' +
+  '- `locationId` (string) — CRM location ID for purchase gating\n' +
+  '- `userId` (string) — the user generating the course\n\n' +
+  '**Simple endpoint**: `POST /api/courses/generate`\n' +
+  'Fields: `topic` (required), `audience`, `lesson_count` (3-10), `difficulty`, `style`\n\n' +
+  'Both endpoints return a full course structure with modules, lessons (600-1200 words each), quizzes, and estimated duration.\n' +
+  'Users must be authenticated. .0n SWITCH files can define course generation as a workflow step.\n' +
+  'When users ask about creating courses, explain these options and help them fill in the fields.\n\n' +
   '## Rules\n' +
   '- CRM operations use {{system.*}} — no launch codes needed\n' +
   '- Third-party services need launch_codes defined with help_url\n' +
@@ -433,6 +458,19 @@ const LOCAL_KNOWLEDGE: Record<string, string> = {
     '- **Export** — Download as `.0n` SWITCH file\n' +
     '- **Import** — Load templates from the Store\n\n' +
     'Go to `/builder` to start building.',
+
+  // Course Generator
+  'course': '**AI Course Generator**\n\n' +
+    'Generate full courses with AI — modules, lessons, quizzes, and assignments.\n\n' +
+    '**How to use:**\n' +
+    '1. Go to the Course Generator in the dashboard or store\n' +
+    '2. Fill in: **course title**, **skill level** (beginner/intermediate/advanced), **module count** (2-8), **lessons per module** (1-6), **tone** (professional/casual/academic)\n' +
+    '3. Optionally add: target audience, learning goal, keywords, quizzes, assignments\n' +
+    '4. The AI generates 600-1200 words per lesson with real, actionable content\n\n' +
+    '**API endpoints:**\n' +
+    '- `POST /api/marketplace/courses/generate` — Full-featured (purchase-gated)\n' +
+    '- `POST /api/courses/generate` — Simple version (topic + audience + difficulty)\n\n' +
+    'You can also define course generation as a step in a .0n SWITCH file workflow.',
 
   // 0nMCP
   '0nmcp': '**0nMCP — Universal AI API Orchestrator**\n\n' +

@@ -113,6 +113,98 @@ export default function SxoHomepage() {
         </div>
       </section>
 
+      {/* ── MCP SERVER INTEGRATION ── */}
+      <section id="integration" style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 8 }}>
+          MCP Server Integration — 54 Services, One Protocol
+        </h2>
+        <div style={{ padding: 24, borderRadius: 14, background: '#fff', border: '1px solid #e5e7eb', marginBottom: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+          <p style={{ fontSize: 15, color: '#444', lineHeight: 1.8, margin: 0 }}>
+            Seamlessly integrate with <strong>CRM (245 tools)</strong>, billing (Stripe, Square, QuickBooks), project management (Linear, Jira, Asana), communication (Slack, Discord, Twilio), and more. 0nMCP handles tool selection, execution, error handling, and retries automatically. Your AI describes what it wants — 0nMCP figures out which service to call and how.
+          </p>
+        </div>
+
+        {/* Integration Table Trap */}
+        <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid #e5e7eb', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+            <thead>
+              <tr style={{ background: '#1a1a1a', color: '#fff' }}>
+                <th style={{ padding: 14, textAlign: 'left', fontWeight: 700 }}>Category</th>
+                <th style={{ padding: 14, textAlign: 'left', fontWeight: 700 }}>Services</th>
+                <th style={{ padding: 14, textAlign: 'left', fontWeight: 700 }}>Tools</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { cat: 'CRM', services: 'Full CRM suite', tools: '245 (contacts, calendars, invoices, pipelines, social)' },
+                { cat: 'Payments', services: 'Stripe, Square, QuickBooks', tools: '40+' },
+                { cat: 'Communication', services: 'Slack, Discord, Twilio, WhatsApp', tools: '30+' },
+                { cat: 'Development', services: 'GitHub, Linear, Jira, Vercel', tools: '50+' },
+                { cat: 'Data & Storage', services: 'Supabase, MongoDB, Airtable, Notion', tools: '40+' },
+                { cat: 'Marketing', services: 'SendGrid, Mailchimp, HubSpot', tools: '35+' },
+                { cat: 'AI & ML', services: 'OpenAI, Anthropic, Groq, ElevenLabs', tools: '25+' },
+                { cat: 'Commerce', services: 'Shopify, WooCommerce, BigCommerce', tools: '30+' },
+              ].map((row, i) => (
+                <tr key={row.cat} style={{ background: i % 2 === 0 ? '#fff' : '#fafafa', borderBottom: '1px solid #f0f0f0' }}>
+                  <td style={{ padding: 14, fontWeight: 600 }}>{row.cat}</td>
+                  <td style={{ padding: 14, color: '#666' }}>{row.services}</td>
+                  <td style={{ padding: 14, fontWeight: 700, color: '#16a34a' }}>{row.tools}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* ── AUTOMATE MCP SERVER WORKFLOWS ── */}
+      <section id="automate" style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 8 }}>
+          Automate MCP Server Workflows
+        </h2>
+        <p style={{ fontSize: 15, color: '#666', marginBottom: 20, lineHeight: 1.6 }}>
+          Describe outcomes in natural language. 0nMCP orchestrates complex agentic workflows using three patented execution models:
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+          {[
+            { name: 'Pipeline', desc: 'Sequential execution — step A completes before step B starts. Perfect for data transformation chains, approval flows, and ETL processes.', icon: '→' },
+            { name: 'Assembly Line', desc: 'Parallel execution with dependencies — independent steps run simultaneously, dependent steps wait. Optimal for multi-service orchestration.', icon: '⇉' },
+            { name: 'Radial Burst', desc: 'Fan-out execution — one trigger spawns N parallel operations. Ideal for broadcast messaging, bulk updates, and multi-channel campaigns.', icon: '✦' },
+          ].map(model => (
+            <div key={model.name} style={{
+              padding: 24, borderRadius: 14,
+              background: '#fff', border: '1px solid #e5e7eb',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              transition: 'box-shadow 0.2s, transform 0.2s',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+              onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateY(0)' }}
+            >
+              <div style={{ fontSize: 28, marginBottom: 8 }}>{model.icon}</div>
+              <div style={{ fontSize: 16, fontWeight: 800, color: '#1a1a1a', marginBottom: 6 }}>{model.name}</div>
+              <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>{model.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* .0n SWITCH file example */}
+        <div style={{
+          marginTop: 20, padding: 20, borderRadius: 14,
+          background: '#1a1a1a', color: '#e0e0e0', fontSize: 13,
+          fontFamily: 'monospace', lineHeight: 1.8, overflow: 'auto',
+        }}>
+          <div style={{ color: '#666', marginBottom: 8 }}>// Example .0n SWITCH file — declarative intent</div>
+          <div>{`{`}</div>
+          <div style={{ paddingLeft: 20 }}><span style={{ color: '#6EE05A' }}>"$0n"</span>: {`{ "type": "workflow", "name": "New Lead Pipeline" }`},</div>
+          <div style={{ paddingLeft: 20 }}><span style={{ color: '#6EE05A' }}>"trigger"</span>: <span style={{ color: '#fbbf24' }}>"crm.contact.created"</span>,</div>
+          <div style={{ paddingLeft: 20 }}><span style={{ color: '#6EE05A' }}>"steps"</span>: [</div>
+          <div style={{ paddingLeft: 40 }}>{`{ "action": "crm.contact.tag", "tag": "new-lead" },`}</div>
+          <div style={{ paddingLeft: 40 }}>{`{ "action": "slack.message.send", "channel": "#leads" },`}</div>
+          <div style={{ paddingLeft: 40 }}>{`{ "action": "email.sequence.start", "template": "welcome" }`}</div>
+          <div style={{ paddingLeft: 20 }}>]</div>
+          <div>{`}`}</div>
+        </div>
+      </section>
+
       {/* ── PATENTED TECHNOLOGY ── */}
       <section id="patents" style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
         <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 20 }}>
@@ -163,6 +255,28 @@ export default function SxoHomepage() {
             <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, margin: 0 }}>{faq.a}</p>
           </div>
         ))}
+      </section>
+
+      {/* ── $8 REWRITE OFFER ── */}
+      <section id="offer" style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
+        <div style={{
+          borderRadius: 16, padding: '3rem 2rem', textAlign: 'center',
+          background: 'linear-gradient(135deg, #16a34a, #1a1a1a)',
+          color: '#fff',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+        }}>
+          <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Get Your Own MCP Server Living DOM Page for $8</h2>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)', marginBottom: 24, maxWidth: 500, margin: '0 auto 24px' }}>
+            Professional SXO-optimized rewrite focused on MCP Servers, integration, or automation. Living DOM included.
+          </p>
+          <Link href="/get-mcp-rewrite" style={{
+            display: 'inline-block', padding: '14px 32px', borderRadius: 12,
+            background: '#fff', color: '#16a34a', fontWeight: 800, fontSize: 16,
+            textDecoration: 'none', transition: 'transform 0.2s',
+          }}>
+            Claim My $8 Rewrite Now
+          </Link>
+        </div>
       </section>
 
       {/* ── CTA ── */}

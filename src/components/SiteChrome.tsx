@@ -10,7 +10,7 @@ export default function SiteChrome({ children, isWeb0n }: { children: React.Reac
   const pathname = usePathname()
 
   // Chromeless — no nav, no footer (dashboard, console, builder, auth pages)
-  const isChromeless = isWeb0n || [
+  const isChromeless = isWeb0n || pathname === '/' || [
     '/app', '/0nboarding', '/oauth', '/console', '/go',
     '/forum', '/builder', '/admin', '/web0n', '/0nengine',
     '/login', '/signup', '/dashboard', '/grid', '/maintenance',

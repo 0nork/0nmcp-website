@@ -75,3 +75,19 @@ export {
   getCreatives, getAnalytics, getAudienceCount,
   getTargetingFacets, streamConversionEvent,
 } from './ads'
+
+// Full API Client
+export { LinkedInClient } from './client'
+export type {
+  LinkedInApiError,
+  LinkedInPost as LinkedInClientPost,
+  LinkedInComment,
+  LinkedInOrg,
+  OrgStats,
+  FollowerStats,
+  VisitorStats,
+  LinkedInEvent,
+  EventAttendee,
+  ConversionTracking,
+  ImageUploadResult,
+} from './client'

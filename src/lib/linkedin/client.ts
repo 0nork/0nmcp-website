@@ -317,11 +317,11 @@ export class LinkedInClient {
       id: String(raw.id || ''),
       firstName: String(
         (raw.localizedFirstName as string) ||
-        (raw.firstName as Record<string, unknown>)?.localized?.['en_US'] || ''
+        ((raw.firstName as Record<string, Record<string, unknown>>)?.localized as Record<string, unknown>)?.['en_US'] || ''
       ),
       lastName: String(
         (raw.localizedLastName as string) ||
-        (raw.lastName as Record<string, unknown>)?.localized?.['en_US'] || ''
+        ((raw.lastName as Record<string, Record<string, unknown>>)?.localized as Record<string, unknown>)?.['en_US'] || ''
       ),
       headline: raw.localizedHeadline as string | undefined,
       vanityName: raw.vanityName as string | undefined,

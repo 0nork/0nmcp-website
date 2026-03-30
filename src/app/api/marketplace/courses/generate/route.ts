@@ -112,8 +112,8 @@ export async function POST(request: NextRequest) {
 
     const supabase = db()
 
-    // ── Purchase gate (skip for admin/owner locations) ──
-    const OWNER_LOCATIONS = ['nphConTwfHcVE1oA0uep', 'F76MNKOMQCMruMrumtdf', 'K5ojkHmrp4hcTZrtFBAC', '6MSqx0trfxgLxeHBJE1k']
+    // ── Purchase gate (skip for admin/owner/dashboard locations) ──
+    const OWNER_LOCATIONS = ['nphConTwfHcVE1oA0uep', 'F76MNKOMQCMruMrumtdf', 'K5ojkHmrp4hcTZrtFBAC', '6MSqx0trfxgLxeHBJE1k', 'dashboard', '']
     if (locationId && !OWNER_LOCATIONS.includes(locationId)) {
       const { data: purchase } = await supabase
         .from('add0n_purchases')

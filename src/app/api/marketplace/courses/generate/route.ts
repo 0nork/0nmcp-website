@@ -112,8 +112,9 @@ export async function POST(request: NextRequest) {
 
     const supabase = db()
 
-    // ── Purchase gate ──
-    if (locationId) {
+    // ── Purchase gate (skip for admin/owner locations) ──
+    const OWNER_LOCATIONS = ['nphConTwfHcVE1oA0uep', 'F76MNKOMQCMruMrumtdf', 'K5ojkHmrp4hcTZrtFBAC', '6MSqx0trfxgLxeHBJE1k']
+    if (locationId && !OWNER_LOCATIONS.includes(locationId)) {
       const { data: purchase } = await supabase
         .from('add0n_purchases')
         .select('id')
@@ -167,9 +168,91 @@ export async function POST(request: NextRequest) {
     const draftId = draft.id
 
     // ── Generate course ──
-    const apiKey = process.env.ANTHROPIC_API_KEY
     let structure: CourseStructure
     let model = 'template'
+
+    // Try Groq first (FREE)
+    const groqPool = (process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || '').split(',').filter(Boolean)
+    if (groqPool.length > 0) {
+      try {
+        const groqKey = groqPool[Math.floor(Math.random() * groqPool.length)].trim()
+        const quizLine = courseInput.include_quizzes
+          ? '- Each lesson MUST include a "quiz" array with 2-3 quiz questions (question, options array of 4, correct index 0-3)'
+          : '- Do NOT include quizzes'
+        const assignmentLine = courseInput.include_assignments
+          ? '- Each lesson SHOULD include an "assignment" string with a practical exercise'
+          : ''
+
+        const groqPrompt = `You are an expert course creator. Generate a complete, professional course.
+
+Course Title: ${courseInput.course_title}
+${courseInput.course_subtitle ? `Subtitle: ${courseInput.course_subtitle}` : ''}
+Target Audience: ${courseInput.target_audience}
+Skill Level: ${courseInput.skill_level}
+${courseInput.course_goal ? `Goal: ${courseInput.course_goal}` : ''}
+Tone: ${courseInput.tone}
+Modules: ${courseInput.module_count}
+Lessons per Module: ${courseInput.lessons_per_module}
+
+Return ONLY valid JSON:
+{"title":"...","subtitle":"...","description":"2-3 sentence description","modules":[{"title":"Module 1: ...","description":"...","lessons":[{"title":"...","content":"Full lesson in Markdown (600+ words)","duration_minutes":10}]}]}
+
+Rules:
+- Create exactly ${courseInput.module_count} modules with ${courseInput.lessons_per_module} lessons each
+- Each lesson: 600-800 words of genuine educational content with ## headers, examples
+- Tone: ${courseInput.tone}, Skill: ${courseInput.skill_level}
+${quizLine}
+${assignmentLine}
+- Return ONLY valid JSON.`
+
+        const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${groqKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            messages: [
+              { role: 'system', content: 'You are an expert course creator. Return ONLY valid JSON. No markdown fences.' },
+              { role: 'user', content: groqPrompt },
+            ],
+            max_tokens: 8192,
+            temperature: 0.4,
+            response_format: { type: 'json_object' },
+          }),
+          signal: AbortSignal.timeout(90000),
+        })
+
+        if (groqRes.ok) {
+          const data = await groqRes.json()
+          const text = data.choices?.[0]?.message?.content || ''
+          const parsed = JSON.parse(text) as CourseStructure
+          if (parsed.title && parsed.modules?.length) {
+            structure = parsed
+            model = 'groq-llama-3.3-70b'
+
+            // Update draft and return
+            const totalLessons = structure.modules.reduce((sum, m) => sum + m.lessons.length, 0)
+            const totalDuration = structure.modules.reduce(
+              (sum, m) => sum + m.lessons.reduce((s, l) => s + (l.duration_minutes || 10), 0), 0
+            )
+            await supabase.from('course_drafts').update({
+              generated_structure: structure, generation_status: 'completed',
+              generation_model: model, generated_at: new Date().toISOString(),
+              estimated_duration: totalDuration, updated_at: new Date().toISOString(),
+            }).eq('id', draftId)
+
+            return NextResponse.json({
+              draftId, structure, source: model,
+              stats: { modules: structure.modules.length, lessons: totalLessons, duration: totalDuration },
+            })
+          }
+        }
+      } catch (groqErr) {
+        console.error('Groq generation failed, trying Anthropic:', groqErr)
+      }
+    }
+
+    // Try Anthropic as paid fallback
+    const apiKey = process.env.ANTHROPIC_API_KEY
 
     if (apiKey) {
       try {

@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 
 /**
  * CourseIntakeWizard — 5-step progressive disclosure form
  *
  * Steps: Basics -> Audience -> Structure -> Tone -> Review
+ * Supports .0n SWITCH file import to auto-fill all fields
  */
 
 export interface CourseIntakeData {
@@ -26,6 +27,49 @@ export interface CourseIntakeData {
 
 interface Props {
   onGenerate: (data: CourseIntakeData) => void
+}
+
+/** Parse a .0n SWITCH file and map it to CourseIntakeData fields */
+function parseOnFile(raw: string): Partial<CourseIntakeData> {
+  try {
+    const parsed = JSON.parse(raw)
+    // Support nested .0n format (with $0n metadata wrapper) or flat object
+    const spec = parsed.$0n || parsed.spec || parsed
+    const inputs = parsed.inputs || parsed.config || parsed
+    const meta = parsed.$0n || {}
+
+    const result: Partial<CourseIntakeData> = {}
+
+    // Title — try multiple paths
+    result.course_title = inputs.course_title || inputs.title || meta.name || spec.title || ''
+    result.course_subtitle = inputs.course_subtitle || inputs.subtitle || spec.subtitle || meta.description || ''
+    result.target_audience = inputs.target_audience || inputs.audience || spec.audience || ''
+    result.skill_level = inputs.skill_level || inputs.level || spec.skill_level || 'beginner'
+    result.course_goal = inputs.course_goal || inputs.goal || spec.goal || ''
+    result.course_category = inputs.course_category || inputs.category || spec.category || ''
+
+    // Structure
+    if (inputs.module_count || inputs.modules) result.module_count = Number(inputs.module_count || inputs.modules) || 3
+    if (inputs.lessons_per_module || inputs.lessons) result.lessons_per_module = Number(inputs.lessons_per_module || inputs.lessons) || 3
+
+    // Booleans
+    if (inputs.include_quizzes !== undefined || inputs.quizzes !== undefined) result.include_quizzes = !!(inputs.include_quizzes ?? inputs.quizzes)
+    if (inputs.include_assignments !== undefined || inputs.assignments !== undefined) result.include_assignments = !!(inputs.include_assignments ?? inputs.assignments)
+
+    // Tone
+    result.tone = inputs.tone || spec.tone || 'professional'
+
+    // Keywords — array or comma-separated string
+    const kw = inputs.keywords || inputs.tags || spec.keywords || []
+    result.keywords = Array.isArray(kw) ? kw : typeof kw === 'string' ? kw.split(',').map((k: string) => k.trim()).filter(Boolean) : []
+
+    // Additional instructions
+    result.additional_instructions = inputs.additional_instructions || inputs.instructions || inputs.notes || spec.instructions || ''
+
+    return result
+  } catch {
+    return {}
+  }
 }
 
 const CATEGORIES = [
@@ -58,6 +102,39 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
     additional_instructions: '',
   })
   const [keywordInput, setKeywordInput] = useState('')
+  const [importedFile, setImportedFile] = useState<string | null>(null)
+  const [dragOver, setDragOver] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileImport = useCallback((file: File) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const text = e.target?.result as string
+      if (!text) return
+      const parsed = parseOnFile(text)
+      if (parsed.course_title || parsed.target_audience || parsed.tone) {
+        setData(prev => ({ ...prev, ...parsed }))
+        setImportedFile(file.name)
+        // Jump to review if we have enough data
+        if (parsed.course_title) setWizardStep(4)
+      }
+    }
+    reader.readAsText(file)
+  }, [])
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setDragOver(false)
+    const file = e.dataTransfer.files[0]
+    if (file && (file.name.endsWith('.0n') || file.name.endsWith('.json'))) {
+      handleFileImport(file)
+    }
+  }, [handleFileImport])
+
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) handleFileImport(file)
+  }, [handleFileImport])
 
   const update = (field: keyof CourseIntakeData, value: unknown) => {
     setData(prev => ({ ...prev, [field]: value }))
@@ -111,7 +188,60 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
       {wizardStep === 0 && (
         <div style={stepContainer}>
           <h2 style={stepTitle}>What are you teaching?</h2>
-          <p style={stepDesc}>Give your course a name and optional subtitle.</p>
+          <p style={stepDesc}>Give your course a name and optional subtitle, or import a .0n file.</p>
+
+          {/* .0n File Import */}
+          <div
+            onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            style={{
+              marginTop: 16, padding: importedFile ? '12px 16px' : '20px 16px',
+              borderRadius: 12, textAlign: 'center', cursor: 'pointer',
+              border: `2px dashed ${dragOver ? '#6EE05A' : importedFile ? 'rgba(110, 224, 90, 0.3)' : '#1a1f2e'}`,
+              background: dragOver ? 'rgba(110, 224, 90, 0.06)' : importedFile ? 'rgba(110, 224, 90, 0.04)' : '#0E1117',
+              transition: 'all 0.2s',
+            }}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".0n,.json"
+              onChange={handleFileSelect}
+              style={{ display: 'none' }}
+            />
+            {importedFile ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                <span style={{ color: '#6EE05A', fontSize: 14, fontWeight: 600 }}>
+                  Imported: {importedFile}
+                </span>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setImportedFile(null) }}
+                  style={{
+                    background: 'none', border: 'none', color: '#7A8290',
+                    cursor: 'pointer', fontSize: 12, padding: '2px 6px',
+                  }}
+                >clear</button>
+              </div>
+            ) : (
+              <>
+                <div style={{ fontSize: 24, marginBottom: 4, opacity: 0.5 }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline' }}>
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                </div>
+                <div style={{ fontSize: 13, color: '#9AA0A8', fontWeight: 600 }}>
+                  Drop a <span style={{ color: '#6EE05A' }}>.0n</span> file here or click to import
+                </div>
+                <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>
+                  Auto-fills all fields from your SWITCH file
+                </div>
+              </>
+            )}
+          </div>
 
           <div style={{ marginTop: 20 }}>
             <label style={labelStyle}>Course Title *</label>

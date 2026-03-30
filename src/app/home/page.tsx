@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 import HeroSlider from '@/components/HeroSlider'
+import SxoHomepage from '@/components/SxoHomepage'
 
 export const metadata: Metadata = {
   title: '0nMCP — One Brain. Every Service. Zero Limits.',
@@ -151,26 +152,47 @@ const pricing = [
 ]
 
 export default function HomePage() {
-  const organizationJsonLd = {
+  const schemaGraph = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'RocketOpp, LLC',
-    url: 'https://www.0nmcp.com',
-    logo: 'https://www.0nmcp.com/brand/0nmcp-logo.png',
-    sameAs: [
-      'https://github.com/0nork/0nMCP',
-      'https://npmjs.com/package/0nmcp',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        name: 'RocketOpp, LLC',
+        url: 'https://www.0nmcp.com',
+        logo: 'https://www.0nmcp.com/brand/0nmcp-logo.png',
+        sameAs: ['https://github.com/0nork/0nMCP', 'https://npmjs.com/package/0nmcp'],
+      },
+      {
+        '@type': 'Article',
+        headline: '0nMCP — Universal AI API Orchestrator for MCP Servers',
+        author: { '@type': 'Organization', name: '0nMCP by RocketOpp / 0nORK', url: 'https://0nmcp.com' },
+        datePublished: '2026-03-20T00:00:00Z',
+        dateModified: new Date().toISOString(),
+        description: 'The definitive open-source MCP Server: 945 tools, 54 services, zero config, 4 patents.',
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What is 0nMCP?', acceptedAnswer: { '@type': 'Answer', text: '0nMCP is the Universal AI API Orchestrator — the most comprehensive MCP Server connecting 945 tools and 54 services with zero configuration.' } },
+          { '@type': 'Question', name: 'How do I install 0nMCP?', acceptedAnswer: { '@type': 'Answer', text: 'Run npx 0nmcp@latest in your terminal. Zero config. Works with npm, pnpm, yarn, and bun.' } },
+          { '@type': 'Question', name: 'Is 0nMCP free?', acceptedAnswer: { '@type': 'Answer', text: 'The core 0nMCP server is MIT licensed and free forever. Marketplace executions cost $0.01 each.' } },
+          { '@type': 'Question', name: 'Is 0nMCP secure?', acceptedAnswer: { '@type': 'Answer', text: '0nVault uses AES-256-GCM encryption with hardware fingerprint binding. 4 US patents filed.' } },
+        ],
+      },
     ],
   }
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }} />
 
-      <div className="homepage">
+      <div className="homepage" style={{ background: '#f5f5f7' }}>
 
         {/* ── HERO SLIDER ── */}
         <HeroSlider />
+
+        {/* ── SXO LIVING DOM SECTIONS ── */}
+        <SxoHomepage />
 
         {/* ── STATS BAR ── */}
         <section className="stats-bar">

@@ -8,7 +8,8 @@
 
 ## Migration History (synced local+remote as of 2026-03-21)
 - See `/Users/rocketopp/Github/0nmcp-website/supabase/migrations/` for full list
-- Latest: `20260321100000_device_auth.sql` - device_codes table for RFC 8628 Device Authorization Grant (CLI "Turn it 0n" flow). Columns: device_code, user_code, verification_uri, client_id, scope, user_id (FK auth.users), status (pending/authorized/denied/expired), access_token, expires_at, interval_seconds. 3 indexes + RLS with service_role full access.
+- Latest: `20260330100000_0ndefender_patent_intelligence.sql` - 4 tables (intel_scans, intel_findings, intel_watchlist, intel_alerts) for patent intelligence system. 4 indexes on findings, 10 seed watchlist entries, RLS enabled on all with service_role full access policies. Applied via MCP apply_migration.
+- Previous: `20260321100000_device_auth.sql` - device_codes table for RFC 8628 Device Authorization Grant (CLI "Turn it 0n" flow). Columns: device_code, user_code, verification_uri, client_id, scope, user_id (FK auth.users), status (pending/authorized/denied/expired), access_token, expires_at, interval_seconds. 3 indexes + RLS with service_role full access.
 - Previous: `20260321000000_welcome_email_flag.sql` - adds `welcome_email_sent BOOLEAN DEFAULT false` to profiles
 - Previous: `20260319000001_profile_crm_fields.sql` - (repaired as applied 2026-03-21, was applied directly to remote)
 - Previous: `20260319000000_oauth_server.sql` - (repaired as applied 2026-03-21)

@@ -105,6 +105,8 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
   const [importedFile, setImportedFile] = useState<string | null>(null)
   const [dragOver, setDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [pasteContent, setPasteContent] = useState('')
+  const [pasteStatus, setPasteStatus] = useState<{ ok: boolean; title?: string } | null>(null)
 
   const handleFileImport = useCallback((file: File) => {
     const reader = new FileReader()
@@ -135,6 +137,19 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
     const file = e.target.files?.[0]
     if (file) handleFileImport(file)
   }, [handleFileImport])
+
+  const handleParsePaste = useCallback(() => {
+    if (!pasteContent.trim()) return
+    const parsed = parseOnFile(pasteContent.trim())
+    if (parsed.course_title || parsed.target_audience || parsed.tone) {
+      setData(prev => ({ ...prev, ...parsed }))
+      setPasteStatus({ ok: true, title: parsed.course_title || 'Imported' })
+      setImportedFile(null) // clear file import if paste succeeds
+      if (parsed.course_title) setWizardStep(4)
+    } else {
+      setPasteStatus({ ok: false })
+    }
+  }, [pasteContent])
 
   const update = (field: keyof CourseIntakeData, value: unknown) => {
     setData(prev => ({ ...prev, [field]: value }))
@@ -241,6 +256,66 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
                 </div>
               </>
             )}
+          </div>
+
+          {/* Paste .0n JSON */}
+          <div style={{
+            marginTop: 12, borderRadius: 12,
+            border: `2px dashed ${pasteStatus?.ok ? 'rgba(110, 224, 90, 0.3)' : pasteStatus?.ok === false ? 'rgba(255, 80, 80, 0.4)' : '#1a1f2e'}`,
+            background: pasteStatus?.ok ? 'rgba(110, 224, 90, 0.04)' : '#0E1117',
+            overflow: 'hidden', transition: 'all 0.2s',
+          }}>
+            <div style={{ padding: '10px 14px 0' }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: '#7A8290' }}>
+                Or paste .0n JSON
+              </label>
+            </div>
+            <textarea
+              value={pasteContent}
+              onChange={e => { setPasteContent(e.target.value); setPasteStatus(null) }}
+              placeholder='{"course_title": "...", "target_audience": "...", ...}'
+              rows={3}
+              style={{
+                width: '100%', padding: '8px 14px 10px', border: 'none',
+                background: 'transparent', color: '#E8EAED', fontSize: 12,
+                fontFamily: 'JetBrains Mono, monospace', outline: 'none',
+                resize: 'vertical', boxSizing: 'border-box',
+              }}
+            />
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '0 14px 10px',
+            }}>
+              <div style={{ fontSize: 12, minHeight: 18 }}>
+                {pasteStatus?.ok && (
+                  <span style={{ color: '#6EE05A', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Parsed: {pasteStatus.title}
+                  </span>
+                )}
+                {pasteStatus?.ok === false && (
+                  <span style={{ color: '#ff5050' }}>
+                    Invalid JSON or missing fields
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={handleParsePaste}
+                disabled={!pasteContent.trim()}
+                style={{
+                  padding: '6px 16px', borderRadius: 8,
+                  border: 'none', fontSize: 12, fontWeight: 700,
+                  fontFamily: 'inherit', cursor: pasteContent.trim() ? 'pointer' : 'not-allowed',
+                  background: pasteContent.trim() ? 'rgba(110, 224, 90, 0.15)' : 'rgba(110, 224, 90, 0.05)',
+                  color: pasteContent.trim() ? '#6EE05A' : '#555',
+                  transition: 'all 0.2s',
+                }}
+              >
+                Parse
+              </button>
+            </div>
           </div>
 
           <div style={{ marginTop: 20 }}>

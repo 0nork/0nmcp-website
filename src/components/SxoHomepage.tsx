@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import OrchestratorForge from '@/components/OrchestratorForge'
 
 /**
  * SXO Living DOM Homepage Sections
@@ -83,6 +84,9 @@ export default function SxoHomepage() {
         </h2>
         <p style={{ fontSize: 17, color: '#444', lineHeight: 1.8, fontWeight: 500 }} dangerouslySetInnerHTML={{ __html: bluf }} />
       </section>
+
+      {/* ── ORCHESTRATOR FORGE — Interactive Lead Gen Demo ── */}
+      <OrchestratorForge />
 
       {/* ── TABLE TRAP: MCP Server Comparison ── */}
       <section id="mcp-servers" style={{ maxWidth: 900, margin: '0 auto', padding: '3rem 1.5rem' }}>

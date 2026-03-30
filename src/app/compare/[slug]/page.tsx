@@ -74,12 +74,65 @@ export default async function ComparisonPage({ params }: { params: Promise<{ slu
     ],
   }
 
+  // Security warnings for specific competitors
+  const SECURITY_WARNINGS: Record<string, { headline: string; body: string; blogSlug: string; blogTitle: string }> = {
+    '0nmcp-vs-openclaw': {
+      headline: 'Security Warning: Cisco Flagged OpenClaw as a "Security Nightmare"',
+      body: 'Cisco\'s security research team found leaked API keys, malicious community skills with data exfiltration, prompt injection vulnerabilities, and zero built-in encryption. Their #1 ranked community skill was literally malware.',
+      blogSlug: 'cisco-openclaw-security-nightmare',
+      blogTitle: 'Read the full Cisco security breakdown',
+    },
+  }
+
+  const warning = SECURITY_WARNINGS[comp.slug]
+
   return (
     <div className="pt-28 pb-24 px-4 md:px-8">
       <div className="max-w-4xl mx-auto">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+
+        {/* Security Warning Banner */}
+        {warning && (
+          <div
+            className="rounded-xl p-4 md:p-5 mb-6"
+            style={{
+              background: 'rgba(239, 68, 68, 0.06)',
+              border: '1px solid rgba(239, 68, 68, 0.25)',
+              position: 'relative',
+            }}
+          >
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 mt-0.5">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-bold mb-1" style={{ color: '#ef4444' }}>
+                  {warning.headline}
+                </h3>
+                <p className="text-xs leading-relaxed mb-2" style={{ color: 'var(--text-secondary)' }}>
+                  {warning.body}
+                </p>
+                <Link
+                  href={`/blog/${warning.blogSlug}`}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold no-underline hover:underline"
+                  style={{ color: '#ef4444' }}
+                >
+                  {warning.blogTitle}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
 
         <nav className="text-xs mb-4 flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }} aria-label="Breadcrumb">
           <Link href="/" className="hover:underline">Home</Link>

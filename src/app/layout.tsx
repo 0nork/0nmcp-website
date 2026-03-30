@@ -7,6 +7,7 @@ import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
 import Providers from '@/components/Providers'
 import OnCallLoader from '@/components/oncall/OnCallLoader'
+import ExitIntentPopup from '@/components/ExitIntentPopup'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const WEB0N_HOSTS = ['web0n.com', 'www.web0n.com']
@@ -99,6 +100,7 @@ export default async function RootLayout({
         <Providers>
           <SiteChrome isWeb0n={isWeb0n}>{children}</SiteChrome>
           {!isWeb0n && <OnCallLoader />}
+          {!isWeb0n && <ExitIntentPopup />}
         </Providers>
         <GoogleAnalytics />
         <Analytics />

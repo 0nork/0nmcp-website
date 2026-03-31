@@ -56,6 +56,7 @@ const APPS = [
   { id: 'cloudconvert', name: 'CloudConvert', desc: '200+ format file conversion via natural language. PDF, DOCX, MP4, PNG.', icon: 'CC', color: '#e74430', href: '/integrations' },
   { id: 'linkedin', name: 'LinkedIn Suite', desc: '50 endpoints — ads, org pages, social posting, analytics, certifications.', icon: 'LI', color: '#0A66C2', href: '/console/linkedin' },
   { id: 'chrome', name: 'LinkedIn Reply Extension', desc: 'Chrome extension for AI-powered LinkedIn replies. 5 tones, Groq-powered, free.', icon: 'CR', color: '#333', href: 'https://github.com/0nork/0nMCP/tree/main/extensions/linkedin-reply' },
+  { id: 'openclaw', name: 'OpenClaw', desc: 'Personal AI assistant for file management and smart home. Note: Cisco flagged critical security vulnerabilities.', icon: 'OC', color: '#888', badge: 'WARNING', href: '/compare/0nmcp-vs-openclaw', disabled: true },
 ]
 
 const COMING = [
@@ -191,24 +192,45 @@ export default function DownloadsPage() {
         {/* ── Apps & Integrations ── */}
         <Section title="Apps & Integrations">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
-            {APPS.map(app => (
-              <Link key={app.id} href={app.href} style={{ textDecoration: 'none' }}>
-                <Card>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                    <div style={{ width: 36, height: 36, borderRadius: 10, background: app.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 900 }}>{app.icon}</div>
-                    <span style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', flex: 1 }}>{app.name}</span>
-                    {app.badge && (
-                      <span style={{
-                        padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 800,
-                        background: app.badge === 'FEATURED' ? 'rgba(110,224,90,0.1)' : app.badge === 'PRE-ORDER' ? 'rgba(245,158,11,0.1)' : 'rgba(59,130,246,0.1)',
-                        color: app.badge === 'FEATURED' ? '#6EE05A' : app.badge === 'PRE-ORDER' ? '#f59e0b' : '#3b82f6',
-                      }}>{app.badge}</span>
+            {APPS.map(app => {
+              const isDisabled = 'disabled' in app && app.disabled
+              const isWarning = app.badge === 'WARNING'
+              const inner = (
+                  <Card>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: app.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 900 }}>{app.icon}</div>
+                      <span style={{ fontSize: 15, fontWeight: 700, color: isDisabled ? '#999' : '#1a1a1a', flex: 1 }}>{app.name}</span>
+                      {app.badge && (
+                        <span style={{
+                          padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 800,
+                          background: isWarning ? 'rgba(239,68,68,0.1)' : app.badge === 'FEATURED' ? 'rgba(110,224,90,0.1)' : app.badge === 'PRE-ORDER' ? 'rgba(245,158,11,0.1)' : 'rgba(59,130,246,0.1)',
+                          color: isWarning ? '#ef4444' : app.badge === 'FEATURED' ? '#6EE05A' : app.badge === 'PRE-ORDER' ? '#f59e0b' : '#3b82f6',
+                        }}>{app.badge}</span>
+                      )}
+                    </div>
+                    <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, margin: 0 }}>{app.desc}</p>
+                    {isDisabled && (
+                      <div style={{
+                        marginTop: 12, padding: '10px 12px', borderRadius: 8,
+                        background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)',
+                        fontSize: 11, color: '#ef4444', lineHeight: 1.5,
+                        display: 'flex', alignItems: 'flex-start', gap: 6,
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" style={{ flexShrink: 0, marginTop: 1 }}>
+                          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                          <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        <span>Download unavailable — we&apos;ll update this link once the code is verified safe for our users. In the meantime, we recommend <Link href="/downloads" style={{ color: '#ef4444', fontWeight: 700 }}>choosing a secure alternative</Link>.</span>
+                      </div>
                     )}
-                  </div>
-                  <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, margin: 0 }}>{app.desc}</p>
-                </Card>
-              </Link>
-            ))}
+                  </Card>
+              )
+              return isDisabled ? (
+                <div key={app.id} style={{ opacity: 0.65 }}>{inner}</div>
+              ) : (
+                <Link key={app.id} href={app.href} style={{ textDecoration: 'none' }}>{inner}</Link>
+              )
+            })}
           </div>
         </Section>
 

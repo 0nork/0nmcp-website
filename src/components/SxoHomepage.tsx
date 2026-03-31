@@ -105,31 +105,49 @@ export default function SxoHomepage() {
 
   return (
     <>
-      {/* ── TRENDING BAR ── */}
+      {/* ── LATEST NEWS BAR ── */}
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1.5rem 0' }}>
         <div style={{
-          display: 'flex', alignItems: 'center', borderRadius: 10, overflow: 'hidden',
-          border: '1px solid #e5e7eb', background: '#fff',
+          display: 'flex', alignItems: 'center', borderRadius: 50, overflow: 'hidden',
+          background: '#1a1a1a', height: 46,
         }}>
+          {/* Left pill — white bg */}
           <div style={{
-            padding: '10px 16px', background: '#1a1a1a', color: '#fff',
-            fontSize: 11, fontWeight: 800, whiteSpace: 'nowrap',
-            display: 'flex', alignItems: 'center', gap: 6,
-            letterSpacing: '0.02em',
+            padding: '0 20px', height: '100%',
+            background: '#fff', borderRadius: 50,
+            display: 'flex', alignItems: 'center', gap: 8,
+            border: '2px solid #1a1a1a', marginRight: -2,
+            zIndex: 1,
           }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
-            Trending
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" strokeWidth="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap' }}>Latest News</span>
           </div>
-          <div style={{ flex: 1, padding: '10px 16px', fontSize: 13, color: '#555', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-            {TRENDING[trendingIdx]}
-          </div>
-          <div style={{ display: 'flex', gap: 2, padding: '0 8px' }}>
-            <button onClick={() => setTrendingIdx(p => (p - 1 + TRENDING.length) % TRENDING.length)} style={{ ...navBtn }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
-            </button>
-            <button onClick={() => setTrendingIdx(p => (p + 1) % TRENDING.length)} style={{ ...navBtn, background: '#1a1a1a', color: '#fff', borderColor: '#1a1a1a' }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
-            </button>
+
+          {/* Right — black bg with text + arrows */}
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 8px 0 20px', minWidth: 0 }}>
+            <div style={{ flex: 1, fontSize: 13, color: '#fff', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontWeight: 500 }}>
+              {TRENDING[trendingIdx]}
+            </div>
+            <div style={{ display: 'flex', gap: 4, flexShrink: 0, marginLeft: 12 }}>
+              <button onClick={() => setTrendingIdx(p => (p - 1 + TRENDING.length) % TRENDING.length)} style={{
+                width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)',
+                background: 'transparent', cursor: 'pointer', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'background 0.15s',
+              }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
+              </button>
+              <button onClick={() => setTrendingIdx(p => (p + 1) % TRENDING.length)} style={{
+                width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)',
+                background: 'rgba(255,255,255,0.1)', cursor: 'pointer', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'background 0.15s',
+              }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>

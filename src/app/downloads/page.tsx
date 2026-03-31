@@ -1,495 +1,241 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import QRCode from '@/components/QRCode'
 import { STATS_DISPLAY } from '@/data/stats'
 
 export const metadata: Metadata = {
-  title: 'Downloads — 0nMCP',
-  description:
-    'Get 0nMCP everywhere — Chrome Extension, Mobile App, and Tablet App with visual builder. Install the universal AI API orchestrator on any device.',
+  title: 'Downloads & Installs — Get 0nMCP Everywhere',
+  description: `Install 0nMCP anywhere. ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. CLI, Claude Desktop, ChatGPT, Cursor, VS Code, and more.`,
   openGraph: {
-    title: 'Downloads — 0nMCP',
-    description:
-      'Get 0nMCP everywhere — Chrome Extension, Mobile App, and Tablet App.',
+    title: 'Downloads & Installs — 0nMCP',
+    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. Install anywhere.`,
     url: 'https://www.0nmcp.com/downloads',
-    siteName: '0nMCP',
-    type: 'website',
   },
+  alternates: { canonical: 'https://www.0nmcp.com/downloads' },
+}
+
+const INSTALL_METHODS = [
+  { id: 'npm', name: 'npm (Global)', desc: 'Install globally. Run from anywhere.', command: 'npm install -g 0nmcp', color: '#cb3837' },
+  { id: 'npx', name: 'npx (Zero Install)', desc: 'Run without installing. Always latest.', command: 'npx 0nmcp@latest', color: '#333' },
+  { id: 'pnpm', name: 'pnpm', desc: 'Fast, disk-efficient.', command: 'pnpm add -g 0nmcp', color: '#f69220' },
+  { id: 'yarn', name: 'yarn', desc: 'Classic package manager.', command: 'yarn global add 0nmcp', color: '#2c8ebb' },
+]
+
+const AI_PLATFORMS = [
+  {
+    id: 'claude-desktop', name: 'Claude Desktop', desc: 'Full tool access in every Claude conversation',
+    config: `{\n  "mcpServers": {\n    "0nMCP": {\n      "command": "npx",\n      "args": ["-y", "0nmcp"]\n    }\n  }\n}`,
+    path: '~/Library/Application Support/Claude/claude_desktop_config.json',
+    icon: 'C', color: '#d4a574',
+  },
+  {
+    id: 'claude-code', name: 'Claude Code', desc: 'One command — instant MCP tools',
+    config: 'claude mcp add 0nMCP -- npx -y 0nmcp',
+    path: 'Terminal', icon: 'CC', color: '#d4a574',
+  },
+  {
+    id: 'cursor', name: 'Cursor', desc: 'AI editor with business tools',
+    config: `{\n  "mcpServers": {\n    "0nMCP": {\n      "command": "npx",\n      "args": ["-y", "0nmcp"]\n    }\n  }\n}`,
+    path: '.cursor/mcp.json', icon: 'Cu', color: '#000',
+  },
+  {
+    id: 'windsurf', name: 'Windsurf', desc: 'AI dev environment + orchestration',
+    config: `{\n  "mcpServers": {\n    "0nMCP": {\n      "command": "npx",\n      "args": ["-y", "0nmcp"]\n    }\n  }\n}`,
+    path: '~/.windsurf/mcp.json', icon: 'W', color: '#06b6d4',
+  },
+  {
+    id: 'vscode', name: 'VS Code', desc: 'MCP tools in your editor',
+    config: `{\n  "mcpServers": {\n    "0nMCP": {\n      "command": "npx",\n      "args": ["-y", "0nmcp"]\n    }\n  }\n}`,
+    path: '.vscode/mcp.json', icon: 'VS', color: '#007acc',
+  },
+]
+
+const APPS = [
+  { id: 'ongpt', name: '0nGPT', desc: 'Use 0nMCP tools inside ChatGPT. OAuth 2.1, PKCE, branded widget. The first 0nMCP app integration.', icon: 'GPT', color: '#10a37f', badge: 'FEATURED', href: '/downloads/ongpt' },
+  { id: 'oncore', name: '0nCore Dashboard', desc: 'Full CRM dashboard — AI automation, voice AI, courses, domains, pipeline. The business OS.', icon: '0C', color: '#6EE05A', badge: 'PRE-ORDER', href: '/signup' },
+  { id: 'defender', name: '0nDefender', desc: 'Patent intelligence & competitive monitoring. Daily scans. 4 threat vectors.', icon: '0D', color: '#ef4444', badge: 'ADMIN', href: '/admin/patent-intel' },
+  { id: 'cloudconvert', name: 'CloudConvert', desc: '200+ format file conversion via natural language. PDF, DOCX, MP4, PNG.', icon: 'CC', color: '#e74430', href: '/integrations' },
+  { id: 'linkedin', name: 'LinkedIn Suite', desc: '50 endpoints — ads, org pages, social posting, analytics, certifications.', icon: 'LI', color: '#0A66C2', href: '/console/linkedin' },
+  { id: 'chrome', name: 'LinkedIn Reply Extension', desc: 'Chrome extension for AI-powered LinkedIn replies. 5 tones, Groq-powered, free.', icon: 'CR', color: '#333', href: 'https://github.com/0nork/0nMCP/tree/main/extensions/linkedin-reply' },
+]
+
+const COMING = [
+  { name: 'Gemini', color: '#4285f4' },
+  { name: 'Grok', color: '#000' },
+  { name: 'Slack Bot', color: '#4a154b' },
+  { name: 'Discord Bot', color: '#5865f2' },
+  { name: 'CRM App', color: '#ff6b35' },
+  { name: 'Zapier', color: '#ff4a00' },
+]
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section style={{ marginBottom: 48 }}>
+      <h2 style={{ fontSize: 20, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>{title}</h2>
+      {children}
+    </section>
+  )
+}
+
+function Card({ children, hover = true, ...props }: { children: React.ReactNode; hover?: boolean } & React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div style={{
+      background: '#fff', borderRadius: 14, padding: 24,
+      border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+      transition: hover ? 'box-shadow 0.25s, transform 0.25s' : undefined,
+    }} {...props}>
+      {children}
+    </div>
+  )
 }
 
 export default function DownloadsPage() {
   return (
-    <div className="section-container" style={{ paddingTop: 80, paddingBottom: 80 }}>
-      {/* Page header */}
-      <div style={{ textAlign: 'center', marginBottom: 64 }}>
-        <h1
-          className="text-4xl md:text-5xl font-bold mb-4"
-          style={{ color: 'var(--text-primary)' }}
-        >
-          Get{' '}
-          <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
-            0nMCP
-          </span>{' '}
-          everywhere
-        </h1>
-        <p
-          className="text-lg max-w-2xl mx-auto"
-          style={{ color: 'var(--text-secondary)' }}
-        >
-          Chrome Extension, Mobile App, and Tablet App with visual builder.
-          {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services — on any device.
-        </p>
-      </div>
+    <div style={{ minHeight: '100vh', paddingTop: '5rem' }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 1.5rem 4rem' }}>
 
-      <div className="flex flex-col gap-12">
-        {/* 0nSpark — Local-First */}
-        <section className="glow-box" style={{ padding: 32, borderColor: 'rgba(126,217,87,0.3)' }}>
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 10,
-                    background: 'rgba(110, 224, 90, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                  </svg>
-                </div>
-                <h2
-                  className="text-2xl font-bold"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  0nSpark — Run Everything Free, Locally
-                </h2>
-              </div>
+        {/* ── Hero ── */}
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <span style={{ display: 'inline-block', padding: '4px 14px', borderRadius: 20, background: '#6EE05A', color: '#0f172a', fontSize: 11, fontWeight: 900, letterSpacing: '0.06em', marginBottom: 16 }}>
+            DOWNLOADS & INSTALLS
+          </span>
+          <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 900, color: '#1a1a1a', letterSpacing: '-0.03em', marginBottom: 8 }}>
+            Install 0nMCP Anywhere
+          </h1>
+          <p style={{ fontSize: 16, color: '#555', maxWidth: 560, margin: '0 auto' }}>
+            {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services. CLI, AI editors, ChatGPT, and custom apps.
+          </p>
+        </div>
 
-              <p className="mb-4" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                <strong style={{ color: 'var(--accent)' }}>Claude Code MAX</strong> = unlimited AI brain.{' '}
-                <strong style={{ color: 'var(--accent)' }}>0nMCP</strong> = {STATS_DISPLAY.tools}-tool orchestration layer.
-                Together = <strong style={{ color: 'var(--text-primary)' }}>0nSpark</strong> — zero-cost
-                workflow execution from your terminal. No API keys for Claude, no per-call charges.
-              </p>
-
-              <ul className="flex flex-col gap-2 mb-6" style={{ color: 'var(--text-secondary)' }}>
-                {[
-                  `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — runs locally on your machine`,
-                  'Claude Code provides the AI brain (unlimited with MAX subscription)',
-                  '0nMCP provides the tool layer (local server, free forever)',
-                  'Console auto-switches to Local Mode when 0nmcp serve is running',
-                  'Works on desktop (terminal), tablet (PWA), and phone (PWA)',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm">
-                    <span style={{ color: 'var(--accent)', flexShrink: 0, marginTop: 2 }}>&#x2713;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex items-center gap-4">
-                <a
-                  href="https://www.npmjs.com/package/0nmcp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-accent inline-flex items-center gap-2"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="16 18 22 12 16 6" />
-                    <polyline points="8 6 2 12 8 18" />
-                  </svg>
-                  npm install -g 0nmcp
-                </a>
-                <Link href="/console" className="btn-ghost inline-flex items-center gap-2">
-                  Open Console
-                </Link>
-              </div>
+        {/* ── Featured: 0nGPT ── */}
+        <section style={{ marginBottom: 48 }}>
+          <div style={{
+            borderRadius: 20, padding: '2.5rem', overflow: 'hidden',
+            background: 'linear-gradient(135deg, #0f172a, #064e3b)',
+            color: '#fff', border: '2px solid #6EE05A',
+            boxShadow: '0 16px 50px rgba(0,0,0,0.15), 0 0 30px rgba(110,224,90,0.1)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: 6, background: '#6EE05A', color: '#0f172a', fontSize: 10, fontWeight: 900 }}>FEATURED INTEGRATION</span>
+              <span style={{ display: 'inline-block', padding: '4px 12px', borderRadius: 6, background: 'rgba(16,163,127,0.2)', color: '#10a37f', fontSize: 10, fontWeight: 900 }}>ChatGPT</span>
             </div>
-
-            <div
-              className="flex-shrink-0"
-              style={{
-                background: 'var(--bg-tertiary)',
-                borderRadius: 12,
-                padding: 20,
-                border: '1px solid var(--border)',
-                maxWidth: 340,
-              }}
-            >
-              <h3
-                className="text-sm font-semibold mb-3"
-                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
-              >
-                GET STARTED
-              </h3>
-              <div
-                className="flex flex-col gap-3"
-                style={{ color: 'var(--text-secondary)', fontSize: 13 }}
-              >
-                <div className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>1.</span>
-                  <div>
-                    <code
-                      style={{
-                        background: 'var(--bg-card)',
-                        padding: '2px 6px',
-                        borderRadius: 4,
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: 12,
-                        color: '#6EE05A',
-                      }}
-                    >
-                      npm install -g 0nmcp
-                    </code>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>2.</span>
-                  <div>
-                    <code
-                      style={{
-                        background: 'var(--bg-card)',
-                        padding: '2px 6px',
-                        borderRadius: 4,
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: 12,
-                        color: '#6EE05A',
-                      }}
-                    >
-                      0nmcp engine import
-                    </code>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Import your API credentials</div>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>3.</span>
-                  <div>
-                    <code
-                      style={{
-                        background: 'var(--bg-card)',
-                        padding: '2px 6px',
-                        borderRadius: 4,
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: 12,
-                        color: '#6EE05A',
-                      }}
-                    >
-                      0nmcp serve --port 3001
-                    </code>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Start local server</div>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>4.</span>
-                  <span>Open the <strong>Console</strong> — it auto-detects local mode</span>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  marginTop: 16,
-                  padding: '10px 12px',
-                  borderRadius: 8,
-                  background: 'rgba(126,217,87,0.06)',
-                  border: '1px solid rgba(126,217,87,0.15)',
-                  fontSize: 12,
-                  color: 'var(--text-muted)',
-                  fontFamily: 'var(--font-mono)',
-                }}
-              >
-                0nmcp run publish-blog --input title=&quot;My Post&quot; content=&quot;$(cat post.md)&quot;
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Chrome Extension */}
-        <section className="glow-box" style={{ padding: 32 }}>
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 10,
-                    background: 'rgba(110, 224, 90, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="12" r="4" />
-                    <line x1="21.17" y1="8" x2="12" y2="8" />
-                    <line x1="3.95" y1="6.06" x2="8.54" y2="14" />
-                    <line x1="10.88" y1="21.94" x2="15.46" y2="14" />
-                  </svg>
-                </div>
-                <h2
-                  className="text-2xl font-bold"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  Chrome Extension
-                </h2>
-              </div>
-
-              <p className="mb-4" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                Mini-terminal in your browser toolbar. Run 0nMCP commands without
-                leaving the page. Supports both Anthropic API (streaming) and local
-                server modes.
-              </p>
-
-              <ul className="flex flex-col gap-2 mb-6" style={{ color: 'var(--text-secondary)' }}>
-                {[
-                  '400x500px popup terminal with streaming responses',
-                  'Two modes: Anthropic API direct or local 0nMCP server',
-                  'Dark theme matching 0nMCP design system',
-                  'Settings sync across Chrome devices',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm">
-                    <span style={{ color: 'var(--accent)', flexShrink: 0, marginTop: 2 }}>&#x2713;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href="/downloads/0nmcp-chrome-extension.zip"
-                download
-                className="btn-accent inline-flex items-center gap-2"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                Download Extension
-              </a>
-            </div>
-
-            <div
-              className="flex-shrink-0"
-              style={{
-                background: 'var(--bg-tertiary)',
-                borderRadius: 12,
-                padding: 20,
-                border: '1px solid var(--border)',
-                maxWidth: 320,
-              }}
-            >
-              <h3
-                className="text-sm font-semibold mb-3"
-                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
-              >
-                INSTALL STEPS
-              </h3>
-              <ol
-                className="flex flex-col gap-3"
-                style={{ color: 'var(--text-secondary)', fontSize: 13 }}
-              >
-                <li className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>1.</span>
-                  Download the .zip file above
-                </li>
-                <li className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>2.</span>
-                  Unzip the downloaded file
-                </li>
-                <li className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>3.</span>
-                  <span>
-                    Go to{' '}
-                    <code
-                      style={{
-                        background: 'var(--bg-card)',
-                        padding: '2px 6px',
-                        borderRadius: 4,
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: 12,
-                      }}
-                    >
-                      chrome://extensions
-                    </code>
-                  </span>
-                </li>
-                <li className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>4.</span>
-                  Enable &quot;Developer mode&quot; (top right)
-                </li>
-                <li className="flex gap-2">
-                  <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontWeight: 600, flexShrink: 0 }}>5.</span>
-                  Click &quot;Load unpacked&quot; and select the unzipped folder
-                </li>
-              </ol>
-            </div>
-          </div>
-        </section>
-
-        {/* Mobile App */}
-        <section className="glow-box" style={{ padding: 32 }}>
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 10,
-                    background: 'rgba(110, 224, 90, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-                    <line x1="12" y1="18" x2="12.01" y2="18" />
-                  </svg>
-                </div>
-                <h2
-                  className="text-2xl font-bold"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  Mobile App
-                </h2>
-              </div>
-
-              <p className="mb-4" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                Installable PWA for managing your .0n files (add0ns) and executing
-                tasks on the go. Terminal interface with streaming AI responses,
-                file manager, and connection settings.
-              </p>
-
-              <ul className="flex flex-col gap-2 mb-6" style={{ color: 'var(--text-secondary)' }}>
-                {[
-                  'Chat-style terminal with Anthropic API streaming',
-                  'Import, view, and manage .0n workflow files',
-                  'Offline-capable with service worker caching',
-                  'Works on iOS and Android — install from browser',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm">
-                    <span style={{ color: 'var(--accent)', flexShrink: 0, marginTop: 2 }}>&#x2713;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex items-center gap-4">
-                <Link href="/app" className="btn-accent inline-flex items-center gap-2">
-                  Open App
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-4 flex-shrink-0">
-              <QRCode />
-              <p className="text-xs" style={{ color: 'var(--text-muted)', textAlign: 'center' }}>
-                Scan to open on your phone
-              </p>
-
-              <div
-                style={{
-                  background: 'var(--bg-tertiary)',
-                  borderRadius: 10,
-                  padding: 16,
-                  border: '1px solid var(--border)',
-                  maxWidth: 200,
-                }}
-              >
-                <h4
-                  className="text-xs font-semibold mb-2"
-                  style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
-                >
-                  TO INSTALL
-                </h4>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 12, lineHeight: 1.5 }}>
-                  <strong>iOS:</strong> Tap Share &#x2192; &quot;Add to Home Screen&quot;
+            <div style={{ display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}>
+              <div style={{
+                width: 72, height: 72, borderRadius: 18, background: '#10a37f',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 24, fontWeight: 900, flexShrink: 0,
+                boxShadow: '0 8px 24px rgba(16,163,127,0.3)',
+              }}>GPT</div>
+              <div style={{ flex: 1, minWidth: 200 }}>
+                <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 6 }}>0nGPT</h2>
+                <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, marginBottom: 16 }}>
+                  Use {STATS_DISPLAY.tools} 0nMCP tools directly inside ChatGPT. OAuth 2.1 with PKCE, branded widget, full MCP tool execution. The first 0nMCP app integration.
                 </p>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 12, lineHeight: 1.5, marginTop: 6 }}>
-                  <strong>Android:</strong> Tap menu &#x2192; &quot;Install app&quot;
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Tablet App */}
-        <section className="glow-box" style={{ padding: 32 }}>
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 10,
-                    background: 'rgba(110, 224, 90, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-                    <line x1="12" y1="18" x2="12.01" y2="18" />
-                  </svg>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <Link href="/downloads/ongpt" style={{
+                    padding: '10px 24px', borderRadius: 10, background: '#6EE05A', color: '#0f172a',
+                    fontWeight: 800, fontSize: 14, textDecoration: 'none',
+                  }}>Get 0nGPT →</Link>
+                  <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{
+                    padding: '10px 24px', borderRadius: 10, background: 'rgba(255,255,255,0.1)',
+                    color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                  }}>View Source</Link>
                 </div>
-                <h2
-                  className="text-2xl font-bold"
-                  style={{ color: 'var(--text-primary)' }}
-                >
-                  Tablet App
-                </h2>
               </div>
-
-              <p className="mb-4" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                Everything in the mobile app plus a full drag-and-drop visual workflow
-                builder. Design .0n workflows on iPad or Android tablets with the same
-                builder available on the desktop site.
-              </p>
-
-              <ul className="flex flex-col gap-2 mb-6" style={{ color: 'var(--text-secondary)' }}>
-                {[
-                  'All mobile features: terminal, add0ns, settings',
-                  'Visual builder tab appears on screens 768px+',
-                  'Drag-and-drop workflow design with React Flow',
-                  'Import/export .0n files directly from builder',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm">
-                    <span style={{ color: 'var(--accent)', flexShrink: 0, marginTop: 2 }}>&#x2713;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex items-center gap-4">
-                <Link href="/app" className="btn-accent inline-flex items-center gap-2">
-                  Open App
-                </Link>
-                <Link
-                  href="/builder"
-                  className="btn-ghost inline-flex items-center gap-2"
-                >
-                  Desktop Builder
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-4 flex-shrink-0">
-              <QRCode />
-              <p className="text-xs" style={{ color: 'var(--text-muted)', textAlign: 'center' }}>
-                Same app — builder unlocks on tablet
-              </p>
             </div>
           </div>
         </section>
+
+        {/* ── Quick Install ── */}
+        <Section title="Quick Install">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+            {INSTALL_METHODS.map(m => (
+              <Card key={m.id}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 6, background: m.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 9, fontWeight: 900 }}>{m.id}</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a' }}>{m.name}</div>
+                    <div style={{ fontSize: 11, color: '#999' }}>{m.desc}</div>
+                  </div>
+                </div>
+                <code style={{ display: 'block', padding: '10px 12px', borderRadius: 8, background: '#1a1a1a', color: '#6EE05A', fontSize: 12, fontFamily: 'monospace' }}>{m.command}</code>
+              </Card>
+            ))}
+          </div>
+        </Section>
+
+        {/* ── AI Platforms ── */}
+        <Section title="AI Platform Configs">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {AI_PLATFORMS.map(p => (
+              <details key={p.id} style={{
+                background: '#fff', borderRadius: 14, border: '1px solid #e5e7eb',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)', overflow: 'hidden',
+              }}>
+                <summary style={{ padding: '14px 20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, listStyle: 'none' }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, background: p.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 11, fontWeight: 900, flexShrink: 0 }}>{p.icon}</div>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', flex: 1 }}>{p.name}</span>
+                  <span style={{ fontSize: 12, color: '#888' }}>{p.desc}</span>
+                </summary>
+                <div style={{ padding: '0 20px 20px', borderTop: '1px solid #f0f0f0' }}>
+                  <p style={{ fontSize: 12, color: '#888', margin: '12px 0 8px' }}>
+                    Add to <code style={{ background: '#f5f5f7', padding: '2px 6px', borderRadius: 4, fontSize: 11 }}>{p.path}</code>:
+                  </p>
+                  <pre style={{ padding: 16, borderRadius: 10, background: '#1a1a1a', color: '#e0e0e0', fontSize: 12, fontFamily: 'monospace', lineHeight: 1.6, overflow: 'auto', margin: 0 }}>{p.config}</pre>
+                </div>
+              </details>
+            ))}
+          </div>
+        </Section>
+
+        {/* ── Apps & Integrations ── */}
+        <Section title="Apps & Integrations">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
+            {APPS.map(app => (
+              <Link key={app.id} href={app.href} style={{ textDecoration: 'none' }}>
+                <Card>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 10, background: app.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 12, fontWeight: 900 }}>{app.icon}</div>
+                    <span style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', flex: 1 }}>{app.name}</span>
+                    {app.badge && (
+                      <span style={{
+                        padding: '3px 8px', borderRadius: 5, fontSize: 10, fontWeight: 800,
+                        background: app.badge === 'FEATURED' ? 'rgba(110,224,90,0.1)' : app.badge === 'PRE-ORDER' ? 'rgba(245,158,11,0.1)' : 'rgba(59,130,246,0.1)',
+                        color: app.badge === 'FEATURED' ? '#6EE05A' : app.badge === 'PRE-ORDER' ? '#f59e0b' : '#3b82f6',
+                      }}>{app.badge}</span>
+                    )}
+                  </div>
+                  <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, margin: 0 }}>{app.desc}</p>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </Section>
+
+        {/* ── Coming Soon ── */}
+        <Section title="Coming Soon">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10 }}>
+            {COMING.map(c => (
+              <div key={c.name} style={{
+                background: '#fff', borderRadius: 12, padding: '14px 12px', textAlign: 'center',
+                border: '1px solid #e5e7eb', opacity: 0.5,
+              }}>
+                <div style={{ width: 28, height: 28, borderRadius: 8, background: c.color, margin: '0 auto 6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 10, fontWeight: 900 }}>{c.name.slice(0, 2)}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#1a1a1a' }}>{c.name}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* ── CTA ── */}
+        <div style={{ borderRadius: 16, padding: '2.5rem 2rem', textAlign: 'center', background: '#1a1a1a', color: '#fff', boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
+          <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Build Your Own Integration</h2>
+          <p style={{ fontSize: 14, color: '#999', marginBottom: 20 }}>0nMCP is open source, MIT licensed. Build anything.</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
+            <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{ padding: '10px 24px', borderRadius: 10, background: '#fff', color: '#1a1a1a', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}>GitHub</Link>
+            <Link href="/signup" style={{ padding: '10px 24px', borderRadius: 10, background: '#6EE05A', color: '#1a1a1a', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}>Request Access</Link>
+          </div>
+        </div>
       </div>
     </div>
   )

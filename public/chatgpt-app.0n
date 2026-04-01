@@ -1,0 +1,153 @@
+; ============================================================
+; CHATGPT-APP.0N — Vault Configuration File
+; 0nMCP ChatGPT Apps SDK Integration
+; Standard: .0n v1.0 — 0nMCP Vault Protocol
+; Owner: RocketOpp LLC / Michael Mento Jr.
+; Created: 2026-03-16
+;
+; INSTRUCTIONS FOR CLAUDE CODE:
+; Read this file completely before any other action.
+; [GENERATE] = run the specified shell command, set result in Vercel.
+; [RETRIEVE] = ask the user for this value before the step that needs it.
+; [CONFIRMED] = known good — use directly.
+; [EXISTS] = already set in Vercel from a prior build — verify, don't overwrite.
+; ============================================================
+
+[meta]
+app_name         = 0nMCP
+chatgpt_app_name = 0nMCP — AI Automation Platform
+mcp_endpoint     = https://0nmcp.com/chatgpt/mcp
+widget_url       = https://0nmcp.com/chatgpt/widget
+consent_url      = https://0nmcp.com/chatgpt/consent
+alert_email      = mike@0ncore.com
+brand_email      = mike@0ncore.com
+primary_email    = mike@rocketopp.com
+docs_url         = https://developers.openai.com/apps-sdk
+
+[openai_platform]
+; Submit app at: https://platform.openai.com → Apps tab
+developer_platform = https://platform.openai.com
+submission_url     = https://platform.openai.com/apps/submit
+developer_mode_doc = https://developers.openai.com/api/docs/guides/developer-mode
+app_submission_doc = https://developers.openai.com/apps-sdk/deploy/submission
+app_category       = Productivity
+app_subcategory    = Automation
+
+[brand]
+; Status: CONFIRMED
+accent_color    = #6EE05A
+background      = #080B0F
+card_background = #0E1117
+logo_path       = /mnt/user-data/uploads/0n-logo-white.png
+icon_path       = /mnt/user-data/uploads/0n-icon-green.png
+
+[infrastructure]
+; Status: CONFIRMED
+supabase_project_id = pwujhhmlrtxjmjzyttwn
+supabase_url        = https://pwujhhmlrtxjmjzyttwn.supabase.co
+supabase_sql_editor = https://supabase.com/dashboard/project/pwujhhmlrtxjmjzyttwn/sql
+vercel_project_id   = prj_Ccq53WXdb5CQd4iIBRR0qr4QToge
+vercel_team_id      = team_VtbfSzhDgB6OwglLfuPDFcd2
+vercel_dashboard    = https://vercel.com/rocketopp/0nmcp
+primary_domain      = https://0nmcp.com
+
+[chatgpt_oauth_keys]
+; Status: GENERATE — do this in Step 2 of the build guide
+; Run these commands in sequence:
+
+key_generation_step_1 = openssl genrsa -out /tmp/chatgpt_oauth_private.pem 2048
+key_generation_step_2 = openssl rsa -in /tmp/chatgpt_oauth_private.pem -pubout -out /tmp/chatgpt_oauth_public.pem
+key_generation_step_3 = awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' /tmp/chatgpt_oauth_private.pem
+key_generation_step_4 = awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' /tmp/chatgpt_oauth_public.pem
+
+; Set these in Vercel after running the commands:
+CHATGPT_OAUTH_PRIVATE_KEY = [GENERATE: output of step 3 above]
+CHATGPT_OAUTH_PUBLIC_KEY  = [GENERATE: output of step 4 above]
+CHATGPT_OAUTH_KEY_ID      = 0nmcp-chatgpt-2026
+
+[env_vars_vercel]
+; CONFIRMED values — already set from Add0n build. Verify, do not overwrite.
+NEXT_PUBLIC_WEB0N_API_BASE   = https://0nmcp.com                         ; [EXISTS]
+NEXT_PUBLIC_SUPABASE_URL     = https://pwujhhmlrtxjmjzyttwn.supabase.co  ; [EXISTS]
+SUPABASE_SERVICE_ROLE_KEY    = [EXISTS — Supabase → Settings → API → service_role]
+WEB0N_INTERNAL_API_KEY       = [EXISTS — from Add0n build]
+ANTHROPIC_API_KEY            = [EXISTS — from Anthropic console]
+OPENAI_API_KEY               = [EXISTS]
+
+; NEW — required for this build only:
+CHATGPT_OAUTH_PRIVATE_KEY    = [GENERATE: see chatgpt_oauth_keys section]
+CHATGPT_OAUTH_PUBLIC_KEY     = [GENERATE: see chatgpt_oauth_keys section]
+CHATGPT_OAUTH_KEY_ID         = 0nmcp-chatgpt-2026
+
+[file_manifest]
+; Complete list of files Claude Code must create or place.
+; ✓ = provided in /chatgpt-app/ output folder
+; NEW = write from spec in CHATGPT_APP_BUILD.md
+; EXTRACT = split from a larger provided file
+
+file_01 = apps-sdk/server/index.ts                                   ; ✓ provided
+file_02 = apps-sdk/server/auth.ts                                    ; ✓ provided
+file_03 = apps-sdk/web/widget.html                                   ; ✓ provided
+file_04 = app/api/.well-known/oauth-protected-resource/route.ts      ; ✓ provided
+file_05 = app/api/.well-known/oauth-authorization-server/route.ts    ; EXTRACT from chatgpt/oauth/route.ts GET_metadata()
+file_06 = app/api/.well-known/jwks/route.ts                          ; NEW — spec in Build Guide Step 5
+file_07 = app/api/chatgpt/oauth/register/route.ts                    ; EXTRACT from chatgpt/oauth/route.ts POST_register()
+file_08 = app/api/chatgpt/oauth/authorize/route.ts                   ; EXTRACT from chatgpt/oauth/route.ts GET_authorize()
+file_09 = app/api/chatgpt/oauth/token/route.ts                       ; EXTRACT from chatgpt/oauth/route.ts POST_token()
+file_10 = app/api/chatgpt/oauth/revoke/route.ts                      ; NEW — spec in Build Guide Step 5
+file_11 = app/api/chatgpt/oauth/approve/route.ts                     ; NEW — spec in Build Guide Step 5
+file_12 = app/chatgpt/consent/page.tsx                               ; NEW — spec in Build Guide Step 5
+file_13 = supabase/migrations/20260316_chatgpt_oauth.sql             ; ✓ provided — PASTE IN SUPABASE
+file_14 = package.json                                               ; ✓ provided — merge deps into existing
+
+[supabase_tables]
+; Run 20260316_chatgpt_oauth.sql — verify these 4 tables exist:
+table_01 = chatgpt_oauth_clients   ; DCR registrations
+table_02 = chatgpt_auth_requests   ; auth code flow state
+table_03 = chatgpt_refresh_tokens  ; issued refresh tokens
+table_04 = chatgpt_tool_calls      ; analytics + billing log
+
+[well_known_endpoints]
+; Verify these all return 200 after deployment:
+oauth_protected_resource   = https://0nmcp.com/.well-known/oauth-protected-resource
+oauth_authorization_server = https://0nmcp.com/.well-known/oauth-authorization-server
+jwks                       = https://0nmcp.com/.well-known/jwks.json
+
+[mcp_tools_exposed]
+; Tools registered in apps-sdk/server/index.ts:
+tool_01 = build_website     ; Trigger website build. Cost: 1 Spark.
+tool_02 = browse_tools      ; Browse 800+ tool catalog. Cost: 0 Sparks.
+tool_03 = run_pipeline      ; Execute any 0nMCP pipeline. Cost: 1-5 Sparks.
+tool_04 = get_account       ; Load user account + Sparks balance. Cost: 0 Sparks.
+tool_05 = purchase_sparks   ; External checkout → 0nmcp.com/sparks. Cost: 0 Sparks.
+
+[chatgpt_testing_prompts]
+; Use these to test the app in ChatGPT Developer Mode:
+prompt_01 = "0nMCP, show my account"
+prompt_02 = "0nMCP, build a website for Acme Roofing, email owner@acme.com, Pittsburgh PA"
+prompt_03 = "0nMCP, browse tools for LinkedIn"
+prompt_04 = "0nMCP, how many Sparks do I have?"
+prompt_05 = "0nMCP, run the web0n-site-builder pipeline for my business"
+prompt_06 = "0nMCP, I need more Sparks"
+
+[deployment_gate]
+; ALL must be true before app submission:
+gate_01 = Supabase migration run — 4 tables verified
+gate_02 = RSA key pair generated and set in Vercel
+gate_03 = All 14 files placed at correct paths
+gate_04 = Next.js rewrites added for .well-known/* routes
+gate_05 = All 3 .well-known endpoints return 200
+gate_06 = MCP endpoint returns 401 without Bearer token
+gate_07 = OAuth flow completes end-to-end in ChatGPT Developer Mode
+gate_08 = All 5 tools return structuredContent + widget renders
+gate_09 = No platform brand names in any file
+;          grep -r "GoHighLevel\|HighLevel\|GHL\b\|ghl\." --include="*.ts" --include="*.tsx" --include="*.html" .
+
+[next_steps_post_launch]
+; After app is approved in ChatGPT directory:
+step_01 = Add voice support via Realtime API (tool calls via voice)
+step_02 = Add instant checkout (apply for OpenAI Agentic Commerce Protocol beta)
+step_03 = Add build_workflow and build_funnel tools to MCP server
+step_04 = Add 0nLinked tool (LinkedIn post generation from ChatGPT)
+step_05 = Track ChatGPT-sourced users in chatgpt_tool_calls for attribution
+step_06 = Add deep research integration (search + fetch tools for company knowledge)

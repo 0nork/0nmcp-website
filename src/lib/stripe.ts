@@ -71,6 +71,32 @@ export const CONSOLE_PLANS: Record<string, {
   },
 }
 
+/** 0nCore Subscription Plans (new — /subscribe page) */
+export const ONCORE_PLANS: Record<string, {
+  priceId: string; name: string; tier: string; amount: number;
+  mode: 'payment' | 'subscription'; trialDays: number;
+  features: string[]; maxLocations: number; badge?: string
+}> = {
+  free: {
+    priceId: '', // No Stripe session needed
+    name: 'Free', tier: 'free', amount: 0, mode: 'payment', trialDays: 0,
+    maxLocations: 1,
+    features: ['10 executions/day', '1 location', 'Community support', 'Vault encryption', '1,183 tools'],
+  },
+  founders: {
+    priceId: process.env.STRIPE_PRICE_FOUNDERS || 'price_1T1rY5HThmAuKVQMEvWdsvcy',
+    name: 'Founders', tier: 'founders', amount: 50, mode: 'payment', trialDays: 30,
+    maxLocations: 3, badge: 'MOST POPULAR',
+    features: ['Lifetime Founders Badge', '30 days free access', 'Early access to all features', 'Locked-in $80/mo after trial', '3 locations', 'Priority support', 'Vault encryption', '1,183 tools across 99 services'],
+  },
+  builder: {
+    priceId: process.env.STRIPE_PRICE_BUILDER || 'price_1T1rYYHThmAuKVQMZIOi4kdq',
+    name: 'Builder', tier: 'builder', amount: 180, mode: 'subscription', trialDays: 7,
+    maxLocations: 5,
+    features: ['Unlimited executions', '5 locations', 'White-label branding', 'Priority support', 'API access', 'Vault encryption', '1,183 tools across 99 services', 'Custom domain'],
+  },
+}
+
 /** Legacy plan key mapping for backwards compatibility */
 export const LEGACY_PLAN_MAP: Record<string, string> = {
   pro: 'creator',

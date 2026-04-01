@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe, SPONSOR_PRICES, CONSOLE_PLANS } from '@/lib/stripe'
+import { stripe, SPONSOR_PRICES, CONSOLE_PLANS, ONCORE_PLANS } from '@/lib/stripe'
 import { createSupabaseServer } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -56,6 +56,68 @@ export async function POST(request: NextRequest) {
           user_email: user?.email || '',
         },
       } as Parameters<typeof stripe.checkout.sessions.create>[0])
+
+      return NextResponse.json({ url: session.url })
+    }
+
+    // ── 0nCore plan checkout (from /subscribe page) ──
+    if (type === 'oncore_plan') {
+      const plan = ONCORE_PLANS[tier]
+      if (!plan) {
+        return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
+      }
+
+      // Free plan — no Stripe needed, just create account
+      if (tier === 'free') {
+        return NextResponse.json({ url: `${request.nextUrl.origin}/start/success?plan=free` })
+      }
+
+      // Founders = one-time payment, Builder = subscription
+      const isOneTime = plan.mode === 'payment'
+
+      const sessionParams: Record<string, unknown> = {
+        mode: isOneTime ? 'payment' : 'subscription',
+        line_items: plan.priceId
+          ? [{ price: plan.priceId, quantity: 1 }]
+          : [{
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: `0nCore ${plan.name}`,
+                  description: plan.features.slice(0, 3).join(', '),
+                },
+                unit_amount: plan.amount * 100,
+                ...(isOneTime ? {} : { recurring: { interval: 'month' as const } }),
+              },
+              quantity: 1,
+            }],
+        success_url: `${request.nextUrl.origin}/start/success?plan=${tier}&session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${request.nextUrl.origin}/subscribe?canceled=true`,
+        allow_promotion_codes: true,
+        metadata: {
+          plan_type: 'oncore',
+          tier: plan.tier,
+          user_id: user?.id || '',
+          user_email: user?.email || '',
+          provision_crm: 'true', // Flag for webhook to auto-provision CRM sub-location
+          max_locations: String(plan.maxLocations),
+        },
+      }
+
+      if (user?.email) {
+        sessionParams.customer_email = user.email
+      }
+
+      // Founders gets 30-day trial on the follow-up subscription
+      if (tier === 'founders' && !isOneTime) {
+        (sessionParams as Record<string, unknown>).subscription_data = {
+          trial_period_days: plan.trialDays,
+        }
+      }
+
+      const session = await stripe.checkout.sessions.create(
+        sessionParams as Parameters<typeof stripe.checkout.sessions.create>[0]
+      )
 
       return NextResponse.json({ url: session.url })
     }

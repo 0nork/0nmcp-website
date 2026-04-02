@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import { STATS_DISPLAY } from '@/data/stats'
 
@@ -120,8 +121,7 @@ export default function MegaNav() {
       <div className="mn-bar">
         {/* Logo */}
         <Link href="/" className="mn-logo no-underline">
-          <span className="mn-logo-mark">0n</span>
-          <span className="mn-logo-text">MCP</span>
+          <Image src="/brand/0n-logo-black.png" alt="0nMCP" width={120} height={40} style={{ objectFit: 'contain' }} priority />
         </Link>
 
         {/* Desktop links */}

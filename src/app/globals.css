@@ -94,6 +94,26 @@ body::before {
 /* Grid background removed — brand standard 2026-03-21 */
 
 /* ============================================
+   Global Contrast Enforcement
+   Ensures text is ALWAYS readable on its background
+   ============================================ */
+
+/* Light backgrounds → dark text */
+p, span, li, td, th, label, a, div {
+  color: inherit;
+}
+
+/* Force minimum contrast on body text */
+body {
+  color: #1a1a1a;
+}
+
+/* Muted text should never be lighter than #888 on light bg */
+.text-muted, [class*="text-muted"], [class*="text-secondary"] {
+  color: #555 !important;
+}
+
+/* ============================================
    Typography
    ============================================ */
 

@@ -24,7 +24,8 @@ export default function AnimatedHero() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '6rem 1.5rem 4rem',
+        padding: '4rem 1.5rem 4rem',
+        marginTop: '-1px',
         overflow: 'hidden',
         background: '#0a0a0a',
       }}

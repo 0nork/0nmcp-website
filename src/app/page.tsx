@@ -1,17 +1,19 @@
 import type { Metadata } from 'next'
-import MaintenancePage from '@/components/maintenance/MaintenancePage'
+import { STATS_DISPLAY } from '@/data/stats'
+import AnimatedHero from './AnimatedHero'
+import SxoHomepage from '@/components/SxoHomepage'
 
 export const metadata: Metadata = {
-  title: '0nMCP — Coming May 1st | The Universal AI Orchestrator',
+  title: '0nMCP — The Universal AI API Orchestrator',
   description:
-    'The universal AI API orchestrator. 900+ tools across 55 services. Pre-order now for Founders access. Official launch May 1, 2026.',
+    'The universal AI API orchestrator. 1,183+ tools across 99 services. One install. Zero config. MIT licensed. Powered by 5 patented technologies.',
   keywords: [
     '0nMCP', 'MCP server', 'AI orchestrator', 'API integration',
     'workflow automation', 'Model Context Protocol', 'AI tools',
   ],
   openGraph: {
-    title: '0nMCP — Coming May 1st',
-    description: '900+ tools. 55 services. One command. Pre-order for Founders access.',
+    title: '0nMCP — The Universal AI API Orchestrator',
+    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. MIT licensed.`,
     url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -19,12 +21,17 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '0nMCP — Coming May 1st',
-    description: '900+ tools. 55 services. One command. Pre-order for Founders access.',
+    title: '0nMCP — The Universal AI API Orchestrator',
+    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. MIT licensed.`,
   },
   alternates: { canonical: 'https://www.0nmcp.com' },
 }
 
 export default function Home() {
-  return <MaintenancePage />
+  return (
+    <>
+      <AnimatedHero />
+      <SxoHomepage />
+    </>
+  )
 }

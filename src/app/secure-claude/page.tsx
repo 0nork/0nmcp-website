@@ -518,7 +518,7 @@ export default function SecureClaudePage() {
             {[
               { value: STATS_DISPLAY.tools, label: 'Tools Protected' },
               { value: STATS_DISPLAY.services, label: 'Services Monitored' },
-              { value: '4', label: 'Patent-Pending Security Layers' },
+              { value: '5', label: 'Patents Filed (15+ Inventions)' },
               { value: '$0', label: 'Cost' },
             ].map((stat, i) => (
               <div
@@ -592,7 +592,7 @@ export default function SecureClaudePage() {
           </div>
 
           <p className="text-xs mt-8" style={{ color: '#555' }}>
-            0nMCP is open source (MIT). 0nDefender is included. Patent Pending: #63/968,814, #63/990,046.
+            0nMCP is open source (MIT). 0nDefender is included. 5 provisional patent applications covering 15+ distinct inventions filed with USPTO.
             <br />
             RocketOpp LLC &middot; {new Date().getFullYear()}
           </p>

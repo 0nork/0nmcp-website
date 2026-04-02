@@ -284,7 +284,7 @@ export async function generateMetadata({
       authors: [post.author],
       images: [
         {
-          url: post.image,
+          url: `https://www.0nmcp.com${post.image}`,
           width: 800,
           height: 450,
           alt: post.title,
@@ -295,7 +295,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: [post.image],
+      images: [`https://www.0nmcp.com${post.image}`],
     },
     alternates: { canonical: `https://www.0nmcp.com/blog/${post.slug}` },
   }
@@ -361,6 +361,7 @@ export default async function BlogPostPage({
         url: 'https://www.0nmcp.com/brand/logo-full.jpg',
       },
     },
+    thumbnailUrl: `https://www.0nmcp.com${post.image}`,
     keywords: post.tags.join(', '),
     articleSection: post.category,
     inLanguage: 'en-US',

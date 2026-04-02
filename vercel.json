@@ -35,6 +35,14 @@
     {
       "path": "/api/admin/patent-intel/cron",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/security/scan",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/security/health",
+      "schedule": "0 */12 * * *"
     }
   ],
   "redirects": [

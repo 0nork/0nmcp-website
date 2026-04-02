@@ -8,7 +8,10 @@
     "build": "node scripts/pre-deploy.mjs && next build",
     "start": "next start",
     "lint": "next lint",
-    "zip:extension": "cd extension && zip -r ../public/downloads/0nmcp-chrome-extension.zip . -x '*.DS_Store'"
+    "zip:extension": "cd extension && zip -r ../public/downloads/0nmcp-chrome-extension.zip . -x '*.DS_Store'",
+    "preinstall": "node scripts/preinstall.mjs",
+    "security:scan": "node -e \"fetch('http://localhost:3000/api/security/scan',{method:'POST'}).then(r=>r.json()).then(console.log)\"",
+    "security:health": "node -e \"fetch('http://localhost:3000/api/security/health').then(r=>r.json()).then(console.log)\""
   },
   "repository": {
     "type": "git",

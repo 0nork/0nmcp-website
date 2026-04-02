@@ -6,7 +6,7 @@ const NDA_URL = 'https://api.rocketclients.com/documents/doc-form/69b85d24c27b02
 
 const HIGHLIGHTS = [
   { label: 'Tools', value: '870+', desc: 'API integrations across 54 services' },
-  { label: 'Patents', value: '2', desc: 'Provisional patents filed (Vault + Containers)' },
+  { label: 'Patents', value: '5', desc: 'Provisional patents filed (MCPFed, Vault, Plex, Core, Knowledge Layers)' },
   { label: 'Categories', value: '23', desc: 'Service categories from CRM to AI' },
   { label: 'Open Source', value: 'MIT', desc: 'Core orchestrator freely available' },
 ]

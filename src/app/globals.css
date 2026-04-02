@@ -98,7 +98,7 @@ body::before {
    Ensures text is ALWAYS readable on its background
    ============================================ */
 
-/* Light backgrounds → dark text */
+/* Light backgrounds → dark text (default) */
 p, span, li, td, th, label, a, div {
   color: inherit;
 }
@@ -108,9 +108,11 @@ body {
   color: #1a1a1a;
 }
 
-/* Muted text should never be lighter than #888 on light bg */
-.text-muted, [class*="text-muted"], [class*="text-secondary"] {
-  color: #555 !important;
+/* Muted text should never be lighter than #888 on LIGHT backgrounds.
+   CRITICAL: This must NOT apply inside .homepage (dark bg) sections. */
+:not(.homepage) > .text-muted,
+:not(.homepage) > [class*="text-muted"] {
+  color: #555;
 }
 
 /* ============================================
@@ -122,6 +124,27 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   color: #1a1a1a;
   letter-spacing: -0.02em;
+}
+
+/* ── Dark page text overrides ──
+   Inside .homepage (dark bg pages), ensure all text is light.
+   This prevents body #1a1a1a from bleeding into dark sections. */
+.homepage h1, .homepage h2, .homepage h3, .homepage h4, .homepage h5, .homepage h6 {
+  color: var(--text-primary);
+}
+.homepage p, .homepage span, .homepage li, .homepage td, .homepage th,
+.homepage label, .homepage div {
+  color: inherit;
+}
+.homepage a {
+  color: var(--accent);
+}
+.homepage .text-muted {
+  color: var(--text-muted);
+}
+.homepage .text-secondary,
+.homepage [class*="text-secondary"] {
+  color: var(--text-secondary);
 }
 
 code, pre, .font-mono {

@@ -71,7 +71,7 @@ const MEGA_TABLE = [
   { dim: 'Multi-AI Platform', onmcp: '7+ platforms (Claude, Gemini, Grok, Cursor...)', claude: 'Claude only', gpt: 'GPT only', gemini: 'Gemini only', zapier: 'Platform agnostic', make: 'Platform agnostic', n8n: 'Platform agnostic', openclaw: '2-3 platforms' },
   { dim: 'Workflow Format', onmcp: '.0n portable files', claude: 'N/A', gpt: 'N/A', gemini: 'N/A', zapier: 'Proprietary Zaps', make: 'Proprietary Scenarios', n8n: 'JSON workflows', openclaw: 'JSON' },
   { dim: 'Execution Model', onmcp: 'Pipeline + Assembly Line + Radial Burst', claude: 'Sequential chat', gpt: 'Sequential chat', gemini: 'Sequential chat', zapier: 'Sequential Zaps', make: 'Scenario paths', n8n: 'Node graph', openclaw: 'Sequential' },
-  { dim: 'Patent Protection', onmcp: '4 patents pending', claude: 'N/A', gpt: 'N/A', gemini: 'N/A', zapier: 'N/A', make: 'N/A', n8n: 'N/A', openclaw: 'N/A' },
+  { dim: 'Patent Protection', onmcp: '5 patents pending', claude: 'N/A', gpt: 'N/A', gemini: 'N/A', zapier: 'N/A', make: 'N/A', n8n: 'N/A', openclaw: 'N/A' },
   { dim: 'Open Source', onmcp: 'Yes (MIT)', claude: 'No', gpt: 'No', gemini: 'No', zapier: 'No', make: 'No', n8n: 'Fair-code', openclaw: 'Yes' },
   { dim: 'Free Tier', onmcp: 'Unlimited local use', claude: 'Limited msgs', gpt: 'Limited msgs', gemini: 'Limited msgs', zapier: '100 tasks/mo', make: '1,000 ops/mo', n8n: 'Self-host free', openclaw: 'Free' },
   { dim: 'Paid Pricing', onmcp: '$0.01/execution or $80/mo', claude: '$20/mo', gpt: '$20/mo', gemini: '$20/mo', zapier: '$19.99-799/mo', make: '$9-299/mo', n8n: '$20-150/mo cloud', openclaw: 'Free' },
@@ -191,7 +191,7 @@ const COMPETITORS = [
       { f: 'Execution engine', us: 'Full workflow runtime', them: 'No execution engine' },
       { f: 'Credential vault', us: 'AES-256 + hardware binding', them: 'No vault' },
       { f: 'CRM module', us: '245 tools', them: 'No CRM' },
-      { f: 'Patent protection', us: '4 patents pending', them: 'None' },
+      { f: 'Patent protection', us: '5 patents pending', them: 'None' },
     ],
   },
 ]
@@ -362,27 +362,27 @@ export default function ComparePage() {
           </div>
           <div className="stat-divider" />
           <div className="stat-item">
-            <span className="stat-value">{STATS.categories}</span>
+            <span className="stat-value">{STATS_DISPLAY.categories}</span>
             <span className="stat-label">Categories</span>
           </div>
           <div className="stat-divider" />
           <div className="stat-item">
-            <span className="stat-value">$0</span>
+            <span className="stat-value">{STATS.local_cost}</span>
             <span className="stat-label">Local Use</span>
           </div>
           <div className="stat-divider" />
           <div className="stat-item">
-            <span className="stat-value">MIT</span>
+            <span className="stat-value">{STATS.license}</span>
             <span className="stat-label">Licensed</span>
           </div>
           <div className="stat-divider" />
           <div className="stat-item">
-            <span className="stat-value">7+</span>
+            <span className="stat-value">{STATS_DISPLAY.ai_platforms}</span>
             <span className="stat-label">AI Platforms</span>
           </div>
           <div className="stat-divider" />
           <div className="stat-item">
-            <span className="stat-value">4</span>
+            <span className="stat-value">{STATS_DISPLAY.patents}</span>
             <span className="stat-label">Patents Pending</span>
           </div>
         </div>
@@ -464,7 +464,7 @@ export default function ComparePage() {
             <Link href="/compare/0nmcp-vs-openclaw">OpenClaw</Link> is an open-source MCP server registry
             that catalogs available servers. 0nMCP is a complete orchestration platform. OpenClaw helps you
             <em> find</em> MCP servers. 0nMCP <strong>IS</strong> the MCP server with {STATS_DISPLAY.tools} built-in tools,
-            vault encryption, CRM integration, workflow execution engine, and 4 patents pending.
+            vault encryption, CRM integration, workflow execution engine, and 5 patents pending.
             They serve different purposes: OpenClaw is a directory; 0nMCP is the platform.
           </p>
         </div>

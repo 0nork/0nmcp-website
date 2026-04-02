@@ -16,7 +16,7 @@ const SLIDES = [
   {
     tag: 'Patent-Pending Security',
     headline: 'AES-256 Vault. Hardware-Bound. Zero Trust.',
-    body: '0nVault encrypts credentials with AES-256-GCM, PBKDF2-SHA512, and hardware fingerprint binding. 4 patents filed. Cisco called the competition a "security nightmare."',
+    body: '0nVault encrypts credentials with AES-256-GCM, PBKDF2-SHA512, and hardware fingerprint binding. 5 patents filed. Cisco called the competition a "security nightmare."',
   },
   {
     tag: 'The .0n Standard',

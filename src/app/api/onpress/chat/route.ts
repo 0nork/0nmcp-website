@@ -120,58 +120,69 @@ export async function POST(request: NextRequest) {
     messages.push({ role: 'user', content: truncatedMessage })
   }
 
-  // ── Call Anthropic ──
+  // ── Call AI (Groq free → Anthropic fallback) ──
   try {
-    const res = await fetch(ANTHROPIC_API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: DEFAULT_MODEL,
-        max_tokens: MAX_TOKENS,
-        system: systemPrompt,
-        messages,
-      }),
-      signal: AbortSignal.timeout(30000),
-    })
-
-    if (!res.ok) {
-      const errBody = await res.text().catch(() => '')
-      console.error(`[onpress/chat] Anthropic ${res.status}: ${errBody.slice(0, 500)}`)
-
-      if (res.status === 429) {
-        return NextResponse.json(
-          { error: 'AI service rate limited. Please try again in a moment.' },
-          { status: 429 }
-        )
-      }
-
-      return NextResponse.json(
-        { error: 'AI service error. Please try again.' },
-        { status: 502 }
-      )
-    }
-
-    const data = await res.json()
-
-    // Extract reply text
     let reply = ''
     const usage = { input_tokens: 0, output_tokens: 0 }
 
-    if (data.content) {
-      for (const block of data.content) {
-        if (block.type === 'text') {
-          reply += block.text
-        }
+    // Try Groq first (FREE)
+    const groqPool = (process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || '').split(',').filter(Boolean)
+    let aiSuccess = false
+
+    if (groqPool.length > 0) {
+      const groqKey = groqPool[Math.floor(Math.random() * groqPool.length)].trim()
+      const groqMessages = [
+        { role: 'system' as const, content: systemPrompt },
+        ...messages.map(m => ({ role: m.role, content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content) })),
+      ]
+
+      const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${groqKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: MAX_TOKENS, messages: groqMessages }),
+        signal: AbortSignal.timeout(30000),
+      }).catch(() => null)
+
+      if (groqRes?.ok) {
+        const groqData = await groqRes.json()
+        reply = groqData.choices?.[0]?.message?.content || ''
+        usage.input_tokens = groqData.usage?.prompt_tokens || 0
+        usage.output_tokens = groqData.usage?.completion_tokens || 0
+        aiSuccess = true
       }
     }
 
-    if (data.usage) {
-      usage.input_tokens = data.usage.input_tokens || 0
-      usage.output_tokens = data.usage.output_tokens || 0
+    // Fallback to Anthropic if Groq fails
+    if (!aiSuccess && ANTHROPIC_KEY) {
+      const res = await fetch(ANTHROPIC_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({ model: DEFAULT_MODEL, max_tokens: MAX_TOKENS, system: systemPrompt, messages }),
+        signal: AbortSignal.timeout(30000),
+      })
+
+      if (!res.ok) {
+        return NextResponse.json({ error: 'AI service error. Please try again.' }, { status: 502 })
+      }
+
+      const data = await res.json()
+      if (data.content) {
+        for (const block of data.content) {
+          if (block.type === 'text') reply += block.text
+        }
+      }
+      if (data.usage) {
+        usage.input_tokens = data.usage.input_tokens || 0
+        usage.output_tokens = data.usage.output_tokens || 0
+      }
+    }
+
+    if (!reply) {
+      return NextResponse.json({ error: 'No AI response generated.' }, { status: 502 })
     }
 
     // Parse actions from reply

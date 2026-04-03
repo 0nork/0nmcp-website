@@ -597,9 +597,15 @@ function OnboardingInner() {
             <div className="onboarding-stat"><span className="onboarding-stat-value">$0</span><span className="onboarding-stat-label">Free Forever</span></div>
           </div>
 
-          <button className="auth-btn primary" onClick={goNext} style={{ maxWidth: 320, margin: '0 auto' }}>
-            Let&apos;s get started
-          </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', maxWidth: 400, margin: '0 auto' }}>
+            <a href="/install" className="auth-btn primary" style={{ maxWidth: 320, width: '100%', textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v10m0 0l-3.5-3.5M9 12l3.5-3.5M3 15h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Install 0nMCP Now
+            </a>
+            <button className="auth-btn secondary" onClick={goNext} style={{ maxWidth: 320, width: '100%', fontSize: '0.8rem' }}>
+              Skip — set up profile first
+            </button>
+          </div>
         </div>
       )}
 

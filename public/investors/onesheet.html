@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0nMCP — Platform & Patent Portfolio Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #6EE05A;
+    --green-dim: rgba(110,224,90,0.12);
+    --green-mid: rgba(110,224,90,0.35);
+    --bg: #080C09;
+    --bg2: #0E1510;
+    --bg3: #131A14;
+    --border: rgba(110,224,90,0.18);
+    --text: #E8F0E8;
+    --muted: #7A8F7A;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 1100px;
+    margin: 0 auto;
+    padding: 36px 44px 32px;
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    background: var(--green);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark span {
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--bg);
+    letter-spacing: -1px;
+  }
+
+  .header-titles h1 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  .header-titles h1 span {
+    color: var(--green);
+  }
+
+  .header-titles p {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+
+  .header-right {
+    text-align: right;
+  }
+
+  .confidential-badge {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .header-meta {
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ─── SECTION LABEL ─── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── PLATFORM SECTION ─── */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .platform-intro {
+    grid-column: 1 / -1;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .platform-intro-divider {
+    width: 1px;
+    background: var(--border);
+    margin: 0 20px;
+  }
+
+  .platform-stat {
+    padding: 0 4px;
+  }
+
+  .platform-stat .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .platform-stat .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 3px;
+  }
+
+  .platform-stat .desc {
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .mode-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mode-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--green);
+    opacity: 0.6;
+  }
+
+  .mode-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--green);
+    letter-spacing: 1px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .mode-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .mode-desc {
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .mode-visual {
+    display: flex;
+    gap: 4px;
+    margin-top: 10px;
+    align-items: center;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    opacity: 0.4;
+  }
+
+  .dot.active { opacity: 1; }
+
+  .arrow {
+    font-size: 9px;
+    color: var(--green);
+    opacity: 0.5;
+  }
+
+  /* ─── PATENT GRID ─── */
+  .patent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .patent-grid-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .patent-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .patent-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40%;
+    height: 1px;
+    background: var(--green);
+    opacity: 0.5;
+  }
+
+  .patent-app {
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    font-weight: 500;
+    color: var(--green);
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .patent-status {
+    background: var(--green-dim);
+    color: var(--green);
+    font-size: 7.5px;
+    letter-spacing: 1px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid var(--green-mid);
+  }
+
+  .patent-name {
+    font-weight: 800;
+    font-size: 14.5px;
+    color: var(--white);
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .patent-name span {
+    color: var(--green);
+  }
+
+  .patent-tagline {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .patent-desc {
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .patent-covers {
+    list-style: none;
+    padding: 0;
+  }
+
+  .patent-covers li {
+    font-size: 10px;
+    color: var(--text);
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .patent-covers li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-size: 9px;
+    top: 4px;
+  }
+
+  /* ─── IP SUMMARY BAR ─── */
+  .ip-bar {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .ip-stat {
+    text-align: center;
+  }
+
+  .ip-stat .n {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--green);
+    display: block;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .ip-stat .l {
+    font-size: 9.5px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  .ip-bar-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .footer-left .company {
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--white);
+  }
+
+  .footer-left .address {
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.7;
+  }
+
+  .footer-center {
+    font-size: 9px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 340px;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .footer-right {
+    text-align: right;
+  }
+
+  .footer-right a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    text-decoration: none;
+    display: block;
+    line-height: 1.9;
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    body { background: #080C09; }
+    .page { width: 100%; padding: 28px 36px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-mark"><span>0n</span></div>
+      <div class="header-titles">
+        <h1><span>0n</span>MCP — Platform &amp; Patent Portfolio</h1>
+        <p>Universal AI Orchestration Infrastructure &nbsp;·&nbsp; RocketOpp LLC &nbsp;·&nbsp; New Alexandria, PA</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="confidential-badge">Confidential</div>
+      <div class="header-meta">
+        For Attorney &amp; Investor Review<br>
+        USPTO Customer #223410<br>
+        April 2026
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATFORM SECTION -->
+  <div class="section-label">Platform Overview</div>
+
+  <div class="platform-grid">
+    <div class="platform-intro">
+      <div class="platform-stat">
+        <div class="num">800+</div>
+        <div class="label">AI Tools, One API</div>
+        <div class="desc">Any AI model or workflow calls tools across 48+ integrated services — Stripe, Supabase, CRMs, LinkedIn, email, and more — through a single authenticated endpoint.</div>
+      </div>
+      <div class="platform-intro-divider"></div>
+      <div class="platform-stat">
+        <div class="num">$0.01</div>
+        <div class="label">Atomic Pricing Per Call</div>
+        <div class="desc">No subscriptions. Customers buy pre-configured tool combos ($1–$5) and pay only for what they execute. Revenue compounds with every AI interaction at micro-transaction scale.</div>
+      </div>
+      <div class="platform-intro-divider"></div>
+      <div class="platform-stat">
+        <div class="num">5</div>
+        <div class="label">Provisional Patents Filed</div>
+        <div class="desc">15+ distinct inventions across AI orchestration, federated registries, encrypted credential vaults, competitive model scoring, and layered knowledge architecture.</div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-number">MODE 01</div>
+      <div class="mode-name">Pipeline</div>
+      <div class="mode-desc">Tools execute sequentially. Output of each step becomes input to the next. Used for structured workflows where order and dependency matter — like lead enrichment, document generation, or staged API calls.</div>
+      <div class="mode-visual">
+        <div class="dot active"></div><div class="arrow">→</div>
+        <div class="dot active"></div><div class="arrow">→</div>
+        <div class="dot active"></div><div class="arrow">→</div>
+        <div class="dot active"></div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-number">MODE 02</div>
+      <div class="mode-name">Assembly Line</div>
+      <div class="mode-desc">Multiple tools run in coordinated parallel tracks and converge on a final output. Used for complex tasks requiring simultaneous data gathering — like competitive intelligence or multi-source enrichment.</div>
+      <div class="mode-visual">
+        <div class="dot active"></div><div class="arrow">⇉</div>
+        <div class="dot active"></div><div class="dot active"></div>
+        <div class="arrow">→</div><div class="dot active"></div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-number">MODE 03</div>
+      <div class="mode-name">Radial Burst</div>
+      <div class="mode-desc">A single trigger fans out to N tools simultaneously and aggregates all results. Used for maximum-breadth queries — like broadcasting a prompt across all connected AI models and returning the highest-confidence answer.</div>
+      <div class="mode-visual">
+        <div class="dot active"></div><div class="arrow">⊕</div>
+        <div class="dot active"></div><div class="dot active"></div><div class="dot active"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATENT SECTION -->
+  <div class="section-label">Patent Portfolio — 5 Provisional Applications &nbsp;·&nbsp; 15+ Distinct Inventions &nbsp;·&nbsp; All Patent Pending</div>
+
+  <div class="patent-grid">
+
+    <!-- MCPFed -->
+    <div class="patent-card">
+      <div class="patent-app">
+        App. No. 63/968,814 <span class="patent-status">PENDING</span>
+      </div>
+      <div class="patent-name"><span>MCPFed</span></div>
+      <div class="patent-tagline">The Federated AI Tool Registry</div>
+      <div class="patent-desc">A universal, authenticated directory for AI-callable tools — functioning like an "App Store" layer for MCP servers. Any AI application can discover, verify, and invoke tools from a centralized registry without hardcoding individual connections.</div>
+      <ul class="patent-covers">
+        <li>Federated registration and discovery of MCP servers</li>
+        <li>Cryptographic tool authentication across distributed providers</li>
+        <li>Cross-platform AI-to-tool routing without vendor lock-in</li>
+      </ul>
+    </div>
+
+    <!-- Vault Protocol -->
+    <div class="patent-card">
+      <div class="patent-app">
+        App. No. 63/990,046 <span class="patent-status">PENDING</span>
+      </div>
+      <div class="patent-name"><span>Vault Protocol</span></div>
+      <div class="patent-tagline">Military-Grade AI Credential Infrastructure</div>
+      <div class="patent-desc">Encrypted credential management purpose-built for AI workflows. Secrets — API keys, tokens, passwords — are stored with AES-256-GCM encryption and Ed25519 signatures inside a proprietary .0n file standard. AI tools can operate with authorized credentials without ever exposing plain-text secrets.</div>
+      <ul class="patent-covers">
+        <li>AES-256-GCM + Ed25519 signed credential vault</li>
+        <li>Proprietary .0n encrypted file standard</li>
+        <li>Zero-exposure credential injection for AI agents</li>
+      </ul>
+    </div>
+
+    <!-- 0nPlex -->
+    <div class="patent-card">
+      <div class="patent-app">
+        App. No. 64/006,268 <span class="patent-status">PENDING</span>
+      </div>
+      <div class="patent-name"><span>0n</span>Plex</div>
+      <div class="patent-tagline">Competitive Multi-Model AI Orchestration</div>
+      <div class="patent-desc">Multiple AI models compete in real time using a dual-track scoring system. The highest-confidence model wins. The system autonomously compounds knowledge over time — learning from outputs — while protecting privacy through anonymous cross-user training contribution.</div>
+      <ul class="patent-covers">
+        <li>Multi-persona heterogeneous AI model orchestration</li>
+        <li>Dual-track competitive scoring with confidence gating</li>
+        <li>Autonomous compounding knowledge optimization</li>
+        <li>Rate-limited anonymous cross-user training contribution</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="patent-grid-bottom">
+
+    <!-- 0nCore -->
+    <div class="patent-card">
+      <div class="patent-app">
+        App. No. 64/006,282 <span class="patent-status">PENDING</span>
+      </div>
+      <div class="patent-name"><span>0n</span>Core — Intelligence Layer</div>
+      <div class="patent-tagline">Three Core Inventions: PACG · LVOS · CUCIA</div>
+      <div class="patent-desc">The intelligence backbone of the 0nMCP platform, covering three distinct patentable inventions working in concert to make every AI call smarter, faster, and more reliable.</div>
+      <ul class="patent-covers">
+        <li><strong style="color:#E8F0E8">PACG</strong> — Predictive Adaptive Context Generation: dynamically assembles the optimal context payload for each AI model call based on task type, history, and confidence thresholds</li>
+        <li><strong style="color:#E8F0E8">LVOS</strong> — Thompson Sampling-based model selection: statistically routes each task to the highest-performing AI model based on live performance data, not static rules</li>
+        <li><strong style="color:#E8F0E8">CUCIA</strong> — Confidence-Unified Cross-Intelligence Architecture: normalizes confidence scores across heterogeneous AI providers into a single comparable metric for arbitration</li>
+      </ul>
+    </div>
+
+    <!-- Knowledge Layers -->
+    <div class="patent-card">
+      <div class="patent-app">
+        App. No. 64/024,736 <span class="patent-status">PENDING</span>
+      </div>
+      <div class="patent-name">Knowledge Layers <span>K1–K7</span></div>
+      <div class="patent-tagline">Structured AI Memory Architecture</div>
+      <div class="patent-desc">A seven-tier knowledge hierarchy that governs how AI systems store, retrieve, prioritize, and compound information — from raw ephemeral session context all the way up to persistent, organizational-level intelligence that improves over time across all users.</div>
+      <ul class="patent-covers">
+        <li><strong style="color:#E8F0E8">K1–K2</strong> — Ephemeral and session-scoped context: live working memory for the current AI interaction</li>
+        <li><strong style="color:#E8F0E8">K3–K4</strong> — User and project persistence: knowledge retained across sessions and tied to identity</li>
+        <li><strong style="color:#E8F0E8">K5–K6</strong> — Domain and organizational layers: curated intelligence shared within a team or vertical</li>
+        <li><strong style="color:#E8F0E8">K7</strong> — Universal persistent intelligence: anonymized, compounded knowledge that improves the platform for all users over time</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- IP SUMMARY BAR -->
+  <div class="ip-bar">
+    <div class="ip-stat">
+      <span class="n">5</span>
+      <span class="l">Provisional Applications</span>
+    </div>
+    <div class="ip-bar-divider"></div>
+    <div class="ip-stat">
+      <span class="n">15+</span>
+      <span class="l">Distinct Inventions</span>
+    </div>
+    <div class="ip-bar-divider"></div>
+    <div class="ip-stat">
+      <span class="n">2027</span>
+      <span class="l">Non-Prov. Deadline Window</span>
+    </div>
+    <div class="ip-bar-divider"></div>
+    <div class="ip-stat">
+      <span class="n">Micro</span>
+      <span class="l">Entity Status — Certified</span>
+    </div>
+    <div class="ip-bar-divider"></div>
+    <div class="ip-stat">
+      <span class="n">0</span>
+      <span class="l">IP Overlap w/ Known Competitors</span>
+    </div>
+    <div class="ip-bar-divider"></div>
+    <div class="ip-stat">
+      <span class="n">Pro Se</span>
+      <span class="l">Filed — Attorney Engagement Active</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      <div class="company">RocketOpp LLC</div>
+      <div class="address">
+        3036 State Route 119 &nbsp;·&nbsp; New Alexandria, PA 15670<br>
+        mike@0ncore.com &nbsp;·&nbsp; 0nmcp.com
+      </div>
+    </div>
+    <div class="footer-center">
+      All inventions described herein are <strong>patent pending</strong> under the referenced USPTO provisional application numbers. Nothing in this document constitutes a grant of rights or a waiver of trade secret protections. Confidential — do not distribute without authorization from RocketOpp LLC.
+    </div>
+    <div class="footer-right">
+      <a href="https://0nmcp.com">0nmcp.com</a>
+      <a href="mailto:mike@0ncore.com">mike@0ncore.com</a>
+      <a href="https://npmjs.com/package/0nmcp">npmjs.com/package/0nmcp</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

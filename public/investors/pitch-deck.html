@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0nMCP — Investor & Attorney Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --g: #6EE05A;
+  --g2: rgba(110,224,90,0.15);
+  --g3: rgba(110,224,90,0.06);
+  --g4: rgba(110,224,90,0.35);
+  --bg: #070A07;
+  --bg2: #0C110C;
+  --bg3: #111811;
+  --border: rgba(110,224,90,0.14);
+  --border2: rgba(110,224,90,0.28);
+  --text: #D8EDD8;
+  --muted: #637A63;
+  --muted2: #8FA48F;
+  --white: #F2FBF2;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  overflow: hidden;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ─── SLIDES CONTAINER ─── */
+.deck {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 52px 64px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(24px);
+  transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.slide.exit {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* ─── SLIDE HEADER ─── */
+.slide-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.slide-label::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--g);
+  opacity: 0.4;
+}
+
+/* ─── NAVIGATION ─── */
+.nav {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 100;
+  background: rgba(7,10,7,0.85);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 40px;
+  backdrop-filter: blur(12px);
+}
+
+.nav-btn {
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--g);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.nav-btn:hover { background: var(--g2); border-color: var(--g); }
+
+.nav-counter {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted2);
+  min-width: 52px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.nav-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nav-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: background 0.25s, width 0.25s;
+  cursor: pointer;
+}
+
+.nav-dot.active {
+  background: var(--g);
+  width: 18px;
+  border-radius: 3px;
+}
+
+/* ─── LOGO MARK ─── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-box {
+  width: 32px; height: 32px;
+  background: var(--g);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-box span {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--bg);
+  letter-spacing: -1px;
+}
+
+.logo-text {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+
+/* ═══════════════════════════════════════
+   SLIDE 1 — TITLE
+═══════════════════════════════════════ */
+#s1 {
+  justify-content: center;
+  background: var(--bg);
+  position: relative;
+}
+
+#s1::before {
+  content: '';
+  position: absolute;
+  top: -200px; left: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(110,224,90,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+#s1::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(110,224,90,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.s1-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.s1-headline {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: clamp(38px, 5.5vw, 68px);
+  line-height: 1.05;
+  color: var(--white);
+  letter-spacing: -2px;
+  margin-bottom: 28px;
+  max-width: 860px;
+}
+
+.s1-headline span { color: var(--g); }
+
+.s1-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--muted2);
+  max-width: 560px;
+  line-height: 1.65;
+  margin-bottom: 48px;
+}
+
+.s1-meta {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.s1-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.s1-stat .n {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--g);
+  letter-spacing: -1px;
+}
+
+.s1-stat .l {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.s1-divider {
+  width: 1px; height: 40px;
+  background: var(--border2);
+}
+
+.s1-logo-row {
+  position: absolute;
+  top: 48px; left: 64px;
+}
+
+.s1-conf {
+  position: absolute;
+  top: 48px; right: 64px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  border: 1px solid var(--border2);
+  padding: 5px 12px;
+  border-radius: 3px;
+  color: var(--g);
+}
+
+/* ═══════════════════════════════════════
+   SLIDE 2 — THE PROBLEM
+═══════════════════════════════════════ */
+.s2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  flex: 1;
+  align-content: center;
+}
+
+.problem-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  position: relative;
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, rgba(110,224,90,0.5), transparent);
+  border-radius: 12px 12px 0 0;
+}
+
+.problem-num {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: rgba(110,224,90,0.12);
+  line-height: 1;
+  margin-bottom: 14px;
+  letter-spacing: -2px;
+}
+
+.problem-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.problem-desc {
+  font-size: 13px;
+  color: var(--muted2);
+  line-height: 1.65;
+}
+
+.problem-sting {
+  margin-top: 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--g);
+  letter-spacing: 0.5px;
+  padding: 6px 10px;
+  background: var(--g3);
+  border-radius: 4px;
+  border-left: 2px solid var(--g);
+}
+
+.slide-title {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: clamp(26px, 3vw, 40px);
+  color: var(--white);
+  letter-spacing: -1.5px;
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+.slide-title span { color: var(--g); }
+
+.slide-sub {
+  font-size: 14px;
+  color: var(--muted2);
+  margin-bottom: 36px;
+  font-weight: 300;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════
+   SLIDE 3 — THE SOLUTION
+═══════════════════════════════════════ */
+.solution-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+  flex: 1;
+  align-items: center;
+}
+
+.solution-left {}
+
+.solution-tagline {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: 42px;
+  letter-spacing: -2px;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+
+.solution-tagline span { color: var(--g); }
+
+.solution-desc {
+  font-size: 15px;
+  color: var(--muted2);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  font-weight: 300;
+  max-width: 460px;
+}
+
+.solution-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  background: var(--g3);
+  border: 1px solid var(--border2);
+  color: var(--g);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.solution-right {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.solution-right::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(110,224,90,0.08) 0%, transparent 70%);
+}
+
+.stat-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stack-stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stack-stat:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.stack-n {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--g);
+  letter-spacing: -1.5px;
+  min-width: 90px;
+  line-height: 1;
+}
+
+.stack-info .l { font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 3px; }
+.stack-info .d { font-size: 12px; color: var(--muted2); line-height: 1.5; }
+
+/* ═══════════════════════════════════════
+   SLIDE 4 — HOW IT WORKS
+═══════════════════════════════════════ */
+.modes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  flex: 1;
+  align-content: center;
+}
+
+.mode-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 60%; height: 2px;
+  background: var(--g);
+  opacity: 0.5;
+}
+
+.mode-icon {
+  width: 44px; height: 44px;
+  background: var(--g3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  font-size: 18px;
+}
+
+.mode-n {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--g);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.mode-name-big {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--white);
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.mode-desc-big {
+  font-size: 13px;
+  color: var(--muted2);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.mode-example {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--g);
+  background: var(--g3);
+  padding: 8px 12px;
+  border-radius: 6px;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   SLIDE 5 — PLATFORM STACK
+═══════════════════════════════════════ */
+.stack-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 40px;
+  flex: 1;
+  align-items: start;
+  padding-top: 8px;
+}
+
+.stack-left {}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  position: relative;
+}
+
+.product-item.live::before {
+  content: 'LIVE';
+  position: absolute;
+  top: 10px; right: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: var(--g);
+  background: var(--g3);
+  border: 1px solid var(--g4);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+.product-item.building::before {
+  content: 'BUILDING';
+  position: absolute;
+  top: 10px; right: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: var(--muted2);
+  background: rgba(143,164,143,0.08);
+  border: 1px solid rgba(143,164,143,0.2);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+.product-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--g);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.product-dot.dim { background: var(--muted); }
+
+.product-name { font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 3px; }
+.product-desc { font-size: 12px; color: var(--muted2); line-height: 1.5; }
+
+.stack-right {}
+
+.tech-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.tech-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.tech-item {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+}
+
+/* ═══════════════════════════════════════
+   SLIDE 6 — IP MOAT
+═══════════════════════════════════════ */
+.ip-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+  flex: 1;
+  align-items: center;
+}
+
+.ip-left {}
+
+.ip-big-stat {
+  margin-bottom: 32px;
+}
+
+.ip-big-n {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: 80px;
+  color: var(--g);
+  letter-spacing: -4px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.ip-big-l {
+  font-size: 18px;
+  color: var(--muted2);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.ip-big-l strong { color: var(--white); font-weight: 600; }
+
+.ip-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ip-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted2);
+  line-height: 1.5;
+}
+
+.ip-fact::before {
+  content: '→';
+  color: var(--g);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ip-fact strong { color: var(--white); }
+
+.ip-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ip-card-mini {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.ip-card-mini-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--g);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  padding-top: 2px;
+  min-width: 88px;
+}
+
+.ip-card-mini-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--white);
+  margin-bottom: 3px;
+}
+
+.ip-card-mini-desc {
+  font-size: 11.5px;
+  color: var(--muted2);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   SLIDE 7 — MARKET
+═══════════════════════════════════════ */
+.market-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  flex: 1;
+  align-content: start;
+  padding-top: 4px;
+}
+
+.market-big {
+  grid-column: 1 / -1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  gap: 0;
+  align-items: center;
+}
+
+.mkt-div { background: var(--border); width: 1px; margin: 0 28px; height: 56px; }
+
+.mkt-stat .n {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  color: var(--g);
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.mkt-stat .l { font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 4px; }
+.mkt-stat .d { font-size: 12px; color: var(--muted2); line-height: 1.5; }
+
+.market-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.market-card-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.market-card-body {
+  font-size: 13px;
+  color: var(--muted2);
+  line-height: 1.7;
+}
+
+.market-card-body strong { color: var(--text); }
+
+/* ═══════════════════════════════════════
+   SLIDE 8 — BUSINESS MODEL
+═══════════════════════════════════════ */
+.biz-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  flex: 1;
+  align-items: start;
+  padding-top: 4px;
+}
+
+.biz-col {}
+
+.biz-section-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.biz-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.biz-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.biz-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.biz-item-name { font-weight: 600; font-size: 14px; color: var(--white); }
+.biz-item-price {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--g);
+  letter-spacing: -0.5px;
+}
+
+.biz-item-desc { font-size: 12px; color: var(--muted2); line-height: 1.5; }
+
+.biz-highlight {
+  background: linear-gradient(135deg, rgba(110,224,90,0.08), rgba(110,224,90,0.03));
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.biz-hl-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.biz-hl-n {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--g);
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.biz-hl-desc { font-size: 13px; color: var(--muted2); line-height: 1.6; }
+
+/* ═══════════════════════════════════════
+   SLIDE 9 — TRACTION
+═══════════════════════════════════════ */
+.traction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  flex: 1;
+  align-content: start;
+  padding-top: 4px;
+}
+
+.traction-big {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.t-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.t-stat .n {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--g);
+  letter-spacing: -1.5px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.t-stat .l { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+.t-stat .d { font-size: 11px; color: var(--muted2); line-height: 1.5; }
+
+.traction-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  position: relative;
+}
+
+.traction-item.done::after {
+  content: '✓';
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 20px; height: 20px;
+  background: var(--g3);
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  color: var(--g);
+  line-height: 20px;
+  text-align: center;
+}
+
+.ti-name { font-weight: 600; font-size: 13px; color: var(--white); margin-bottom: 5px; }
+.ti-desc { font-size: 11.5px; color: var(--muted2); line-height: 1.55; }
+
+/* ═══════════════════════════════════════
+   SLIDE 10 — ASK / CTA
+═══════════════════════════════════════ */
+#s10 {
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+}
+
+#s10::before {
+  content: '';
+  position: absolute;
+  bottom: -100px; right: -100px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(110,224,90,0.06) 0%, transparent 70%);
+}
+
+.cta-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+  flex: 1;
+}
+
+.cta-left {}
+
+.cta-headline {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: 46px;
+  color: var(--white);
+  letter-spacing: -2.5px;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+
+.cta-headline span { color: var(--g); }
+
+.cta-body {
+  font-size: 15px;
+  color: var(--muted2);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 36px;
+  max-width: 460px;
+}
+
+.cta-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cta-contact {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+}
+
+.cta-contact-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  min-width: 60px;
+}
+
+.cta-contact-value {
+  color: var(--g);
+  font-weight: 500;
+}
+
+.cta-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ask-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 24px;
+}
+
+.ask-card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--g);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.ask-card-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.ask-card-desc {
+  font-size: 12.5px;
+  color: var(--muted2);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ═══ SLIDE 1: TITLE ═══ -->
+  <div class="slide active" id="s1">
+    <div class="s1-logo-row">
+      <div class="logo">
+        <div class="logo-box"><span>0n</span></div>
+        <div class="logo-text">0nMCP</div>
+      </div>
+    </div>
+    <div class="s1-conf">Confidential — Attorney & Investor Review</div>
+
+    <div class="s1-eyebrow">RocketOpp LLC &nbsp;·&nbsp; New Alexandria, PA &nbsp;·&nbsp; April 2026</div>
+    <div class="s1-headline">The Infrastructure<br>Layer for <span>Agentic AI</span></div>
+    <div class="s1-sub">A universal AI orchestration platform connecting 800+ tools across 48+ services through one authenticated API — with 5 provisional patents covering 15+ distinct inventions.</div>
+
+    <div class="s1-meta">
+      <div class="s1-stat">
+        <div class="n">800+</div>
+        <div class="l">AI Tools</div>
+      </div>
+      <div class="s1-divider"></div>
+      <div class="s1-stat">
+        <div class="n">48+</div>
+        <div class="l">Integrated Services</div>
+      </div>
+      <div class="s1-divider"></div>
+      <div class="s1-stat">
+        <div class="n">5</div>
+        <div class="l">Provisional Patents</div>
+      </div>
+      <div class="s1-divider"></div>
+      <div class="s1-stat">
+        <div class="n">15+</div>
+        <div class="l">Distinct Inventions</div>
+      </div>
+      <div class="s1-divider"></div>
+      <div class="s1-stat">
+        <div class="n">$0.01</div>
+        <div class="l">Per Tool Call</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 2: THE PROBLEM ═══ -->
+  <div class="slide" id="s2">
+    <div class="slide-label">01 — The Problem</div>
+    <div class="slide-title">AI is powerful.<br><span>Connecting it is broken.</span></div>
+    <div class="slide-sub">Every AI application today is manually wired. Credentials sit in plain text. Tools are hardcoded. Orchestration is rebuilt from scratch for every workflow.</div>
+
+    <div class="s2-grid">
+      <div class="problem-card">
+        <div class="problem-num">01</div>
+        <div class="problem-title">Fragmented Tool Ecosystem</div>
+        <div class="problem-desc">There is no standard registry for AI-callable tools. Every developer manually discovers, integrates, and maintains each API connection independently. 800+ tools means 800+ integration problems.</div>
+        <div class="problem-sting">No universal tool discovery layer exists</div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-num">02</div>
+        <div class="problem-title">Credentials Are Exposed</div>
+        <div class="problem-desc">API keys, OAuth tokens, and secrets are passed in plain text through AI workflows, stored in .env files, and transmitted through third-party orchestrators. Every handoff is a security exposure.</div>
+        <div class="problem-sting">No zero-exposure credential standard for AI agents</div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-num">03</div>
+        <div class="problem-title">No Model Intelligence Layer</div>
+        <div class="problem-desc">AI applications pick one model and hardcode it. There is no system that routes each task to the statistically optimal model, scores outputs competitively, or learns from results over time.</div>
+        <div class="problem-sting">No competitive multi-model arbitration layer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 3: THE SOLUTION ═══ -->
+  <div class="slide" id="s3">
+    <div class="slide-label">02 — The Solution</div>
+
+    <div class="solution-layout">
+      <div class="solution-left">
+        <div class="solution-tagline">One API.<br><span>Every AI tool.</span><br>Zero friction.</div>
+        <div class="solution-desc">0nMCP is the universal orchestration layer that sits between any AI application and the tools it needs to execute — providing authenticated access, encrypted credentials, intelligent model selection, and compounding knowledge — without rebuilding any of it.</div>
+        <div class="solution-pills">
+          <div class="pill">Universal Registry</div>
+          <div class="pill">Vault Encryption</div>
+          <div class="pill">Multi-Model Scoring</div>
+          <div class="pill">Pipeline Orchestration</div>
+          <div class="pill">Pay-Per-Use</div>
+          <div class="pill">Patent Pending IP</div>
+        </div>
+      </div>
+
+      <div class="solution-right">
+        <div class="stat-stack">
+          <div class="stack-stat">
+            <div class="stack-n">800+</div>
+            <div class="stack-info">
+              <div class="l">Tools Available Today</div>
+              <div class="d">Stripe, Supabase, LinkedIn, email platforms, CRMs, and 43+ more services — callable by any AI model</div>
+            </div>
+          </div>
+          <div class="stack-stat">
+            <div class="stack-n">3</div>
+            <div class="stack-info">
+              <div class="l">Execution Modes</div>
+              <div class="d">Pipeline (sequential), Assembly Line (parallel), Radial Burst (broadcast) — covering every workflow pattern</div>
+            </div>
+          </div>
+          <div class="stack-stat">
+            <div class="stack-n">AES<br><span style="font-size:18px">256</span></div>
+            <div class="stack-info">
+              <div class="l">Vault Encryption Standard</div>
+              <div class="d">GCM + Ed25519 signatures — zero-exposure credential injection for every tool call</div>
+            </div>
+          </div>
+          <div class="stack-stat">
+            <div class="stack-n">$0</div>
+            <div class="stack-info">
+              <div class="l">Subscription Required</div>
+              <div class="d">Pure pay-per-use. Customers buy capability combos ($1–5) and pay $0.01 per tool call executed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 4: HOW IT WORKS ═══ -->
+  <div class="slide" id="s4">
+    <div class="slide-label">03 — How It Works</div>
+    <div class="slide-title">Three execution modes.<br><span>Every workflow pattern covered.</span></div>
+    <div class="slide-sub">Any AI application calls the 0nMCP API with a task. The platform selects the optimal tools, execution pattern, and AI model — and returns a scored result.</div>
+
+    <div class="modes-grid">
+      <div class="mode-card">
+        <div class="mode-icon">→</div>
+        <div class="mode-n">Mode 01</div>
+        <div class="mode-name-big">Pipeline</div>
+        <div class="mode-desc-big">Tools execute sequentially. Output of each step becomes input to the next. Used for structured workflows where order and data transformation matter.</div>
+        <div class="mode-example">Enrich lead → Score ICP → Draft email → Send via SMTP</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon">⇉</div>
+        <div class="mode-n">Mode 02</div>
+        <div class="mode-name-big">Assembly Line</div>
+        <div class="mode-desc-big">Multiple tools run in coordinated parallel tracks and converge on a final output. Optimized for complex tasks requiring simultaneous data gathering.</div>
+        <div class="mode-example">LinkedIn + ZoomInfo + Stripe → unified company profile</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon">✦</div>
+        <div class="mode-n">Mode 03</div>
+        <div class="mode-name-big">Radial Burst</div>
+        <div class="mode-desc-big">A single trigger fans out to N tools simultaneously and aggregates all results. Used for maximum-breadth queries and competitive model scoring.</div>
+        <div class="mode-example">Broadcast prompt → GPT-4o + Claude + Gemini → highest confidence answer returned</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 5: PLATFORM STACK ═══ -->
+  <div class="slide" id="s5">
+    <div class="slide-label">04 — Platform</div>
+    <div class="slide-title">Built and live.<br><span>Not a prototype.</span></div>
+
+    <div class="stack-layout">
+      <div class="stack-left">
+        <div class="product-list">
+          <div class="product-item live">
+            <div class="product-dot"></div>
+            <div>
+              <div class="product-name">0nMCP Core Platform</div>
+              <div class="product-desc">0nmcp.com — console, vault, registry, 800+ tools. Live and transacting via npm package and API.</div>
+            </div>
+          </div>
+          <div class="product-item live">
+            <div class="product-dot"></div>
+            <div>
+              <div class="product-name">Vault Protocol</div>
+              <div class="product-desc">AES-256-GCM encrypted credential storage with .0n file standard. Integrated into core platform.</div>
+            </div>
+          </div>
+          <div class="product-item live">
+            <div class="product-dot"></div>
+            <div>
+              <div class="product-name">MCPFed Registry</div>
+              <div class="product-desc">Federated tool discovery and authentication layer. Installable from the 0nmcp.com site terminal.</div>
+            </div>
+          </div>
+          <div class="product-item live">
+            <div class="product-dot"></div>
+            <div>
+              <div class="product-name">0nLinked Chrome Extension</div>
+              <div class="product-desc">LinkedIn automation via official API. $197 one-time via 0nmcp.com console. MV3 compliant.</div>
+            </div>
+          </div>
+          <div class="product-item building">
+            <div class="product-dot dim"></div>
+            <div>
+              <div class="product-name">0nDefender</div>
+              <div class="product-desc">AI security layer running natively on the 0n network. Deployment pending — architecture complete.</div>
+            </div>
+          </div>
+          <div class="product-item building">
+            <div class="product-dot dim"></div>
+            <div>
+              <div class="product-name">0nPress / Add0n / 0nMail</div>
+              <div class="product-desc">WordPress AI plugin, CRM marketplace, and email orchestration — specs complete, builds in progress.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-right">
+        <div class="tech-block">
+          <div class="tech-label">Core Infrastructure</div>
+          <div class="tech-grid">
+            <div class="tech-item">Next.js 14</div>
+            <div class="tech-item">Supabase + RLS</div>
+            <div class="tech-item">Vercel Edge</div>
+            <div class="tech-item">GitHub / 0nork</div>
+            <div class="tech-item">Stripe Payments</div>
+            <div class="tech-item">AES-256-GCM</div>
+          </div>
+        </div>
+        <div class="tech-block">
+          <div class="tech-label">AI Integrations</div>
+          <div class="tech-grid">
+            <div class="tech-item">Anthropic Claude</div>
+            <div class="tech-item">OpenAI GPT-4o</div>
+            <div class="tech-item">Google Gemini</div>
+            <div class="tech-item">MCP Protocol</div>
+          </div>
+        </div>
+        <div class="tech-block">
+          <div class="tech-label">Distribution</div>
+          <div class="tech-grid">
+            <div class="tech-item">npm: 0nmcp</div>
+            <div class="tech-item">0nmcp.com</div>
+            <div class="tech-item">Chrome Web Store</div>
+            <div class="tech-item">WP Plugin Dir.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 6: IP MOAT ═══ -->
+  <div class="slide" id="s6">
+    <div class="slide-label">05 — Intellectual Property</div>
+    <div class="slide-title"><span>5 provisional patents.</span><br>15+ distinct inventions.<br>All patent pending.</div>
+
+    <div class="ip-layout">
+      <div class="ip-left">
+        <div class="ip-big-stat">
+          <div class="ip-big-n">15+</div>
+          <div class="ip-big-l">Distinct inventions across<br><strong>5 provisional USPTO applications</strong><br>filed by sole inventor Michael Alan Mento Jr.</div>
+        </div>
+
+        <div class="ip-facts">
+          <div class="ip-fact"><strong>Zero IP overlap</strong> confirmed with all known competitors including OpenClaw, mcp-gateway-registry, and MetaMCP</div>
+          <div class="ip-fact"><strong>Micro entity status certified</strong> on all applicable applications — significant fee reduction on non-provisional filings</div>
+          <div class="ip-fact"><strong>Non-provisional deadlines 2027</strong> — all five applications convert within a 14-week window (Jan–Apr 2027)</div>
+          <div class="ip-fact"><strong>Pro bono attorney engagement active</strong> — probonopatent.uspto.gov engagement in progress for non-provisional conversion</div>
+          <div class="ip-fact"><strong>Trademark filing recommended</strong> — 0nMCP Classes 9 & 42 identified as minimum viable ($700)</div>
+        </div>
+      </div>
+
+      <div class="ip-right">
+        <div class="ip-card-mini">
+          <div class="ip-card-mini-num">63/968,814</div>
+          <div>
+            <div class="ip-card-mini-name">MCPFed</div>
+            <div class="ip-card-mini-desc">Federated MCP server registry with multi-layer workflow execution — Pipeline, Assembly Line, Radial Burst</div>
+          </div>
+        </div>
+        <div class="ip-card-mini">
+          <div class="ip-card-mini-num">63/990,046</div>
+          <div>
+            <div class="ip-card-mini-name">Vault Protocol</div>
+            <div class="ip-card-mini-desc">AES-256-GCM + Ed25519 encrypted credential container with .0n file standard and zero-exposure injection</div>
+          </div>
+        </div>
+        <div class="ip-card-mini">
+          <div class="ip-card-mini-num">64/006,268</div>
+          <div>
+            <div class="ip-card-mini-name">0nPlex</div>
+            <div class="ip-card-mini-desc">Multi-persona heterogeneous AI orchestration with dual-track competitive scoring and autonomous knowledge compounding</div>
+          </div>
+        </div>
+        <div class="ip-card-mini">
+          <div class="ip-card-mini-num">64/006,282</div>
+          <div>
+            <div class="ip-card-mini-name">0nCore — PACG · LVOS · CUCIA</div>
+            <div class="ip-card-mini-desc">Three inventions: predictive context generation, Thompson Sampling model selection, cross-provider confidence normalization</div>
+          </div>
+        </div>
+        <div class="ip-card-mini">
+          <div class="ip-card-mini-num">64/024,736</div>
+          <div>
+            <div class="ip-card-mini-name">Knowledge Layers K1–K7</div>
+            <div class="ip-card-mini-desc">Seven-tier AI knowledge hierarchy from ephemeral session context through universal persistent organizational intelligence</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 7: MARKET ═══ -->
+  <div class="slide" id="s7">
+    <div class="slide-label">06 — Market Opportunity</div>
+    <div class="slide-title">MCP is becoming the<br><span>HTTP of AI agents.</span></div>
+    <div class="slide-sub">Anthropic's Model Context Protocol is being adopted across the industry as the standard interface for AI tool calls. 0nMCP owns the orchestration and registry layer on top of it.</div>
+
+    <div class="market-grid">
+      <div class="market-big">
+        <div class="mkt-stat">
+          <div class="n">$407B</div>
+          <div class="l">AI Market by 2027</div>
+          <div class="d">Total addressable market for AI infrastructure and tooling globally</div>
+        </div>
+        <div class="mkt-div"></div>
+        <div class="mkt-stat">
+          <div class="n">6,000+</div>
+          <div class="l">MCP Servers Published</div>
+          <div class="d">Public MCP ecosystem growing exponentially — every server is a potential MCPFed registry entry</div>
+        </div>
+        <div class="mkt-div"></div>
+        <div class="mkt-stat">
+          <div class="n">$0.01</div>
+          <div class="l">Per Execution — Atomic Scale</div>
+          <div class="d">At 1M daily tool calls, revenue is $10K/day — with zero marginal cost per additional call</div>
+        </div>
+      </div>
+
+      <div class="market-card">
+        <div class="market-card-title">Why Now</div>
+        <div class="market-card-body">
+          MCP adoption has reached an inflection point. <strong>Anthropic, OpenAI, and Google</strong> are all building MCP-native products. Enterprise AI teams are actively seeking orchestration infrastructure — but no company offers a <strong>universal, authenticated, pay-per-use registry</strong> at this layer. 0nMCP is the only platform filing IP in this exact space.
+        </div>
+      </div>
+
+      <div class="market-card">
+        <div class="market-card-title">Competitive Position</div>
+        <div class="market-card-body">
+          Primary competitors — OpenClaw, mcp-gateway-registry, MetaMCP — are <strong>open-source, single-model, non-commercial tools</strong> with zero IP protection. 0nMCP is the only platform with: a working payment layer, encrypted credential vaults, multi-model scoring, and provisionally patented orchestration architecture.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 8: BUSINESS MODEL ═══ -->
+  <div class="slide" id="s8">
+    <div class="slide-label">07 — Business Model</div>
+    <div class="slide-title">Pay-per-use.<br><span>No subscriptions. No lock-in.</span></div>
+
+    <div class="biz-layout">
+      <div class="biz-col">
+        <div class="biz-highlight">
+          <div class="biz-hl-label">Atomic Pricing Unit</div>
+          <div class="biz-hl-n">$0.01</div>
+          <div class="biz-hl-desc">Per MCP tool call executed. Every AI interaction generates revenue. Revenue scales linearly with usage — zero marginal cost increase per call after infrastructure.</div>
+        </div>
+
+        <div class="biz-section-title">Revenue Streams</div>
+        <div class="biz-items">
+          <div class="biz-item">
+            <div class="biz-item-top">
+              <div class="biz-item-name">Pre-Built Capability Combos</div>
+              <div class="biz-item-price">$1–$5</div>
+            </div>
+            <div class="biz-item-desc">Customers buy pre-configured tool bundles — lead enrichment workflows, email sequences, AI writing pipelines. One-time purchase unlocks the combo; pay per use after.</div>
+          </div>
+          <div class="biz-item">
+            <div class="biz-item-top">
+              <div class="biz-item-name">0nLinked (Chrome Extension)</div>
+              <div class="biz-item-price">$197</div>
+            </div>
+            <div class="biz-item-desc">One-time purchase. LinkedIn automation via official API. Zero DOM scraping — fully compliant with LinkedIn 2025 enforcement standards.</div>
+          </div>
+          <div class="biz-item">
+            <div class="biz-item-top">
+              <div class="biz-item-name">Marketplace / Add0n</div>
+              <div class="biz-item-price">Rev Share</div>
+            </div>
+            <div class="biz-item-desc">Third-party CRM integrations and AI agents sold through marketplace. Platform takes revenue share on each transaction.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="biz-col">
+        <div class="biz-section-title">Unit Economics</div>
+        <div class="biz-items">
+          <div class="biz-item">
+            <div class="biz-item-top">
+              <div class="biz-item-name">10K daily tool calls</div>
+              <div class="biz-item-price">$100/day</div>
+            </div>
+            <div class="biz-item-desc">$3,000/month from pure execution revenue — before any combo sales or extension revenue.</div>
+          </div>
+          <div class="biz-item">
+            <div class="biz-item-top">
+              <div class="biz-item-name">100K daily tool calls</div>
+              <div class="biz-item-price">$1K/day</div>
+            </div>
+            <div class="biz-item-desc">$30,000/month. Achievable with a single mid-size enterprise customer or ~500 active SMB users.</div>
+          </div>
+          <div class="biz-item">
+            <div class="biz-item-top">
+              <div class="biz-item-name">1M daily tool calls</div>
+              <div class="biz-item-price">$10K/day</div>
+            </div>
+            <div class="biz-item-desc">$300,000/month. This is the SaaS infrastructure scale that enterprise MCP adoption unlocks.</div>
+          </div>
+        </div>
+
+        <div class="biz-highlight" style="margin-top:16px">
+          <div class="biz-hl-label">Investor Terms</div>
+          <div class="biz-hl-desc" style="font-size:14px; color: var(--text)">Maximum <strong style="color:var(--g)">10% equity</strong> hard cap. Founder retains operating control in all scenarios. Capital used exclusively for non-provisional patent filings, trademark portfolio, and engineering acceleration.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 9: TRACTION ═══ -->
+  <div class="slide" id="s9">
+    <div class="slide-label">08 — Traction & What's Built</div>
+    <div class="slide-title">Solo founder.<br><span>Platform-scale output.</span></div>
+
+    <div class="traction-grid">
+      <div class="traction-big">
+        <div class="t-stat">
+          <div class="n">5</div>
+          <div class="l">Patents Filed</div>
+          <div class="d">Pro se, USPTO Customer #223410 — all provisional, all patent pending</div>
+        </div>
+        <div class="t-stat">
+          <div class="n">800+</div>
+          <div class="l">Tools Live</div>
+          <div class="d">Across 48+ services — callable from npm package today</div>
+        </div>
+        <div class="t-stat">
+          <div class="n">6</div>
+          <div class="l">Products Shipped</div>
+          <div class="d">Core platform, Vault, MCPFed, 0nLinked, Add0n, web0n.com</div>
+        </div>
+        <div class="t-stat">
+          <div class="n">0</div>
+          <div class="l">External Engineers</div>
+          <div class="d">Full-stack solo: Next.js, Supabase, Chrome MV3, patent filings, IP strategy</div>
+        </div>
+      </div>
+
+      <div class="traction-item done">
+        <div class="ti-name">0nMCP Core API + Console</div>
+        <div class="ti-desc">Live at 0nmcp.com. NPM package published. 800+ tools authenticated and callable.</div>
+      </div>
+      <div class="traction-item done">
+        <div class="ti-name">Vault Protocol</div>
+        <div class="ti-desc">AES-256-GCM encryption, .0n file standard, Ed25519 signatures. Integrated into platform.</div>
+      </div>
+      <div class="traction-item done">
+        <div class="ti-name">MCPFed Registry</div>
+        <div class="ti-desc">Federated tool registry live. Installable via site terminal. Patent 63/968,814 filed.</div>
+      </div>
+      <div class="traction-item done">
+        <div class="ti-name">0nLinked Chrome Extension</div>
+        <div class="ti-desc">MV3. Official LinkedIn API only. $197 one-time. Listed in 0nmcp.com console.</div>
+      </div>
+      <div class="traction-item done">
+        <div class="ti-name">Add0n Marketplace</div>
+        <div class="ti-desc">CRM marketplace with OAuth, storefront, agent trigger system, Supabase data layer live.</div>
+      </div>
+      <div class="traction-item done">
+        <div class="ti-name">5 Provisional Patents</div>
+        <div class="ti-desc">MCPFed · Vault · 0nPlex · 0nCore · Knowledge Layers — all filed, all pending, zero counsel.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 10: ASK ═══ -->
+  <div class="slide" id="s10">
+    <div class="slide-label">09 — The Ask</div>
+
+    <div class="cta-layout">
+      <div class="cta-left">
+        <div class="cta-headline">Let's build<br>the <span>AI utility<br>layer</span> together.</div>
+        <div class="cta-body">0nMCP is a working platform with provisionally patented architecture, zero competitor IP overlap, and a pay-per-use model that generates revenue from every AI interaction on the planet. The infrastructure layer for agentic AI is being built right now — and we've already filed the IP that defines it.</div>
+
+        <div class="cta-contacts">
+          <div class="cta-contact">
+            <div class="cta-contact-label">Founder</div>
+            <div class="cta-contact-value">Michael Alan Mento Jr. — RocketOpp LLC</div>
+          </div>
+          <div class="cta-contact">
+            <div class="cta-contact-label">Email</div>
+            <div class="cta-contact-value">mike@0ncore.com</div>
+          </div>
+          <div class="cta-contact">
+            <div class="cta-contact-label">Platform</div>
+            <div class="cta-contact-value">0nmcp.com</div>
+          </div>
+          <div class="cta-contact">
+            <div class="cta-contact-label">USPTO</div>
+            <div class="cta-contact-value">Customer #223410 — 5 Provisional Applications</div>
+          </div>
+          <div class="cta-contact">
+            <div class="cta-contact-label">Address</div>
+            <div class="cta-contact-value">3036 State Route 119 · New Alexandria, PA 15670</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-right">
+        <div class="ask-card">
+          <div class="ask-card-label">For Patent Attorneys</div>
+          <div class="ask-card-title">Non-Provisional Conversion — 5 Applications</div>
+          <div class="ask-card-desc">All 5 provisionals convert within a 14-week window (Jan–Apr 2027). Pro bono engagement preferred via probonopatent.uspto.gov. Full specification drafts, claim sets, and prior art research available. Zero IP overlap with known competitors confirmed.</div>
+        </div>
+        <div class="ask-card">
+          <div class="ask-card-label">For Investors</div>
+          <div class="ask-card-title">10% Maximum Equity — Hard Cap</div>
+          <div class="ask-card-desc">Capital deployed toward: non-provisional USPTO filings, trademark portfolio (Classes 9 & 42), and engineering acceleration. Founder retains operating control in all scenarios. Revenue model is live and generating at $0.01/call atomic pricing.</div>
+        </div>
+        <div class="ask-card">
+          <div class="ask-card-label">Next Step</div>
+          <div class="ask-card-title">Review the One-Pager + Live Platform</div>
+          <div class="ask-card-desc">Access the full platform at 0nmcp.com. All 5 patent application numbers available for Patent Center review. Full IP landscape report, competitive analysis, and technical architecture available on request.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end deck -->
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">←</button>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="nav-counter" id="counter">1 / 10</div>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">→</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+const dotsContainer = document.getElementById('navDots');
+const counter = document.getElementById('counter');
+
+// Build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsContainer.appendChild(d);
+});
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(() => slides[current].classList.remove('exit'), 550);
+  current = Math.max(0, Math.min(n, total - 1));
+  slides[current].classList.add('active');
+  document.querySelectorAll('.nav-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+  counter.textContent = (current + 1) + ' / ' + total;
+}
+
+function navigate(dir) { goTo(current + dir); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+</script>
+</body>
+</html>

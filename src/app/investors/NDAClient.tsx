@@ -138,6 +138,10 @@ export default function NDAClient() {
             marginBottom: 16,
             letterSpacing: '-0.03em',
             fontFamily: 'var(--font-display, "Instrument Sans", sans-serif)',
+            background: 'linear-gradient(135deg, #7ed957 0%, #00d4ff 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
           }}
         >
           Investor Portal
@@ -171,7 +175,7 @@ export default function NDAClient() {
             }}
           >
             <div>
-              <h2 style={{ fontSize: 18, margin: 0, fontWeight: 700 }}>
+              <h2 style={{ fontSize: 18, margin: 0, fontWeight: 700, background: 'linear-gradient(135deg, #7ed957 0%, #00d4ff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Non-Disclosure Agreement
               </h2>
               <p style={{ margin: '4px 0 0', fontSize: 13, color: '#64748b' }}>

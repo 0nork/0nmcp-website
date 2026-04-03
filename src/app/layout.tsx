@@ -81,6 +81,7 @@ export default async function RootLayout({
   return (
     <html lang="en" dir="ltr">
       <head>
+        <meta name="slack-app-id" content="A0AQHLXC3FD" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://va.vercel-scripts.com" />

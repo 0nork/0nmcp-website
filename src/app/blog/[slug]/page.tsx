@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import blogData from '@/data/blog-posts.json'
 import { STATS_DISPLAY } from '@/data/stats'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
+import CodeCopyInit from '@/components/CodeCopyInit'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -385,6 +386,7 @@ export default async function BlogPostPage({
   return (
     <>
       <ReadingProgressBar />
+      <CodeCopyInit />
 
       <script
         type="application/ld+json"
@@ -398,34 +400,35 @@ export default async function BlogPostPage({
       <style>{`
         .blog-layout {
           padding: 7rem 1.5rem 6rem;
-          max-width: 1360px;
+          max-width: 1400px;
           margin: 0 auto;
           display: grid;
-          grid-template-columns: 240px 1fr 280px;
-          gap: 2.5rem;
+          grid-template-columns: 220px minmax(0, 680px) 260px;
+          gap: 2rem;
           align-items: start;
+          justify-content: center;
         }
-        @media (max-width: 1100px) {
+        @media (max-width: 1200px) {
           .blog-layout {
-            grid-template-columns: 1fr 260px;
-            gap: 2rem;
-            padding: 6rem 1rem 4rem;
+            grid-template-columns: minmax(0, 680px) 240px;
+            gap: 1.75rem;
+            padding: 6rem 1.25rem 4rem;
           }
-          .blog-sidebar-left {
-            display: none;
-          }
+          .blog-sidebar-left { display: none; }
         }
-        @media (max-width: 768px) {
+        @media (max-width: 860px) {
           .blog-layout {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
             gap: 2rem;
             padding: 5.5rem 1rem 3rem;
+            max-width: 680px;
           }
-          .blog-sidebar-left {
-            display: none;
-          }
-          .blog-sidebar-right {
-            order: 2;
+          .blog-sidebar-left { display: none; }
+          .blog-sidebar-right { order: 2; }
+        }
+        @media (max-width: 480px) {
+          .blog-layout {
+            padding: 4.5rem 0.75rem 2.5rem;
           }
         }
 
@@ -516,7 +519,7 @@ export default async function BlogPostPage({
         /* ─── Article body ─── */
         .blog-article {
           color: #555;
-          font-size: 1.0625rem;
+          font-size: 1rem;
           line-height: 1.8;
         }
         .blog-article h1 {
@@ -575,39 +578,96 @@ export default async function BlogPostPage({
           text-decoration-color: #5cb83a;
         }
         .blog-article code {
-          font-size: 0.85em;
-          background: #f5f5f5;
+          font-size: 0.84em;
+          background: #f3f4f6;
           color: #d63384;
-          padding: 0.15em 0.45em;
-          border-radius: 4px;
+          padding: 0.15em 0.5em;
+          border-radius: 5px;
           border: 1px solid #e5e7eb;
+          font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
         }
+
+        /* ── 0nMCP Console — Branded Code Block ── */
         .blog-article pre {
-          background: #fafafa;
-          border: 1px solid #e5e7eb;
-          border-radius: 10px;
-          padding: 1.25rem 1.5rem;
-          overflow-x: auto;
-          margin: 1.5rem 0;
+          background: #1a1f2e;
+          border: 1px solid #2a3040;
+          border-radius: 12px;
+          padding: 0;
+          overflow: hidden;
+          margin: 1.75rem 0;
           position: relative;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .blog-article pre::before {
+          content: '';
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 0.75rem 1rem 0.625rem;
+          background: #151923;
+          border-bottom: 1px solid #2a3040;
+          /* Traffic light dots */
+          background-image:
+            radial-gradient(circle 5px at 16px 50%, #ff5f57 5px, transparent 5px),
+            radial-gradient(circle 5px at 32px 50%, #ffbd2e 5px, transparent 5px),
+            radial-gradient(circle 5px at 48px 50%, #28c940 5px, transparent 5px);
+          background-repeat: no-repeat;
+          min-height: 32px;
+        }
+        .blog-article pre::after {
+          content: '0nMCP Console';
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 0.625rem 1rem;
+          font-size: 0.625rem;
+          color: #4a5568;
+          font-family: 'JetBrains Mono', monospace;
+          letter-spacing: 0.05em;
+          line-height: 32px;
+        }
+        .blog-article pre[data-lang]::after {
+          content: attr(data-lang) ' — 0nMCP Console';
         }
         .blog-article pre code {
+          display: block;
           background: none;
           border: none;
-          padding: 0;
+          padding: 1rem 1.25rem 1.25rem;
           font-size: 0.8125rem;
-          color: #1a1a1a;
-          line-height: 1.6;
+          color: #e2e8f0;
+          line-height: 1.7;
+          font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+          overflow-x: auto;
         }
-        .blog-article pre[data-lang]::before {
-          content: attr(data-lang);
+        /* ── Copy Code Button (injected by CodeCopyInit) ── */
+        .on-copy-code-btn {
           position: absolute;
-          top: 0.5rem;
-          right: 0.75rem;
-          font-size: 0.625rem;
-          color: #aaa;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
+          top: 0;
+          right: 0;
+          padding: 0.5rem 0.875rem;
+          background: transparent;
+          color: #4a5568;
+          font-size: 0.6875rem;
+          font-weight: 600;
+          font-family: 'JetBrains Mono', monospace;
+          letter-spacing: 0.03em;
+          border: none;
+          border-left: 1px solid #2a3040;
+          border-bottom: 1px solid #2a3040;
+          border-radius: 0 11px 0 8px;
+          cursor: pointer;
+          transition: all 0.2s;
+          z-index: 5;
+          line-height: 32px;
+        }
+        .on-copy-code-btn:hover {
+          background: rgba(110,224,90,0.08);
+          color: #6EE05A;
+        }
+        .on-copy-code-btn.copied {
+          background: rgba(110,224,90,0.15);
+          color: #6EE05A;
         }
         .blog-article ul, .blog-article ol {
           margin: 0 0 1.25rem;

@@ -4,90 +4,56 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 
+/**
+ * 0nboard Forum — Clean public SEO layer
+ * Light theme, modern cards, drives users to Grid for premium features.
+ */
+
 interface Group {
-  id: string
-  name: string
-  slug: string
-  description: string | null
-  icon: string | null
-  color: string
-  member_count: number
-  thread_count: number
-  is_official: boolean
+  id: string; name: string; slug: string; description: string | null
+  icon: string | null; color: string; member_count: number; thread_count: number
 }
 
 interface Thread {
-  id: string
-  title: string
-  slug: string
-  category: string
-  body: string
-  is_pinned: boolean
-  is_locked: boolean
-  reply_count: number
-  view_count: number
-  score: number
-  hot_score: number
-  last_reply_at: string | null
-  created_at: string
-  user_id: string
+  id: string; title: string; slug: string; category: string; body: string
+  is_pinned: boolean; is_locked: boolean; reply_count: number; view_count: number
+  score: number; hot_score: number; created_at: string; user_id: string
   profiles?: { full_name: string | null; email: string; karma?: number; reputation_level?: string; avatar_url?: string | null }
   community_groups?: { name: string; slug: string; icon: string | null; color: string } | null
 }
 
 const SORTS = [
-  { value: 'hot', label: 'Hot' },
-  { value: 'new', label: 'New' },
+  { value: 'hot', label: 'Trending' },
+  { value: 'new', label: 'Latest' },
   { value: 'top', label: 'Top' },
-  { value: 'controversial', label: 'Controversial' },
-]
-
-const TIMEFRAMES = [
-  { value: 'day', label: 'Today' },
-  { value: 'week', label: 'This Week' },
-  { value: 'month', label: 'This Month' },
-  { value: 'year', label: 'This Year' },
-  { value: 'all', label: 'All Time' },
 ]
 
 export default function ForumClient({
-  initialThreads,
-  initialGroups,
-  initialTotal,
+  initialThreads, initialGroups, initialTotal,
 }: {
-  initialThreads: Thread[]
-  initialGroups: Group[]
-  initialTotal: number
+  initialThreads: Thread[]; initialGroups: Group[]; initialTotal: number
 }) {
   const router = useRouter()
   const searchParams = useSearchParams()
-
   const [threads, setThreads] = useState<Thread[]>(initialThreads)
-  const [groups, setGroups] = useState<Group[]>(initialGroups)
+  const [groups] = useState<Group[]>(initialGroups)
   const [total, setTotal] = useState(initialTotal)
   const [loading, setLoading] = useState(false)
   const [userVotes, setUserVotes] = useState<Record<string, number>>({})
-
   const group = searchParams.get('group') || 'all'
   const sort = searchParams.get('sort') || 'hot'
-  const timeframe = searchParams.get('timeframe') || 'all'
+  const isInitialMount = useRef(true)
 
   const setParam = useCallback((key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
-    if (value === 'all' || (key === 'sort' && value === 'hot') || (key === 'timeframe' && value === 'all')) {
-      params.delete(key)
-    } else {
-      params.set(key, value)
-    }
+    if (value === 'all' || (key === 'sort' && value === 'hot')) params.delete(key)
+    else params.set(key, value)
     router.push(`/forum?${params.toString()}`)
   }, [searchParams, router])
 
-  // Track whether component has mounted — skip initial fetch since server data is used
-  const isInitialMount = useRef(true)
-
   const loadThreads = useCallback(async () => {
     setLoading(true)
-    const params = new URLSearchParams({ sort, timeframe })
+    const params = new URLSearchParams({ sort })
     if (group !== 'all') params.set('group', group)
     const res = await fetch(`/api/community/threads?${params}`)
     if (res.ok) {
@@ -97,42 +63,28 @@ export default function ForumClient({
       setUserVotes(data.userVotes || {})
     }
     setLoading(false)
-  }, [group, sort, timeframe])
+  }, [group, sort])
 
-  // Refetch when sort/filter changes (skip initial render — server data is used)
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false
-      return
-    }
+    if (isInitialMount.current) { isInitialMount.current = false; return }
     loadThreads()
   }, [loadThreads])
 
-  // Fetch user votes for initial threads (client-side, needs auth cookies)
   useEffect(() => {
     if (initialThreads.length > 0) {
-      fetch('/api/community/threads?sort=hot&limit=1')
-        .then(r => r.json())
-        .then(d => { if (d.userVotes) setUserVotes(d.userVotes) })
-        .catch(() => {})
+      fetch('/api/community/threads?sort=hot&limit=1').then(r => r.json()).then(d => { if (d.userVotes) setUserVotes(d.userVotes) }).catch(() => {})
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [initialThreads.length])
 
   async function handleVote(threadId: string, vote: 1 | -1) {
     const res = await fetch('/api/community/votes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ thread_id: threadId, vote }),
     })
     if (res.ok) {
       const data = await res.json()
       setUserVotes(prev => ({ ...prev, [threadId]: data.vote }))
-      setThreads(prev => prev.map(t => {
-        if (t.id !== threadId) return t
-        const oldVote = userVotes[threadId] || 0
-        return { ...t, score: t.score - oldVote + data.vote }
-      }))
+      setThreads(prev => prev.map(t => t.id !== threadId ? t : { ...t, score: t.score - (userVotes[threadId] || 0) + data.vote }))
     }
   }
 
@@ -144,233 +96,236 @@ export default function ForumClient({
     const diff = Date.now() - new Date(date).getTime()
     const mins = Math.floor(diff / 60000)
     if (mins < 1) return 'just now'
-    if (mins < 60) return `${mins}m`
+    if (mins < 60) return `${mins}m ago`
     const hrs = Math.floor(mins / 60)
-    if (hrs < 24) return `${hrs}h`
+    if (hrs < 24) return `${hrs}h ago`
     const days = Math.floor(hrs / 24)
-    if (days < 30) return `${days}d`
-    if (days < 365) return `${Math.floor(days / 30)}mo`
-    return `${Math.floor(days / 365)}y`
+    if (days < 30) return `${days}d ago`
+    return `${Math.floor(days / 30)}mo ago`
   }
-
-  function reputationColor(level?: string) {
-    switch (level) {
-      case 'legend': return '#ff69b4'
-      case 'expert': return '#FFD700'
-      case 'power_user': return '#ff6b35'
-      case 'contributor': return '#9945ff'
-      case 'member': return '#00d4ff'
-      default: return 'var(--text-muted)'
-    }
-  }
-
-  const activeGroup = groups.find(g => g.slug === group)
 
   return (
-    <div className="py-6 px-4 md:px-6 lg:px-8">
-      <div className="max-w-[1280px] mx-auto">
-        {/* ==================== MAIN FEED ==================== */}
-        <div className="flex-1 min-w-0" style={{ color: '#ffffff' }}>
-          {/* Group Header */}
-          {activeGroup && (
-            <div
-              className="rounded-xl p-5 mb-4 flex items-center gap-4"
-              style={{ background: activeGroup.color, border: `1px solid ${activeGroup.color}` }}
-            >
-              <span className="text-3xl">{activeGroup.icon || '&#128172;'}</span>
-              <div>
-                <h1 className="text-xl font-bold" style={{ color: '#ffffff' }}>{activeGroup.name}</h1>
-                {activeGroup.description && (
-                  <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }}>{activeGroup.description}</p>
-                )}
-              </div>
-              <div className="ml-auto text-right text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                <div className="font-bold" style={{ color: '#ffffff' }}>{activeGroup.member_count}</div>
-                <div>members</div>
-              </div>
-            </div>
-          )}
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '1.5rem 1.25rem 4rem' }}>
+      <style>{`
+        .forum-layout { display: grid; grid-template-columns: 1fr 280px; gap: 2rem; align-items: start; }
+        @media (max-width: 860px) { .forum-layout { grid-template-columns: 1fr; } .forum-sidebar { order: 2; } }
 
-          {/* Sort Bar */}
-          <div
-            className="rounded-xl px-4 py-2.5 mb-4 flex items-center gap-1 flex-wrap"
-            style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.06)' }}
-          >
+        .forum-thread {
+          background: #fff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 1rem 1.25rem;
+          transition: all 0.2s;
+          text-decoration: none;
+          display: block;
+          color: inherit;
+        }
+        .forum-thread:hover {
+          border-color: #d1d5db;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+          transform: translateY(-1px);
+        }
+        .forum-thread-pinned {
+          border-left: 3px solid #6EE05A;
+        }
+      `}</style>
+
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a1a', margin: 0, letterSpacing: '-0.02em' }}>
+            Community
+          </h1>
+          <p style={{ fontSize: '0.8125rem', color: '#9ca3af', margin: '0.25rem 0 0' }}>
+            {total} discussions across {groups.length} topics
+          </p>
+        </div>
+        <Link href="/forum/new" style={{
+          padding: '8px 18px', borderRadius: 8, background: '#6EE05A', color: '#000',
+          fontSize: '0.8125rem', fontWeight: 700, textDecoration: 'none',
+          boxShadow: '0 2px 8px rgba(110,224,90,0.2)',
+        }}>
+          New Thread
+        </Link>
+      </div>
+
+      <div className="forum-layout">
+        {/* ── Main Feed ── */}
+        <div>
+          {/* Sort + Filter Bar */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 4, marginBottom: '1rem',
+            padding: '6px', borderRadius: 10, background: '#f3f4f6',
+          }}>
             {SORTS.map(s => (
-              <button
-                key={s.value}
-                onClick={() => setParam('sort', s.value)}
-                className="text-[12px] font-bold px-3 py-1.5 rounded-lg transition-all"
-                style={{
-                  background: sort === s.value ? 'rgba(126,217,87,0.1)' : 'transparent',
-                  color: sort === s.value ? 'var(--accent)' : '#666',
-                }}
-              >
+              <button key={s.value} onClick={() => setParam('sort', s.value)} style={{
+                padding: '6px 14px', borderRadius: 7, border: 'none',
+                background: sort === s.value ? '#fff' : 'transparent',
+                color: sort === s.value ? '#1a1a1a' : '#9ca3af',
+                fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+                boxShadow: sort === s.value ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                transition: 'all 0.15s',
+              }}>
                 {s.label}
               </button>
             ))}
-            {(sort === 'top' || sort === 'controversial') && (
-              <>
-                <span className="text-[11px] mx-1" style={{ color: 'rgba(255,255,255,0.08)' }}>|</span>
-                {TIMEFRAMES.map(t => (
-                  <button
-                    key={t.value}
-                    onClick={() => setParam('timeframe', t.value)}
-                    className="text-[11px] font-semibold px-2 py-1 rounded transition-all"
-                    style={{
-                      background: timeframe === t.value ? 'rgba(255,255,255,0.06)' : 'transparent',
-                      color: timeframe === t.value ? '#ffffff' : '#666',
-                    }}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </>
+            {group !== 'all' && (
+              <button onClick={() => setParam('group', 'all')} style={{
+                marginLeft: 'auto', padding: '4px 10px', borderRadius: 6,
+                border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280',
+                fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}>
+                Clear filter
+              </button>
             )}
-            <div className="ml-auto text-[11px] font-medium" style={{ color: '#555' }}>
-              {total} thread{total !== 1 ? 's' : ''}
-            </div>
           </div>
 
           {/* Thread List */}
           {loading ? (
-            <div className="text-center py-20">
-              <div className="text-2xl font-black" style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>0n</div>
-              <p className="text-base mt-2" style={{ color: '#888' }}>Loading...</p>
-            </div>
+            <div style={{ padding: '4rem 0', textAlign: 'center', color: '#9ca3af' }}>Loading...</div>
           ) : threads.length === 0 ? (
-            <div className="text-center py-20" style={{ color: '#888' }}>
-              <p className="text-lg font-bold mb-1">No threads yet</p>
-              <p className="text-base">Be the first to start a discussion!</p>
+            <div style={{ padding: '4rem 0', textAlign: 'center', color: '#9ca3af' }}>
+              <p style={{ fontWeight: 600, marginBottom: 4 }}>No threads yet</p>
+              <p style={{ fontSize: '0.875rem' }}>Be the first to start a discussion!</p>
             </div>
           ) : (
-            <div
-              style={{
-                display: 'grid',
-                gap: '1rem',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
-              }}
-            >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {threads.map(thread => {
                 const myVote = userVotes[thread.id] || 0
                 const groupData = thread.community_groups
-                const accentColor = groupData?.color || 'var(--accent)'
-
                 return (
-                  <div
+                  <Link
                     key={thread.id}
-                    className="rounded-xl flex overflow-hidden transition-all"
-                    style={{
-                      background: '#111827',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                      ...(thread.is_pinned ? { gridColumn: '1 / -1' } : {}),
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(126,217,87,0.08)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
+                    href={`/forum/${thread.slug}`}
+                    className={`forum-thread ${thread.is_pinned ? 'forum-thread-pinned' : ''}`}
                   >
-                    {/* Left accent bar */}
-                    <div style={{ width: '3px', flexShrink: 0, background: accentColor }} />
-
-                    {/* Vote Column */}
-                    <div className="flex flex-col items-center py-2 px-2 gap-0.5 flex-shrink-0" style={{ minWidth: '44px' }}>
-                      <button
-                        onClick={(e) => { e.preventDefault(); handleVote(thread.id, 1) }}
-                        className="w-7 h-7 flex items-center justify-center rounded-md transition-all text-sm"
-                        style={{
-                          color: myVote === 1 ? '#ff6b35' : 'var(--text-muted)',
-                          background: myVote === 1 ? 'rgba(255,107,53,0.1)' : 'transparent',
-                        }}
-                        title="Upvote"
-                      >
-                        &#9650;
-                      </button>
-                      <span
-                        className="text-xs font-bold tabular-nums"
-                        style={{
-                          color: thread.score > 0 ? '#ff6b35' : thread.score < 0 ? '#9945ff' : 'var(--text-muted)',
-                        }}
-                      >
-                        {thread.score}
+                    {/* Meta */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6, flexWrap: 'wrap' }}>
+                      {groupData && (
+                        <span style={{
+                          fontSize: '0.625rem', fontWeight: 700, padding: '2px 8px', borderRadius: 4,
+                          background: `${groupData.color}12`, color: groupData.color,
+                          textTransform: 'uppercase', letterSpacing: '0.05em',
+                        }}>
+                          {groupData.name}
+                        </span>
+                      )}
+                      {thread.is_pinned && (
+                        <span style={{ fontSize: '0.625rem', fontWeight: 700, padding: '2px 8px', borderRadius: 4, background: 'rgba(110,224,90,0.08)', color: '#6EE05A' }}>
+                          Pinned
+                        </span>
+                      )}
+                      <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>
+                        <span style={{ fontWeight: 600, color: '#6b7280' }}>{authorName(thread.profiles)}</span>
+                        {' '}&middot;{' '}{timeAgo(thread.created_at)}
                       </span>
-                      <button
-                        onClick={(e) => { e.preventDefault(); handleVote(thread.id, -1) }}
-                        className="w-7 h-7 flex items-center justify-center rounded-md transition-all text-sm"
-                        style={{
-                          color: myVote === -1 ? '#9945ff' : 'var(--text-muted)',
-                          background: myVote === -1 ? 'rgba(153,69,255,0.1)' : 'transparent',
-                        }}
-                        title="Downvote"
-                      >
-                        &#9660;
-                      </button>
                     </div>
 
-                    {/* Content */}
-                    <Link
-                      href={`/forum/${thread.slug}`}
-                      className="flex-1 py-3 pr-4 min-w-0 no-underline"
-                    >
-                      {/* Meta line */}
-                      <div className="flex items-center gap-1.5 flex-wrap mb-1">
-                        {groupData && (
-                          <span
-                            className="text-[10px] font-bold px-1.5 py-0.5 rounded"
-                            style={{ background: groupData.color, color: '#ffffff' }}
-                          >
-                            {groupData.icon} {groupData.name}
-                          </span>
-                        )}
-                        {thread.is_pinned && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,215,0,0.1)', color: '#FFD700' }}>
-                            Pinned
-                          </span>
-                        )}
-                        <span className="text-[12px] inline-flex items-center gap-1" style={{ color: '#888' }}>
-                          {thread.profiles?.avatar_url && (
-                            <img
-                              src={thread.profiles.avatar_url}
-                              alt=""
-                              width={14}
-                              height={14}
-                              style={{ borderRadius: '50%', flexShrink: 0 }}
-                            />
-                          )}
-                          <span
-                            className="font-semibold"
-                            style={{ color: reputationColor(thread.profiles?.reputation_level) }}
-                          >
-                            {authorName(thread.profiles)}
-                          </span>
-                          {thread.profiles?.karma ? (
-                            <span className="ml-1 opacity-50">({thread.profiles.karma} karma)</span>
-                          ) : null}
-                          <span className="mx-1">&middot;</span>
-                          <span>{timeAgo(thread.created_at)}</span>
-                        </span>
-                      </div>
+                    {/* Title */}
+                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#1a1a1a', margin: '0 0 0.375rem', lineHeight: 1.35 }}>
+                      {thread.title}
+                    </h3>
 
-                      {/* Title */}
-                      <h3 className="text-xl font-bold tracking-tight mb-1.5 leading-snug" style={{ color: '#ffffff' }}>
-                        {thread.is_locked && <span className="mr-1 opacity-50">&#128274;</span>}
-                        {thread.title}
-                      </h3>
+                    {/* Preview */}
+                    <p style={{
+                      fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.6, margin: '0 0 0.625rem',
+                      display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
+                    }}>
+                      {thread.body.slice(0, 200)}
+                    </p>
 
-                      {/* Preview */}
-                      <p className="text-[0.9375rem] leading-relaxed mb-2.5 line-clamp-3" style={{ color: '#ccc' }}>
-                        {thread.body.slice(0, 280)}
-                      </p>
-
-                      {/* Actions bar */}
-                      <div className="flex items-center gap-4 text-[13px]" style={{ color: '#777' }}>
-                        <span>&#128172; {thread.reply_count} {thread.reply_count === 1 ? 'reply' : 'replies'}</span>
-                        <span>&#128065; {thread.view_count}</span>
-                      </div>
-                    </Link>
-                  </div>
+                    {/* Footer stats */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.75rem', color: '#9ca3af' }}>
+                      <span style={{
+                        display: 'flex', alignItems: 'center', gap: 4,
+                        color: myVote === 1 ? '#6EE05A' : myVote === -1 ? '#ef4444' : '#9ca3af',
+                        fontWeight: 600,
+                      }}>
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3l4 5H4l4-5z" fill="currentColor"/></svg>
+                        {thread.score}
+                      </span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        {thread.reply_count}
+                      </span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                        {thread.view_count}
+                      </span>
+                    </div>
+                  </Link>
                 )
               })}
             </div>
           )}
+        </div>
+
+        {/* ── Right Sidebar ── */}
+        <div className="forum-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {/* Grid CTA */}
+          <div style={{
+            background: 'linear-gradient(135deg, #0B0F19, #162032)',
+            borderRadius: 14, padding: '1.5rem', textAlign: 'center',
+            border: '1px solid rgba(110,224,90,0.15)',
+          }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#E8EAED', marginBottom: 6 }}>
+              Join the <span style={{ color: '#6EE05A' }}>Grid</span>
+            </div>
+            <p style={{ fontSize: '0.75rem', color: '#7A8290', lineHeight: 1.6, marginBottom: '1rem' }}>
+              Unlock gamification, leaderboards, events, AI courses, and affiliate rewards.
+            </p>
+            <Link href="/grid" style={{
+              display: 'block', padding: '10px', borderRadius: 8, background: '#6EE05A', color: '#000',
+              fontSize: '0.8125rem', fontWeight: 700, textDecoration: 'none', textAlign: 'center',
+            }}>
+              Enter the Grid
+            </Link>
+          </div>
+
+          {/* Topics */}
+          <div style={{
+            background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem',
+          }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+              Topics
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <button onClick={() => setParam('group', 'all')} style={{
+                display: 'flex', justifyContent: 'space-between', width: '100%',
+                padding: '6px 8px', borderRadius: 6, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                background: group === 'all' ? 'rgba(110,224,90,0.06)' : 'transparent',
+                color: group === 'all' ? '#6EE05A' : '#6b7280',
+                fontSize: '0.8125rem', fontWeight: 600, textAlign: 'left',
+              }}>
+                <span>All Topics</span>
+                <span style={{ fontSize: '0.6875rem', color: '#9ca3af', background: '#f3f4f6', padding: '1px 8px', borderRadius: 10 }}>{total}</span>
+              </button>
+              {groups.map(g => (
+                <button key={g.slug} onClick={() => setParam('group', g.slug)} style={{
+                  display: 'flex', justifyContent: 'space-between', width: '100%',
+                  padding: '6px 8px', borderRadius: 6, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                  background: group === g.slug ? 'rgba(110,224,90,0.06)' : 'transparent',
+                  color: group === g.slug ? '#6EE05A' : '#6b7280',
+                  fontSize: '0.8125rem', fontWeight: 600, textAlign: 'left',
+                }}>
+                  <span>{g.name}</span>
+                  <span style={{ fontSize: '0.6875rem', color: '#9ca3af', background: '#f3f4f6', padding: '1px 8px', borderRadius: 10 }}>{g.thread_count}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* About */}
+          <div style={{
+            background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem',
+          }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+              About
+            </h4>
+            <p style={{ fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
+              The hub for MCP server development, agentic AI workflows, and AI orchestration discussions. Built on 0nMCP.
+            </p>
+          </div>
         </div>
       </div>
     </div>

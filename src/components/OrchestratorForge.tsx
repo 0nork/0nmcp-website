@@ -41,10 +41,10 @@ const SERVICES = [
 ]
 
 const PIPELINE_STAGES = [
-  { label: '0nCore', desc: 'Brand Voice Engine' },
-  { label: '0nPlex', desc: 'Multi-AI Council' },
-  { label: 'Seal of Truth', desc: 'SHA3-256 Verify' },
-  { label: '0nVault', desc: 'AES-256 Secured' },
+  { label: 'Analyze', desc: 'Understanding request' },
+  { label: 'Route', desc: 'Selecting services' },
+  { label: 'Execute', desc: 'Running workflow' },
+  { label: 'Verify', desc: 'Securing output' },
 ]
 
 type Stage = 'start' | 'discover' | 'execute' | 'capture' | 'done'
@@ -129,8 +129,8 @@ export default function OrchestratorForge() {
     }, 3000)
   }
 
-  async function executeTask() {
-    const taskText = task || 'Book a meeting with John and send a follow-up email with an invoice'
+  async function executeTask(overrideTask?: string) {
+    const taskText = overrideTask || task || 'Book a meeting with John and send a follow-up email with an invoice'
     setStage('execute')
     setExecLines([])
     setActivePipelineStage(-1)
@@ -138,17 +138,16 @@ export default function OrchestratorForge() {
 
     const lines = [
       { text: `[0nMCP] Task received: "${taskText}"`, pipelineStage: 0 },
-      { text: '[0nCore] Brand voice profile loaded... applying tone analysis', pipelineStage: 0 },
-      { text: '[0nPlex] 7 AI agents debating optimal execution path...', pipelineStage: 1 },
-      { text: '[0nPlex] Consensus reached: Pipeline > 3 steps, 2 services', pipelineStage: 1 },
-      { text: '[Step 1/3] calendar.event.create > Google Calendar', pipelineStage: 1 },
-      { text: '[Step 2/3] email.send > SendGrid (follow-up template)', pipelineStage: 1 },
-      { text: '[Step 3/3] invoice.create > Stripe ($250 consultation)', pipelineStage: 1 },
-      { text: '[Seal of Truth] SHA3-256 content-addressed verification...', pipelineStage: 2 },
-      { text: '[Seal of Truth] All 3 steps cryptographically verified', pipelineStage: 2 },
-      { text: '[0nVault] AES-256-GCM + hardware fingerprint seal applied', pipelineStage: 3 },
+      { text: '[0nMCP] Analyzing intent... matching to available services', pipelineStage: 0 },
+      { text: '[0nMCP] Routing: Pipeline > 3 steps across 3 services', pipelineStage: 1 },
+      { text: '[0nMCP] Services selected: Google Calendar, SendGrid, Stripe', pipelineStage: 1 },
+      { text: '[Step 1/3] Google Calendar > calendar.event.create', pipelineStage: 2 },
+      { text: '[Step 2/3] SendGrid > email.send (follow-up template)', pipelineStage: 2 },
+      { text: '[Step 3/3] Stripe > invoice.create ($250 consultation)', pipelineStage: 2 },
+      { text: '[0nMCP] All 3 steps executed successfully', pipelineStage: 3 },
+      { text: '[0nMCP] Encrypted + sealed with AES-256-GCM', pipelineStage: 3 },
       { text: '', pipelineStage: 3 },
-      { text: 'EXECUTION COMPLETE -- 0nMCP orchestrated 3 tools in 1.2s', pipelineStage: 3 },
+      { text: 'EXECUTION COMPLETE -- 0nMCP orchestrated 3 services in 1.2s', pipelineStage: 3 },
     ]
 
     for (let i = 0; i < lines.length; i++) {
@@ -513,10 +512,10 @@ export default function OrchestratorForge() {
                 )}
               </div>
 
-              {/* Task input */}
+              {/* Pre-set workflow buttons */}
               {showTaskInput && (
                 <div style={{
-                  maxWidth: 620,
+                  maxWidth: 680,
                   margin: '0 auto',
                   animation: 'forgeSlideUp 0.5s ease-out',
                 }}>
@@ -524,57 +523,58 @@ export default function OrchestratorForge() {
                     fontSize: 14,
                     color: 'rgba(255,255,255,0.5)',
                     textAlign: 'center',
-                    marginBottom: 14,
+                    marginBottom: 16,
                   }}>
-                    Type any task to see 0nMCP orchestrate it:
+                    Choose a workflow to see 0nMCP orchestrate it:
                   </p>
                   <div style={{
                     display: 'flex',
-                    gap: 10,
-                    background: 'rgba(0,0,0,0.3)',
-                    borderRadius: 16,
-                    padding: 6,
-                    border: '1px solid rgba(110,224,90,0.2)',
+                    flexWrap: 'wrap',
+                    gap: 8,
+                    justifyContent: 'center',
                   }}>
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={task}
-                      onChange={e => setTask(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && executeTask()}
-                      placeholder='e.g. "Check my calendar and book a flight to NYC"'
-                      style={{
-                        flex: 1,
-                        padding: '16px 20px',
-                        borderRadius: 12,
-                        border: 'none',
-                        fontSize: 15,
-                        color: '#fff',
-                        outline: 'none',
-                        background: 'transparent',
-                        fontFamily: 'inherit',
-                      }}
-                    />
-                    <button
-                      onClick={executeTask}
-                      style={{
-                        padding: '14px 28px',
-                        borderRadius: 12,
-                        background: 'linear-gradient(135deg, #6EE05A, #3ecf8e)',
-                        color: '#0f172a',
-                        fontWeight: 800,
-                        fontSize: 15,
-                        border: 'none',
-                        cursor: 'pointer',
-                        whiteSpace: 'nowrap',
-                        transition: 'transform 0.15s ease',
-                        letterSpacing: '-0.01em',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
-                      onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-                    >
-                      Execute &rarr;
-                    </button>
+                    {[
+                      { label: 'Send invoice + follow-up email', task: 'Send an invoice and follow-up email', services: 'Stripe, SendGrid', icon: '/' },
+                      { label: 'Book meeting + notify team', task: 'Book a meeting and notify the team on Slack', services: 'Google Calendar, Slack', icon: '|' },
+                      { label: 'Score leads + update CRM', task: 'Score all new leads and update the CRM pipeline', services: 'CRM, Supabase', icon: ':' },
+                      { label: 'Post to all socials', task: 'Write and publish a social media post across all platforms', services: 'LinkedIn, Twitter, Dev.to', icon: '#' },
+                      { label: 'Deploy site + run tests', task: 'Deploy the latest build and run integration tests', services: 'Vercel, GitHub', icon: '>' },
+                      { label: 'Onboard new client', task: 'Create a new client account with CRM contact, Stripe customer, and welcome email', services: 'CRM, Stripe, SendGrid', icon: '+' },
+                    ].map(w => (
+                      <button
+                        key={w.label}
+                        onClick={() => { setTask(w.task); executeTask(w.task) }}
+                        style={{
+                          padding: '10px 18px',
+                          borderRadius: 10,
+                          background: 'rgba(255,255,255,0.04)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          color: '#e2e8f0',
+                          fontSize: 13,
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          fontFamily: 'inherit',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 8,
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = 'rgba(110,224,90,0.1)'
+                          e.currentTarget.style.borderColor = 'rgba(110,224,90,0.3)'
+                          e.currentTarget.style.color = '#6EE05A'
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+                          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+                          e.currentTarget.style.color = '#e2e8f0'
+                        }}
+                      >
+                        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, opacity: 0.5 }}>{w.icon}</span>
+                        {w.label}
+                        <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginLeft: 4 }}>{w.services}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
               )}

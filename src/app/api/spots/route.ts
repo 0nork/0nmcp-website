@@ -4,6 +4,7 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 export async function GET() {
   try {
     const supabase = await createSupabaseServer()
+    if (!supabase) return NextResponse.json({ count: 0, total: 100 })
     const { count } = await supabase
       .from('profiles')
       .select('*', { count: 'exact', head: true })

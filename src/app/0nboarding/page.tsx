@@ -564,48 +564,165 @@ function OnboardingInner() {
 
       {error && <div className="auth-error" style={{ maxWidth: 600, margin: '0 auto 1rem' }}>{error}</div>}
 
-      {/* ===== STEP 1: WELCOME ===== */}
+      {/* ===== STEP 1: WELCOME + PLATFORM PICKER ===== */}
       {step === 1 && (
-        <div className="onboarding-card fadeInUp">
-          <h1 className="onboarding-title">
-            {isLinkedIn ? `Welcome, ${fullName.split(' ')[0] || 'friend'}!` : 'Welcome to the 0n Network'}
-          </h1>
-          <p className="onboarding-subtitle">
-            {isLinkedIn
-              ? 'We connected your LinkedIn profile. Next up: your personalized archetype reveal.'
-              : isOAuth
-                ? `Signed in with ${provider}. Let\u2019s set up your vault.`
-                : 'Your unified platform for AI orchestration \u2014 from encrypted credentials to community-powered learning.'}
-          </p>
+        <div className="onboarding-card fadeInUp" style={{ maxWidth: 720, position: 'relative', overflow: 'hidden' }}>
+          {/* Animated gradient background glow */}
+          <div style={{
+            position: 'absolute', top: -120, left: '50%', transform: 'translateX(-50%)',
+            width: 500, height: 500, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(126,217,87,0.08) 0%, rgba(0,212,255,0.04) 40%, transparent 70%)',
+            animation: 'pulseGlow 4s ease-in-out infinite',
+            pointerEvents: 'none', zIndex: 0,
+          }} />
 
-          <div className="onboarding-product-grid">
-            {PRODUCTS.map(p => (
-              <div key={p.name} className="onboarding-product-card" style={{ '--product-color': p.color } as React.CSSProperties}>
-                <div className="onboarding-product-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <BrandIcon name={p.name} size={28} />
-                  <span className="onboarding-product-name">{p.name}</span>
-                </div>
-                <p className="onboarding-product-desc">{p.desc}</p>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            {/* Welcome */}
+            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px',
+                borderRadius: 20, background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)',
+                marginBottom: '1.25rem', fontSize: '0.75rem', fontWeight: 600, color: '#7ed957',
+                letterSpacing: '0.05em', textTransform: 'uppercase',
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7ed957', animation: 'pulseGlow 2s ease-in-out infinite' }} />
+                You&apos;re in — {STATS_DISPLAY.tools} tools unlocked
               </div>
-            ))}
+              <h1 className="onboarding-title" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                {fullName ? `Welcome, ${fullName.split(' ')[0]}!` : 'Welcome to 0nMCP'}
+              </h1>
+              <p className="onboarding-subtitle" style={{ maxWidth: 480, margin: '0.5rem auto 0' }}>
+                The universal AI orchestrator. {STATS_DISPLAY.tools} tools, {STATS_DISPLAY.services} services, 7-layer encryption.
+                Let&apos;s get you set up in 60 seconds.
+              </p>
+            </div>
+
+            {/* Quick Profile (optional) */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem',
+              marginBottom: '2rem', maxWidth: 520, margin: '0 auto 2rem',
+            }}>
+              {[
+                { id: 'ob-company', label: 'Company', placeholder: 'Acme Inc', value: company, setter: setCompany, icon: 'M3 21h18M3 7l9-4 9 4M5 7v10h2V7M17 7v10h2V7M9 7v10h2V7M13 7v10h2V7' },
+                { id: 'ob-website', label: 'Website', placeholder: 'acme.com', value: bio, setter: setBio, icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zM3 12h18M12 3c2.5 2.8 4 6 4 9s-1.5 6.2-4 9c-2.5-2.8-4-6-4-9s1.5-6.2 4-9z' },
+              ].map(f => (
+                <div key={f.id}>
+                  <label htmlFor={f.id} style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.7rem', fontWeight: 600, marginBottom: 4 }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={f.icon}/></svg>
+                    {f.label} <span style={{ color: 'rgba(255,255,255,0.2)', fontWeight: 400 }}>(optional)</span>
+                  </label>
+                  <input
+                    id={f.id} type="text" value={f.value} onChange={e => f.setter(e.target.value)}
+                    placeholder={f.placeholder}
+                    style={{
+                      width: '100%', height: 38, borderRadius: 8,
+                      background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+                      color: '#fff', padding: '0 0.75rem', fontSize: '0.8rem', outline: 'none',
+                      transition: 'border-color 0.2s ease', fontFamily: 'inherit',
+                    }}
+                    onFocus={e => { e.target.style.borderColor = 'rgba(126,217,87,0.4)' }}
+                    onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* What are you installing for? */}
+            <div style={{ marginBottom: '2rem' }}>
+              <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600, marginBottom: '1rem' }}>
+                What are you building with 0nMCP?
+              </p>
+              <div style={{
+                display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center',
+              }}>
+                {[
+                  { label: 'AI Automation', color: '#7ed957' },
+                  { label: 'CRM + Sales', color: '#00d4ff' },
+                  { label: 'E-Commerce', color: '#f59e0b' },
+                  { label: 'Agency Work', color: '#a78bfa' },
+                  { label: 'DevOps', color: '#ef4444' },
+                  { label: 'Content Creation', color: '#ec4899' },
+                  { label: 'Data Analytics', color: '#06b6d4' },
+                  { label: 'Just Exploring', color: '#64748b' },
+                ].map(tag => {
+                  const selected = interests.includes(tag.label)
+                  return (
+                    <button
+                      key={tag.label}
+                      onClick={() => toggleInterest(tag.label)}
+                      style={{
+                        padding: '6px 14px', borderRadius: 20, cursor: 'pointer',
+                        background: selected ? `${tag.color}20` : 'rgba(255,255,255,0.04)',
+                        border: `1px solid ${selected ? tag.color + '60' : 'rgba(255,255,255,0.08)'}`,
+                        color: selected ? tag.color : 'var(--text-muted)',
+                        fontSize: '0.775rem', fontWeight: 600,
+                        transition: 'all 0.2s ease',
+                        transform: selected ? 'scale(1.05)' : 'scale(1)',
+                      }}
+                    >{tag.label}</button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div style={{
+              display: 'flex', justifyContent: 'center', gap: '2rem', marginBottom: '2rem',
+              flexWrap: 'wrap',
+            }}>
+              {[
+                { val: STATS_DISPLAY.tools, label: 'Tools', color: '#7ed957' },
+                { val: STATS_DISPLAY.services, label: 'Services', color: '#00d4ff' },
+                { val: '5', label: 'Patents', color: '#a78bfa' },
+                { val: '$0', label: 'Free', color: '#f59e0b' },
+              ].map((s, i) => (
+                <div key={i} style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: s.color, fontFamily: 'var(--font-mono)' }}>{s.val}</div>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', maxWidth: 400, margin: '0 auto' }}>
+              <a
+                href="/install"
+                style={{
+                  maxWidth: 360, width: '100%', height: 52, borderRadius: 10,
+                  background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
+                  color: '#000', border: 'none', fontSize: '1rem', fontWeight: 700,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                  textDecoration: 'none', cursor: 'pointer',
+                  boxShadow: '0 4px 20px rgba(126,217,87,0.3)',
+                  transition: 'all 0.2s ease',
+                  fontFamily: 'var(--font-display)',
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                Install 0nMCP Now
+              </a>
+              <button className="auth-btn secondary" onClick={async () => {
+                if (company || bio || interests.length > 0) {
+                  if (supabase && userId) {
+                    await supabase.from('profiles').update({
+                      company, bio, interests,
+                    }).eq('id', userId)
+                  }
+                }
+                goNext()
+              }} style={{ maxWidth: 360, width: '100%', fontSize: '0.8rem', opacity: 0.7 }}>
+                Skip for now — set up profile first
+              </button>
+            </div>
           </div>
 
-          <div className="onboarding-stat-row">
-            <div className="onboarding-stat"><span className="onboarding-stat-value">{STATS_DISPLAY.tools}</span><span className="onboarding-stat-label">Tools</span></div>
-            <div className="onboarding-stat"><span className="onboarding-stat-value">{STATS_DISPLAY.services}</span><span className="onboarding-stat-label">Services</span></div>
-            <div className="onboarding-stat"><span className="onboarding-stat-value">AES-256</span><span className="onboarding-stat-label">Encrypted Vault</span></div>
-            <div className="onboarding-stat"><span className="onboarding-stat-value">$0</span><span className="onboarding-stat-label">Free Forever</span></div>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', maxWidth: 400, margin: '0 auto' }}>
-            <a href="/install" className="auth-btn primary" style={{ maxWidth: 320, width: '100%', textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v10m0 0l-3.5-3.5M9 12l3.5-3.5M3 15h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              Install 0nMCP Now
-            </a>
-            <button className="auth-btn secondary" onClick={goNext} style={{ maxWidth: 320, width: '100%', fontSize: '0.8rem' }}>
-              Skip — set up profile first
-            </button>
-          </div>
+          {/* Keyframe animation */}
+          <style>{`
+            @keyframes pulseGlow {
+              0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+              50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+            }
+          `}</style>
         </div>
       )}
 

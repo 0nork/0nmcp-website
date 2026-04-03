@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import OrchestratorForge from '@/components/OrchestratorForge'
+import BlogSlider from '@/components/BlogSlider'
 
 /**
  * SXO Living DOM Homepage — Styled Edition
@@ -22,7 +23,7 @@ const TABLE_DATA: Record<string, { metric: string; typical: string; onmcp: strin
     { metric: 'Connected Services', typical: '1-5', onmcp: '99 services' },
     { metric: 'Configuration', typical: 'Manual YAML/JSON', onmcp: 'Zero config' },
     { metric: 'License', typical: 'Varies', onmcp: 'MIT — free forever' },
-    { metric: 'Patents Filed', typical: 'None', onmcp: '4 US provisionals', highlight: true },
+    { metric: 'Patents Filed', typical: 'None', onmcp: '5 US provisionals', highlight: true },
   ],
   crm: [
     { metric: 'CRM Tools', typical: '0', onmcp: '245 tools', highlight: true },
@@ -172,6 +173,9 @@ export default function SxoHomepage() {
 
       {/* ── ORCHESTRATOR FORGE ── */}
       <OrchestratorForge />
+
+      {/* ── BLOG SLIDER — Featured Articles ── */}
+      <BlogSlider />
 
       {/* ── BEAUTIFUL TABLE with Category Switcher ── */}
       <section id="mcp-servers" style={{ maxWidth: 900, margin: '0 auto', padding: '3rem 1.5rem' }}>

@@ -126,6 +126,69 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
+/* ═══ 0n GLOW HEADING — Brand CTA Style ═══
+   Neon green glow text with animated gradient outline.
+   Usage: <h2 class="on-glow-heading">Your Text</h2>
+   Works on both light and dark backgrounds. */
+.on-glow-heading {
+  font-weight: 900;
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(110, 224, 90, 0.8),
+    0 0 20px rgba(110, 224, 90, 0.6),
+    0 0 40px rgba(110, 224, 90, 0.4),
+    0 0 80px rgba(110, 224, 90, 0.2);
+  -webkit-text-stroke: 0.5px rgba(110, 224, 90, 0.3);
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.02em;
+}
+.on-glow-heading::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #6EE05A, #00d4ff, #a78bfa, #6EE05A);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: on-glow-gradient 4s ease-in-out infinite;
+  filter: blur(0px);
+  z-index: 1;
+}
+.on-glow-heading::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #6EE05A, #00d4ff, #a78bfa, #6EE05A);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: on-glow-gradient 4s ease-in-out infinite;
+  filter: blur(12px);
+  opacity: 0.5;
+  z-index: 0;
+}
+@keyframes on-glow-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .on-glow-heading::before,
+  .on-glow-heading::after {
+    animation: none;
+    background-position: 0% 50%;
+  }
+}
+
 /* ── Dark page text overrides ──
    Inside .homepage (dark bg pages), ensure all text is light.
    This prevents body #1a1a1a from bleeding into dark sections. */

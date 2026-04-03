@@ -21,6 +21,14 @@ export const metadata: Metadata = {
 
 const PLATFORMS = [
   {
+    name: '.env File',
+    slug: 'env',
+    icon: '$',
+    color: '#6EE05A',
+    desc: 'Convert plaintext .env files to encrypted .0n connection files with automatic service detection',
+    formats: ['.env', 'Environment Variables', 'API Keys', 'Secrets'],
+  },
+  {
     name: 'OpenAI',
     slug: 'openai',
     icon: 'O',

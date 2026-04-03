@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
             jsonrpc: '2.0', id,
             result: {
               protocolVersion: '2024-11-05',
-              serverInfo: { name: '0nMCP', version: '2.4.0' },
+              serverInfo: { name: '0nMCP', version: '3.0.1' },
               capabilities: { tools: { listChanged: false } },
             },
           })
@@ -183,11 +183,11 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     name: '0nMCP',
-    version: '2.4.0',
+    version: '3.0.1',
     protocol: 'mcp',
     transport: 'streamable_http',
     tools: MCP_TOOLS.length,
-    description: 'Universal AI API Orchestrator — 870+ tools, 54 services',
+    description: 'Universal AI API Orchestrator — 1,589 tools, 102 services. Official MCP Registry listed.',
     setup: {
       crm_agent_studio: {
         server_url: 'https://0nmcp.com/api/mcp',

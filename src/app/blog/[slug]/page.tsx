@@ -640,10 +640,10 @@ export default async function BlogPostPage({
           content: '0nMCP Console';
           position: absolute;
           top: 0;
-          right: 0;
-          padding: 0.625rem 1rem;
-          font-size: 0.625rem;
-          color: #4a5568;
+          left: 64px;
+          padding: 0.625rem 0.75rem;
+          font-size: 0.5625rem;
+          color: #3a4250;
           font-family: 'JetBrains Mono', monospace;
           letter-spacing: 0.05em;
           line-height: 32px;
@@ -665,31 +665,31 @@ export default async function BlogPostPage({
         /* ── Copy Code Button (injected by CodeCopyInit) ── */
         .on-copy-code-btn {
           position: absolute;
-          top: 0;
-          right: 0;
-          padding: 0.5rem 0.875rem;
-          background: transparent;
-          color: #4a5568;
-          font-size: 0.6875rem;
+          top: 6px;
+          right: 8px;
+          padding: 4px 10px;
+          background: rgba(255,255,255,0.06);
+          color: #556880;
+          font-size: 0.625rem;
           font-weight: 600;
           font-family: 'JetBrains Mono', monospace;
-          letter-spacing: 0.03em;
-          border: none;
-          border-left: 1px solid #2a3040;
-          border-bottom: 1px solid #2a3040;
-          border-radius: 0 11px 0 8px;
+          letter-spacing: 0.04em;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 6px;
           cursor: pointer;
           transition: all 0.2s;
           z-index: 5;
-          line-height: 32px;
+          line-height: 20px;
         }
         .on-copy-code-btn:hover {
-          background: rgba(110,224,90,0.08);
+          background: rgba(110,224,90,0.12);
           color: #6EE05A;
+          border-color: rgba(110,224,90,0.25);
         }
         .on-copy-code-btn.copied {
-          background: rgba(110,224,90,0.15);
+          background: rgba(110,224,90,0.2);
           color: #6EE05A;
+          border-color: rgba(110,224,90,0.3);
         }
         .blog-article ul, .blog-article ol {
           margin: 0 0 1.25rem;

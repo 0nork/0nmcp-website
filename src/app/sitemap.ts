@@ -67,11 +67,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/technology/0nvault',
     '/technology/0nplex',
     '/technology/0ncore',
+    '/start',
+    '/subscribe',
+    '/audit',
+    '/canvas',
+    '/downloads/onclaude',
+    '/downloads/ongpt',
+    '/downloads/ongram',
+    '/secure-claude',
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
-    priority: path === '' ? 1.0 : path === '/install0n' ? 0.95 : path === '/turn-it-on' ? 0.95 : path.startsWith('/convert') ? 0.9 : path.startsWith('/technology') ? 0.9 : 0.7,
+    priority: path === '' ? 1.0 : path === '/start' ? 0.95 : path === '/audit' ? 0.95 : path === '/install0n' ? 0.95 : path === '/turn-it-on' ? 0.95 : path.startsWith('/convert') ? 0.9 : path.startsWith('/technology') ? 0.9 : path === '/subscribe' ? 0.9 : path === '/blog' ? 0.85 : path === '/compare' ? 0.85 : 0.7,
   }))
 
   // Service hub pages (26)

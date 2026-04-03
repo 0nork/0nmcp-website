@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import { STATS_DISPLAY } from '@/data/stats'
-import { Install0nClient } from './client'
 
-const title = 'Install 0nMCP — Add 1,155 AI Tools to Claude in 60 Seconds'
+const title = 'Install 0nMCP — 1,589 AI Tools in One Command'
 const description = `Turn Claude into the ultimate AI command center. ${STATS_DISPLAY.tools}+ tools, ${STATS_DISPLAY.services} services, encrypted vault, workflow store, and self-training AI brain. Works on Desktop, Web, Mobile, and CLI. Free — no credit card.`
 
 export const metadata: Metadata = {
@@ -125,13 +125,5 @@ export default function Install0nPage() {
     ],
   }
 
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <Install0nClient />
-    </>
-  )
+  redirect('/install')
 }

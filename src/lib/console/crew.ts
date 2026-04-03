@@ -210,7 +210,7 @@ export interface MonitorRunResult {
   status: 'success' | 'partial' | 'error'
 }
 
-/** Load monitor history from localStorage */
+/** Load monitor history from localStorage (fallback — primary is Supabase via API) */
 export function loadMonitorHistory(): MonitorRunResult[] {
   if (typeof window === 'undefined') return []
   try {
@@ -225,9 +225,59 @@ export function saveMonitorRun(result: MonitorRunResult): void {
   if (typeof window === 'undefined') return
   const history = loadMonitorHistory()
   history.unshift(result)
-  // Keep last 50 runs
   if (history.length > 50) history.length = 50
   localStorage.setItem('0n_monitor_history', JSON.stringify(history))
+}
+
+/** Load crew config from Supabase API */
+export async function loadCrewFromAPI(): Promise<{ agents: CrewAgent[]; runs: MonitorRunResult[] }> {
+  try {
+    const res = await fetch('/api/console/crew')
+    if (res.ok) {
+      const data = await res.json()
+      return { agents: data.agents || [], runs: data.runs || [] }
+    }
+  } catch { /* fall back to local */ }
+  return { agents: [], runs: [] }
+}
+
+/** Save agent to Supabase via API */
+export async function saveAgentToAPI(agent: CrewAgent): Promise<boolean> {
+  try {
+    const res = await fetch('/api/console/crew', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'save', agent }),
+    })
+    return res.ok
+  } catch { return false }
+}
+
+/** Delete agent via API */
+export async function deleteAgentFromAPI(agentId: string): Promise<boolean> {
+  try {
+    const res = await fetch('/api/console/crew', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'delete', agentId }),
+    })
+    return res.ok
+  } catch { return false }
+}
+
+/** Execute agent via API */
+export async function executeAgentFromAPI(agentId: string, trigger = 'manual', inputs?: Record<string, unknown>): Promise<{
+  runId: string; status: string; steps: number; services: string[]; summary: string; durationMs: number
+} | null> {
+  try {
+    const res = await fetch('/api/console/crew', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'execute', agentId, trigger, inputs }),
+    })
+    if (res.ok) return res.json()
+  } catch { /* ignore */ }
+  return null
 }
 
 /** Generate a .0n workflow JSON from agent abilities */

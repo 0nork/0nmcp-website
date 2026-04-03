@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
+import OAuthButtons from '@/components/OAuthButtons'
 
 const LAUNCH_DATE = new Date('2026-05-01T00:00:00-04:00').getTime()
 
@@ -111,6 +112,13 @@ export default function RequestAccessPage() {
           {!submitted ? (
             <div className="ra-form-container">
               <h2 className="ra-form-title">Request Early Access</h2>
+
+              <OAuthButtons mode="signup" />
+
+              <div className="auth-divider" style={{ margin: '1rem 0' }}>
+                <span>or continue with email</span>
+              </div>
+
               {error && <div className="ra-error">{error}</div>}
 
               <form onSubmit={handleSubmit} className="ra-form">

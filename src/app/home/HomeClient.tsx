@@ -23,19 +23,27 @@ const BRAND = {
   textMuted: '#64748b',
 }
 
-const ORBIT_SERVICES = [
-  { label: 'Stripe', angle: 0 },
-  { label: 'Slack', angle: 30 },
-  { label: 'GitHub', angle: 60 },
-  { label: 'Supabase', angle: 90 },
-  { label: 'OpenAI', angle: 120 },
-  { label: 'CRM', angle: 150 },
-  { label: 'Twilio', angle: 180 },
-  { label: 'Discord', angle: 210 },
-  { label: 'Notion', angle: 240 },
-  { label: 'Shopify', angle: 270 },
-  { label: 'HubSpot', angle: 300 },
-  { label: 'Linear', angle: 330 },
+const FORGE_SERVICES = [
+  { abbr: 'St', color: '#635bff' },
+  { abbr: 'Sl', color: '#4a154b' },
+  { abbr: 'Gh', color: '#333333' },
+  { abbr: 'Sb', color: '#3ecf8e' },
+  { abbr: 'Sg', color: '#1a82e2' },
+  { abbr: 'Tw', color: '#f22f46' },
+  { abbr: 'Go', color: '#4285f4' },
+  { abbr: 'Sh', color: '#96bf48' },
+  { abbr: 'Dc', color: '#5865f2' },
+  { abbr: 'Hs', color: '#ff7a59' },
+  { abbr: 'Li', color: '#5e6ad2' },
+  { abbr: 'Oa', color: '#10a37f' },
+  { abbr: 'An', color: '#d4a574' },
+  { abbr: 'Zm', color: '#2d8cff' },
+  { abbr: 'Ji', color: '#0052cc' },
+  { abbr: 'Mg', color: '#47a248' },
+  { abbr: 'Sq', color: '#333333' },
+  { abbr: 'Ln', color: '#0A66C2' },
+  { abbr: 'No', color: '#ffffff' },
+  { abbr: 'Tg', color: '#2AABEE' },
 ]
 
 const TICKER_SERVICES = [
@@ -133,69 +141,70 @@ function IconArrowRight({ color = 'currentColor', size = 16 }: { color?: string;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   RADIAL BURST ANIMATION
+   FORGE RADIAL BURST ANIMATION
    ═══════════════════════════════════════════════════════════════════ */
 
-type Phase = 'pipeline' | 'assembly' | 'burst'
+function ForgeRadialBurst() {
+  const [hoveredNode, setHoveredNode] = useState<number | null>(null)
+  const cx = 220
+  const cy = 220
+  const orbitR = 160
+  const nodeR = 20
 
-const PHASE_CONFIG: Record<Phase, { color: string; label: string; duration: number }> = {
-  pipeline: { color: BRAND.green, label: 'PIPELINE', duration: 4000 },
-  assembly: { color: BRAND.cyan, label: 'ASSEMBLY LINE', duration: 4000 },
-  burst: { color: BRAND.purple, label: 'RADIAL BURST', duration: 4000 },
-}
-
-const PHASES: Phase[] = ['pipeline', 'assembly', 'burst']
-
-function RadialBurst() {
-  const [phase, setPhase] = useState<Phase>('pipeline')
-  const [progress, setProgress] = useState(0)
-  const animRef = useRef<number>(0)
-  const startRef = useRef(Date.now())
-  const phaseIndexRef = useRef(0)
-
-  useEffect(() => {
-    let running = true
-    const tick = () => {
-      if (!running) return
-      const elapsed = Date.now() - startRef.current
-      const currentPhase = PHASES[phaseIndexRef.current]
-      const dur = PHASE_CONFIG[currentPhase].duration
-      const p = Math.min(elapsed / dur, 1)
-      setProgress(p)
-
-      if (p >= 1) {
-        phaseIndexRef.current = (phaseIndexRef.current + 1) % PHASES.length
-        setPhase(PHASES[phaseIndexRef.current])
-        startRef.current = Date.now()
-        setProgress(0)
+  const nodePositions = useMemo(() =>
+    FORGE_SERVICES.map((_, i) => {
+      const angle = (i / FORGE_SERVICES.length) * Math.PI * 2 - Math.PI / 2
+      return {
+        x: cx + orbitR * Math.cos(angle),
+        y: cy + orbitR * Math.sin(angle),
+        angle,
       }
-      animRef.current = requestAnimationFrame(tick)
-    }
-    animRef.current = requestAnimationFrame(tick)
-    return () => { running = false; cancelAnimationFrame(animRef.current) }
-  }, [])
-
-  const cx = 200
-  const cy = 200
-  const orbitR = 140
-  const config = PHASE_CONFIG[phase]
+    }), []
+  )
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 420, aspectRatio: '1', margin: '0 auto' }}>
-      <svg viewBox="0 0 400 400" style={{ width: '100%', height: '100%' }}>
+    <div style={{ position: 'relative', width: '100%', maxWidth: 480, aspectRatio: '1', margin: '0 auto' }}>
+      <style>{`
+        @keyframes forgeDrawLine {
+          from { stroke-dashoffset: 300; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes forgeRadialBurst {
+          0% { opacity: 0; transform: scale(1); }
+          30% { opacity: 0.3; }
+          100% { opacity: 0; transform: scale(1.5); }
+        }
+        @keyframes forgeHubPulse {
+          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px #6EE05A); }
+          50% { transform: scale(1.08); filter: drop-shadow(0 0 16px #6EE05A); }
+        }
+        @keyframes forgeNodeAppear {
+          from { transform: scale(0); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes forgeGlowPing {
+          0% { r: 20; opacity: 0.5; }
+          100% { r: 32; opacity: 0; }
+        }
+        @keyframes forgeRingExpand {
+          from { opacity: 0; transform: scale(0.5); }
+          to { opacity: 0.2; transform: scale(1); }
+        }
+      `}</style>
+      <svg viewBox="0 0 440 440" style={{ width: '100%', height: '100%' }}>
         <defs>
-          <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor={config.color} stopOpacity="0.3" />
-            <stop offset="100%" stopColor={config.color} stopOpacity="0" />
+          <radialGradient id="forgeHubGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#6EE05A" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#6EE05A" stopOpacity="0" />
           </radialGradient>
-          <filter id="glow">
+          <filter id="forgeGlow">
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-          <filter id="bigGlow">
+          <filter id="forgeBigGlow">
             <feGaussianBlur stdDeviation="6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
@@ -204,177 +213,147 @@ function RadialBurst() {
           </filter>
         </defs>
 
-        {/* Center glow */}
-        <circle cx={cx} cy={cy} r={60} fill="url(#centerGlow)" />
+        {/* Center ambient glow */}
+        <circle cx={cx} cy={cy} r={80} fill="url(#forgeHubGlow)" />
 
-        {/* Orbit ring */}
-        <circle
-          cx={cx} cy={cy} r={orbitR}
-          fill="none"
-          stroke={config.color}
-          strokeOpacity={0.1}
-          strokeWidth={1}
-        />
+        {/* 3 expanding rings */}
+        {[60, 120, 180].map((r, i) => (
+          <circle
+            key={`ring-${i}`}
+            cx={cx}
+            cy={cy}
+            r={r}
+            fill="none"
+            stroke="#6EE05A"
+            strokeOpacity={0.08}
+            strokeWidth={1}
+            style={{
+              transformOrigin: `${cx}px ${cy}px`,
+              animation: `forgeRingExpand 1.2s ease-out ${0.3 + i * 0.2}s both`,
+            }}
+          />
+        ))}
 
-        {/* Connection lines from center to each service */}
-        {ORBIT_SERVICES.map((svc, i) => {
-          const rad = (svc.angle * Math.PI) / 180
-          const sx = cx + orbitR * Math.cos(rad)
-          const sy = cy + orbitR * Math.sin(rad)
-          return (
-            <line
-              key={`line-${i}`}
-              x1={cx} y1={cy} x2={sx} y2={sy}
-              stroke={config.color}
-              strokeOpacity={0.08}
-              strokeWidth={1}
-            />
-          )
-        })}
+        {/* Radial lines from center to each node */}
+        {nodePositions.map((pos, i) => (
+          <line
+            key={`line-${i}`}
+            x1={cx}
+            y1={cy}
+            x2={pos.x}
+            y2={pos.y}
+            stroke="#6EE05A"
+            strokeOpacity={0.12}
+            strokeWidth={1}
+            strokeDasharray="300"
+            strokeDashoffset="0"
+            style={{
+              animation: `forgeDrawLine 0.8s ease-out ${0.5 + i * 0.08}s both`,
+            }}
+          />
+        ))}
 
-        {/* Phase-specific animations */}
-        {phase === 'pipeline' && (
-          <PipelineAnimation cx={cx} cy={cy} orbitR={orbitR} progress={progress} color={config.color} />
-        )}
-        {phase === 'assembly' && (
-          <AssemblyAnimation cx={cx} cy={cy} orbitR={orbitR} progress={progress} color={config.color} />
-        )}
-        {phase === 'burst' && (
-          <BurstAnimation cx={cx} cy={cy} orbitR={orbitR} progress={progress} color={config.color} />
-        )}
+        {/* Burst ring animations (play once) */}
+        {[1, 2, 3].map((n) => (
+          <circle
+            key={`burst-${n}`}
+            cx={cx}
+            cy={cy}
+            r={orbitR * 0.4 * n}
+            fill="none"
+            stroke="#6EE05A"
+            strokeWidth={1.5}
+            style={{
+              transformOrigin: `${cx}px ${cy}px`,
+              animation: `forgeRadialBurst 1.5s ease-out ${0.8 + n * 0.3}s both`,
+            }}
+          />
+        ))}
 
         {/* Service nodes */}
-        {ORBIT_SERVICES.map((svc, i) => {
-          const rad = (svc.angle * Math.PI) / 180
-          const sx = cx + orbitR * Math.cos(rad)
-          const sy = cy + orbitR * Math.sin(rad)
-          const pulseScale = 1 + 0.15 * Math.sin(Date.now() / 600 + i * 0.5)
+        {FORGE_SERVICES.map((svc, i) => {
+          const pos = nodePositions[i]
+          const isHovered = hoveredNode === i
           return (
-            <g key={`node-${i}`}>
-              <circle cx={sx} cy={sy} r={6 * pulseScale} fill={config.color} fillOpacity={0.15} />
-              <circle cx={sx} cy={sy} r={3.5} fill={config.color} filter="url(#glow)" />
+            <g
+              key={`node-${i}`}
+              style={{
+                transformOrigin: `${pos.x}px ${pos.y}px`,
+                animation: `forgeNodeAppear 0.5s ease-out ${0.8 + i * 0.06}s both`,
+                cursor: 'pointer',
+              }}
+              onMouseEnter={() => setHoveredNode(i)}
+              onMouseLeave={() => setHoveredNode(null)}
+            >
+              {/* Glow ping on appear */}
+              <circle
+                cx={pos.x}
+                cy={pos.y}
+                r={nodeR}
+                fill="none"
+                stroke={svc.color}
+                strokeWidth={1.5}
+                opacity={0}
+                style={{
+                  animation: `forgeGlowPing 0.8s ease-out ${1.0 + i * 0.06}s both`,
+                }}
+              />
+              {/* Node circle */}
+              <circle
+                cx={pos.x}
+                cy={pos.y}
+                r={isHovered ? nodeR * 1.15 : nodeR}
+                fill={svc.color}
+                filter={isHovered ? 'url(#forgeBigGlow)' : 'url(#forgeGlow)'}
+                style={{ transition: 'r 0.2s ease, filter 0.2s ease' }}
+              />
+              {/* Abbreviation text */}
               <text
-                x={sx}
-                y={sy + 16}
+                x={pos.x}
+                y={pos.y + 1}
                 textAnchor="middle"
-                fill={BRAND.textSecondary}
-                fontSize="8"
+                dominantBaseline="middle"
+                fill="#ffffff"
+                fontSize="11"
+                fontWeight="700"
                 fontFamily="var(--font-display, system-ui)"
-                fontWeight="500"
+                style={{ pointerEvents: 'none' }}
               >
-                {svc.label}
+                {svc.abbr}
               </text>
             </g>
           )
         })}
 
-        {/* Center node */}
-        <circle cx={cx} cy={cy} r={22} fill={BRAND.bgCard} stroke={config.color} strokeWidth={2} filter="url(#bigGlow)" />
-        <text x={cx} y={cy + 1} textAnchor="middle" dominantBaseline="middle" fill={config.color} fontSize="9" fontWeight="700" fontFamily="var(--font-display, system-ui)">
-          0nMCP
-        </text>
+        {/* Center hub */}
+        <g style={{
+          transformOrigin: `${cx}px ${cy}px`,
+          animation: 'forgeHubPulse 3s ease-in-out infinite',
+        }}>
+          <circle
+            cx={cx}
+            cy={cy}
+            r={28}
+            fill={BRAND.bgCard}
+            stroke="#6EE05A"
+            strokeWidth={2.5}
+            filter="url(#forgeBigGlow)"
+          />
+          <text
+            x={cx}
+            y={cy + 1}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill="#6EE05A"
+            fontSize="11"
+            fontWeight="800"
+            fontFamily="var(--font-display, system-ui)"
+          >
+            0nMCP
+          </text>
+        </g>
       </svg>
-
-      {/* Phase indicator */}
-      <div style={{
-        position: 'absolute',
-        bottom: -8,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        gap: 12,
-        alignItems: 'center',
-      }}>
-        {PHASES.map((p) => (
-          <div key={p} style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            opacity: phase === p ? 1 : 0.35,
-            transition: 'opacity 0.4s',
-          }}>
-            <div style={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: PHASE_CONFIG[p].color,
-              boxShadow: phase === p ? `0 0 8px ${PHASE_CONFIG[p].color}` : 'none',
-            }} />
-            <span style={{
-              fontSize: 10,
-              fontWeight: 600,
-              color: PHASE_CONFIG[p].color,
-              fontFamily: 'var(--font-display, system-ui)',
-              letterSpacing: '0.05em',
-            }}>
-              {PHASE_CONFIG[p].label}
-            </span>
-          </div>
-        ))}
-      </div>
     </div>
-  )
-}
-
-function PipelineAnimation({ cx, cy, orbitR, progress, color }: { cx: number; cy: number; orbitR: number; progress: number; color: string }) {
-  // Sequential dots flowing from center to each service in sequence
-  const dots = []
-  const totalServices = ORBIT_SERVICES.length
-  for (let i = 0; i < totalServices; i++) {
-    const serviceProgress = (progress * totalServices - i)
-    if (serviceProgress < 0 || serviceProgress > 1.5) continue
-    const t = Math.min(serviceProgress, 1)
-    const rad = (ORBIT_SERVICES[i].angle * Math.PI) / 180
-    const dx = cx + orbitR * Math.cos(rad) * t
-    const dy = cy + orbitR * Math.sin(rad) * t
-    dots.push(
-      <circle key={`pipe-${i}`} cx={dx} cy={dy} r={3} fill={color} opacity={1 - t * 0.3} filter="url(#glow)" />
-    )
-  }
-  return <>{dots}</>
-}
-
-function AssemblyAnimation({ cx, cy, orbitR, progress, color }: { cx: number; cy: number; orbitR: number; progress: number; color: string }) {
-  // 3 parallel tracks with dots moving outward
-  const tracks = [0, 1, 2]
-  const dots = []
-  for (const track of tracks) {
-    const offset = track * 0.15
-    const t = ((progress + offset) % 1)
-    for (let i = 0; i < 4; i++) {
-      const serviceIdx = track * 4 + i
-      if (serviceIdx >= ORBIT_SERVICES.length) continue
-      const rad = (ORBIT_SERVICES[serviceIdx].angle * Math.PI) / 180
-      const dx = cx + orbitR * Math.cos(rad) * t
-      const dy = cy + orbitR * Math.sin(rad) * t
-      dots.push(
-        <circle key={`asm-${track}-${i}`} cx={dx} cy={dy} r={2.5} fill={color} opacity={0.8} filter="url(#glow)" />
-      )
-    }
-  }
-  return <>{dots}</>
-}
-
-function BurstAnimation({ cx, cy, orbitR, progress, color }: { cx: number; cy: number; orbitR: number; progress: number; color: string }) {
-  // Expanding ring + all dots burst outward simultaneously
-  const ringR = orbitR * progress
-  const ringOpacity = 1 - progress
-  const dots = ORBIT_SERVICES.map((svc, i) => {
-    const rad = (svc.angle * Math.PI) / 180
-    const dist = orbitR * Math.min(progress * 1.2, 1)
-    const dx = cx + dist * Math.cos(rad)
-    const dy = cy + dist * Math.sin(rad)
-    return (
-      <circle key={`burst-${i}`} cx={dx} cy={dy} r={4 * (1 - progress * 0.3)} fill={color} opacity={0.9} filter="url(#glow)" />
-    )
-  })
-
-  return (
-    <>
-      <circle cx={cx} cy={cy} r={ringR} fill="none" stroke={color} strokeWidth={2} opacity={ringOpacity * 0.6} />
-      <circle cx={cx} cy={cy} r={ringR * 0.7} fill="none" stroke={color} strokeWidth={1} opacity={ringOpacity * 0.3} />
-      {dots}
-    </>
   )
 }
 
@@ -643,161 +622,242 @@ export default function HomeClient() {
       overflow: 'hidden',
     }}>
       {/* ─── HERO ─── */}
-      <section style={{
-        position: 'relative',
-        padding: '120px 24px 60px',
-        maxWidth: 1200,
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        alignItems: 'center',
-        gap: 48,
-        minHeight: '85vh',
-      }}>
-        {/* Background gradient orbs */}
+      <section
+        className="hero-section"
+        style={{
+          position: 'relative',
+          minHeight: '100vh',
+          overflow: 'hidden',
+          background: '#060a0f',
+        }}
+      >
+        {/* 3D Perspective Grid Background */}
         <div style={{
           position: 'absolute',
-          top: -200,
-          left: -200,
-          width: 600,
-          height: 600,
-          background: `radial-gradient(circle, ${BRAND.greenGlow} 0%, transparent 70%)`,
+          inset: 0,
+          perspective: '600px',
+          perspectiveOrigin: '50% 40%',
           pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: -100,
-          right: -200,
-          width: 500,
-          height: 500,
-          background: `radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%)`,
-          pointerEvents: 'none',
-        }} />
-
-        {/* Left: Text */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          {/* Badge */}
+          overflow: 'hidden',
+        }}>
           <div style={{
-            display: 'inline-flex',
+            position: 'absolute',
+            top: '30%',
+            left: '-20%',
+            width: '140%',
+            height: '120%',
+            backgroundImage: `
+              linear-gradient(rgba(26,37,64,0.15) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(26,37,64,0.15) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px',
+            transform: 'rotateX(55deg)',
+            transformOrigin: '50% 0%',
+            maskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%)',
+          }} />
+        </div>
+
+        {/* Subtle center glow */}
+        <div style={{
+          position: 'absolute',
+          top: '30%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 900,
+          height: 600,
+          background: 'radial-gradient(ellipse, rgba(110,224,90,0.06) 0%, transparent 65%)',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Hero content */}
+        <div
+          className="hero-inner"
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            maxWidth: 1200,
+            margin: '0 auto',
+            padding: '120px 24px 60px',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
             alignItems: 'center',
-            gap: 8,
-            background: `${BRAND.green}10`,
-            border: `1px solid ${BRAND.green}30`,
-            borderRadius: 100,
-            padding: '8px 16px',
-            marginBottom: 28,
-          }}>
-            <span style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: BRAND.green,
-              boxShadow: `0 0 8px ${BRAND.green}`,
-            }} />
-            <span style={{
-              fontSize: 13,
-              fontWeight: 600,
-              color: BRAND.green,
-              letterSpacing: '0.04em',
-              fontFamily: 'var(--font-display, system-ui)',
+            gap: 48,
+            minHeight: '85vh',
+            animation: 'heroFadeIn 1s ease-out both',
+          }}
+        >
+          {/* Left: Text */}
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            {/* Badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              background: 'rgba(110,224,90,0.06)',
+              border: '1px solid rgba(110,224,90,0.2)',
+              borderRadius: 100,
+              padding: '8px 16px',
+              marginBottom: 28,
             }}>
-              Open Source -- MIT Licensed
-            </span>
-          </div>
-
-          <h1 style={{
-            fontSize: 'clamp(36px, 5vw, 64px)',
-            fontWeight: 800,
-            lineHeight: 1.08,
-            letterSpacing: '-0.03em',
-            fontFamily: 'var(--font-display, system-ui)',
-            marginBottom: 24,
-          }}>
-            Connect your AI to{' '}
-            <br />
-            <span style={{
-              color: BRAND.green,
-              textShadow: `0 0 40px ${BRAND.greenGlow}`,
-            }}>
-              everything.
-            </span>
-          </h1>
-
-          <p style={{
-            fontSize: 'clamp(16px, 1.8vw, 20px)',
-            lineHeight: 1.6,
-            color: BRAND.textSecondary,
-            marginBottom: 36,
-            maxWidth: 520,
-          }}>
-            1,589 tools across 102 services. One install. Every AI platform. 5 patents pending.
-          </p>
-
-          {/* CTAs */}
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <Link
-              href="/signup"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                background: BRAND.green,
-                color: '#000',
-                fontWeight: 700,
-                fontSize: 16,
-                padding: '14px 28px',
-                borderRadius: 10,
-                textDecoration: 'none',
-                fontFamily: 'var(--font-display, system-ui)',
-                transition: 'all 0.2s',
-                boxShadow: `0 0 20px ${BRAND.green}40`,
-              }}
-            >
-              Get Early Access
-              <IconArrowRight color="#000" size={16} />
-            </Link>
-            <Link
-              href="/install"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                background: 'transparent',
-                color: BRAND.textPrimary,
+              <span style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: '#6EE05A',
+                boxShadow: '0 0 8px #6EE05A',
+              }} />
+              <span style={{
+                fontSize: 13,
                 fontWeight: 600,
-                fontSize: 16,
-                padding: '14px 28px',
-                borderRadius: 10,
-                textDecoration: 'none',
+                color: '#6EE05A',
+                letterSpacing: '0.04em',
                 fontFamily: 'var(--font-display, system-ui)',
-                border: `1px solid ${BRAND.border}`,
-                transition: 'all 0.2s',
-              }}
-            >
-              <IconTerminal color={BRAND.textSecondary} />
-              Install Now
-            </Link>
+              }}>
+                Open Source -- MIT Licensed
+              </span>
+            </div>
+
+            <h1 style={{
+              fontSize: 'clamp(36px, 5vw, 64px)',
+              fontWeight: 800,
+              lineHeight: 1.08,
+              letterSpacing: '-0.03em',
+              fontFamily: 'var(--font-display, system-ui)',
+              marginBottom: 24,
+            }}>
+              Connect your AI to{' '}
+              <br />
+              <span style={{
+                background: 'linear-gradient(135deg, #6EE05A 0%, #3ecf8e 50%, #00d4ff 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}>
+                everything.
+              </span>
+            </h1>
+
+            <p style={{
+              fontSize: 'clamp(16px, 1.8vw, 20px)',
+              lineHeight: 1.6,
+              color: BRAND.textSecondary,
+              marginBottom: 36,
+              maxWidth: 520,
+            }}>
+              1,589 tools across 102 services. One install. Every AI platform. 5 patents pending.
+            </p>
+
+            {/* CTAs */}
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 40 }}>
+              <Link
+                href="/start"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  background: BRAND.green,
+                  color: '#000',
+                  fontWeight: 700,
+                  fontSize: 16,
+                  padding: '14px 28px',
+                  borderRadius: 10,
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font-display, system-ui)',
+                  transition: 'all 0.2s',
+                  boxShadow: `0 0 24px ${BRAND.green}50`,
+                }}
+              >
+                Get Started
+                <IconArrowRight color="#000" size={16} />
+              </Link>
+              <Link
+                href="/install"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  background: 'transparent',
+                  color: BRAND.textPrimary,
+                  fontWeight: 600,
+                  fontSize: 16,
+                  padding: '14px 28px',
+                  borderRadius: 10,
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font-display, system-ui)',
+                  border: `1px solid ${BRAND.border}`,
+                  transition: 'all 0.2s',
+                }}
+              >
+                <IconTerminal color={BRAND.textSecondary} />
+                Install Now
+              </Link>
+            </div>
+
+            {/* Stats Row */}
+            <div style={{
+              display: 'flex',
+              gap: 32,
+              flexWrap: 'wrap',
+            }}>
+              {[
+                { value: 1589, label: 'TOOLS', color: BRAND.green },
+                { value: 102, label: 'SERVICES', color: BRAND.cyan },
+                { value: 5, label: 'PATENTS', color: BRAND.purple },
+                { valueStr: '$0', label: 'FREE', color: BRAND.amber },
+              ].map((stat) => (
+                <div key={stat.label} style={{ textAlign: 'left' }}>
+                  <div style={{
+                    fontSize: 'clamp(24px, 2.5vw, 32px)',
+                    fontWeight: 800,
+                    color: stat.color,
+                    fontFamily: 'var(--font-display, system-ui)',
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1,
+                  }}>
+                    {stat.valueStr ?? <AnimatedNumber target={stat.value!} />}
+                  </div>
+                  <div style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: BRAND.textMuted,
+                    letterSpacing: '0.12em',
+                    marginTop: 4,
+                    fontFamily: 'var(--font-display, system-ui)',
+                  }}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: Forge Radial Burst */}
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <ForgeRadialBurst />
           </div>
         </div>
 
-        {/* Right: Radial Burst */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <RadialBurst />
-        </div>
-
-        {/* Responsive: stack on mobile */}
+        {/* Hero styles */}
         <style>{`
+          @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
           @media (max-width: 768px) {
-            section:first-child {
+            .hero-inner {
               grid-template-columns: 1fr !important;
               text-align: center;
               padding-top: 80px !important;
               min-height: auto !important;
             }
-            section:first-child > div:first-child {
+            .hero-inner > div:first-child {
               display: flex;
               flex-direction: column;
               align-items: center;
+            }
+            .hero-inner > div:first-child > div:last-child {
+              justify-content: center;
             }
           }
         `}</style>

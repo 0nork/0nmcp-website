@@ -86,7 +86,7 @@ export default function SignupPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#060a0f',
+      background: '#f8faf9',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -110,7 +110,7 @@ export default function SignupPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontWeight: 800, fontSize: 14, color: '#000', fontFamily: 'var(--font-display, system-ui)',
               }}>0n</div>
-              <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', fontFamily: 'var(--font-display, system-ui)' }}>0nMCP</span>
+              <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#1a1a2e', fontFamily: 'var(--font-display, system-ui)' }}>0nMCP</span>
             </div>
           </Link>
 
@@ -118,15 +118,15 @@ export default function SignupPage() {
             <h1 style={{
               fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
               fontWeight: 800,
-              color: '#fff',
+              color: '#1a1a2e',
               lineHeight: 1.15,
               margin: 0,
               fontFamily: 'var(--font-display, system-ui)',
             }}>
               Get early access to<br />
-              <span style={{ color: '#7ed957' }}>the .0n Standard</span>
+              <span style={{ color: '#2d8a1e' }}>the .0n Standard</span>
             </h1>
-            <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6, marginTop: '1rem' }}>
+            <p style={{ color: '#5a6577', fontSize: '1.05rem', lineHeight: 1.6, marginTop: '1rem' }}>
               The universal AI orchestration format. 9 file types, 7-layer encryption,
               3 patented execution patterns. Replace your .env files forever.
             </p>
@@ -134,27 +134,27 @@ export default function SignupPage() {
 
           {/* Spots remaining */}
           <div style={{
-            background: 'rgba(126, 217, 87, 0.06)',
-            border: '1px solid rgba(126, 217, 87, 0.2)',
+            background: '#edf7e8',
+            border: '1px solid #c5e8b5',
             borderRadius: 12,
             padding: '1.25rem',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-              <span style={{ color: '#7ed957', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              <span style={{ color: '#2d8a1e', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                 Early Access
               </span>
-              <span style={{ color: '#fff', fontWeight: 700, fontSize: '1.125rem' }}>
+              <span style={{ color: '#1a1a2e', fontWeight: 700, fontSize: '1.125rem' }}>
                 {spotsLeft} of {TOTAL_SPOTS} spots left
               </span>
             </div>
             <div style={{
               height: 6, borderRadius: 3,
-              background: 'rgba(255,255,255,0.1)',
+              background: '#d4e8cc',
               overflow: 'hidden',
             }}>
               <div style={{
                 height: '100%', borderRadius: 3,
-                background: progressPct > 80 ? '#ef4444' : progressPct > 50 ? '#f59e0b' : '#7ed957',
+                background: progressPct > 80 ? '#ef4444' : progressPct > 50 ? '#f59e0b' : '#3da826',
                 width: `${progressPct}%`,
                 transition: 'width 1s ease',
               }} />
@@ -166,34 +166,35 @@ export default function SignupPage() {
             {FEATURES.map((f, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ marginTop: 2, flexShrink: 0 }}>
-                  <circle cx="9" cy="9" r="9" fill="rgba(126,217,87,0.15)" />
-                  <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#7ed957" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="9" cy="9" r="9" fill="#edf7e8" />
+                  <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#3da826" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.5 }}>{f}</span>
+                <span style={{ color: '#3d4a5c', fontSize: '0.9rem', lineHeight: 1.5 }}>{f}</span>
               </div>
             ))}
           </div>
 
-          <p style={{ color: '#475569', fontSize: '0.8rem' }}>
+          <p style={{ color: '#8896a6', fontSize: '0.8rem' }}>
             5 patents pending. MIT licensed. Built by RocketOpp LLC.
           </p>
         </div>
 
         {/* Right — Auth Form */}
         <div style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          background: '#fff',
+          border: '1px solid #e2e8f0',
           borderRadius: 16,
           padding: '2rem',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
         }}>
           <h2 style={{
             fontSize: '1.375rem',
             fontWeight: 700,
-            color: '#fff',
+            color: '#1a1a2e',
             margin: '0 0 0.5rem',
             fontFamily: 'var(--font-display, system-ui)',
           }}>Create your account</h2>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', margin: '0 0 1.5rem' }}>
+          <p style={{ color: '#6b7a8d', fontSize: '0.875rem', margin: '0 0 1.5rem' }}>
             Free during early access. No credit card required.
           </p>
 
@@ -201,26 +202,26 @@ export default function SignupPage() {
 
           <div style={{
             display: 'flex', alignItems: 'center', gap: '1rem',
-            margin: '1.25rem 0', color: '#475569', fontSize: '0.8rem',
+            margin: '1.25rem 0', color: '#94a3b8', fontSize: '0.8rem',
           }}>
-            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
             <span>or</span>
-            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
           </div>
 
           {error && (
             <div style={{
-              background: 'rgba(239,68,68,0.1)',
-              border: '1px solid rgba(239,68,68,0.3)',
+              background: '#fef2f2',
+              border: '1px solid #fecaca',
               borderRadius: 8, padding: '0.75rem',
-              color: '#fca5a5', fontSize: '0.85rem',
+              color: '#dc2626', fontSize: '0.85rem',
               marginBottom: '1rem',
             }}>{error}</div>
           )}
 
           <form onSubmit={handleEmailSignup} style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
             <div>
-              <label htmlFor="name" style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
+              <label htmlFor="name" style={{ display: 'block', color: '#4a5568', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
                 Full name
               </label>
               <input
@@ -233,9 +234,9 @@ export default function SignupPage() {
                 autoComplete="name"
                 style={{
                   width: '100%', height: 44, borderRadius: 8,
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: '#fff', padding: '0 0.875rem',
+                  background: '#f8faf9',
+                  border: '1px solid #d1d9e0',
+                  color: '#1a1a2e', padding: '0 0.875rem',
                   fontSize: '0.9rem', outline: 'none',
                   fontFamily: 'inherit',
                 }}
@@ -243,7 +244,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label htmlFor="email" style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
+              <label htmlFor="email" style={{ display: 'block', color: '#4a5568', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
                 Email
               </label>
               <input
@@ -256,9 +257,9 @@ export default function SignupPage() {
                 autoComplete="email"
                 style={{
                   width: '100%', height: 44, borderRadius: 8,
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: '#fff', padding: '0 0.875rem',
+                  background: '#f8faf9',
+                  border: '1px solid #d1d9e0',
+                  color: '#1a1a2e', padding: '0 0.875rem',
                   fontSize: '0.9rem', outline: 'none',
                   fontFamily: 'inherit',
                 }}
@@ -266,7 +267,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label htmlFor="password" style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
+              <label htmlFor="password" style={{ display: 'block', color: '#4a5568', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
                 Password
               </label>
               <input
@@ -280,9 +281,9 @@ export default function SignupPage() {
                 autoComplete="new-password"
                 style={{
                   width: '100%', height: 44, borderRadius: 8,
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  color: '#fff', padding: '0 0.875rem',
+                  background: '#f8faf9',
+                  border: '1px solid #d1d9e0',
+                  color: '#1a1a2e', padding: '0 0.875rem',
                   fontSize: '0.9rem', outline: 'none',
                   fontFamily: 'inherit',
                 }}
@@ -294,8 +295,8 @@ export default function SignupPage() {
               disabled={loading}
               style={{
                 width: '100%', height: 48, borderRadius: 8,
-                background: loading ? '#4a8a2e' : '#7ed957',
-                color: '#000', border: 'none',
+                background: loading ? '#4a8a2e' : '#3da826',
+                color: '#fff', border: 'none',
                 fontSize: '0.95rem', fontWeight: 700,
                 cursor: loading ? 'wait' : 'pointer',
                 fontFamily: 'var(--font-display, system-ui)',
@@ -307,13 +308,13 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <p style={{ color: '#475569', fontSize: '0.8rem', textAlign: 'center', marginTop: '1.25rem' }}>
+          <p style={{ color: '#6b7a8d', fontSize: '0.8rem', textAlign: 'center', marginTop: '1.25rem' }}>
             Already have an account?{' '}
-            <Link href="/login" style={{ color: '#7ed957', textDecoration: 'none', fontWeight: 600 }}>Sign in</Link>
+            <Link href="/login" style={{ color: '#2d8a1e', textDecoration: 'none', fontWeight: 600 }}>Sign in</Link>
           </p>
 
           <p style={{
-            color: '#334155', fontSize: '0.7rem', textAlign: 'center', marginTop: '1rem', lineHeight: 1.5,
+            color: '#94a3b8', fontSize: '0.7rem', textAlign: 'center', marginTop: '1rem', lineHeight: 1.5,
           }}>
             By signing up you agree to our Terms of Service and Privacy Policy.
           </p>

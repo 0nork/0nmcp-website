@@ -14,7 +14,7 @@ export default function SiteChrome({ children, isWeb0n }: { children: React.Reac
     '/app', '/0nboarding', '/oauth', '/console', '/go',
     '/forum', '/builder', '/admin', '/web0n', '/0nengine',
     '/login', '/signup', '/dashboard', '/grid', '/maintenance',
-    '/start', '/activate', '/checkout',
+    '/start', '/activate', '/checkout', '/canvas',
   ].some(p => pathname.startsWith(p))
 
   if (isChromeless) {

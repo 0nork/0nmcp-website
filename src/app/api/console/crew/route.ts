@@ -123,12 +123,23 @@ export async function POST(req: NextRequest) {
           summary: data.result || data.output || `Executed ${agent.abilities.length} tools successfully`,
         }
       } else {
-        // MCP returned error — fall back to simulated execution
-        result = await simulateExecution(agent)
+        const errText = await res.text()
+        result = {
+          status: 'failed',
+          steps: 0,
+          services: [],
+          summary: `0nMCP execution failed: ${errText}`,
+          error: errText,
+        }
       }
-    } catch {
-      // MCP not reachable — simulate execution for demo
-      result = await simulateExecution(agent)
+    } catch (e: any) {
+      result = {
+        status: 'failed',
+        steps: 0,
+        services: [],
+        summary: '0nMCP server is not reachable. Start it with: npx 0nmcp serve --port 3001',
+        error: e.message || 'Connection refused',
+      }
     }
 
     const durationMs = Date.now() - startTime

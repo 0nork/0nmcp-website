@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     .from('crew_agents')
     .select('*')
     .eq('status', 'active')
-    .contains('triggers', [trigger])
+    .filter('triggers', 'cs', `{"${trigger}"}`)
 
   if (!agents?.length) {
     return NextResponse.json({ status: 'no_matching_agents', trigger })

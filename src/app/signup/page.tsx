@@ -1,253 +1,335 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { STATS_DISPLAY } from '@/data/stats'
+import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
 
-const LAUNCH_DATE = new Date('2026-05-01T00:00:00-04:00').getTime()
+const TOTAL_SPOTS = 100
+const FEATURES = [
+  '1,589 AI tools across 102 services',
+  '7-layer encrypted credential vault',
+  'Cross-platform brain — works on Claude, GPT, Gemini',
+  'Pipeline, Assembly Line & Radial Burst workflows',
+  'Free .env to .0n converter',
+  'Community forum + support',
+]
 
-function useCountdown() {
-  const [now, setNow] = useState(Date.now())
+export default function SignupPage() {
+  const router = useRouter()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [spotsTaken, setSpotsTaken] = useState(0)
 
   useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), 1000)
-    return () => clearInterval(timer)
-  }, [])
+    // Check if already logged in
+    const supabase = createSupabaseBrowser()
+    if (!supabase) return
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) router.push('/0nboarding')
+    })
 
-  const diff = Math.max(0, LAUNCH_DATE - now)
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
-  const minutes = Math.floor((diff / (1000 * 60)) % 60)
-  const seconds = Math.floor((diff / 1000) % 60)
+    // Get spots taken count
+    async function getSpots() {
+      try {
+        const res = await fetch('/api/spots')
+        if (res.ok) {
+          const data = await res.json()
+          setSpotsTaken(data.count || 0)
+        }
+      } catch {
+        setSpotsTaken(37) // fallback display number
+      }
+    }
+    getSpots()
+  }, [router])
 
-  return { days, hours, minutes, seconds }
-}
+  const spotsLeft = Math.max(0, TOTAL_SPOTS - spotsTaken)
+  const progressPct = Math.min(100, (spotsTaken / TOTAL_SPOTS) * 100)
 
-export default function RequestAccessPage() {
-  const countdown = useCountdown()
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [company, setCompany] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState('')
-
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleEmailSignup(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     setLoading(true)
 
     try {
-      const res = await fetch('/api/request-access', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, company }),
+      const supabase = createSupabaseBrowser()
+      if (!supabase) throw new Error('Auth not available')
+
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName },
+          emailRedirectTo: `${window.location.origin}/api/auth/callback?redirect=/0nboarding`,
+        },
       })
 
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error || 'Something went wrong. Please try again.')
+      if (signUpError) {
+        setError(signUpError.message)
         setLoading(false)
         return
       }
 
-      setSubmitted(true)
-    } catch {
-      setError('Network error. Please try again.')
+      router.push('/0nboarding')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="homepage">
-      {/* Hero Section */}
-      <section className="hero-section" style={{ minHeight: '100vh', paddingTop: '8rem' }}>
-        <div className="hero-glow" aria-hidden="true" />
-        <div className="hero-glow-secondary" aria-hidden="true" />
+    <div style={{
+      minHeight: '100vh',
+      background: '#060a0f',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem 1rem',
+    }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 480px) minmax(0, 400px)',
+        gap: '4rem',
+        maxWidth: '960px',
+        width: '100%',
+        alignItems: 'center',
+      }}>
+        {/* Left — Value Prop */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <Link href="/" style={{ textDecoration: 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: 8,
+                background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 800, fontSize: 14, color: '#000', fontFamily: 'var(--font-display, system-ui)',
+              }}>0n</div>
+              <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', fontFamily: 'var(--font-display, system-ui)' }}>0nMCP</span>
+            </div>
+          </Link>
 
-        <div className="hero-content" style={{ maxWidth: '820px' }}>
-          <div className="hero-badge">
-            <span className="hero-badge-dot" />
-            <span>Launching May 1, 2026</span>
+          <div>
+            <h1 style={{
+              fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
+              fontWeight: 800,
+              color: '#fff',
+              lineHeight: 1.15,
+              margin: 0,
+              fontFamily: 'var(--font-display, system-ui)',
+            }}>
+              Get early access to<br />
+              <span style={{ color: '#7ed957' }}>the .0n Standard</span>
+            </h1>
+            <p style={{ color: '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6, marginTop: '1rem' }}>
+              The universal AI orchestration format. 9 file types, 7-layer encryption,
+              3 patented execution patterns. Replace your .env files forever.
+            </p>
           </div>
 
-          <h1 className="hero-title" style={{ marginBottom: '2rem' }}>
-            The Future of<br />
-            <span className="hero-title-accent">AI Orchestration</span><br />
-            is Almost Here.
-          </h1>
-
-          {/* Countdown Timer */}
-          <div className="ra-countdown">
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.days).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Days</span>
+          {/* Spots remaining */}
+          <div style={{
+            background: 'rgba(126, 217, 87, 0.06)',
+            border: '1px solid rgba(126, 217, 87, 0.2)',
+            borderRadius: 12,
+            padding: '1.25rem',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <span style={{ color: '#7ed957', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                Early Access
+              </span>
+              <span style={{ color: '#fff', fontWeight: 700, fontSize: '1.125rem' }}>
+                {spotsLeft} of {TOTAL_SPOTS} spots left
+              </span>
             </div>
-            <span className="ra-countdown-sep">:</span>
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.hours).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Hours</span>
-            </div>
-            <span className="ra-countdown-sep">:</span>
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.minutes).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Minutes</span>
-            </div>
-            <span className="ra-countdown-sep">:</span>
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.seconds).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Seconds</span>
+            <div style={{
+              height: 6, borderRadius: 3,
+              background: 'rgba(255,255,255,0.1)',
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                height: '100%', borderRadius: 3,
+                background: progressPct > 80 ? '#ef4444' : progressPct > 50 ? '#f59e0b' : '#7ed957',
+                width: `${progressPct}%`,
+                transition: 'width 1s ease',
+              }} />
             </div>
           </div>
 
-          <p className="hero-subtitle" style={{ maxWidth: '620px', marginBottom: '3rem' }}>
-            The universal AI orchestrator launches May 1st. <strong>{STATS_DISPLAY.tools} tools</strong> across <strong>{STATS_DISPLAY.services} services</strong>.
-            Request early access now.
+          {/* Feature list */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+            {FEATURES.map((f, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ marginTop: 2, flexShrink: 0 }}>
+                  <circle cx="9" cy="9" r="9" fill="rgba(126,217,87,0.15)" />
+                  <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#7ed957" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: 1.5 }}>{f}</span>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ color: '#475569', fontSize: '0.8rem' }}>
+            5 patents pending. MIT licensed. Built by RocketOpp LLC.
+          </p>
+        </div>
+
+        {/* Right — Auth Form */}
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 16,
+          padding: '2rem',
+        }}>
+          <h2 style={{
+            fontSize: '1.375rem',
+            fontWeight: 700,
+            color: '#fff',
+            margin: '0 0 0.5rem',
+            fontFamily: 'var(--font-display, system-ui)',
+          }}>Create your account</h2>
+          <p style={{ color: '#64748b', fontSize: '0.875rem', margin: '0 0 1.5rem' }}>
+            Free during early access. No credit card required.
           </p>
 
-          {/* Form or Thank You */}
-          {!submitted ? (
-            <div className="ra-form-container">
-              <h2 className="ra-form-title">Request Early Access</h2>
+          <OAuthButtons mode="signup" />
 
-              <OAuthButtons mode="signup" />
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '1rem',
+            margin: '1.25rem 0', color: '#475569', fontSize: '0.8rem',
+          }}>
+            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+            <span>or</span>
+            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+          </div>
 
-              <div className="auth-divider" style={{ margin: '1rem 0' }}>
-                <span>or continue with email</span>
-              </div>
-
-              {error && <div className="ra-error">{error}</div>}
-
-              <form onSubmit={handleSubmit} className="ra-form">
-                <div className="ra-form-row">
-                  <div className="ra-field">
-                    <label htmlFor="ra-name">Full name</label>
-                    <input
-                      id="ra-name"
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Jane Smith"
-                      required
-                      autoFocus
-                      autoComplete="name"
-                    />
-                  </div>
-                  <div className="ra-field">
-                    <label htmlFor="ra-company">Company <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
-                    <input
-                      id="ra-company"
-                      type="text"
-                      value={company}
-                      onChange={(e) => setCompany(e.target.value)}
-                      placeholder="Acme Inc"
-                      autoComplete="organization"
-                    />
-                  </div>
-                </div>
-
-                <div className="ra-field">
-                  <label htmlFor="ra-email">Email</label>
-                  <input
-                    id="ra-email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@company.com"
-                    required
-                    autoComplete="email"
-                  />
-                </div>
-
-                <button type="submit" className="hero-cta-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={loading}>
-                  {loading ? 'Reserving your spot...' : 'Request Early Access'}
-                </button>
-              </form>
-
-              <p className="ra-note">
-                Already have an account? <Link href="/login">Sign in</Link>
-              </p>
-            </div>
-          ) : (
-            <div className="ra-thankyou">
-              <div className="ra-thankyou-icon">
-                <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                  <circle cx="28" cy="28" r="27" stroke="var(--accent)" strokeWidth="2" />
-                  <path d="M16 28l8 8 16-16" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <h2 className="ra-thankyou-title">Your spot is reserved.</h2>
-              <p className="ra-thankyou-subtitle">
-                Launch: <strong>May 1, 2026</strong>. We&apos;ll send you early access details at <strong>{email}</strong>.
-              </p>
-
-              {/* Pre-reserve upsell */}
-              <div className="ra-prereserve">
-                <h3 className="ra-prereserve-title">Want guaranteed access on day one?</h3>
-                <p className="ra-prereserve-desc">
-                  Pre-reserve your account for <strong>$50</strong> (credited to your first month).
-                  Skip the waitlist and get priority onboarding.
-                </p>
-                <a
-                  href="https://buy.stripe.com/test_00g00000000000000"
-                  className="hero-cta-primary"
-                  style={{ display: 'inline-flex' }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    // Build Stripe checkout URL with prefilled email
-                    const url = new URL('https://buy.stripe.com/test_00g00000000000000')
-                    url.searchParams.set('prefilled_email', email)
-                    window.open(url.toString(), '_blank')
-                  }}
-                >
-                  Pre-reserve for $50
-                </a>
-                <p className="ra-prereserve-note">
-                  100% credited to your first month. Cancel anytime before launch for a full refund.
-                </p>
-              </div>
-
-              <p className="ra-note" style={{ marginTop: '2rem' }}>
-                Already have an account? <Link href="/login">Sign in</Link>
-              </p>
-            </div>
+          {error && (
+            <div style={{
+              background: 'rgba(239,68,68,0.1)',
+              border: '1px solid rgba(239,68,68,0.3)',
+              borderRadius: 8, padding: '0.75rem',
+              color: '#fca5a5', fontSize: '0.85rem',
+              marginBottom: '1rem',
+            }}>{error}</div>
           )}
-        </div>
-      </section>
 
-      {/* Stats Bar */}
-      <section className="stats-bar">
-        <div className="stats-bar-inner">
-          <div className="stat-item">
-            <span className="stat-value">{STATS_DISPLAY.tools}</span>
-            <span className="stat-label">Tools</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-value">{STATS_DISPLAY.services}</span>
-            <span className="stat-label">Services</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-value">7</span>
-            <span className="stat-label">AI Platforms</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-value">5</span>
-            <span className="stat-label">Patents</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-value">MIT</span>
-            <span className="stat-label">Licensed</span>
-          </div>
+          <form onSubmit={handleEmailSignup} style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
+            <div>
+              <label htmlFor="name" style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
+                Full name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Jane Smith"
+                required
+                autoComplete="name"
+                style={{
+                  width: '100%', height: 44, borderRadius: 8,
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#fff', padding: '0 0.875rem',
+                  fontSize: '0.9rem', outline: 'none',
+                  fontFamily: 'inherit',
+                }}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@company.com"
+                required
+                autoComplete="email"
+                style={{
+                  width: '100%', height: 44, borderRadius: 8,
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#fff', padding: '0 0.875rem',
+                  fontSize: '0.9rem', outline: 'none',
+                  fontFamily: 'inherit',
+                }}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Min 8 characters"
+                required
+                minLength={8}
+                autoComplete="new-password"
+                style={{
+                  width: '100%', height: 44, borderRadius: 8,
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#fff', padding: '0 0.875rem',
+                  fontSize: '0.9rem', outline: 'none',
+                  fontFamily: 'inherit',
+                }}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: '100%', height: 48, borderRadius: 8,
+                background: loading ? '#4a8a2e' : '#7ed957',
+                color: '#000', border: 'none',
+                fontSize: '0.95rem', fontWeight: 700,
+                cursor: loading ? 'wait' : 'pointer',
+                fontFamily: 'var(--font-display, system-ui)',
+                transition: 'all 0.15s ease',
+                marginTop: '0.25rem',
+              }}
+            >
+              {loading ? 'Creating account...' : 'Claim Your Spot'}
+            </button>
+          </form>
+
+          <p style={{ color: '#475569', fontSize: '0.8rem', textAlign: 'center', marginTop: '1.25rem' }}>
+            Already have an account?{' '}
+            <Link href="/login" style={{ color: '#7ed957', textDecoration: 'none', fontWeight: 600 }}>Sign in</Link>
+          </p>
+
+          <p style={{
+            color: '#334155', fontSize: '0.7rem', textAlign: 'center', marginTop: '1rem', lineHeight: 1.5,
+          }}>
+            By signing up you agree to our Terms of Service and Privacy Policy.
+          </p>
         </div>
-      </section>
+      </div>
+
+      {/* Mobile responsive */}
+      <style>{`
+        @media (max-width: 768px) {
+          div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+            max-width: 480px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

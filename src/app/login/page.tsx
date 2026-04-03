@@ -128,7 +128,7 @@ function LoginForm() {
 
           <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
             Don&apos;t have an account?{' '}
-            <Link href="/signup" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}>Request access</Link>
+            <Link href="/signup" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}>Create one free</Link>
           </p>
         </div>
       </div>
@@ -273,9 +273,9 @@ function RadialBurstAnimation() {
       {/* Selling points */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '260px' }}>
         {[
-          { text: '1,241 tools across 55 services', color: '#6EE05A' },
+          { text: '1,589 tools across 102 services', color: '#6EE05A' },
           { text: 'Your own AI agent in seconds', color: '#00d4ff' },
-          { text: 'Zero-knowledge encryption', color: '#a78bfa' },
+          { text: '7-layer encrypted vault', color: '#a78bfa' },
         ].map((item, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: item.color, flexShrink: 0, boxShadow: `0 0 8px ${item.color}44` }} />

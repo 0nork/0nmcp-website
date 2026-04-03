@@ -130,7 +130,8 @@ async function getAllPosts(): Promise<BlogPost[]> {
 // ─── Markdown Renderer ────────────────────────────────────────────────────────
 
 function renderMarkdown(md: string): string {
-  let html = md
+  // Strip the first H1 (title) — it's already rendered above the article
+  let html = md.replace(/^# .+$/m, '')
 
   // Fenced code blocks
   html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (_match, lang, code) => {
@@ -458,13 +459,34 @@ export default async function BlogPostPage({
           white-space: nowrap;
         }
 
-        /* ─── Featured image ─── */
+        /* ─── Featured image — 3D depth ─── */
         .blog-hero-img {
           width: 100%;
-          border-radius: 14px;
+          border-radius: 16px;
           overflow: hidden;
           margin-bottom: 2rem;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+          box-shadow:
+            0 8px 30px rgba(0,0,0,0.12),
+            0 2px 8px rgba(0,0,0,0.08),
+            0 20px 60px rgba(0,0,0,0.06);
+          transform: perspective(1000px) rotateX(1deg);
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+          position: relative;
+        }
+        .blog-hero-img::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 16px;
+          border: 1px solid rgba(255,255,255,0.08);
+          pointer-events: none;
+        }
+        .blog-hero-img:hover {
+          transform: perspective(1000px) rotateX(0deg) translateY(-2px);
+          box-shadow:
+            0 12px 40px rgba(0,0,0,0.15),
+            0 4px 12px rgba(0,0,0,0.1),
+            0 30px 80px rgba(0,0,0,0.08);
         }
         .blog-hero-img img {
           width: 100%;
@@ -939,7 +961,7 @@ export default async function BlogPostPage({
           border-bottom: 2px solid #6EE05A;
         }
 
-        /* ─── CTA Card ─── */
+        /* ─── CTA Card — sticky after scroll ─── */
         .sidebar-cta {
           background: linear-gradient(135deg, #f0fdf0 0%, #ffffff 100%);
           border: 1px solid rgba(110,224,90,0.25);
@@ -948,6 +970,7 @@ export default async function BlogPostPage({
           text-align: center;
           position: sticky;
           top: 5.5rem;
+          box-shadow: 0 4px 20px rgba(110,224,90,0.08);
         }
         .sidebar-cta-icon {
           width: 48px;
@@ -1275,40 +1298,8 @@ export default async function BlogPostPage({
           </div>
         </main>
 
-        {/* ─── Right Sidebar: CTA + Discovery ─── */}
+        {/* ─── Right Sidebar: Discovery + CTA (CTA last, sticky) ─── */}
         <aside className="blog-sidebar-right">
-          {/* Account CTA */}
-          <div className="sidebar-cta">
-            <div className="sidebar-cta-icon">
-              <svg width="24" height="24" fill="none" stroke="#6EE05A" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-            </div>
-            <h4>Get {STATS_DISPLAY.tools} AI Tools</h4>
-            <p>
-              Install 0nMCP once. Use it everywhere — Claude, Cursor, VS Code, WordPress, and {STATS_DISPLAY.services} more services.
-            </p>
-            <Link href="/start" className="sidebar-cta-btn">
-              Turn It 0n — Free
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </Link>
-            <Link href="/signup" className="sidebar-cta-secondary">
-              Create Free Account
-            </Link>
-            <div className="sidebar-cta-stats">
-              <div className="sidebar-cta-stat">
-                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.tools}</div>
-                <div className="sidebar-cta-stat-label">Tools</div>
-              </div>
-              <div className="sidebar-cta-stat">
-                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.services}</div>
-                <div className="sidebar-cta-stat-label">Services</div>
-              </div>
-              <div className="sidebar-cta-stat">
-                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.patents}</div>
-                <div className="sidebar-cta-stat-label">Patents</div>
-              </div>
-            </div>
-          </div>
-
           {/* Categories */}
           <div className="sidebar-card">
             <h4>Categories</h4>
@@ -1356,6 +1347,38 @@ export default async function BlogPostPage({
                   {tag}
                 </Link>
               ))}
+            </div>
+          </div>
+
+          {/* Account CTA — Last widget, sticky when scrolled to */}
+          <div className="sidebar-cta">
+            <div className="sidebar-cta-icon">
+              <svg width="24" height="24" fill="none" stroke="#6EE05A" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </div>
+            <h4>Get {STATS_DISPLAY.tools} AI Tools</h4>
+            <p>
+              Install 0nMCP once. Use it everywhere — Claude, Cursor, VS Code, WordPress, and {STATS_DISPLAY.services} more services.
+            </p>
+            <Link href="/start" className="sidebar-cta-btn">
+              Turn It 0n — Free
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </Link>
+            <Link href="/signup" className="sidebar-cta-secondary">
+              Create Free Account
+            </Link>
+            <div className="sidebar-cta-stats">
+              <div className="sidebar-cta-stat">
+                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.tools}</div>
+                <div className="sidebar-cta-stat-label">Tools</div>
+              </div>
+              <div className="sidebar-cta-stat">
+                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.services}</div>
+                <div className="sidebar-cta-stat-label">Services</div>
+              </div>
+              <div className="sidebar-cta-stat">
+                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.patents}</div>
+                <div className="sidebar-cta-stat-label">Patents</div>
+              </div>
             </div>
           </div>
         </aside>

@@ -1,0 +1,43 @@
+display_information:
+  name: 0nMCP
+  description: Universal AI API Orchestrator -- 1,589 tools, 102 services
+  background_color: "#0a0f14"
+  long_description: "0nMCP connects your Slack workspace to 102 services through AI. Ask it to send emails, create invoices, manage CRM contacts, post to social media, and more -- all from Slack. 1,589 tools. One install."
+
+features:
+  app_home:
+    home_tab_enabled: true
+  bot_user:
+    display_name: 0nMCP
+    always_online: true
+  slash_commands:
+    - command: /0nmcp
+      url: https://www.0nmcp.com/api/slack/commands
+      description: Run AI workflows, check status, connect services
+      usage_hint: "[run|status|connect|help]"
+      should_escape: false
+
+oauth_config:
+  redirect_urls:
+    - https://www.0nmcp.com/api/slack/callback
+  scopes:
+    bot:
+      - app_mentions:read
+      - chat:write
+      - commands
+      - im:history
+      - im:read
+      - im:write
+
+settings:
+  event_subscriptions:
+    request_url: https://www.0nmcp.com/api/slack/events
+    bot_events:
+      - app_mention
+      - message.im
+  interactivity:
+    is_enabled: true
+    request_url: https://www.0nmcp.com/api/slack/interactions
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false

@@ -48,11 +48,13 @@ export default function PortalClient() {
     verify()
   }, [verify])
 
+  const darkWrap = { minHeight: '100vh' as const, background: '#030508', color: '#e2e8f0' }
+
   if (status === 'loading') {
     return (
       <div
         style={{
-          minHeight: '80vh',
+          ...darkWrap,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -81,7 +83,7 @@ export default function PortalClient() {
     return (
       <div
         style={{
-          minHeight: '80vh',
+          ...darkWrap,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -162,7 +164,8 @@ export default function PortalClient() {
   ]
 
   return (
-    <div style={{ padding: '24px 24px 0', maxWidth: 1400, margin: '0 auto' }}>
+    <div style={{ ...darkWrap, padding: '24px 24px 0' }}>
+    <div style={{ maxWidth: 1400, margin: '0 auto' }}>
       {/* Confidential Banner */}
       <div
         style={{
@@ -260,6 +263,7 @@ export default function PortalClient() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   )
 }

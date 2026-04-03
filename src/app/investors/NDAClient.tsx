@@ -115,6 +115,7 @@ export default function NDAClient() {
   }
 
   return (
+    <div style={{ minHeight: '100vh', background: '#030508', color: '#e2e8f0' }}>
     <div style={{ maxWidth: 820, margin: '0 auto', padding: '60px 24px 120px' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
@@ -452,6 +453,7 @@ export default function NDAClient() {
           </div>
         </div>
       </form>
+    </div>
     </div>
   )
 }

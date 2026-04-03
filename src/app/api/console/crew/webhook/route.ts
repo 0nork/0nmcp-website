@@ -42,13 +42,16 @@ export async function POST(req: NextRequest) {
 
   const admin = getAdmin()
 
-  // Find all active agents with this trigger
-  // Supabase JS .contains() on text[] works with array argument
-  const { data: agents } = await admin
+  // Find all active agents, then filter by trigger in JS
+  // (Supabase JS array containment is unreliable across versions)
+  const { data: allActive } = await admin
     .from('crew_agents')
     .select('*')
     .eq('status', 'active')
-    .contains('triggers', [trigger] as unknown as string)
+
+  const agents = (allActive || []).filter((a: any) =>
+    Array.isArray(a.triggers) && a.triggers.includes(trigger)
+  )
 
   if (!agents?.length) {
     return NextResponse.json({ status: 'no_matching_agents', trigger })

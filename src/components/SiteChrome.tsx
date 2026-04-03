@@ -24,7 +24,7 @@ export default function SiteChrome({ children, isWeb0n }: { children: React.Reac
   // Landing pages — simple footer, no ConsoleCTA
   const isLandingPage = [
     '/demo', '/connect', '/security', '/technology',
-    '/sponsor', '/partners', '/compare',
+    '/sponsor', '/partners', '/compare', '/audit',
   ].some(p => pathname.startsWith(p))
 
   // Pages that show the ConsoleCTA (only homepage + a few key pages)

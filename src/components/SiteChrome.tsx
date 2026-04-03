@@ -12,7 +12,7 @@ export default function SiteChrome({ children, isWeb0n }: { children: React.Reac
   // Chromeless — no nav, no footer (dashboard, console, builder, auth pages)
   const isChromeless = isWeb0n || [
     '/app', '/0nboarding', '/oauth', '/console', '/go',
-    '/forum', '/builder', '/admin', '/web0n', '/0nengine',
+    '/builder', '/admin', '/web0n', '/0nengine',
     '/login', '/signup', '/dashboard', '/grid', '/maintenance',
     '/start', '/activate', '/checkout', '/canvas',
   ].some(p => pathname.startsWith(p))
@@ -24,7 +24,7 @@ export default function SiteChrome({ children, isWeb0n }: { children: React.Reac
   // Landing pages — simple footer, no ConsoleCTA
   const isLandingPage = [
     '/demo', '/connect', '/security', '/technology',
-    '/sponsor', '/partners', '/compare', '/audit',
+    '/sponsor', '/partners', '/compare', '/audit', '/forum',
   ].some(p => pathname.startsWith(p))
 
   // Pages that show the ConsoleCTA (only homepage + a few key pages)

@@ -105,10 +105,26 @@ export default function ForumClient({
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '1.5rem 1.25rem 4rem' }}>
+    <div style={{ maxWidth: 1400, margin: '0 auto', padding: '6rem 1.5rem 4rem' }}>
       <style>{`
-        .forum-layout { display: grid; grid-template-columns: 1fr 280px; gap: 2rem; align-items: start; }
-        @media (max-width: 860px) { .forum-layout { grid-template-columns: 1fr; } .forum-sidebar { order: 2; } }
+        .forum-layout {
+          display: grid;
+          grid-template-columns: 220px minmax(0, 680px) 260px;
+          gap: 2rem;
+          align-items: start;
+          justify-content: center;
+          max-width: 1400px;
+          margin: 0 auto;
+        }
+        @media (max-width: 1200px) {
+          .forum-layout { grid-template-columns: minmax(0, 680px) 260px; gap: 1.75rem; }
+          .forum-sidebar-left { display: none; }
+        }
+        @media (max-width: 860px) {
+          .forum-layout { grid-template-columns: minmax(0, 1fr); max-width: 680px; }
+          .forum-sidebar-left { display: none; }
+          .forum-sidebar { order: 2; }
+        }
 
         .forum-thread {
           background: #fff;
@@ -150,6 +166,46 @@ export default function ForumClient({
       </div>
 
       <div className="forum-layout">
+        {/* ── Left Sidebar: Quick Nav ── */}
+        <div className="forum-sidebar-left" style={{ position: 'sticky', top: '5.5rem', maxHeight: 'calc(100vh - 6rem)', overflowY: 'auto' }}>
+          <div style={{ background: '#fafafa', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1.125rem 1.25rem' }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+              Quick Nav
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {groups.slice(0, 8).map(g => (
+                <button key={g.slug} onClick={() => setParam('group', g.slug)} style={{
+                  display: 'flex', justifyContent: 'space-between', width: '100%',
+                  padding: '5px 8px', borderRadius: 6, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                  background: group === g.slug ? 'rgba(110,224,90,0.06)' : 'transparent',
+                  color: group === g.slug ? '#6EE05A' : '#6b7280',
+                  fontSize: '0.75rem', fontWeight: 600, textAlign: 'left',
+                  borderLeft: group === g.slug ? '2px solid #6EE05A' : '2px solid transparent',
+                  transition: 'all 0.15s',
+                }}>
+                  <span>{g.name}</span>
+                  <span style={{ fontSize: '0.625rem', color: '#9ca3af' }}>{g.thread_count}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem', marginTop: '1rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { label: 'Threads', value: total },
+                { label: 'Topics', value: groups.length },
+              ].map(s => (
+                <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
+                  <span style={{ color: '#9ca3af' }}>{s.label}</span>
+                  <span style={{ color: '#1a1a1a', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{s.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* ── Main Feed ── */}
         <div>
           {/* Sort + Filter Bar */}

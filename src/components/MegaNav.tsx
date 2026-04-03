@@ -25,25 +25,25 @@ const MENU: Record<string, MenuSection> = {
         links: [
           { label: 'Integrations', href: '/integrations', bold: true },
           { label: 'Turn it 0n', href: '/turn-it-on' },
+          { label: 'SXO Audit', href: '/audit' },
           { label: 'Security & Vault', href: '/security' },
           { label: 'Technology', href: '/technology' },
-          { label: 'Marketplace', href: '/marketplace' },
         ],
       },
       {
         title: 'Solutions',
         links: [
           { label: 'Compare', href: '/compare', bold: true },
-          { label: 'Examples', href: '/examples' },
-          { label: 'Partners', href: '/partners' },
+          { label: 'Marketplace', href: '/marketplace' },
+          { label: 'Canvas', href: '/canvas' },
           { label: '.0n Standard', href: '/0n-standard' },
           { label: 'Converter', href: '/convert' },
         ],
       },
     ],
     featured: {
-      title: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — one npm install`,
-      href: '/turn-it-on',
+      title: `${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — ${STATS_DISPLAY.patents} patents pending`,
+      href: '/start',
     },
   },
   resources: {
@@ -55,22 +55,22 @@ const MENU: Record<string, MenuSection> = {
           { label: 'Blog', href: '/blog', bold: true },
           { label: 'Courses', href: '/learn' },
           { label: 'Glossary', href: '/glossary' },
-          { label: 'Documentation', href: 'https://github.com/0nork/0nmcp#readme' },
+          { label: 'Examples', href: '/examples' },
         ],
       },
       {
         title: 'Community',
         links: [
           { label: 'Forum', href: '/forum', bold: true },
-          { label: 'GitHub', href: 'https://github.com/0nork/0nmcp' },
-          { label: 'Discord', href: 'https://discord.gg/0nork' },
+          { label: 'Community', href: '/community' },
+          { label: 'Partners', href: '/partners' },
           { label: 'Sponsor', href: '/sponsor' },
         ],
       },
     ],
     featured: {
-      title: 'Cisco called OpenClaw a "Security Nightmare." Read what we built instead.',
-      href: '/blog/cisco-openclaw-security-nightmare',
+      title: 'Free AI website audit — get your SXO score in 5 seconds',
+      href: '/audit',
     },
   },
 }
@@ -139,9 +139,9 @@ export default function MegaNav() {
               </svg>
             </button>
           ))}
-          <Link href="/#pricing" className="mn-link no-underline" onMouseEnter={() => { cancelLeave(); setOpenMenu(null) }}>Pricing</Link>
+          <Link href="/audit" className="mn-link no-underline" onMouseEnter={() => { cancelLeave(); setOpenMenu(null) }}>Audit</Link>
           <Link href="/blog" className="mn-link no-underline" onMouseEnter={() => { cancelLeave(); setOpenMenu(null) }}>Blog</Link>
-          <Link href="/compare" className="mn-link no-underline" onMouseEnter={() => { cancelLeave(); setOpenMenu(null) }}>Compare</Link>
+          <Link href="/forum" className="mn-link no-underline" onMouseEnter={() => { cancelLeave(); setOpenMenu(null) }}>Forum</Link>
         </div>
 
         {/* Right CTAs */}
@@ -149,7 +149,7 @@ export default function MegaNav() {
           {!user ? (
             <>
               <Link href="/login" className="mn-signin no-underline">Login</Link>
-              <Link href="/signup" className="mn-cta no-underline">Request Access</Link>
+              <Link href="/start" className="mn-cta no-underline">Get Started</Link>
             </>
           ) : (
             <Link href="/dashboard" className="mn-cta no-underline">Dashboard</Link>

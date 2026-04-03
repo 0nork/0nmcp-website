@@ -43,6 +43,10 @@
     {
       "path": "/api/security/health",
       "schedule": "0 */12 * * *"
+    },
+    {
+      "path": "/api/registry/sync",
+      "schedule": "0 * * * *"
     }
   ],
   "redirects": [

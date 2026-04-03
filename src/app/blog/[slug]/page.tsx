@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import blogData from '@/data/blog-posts.json'
+import { STATS_DISPLAY } from '@/data/stats'
 import ReadingProgressBar from '@/components/ReadingProgressBar'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -397,20 +398,33 @@ export default async function BlogPostPage({
       <style>{`
         .blog-layout {
           padding: 7rem 1.5rem 6rem;
-          max-width: 1200px;
+          max-width: 1360px;
           margin: 0 auto;
           display: grid;
-          grid-template-columns: 1fr 340px;
-          gap: 3rem;
+          grid-template-columns: 240px 1fr 280px;
+          gap: 2.5rem;
           align-items: start;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
           .blog-layout {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 260px;
             gap: 2rem;
             padding: 6rem 1rem 4rem;
           }
-          .blog-sidebar {
+          .blog-sidebar-left {
+            display: none;
+          }
+        }
+        @media (max-width: 768px) {
+          .blog-layout {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 5.5rem 1rem 3rem;
+          }
+          .blog-sidebar-left {
+            display: none;
+          }
+          .blog-sidebar-right {
             order: 2;
           }
         }
@@ -788,8 +802,57 @@ export default async function BlogPostPage({
           margin-top: 0.5rem;
         }
 
-        /* ─── Sidebar ─── */
-        .blog-sidebar {
+        /* ─── Left Sidebar (TOC) ─── */
+        .blog-sidebar-left {
+          position: sticky;
+          top: 5.5rem;
+          max-height: calc(100vh - 6rem);
+          overflow-y: auto;
+        }
+        .sidebar-toc {
+          background: #fafafa;
+          border: 1px solid #e5e7eb;
+          border-radius: 14px;
+          padding: 1.125rem 1.25rem;
+          box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .sidebar-toc h4 {
+          font-size: 0.6875rem;
+          font-weight: 800;
+          color: #1a1a1a;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin: 0 0 0.75rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 2px solid #6EE05A;
+        }
+        .sidebar-toc-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        .sidebar-toc-list li {
+          margin-bottom: 0.125rem;
+        }
+        .sidebar-toc-list a {
+          display: block;
+          font-size: 0.75rem;
+          color: #555;
+          text-decoration: none;
+          padding: 0.3rem 0.5rem;
+          border-radius: 6px;
+          line-height: 1.4;
+          transition: color 0.2s, background 0.2s;
+          border-left: 2px solid transparent;
+        }
+        .sidebar-toc-list a:hover {
+          color: #6EE05A;
+          background: rgba(110,224,90,0.06);
+          border-left-color: #6EE05A;
+        }
+
+        /* ─── Right Sidebar ─── */
+        .blog-sidebar-right {
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
@@ -816,47 +879,104 @@ export default async function BlogPostPage({
           border-bottom: 2px solid #6EE05A;
         }
 
-        /* ─── TOC ─── */
-        .sidebar-toc {
-          position: sticky;
-          top: 6rem;
-          background: #fafafa;
-          border: 1px solid #e5e7eb;
+        /* ─── CTA Card ─── */
+        .sidebar-cta {
+          background: linear-gradient(135deg, #f0fdf0 0%, #ffffff 100%);
+          border: 1px solid rgba(110,224,90,0.25);
           border-radius: 14px;
-          padding: 1.25rem 1.375rem;
-          box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
+          padding: 1.5rem;
+          text-align: center;
+          position: sticky;
+          top: 5.5rem;
         }
-        .sidebar-toc h4 {
-          font-size: 0.8125rem;
+        .sidebar-cta-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          background: rgba(110,224,90,0.12);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 0.875rem;
+          font-size: 1.25rem;
+        }
+        .sidebar-cta h4 {
+          font-size: 1rem;
           font-weight: 800;
           color: #1a1a1a;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          margin: 0 0 0.875rem;
-          padding-bottom: 0.625rem;
-          border-bottom: 2px solid #6EE05A;
-        }
-        .sidebar-toc-list {
-          list-style: none;
+          margin: 0 0 0.5rem;
+          border: none;
           padding: 0;
-          margin: 0;
+          text-transform: none;
+          letter-spacing: -0.01em;
         }
-        .sidebar-toc-list li {
-          margin-bottom: 0.25rem;
-        }
-        .sidebar-toc-list a {
-          display: block;
+        .sidebar-cta p {
           font-size: 0.8125rem;
-          color: #555;
-          text-decoration: none;
-          padding: 0.3rem 0.5rem;
-          border-radius: 6px;
-          line-height: 1.4;
-          transition: color 0.2s, background 0.2s;
+          color: #6b7280;
+          line-height: 1.55;
+          margin: 0 0 1rem;
         }
-        .sidebar-toc-list a:hover {
-          color: #6EE05A;
-          background: rgba(110,224,90,0.06);
+        .sidebar-cta-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.375rem;
+          padding: 0.625rem 1.25rem;
+          border-radius: 10px;
+          background: #6EE05A;
+          color: #000;
+          font-size: 0.8125rem;
+          font-weight: 700;
+          text-decoration: none;
+          box-shadow: 0 2px 12px rgba(110,224,90,0.25);
+          transition: all 0.2s;
+          width: 100%;
+          justify-content: center;
+        }
+        .sidebar-cta-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 20px rgba(110,224,90,0.35);
+        }
+        .sidebar-cta-secondary {
+          display: block;
+          margin-top: 0.625rem;
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          background: #fff;
+          border: 1px solid #e5e7eb;
+          color: #374151;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-decoration: none;
+          text-align: center;
+          transition: all 0.2s;
+        }
+        .sidebar-cta-secondary:hover {
+          border-color: #6EE05A;
+          color: #1a1a1a;
+        }
+        .sidebar-cta-stats {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-top: 1rem;
+          padding-top: 0.75rem;
+          border-top: 1px solid rgba(110,224,90,0.15);
+        }
+        .sidebar-cta-stat {
+          text-align: center;
+        }
+        .sidebar-cta-stat-value {
+          font-size: 0.875rem;
+          font-weight: 800;
+          color: #1a1a1a;
+          font-family: 'JetBrains Mono', monospace;
+        }
+        .sidebar-cta-stat-label {
+          font-size: 0.5625rem;
+          color: #9ca3af;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          font-weight: 600;
         }
 
         /* ─── Categories widget ─── */
@@ -942,7 +1062,23 @@ export default async function BlogPostPage({
       `}</style>
 
       <div className="blog-layout">
-        {/* ─── Left Column ─── */}
+        {/* ─── Left Sidebar: Table of Contents ─── */}
+        <aside className="blog-sidebar-left">
+          {headings.length > 0 && (
+            <div className="sidebar-toc">
+              <h4>On This Page</h4>
+              <ul className="sidebar-toc-list">
+                {headings.map((h) => (
+                  <li key={h.id}>
+                    <a href={`#${h.id}`}>{h.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+
+        {/* ─── Center: Article Content ─── */}
         <main>
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="blog-breadcrumb">
@@ -1079,21 +1215,39 @@ export default async function BlogPostPage({
           </div>
         </main>
 
-        {/* ─── Right Sidebar ─── */}
-        <aside className="blog-sidebar">
-          {/* Table of Contents */}
-          {headings.length > 0 && (
-            <div className="sidebar-toc">
-              <h4>Table of Contents</h4>
-              <ul className="sidebar-toc-list">
-                {headings.map((h) => (
-                  <li key={h.id}>
-                    <a href={`#${h.id}`}>{h.text}</a>
-                  </li>
-                ))}
-              </ul>
+        {/* ─── Right Sidebar: CTA + Discovery ─── */}
+        <aside className="blog-sidebar-right">
+          {/* Account CTA */}
+          <div className="sidebar-cta">
+            <div className="sidebar-cta-icon">
+              <svg width="24" height="24" fill="none" stroke="#6EE05A" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
             </div>
-          )}
+            <h4>Get {STATS_DISPLAY.tools} AI Tools</h4>
+            <p>
+              Install 0nMCP once. Use it everywhere — Claude, Cursor, VS Code, WordPress, and {STATS_DISPLAY.services} more services.
+            </p>
+            <Link href="/start" className="sidebar-cta-btn">
+              Turn It 0n — Free
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </Link>
+            <Link href="/signup" className="sidebar-cta-secondary">
+              Create Free Account
+            </Link>
+            <div className="sidebar-cta-stats">
+              <div className="sidebar-cta-stat">
+                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.tools}</div>
+                <div className="sidebar-cta-stat-label">Tools</div>
+              </div>
+              <div className="sidebar-cta-stat">
+                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.services}</div>
+                <div className="sidebar-cta-stat-label">Services</div>
+              </div>
+              <div className="sidebar-cta-stat">
+                <div className="sidebar-cta-stat-value">{STATS_DISPLAY.patents}</div>
+                <div className="sidebar-cta-stat-label">Patents</div>
+              </div>
+            </div>
+          </div>
 
           {/* Categories */}
           <div className="sidebar-card">

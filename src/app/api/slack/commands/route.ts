@@ -1,12 +1,12 @@
 /**
- * /api/slack/commands — Slash command handler for /0nmcp
+ * /api/slack/commands — Slash command handler for /0n
  *
  * Commands:
- * - /0nmcp (no args) -- Welcome message
- * - /0nmcp status    -- Connection status, tools count
- * - /0nmcp run <desc> -- Execute a natural language workflow via AI
- * - /0nmcp connect   -- Link to connect services
- * - /0nmcp help      -- List all commands
+ * - /0n (no args) -- Welcome message
+ * - /0n status    -- Connection status, tools count
+ * - /0n run <desc> -- Execute a natural language workflow via AI
+ * - /0n connect   -- Link to connect services
+ * - /0n help      -- List all commands
  *
  * Strategy: Acknowledge with 200 immediately, then send the real
  * response to response_url asynchronously.
@@ -103,10 +103,10 @@ function buildWelcomeBlocks(): SlackBlock[] {
     divider(),
     section(
       '*Quick Commands:*\n' +
-      '`/0nmcp status` -- View connection status\n' +
-      '`/0nmcp run <task>` -- Execute a workflow with AI\n' +
-      '`/0nmcp connect` -- Connect your services\n' +
-      '`/0nmcp help` -- Show all commands'
+      '`/0n status` -- View connection status\n' +
+      '`/0n run <task>` -- Execute a workflow with AI\n' +
+      '`/0n connect` -- Connect your services\n' +
+      '`/0n help` -- Show all commands'
     ),
     divider(),
     actions([
@@ -151,11 +151,11 @@ function buildHelpBlocks(): SlackBlock[] {
   return [
     header('0nMCP Commands'),
     section(
-      '`/0nmcp` -- Welcome message and quick links\n' +
-      '`/0nmcp status` -- Platform stats and tool counts\n' +
-      '`/0nmcp run <description>` -- Run a workflow using AI\n' +
-      '`/0nmcp connect` -- Connect your service accounts\n' +
-      '`/0nmcp help` -- This help message'
+      '`/0n` -- Welcome message and quick links\n' +
+      '`/0n status` -- Platform stats and tool counts\n' +
+      '`/0n run <description>` -- Run a workflow using AI\n' +
+      '`/0n connect` -- Connect your service accounts\n' +
+      '`/0n help` -- This help message'
     ),
     divider(),
     section(

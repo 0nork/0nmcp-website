@@ -23,7 +23,7 @@ function SuccessBanner({ team }: { team: string }) {
         0nMCP has been installed to {team ? `the "${team}" workspace` : 'your workspace'}.
       </p>
       <p className="text-[var(--text-muted)] text-sm mt-1">
-        Try typing <code className="bg-[var(--bg-card)] px-1 py-0.5 rounded text-[var(--text-secondary)]">/0nmcp</code> in any channel to get started.
+        Try typing <code className="bg-[var(--bg-card)] px-1 py-0.5 rounded text-[var(--text-secondary)]">/0n</code> in any channel to get started.
       </p>
     </div>
   )
@@ -106,7 +106,7 @@ export default async function SlackPage({
           {[
             {
               title: 'Slash Commands',
-              desc: 'Type /0nmcp to run workflows, check status, and manage connections.',
+              desc: 'Type /0n to run workflows, check status, and manage connections.',
             },
             {
               title: 'Mention the Bot',
@@ -142,7 +142,7 @@ export default async function SlackPage({
         {/* Example */}
         <h2 className="text-2xl font-semibold mb-4">Example</h2>
         <div className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] p-5 mb-12 font-mono text-sm">
-          <p className="text-[var(--text-muted)] mb-2">/0nmcp run Send an invoice to john@acme.com for $500 on Stripe</p>
+          <p className="text-[var(--text-muted)] mb-2">/0n run Send an invoice to john@acme.com for $500 on Stripe</p>
           <div className="border-t border-[var(--border)] pt-3 mt-3">
             <p className="text-[var(--text-secondary)] font-semibold mb-1">0nMCP</p>
             <p className="text-[var(--text-primary)]">

@@ -11,7 +11,7 @@ features:
     display_name: 0nMCP
     always_online: true
   slash_commands:
-    - command: /0nmcp
+    - command: /0n
       url: https://www.0nmcp.com/api/slack/commands
       description: Run AI workflows, check status, connect services
       usage_hint: "[run|status|connect|help]"

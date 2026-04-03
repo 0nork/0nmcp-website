@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { STATS_DISPLAY } from '@/data/stats'
+import { GoogleConnectBanner } from '@/components/console/GoogleConnectBanner'
 
 /* ─── Service definitions ─── */
 interface ServiceDef {
@@ -140,6 +141,9 @@ export default function IntegrationsPage() {
           {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services. Add your API keys to unlock integrations.
         </p>
       </div>
+
+      {/* ── Google Connect (one-click → 17 services) ── */}
+      <GoogleConnectBanner />
 
       {/* ── Vault Completion Bar ── */}
       <div style={{

@@ -687,7 +687,7 @@ function DashboardContent() {
   const checklistItems: ChecklistItem[] = [
     { id: 'account', label: 'Create your account', description: 'You are here — account created', href: '#', done: true },
     { id: 'install', label: 'Install 0nMCP', description: 'Pick your platform and paste one config', href: '/install' },
-    { id: 'connect', label: 'Connect your first service', description: 'Link Stripe, Slack, or any of ' + STATS_DISPLAY.services + ' services', href: '/connect' },
+    { id: 'connect', label: 'Connect your first service', description: 'Link Stripe, Slack, or any of ' + STATS_DISPLAY.services + ' services', href: '/dashboard/connect' },
     { id: 'run', label: 'Run your first workflow', description: "Try: 'Send an email summary of today\'s calendar'", href: '/console' },
     { id: 'marketplace', label: 'Explore the marketplace', description: 'Browse pre-built workflows and tools', href: '/console/marketplace' },
     { id: 'community', label: 'Join the community', description: 'Ask questions, share workflows', href: '/forum' },

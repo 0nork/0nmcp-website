@@ -4,8 +4,9 @@
    0nMCP — Dark Theme with Green Accent
    ============================================ */
 
-:root {
-  /* Backgrounds — Dark Navy Scheme (2026-03-24) */
+:root,
+[data-theme="dark"] {
+  /* Backgrounds — Dark Navy Scheme */
   --bg-primary: #0B0F19;
   --bg-secondary: #111827;
   --bg-tertiary: #162032;
@@ -29,6 +30,33 @@
   /* Fonts */
   --font-display: 'Instrument Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  /* Backgrounds — Light Scheme */
+  --bg-primary: #f8faf9;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f2;
+  --bg-card: #ffffff;
+
+  /* Text */
+  --text-primary: #1a1a2e;
+  --text-secondary: #5a6577;
+  --text-muted: #8896a6;
+
+  /* Accent — stays green */
+  --accent: #3da826;
+  --accent-dim: #2d8a1e;
+  --accent-glow: rgba(61, 168, 38, 0.1);
+  --accent-secondary: #2563eb;
+
+  /* Borders */
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+
+  color-scheme: light;
 }
 
 /* ============================================

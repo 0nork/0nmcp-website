@@ -77,7 +77,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Auth-walled routes — redirect to login if not authenticated
-  const authWalledPaths = ['/builder', '/convert']
+  const authWalledPaths = ['/builder']
   const isAuthWalled = authWalledPaths.some((p) => pathname === p || pathname.startsWith(p + '/'))
 
   if (isAuthWalled && !user) {

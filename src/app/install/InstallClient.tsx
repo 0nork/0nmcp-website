@@ -128,9 +128,75 @@ const PLATFORMS = [
       'All 1,589 tools available via REST API',
     ],
   },
+  {
+    id: 'slack',
+    name: 'Slack',
+    icon: 'Sl',
+    color: '#4a154b',
+    desc: 'AI in your workspace',
+    configPath: 'Any Slack workspace',
+    config: '/0n run Send an invoice on Stripe and notify the team',
+    steps: [
+      'Click "Add to Slack" below to install the 0nMCP app',
+      'Authorize the app for your workspace',
+      'Type /0n in any channel to start',
+      '/0n run <task> — AI executes across 102 services',
+      '/0n status — Check your connections',
+    ],
+    externalLink: '/slack',
+  },
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    icon: 'GP',
+    color: '#10a37f',
+    desc: 'OpenAI GPT action',
+    configPath: 'ChatGPT Actions',
+    config: 'https://www.0nmcp.com/api/chatgpt/mcp',
+    steps: [
+      'Go to ChatGPT → Explore GPTs → Create a GPT',
+      'Under "Actions" → Add Action',
+      'Set the server URL to the endpoint below',
+      'Set Authentication to OAuth (Client ID from your 0nMCP account)',
+      'Save and publish your GPT',
+    ],
+  },
+  {
+    id: 'wordpress',
+    name: 'WordPress',
+    icon: 'WP',
+    color: '#21759b',
+    desc: '0nPress plugin',
+    configPath: 'wp-content/plugins/0ncore/',
+    config: 'Upload the 0nCore plugin ZIP to your WordPress site',
+    steps: [
+      'Download the 0nCore WordPress plugin from your dashboard',
+      'Go to WordPress Admin → Plugins → Add New → Upload Plugin',
+      'Upload the 0ncore.zip file and click Install',
+      'Activate the plugin',
+      'Go to 0nCore Settings → enter your PIT token from 0nmcp.com/dashboard',
+      'AI chat widget + CRM integration now live on your site',
+    ],
+    externalLink: '/dashboard/downloads',
+  },
+  {
+    id: 'stripe',
+    name: 'Stripe',
+    icon: 'St',
+    color: '#635bff',
+    desc: 'Payment sync engine',
+    configPath: 'Supabase Stripe Sync',
+    config: 'Enabled via Supabase dashboard — 29 tables auto-syncing',
+    steps: [
+      'Your Stripe account is automatically synced via the Stripe Sync Engine',
+      'Customer data, subscriptions, invoices, and charges are all queryable in SQL',
+      'Connect your Stripe key in Settings to enable billing features',
+      'All payment events sync in real-time — no webhook setup needed',
+    ],
+  },
 ]
 
-export default function InstallClient() {
+export default function InstallClient({ embedded }: { embedded?: boolean }) {
   const [selected, setSelected] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
 
@@ -143,8 +209,9 @@ export default function InstallClient() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#060a0f', color: '#e2e8f0' }}>
-      {/* Header */}
+    <div style={{ minHeight: embedded ? 'auto' : '100vh', background: embedded ? 'transparent' : '#060a0f', color: '#e2e8f0' }}>
+      {/* Header — hidden when embedded in dashboard */}
+      {!embedded && (
       <header style={{
         padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
@@ -153,8 +220,8 @@ export default function InstallClient() {
           <div style={{ width: 32, height: 32, borderRadius: 6, background: 'linear-gradient(135deg,#7ed957,#5cb83a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 12, color: '#000' }}>0n</div>
           <span style={{ fontWeight: 700, color: '#fff', fontSize: '1rem' }}>0nMCP</span>
         </Link>
-        <Link href="/signup" style={{ padding: '0.5rem 1.25rem', borderRadius: 6, background: '#7ed957', color: '#000', fontSize: '0.8rem', fontWeight: 700, textDecoration: 'none' }}>Get Early Access</Link>
       </header>
+      )}
 
       {/* Hero */}
       <section style={{ textAlign: 'center', padding: '3rem 1rem 1rem', maxWidth: 700, margin: '0 auto' }}>

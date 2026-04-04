@@ -234,14 +234,22 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
 
   const goTo = useCallback((step: number) => {
     if (animating || step < 1 || step > TOTAL_STEPS) return
-    setSlideDir(step > state.currentStep ? 'right' : 'left')
+    const dir = step > state.currentStep ? 'right' : 'left'
+    setSlideDir(dir)
     setAnimating(true)
+    // Phase 1: slide out current panel
     setTimeout(() => {
       const next = { ...state, currentStep: step }
       persist(next)
-      setSlideDir('center')
-      setTimeout(() => setAnimating(false), 50)
-    }, 150)
+      // Phase 2: reset position for slide-in
+      setSlideDir(dir === 'right' ? 'left' : 'right')
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setSlideDir('center')
+          setTimeout(() => setAnimating(false), 350)
+        })
+      })
+    }, 300)
   }, [state, animating, persist])
 
   const nextStep = useCallback(() => {
@@ -403,7 +411,7 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
       ...styles.slidePanel,
       opacity: animating ? 0 : 1,
       transform: animating
-        ? slideDir === 'right' ? 'translateX(40px)' : 'translateX(-40px)'
+        ? slideDir === 'right' ? 'translateX(100px)' : slideDir === 'left' ? 'translateX(-100px)' : 'translateX(0)'
         : 'translateX(0)',
     }
   }
@@ -751,7 +759,7 @@ const styles = {
   } as React.CSSProperties,
 
   slidePanel: {
-    transition: 'opacity 0.3s ease, transform 0.3s ease',
+    transition: 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
     willChange: 'opacity, transform',
   } as React.CSSProperties,
 

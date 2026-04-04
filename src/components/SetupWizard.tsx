@@ -30,7 +30,7 @@ const PLATFORMS = [
     subtitle: 'Claude Desktop / Claude Code',
     desc: '1,589 tools inside Claude',
     color: '#d4a27f',
-    letter: 'C',
+    logo: '/brand/logos/anthropic.svg',
   },
   {
     key: 'slack',
@@ -38,7 +38,7 @@ const PLATFORMS = [
     subtitle: 'Slack workspace',
     desc: 'AI workflows in any channel',
     color: '#4a154b',
-    letter: 'S',
+    logo: '/brand/logos/slack.svg',
   },
   {
     key: 'gpt',
@@ -46,7 +46,7 @@ const PLATFORMS = [
     subtitle: 'ChatGPT',
     desc: 'GPT action with 102 services',
     color: '#10a37f',
-    letter: 'G',
+    logo: '/brand/logos/openai.svg',
   },
   {
     key: 'press',
@@ -54,7 +54,7 @@ const PLATFORMS = [
     subtitle: 'WordPress',
     desc: 'AI chat + CRM on your site',
     color: '#21759b',
-    letter: 'W',
+    logo: '/brand/logos/wordpress.svg',
   },
 ]
 
@@ -117,12 +117,12 @@ const PLATFORM_CONFIGS: Record<string, {
 }
 
 const SERVICES = [
-  { key: 'stripe', name: 'Stripe', desc: 'Payments & invoicing', color: '#635bff', letter: 'S', keyUrl: 'https://dashboard.stripe.com/apikeys' },
-  { key: 'openai', name: 'OpenAI', desc: 'AI completions', color: '#10a37f', letter: 'O', keyUrl: 'https://platform.openai.com/api-keys' },
-  { key: 'anthropic', name: 'Anthropic', desc: 'Claude API', color: '#d4a27f', letter: 'A', keyUrl: 'https://console.anthropic.com/settings/keys' },
-  { key: 'supabase', name: 'Supabase', desc: 'Database & auth', color: '#3ecf8e', letter: 'D', keyUrl: 'https://supabase.com/dashboard/project/_/settings/api' },
-  { key: 'slack', name: 'Slack', desc: 'Messaging', color: '#4a154b', letter: 'M', keyUrl: 'https://api.slack.com/apps' },
-  { key: 'github', name: 'GitHub', desc: 'Code & repos', color: '#333', letter: 'G', keyUrl: 'https://github.com/settings/tokens' },
+  { key: 'stripe', name: 'Stripe', desc: 'Payments & invoicing', color: '#635bff', logo: '/brand/logos/stripe.svg', keyUrl: 'https://dashboard.stripe.com/apikeys' },
+  { key: 'openai', name: 'OpenAI', desc: 'AI completions', color: '#10a37f', logo: '/brand/logos/openai.svg', keyUrl: 'https://platform.openai.com/api-keys' },
+  { key: 'anthropic', name: 'Anthropic', desc: 'Claude API', color: '#d4a27f', logo: '/brand/logos/anthropic.svg', keyUrl: 'https://console.anthropic.com/settings/keys' },
+  { key: 'supabase', name: 'Supabase', desc: 'Database & auth', color: '#3ecf8e', logo: '/brand/logos/supabase.svg', keyUrl: 'https://supabase.com/dashboard/project/_/settings/api' },
+  { key: 'slack', name: 'Slack', desc: 'Messaging', color: '#4a154b', logo: '/brand/logos/slack.svg', keyUrl: 'https://api.slack.com/apps' },
+  { key: 'github', name: 'GitHub', desc: 'Code & repos', color: '#333', logo: '/brand/logos/github.svg', keyUrl: 'https://github.com/settings/tokens' },
 ]
 
 /* ─── SVG Icons ─────────────────────────────────────────────────── */
@@ -468,12 +468,11 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
               <div style={{
                 width: 44, height: 44,
                 borderRadius: 12,
-                background: p.color,
+                background: `${p.color}20`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '1.1rem', fontWeight: 800, color: '#fff',
                 marginBottom: '0.75rem',
               }}>
-                {p.letter}
+                <img src={p.logo} alt={p.name} width={28} height={28} style={{ objectFit: 'contain' }} />
               </div>
               <div style={{ fontWeight: 700, color: '#fff', fontSize: '1rem', marginBottom: '0.15rem' }}>{p.name}</div>
               <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.4rem' }}>{p.subtitle}</div>
@@ -595,12 +594,11 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
                 }}>
                   <div style={{
                     width: 36, height: 36, borderRadius: 10,
-                    background: svc.color,
+                    background: `${svc.color}20`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '0.9rem', fontWeight: 800, color: '#fff',
                     flexShrink: 0,
                   }}>
-                    {svc.letter}
+                    <img src={svc.logo} alt={svc.name} width={22} height={22} style={{ objectFit: 'contain' }} />
                   </div>
                   <div style={{ textAlign: 'left' }}>
                     <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.9rem' }}>{svc.name}</div>

@@ -40,16 +40,16 @@ export default function ExitIntentPopup() {
     if (
       e.clientY > 0 ||
       !readyRef.current ||
-      sessionStorage.getItem('exit-intent-shown')
+      document.cookie.includes('0n_exit_dismissed')
     ) return
 
-    sessionStorage.setItem('exit-intent-shown', '1')
+    document.cookie = `0n_exit_dismissed=1; path=/; max-age=86400; SameSite=Lax`
     setVisible(true)
   }, [])
 
   useEffect(() => {
     // Don't mount if already shown this session
-    if (typeof window !== 'undefined' && sessionStorage.getItem('exit-intent-shown')) return
+    if (typeof window !== 'undefined' && document.cookie.includes('0n_exit_dismissed')) return
 
     document.addEventListener('mouseleave', handleMouseLeave)
     return () => document.removeEventListener('mouseleave', handleMouseLeave)

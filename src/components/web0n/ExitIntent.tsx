@@ -8,12 +8,12 @@ export default function ExitIntent() {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    if (sessionStorage.getItem('w0n_exit')) return
+    if (document.cookie.includes('w0n_exit_dismissed')) return
 
     const handle = (e: MouseEvent) => {
       if (e.clientY <= 0) {
         setShow(true)
-        sessionStorage.setItem('w0n_exit', '1')
+        document.cookie = `w0n_exit_dismissed=1; path=/; max-age=86400; SameSite=Lax`
         document.removeEventListener('mouseout', handle)
       }
     }

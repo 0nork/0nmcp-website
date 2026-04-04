@@ -1013,6 +1013,37 @@ npm install -g 0nmcp
         </div>
       )}
 
+      {/* ─── Run Setup Wizard CTA ─── */}
+      {!setupDone && (
+        <Link href="/setup" style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '1rem',
+          background: 'rgba(126,217,87,0.06)',
+          border: '1px solid rgba(126,217,87,0.15)',
+          borderRadius: 14,
+          padding: '1rem 1.5rem',
+          marginBottom: '1.5rem',
+          textDecoration: 'none',
+          color: 'inherit',
+          transition: 'border-color 0.2s',
+        }}>
+          <div style={{
+            width: 40, height: 40, borderRadius: '50%',
+            background: 'linear-gradient(135deg, #7ed957, #3ecf8e)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '1rem', fontWeight: 900, color: '#0a1a0f', flexShrink: 0,
+          }}>0n</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.95rem' }}>Run Setup Wizard</div>
+            <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>Install 0nMCP on Claude, Slack, ChatGPT, or WordPress in 60 seconds</div>
+          </div>
+          <div style={{ color: '#7ed957', fontWeight: 700, fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+            Start {icons.arrow}
+          </div>
+        </Link>
+      )}
+
       {/* ─── Layout: Main + Sidebar ─── */}
       <div className="dash-layout" style={s.layout}>
         <div style={s.main}>

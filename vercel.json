@@ -58,9 +58,9 @@
     { "source": "/get-mcp-rewrite", "destination": "/secure-claude", "permanent": false },
     { "source": "/spec", "destination": "/0n-standard", "permanent": true },
     { "source": "/standard", "destination": "/0n-standard", "permanent": true },
-    { "source": "/install", "destination": "/install0n", "permanent": true },
-    { "source": "/get-started", "destination": "/install0n", "permanent": false },
-    { "source": "/setup", "destination": "/install0n", "permanent": false }
+    { "source": "/install0n", "destination": "/install", "permanent": true },
+    { "source": "/get-started", "destination": "/install", "permanent": false },
+    { "source": "/setup", "destination": "/install", "permanent": false }
   ],
   "headers": [
     {

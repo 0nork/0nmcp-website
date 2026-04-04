@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
+import InstallClient from '../install/InstallClient'
 
 export default function Install0nPage() {
-  redirect('/install')
+  return <InstallClient />
 }

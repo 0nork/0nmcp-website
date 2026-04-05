@@ -9,7 +9,7 @@
   --jp-sidebar-width: 260px;
   --jp-sidebar-collapsed-width: 0px;
   --jp-header-height: 64px;
-  --jp-nav-height: 56px;
+  --jp-nav-height: 72px;
   --jp-bg: #0B0F19;
   --jp-surface: #111827;
   --jp-bg-elevated: #162032;
@@ -47,6 +47,8 @@
   display: flex;
   min-height: 100vh;
   background: var(--jp-bg);
+  position: relative;
+  z-index: 1;
 }
 
 /* ======= Sidebar ======= */
@@ -60,7 +62,7 @@
   border-right: 1px solid var(--jp-border);
   display: flex;
   flex-direction: column;
-  z-index: 1040;
+  z-index: 40;
   transition: transform var(--jp-transition);
   overflow: hidden;
 }
@@ -264,7 +266,7 @@
   padding: 0 24px;
   position: sticky;
   top: var(--jp-nav-height, 0px);
-  z-index: 1020;
+  z-index: 30;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -897,7 +899,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 1035;
+  z-index: 45;
   opacity: 0;
   visibility: hidden;
   transition: all var(--jp-transition);
@@ -1088,7 +1090,7 @@
   border-right: 1px solid var(--jp-border);
   display: flex;
   flex-direction: column;
-  z-index: 1040;
+  z-index: 40;
   transition: width var(--jp-transition);
   overflow: hidden;
 }
@@ -1156,7 +1158,7 @@
   border: 1px solid var(--jp-border);
   border-radius: var(--jp-radius-sm);
   padding: 8px;
-  z-index: 1070;
+  z-index: 50;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   animation: jp-flyout-in 0.15s ease;
 }

@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
- * GET /api/canvas/scan?url=0nmcp.com
- * Scans the site's own route structure from the sitemap or returns
- * a hardcoded tree of the 0nmcp.com architecture.
- * Returns nodes + edges for React Flow canvas.
+ * GET /api/canvas/scan?url=example.com
+ *
+ * Live URL crawler — fetches sitemap.xml from any domain,
+ * parses the URLs into a hierarchical tree, and returns
+ * nodes + edges for React Flow canvas rendering.
+ *
+ * Falls back to the hardcoded 0nmcp.com tree for local/self scans.
  */
 
 interface RouteNode {
@@ -14,9 +17,267 @@ interface RouteNode {
   type: 'page' | 'api' | 'dynamic' | 'group' | 'layout'
   children: RouteNode[]
   depth: number
+  lastmod?: string
+  priority?: string
 }
 
-// 0nmcp.com full route tree — the real architecture
+interface FlowNode {
+  id: string
+  type: string
+  position: { x: number; y: number }
+  data: {
+    label: string
+    path: string
+    nodeType: string
+    color: string
+    childCount: number
+    lastmod?: string
+    isLive: boolean
+  }
+}
+
+interface FlowEdge {
+  id: string
+  source: string
+  target: string
+  type: string
+  animated: boolean
+  style: { stroke: string; strokeWidth: number }
+}
+
+// ── Sitemap XML Parser (no dependencies) ──
+
+function extractUrlsFromXml(xml: string): Array<{ loc: string; lastmod?: string; priority?: string }> {
+  const urls: Array<{ loc: string; lastmod?: string; priority?: string }> = []
+
+  // Handle sitemap index (sitemapindex > sitemap > loc)
+  const sitemapIndexMatch = xml.match(/<sitemapindex[\s\S]*?<\/sitemapindex>/i)
+  if (sitemapIndexMatch) {
+    const locRegex = /<loc>\s*(.*?)\s*<\/loc>/gi
+    let match: RegExpExecArray | null
+    while ((match = locRegex.exec(sitemapIndexMatch[0])) !== null) {
+      urls.push({ loc: match[1].trim() })
+    }
+    return urls
+  }
+
+  // Handle regular sitemap (urlset > url > loc)
+  const urlRegex = /<url>([\s\S]*?)<\/url>/gi
+  let urlMatch: RegExpExecArray | null
+  while ((urlMatch = urlRegex.exec(xml)) !== null) {
+    const block = urlMatch[1]
+    const locMatch = block.match(/<loc>\s*(.*?)\s*<\/loc>/i)
+    if (!locMatch) continue
+
+    const lastmodMatch = block.match(/<lastmod>\s*(.*?)\s*<\/lastmod>/i)
+    const priorityMatch = block.match(/<priority>\s*(.*?)\s*<\/priority>/i)
+
+    urls.push({
+      loc: locMatch[1].trim(),
+      lastmod: lastmodMatch?.[1]?.trim(),
+      priority: priorityMatch?.[1]?.trim(),
+    })
+  }
+
+  return urls
+}
+
+function urlsToTree(baseUrl: string, urls: Array<{ loc: string; lastmod?: string; priority?: string }>): RouteNode {
+  const hostname = baseUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')
+  const root: RouteNode = {
+    id: '/',
+    path: '/',
+    label: hostname,
+    type: 'page',
+    depth: 0,
+    children: [],
+  }
+
+  // Deduplicate and sort paths
+  const pathMap = new Map<string, { lastmod?: string; priority?: string }>()
+  for (const u of urls) {
+    try {
+      const parsed = new URL(u.loc)
+      const path = parsed.pathname === '/' ? '/' : parsed.pathname.replace(/\/$/, '')
+      if (path === '/') continue
+      if (!pathMap.has(path)) {
+        pathMap.set(path, { lastmod: u.lastmod, priority: u.priority })
+      }
+    } catch {
+      // Skip invalid URLs
+    }
+  }
+
+  const sortedPaths = [...pathMap.keys()].sort()
+
+  // Build tree from paths
+  for (const path of sortedPaths) {
+    const meta = pathMap.get(path)
+    const segments = path.split('/').filter(Boolean)
+    let current = root
+
+    for (let i = 0; i < segments.length; i++) {
+      const segment = segments[i]
+      const partialPath = '/' + segments.slice(0, i + 1).join('/')
+      let child = current.children.find(c => c.path === partialPath)
+
+      if (!child) {
+        const isLast = i === segments.length - 1
+        const isDynamic = segment.startsWith('[') || segment.includes(':')
+        const isApi = segments[0] === 'api'
+
+        child = {
+          id: partialPath,
+          path: partialPath,
+          label: formatLabel(segment),
+          type: isDynamic ? 'dynamic' : isApi ? 'api' : 'page',
+          depth: i + 1,
+          children: [],
+          lastmod: isLast ? meta?.lastmod : undefined,
+          priority: isLast ? meta?.priority : undefined,
+        }
+        current.children.push(child)
+      }
+
+      current = child
+    }
+  }
+
+  // Detect groups (nodes that only contain children, typical section parents)
+  function markGroups(node: RouteNode): void {
+    if (node.children.length >= 3 && node.depth > 0) {
+      // Check if this looks like a grouping node
+      const hasOwnPage = urls.some(u => {
+        try {
+          return new URL(u.loc).pathname.replace(/\/$/, '') === node.path
+        } catch { return false }
+      })
+      if (!hasOwnPage && node.type === 'page') {
+        node.type = 'group'
+      }
+    }
+    node.children.forEach(markGroups)
+  }
+  markGroups(root)
+
+  return root
+}
+
+function formatLabel(segment: string): string {
+  return segment
+    .replace(/[-_]/g, ' ')
+    .replace(/\[.*?\]/g, (m) => m)
+    .replace(/\b\w/g, c => c.toUpperCase())
+}
+
+async function fetchSitemap(baseUrl: string): Promise<{ tree: RouteNode; urlCount: number; isLive: boolean }> {
+  const normalizedBase = baseUrl.startsWith('http') ? baseUrl : `https://${baseUrl}`
+  const hostname = normalizedBase.replace(/\/$/, '')
+
+  // Try multiple sitemap locations
+  const sitemapPaths = ['/sitemap.xml', '/sitemap_index.xml', '/sitemap-0.xml']
+  let allUrls: Array<{ loc: string; lastmod?: string; priority?: string }> = []
+
+  for (const sitemapPath of sitemapPaths) {
+    try {
+      const res = await fetch(`${hostname}${sitemapPath}`, {
+        headers: { 'User-Agent': '0nCanvas/1.0 (Site Architecture Scanner)' },
+        signal: AbortSignal.timeout(8000),
+      })
+
+      if (!res.ok) continue
+
+      const xml = await res.text()
+      const urls = extractUrlsFromXml(xml)
+
+      if (urls.length === 0) continue
+
+      // Check if this is a sitemap index
+      const isSitemapIndex = xml.includes('<sitemapindex')
+      if (isSitemapIndex) {
+        // Fetch child sitemaps (limit to 5 to avoid timeout)
+        const childSitemaps = urls.slice(0, 5)
+        for (const child of childSitemaps) {
+          try {
+            const childRes = await fetch(child.loc, {
+              headers: { 'User-Agent': '0nCanvas/1.0 (Site Architecture Scanner)' },
+              signal: AbortSignal.timeout(5000),
+            })
+            if (childRes.ok) {
+              const childXml = await childRes.text()
+              const childUrls = extractUrlsFromXml(childXml)
+              allUrls.push(...childUrls)
+            }
+          } catch {
+            // Skip failed child sitemaps
+          }
+        }
+      } else {
+        allUrls = urls
+      }
+
+      if (allUrls.length > 0) break
+    } catch {
+      continue
+    }
+  }
+
+  // Cap at 500 URLs to keep the canvas performant
+  if (allUrls.length > 500) {
+    allUrls = allUrls.slice(0, 500)
+  }
+
+  if (allUrls.length > 0) {
+    return { tree: urlsToTree(hostname, allUrls), urlCount: allUrls.length, isLive: true }
+  }
+
+  // Fallback: try to parse robots.txt for sitemap reference
+  try {
+    const robotsRes = await fetch(`${hostname}/robots.txt`, {
+      headers: { 'User-Agent': '0nCanvas/1.0' },
+      signal: AbortSignal.timeout(5000),
+    })
+    if (robotsRes.ok) {
+      const robots = await robotsRes.text()
+      const sitemapMatch = robots.match(/Sitemap:\s*(\S+)/i)
+      if (sitemapMatch) {
+        const res = await fetch(sitemapMatch[1], {
+          headers: { 'User-Agent': '0nCanvas/1.0' },
+          signal: AbortSignal.timeout(5000),
+        })
+        if (res.ok) {
+          const xml = await res.text()
+          const urls = extractUrlsFromXml(xml)
+          if (urls.length > 0) {
+            return { tree: urlsToTree(hostname, urls.slice(0, 500)), urlCount: Math.min(urls.length, 500), isLive: true }
+          }
+        }
+      }
+    }
+  } catch {
+    // Ignore
+  }
+
+  return { tree: getFallbackTree(hostname), urlCount: 0, isLive: false }
+}
+
+// ── Hardcoded 0nmcp.com tree as fallback ──
+
+function getFallbackTree(hostname: string): RouteNode {
+  if (hostname.includes('0nmcp.com')) {
+    return SITE_TREE
+  }
+  // Return a minimal tree with just the root
+  return {
+    id: '/',
+    path: '/',
+    label: hostname.replace(/^https?:\/\//, ''),
+    type: 'page',
+    depth: 0,
+    children: [],
+  }
+}
+
 const SITE_TREE: RouteNode = {
   id: '/', path: '/', label: '0nmcp.com', type: 'page', depth: 0,
   children: [
@@ -125,14 +386,25 @@ const SITE_TREE: RouteNode = {
   ],
 }
 
-function flattenTree(node: RouteNode, parentId: string | null, nodes: any[], edges: any[], x: number, y: number): { maxY: number } {
-  const nodeColor = {
+// ── Layout Engine ──
+
+function flattenTree(
+  node: RouteNode,
+  parentId: string | null,
+  nodes: FlowNode[],
+  edges: FlowEdge[],
+  x: number,
+  y: number,
+  isLive: boolean
+): { maxY: number } {
+  const nodeColor: Record<string, string> = {
     page: '#6EE05A',
     api: '#00d4ff',
     dynamic: '#a78bfa',
     group: '#f59e0b',
     layout: '#6b7280',
-  }[node.type] || '#6EE05A'
+  }
+  const color = nodeColor[node.type] || '#6EE05A'
 
   nodes.push({
     id: node.id,
@@ -142,8 +414,10 @@ function flattenTree(node: RouteNode, parentId: string | null, nodes: any[], edg
       label: node.label,
       path: node.path,
       nodeType: node.type,
-      color: nodeColor,
+      color,
       childCount: node.children.length,
+      lastmod: node.lastmod,
+      isLive,
     },
   })
 
@@ -154,49 +428,194 @@ function flattenTree(node: RouteNode, parentId: string | null, nodes: any[], edg
       target: node.id,
       type: 'smoothstep',
       animated: node.type === 'dynamic',
-      style: { stroke: nodeColor + '60', strokeWidth: 2 },
+      style: { stroke: color + '60', strokeWidth: 2 },
     })
   }
 
   let currentY = y
   const childSpacing = 100
-  const childX = x + 280
+  const childX = x + 300
 
   for (const child of node.children) {
-    const result = flattenTree(child, node.id, nodes, edges, childX, currentY)
+    const result = flattenTree(child, node.id, nodes, edges, childX, currentY, isLive)
     currentY = result.maxY + childSpacing
   }
 
   return { maxY: Math.max(y, currentY - childSpacing) }
 }
 
+// ── .0n SWITCH file generator ──
+
+function generateSwitchFile(tree: RouteNode, site: string, urlCount: number): string {
+  const timestamp = new Date().toISOString()
+
+  function collectPaths(node: RouteNode): string[] {
+    const paths = [node.path]
+    for (const child of node.children) {
+      paths.push(...collectPaths(child))
+    }
+    return paths
+  }
+
+  const allPaths = collectPaths(tree)
+  const pages = allPaths.filter(p => !p.includes('[') && !p.startsWith('/api'))
+  const dynamicRoutes = allPaths.filter(p => p.includes('['))
+  const apiRoutes = allPaths.filter(p => p.startsWith('/api'))
+
+  function treeToSteps(node: RouteNode, prefix: string): string {
+    let result = ''
+    for (const child of node.children) {
+      result += `${prefix}- path: "${child.path}"\n`
+      result += `${prefix}  label: "${child.label}"\n`
+      result += `${prefix}  type: ${child.type}\n`
+      if (child.lastmod) {
+        result += `${prefix}  lastmod: "${child.lastmod}"\n`
+      }
+      if (child.children.length > 0) {
+        result += `${prefix}  children:\n`
+        result += treeToSteps(child, prefix + '    ')
+      }
+    }
+    return result
+  }
+
+  return `# 0n SWITCH File — Site Blueprint
+# Generated by 0nCanvas
+# ${timestamp}
+
+schema: "0n-sitemap/v2"
+version: "1.0.0"
+generated: "${timestamp}"
+generator: "0nCanvas"
+
+site:
+  url: "${site}"
+  scanned_urls: ${urlCount}
+
+stats:
+  total_pages: ${pages.length}
+  dynamic_routes: ${dynamicRoutes.length}
+  api_routes: ${apiRoutes.length}
+  max_depth: ${Math.max(...allPaths.map(p => p.split('/').filter(Boolean).length), 0)}
+
+structure:
+  root:
+    path: "/"
+    label: "${tree.label}"
+    children:
+${treeToSteps(tree, '      ')}
+pages:
+${pages.map(p => `  - "${p}"`).join('\n')}
+
+dynamic_routes:
+${dynamicRoutes.length > 0 ? dynamicRoutes.map(p => `  - "${p}"`).join('\n') : '  []'}
+
+api_routes:
+${apiRoutes.length > 0 ? apiRoutes.map(p => `  - "${p}"`).join('\n') : '  []'}
+`
+}
+
+// ── Sitemap XML generator ──
+
+function generateSitemapXml(tree: RouteNode, site: string): string {
+  const hostname = site.startsWith('http') ? site : `https://${site}`
+
+  function collectUrls(node: RouteNode): Array<{ path: string; lastmod?: string; priority?: string }> {
+    const urls: Array<{ path: string; lastmod?: string; priority?: string }> = []
+    // Skip dynamic routes for XML sitemap
+    if (!node.path.includes('[')) {
+      urls.push({
+        path: node.path,
+        lastmod: node.lastmod,
+        priority: node.priority || (node.depth === 0 ? '1.0' : node.depth === 1 ? '0.8' : '0.6'),
+      })
+    }
+    for (const child of node.children) {
+      urls.push(...collectUrls(child))
+    }
+    return urls
+  }
+
+  const urls = collectUrls(tree)
+
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+
+  for (const url of urls) {
+    xml += '  <url>\n'
+    xml += `    <loc>${hostname}${url.path}</loc>\n`
+    if (url.lastmod) {
+      xml += `    <lastmod>${url.lastmod}</lastmod>\n`
+    }
+    xml += `    <priority>${url.priority}</priority>\n`
+    xml += '  </url>\n'
+  }
+
+  xml += '</urlset>\n'
+  return xml
+}
+
+// ── Handler ──
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const url = searchParams.get('url') || '0nmcp.com'
+  const rawUrl = searchParams.get('url') || '0nmcp.com'
+  const exportFormat = searchParams.get('export')
 
-  const nodes: any[] = []
-  const edges: any[] = []
+  const { tree, urlCount, isLive } = await fetchSitemap(rawUrl)
 
-  // For now, return the hardcoded 0nmcp.com tree
-  // Future: fetch sitemap.xml from arbitrary URLs and parse
-  flattenTree(SITE_TREE, null, nodes, edges, 50, 50)
+  // Handle export requests
+  if (exportFormat === 'xml') {
+    const xml = generateSitemapXml(tree, rawUrl)
+    return new NextResponse(xml, {
+      headers: {
+        'Content-Type': 'application/xml',
+        'Content-Disposition': `attachment; filename="${rawUrl.replace(/[^a-z0-9.]/gi, '-')}-sitemap.xml"`,
+      },
+    })
+  }
 
-  // Generate .0n export format
-  const onFile = {
-    schema: '0n-sitemap/v1',
+  if (exportFormat === 'switch') {
+    const switchFile = generateSwitchFile(tree, rawUrl, urlCount)
+    return new NextResponse(switchFile, {
+      headers: {
+        'Content-Type': 'text/plain',
+        'Content-Disposition': `attachment; filename="${rawUrl.replace(/[^a-z0-9.]/gi, '-')}.0n"`,
+      },
+    })
+  }
+
+  const nodes: FlowNode[] = []
+  const edges: FlowEdge[] = []
+
+  flattenTree(tree, null, nodes, edges, 50, 50, isLive)
+
+  function countByType(node: RouteNode, type: string): number {
+    let count = node.type === type ? 1 : 0
+    for (const child of node.children) {
+      count += countByType(child, type)
+    }
+    return count
+  }
+
+  const response = {
+    schema: '0n-sitemap/v2',
     generated: new Date().toISOString(),
-    site: url,
+    site: rawUrl,
+    isLive,
+    urlCount,
     stats: {
-      total_pages: nodes.filter(n => n.data.nodeType === 'page').length,
-      dynamic_routes: nodes.filter(n => n.data.nodeType === 'dynamic').length,
-      groups: nodes.filter(n => n.data.nodeType === 'group').length,
+      total_pages: countByType(tree, 'page'),
+      dynamic_routes: countByType(tree, 'dynamic'),
+      groups: countByType(tree, 'group'),
+      api_routes: countByType(tree, 'api'),
       total_nodes: nodes.length,
       total_edges: edges.length,
     },
-    tree: SITE_TREE,
+    tree,
     nodes,
     edges,
   }
 
-  return NextResponse.json(onFile)
+  return NextResponse.json(response)
 }

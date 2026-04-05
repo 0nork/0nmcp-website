@@ -443,6 +443,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 0;
   max-width: calc(100vw - var(--jp-sidebar-width));
   width: calc(100vw - var(--jp-sidebar-width));
   overflow-x: hidden;
@@ -451,7 +452,10 @@
 
 .jp-content {
   flex: 1;
+  min-width: 0;
+  max-width: 100%;
   padding: 24px;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 

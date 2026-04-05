@@ -598,9 +598,9 @@ export default function ConsolePage() {
   )
 
   return (
-    <div className="flex flex-col h-full" style={{ background: 'var(--bg-primary)', overflow: 'hidden', maxWidth: '100%', width: '100%' }}>
+    <div className="flex flex-col h-full" style={{ background: 'var(--bg-primary)', overflow: 'hidden', maxWidth: '100%', width: '100%', minWidth: 0 }}>
       {/* Main content area */}
-      <div className="flex-1 flex flex-col" style={{ minWidth: 0, minHeight: 0, maxWidth: '100%', overflow: 'hidden' }}>
+      <div className="flex-1 flex flex-col" style={{ minWidth: 0, minHeight: 0, maxWidth: '100%', width: '100%', overflow: 'hidden' }}>
         <Header
           view={view}
           mcpOnline={mcpOnline}
@@ -625,9 +625,9 @@ export default function ConsolePage() {
         />
 
         {/* Content — visited views stay mounted for state persistence */}
-        <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <main className="flex-1 flex flex-col min-h-0 overflow-hidden" style={{ minWidth: 0, maxWidth: '100%' }}>
           {/* Dashboard */}
-          <div style={{ display: view === 'dashboard' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0 overflow-auto">
+          <div style={{ display: view === 'dashboard' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="flex-1 flex-col min-h-0 overflow-auto">
             <DashboardView
               mcpOnline={mcpOnline}
               mcpHealth={mcpHealth}
@@ -643,7 +643,7 @@ export default function ConsolePage() {
 
           {/* Chat */}
           {visitedViews.has('chat') && (
-            <div style={{ display: view === 'chat' ? 'flex' : 'none' }} className="flex-1 flex-col min-h-0">
+            <div style={{ display: view === 'chat' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="flex-1 flex-col min-h-0">
               {/* Pinned Commands Bar */}
               <PinnedCommands
                 onExecuteCommand={handlePinnedCommand}

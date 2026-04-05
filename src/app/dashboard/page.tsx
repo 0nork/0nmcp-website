@@ -150,7 +150,7 @@ const fadeIn: React.CSSProperties = {
 const s = {
   page: {
     minHeight: '100vh',
-    background: '#060a0f',
+    background: 'var(--bg-primary)',
     color: 'var(--text-primary, #e2e8f0)',
     padding: '2rem 1.5rem 4rem',
     maxWidth: 1280,
@@ -165,7 +165,7 @@ const s = {
   welcome: {
     fontSize: '1.75rem',
     fontWeight: 700,
-    color: '#fff',
+    color: 'var(--text-primary)',
     margin: 0,
     display: 'flex',
     alignItems: 'center',
@@ -265,14 +265,14 @@ const s = {
   sectionTitle: {
     fontSize: '1.05rem',
     fontWeight: 600,
-    color: '#fff',
+    color: 'var(--text-primary)',
     marginBottom: '1rem',
     marginTop: 0,
   } as React.CSSProperties,
 
   /* Wizard */
   wizard: {
-    background: '#0c1220',
+    background: 'var(--bg-card)',
     border: '1px solid var(--border, #1e293b)',
     borderRadius: 12,
     padding: '1.5rem',
@@ -282,7 +282,7 @@ const s = {
     overflow: 'hidden',
   } as React.CSSProperties,
   wizardComplete: {
-    background: '#0c1220',
+    background: 'var(--bg-card)',
     border: '1px solid rgba(126,217,87,0.3)',
     borderRadius: 12,
     padding: '1rem 1.5rem',
@@ -323,7 +323,7 @@ const s = {
       boxShadow: '0 0 12px rgba(0,212,255,0.3)',
     } : {
       background: 'transparent',
-      color: '#64748b',
+      color: 'var(--text-muted)',
       border: '2px solid #334155',
     }),
   }),
@@ -400,7 +400,7 @@ const s = {
     gap: '0.75rem',
   } as React.CSSProperties,
   wizardCodeBlock: {
-    background: '#060a0f',
+    background: 'var(--bg-primary)',
     border: '1px solid var(--border, #1e293b)',
     borderRadius: 8,
     padding: '1rem',
@@ -434,17 +434,17 @@ const s = {
   } as React.CSSProperties,
   wizardInput: {
     flex: 1,
-    background: '#060a0f',
+    background: 'var(--bg-primary)',
     border: '1px solid var(--border, #1e293b)',
     borderRadius: 8,
     padding: '0.6rem 0.85rem',
-    color: '#fff',
+    color: 'var(--text-primary)',
     fontSize: '0.85rem',
     fontFamily: "'JetBrains Mono', monospace",
     outline: 'none',
   } as React.CSSProperties,
   wizardExploreCard: {
-    background: 'rgba(255,255,255,0.03)',
+    background: 'var(--bg-card)',
     border: '1px solid var(--border, #1e293b)',
     borderRadius: 10,
     padding: '1.25rem',
@@ -478,11 +478,11 @@ const s = {
   } as React.CSSProperties,
   commandInput: {
     flex: 1,
-    background: '#060a0f',
+    background: 'var(--bg-primary)',
     border: '1px solid var(--border, #1e293b)',
     borderRadius: 8,
     padding: '0.75rem 1rem',
-    color: '#fff',
+    color: 'var(--text-primary)',
     fontSize: '0.9rem',
     fontFamily: "'JetBrains Mono', monospace",
     outline: 'none',
@@ -529,7 +529,7 @@ const s = {
   connectionName: {
     fontWeight: 500,
     fontSize: '0.85rem',
-    color: '#fff',
+    color: 'var(--text-primary)',
     flex: 1,
   } as React.CSSProperties,
   connectionStatus: (connected: boolean) => ({
@@ -564,7 +564,7 @@ const s = {
   capTitle: {
     fontWeight: 600,
     fontSize: '0.9rem',
-    color: '#fff',
+    color: 'var(--text-primary)',
     marginBottom: '0.35rem',
   } as React.CSSProperties,
   capDesc: {
@@ -598,7 +598,7 @@ const s = {
     gap: '0.5rem',
     fontWeight: 500,
     fontSize: '0.85rem',
-    color: '#fff',
+    color: 'var(--text-primary)',
   } as React.CSSProperties,
   platformBadge: (installed: boolean) => ({
     fontSize: '0.7rem',
@@ -1035,8 +1035,8 @@ npm install -g 0nmcp
             fontSize: '1rem', fontWeight: 900, color: '#0a1a0f', flexShrink: 0,
           }}>0n</div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.95rem' }}>Run Setup Wizard</div>
-            <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>Install 0nMCP on Claude, Slack, ChatGPT, or WordPress in 60 seconds</div>
+            <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>Run Setup Wizard</div>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>Install 0nMCP on Claude, Slack, ChatGPT, or WordPress in 60 seconds</div>
           </div>
           <div style={{ color: '#7ed957', fontWeight: 700, fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
             Start {icons.arrow}
@@ -1102,7 +1102,7 @@ npm install -g 0nmcp
                     <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(126,217,87,0.15)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
                       <span style={{ color: '#7ed957', lineHeight: 0 }}>{icons.check}</span>
                     </div>
-                    <h3 style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 600, margin: '0 0 0.5rem' }}>
+                    <h3 style={{ color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: 600, margin: '0 0 0.5rem' }}>
                       Account Created
                     </h3>
                     <p style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.88rem', margin: '0 0 1rem' }}>
@@ -1111,7 +1111,7 @@ npm install -g 0nmcp
                     <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' as const }}>
                       <div style={{ textAlign: 'left' }}>
                         <div style={{ fontSize: '0.72rem', color: 'var(--text-muted, #64748b)', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: '0.2rem' }}>Name</div>
-                        <div style={{ color: '#fff', fontWeight: 500, fontSize: '0.9rem' }}>{data.userName || 'User'}</div>
+                        <div style={{ color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.9rem' }}>{data.userName || 'User'}</div>
                       </div>
                       <div style={{ textAlign: 'left' }}>
                         <div style={{ fontSize: '0.72rem', color: 'var(--text-muted, #64748b)', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: '0.2rem' }}>Plan</div>
@@ -1123,7 +1123,7 @@ npm install -g 0nmcp
 
                 {/* Step 2: Install 0nMCP */}
                 <div style={s.wizardSlide(wizardStep === 2, slideDir)}>
-                  <h3 style={{ color: '#fff', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
+                  <h3 style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
                     Install 0nMCP
                   </h3>
                   <p style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.85rem', margin: '0 0 1rem' }}>
@@ -1141,7 +1141,7 @@ npm install -g 0nmcp
                           <span style={{ color: '#00d4ff', lineHeight: 0 }}>
                             {key === 'claude' ? icons.monitor : key === 'cursor' ? icons.code : key === 'slack' ? icons.message : icons.terminal}
                           </span>
-                          <span style={{ color: '#fff', fontWeight: 600, fontSize: '0.85rem' }}>{cfg.name}</span>
+                          <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.85rem' }}>{cfg.name}</span>
                         </div>
                         <div style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.75rem' }}>{cfg.desc}</div>
                       </div>
@@ -1162,7 +1162,7 @@ npm install -g 0nmcp
 
                 {/* Step 3: Connect a Service */}
                 <div style={s.wizardSlide(wizardStep === 3, slideDir)}>
-                  <h3 style={{ color: '#fff', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
+                  <h3 style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
                     Connect a Service
                   </h3>
                   <p style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.85rem', margin: '0 0 1rem' }}>
@@ -1170,9 +1170,9 @@ npm install -g 0nmcp
                   </p>
                   <div style={{ display: 'flex', flexDirection: 'column' as const, gap: '0.75rem' }}>
                     {wizardServices.map(svc => (
-                      <div key={svc.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border, #1e293b)', borderRadius: 10, padding: '0.85rem 1rem' }}>
+                      <div key={svc.id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border, #1e293b)', borderRadius: 10, padding: '0.85rem 1rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                          <span style={{ color: '#fff', fontWeight: 600, fontSize: '0.88rem' }}>{svc.name}</span>
+                          <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.88rem' }}>{svc.name}</span>
                           <a
                             href={svc.keyUrl}
                             target="_blank"
@@ -1200,13 +1200,13 @@ npm install -g 0nmcp
 
                 {/* Step 4: Run Your First Workflow */}
                 <div style={s.wizardSlide(wizardStep === 4, slideDir)}>
-                  <h3 style={{ color: '#fff', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
+                  <h3 style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
                     Run Your First Workflow
                   </h3>
                   <p style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.85rem', margin: '0 0 1rem' }}>
                     Describe what you want. AI executes it.
                   </p>
-                  <div style={{ background: '#060a0f', border: '1px solid var(--border, #1e293b)', borderRadius: 10, padding: '1.25rem' }}>
+                  <div style={{ background: 'var(--bg-primary)', border: '1px solid var(--border, #1e293b)', borderRadius: 10, padding: '1.25rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', color: 'var(--text-muted, #64748b)', fontSize: '0.82rem' }}>
                       {icons.terminal}
                       <span>Describe your workflow</span>
@@ -1232,7 +1232,7 @@ npm install -g 0nmcp
 
                 {/* Step 5: Explore */}
                 <div style={s.wizardSlide(wizardStep === 5, slideDir)}>
-                  <h3 style={{ color: '#fff', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
+                  <h3 style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, margin: '0 0 0.35rem' }}>
                     You&apos;re All Set
                   </h3>
                   <p style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.85rem', margin: '0 0 1rem' }}>
@@ -1241,17 +1241,17 @@ npm install -g 0nmcp
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem' }}>
                     <Link href="/console/marketplace" className="wizard-explore-card" style={s.wizardExploreCard}>
                       <div style={{ color: '#7ed957', marginBottom: '0.5rem', lineHeight: 0 }}>{icons.services}</div>
-                      <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.88rem', marginBottom: '0.25rem' }}>Marketplace</div>
+                      <div style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.88rem', marginBottom: '0.25rem' }}>Marketplace</div>
                       <div style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.75rem' }}>Browse pre-built workflows</div>
                     </Link>
                     <Link href="/forum" className="wizard-explore-card" style={s.wizardExploreCard}>
                       <div style={{ color: '#00d4ff', marginBottom: '0.5rem', lineHeight: 0 }}>{icons.users}</div>
-                      <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.88rem', marginBottom: '0.25rem' }}>Forum</div>
+                      <div style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.88rem', marginBottom: '0.25rem' }}>Forum</div>
                       <div style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.75rem' }}>Ask questions, share work</div>
                     </Link>
                     <Link href="/docs" className="wizard-explore-card" style={s.wizardExploreCard}>
                       <div style={{ color: '#a78bfa', marginBottom: '0.5rem', lineHeight: 0 }}>{icons.book}</div>
-                      <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.88rem', marginBottom: '0.25rem' }}>Documentation</div>
+                      <div style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.88rem', marginBottom: '0.25rem' }}>Documentation</div>
                       <div style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.75rem' }}>Full API reference</div>
                     </Link>
                   </div>
@@ -1334,7 +1334,7 @@ npm install -g 0nmcp
                 cursor: 'pointer',
               }}>
                 <span style={{ color: '#7ed957' }}>{icons.plug}</span>
-                <span style={{ color: '#fff', fontWeight: 500, fontSize: '0.9rem' }}>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.9rem' }}>
                   Connect your first service
                 </span>
                 <span style={{ color: 'var(--text-muted, #64748b)', fontSize: '0.8rem' }}>

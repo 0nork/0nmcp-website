@@ -378,7 +378,7 @@ export default function IntegrationsPage() {
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                     width: '100%', padding: '12px', borderRadius: 10,
-                    background: modal.color, color: '#fff', fontSize: '0.875rem', fontWeight: 700,
+                    background: modal.color, color: 'var(--text-primary)', fontSize: '0.875rem', fontWeight: 700,
                     textDecoration: 'none', marginBottom: '1.25rem', transition: 'opacity 0.2s',
                   }}
                 >

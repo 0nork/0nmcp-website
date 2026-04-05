@@ -30,8 +30,6 @@ export type Group = {
 };
 
 export function getMenuList(pathname: string, t?: any): Group[] {
-  const label = (key: string) => t ? t(key) : key;
-
   return [
     {
       groupLabel: "Main",
@@ -53,40 +51,27 @@ export function getMenuList(pathname: string, t?: any): Group[] {
           icon: "heroicons-outline:sparkles",
           submenus: [],
         },
-      ],
-    },
-    {
-      groupLabel: "Connections",
-      id: "connections",
-      menus: [
+        {
+          id: "install",
+          href: "/dashboard/install",
+          label: "Install",
+          active: pathname.includes("/dashboard/install"),
+          icon: "heroicons-outline:arrow-down-tray",
+          submenus: [],
+        },
         {
           id: "connect",
           href: "/dashboard/connect",
-          label: "Connect Services",
+          label: "Connections",
           active: pathname.includes("/dashboard/connect"),
           icon: "heroicons-outline:link",
           submenus: [],
         },
-        {
-          id: "install",
-          href: "/dashboard/install",
-          label: "Install Platforms",
-          active: pathname.includes("/dashboard/install"),
-          icon: "heroicons-outline:arrow-down-tray",
-          submenus: [
-            {
-              href: "/dashboard/install",
-              label: "All Platforms",
-              active: pathname === "/dashboard/install",
-              icon: "heroicons-outline:squares-2x2",
-            },
-          ],
-        },
       ],
     },
     {
-      groupLabel: "Tools",
-      id: "tools",
+      groupLabel: "Not Organized",
+      id: "not-organized",
       menus: [
         {
           id: "console",
@@ -94,32 +79,7 @@ export function getMenuList(pathname: string, t?: any): Group[] {
           label: "Console",
           active: pathname.includes("/console"),
           icon: "heroicons-outline:command-line",
-          submenus: [
-            {
-              href: "/console",
-              label: "AI Chat",
-              active: pathname === "/console",
-              icon: "heroicons-outline:chat-bubble-left-right",
-            },
-            {
-              href: "/console/builder/canvas",
-              label: "Canvas Builder",
-              active: pathname.includes("/console/builder"),
-              icon: "heroicons-outline:paint-brush",
-            },
-            {
-              href: "/console/marketplace",
-              label: "Marketplace",
-              active: pathname.includes("/console/marketplace"),
-              icon: "heroicons-outline:shopping-bag",
-            },
-            {
-              href: "/console/integrations",
-              label: "Integrations",
-              active: pathname.includes("/console/integrations"),
-              icon: "heroicons-outline:puzzle-piece",
-            },
-          ],
+          submenus: [],
         },
         {
           id: "workflows",
@@ -137,12 +97,6 @@ export function getMenuList(pathname: string, t?: any): Group[] {
           icon: "heroicons-outline:magnifying-glass",
           submenus: [],
         },
-      ],
-    },
-    {
-      groupLabel: "Community",
-      id: "community",
-      menus: [
         {
           id: "forum",
           href: "/forum",
@@ -159,12 +113,6 @@ export function getMenuList(pathname: string, t?: any): Group[] {
           icon: "heroicons-outline:academic-cap",
           submenus: [],
         },
-      ],
-    },
-    {
-      groupLabel: "Account",
-      id: "account",
-      menus: [
         {
           id: "billing",
           href: "/dashboard/billing",

@@ -326,8 +326,8 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
           textAlign: 'center',
         }}>
           <div style={{ marginBottom: '0.75rem' }}><CheckIcon /></div>
-          <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>Setup complete</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.875rem', margin: '0 0 1.25rem' }}>
+          <h2 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>Setup complete</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', margin: '0 0 1.25rem' }}>
             {state.platforms.length} platform{state.platforms.length !== 1 ? 's' : ''} installed
             {Object.keys(state.services).length > 0 && ` / ${Object.keys(state.services).length} service${Object.keys(state.services).length !== 1 ? 's' : ''} connected`}
           </p>
@@ -475,9 +475,9 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
               }}>
                 <img src={p.logo} alt={p.name} width={28} height={28} style={{ objectFit: 'contain' }} />
               </div>
-              <div style={{ fontWeight: 700, color: '#fff', fontSize: '1rem', marginBottom: '0.15rem' }}>{p.name}</div>
-              <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.4rem' }}>{p.subtitle}</div>
-              <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{p.desc}</div>
+              <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem', marginBottom: '0.15rem' }}>{p.name}</div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>{p.subtitle}</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{p.desc}</div>
             </button>
           )
         })}
@@ -494,7 +494,7 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
       <p style={styles.subtitle}>Follow the steps for each platform you selected.</p>
 
       {state.platforms.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '2rem 0', color: '#64748b' }}>
+        <div style={{ textAlign: 'center', padding: '2rem 0', color: 'var(--text-muted)' }}>
           No platforms selected. Go back to choose at least one.
         </div>
       ) : (
@@ -566,7 +566,7 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
                   <div style={{ fontWeight: 700, color: '#7ed957', fontSize: '0.85rem', marginBottom: '0.35rem' }}>
                     {cfg.testLabel}
                   </div>
-                  <div style={{ color: '#94a3b8', fontSize: '0.82rem' }}>{cfg.testDesc}</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>{cfg.testDesc}</div>
                 </div>
               </div>
             )
@@ -612,8 +612,8 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
                     <img src={svc.logo} alt={svc.name} width={22} height={22} style={{ objectFit: 'contain' }} />
                   </div>
                   <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.9rem' }}>{svc.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{svc.desc}</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9rem' }}>{svc.name}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{svc.desc}</div>
                   </div>
                 </div>
               </button>
@@ -742,8 +742,8 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
 const styles = {
   fullScreen: {
     minHeight: '100vh',
-    background: 'linear-gradient(180deg, #0a1a0f 0%, #060a0f 100%)',
-    color: '#e2e8f0',
+    background: 'var(--bg-primary)',
+    color: 'var(--text-primary)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -783,7 +783,7 @@ const styles = {
   } as React.CSSProperties,
 
   heading: {
-    color: '#fff',
+    color: 'var(--text-primary)',
     fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
     fontWeight: 800,
     textAlign: 'center' as const,
@@ -792,7 +792,7 @@ const styles = {
   } as React.CSSProperties,
 
   subtitle: {
-    color: '#94a3b8',
+    color: 'var(--text-muted)',
     fontSize: '0.95rem',
     textAlign: 'center' as const,
     margin: '0 0 2rem',
@@ -824,12 +824,12 @@ const styles = {
   /* Cards */
   card: {
     position: 'relative' as const,
-    border: '1px solid rgba(255,255,255,0.08)',
+    border: '1px solid var(--border)',
     borderRadius: 16,
     padding: '1.5rem',
     textAlign: 'center' as const,
     cursor: 'pointer',
-    background: 'rgba(255,255,255,0.04)',
+    background: 'var(--bg-card)',
     outline: 'none',
     WebkitAppearance: 'none' as const,
     color: 'inherit',
@@ -883,7 +883,7 @@ const styles = {
   backBtn: {
     background: 'none',
     border: 'none',
-    color: '#64748b',
+    color: 'var(--text-muted)',
     fontSize: '0.8rem',
     cursor: 'pointer',
     display: 'inline-flex',
@@ -895,7 +895,7 @@ const styles = {
   skipBtn: {
     background: 'none',
     border: 'none',
-    color: '#64748b',
+    color: 'var(--text-muted)',
     fontSize: '0.8rem',
     cursor: 'pointer',
     padding: '0.5rem 0.75rem',
@@ -914,7 +914,7 @@ const styles = {
     borderRadius: 10,
     border: '1px solid transparent',
     background: 'transparent',
-    color: '#64748b',
+    color: 'var(--text-muted)',
     fontSize: '0.82rem',
     fontWeight: 600,
     cursor: 'pointer',
@@ -936,7 +936,7 @@ const styles = {
   codeBlock: {
     position: 'relative' as const,
     background: '#0f172a',
-    border: '1px solid rgba(255,255,255,0.08)',
+    border: '1px solid var(--border)',
     borderRadius: 12,
     padding: '1rem 1.25rem',
     marginBottom: '1.25rem',
@@ -960,7 +960,7 @@ const styles = {
     border: '1px solid rgba(255,255,255,0.12)',
     borderRadius: 8,
     padding: '0.35rem 0.6rem',
-    color: '#94a3b8',
+    color: 'var(--text-muted)',
     fontSize: '0.7rem',
     cursor: 'pointer',
     display: 'flex',
@@ -981,7 +981,7 @@ const styles = {
     alignItems: 'center',
     gap: '0.5rem',
     background: '#4a154b',
-    color: '#fff',
+    color: 'var(--text-primary)',
     borderRadius: 10,
     padding: '0.65rem 1.25rem',
     fontWeight: 600,
@@ -1006,7 +1006,7 @@ const styles = {
     border: '1px solid rgba(255,255,255,0.1)',
     borderRadius: 8,
     padding: '0.55rem 0.75rem',
-    color: '#e2e8f0',
+    color: 'var(--text-primary)',
     fontSize: '0.82rem',
     fontFamily: 'JetBrains Mono, monospace',
     outline: 'none',
@@ -1056,10 +1056,10 @@ const styles = {
     alignItems: 'center',
     gap: '0.75rem',
     padding: '1.5rem 1rem',
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.08)',
+    background: 'var(--bg-card)',
+    border: '1px solid var(--border)',
     borderRadius: 16,
-    color: '#e2e8f0',
+    color: 'var(--text-primary)',
     textDecoration: 'none',
     textAlign: 'center' as const,
     fontSize: '0.88rem',
@@ -1082,7 +1082,7 @@ const styles = {
   ghostBtn: {
     background: 'none',
     border: '1px solid rgba(255,255,255,0.15)',
-    color: '#94a3b8',
+    color: 'var(--text-muted)',
     borderRadius: 9999,
     padding: '0.55rem 1.25rem',
     fontWeight: 600,

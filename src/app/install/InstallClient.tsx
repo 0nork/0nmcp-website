@@ -209,27 +209,27 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
   }
 
   return (
-    <div style={{ minHeight: embedded ? 'auto' : '100vh', background: embedded ? 'transparent' : '#060a0f', color: '#e2e8f0' }}>
+    <div style={{ minHeight: embedded ? 'auto' : '100vh', background: embedded ? 'transparent' : 'var(--bg-primary)', color: 'var(--text-primary)' }}>
       {/* Header — hidden when embedded in dashboard */}
       {!embedded && (
       <header style={{
         padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        borderBottom: '1px solid var(--border)',
       }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
           <div style={{ width: 32, height: 32, borderRadius: 6, background: 'linear-gradient(135deg,#7ed957,#5cb83a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 12, color: '#000' }}>0n</div>
-          <span style={{ fontWeight: 700, color: '#fff', fontSize: '1rem' }}>0nMCP</span>
+          <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem' }}>0nMCP</span>
         </Link>
       </header>
       )}
 
       {/* Hero */}
       <section style={{ textAlign: 'center', padding: '3rem 1rem 1rem', maxWidth: 700, margin: '0 auto' }}>
-        <h1 style={{ fontSize: 'clamp(1.75rem,4vw,2.5rem)', fontWeight: 800, color: '#fff', lineHeight: 1.15, margin: '0 0 1rem' }}>
+        <h1 style={{ fontSize: 'clamp(1.75rem,4vw,2.5rem)', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.15, margin: '0 0 1rem' }}>
           Where do you want to<br /><span style={{ color: '#7ed957' }}>install 0nMCP?</span>
         </h1>
-        <p style={{ color: '#94a3b8', fontSize: '1rem', lineHeight: 1.6 }}>
-          Pick your platform. Paste one config. Get <strong style={{ color: '#fff' }}>1,589 tools</strong> across <strong style={{ color: '#fff' }}>102 services</strong> instantly.
+        <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: 1.6 }}>
+          Pick your platform. Paste one config. Get <strong style={{ color: 'var(--text-primary)' }}>1,589 tools</strong> across <strong style={{ color: 'var(--text-primary)' }}>102 services</strong> instantly.
         </p>
       </section>
 
@@ -256,8 +256,8 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
                 fontWeight: 800, color: p.color,
                 fontFamily: p.id === 'terminal' ? "'JetBrains Mono',monospace" : 'var(--font-display,system-ui)',
               }}>{p.icon}</div>
-              <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.95rem' }}>{p.name}</div>
-              <div style={{ color: '#64748b', fontSize: '0.75rem' }}>{p.desc}</div>
+              <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>{p.name}</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{p.desc}</div>
             </button>
           ))}
         </div>
@@ -267,13 +267,13 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
       {platform && (
         <section style={{ maxWidth: 700, margin: '2rem auto', padding: '0 1rem 4rem' }}>
           <div style={{
-            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
             borderRadius: 16, padding: '2rem', 
           }}>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', margin: '0 0 0.25rem' }}>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.25rem' }}>
               Install on {platform.name}
             </h2>
-            <p style={{ color: '#64748b', fontSize: '0.8rem', margin: '0 0 1.5rem' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', margin: '0 0 1.5rem' }}>
               {platform.configPath}
             </p>
 
@@ -287,19 +287,19 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: '0.7rem', fontWeight: 700,
                   }}>{i + 1}</div>
-                  <span style={{ color: '#cbd5e1', fontSize: '0.875rem', lineHeight: 1.5, paddingTop: 2 }}>{s}</span>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.5, paddingTop: 2 }}>{s}</span>
                 </div>
               ))}
             </div>
 
             {/* Config block */}
             <div style={{
-              background: '#0d1117', border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
               borderRadius: 10, overflow: 'hidden',
             }}>
               <div style={{
                 padding: '0.625rem 1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)',
+                background: 'var(--bg-card)', borderBottom: '1px solid var(--border)',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <div style={{ display: 'flex', gap: 5 }}>
@@ -352,7 +352,7 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
                   'Encrypted vault',
                   'Workflow engine',
                 ].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.775rem', color: '#94a3b8' }}>
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.775rem', color: 'var(--text-muted)' }}>
                     <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#7ed957', flexShrink: 0 }} />
                     {item}
                   </div>

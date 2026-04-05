@@ -69,21 +69,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex min-h-screen bg-default-100 dark:bg-background">
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-primary)', fontFamily: 'var(--font-display)' }}>
       {/* ── SIDEBAR ── */}
       <aside className={cn(
-        'fixed inset-y-0 left-0 z-50 flex flex-col bg-card border-r border-border transition-all duration-300',
+        'fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300',
         collapsed ? 'w-[72px]' : 'w-[260px]',
         mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
-      )}>
+      )} style={{
+        background: 'var(--bg-sidebar)',
+        borderRight: '1px solid var(--sidebar-border)',
+        boxShadow: 'var(--shadow-sidebar)',
+      }}>
         {/* Logo */}
-        <div className={cn('flex h-16 items-center border-b border-border px-4', collapsed && 'justify-center')}>
+        <div className={cn('flex h-16 items-center px-4', collapsed && 'justify-center')} style={{ borderBottom: '1px solid var(--sidebar-border)' }}>
           <Link href="/" className="flex items-center gap-2.5 no-underline">
-            <div className="flex h-8 w-8 items-center justify-center">
-              0n
-            </div>
-            {!collapsed && (
-              <span className="text-lg font-bold text-foreground">0nMCP</span>
+            {collapsed ? (
+              <img src="/brand/0n-icon2-white.svg" alt="0n" style={{ height: 28, width: 28 }} />
+            ) : (
+              <img src="/brand/0n-logo-white.svg" alt="0nMCP" style={{ height: 30, width: 'auto' }} />
             )}
           </Link>
         </div>
@@ -93,7 +96,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {menuList.map(group => (
             <div key={group.id} className="mb-4">
               {!collapsed && (
-                <div className="px-4 mb-2 text-[0.65rem] font-semibold uppercase tracking-widest text-muted-foreground">
+                <div className="px-4 mb-2 text-[0.65rem] font-semibold uppercase tracking-widest" style={{ color: 'var(--sidebar-text-muted)' }}>
                   {group.groupLabel}
                 </div>
               )}
@@ -105,12 +108,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       href={menu.href}
                       onClick={() => setMobileOpen(false)}
                       className={cn(
-                        'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors no-underline',
-                        isActive
-                          ? 'bg-primary/10 text-primary border-r-2 border-primary'
-                          : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                        'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all no-underline',
                         collapsed && 'justify-center px-2',
                       )}
+                      style={{
+                        color: isActive ? 'var(--accent)' : 'var(--sidebar-text)',
+                        background: isActive ? 'var(--sidebar-active-bg)' : 'transparent',
+                        borderRight: isActive ? '2px solid var(--accent)' : '2px solid transparent',
+                      }}
                       title={collapsed ? menu.label : undefined}
                     >
                       <Icon icon={menu.icon} className="h-5 w-5 flex-shrink-0" />
@@ -147,7 +152,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="border-t border-border p-3">
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex w-full items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+            className="hidden lg:flex w-full items-center justify-center rounded-md p-2 transition-colors"
+            style={{ color: 'var(--sidebar-text-muted)' }}
           >
             <Icon icon={collapsed ? 'heroicons-outline:chevron-right' : 'heroicons-outline:chevron-left'} className="h-4 w-4" />
           </button>
@@ -157,7 +163,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* ── MAIN ── */}
       <div className={cn('flex flex-1 flex-col transition-all duration-300', collapsed ? 'lg:ml-[72px]' : 'lg:ml-[260px]')}>
         {/* Header */}
-        <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-card/80 backdrop-blur-sm px-4 lg:px-6">
+        <header className="sticky top-0 z-40 flex h-16 items-center justify-between px-4 lg:px-6" style={{ background: 'var(--bg-header)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(8px)' }}>
           <div className="flex items-center gap-3">
             {/* Mobile toggle */}
             <button

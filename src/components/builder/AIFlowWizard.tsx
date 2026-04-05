@@ -563,7 +563,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
                     </div>
 
                     {/* Expanded result for completed steps */}
-                    {result?.status === 'success' && result.data && (
+                    {result?.status === 'success' && !!result.data && (
                       <div style={{
                         marginTop: 8, padding: '8px 10px',
                         borderRadius: 8,

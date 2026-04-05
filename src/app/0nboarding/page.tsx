@@ -40,6 +40,59 @@ const ARCHETYPE_DISPLAY: Record<string, { icon: React.ComponentType<{ size?: num
   student: { icon: IconRising, title: 'Rising Voice', color: '#ff8c00', desc: 'Fresh perspective is your superpower. The community is excited to hear from you.' },
 }
 
+/* Animated provision step — shows spinner then checkmark after delay */
+function ProvisionStep({ label, delay, onDone }: { label: string; delay: number; onDone?: () => void }) {
+  const [status, setStatus] = useState<'waiting' | 'running' | 'done'>('waiting')
+  useEffect(() => {
+    const t1 = setTimeout(() => setStatus('running'), delay)
+    const t2 = setTimeout(() => {
+      setStatus('done')
+      onDone?.()
+    }, delay + 1200 + Math.random() * 600)
+    return () => { clearTimeout(t1); clearTimeout(t2) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [delay])
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: '0.75rem',
+      padding: '0.75rem 1rem', borderRadius: 10,
+      background: status === 'done' ? 'rgba(126,217,87,0.06)' : 'transparent',
+      border: `1px solid ${status === 'done' ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
+      transition: 'all 0.4s ease',
+      opacity: status === 'waiting' ? 0.4 : 1,
+    }}>
+      {status === 'done' ? (
+        <div style={{
+          width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
+          background: '#7ed957', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      ) : status === 'running' ? (
+        <div style={{
+          width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
+          border: '2px solid var(--border)', borderTopColor: '#7ed957',
+          animation: 'spin 0.7s linear infinite',
+        }} />
+      ) : (
+        <div style={{
+          width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
+          border: '2px solid var(--border)',
+        }} />
+      )}
+      <span style={{
+        fontSize: '0.875rem', fontWeight: status === 'done' ? 600 : 400,
+        color: status === 'done' ? 'var(--text-primary)' : 'var(--text-secondary)',
+        transition: 'all 0.3s',
+      }}>{label}</span>
+      {status === 'done' && (
+        <span style={{ marginLeft: 'auto', fontSize: '0.7rem', color: '#7ed957', fontWeight: 600 }}>Done</span>
+      )}
+    </div>
+  )
+}
+
 function OnboardingInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -886,79 +939,35 @@ function OnboardingInner() {
         </div>
       )}
 
-      {/* ===== STEP 3: CONNECT TOOLS ===== */}
+      {/* ===== STEP 3: AUTO-PROVISION WORKSPACE ===== */}
       {step === 3 && (
         <div className="onboarding-card fadeInUp">
-          <h1 className="onboarding-title">Connect your tools</h1>
+          <h1 className="onboarding-title">Setting up your workspace</h1>
           <p className="onboarding-subtitle">
-            Add an API key to your encrypted vault. Client-side AES-256-GCM — we never see your keys.
+            We&apos;re provisioning your AI workspace with {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services. This takes about 3 seconds.
           </p>
 
-          <div className="onboarding-service-icons">
-            {['Stripe', 'OpenAI', 'GitHub', 'Slack', 'Supabase', 'Twilio'].map(s => (
-              <div key={s} className="onboarding-service-icon">{s}</div>
+          {/* Animated provision checklist */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', margin: '1.5rem 0' }}>
+            {[
+              { label: 'Creating your AI knowledge base', delay: 0 },
+              { label: 'Configuring encrypted vault', delay: 400 },
+              { label: `Connecting ${STATS_DISPLAY.tools} tools`, delay: 800 },
+              { label: 'Preparing your console', delay: 1200 },
+              { label: 'Sending welcome email', delay: 1600 },
+            ].map((item, i) => (
+              <ProvisionStep key={i} label={item.label} delay={item.delay} onDone={i === 4 ? () => {
+                // Auto-advance after all steps complete
+                setTimeout(goNext, 800)
+              } : undefined} />
             ))}
-          </div>
-
-          {vaultSaved && (
-            <div className="onboarding-success">Credential saved and encrypted.</div>
-          )}
-
-          <div className="onboarding-form-grid">
-            <div className="auth-field">
-              <label>Service name</label>
-              <input
-                type="text"
-                value={vaultService}
-                onChange={e => setVaultService(e.target.value)}
-                placeholder="e.g. openai, stripe, github"
-              />
-            </div>
-            <div className="auth-field">
-              <label>API key</label>
-              <input
-                type="password"
-                value={vaultKey}
-                onChange={e => setVaultKey(e.target.value)}
-                placeholder="sk-..."
-                autoComplete="off"
-              />
-            </div>
-            <div className="auth-field">
-              <label>Key hint <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional, max 8 chars)</span></label>
-              <input
-                type="text"
-                value={vaultHint}
-                onChange={e => setVaultHint(e.target.value.slice(0, 8))}
-                placeholder="sk-ab..."
-              />
-            </div>
           </div>
 
           <div className="onboarding-trust">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent)">
               <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
             </svg>
-            <span>Client-side encryption — we never see your keys</span>
-          </div>
-
-          {credentialCount > 0 && (
-            <p className="onboarding-hint-text">{credentialCount} credential{credentialCount !== 1 ? 's' : ''} saved in your vault</p>
-          )}
-
-          <div className="onboarding-actions">
-            <button className="auth-btn secondary" onClick={goBack}>Back</button>
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-              {vaultService || vaultKey ? (
-                <button className="auth-btn primary" onClick={handleSaveVault} disabled={saving}>
-                  {saving ? 'Encrypting...' : 'Save & Continue'}
-                </button>
-              ) : (
-                <button className="auth-btn primary" onClick={goNext}>
-                  {vaultSaved || credentialCount > 0 ? 'Continue' : 'Skip for now'}
-                </button>
-              )}
-            </div>
+            <span>Connect API keys anytime from your Console settings</span>
           </div>
         </div>
       )}

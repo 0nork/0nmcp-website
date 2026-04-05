@@ -598,9 +598,9 @@ export default function ConsolePage() {
   )
 
   return (
-    <div className="flex flex-col h-full overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
+    <div className="flex flex-col h-full" style={{ background: 'var(--bg-primary)', overflow: 'hidden', maxWidth: '100%', width: '100%' }}>
       {/* Main content area */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-0">
+      <div className="flex-1 flex flex-col" style={{ minWidth: 0, minHeight: 0, maxWidth: '100%', overflow: 'hidden' }}>
         <Header
           view={view}
           mcpOnline={mcpOnline}

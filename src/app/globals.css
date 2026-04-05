@@ -2059,6 +2059,79 @@ a:hover {
   text-decoration: underline;
 }
 
+/* ── Signup-specific (brand panel additions) ── */
+
+.signup-spots-card {
+  background: var(--accent-glow, rgba(126, 217, 87, 0.08));
+  border: 1px solid var(--accent-dim, rgba(126, 217, 87, 0.2));
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.signup-spots-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.signup-spots-label {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.signup-spots-count {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: var(--font-mono);
+}
+
+.signup-spots-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.signup-spots-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+  transition: width 1s ease;
+}
+
+.signup-spots-fill[data-urgency="warning"] {
+  background: var(--warning, #f59e0b);
+}
+
+.signup-spots-fill[data-urgency="critical"] {
+  background: var(--error, #ef4444);
+}
+
+.signup-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.signup-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.signup-feature-icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
 /* ── Responsive ── */
 
 @media (min-width: 1024px) {

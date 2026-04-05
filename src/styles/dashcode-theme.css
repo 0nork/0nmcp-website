@@ -1,0 +1,783 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-border: hsl(var(--border));
+  --color-menu-arrow: hsl(var(--menu-arrow));
+  --color-menu-arrow-active: hsl(var(--menu-arrow-active));
+  --color-menu-menu-foreground: hsl(var(--menu-foreground));
+
+  --color-default-50: hsl(var(--default-50));
+  --color-default-100: hsl(var(--default-100));
+  --color-default-200: hsl(var(--default-200));
+  --color-default-300: hsl(var(--default-300));
+  --color-default-400: hsl(var(--default-400));
+  --color-default-500: hsl(var(--default-500));
+  --color-default-600: hsl(var(--default-600));
+  --color-default-700: hsl(var(--default-700));
+  --color-default-800: hsl(var(--default-800));
+  --color-default-900: hsl(var(--default-900));
+  --color-default-950: hsl(var(--default-950));
+  --color-default: hsl(var(--default));
+  --color-default-foreground: hsl(var(--default-foreground));
+
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary-50: hsl(var(--primary-50));
+  --color-primary-100: hsl(var(--primary-100));
+  --color-primary-200: hsl(var(--primary-200));
+  --color-primary-300: hsl(var(--primary-300));
+  --color-primary-400: hsl(var(--primary-400));
+  --color-primary-500: hsl(var(--primary-500));
+  --color-primary-600: hsl(var(--primary-600));
+  --color-primary-700: hsl(var(--primary-700));
+  --color-primary-800: hsl(var(--primary-800));
+  --color-primary-900: hsl(var(--primary-900));
+  --color-primary-950: hsl(var(--primary-950));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-sidebar: hsl(var(--sidebar));
+
+  --color-header: hsl(var(--header));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+
+  --color-info: hsl(var(--info));
+  --color-info-foreground: hsl(var(--info-foreground));
+
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-base: 0px 0px 1px rgba(40, 41, 61, 0.08),
+    0px 0.5px 2px rgba(96, 97, 112, 0.16);
+  --shadow-base2: 0px 2px 4px rgba(40, 41, 61, 0.04),
+    0px 8px 16px rgba(96, 97, 112, 0.16);
+  --shadow-base3: 16px 10px 40px rgba(15, 23, 42, 0.22);
+  --shadow-deep: -2px 0px 8px rgba(0, 0, 0, 0.16);
+  --shadow-dropdown: 0px 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-testi: 0px 4px 24px rgba(0, 0, 0, 0.06);
+  --shadow-todo: rgba(235 233 241, 0.6) 0px 3px 10px 0px;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-zoom: zoom 1s ease-in-out infinite;
+  --animate-tada: tada 1.5s ease-in-out infinite;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 215.3 19.3% 34.5%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 154 52% 55%;
+    --success-foreground: 138.5 76.5% 96.7%;
+
+    --warning: 16 93% 70%;
+    --warning-foreground: 33.3 100% 96.5%;
+
+    --success: 154 52% 55%;
+    --success-foreground: 138.5 76.5% 96.7%;
+
+    --warning: 16 93% 70%;
+    --warning-foreground: 33.3 100% 96.5%;
+
+    --info: 185 96% 51%;
+    --info-foreground: 183.2 100% 96.3%;
+
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    --default-50: 210 40% 98%;
+    --default-100: 210 40% 96.1%;
+    --default-200: 214.3 31.8% 91.4%;
+    --default-300: 212.7 26.8% 83.9%;
+    --default-400: 215 20.2% 65.1%;
+    --default-500: 215.4 16.3% 46.9%;
+    --default-600: 215.3 19.3% 34.5%;
+    --default-700: 215.3 25% 26.7%;
+    --default-800: 217.2 32.6% 17.5%;
+    --default-900: 222.2 47.4% 11.2%;
+    --default-950: 222.2 84% 4.9%;
+    --default: 222.2 47.4% 11.2%;
+    --default-foreground: 210 40% 98%;
+
+    --primary-50: 103 65% 96%;
+    --primary-100: 103 60% 90%;
+    --primary-200: 103 58% 82%;
+    --primary-300: 103 55% 70%;
+    --primary-400: 103 60% 60%;
+    --primary-500: 103 65% 50%;
+    --primary-600: 103 65% 45%;
+    --primary-700: 103 60% 38%;
+    --primary-800: 103 55% 30%;
+    --primary-900: 103 50% 22%;
+    --primary-950: 103 45% 14%;
+    --primary: 103 65% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    --sidebar: 0 0% 100%;
+    --header: 0 0% 100%;
+    --menu-arrow: 228, 45%, 98%;
+    --menu-arrow-active: 212.7 26.8% 83.9%;
+    --menu-foreground: 215, 20%, 65%;
+  }
+
+  .dark {
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --card: 215 27.9% 16.9%;
+    --card-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+
+    --primary: 103 65% 50%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 215.3 25% 26.7%;
+    --secondary-foreground: 210 40% 98%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 154 52% 55%;
+    --success-foreground: 138.5 76.5% 96.7%;
+
+    --warning: 16 93% 70%;
+    --warning-foreground: 33.3 100% 96.5%;
+
+    --info: 185 96% 51%;
+    --info-foreground: 183.2 100% 96.3%;
+
+    --ring: 212.7 26.8% 83.9%;
+
+    --default-950: 210 40% 98%;
+    --default-900: 210 40% 96.1%;
+    --default-800: 214.3 31.8% 91.4%;
+    --default-700: 212.7 26.8% 83.9%;
+    --default-600: 215 20.2% 65.1%;
+    --default-500: 215.4 16.3% 46.9%;
+    --default-400: 215.3 19.3% 34.5%;
+    --default-300: 215.3 25% 26.7%;
+    --default-200: 217.2 32.6% 17.5%;
+    --default-100: 222.2 47.4% 11.2%;
+    --default-50: 222.2 84% 4.9%;
+    --default: 213.8 100% 96.9%;
+    --default-foreground: 222.2 47.4% 11.2%;
+
+    --sidebar: 215 27.9% 16.9%;
+    --header: 215 27.9% 16.9%;
+    --menu-arrow: 215.3 25% 26.7%;
+    --menu-arrow-active: 215.3 19.3% 34.5%;
+    --menu-foreground: 214.3 31.8% 91.4%;
+  }
+
+  .theme-dark {
+    --sidebar: 222.2 84% 4.9%;
+    --header: 222.2 84% 4.9%;
+  }
+  .theme-rose {
+    --sidebar: 341, 64%, 43%;
+    --header: 341, 64%, 43%;
+    --secondary: 339, 60%, 51%;
+    --menu-arrow: 339, 60%, 51%;
+    --menu-arrow-active: 336, 67%, 60%;
+  }
+
+  .theme-gray {
+    --sidebar: 210, 10%, 23%;
+    --header: 210, 10%, 23%;
+
+    --secondary: 207, 14%, 31%;
+    --menu-arrow: 207, 14%, 31%;
+    --menu-arrow-active: 203, 16%, 43%;
+  }
+  .theme-steel-blue {
+    --sidebar: 226, 36%, 39%;
+    --header: 226, 36%, 39%;
+    --secondary: 224, 40%, 48%;
+    --menu-arrow: 224, 40%, 48%;
+    --menu-arrow-active: 216, 47%, 60%;
+  }
+  .theme-purple {
+    --sidebar: 299, 56%, 19%;
+    --header: 299, 56%, 19%;
+    --secondary: 299, 40%, 28%;
+    --menu-arrow: 299, 40%, 28%;
+    --menu-arrow-active: 298, 44%, 33%;
+  }
+
+  .theme-redwood {
+    --sidebar: 345, 24%, 29%;
+    --header: 345, 24%, 29%;
+    --secondary: 346, 26%, 35%;
+    --menu-arrow: 346, 26%, 35%;
+    --menu-arrow-active: 344, 27%, 42%;
+  }
+  .theme-green {
+    --sidebar: 164, 64%, 21%;
+    --header: 164, 64%, 21%;
+
+    --secondary: 164, 68%, 24%;
+    --menu-arrow: 164, 68%, 24%;
+    --menu-arrow-active: 163, 69%, 30%;
+  }
+  .theme-ocean-blue {
+    --sidebar: 206, 92%, 35%;
+    --header: 206, 92%, 35%;
+
+    --secondary: 205, 94%, 39%;
+    --menu-arrow: 205, 94%, 39%;
+    --menu-arrow-active: 203, 85%, 48%;
+  }
+  .theme-transparent {
+    --header: transparent;
+    box-shadow: none;
+  }
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    @apply border-border;
+  }
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply text-foreground;
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+@layer utilities {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes zoom {
+    0%,
+    100% {
+      transform: scale(0.5);
+    }
+    50% {
+      transform: scale(1);
+    }
+  }
+  @keyframes tada {
+    0% {
+      transform: scale3d(1, 1, 1);
+    }
+    10%,
+    20% {
+      transform: scale3d(1, 1, 0.95) rotate3d(0, 0, 1, -10deg);
+    }
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
+    }
+    40%,
+    60%,
+    80% {
+      transform: rotate3d(0, 0, 1, -10deg);
+    }
+    100% {
+      transform: scale3d(1, 1, 1);
+    }
+  }
+}
+
+
+
+
+  /* vector map */
+  .dashcode-app-vmap path {
+    @apply fill-[#6794DC];
+  }
+
+  .dashcode-app-vmap .svg-map__location[aria-checked="true"] {
+    @apply fill-primary;
+  }
+
+  .dashcode-app-codeVmapInfo path {
+    @apply fill-info;
+  }
+
+  .dashcode-app-codeVmapInfo path .svg-map__location[aria-checked="true"] {
+    @apply fill-info;
+  }
+  .dashcode-app-codeVmapWarning path {
+    @apply fill-warning;
+  }
+  .dashcode-app-codeVmapWarning path .svg-map__location[aria-checked="true"] {
+    @apply fill-warning;
+  }
+  .dashcode-app-codeVmapSuccess path {
+    @apply fill-success;
+  }
+  .dashcode-app-codeVmapSuccess path .svg-map__location[aria-checked="true"] {
+    @apply fill-success;
+  }
+  .input-group :not(:first-child) input {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .input-group.merged :not(:first-child) input {
+    border-left-width: 0 !important;
+    padding-left: 0px !important;
+  }
+
+  .input-group :not(:last-child) input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .input-group.merged :not(:last-child) input {
+    border-right: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  .no-scrollbar::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  .logo-box-3 {
+    @apply flex justify-center items-center min-h-screen;
+  }
+
+  .v3-right-column {
+    @apply flex flex-col items-center justify-center;
+  }
+
+  .has-sticky-header::after {
+    position: absolute;
+    z-index: -10;
+    --tw-backdrop-blur: blur(12px);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
+      var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
+      var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
+      var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
+      var(--tw-backdrop-sepia);
+    --tw-content: "";
+    content: var(--tw-content);
+    background: linear-gradient(
+      180deg,
+      rgba(var(--v-theme-background)) 44%,
+      rgba(var(--v-theme-background)) 73%,
+      rgba(var(--v-theme-background))
+    );
+    background-repeat: repeat;
+    block-size: 5.5rem;
+    inset-block-start: -2.5rem;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
+    -webkit-mask: linear-gradient(black, black 18%, transparent 100%);
+    mask: linear-gradient(black, black 18%, transparent 100%);
+  }
+  .has-sticky-footer::after {
+    position: absolute;
+    z-index: -10;
+    --tw-backdrop-blur: blur(12px);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
+      var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
+      var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
+      var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
+      var(--tw-backdrop-sepia);
+    --tw-content: "";
+    content: var(--tw-content);
+    background: linear-gradient(
+      180deg,
+      rgba(var(--v-theme-background)) 44%,
+      rgba(var(--v-theme-background)) 73%,
+      rgba(var(--v-theme-background))
+    );
+    background-repeat: repeat;
+    block-size: 5.5rem;
+    inset-block-start: 1.5rem;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
+    -webkit-mask: linear-gradient(black, black 18%, transparent 100%);
+    mask: linear-gradient(black, black 18%, transparent 100%);
+  }
+
+  .app-height {
+    height: calc(var(--vh, 1vh) * 100 - 10.1rem);
+  }
+
+  /* calendar */
+  .dashcode-app-calendar .fc-toolbar-chunk button {
+    @apply h-12 px-5;
+  }
+
+  .dashcode-app-calendar .fc-toolbar-chunk button.fc-prev-button {
+    @apply text-default-600;
+  }
+
+  .dashcode-app-calendar .fc-toolbar-chunk button.fc-next-button {
+    @apply text-default-600;
+  }
+
+  .dashcode-app-calendar .fc-button {
+    @apply h-12 px-5;
+  }
+
+  .dashcode-app-calendar .fc .fc-button-primary {
+    @apply bg-transparent hover:bg-primary border border-default-200 dark:border-default-300 dark:hover:bg-default-50 dark:hover:text-foreground text-default-700 capitalize;
+  }
+
+  .dashcode-app-calendar .fc .fc-button-primary.fc-button-active {
+    @apply border-none;
+  }
+
+  .dashcode-app-calendar .fc .fc-button-primary:not(:disabled):active,
+  .dashcode-app-calendar .fc .fc-button-primary:not(:disabled).fc-button-active,
+  .dashcode-app-calendar .fc .fc-button-primary:hover {
+    @apply bg-default text-default-foreground dark:bg-default-50 dark:text-foreground;
+  }
+
+  .dashcode-app-calendar .fc .fc-button-primary:disabled {
+    @apply bg-transparent border border-default-200 cursor-not-allowed hover:text-default-800;
+  }
+
+  .dashcode-app-calendar .fc-today-button {
+    @apply hover:text-primary-foreground;
+  }
+
+  .dashcode-app-calendar .fc .fc-button-primary:focus {
+    box-shadow: none !important;
+  }
+
+  .dashcode-app-calendar .fc-theme-standard .fc-scrollgrid {
+    @apply border-default-100 dark:border-default-300;
+  }
+
+  .dashcode-app-calendar .fc-theme-standard td,
+  .dashcode-app-calendar .fc-theme-standard th {
+    @apply border-default-100 dark:border-default-300;
+  }
+
+  .dashcode-app-calendar .fc-col-header-cell .fc-scrollgrid-sync-inner {
+    @apply bg-default-50 dark:bg-default-300 text-xs text-default-600 font-normal py-3;
+  }
+
+  .dashcode-app-calendar .fc-col-header-cell {
+    @apply border-none;
+  }
+
+  .dashcode-app-calendar .fc-daygrid-day-top {
+    @apply text-sm px-3 py-2 text-default-900 font-normal;
+  }
+
+  .dashcode-app-calendar .fc-h-event .fc-event-main-frame {
+    @apply flex justify-center items-center text-center w-max mx-auto;
+  }
+
+  .dashcode-app-calendar .fc-event-time {
+    @apply text-sm font-normal flex-none text-primary-foreground;
+  }
+
+  .dashcode-app-calendar .fc-timegrid-event .fc-event-main {
+    @apply p-0 flex justify-center items-center gap-1;
+  }
+
+  .dashcode-app-calendar .fc-event-title {
+    @apply text-sm font-light;
+  }
+
+  .dashcode-app-calendar .fc-timegrid-col-events .fc-event-title {
+    @apply pt-4;
+  }
+
+  .dashcode-app-calendar .fc .fc-toolbar-title {
+    @apply text-lg font-normal text-default-600;
+  }
+
+  .dashcode-app .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    @apply p-1;
+  }
+
+  .dashcode-app-calendar .fc-theme-standard .fc-list {
+    @apply border border-default-200;
+  }
+
+  .dashcode-app-calendar .fc-daygrid-event-dot {
+    @apply hidden;
+  }
+
+  .dashcode-app-calendar .fc .fc-list-sticky .fc-list-day > * {
+    @apply bg-default-50;
+  }
+
+  .dashcode-app-calendar .fc-timegrid-col-events .fc-event-title {
+    @apply pt-0;
+  }
+
+  .dashcode-app-calendar .fc-timegrid-event-harness > .fc-timegrid-event {
+    @apply static;
+  }
+
+  @media (max-width: 981px) {
+    .dashcode-app-calendar .fc-button-group,
+    .dashcode-app-calendar .fc .fc-toolbar {
+      display: block !important;
+    }
+
+    .dashcode-app-calendar .fc .fc-toolbar {
+      @apply space-y-4;
+    }
+
+    .dashcode-app-calendar .fc-toolbar-chunk {
+      @apply space-y-4;
+    }
+
+    .dashcode-app-calendar .fc .fc-button {
+      padding: 0.4em 0.65em !important;
+    }
+  }
+
+  .dashcode-app-calendar .fc .fc-timegrid-axis-cushion,
+  .dashcode-app-calendar .fc .fc-timegrid-slot-label-cushion {
+    @apply dark:text-default-300;
+  }
+
+  .dashcode-app-calendar .fc .fc-list-event:hover td {
+    @apply bg-inherit;
+  }
+
+  .dashcode-app-calendar .fc .fc-list-event-dot {
+    @apply hidden;
+  }
+
+  .dashcode-app-calendar .fc-direction-ltr .fc-list-day-text,
+  .dashcode-app-calendar .fc-direction-rtl .fc-list-day-side-text,
+  .dashcode-app-calendar .fc-direction-ltr .fc-list-day-side-text,
+  .dashcode-app-calendar .fc-direction-rtl .fc-list-day-text {
+    @apply text-base font-medium text-default-600;
+  }
+
+  .dashcode-app-calendar .primary {
+    @apply bg-primary border-none text-primary-foreground text-center px-2 font-medium text-sm;
+  }
+
+  .dashcode-app-calendar .secondary {
+    @apply bg-secondary border-none text-primary-foreground text-center px-2 font-medium text-sm;
+  }
+
+  .dashcode-app-calendar .danger {
+    @apply bg-destructive border-none text-primary-foreground text-center px-2 font-medium text-sm;
+  }
+
+  .dashcode-app-calendar .destructive {
+    @apply bg-destructive border-none text-primary-foreground text-center px-2 font-medium text-sm;
+  }
+
+  .dashcode-app-calendar .info {
+    @apply bg-info border-none text-primary-foreground text-center px-2 font-medium text-sm;
+  }
+
+  .dashcode-app-calendar .warning {
+    @apply bg-warning border-none text-primary-foreground text-center px-2 font-medium text-sm;
+  }
+
+  .dashcode-app-calendar .success {
+    @apply bg-success border-none text-primary-foreground text-center px-2 font-medium text-sm;
+  }
+
+  .dashcode-app-calendar .dark {
+    @apply bg-card-foreground border-none text-primary-foreground px-2 font-medium text-sm;
+  }
+
+  /* react select */
+
+  .dashcode-app .react-select .react-select.is-invalid .select__control {
+    border-color: none !important;
+  }
+
+  .dashcode-app .react-select .select__control {
+    @apply bg-background min-h-8 border border-default-200 focus:border-default;
+  }
+
+  .dashcode-app .react-select .select__single-value {
+    @apply text-sm font-medium text-default-800;
+  }
+
+  .dashcode-app .react-select .select__menu {
+    @apply bg-background;
+  }
+
+  .dashcode-app .react-select .select__placeholder {
+    @apply text-default-500;
+  }
+
+  .dashcode-app .react-select .select__menu .select__option {
+    @apply hover:bg-default/10;
+  }
+
+  .dashcode-app
+    .react-select
+    .select__menu
+    .select__option.select__option--is-selected {
+    @apply bg-default dark:bg-default-200;
+  }
+
+  .dashcode-app .react-select.is-invalid .select__control {
+    border-color: none !important;
+  }
+
+  .dashcode-app .react-select .has-error .select__control {
+    @apply border-destructive;
+  }
+
+  .dashcode-app .react-select .react-select__control .select__input {
+    @apply text-default-500;
+  }
+
+  .dashcode-app
+    .react-select
+    .react-select__control.select__control--is-disabled {
+    @apply cursor-not-allowed;
+  }
+
+  .dashcode-app
+    .react-select
+    .react-select__control
+    .select__indicator-separator {
+    @apply bg-default-50 text-default-800 placeholder:italic;
+  }
+
+  .dashcode-app .react-select .react-select__control .select__indicator svg {
+    @apply cursor-pointer text-default-600;
+  }
+
+  .dashcode-app
+    .react-select
+    .has-error
+    .react-select__control
+    .select__indicator
+    svg {
+    @apply text-destructive;
+  }
+
+  .dashcode-app .react-select .select__multi-value__label {
+    @apply text-xs bg-default  text-default-foreground rounded-none ltr:rounded-l rtl:rounded-r;
+  }
+
+  .dashcode-app .react-select .select__multi-value__remove {
+    @apply bg-default rounded-none ltr:rounded-r rtl:rounded-l;
+  }
+
+  .dashcode-app .react-select .select__multi-value__remove svg {
+    @apply fill-default-foreground;
+  }
+
+  html[dir="rtl"] .react-select .select__loading-indicator {
+    flex-direction: row-reverse;
+  }
+
+  /* quil editor */
+  .ql-container {
+    min-height: 9rem;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ql-editor {
+    height: 100%;
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+  }
+

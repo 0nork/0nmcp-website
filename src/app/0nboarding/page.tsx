@@ -1091,60 +1091,52 @@ function OnboardingInner() {
       {/* ===== STEP 5: JOIN COMMUNITY ===== */}
       {step === 5 && (
         <div className="onboarding-card fadeInUp">
-          <h1 className="onboarding-title">Join the community</h1>
+          <h1 className="onboarding-title">You&apos;re in the network</h1>
           <p className="onboarding-subtitle">
-            Connect with builders, ask questions, and share workflows.
+            You&apos;ve been added to The 0nBoard — our community hub for builders, announcements, and support.
           </p>
 
-          <a
-            href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="onboarding-group-card selected"
-            style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.25rem', marginBottom: '1.5rem', textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
-          >
-            <div className="onboarding-group-icon" style={{ fontSize: '1.5rem', flexShrink: 0 }}>0n</div>
-            <div className="onboarding-group-info">
-              <div className="onboarding-group-name">The 0nBoard</div>
-              <div className="onboarding-group-desc">Our official community hub — announcements, support, and direct access to the team</div>
-            </div>
-            <span style={{ marginLeft: 'auto', color: 'var(--accent)', fontWeight: 700, fontSize: '0.85rem', flexShrink: 0 }}>Join &rarr;</span>
-          </a>
+          {/* Community channels — clean compact list */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', margin: '1.5rem 0' }}>
+            {[
+              { name: 'Announcements', desc: 'Product updates and releases', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> },
+              { name: 'Help & Support', desc: 'Ask questions, get answers fast', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> },
+              { name: 'Showcase', desc: 'Show what you&apos;ve built with 0nMCP', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
+              { name: 'Feature Requests', desc: 'Vote on what gets built next', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" strokeWidth="2" strokeLinecap="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg> },
+            ].map((ch) => (
+              <div key={ch.name} style={{
+                display: 'flex', alignItems: 'center', gap: '0.875rem',
+                padding: '0.75rem 1rem', borderRadius: 10,
+                background: 'rgba(126,217,87,0.04)', border: '1px solid rgba(126,217,87,0.1)',
+              }}>
+                <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {ch.icon}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{ch.name}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{ch.desc}</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2.5" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            ))}
+          </div>
 
-          {groups.length > 0 ? (
-            <div className="onboarding-group-grid">
-              {groups.map(g => (
-                <label key={g.slug} className={`onboarding-group-card ${selectedGroups.includes(g.slug) ? 'selected' : ''}`}>
-                  <input
-                    type="checkbox"
-                    checked={selectedGroups.includes(g.slug)}
-                    onChange={() => {
-                      setSelectedGroups(prev =>
-                        prev.includes(g.slug) ? prev.filter(s => s !== g.slug) : [...prev, g.slug]
-                      )
-                    }}
-                    hidden
-                  />
-                  <div className="onboarding-group-icon">{g.icon || '0n'}</div>
-                  <div className="onboarding-group-info">
-                    <div className="onboarding-group-name">{g.name}</div>
-                    <div className="onboarding-group-desc">{g.description}</div>
-                    <div className="onboarding-group-members">{g.member_count} members</div>
-                  </div>
-                </label>
-              ))}
+          <div style={{
+            textAlign: 'center', padding: '1rem',
+            background: 'rgba(126,217,87,0.06)', borderRadius: 10,
+            border: '1px solid rgba(126,217,87,0.15)', marginBottom: '1rem',
+          }}>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+              Access the full community anytime from your console or at
             </div>
-          ) : (
-            <div className="onboarding-empty-state">
-              <p>Community groups are being set up. You can join them later from the forum.</p>
-            </div>
-          )}
+            <a href="/forum" style={{ color: 'var(--accent)', fontWeight: 600, fontSize: '0.85rem', textDecoration: 'none' }}>
+              0nmcp.com/forum
+            </a>
+          </div>
 
           <div className="onboarding-actions">
             <button className="auth-btn secondary" onClick={goBack}>Back</button>
-            <button className="auth-btn primary" onClick={groups.length > 0 ? handleJoinGroups : goNext} disabled={saving}>
-              {saving ? 'Joining...' : groups.length > 0 ? `Join ${selectedGroups.length} group${selectedGroups.length !== 1 ? 's' : ''} & Continue` : 'Continue'}
-            </button>
+            <button className="auth-btn primary" onClick={goNext}>Continue</button>
           </div>
         </div>
       )}

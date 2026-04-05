@@ -1,10 +1,12 @@
 import React from 'react'
 
-const OnMcpLogo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 32 32" className={className} width="32" height="32" fill="none">
-    <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2" />
-    <circle cx="16" cy="16" r="6" fill="currentColor" />
-  </svg>
+const OnMcpLogo = ({ className, variant = 'white' }: { className?: string; variant?: 'white' | 'black' }) => (
+  <img 
+    src={variant === 'white' ? '/brand/0n-logo-white.svg' : '/brand/0n-logo-black.svg'} 
+    alt="0nMCP" 
+    className={className}
+    style={{ height: 32, width: 'auto' }}
+  />
 )
 
 export default OnMcpLogo

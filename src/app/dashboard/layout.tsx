@@ -79,7 +79,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Logo */}
         <div className={cn('flex h-16 items-center border-b border-border px-4', collapsed && 'justify-center')}>
           <Link href="/" className="flex items-center gap-2.5 no-underline">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/80 text-xs font-extrabold text-primary-foreground">
+            <div className="flex h-8 w-8 items-center justify-center">
               0n
             </div>
             {!collapsed && (

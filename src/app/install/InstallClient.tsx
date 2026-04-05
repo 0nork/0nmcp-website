@@ -37,12 +37,12 @@ const PLATFORMS: Platform[] = [
   {
     id: 'claude', name: 'Claude Desktop', icon: '', color: '#d4a27f',
     desc: 'Anthropic\'s desktop app',
-    howItConnects: '0nMCP connects as a native MCP server inside Claude Desktop. Once configured, Claude can call any of the 1,589 tools directly during conversation — no API keys needed on your side.',
-    features: ['Native MCP protocol', 'Zero-latency tool calls', 'Works with Claude 4.6 Opus'],
+    howItConnects: '0nMCP connects as a native MCP server inside Claude Desktop. Just paste the config — no API keys needed. Claude handles AI, 0nMCP handles the tools.',
+    features: ['No API key required', 'Native MCP protocol', 'Works with Claude 4.6 Opus'],
     configPath: '~/Library/Application Support/Claude/claude_desktop_config.json',
     configPathWin: '%APPDATA%\\Claude\\claude_desktop_config.json',
     config: JSON.stringify({ mcpServers: { "0nMCP": { command: "npx", args: ["-y", "0nmcp"] } } }, null, 2),
-    steps: ['Open Claude Desktop', 'Go to Settings → Developer → Edit Config', 'Paste the config below', 'Restart Claude Desktop', 'Type "list my tools" — you now have 1,589 tools'],
+    steps: ['Open Claude Desktop', 'Go to Settings → Developer → Edit Config', 'Paste the config below (no API key needed)', 'Restart Claude Desktop', 'Type "list my tools" — you now have 1,589 tools'],
   },
   {
     id: 'cursor', name: 'Cursor', icon: 'C', color: '#00d4ff',

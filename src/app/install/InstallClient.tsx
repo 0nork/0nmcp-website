@@ -2,12 +2,27 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+
+/* SVG logos for platforms without files in /logos/ */
+const LOGO_MAP: Record<string, React.ReactNode> = {
+  claude: <Image src="/brand/logos/anthropic.svg" alt="Claude" width={28} height={28} />,
+  cursor: <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#000"/><path d="M7 21L21 14L7 7v5.5L15 14l-8 1.5V21z" fill="#fff"/></svg>,
+  vscode: <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M20.5 3L10 12.5 5.5 9 3 10.2v7.6L5.5 19l4.5-3.5L20.5 25 25 23V5l-4.5-2zM5 16.5v-5L7.5 14 5 16.5zM20.5 21l-8-7 8-7v14z" fill="#007ACC"/></svg>,
+  windsurf: <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20c2-4 6-12 10-14 0 4 2 8 4 10-3 1-6 3-8 6 0-3-2-5-6-2z" fill="#10b981"/><path d="M14 6c4-2 8 0 10 4-2 0-6 2-8 6 0-4-1-8-2-10z" fill="#059669"/></svg>,
+  terminal: <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#1a1a1a"/><path d="M8 10l4 4-4 4" stroke="#7ed957" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="14" y1="18" x2="20" y2="18" stroke="#7ed957" strokeWidth="2" strokeLinecap="round"/></svg>,
+  http: <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#7c3aed" fillOpacity="0.15"/><circle cx="14" cy="14" r="7" stroke="#a78bfa" strokeWidth="1.5" fill="none"/><ellipse cx="14" cy="14" rx="3.5" ry="7" stroke="#a78bfa" strokeWidth="1.5" fill="none"/><line x1="7" y1="14" x2="21" y2="14" stroke="#a78bfa" strokeWidth="1.5"/></svg>,
+  slack: <Image src="/brand/logos/slack.svg" alt="Slack" width={28} height={28} />,
+  chatgpt: <Image src="/brand/logos/openai.svg" alt="ChatGPT" width={28} height={28} />,
+  wordpress: <Image src="/brand/logos/wordpress.svg" alt="WordPress" width={28} height={28} />,
+  stripe: <Image src="/brand/logos/stripe.svg" alt="Stripe" width={28} height={28} />,
+}
 
 const PLATFORMS = [
   {
     id: 'claude',
     name: 'Claude Desktop',
-    icon: 'A',
+    icon: '',
     color: '#d4a27f',
     desc: 'Anthropic\'s desktop app',
     configPath: '~/Library/Application Support/Claude/claude_desktop_config.json',
@@ -210,18 +225,7 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
 
   return (
     <div style={{ minHeight: embedded ? 'auto' : '100vh', background: embedded ? 'transparent' : 'var(--bg-primary)', color: 'var(--text-primary)' }}>
-      {/* Header — hidden when embedded in dashboard */}
-      {!embedded && (
-      <header style={{
-        padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid var(--border)',
-      }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-          <div style={{ width: 32, height: 32, borderRadius: 6, background: 'linear-gradient(135deg,#7ed957,#5cb83a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 12, color: '#000' }}>0n</div>
-          <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem' }}>0nMCP</span>
-        </Link>
-      </header>
-      )}
+      {/* Header removed — MegaNav provides navigation */}
 
       {/* Hero */}
       <section style={{ textAlign: 'center', padding: '3rem 1rem 1rem', maxWidth: 700, margin: '0 auto' }}>
@@ -252,10 +256,7 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
                 width: 48, height: 48, borderRadius: 10,
                 background: `${p.color}20`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: p.id === 'terminal' ? '0.9rem' : '1.25rem',
-                fontWeight: 800, color: p.color,
-                fontFamily: p.id === 'terminal' ? "'JetBrains Mono',monospace" : 'var(--font-display,system-ui)',
-              }}>{p.icon}</div>
+              }}>{LOGO_MAP[p.id] || <span style={{ fontSize: '1.25rem', fontWeight: 800, color: p.color }}>{p.icon}</span>}</div>
               <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>{p.name}</div>
               <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{p.desc}</div>
             </button>

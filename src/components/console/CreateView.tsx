@@ -1,11 +1,32 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Bot, Send, User, Download, Blocks, Sparkles } from 'lucide-react'
+import { Bot, Send, User, Download, Blocks, Sparkles, Play, CheckCircle, XCircle, Loader2, Zap } from 'lucide-react'
 
 /* ──────────────────────────────────────────── */
 /*  Types                                      */
 /* ──────────────────────────────────────────── */
+
+interface ExecutionResult {
+  success: boolean
+  action: string
+  service: string
+  data?: unknown
+  error?: string
+  executedAt: string
+}
+
+interface ToolCallExecution {
+  toolName: string
+  toolInput: Record<string, unknown>
+  result: ExecutionResult
+}
+
+interface WorkflowStepResult {
+  stepId: string
+  action: string
+  result: ExecutionResult
+}
 
 interface Message {
   role: 'user' | 'assistant'
@@ -13,6 +34,8 @@ interface Message {
   timestamp: string
   workflow?: Record<string, unknown> | null
   savedWorkflowId?: string | null
+  executions?: ToolCallExecution[] | null
+  workflowExecutions?: WorkflowStepResult[] | null
 }
 
 interface CreateViewProps {
@@ -48,7 +71,7 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
     setMessages([
       {
         role: 'assistant',
-        text: "Hey! I'm the 0n Create Agent. I'll help you build the perfect SWITCH file (.0n workflow) step by step.\n\nWhat would you like to automate?\n\n1. Lead capture & CRM pipeline\n2. Scheduled social media posting\n3. Customer onboarding sequence\n4. Data sync between services\n5. Something else — just describe it!",
+        text: "Hey! I'm the 0n Create Agent. I'll help you build the perfect SWITCH file (.0n workflow) step by step — and I can execute actions in real-time too.\n\nWhat would you like to do?\n\n1. Build a workflow (lead capture, social posting, onboarding, data sync)\n2. Run a live action (\"how many contacts do I have?\", \"check my Stripe revenue\")\n3. Build AND run — create a workflow, then test it live\n4. Something else — just describe it!",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       },
     ])
@@ -95,6 +118,7 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           workflow: data.workflow || null,
           savedWorkflowId: data.savedWorkflowId || null,
+          executions: data.executions || null,
         }
         setMessages((prev) => [...prev, assistantMsg])
       } catch {
@@ -132,6 +156,57 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
     URL.revokeObjectURL(url)
   }
 
+  const [runningWorkflow, setRunningWorkflow] = useState(false)
+
+  const handleRunWorkflow = useCallback(async (workflow: Record<string, unknown>) => {
+    if (runningWorkflow) return
+    const steps = workflow.steps as Array<{ id: string; service: string; action: string; params: Record<string, unknown>; description?: string }> | undefined
+    if (!steps || steps.length === 0) return
+
+    setRunningWorkflow(true)
+
+    // Add a "running" message
+    const runMsg: Message = {
+      role: 'assistant',
+      text: `Running ${steps.length} step(s)...`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    }
+    setMessages((prev) => [...prev, runMsg])
+
+    try {
+      const res = await fetch('/api/console/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: 'execute workflow',
+          history: getHistory(),
+          executeWorkflow: { steps },
+        }),
+      })
+
+      const data = await res.json()
+
+      const resultMsg: Message = {
+        role: 'assistant',
+        text: data.text || 'Workflow execution complete.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        workflowExecutions: data.executions || null,
+      }
+      setMessages((prev) => [...prev, resultMsg])
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          text: 'Failed to execute workflow. Check your connection.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        },
+      ])
+    } finally {
+      setRunningWorkflow(false)
+    }
+  }, [runningWorkflow, getHistory])
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       {/* Header */}
@@ -158,7 +233,7 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
           0n Create
         </span>
         <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-          Build your perfect SWITCH file
+          Build + Execute SWITCH files
         </span>
       </div>
 
@@ -188,6 +263,35 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
                   flexWrap: 'wrap',
                 }}
               >
+                <button
+                  onClick={() => handleRunWorkflow(msg.workflow!)}
+                  disabled={runningWorkflow}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '8px 16px',
+                    borderRadius: 10,
+                    border: '1px solid #ff6b35',
+                    backgroundColor: runningWorkflow ? 'rgba(255, 107, 53, 0.05)' : 'rgba(255, 107, 53, 0.15)',
+                    color: '#ff6b35',
+                    fontSize: '0.8125rem',
+                    fontWeight: 700,
+                    cursor: runningWorkflow ? 'not-allowed' : 'pointer',
+                    fontFamily: 'inherit',
+                    transition: 'all 0.2s ease',
+                    opacity: runningWorkflow ? 0.6 : 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!runningWorkflow) e.currentTarget.style.backgroundColor = 'rgba(255, 107, 53, 0.25)'
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!runningWorkflow) e.currentTarget.style.backgroundColor = 'rgba(255, 107, 53, 0.15)'
+                  }}
+                >
+                  {runningWorkflow ? <Loader2 size={14} className="spin" /> : <Play size={14} />}
+                  {runningWorkflow ? 'Running...' : 'Run This Workflow'}
+                </button>
                 <button
                   onClick={() => onAddToBuilder?.(msg.workflow!)}
                   style={{
@@ -242,6 +346,32 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
                   <Download size={14} />
                   Download .0n
                 </button>
+              </div>
+            )}
+
+            {/* Inline execution results (from AI tool calling) */}
+            {msg.executions && msg.executions.length > 0 && (
+              <div style={{ paddingLeft: 36, marginTop: 10, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {msg.executions.map((exec: ToolCallExecution, ei: number) => (
+                  <ExecutionBadge key={ei} execution={exec} />
+                ))}
+              </div>
+            )}
+
+            {/* Workflow step execution results (from Run Workflow) */}
+            {msg.workflowExecutions && msg.workflowExecutions.length > 0 && (
+              <div style={{ paddingLeft: 36, marginTop: 10, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {msg.workflowExecutions.map((step: WorkflowStepResult, si: number) => (
+                  <ExecutionBadge
+                    key={si}
+                    execution={{
+                      toolName: step.action,
+                      toolInput: {},
+                      result: step.result,
+                    }}
+                    stepId={step.stepId}
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -356,6 +486,13 @@ export function CreateView({ onAddToBuilder }: CreateViewProps) {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        .spin {
+          animation: createSpin 1s linear infinite;
+        }
+        @keyframes createSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
       `}</style>
     </div>
   )
@@ -442,6 +579,110 @@ function MessageBubble({ message }: { message: Message }) {
           </span>
         </div>
       </div>
+    </div>
+  )
+}
+
+/* ──────────────────────────────────────────── */
+/*  Execution Badge                            */
+/* ──────────────────────────────────────────── */
+
+function ExecutionBadge({ execution, stepId }: { execution: ToolCallExecution; stepId?: string }) {
+  const [expanded, setExpanded] = useState(false)
+  const { result } = execution
+  const isSuccess = result.success
+
+  // Format the result data for display
+  const resultPreview = result.data
+    ? JSON.stringify(result.data, null, 2).slice(0, 500)
+    : result.error || 'No data'
+
+  return (
+    <div
+      style={{
+        borderRadius: 10,
+        border: `1px solid ${isSuccess ? 'rgba(110, 224, 90, 0.3)' : 'rgba(255, 80, 80, 0.3)'}`,
+        backgroundColor: isSuccess ? 'rgba(110, 224, 90, 0.06)' : 'rgba(255, 80, 80, 0.06)',
+        overflow: 'hidden',
+        animation: 'createMsgIn 0.25s ease',
+      }}
+    >
+      <button
+        onClick={() => setExpanded(!expanded)}
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '8px 12px',
+          border: 'none',
+          backgroundColor: 'transparent',
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+        }}
+      >
+        {isSuccess ? (
+          <CheckCircle size={14} style={{ color: 'var(--accent)', flexShrink: 0 }} />
+        ) : (
+          <XCircle size={14} style={{ color: '#ff5050', flexShrink: 0 }} />
+        )}
+        <Zap size={12} style={{ color: isSuccess ? 'var(--accent)' : '#ff5050', flexShrink: 0 }} />
+        <span
+          style={{
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            color: isSuccess ? 'var(--accent)' : '#ff5050',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.02em',
+          }}
+        >
+          {isSuccess ? 'EXECUTED' : 'FAILED'}
+        </span>
+        <span
+          style={{
+            fontSize: '0.75rem',
+            color: 'var(--text-secondary)',
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          {stepId ? `[${stepId}] ` : ''}{execution.toolName}
+        </span>
+        <span
+          style={{
+            fontSize: '0.625rem',
+            color: 'var(--text-muted)',
+            marginLeft: 'auto',
+          }}
+        >
+          {result.service} {expanded ? '[-]' : '[+]'}
+        </span>
+      </button>
+
+      {expanded && (
+        <div
+          style={{
+            padding: '8px 12px',
+            borderTop: `1px solid ${isSuccess ? 'rgba(110, 224, 90, 0.15)' : 'rgba(255, 80, 80, 0.15)'}`,
+          }}
+        >
+          <pre
+            style={{
+              margin: 0,
+              fontSize: '0.6875rem',
+              lineHeight: 1.5,
+              color: 'var(--text-secondary)',
+              fontFamily: 'var(--font-mono)',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-all',
+              maxHeight: 200,
+              overflowY: 'auto',
+            }}
+          >
+            {resultPreview}
+            {resultPreview.length >= 500 && '...'}
+          </pre>
+        </div>
+      )}
     </div>
   )
 }

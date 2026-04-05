@@ -105,12 +105,15 @@ const PLATFORM_CONFIGS: Record<string, {
   },
   press: {
     steps: [
-      'Download the 0nPress plugin from your dashboard',
-      'In WordPress: Plugins > Add New > Upload',
-      'Activate the plugin',
-      'Enter your PIT token in the 0nCore settings',
+      'Click "Download Plugin" below to get the 0nCore ZIP',
+      'In WordPress: Plugins > Add New > Upload Plugin',
+      'Upload the ZIP file and click "Install Now"',
+      'Activate the plugin, then go to 0nCore Settings',
+      'Enter your PIT token from your 0nMCP dashboard',
     ],
     config: '',
+    configDownload: '/api/onpress/download',
+    configDownloadLabel: 'Download 0nPress Plugin',
     testLabel: 'Verify in WordPress',
     testDesc: 'Check your WordPress admin for the 0nCore menu item.',
   },
@@ -548,6 +551,16 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
                 {key === 'slack' && (
                   <a href="/api/slack/install" style={styles.slackBtn}>
                     Add to Slack
+                  </a>
+                )}
+
+                {key === 'press' && (
+                  <a href="/dashboard/downloads" style={{
+                    ...styles.slackBtn,
+                    background: '#21759b',
+                  }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download 0nPress Plugin
                   </a>
                 )}
 

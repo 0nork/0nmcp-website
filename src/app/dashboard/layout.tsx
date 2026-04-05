@@ -69,13 +69,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-primary)', fontFamily: 'var(--font-display)' }}>
+    <div style={{ display: 'flex', minHeight: 'calc(100vh - 64px)', background: 'var(--bg-primary)', fontFamily: 'var(--font-display)' }}>
       {/* ── SIDEBAR ── */}
       <aside className={cn(
-        'fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300',
+        'fixed left-0 bottom-0 z-50 flex flex-col transition-all duration-300',
         collapsed ? 'w-[72px]' : 'w-[260px]',
         mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
       )} style={{
+        top: 0,
         background: 'var(--bg-sidebar)',
         borderRight: '1px solid var(--sidebar-border)',
         boxShadow: 'var(--shadow-sidebar)',

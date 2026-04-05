@@ -540,6 +540,11 @@ export default function HomeClient() {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
         .home-card {
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -548,9 +553,19 @@ export default function HomeClient() {
           box-shadow: var(--shadow-lg);
         }
         .logo-item {
-          opacity: 0.5;
+          opacity: 0.6;
           filter: grayscale(80%);
           transition: all 0.3s ease;
+        }
+        .logo-item img {
+          transition: filter 0.3s ease;
+          filter: brightness(0.3) saturate(0);
+        }
+        .logo-item:hover img {
+          filter: none !important;
+        }
+        [data-theme="dark"] .logo-item img {
+          filter: none;
         }
         .logo-item:hover {
           opacity: 1;
@@ -621,7 +636,9 @@ export default function HomeClient() {
         position: 'relative',
         minHeight: '100vh',
         overflow: 'hidden',
-        background: 'var(--bg-primary)',
+        background: 'linear-gradient(135deg, var(--bg-primary) 0%, rgba(126,217,87,0.03) 50%, var(--bg-primary) 100%)',
+        backgroundSize: '400% 400%',
+        animation: 'gradientShift 15s ease infinite',
       }}>
         {/* Perspective grid background */}
         <div style={{
@@ -639,8 +656,8 @@ export default function HomeClient() {
             width: '140%',
             height: '120%',
             backgroundImage: `
-              linear-gradient(var(--accent-glow) 1px, transparent 1px),
-              linear-gradient(90deg, var(--accent-glow) 1px, transparent 1px)
+              linear-gradient(var(--grid-line-color, var(--accent-glow)) 1px, transparent 1px),
+              linear-gradient(90deg, var(--grid-line-color, var(--accent-glow)) 1px, transparent 1px)
             `,
             backgroundSize: '60px 60px',
             transform: 'rotateX(55deg)',

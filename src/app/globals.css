@@ -35,6 +35,7 @@
   --accent-action: #2d8a1e;
   --accent-dim: #166534;
   --accent-glow: rgba(126, 217, 87, 0.12);
+  --grid-line-color: rgba(0, 0, 0, 0.04);
 
   /* Accent Colors (from brand guide) */
   --color-cyan: #14b8a6;
@@ -116,6 +117,7 @@
   --accent-action: #7ed957;
   --accent-dim: #5cb83a;
   --accent-glow: rgba(126, 217, 87, 0.15);
+  --grid-line-color: rgba(255, 255, 255, 0.03);
 
   /* Accent Colors */
   --color-cyan: #14b8a6;

@@ -127,6 +127,15 @@ const navGroups: NavGroup[] = [
           </svg>
         ),
       },
+      {
+        name: 'Sync',
+        href: '/console/sync',
+        icon: (
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.75}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        ),
+      },
     ],
   },
   {
@@ -345,7 +354,7 @@ export default function ConsoleSidebar({ isOpen, onClose, isAdmin }: ConsoleSide
         {/* Header */}
         <div className="jp-sidebar-header">
           <Link href="/console" className="jp-sidebar-brand" onClick={onClose}>
-            <img src="/brand/0nmcp-logo.png" alt="0nMCP" style={{ height: 28, objectFit: 'contain' }} />
+            <img src="/brand/0n-logo-white.svg" alt="0nMCP" style={{ height: 28, objectFit: 'contain' }} />
           </Link>
         </div>
 

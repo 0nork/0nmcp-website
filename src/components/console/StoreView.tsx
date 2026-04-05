@@ -75,7 +75,7 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
       <div
         className="flex items-center gap-3 px-4 h-10 rounded-xl mb-4"
         style={{
-          backgroundColor: 'rgba(255,255,255,0.04)',
+          backgroundColor: 'var(--bg-card)',
           border: '1px solid var(--border)',
         }}
       >
@@ -102,7 +102,7 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
             className="px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer border-none"
             style={{
               backgroundColor:
-                category === cat.key ? 'var(--accent-glow)' : 'rgba(255,255,255,0.04)',
+                category === cat.key ? 'var(--accent-glow)' : 'var(--bg-card)',
               color: category === cat.key ? 'var(--accent)' : 'var(--text-secondary)',
               border:
                 category === cat.key

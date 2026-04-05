@@ -211,7 +211,7 @@ function WeightTable({ title, items }: {
               </div>
               <div style={{
                 width: '60px', height: '6px', borderRadius: '3px',
-                background: 'rgba(255,255,255,0.05)', overflow: 'hidden',
+                background: 'var(--bg-card)', overflow: 'hidden',
               }}>
                 <div style={{
                   width: `${Math.min(100, (item.weight / 2) * 100)}%`,
@@ -240,7 +240,7 @@ function StatusBadge({ status }: { status: string }) {
     posted: { bg: 'rgba(126,217,87,0.1)', text: '#6EE05A' },
     failed: { bg: 'rgba(239,68,68,0.1)', text: '#ef4444' },
   }
-  const c = colors[status] || { bg: 'rgba(255,255,255,0.05)', text: 'var(--text-muted)' }
+  const c = colors[status] || { bg: 'var(--bg-card)', text: 'var(--text-muted)' }
 
   return (
     <span style={{

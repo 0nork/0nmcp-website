@@ -531,7 +531,7 @@ export default function PartnersPage() {
                     className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shrink-0"
                     style={{
                       border: `2px solid ${biz.accent}50`,
-                      background: 'rgba(255,255,255,0.06)',
+                      background: 'var(--border)',
                     }}
                   >
                     <img src={biz.logo} alt={biz.name} className="w-full h-full object-contain p-2" />
@@ -556,7 +556,7 @@ export default function PartnersPage() {
                     <div
                       key={stat.label}
                       className="rounded-xl px-4 py-3 text-center"
-                      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                      style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
                     >
                       <div
                         className="text-xl md:text-2xl font-bold font-mono"
@@ -664,7 +664,7 @@ export default function PartnersPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm no-underline"
-                    style={{ background: biz.accent, color: '#fff' }}
+                    style={{ background: biz.accent, color: 'var(--text-primary)' }}
                   >
                     Visit {biz.name} &rarr;
                   </a>
@@ -829,9 +829,9 @@ function AppCardComponent({ app }: { app: AppCard }) {
               <span
                 className="text-[0.6rem] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
                 style={{
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  backgroundColor: 'var(--bg-card)',
                   color: 'var(--text-muted)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  border: '1px solid var(--border)',
                 }}
               >
                 {app.status}

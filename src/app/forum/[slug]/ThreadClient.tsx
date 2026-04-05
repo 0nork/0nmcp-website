@@ -216,7 +216,7 @@ export default function ThreadClient({
         {/* Comment card — black background */}
         <div
           style={{
-            background: '#0B0F19',
+            background: 'var(--bg-primary)',
             border: '1px solid var(--border)',
             borderRadius: depth === 0 ? '10px' : '8px',
             marginBottom: '6px',
@@ -334,7 +334,7 @@ export default function ThreadClient({
                       borderRadius: '8px',
                       fontSize: '0.875rem',
                       marginBottom: '0.5rem',
-                      background: '#111827',
+                      background: 'var(--bg-card)',
                       border: '1px solid var(--border)',
                       color: 'var(--text-primary)',
                       lineHeight: 1.7,
@@ -461,7 +461,7 @@ export default function ThreadClient({
                   fontWeight: 700,
                   fontFamily: 'inherit',
                   textTransform: 'capitalize',
-                  background: postSort === s ? 'rgba(255,255,255,0.06)' : 'transparent',
+                  background: postSort === s ? 'var(--border)' : 'transparent',
                   color: postSort === s ? 'var(--accent)' : 'var(--text-muted)',
                   transition: 'background 0.15s, color 0.15s',
                 }}
@@ -504,7 +504,7 @@ export default function ThreadClient({
               borderRadius: '10px',
               fontSize: '0.9375rem',
               marginBottom: '0.625rem',
-              background: '#0B0F19',
+              background: 'var(--bg-primary)',
               border: '1px solid var(--border)',
               color: 'var(--text-primary)',
               lineHeight: 1.7,

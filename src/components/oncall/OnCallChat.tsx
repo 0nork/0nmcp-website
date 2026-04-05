@@ -229,7 +229,7 @@ export function OnCallChat({ messages, loading, onSend, onClose, focus }: OnCall
                     key={d}
                     className="w-1.5 h-1.5 rounded-full"
                     style={{
-                      backgroundColor: '#00d4ff',
+                      backgroundColor: 'var(--bg-primary)',
                       animation: 'oncall-dot-pulse 1.2s ease infinite',
                       animationDelay: `${d * 0.2}s`,
                     }}

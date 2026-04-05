@@ -126,7 +126,7 @@ export default function Web0nPortal() {
             padding: '0.75rem 2rem',
             borderRadius: '10px',
             background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-            color: '#fff',
+            color: 'var(--text-primary)',
             fontWeight: 600,
             textDecoration: 'none',
           }}

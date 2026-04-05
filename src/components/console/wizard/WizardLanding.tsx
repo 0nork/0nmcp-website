@@ -182,7 +182,7 @@ export default function WizardLanding({ onNavigateToStore }: { onNavigateToStore
               backgroundColor:
                 activeCategory === cat
                   ? 'var(--accent)'
-                  : 'rgba(255,255,255,0.04)',
+                  : 'var(--bg-card)',
               color:
                 activeCategory === cat
                   ? 'var(--bg-primary)'

@@ -127,7 +127,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         border: `1px solid ${style.border}`,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--bg-card) inset',
         display: 'flex',
         gap: 12,
         alignItems: 'flex-start',
@@ -154,7 +154,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
-          fontSize: 13, fontWeight: 600, color: '#e8eaed',
+          fontSize: 13, fontWeight: 600, color: 'var(--text-primary)',
           lineHeight: 1.3,
         }}>
           {toast.title}
@@ -175,7 +175,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
         style={{
           width: 20, height: 20, borderRadius: 5,
           border: 'none', background: 'transparent',
-          cursor: 'pointer', color: '#5f6672',
+          cursor: 'pointer', color: 'var(--text-muted)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           padding: 0, flexShrink: 0, transition: 'color 0.15s',
         }}
@@ -190,7 +190,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
       {/* Progress bar */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, height: 2,
-        background: 'rgba(255,255,255,0.03)',
+        background: 'var(--bg-card)',
       }}>
         <div style={{
           height: '100%', width: `${progress}%`,

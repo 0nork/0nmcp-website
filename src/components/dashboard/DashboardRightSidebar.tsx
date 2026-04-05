@@ -497,7 +497,7 @@ function VaultTab({ onOpenVault }: { onOpenVault: () => void }) {
             transition: 'all .15s',
           }}
           onMouseEnter={e => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.15)'
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border-hover)'
             ;(e.currentTarget as HTMLAnchorElement).style.color = TEXT_PRIMARY
           }}
           onMouseLeave={e => {
@@ -888,7 +888,7 @@ export default function DashboardRightSidebar({
           borderRadius: 16,
           border: `1px solid ${PANEL_BORDER}`,
           boxShadow: open
-            ? '0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset'
+            ? '0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px var(--bg-card) inset'
             : 'none',
           transform: open ? 'translateX(0) scale(1)' : 'translateX(16px) scale(0.97)',
           opacity: open ? 1 : 0,

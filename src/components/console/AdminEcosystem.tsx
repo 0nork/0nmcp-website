@@ -81,7 +81,7 @@ const ECOSYSTEM: EcoNode[] = [
     description: 'The .0n Standard — universal config format + template engine',
     stats: 'npm: 0n-spec | CC-BY-4.0',
     url: 'https://www.npmjs.com/package/0n-spec',
-    color: '#64748b',
+    color: 'var(--text-muted)',
     connections: ['0nmcp', 'marketplace'],
   },
 
@@ -309,7 +309,7 @@ export function AdminEcosystem() {
             key={f}
             onClick={() => setFilter(f)}
             style={{
-              background: filter === f ? 'rgba(255, 107, 53, 0.15)' : 'rgba(255,255,255,0.03)',
+              background: filter === f ? 'rgba(255, 107, 53, 0.15)' : 'var(--bg-card)',
               border: `1px solid ${filter === f ? 'rgba(255, 107, 53, 0.4)' : 'var(--border)'}`,
               borderRadius: 6,
               padding: '5px 12px',
@@ -442,7 +442,7 @@ export function AdminEcosystem() {
                     onClick={() => setSelected(connId)}
                     style={{
                       display: 'flex', alignItems: 'center', gap: 6,
-                      background: 'rgba(255,255,255,0.03)',
+                      background: 'var(--bg-card)',
                       border: '1px solid var(--border)',
                       borderRadius: 6,
                       padding: '6px 10px',

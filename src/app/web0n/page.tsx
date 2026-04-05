@@ -742,7 +742,7 @@ export default function Web0nLanding() {
                       padding: '2rem 2rem 2.25rem',
                       borderRadius: '16px',
                       background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
-                      border: '1px solid rgba(255,255,255,0.06)',
+                      border: '1px solid var(--border)',
                       boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
                       height: '100%',
                     }}
@@ -810,7 +810,7 @@ export default function Web0nLanding() {
                       padding: '2rem 2rem 2.25rem',
                       borderRadius: '16px',
                       background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
-                      border: '1px solid rgba(255,255,255,0.06)',
+                      border: '1px solid var(--border)',
                       boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
                       height: '100%',
                     }}
@@ -880,7 +880,7 @@ export default function Web0nLanding() {
                       padding: '2rem 2rem 2.25rem',
                       borderRadius: '16px',
                       background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
-                      border: '1px solid rgba(255,255,255,0.06)',
+                      border: '1px solid var(--border)',
                       boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
                       height: '100%',
                     }}

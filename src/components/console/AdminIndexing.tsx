@@ -198,7 +198,7 @@ export function AdminIndexing() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
             {Object.entries(results).map(([key, result]) => {
-              const engine = ENGINE_LABELS[key] || { name: key, color: '#94a3b8' }
+              const engine = ENGINE_LABELS[key] || { name: key, color: 'var(--text-muted)' }
               const isSuccess = result.status === 'success'
               const isInfo = result.status === 'info'
               return (
@@ -244,7 +244,7 @@ export function AdminIndexing() {
         ].map((item, i) => (
           <div key={i} style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem',
-            padding: '0.375rem 0', borderBottom: i < 5 ? '1px solid rgba(255,255,255,0.03)' : 'none',
+            padding: '0.375rem 0', borderBottom: i < 5 ? '1px solid var(--bg-card)' : 'none',
           }}>
             <span style={{ fontSize: '0.85rem' }}>{item.done ? '\u2705' : '\u2B1C'}</span>
             <span style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500 }}>{item.label}</span>

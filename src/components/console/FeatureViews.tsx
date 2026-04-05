@@ -240,7 +240,7 @@ export function CodeView() {
           </div>
         ) : (
           <div style={{
-            background: '#0B0F19', borderRadius: '0.5rem', padding: '1rem',
+            background: 'var(--bg-primary)', borderRadius: '0.5rem', padding: '1rem',
             fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#a78bfa',
             lineHeight: 1.8, minHeight: '300px',
           }}>
@@ -373,7 +373,7 @@ export function ConvertView() {
           placeholder='Paste your OpenAI function_call JSON, Gemini tool config, or any AI platform config here...'
           style={{
             width: '100%', marginTop: '0.75rem', padding: '0.75rem',
-            background: '#0B0F19', border: '1px solid var(--border)',
+            background: 'var(--bg-primary)', border: '1px solid var(--border)',
             borderRadius: '0.5rem', color: 'var(--text-secondary)',
             fontFamily: 'var(--font-mono)', fontSize: '0.75rem',
             minHeight: '150px', resize: 'vertical',

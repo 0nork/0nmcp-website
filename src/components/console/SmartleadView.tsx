@@ -82,7 +82,7 @@ function NotConnectedView({ onNavigateVault }: { onNavigateVault: () => void }) 
           style={{
             width: '100%', padding: '0.75rem 1.5rem', borderRadius: '0.75rem',
             background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-            color: '#fff', fontWeight: 600, fontSize: '0.875rem',
+            color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.875rem',
             border: 'none', cursor: 'pointer',
             transition: 'transform 0.15s ease, box-shadow 0.15s ease',
           }}
@@ -342,7 +342,7 @@ export function SmartleadView({ smartlead, onNavigateVault }: SmartleadViewProps
               style={{
                 padding: '0.5rem 1rem', borderRadius: '0.5rem', cursor: 'pointer',
                 background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                border: 'none', color: '#fff', fontWeight: 600, fontSize: '0.8rem',
+                border: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.8rem',
                 display: 'flex', alignItems: 'center', gap: '0.35rem', fontFamily: 'inherit',
               }}
             >

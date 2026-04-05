@@ -100,7 +100,7 @@ export function RequestIntegrationView() {
               style={{
                 width: '100%',
                 padding: '0.625rem 0.75rem',
-                backgroundColor: 'rgba(255,255,255,0.03)',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--border)',
                 borderRadius: '0.5rem',
                 color: 'var(--text-primary)',
@@ -122,7 +122,7 @@ export function RequestIntegrationView() {
               style={{
                 width: '100%',
                 padding: '0.625rem 0.75rem',
-                backgroundColor: 'rgba(255,255,255,0.03)',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--border)',
                 borderRadius: '0.5rem',
                 color: 'var(--text-primary)',
@@ -144,7 +144,7 @@ export function RequestIntegrationView() {
             style={{
               width: '100%',
               padding: '0.625rem 0.75rem',
-              backgroundColor: 'rgba(255,255,255,0.03)',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--border)',
               borderRadius: '0.5rem',
               color: category ? 'var(--text-primary)' : 'var(--text-muted)',
@@ -171,7 +171,7 @@ export function RequestIntegrationView() {
             style={{
               width: '100%',
               padding: '0.625rem 0.75rem',
-              backgroundColor: 'rgba(255,255,255,0.03)',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--border)',
               borderRadius: '0.5rem',
               color: 'var(--text-primary)',
@@ -195,7 +195,7 @@ export function RequestIntegrationView() {
             style={{
               width: '100%',
               padding: '0.625rem 0.75rem',
-              backgroundColor: 'rgba(255,255,255,0.03)',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--border)',
               borderRadius: '0.5rem',
               color: 'var(--text-primary)',
@@ -223,7 +223,7 @@ export function RequestIntegrationView() {
             background: submitted ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
             border: 'none',
             borderRadius: '0.5rem',
-            color: '#fff',
+            color: 'var(--text-primary)',
             fontWeight: 600,
             fontSize: '0.875rem',
             cursor: submitting ? 'wait' : 'pointer',

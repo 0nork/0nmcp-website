@@ -101,7 +101,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
       justifyContent: 'space-between',
       padding: '0 1.25rem',
       background: 'var(--bg-primary)',
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      borderBottom: '1px solid var(--border)',
       position: 'relative',
       zIndex: 10,
     }}>
@@ -135,7 +135,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
           padding: '5px 10px',
           borderRadius: 8,
           background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
         }}>
           <StatusDot status={mcpOnline ? 'online' : 'offline'} />
           <span style={{
@@ -157,14 +157,14 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
             padding: '5px 12px',
             borderRadius: 8,
             background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
             color: '#68687a',
             cursor: 'pointer',
             fontFamily: 'inherit',
             transition: 'border-color 0.15s',
           }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.2)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)' }}
         >
           <Search size={13} />
           <span className="hidden sm:inline" style={{ fontSize: '0.75rem' }}>Search</span>
@@ -172,8 +172,8 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
             fontSize: '0.6rem',
             padding: '2px 5px',
             borderRadius: 4,
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
             color: '#4a4a5a',
             fontFamily: 'var(--font-mono)',
           }}>
@@ -232,7 +232,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
             display: 'flex', alignItems: 'center', gap: 4,
             padding: '5px 10px', borderRadius: 8,
             background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
           }}>
             <Zap size={11} style={{
               color: isOwner ? '#6EE05A'
@@ -297,7 +297,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               gap: 6,
               padding: '3px 8px 3px 3px',
               borderRadius: 8,
-              border: `1px solid ${avatarOpen ? 'rgba(126,217,87,0.2)' : 'rgba(255,255,255,0.06)'}`,
+              border: `1px solid ${avatarOpen ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
               background: avatarOpen ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
               cursor: 'pointer',
               fontFamily: 'inherit',
@@ -328,8 +328,8 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               top: 'calc(100% + 8px)',
               right: 0,
               width: 220,
-              background: '#0d0d14',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--bg-primary)',
+              border: '1px solid var(--border)',
               borderRadius: 12,
               boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
               zIndex: 100,
@@ -337,7 +337,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               animation: 'headerDrop 0.12s ease',
             }}>
               {/* User info */}
-              <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e2e8', marginBottom: 2 }}>
                   {userName || 'User'}
                 </div>
@@ -355,9 +355,9 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
                     fontFamily: 'var(--font-mono)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.06em',
-                    background: userPlan === 'free' ? 'rgba(255,255,255,0.04)' : 'rgba(126,217,87,0.08)',
+                    background: userPlan === 'free' ? 'var(--bg-card)' : 'rgba(126,217,87,0.08)',
                     color: userPlan === 'free' ? '#4a4a5a' : '#6EE05A',
-                    border: `1px solid ${userPlan === 'free' ? 'rgba(255,255,255,0.06)' : 'rgba(126,217,87,0.15)'}`,
+                    border: `1px solid ${userPlan === 'free' ? 'var(--border)' : 'rgba(126,217,87,0.15)'}`,
                   }}>
                     {userPlan}
                   </span>
@@ -389,7 +389,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
                       fontFamily: 'inherit',
                       textAlign: 'left',
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#e2e2e8' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.color = '#e2e2e8' }}
                     onMouseLeave={(e) => { e.currentTarget.style.background = 'none'; e.currentTarget.style.color = '#808090' }}
                   >
                     {item.icon}
@@ -399,7 +399,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               </div>
 
               {/* Sign out */}
-              <div style={{ padding: 4, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ padding: 4, borderTop: '1px solid var(--border)' }}>
                 <button
                   onClick={handleSignOut}
                   style={{

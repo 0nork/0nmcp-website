@@ -306,7 +306,7 @@ export default function MaintenancePage() {
           </div>
           <button type="submit" disabled={loginLoading} style={{
             width: '100%', padding: '12px', borderRadius: 10, border: 'none',
-            background: '#1a1a1a', color: '#fff', fontSize: 14, fontWeight: 700,
+            background: 'var(--bg-card)', color: 'var(--text-primary)', fontSize: 14, fontWeight: 700,
             cursor: loginLoading ? 'not-allowed' : 'pointer',
             boxShadow: shadow.md, transition: 'all 0.2s',
           }}
@@ -376,7 +376,7 @@ export default function MaintenancePage() {
                 </p>
                 <button onClick={resetModal} style={{
                   marginTop: 20, padding: '10px 28px', borderRadius: 10,
-                  background: '#1a1a1a', color: '#fff', fontWeight: 700, fontSize: 13,
+                  background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 700, fontSize: 13,
                   border: 'none', cursor: 'pointer', boxShadow: shadow.md,
                 }}>Done</button>
               </div>
@@ -430,7 +430,7 @@ export default function MaintenancePage() {
 
                   <button onClick={() => handleModalSubmit(modal)} disabled={formLoading || !formData.name || !formData.email} style={{
                     width: '100%', padding: '12px', borderRadius: 10, border: 'none',
-                    background: '#1a1a1a', color: '#fff', fontSize: 14, fontWeight: 700,
+                    background: 'var(--bg-card)', color: 'var(--text-primary)', fontSize: 14, fontWeight: 700,
                     cursor: formLoading ? 'not-allowed' : 'pointer',
                     boxShadow: shadow.md, transition: 'all 0.2s', marginTop: 4,
                     opacity: (!formData.name || !formData.email) ? 0.5 : 1,

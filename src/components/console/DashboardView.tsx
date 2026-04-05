@@ -97,14 +97,14 @@ export function DashboardView({
             padding: '1.125rem 1.25rem',
             borderRadius: 12,
             background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
           }}>
             <div style={{
               fontSize: '0.65rem',
               fontWeight: 600,
               textTransform: 'uppercase',
               letterSpacing: '0.06em',
-              color: '#5a5a6a',
+              color: 'var(--text-muted)',
               marginBottom: 8,
             }}>
               {stat.label}
@@ -150,7 +150,7 @@ export function DashboardView({
                 padding: '1.25rem',
                 borderRadius: 12,
                 background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                border: '1px solid var(--border)',
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontFamily: 'inherit',
@@ -165,7 +165,7 @@ export function DashboardView({
                 e.currentTarget.style.transform = 'translateY(-1px)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+                e.currentTarget.style.borderColor = 'var(--border)'
                 e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
                 e.currentTarget.style.transform = 'translateY(0)'
               }}
@@ -214,7 +214,7 @@ export function DashboardView({
                 padding: '0.3rem 0.625rem',
                 borderRadius: 6,
                 background: 'rgba(255,255,255,0.025)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                border: '1px solid var(--border)',
                 color: '#808090',
               }}>
                 {name}
@@ -239,7 +239,7 @@ export function DashboardView({
         <div style={{
           borderRadius: 12,
           background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           overflow: 'hidden',
         }}>
           {recentHistory.length > 0 ? recentHistory.slice(0, 8).map((entry, i) => (
@@ -248,7 +248,7 @@ export function DashboardView({
               alignItems: 'center',
               gap: 12,
               padding: '0.75rem 1.125rem',
-              borderBottom: i < Math.min(recentHistory.length, 8) - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+              borderBottom: i < Math.min(recentHistory.length, 8) - 1 ? '1px solid var(--bg-card)' : 'none',
             }}>
               <div style={{
                 width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
@@ -257,7 +257,7 @@ export function DashboardView({
               <span style={{
                 flex: 1,
                 fontSize: '0.8rem',
-                color: '#9898a8',
+                color: 'var(--text-secondary)',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',

@@ -212,7 +212,7 @@ export default function WizardCredentialStep({ vault }: WizardCredentialStepProp
                   padding: '10px 14px',
                   borderRadius: '10px',
                   border: '1px solid var(--border)',
-                  backgroundColor: 'rgba(255,255,255,0.04)',
+                  backgroundColor: 'var(--bg-card)',
                   color: 'var(--text-primary)',
                   fontSize: '0.875rem',
                   fontFamily: field.s ? 'var(--font-mono)' : 'inherit',
@@ -334,7 +334,7 @@ export default function WizardCredentialStep({ vault }: WizardCredentialStepProp
           marginTop: '20px',
           height: '4px',
           borderRadius: '2px',
-          backgroundColor: 'rgba(255,255,255,0.04)',
+          backgroundColor: 'var(--bg-card)',
           overflow: 'hidden',
         }}
       >

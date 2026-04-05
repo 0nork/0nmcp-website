@@ -35,7 +35,7 @@ export default function TerminalPage() {
     return (
       <div style={{
         height: '100vh',
-        background: '#060810',
+        background: 'var(--bg-primary)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -63,7 +63,7 @@ export default function TerminalPage() {
   }
 
   return (
-    <div style={{ height: '100vh', background: '#060810' }}>
+    <div style={{ height: '100vh', background: 'var(--bg-primary)' }}>
       <OnTerminal
         height="100vh"
         enableNode={true}

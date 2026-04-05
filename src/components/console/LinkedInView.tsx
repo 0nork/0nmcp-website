@@ -83,7 +83,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
             className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
             style={{ background: 'linear-gradient(135deg, #0077B5, #00A0DC)' }}
           >
-            <Linkedin size={32} style={{ color: '#fff' }} />
+            <Linkedin size={32} style={{ color: 'var(--text-primary)' }} />
           </div>
           <h2
             className="text-xl font-bold mb-2"
@@ -103,7 +103,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
             className="w-full py-3 px-6 rounded-xl font-semibold text-sm cursor-pointer transition-all"
             style={{
               background: 'linear-gradient(135deg, #0077B5, #00A0DC)',
-              color: '#fff',
+              color: 'var(--text-primary)',
               border: 'none',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.9')}
@@ -183,7 +183,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                 className="w-14 h-14 rounded-xl flex items-center justify-center"
                 style={{ background: 'linear-gradient(135deg, #0077B5, #00A0DC)' }}
               >
-                <Linkedin size={24} style={{ color: '#fff' }} />
+                <Linkedin size={24} style={{ color: 'var(--text-primary)' }} />
               </div>
             )}
             <div className="flex-1 min-w-0">
@@ -198,7 +198,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                   className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
                   style={{
                     background: 'linear-gradient(135deg, #0077B5, #00A0DC)',
-                    color: '#fff',
+                    color: 'var(--text-primary)',
                   }}
                 >
                   Connected
@@ -223,7 +223,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                       key={tag}
                       className="px-2 py-0.5 rounded-md text-xs"
                       style={{
-                        backgroundColor: 'rgba(255,255,255,0.06)',
+                        backgroundColor: 'var(--border)',
                         color: 'var(--text-secondary)',
                         border: '1px solid var(--border)',
                       }}
@@ -288,7 +288,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
               placeholder="Topic or idea (optional)..."
               className="flex-1 px-3 py-2.5 rounded-xl text-sm outline-none"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.04)',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--border)',
                 color: 'var(--text-primary)',
                 fontFamily: 'var(--font-mono)',
@@ -303,7 +303,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
               className="px-4 py-2.5 rounded-xl text-sm font-medium cursor-pointer transition-all flex items-center gap-2"
               style={{
                 background: generating
-                  ? 'rgba(255,255,255,0.06)'
+                  ? 'var(--border)'
                   : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
                 color: generating ? 'var(--text-muted)' : '#fff',
                 border: 'none',
@@ -368,7 +368,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                     onClick={handleCopy}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs cursor-pointer transition-colors"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.06)',
+                      backgroundColor: 'var(--border)',
                       border: '1px solid var(--border)',
                       color: 'var(--text-secondary)',
                     }}
@@ -380,7 +380,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                     onClick={handleGenerate}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs cursor-pointer transition-colors"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.06)',
+                      backgroundColor: 'var(--border)',
                       border: '1px solid var(--border)',
                       color: 'var(--text-secondary)',
                     }}
@@ -394,7 +394,7 @@ export function LinkedInView({ linkedin }: LinkedInViewProps) {
                     className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all"
                     style={{
                       background: publishing
-                        ? 'rgba(255,255,255,0.06)'
+                        ? 'var(--border)'
                         : 'linear-gradient(135deg, #0077B5, #00A0DC)',
                       color: publishing ? 'var(--text-muted)' : '#fff',
                       border: 'none',

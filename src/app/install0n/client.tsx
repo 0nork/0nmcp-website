@@ -135,7 +135,7 @@ export function Install0nClient() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0B0F19', color: '#e8e8ef', fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
 
       {/* ═══════════════════════════ HERO ═══════════════════════════ */}
       <section style={{ position: 'relative', overflow: 'hidden', paddingBottom: 40 }}>
@@ -196,7 +196,7 @@ export function Install0nClient() {
             <a href="#install" style={{
               display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px',
               background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-              color: '#fff', borderRadius: 14, fontWeight: 800, fontSize: 18,
+              color: 'var(--text-primary)', borderRadius: 14, fontWeight: 800, fontSize: 18,
               textDecoration: 'none', boxShadow: '0 4px 24px rgba(255,107,53,0.3)',
               transition: 'transform 0.2s, box-shadow 0.2s',
             }}>
@@ -205,8 +205,8 @@ export function Install0nClient() {
             </a>
             <a href="/signup" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8, padding: '16px 28px',
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
-              color: '#e8e8ef', borderRadius: 14, fontWeight: 600, fontSize: 16,
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              color: 'var(--text-primary)', borderRadius: 14, fontWeight: 600, fontSize: 16,
               textDecoration: 'none',
             }}>
               Create Free Account
@@ -233,7 +233,7 @@ export function Install0nClient() {
           ].map((s) => (
             <div key={s.label} style={{
               textAlign: 'center', padding: '20px 12px', borderRadius: 16,
-              background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+              background: 'rgba(255,255,255,0.02)', border: '1px solid var(--bg-card)',
             }}>
               <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, color: s.color, fontFamily: 'var(--font-mono), monospace', lineHeight: 1 }}>
                 <AnimatedCounter target={s.n} />
@@ -269,8 +269,8 @@ export function Install0nClient() {
                   style={{
                     position: 'relative', padding: '28px 18px', borderRadius: 18, cursor: 'pointer',
                     background: active ? `${pl.color}0a` : 'rgba(255,255,255,0.015)',
-                    border: `2px solid ${active ? `${pl.color}55` : 'rgba(255,255,255,0.05)'}`,
-                    textAlign: 'center', transition: 'all 0.25s', color: '#e8e8ef', fontFamily: 'inherit',
+                    border: `2px solid ${active ? `${pl.color}55` : 'var(--bg-card)'}`,
+                    textAlign: 'center', transition: 'all 0.25s', color: 'var(--text-primary)', fontFamily: 'inherit',
                     boxShadow: active ? `0 0 40px ${pl.glow}` : 'none',
                   }}
                 >
@@ -308,7 +308,7 @@ export function Install0nClient() {
                 {p.steps.map((step, i) => (
                   <div key={i} style={{
                     display: 'flex', gap: 16, padding: '14px 0',
-                    borderBottom: i < p.steps.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                    borderBottom: i < p.steps.length - 1 ? '1px solid var(--bg-card)' : 'none',
                   }}>
                     <div style={{
                       width: 32, height: 32, borderRadius: 10, flexShrink: 0,
@@ -319,7 +319,7 @@ export function Install0nClient() {
                       {step.n}
                     </div>
                     <div style={{ paddingTop: 2 }}>
-                      <div style={{ fontWeight: 700, fontSize: 15, color: '#e8e8ef', marginBottom: 2 }}>{step.title}</div>
+                      <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--text-primary)', marginBottom: 2 }}>{step.title}</div>
                       <div style={{ fontSize: 13, color: '#8888a0', lineHeight: 1.5 }}>{step.desc}</div>
                     </div>
                   </div>
@@ -345,7 +345,7 @@ export function Install0nClient() {
                       background: installerCopied
                         ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                         : 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-                      color: '#fff', fontWeight: 800, fontSize: 17, cursor: 'pointer',
+                      color: 'var(--text-primary)', fontWeight: 800, fontSize: 17, cursor: 'pointer',
                       fontFamily: 'inherit', transition: 'all 0.3s',
                       boxShadow: installerCopied ? '0 4px 20px rgba(126,217,87,0.3)' : '0 4px 20px rgba(255,107,53,0.3)',
                     }}
@@ -367,7 +367,7 @@ export function Install0nClient() {
                       background: copied
                         ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                         : `linear-gradient(135deg, ${p.color}, ${p.color}bb)`,
-                      color: '#fff', fontWeight: 800, fontSize: 17, cursor: 'pointer',
+                      color: 'var(--text-primary)', fontWeight: 800, fontSize: 17, cursor: 'pointer',
                       fontFamily: 'inherit', transition: 'all 0.3s', minWidth: 260,
                       boxShadow: `0 4px 20px ${p.glow}`,
                     }}
@@ -407,7 +407,7 @@ export function Install0nClient() {
             ].map((f) => (
               <div key={f.title} style={{
                 padding: '24px 24px 28px', borderRadius: 18,
-                background: f.glow, border: '1px solid rgba(255,255,255,0.05)',
+                background: f.glow, border: '1px solid var(--bg-card)',
                 transition: 'border-color 0.2s, transform 0.2s',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
@@ -434,7 +434,7 @@ export function Install0nClient() {
             No setup, no config files, no learning curve.
           </p>
           <div style={{
-            background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)',
+            background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border)',
             borderRadius: 16, padding: '20px 24px', fontSize: 14,
           }}>
             {[
@@ -449,7 +449,7 @@ export function Install0nClient() {
               <div key={c.cmd} style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 padding: '10px 0',
-                borderBottom: i < 6 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                borderBottom: i < 6 ? '1px solid var(--bg-card)' : 'none',
               }}>
                 <code style={{ color: c.c, fontFamily: 'var(--font-mono), monospace', fontWeight: 700, fontSize: 13 }}>{c.cmd}</code>
                 <span style={{ color: '#55556a', fontSize: 12 }}>{c.desc}</span>
@@ -473,9 +473,9 @@ export function Install0nClient() {
           ].map((faq) => (
             <div key={faq.q} style={{
               padding: '20px 0',
-              borderBottom: '1px solid rgba(255,255,255,0.04)',
+              borderBottom: '1px solid var(--bg-card)',
             }}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#e8e8ef', margin: '0 0 8px' }}>{faq.q}</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px' }}>{faq.q}</h3>
               <p style={{ fontSize: 14, color: '#8888a0', margin: 0, lineHeight: 1.6 }}>{faq.a}</p>
             </div>
           ))}
@@ -485,7 +485,7 @@ export function Install0nClient() {
       {/* ═══════════════════════════ FINAL CTA ═══════════════════════════ */}
       <section style={{
         padding: '60px 24px 100px', textAlign: 'center', position: 'relative',
-        borderTop: '1px solid rgba(255,255,255,0.04)',
+        borderTop: '1px solid var(--bg-card)',
       }}>
         <div style={{ position: 'absolute', top: 0, left: '50%', width: 400, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 70%)', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }} />
 
@@ -500,7 +500,7 @@ export function Install0nClient() {
           <a href="#install" style={{
             display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px',
             background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-            color: '#fff', borderRadius: 14, fontWeight: 800, fontSize: 18,
+            color: 'var(--text-primary)', borderRadius: 14, fontWeight: 800, fontSize: 18,
             textDecoration: 'none', boxShadow: '0 4px 24px rgba(255,107,53,0.3)',
           }}>
             Install 0nMCP
@@ -508,8 +508,8 @@ export function Install0nClient() {
           </a>
           <a href="/signup" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, padding: '16px 28px',
-            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
-            color: '#e8e8ef', borderRadius: 14, fontWeight: 600, fontSize: 16,
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
+            color: 'var(--text-primary)', borderRadius: 14, fontWeight: 600, fontSize: 16,
             textDecoration: 'none',
           }}>
             Create Free Account

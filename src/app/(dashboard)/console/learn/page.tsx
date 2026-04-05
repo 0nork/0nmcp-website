@@ -162,7 +162,7 @@ export default function ConsoleLearnPage() {
                 {/* Progress bar */}
                 {isEnrolled && (
                   <div className="mb-3">
-                    <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                    <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--border)' }}>
                       <div
                         className="h-full rounded-full transition-all"
                         style={{ width: `${enrollment.progress_pct}%`, background: 'var(--jp-green)' }}
@@ -200,7 +200,7 @@ export default function ConsoleLearnPage() {
                 {course.tags?.length > 0 && (
                   <div className="flex gap-1 flex-wrap mt-3">
                     {course.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--jp-text-muted)' }}>
+                      <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'var(--bg-card)', color: 'var(--jp-text-muted)' }}>
                         {tag}
                       </span>
                     ))}

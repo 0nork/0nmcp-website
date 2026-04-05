@@ -400,7 +400,7 @@ export default function AnalyticsDashboard() {
                   onClick={() => toggleKeyword(kw.id, !kw.is_active)}
                   style={{
                     padding: '3px 8px', borderRadius: 6, border: 'none', cursor: 'pointer',
-                    background: kw.is_active ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
+                    background: kw.is_active ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
                     color: kw.is_active ? '#6EE05A' : 'var(--text-muted)',
                     fontSize: '0.625rem', fontWeight: 700,
                   }}
@@ -469,7 +469,7 @@ export default function AnalyticsDashboard() {
                         width: '100%', height: `${height}%`, minHeight: 2, borderRadius: 3,
                         background: pos
                           ? pos <= 3 ? '#6EE05A' : pos <= 10 ? '#00d4ff' : pos <= 30 ? '#ff6b35' : 'var(--text-muted)'
-                          : 'rgba(255,255,255,0.05)',
+                          : 'var(--bg-card)',
                       }} />
                     </div>
                   )

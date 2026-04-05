@@ -24,7 +24,7 @@ const TIER_STYLES: Record<string, {
   free: {
     icon: Sparkles,
     color: 'var(--text-muted)',
-    bg: 'rgba(255,255,255,0.04)',
+    bg: 'var(--bg-card)',
     borderActive: 'rgba(255,255,255,0.2)',
     gradientEnd: '#666',
   },
@@ -182,7 +182,7 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
             {/* Monthly/Yearly toggle */}
             <div
               className="flex rounded-lg overflow-hidden"
-              style={{ border: '1px solid var(--border)', backgroundColor: 'rgba(255,255,255,0.03)' }}
+              style={{ border: '1px solid var(--border)', backgroundColor: 'var(--bg-card)' }}
             >
               {(['monthly', 'yearly'] as const).map((b) => (
                 <button
@@ -304,7 +304,7 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
                 {/* Add-on pricing */}
                 {tier.addOns && (
                   <div className="text-[9px] mb-3 px-2 py-1.5 rounded" style={{
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: 'var(--bg-card)',
                     color: 'var(--text-muted)',
                     fontFamily: 'var(--font-mono)',
                   }}>
@@ -319,9 +319,9 @@ export function UpgradeModal({ currentPlan, onClose, onSwitched }: UpgradeModalP
                   className="w-full py-2 rounded-lg text-xs font-semibold cursor-pointer border-none transition-all"
                   style={{
                     background: isCurrent
-                      ? 'rgba(255,255,255,0.06)'
+                      ? 'var(--border)'
                       : isDowngrade
-                        ? 'rgba(255,255,255,0.06)'
+                        ? 'var(--border)'
                         : `linear-gradient(135deg, ${style.color}, ${style.gradientEnd})`,
                     color: isCurrent
                       ? 'var(--text-muted)'

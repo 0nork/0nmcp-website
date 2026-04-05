@@ -78,7 +78,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
           WebkitBackdropFilter: 'blur(24px)',
           borderRadius: 20,
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          boxShadow: '0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.03) inset',
+          boxShadow: '0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--bg-card) inset',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -105,7 +105,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
             </svg>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#e8eaed', letterSpacing: '-0.02em' }}>
+            <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
               AI Flow Wizard
             </div>
             <div style={{ fontSize: 12, color: '#7a8290', marginTop: 2 }}>
@@ -116,14 +116,14 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
             onClick={onClose}
             style={{
               width: 32, height: 32, borderRadius: 10,
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid var(--border)',
               background: 'transparent', cursor: 'pointer',
-              color: '#5f6672', display: 'flex',
+              color: 'var(--text-muted)', display: 'flex',
               alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.15s',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'
+              (e.currentTarget as HTMLButtonElement).style.background = 'var(--bg-card)'
               ;(e.currentTarget as HTMLButtonElement).style.color = '#7A8290'
             }}
             onMouseLeave={e => {
@@ -223,7 +223,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
           {/* Quick suggestions (step 0 only) */}
           {step === 0 && (
             <div>
-              <div style={{ fontSize: 11, fontWeight: 600, color: '#5f6672', marginBottom: 8 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8 }}>
                 Quick suggestions:
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -282,7 +282,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
               borderRadius: 12,
               background: 'rgba(255, 255, 255, 0.03)',
               border: '1px solid rgba(255, 255, 255, 0.08)',
-              color: '#e8eaed', fontSize: 14,
+              color: 'var(--text-primary)', fontSize: 14,
               fontFamily: 'inherit', outline: 'none',
               transition: 'border-color 0.2s',
             }}

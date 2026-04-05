@@ -35,9 +35,9 @@ const GitHubIcon = () => (
 )
 
 const OAUTH_PROVIDERS: { provider: Provider; label: string; Icon: React.FC; bg: string; color: string }[] = [
-  { provider: 'linkedin_oidc' as Provider, label: 'LinkedIn', Icon: LinkedInIcon, bg: '#0A66C2', color: '#fff' },
-  { provider: 'google' as Provider, label: 'Google', Icon: GoogleIcon, bg: 'rgba(255,255,255,0.08)', color: 'var(--text-primary)' },
-  { provider: 'github' as Provider, label: 'GitHub', Icon: GitHubIcon, bg: 'rgba(255,255,255,0.08)', color: 'var(--text-primary)' },
+  { provider: 'linkedin_oidc' as Provider, label: 'LinkedIn', Icon: LinkedInIcon, bg: '#0A66C2', color: 'var(--text-primary)' },
+  { provider: 'google' as Provider, label: 'Google', Icon: GoogleIcon, bg: 'var(--border)', color: 'var(--text-primary)' },
+  { provider: 'github' as Provider, label: 'GitHub', Icon: GitHubIcon, bg: 'var(--border)', color: 'var(--text-primary)' },
 ]
 
 export default function AuthModal({ open, onClose, onSuccess, defaultMode = 'signin' }: AuthModalProps) {

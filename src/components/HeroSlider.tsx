@@ -69,13 +69,13 @@ export default function HeroSlider() {
 
   return (
     <section style={{
-      background: '#f5f5f7',
+      background: 'var(--bg-secondary)',
       padding: '4rem 1.5rem',
     }}>
       <div style={{
         maxWidth: 800,
         margin: '0 auto',
-        background: '#fff',
+        background: 'var(--bg-card)',
         borderRadius: 16,
         padding: '3.5rem 3rem',
         boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
@@ -96,10 +96,10 @@ export default function HeroSlider() {
             display: 'inline-block',
             padding: '4px 14px',
             borderRadius: 6,
-            background: '#f0f0f0',
+            background: 'var(--bg-secondary)',
             fontSize: 12,
             fontWeight: 600,
-            color: '#555',
+            color: 'var(--text-muted)',
             letterSpacing: '0.02em',
             marginBottom: 20,
           }}>
@@ -110,7 +110,7 @@ export default function HeroSlider() {
           <h2 style={{
             fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)',
             fontWeight: 800,
-            color: '#1a1a1a',
+            color: 'var(--text-primary)',
             lineHeight: 1.2,
             letterSpacing: '-0.02em',
             margin: '0 0 16px',
@@ -121,7 +121,7 @@ export default function HeroSlider() {
           {/* Body */}
           <p style={{
             fontSize: 15,
-            color: '#666',
+            color: 'var(--text-muted)',
             lineHeight: 1.7,
             maxWidth: 560,
             margin: '0 auto',
@@ -137,13 +137,13 @@ export default function HeroSlider() {
           left: 0,
           right: 0,
           height: 3,
-          background: '#f0f0f0',
+          background: 'var(--bg-secondary)',
         }}>
           <div
             key={`progress-${current}`}
             style={{
               height: '100%',
-              background: '#1a1a1a',
+              background: 'var(--bg-card)',
               animation: `progressBar ${INTERVAL}ms linear`,
               width: '100%',
               transformOrigin: 'left',
@@ -166,14 +166,14 @@ export default function HeroSlider() {
             width: 40, height: 40,
             borderRadius: 8,
             border: '1px solid #ddd',
-            background: '#fff',
+            background: 'var(--bg-card)',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'all 0.2s',
             boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-            color: '#999',
+            color: 'var(--text-muted)',
           }}
           onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'; e.currentTarget.style.color = '#1a1a1a' }}
           onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)'; e.currentTarget.style.color = '#999' }}
@@ -189,14 +189,14 @@ export default function HeroSlider() {
             width: 40, height: 40,
             borderRadius: 8,
             border: 'none',
-            background: '#1a1a1a',
+            background: 'var(--bg-card)',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'all 0.2s',
             boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
-            color: '#fff',
+            color: 'var(--text-primary)',
           }}
           onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
           onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.1)'; e.currentTarget.style.transform = 'translateY(0)' }}

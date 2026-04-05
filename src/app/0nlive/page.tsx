@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ZeroNLivePage() {
   return (
-    <div style={{ minHeight: '100vh', background: '#0B0F19', color: '#e5e5e5', fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: "'Inter', -apple-system, sans-serif" }}>
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 24px 80px' }}>
 
         {/* Header */}
@@ -24,7 +24,7 @@ export default function ZeroNLivePage() {
           <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.02em' }}>
             Command Center <span style={{ color: '#6EE05A' }}>v4.2</span>
           </h1>
-          <p style={{ color: '#888', fontSize: 14, maxWidth: 500, margin: '0 auto' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: 14, maxWidth: 500, margin: '0 auto' }}>
             Your personal AI operations hub. 12 engines, 88 routes, zero-knowledge credential proxy,
             OAuth SSO, outreach enrichment, and automatic CRM provisioning.
           </p>
@@ -32,15 +32,15 @@ export default function ZeroNLivePage() {
 
         {/* Download Card */}
         <div style={{
-          background: '#111', border: '1px solid #222', borderRadius: 12,
+          background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12,
           padding: 32, marginBottom: 24,
         }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ color: '#6EE05A' }}>&#x25B6;</span> Quick Install
           </h2>
 
-          <div style={{ background: '#0B0F19', borderRadius: 8, padding: 20, border: '1px solid #222', marginBottom: 20 }}>
-            <p style={{ color: '#888', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 12 }}>
+          <div style={{ background: 'var(--bg-primary)', borderRadius: 8, padding: 20, border: '1px solid var(--border)', marginBottom: 20 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 12 }}>
               Terminal — copy &amp; paste
             </p>
             <pre style={{
@@ -53,28 +53,28 @@ cp .env.example .env
 node server.js`}</pre>
           </div>
 
-          <p style={{ color: '#888', fontSize: 12, lineHeight: 1.6 }}>
-            Requires <strong style={{ color: '#e5e5e5' }}>Node.js 18+</strong> and <strong style={{ color: '#e5e5e5' }}>npm</strong>.
+          <p style={{ color: 'var(--text-muted)', fontSize: 12, lineHeight: 1.6 }}>
+            Requires <strong style={{ color: 'var(--text-primary)' }}>Node.js 18+</strong> and <strong style={{ color: 'var(--text-primary)' }}>npm</strong>.
             Server starts at <code style={{ color: '#00d4ff', fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }}>http://localhost:3030</code>
           </p>
         </div>
 
         {/* Environment Variables */}
         <div style={{
-          background: '#111', border: '1px solid #222', borderRadius: 12,
+          background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12,
           padding: 32, marginBottom: 24,
         }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ color: '#00d4ff' }}>&#x2699;</span> Environment Setup
           </h2>
-          <p style={{ color: '#888', fontSize: 12, marginBottom: 16, lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: 12, marginBottom: 16, lineHeight: 1.6 }}>
             Edit <code style={{ color: '#00d4ff', fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }}>.env</code> with your credentials.
             Only Supabase keys are required — everything else is optional.
           </p>
 
-          <div style={{ background: '#0B0F19', borderRadius: 8, padding: 20, border: '1px solid #222' }}>
+          <div style={{ background: 'var(--bg-primary)', borderRadius: 8, padding: 20, border: '1px solid var(--border)' }}>
             <pre style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#e5e5e5',
+              fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'var(--text-primary)',
               lineHeight: 1.7, overflowX: 'auto', whiteSpace: 'pre-wrap',
             }}>{`# Required
 SUPABASE_URL=https://your-project.supabase.co
@@ -92,7 +92,7 @@ GITHUB_TOKEN=ghp_...
 
         {/* What's Included */}
         <div style={{
-          background: '#111', border: '1px solid #222', borderRadius: 12,
+          background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12,
           padding: 32, marginBottom: 24,
         }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -107,14 +107,14 @@ GITHUB_TOKEN=ghp_...
               { label: 'OAuth Providers', value: '7', color: '#f59e0b', items: 'Google, GitHub, Slack, Stripe, Zoom, HubSpot, Microsoft' },
             ].map((item) => (
               <div key={item.label} style={{
-                background: '#0B0F19', borderRadius: 8, padding: 16,
-                border: '1px solid #222',
+                background: 'var(--bg-primary)', borderRadius: 8, padding: 16,
+                border: '1px solid var(--border)',
               }}>
                 <div style={{ fontSize: 28, fontWeight: 800, color: item.color, fontFamily: "'JetBrains Mono', monospace" }}>
                   {item.value}
                 </div>
                 <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontSize: 10, color: '#555', lineHeight: 1.4 }}>{item.items}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', lineHeight: 1.4 }}>{item.items}</div>
               </div>
             ))}
           </div>
@@ -122,7 +122,7 @@ GITHUB_TOKEN=ghp_...
 
         {/* Key Features */}
         <div style={{
-          background: '#111', border: '1px solid #222', borderRadius: 12,
+          background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12,
           padding: 32, marginBottom: 24,
         }}>
           <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -141,7 +141,7 @@ GITHUB_TOKEN=ghp_...
                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: f.color, marginTop: 7, flexShrink: 0 }} />
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 2 }}>{f.title}</div>
-                  <div style={{ fontSize: 11, color: '#888', lineHeight: 1.5 }}>{f.desc}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>{f.desc}</div>
                 </div>
               </div>
             ))}
@@ -150,26 +150,26 @@ GITHUB_TOKEN=ghp_...
 
         {/* macOS Tip */}
         <div style={{
-          background: '#111', border: '1px solid rgba(126,217,87,0.2)', borderRadius: 12,
+          background: 'var(--bg-card)', border: '1px solid rgba(126,217,87,0.2)', borderRadius: 12,
           padding: 24, marginBottom: 24,
         }}>
           <h3 style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: '#6EE05A' }}>
             macOS SSL Note
           </h3>
-          <p style={{ color: '#888', fontSize: 12, lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: 12, lineHeight: 1.6 }}>
             If you see TLS certificate errors connecting to Supabase, start with:
           </p>
           <code style={{
             display: 'block', marginTop: 8, padding: '8px 12px',
-            background: '#0B0F19', borderRadius: 6, border: '1px solid #222',
+            background: 'var(--bg-primary)', borderRadius: 6, border: '1px solid var(--border)',
             fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#6EE05A',
           }}>NODE_TLS_REJECT_UNAUTHORIZED=0 node server.js</code>
         </div>
 
         {/* Footer */}
         <div style={{ textAlign: 'center', paddingTop: 24, borderTop: '1px solid #222' }}>
-          <p style={{ fontSize: 11, color: '#555' }}>
-            Built by <span style={{ color: '#888' }}>RocketOpp LLC</span> &middot; Powered by <span style={{ color: '#6EE05A' }}>0nMCP</span>
+          <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+            Built by <span style={{ color: 'var(--text-muted)' }}>RocketOpp LLC</span> &middot; Powered by <span style={{ color: '#6EE05A' }}>0nMCP</span>
           </p>
           <p style={{ fontSize: 10, color: '#333', marginTop: 4 }}>
             This page is private and not indexed. Access is invitation-only.

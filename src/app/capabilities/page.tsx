@@ -518,7 +518,7 @@ export default function CapabilitiesPage() {
               </div>
               <h3 className="feature-title">Switch Services Easily</h3>
               <p className="feature-desc">Move from Mailchimp to SendGrid? Just reconnect. All your workflows keep working. Zero rebuilding.</p>
-              <div className="feature-accent-line" style={{ background: '#00d4ff' }} />
+              <div className="feature-accent-line" style={{ background: 'var(--bg-primary)' }} />
             </div>
 
             <div className="feature-card">

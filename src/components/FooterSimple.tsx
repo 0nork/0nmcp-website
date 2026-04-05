@@ -8,8 +8,8 @@ export default function FooterSimple() {
   return (
     <footer style={{
       padding: '2rem 1.5rem',
-      borderTop: '1px solid rgba(255,255,255,0.06)',
-      background: '#0b1015',
+      borderTop: '1px solid var(--border)',
+      background: 'var(--bg-primary)',
     }}>
       <div style={{
         maxWidth: '960px', margin: '0 auto',

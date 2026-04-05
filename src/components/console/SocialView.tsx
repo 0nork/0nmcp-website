@@ -154,7 +154,7 @@ export function SocialView() {
               border: 'none',
               background: connectedCount > 0
                 ? 'linear-gradient(135deg, var(--accent), var(--accent-secondary))'
-                : 'rgba(255,255,255,0.06)',
+                : 'var(--border)',
               color: connectedCount > 0 ? '#0B0F19' : 'var(--text-muted)',
               fontSize: 14,
               fontWeight: 600,
@@ -305,7 +305,7 @@ export function SocialView() {
                 padding: '12px 16px',
                 borderRadius: 10,
                 border: '1px solid var(--border)',
-                backgroundColor: 'rgba(255,255,255,0.03)',
+                backgroundColor: 'var(--bg-card)',
                 color: 'var(--text-primary)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: 14,
@@ -351,7 +351,7 @@ export function SocialView() {
                   border: 'none',
                   background: devtoKey.trim() && !devtoConnecting
                     ? 'linear-gradient(135deg, var(--accent), var(--accent-secondary))'
-                    : 'rgba(255,255,255,0.06)',
+                    : 'var(--border)',
                   color: devtoKey.trim() && !devtoConnecting ? '#0B0F19' : 'var(--text-muted)',
                   fontSize: 13,
                   fontWeight: 600,

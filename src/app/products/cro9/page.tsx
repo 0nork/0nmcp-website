@@ -150,7 +150,7 @@ export default function CRO9Page() {
       <section className="store-preview" style={{ marginBottom: '4rem' }}>
         <div className="store-demo">
           <div style={{
-            background: '#08081a',
+            background: 'var(--bg-primary)',
             borderRadius: 12,
             padding: '1rem',
             fontFamily: "'JetBrains Mono', monospace",
@@ -168,7 +168,7 @@ export default function CRO9Page() {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-                <span style={{ fontSize: 12, color: '#fff', fontWeight: 700 }}>C9</span>
+                <span style={{ fontSize: 12, color: 'var(--text-primary)', fontWeight: 700 }}>C9</span>
               </div>
               <span style={{ color: '#f0f0ff', fontWeight: 600, fontSize: '0.85rem' }}>CRO9 Engine</span>
               <span style={{ marginLeft: 'auto', fontSize: '0.7rem', color: '#505880' }}>6:00 AM</span>
@@ -323,7 +323,7 @@ export default function CRO9Page() {
                   borderRadius: 20,
                   fontSize: '0.75rem',
                   fontWeight: 600,
-                  color: '#fff',
+                  color: 'var(--text-primary)',
                 }}>
                   Most Popular
                 </div>

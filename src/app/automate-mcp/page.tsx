@@ -10,16 +10,16 @@ export const metadata: Metadata = {
 
 export default function AutomateMcpPage() {
   return (
-    <div style={{ background: '#f5f5f7', minHeight: '100vh', paddingTop: '5rem' }}>
+    <div style={{ background: 'var(--bg-secondary)', minHeight: '100vh', paddingTop: '5rem' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem' }}>
-        <nav style={{ fontSize: 12, color: '#888', marginBottom: 16 }}>
-          <Link href="/home" style={{ color: '#888' }}>Home</Link> / <span style={{ color: '#1a1a1a' }}>Automate MCP Server</span>
+        <nav style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
+          <Link href="/home" style={{ color: 'var(--text-muted)' }}>Home</Link> / <span style={{ color: 'var(--text-primary)' }}>Automate MCP Server</span>
         </nav>
 
-        <h1 style={{ fontSize: 36, fontWeight: 900, color: '#1a1a1a', letterSpacing: '-0.02em', marginBottom: 12 }}>
+        <h1 style={{ fontSize: 36, fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 12 }}>
           Automate MCP Server Workflows — Agentic Power with 0nMCP
         </h1>
-        <p style={{ fontSize: 17, color: '#555', lineHeight: 1.8, marginBottom: 32 }}>
+        <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: 32 }}>
           Describe outcomes in natural language. 0nMCP orchestrates complex agentic workflows across <strong>54 services</strong> using three patented execution models: Pipeline, Assembly Line, and Radial Burst. No code required.
         </p>
       </div>
@@ -34,23 +34,23 @@ export default function AutomateMcpPage() {
             { name: 'Radial Burst', desc: 'Fan-out — one trigger spawns N parallel ops. Broadcast, bulk updates, multi-channel campaigns.', icon: '✦' },
           ].map(m => (
             <div key={m.name} style={{
-              padding: 24, borderRadius: 14, background: '#fff',
-              border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              padding: 24, borderRadius: 14, background: 'var(--bg-card)',
+              border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               transition: 'box-shadow 0.2s, transform 0.2s',
             }}
               onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
               onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
               <div style={{ fontSize: 28, marginBottom: 8 }}>{m.icon}</div>
-              <div style={{ fontSize: 16, fontWeight: 800, color: '#1a1a1a', marginBottom: 6 }}>{m.name}</div>
-              <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>{m.desc}</div>
+              <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>{m.name}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>{m.desc}</div>
             </div>
           ))}
         </div>
 
-        <div style={{ padding: 24, borderRadius: 14, background: '#fff', border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 12 }}>How .0n SWITCH Files Work</h2>
-          <p style={{ fontSize: 14, color: '#555', lineHeight: 1.8 }}>
+        <div style={{ padding: 24, borderRadius: 14, background: 'var(--bg-card)', border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 12 }}>How .0n SWITCH Files Work</h2>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.8 }}>
             SWITCH files are portable JSON workflows that describe WHAT should happen, not HOW. Your config says "tag this contact, notify Slack, send an invoice" — 0nMCP resolves the user's connected services and executes through the optimal path. Works on any machine, any AI platform, any service configuration.
           </p>
         </div>

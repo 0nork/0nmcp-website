@@ -27,7 +27,7 @@ export default function AnimatedHero() {
         padding: '4rem 1.5rem 4rem',
         marginTop: '-1px',
         overflow: 'hidden',
-        background: '#0a0a0a',
+        background: 'var(--bg-primary)',
       }}
     >
       {/* Subtle radial glow behind the hub */}
@@ -49,7 +49,7 @@ export default function AnimatedHero() {
         style={{
           fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
           fontWeight: 900,
-          color: '#fff',
+          color: 'var(--text-primary)',
           letterSpacing: '-0.03em',
           textAlign: 'center',
           margin: 0,
@@ -122,7 +122,7 @@ export default function AnimatedHero() {
             justifyContent: 'center',
             fontSize: 20,
             fontWeight: 900,
-            color: '#fff',
+            color: 'var(--text-primary)',
             boxShadow: '0 0 40px rgba(126,217,87,0.3), 0 0 80px rgba(126,217,87,0.1)',
             animation: 'hubPulse 3s ease-in-out infinite',
             zIndex: 2,
@@ -184,7 +184,7 @@ export default function AnimatedHero() {
                   width: 44,
                   height: 44,
                   borderRadius: '50%',
-                  background: '#1a1a1a',
+                  background: 'var(--bg-card)',
                   border: `2px solid ${svc.color}`,
                   display: 'flex',
                   flexDirection: 'column',
@@ -240,15 +240,15 @@ export default function AnimatedHero() {
         <span>
           <span style={{ color: '#7ed957' }}>{STATS_DISPLAY.tools}</span> tools
         </span>
-        <span style={{ color: 'rgba(255,255,255,0.15)' }}>|</span>
+        <span style={{ color: 'var(--border-hover)' }}>|</span>
         <span>
           <span style={{ color: '#7ed957' }}>{STATS_DISPLAY.services}</span> services
         </span>
-        <span style={{ color: 'rgba(255,255,255,0.15)' }}>|</span>
+        <span style={{ color: 'var(--border-hover)' }}>|</span>
         <span>
           <span style={{ color: '#7ed957' }}>5</span> patents
         </span>
-        <span style={{ color: 'rgba(255,255,255,0.15)' }}>|</span>
+        <span style={{ color: 'var(--border-hover)' }}>|</span>
         <span>MIT licensed</span>
       </div>
 
@@ -284,8 +284,8 @@ export default function AnimatedHero() {
           style={{
             padding: '14px 32px',
             borderRadius: 12,
-            background: 'rgba(255,255,255,0.06)',
-            color: '#fff',
+            background: 'var(--border)',
+            color: 'var(--text-primary)',
             fontWeight: 600,
             fontSize: 15,
             textDecoration: 'none',

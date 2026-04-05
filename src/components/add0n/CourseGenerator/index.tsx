@@ -190,7 +190,7 @@ export default function CourseGenerator({
           </svg>
         </div>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, color: '#E8EAED', letterSpacing: '-0.03em', margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em', margin: 0 }}>
             AI Course Generator
           </h1>
           <p style={{ fontSize: 13, color: '#7A8290', margin: '2px 0 0' }}>
@@ -323,8 +323,8 @@ function PhaseIndicator({ current }: { current: Phase }) {
 
 const resetBtnStyle: React.CSSProperties = {
   padding: '10px 24px', borderRadius: 10,
-  background: '#0E1117', border: '1px solid #1a1f2e',
-  color: '#E8EAED', fontSize: 13, fontWeight: 600,
+  background: 'var(--bg-primary)', border: '1px solid #1a1f2e',
+  color: 'var(--text-primary)', fontSize: 13, fontWeight: 600,
   cursor: 'pointer', fontFamily: 'inherit',
   transition: 'border-color 0.2s',
 }

@@ -89,7 +89,7 @@ export default function ExitIntent() {
             <span style={{ color: '#6EE05A' }}>Already Have Websites</span>
           </h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.65, marginBottom: '1.5rem', maxWidth: 360, margin: '0 auto 1.5rem' }}>
-            <strong style={{ color: '#fff' }}>88% of consumers</strong> research businesses online before visiting.
+            <strong style={{ color: 'var(--text-primary)' }}>88% of consumers</strong> research businesses online before visiting.
             Don&apos;t lose them to a competitor with a better site.
           </p>
 

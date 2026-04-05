@@ -36,7 +36,7 @@ interface MessagesResponse {
 function Spinner({ size = 20 }: { size?: number }): ReactNode {
   return (
     <div style={{
-      width: size, height: size, border: '2px solid rgba(255,255,255,0.1)',
+      width: size, height: size, border: '2px solid var(--border)',
       borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'conv-spin 0.6s linear infinite',
     }} />
@@ -155,19 +155,19 @@ export default function ConversationsView() {
     <div style={{ display: 'flex', height: '100%', minHeight: 0, overflow: 'hidden' }}>
       {/* Left panel: Conversation list */}
       <div style={{
-        width: 320, flexShrink: 0, borderRight: '1px solid rgba(255,255,255,0.06)',
+        width: 320, flexShrink: 0, borderRight: '1px solid var(--border)',
         display: 'flex', flexDirection: 'column', overflow: 'hidden',
       }}>
         <div style={{
-          padding: '1.25rem 1rem 0.75rem', borderBottom: '1px solid rgba(255,255,255,0.06)',
+          padding: '1.25rem 1rem 0.75rem', borderBottom: '1px solid var(--border)',
         }}>
           <h2 style={{
-            fontSize: '0.875rem', fontWeight: 700, color: '#e8eaed', margin: '0 0 0.125rem',
+            fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.125rem',
             fontFamily: 'var(--font-display)',
           }}>
             Inbox
           </h2>
-          <p style={{ fontSize: '0.7rem', color: '#5f6672', margin: 0 }}>
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', margin: 0 }}>
             {conversations.length} conversation{conversations.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -180,7 +180,7 @@ export default function ConversationsView() {
           )}
 
           {!loadingList && conversations.length === 0 && !error && (
-            <div style={{ padding: '2rem 1rem', textAlign: 'center', color: '#5f6672', fontSize: '0.8rem' }}>
+            <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
               No conversations yet.
             </div>
           )}
@@ -216,7 +216,7 @@ export default function ConversationsView() {
                 style={{
                   width: '100%', padding: '0.875rem 1rem', textAlign: 'left',
                   background: active ? 'rgba(126,217,87,0.06)' : 'transparent',
-                  border: 'none', borderBottom: '1px solid rgba(255,255,255,0.04)',
+                  border: 'none', borderBottom: '1px solid var(--bg-card)',
                   cursor: 'pointer', fontFamily: 'inherit',
                   borderLeft: active ? '2px solid #6EE05A' : '2px solid transparent',
                   transition: 'all 0.1s ease',
@@ -232,13 +232,13 @@ export default function ConversationsView() {
                   }}>
                     {conv.contactName || 'Unknown'}
                   </span>
-                  <span style={{ fontSize: '0.65rem', color: '#5f6672', flexShrink: 0, marginLeft: 8 }}>
+                  <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', flexShrink: 0, marginLeft: 8 }}>
                     {formatTime(conv.lastMessageDate)}
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <span style={{
-                    flex: 1, fontSize: '0.7rem', color: '#5f6672',
+                    flex: 1, fontSize: '0.7rem', color: 'var(--text-muted)',
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   }}>
                     {conv.lastMessageType === 'outgoing' ? 'You: ' : ''}{conv.lastMessageBody || 'No messages'}
@@ -266,7 +266,7 @@ export default function ConversationsView() {
             flexDirection: 'column', gap: '0.5rem',
           }}>
             <div style={{ fontSize: '1.25rem', color: '#3a3a4a' }}>Select a conversation</div>
-            <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
               Choose a thread from the inbox to view messages.
             </p>
           </div>
@@ -274,7 +274,7 @@ export default function ConversationsView() {
           <>
             {/* Message header */}
             <div style={{
-              padding: '0.875rem 1.25rem', borderBottom: '1px solid rgba(255,255,255,0.06)',
+              padding: '0.875rem 1.25rem', borderBottom: '1px solid var(--border)',
               display: 'flex', alignItems: 'center', gap: '0.75rem',
             }}>
               <div style={{
@@ -286,10 +286,10 @@ export default function ConversationsView() {
                 {(selectedConv?.contactName || '?')[0].toUpperCase()}
               </div>
               <div>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#e8eaed' }}>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                   {selectedConv?.contactName || 'Unknown'}
                 </div>
-                <div style={{ fontSize: '0.65rem', color: '#5f6672' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>
                   {selectedConv?.type || 'SMS'}
                 </div>
               </div>
@@ -304,7 +304,7 @@ export default function ConversationsView() {
               )}
 
               {!loadingMessages && messages.length === 0 && (
-                <div style={{ textAlign: 'center', padding: '2rem', color: '#5f6672', fontSize: '0.8rem' }}>
+                <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                   No messages in this conversation yet.
                 </div>
               )}
@@ -318,8 +318,8 @@ export default function ConversationsView() {
                   }}>
                     <div style={{
                       maxWidth: '70%', padding: '0.625rem 0.875rem', borderRadius: 12,
-                      background: outbound ? 'rgba(126,217,87,0.12)' : 'rgba(255,255,255,0.04)',
-                      border: `1px solid ${outbound ? 'rgba(126,217,87,0.2)' : 'rgba(255,255,255,0.06)'}`,
+                      background: outbound ? 'rgba(126,217,87,0.12)' : 'var(--bg-card)',
+                      border: `1px solid ${outbound ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
                       borderBottomRightRadius: outbound ? 4 : 12,
                       borderBottomLeftRadius: outbound ? 12 : 4,
                     }}>
@@ -346,7 +346,7 @@ export default function ConversationsView() {
 
             {/* Send input */}
             <div style={{
-              padding: '0.75rem 1.25rem', borderTop: '1px solid rgba(255,255,255,0.06)',
+              padding: '0.75rem 1.25rem', borderTop: '1px solid var(--border)',
               display: 'flex', gap: '0.5rem',
             }}>
               <input
@@ -356,18 +356,18 @@ export default function ConversationsView() {
                 placeholder="Type a message..."
                 style={{
                   flex: 1, padding: '0.625rem 1rem', borderRadius: 8,
-                  border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)',
-                  color: '#e8eaed', fontSize: '0.8rem', fontFamily: 'inherit', outline: 'none',
+                  border: '1px solid var(--border)', background: 'var(--bg-card)',
+                  color: 'var(--text-primary)', fontSize: '0.8rem', fontFamily: 'inherit', outline: 'none',
                 }}
                 onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)' }}
-                onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
               />
               <button
                 onClick={handleSend}
                 disabled={!messageText.trim() || sending}
                 style={{
                   padding: '0.625rem 1.25rem', borderRadius: 8, border: 'none',
-                  background: messageText.trim() ? '#6EE05A' : 'rgba(255,255,255,0.05)',
+                  background: messageText.trim() ? '#6EE05A' : 'var(--bg-card)',
                   color: messageText.trim() ? '#0B0F19' : '#5f6672',
                   fontSize: '0.8rem', fontWeight: 700, cursor: messageText.trim() ? 'pointer' : 'default',
                   fontFamily: 'inherit', transition: 'all 0.15s ease',

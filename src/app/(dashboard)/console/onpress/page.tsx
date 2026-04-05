@@ -63,7 +63,7 @@ export default function OnPressPage() {
     <div style={{ padding: '32px 28px 96px', maxWidth: 900, margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, color: '#e8eaed', letterSpacing: '-0.02em', margin: 0 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', margin: 0 }}>
             OnPress
           </h1>
           <p style={{ fontSize: 14, color: '#7a8290', marginTop: 4 }}>
@@ -182,7 +182,7 @@ export default function OnPressPage() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <h3 style={{ fontSize: 15, fontWeight: 600, color: '#e8eaed', margin: 0 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                     {project.name}
                   </h3>
                   <p style={{ fontSize: 12, color: '#7A8290', margin: '4px 0 0' }}>

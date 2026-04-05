@@ -410,7 +410,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center', marginBottom: '1.5rem' }}>
-            <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 56, height: 56, borderRadius: 14, background: 'var(--bg-card)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <ServiceIcon id={service.id} size={32} />
             </div>
             <span style={{ fontSize: '1.5rem', color: 'var(--text-muted)', fontWeight: 300 }}>+</span>
@@ -610,7 +610,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
             {connected.map((s) => (
               <Link key={s.slug} href={`/integrations/${s.slug}`} style={{
                 display: 'flex', alignItems: 'center', gap: '0.375rem',
-                padding: '0.375rem 0.75rem', borderRadius: 9999, background: 'rgba(255,255,255,0.03)',
+                padding: '0.375rem 0.75rem', borderRadius: 9999, background: 'var(--bg-card)',
                 border: '1px solid var(--border)', textDecoration: 'none', fontSize: '0.75rem',
                 color: 'var(--text-secondary)', fontWeight: 600, transition: 'border-color 0.2s, color 0.2s',
               }}>

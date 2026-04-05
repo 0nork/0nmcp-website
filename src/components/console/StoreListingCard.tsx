@@ -127,7 +127,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
           style={{
             fontSize: 15,
             fontWeight: 700,
-            color: '#ffffff',
+            color: 'var(--text-primary)',
             marginBottom: 4,
             display: '-webkit-box',
             WebkitLineClamp: 2,

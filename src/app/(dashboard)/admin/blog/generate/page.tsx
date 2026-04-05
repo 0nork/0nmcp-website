@@ -587,7 +587,7 @@ export default function GeneratePage() {
                 marginBottom: 16,
                 padding: '8px 12px',
                 borderRadius: 8,
-                background: 'rgba(255,255,255,0.03)',
+                background: 'var(--bg-card)',
               }}
             >
               Meta: {previewPost.metaDescription}
@@ -612,7 +612,7 @@ export default function GeneratePage() {
 const btnGhostStyle: React.CSSProperties = {
   padding: '6px 14px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-secondary)',
   fontWeight: 600,

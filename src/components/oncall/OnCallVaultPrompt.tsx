@@ -119,7 +119,7 @@ export function OnCallVaultPrompt({ serviceKey, onSave, onDismiss }: OnCallVault
           className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-[12px] font-semibold cursor-pointer transition-opacity"
           style={{
             background: `linear-gradient(135deg, ${svc.c}, ${svc.c}cc)`,
-            color: '#fff',
+            color: 'var(--text-primary)',
             opacity: saving || !svc.f.some(f => values[f.k]?.trim()) ? 0.5 : 1,
           }}
         >

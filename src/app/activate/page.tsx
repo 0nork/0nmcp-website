@@ -159,8 +159,8 @@ function ActivateFlow() {
         width: '100%',
         maxWidth: '440px',
         padding: '2.5rem',
-        background: '#0B0F19',
-        border: '1px solid #1a1a2e',
+        background: 'var(--bg-primary)',
+        border: '1px solid var(--border)',
         borderRadius: '16px',
         boxShadow: '0 0 60px rgba(110, 224, 90, 0.05)',
       }}>
@@ -182,7 +182,7 @@ function ActivateFlow() {
         {/* Step: Enter Code */}
         {step === 'code' && (
           <>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', textAlign: 'center', marginBottom: '0.5rem' }}>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', textAlign: 'center', marginBottom: '0.5rem' }}>
               Activate your device
             </h1>
             <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginBottom: '1.5rem' }}>
@@ -218,7 +218,7 @@ function ActivateFlow() {
                     fontSize: '1.25rem',
                     fontWeight: 700,
                     fontFamily: 'var(--font-mono, monospace)',
-                    background: '#111827',
+                    background: 'var(--bg-card)',
                     border: '2px solid #1a1a2e',
                     borderRadius: '8px',
                     color: '#6EE05A',
@@ -238,7 +238,7 @@ function ActivateFlow() {
         {/* Step: Sign In or Sign Up */}
         {step === 'auth' && (
           <>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', textAlign: 'center', marginBottom: '0.5rem' }}>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', textAlign: 'center', marginBottom: '0.5rem' }}>
               {isSignup ? 'Create your 0n account' : 'Sign in to approve'}
             </h1>
             <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginBottom: '1.5rem' }}>
@@ -314,7 +314,7 @@ function ActivateFlow() {
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
             </div>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginBottom: '0.5rem' }}>Turning it 0n...</h1>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Turning it 0n...</h1>
             <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)' }}>Provisioning your account. Check your terminal.</p>
           </div>
         )}
@@ -336,8 +336,8 @@ function ActivateFlow() {
               Your device is connected. Return to your terminal to continue.
             </p>
             <Link href="/dashboard" style={{
-              display: 'inline-block', padding: '10px 24px', background: '#111827', border: '1px solid #1a1a2e',
-              borderRadius: '8px', color: '#fff', fontSize: '0.8125rem', fontWeight: 600, textDecoration: 'none',
+              display: 'inline-block', padding: '10px 24px', background: 'var(--bg-card)', border: '1px solid var(--border)',
+              borderRadius: '8px', color: 'var(--text-primary)', fontSize: '0.8125rem', fontWeight: 600, textDecoration: 'none',
             }}>
               Go to Console
             </Link>
@@ -357,10 +357,10 @@ function ActivateFlow() {
 
 const inputStyle: React.CSSProperties = {
   padding: '12px 14px',
-  background: '#111827',
-  border: '1px solid #1a1a2e',
+  background: 'var(--bg-card)',
+  border: '1px solid var(--border)',
   borderRadius: '8px',
-  color: '#fff',
+  color: 'var(--text-primary)',
   fontSize: '0.875rem',
   outline: 'none',
   width: '100%',

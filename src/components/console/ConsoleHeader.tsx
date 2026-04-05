@@ -128,7 +128,7 @@ export default function ConsoleHeader({ userEmail, userName, onMenuToggle, onLog
                   borderRadius: 'var(--jp-radius-xs)',
                   transition: 'background 0.15s',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
+                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-card)')}
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
                 onClick={() => setShowUserMenu(false)}
               >

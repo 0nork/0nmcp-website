@@ -272,7 +272,7 @@ export function FlowsOverlay({
                           style={{
                             backgroundColor: f.on
                               ? 'rgba(0,212,255,0.1)'
-                              : 'rgba(255,255,255,0.04)',
+                              : 'var(--bg-card)',
                           }}
                         >
                           <Zap
@@ -294,7 +294,7 @@ export function FlowsOverlay({
                           onClick={() => onToggle(f.id)}
                           className="flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-bold transition-colors cursor-pointer border-none"
                           style={{
-                            backgroundColor: f.on ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
+                            backgroundColor: f.on ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
                             color: f.on ? 'var(--accent)' : 'var(--text-muted)',
                           }}
                         >

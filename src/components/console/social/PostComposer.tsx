@@ -190,7 +190,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
               height: 32,
               borderRadius: 8,
               border: '1px solid var(--border)',
-              backgroundColor: 'rgba(255,255,255,0.04)',
+              backgroundColor: 'var(--bg-card)',
               color: 'var(--text-muted)',
               cursor: 'pointer',
               display: 'flex',
@@ -200,8 +200,8 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
               lineHeight: 1,
               transition: 'background-color 0.15s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)')}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--border)')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-card)')}
             aria-label="Close composer"
           >
             &times;
@@ -220,7 +220,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
             padding: 16,
             borderRadius: 12,
             border: '1px solid var(--border)',
-            backgroundColor: 'rgba(255,255,255,0.03)',
+            backgroundColor: 'var(--bg-card)',
             color: 'var(--text-primary)',
             fontFamily: 'var(--font-mono)',
             fontSize: 14,
@@ -355,7 +355,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
                       : '1px solid var(--border)',
                     backgroundColor: selected
                       ? `${plat.color}18`
-                      : 'rgba(255,255,255,0.03)',
+                      : 'var(--bg-card)',
                     color: selected ? '#fff' : 'var(--text-muted)',
                     fontSize: 13,
                     fontWeight: 500,
@@ -496,7 +496,7 @@ export function PostComposer({ open, onClose, onPost, isPosting, connectedPlatfo
             border: 'none',
             background:
               !content.trim() || selectedPlatforms.length === 0 || isPosting
-                ? 'rgba(255,255,255,0.06)'
+                ? 'var(--border)'
                 : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
             color:
               !content.trim() || selectedPlatforms.length === 0 || isPosting

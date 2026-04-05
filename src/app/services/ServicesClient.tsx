@@ -717,7 +717,7 @@ export function ServicesClient({
           width: 100%;
           height: 3px;
           border-radius: 2px;
-          background: rgba(255,255,255,0.04);
+          background: var(--bg-card);
           margin-top: 0.5rem;
           overflow: hidden;
         }
@@ -777,7 +777,7 @@ export function ServicesClient({
         .services-search-input {
           width: 100%;
           padding: 0.5rem 0.75rem 0.5rem 2.25rem;
-          background: rgba(255,255,255,0.03);
+          background: var(--bg-card);
           border: 1px solid var(--border);
           border-radius: 0.5rem;
           color: var(--text-primary);
@@ -867,7 +867,7 @@ export function ServicesClient({
           align-items: center;
           justify-content: center;
           border-radius: 0.75rem;
-          background: rgba(255,255,255,0.03);
+          background: var(--bg-card);
           border: 1px solid var(--border);
           flex-shrink: 0;
         }
@@ -947,7 +947,7 @@ export function ServicesClient({
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(255,255,255,0.03);
+          background: var(--bg-card);
           border: 1px solid var(--border);
           flex-shrink: 0;
         }

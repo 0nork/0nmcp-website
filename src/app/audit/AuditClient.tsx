@@ -49,7 +49,7 @@ export default function AuditClient() {
     : <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#ef4444" fillOpacity="0.12"/><path d="M6 6l4 4M10 6l-4 4" stroke="#ef4444" strokeWidth="1.5" strokeLinecap="round"/></svg>
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8f9fa', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-secondary)', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
       {/* ── Hero ── */}
       <section style={{
         textAlign: 'center', padding: '6rem 1.5rem 3rem',
@@ -74,7 +74,7 @@ export default function AuditClient() {
           </div>
 
           <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: '#111827',
+            fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: 'var(--text-primary)',
             lineHeight: 1.1, margin: '0 0 1rem', letterSpacing: '-0.03em',
           }}>
             How does your<br />website <span style={{ color: '#6EE05A' }}>score</span>?
@@ -89,7 +89,7 @@ export default function AuditClient() {
           <div style={{
             display: 'flex', gap: 8, maxWidth: 520, margin: '0 auto',
             padding: 6, borderRadius: 14,
-            background: '#fff', border: '1px solid #e5e7eb',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
             boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
           }}>
             <input
@@ -99,7 +99,7 @@ export default function AuditClient() {
               placeholder="Enter any website URL..."
               style={{
                 flex: 1, padding: '14px 18px', borderRadius: 10, border: 'none',
-                fontSize: '0.9375rem', color: '#111827', outline: 'none', background: 'transparent',
+                fontSize: '0.9375rem', color: 'var(--text-primary)', outline: 'none', background: 'transparent',
                 fontFamily: 'inherit',
               }}
             />
@@ -119,7 +119,7 @@ export default function AuditClient() {
             <p style={{ fontSize: '0.8125rem', color: '#ef4444', marginTop: 12 }}>{error}</p>
           )}
 
-          <p style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: 12 }}>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 12 }}>
             No signup required. Powered by 0nMCP.
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function AuditClient() {
         <div ref={resultRef} style={{ maxWidth: 800, margin: '0 auto', padding: '0 1.5rem 4rem' }}>
           {/* Grade Card */}
           <div style={{
-            background: '#fff', borderRadius: 18, border: '1px solid #e5e7eb',
+            background: 'var(--bg-card)', borderRadius: 18, border: '1px solid var(--border)',
             padding: '2rem', marginBottom: '1.5rem', textAlign: 'center',
             boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
           }}>
@@ -149,8 +149,8 @@ export default function AuditClient() {
               </span>
             </div>
 
-            <div style={{ fontSize: '2rem', fontWeight: 800, color: '#111827', marginBottom: 4 }}>
-              {result.score}<span style={{ fontSize: '1rem', color: '#9ca3af', fontWeight: 400 }}>/100</span>
+            <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: 4 }}>
+              {result.score}<span style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: 400 }}>/100</span>
             </div>
             <div style={{ fontSize: '0.8125rem', color: '#6b7280', marginBottom: '1rem' }}>
               {result.url} &middot; {(result.loadTimeMs / 1000).toFixed(2)}s load time
@@ -178,14 +178,14 @@ export default function AuditClient() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '2rem' }}>
             {result.checks.map(check => (
               <div key={check.id} style={{
-                background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb',
+                background: 'var(--bg-card)', borderRadius: 12, border: '1px solid var(--border)',
                 padding: '1rem 1.25rem', display: 'flex', alignItems: 'flex-start', gap: 12,
                 transition: 'all 0.2s',
               }}>
                 <div style={{ marginTop: 2, flexShrink: 0 }}>{statusIcon(check.status)}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#111827' }}>{check.name}</span>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>{check.name}</span>
                     <span style={{
                       fontSize: '0.75rem', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace",
                       color: check.status === 'pass' ? '#6EE05A' : check.status === 'warn' ? '#f59e0b' : '#ef4444',
@@ -197,10 +197,10 @@ export default function AuditClient() {
                   {check.fix && (
                     <div style={{
                       marginTop: 8, padding: '8px 12px', borderRadius: 8,
-                      background: '#fafafa', border: '1px solid #f0f0f0',
-                      fontSize: '0.75rem', color: '#374151', lineHeight: 1.5,
+                      background: 'var(--bg-secondary)', border: '1px solid #f0f0f0',
+                      fontSize: '0.75rem', color: 'var(--text-primary)', lineHeight: 1.5,
                     }}>
-                      <span style={{ fontWeight: 700, color: '#111827' }}>Fix: </span>{check.fix}
+                      <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Fix: </span>{check.fix}
                     </div>
                   )}
                 </div>
@@ -211,10 +211,10 @@ export default function AuditClient() {
           {/* Action Items */}
           {result.actionItems.length > 0 && (
             <div style={{
-              background: '#fff', borderRadius: 14, border: '1px solid #e5e7eb',
+              background: 'var(--bg-card)', borderRadius: 14, border: '1px solid var(--border)',
               padding: '1.5rem', marginBottom: '2rem',
             }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#111827', margin: '0 0 1rem' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 1rem' }}>
                 Priority Actions
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -230,7 +230,7 @@ export default function AuditClient() {
                       {i + 1}
                     </span>
                     <div>
-                      <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#111827' }}>{item.check}</div>
+                      <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>{item.check}</div>
                       <div style={{ fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.5 }}>{item.action}</div>
                     </div>
                   </div>
@@ -245,7 +245,7 @@ export default function AuditClient() {
             borderRadius: 16, padding: '2rem', textAlign: 'center',
             border: '1px solid rgba(110,224,90,0.15)',
           }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#E8EAED', margin: '0 0 0.5rem' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 0.5rem' }}>
               Want the full <span style={{ color: '#6EE05A' }}>domain report</span>?
             </h3>
             <p style={{ fontSize: '0.875rem', color: '#7A8290', lineHeight: 1.6, margin: '0 0 1.25rem', maxWidth: 400, marginLeft: 'auto', marginRight: 'auto' }}>
@@ -260,8 +260,8 @@ export default function AuditClient() {
                 Get Full Report — $14.99
               </Link>
               <Link href="/start" style={{
-                padding: '12px 28px', borderRadius: 10, background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.1)', color: '#E8EAED',
+                padding: '12px 28px', borderRadius: 10, background: 'var(--border)',
+                border: '1px solid var(--border)', color: 'var(--text-primary)',
                 fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none',
               }}>
                 Learn More
@@ -288,11 +288,11 @@ export default function AuditClient() {
               { name: 'HTTPS', desc: 'SSL certificate verification' },
             ].map(f => (
               <div key={f.name} style={{
-                background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb',
+                background: 'var(--bg-card)', borderRadius: 12, border: '1px solid var(--border)',
                 padding: '1rem 1.125rem',
               }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#111827', marginBottom: 4 }}>{f.name}</div>
-                <div style={{ fontSize: '0.75rem', color: '#9ca3af', lineHeight: 1.5 }}>{f.desc}</div>
+                <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>{f.name}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{f.desc}</div>
               </div>
             ))}
           </div>

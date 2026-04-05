@@ -421,7 +421,7 @@ export default function ContentDashboard() {
                 style={{
                   padding: '12px 16px',
                   borderRadius: 12,
-                  background: selectedItem?.id === item.id ? 'rgba(255,255,255,0.06)' : 'var(--bg-card)',
+                  background: selectedItem?.id === item.id ? 'var(--border)' : 'var(--bg-card)',
                   border: `1px solid ${selectedItem?.id === item.id ? 'var(--accent)' : 'var(--border)'}`,
                   cursor: 'pointer',
                   transition: 'all 0.15s',

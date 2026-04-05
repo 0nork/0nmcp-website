@@ -149,7 +149,7 @@ export default function CourseDetailPage() {
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
               style={{
-                background: 'rgba(255,255,255,0.05)',
+                background: 'var(--bg-card)',
                 color: 'var(--text-muted)',
               }}
             >

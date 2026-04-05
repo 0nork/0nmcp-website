@@ -52,7 +52,7 @@ export default function SocialPage() {
           ].map(cmd => (
             <span key={cmd} style={{
               fontSize: '0.7rem', padding: '0.375rem 0.75rem', borderRadius: '2rem',
-              background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
               color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)',
             }}>{cmd}</span>
           ))}

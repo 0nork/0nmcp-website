@@ -26,7 +26,7 @@ function SuccessContent() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0B0F19',
+      background: 'var(--bg-primary)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -66,8 +66,8 @@ function SuccessContent() {
                 Go to Dashboard
               </Link>
               <Link href="/learn" style={{
-                padding: '12px 24px', background: '#111827', color: '#fff',
-                border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px',
+                padding: '12px 24px', background: 'var(--bg-card)', color: 'var(--text-primary)',
+                border: '1px solid var(--border)', borderRadius: '8px',
                 fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none',
               }}>
                 Start Learning
@@ -78,15 +78,15 @@ function SuccessContent() {
 
         {status === 'error' && (
           <>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', marginBottom: '0.75rem' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
               Something went wrong
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.4)', marginBottom: '1.5rem' }}>
               Your payment may have been processed. Check your email for confirmation.
             </p>
             <Link href="/dashboard" style={{
-              padding: '12px 24px', background: '#111827', color: '#fff',
-              border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px',
+              padding: '12px 24px', background: 'var(--bg-card)', color: 'var(--text-primary)',
+              border: '1px solid var(--border)', borderRadius: '8px',
               fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none',
             }}>
               Go to Dashboard

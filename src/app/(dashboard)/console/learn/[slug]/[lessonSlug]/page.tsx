@@ -168,7 +168,7 @@ export default function ConsoleLessonPage() {
           <div className="text-[10px] mt-1" style={{ color: 'var(--jp-text-muted)' }}>
             {completedCount} of {allLessons.length} complete
           </div>
-          <div className="w-full h-1 rounded-full mt-2 overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <div className="w-full h-1 rounded-full mt-2 overflow-hidden" style={{ background: 'var(--border)' }}>
             <div
               className="h-full rounded-full transition-all"
               style={{
@@ -193,7 +193,7 @@ export default function ConsoleLessonPage() {
               <div
                 className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
                 style={{
-                  background: l.completed ? 'rgba(126,217,87,0.15)' : l.slug === lessonSlug ? 'var(--jp-green-glow)' : 'rgba(255,255,255,0.04)',
+                  background: l.completed ? 'rgba(126,217,87,0.15)' : l.slug === lessonSlug ? 'var(--jp-green-glow)' : 'var(--bg-card)',
                   color: l.completed ? '#6EE05A' : l.slug === lessonSlug ? 'var(--jp-green)' : 'var(--jp-text-muted)',
                 }}
               >
@@ -271,7 +271,7 @@ export default function ConsoleLessonPage() {
                   <div
                     className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0"
                     style={{
-                      background: l.completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.04)',
+                      background: l.completed ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
                       color: l.completed ? '#6EE05A' : 'var(--jp-text-muted)',
                     }}
                   >
@@ -422,7 +422,7 @@ export default function ConsoleLessonPage() {
 function markdownToHtml(md: string): string {
   let html = md
     .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre style="background:var(--jp-bg);border:1px solid var(--jp-border);border-radius:8px;padding:12px;overflow-x:auto;font-family:var(--font-mono);font-size:12px;line-height:1.5;margin:12px 0"><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.06);padding:2px 5px;border-radius:3px;font-family:var(--font-mono);font-size:12px">$1</code>')
+    .replace(/`([^`]+)`/g, '<code style="background:var(--border);padding:2px 5px;border-radius:3px;font-family:var(--font-mono);font-size:12px">$1</code>')
     .replace(/^### (.+)$/gm, '<h3 style="font-size:16px;font-weight:700;margin:20px 0 8px">$1</h3>')
     .replace(/^## (.+)$/gm, '<h2 style="font-size:18px;font-weight:700;margin:24px 0 10px">$1</h2>')
     .replace(/^# (.+)$/gm, '<h1 style="font-size:22px;font-weight:700;margin:28px 0 12px">$1</h1>')

@@ -206,19 +206,19 @@ function LocationsTab() {
 
   const inputStyle = {
     width: '100%', padding: '10px 14px', borderRadius: 8,
-    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-    color: '#e8eaed', fontSize: 13, fontFamily: 'inherit', outline: 'none',
+    background: 'var(--bg-card)', border: '1px solid var(--border)',
+    color: 'var(--text-primary)', fontSize: 13, fontFamily: 'inherit', outline: 'none',
   } as const
 
   const cardS = {
     padding: '1.25rem', borderRadius: 12,
-    background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)',
+    background: 'rgba(255,255,255,0.025)', border: '1px solid var(--border)',
   } as const
 
   return (
     <div style={cardS}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: '#e8eaed', margin: 0 }}>CRM Locations</h2>
+        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>CRM Locations</h2>
         <button
           onClick={() => { setAdding(true); setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }}
           style={{
@@ -243,7 +243,7 @@ function LocationsTab() {
       )}
 
       {loading ? (
-        <div style={{ color: '#5f6672', fontSize: 13, padding: 20, textAlign: 'center' }}>Loading locations...</div>
+        <div style={{ color: 'var(--text-muted)', fontSize: 13, padding: 20, textAlign: 'center' }}>Loading locations...</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {locations.map(loc => (
@@ -251,7 +251,7 @@ function LocationsTab() {
               display: 'flex', alignItems: 'center', gap: 12,
               padding: '12px 16px', borderRadius: 10,
               background: loc.isActive ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
-              border: `1px solid ${loc.isActive ? 'rgba(126,217,87,0.2)' : 'rgba(255,255,255,0.06)'}`,
+              border: `1px solid ${loc.isActive ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
             }}>
               {/* Status dot */}
               <div style={{
@@ -269,7 +269,7 @@ function LocationsTab() {
                     <button onClick={() => handleUpdate(loc)} disabled={saving} style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: '#6EE05A', color: '#080B0F', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
                       {saving ? '...' : 'Save'}
                     </button>
-                    <button onClick={() => { setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '6px 14px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#7A8290', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    <button onClick={() => { setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '6px 14px', borderRadius: 6, border: '1px solid var(--border)', background: 'transparent', color: '#7A8290', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
                       Cancel
                     </button>
                   </div>
@@ -277,11 +277,11 @@ function LocationsTab() {
               ) : (
                 <>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#e8eaed' }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
                       {loc.name}
                       {loc.isActive && <span style={{ marginLeft: 8, fontSize: 9, padding: '2px 6px', borderRadius: 4, background: 'rgba(126,217,87,0.12)', color: '#6EE05A', fontWeight: 700 }}>ACTIVE</span>}
                     </div>
-                    <div style={{ fontSize: 11, color: '#5f6672', fontFamily: "'JetBrains Mono', monospace", marginTop: 2 }}>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace", marginTop: 2 }}>
                       {loc.locationId}
                     </div>
                   </div>
@@ -291,7 +291,7 @@ function LocationsTab() {
                         Set Active
                       </button>
                     )}
-                    <button onClick={() => { setEditingId(loc.id); setForm({ name: loc.name, locationId: loc.locationId, pitToken: loc.pitToken }) }} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#7A8290', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    <button onClick={() => { setEditingId(loc.id); setForm({ name: loc.name, locationId: loc.locationId, pitToken: loc.pitToken }) }} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'transparent', color: '#7A8290', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
                       Edit
                     </button>
                     <button onClick={() => handleRemove(loc.id)} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(239,68,68,0.2)', background: 'transparent', color: '#ef4444', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -304,7 +304,7 @@ function LocationsTab() {
           ))}
 
           {locations.length === 0 && !adding && (
-            <div style={{ textAlign: 'center', padding: 24, color: '#5f6672', fontSize: 13 }}>
+            <div style={{ textAlign: 'center', padding: 24, color: 'var(--text-muted)', fontSize: 13 }}>
               No locations connected. Add your first CRM location.
             </div>
           )}
@@ -314,7 +314,7 @@ function LocationsTab() {
       {/* Add Location Form */}
       {adding && (
         <div style={{ marginTop: 12, padding: '16px', borderRadius: 10, background: 'rgba(126,217,87,0.03)', border: '1px solid rgba(126,217,87,0.12)' }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#e8eaed', marginBottom: 12 }}>Connect New Location</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 12 }}>Connect New Location</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div>
               <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#7A8290', marginBottom: 4 }}>Location Name *</label>
@@ -327,7 +327,7 @@ function LocationsTab() {
             <div>
               <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#7A8290', marginBottom: 4 }}>PIT Token (Private Integration Token)</label>
               <input value={form.pitToken} onChange={e => setForm(f => ({ ...f, pitToken: e.target.value }))} placeholder="pit-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" style={{ ...inputStyle, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }} type="password" />
-              <div style={{ fontSize: 10, color: '#5f6672', marginTop: 4 }}>
+              <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4 }}>
                 Find this in your CRM under Settings &gt; Business Profile &gt; Private Integrations
               </div>
             </div>
@@ -335,7 +335,7 @@ function LocationsTab() {
               <button onClick={handleAdd} disabled={saving} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#6EE05A', color: '#080B0F', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
                 {saving ? 'Connecting...' : 'Connect Location'}
               </button>
-              <button onClick={() => { setAdding(false); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#7A8290', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+              <button onClick={() => { setAdding(false); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid var(--border)', background: 'transparent', color: '#7A8290', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
                 Cancel
               </button>
             </div>
@@ -550,7 +550,7 @@ export function AccountView() {
     padding: '10px 14px',
     borderRadius: 10,
     border: '1px solid var(--border)',
-    backgroundColor: 'rgba(255,255,255,0.03)',
+    backgroundColor: 'var(--bg-card)',
     color: 'var(--text-primary)',
     fontSize: 14,
     fontFamily: 'inherit',
@@ -720,7 +720,7 @@ export function AccountView() {
                   style={{
                     padding: '10px 24px', borderRadius: 10, border: 'none',
                     background: 'linear-gradient(135deg, #ff6b35, #cc5529)',
-                    color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                    color: 'var(--text-primary)', fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   }}
                 >
                   Upgrade to Agency
@@ -741,7 +741,7 @@ export function AccountView() {
                   style={{
                     padding: '10px 24px', borderRadius: 10, border: 'none',
                     background: 'linear-gradient(135deg, #ff6b35, #cc5529)',
-                    color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                    color: 'var(--text-primary)', fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   }}
                 >
                   Apply as Contributor
@@ -914,7 +914,7 @@ export function AccountView() {
           const rawPlan = billing?.plan || 'free'
           const planKey = LEGACY_PLAN_MAP[rawPlan] || rawPlan
           const planColors: Record<string, { bg: string; color: string; border: string }> = {
-            free: { bg: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', border: 'var(--border)' },
+            free: { bg: 'var(--border)', color: 'var(--text-muted)', border: 'var(--border)' },
             creator: { bg: 'rgba(126,217,87,0.15)', color: '#6EE05A', border: 'rgba(126,217,87,0.3)' },
             operator: { bg: 'rgba(0,212,255,0.15)', color: '#00d4ff', border: 'rgba(0,212,255,0.3)' },
             agency: { bg: 'rgba(255,107,53,0.15)', color: '#ff6b35', border: 'rgba(255,107,53,0.3)' },
@@ -942,7 +942,7 @@ export function AccountView() {
               {/* Seats & Locations */}
               {td && planKey !== 'owner' && (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                       <div style={{ fontSize: 22, fontWeight: 700, color: c.color, fontFamily: 'var(--font-mono)' }}>
                         {billing?.activeSeats ?? 0}/{td.maxUsers}
@@ -955,7 +955,7 @@ export function AccountView() {
                       </div>
                     )}
                   </div>
-                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                       <div style={{ fontSize: 22, fontWeight: 700, color: c.color, fontFamily: 'var(--font-mono)' }}>
                         {billing?.activeLocations ?? 0}/{td.maxLocations}
@@ -983,7 +983,7 @@ export function AccountView() {
           return (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
               {planData.features.map((f) => (
-                <span key={f} style={{ fontSize: 11, color: 'var(--text-muted)', padding: '3px 8px', borderRadius: 6, backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)' }}>
+                <span key={f} style={{ fontSize: 11, color: 'var(--text-muted)', padding: '3px 8px', borderRadius: 6, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
                   {f}
                 </span>
               ))}
@@ -1019,13 +1019,13 @@ export function AccountView() {
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginBottom: 16 }}>
           <div style={{ ...labelStyle, marginBottom: 12 }}>Usage This Period</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
                 {billing?.runsBalance ?? 0}
               </div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Runs Balance</div>
             </div>
-            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
                 {billing?.executionsThisMonth ?? 0}
               </div>
@@ -1038,7 +1038,7 @@ export function AccountView() {
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginBottom: 16 }}>
           <div style={{ ...labelStyle, marginBottom: 12 }}>Payment Method</div>
           {billing?.paymentMethod ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
               <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>
                 {billing.paymentMethod.card_brand || 'Card'}
               </span>
@@ -1125,7 +1125,7 @@ export function AccountView() {
           </div>
           <div>
             <div style={labelStyle}>Theme</div>
-            <div style={{ padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)', backgroundColor: 'rgba(255,255,255,0.03)', color: 'var(--text-muted)', fontSize: 14 }}>
+            <div style={{ padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)', backgroundColor: 'var(--bg-card)', color: 'var(--text-muted)', fontSize: 14 }}>
               Dark (only theme)
             </div>
           </div>

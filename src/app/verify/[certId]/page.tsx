@@ -98,7 +98,7 @@ export default async function VerifyCertPage({ params }: Props) {
           style={{
             maxWidth: 600,
             width: '100%',
-            background: '#fff',
+            background: 'var(--bg-card)',
             borderRadius: 16,
             boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
             overflow: 'hidden',
@@ -195,7 +195,7 @@ export default async function VerifyCertPage({ params }: Props) {
               <p
                 style={{
                   fontSize: 18,
-                  color: '#334155',
+                  color: 'var(--text-muted)',
                   textAlign: 'center',
                   margin: '0.25rem 0 1.5rem',
                 }}
@@ -227,11 +227,11 @@ export default async function VerifyCertPage({ params }: Props) {
               <p
                 style={{
                   fontSize: 14,
-                  color: '#64748b',
+                  color: 'var(--text-muted)',
                   lineHeight: 1.6,
                   marginTop: '1.5rem',
                   padding: '1rem',
-                  background: '#f8fafc',
+                  background: 'var(--bg-secondary)',
                   borderRadius: 8,
                   borderLeft: '3px solid #6EE05A',
                 }}
@@ -253,7 +253,7 @@ export default async function VerifyCertPage({ params }: Props) {
               gap: '0.75rem',
             }}
           >
-            <p style={{ fontSize: 12, color: '#94a3b8', margin: 0 }}>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>
               This certification was issued by 0nMCP by RocketOpp
             </p>
             <a
@@ -286,7 +286,7 @@ function DetailCard({
   return (
     <div
       style={{
-        background: '#f8fafc',
+        background: 'var(--bg-secondary)',
         borderRadius: 8,
         padding: '0.75rem 1rem',
       }}
@@ -295,7 +295,7 @@ function DetailCard({
         style={{
           fontSize: 11,
           fontWeight: 600,
-          color: '#94a3b8',
+          color: 'var(--text-muted)',
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
           marginBottom: 4,
@@ -307,7 +307,7 @@ function DetailCard({
         style={{
           fontSize: 14,
           fontWeight: 600,
-          color: '#1e293b',
+          color: 'var(--text-primary)',
           fontFamily: mono ? "'JetBrains Mono', monospace" : 'inherit',
           wordBreak: 'break-all',
         }}

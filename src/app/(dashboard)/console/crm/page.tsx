@@ -51,10 +51,10 @@ interface CRMData {
 
 const COLORS = {
   bg: '#0B0F19',
-  card: 'rgba(255,255,255,0.03)',
+  card: 'var(--bg-card)',
   cardHover: 'rgba(255,255,255,0.055)',
-  border: 'rgba(255,255,255,0.06)',
-  borderLight: 'rgba(255,255,255,0.1)',
+  border: 'var(--border)',
+  borderLight: 'var(--border)',
   accent: '#6EE05A',
   accentDim: 'rgba(126,217,87,0.12)',
   cyan: '#00d4ff',
@@ -424,7 +424,7 @@ export default function CRMPage() {
                         display: 'flex', alignItems: 'center', gap: '0.75rem',
                         padding: '0.6rem 0.625rem', borderRadius: 8,
                         cursor: 'pointer',
-                        background: isExpanded ? 'rgba(255,255,255,0.04)' : 'transparent',
+                        background: isExpanded ? 'var(--bg-card)' : 'transparent',
                         transition: 'background 0.15s',
                       }}
                       onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.background = 'rgba(255,255,255,0.025)' }}
@@ -758,7 +758,7 @@ export default function CRMPage() {
                   cursor: 'pointer',
                   transition: 'background 0.15s, border-color 0.15s',
                 }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = COLORS.borderLight }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.borderColor = COLORS.borderLight }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = COLORS.border }}
                 >
                   <div style={{

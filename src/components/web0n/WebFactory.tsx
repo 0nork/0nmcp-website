@@ -57,7 +57,7 @@ export default function WebFactory() {
         .w0n-mk-swatch:nth-child(2){animation:w0nC2 4s ease infinite}
         .w0n-mk-swatch:nth-child(3){animation:w0nC3 4s ease infinite}
         .w0n-mk-cols{display:flex;gap:4px}
-        .w0n-mk-col{flex:1;height:22px;border-radius:3px;background:rgba(255,255,255,0.06)}
+        .w0n-mk-col{flex:1;height:22px;border-radius:3px;background:var(--border)}
 
         /* === BUILD MOCKUP === */
         .w0n-mk-build{padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:0.5rem;line-height:1.7;display:flex;flex-direction:column;gap:1px}
@@ -80,7 +80,7 @@ export default function WebFactory() {
 
         /* === LAUNCH MOCKUP === */
         .w0n-mk-launch{position:relative;height:100%}
-        .w0n-mk-bbar{height:16px;background:#1a1a24;display:flex;align-items:center;padding:0 6px;gap:3px;border-bottom:1px solid rgba(255,255,255,0.06)}
+        .w0n-mk-bbar{height:16px;background:#1a1a24;display:flex;align-items:center;padding:0 6px;gap:3px;border-bottom:1px solid var(--border)}
         .w0n-mk-bdot{width:5px;height:5px;border-radius:50%}
         .w0n-mk-burl{font-size:0.45rem;color:rgba(255,255,255,0.3);margin-left:4px;flex:1}
         .w0n-mk-live{font-size:0.4rem;font-weight:800;color:#6EE05A;letter-spacing:0.05em;padding:1px 5px;border-radius:3px;background:rgba(126,217,87,0.15);animation:w0nPulse 2s ease-in-out infinite}

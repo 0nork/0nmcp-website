@@ -64,7 +64,7 @@ export default function LeadJourney() {
         .lj-mk-cal-mo{font-size:0.45rem;font-weight:700;color:rgba(167,139,250,0.7)}
         .lj-mk-cal-nav{font-size:0.5rem;color:rgba(167,139,250,0.4)}
         .lj-mk-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-        .lj-mk-cal-day{width:100%;aspect-ratio:1;border-radius:2px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-size:0.35rem;color:rgba(255,255,255,0.25)}
+        .lj-mk-cal-day{width:100%;aspect-ratio:1;border-radius:2px;background:var(--bg-card);display:flex;align-items:center;justify-content:center;font-size:0.35rem;color:rgba(255,255,255,0.25)}
         .lj-mk-cal-day.lj-active{background:rgba(167,139,250,0.3);color:#a78bfa;font-weight:700;animation:ljCalPick 4s ease-in-out infinite;border:1px solid rgba(167,139,250,0.4)}
         .lj-mk-cal-day.lj-past{opacity:0.3}
         .lj-mk-time{margin-top:4px;display:flex;gap:3px;justify-content:center}
@@ -160,8 +160,8 @@ export default function LeadJourney() {
           {/* Arrow 1 */}
           <div className="lj-arr">
             <div className="lj-dot" style={{ background: '#6EE05A' }} />
-            <div className="lj-dot" style={{ background: '#00d4ff' }} />
-            <div className="lj-dot" style={{ background: '#00d4ff' }} />
+            <div className="lj-dot" style={{ background: 'var(--bg-primary)' }} />
+            <div className="lj-dot" style={{ background: 'var(--bg-primary)' }} />
           </div>
 
           {/* EMAIL */}
@@ -184,7 +184,7 @@ export default function LeadJourney() {
 
           {/* Arrow 2 */}
           <div className="lj-arr">
-            <div className="lj-dot" style={{ background: '#00d4ff' }} />
+            <div className="lj-dot" style={{ background: 'var(--bg-primary)' }} />
             <div className="lj-dot" style={{ background: '#a78bfa' }} />
             <div className="lj-dot" style={{ background: '#a78bfa' }} />
           </div>

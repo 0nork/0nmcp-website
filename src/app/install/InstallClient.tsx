@@ -241,8 +241,8 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
               key={p.id}
               onClick={() => setSelected(p.id)}
               style={{
-                background: selected === p.id ? `${p.color}15` : 'rgba(255,255,255,0.03)',
-                border: `1px solid ${selected === p.id ? p.color + '60' : 'rgba(255,255,255,0.08)'}`,
+                background: selected === p.id ? `${p.color}15` : 'var(--bg-card)',
+                border: `1px solid ${selected === p.id ? p.color + '60' : 'var(--border)'}`,
                 borderRadius: 12, padding: '1.5rem', cursor: 'pointer',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem',
                 transition: 'all 0.2s ease',
@@ -315,8 +315,8 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
                   onClick={() => handleCopy(platform.config)}
                   style={{
                     padding: '3px 10px', borderRadius: 4,
-                    background: copied ? 'rgba(126,217,87,0.2)' : 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: copied ? 'rgba(126,217,87,0.2)' : 'var(--bg-card)',
+                    border: '1px solid var(--border)',
                     color: copied ? '#7ed957' : '#94a3b8',
                     fontSize: '0.65rem', fontWeight: 600, cursor: 'pointer',
                   }}
@@ -362,7 +362,7 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
 
             {/* Success CTA */}
             <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-              <p style={{ color: '#475569', fontSize: '0.8rem', marginBottom: '1rem' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '1rem' }}>
                 After installing, restart your app and try: &quot;Send an email with SendGrid&quot;
               </p>
               <Link href="/dashboard" style={{
@@ -377,7 +377,7 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
 
       {/* Bottom stats */}
       {!platform && (
-        <section style={{ textAlign: 'center', padding: '3rem 1rem', color: '#334155', fontSize: '0.8rem' }}>
+        <section style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
           <p>npm install 0nmcp &nbsp;|&nbsp; MIT Licensed &nbsp;|&nbsp; 5 Patents Pending</p>
         </section>
       )}

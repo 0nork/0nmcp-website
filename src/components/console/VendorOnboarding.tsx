@@ -85,7 +85,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
     padding: '10px 14px',
     borderRadius: 10,
     border: '1px solid var(--border)',
-    backgroundColor: 'rgba(255,255,255,0.03)',
+    backgroundColor: 'var(--bg-card)',
     color: 'var(--text-primary)',
     fontSize: 14,
     fontFamily: 'inherit',
@@ -103,7 +103,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
             <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{
                 width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backgroundColor: isDone ? 'rgba(126,217,87,0.15)' : isActive ? 'rgba(255,107,53,0.15)' : 'rgba(255,255,255,0.04)',
+                backgroundColor: isDone ? 'rgba(126,217,87,0.15)' : isActive ? 'rgba(255,107,53,0.15)' : 'var(--bg-card)',
                 border: `1px solid ${isDone ? 'rgba(126,217,87,0.3)' : isActive ? 'rgba(255,107,53,0.3)' : 'var(--border)'}`,
               }}>
                 {isDone ? (
@@ -212,7 +212,7 @@ export function VendorOnboarding({ onComplete, onSkip }: VendorOnboardingProps) 
             </p>
           </div>
 
-          <div style={{ padding: 16, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', marginBottom: 20 }}>
+          <div style={{ padding: 16, borderRadius: 12, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)', marginBottom: 20 }}>
             <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               What happens next
             </div>

@@ -110,7 +110,7 @@ export default function WorkflowGeneratorPage() {
 
   return (
     <div style={{ padding: '24px 28px 96px', maxWidth: 1000, margin: '0 auto' }}>
-      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#e8eaed', letterSpacing: '-0.02em', margin: 0 }}>
+      <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', margin: 0 }}>
         Workflow Generator
       </h1>
       <p style={{ fontSize: 14, color: '#7a8290', marginTop: 6, marginBottom: 24 }}>
@@ -125,7 +125,7 @@ export default function WorkflowGeneratorPage() {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#e8eaed' }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>
               Use with ChatGPT
             </div>
             <div style={{ fontSize: 12, color: '#7A8290', marginTop: 2 }}>
@@ -150,7 +150,7 @@ export default function WorkflowGeneratorPage() {
             {copiedPrompt ? 'Copied!' : 'Copy ChatGPT Prompt'}
           </button>
         </div>
-        <div style={{ fontSize: 11, color: '#5f6672', lineHeight: 1.5 }}>
+        <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>
           Paste the prompt as a system message in ChatGPT, then describe your workflow.
           ChatGPT will generate a valid .0n file you can import here.
         </div>
@@ -160,9 +160,9 @@ export default function WorkflowGeneratorPage() {
       <div style={{
         padding: '20px', borderRadius: 14, marginBottom: 20,
         background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.06)',
+        border: '1px solid var(--border)',
       }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#e8eaed', marginBottom: 12 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
           Or generate here
         </div>
         <textarea
@@ -172,8 +172,8 @@ export default function WorkflowGeneratorPage() {
           rows={3}
           style={{
             width: '100%', padding: '12px 16px', borderRadius: 10,
-            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-            color: '#e8eaed', fontSize: 14, fontFamily: 'inherit', outline: 'none',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
+            color: 'var(--text-primary)', fontSize: 14, fontFamily: 'inherit', outline: 'none',
             resize: 'vertical', lineHeight: 1.5,
           }}
         />
@@ -203,16 +203,16 @@ export default function WorkflowGeneratorPage() {
               onClick={() => handleLoadExample(ex.workflow)}
               style={{
                 padding: '10px 16px', borderRadius: 10,
-                background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
-                color: '#e8eaed', fontSize: 12, fontWeight: 500,
+                background: 'var(--bg-card)', border: '1px solid var(--border)',
+                color: 'var(--text-primary)', fontSize: 12, fontWeight: 500,
                 cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left',
                 transition: 'all 0.15s', flex: '1 1 200px',
               }}
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(126,217,87,0.3)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.06)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)' }}
             >
               <div style={{ fontWeight: 700 }}>{ex.label}</div>
-              <div style={{ fontSize: 11, color: '#5f6672', marginTop: 2 }}>{ex.description}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{ex.description}</div>
             </button>
           ))}
         </div>
@@ -223,10 +223,10 @@ export default function WorkflowGeneratorPage() {
         <div style={{
           padding: '20px', borderRadius: 14,
           background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#e8eaed' }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>
               Generated .0n Workflow
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
@@ -234,8 +234,8 @@ export default function WorkflowGeneratorPage() {
                 onClick={() => handleCopy(generatedJson, setCopied)}
                 style={{
                   padding: '6px 14px', borderRadius: 6,
-                  background: copied ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: copied ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
+                  border: '1px solid var(--border)',
                   color: copied ? '#6EE05A' : '#7A8290',
                   fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
                 }}
@@ -254,8 +254,8 @@ export default function WorkflowGeneratorPage() {
                 }}
                 style={{
                   padding: '6px 14px', borderRadius: 6,
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
                   color: '#7A8290', fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
                 }}
               >
@@ -276,7 +276,7 @@ export default function WorkflowGeneratorPage() {
           </div>
           <pre style={{
             padding: '16px', borderRadius: 10,
-            background: '#0B0F19', border: '1px solid rgba(255,255,255,0.04)',
+            background: 'var(--bg-primary)', border: '1px solid var(--bg-card)',
             color: '#6EE05A', fontSize: 12, lineHeight: 1.6,
             overflow: 'auto', maxHeight: 400,
             fontFamily: "'JetBrains Mono', monospace",

@@ -266,7 +266,7 @@ function CategoryCard({ cat }: { cat: typeof categories[0] }) {
     <div
       style={{
         background: 'rgba(255,255,255,0.02)',
-        border: `1px solid ${open ? cat.color + '44' : 'rgba(255,255,255,0.06)'}`,
+        border: `1px solid ${open ? cat.color + '44' : 'var(--border)'}`,
         borderRadius: 16,
         padding: '1.5rem',
         cursor: 'pointer',
@@ -339,7 +339,7 @@ function FAQItem({ item }: { item: typeof faqItems[0] }) {
   return (
     <div
       style={{
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        borderBottom: '1px solid var(--border)',
         padding: '1.25rem 0',
         cursor: 'pointer',
       }}
@@ -415,7 +415,7 @@ export default function CrmApiPage() {
         ],
       }) }} />
 
-      <div style={{ minHeight: '100vh', background: '#0B0F19', color: '#E8EAED', fontFamily: "var(--font-display, 'Instrument Sans', system-ui, sans-serif)" }}>
+      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: "var(--font-display, 'Instrument Sans', system-ui, sans-serif)" }}>
 
         {/* ════════════════════════════════════════════
             HERO SECTION
@@ -483,8 +483,8 @@ export default function CrmApiPage() {
             <a href="#tools" style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
               padding: '1rem 2.25rem', borderRadius: 14,
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
-              color: '#fff', fontSize: '1.0625rem', fontWeight: 600,
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              color: 'var(--text-primary)', fontSize: '1.0625rem', fontWeight: 600,
               textDecoration: 'none', transition: 'border-color 0.2s',
             }}>
               See All {totalTools} Tools
@@ -496,7 +496,7 @@ export default function CrmApiPage() {
             display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center',
             marginTop: '3.5rem', padding: '1.25rem 2rem',
             borderRadius: 14, background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)', position: 'relative',
+            border: '1px solid var(--border)', position: 'relative',
           }}>
             {[
               { val: `${totalTools}`, label: 'CRM Tools' },
@@ -537,7 +537,7 @@ export default function CrmApiPage() {
               <div key={p.title} style={{
                 padding: '1.5rem', borderRadius: 16,
                 background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                border: '1px solid var(--border)',
               }}>
                 <div style={{
                   width: 8, height: 8, borderRadius: '50%',
@@ -571,12 +571,12 @@ export default function CrmApiPage() {
           {/* Code example */}
           <div style={{
             textAlign: 'left', borderRadius: 16,
-            background: '#0a0e13', border: '1px solid rgba(126,217,87,0.15)',
+            background: 'var(--bg-primary)', border: '1px solid rgba(126,217,87,0.15)',
             overflow: 'hidden', maxWidth: '640px', margin: '0 auto',
           }}>
             <div style={{
               padding: '0.75rem 1.25rem',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              borderBottom: '1px solid var(--border)',
               display: 'flex', alignItems: 'center', gap: '0.5rem',
             }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
@@ -686,7 +686,7 @@ export default function CrmApiPage() {
               <div key={m.num} style={{
                 padding: '2rem 1.5rem', borderRadius: 16,
                 background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                border: '1px solid var(--border)',
                 position: 'relative', overflow: 'hidden',
               }}>
                 <div style={{
@@ -736,7 +736,7 @@ export default function CrmApiPage() {
               <div key={uc.title} style={{
                 padding: '1.5rem', borderRadius: 16,
                 background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                border: '1px solid var(--border)',
               }}>
                 <div style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
@@ -780,13 +780,13 @@ export default function CrmApiPage() {
 
           <div style={{
             borderRadius: 16, overflow: 'hidden',
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
           }}>
             {/* Header */}
             <div style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-              padding: '1rem 1.25rem', background: 'rgba(255,255,255,0.03)',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              padding: '1rem 1.25rem', background: 'var(--bg-card)',
+              borderBottom: '1px solid var(--border)',
             }}>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Feature</span>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center' }}>DIY</span>
@@ -797,7 +797,7 @@ export default function CrmApiPage() {
                 display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
                 padding: '1rem 1.25rem',
                 background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)',
-                borderBottom: i < comparisonRows.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                borderBottom: i < comparisonRows.length - 1 ? '1px solid var(--bg-card)' : 'none',
               }}>
                 <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.7)' }}>{row.label}</span>
                 <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.35)', textAlign: 'center' }}>{row.diy}</span>
@@ -854,7 +854,7 @@ export default function CrmApiPage() {
               <div key={plan.name} style={{
                 padding: '2rem 1.5rem', borderRadius: 16,
                 background: plan.highlight ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
-                border: `1px solid ${plan.highlight ? 'rgba(126,217,87,0.25)' : 'rgba(255,255,255,0.06)'}`,
+                border: `1px solid ${plan.highlight ? 'rgba(126,217,87,0.25)' : 'var(--border)'}`,
                 position: 'relative',
               }}>
                 {plan.highlight && (
@@ -889,10 +889,10 @@ export default function CrmApiPage() {
                 <Link href="/signup" style={{
                   display: 'block', textAlign: 'center',
                   padding: '0.75rem', borderRadius: 10,
-                  background: plan.highlight ? 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)' : 'rgba(255,255,255,0.06)',
+                  background: plan.highlight ? 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)' : 'var(--border)',
                   color: plan.highlight ? '#0B0F19' : '#fff',
                   fontSize: '0.9375rem', fontWeight: 700,
-                  textDecoration: 'none', border: plan.highlight ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                  textDecoration: 'none', border: plan.highlight ? 'none' : '1px solid var(--border)',
                 }}>
                   {plan.price === '$0' ? 'Start Free' : 'Get Started'}
                 </Link>
@@ -935,12 +935,12 @@ export default function CrmApiPage() {
           {/* MCP config example */}
           <div style={{
             textAlign: 'left', borderRadius: 16,
-            background: '#0a0e13', border: '1px solid rgba(0,212,255,0.15)',
+            background: 'var(--bg-primary)', border: '1px solid rgba(0,212,255,0.15)',
             overflow: 'hidden', maxWidth: '480px', margin: '0 auto',
           }}>
             <div style={{
               padding: '0.75rem 1.25rem',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              borderBottom: '1px solid var(--border)',
               display: 'flex', alignItems: 'center', gap: '0.5rem',
             }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
@@ -977,7 +977,7 @@ export default function CrmApiPage() {
         }}>
           <div style={{
             padding: '2rem', borderRadius: 16,
-            background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+            background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
           }}>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>
               Already use the CRM?
@@ -989,8 +989,8 @@ export default function CrmApiPage() {
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/login" style={{
                 padding: '0.75rem 1.5rem', borderRadius: 10,
-                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff', fontSize: '0.9375rem', fontWeight: 600,
+                background: 'var(--border)', border: '1px solid var(--border)',
+                color: 'var(--text-primary)', fontSize: '0.9375rem', fontWeight: 600,
                 textDecoration: 'none',
               }}>
                 Sign in with CRM
@@ -1078,7 +1078,7 @@ export default function CrmApiPage() {
         {/* ── Footer ── */}
         <footer style={{
           padding: '2rem 1.5rem', textAlign: 'center',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          borderTop: '1px solid var(--border)',
         }}>
           <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)', margin: 0 }}>
             &copy; {new Date().getFullYear()} RocketOpp, LLC. All rights reserved. 0nMCP is a product of RocketOpp.

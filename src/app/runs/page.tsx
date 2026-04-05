@@ -90,16 +90,16 @@ export default function RunsPage() {
   const highlightColor = '#6EE05A'
 
   return (
-    <div style={{ minHeight: '100vh', background: '#080B0F', color: '#e4e4e7' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
       {/* Nav */}
       <nav style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '1rem 2rem', borderBottom: '1px solid rgba(255,255,255,0.06)',
+        padding: '1rem 2rem', borderBottom: '1px solid var(--border)',
         maxWidth: 1200, margin: '0 auto',
       }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
           <span style={{ fontSize: '1.25rem', fontWeight: 800, color: highlightColor }}>0n</span>
-          <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff' }}>MCP</span>
+          <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>MCP</span>
         </Link>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           {isLoggedIn ? (
@@ -161,7 +161,7 @@ export default function RunsPage() {
             </span>
           </div>
           <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '1rem' }}>
-            <span style={{ color: '#fff' }}>Power your </span>
+            <span style={{ color: 'var(--text-primary)' }}>Power your </span>
             <span style={{ color: highlightColor }}>AI workflows</span>
           </h1>
           <p style={{ fontSize: '1.125rem', color: '#a1a1aa', maxWidth: 560, margin: '0 auto 2rem', lineHeight: 1.6 }}>
@@ -174,7 +174,7 @@ export default function RunsPage() {
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 16,
               padding: '12px 24px', borderRadius: 12,
-              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
             }}>
               <div>
                 <div style={{ fontSize: '0.7rem', color: '#71717a', fontWeight: 600, letterSpacing: '0.05em' }}>YOUR BALANCE</div>
@@ -182,7 +182,7 @@ export default function RunsPage() {
                   {balance.is_owner ? '∞' : balance.balance.toLocaleString()} <span style={{ fontSize: '0.875rem', fontWeight: 500, color: '#a1a1aa' }}>Credits</span>
                 </div>
               </div>
-              <div style={{ width: 1, height: 40, background: 'rgba(255,255,255,0.08)' }} />
+              <div style={{ width: 1, height: 40, background: 'var(--border)' }} />
               <div>
                 <div style={{ fontSize: '0.7rem', color: '#71717a', fontWeight: 600 }}>LIFETIME</div>
                 <div style={{ fontSize: '0.85rem', color: '#a1a1aa' }}>
@@ -212,7 +212,7 @@ export default function RunsPage() {
                   borderRadius: 16,
                   padding: '2rem 1.5rem',
                   background: isPopular ? 'rgba(126,217,87,0.04)' : '#0E1117',
-                  border: `1px solid ${isPopular ? 'rgba(126,217,87,0.4)' : isPro ? 'rgba(0,212,255,0.3)' : 'rgba(255,255,255,0.08)'}`,
+                  border: `1px solid ${isPopular ? 'rgba(126,217,87,0.4)' : isPro ? 'rgba(0,212,255,0.3)' : 'var(--border)'}`,
                   display: 'flex', flexDirection: 'column',
                   transition: 'transform 0.2s, border-color 0.2s',
                 }}
@@ -222,19 +222,19 @@ export default function RunsPage() {
                   position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)',
                   padding: '3px 14px', borderRadius: 20, fontSize: '0.65rem', fontWeight: 800,
                   letterSpacing: '0.08em', textTransform: 'uppercase',
-                  background: isPopular ? highlightColor : isPro ? '#00d4ff' : 'rgba(255,255,255,0.06)',
+                  background: isPopular ? highlightColor : isPro ? '#00d4ff' : 'var(--border)',
                   color: isPopular || isPro ? '#080B0F' : '#a1a1aa',
-                  border: `1px solid ${isPopular ? highlightColor : isPro ? '#00d4ff' : 'rgba(255,255,255,0.1)'}`,
+                  border: `1px solid ${isPopular ? highlightColor : isPro ? '#00d4ff' : 'var(--border)'}`,
                 }}>
                   {pack.badge || pack.name}
                 </div>
 
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginTop: 8, marginBottom: 4 }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginTop: 8, marginBottom: 4 }}>
                   {pack.name}
                 </h3>
 
                 <div style={{ marginBottom: '1.25rem' }}>
-                  <span style={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff' }}>{pack.price}</span>
+                  <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>{pack.price}</span>
                 </div>
 
                 <div style={{
@@ -264,7 +264,7 @@ export default function RunsPage() {
                     width: '100%', padding: '12px', borderRadius: 10, fontSize: '0.9rem', fontWeight: 700,
                     cursor: purchasing === pack.id ? 'wait' : 'pointer',
                     border: 'none',
-                    background: isPopular ? highlightColor : isPro ? '#00d4ff' : 'rgba(255,255,255,0.08)',
+                    background: isPopular ? highlightColor : isPro ? '#00d4ff' : 'var(--border)',
                     color: isPopular || isPro ? '#080B0F' : '#fff',
                     transition: 'opacity 0.15s',
                     opacity: purchasing === pack.id ? 0.6 : 1,
@@ -279,7 +279,7 @@ export default function RunsPage() {
 
         {/* Cost Table */}
         <section style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', textAlign: 'center', marginBottom: '0.5rem' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', textAlign: 'center', marginBottom: '0.5rem' }}>
             What do credits cost?
           </h2>
           <p style={{ textAlign: 'center', color: '#a1a1aa', fontSize: '0.9rem', marginBottom: '2rem' }}>
@@ -288,7 +288,7 @@ export default function RunsPage() {
 
           <div style={{
             maxWidth: 600, margin: '0 auto', borderRadius: 16, overflow: 'hidden',
-            background: '#0E1117', border: '1px solid rgba(255,255,255,0.08)',
+            background: 'var(--bg-primary)', border: '1px solid var(--border)',
           }}>
             {COST_TABLE.map((item, i) => (
               <div
@@ -296,10 +296,10 @@ export default function RunsPage() {
                 style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                   padding: '12px 20px',
-                  borderBottom: i < COST_TABLE.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                  borderBottom: i < COST_TABLE.length - 1 ? '1px solid var(--bg-card)' : 'none',
                 }}
               >
-                <span style={{ fontSize: '0.875rem', color: '#e4e4e7' }}>{item.action}</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--text-primary)' }}>{item.action}</span>
                 <span style={{
                   fontSize: '0.8rem', fontWeight: 700, color: highlightColor,
                   fontFamily: 'monospace',
@@ -313,7 +313,7 @@ export default function RunsPage() {
 
         {/* How it works */}
         <section style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', textAlign: 'center', marginBottom: '2rem' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', textAlign: 'center', marginBottom: '2rem' }}>
             How it works
           </h2>
           <div style={{
@@ -327,7 +327,7 @@ export default function RunsPage() {
             ].map(({ step, title, desc }) => (
               <div key={step} style={{
                 padding: '1.5rem', borderRadius: 12,
-                background: '#0E1117', border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--bg-primary)', border: '1px solid var(--border)',
                 textAlign: 'center',
               }}>
                 <div style={{
@@ -339,7 +339,7 @@ export default function RunsPage() {
                 }}>
                   {step}
                 </div>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', marginBottom: 6 }}>{title}</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{title}</h3>
                 <p style={{ fontSize: '0.8rem', color: '#a1a1aa', lineHeight: 1.5 }}>{desc}</p>
               </div>
             ))}
@@ -348,7 +348,7 @@ export default function RunsPage() {
 
         {/* FAQ */}
         <section style={{ marginBottom: '4rem', maxWidth: 700, margin: '0 auto 4rem' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', textAlign: 'center', marginBottom: '2rem' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', textAlign: 'center', marginBottom: '2rem' }}>
             FAQ
           </h2>
           {[
@@ -359,9 +359,9 @@ export default function RunsPage() {
           ].map(({ q, a }) => (
             <div key={q} style={{
               padding: '1.25rem 1.5rem', borderRadius: 12, marginBottom: '0.75rem',
-              background: '#0E1117', border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--bg-primary)', border: '1px solid var(--border)',
             }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', marginBottom: 6 }}>{q}</div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{q}</div>
               <div style={{ fontSize: '0.8rem', color: '#a1a1aa', lineHeight: 1.5 }}>{a}</div>
             </div>
           ))}
@@ -370,7 +370,7 @@ export default function RunsPage() {
         {/* CTA */}
         {!isLoggedIn && (
           <section style={{ textAlign: 'center', padding: '3rem 0 4rem' }}>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#fff', marginBottom: '1rem' }}>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
               Ready to build?
             </h2>
             <p style={{ color: '#a1a1aa', marginBottom: '1.5rem' }}>
@@ -389,7 +389,7 @@ export default function RunsPage() {
 
       {/* Footer */}
       <footer style={{
-        borderTop: '1px solid rgba(255,255,255,0.06)', padding: '2rem',
+        borderTop: '1px solid var(--border)', padding: '2rem',
         textAlign: 'center', fontSize: '0.75rem', color: '#52525b',
       }}>
         <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', marginBottom: '0.75rem' }}>

@@ -24,8 +24,8 @@ interface Notification {
 
 const C = {
   bg: '#0d0d14',
-  card: 'rgba(255,255,255,0.04)',
-  border: 'rgba(255,255,255,0.08)',
+  card: 'var(--bg-card)',
+  border: 'var(--border)',
   accent: '#6EE05A',
   orange: '#ff6b35',
   red: '#ef4444',

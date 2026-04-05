@@ -48,7 +48,7 @@ const STATUS_CONFIG: Record<string, { color: string; bg: string; label: string }
   posted: { color: '#6EE05A', bg: 'rgba(126,217,87,0.1)', label: 'Posted' },
   failed: { color: '#ff6b6b', bg: 'rgba(255,59,48,0.1)', label: 'Failed' },
   scheduled: { color: '#ffbb33', bg: 'rgba(255,187,51,0.1)', label: 'Scheduled' },
-  pending: { color: 'var(--text-muted)', bg: 'rgba(255,255,255,0.04)', label: 'Pending' },
+  pending: { color: 'var(--text-muted)', bg: 'var(--bg-card)', label: 'Pending' },
 }
 
 function formatTimestamp(dateStr: string): string {
@@ -197,7 +197,7 @@ export function PostFeed({ posts }: PostFeedProps) {
                     fontFamily: 'var(--font-mono)',
                     padding: '3px 10px',
                     borderRadius: 8,
-                    backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : `${bgColor}20`,
+                    backgroundColor: isDark ? 'var(--border)' : `${bgColor}20`,
                     color: isDark ? 'var(--text-secondary)' : bgColor,
                     border: `1px solid ${isDark ? 'var(--border)' : `${bgColor}30`}`,
                     textDecoration: 'none' as const,

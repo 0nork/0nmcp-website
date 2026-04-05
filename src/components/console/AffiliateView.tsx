@@ -119,7 +119,7 @@ export function AffiliateView() {
       <div style={{ marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
           <Gift size={20} style={{ color: G }} />
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#e8eaed', margin: 0 }}>Affiliate Program</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Affiliate Program</h2>
         </div>
         <p style={{ fontSize: '0.8rem', color: '#808090', margin: 0 }}>
           Earn commissions by referring new users to 0nMCP. Share your unique link and track conversions.
@@ -129,7 +129,7 @@ export function AffiliateView() {
       {/* Referral Link Card */}
       <div style={{
         background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.06)',
+        border: '1px solid var(--border)',
         borderRadius: 12,
         padding: '1.25rem',
         marginBottom: '1rem',
@@ -158,8 +158,8 @@ export function AffiliateView() {
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '10px 16px', borderRadius: 8,
-              background: copied ? `${G}15` : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${copied ? `${G}30` : 'rgba(255,255,255,0.08)'}`,
+              background: copied ? `${G}15` : 'var(--bg-card)',
+              border: `1px solid ${copied ? `${G}30` : 'var(--border)'}`,
               color: copied ? G : '#e8eaed',
               fontSize: '0.8rem', fontWeight: 600,
               cursor: 'pointer', fontFamily: 'inherit',
@@ -180,7 +180,7 @@ export function AffiliateView() {
             style={{
               display: 'flex', alignItems: 'center', gap: 4,
               padding: '3px 8px', borderRadius: 6,
-              background: 'none', border: '1px solid rgba(255,255,255,0.06)',
+              background: 'none', border: '1px solid var(--border)',
               color: '#4a4a5a', fontSize: '0.65rem', cursor: 'pointer', fontFamily: 'inherit',
             }}
           >
@@ -200,13 +200,13 @@ export function AffiliateView() {
         ].map(s => (
           <div key={s.label} style={{
             background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--border)',
             borderRadius: 10,
             padding: '1rem',
             textAlign: 'center',
           }}>
             <div style={{ color: s.color, marginBottom: 8, opacity: 0.7 }}>{s.icon}</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#e8eaed' }}>{s.value}</div>
+            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>{s.value}</div>
             <div style={{ fontSize: '0.65rem', color: '#4a4a5a', marginTop: 4 }}>{s.label}</div>
           </div>
         ))}
@@ -215,7 +215,7 @@ export function AffiliateView() {
       {/* Share Buttons */}
       <div style={{
         background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.06)',
+        border: '1px solid var(--border)',
         borderRadius: 12,
         padding: '1.25rem',
         marginBottom: '1rem',
@@ -233,7 +233,7 @@ export function AffiliateView() {
       {/* Referrals List */}
       <div style={{
         background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.06)',
+        border: '1px solid var(--border)',
         borderRadius: 12,
         padding: '1.25rem',
       }}>
@@ -255,10 +255,10 @@ export function AffiliateView() {
                 padding: '10px 12px',
                 background: 'rgba(0,0,0,0.15)',
                 borderRadius: 8,
-                border: '1px solid rgba(255,255,255,0.04)',
+                border: '1px solid var(--bg-card)',
               }}>
                 <div>
-                  <div style={{ fontSize: '0.8rem', color: '#e8eaed', fontWeight: 500 }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500 }}>
                     {r.referred_email || 'Pending signup'}
                   </div>
                   <div style={{ fontSize: '0.65rem', color: '#4a4a5a', marginTop: 2 }}>
@@ -309,7 +309,7 @@ function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, { bg: string; text: string }> = {
     converted: { bg: 'rgba(126,217,87,0.1)', text: '#6EE05A' },
     pending: { bg: 'rgba(167,139,250,0.1)', text: '#a78bfa' },
-    expired: { bg: 'rgba(255,255,255,0.04)', text: '#4a4a5a' },
+    expired: { bg: 'var(--bg-card)', text: '#4a4a5a' },
   }
   const c = colors[status] || colors.pending
 

@@ -499,7 +499,7 @@ export default function LearningDashboard() {
                   style={{
                     height: 4,
                     borderRadius: 2,
-                    background: 'rgba(255,255,255,0.05)',
+                    background: 'var(--bg-card)',
                     marginTop: 8,
                     overflow: 'hidden',
                   }}
@@ -609,7 +609,7 @@ export default function LearningDashboard() {
 const btnGhostStyle: React.CSSProperties = {
   padding: '6px 14px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-secondary)',
   fontWeight: 600,

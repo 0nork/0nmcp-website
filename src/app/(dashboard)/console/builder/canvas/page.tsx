@@ -190,7 +190,7 @@ function RenderComponent({
           <HeadingTag
             style={{
               width: '100%',
-              color: '#E8EAED',
+              color: 'var(--text-primary)',
               fontWeight: props.level === 'h1' ? 700 : props.level === 'h2' ? 600 : 500,
               fontSize: props.level === 'h1' ? '1.875rem' : props.level === 'h2' ? '1.5rem' : '1.25rem',
             }}
@@ -204,7 +204,7 @@ function RenderComponent({
     case 'text':
       return (
         <div style={{ width: '100%', height: '100%', padding: '0.5rem', overflow: 'hidden', textAlign: props.align }}>
-          <p style={{ fontSize: '0.875rem', color: '#E8EAED' }}>{props.text}</p>
+          <p style={{ fontSize: '0.875rem', color: 'var(--text-primary)' }}>{props.text}</p>
         </div>
       )
 
@@ -270,14 +270,14 @@ function RenderComponent({
     case 'input':
       return (
         <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: '4px', padding: '0.5rem' }}>
-          <label style={{ fontSize: '0.75rem', fontWeight: 500, color: '#E8EAED' }}>{props.label}</label>
+          <label style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-primary)' }}>{props.label}</label>
           <input
             type="text"
             placeholder={props.placeholder}
             readOnly
             style={{
               width: '100%', padding: '0.5rem 0.75rem', fontSize: '0.875rem',
-              borderRadius: '6px', border: '1px solid #1E293B', background: '#0B0F19', color: '#E8EAED',
+              borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)',
             }}
           />
         </div>
@@ -285,12 +285,12 @@ function RenderComponent({
 
     case 'form':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '1rem', border: '1px solid #1E293B', borderRadius: '8px', background: '#111827', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          <h4 style={{ fontWeight: 500, fontSize: '0.875rem', color: '#E8EAED' }}>Contact Form</h4>
+        <div style={{ width: '100%', height: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: '8px', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <h4 style={{ fontWeight: 500, fontSize: '0.875rem', color: 'var(--text-primary)' }}>Contact Form</h4>
           {props.fields?.map((field: string, i: number) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <label style={{ fontSize: '0.75rem', textTransform: 'capitalize', color: '#7A8290' }}>{field}</label>
-              <input readOnly style={{ width: '100%', padding: '4px 8px', fontSize: '0.875rem', borderRadius: '4px', border: '1px solid #1E293B', background: '#0B0F19', color: '#E8EAED' }} />
+              <input readOnly style={{ width: '100%', padding: '4px 8px', fontSize: '0.875rem', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} />
             </div>
           ))}
           <button style={{ marginTop: '0.5rem', padding: '0.375rem 0.75rem', fontSize: '0.875rem', background: '#6EE05A', color: '#0B0F19', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Submit</button>
@@ -299,8 +299,8 @@ function RenderComponent({
 
     case 'card':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '1rem', border: '1px solid #1E293B', borderRadius: '8px', background: '#111827', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <h3 style={{ fontWeight: 600, color: '#E8EAED' }}>{props.title}</h3>
+        <div style={{ width: '100%', height: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: '8px', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <h3 style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{props.title}</h3>
           <p style={{ fontSize: '0.875rem', color: '#7A8290' }}>{props.description}</p>
         </div>
       )
@@ -312,7 +312,7 @@ function RenderComponent({
           background: 'linear-gradient(135deg, rgba(110, 224, 90, 0.12), rgba(110, 224, 90, 0.03))',
           borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', textAlign: 'center',
         }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E8EAED' }}>{props.headline}</h1>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>{props.headline}</h1>
           <p style={{ color: '#7A8290' }}>{props.subheadline}</p>
           <button style={{ padding: '0.5rem 1.5rem', background: '#6EE05A', color: '#0B0F19', borderRadius: '6px', fontWeight: 500, border: 'none', cursor: 'pointer' }}>
             {props.ctaText}
@@ -322,8 +322,8 @@ function RenderComponent({
 
     case 'navbar':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '0 1rem', background: '#111827', borderBottom: '1px solid #1E293B', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontWeight: 700, color: '#E8EAED' }}>{props.brand}</span>
+        <div style={{ width: '100%', height: '100%', padding: '0 1rem', background: 'var(--bg-card)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{props.brand}</span>
           <div style={{ display: 'flex', gap: '1rem' }}>
             {props.links?.map((link: string, i: number) => (
               <span key={i} style={{ fontSize: '0.875rem', color: '#7A8290', cursor: 'pointer' }}>{link}</span>
@@ -685,13 +685,13 @@ export default function CanvasPage() {
       {leftPanelOpen && (
         <div className="canvas-left-panel">
           <div className="canvas-panel-header">
-            <h2 style={{ fontWeight: 600, fontSize: '0.875rem', color: '#E8EAED' }}>Components</h2>
+            <h2 style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>Components</h2>
             <Button variant="ghost" size="icon" onClick={() => setLeftPanelOpen(false)}>
               <ChevronLeft style={{ width: 16, height: 16 }} />
             </Button>
           </div>
 
-          <div style={{ padding: '0.75rem', borderBottom: '1px solid #1E293B' }}>
+          <div style={{ padding: '0.75rem', borderBottom: '1px solid var(--border)' }}>
             <div style={{ position: 'relative' }}>
               <Search style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#4A5568' }} />
               <Input
@@ -729,7 +729,7 @@ export default function CanvasPage() {
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ fontWeight: 500, fontSize: '0.875rem', color: '#E8EAED' }}>{comp.name}</span>
+                        <span style={{ fontWeight: 500, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{comp.name}</span>
                         {!accessible && (
                           <Badge variant="secondary" className="canvas-tier-badge">
                             {comp.tier.toUpperCase()}
@@ -818,7 +818,7 @@ export default function CanvasPage() {
                 <div className="canvas-empty-icon">
                   <MousePointer style={{ width: 32, height: 32, color: '#4A5568' }} />
                 </div>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 500, marginBottom: '0.5rem', color: '#E8EAED' }}>Start Building</h3>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 500, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Start Building</h3>
                 <p style={{ color: '#4A5568', fontSize: '0.875rem', maxWidth: '24rem' }}>
                   Click components in the left panel to add them to your canvas. Drag to position, resize with handles.
                 </p>
@@ -885,7 +885,7 @@ export default function CanvasPage() {
           <div className="canvas-panel-header">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Settings style={{ width: 16, height: 16, color: '#7A8290' }} />
-              <h2 style={{ fontWeight: 600, fontSize: '0.875rem', color: '#E8EAED' }}>{selectedDef.name}</h2>
+              <h2 style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{selectedDef.name}</h2>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setRightPanelOpen(false)}>
               <X style={{ width: 16, height: 16 }} />

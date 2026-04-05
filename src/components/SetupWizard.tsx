@@ -459,8 +459,8 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
               className="wiz-card"
               style={{
                 ...styles.card,
-                borderColor: selected ? '#7ed957' : 'rgba(255,255,255,0.08)',
-                background: selected ? 'rgba(126,217,87,0.06)' : 'rgba(255,255,255,0.04)',
+                borderColor: selected ? '#7ed957' : 'var(--border)',
+                background: selected ? 'rgba(126,217,87,0.06)' : 'var(--bg-card)',
               }}
             >
               {selected && (
@@ -511,7 +511,7 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
                   style={{
                     ...styles.tab,
                     borderColor: active ? '#7ed957' : 'transparent',
-                    color: active ? '#fff' : '#64748b',
+                    color: active ? 'var(--text-primary)' : 'var(--text-muted)',
                     background: active ? 'rgba(126,217,87,0.08)' : 'transparent',
                   }}
                 >
@@ -594,8 +594,8 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
                 className="wiz-card"
                 style={{
                   ...styles.card,
-                  borderColor: hasKey ? '#7ed957' : expanded ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.08)',
-                  background: hasKey ? 'rgba(126,217,87,0.06)' : 'rgba(255,255,255,0.04)',
+                  borderColor: hasKey ? '#7ed957' : expanded ? 'rgba(126,217,87,0.3)' : 'var(--border)',
+                  background: hasKey ? 'rgba(126,217,87,0.06)' : 'var(--bg-card)',
                   padding: '1rem 1.25rem',
                 }}
               >
@@ -928,14 +928,14 @@ const styles = {
   } as React.CSSProperties,
 
   stepsItem: {
-    color: '#cbd5e1',
+    color: 'var(--text-secondary)',
     fontSize: '0.88rem',
     lineHeight: 2,
   } as React.CSSProperties,
 
   codeBlock: {
     position: 'relative' as const,
-    background: '#0f172a',
+    background: 'var(--bg-primary)',
     border: '1px solid var(--border)',
     borderRadius: 12,
     padding: '1rem 1.25rem',
@@ -956,7 +956,7 @@ const styles = {
     position: 'absolute' as const,
     top: 8,
     right: 8,
-    background: 'rgba(255,255,255,0.08)',
+    background: 'var(--border)',
     border: '1px solid rgba(255,255,255,0.12)',
     borderRadius: 8,
     padding: '0.35rem 0.6rem',
@@ -993,7 +993,7 @@ const styles = {
   /* Service key input */
   keyInputArea: {
     background: 'rgba(255,255,255,0.02)',
-    border: '1px solid rgba(255,255,255,0.06)',
+    border: '1px solid var(--border)',
     borderTop: 'none',
     borderRadius: '0 0 16px 16px',
     padding: '0.75rem 1rem',
@@ -1002,8 +1002,8 @@ const styles = {
 
   input: {
     flex: 1,
-    background: '#0f172a',
-    border: '1px solid rgba(255,255,255,0.1)',
+    background: 'var(--bg-primary)',
+    border: '1px solid var(--border)',
     borderRadius: 8,
     padding: '0.55rem 0.75rem',
     color: 'var(--text-primary)',
@@ -1081,7 +1081,7 @@ const styles = {
 
   ghostBtn: {
     background: 'none',
-    border: '1px solid rgba(255,255,255,0.15)',
+    border: '1px solid var(--border-hover)',
     color: 'var(--text-muted)',
     borderRadius: 9999,
     padding: '0.55rem 1.25rem',

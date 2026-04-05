@@ -230,8 +230,8 @@ export function BackendSidebar() {
       display: 'flex',
       flexDirection: 'column',
       flexShrink: 0,
-      background: '#0B0F19',
-      borderRight: '1px solid rgba(255,255,255,0.06)',
+      background: 'var(--bg-primary)',
+      borderRight: '1px solid var(--border)',
       transition: 'width 0.2s ease',
       overflow: 'hidden',
     }}>
@@ -242,7 +242,7 @@ export function BackendSidebar() {
         alignItems: 'center',
         justifyContent: iconsOnly ? 'center' : 'flex-start',
         padding: iconsOnly ? '0 0.5rem' : '0 1.125rem',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        borderBottom: '1px solid var(--border)',
         flexShrink: 0,
       }}>
         <button
@@ -282,7 +282,7 @@ export function BackendSidebar() {
               </div>
             )}
             {iconsOnly && si > 0 && (
-              <div style={{ height: 1, background: 'rgba(255,255,255,0.04)', margin: '6px 10px' }} />
+              <div style={{ height: 1, background: 'var(--bg-card)', margin: '6px 10px' }} />
             )}
             {section.items.map(item => (
               <SidebarItem
@@ -301,7 +301,7 @@ export function BackendSidebar() {
       {/* Bottom */}
       <div style={{
         padding: '0.375rem 0.5rem 0.5rem',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
+        borderTop: '1px solid var(--border)',
         flexShrink: 0,
       }}>
         {BOTTOM_ITEMS.map(item => (
@@ -344,7 +344,7 @@ export function BackendSidebar() {
             style={{
               background: 'none',
               border: 'none',
-              color: 'rgba(255,255,255,0.15)',
+              color: 'var(--border-hover)',
               cursor: 'pointer',
               padding: 4,
               borderRadius: 4,
@@ -360,7 +360,7 @@ export function BackendSidebar() {
       <style>{`
         .sb-nav::-webkit-scrollbar { width: 2px; }
         .sb-nav::-webkit-scrollbar-track { background: transparent; }
-        .sb-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 2px; }
+        .sb-nav::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 2px; }
       `}</style>
     </aside>
   )
@@ -420,7 +420,7 @@ function SidebarItem({ item, active, showLabels, iconsOnly, onClick }: {
           border: 'none',
           cursor: 'pointer',
           fontFamily: 'inherit',
-          background: active ? `${c}10` : hovered ? 'rgba(255,255,255,0.03)' : 'transparent',
+          background: active ? `${c}10` : hovered ? 'var(--bg-card)' : 'transparent',
           borderLeft: iconsOnly ? 'none' : active ? `2px solid ${c}` : '2px solid transparent',
           transition: 'all 0.12s ease',
           color: active ? c : hovered ? '#e2e2e8' : '#9a9aaa',
@@ -447,7 +447,7 @@ function SidebarItem({ item, active, showLabels, iconsOnly, onClick }: {
           left: 'calc(100% + 8px)',
           top: '50%',
           transform: 'translateY(-50%)',
-          background: '#14141c',
+          background: 'var(--bg-card)',
           color: c,
           fontSize: '0.7rem',
           fontWeight: 600,

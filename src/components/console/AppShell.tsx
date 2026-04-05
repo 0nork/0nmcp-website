@@ -64,7 +64,7 @@ interface AppShellProps {
 
 const G = '#6EE05A'
 const BG = '#0B0F19'
-const BORDER = 'rgba(255,255,255,0.08)'
+const BORDER = 'var(--border)'
 
 // ── Component ───────────────────────────────────────────────────
 
@@ -78,7 +78,7 @@ export function AppShell({ config, children }: AppShellProps) {
   }, [config, searchQuery])
 
   return (
-    <div style={{ display: 'flex', height: '100%', background: BG, color: '#e8e8ef', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+    <div style={{ display: 'flex', height: '100%', background: BG, color: 'var(--text-primary)', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
 
       {/* ── SIDEBAR ───────────────────────────────────────── */}
       <aside style={{
@@ -126,7 +126,7 @@ export function AppShell({ config, children }: AppShellProps) {
             padding: '0 16px 8px',
             fontSize: '10px',
             fontWeight: 700,
-            color: '#555',
+            color: 'var(--text-muted)',
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
           }}>
@@ -161,7 +161,7 @@ export function AppShell({ config, children }: AppShellProps) {
                   marginBottom: '2px',
                 }}
                 onMouseEnter={e => {
-                  if (!isActive) e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
+                  if (!isActive) e.currentTarget.style.background = 'var(--bg-card)'
                 }}
                 onMouseLeave={e => {
                   if (!isActive) e.currentTarget.style.background = 'transparent'
@@ -172,7 +172,7 @@ export function AppShell({ config, children }: AppShellProps) {
                 </span>
                 <span style={{ flex: 1 }}>{item.label}</span>
                 {item.count !== undefined && (
-                  <span style={{ fontSize: '11px', color: '#555', fontWeight: 500 }}>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500 }}>
                     {item.count}
                   </span>
                 )}
@@ -191,7 +191,7 @@ export function AppShell({ config, children }: AppShellProps) {
               gap: '6px',
               background: 'none',
               border: 'none',
-              color: '#666',
+              color: 'var(--text-muted)',
               fontSize: '12px',
               cursor: 'pointer',
               fontFamily: 'inherit',
@@ -225,7 +225,7 @@ export function AppShell({ config, children }: AppShellProps) {
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             style={{
-              background: 'none', border: 'none', color: '#888', cursor: 'pointer',
+              background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer',
               padding: '4px', display: 'flex', borderRadius: '4px',
             }}
           >
@@ -233,7 +233,7 @@ export function AppShell({ config, children }: AppShellProps) {
           </button>
 
           {/* Breadcrumb */}
-          <span style={{ fontSize: '13px', color: '#555', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: '13px', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
             {config.breadcrumb || `/ ${config.appName}`}
           </span>
 
@@ -248,10 +248,10 @@ export function AppShell({ config, children }: AppShellProps) {
                 style={{
                   width: '100%',
                   padding: '7px 12px 7px 32px',
-                  background: 'rgba(255,255,255,0.04)',
+                  background: 'var(--bg-card)',
                   border: `1px solid ${BORDER}`,
                   borderRadius: '8px',
-                  color: '#e8e8ef',
+                  color: 'var(--text-primary)',
                   fontSize: '12px',
                   outline: 'none',
                   fontFamily: 'inherit',
@@ -267,9 +267,9 @@ export function AppShell({ config, children }: AppShellProps) {
               onClick={config.onAskAI}
               style={{
                 display: 'flex', alignItems: 'center', gap: '5px',
-                padding: '6px 12px', background: 'rgba(255,255,255,0.04)',
+                padding: '6px 12px', background: 'var(--bg-card)',
                 border: `1px solid ${BORDER}`, borderRadius: '8px',
-                color: '#888', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit',
+                color: 'var(--text-muted)', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit',
               }}
             >
               <MessageSquare size={13} /> Ask AI
@@ -297,9 +297,9 @@ export function AppShell({ config, children }: AppShellProps) {
             <button
               onClick={config.onConsole || (() => window.location.href = '/console')}
               style={{
-                padding: '6px 12px', background: 'rgba(255,255,255,0.04)',
+                padding: '6px 12px', background: 'var(--bg-card)',
                 border: `1px solid ${BORDER}`, borderRadius: '8px',
-                color: '#888', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit',
+                color: 'var(--text-muted)', fontSize: '12px', cursor: 'pointer', fontFamily: 'inherit',
               }}
             >
               Console

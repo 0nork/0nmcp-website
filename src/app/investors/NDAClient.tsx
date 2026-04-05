@@ -115,7 +115,7 @@ export default function NDAClient() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#030508', color: '#e2e8f0' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
     <div style={{ maxWidth: 820, margin: '0 auto', padding: '60px 24px 120px' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
@@ -146,7 +146,7 @@ export default function NDAClient() {
         >
           Investor Portal
         </h1>
-        <p style={{ color: '#94a3b8', fontSize: 16, maxWidth: 560, margin: '0 auto', lineHeight: 1.6 }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: 16, maxWidth: 560, margin: '0 auto', lineHeight: 1.6 }}>
           To access the 0nMCP pitch deck and investor materials, please review and sign the
           Non-Disclosure Agreement below.
         </p>
@@ -157,7 +157,7 @@ export default function NDAClient() {
         <div
           style={{
             background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            border: '1px solid var(--border)',
             borderRadius: 20,
             padding: 0,
             backdropFilter: 'blur(20px)',
@@ -168,7 +168,7 @@ export default function NDAClient() {
           <div
             style={{
               padding: '24px 32px',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              borderBottom: '1px solid var(--border)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -178,7 +178,7 @@ export default function NDAClient() {
               <h2 style={{ fontSize: 18, margin: 0, fontWeight: 700, background: 'linear-gradient(135deg, #7ed957 0%, #00d4ff 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Non-Disclosure Agreement
               </h2>
-              <p style={{ margin: '4px 0 0', fontSize: 13, color: '#64748b' }}>
+              <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--text-muted)' }}>
                 RocketOpp LLC — Mutual NDA
               </p>
             </div>
@@ -202,13 +202,13 @@ export default function NDAClient() {
           <div
             style={{
               padding: '24px 32px',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              borderBottom: '1px solid var(--border)',
             }}
           >
             <div
               style={{
                 background: 'rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.05)',
+                border: '1px solid var(--bg-card)',
                 borderRadius: 12,
                 padding: '24px 28px',
                 maxHeight: 400,
@@ -216,7 +216,7 @@ export default function NDAClient() {
                 fontFamily: 'var(--font-mono, "JetBrains Mono", monospace)',
                 fontSize: 12.5,
                 lineHeight: 1.8,
-                color: '#cbd5e1',
+                color: 'var(--text-secondary)',
                 whiteSpace: 'pre-wrap',
               }}
             >
@@ -241,7 +241,7 @@ export default function NDAClient() {
                     fontSize: 13,
                     fontWeight: 600,
                     marginBottom: 8,
-                    color: '#e2e8f0',
+                    color: 'var(--text-primary)',
                   }}
                 >
                   Full Legal Name *
@@ -256,7 +256,7 @@ export default function NDAClient() {
                     width: '100%',
                     padding: '12px 16px',
                     background: 'rgba(0,0,0,0.3)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    border: '1px solid var(--border)',
                     borderRadius: 10,
                     color: '#f1f5f9',
                     fontSize: 15,
@@ -273,7 +273,7 @@ export default function NDAClient() {
                     fontSize: 13,
                     fontWeight: 600,
                     marginBottom: 8,
-                    color: '#e2e8f0',
+                    color: 'var(--text-primary)',
                   }}
                 >
                   Email Address *
@@ -288,7 +288,7 @@ export default function NDAClient() {
                     width: '100%',
                     padding: '12px 16px',
                     background: 'rgba(0,0,0,0.3)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    border: '1px solid var(--border)',
                     borderRadius: 10,
                     color: '#f1f5f9',
                     fontSize: 15,
@@ -307,7 +307,7 @@ export default function NDAClient() {
                   fontSize: 13,
                   fontWeight: 600,
                   marginBottom: 8,
-                  color: '#e2e8f0',
+                  color: 'var(--text-primary)',
                 }}
               >
                 Company / Fund Name
@@ -321,7 +321,7 @@ export default function NDAClient() {
                   width: '100%',
                   padding: '12px 16px',
                   background: 'rgba(0,0,0,0.3)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  border: '1px solid var(--border)',
                   borderRadius: 10,
                   color: '#f1f5f9',
                   fontSize: 15,
@@ -340,7 +340,7 @@ export default function NDAClient() {
                   fontSize: 13,
                   fontWeight: 600,
                   marginBottom: 8,
-                  color: '#e2e8f0',
+                  color: 'var(--text-primary)',
                 }}
               >
                 Type Your Full Name as Signature *
@@ -355,7 +355,7 @@ export default function NDAClient() {
                   width: '100%',
                   padding: '14px 20px',
                   background: 'rgba(0,0,0,0.3)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  border: '1px solid var(--border)',
                   borderRadius: 10,
                   color: '#f1f5f9',
                   fontSize: 20,
@@ -365,7 +365,7 @@ export default function NDAClient() {
                   boxSizing: 'border-box',
                 }}
               />
-              <p style={{ margin: '8px 0 0', fontSize: 12, color: '#64748b' }}>
+              <p style={{ margin: '8px 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
                 Your typed name serves as your legally binding electronic signature under the E-SIGN Act.
               </p>
             </div>
@@ -379,7 +379,7 @@ export default function NDAClient() {
                 marginBottom: 28,
                 cursor: 'pointer',
                 fontSize: 14,
-                color: '#e2e8f0',
+                color: 'var(--text-primary)',
                 lineHeight: 1.5,
               }}
             >
@@ -446,7 +446,7 @@ export default function NDAClient() {
                 textAlign: 'center',
                 marginTop: 16,
                 fontSize: 12,
-                color: '#475569',
+                color: 'var(--text-muted)',
               }}
             >
               Questions? Contact{' '}

@@ -34,7 +34,7 @@ export default function SiteBuilderPage() {
 
   return (
     <div style={{ padding: '32px 28px 96px', maxWidth: 700, margin: '0 auto' }}>
-      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#e8eaed', letterSpacing: '-0.02em', margin: 0 }}>
+      <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', margin: 0 }}>
         Website Builder
       </h1>
       <p style={{ fontSize: 14, color: '#7a8290', marginTop: 8, marginBottom: 32 }}>
@@ -52,8 +52,8 @@ export default function SiteBuilderPage() {
             placeholder="e.g. Acme Marketing Agency"
             style={{
               width: '100%', padding: '12px 16px', borderRadius: 10,
-              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-              color: '#e8eaed', fontSize: 14, fontFamily: 'inherit', outline: 'none',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              color: 'var(--text-primary)', fontSize: 14, fontFamily: 'inherit', outline: 'none',
             }}
           />
         </div>
@@ -68,8 +68,8 @@ export default function SiteBuilderPage() {
             placeholder="e.g. acmemarketing.com"
             style={{
               width: '100%', padding: '12px 16px', borderRadius: 10,
-              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-              color: '#e8eaed', fontSize: 14, fontFamily: 'inherit', outline: 'none',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              color: 'var(--text-primary)', fontSize: 14, fontFamily: 'inherit', outline: 'none',
             }}
           />
         </div>
@@ -85,8 +85,8 @@ export default function SiteBuilderPage() {
             rows={4}
             style={{
               width: '100%', padding: '12px 16px', borderRadius: 10,
-              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-              color: '#e8eaed', fontSize: 14, fontFamily: 'inherit', outline: 'none',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              color: 'var(--text-primary)', fontSize: 14, fontFamily: 'inherit', outline: 'none',
               resize: 'vertical',
             }}
           />

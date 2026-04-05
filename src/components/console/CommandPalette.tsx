@@ -162,7 +162,7 @@ export function CommandPalette({ open, onClose, onSelect }: CommandPaletteProps)
           <kbd
             className="text-[10px] px-1.5 py-0.5 rounded"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.06)',
+              backgroundColor: 'var(--border)',
               border: '1px solid var(--border)',
               color: 'var(--text-muted)',
               fontFamily: 'var(--font-mono)',
@@ -194,7 +194,7 @@ export function CommandPalette({ open, onClose, onSelect }: CommandPaletteProps)
                     onMouseEnter={() => setActiveIndex(idx)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 text-left cursor-pointer transition-colors border-none bg-transparent"
                     style={{
-                      backgroundColor: isActive ? 'rgba(255,255,255,0.06)' : 'transparent',
+                      backgroundColor: isActive ? 'var(--border)' : 'transparent',
                       color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                     }}
                   >
@@ -218,7 +218,7 @@ export function CommandPalette({ open, onClose, onSelect }: CommandPaletteProps)
                       <span
                         className="ml-auto text-[10px] px-1.5 py-0.5 rounded"
                         style={{
-                          backgroundColor: 'rgba(255,255,255,0.06)',
+                          backgroundColor: 'var(--border)',
                           color: 'var(--text-muted)',
                           fontFamily: 'var(--font-mono)',
                         }}

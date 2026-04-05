@@ -372,7 +372,7 @@ const s = {
       background: '#7ed957',
       color: '#060a0f',
     } : {
-      background: 'rgba(255,255,255,0.06)',
+      background: 'var(--border)',
       color: 'var(--text-secondary, #94a3b8)',
     }),
   }),
@@ -386,7 +386,7 @@ const s = {
     transition: 'color 0.2s',
   } as React.CSSProperties,
   wizardCard: (selected: boolean) => ({
-    background: selected ? 'rgba(0,212,255,0.08)' : 'rgba(255,255,255,0.03)',
+    background: selected ? 'rgba(0,212,255,0.08)' : 'var(--bg-card)',
     border: `1px solid ${selected ? '#00d4ff' : 'var(--border, #1e293b)'}`,
     borderRadius: 10,
     padding: '1rem',

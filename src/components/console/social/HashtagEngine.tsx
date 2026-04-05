@@ -52,7 +52,7 @@ export function HashtagEngine({ hashtags, onRemove, onAdd, loading }: HashtagEng
                   width: 60 + Math.random() * 40,
                   height: 28,
                   borderRadius: 8,
-                  backgroundColor: 'rgba(255,255,255,0.04)',
+                  backgroundColor: 'var(--bg-card)',
                   border: '1px solid var(--border)',
                   animation: `pulse 1.5s ease-in-out infinite`,
                   animationDelay: `${i * 0.1}s`,

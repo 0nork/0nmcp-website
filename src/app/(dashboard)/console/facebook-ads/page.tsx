@@ -103,7 +103,7 @@ function todayStr(): string {
 const styles = {
   page: {
     minHeight: '100vh',
-    background: '#0B0F19',
+    background: 'var(--bg-primary)',
     padding: '32px 24px 80px',
   } as React.CSSProperties,
 
@@ -140,7 +140,7 @@ const styles = {
   title: {
     fontSize: 28,
     fontWeight: 700,
-    color: '#e8eaed',
+    color: 'var(--text-primary)',
     margin: 0,
     letterSpacing: '-0.02em',
   } as React.CSSProperties,
@@ -201,9 +201,9 @@ const styles = {
     justifyContent: 'center',
     fontSize: 14,
     fontWeight: 700,
-    background: complete ? '#6EE05A' : active ? 'rgba(24, 119, 242, 0.2)' : 'rgba(255,255,255,0.05)',
+    background: complete ? '#6EE05A' : active ? 'rgba(24, 119, 242, 0.2)' : 'var(--bg-card)',
     color: complete ? '#0B0F19' : active ? '#1877F2' : '#5f6672',
-    border: `2px solid ${complete ? '#6EE05A' : active ? '#1877F2' : 'rgba(255,255,255,0.08)'}`,
+    border: `2px solid ${complete ? '#6EE05A' : active ? '#1877F2' : 'var(--border)'}`,
     transition: 'all 0.2s ease',
   } as React.CSSProperties),
 
@@ -222,14 +222,14 @@ const styles = {
     left: 'calc(50% + 22px)',
     right: 'calc(-50% + 22px)',
     height: 2,
-    background: complete ? '#6EE05A' : 'rgba(255,255,255,0.06)',
+    background: complete ? '#6EE05A' : 'var(--border)',
     zIndex: 0,
   } as React.CSSProperties),
 
   // Card
   card: {
-    background: 'rgba(255,255,255,0.03)',
-    border: '1px solid rgba(255,255,255,0.06)',
+    background: 'var(--bg-card)',
+    border: '1px solid var(--border)',
     borderRadius: 16,
     padding: 32,
     marginBottom: 24,
@@ -238,7 +238,7 @@ const styles = {
   cardTitle: {
     fontSize: 18,
     fontWeight: 700,
-    color: '#e8eaed',
+    color: 'var(--text-primary)',
     margin: '0 0 24px',
   } as React.CSSProperties,
 
@@ -260,9 +260,9 @@ const styles = {
     width: '100%',
     padding: '10px 14px',
     borderRadius: 10,
-    border: '1px solid rgba(255,255,255,0.08)',
-    background: 'rgba(255,255,255,0.04)',
-    color: '#e8eaed',
+    border: '1px solid var(--border)',
+    background: 'var(--bg-card)',
+    color: 'var(--text-primary)',
     fontSize: 14,
     outline: 'none',
     transition: 'border-color 0.15s',
@@ -273,9 +273,9 @@ const styles = {
     width: '100%',
     padding: '10px 14px',
     borderRadius: 10,
-    border: '1px solid rgba(255,255,255,0.08)',
-    background: 'rgba(255,255,255,0.04)',
-    color: '#e8eaed',
+    border: '1px solid var(--border)',
+    background: 'var(--bg-card)',
+    color: 'var(--text-primary)',
     fontSize: 14,
     outline: 'none',
     appearance: 'none' as const,
@@ -287,9 +287,9 @@ const styles = {
     width: '100%',
     padding: '10px 14px',
     borderRadius: 10,
-    border: '1px solid rgba(255,255,255,0.08)',
-    background: 'rgba(255,255,255,0.04)',
-    color: '#e8eaed',
+    border: '1px solid var(--border)',
+    background: 'var(--bg-card)',
+    color: 'var(--text-primary)',
     fontSize: 14,
     outline: 'none',
     resize: 'vertical' as const,
@@ -323,7 +323,7 @@ const styles = {
     gap: 8,
     padding: '8px 14px',
     borderRadius: 10,
-    border: `1px solid ${checked ? 'rgba(24,119,242,0.3)' : 'rgba(255,255,255,0.08)'}`,
+    border: `1px solid ${checked ? 'rgba(24,119,242,0.3)' : 'var(--border)'}`,
     background: checked ? 'rgba(24,119,242,0.08)' : 'rgba(255,255,255,0.02)',
     color: checked ? '#1877F2' : '#7A8290',
     fontSize: 13,
@@ -335,8 +335,8 @@ const styles = {
   pill: (active: boolean) => ({
     padding: '6px 14px',
     borderRadius: 20,
-    border: `1px solid ${active ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.08)'}`,
-    background: active ? 'rgba(126,217,87,0.10)' : 'rgba(255,255,255,0.03)',
+    border: `1px solid ${active ? 'rgba(126,217,87,0.3)' : 'var(--border)'}`,
+    background: active ? 'rgba(126,217,87,0.10)' : 'var(--bg-card)',
     color: active ? '#6EE05A' : '#7A8290',
     fontSize: 12,
     fontWeight: 600,
@@ -361,9 +361,9 @@ const styles = {
   btnSecondary: {
     padding: '12px 28px',
     borderRadius: 10,
-    border: '1px solid rgba(255,255,255,0.1)',
-    background: 'rgba(255,255,255,0.04)',
-    color: '#e8eaed',
+    border: '1px solid var(--border)',
+    background: 'var(--bg-card)',
+    color: 'var(--text-primary)',
     fontSize: 14,
     fontWeight: 600,
     cursor: 'pointer',
@@ -394,7 +394,7 @@ const styles = {
   // Preview
   previewCard: {
     background: 'rgba(255,255,255,0.02)',
-    border: '1px solid rgba(255,255,255,0.08)',
+    border: '1px solid var(--border)',
     borderRadius: 12,
     overflow: 'hidden',
     marginBottom: 24,
@@ -407,7 +407,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#5f6672',
+    color: 'var(--text-muted)',
     fontSize: 14,
   } as React.CSSProperties,
 
@@ -417,7 +417,7 @@ const styles = {
 
   previewSponsor: {
     fontSize: 11,
-    color: '#5f6672',
+    color: 'var(--text-muted)',
     marginBottom: 4,
     fontWeight: 600,
     textTransform: 'uppercase' as const,
@@ -427,7 +427,7 @@ const styles = {
   previewHeadline: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#e8eaed',
+    color: 'var(--text-primary)',
     margin: '6px 0',
   } as React.CSSProperties,
 
@@ -442,8 +442,8 @@ const styles = {
     display: 'inline-block',
     padding: '8px 20px',
     borderRadius: 6,
-    background: '#1877F2',
-    color: '#fff',
+    background: 'var(--bg-card)',
+    color: 'var(--text-primary)',
     fontSize: 13,
     fontWeight: 700,
     border: 'none',
@@ -832,13 +832,13 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
                         width: 16,
                         height: 16,
                         borderRadius: 4,
-                        border: `2px solid ${checked ? '#1877F2' : 'rgba(255,255,255,0.15)'}`,
+                        border: `2px solid ${checked ? '#1877F2' : 'var(--border-hover)'}`,
                         background: checked ? '#1877F2' : 'transparent',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: 10,
-                        color: '#fff',
+                        color: 'var(--text-primary)',
                         flexShrink: 0,
                       }}>
                         {checked ? '\u2713' : ''}
@@ -914,8 +914,8 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
                     style={{
                       padding: '8px 20px',
                       borderRadius: 10,
-                      border: `1px solid ${campaign.gender === g ? 'rgba(24,119,242,0.3)' : 'rgba(255,255,255,0.08)'}`,
-                      background: campaign.gender === g ? 'rgba(24,119,242,0.10)' : 'rgba(255,255,255,0.03)',
+                      border: `1px solid ${campaign.gender === g ? 'rgba(24,119,242,0.3)' : 'var(--border)'}`,
+                      background: campaign.gender === g ? 'rgba(24,119,242,0.10)' : 'var(--bg-card)',
                       color: campaign.gender === g ? '#1877F2' : '#7A8290',
                       fontSize: 13,
                       fontWeight: 600,
@@ -985,8 +985,8 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
                     style={{
                       padding: '8px 20px',
                       borderRadius: 10,
-                      border: `1px solid ${campaign.adFormat === f.value ? 'rgba(24,119,242,0.3)' : 'rgba(255,255,255,0.08)'}`,
-                      background: campaign.adFormat === f.value ? 'rgba(24,119,242,0.10)' : 'rgba(255,255,255,0.03)',
+                      border: `1px solid ${campaign.adFormat === f.value ? 'rgba(24,119,242,0.3)' : 'var(--border)'}`,
+                      background: campaign.adFormat === f.value ? 'rgba(24,119,242,0.10)' : 'var(--bg-card)',
                       color: campaign.adFormat === f.value ? '#1877F2' : '#7A8290',
                       fontSize: 13,
                       fontWeight: 600,
@@ -1104,7 +1104,7 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
                   {campaign.primaryText || 'Your primary ad text will appear here...'}
                 </div>
                 {campaign.description && (
-                  <div style={{ fontSize: 12, color: '#5f6672', marginBottom: 12 }}>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 12 }}>
                     {campaign.description}
                   </div>
                 )}
@@ -1139,10 +1139,10 @@ Make it persuasive, professional, and optimized for ${campaign.objective.toLower
                 ['Schedule', `${campaign.startDate}${campaign.endDate ? ' \u2192 ' + campaign.endDate : ' (ongoing)'}`],
               ].map(([label, value]) => (
                 <div key={label}>
-                  <div style={{ fontSize: 11, color: '#5f6672', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: 2 }}>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: 2 }}>
                     {label}
                   </div>
-                  <div style={{ fontSize: 14, color: '#e8eaed' }}>
+                  <div style={{ fontSize: 14, color: 'var(--text-primary)' }}>
                     {value}
                   </div>
                 </div>

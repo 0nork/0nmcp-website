@@ -31,9 +31,9 @@ const GitHubIcon = () => (
 )
 
 const PROVIDERS: { provider: Provider; label: string; Icon: React.FC; bg: string; color: string; hoverBg: string }[] = [
-  { provider: 'google' as Provider, label: 'Google', Icon: GoogleIcon, bg: 'rgba(255,255,255,0.08)', color: 'var(--text-primary)', hoverBg: 'rgba(255,255,255,0.12)' },
-  { provider: 'linkedin_oidc' as Provider, label: 'LinkedIn', Icon: LinkedInIcon, bg: '#0A66C2', color: '#fff', hoverBg: '#004182' },
-  { provider: 'github' as Provider, label: 'GitHub', Icon: GitHubIcon, bg: 'rgba(255,255,255,0.08)', color: 'var(--text-primary)', hoverBg: 'rgba(255,255,255,0.12)' },
+  { provider: 'google' as Provider, label: 'Google', Icon: GoogleIcon, bg: 'var(--border)', color: 'var(--text-primary)', hoverBg: 'rgba(255,255,255,0.12)' },
+  { provider: 'linkedin_oidc' as Provider, label: 'LinkedIn', Icon: LinkedInIcon, bg: '#0A66C2', color: 'var(--text-primary)', hoverBg: '#004182' },
+  { provider: 'github' as Provider, label: 'GitHub', Icon: GitHubIcon, bg: 'var(--border)', color: 'var(--text-primary)', hoverBg: 'rgba(255,255,255,0.12)' },
 ]
 
 export default function OAuthButtons({ mode = 'signin', redirectTo = '/0nboarding' }: OAuthButtonsProps) {

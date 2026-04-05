@@ -253,7 +253,7 @@ export function AdminSitemap() {
             padding: '0.5rem 0.75rem',
             borderRadius: '0.5rem',
             border: '1px solid var(--border)',
-            background: 'rgba(255,255,255,0.03)',
+            background: 'var(--bg-card)',
             color: 'var(--text-primary)',
             fontSize: '0.8rem',
             fontFamily: 'var(--font-mono)',
@@ -264,7 +264,7 @@ export function AdminSitemap() {
           onClick={expandAll}
           style={{
             padding: '0.4rem 0.75rem', borderRadius: '0.5rem', border: '1px solid var(--border)',
-            background: 'rgba(255,255,255,0.03)', color: 'var(--text-secondary)', cursor: 'pointer',
+            background: 'var(--bg-card)', color: 'var(--text-secondary)', cursor: 'pointer',
             fontSize: '0.7rem', fontWeight: 600, fontFamily: 'inherit',
           }}
         >
@@ -274,7 +274,7 @@ export function AdminSitemap() {
           onClick={collapseAll}
           style={{
             padding: '0.4rem 0.75rem', borderRadius: '0.5rem', border: '1px solid var(--border)',
-            background: 'rgba(255,255,255,0.03)', color: 'var(--text-secondary)', cursor: 'pointer',
+            background: 'var(--bg-card)', color: 'var(--text-secondary)', cursor: 'pointer',
             fontSize: '0.7rem', fontWeight: 600, fontFamily: 'inherit',
           }}
         >
@@ -297,7 +297,7 @@ export function AdminSitemap() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%',
                   padding: '0.5rem 0.5rem', borderRadius: '0.5rem', border: 'none',
-                  background: expanded ? 'rgba(255,255,255,0.03)' : 'transparent',
+                  background: expanded ? 'var(--bg-card)' : 'transparent',
                   cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
                 }}
               >

@@ -53,7 +53,7 @@ export default function ConvertPage() {
             placeholder='Paste your config, function call JSON, or tool definition here...'
             style={{
               width: '100%', padding: '1rem', minHeight: 300,
-              background: '#080810', border: 'none', color: 'var(--text-secondary)',
+              background: 'var(--bg-primary)', border: 'none', color: 'var(--text-secondary)',
               fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
               resize: 'vertical', lineHeight: 1.6,
             }}
@@ -64,7 +64,7 @@ export default function ConvertPage() {
             OUTPUT {selectedFormat && `— ${selectedFormat.split('→')[1]?.trim()}`}
           </div>
           <div style={{
-            padding: '1rem', minHeight: 300, background: '#080810',
+            padding: '1rem', minHeight: 300, background: 'var(--bg-primary)',
             color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>

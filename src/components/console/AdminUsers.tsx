@@ -268,7 +268,7 @@ export function AdminUsers() {
                 <div style={{ fontSize: '0.7rem' }}>
                   <span style={{
                     padding: '0.1rem 0.35rem', borderRadius: '4px',
-                    background: u.plan === 'free' ? 'rgba(255,255,255,0.05)' : 'rgba(126,217,87,0.08)',
+                    background: u.plan === 'free' ? 'var(--bg-card)' : 'rgba(126,217,87,0.08)',
                     color: u.plan === 'free' ? 'var(--text-muted)' : '#6EE05A',
                     fontWeight: 600, fontSize: '0.6rem', textTransform: 'uppercase',
                   }}>

@@ -45,7 +45,7 @@ const THREAT_COLORS: Record<string, { bg: string; text: string; dot: string }> =
 const REVIEW_ACTIONS = [
   { key: 'watching', label: '👁 Watching', color: '#3b82f6' },
   { key: 'action_required', label: '⚡ Action Required', color: '#ef4444' },
-  { key: 'no_action', label: '✓ No Action', color: '#9ca3af' },
+  { key: 'no_action', label: '✓ No Action', color: 'var(--text-muted)' },
   { key: 'escalate_attorney', label: '⚖️ Escalate to Attorney', color: '#f59e0b' },
 ]
 
@@ -121,7 +121,7 @@ export default function PatentIntelDashboard() {
   const unreadAlerts = alerts.filter(a => !a.read).length
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: '#e8eaed', fontFamily: 'system-ui, sans-serif', padding: '24px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'system-ui, sans-serif', padding: '24px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Header */}
@@ -131,14 +131,14 @@ export default function PatentIntelDashboard() {
               <span style={{ color: '#6EE05A' }}>0n</span>DEFENDER
               <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 6, background: 'rgba(110,224,90,0.1)', color: '#6EE05A', fontWeight: 700 }}>PATENT INTEL</span>
             </h1>
-            <p style={{ fontSize: 13, color: '#556880', margin: '4px 0 0' }}>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '4px 0 0' }}>
               {total} findings · {counts.unreviewed} unreviewed · {unreadAlerts} unread alerts
             </p>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <Link href="/admin/patent-intel/watchlist" style={{
-              padding: '8px 16px', borderRadius: 8, background: '#1c2b42', color: '#8b9ab5',
-              fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid #1e293b',
+              padding: '8px 16px', borderRadius: 8, background: 'var(--bg-card)', color: '#8b9ab5',
+              fontSize: 13, fontWeight: 600, textDecoration: 'none', border: '1px solid var(--border)',
             }}>
               Watchlist
             </Link>
@@ -155,8 +155,8 @@ export default function PatentIntelDashboard() {
         {/* Threat Summary + Alerts */}
         <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 16, marginBottom: 24 }}>
           {/* Threat counts */}
-          <div style={{ background: '#111827', borderRadius: 14, padding: 20, border: '1px solid #1e293b' }}>
-            <h3 style={{ fontSize: 13, fontWeight: 700, color: '#556880', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Threat Summary</h3>
+          <div style={{ background: 'var(--bg-card)', borderRadius: 14, padding: 20, border: '1px solid var(--border)' }}>
+            <h3 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Threat Summary</h3>
             {Object.entries(THREAT_COLORS).map(([level, colors]) => (
               <div key={level} onClick={() => setFilter(level)} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -175,18 +175,18 @@ export default function PatentIntelDashboard() {
               <div onClick={() => setFilter('all')} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 padding: '8px 12px', borderRadius: 8, cursor: 'pointer',
-                background: filter === 'all' ? 'rgba(255,255,255,0.04)' : 'transparent',
+                background: filter === 'all' ? 'var(--bg-card)' : 'transparent',
               }}>
                 <span style={{ fontSize: 13, fontWeight: 600, color: '#8b9ab5' }}>All</span>
-                <span style={{ fontSize: 18, fontWeight: 900, color: '#e8eaed' }}>{total}</span>
+                <span style={{ fontSize: 18, fontWeight: 900, color: 'var(--text-primary)' }}>{total}</span>
               </div>
             </div>
           </div>
 
           {/* Alert feed */}
-          <div style={{ background: '#111827', borderRadius: 14, padding: 20, border: '1px solid #1e293b', maxHeight: 300, overflow: 'auto' }}>
+          <div style={{ background: 'var(--bg-card)', borderRadius: 14, padding: 20, border: '1px solid var(--border)', maxHeight: 300, overflow: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <h3 style={{ fontSize: 13, fontWeight: 700, color: '#556880', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>
+              <h3 style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>
                 Alert Feed {unreadAlerts > 0 && <span style={{ color: '#ef4444' }}>({unreadAlerts} new)</span>}
               </h3>
               {unreadAlerts > 0 && (
@@ -196,14 +196,14 @@ export default function PatentIntelDashboard() {
               )}
             </div>
             {alerts.length === 0 ? (
-              <p style={{ fontSize: 13, color: '#556880', textAlign: 'center', padding: '2rem 0' }}>No alerts yet. Run a scan to start monitoring.</p>
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', textAlign: 'center', padding: '2rem 0' }}>No alerts yet. Run a scan to start monitoring.</p>
             ) : alerts.slice(0, 20).map(alert => (
               <div key={alert.id} style={{
                 padding: '8px 0', borderBottom: '1px solid #1e293b',
                 opacity: alert.read ? 0.5 : 1,
               }}>
-                <p style={{ fontSize: 13, color: '#e8eaed', margin: 0 }}>{alert.message}</p>
-                <p style={{ fontSize: 11, color: '#556880', margin: '2px 0 0' }}>
+                <p style={{ fontSize: 13, color: 'var(--text-primary)', margin: 0 }}>{alert.message}</p>
+                <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: '2px 0 0' }}>
                   {new Date(alert.created_at).toLocaleDateString()}
                 </p>
               </div>
@@ -233,9 +233,9 @@ export default function PatentIntelDashboard() {
 
         {/* Findings list */}
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '3rem 0', color: '#556880' }}>Loading findings...</div>
+          <div style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--text-muted)' }}>Loading findings...</div>
         ) : findings.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem 0', color: '#556880' }}>
+          <div style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--text-muted)' }}>
             <p style={{ fontSize: 15, fontWeight: 600 }}>No findings yet</p>
             <p style={{ fontSize: 13 }}>Run a scan to start monitoring the MCP ecosystem.</p>
           </div>
@@ -246,7 +246,7 @@ export default function PatentIntelDashboard() {
               const isReviewing = reviewingId === f.id
               return (
                 <div key={f.id} style={{
-                  background: '#111827', borderRadius: 12, padding: 16,
+                  background: 'var(--bg-card)', borderRadius: 12, padding: 16,
                   border: `1px solid ${isReviewing ? '#6EE05A' : '#1e293b'}`,
                   transition: 'border-color 0.2s',
                 }}>
@@ -263,7 +263,7 @@ export default function PatentIntelDashboard() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       {/* Title + category */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                        <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: '#1c2b42', color: '#8b9ab5', fontWeight: 600, textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: 'var(--bg-card)', color: '#8b9ab5', fontWeight: 600, textTransform: 'uppercase' }}>
                           {f.category.replace(/_/g, ' ')}
                         </span>
                         {f.reviewed && f.review_status && (
@@ -272,11 +272,11 @@ export default function PatentIntelDashboard() {
                           </span>
                         )}
                       </div>
-                      <h4 style={{ fontSize: 15, fontWeight: 700, color: '#e8eaed', margin: '0 0 4px' }}>{f.title}</h4>
+                      <h4 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 4px' }}>{f.title}</h4>
                       <p style={{ fontSize: 13, color: '#8b9ab5', margin: '0 0 6px', lineHeight: 1.5 }}>{f.summary}</p>
 
                       {/* Meta */}
-                      <div style={{ display: 'flex', gap: 12, fontSize: 11, color: '#556880', flexWrap: 'wrap' }}>
+                      <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'var(--text-muted)', flexWrap: 'wrap' }}>
                         {f.company_name && <span>Company: {f.company_name}</span>}
                         {f.overlapping_patents?.length ? <span>Overlaps: {f.overlapping_patents.join(', ')}</span> : null}
                         {f.source_url && <a href={f.source_url} target="_blank" rel="noopener" style={{ color: '#6EE05A' }}>Source →</a>}
@@ -289,19 +289,19 @@ export default function PatentIntelDashboard() {
 
                       {/* Review panel */}
                       {isReviewing && (
-                        <div style={{ marginTop: 12, padding: 12, background: '#0a0a0f', borderRadius: 10, border: '1px solid #1e293b' }}>
+                        <div style={{ marginTop: 12, padding: 12, background: 'var(--bg-primary)', borderRadius: 10, border: '1px solid var(--border)' }}>
                           <textarea
                             value={reviewNotes}
                             onChange={e => setReviewNotes(e.target.value)}
                             placeholder="Review notes..."
                             rows={2}
-                            style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #1e293b', background: '#111827', color: '#e8eaed', fontSize: 13, resize: 'vertical', marginBottom: 8, boxSizing: 'border-box' }}
+                            style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text-primary)', fontSize: 13, resize: 'vertical', marginBottom: 8, boxSizing: 'border-box' }}
                           />
                           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                             {REVIEW_ACTIONS.map(action => (
                               <button key={action.key} onClick={() => reviewFinding(f.id, action.key)} style={{
                                 padding: '6px 12px', borderRadius: 6, fontSize: 11, fontWeight: 700,
-                                background: 'rgba(255,255,255,0.04)', color: action.color,
+                                background: 'var(--bg-card)', color: action.color,
                                 border: `1px solid ${action.color}33`, cursor: 'pointer',
                               }}>
                                 {action.label}
@@ -309,7 +309,7 @@ export default function PatentIntelDashboard() {
                             ))}
                             <button onClick={() => setReviewingId(null)} style={{
                               padding: '6px 12px', borderRadius: 6, fontSize: 11,
-                              background: 'none', color: '#556880', border: 'none', cursor: 'pointer',
+                              background: 'none', color: 'var(--text-muted)', border: 'none', cursor: 'pointer',
                             }}>
                               Cancel
                             </button>

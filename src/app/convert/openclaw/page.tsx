@@ -172,7 +172,7 @@ export default function ConvertOpenClaw() {
                     <td className="py-3 px-4" style={{ color: 'var(--accent)' }}>{w.to}</td>
                     <td className="py-3 px-4">
                       <span className="text-xs px-2 py-1 rounded" style={{
-                        backgroundColor: w.status === 'Full' ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.05)',
+                        backgroundColor: w.status === 'Full' ? 'rgba(126,217,87,0.1)' : 'var(--bg-card)',
                         color: w.status === 'Full' ? 'var(--accent)' : 'var(--text-muted)',
                       }}>
                         {w.status}

@@ -32,8 +32,8 @@ interface NewAction {
 
 const C = {
   bg: '#0B0F19',
-  card: 'rgba(255,255,255,0.03)',
-  border: 'rgba(255,255,255,0.06)',
+  card: 'var(--bg-card)',
+  border: 'var(--border)',
   borderLight: 'rgba(255,255,255,0.12)',
   accent: '#6EE05A',
   accentDim: 'rgba(126,217,87,0.12)',
@@ -428,9 +428,9 @@ export default function CatalogAdminPage() {
 const inputStyle: React.CSSProperties = {
   padding: '8px 12px',
   borderRadius: 8,
-  border: '1px solid rgba(255,255,255,0.08)',
-  background: 'rgba(255,255,255,0.04)',
-  color: '#e8eaed',
+  border: '1px solid var(--border)',
+  background: 'var(--bg-card)',
+  color: 'var(--text-primary)',
   fontSize: 13,
   fontFamily: 'inherit',
   outline: 'none',

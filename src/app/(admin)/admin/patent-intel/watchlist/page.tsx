@@ -53,7 +53,7 @@ export default function WatchlistPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: '#e8eaed', fontFamily: 'system-ui, sans-serif', padding: 24 }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'system-ui, sans-serif', padding: 24 }}>
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
@@ -75,20 +75,20 @@ export default function WatchlistPage() {
 
         {/* Add form */}
         {showAdd && (
-          <div style={{ background: '#111827', borderRadius: 14, padding: 20, border: '1px solid #1e293b', marginBottom: 20 }}>
+          <div style={{ background: 'var(--bg-card)', borderRadius: 14, padding: 20, border: '1px solid var(--border)', marginBottom: 20 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
               <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} placeholder="Company name"
-                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid #1e293b', background: '#0a0a0f', color: '#e8eaed', fontSize: 13 }} />
+                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontSize: 13 }} />
               <input value={form.domain} onChange={e => setForm(p => ({ ...p, domain: e.target.value }))} placeholder="Domain (optional)"
-                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid #1e293b', background: '#0a0a0f', color: '#e8eaed', fontSize: 13 }} />
+                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontSize: 13 }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 12, marginBottom: 12 }}>
               <select value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
-                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid #1e293b', background: '#0a0a0f', color: '#e8eaed', fontSize: 13 }}>
+                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontSize: 13 }}>
                 {CATEGORIES.map(c => <option key={c.key} value={c.key}>{c.label}</option>)}
               </select>
               <input value={form.reason} onChange={e => setForm(p => ({ ...p, reason: e.target.value }))} placeholder="Why are we watching them?"
-                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid #1e293b', background: '#0a0a0f', color: '#e8eaed', fontSize: 13 }} />
+                style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontSize: 13 }} />
             </div>
             <button onClick={addEntry} style={{
               padding: '10px 24px', borderRadius: 8, background: '#6EE05A', color: '#0a0a0f',
@@ -99,15 +99,15 @@ export default function WatchlistPage() {
 
         {/* Entries */}
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '3rem 0', color: '#556880' }}>Loading watchlist...</div>
+          <div style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--text-muted)' }}>Loading watchlist...</div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {entries.map(entry => {
               const cat = CATEGORIES.find(c => c.key === entry.category)
               return (
                 <div key={entry.id} style={{
-                  background: '#111827', borderRadius: 12, padding: 16,
-                  border: '1px solid #1e293b', display: 'flex', alignItems: 'center', gap: 16,
+                  background: 'var(--bg-card)', borderRadius: 12, padding: 16,
+                  border: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 16,
                 }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -119,10 +119,10 @@ export default function WatchlistPage() {
                       }}>
                         {cat?.label || entry.category}
                       </span>
-                      {entry.domain && <span style={{ fontSize: 12, color: '#556880' }}>{entry.domain}</span>}
+                      {entry.domain && <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{entry.domain}</span>}
                     </div>
                     {entry.reason && <p style={{ fontSize: 13, color: '#8b9ab5', margin: 0 }}>{entry.reason}</p>}
-                    <div style={{ fontSize: 11, color: '#556880', marginTop: 4 }}>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>
                       Added {new Date(entry.created_at).toLocaleDateString()}
                       {entry.last_hit_at && ` · Last hit: ${new Date(entry.last_hit_at).toLocaleDateString()}`}
                     </div>

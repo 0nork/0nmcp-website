@@ -57,15 +57,15 @@ export default function ConsentPage() {
   const scopeList = scope.split(' ').filter(Boolean)
 
   const s = {
-    page: { alignItems: 'center' as const, background: '#080B0F', display: 'flex', justifyContent: 'center', minHeight: '100vh', padding: 24 },
-    card: { background: '#0E1117', border: '1px solid #1e2533', borderRadius: 16, maxWidth: 440, padding: 32, width: '100%' },
+    page: { alignItems: 'center' as const, background: 'var(--bg-primary)', display: 'flex', justifyContent: 'center', minHeight: '100vh', padding: 24 },
+    card: { background: 'var(--bg-primary)', border: '1px solid #1e2533', borderRadius: 16, maxWidth: 440, padding: 32, width: '100%' },
     logo: { fontFamily: "'Barlow',sans-serif", fontWeight: 900, fontSize: 28, color: '#6EE05A', marginBottom: 4 },
-    h2: { fontFamily: "'Space Grotesk',sans-serif", fontSize: 18, fontWeight: 600, color: '#e2e8f0', marginBottom: 8 },
+    h2: { fontFamily: "'Space Grotesk',sans-serif", fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 8 },
     p: { color: '#7a8694', fontSize: 14, lineHeight: 1.6, marginBottom: 20 },
-    scopeBox: { background: '#080B0F', border: '1px solid #1e2533', borderRadius: 8, marginBottom: 20, padding: '12px 16px' },
-    scopeItem: { color: '#e2e8f0', fontSize: 13, padding: '5px 0', display: 'flex', gap: 8, alignItems: 'center' as const },
+    scopeBox: { background: 'var(--bg-primary)', border: '1px solid #1e2533', borderRadius: 8, marginBottom: 20, padding: '12px 16px' },
+    scopeItem: { color: 'var(--text-primary)', fontSize: 13, padding: '5px 0', display: 'flex', gap: 8, alignItems: 'center' as const },
     btn: { background: '#6EE05A', border: 'none', borderRadius: 8, color: '#080B0F', cursor: 'pointer', fontFamily: "'Barlow',sans-serif", fontWeight: 900, fontSize: 15, padding: '12px 24px', width: '100%', marginTop: 8 },
-    input: { background: '#080B0F', border: '1px solid #1e2533', borderRadius: 8, color: '#e2e8f0', fontFamily: "'Space Grotesk',sans-serif", fontSize: 14, padding: '10px 14px', width: '100%', marginBottom: 12, boxSizing: 'border-box' as const },
+    input: { background: 'var(--bg-primary)', border: '1px solid #1e2533', borderRadius: 8, color: 'var(--text-primary)', fontFamily: "'Space Grotesk',sans-serif", fontSize: 14, padding: '10px 14px', width: '100%', marginBottom: 12, boxSizing: 'border-box' as const },
     err: { background: 'rgba(255,80,80,.08)', border: '1px solid rgba(255,80,80,.2)', borderRadius: 8, color: '#ff6b6b', fontSize: 13, marginTop: 12, padding: '10px 14px' },
   }
 

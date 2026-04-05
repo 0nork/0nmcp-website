@@ -285,14 +285,14 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
       <div className="thread-layout">
         {/* -- Left Sidebar: Quick Nav -- */}
         <div className="forum-sidebar-left" style={{ position: 'sticky', top: '5.5rem', maxHeight: 'calc(100vh - 6rem)', overflowY: 'auto' }}>
-          <div style={{ background: '#fafafa', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1.125rem 1.25rem' }}>
-            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+          <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.125rem 1.25rem' }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
               Quick Nav
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Link href="/forum" style={{
                 display: 'block', padding: '5px 8px', borderRadius: 6,
-                color: '#6b7280', fontSize: '0.75rem', fontWeight: 600,
+                color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 600,
                 textDecoration: 'none', borderLeft: '2px solid transparent',
               }}>
                 Forum (all)
@@ -312,7 +312,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
           </div>
 
           {/* Stats */}
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem', marginTop: '1rem' }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '1rem 1.125rem', marginTop: '1rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
                 { label: 'Replies', value: thread.reply_count },
@@ -320,8 +320,8 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
                 { label: 'Karma', value: thread.score },
               ].map(s => (
                 <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                  <span style={{ color: '#9ca3af' }}>{s.label}</span>
-                  <span style={{ color: '#1a1a1a', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{s.value}</span>
+                  <span style={{ color: 'var(--text-muted)' }}>{s.label}</span>
+                  <span style={{ color: 'var(--text-primary)', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{s.value}</span>
                 </div>
               ))}
             </div>
@@ -414,10 +414,10 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
                   width: '100%',
                   padding: '10px 14px 10px 38px',
                   borderRadius: 10,
-                  border: '1px solid #e5e7eb',
-                  background: '#fff',
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg-card)',
                   fontSize: '0.875rem',
-                  color: '#1a1a1a',
+                  color: 'var(--text-primary)',
                   outline: 'none',
                   fontFamily: 'inherit',
                 }}
@@ -428,7 +428,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
           {/* Thread -- server-rendered for SEO, black background */}
           <article
             className="rounded-xl mb-0"
-            style={{ background: '#0B0F19', border: '1px solid var(--border)' }}
+            style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)' }}
           >
             {/* Content */}
             <div className="py-5 px-5 flex-1 min-w-0">
@@ -442,7 +442,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
                       padding: '2px 8px',
                       borderRadius: '4px',
                       background: groupData.color,
-                      color: '#ffffff',
+                      color: 'var(--text-primary)',
                     }}
                   >
                     {groupData.name}
@@ -525,7 +525,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
             {/* Karma + comment banner bar */}
             <div
               style={{
-                background: '#1a1a22',
+                background: 'var(--bg-card)',
                 borderTop: '1px solid var(--border)',
                 borderRadius: '0 0 12px 12px',
                 padding: '0.625rem 1.25rem',
@@ -588,7 +588,7 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
             borderRadius: 14, padding: '1.5rem', textAlign: 'center',
             border: '1px solid rgba(110,224,90,0.15)',
           }}>
-            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#E8EAED', marginBottom: 6 }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>
               Join the <span style={{ color: '#6EE05A' }}>Grid</span>
             </div>
             <p style={{ fontSize: '0.75rem', color: '#7A8290', lineHeight: 1.6, marginBottom: '1rem' }}>
@@ -604,16 +604,16 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
 
           {/* Topics */}
           <div style={{
-            background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem',
+            background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '1rem 1.125rem',
           }}>
-            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
               Topics
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Link href="/forum" style={{
                 display: 'flex', justifyContent: 'space-between', width: '100%',
                 padding: '6px 8px', borderRadius: 6, textDecoration: 'none',
-                color: '#6b7280', fontSize: '0.8125rem', fontWeight: 600,
+                color: 'var(--text-muted)', fontSize: '0.8125rem', fontWeight: 600,
               }}>
                 <span>All Topics</span>
               </Link>
@@ -633,12 +633,12 @@ export default async function ThreadPage({ params }: { params: Promise<{ slug: s
 
           {/* About */}
           <div style={{
-            background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem',
+            background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '1rem 1.125rem',
           }}>
-            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
               About
             </h4>
-            <p style={{ fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
               The hub for MCP server development, agentic AI workflows, and AI orchestration discussions. Built on 0nMCP.
             </p>
           </div>

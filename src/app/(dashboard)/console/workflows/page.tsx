@@ -265,7 +265,7 @@ export default function WorkflowsPage() {
                     gap: 3,
                     padding: '2px 8px',
                     borderRadius: 4,
-                    background: 'rgba(255,255,255,0.03)',
+                    background: 'var(--bg-card)',
                     fontSize: '0.625rem',
                     color: 'var(--text-muted)',
                   }}>

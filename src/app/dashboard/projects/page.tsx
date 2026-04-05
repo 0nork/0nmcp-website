@@ -222,7 +222,7 @@ export default function ProjectsPage() {
                     <div key={t.id} className="module-card" style={{ padding: '12px 16px', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 12 }}>
                       <button
                         onClick={() => updateItem('task', t.id, { status: t.status === 'done' ? 'todo' : t.status === 'todo' ? 'in_progress' : t.status === 'in_progress' ? 'review' : 'done' })}
-                        style={{ width: 20, height: 20, borderRadius: 6, border: `2px solid ${statusColors[t.status]}`, background: t.status === 'done' ? statusColors.done : 'transparent', cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 11 }}
+                        style={{ width: 20, height: 20, borderRadius: 6, border: `2px solid ${statusColors[t.status]}`, background: t.status === 'done' ? statusColors.done : 'transparent', cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', fontSize: 11 }}
                       >
                         {t.status === 'done' && '✓'}
                       </button>

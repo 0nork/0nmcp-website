@@ -38,19 +38,19 @@ export default function FeedsPage() {
       <h1 style={{ fontSize: 36, fontWeight: 900, color: '#f0f0f0', marginBottom: 8 }}>
         RSS <span style={{ color: '#2dd4bf' }}>Feeds</span>
       </h1>
-      <p style={{ color: '#666', fontSize: 16, marginBottom: 40, lineHeight: 1.6 }}>
+      <p style={{ color: 'var(--text-muted)', fontSize: 16, marginBottom: 40, lineHeight: 1.6 }}>
         Subscribe to any feed. Filter by category. Never miss a post.
       </p>
 
       {/* Main RSS Feed */}
       <div style={{
-        background: '#111', border: '1px solid #222',
+        background: '#111', border: '1px solid var(--border)',
         borderRadius: 16, padding: 28, marginBottom: 24,
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div>
             <h2 style={{ fontSize: 20, fontWeight: 800, color: '#f0f0f0', margin: '0 0 4px' }}>0nMCP Blog</h2>
-            <p style={{ color: '#666', fontSize: 13 }}>{posts.length} articles — releases, tutorials, security, comparisons</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{posts.length} articles — releases, tutorials, security, comparisons</p>
           </div>
           <a href="/rss" style={{
             padding: '8px 16px', background: 'rgba(45,212,191,0.1)',
@@ -75,14 +75,14 @@ export default function FeedsPage() {
       </div>
 
       {/* External Feeds */}
-      <h3 style={{ fontSize: 14, fontWeight: 700, color: '#666', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+      <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
         Partner Feeds
       </h3>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
         {EXTERNAL_FEEDS.map(feed => (
           <div key={feed.name} style={{
-            background: '#111', border: '1px solid #222',
+            background: '#111', border: '1px solid var(--border)',
             borderRadius: 14, padding: 22,
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
@@ -93,7 +93,7 @@ export default function FeedsPage() {
                 <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: 9, fontWeight: 700, background: 'rgba(52,211,153,0.1)', color: '#34d399' }}>LIVE</span>
               )}
             </div>
-            <p style={{ color: '#666', fontSize: 13, lineHeight: 1.6, marginBottom: 14 }}>{feed.description}</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.6, marginBottom: 14 }}>{feed.description}</p>
             {feed.status === 'live' ? (
               <a href={feed.feedUrl} style={{
                 padding: '6px 14px', background: `${feed.color}10`,
@@ -108,7 +108,7 @@ export default function FeedsPage() {
       </div>
 
       {/* Recent Posts Preview */}
-      <h3 style={{ fontSize: 14, fontWeight: 700, color: '#666', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+      <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
         Latest Posts
       </h3>
 
@@ -117,14 +117,14 @@ export default function FeedsPage() {
           const cat = CATEGORIES.find(c => c.id === post.category)
           return (
             <a key={post.slug} href={`/blog/${post.slug}`} style={{
-              background: '#111', border: '1px solid #222',
+              background: '#111', border: '1px solid var(--border)',
               borderRadius: 10, padding: '16px 20px', textDecoration: 'none',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
               transition: 'border-color 0.15s',
             }}>
               <div>
                 <div style={{ fontSize: 15, fontWeight: 600, color: '#f0f0f0', marginBottom: 4 }}>{post.title}</div>
-                <div style={{ fontSize: 12, color: '#666' }}>{post.date} · {post.author}</div>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{post.date} · {post.author}</div>
               </div>
               <span style={{
                 padding: '3px 10px', borderRadius: 6, fontSize: 10, fontWeight: 600,
@@ -137,16 +137,16 @@ export default function FeedsPage() {
 
       {/* How to Subscribe */}
       <div style={{
-        background: '#111', border: '1px solid #222',
+        background: '#111', border: '1px solid var(--border)',
         borderRadius: 14, padding: 24, marginTop: 32, textAlign: 'center',
       }}>
         <h3 style={{ fontSize: 16, fontWeight: 700, color: '#f0f0f0', marginBottom: 8 }}>How to Subscribe</h3>
-        <p style={{ color: '#666', fontSize: 13, lineHeight: 1.7, maxWidth: 500, margin: '0 auto 16px' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: 13, lineHeight: 1.7, maxWidth: 500, margin: '0 auto 16px' }}>
           Copy the RSS URL below and paste it into your feed reader — Feedly, Inoreader, NetNewsWire, or any RSS app.
         </p>
         <code style={{
           display: 'inline-block', padding: '10px 20px',
-          background: '#0a0a0a', border: '1px solid #222', borderRadius: 8,
+          background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 8,
           color: '#2dd4bf', fontSize: 14,
         }}>https://0nmcp.com/rss</code>
       </div>

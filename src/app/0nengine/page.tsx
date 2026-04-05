@@ -11,12 +11,12 @@ import Link from 'next/link'
 
 export default function OnEnginePage() {
   return (
-    <div style={{ minHeight: '100vh', background: '#0B0F19', color: '#e8e8ef', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: "'Instrument Sans', system-ui, sans-serif" }}>
 
       {/* ── Header ──────────────────────────────────── */}
       <header style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '1rem 2rem', borderBottom: '1px solid rgba(255,255,255,0.04)',
+        padding: '1rem 2rem', borderBottom: '1px solid var(--bg-card)',
       }}>
         <Link href="/" style={{ textDecoration: 'none' }}>
           <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={120} height={42} style={{ objectFit: 'contain' }} />
@@ -56,7 +56,7 @@ export default function OnEnginePage() {
         }}>
           <span style={{ color: '#6EE05A' }}>Agentic AI</span>
           <br />
-          <span style={{ color: '#ffffff' }}>That Actually Executes</span>
+          <span style={{ color: 'var(--text-primary)' }}>That Actually Executes</span>
         </h1>
 
         <p style={{
@@ -80,7 +80,7 @@ export default function OnEnginePage() {
           <Link href="/builder" style={{
             padding: '0.875rem 2rem', fontSize: '1rem', fontWeight: 600,
             background: 'transparent', color: 'rgba(255,255,255,0.6)',
-            border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px',
+            border: '1px solid var(--border)', borderRadius: '12px',
             textDecoration: 'none',
           }}>
             See it in action
@@ -130,10 +130,10 @@ export default function OnEnginePage() {
           ].map((s, i) => (
             <div key={i} style={{
               padding: '1.5rem', background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px',
+              border: '1px solid var(--bg-card)', borderRadius: '12px',
             }}>
               <div style={{ fontSize: '2rem', fontWeight: 900, color: '#6EE05A', fontFamily: "'JetBrains Mono', monospace" }}>{s.num}</div>
-              <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#e8e8ef', marginTop: '0.25rem' }}>{s.label}</div>
+              <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginTop: '0.25rem' }}>{s.label}</div>
               <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.25rem' }}>{s.desc}</div>
             </div>
           ))}
@@ -161,7 +161,7 @@ export default function OnEnginePage() {
       </section>
 
       {/* ── Footer ──────────────────────────────────── */}
-      <footer style={{ padding: '2rem', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.2)', fontSize: '0.75rem' }}>
+      <footer style={{ padding: '2rem', textAlign: 'center', borderTop: '1px solid var(--bg-card)', color: 'rgba(255,255,255,0.2)', fontSize: '0.75rem' }}>
         © 2026 RocketOpp LLC — Powered by Jaxx
       </footer>
     </div>
@@ -175,7 +175,7 @@ function ExecutionCard({ level, name, color, desc, visual }: {
 }) {
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+      background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
       borderRadius: '16px', padding: '1.5rem', display: 'flex', flexDirection: 'column',
       transition: 'border-color 0.3s, box-shadow 0.3s',
     }}
@@ -184,7 +184,7 @@ function ExecutionCard({ level, name, color, desc, visual }: {
         e.currentTarget.style.boxShadow = `0 0 30px ${color}11`
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+        e.currentTarget.style.borderColor = 'var(--border)'
         e.currentTarget.style.boxShadow = 'none'
       }}
     >
@@ -194,7 +194,7 @@ function ExecutionCard({ level, name, color, desc, visual }: {
       <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem', color, fontWeight: 700, letterSpacing: '0.1em', marginBottom: '0.25rem' }}>
         LEVEL {level}
       </div>
-      <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#e8e8ef', marginBottom: '0.5rem' }}>
+      <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
         {name}
       </div>
       <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, flex: 1 }}>

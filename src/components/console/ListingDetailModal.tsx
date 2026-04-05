@@ -149,7 +149,7 @@ export function ListingDetailModal({
               onClick={onClose}
               className="absolute top-4 right-4 p-1.5 rounded-lg cursor-pointer border-none"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.06)',
+                backgroundColor: 'var(--border)',
                 color: 'var(--text-secondary)',
               }}
             >
@@ -169,7 +169,7 @@ export function ListingDetailModal({
             {/* Billing toggle */}
             <div
               className="inline-flex items-center gap-1 mt-3 p-0.5 rounded-lg"
-              style={{ backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)' }}
+              style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}
             >
               <button
                 onClick={() => setBilling('monthly')}
@@ -392,7 +392,7 @@ export function ListingDetailModal({
                           className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer border-none transition-all"
                           style={{
                             background: tier.key === 'free'
-                              ? 'rgba(255,255,255,0.06)'
+                              ? 'var(--border)'
                               : tier.highlight
                                 ? 'linear-gradient(135deg, var(--accent), #4CAF3D)'
                                 : 'rgba(126,217,87,0.12)',
@@ -407,7 +407,7 @@ export function ListingDetailModal({
                           onMouseLeave={e => {
                             if (!purchasing && !tier.highlight) {
                               e.currentTarget.style.backgroundColor = tier.key === 'free'
-                                ? 'rgba(255,255,255,0.06)'
+                                ? 'var(--border)'
                                 : 'rgba(126,217,87,0.12)'
                             }
                           }}
@@ -498,7 +498,7 @@ export function ListingDetailModal({
             className="absolute top-3 right-3 p-1.5 rounded-lg cursor-pointer border-none"
             style={{
               backgroundColor: 'rgba(0,0,0,0.5)',
-              color: '#fff',
+              color: 'var(--text-primary)',
               backdropFilter: 'blur(8px)',
             }}
           >
@@ -561,7 +561,7 @@ export function ListingDetailModal({
                     key={tag}
                     className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.04)',
+                      backgroundColor: 'var(--bg-card)',
                       border: '1px solid var(--border)',
                       color: 'var(--text-secondary)',
                     }}

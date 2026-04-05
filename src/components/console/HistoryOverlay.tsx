@@ -176,7 +176,7 @@ export function HistoryOverlay({ history, onClear }: HistoryOverlayProps) {
                       }}
                       onMouseEnter={(e) =>
                         ((e.currentTarget as HTMLElement).style.backgroundColor =
-                          'rgba(255,255,255,0.03)')
+                          'var(--bg-card)')
                       }
                       onMouseLeave={(e) =>
                         ((e.currentTarget as HTMLElement).style.backgroundColor = 'transparent')

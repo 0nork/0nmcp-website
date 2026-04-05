@@ -139,7 +139,7 @@ export default function WizardActionsStep() {
             padding: '14px 16px',
             borderRadius: '12px',
             border: '1px solid var(--border)',
-            backgroundColor: 'rgba(255,255,255,0.04)',
+            backgroundColor: 'var(--bg-card)',
             color: 'var(--text-primary)',
             fontSize: '0.875rem',
             lineHeight: 1.6,
@@ -291,7 +291,7 @@ export default function WizardActionsStep() {
           fontWeight: 600,
           cursor: canContinue ? 'pointer' : 'not-allowed',
           transition: 'all 0.2s ease',
-          backgroundColor: canContinue ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
+          backgroundColor: canContinue ? 'var(--accent)' : 'var(--border)',
           color: canContinue ? 'var(--bg-primary)' : 'var(--text-muted)',
           opacity: canContinue ? 1 : 0.5,
         }}

@@ -149,10 +149,10 @@ export default function ForumClient({
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1a1a1a', margin: 0, letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.02em' }}>
             Community
           </h1>
-          <p style={{ fontSize: '0.8125rem', color: '#9ca3af', margin: '0.25rem 0 0' }}>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', margin: '0.25rem 0 0' }}>
             {total} discussions across {groups.length} topics
           </p>
         </div>
@@ -168,8 +168,8 @@ export default function ForumClient({
       <div className="forum-layout">
         {/* ── Left Sidebar: Quick Nav ── */}
         <div className="forum-sidebar-left" style={{ position: 'sticky', top: '5.5rem', maxHeight: 'calc(100vh - 6rem)', overflowY: 'auto' }}>
-          <div style={{ background: '#fafafa', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1.125rem 1.25rem' }}>
-            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+          <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.125rem 1.25rem' }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
               Quick Nav
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -184,22 +184,22 @@ export default function ForumClient({
                   transition: 'all 0.15s',
                 }}>
                   <span>{g.name}</span>
-                  <span style={{ fontSize: '0.625rem', color: '#9ca3af' }}>{g.thread_count}</span>
+                  <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>{g.thread_count}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Stats */}
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem', marginTop: '1rem' }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '1rem 1.125rem', marginTop: '1rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
                 { label: 'Threads', value: total },
                 { label: 'Topics', value: groups.length },
               ].map(s => (
                 <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-                  <span style={{ color: '#9ca3af' }}>{s.label}</span>
-                  <span style={{ color: '#1a1a1a', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{s.value}</span>
+                  <span style={{ color: 'var(--text-muted)' }}>{s.label}</span>
+                  <span style={{ color: 'var(--text-primary)', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{s.value}</span>
                 </div>
               ))}
             </div>
@@ -211,12 +211,12 @@ export default function ForumClient({
           {/* Sort + Filter Bar */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: 4, marginBottom: '1rem',
-            padding: '6px', borderRadius: 10, background: '#f3f4f6',
+            padding: '6px', borderRadius: 10, background: 'var(--bg-secondary)',
           }}>
             {SORTS.map(s => (
               <button key={s.value} onClick={() => setParam('sort', s.value)} style={{
                 padding: '6px 14px', borderRadius: 7, border: 'none',
-                background: sort === s.value ? '#fff' : 'transparent',
+                background: sort === s.value ? 'var(--bg-card)' : 'transparent',
                 color: sort === s.value ? '#1a1a1a' : '#9ca3af',
                 fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                 boxShadow: sort === s.value ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
@@ -228,7 +228,7 @@ export default function ForumClient({
             {group !== 'all' && (
               <button onClick={() => setParam('group', 'all')} style={{
                 marginLeft: 'auto', padding: '4px 10px', borderRadius: 6,
-                border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280',
+                border: '1px solid var(--border)', background: 'var(--bg-card)', color: 'var(--text-muted)',
                 fontSize: '0.6875rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
               }}>
                 Clear filter
@@ -238,9 +238,9 @@ export default function ForumClient({
 
           {/* Thread List */}
           {loading ? (
-            <div style={{ padding: '4rem 0', textAlign: 'center', color: '#9ca3af' }}>Loading...</div>
+            <div style={{ padding: '4rem 0', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</div>
           ) : threads.length === 0 ? (
-            <div style={{ padding: '4rem 0', textAlign: 'center', color: '#9ca3af' }}>
+            <div style={{ padding: '4rem 0', textAlign: 'center', color: 'var(--text-muted)' }}>
               <p style={{ fontWeight: 600, marginBottom: 4 }}>No threads yet</p>
               <p style={{ fontSize: '0.875rem' }}>Be the first to start a discussion!</p>
             </div>
@@ -271,27 +271,27 @@ export default function ForumClient({
                           Pinned
                         </span>
                       )}
-                      <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>
-                        <span style={{ fontWeight: 600, color: '#6b7280' }}>{authorName(thread.profiles)}</span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                        <span style={{ fontWeight: 600, color: 'var(--text-muted)' }}>{authorName(thread.profiles)}</span>
                         {' '}&middot;{' '}{timeAgo(thread.created_at)}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#1a1a1a', margin: '0 0 0.375rem', lineHeight: 1.35 }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.375rem', lineHeight: 1.35 }}>
                       {thread.title}
                     </h3>
 
                     {/* Preview */}
                     <p style={{
-                      fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.6, margin: '0 0 0.625rem',
+                      fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: '0 0 0.625rem',
                       display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
                     }}>
                       {thread.body.slice(0, 200)}
                     </p>
 
                     {/* Footer stats */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.75rem', color: '#9ca3af' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                       <span style={{
                         display: 'flex', alignItems: 'center', gap: 4,
                         color: myVote === 1 ? '#6EE05A' : myVote === -1 ? '#ef4444' : '#9ca3af',
@@ -324,7 +324,7 @@ export default function ForumClient({
             borderRadius: 14, padding: '1.5rem', textAlign: 'center',
             border: '1px solid rgba(110,224,90,0.15)',
           }}>
-            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#E8EAED', marginBottom: 6 }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>
               Join the <span style={{ color: '#6EE05A' }}>Grid</span>
             </div>
             <p style={{ fontSize: '0.75rem', color: '#7A8290', lineHeight: 1.6, marginBottom: '1rem' }}>
@@ -340,9 +340,9 @@ export default function ForumClient({
 
           {/* Topics */}
           <div style={{
-            background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem',
+            background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '1rem 1.125rem',
           }}>
-            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
               Topics
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -354,7 +354,7 @@ export default function ForumClient({
                 fontSize: '0.8125rem', fontWeight: 600, textAlign: 'left',
               }}>
                 <span>All Topics</span>
-                <span style={{ fontSize: '0.6875rem', color: '#9ca3af', background: '#f3f4f6', padding: '1px 8px', borderRadius: 10 }}>{total}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', background: 'var(--bg-secondary)', padding: '1px 8px', borderRadius: 10 }}>{total}</span>
               </button>
               {groups.map(g => (
                 <button key={g.slug} onClick={() => setParam('group', g.slug)} style={{
@@ -365,7 +365,7 @@ export default function ForumClient({
                   fontSize: '0.8125rem', fontWeight: 600, textAlign: 'left',
                 }}>
                   <span>{g.name}</span>
-                  <span style={{ fontSize: '0.6875rem', color: '#9ca3af', background: '#f3f4f6', padding: '1px 8px', borderRadius: 10 }}>{g.thread_count}</span>
+                  <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', background: 'var(--bg-secondary)', padding: '1px 8px', borderRadius: 10 }}>{g.thread_count}</span>
                 </button>
               ))}
             </div>
@@ -373,12 +373,12 @@ export default function ForumClient({
 
           {/* About */}
           <div style={{
-            background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '1rem 1.125rem',
+            background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 14, padding: '1rem 1.125rem',
           }}>
-            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: '#1a1a1a', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
+            <h4 style={{ fontSize: '0.6875rem', fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.75rem', paddingBottom: '0.5rem', borderBottom: '2px solid #6EE05A' }}>
               About
             </h4>
-            <p style={{ fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
               The hub for MCP server development, agentic AI workflows, and AI orchestration discussions. Built on 0nMCP.
             </p>
           </div>

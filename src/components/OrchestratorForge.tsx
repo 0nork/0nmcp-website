@@ -25,7 +25,7 @@ const SERVICES = [
   { name: 'Discord', abbr: 'Dc', color: '#5865f2' },
   { name: 'HubSpot', abbr: 'Hs', color: '#ff7a59' },
   { name: 'Linear', abbr: 'Li', color: '#5e6ad2' },
-  { name: 'Notion', abbr: 'No', color: '#ffffff' },
+  { name: 'Notion', abbr: 'No', color: 'var(--text-primary)' },
   { name: 'OpenAI', abbr: 'Oa', color: '#10a37f' },
   { name: 'Anthropic', abbr: 'An', color: '#d4a574' },
   { name: 'Zoom', abbr: 'Zm', color: '#2d8cff' },
@@ -198,7 +198,7 @@ export default function OrchestratorForge() {
           width: '100%',
           overflow: 'hidden',
           background: 'linear-gradient(135deg, #0f172a 0%, #064e3b 50%, #0f172a 100%)',
-          color: '#fff',
+          color: 'var(--text-primary)',
           position: 'relative',
           border: '2px solid #6EE05A',
           boxShadow: '0 0 30px rgba(110,224,90,0.15), 0 0 60px rgba(110,224,90,0.05)',
@@ -547,9 +547,9 @@ export default function OrchestratorForge() {
                         style={{
                           padding: '10px 18px',
                           borderRadius: 10,
-                          background: 'rgba(255,255,255,0.04)',
-                          border: '1px solid rgba(255,255,255,0.1)',
-                          color: '#e2e8f0',
+                          background: 'var(--bg-card)',
+                          border: '1px solid var(--border)',
+                          color: 'var(--text-primary)',
                           fontSize: 13,
                           fontWeight: 600,
                           cursor: 'pointer',
@@ -565,8 +565,8 @@ export default function OrchestratorForge() {
                           e.currentTarget.style.color = '#6EE05A'
                         }}
                         onMouseLeave={e => {
-                          e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
-                          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+                          e.currentTarget.style.background = 'var(--bg-card)'
+                          e.currentTarget.style.borderColor = 'var(--border)'
                           e.currentTarget.style.color = '#e2e8f0'
                         }}
                       >
@@ -604,8 +604,8 @@ export default function OrchestratorForge() {
                         borderRadius: 10,
                         background: isActive
                           ? 'rgba(110,224,90,0.15)'
-                          : 'rgba(255,255,255,0.05)',
-                        border: `1px solid ${isActive ? 'rgba(110,224,90,0.4)' : 'rgba(255,255,255,0.08)'}`,
+                          : 'var(--bg-card)',
+                        border: `1px solid ${isActive ? 'rgba(110,224,90,0.4)' : 'var(--border)'}`,
                         transition: 'all 0.4s ease',
                         textAlign: 'center',
                         position: 'relative',
@@ -648,7 +648,7 @@ export default function OrchestratorForge() {
                           margin: '0 4px',
                           background: i < activePipelineStage
                             ? '#6EE05A'
-                            : 'rgba(255,255,255,0.1)',
+                            : 'var(--border)',
                           transition: 'background 0.4s ease',
                           borderRadius: 1,
                           position: 'relative',
@@ -688,7 +688,7 @@ export default function OrchestratorForge() {
                     gap: 6,
                     padding: '10px 16px',
                     background: 'rgba(0,0,0,0.3)',
-                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    borderBottom: '1px solid var(--bg-card)',
                   }}>
                     <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
                     <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e' }} />
@@ -839,8 +839,8 @@ export default function OrchestratorForge() {
                     border: '1px solid rgba(255,255,255,0.12)',
                     fontSize: 15,
                     outline: 'none',
-                    background: 'rgba(255,255,255,0.06)',
-                    color: '#fff',
+                    background: 'var(--border)',
+                    color: 'var(--text-primary)',
                     boxSizing: 'border-box',
                     marginBottom: 10,
                     transition: 'border-color 0.2s ease',
@@ -861,8 +861,8 @@ export default function OrchestratorForge() {
                     border: '1px solid rgba(255,255,255,0.12)',
                     fontSize: 15,
                     outline: 'none',
-                    background: 'rgba(255,255,255,0.06)',
-                    color: '#fff',
+                    background: 'var(--border)',
+                    color: 'var(--text-primary)',
                     boxSizing: 'border-box',
                     marginBottom: 16,
                     transition: 'border-color 0.2s ease',
@@ -879,7 +879,7 @@ export default function OrchestratorForge() {
                     padding: '16px',
                     borderRadius: 12,
                     background: !email
-                      ? 'rgba(255,255,255,0.1)'
+                      ? 'var(--border)'
                       : 'linear-gradient(135deg, #6EE05A, #3ecf8e)',
                     color: !email ? 'rgba(255,255,255,0.3)' : '#0f172a',
                     fontWeight: 900,

@@ -171,7 +171,7 @@ export default function WizardNotificationsStep() {
           fontWeight: 600,
           cursor: canContinue ? 'pointer' : 'not-allowed',
           transition: 'all 0.2s ease',
-          backgroundColor: canContinue ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
+          backgroundColor: canContinue ? 'var(--accent)' : 'var(--border)',
           color: canContinue ? 'var(--bg-primary)' : 'var(--text-muted)',
           opacity: canContinue ? 1 : 0.5,
         }}

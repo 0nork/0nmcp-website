@@ -76,7 +76,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
             justifyContent: 'center',
             fontSize: 24,
             fontWeight: 700,
-            color: '#fff',
+            color: 'var(--text-primary)',
             flexShrink: 0,
           }}
         >
@@ -216,7 +216,7 @@ export default function PlatformDetector({ result }: PlatformDetectorProps) {
                 fontSize: 12,
                 fontWeight: 600,
                 fontFamily: 'var(--font-mono, monospace)',
-                color: '#fff',
+                color: 'var(--text-primary)',
                 background: `${SERVICE_COLORS[service] ?? '#555'}30`,
                 border: `1px solid ${SERVICE_COLORS[service] ?? '#555'}60`,
               }}

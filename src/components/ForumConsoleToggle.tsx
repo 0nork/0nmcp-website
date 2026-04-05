@@ -8,7 +8,7 @@ export default function ForumConsoleToggle() {
   const isForum = pathname.startsWith('/forum')
 
   return (
-    <div style={{ display: 'flex', gap: 4, padding: 3, borderRadius: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)' }}>
+    <div style={{ display: 'flex', gap: 4, padding: 3, borderRadius: 10, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
       <Link
         href="/forum"
         style={{

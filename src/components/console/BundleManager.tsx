@@ -205,7 +205,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
 
   const cardStyle: React.CSSProperties = {
     background: 'rgba(255,255,255,0.02)',
-    border: '1px solid rgba(255,255,255,0.06)',
+    border: '1px solid var(--border)',
     borderRadius: 12,
     padding: '1.25rem',
   }
@@ -225,9 +225,9 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   }
 
   const btnGhost: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.04)',
+    background: 'var(--bg-card)',
     color: 'var(--text-primary)',
-    border: '1px solid rgba(255,255,255,0.08)',
+    border: '1px solid var(--border)',
     borderRadius: 8,
     padding: '0.625rem 1.25rem',
     fontWeight: 500,
@@ -241,8 +241,8 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   const inputStyle: React.CSSProperties = {
     width: '100%',
     padding: '0.625rem 0.875rem',
-    background: 'rgba(255,255,255,0.03)',
-    border: '1px solid rgba(255,255,255,0.08)',
+    background: 'var(--bg-card)',
+    border: '1px solid var(--border)',
     borderRadius: 8,
     color: 'var(--text-primary)',
     fontSize: '0.875rem',
@@ -261,7 +261,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             Credential Bundles
           </h2>
           <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-            Package your vault credentials into portable, encrypted .0n files. Import on any machine with <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'rgba(255,255,255,0.06)', padding: '2px 6px', borderRadius: 4 }}>0nmcp engine open</code>
+            Package your vault credentials into portable, encrypted .0n files. Import on any machine with <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--border)', padding: '2px 6px', borderRadius: 4 }}>0nmcp engine open</code>
           </p>
         </div>
 
@@ -280,7 +280,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
               e.currentTarget.style.background = 'rgba(126,217,87,0.04)'
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+              e.currentTarget.style.borderColor = 'var(--border)'
               e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
             }}
           >
@@ -317,7 +317,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
               e.currentTarget.style.background = 'rgba(0,212,255,0.04)'
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+              e.currentTarget.style.borderColor = 'var(--border)'
               e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
             }}
           >
@@ -347,7 +347,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
           maxWidth: 640,
         }}>
           <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            <strong style={{ color: 'var(--accent)' }}>How it works:</strong> Bundles are encrypted with AES-256-GCM using a passphrase you choose. Your credentials never leave your browser unencrypted. The .0n bundle file is compatible with the 0nMCP CLI — run <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'rgba(255,255,255,0.06)', padding: '2px 6px', borderRadius: 4 }}>0nmcp engine open bundle.0n</code> to install credentials on any machine.
+            <strong style={{ color: 'var(--accent)' }}>How it works:</strong> Bundles are encrypted with AES-256-GCM using a passphrase you choose. Your credentials never leave your browser unencrypted. The .0n bundle file is compatible with the 0nMCP CLI — run <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--border)', padding: '2px 6px', borderRadius: 4 }}>0nmcp engine open bundle.0n</code> to install credentials on any machine.
           </div>
         </div>
       </div>
@@ -409,7 +409,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
                       gap: 10,
                       padding: '0.625rem 0.875rem',
                       background: isSelected ? 'rgba(126,217,87,0.08)' : 'rgba(255,255,255,0.02)',
-                      border: `1px solid ${isSelected ? 'var(--accent)' : 'rgba(255,255,255,0.06)'}`,
+                      border: `1px solid ${isSelected ? 'var(--accent)' : 'var(--border)'}`,
                       borderRadius: 8,
                       cursor: 'pointer',
                       color: 'var(--text-primary)',
@@ -420,7 +420,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
                     {/* Checkbox */}
                     <div style={{
                       width: 18, height: 18, borderRadius: 4, flexShrink: 0,
-                      border: `2px solid ${isSelected ? 'var(--accent)' : 'rgba(255,255,255,0.15)'}`,
+                      border: `2px solid ${isSelected ? 'var(--accent)' : 'var(--border-hover)'}`,
                       background: isSelected ? 'var(--accent)' : 'transparent',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
@@ -515,7 +515,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
                   height: 3, flex: 1, borderRadius: 2,
                   background: passphrase.length >= i * 4
                     ? passphrase.length >= 16 ? '#6EE05A' : passphrase.length >= 12 ? '#fbbf24' : '#f97316'
-                    : 'rgba(255,255,255,0.06)',
+                    : 'var(--border)',
                 }} />
               ))}
             </div>
@@ -603,7 +603,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             {info.services.map(s => (
               <div key={s.service} style={{
                 display: 'flex', alignItems: 'center', gap: 6,
-                padding: '4px 10px', background: 'rgba(255,255,255,0.04)',
+                padding: '4px 10px', background: 'var(--bg-card)',
                 borderRadius: 6, fontSize: '0.8125rem', color: 'var(--text-primary)',
               }}>
                 <ServiceLogo service={s.service} size={14} />
@@ -661,11 +661,11 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
         {/* Drop zone */}
         <div
           onDragOver={e => { e.preventDefault(); e.currentTarget.style.borderColor = '#00d4ff' }}
-          onDragLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
+          onDragLeave={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
           onDrop={handleFileDrop}
           onClick={() => fileInputRef.current?.click()}
           style={{
-            border: '2px dashed rgba(255,255,255,0.1)',
+            border: '2px dashed var(--border)',
             borderRadius: 12,
             padding: '3rem 2rem',
             textAlign: 'center',
@@ -674,7 +674,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             background: 'rgba(255,255,255,0.01)',
           }}
           onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.background = 'rgba(255,255,255,0.02)' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.01)' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'rgba(255,255,255,0.01)' }}
         >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" style={{ marginBottom: 12 }}>
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -740,7 +740,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             <div key={s.service} style={{
               display: 'flex', alignItems: 'center', gap: 10,
               padding: '0.5rem 0',
-              borderBottom: '1px solid rgba(255,255,255,0.04)',
+              borderBottom: '1px solid var(--bg-card)',
             }}>
               <ServiceLogo service={s.service} size={18} />
               <div style={{ flex: 1 }}>
@@ -867,7 +867,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             <div key={r.service} style={{
               display: 'flex', alignItems: 'center', gap: 10,
               padding: '0.5rem 0',
-              borderBottom: '1px solid rgba(255,255,255,0.04)',
+              borderBottom: '1px solid var(--bg-card)',
             }}>
               <ServiceLogo service={r.service} size={18} />
               <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', flex: 1 }}>{r.name}</span>

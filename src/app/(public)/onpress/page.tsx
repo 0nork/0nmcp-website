@@ -50,7 +50,7 @@ export default function OnPressPage() {
   }
 
   return (
-    <div style={{ background: '#0A0E17', color: '#E8E8E8', minHeight: '100vh', fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh', fontFamily: "'Inter', system-ui, sans-serif" }}>
 
       {/* Nav */}
       <nav style={{ padding: '16px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1a1f2e' }}>
@@ -58,7 +58,7 @@ export default function OnPressPage() {
           <div style={{ width: 32, height: 32, background: 'linear-gradient(135deg, #7ed957, #5cb83a)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 13, color: '#0A0E17' }}>0n</div>
           <span style={{ fontWeight: 800, fontSize: 18 }}><span style={{ color: '#7ed957' }}>On</span>Press</span>
         </div>
-        <a href="https://0nmcp.com" style={{ color: '#666', fontSize: 13, textDecoration: 'none' }}>by 0nMCP</a>
+        <a href="https://0nmcp.com" style={{ color: 'var(--text-muted)', fontSize: 13, textDecoration: 'none' }}>by 0nMCP</a>
       </nav>
 
       {/* Countdown Banner */}
@@ -83,7 +83,7 @@ export default function OnPressPage() {
           Your Figma design.<br />
           <span style={{ color: '#7ed957' }}>A WordPress theme in seconds.</span>
         </h1>
-        <p style={{ fontSize: 18, color: '#888', lineHeight: 1.6, maxWidth: 600, margin: '0 auto 32px' }}>
+        <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto 32px' }}>
           OnPress extracts every color, font, spacing value, and component from your Figma file — and generates a production-ready WordPress theme or plugin. No code. No rebuilding. Just press.
         </p>
         <button
@@ -98,7 +98,7 @@ export default function OnPressPage() {
         >
           {loading ? 'Redirecting to checkout...' : 'Get OnPress — $49/year'}
         </button>
-        <p style={{ fontSize: 12, color: '#555', marginTop: 12 }}>7-day money-back guarantee. Cancel anytime.</p>
+        <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 12 }}>7-day money-back guarantee. Cancel anytime.</p>
       </section>
 
       {/* How It Works */}
@@ -112,10 +112,10 @@ export default function OnPressPage() {
             { step: '02', title: 'Extract & Generate', desc: 'OnPress scans every color, font, spacing, component, and layout. One click.' },
             { step: '03', title: 'Download & Install', desc: 'Get a production-ready WordPress theme ZIP. Upload to WordPress. Done.' },
           ].map(s => (
-            <div key={s.step} style={{ background: '#111622', border: '1px solid #1a1f2e', borderRadius: 16, padding: 28 }}>
+            <div key={s.step} style={{ background: 'var(--bg-card)', border: '1px solid #1a1f2e', borderRadius: 16, padding: 28 }}>
               <div style={{ color: '#7ed957', fontFamily: 'monospace', fontSize: 32, fontWeight: 900, marginBottom: 12 }}>{s.step}</div>
               <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>{s.title}</h3>
-              <p style={{ fontSize: 14, color: '#888', lineHeight: 1.6 }}>{s.desc}</p>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -127,7 +127,7 @@ export default function OnPressPage() {
           Themes <span style={{ color: '#7ed957' }}>AND</span> Plugins
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-          <div style={{ background: '#111622', border: '2px solid #7ed957', borderRadius: 16, padding: 32, position: 'relative' }}>
+          <div style={{ background: 'var(--bg-card)', border: '2px solid #7ed957', borderRadius: 16, padding: 32, position: 'relative' }}>
             <div style={{ position: 'absolute', top: -12, left: 24, background: '#7ed957', color: '#0A0E17', fontSize: 10, fontWeight: 800, padding: '4px 12px', borderRadius: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Theme Generator</div>
             <h3 style={{ fontSize: 22, fontWeight: 800, marginBottom: 16, marginTop: 8 }}>WordPress Theme</h3>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -138,7 +138,7 @@ export default function OnPressPage() {
               ))}
             </ul>
           </div>
-          <div style={{ background: '#111622', border: '2px solid #a78bfa', borderRadius: 16, padding: 32, position: 'relative' }}>
+          <div style={{ background: 'var(--bg-card)', border: '2px solid #a78bfa', borderRadius: 16, padding: 32, position: 'relative' }}>
             <div style={{ position: 'absolute', top: -12, left: 24, background: '#a78bfa', color: '#0A0E17', fontSize: 10, fontWeight: 800, padding: '4px 12px', borderRadius: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>First Ever</div>
             <h3 style={{ fontSize: 22, fontWeight: 800, marginBottom: 16, marginTop: 8 }}>WordPress Plugin</h3>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -168,9 +168,9 @@ export default function OnPressPage() {
             { name: 'Auto Layout', desc: 'Flex direction, alignment, wrap → CSS flexbox' },
             { name: 'Page Structure', desc: 'Frame hierarchy → template structure' },
           ].map(t => (
-            <div key={t.name} style={{ background: '#111622', border: '1px solid #1a1f2e', borderRadius: 10, padding: '14px 18px' }}>
+            <div key={t.name} style={{ background: 'var(--bg-card)', border: '1px solid #1a1f2e', borderRadius: 10, padding: '14px 18px' }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: '#7ed957', marginBottom: 4 }}>{t.name}</div>
-              <div style={{ fontSize: 12, color: '#888', lineHeight: 1.5 }}>{t.desc}</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5 }}>{t.desc}</div>
             </div>
           ))}
         </div>
@@ -181,22 +181,22 @@ export default function OnPressPage() {
         <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 16 }}>
           Also available as a <span style={{ color: '#7ed957' }}>WordPress plugin</span>
         </h2>
-        <p style={{ color: '#888', fontSize: 16, lineHeight: 1.6, marginBottom: 32 }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: 16, lineHeight: 1.6, marginBottom: 32 }}>
           Don't use Figma? No problem. Install the OnPress WordPress plugin, paste any Figma URL into your dashboard, and generate themes and plugins directly from WordPress admin. No Figma account needed — just the share link.
         </p>
       </section>
 
       {/* Pricing */}
       <section style={{ padding: '60px 24px', maxWidth: 500, margin: '0 auto', textAlign: 'center' }}>
-        <div style={{ background: '#111622', border: '2px solid #7ed957', borderRadius: 20, padding: 40, position: 'relative' }}>
+        <div style={{ background: 'var(--bg-card)', border: '2px solid #7ed957', borderRadius: 20, padding: 40, position: 'relative' }}>
           {!countdown.expired && (
             <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#ef4444', color: '#fff', fontSize: 11, fontWeight: 800, padding: '5px 16px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
               Launch price — {countdown.days}d {countdown.hours}h left
             </div>
           )}
-          <div style={{ fontSize: 14, color: '#888', textDecoration: 'line-through', marginBottom: 4, marginTop: 8 }}>$149/year</div>
+          <div style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'line-through', marginBottom: 4, marginTop: 8 }}>$149/year</div>
           <div style={{ fontSize: 56, fontWeight: 900, color: '#7ed957', lineHeight: 1 }}>$49</div>
-          <div style={{ fontSize: 14, color: '#888', marginBottom: 24 }}>per year</div>
+          <div style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 24 }}>per year</div>
           <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
             {[
               'Figma plugin (unlimited conversions)',
@@ -225,13 +225,13 @@ export default function OnPressPage() {
           >
             {loading ? 'Loading...' : 'Get OnPress Now — $49/year'}
           </button>
-          <p style={{ fontSize: 11, color: '#555', marginTop: 10 }}>Secure checkout via Stripe. Cancel anytime.</p>
+          <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 10 }}>Secure checkout via Stripe. Cancel anytime.</p>
         </div>
       </section>
 
       {/* Footer */}
       <footer style={{ padding: '40px 24px', textAlign: 'center', borderTop: '1px solid #1a1f2e', marginTop: 60 }}>
-        <p style={{ fontSize: 12, color: '#555' }}>
+        <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>
           OnPress by <a href="https://0nmcp.com" style={{ color: '#7ed957', textDecoration: 'none' }}>0nMCP</a> / RocketOpp LLC
         </p>
       </footer>

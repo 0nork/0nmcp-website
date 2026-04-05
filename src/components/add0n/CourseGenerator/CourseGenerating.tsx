@@ -82,7 +82,7 @@ export default function CourseGenerating({
       </div>
 
       <h2 style={{
-        fontSize: 20, fontWeight: 800, color: '#E8EAED',
+        fontSize: 20, fontWeight: 800, color: 'var(--text-primary)',
         letterSpacing: '-0.02em', margin: '0 0 4px',
       }}>
         {title}

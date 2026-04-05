@@ -110,12 +110,12 @@ export default function SxoHomepage() {
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1.5rem 0' }}>
         <div style={{
           display: 'flex', alignItems: 'center', borderRadius: 50, overflow: 'hidden',
-          background: '#1a1a1a', height: 46,
+          background: 'var(--bg-card)', height: 46,
         }}>
           {/* Left pill — white bg */}
           <div style={{
             padding: '0 20px', height: '100%',
-            background: '#fff', borderRadius: 50,
+            background: 'var(--bg-card)', borderRadius: 50,
             display: 'flex', alignItems: 'center', gap: 8,
             border: '2px solid #1a1a1a', marginRight: -2,
             zIndex: 1,
@@ -125,26 +125,26 @@ export default function SxoHomepage() {
               <polyline points="14 2 14 8 20 8" />
               <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
             </svg>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap' }}>Latest News</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>Latest News</span>
           </div>
 
           {/* Right — black bg with text + arrows */}
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 8px 0 20px', minWidth: 0 }}>
-            <div style={{ flex: 1, fontSize: 13, color: '#fff', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontWeight: 500 }}>
+            <div style={{ flex: 1, fontSize: 13, color: 'var(--text-primary)', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontWeight: 500 }}>
               {TRENDING[trendingIdx]}
             </div>
             <div style={{ display: 'flex', gap: 4, flexShrink: 0, marginLeft: 12 }}>
               <button onClick={() => setTrendingIdx(p => (p - 1 + TRENDING.length) % TRENDING.length)} style={{
-                width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)',
+                width: 30, height: 30, borderRadius: 8, border: '1px solid var(--border-hover)',
                 background: 'transparent', cursor: 'pointer', display: 'flex',
-                alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'background 0.15s',
+                alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', transition: 'background 0.15s',
               }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
               </button>
               <button onClick={() => setTrendingIdx(p => (p + 1) % TRENDING.length)} style={{
-                width: 30, height: 30, borderRadius: 8, border: '1px solid rgba(255,255,255,0.15)',
-                background: 'rgba(255,255,255,0.1)', cursor: 'pointer', display: 'flex',
-                alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'background 0.15s',
+                width: 30, height: 30, borderRadius: 8, border: '1px solid var(--border-hover)',
+                background: 'var(--border)', cursor: 'pointer', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', transition: 'background 0.15s',
               }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
               </button>
@@ -155,19 +155,19 @@ export default function SxoHomepage() {
 
       {/* ── BLUF ── */}
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1.5rem 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, fontSize: 13, color: '#888' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, fontSize: 13, color: 'var(--text-muted)' }}>
           <time ref={dateRef} dateTime="">Last Updated: March 30, 2026</time>
           <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#16a34a', fontWeight: 600 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#16a34a', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--bg-card)', display: 'inline-block', animation: 'pulse 2s infinite' }} />
             Living DOM Active
           </span>
         </div>
         {mutationNotice && (
-          <div style={{ padding: '10px 14px', borderRadius: 10, marginBottom: 16, background: '#f0fdf4', borderLeft: '4px solid #16a34a', fontSize: 13, color: '#15803d', fontWeight: 500 }}>
+          <div style={{ padding: '10px 14px', borderRadius: 10, marginBottom: 16, background: 'var(--bg-secondary)', borderLeft: '4px solid #16a34a', fontSize: 13, color: '#15803d', fontWeight: 500 }}>
             {mutationNotice}
           </div>
         )}
-        <h2 style={{ fontSize: 28, fontWeight: 800, color: '#1a1a1a', letterSpacing: '-0.02em', marginBottom: 12 }}>Executive Summary</h2>
+        <h2 style={{ fontSize: 28, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 12 }}>Executive Summary</h2>
         <p style={{ fontSize: 17, color: '#444', lineHeight: 1.8, fontWeight: 500 }} dangerouslySetInnerHTML={{ __html: bluf }} />
       </section>
 
@@ -179,10 +179,10 @@ export default function SxoHomepage() {
 
       {/* ── BEAUTIFUL TABLE with Category Switcher ── */}
       <section id="mcp-servers" style={{ maxWidth: 900, margin: '0 auto', padding: '3rem 1.5rem' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 6 }}>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>
           0nMCP vs Every Other MCP Server
         </h2>
-        <p style={{ fontSize: 14, color: '#888', marginBottom: 20 }}>Switch categories to see the full picture.</p>
+        <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 20 }}>Switch categories to see the full picture.</p>
 
         {/* Category tabs */}
         <div style={{ display: 'flex', gap: 6, marginBottom: 16 }}>
@@ -202,7 +202,7 @@ export default function SxoHomepage() {
         {/* Table */}
         <div style={{
           borderRadius: 16, overflow: 'hidden',
-          background: '#fff', border: '1px solid #e5e7eb',
+          background: 'var(--bg-card)', border: '1px solid var(--border)',
           boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
         }}>
           {rows.map((row, i) => (
@@ -215,10 +215,10 @@ export default function SxoHomepage() {
               onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
               onMouseLeave={e => e.currentTarget.style.background = i === 0 ? '#fafafa' : '#fff'}
             >
-              <div style={{ padding: '14px 20px', fontSize: 14, fontWeight: 600, color: '#1a1a1a' }}>
+              <div style={{ padding: '14px 20px', fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>
                 {row.metric}
               </div>
-              <div style={{ padding: '14px 20px', fontSize: 14, color: '#999' }}>
+              <div style={{ padding: '14px 20px', fontSize: 14, color: 'var(--text-muted)' }}>
                 {row.typical}
               </div>
               <div style={{
@@ -241,7 +241,7 @@ export default function SxoHomepage() {
         {/* Table footer labels */}
         <div style={{
           display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-          padding: '8px 20px', fontSize: 11, color: '#aaa', fontWeight: 600,
+          padding: '8px 20px', fontSize: 11, color: 'var(--text-muted)', fontWeight: 600,
           textTransform: 'uppercase', letterSpacing: '0.06em',
         }}>
           <span>Metric</span>
@@ -252,7 +252,7 @@ export default function SxoHomepage() {
 
       {/* ── WORKFLOW MODELS ── */}
       <section id="automate" style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 20 }}>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>
           Three Execution Models
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
@@ -262,7 +262,7 @@ export default function SxoHomepage() {
             { name: 'Radial Burst', desc: 'Fan-out — one trigger spawns N parallel operations.', icon: '✦', color: '#a78bfa' },
           ].map(m => (
             <div key={m.name} style={{
-              padding: 24, borderRadius: 16, background: '#fff', border: '1px solid #e5e7eb',
+              padding: 24, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)',
               boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               transition: 'box-shadow 0.25s, transform 0.25s',
               borderTop: `3px solid ${m.color}`,
@@ -271,8 +271,8 @@ export default function SxoHomepage() {
               onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
               <div style={{ fontSize: 32, marginBottom: 8, color: m.color }}>{m.icon}</div>
-              <div style={{ fontSize: 16, fontWeight: 800, color: '#1a1a1a', marginBottom: 6 }}>{m.name}</div>
-              <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>{m.desc}</div>
+              <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>{m.name}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>{m.desc}</div>
             </div>
           ))}
         </div>
@@ -280,7 +280,7 @@ export default function SxoHomepage() {
 
       {/* ── PATENT TECH ── */}
       <section id="patents" style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 20 }}>4 Patented Technologies</h2>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>4 Patented Technologies</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
           {[
             { name: 'Seal of Truth', desc: 'SHA3-256 integrity verification', patent: '#63/968,814', color: '#6EE05A' },
@@ -289,7 +289,7 @@ export default function SxoHomepage() {
             { name: '0nCore', desc: 'Voice-adaptive generation', patent: 'Pending', color: '#fbbf24' },
           ].map(p => (
             <div key={p.name} style={{
-              padding: 20, borderRadius: 14, background: '#fff', border: '1px solid #e5e7eb',
+              padding: 20, borderRadius: 14, background: 'var(--bg-card)', border: '1px solid var(--border)',
               boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               transition: 'box-shadow 0.25s, transform 0.25s',
               borderLeft: `4px solid ${p.color}`,
@@ -297,9 +297,9 @@ export default function SxoHomepage() {
               onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
               onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
-              <div style={{ fontSize: 16, fontWeight: 800, color: '#1a1a1a', marginBottom: 4 }}>{p.name}</div>
+              <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 4 }}>{p.name}</div>
               <div style={{ fontSize: 11, color: p.color, fontWeight: 700, marginBottom: 6 }}>US Provisional {p.patent}</div>
-              <div style={{ fontSize: 13, color: '#666', lineHeight: 1.5 }}>{p.desc}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5 }}>{p.desc}</div>
             </div>
           ))}
         </div>
@@ -311,8 +311,8 @@ export default function SxoHomepage() {
           {/* Social Grid */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-              <span style={{ fontSize: 16, fontWeight: 800, color: '#1a1a1a' }}>Follow Us</span>
-              <div style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
+              <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-primary)' }}>Follow Us</span>
+              <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
               {[
@@ -323,7 +323,7 @@ export default function SxoHomepage() {
               ].map(s => (
                 <Link key={s.name} href={s.href} target="_blank" rel="noopener" style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  padding: '20px 12px', borderRadius: 12, background: s.bg, color: '#fff',
+                  padding: '20px 12px', borderRadius: 12, background: s.bg, color: 'var(--text-primary)',
                   textDecoration: 'none', fontSize: 12, fontWeight: 700, gap: 6,
                   transition: 'transform 0.2s, box-shadow 0.2s',
                 }}
@@ -339,15 +339,15 @@ export default function SxoHomepage() {
 
           {/* Chat Preview */}
           <div style={{
-            background: '#fff', borderRadius: 16, border: '1px solid #e5e7eb',
+            background: 'var(--bg-card)', borderRadius: 16, border: '1px solid var(--border)',
             boxShadow: '0 4px 20px rgba(0,0,0,0.04)', overflow: 'hidden',
           }}>
             <div style={{ padding: '14px 20px', borderBottom: '1px solid #f0f0f0', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #6EE05A, #00b4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900, color: '#fff' }}>0n</div>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #6EE05A, #00b4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900, color: 'var(--text-primary)' }}>0n</div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a' }}>0nMCP Assistant</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>0nMCP Assistant</div>
                 <div style={{ fontSize: 11, color: '#16a34a', display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a' }} />
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--bg-card)' }} />
                   Online
                 </div>
               </div>
@@ -382,7 +382,7 @@ export default function SxoHomepage() {
 
       {/* ── FAQ ── */}
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 20 }}>Frequently Asked Questions</h2>
+        <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>Frequently Asked Questions</h2>
         {[
           { q: 'What is 0nMCP?', a: '0nMCP is the Universal AI API Orchestrator — the most comprehensive MCP Server connecting 1,183 tools and 99 services with zero configuration. Open source, MIT licensed, and powered by 4 patented technologies.' },
           { q: 'How do I install 0nMCP?', a: 'Run npx 0nmcp@latest in your terminal. That\'s it. Zero config. Works with npm, pnpm, yarn, and bun.' },
@@ -392,33 +392,33 @@ export default function SxoHomepage() {
         ].map(faq => (
           <div key={faq.q} style={{
             padding: 20, borderRadius: 14, marginBottom: 10,
-            background: '#fff', border: '1px solid #e5e7eb',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
             boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
           }}>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', marginBottom: 6 }}>{faq.q}</h3>
-            <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, margin: 0 }}>{faq.a}</p>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{faq.q}</h3>
+            <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, margin: 0 }}>{faq.a}</p>
           </div>
         ))}
       </section>
 
       {/* ── CTAs ── */}
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
-        <div style={{ borderRadius: 16, padding: '3rem 2rem', textAlign: 'center', background: 'linear-gradient(135deg, #16a34a, #1a1a1a)', color: '#fff', boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
+        <div style={{ borderRadius: 16, padding: '3rem 2rem', textAlign: 'center', background: 'linear-gradient(135deg, #16a34a, #1a1a1a)', color: 'var(--text-primary)', boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
           <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Get Your Own MCP Server Living DOM Page for $8</h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)', marginBottom: 24 }}>Professional SXO-optimized rewrite. Living DOM included.</p>
-          <Link href="/get-mcp-rewrite" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: 12, background: '#fff', color: '#16a34a', fontWeight: 800, fontSize: 16, textDecoration: 'none' }}>
+          <Link href="/get-mcp-rewrite" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: 12, background: 'var(--bg-card)', color: '#16a34a', fontWeight: 800, fontSize: 16, textDecoration: 'none' }}>
             Claim My $8 Rewrite
           </Link>
         </div>
       </section>
 
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 4rem' }}>
-        <div style={{ borderRadius: 16, padding: '3rem 2rem', textAlign: 'center', background: '#1a1a1a', color: '#fff', boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
+        <div style={{ borderRadius: 16, padding: '3rem 2rem', textAlign: 'center', background: 'var(--bg-card)', color: 'var(--text-primary)', boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
           <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Ready to Try 0nMCP?</h2>
-          <p style={{ fontSize: 15, color: '#aaa', marginBottom: 24 }}>1,183 tools. 99 services. One command.</p>
+          <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 24 }}>1,183 tools. 99 services. One command.</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
-            <Link href="/signup" style={{ padding: '12px 28px', borderRadius: 10, background: '#6EE05A', color: '#1a1a1a', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>Request Access</Link>
-            <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{ padding: '12px 28px', borderRadius: 10, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)' }}>View on GitHub</Link>
+            <Link href="/signup" style={{ padding: '12px 28px', borderRadius: 10, background: '#6EE05A', color: 'var(--text-primary)', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>Request Access</Link>
+            <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{ padding: '12px 28px', borderRadius: 10, background: 'var(--border)', color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid var(--border-hover)' }}>View on GitHub</Link>
           </div>
           <div style={{ marginTop: 16 }}>
             <code style={{ fontSize: 13, color: '#6EE05A', background: 'rgba(110,224,90,0.1)', padding: '6px 14px', borderRadius: 6 }}>npx 0nmcp@latest</code>
@@ -435,8 +435,8 @@ export default function SxoHomepage() {
 
 const navBtn: React.CSSProperties = {
   width: 28, height: 28, borderRadius: 6,
-  border: '1px solid #ddd', background: '#fff',
+  border: '1px solid #ddd', background: 'var(--bg-card)',
   cursor: 'pointer', display: 'flex',
   alignItems: 'center', justifyContent: 'center',
-  color: '#999', transition: 'all 0.15s',
+  color: 'var(--text-muted)', transition: 'all 0.15s',
 }

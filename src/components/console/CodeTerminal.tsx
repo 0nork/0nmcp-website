@@ -366,7 +366,7 @@ export function CodeTerminal() {
 
       <style>{`
         .ct-inline-code {
-          background: rgba(255,255,255,0.06);
+          background: var(--border);
           padding: 1px 5px;
           border-radius: 3px;
           font-family: var(--font-mono);
@@ -377,7 +377,7 @@ export function CodeTerminal() {
           display: inline-block;
           padding: 0 4px;
           border-radius: 3px;
-          background: rgba(255,255,255,0.06);
+          background: var(--border);
           border: 1px solid var(--border);
           font-family: var(--font-mono);
           font-size: 9px;
@@ -554,7 +554,7 @@ function RunnableCodeBlock({ block, index, onRun }: { block: CodeBlock; index: n
           <button
             onClick={handleCopy}
             className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium transition-all border-none cursor-pointer"
-            style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)' }}
+            style={{ background: 'var(--bg-card)', color: 'var(--text-muted)' }}
           >
             {copied ? <Check size={10} /> : <Copy size={10} />}
             {copied ? 'Copied' : 'Copy'}

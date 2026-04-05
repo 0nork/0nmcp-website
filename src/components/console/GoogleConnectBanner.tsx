@@ -61,7 +61,7 @@ export function GoogleConnectBanner() {
             href="/api/console/google-export"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium no-underline transition-all"
             style={{
-              background: 'rgba(255,255,255,0.06)',
+              background: 'var(--border)',
               border: '1px solid var(--border)',
               color: 'var(--text-primary)',
             }}
@@ -82,7 +82,7 @@ export function GoogleConnectBanner() {
                 key={svc.key}
                 className="text-[11px] font-medium px-2 py-1 rounded-full flex items-center gap-1"
                 style={{
-                  background: isActive ? 'rgba(126,217,87,0.12)' : 'rgba(255,255,255,0.04)',
+                  background: isActive ? 'rgba(126,217,87,0.12)' : 'var(--bg-card)',
                   border: `1px solid ${isActive ? 'rgba(126,217,87,0.25)' : 'var(--border)'}`,
                   color: isActive ? 'var(--accent)' : 'var(--text-muted)',
                 }}

@@ -239,8 +239,8 @@ function FeaturedCard({ mod }: { mod: Mod }) {
         gap: 16,
         padding: '24px',
         borderRadius: 16,
-        background: hovered ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)',
-        border: `1px solid ${hovered ? 'rgba(126,217,87,0.2)' : 'rgba(255,255,255,0.06)'}`,
+        background: hovered ? 'var(--bg-card)' : 'rgba(255,255,255,0.02)',
+        border: `1px solid ${hovered ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
         textDecoration: 'none',
         transition: 'all 0.25s ease',
         transform: hovered ? 'translateY(-2px)' : 'none',
@@ -268,8 +268,8 @@ function FeaturedCard({ mod }: { mod: Mod }) {
           </span>
           <span style={{
             fontSize: 10, padding: '3px 8px', borderRadius: 5,
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
             color: '#7A8290', fontWeight: 600, fontFamily: "'JetBrains Mono', monospace",
           }}>
             {mod.version}
@@ -278,7 +278,7 @@ function FeaturedCard({ mod }: { mod: Mod }) {
       </div>
 
       <div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: '#e8eaed', lineHeight: 1.3 }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3 }}>
           {mod.name}
         </div>
         <div style={{
@@ -329,8 +329,8 @@ function ModCard({ mod }: { mod: Mod }) {
         gap: 12,
         padding: '16px',
         borderRadius: 12,
-        background: hovered ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)',
-        border: `1px solid ${hovered ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.06)'}`,
+        background: hovered ? 'var(--bg-card)' : 'rgba(255,255,255,0.02)',
+        border: `1px solid ${hovered ? 'var(--border)' : 'var(--border)'}`,
         textDecoration: 'none',
         transition: 'all 0.2s ease',
         transform: hovered ? 'translateY(-1px)' : 'none',
@@ -349,11 +349,11 @@ function ModCard({ mod }: { mod: Mod }) {
 
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: '#e8eaed' }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>
             {mod.name}
           </span>
           <span style={{
-            fontSize: 9, color: '#5f6672',
+            fontSize: 9, color: 'var(--text-muted)',
             fontFamily: "'JetBrains Mono', monospace",
           }}>
             {mod.version}
@@ -373,7 +373,7 @@ function ModCard({ mod }: { mod: Mod }) {
 
       <div style={{
         fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-        letterSpacing: '.06em', color: '#5f6672',
+        letterSpacing: '.06em', color: 'var(--text-muted)',
         marginTop: 'auto',
       }}>
         {mod.category}
@@ -403,7 +403,7 @@ export default function ModsPage() {
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
         <h1 style={{
-          fontSize: 24, fontWeight: 800, color: '#e8eaed',
+          fontSize: 24, fontWeight: 800, color: 'var(--text-primary)',
           letterSpacing: '-0.02em', margin: 0,
         }}>
           MODs
@@ -421,8 +421,8 @@ export default function ModsPage() {
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '8px 14px', borderRadius: 10,
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
           flex: '1 1 220px', maxWidth: 320,
         }}>
           <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#5f6672" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -434,7 +434,7 @@ export default function ModsPage() {
             placeholder="Search modules..."
             style={{
               flex: 1, background: 'none', border: 'none', outline: 'none',
-              fontSize: 13, color: '#e8eaed', fontFamily: 'inherit',
+              fontSize: 13, color: 'var(--text-primary)', fontFamily: 'inherit',
             }}
           />
         </div>
@@ -450,7 +450,7 @@ export default function ModsPage() {
                 background: category === cat ? 'rgba(126,217,87,0.12)' : 'transparent',
                 border: category === cat
                   ? '1px solid rgba(126,217,87,0.3)'
-                  : '1px solid rgba(255,255,255,0.06)',
+                  : '1px solid var(--border)',
                 color: category === cat ? '#6EE05A' : '#7a8290',
                 cursor: 'pointer', fontFamily: 'inherit',
                 fontWeight: category === cat ? 600 : 400,
@@ -489,7 +489,7 @@ export default function ModsPage() {
       {filtered.length === 0 && (
         <div style={{
           textAlign: 'center', padding: '60px 0',
-          color: '#5f6672', fontSize: 14,
+          color: 'var(--text-muted)', fontSize: 14,
         }}>
           No modules match your search.
         </div>

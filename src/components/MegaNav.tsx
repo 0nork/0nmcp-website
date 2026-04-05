@@ -137,7 +137,7 @@ export default function MegaNav() {
       <div className="mn-bar">
         {/* Logo */}
         <Link href="/" className="mn-logo no-underline">
-          <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={120} height={40} style={{ objectFit: 'contain' }} priority />
+          <Image src="/brand/0nmcp-logo-dark.svg" alt="0nMCP" width={120} height={40} style={{ objectFit: 'contain' }} priority />
         </Link>
 
         {/* Desktop links */}

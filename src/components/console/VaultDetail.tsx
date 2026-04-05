@@ -315,7 +315,7 @@ export function VaultDetail({ service, onBack, vault, onSave }: VaultDetailProps
           onClick={() => switchTab('advanced')}
           className="flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all cursor-pointer border-none"
           style={{
-            backgroundColor: tab === 'advanced' ? 'rgba(255,255,255,0.05)' : 'transparent',
+            backgroundColor: tab === 'advanced' ? 'var(--bg-card)' : 'transparent',
             color: tab === 'advanced' ? 'var(--text-primary)' : 'var(--text-muted)',
             borderBottom: tab === 'advanced' ? '2px solid var(--text-muted)' : '2px solid transparent',
           }}

@@ -358,7 +358,7 @@ export function TerminalSignup() {
                   key={i}
                   className="terminal-strength-seg"
                   style={{
-                    background: i < liveStrength.score ? liveStrength.color : 'rgba(255,255,255,0.06)',
+                    background: i < liveStrength.score ? liveStrength.color : 'var(--border)',
                   }}
                 />
               ))}
@@ -401,7 +401,7 @@ export function TerminalSignup() {
           align-items: center;
           justify-content: space-between;
           padding: 0.75rem 1rem;
-          background: rgba(255,255,255,0.03);
+          background: var(--bg-card);
           border-bottom: 1px solid var(--border);
         }
 

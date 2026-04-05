@@ -6,7 +6,7 @@ export default function QRCode({ url = 'https://www.0nmcp.com/app' }: { url?: st
   return (
     <div
       style={{
-        background: '#fff',
+        background: 'var(--bg-card)',
         borderRadius: 12,
         padding: 12,
         display: 'inline-block',

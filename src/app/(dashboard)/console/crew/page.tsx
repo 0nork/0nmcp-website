@@ -483,7 +483,7 @@ function ConfigurePanel({
           onClick={() => onUpdate(agent.id, { status: agent.status === 'active' ? 'idle' : 'active' })}
           className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer border-none transition-all"
           style={{
-            backgroundColor: agent.status === 'active' ? agent.color + '18' : 'rgba(255,255,255,0.05)',
+            backgroundColor: agent.status === 'active' ? agent.color + '18' : 'var(--bg-card)',
             color: agent.status === 'active' ? agent.color : 'var(--text-muted)',
           }}
         >
@@ -541,7 +541,7 @@ function ConfigurePanel({
                         }}
                         className="text-xs px-2 py-1 rounded-full cursor-pointer border-none transition-all font-medium"
                         style={{
-                          background: isActive ? group.color + '20' : 'rgba(255,255,255,0.03)',
+                          background: isActive ? group.color + '20' : 'var(--bg-card)',
                           color: isActive ? group.color : 'var(--text-muted)',
                           border: `1px solid ${isActive ? group.color + '40' : 'var(--border)'}`,
                         }}
@@ -575,7 +575,7 @@ function ConfigurePanel({
                 }}
                 className="text-xs px-2.5 py-1 rounded-full cursor-pointer border-none transition-all font-medium"
                 style={{
-                  background: isActive ? 'var(--accent)' + '18' : 'rgba(255,255,255,0.03)',
+                  background: isActive ? 'var(--accent)' + '18' : 'var(--bg-card)',
                   color: isActive ? 'var(--accent)' : 'var(--text-muted)',
                   border: `1px solid ${isActive ? 'var(--accent)' + '40' : 'var(--border)'}`,
                 }}
@@ -626,7 +626,7 @@ function WorkflowPanel({ agent }: { agent: CrewAgent }) {
               <button
                 onClick={() => { navigator.clipboard.writeText(workflowJson); setGenerated(true); setTimeout(() => setGenerated(false), 2000) }}
                 className="text-xs px-3 py-1.5 rounded-lg cursor-pointer border-none transition-all font-medium"
-                style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-secondary)' }}
+                style={{ background: 'var(--bg-card)', color: 'var(--text-secondary)' }}
               >
                 {generated ? 'Copied!' : 'Copy'}
               </button>
@@ -714,7 +714,7 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
           disabled={running}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer border-none transition-all"
           style={{
-            background: running ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, #ff6d5a, #ff6b35)',
+            background: running ? 'var(--bg-card)' : 'linear-gradient(135deg, #ff6d5a, #ff6b35)',
             color: running ? 'var(--text-muted)' : '#fff',
             opacity: running ? 0.6 : 1,
           }}

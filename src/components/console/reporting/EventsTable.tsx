@@ -167,7 +167,7 @@ export function EventsTable({ events }: EventsTableProps) {
                   transition: 'background-color 0.15s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                  e.currentTarget.style.backgroundColor = 'var(--bg-card)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor =

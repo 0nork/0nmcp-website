@@ -62,9 +62,9 @@ const HOURS = Array.from({ length: 24 }, (_, i) => {
 
 const C = {
   bg: '#0B0F19',
-  card: 'rgba(255,255,255,0.03)',
+  card: 'var(--bg-card)',
   cardHover: 'rgba(255,255,255,0.055)',
-  border: 'rgba(255,255,255,0.06)',
+  border: 'var(--border)',
   borderFocus: 'rgba(126,217,87,0.4)',
   accent: '#6EE05A',
   accentDim: 'rgba(126,217,87,0.12)',
@@ -75,8 +75,8 @@ const C = {
   textSecondary: '#7A8290',
   textMuted: '#5f6672',
   heroGradient: 'linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.04))',
-  inputBg: 'rgba(255,255,255,0.04)',
-  toggleOff: 'rgba(255,255,255,0.1)',
+  inputBg: 'var(--bg-card)',
+  toggleOff: 'var(--border)',
   toggleOn: '#6EE05A',
   red: '#ef4444',
 }
@@ -320,7 +320,7 @@ export default function AiEmployeePage(): ReactNode {
                 padding: '8px 18px',
                 borderRadius: 40,
                 border: `1px solid ${config.enabled ? 'rgba(126,217,87,0.3)' : C.border}`,
-                background: config.enabled ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.04)',
+                background: config.enabled ? 'rgba(126,217,87,0.1)' : 'var(--bg-card)',
                 color: config.enabled ? C.accent : C.textMuted,
                 fontSize: 13,
                 fontWeight: 600,
@@ -349,7 +349,7 @@ export default function AiEmployeePage(): ReactNode {
               { label: 'Avg Response', value: '< 30s', color: '#fbbf24' },
             ].map((s) => (
               <div key={s.label} style={{
-                background: 'rgba(255,255,255,0.04)',
+                background: 'var(--bg-card)',
                 border: `1px solid ${C.border}`,
                 borderRadius: 12,
                 padding: '14px 20px',
@@ -401,7 +401,7 @@ export default function AiEmployeePage(): ReactNode {
               onChange={e => set('personality', e.target.value)}
             >
               {PERSONALITIES.map(p => (
-                <option key={p} value={p} style={{ background: '#1a1a24', color: C.textPrimary }}>{p}</option>
+                <option key={p} value={p} style={{ background: 'var(--bg-card)', color: C.textPrimary }}>{p}</option>
               ))}
             </select>
           </div>
@@ -486,7 +486,7 @@ export default function AiEmployeePage(): ReactNode {
                       width: 18,
                       height: 18,
                       borderRadius: '50%',
-                      background: '#fff',
+                      background: 'var(--bg-card)',
                       transition: 'left 0.25s',
                       boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
                     }} />
@@ -524,7 +524,7 @@ export default function AiEmployeePage(): ReactNode {
                   width: 18,
                   height: 18,
                   borderRadius: '50%',
-                  background: '#fff',
+                  background: 'var(--bg-card)',
                   transition: 'left 0.25s',
                   boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
                 }} />
@@ -569,7 +569,7 @@ export default function AiEmployeePage(): ReactNode {
                 width: 18,
                 height: 18,
                 borderRadius: '50%',
-                background: '#fff',
+                background: 'var(--bg-card)',
                 transition: 'left 0.25s',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
               }} />
@@ -607,7 +607,7 @@ export default function AiEmployeePage(): ReactNode {
                 onChange={e => set('workingHoursStart', e.target.value)}
               >
                 {HOURS.map(h => (
-                  <option key={h} value={h} style={{ background: '#1a1a24', color: C.textPrimary }}>{h}</option>
+                  <option key={h} value={h} style={{ background: 'var(--bg-card)', color: C.textPrimary }}>{h}</option>
                 ))}
               </select>
               <span style={{ color: C.textMuted, fontSize: 13 }}>to</span>
@@ -617,7 +617,7 @@ export default function AiEmployeePage(): ReactNode {
                 onChange={e => set('workingHoursEnd', e.target.value)}
               >
                 {HOURS.map(h => (
-                  <option key={h} value={h} style={{ background: '#1a1a24', color: C.textPrimary }}>{h}</option>
+                  <option key={h} value={h} style={{ background: 'var(--bg-card)', color: C.textPrimary }}>{h}</option>
                 ))}
               </select>
             </div>
@@ -725,7 +725,7 @@ export default function AiEmployeePage(): ReactNode {
                 maxWidth: '70%',
                 padding: '12px 18px',
                 borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                background: msg.role === 'user' ? 'rgba(126,217,87,0.12)' : 'rgba(255,255,255,0.05)',
+                background: msg.role === 'user' ? 'rgba(126,217,87,0.12)' : 'var(--bg-card)',
                 border: `1px solid ${msg.role === 'user' ? 'rgba(126,217,87,0.2)' : C.border}`,
                 color: C.textPrimary,
                 fontSize: 14,
@@ -743,7 +743,7 @@ export default function AiEmployeePage(): ReactNode {
                   width: 32,
                   height: 32,
                   borderRadius: 10,
-                  background: 'rgba(255,255,255,0.06)',
+                  background: 'var(--border)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',

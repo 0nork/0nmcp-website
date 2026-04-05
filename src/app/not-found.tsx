@@ -16,30 +16,30 @@ export default function NotFound() {
           404
         </div>
 
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
           This page doesn&apos;t exist. Yet.
         </h1>
-        <p style={{ fontSize: 16, color: '#555', lineHeight: 1.6, marginBottom: 32 }}>
+        <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 32 }}>
           The page you&apos;re looking for doesn&apos;t exist or has been moved. Try one of these instead.
         </p>
 
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/" style={{
-            padding: '10px 24px', borderRadius: 10, background: '#1a1a1a',
-            color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none',
+            padding: '10px 24px', borderRadius: 10, background: 'var(--bg-card)',
+            color: 'var(--text-primary)', fontWeight: 700, fontSize: 14, textDecoration: 'none',
           }}>
             Go Home
           </Link>
           <Link href="/start" style={{
-            padding: '10px 24px', borderRadius: 10, background: '#fff',
-            color: '#1a1a1a', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+            padding: '10px 24px', borderRadius: 10, background: 'var(--bg-card)',
+            color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none',
             border: '1px solid #ddd',
           }}>
             Get Started
           </Link>
           <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" style={{
-            padding: '10px 24px', borderRadius: 10, background: '#fff',
-            color: '#1a1a1a', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+            padding: '10px 24px', borderRadius: 10, background: 'var(--bg-card)',
+            color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none',
             border: '1px solid #ddd',
           }}>
             GitHub

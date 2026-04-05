@@ -121,7 +121,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
                 {data.nextTierProgress.label}
               </span>
             </div>
-            <div style={{ background: '#1a1a1a', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--bg-card)', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
               <div style={{
                 width: `${Math.min((data.nextTierProgress.current / data.nextTierProgress.needed) * 100, 100)}%`,
                 height: '100%',
@@ -170,12 +170,12 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
                         {p.avgScore > 0 ? p.avgScore.toFixed(3) : '—'}
                       </span>
                     ) : (
-                      <span style={{ fontSize: '0.7rem', color: '#555' }}>Tier {p.unlocksAtTier}</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Tier {p.unlocksAtTier}</span>
                     )}
                   </div>
                   <div style={{ ...sub, fontSize: '0.7rem' }}>{p.specialty}</div>
                   {p.isActive && p.avgScore > 0 && (
-                    <div style={{ background: '#1a1a1a', borderRadius: '3px', height: '4px', marginTop: '4px' }}>
+                    <div style={{ background: 'var(--bg-card)', borderRadius: '3px', height: '4px', marginTop: '4px' }}>
                       <div style={{
                         width: `${Math.min(p.avgScore * 100, 100)}%`,
                         height: '100%',
@@ -209,7 +209,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
                       {d.count} entries · {d.avgScore.toFixed(3)}
                     </span>
                   </div>
-                  <div style={{ background: '#1a1a1a', borderRadius: '4px', height: '6px' }}>
+                  <div style={{ background: 'var(--bg-card)', borderRadius: '4px', height: '6px' }}>
                     <div style={{
                       width: `${Math.min(d.avgScore * 100, 100)}%`,
                       height: '100%',
@@ -237,14 +237,14 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
               <thead>
                 <tr style={{ borderBottom: '1px solid #1a1a1a' }}>
                   {['Time', 'Type', 'Tier', 'Batch', 'Avg Score', 'Added', 'Pruned', 'Duration'].map(h => (
-                    <th key={h} style={{ textAlign: 'left', padding: '0.5rem', color: '#666', fontWeight: 500 }}>{h}</th>
+                    <th key={h} style={{ textAlign: 'left', padding: '0.5rem', color: 'var(--text-muted)', fontWeight: 500 }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {data.recentRuns.map(run => (
                   <tr key={run.id} style={{ borderBottom: '1px solid #111' }}>
-                    <td style={{ padding: '0.5rem', color: '#888' }}>{timeAgo(new Date(run.created_at))}</td>
+                    <td style={{ padding: '0.5rem', color: 'var(--text-muted)' }}>{timeAgo(new Date(run.created_at))}</td>
                     <td style={{ padding: '0.5rem' }}>
                       <span style={{
                         fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px',
@@ -255,7 +255,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
                       </span>
                     </td>
                     <td style={{ padding: '0.5rem', color: TIER_COLORS[run.tier_level] || '#666' }}>T{run.tier_level}</td>
-                    <td style={{ padding: '0.5rem', color: '#aaa', fontFamily: 'JetBrains Mono, monospace' }}>{run.batch_size || '—'}</td>
+                    <td style={{ padding: '0.5rem', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>{run.batch_size || '—'}</td>
                     <td style={{ padding: '0.5rem', color: getScoreColor(run.avg_composite_score || 0), fontFamily: 'JetBrains Mono, monospace' }}>
                       {run.avg_composite_score ? run.avg_composite_score.toFixed(3) : '—'}
                     </td>
@@ -265,7 +265,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
                     <td style={{ padding: '0.5rem', color: run.entries_pruned ? '#ef4444' : '#666', fontFamily: 'JetBrains Mono, monospace' }}>
                       {run.entries_pruned ? `-${run.entries_pruned}` : '—'}
                     </td>
-                    <td style={{ padding: '0.5rem', color: '#888', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <td style={{ padding: '0.5rem', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>
                       {run.duration_ms ? `${(run.duration_ms / 1000).toFixed(1)}s` : '—'}
                     </td>
                   </tr>
@@ -290,7 +290,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
               {/* Vertical line */}
               <div style={{
                 position: 'absolute', left: '6px', top: 0, bottom: 0,
-                width: '2px', background: '#1a1a1a',
+                width: '2px', background: 'var(--bg-card)',
               }} />
               {data.milestones.map((m, i) => {
                 const isTier = m.milestone_key.startsWith('tier_')
@@ -363,7 +363,7 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
 function StatPill({ label, value, color, pulse }: { label: string; value: string; color: string; pulse?: boolean }) {
   return (
     <div style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: '0.65rem', color: '#555', marginBottom: '2px' }}>{label}</div>
+      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}>
         {pulse && (
           <span style={{
@@ -383,7 +383,7 @@ function StatPill({ label, value, color, pulse }: { label: string; value: string
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ background: '#111', borderRadius: '0.5rem', padding: '0.5rem', textAlign: 'center' }}>
-      <div style={{ fontSize: '0.65rem', color: '#555' }}>{label}</div>
+      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{label}</div>
       <div style={{ color: 'var(--text-primary, #e5e5e5)', fontWeight: 600, fontSize: '1rem', fontFamily: 'JetBrains Mono, monospace' }}>
         {value}
       </div>

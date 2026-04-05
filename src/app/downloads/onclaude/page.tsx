@@ -40,47 +40,47 @@ export default function OnClaudePage() {
               boxShadow: '0 8px 24px rgba(110,224,90,0.3)',
             }}>C</div>
             <div>
-              <h1 style={{ fontSize: 32, fontWeight: 900, color: '#1a1a1a', margin: 0 }}>0nClaude</h1>
-              <p style={{ fontSize: 14, color: '#888', margin: 0 }}>The Premium Claude Experience</p>
+              <h1 style={{ fontSize: 32, fontWeight: 900, color: 'var(--text-primary)', margin: 0 }}>0nClaude</h1>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: 0 }}>The Premium Claude Experience</p>
             </div>
           </div>
-          <p style={{ fontSize: 17, color: '#555', lineHeight: 1.8 }}>
+          <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.8 }}>
             Connect your Vault to Claude Desktop or Claude Code. Your business context, Knowledge Layer, and {STATS_DISPLAY.tools} tools — loaded automatically on every conversation.
           </p>
         </div>
 
         {/* Install Methods */}
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>Install</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 16 }}>Install</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 16 }}>
 
             {/* Card 1: Claude Desktop */}
             <div style={{
-              background: '#fff', borderRadius: 14, padding: 24,
-              border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              background: 'var(--bg-card)', borderRadius: 14, padding: 24,
+              border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 10, background: '#d4a574',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', fontSize: 13, fontWeight: 900,
+                  color: 'var(--text-primary)', fontSize: 13, fontWeight: 900,
                 }}>C</div>
                 <div>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: '#1a1a1a' }}>Claude Desktop</div>
-                  <div style={{ fontSize: 12, color: '#888' }}>JSON config file</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>Claude Desktop</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>JSON config file</div>
                 </div>
               </div>
 
               <pre style={{
-                padding: 16, borderRadius: 10, background: '#1a1a1a', color: '#e0e0e0',
+                padding: 16, borderRadius: 10, background: 'var(--bg-card)', color: '#e0e0e0',
                 fontSize: 12, fontFamily: 'monospace', lineHeight: 1.6, overflow: 'auto', margin: '0 0 12px',
               }}>{CLAUDE_DESKTOP_CONFIG}</pre>
 
-              <p style={{ fontSize: 12, color: '#888', margin: '0 0 16px' }}>
-                Add to <code style={{ background: '#f5f5f7', padding: '2px 6px', borderRadius: 4, fontSize: 11 }}>~/Library/Application Support/Claude/claude_desktop_config.json</code>
+              <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '0 0 16px' }}>
+                Add to <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: 4, fontSize: 11 }}>~/Library/Application Support/Claude/claude_desktop_config.json</code>
               </p>
 
-              <div style={{ fontSize: 13, color: '#555', lineHeight: 1.8 }}>
+              <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.8 }}>
                 <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
                   <span style={{ color: '#6EE05A', fontWeight: 700, flexShrink: 0 }}>1.</span>
                   <span>Copy the config above</span>
@@ -102,32 +102,32 @@ export default function OnClaudePage() {
 
             {/* Card 2: Claude Code */}
             <div style={{
-              background: '#fff', borderRadius: 14, padding: 24,
-              border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              background: 'var(--bg-card)', borderRadius: 14, padding: 24,
+              border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               display: 'flex', flexDirection: 'column',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 10, background: '#d4a574',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', fontSize: 11, fontWeight: 900,
+                  color: 'var(--text-primary)', fontSize: 11, fontWeight: 900,
                 }}>CC</div>
                 <div>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: '#1a1a1a' }}>Claude Code</div>
-                  <div style={{ fontSize: 12, color: '#888' }}>One command</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>Claude Code</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>One command</div>
                 </div>
               </div>
 
               <code style={{
-                display: 'block', padding: 16, borderRadius: 10, background: '#1a1a1a',
+                display: 'block', padding: 16, borderRadius: 10, background: 'var(--bg-card)',
                 color: '#6EE05A', fontSize: 13, fontFamily: 'monospace', lineHeight: 1.6,
                 marginBottom: 16,
               }}>claude mcp add 0nMCP -- npx -y 0nmcp</code>
 
-              <p style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', margin: '0 0 8px' }}>
+              <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px' }}>
                 That&apos;s it. One command.
               </p>
-              <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, margin: 0, flex: 1 }}>
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, margin: 0, flex: 1 }}>
                 Run this in your terminal and {STATS_DISPLAY.tools} tools are instantly available in every Claude Code session.
               </p>
             </div>
@@ -136,15 +136,15 @@ export default function OnClaudePage() {
 
         {/* What You Get */}
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>What You Get</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 16 }}>What You Get</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
             {FEATURES.map(f => (
               <div key={f.title} style={{
-                background: '#fff', borderRadius: 14, padding: 20,
-                border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                background: 'var(--bg-card)', borderRadius: 14, padding: 20,
+                border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', marginBottom: 6 }}>{f.title}</div>
-                <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>{f.desc}</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{f.title}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>{f.desc}</div>
               </div>
             ))}
           </div>
@@ -152,9 +152,9 @@ export default function OnClaudePage() {
 
         {/* Architecture */}
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>How It Works</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 16 }}>How It Works</h2>
           <div style={{
-            background: '#1a1a1a', borderRadius: 14, padding: 24,
+            background: 'var(--bg-card)', borderRadius: 14, padding: 24,
             color: '#e0e0e0', fontSize: 13, fontFamily: 'monospace', lineHeight: 1.8,
           }}>
             <div style={{ color: '#6EE05A', marginBottom: 12, fontWeight: 700 }}>// Architecture</div>
@@ -174,7 +174,7 @@ export default function OnClaudePage() {
         <div style={{
           borderRadius: 16, padding: '2.5rem 2rem', textAlign: 'center',
           background: 'linear-gradient(135deg, #0f172a, #1a3a1a)',
-          color: '#fff', boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+          color: 'var(--text-primary)', boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
         }}>
           <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Get Started</h2>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', marginBottom: 20 }}>
@@ -186,8 +186,8 @@ export default function OnClaudePage() {
               fontWeight: 800, fontSize: 14, textDecoration: 'none',
             }}>Get Started</Link>
             <Link href="#install" onClick={undefined} style={{
-              padding: '12px 28px', borderRadius: 10, background: 'rgba(255,255,255,0.1)',
-              color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+              padding: '12px 28px', borderRadius: 10, background: 'var(--border)',
+              color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none',
               border: '1px solid rgba(255,255,255,0.2)',
             }}>Already subscribed? Install now</Link>
           </div>

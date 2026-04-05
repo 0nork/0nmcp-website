@@ -29,7 +29,7 @@ export default function GridEmbed({ gridUrl, hasCrmSetup }: GridEmbedProps) {
               <rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
             </svg>
           </div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#e8eaed', margin: '0 0 0.5rem' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.5rem' }}>
             Your Grid access is being set up
           </h1>
           <p style={{ fontSize: '0.875rem', color: '#7A8290', lineHeight: 1.6, margin: '0 0 1.5rem' }}>

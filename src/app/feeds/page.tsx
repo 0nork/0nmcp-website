@@ -116,7 +116,7 @@ export default function FeedsPage() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all no-underline"
                         style={{
-                          backgroundColor: 'rgba(255,255,255,0.04)',
+                          backgroundColor: 'var(--bg-card)',
                           border: '1px solid var(--border)',
                           color: feed.color,
                         }}
@@ -135,7 +135,7 @@ export default function FeedsPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium no-underline transition-all"
                       style={{
-                        backgroundColor: 'rgba(255,255,255,0.04)',
+                        backgroundColor: 'var(--bg-card)',
                         border: '1px solid var(--border)',
                         color: 'var(--text-muted)',
                       }}

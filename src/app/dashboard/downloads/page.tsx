@@ -213,7 +213,7 @@ export default function DownloadsPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--jp-text)' }}>{d.name}</span>
                     <span className={`jp-badge ${d.status === 'available' ? 'green' : d.status === 'beta' ? 'cyan' : ''}`}
-                      style={d.status === 'coming_soon' ? { background: 'rgba(255,255,255,0.05)', color: 'var(--jp-text-muted)' } : undefined}
+                      style={d.status === 'coming_soon' ? { background: 'var(--bg-card)', color: 'var(--jp-text-muted)' } : undefined}
                     >
                       {d.status === 'available' ? 'AVAILABLE' : d.status === 'beta' ? 'BETA' : 'COMING SOON'}
                     </span>

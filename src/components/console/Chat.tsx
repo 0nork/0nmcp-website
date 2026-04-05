@@ -147,7 +147,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
                 {m.loading ? (
                   <Loader2 size={16} className="animate-spin" style={{ color: 'var(--bg-primary)' }} />
                 ) : m.source && AI_SOURCE_SET.has(m.source) ? (
-                  <Sparkles size={14} style={{ color: '#fff' }} />
+                  <Sparkles size={14} style={{ color: 'var(--text-primary)' }} />
                 ) : (
                   <span
                     className="text-[10px] font-black"

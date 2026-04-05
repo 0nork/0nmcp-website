@@ -402,7 +402,7 @@ export default function AISettingsPage() {
             ].map((signal) => (
               <div key={signal.label} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                 <span style={{ fontSize: 12, color: 'var(--text-secondary)', width: 100 }}>{signal.label}</span>
-                <div style={{ flex: 1, height: 8, borderRadius: 4, backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                <div style={{ flex: 1, height: 8, borderRadius: 4, backgroundColor: 'var(--bg-card)' }}>
                   <div style={{
                     width: `${(signal.weight / 3.0) * 100}%`,
                     height: '100%',

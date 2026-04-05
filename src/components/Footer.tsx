@@ -67,7 +67,7 @@ export default function Footer() {
           {/* Logo column */}
           <div className="col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={130} height={46} style={{ objectFit: 'contain' }} />
+              <Image src="/brand/0nmcp-logo-dark.svg" alt="0nMCP" width={130} height={46} style={{ objectFit: 'contain' }} />
             </Link>
             <p
               className="text-sm leading-relaxed max-w-xs"

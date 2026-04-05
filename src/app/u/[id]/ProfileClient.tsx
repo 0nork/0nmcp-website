@@ -108,7 +108,7 @@ export default function ProfileClient({
           onClick={() => setTab('threads')}
           className="text-xs font-bold px-4 py-2 rounded-lg transition-all"
           style={{
-            background: tab === 'threads' ? 'rgba(255,255,255,0.08)' : 'transparent',
+            background: tab === 'threads' ? 'var(--border)' : 'transparent',
             color: tab === 'threads' ? 'var(--accent)' : 'var(--text-muted)',
           }}
         >
@@ -118,7 +118,7 @@ export default function ProfileClient({
           onClick={() => setTab('replies')}
           className="text-xs font-bold px-4 py-2 rounded-lg transition-all"
           style={{
-            background: tab === 'replies' ? 'rgba(255,255,255,0.08)' : 'transparent',
+            background: tab === 'replies' ? 'var(--border)' : 'transparent',
             color: tab === 'replies' ? 'var(--accent)' : 'var(--text-muted)',
           }}
         >

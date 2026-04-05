@@ -478,7 +478,7 @@ export default async function BlogPostPage({
           position: absolute;
           inset: 0;
           border-radius: 16px;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid var(--border);
           pointer-events: none;
         }
         .blog-hero-img:hover {
@@ -668,13 +668,13 @@ export default async function BlogPostPage({
           top: 6px;
           right: 8px;
           padding: 4px 10px;
-          background: rgba(255,255,255,0.06);
+          background: var(--border);
           color: #556880;
           font-size: 0.625rem;
           font-weight: 600;
           font-family: 'JetBrains Mono', monospace;
           letter-spacing: 0.04em;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid var(--border);
           border-radius: 6px;
           cursor: pointer;
           transition: all 0.2s;
@@ -1253,7 +1253,7 @@ export default async function BlogPostPage({
               <h3 style={{
                 fontSize: '1.125rem',
                 fontWeight: 800,
-                color: '#1a1a1a',
+                color: 'var(--text-primary)',
                 margin: '0 0 0.25rem',
               }}>
                 Related Posts
@@ -1326,7 +1326,7 @@ export default async function BlogPostPage({
               {popularPosts.map((pp) => (
                 <li key={pp.slug}>
                   <Link href={`/blog/${pp.slug}`}>
-                    <div style={{ fontWeight: 600, color: '#1a1a1a' }}>{pp.title}</div>
+                    <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{pp.title}</div>
                     <div className="sidebar-popular-date">{formatDate(pp.date)}</div>
                   </Link>
                 </li>

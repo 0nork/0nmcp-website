@@ -65,7 +65,7 @@ export default function DashboardLeftSidebar() {
           }}
           onMouseEnter={(e) => {
             if (!open) {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+              e.currentTarget.style.background = 'var(--bg-card)'
               e.currentTarget.style.color = 'var(--text-secondary)'
             }
           }}
@@ -140,7 +140,7 @@ export default function DashboardLeftSidebar() {
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+                    e.currentTarget.style.background = 'var(--bg-card)'
                     e.currentTarget.style.color = 'var(--text-primary)'
                   }
                 }}

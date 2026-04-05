@@ -117,7 +117,7 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
-        background: '#0B0F19',
+        background: 'var(--bg-primary)',
         border: focused ? '1px solid rgba(110, 224, 90, 0.5)' : '1px solid #222',
         borderRadius: '12px',
         padding: '0.45rem 0.75rem',
@@ -130,7 +130,7 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
         display: 'flex',
         alignItems: 'center',
         gap: '0.5rem',
-        background: '#111827',
+        background: 'var(--bg-card)',
         border: `1px solid ${focused ? '#3a3a50' : '#2a2a3a'}`,
         borderRadius: '0.75rem',
         padding: '0.4rem 0.625rem',
@@ -169,7 +169,7 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
             background: 'transparent',
             border: 'none',
             outline: 'none',
-            color: '#ffffff',
+            color: 'var(--text-primary)',
             fontSize: isHeader ? '0.875rem' : '0.8125rem',
             fontFamily: 'var(--font-display)',
             minWidth: 0,
@@ -190,7 +190,7 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
         {query && !loading && (
           <button
             onClick={() => { setQuery(''); setResults([]); setOpen(false); inputRef.current?.focus() }}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#555', padding: 0, display: 'flex', alignItems: 'center', flexShrink: 0 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 0, display: 'flex', alignItems: 'center', flexShrink: 0 }}
           >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -207,8 +207,8 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
             top: 'calc(100% + 6px)',
             left: 0,
             right: 0,
-            background: '#0B0F19',
-            border: '1px solid #222',
+            background: 'var(--bg-primary)',
+            border: '1px solid var(--border)',
             borderRadius: '0.875rem',
             overflow: 'hidden',
             zIndex: 9999,
@@ -218,11 +218,11 @@ export default function ForumSearch({ variant = 'sidebar' }: { variant?: 'sideba
           }}
         >
           {loading && results.length === 0 ? (
-            <div style={{ padding: '1rem', textAlign: 'center', color: '#555', fontSize: '0.8125rem', fontFamily: 'var(--font-display)' }}>
+            <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8125rem', fontFamily: 'var(--font-display)' }}>
               Searching...
             </div>
           ) : results.length === 0 && query.length >= 2 ? (
-            <div style={{ padding: '1rem', textAlign: 'center', color: '#555', fontSize: '0.8125rem', fontFamily: 'var(--font-display)' }}>
+            <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8125rem', fontFamily: 'var(--font-display)' }}>
               No results found
             </div>
           ) : (
@@ -270,18 +270,18 @@ function ThreadResultContent({ result }: { result: ThreadResult }) {
           Thread
         </span>
         {result.group_name && (
-          <span style={{ fontSize: '0.5625rem', fontWeight: 600, color: '#888', background: 'rgba(255,255,255,0.05)', padding: '1px 5px', borderRadius: '4px', flexShrink: 0 }}>
+          <span style={{ fontSize: '0.5625rem', fontWeight: 600, color: 'var(--text-muted)', background: 'var(--bg-card)', padding: '1px 5px', borderRadius: '4px', flexShrink: 0 }}>
             {result.group_name}
           </span>
         )}
       </div>
-      <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#ffffff', fontFamily: 'var(--font-display)', lineHeight: 1.3, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+      <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', lineHeight: 1.3, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
         {result.title}
       </span>
-      <span style={{ fontSize: '0.75rem', color: '#888', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
+      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
         {result.body_preview}
       </span>
-      <span style={{ fontSize: '0.6875rem', color: '#555', marginTop: '0.1rem' }}>
+      <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '0.1rem' }}>
         {result.author_name} · {timeAgo(result.created_at)} · {result.reply_count} replies
       </span>
     </>
@@ -296,13 +296,13 @@ function CommentResultContent({ result }: { result: CommentResult }) {
           Comment
         </span>
       </div>
-      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#888', fontFamily: 'var(--font-display)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }}>
+      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)', fontFamily: 'var(--font-display)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }}>
         In: {result.thread_title}
       </span>
-      <span style={{ fontSize: '0.75rem', color: '#888', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
+      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
         {result.body_preview}
       </span>
-      <span style={{ fontSize: '0.6875rem', color: '#555', marginTop: '0.1rem' }}>
+      <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: '0.1rem' }}>
         {result.author_name} · {timeAgo(result.created_at)}
       </span>
     </>

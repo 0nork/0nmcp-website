@@ -239,7 +239,7 @@ export default function GridPage() {
                 onChange={e => setNewTitle(e.target.value)}
                 placeholder="Thread title"
                 style={{
-                  width: '100%', padding: '0.75rem', background: 'rgba(255,255,255,0.04)',
+                  width: '100%', padding: '0.75rem', background: 'var(--bg-card)',
                   border: `1px solid ${CARD_BORDER}`, borderRadius: '10px',
                   color: TEXT, fontSize: '1rem', fontWeight: 600, outline: 'none',
                   fontFamily: 'inherit', marginBottom: '0.75rem',
@@ -251,7 +251,7 @@ export default function GridPage() {
                 placeholder="What's on your mind?"
                 rows={4}
                 style={{
-                  width: '100%', padding: '0.75rem', background: 'rgba(255,255,255,0.04)',
+                  width: '100%', padding: '0.75rem', background: 'var(--bg-card)',
                   border: `1px solid ${CARD_BORDER}`, borderRadius: '10px',
                   color: TEXT, fontSize: '0.875rem', outline: 'none', resize: 'vertical',
                   fontFamily: 'inherit', marginBottom: '0.75rem', lineHeight: 1.6,

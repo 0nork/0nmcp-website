@@ -292,7 +292,7 @@ export default function SiteBuilderAdmin() {
           {/* HTML preview iframe */}
           <div style={{
             borderRadius: 12, overflow: 'hidden',
-            border: '1px solid var(--border)', background: '#fff',
+            border: '1px solid var(--border)', background: 'var(--bg-card)',
             height: 'calc(100vh - 280px)',
           }}>
             <iframe
@@ -450,7 +450,7 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '8px 12px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.04)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-primary)',
   fontSize: '0.8125rem',
@@ -474,7 +474,7 @@ const btnPrimary: React.CSSProperties = {
 const btnGhost: React.CSSProperties = {
   padding: '6px 14px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-secondary)',
   fontWeight: 600,

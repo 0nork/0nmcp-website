@@ -98,7 +98,7 @@ export default function CodePage() {
                   padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
                   fontSize: '0.8rem', color: 'var(--text-secondary)',
                   fontFamily: 'var(--font-mono)', cursor: item.type === 'dir' ? 'pointer' : 'default',
-                  borderBottom: '1px solid rgba(255,255,255,0.03)',
+                  borderBottom: '1px solid var(--bg-card)',
                 }}
               >
                 <span style={{ color: item.type === 'dir' ? '#ff6b35' : '#a78bfa', fontSize: '0.9rem' }}>
@@ -127,7 +127,7 @@ export default function CodePage() {
             <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>— Sample Workflow</span>
           </div>
           <pre style={{
-            background: '#080810', padding: '1.25rem', margin: 0,
+            background: 'var(--bg-primary)', padding: '1.25rem', margin: 0,
             fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#c8c8d8',
             lineHeight: 1.7, minHeight: '400px', overflow: 'auto',
             whiteSpace: 'pre-wrap',

@@ -1,7 +1,7 @@
 import type { ITheme } from '@xterm/xterm'
 
 export const ON_TERMINAL_THEME: ITheme = {
-  background: '#060810',
+  background: 'var(--bg-primary)',
   foreground: '#c8d0dc',
   cursor: '#00ff66',
   cursorAccent: '#060810',

@@ -59,10 +59,10 @@ export default function SuccessPage() {
               border: '3px solid #e5e7eb', borderTopColor: '#6EE05A',
               animation: 'spin 1s linear infinite',
             }} />
-            <h1 style={{ fontSize: 24, fontWeight: 800, color: '#1a1a1a', marginBottom: 8 }}>
+            <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8 }}>
               Setting up your account...
             </h1>
-            <p style={{ fontSize: 14, color: '#888' }}>
+            <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
               Deploying your Vault, creating your CRM location, and configuring {plan === 'founders' ? 'Founders' : 'your'} access.
             </p>
           </>
@@ -77,11 +77,11 @@ export default function SuccessPage() {
               ✓
             </div>
 
-            <h1 style={{ fontSize: 28, fontWeight: 900, color: '#1a1a1a', marginBottom: 8 }}>
+            <h1 style={{ fontSize: 28, fontWeight: 900, color: 'var(--text-primary)', marginBottom: 8 }}>
               {plan === 'founders' ? "Welcome, Founder." : "You're In."}
             </h1>
 
-            <p style={{ fontSize: 15, color: '#555', marginBottom: 4 }}>
+            <p style={{ fontSize: 15, color: 'var(--text-muted)', marginBottom: 4 }}>
               {planNames[plan] || plan} plan activated.
               {plan === 'founders' && ' Your Founders Badge is permanent.'}
             </p>
@@ -96,28 +96,28 @@ export default function SuccessPage() {
               </div>
             )}
 
-            <p style={{ fontSize: 14, color: '#888', marginBottom: 28, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 28, lineHeight: 1.6 }}>
               Your Vault is ready. Install 0n on any platform and your entire business context follows you.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 320, margin: '0 auto' }}>
               <Link href="/console/integrations" style={{
-                padding: '14px 24px', borderRadius: 12, background: '#1a1a1a', color: '#fff',
+                padding: '14px 24px', borderRadius: 12, background: 'var(--bg-card)', color: 'var(--text-primary)',
                 fontWeight: 800, fontSize: 15, textDecoration: 'none', textAlign: 'center',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
               }}>
                 Connect Your Services →
               </Link>
               <Link href="/start" style={{
-                padding: '12px 24px', borderRadius: 12, background: '#f5f5f7', color: '#1a1a1a',
+                padding: '12px 24px', borderRadius: 12, background: 'var(--bg-secondary)', color: 'var(--text-primary)',
                 fontWeight: 600, fontSize: 14, textDecoration: 'none', textAlign: 'center',
-                border: '1px solid #e5e7eb',
+                border: '1px solid var(--border)',
               }}>
                 Install on a Platform
               </Link>
               <Link href="/console" style={{
                 padding: '10px 24px', borderRadius: 10,
-                fontSize: 13, color: '#888', textDecoration: 'none', textAlign: 'center',
+                fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none', textAlign: 'center',
               }}>
                 Go to Dashboard
               </Link>

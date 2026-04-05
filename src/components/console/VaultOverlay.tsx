@@ -75,7 +75,7 @@ export function VaultOverlay({
               Connect your API keys to unlock {SERVICE_COUNT} services across {CATEGORY_ORDER.length} categories. Credentials are encrypted in your browser.
             </div>
             {/* Progress bar */}
-            <div className="mt-2 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+            <div className="mt-2 h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--border)' }}>
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
@@ -124,7 +124,7 @@ export function VaultOverlay({
               placeholder="Search services..."
               className="h-9 pl-9 pr-3 rounded-lg text-sm outline-none transition-all w-48"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.04)',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid var(--border)',
                 color: 'var(--text-primary)',
               }}
@@ -135,7 +135,7 @@ export function VaultOverlay({
           <div
             className="flex rounded-lg overflow-hidden"
             style={{
-              backgroundColor: 'rgba(255,255,255,0.04)',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--border)',
             }}
           >
@@ -162,7 +162,7 @@ export function VaultOverlay({
           onClick={() => setSelectedCat('all')}
           className="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer border-none transition-colors"
           style={{
-            background: selectedCat === 'all' ? 'var(--accent)' : 'rgba(255,255,255,0.05)',
+            background: selectedCat === 'all' ? 'var(--accent)' : 'var(--bg-card)',
             color: selectedCat === 'all' ? '#000' : 'var(--text-secondary)',
           }}
         >
@@ -177,7 +177,7 @@ export function VaultOverlay({
               onClick={() => setSelectedCat(cat)}
               className="px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer border-none transition-colors"
               style={{
-                background: selectedCat === cat ? 'var(--accent)' : 'rgba(255,255,255,0.05)',
+                background: selectedCat === cat ? 'var(--accent)' : 'var(--bg-card)',
                 color: selectedCat === cat ? '#000' : 'var(--text-secondary)',
               }}
             >

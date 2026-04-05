@@ -130,7 +130,7 @@ const sections: Array<{ title: string; description: string; href: string; icon: 
     description: 'Deployments, domains, env vars.',
     href: 'https://vercel.com',
     icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 19.5h20L12 2z"/></svg>,
-    color: '#fff',
+    color: 'var(--text-primary)',
     external: true,
   },
   {
@@ -138,7 +138,7 @@ const sections: Array<{ title: string; description: string; href: string; icon: 
     description: '0nork/0nmcp-website repo.',
     href: 'https://github.com/0nork/0nmcp-website',
     icon: <IconGear size={20} />,
-    color: '#8b949e',
+    color: 'var(--text-muted)',
     external: true,
   },
 ]
@@ -432,7 +432,7 @@ function timeAgo(date: string): string {
 const btnGhostStyle: React.CSSProperties = {
   padding: '6px 14px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-secondary)',
   fontWeight: 600,

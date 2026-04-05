@@ -202,8 +202,8 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                   style={{
                     width: 44, height: 44, borderRadius: 12,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: isSelected ? `${p.color}15` : 'rgba(255,255,255,0.03)',
-                    border: `1px solid ${isSelected ? `${p.color}50` : isActive ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.06)'}`,
+                    background: isSelected ? `${p.color}15` : 'var(--bg-card)',
+                    border: `1px solid ${isSelected ? `${p.color}50` : isActive ? 'rgba(126,217,87,0.3)' : 'var(--border)'}`,
                     cursor: 'pointer',
                     opacity: selected && !isSelected ? 0.3 : 1,
                     transition: 'all 0.2s',
@@ -217,7 +217,7 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                     }
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = isSelected ? `${p.color}50` : isActive ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.06)'
+                    e.currentTarget.style.borderColor = isSelected ? `${p.color}50` : isActive ? 'rgba(126,217,87,0.3)' : 'var(--border)'
                     e.currentTarget.style.boxShadow = 'none'
                   }}
                 >
@@ -258,8 +258,8 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                   width: '100%',
                   padding: '10px 40px 10px 14px',
                   borderRadius: 10,
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
                   color: 'var(--text-primary)',
                   fontSize: 13,
                   fontFamily: 'var(--font-mono)',
@@ -267,7 +267,7 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                   transition: 'border-color 0.15s',
                 }}
                 onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)' }}
-                onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
+                onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
               />
               <button
                 onClick={() => setShowKey(!showKey)}
@@ -289,7 +289,7 @@ export function CoreAIFooter({ coreAI, onSetCoreAI, onTutorialTrigger }: CoreAIF
                 borderRadius: 10,
                 background: keyValue.trim()
                   ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
-                  : 'rgba(255,255,255,0.04)',
+                  : 'var(--bg-card)',
                 border: 'none',
                 color: keyValue.trim() ? '#0B0F19' : 'var(--text-muted)',
                 fontSize: 13,

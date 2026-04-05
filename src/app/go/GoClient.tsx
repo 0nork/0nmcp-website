@@ -144,9 +144,9 @@ function CtaButton({ children, href, size = 'lg', variant = 'primary' }: {
       style={{
         padding: size === 'lg' ? '16px 40px' : '12px 28px',
         fontSize: size === 'lg' ? '16px' : '14px',
-        background: variant === 'primary' ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)' : 'rgba(255,255,255,0.06)',
-        color: variant === 'primary' ? '#0B0F19' : '#e8e8ef',
-        border: variant === 'primary' ? 'none' : '1px solid rgba(255,255,255,0.1)',
+        background: variant === 'primary' ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)' : 'var(--border)',
+        color: variant === 'primary' ? '#0B0F19' : 'var(--text-primary)',
+        border: variant === 'primary' ? 'none' : '1px solid var(--border)',
         textDecoration: 'none',
       }}
     >{children}</Link>
@@ -225,7 +225,7 @@ function DemoSection() {
 
   const termStyle: React.CSSProperties = {
     borderRadius: 12,
-    background: '#111827',
+    background: 'var(--bg-card)',
     border: '1px solid var(--border)',
     overflow: 'hidden',
   }
@@ -281,7 +281,7 @@ function DemoSection() {
                 <div style={{ fontSize: 14, fontWeight: 600, color: activeStep >= i ? 'var(--text-primary)' : 'var(--text-muted)', transition: 'color 0.3s' }}>{step.service}</div>
                 <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{step.action}</div>
               </div>
-              <div style={{ width: 80, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
+              <div style={{ width: 80, height: 4, borderRadius: 2, background: 'var(--border)', overflow: 'hidden' }}>
                 <div style={{ height: '100%', borderRadius: 2, background: step.color, width: `${progress[i]}%`, transition: 'width 0.6s ease' }} />
               </div>
               {progress[i] === 100 && <span style={{ color: '#6EE05A', fontSize: 14 }}>&#x2713;</span>}
@@ -688,7 +688,7 @@ export default function GoClient() {
               <Link href={plan.href} className="no-underline" style={{
                 display: 'block', textAlign: 'center', padding: 12, borderRadius: 12,
                 fontWeight: 700, fontSize: 14, textDecoration: 'none',
-                background: plan.popular ? `linear-gradient(135deg, ${plan.color}, ${plan.color === '#6EE05A' ? '#4CAF3D' : '#0099cc'})` : 'rgba(255,255,255,0.06)',
+                background: plan.popular ? `linear-gradient(135deg, ${plan.color}, ${plan.color === '#6EE05A' ? '#4CAF3D' : '#0099cc'})` : 'var(--border)',
                 color: plan.popular ? '#0B0F19' : 'var(--text-primary)',
                 border: plan.popular ? 'none' : '1px solid var(--border)',
               }}>{plan.cta}</Link>

@@ -140,7 +140,7 @@ export default function DataFlowAnimation() {
                 padding: '0.625rem 0.875rem',
                 borderRadius: '10px',
                 background: isActive ? `${step.color}12` : 'rgba(255,255,255,0.02)',
-                border: `1px solid ${isActive ? `${step.color}30` : 'rgba(255,255,255,0.04)'}`,
+                border: `1px solid ${isActive ? `${step.color}30` : 'var(--bg-card)'}`,
                 opacity: isActive ? 1 : 0.3,
                 transform: isCurrent ? 'scale(1.03)' : 'scale(1)',
                 transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -148,7 +148,7 @@ export default function DataFlowAnimation() {
                 {/* Icon */}
                 <div style={{
                   width: 28, height: 28, borderRadius: '8px',
-                  background: isActive ? `${step.color}20` : 'rgba(255,255,255,0.03)',
+                  background: isActive ? `${step.color}20` : 'var(--bg-card)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '0.75rem', color: isActive ? step.color : 'rgba(255,255,255,0.2)',
                   transition: 'all 0.5s ease',
@@ -181,7 +181,7 @@ export default function DataFlowAnimation() {
                     width: '1.5px', height: '100%',
                     background: i < stepIdx
                       ? `linear-gradient(to bottom, ${step.color}60, ${scene.steps[i + 1].color}60)`
-                      : 'rgba(255,255,255,0.06)',
+                      : 'var(--border)',
                     transition: 'background 0.5s ease',
                   }} />
                 </div>
@@ -217,7 +217,7 @@ export default function DataFlowAnimation() {
         {SCENES.map((s, i) => (
           <div key={i} style={{
             width: i === sceneIdx ? '20px' : '6px', height: '6px', borderRadius: '3px',
-            background: i === sceneIdx ? s.color : 'rgba(255,255,255,0.1)',
+            background: i === sceneIdx ? s.color : 'var(--border)',
             transition: 'all 0.4s ease',
           }} />
         ))}

@@ -285,7 +285,7 @@ function NotificationToggle({
         style={{
           width: 44, height: 24, borderRadius: 12, border: 'none', cursor: 'pointer',
           position: 'relative', transition: 'all 0.2s',
-          background: enabled ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.1)',
+          background: enabled ? 'rgba(126,217,87,0.3)' : 'var(--border)',
         }}
       >
         <div style={{

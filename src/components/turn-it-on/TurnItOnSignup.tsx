@@ -163,7 +163,7 @@ export default function TurnItOnSignup() {
     padding: '0.875rem 1.125rem',
     fontSize: '1rem',
     fontWeight: 600,
-    color: '#ffffff',
+    color: 'var(--text-primary)',
     fontFamily: 'var(--font-display)',
     outline: 'none',
     caretColor: '#6EE05A',
@@ -196,7 +196,7 @@ export default function TurnItOnSignup() {
     background: bg,
     cursor: 'pointer',
     transition: 'transform 0.15s, opacity 0.15s',
-    color: '#fff',
+    color: 'var(--text-primary)',
   })
 
   return (
@@ -204,7 +204,7 @@ export default function TurnItOnSignup() {
       style={{
         maxWidth: '520px',
         margin: '0 auto 2.5rem',
-        background: '#000000',
+        background: 'var(--bg-primary)',
         border: '2px solid #6EE05A',
         borderRadius: '27px',
         padding: '2rem 2rem 1.75rem',
@@ -223,7 +223,7 @@ export default function TurnItOnSignup() {
       {magicSent ? (
         <div style={{ textAlign: 'center', padding: '1rem 0' }}>
           <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>&#9993;</div>
-          <div style={{ fontSize: '1.125rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>
+          <div style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>
             Check your email
           </div>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
@@ -252,7 +252,7 @@ export default function TurnItOnSignup() {
             {step === 'email' && (
               <form onSubmit={handleEmailSubmit}>
                 <label style={{
-                  display: 'block', fontSize: '1.125rem', fontWeight: 800, color: '#ffffff',
+                  display: 'block', fontSize: '1.125rem', fontWeight: 800, color: 'var(--text-primary)',
                   marginBottom: '1rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em',
                 }}>
                   {mode === 'signup' ? "What\u2019s your email?" : 'Welcome back.'}
@@ -305,7 +305,7 @@ export default function TurnItOnSignup() {
                   {email}
                 </div>
                 <label style={{
-                  display: 'block', fontSize: '1.125rem', fontWeight: 800, color: '#ffffff',
+                  display: 'block', fontSize: '1.125rem', fontWeight: 800, color: 'var(--text-primary)',
                   marginBottom: '1rem', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em',
                 }}>
                   {mode === 'signup' ? 'Create a password.' : 'Enter your password.'}
@@ -349,7 +349,7 @@ export default function TurnItOnSignup() {
             {step === 'confirming' && (
               <div style={{ textAlign: 'center', padding: '1rem 0' }}>
                 <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>&#9993;</div>
-                <div style={{ fontSize: '1.125rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>
+                <div style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>
                   Confirm your email
                 </div>
                 <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>

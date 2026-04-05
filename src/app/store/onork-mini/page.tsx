@@ -58,7 +58,7 @@ export default function OnorkMiniStorePage() {
         {/* Left: Demo Preview */}
         <div className="store-demo">
           <div style={{
-            background: '#08081a',
+            background: 'var(--bg-primary)',
             borderRadius: 12,
             padding: '1rem',
             fontFamily: "'JetBrains Mono', monospace",
@@ -76,7 +76,7 @@ export default function OnorkMiniStorePage() {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-                <span style={{ fontSize: 14, color: '#fff' }}>0</span>
+                <span style={{ fontSize: 14, color: 'var(--text-primary)' }}>0</span>
               </div>
               <span style={{ color: '#f0f0ff', fontWeight: 600, fontSize: '0.85rem' }}>0nork Mini</span>
               <span style={{ marginLeft: 'auto', fontSize: '0.7rem', color: '#505880' }}>v1.0</span>

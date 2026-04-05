@@ -45,7 +45,7 @@ const STATUS_DOT: Record<string, string> = {
 function Spinner(): ReactNode {
   return (
     <div style={{
-      width: 20, height: 20, border: '2px solid rgba(255,255,255,0.1)',
+      width: 20, height: 20, border: '2px solid var(--border)',
       borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'pipe-spin 0.6s linear infinite',
     }} />
@@ -155,10 +155,10 @@ export default function PipelinesView() {
       <div style={{ padding: '1.5rem 2rem 1rem', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
           <div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#e8eaed', margin: '0 0 0.25rem', fontFamily: 'var(--font-display)' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.25rem', fontFamily: 'var(--font-display)' }}>
               Pipelines
             </h1>
-            <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
               {opportunities.length} deal{opportunities.length !== 1 ? 's' : ''}
               {totalValue > 0 ? ` — ${formatCurrency(totalValue)} total value` : ''}
             </p>
@@ -176,14 +176,14 @@ export default function PipelinesView() {
                   onClick={() => setSelectedPipelineId(pl.id)}
                   style={{
                     padding: '0.4rem 0.875rem', borderRadius: 6, fontFamily: 'inherit',
-                    border: `1px solid ${active ? 'rgba(126,217,87,0.3)' : 'rgba(255,255,255,0.08)'}`,
-                    background: active ? 'rgba(126,217,87,0.08)' : 'rgba(255,255,255,0.03)',
+                    border: `1px solid ${active ? 'rgba(126,217,87,0.3)' : 'var(--border)'}`,
+                    background: active ? 'rgba(126,217,87,0.08)' : 'var(--bg-card)',
                     color: active ? '#6EE05A' : '#7A8290',
                     fontSize: '0.75rem', fontWeight: active ? 600 : 500, cursor: 'pointer',
                     transition: 'all 0.15s ease',
                   }}
-                  onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.05)' }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'var(--bg-card)' }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'var(--bg-card)' }}
                 >
                   {pl.name}
                 </button>
@@ -225,10 +225,10 @@ export default function PipelinesView() {
       {!loading && !loadingOpps && pipelines.length === 0 && !error && (
         <div style={{
           margin: '0 2rem', padding: '3rem 1.5rem', textAlign: 'center', borderRadius: 12,
-          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
         }}>
           <div style={{ fontSize: '1.25rem', color: '#3a3a4a', marginBottom: '0.5rem' }}>No pipelines</div>
-          <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
             Create a pipeline in your CRM to see deals here.
           </p>
         </div>
@@ -260,23 +260,23 @@ export default function PipelinesView() {
                 <div style={{
                   padding: '0.75rem 0.875rem', marginBottom: '0.5rem',
                   borderRadius: 10, background: 'rgba(255,255,255,0.02)',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  border: '1px solid var(--border)',
                   borderTop: `2px solid ${stageColor}`,
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#e8eaed' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                       {stage.name}
                     </span>
                     <span style={{
                       fontSize: '0.65rem', fontWeight: 600, padding: '0.15rem 0.4rem',
-                      borderRadius: 4, background: 'rgba(255,255,255,0.05)', color: '#7A8290',
+                      borderRadius: 4, background: 'var(--bg-card)', color: '#7A8290',
                     }}>
                       {totals.count}
                     </span>
                   </div>
                   {totals.value > 0 && (
                     <div style={{
-                      fontSize: '0.7rem', color: '#5f6672', fontFamily: 'var(--font-mono)',
+                      fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)',
                     }}>
                       {formatCurrency(totals.value)}
                     </div>
@@ -290,7 +290,7 @@ export default function PipelinesView() {
                   {stageOpps.length === 0 && (
                     <div style={{
                       padding: '1.5rem 0.75rem', textAlign: 'center', borderRadius: 8,
-                      border: '1px dashed rgba(255,255,255,0.06)', color: '#3a3a4a',
+                      border: '1px dashed var(--border)', color: '#3a3a4a',
                       fontSize: '0.7rem',
                     }}>
                       No deals
@@ -302,11 +302,11 @@ export default function PipelinesView() {
                     return (
                       <div key={opp.id} style={{
                         padding: '0.75rem 0.875rem', borderRadius: 8,
-                        background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+                        background: 'var(--bg-card)', border: '1px solid var(--border)',
                         cursor: 'default', transition: 'border-color 0.15s ease',
                       }}
                         onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
-                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                       >
                         {/* Contact + status */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
@@ -314,7 +314,7 @@ export default function PipelinesView() {
                             width: 6, height: 6, borderRadius: '50%', background: statusColor, flexShrink: 0,
                           }} />
                           <span style={{
-                            fontSize: '0.8rem', fontWeight: 600, color: '#e8eaed',
+                            fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)',
                             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1,
                           }}>
                             {opp.contactName || opp.name || 'Unknown'}
@@ -324,7 +324,7 @@ export default function PipelinesView() {
                         {/* Deal name if different from contact */}
                         {opp.name && opp.name !== opp.contactName && (
                           <div style={{
-                            fontSize: '0.7rem', color: '#5f6672', marginBottom: 6,
+                            fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: 6,
                             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                           }}>
                             {opp.name}
@@ -344,7 +344,7 @@ export default function PipelinesView() {
                             <span style={{ fontSize: '0.7rem', color: '#3a3a4a' }}>No value</span>
                           )}
                           <span style={{
-                            fontSize: '0.6rem', color: '#5f6672', fontFamily: 'var(--font-mono)',
+                            fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)',
                           }}>
                             {formatDate(opp.lastActivity || opp.dateAdded)}
                           </span>
@@ -353,7 +353,7 @@ export default function PipelinesView() {
                         {/* Source */}
                         {opp.source && (
                           <div style={{
-                            marginTop: 6, fontSize: '0.6rem', color: '#5f6672',
+                            marginTop: 6, fontSize: '0.6rem', color: 'var(--text-muted)',
                             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                           }}>
                             via {opp.source}
@@ -373,10 +373,10 @@ export default function PipelinesView() {
       {!loading && !loadingOpps && selectedPipeline && stages.length === 0 && (
         <div style={{
           margin: '0 2rem', padding: '3rem 1.5rem', textAlign: 'center', borderRadius: 12,
-          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
         }}>
           <div style={{ fontSize: '1.25rem', color: '#3a3a4a', marginBottom: '0.5rem' }}>No stages</div>
-          <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
             This pipeline has no stages configured.
           </p>
         </div>
@@ -386,8 +386,8 @@ export default function PipelinesView() {
         @keyframes pipe-spin { to { transform: rotate(360deg) } }
         .pipe-kanban::-webkit-scrollbar { height: 6px; }
         .pipe-kanban::-webkit-scrollbar-track { background: transparent; }
-        .pipe-kanban::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
-        .pipe-kanban::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+        .pipe-kanban::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        .pipe-kanban::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
       `}</style>
     </div>
   )

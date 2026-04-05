@@ -92,8 +92,8 @@ const LI_BLUE_LIGHT = '#0077b510'
 const GREEN = '#6EE05A'
 
 const card: React.CSSProperties = {
-  background: '#ffffff',
-  border: '1px solid #e5e7eb',
+  background: 'var(--bg-card)',
+  border: '1px solid var(--border)',
   borderRadius: 16,
   padding: '1.5rem',
   boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02)',
@@ -109,7 +109,7 @@ const btnPrimary: React.CSSProperties = {
   borderRadius: 10,
   border: 'none',
   background: LI_BLUE,
-  color: '#fff',
+  color: 'var(--text-primary)',
   fontSize: '0.82rem',
   fontWeight: 600,
   cursor: 'pointer',
@@ -120,9 +120,9 @@ const btnPrimary: React.CSSProperties = {
 const btnSecondary: React.CSSProperties = {
   padding: '0.55rem 1.5rem',
   borderRadius: 10,
-  border: '1px solid #d1d5db',
-  background: '#fff',
-  color: '#374151',
+  border: '1px solid var(--border)',
+  background: 'var(--bg-card)',
+  color: 'var(--text-primary)',
   fontSize: '0.82rem',
   fontWeight: 600,
   cursor: 'pointer',
@@ -133,10 +133,10 @@ const btnSecondary: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '0.65rem 0.85rem',
-  background: '#f9fafb',
-  border: '1px solid #e5e7eb',
+  background: 'var(--bg-secondary)',
+  border: '1px solid var(--border)',
   borderRadius: 10,
-  color: '#111827',
+  color: 'var(--text-primary)',
   fontFamily: 'inherit',
   fontSize: '0.85rem',
   outline: 'none',
@@ -376,7 +376,7 @@ export default function LinkedInSuitePage() {
       <div style={{ padding: '2rem', maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div style={{
-            width: 24, height: 24, border: '2px solid #e5e7eb',
+            width: 24, height: 24, border: '2px solid var(--border)',
             borderTopColor: LI_BLUE, borderRadius: '50%',
             animation: 'spin 0.8s linear infinite',
           }} />
@@ -396,7 +396,7 @@ export default function LinkedInSuitePage() {
   ]
 
   return (
-    <div style={{ padding: '2rem', maxWidth: 1200, margin: '0 auto', width: '100%', background: '#f5f5f7', minHeight: '100%' }}>
+    <div style={{ padding: '2rem', maxWidth: 1200, margin: '0 auto', width: '100%', background: 'var(--bg-secondary)', minHeight: '100%' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
         <div style={{
@@ -408,7 +408,7 @@ export default function LinkedInSuitePage() {
           </svg>
         </div>
         <div>
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#111827', margin: 0 }}>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
             LinkedIn Suite
           </h1>
           <p style={{ fontSize: '0.78rem', color: '#6b7280', margin: 0 }}>
@@ -420,7 +420,7 @@ export default function LinkedInSuitePage() {
       {/* Tab bar */}
       <div style={{
         display: 'flex', gap: '0.125rem', marginBottom: '1.5rem', marginTop: '1.25rem',
-        borderBottom: '1px solid #e5e7eb', paddingBottom: 0,
+        borderBottom: '1px solid var(--border)', paddingBottom: 0,
       }}>
         {tabs.map(t => (
           <button
@@ -472,7 +472,7 @@ export default function LinkedInSuitePage() {
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                 </svg>
               </div>
-              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#111827', margin: '0 0 0.5rem' }}>
+              <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.5rem' }}>
                 Connect your LinkedIn account
               </h2>
               <p style={{ color: '#6b7280', fontSize: '0.85rem', margin: '0 0 1.25rem', maxWidth: 400, marginLeft: 'auto', marginRight: 'auto' }}>
@@ -503,7 +503,7 @@ export default function LinkedInSuitePage() {
                     </div>
                   )}
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#111827' }}>
+                    <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                       {acct.name || 'LinkedIn User'}
                     </div>
                     {acct.headline && (
@@ -548,7 +548,7 @@ export default function LinkedInSuitePage() {
 
               {/* Recent activity */}
               <div style={card}>
-                <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#111827', margin: '0 0 0.75rem' }}>
+                <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>
                   Quick Actions
                 </h3>
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -575,7 +575,7 @@ export default function LinkedInSuitePage() {
             <>
               {/* Composer */}
               <div style={card}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#111827', margin: '0 0 1rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 1rem' }}>
                   Create Post
                 </h3>
 
@@ -646,18 +646,18 @@ export default function LinkedInSuitePage() {
               {/* Posts list */}
               <div style={card}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#111827', margin: 0 }}>
+                  <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                     Posts
                   </h3>
-                  <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                     {posts.length} total
                   </span>
                 </div>
 
                 {postsLoading ? (
-                  <p style={{ color: '#9ca3af', fontSize: '0.85rem', margin: 0 }}>Loading posts...</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>Loading posts...</p>
                 ) : posts.length === 0 ? (
-                  <p style={{ color: '#9ca3af', fontSize: '0.85rem', margin: 0, textAlign: 'center', padding: '2rem 0' }}>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, textAlign: 'center', padding: '2rem 0' }}>
                     No posts yet. Create your first post above.
                   </p>
                 ) : (
@@ -665,9 +665,9 @@ export default function LinkedInSuitePage() {
                     {posts.slice(0, 20).map(p => (
                       <div key={p.id} style={{
                         padding: '1rem',
-                        background: '#f9fafb',
+                        background: 'var(--bg-secondary)',
                         borderRadius: 12,
-                        border: '1px solid #e5e7eb',
+                        border: '1px solid var(--border)',
                       }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
                           <span style={badge(
@@ -676,11 +676,11 @@ export default function LinkedInSuitePage() {
                           )}>
                             {p.status}
                           </span>
-                          <span style={{ fontSize: '0.7rem', color: '#9ca3af' }}>
+                          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                             {p.published_at ? new Date(p.published_at).toLocaleDateString() : p.scheduled_at ? `Scheduled: ${new Date(p.scheduled_at).toLocaleDateString()}` : new Date(p.created_at).toLocaleDateString()}
                           </span>
                         </div>
-                        <p style={{ color: '#374151', fontSize: '0.82rem', margin: 0, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                        <p style={{ color: 'var(--text-primary)', fontSize: '0.82rem', margin: 0, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
                           {p.content.slice(0, 280)}{p.content.length > 280 ? '...' : ''}
                         </p>
                         {p.engagement && Object.keys(p.engagement).length > 0 && (
@@ -718,7 +718,7 @@ export default function LinkedInSuitePage() {
                     Ad Account
                   </label>
                   {adAccounts.length === 0 ? (
-                    <p style={{ color: '#9ca3af', fontSize: '0.82rem', margin: 0 }}>No ad accounts found. Check your LinkedIn permissions.</p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', margin: 0 }}>No ad accounts found. Check your LinkedIn permissions.</p>
                   ) : (
                     <select
                       value={selectedAdAccount}
@@ -743,10 +743,10 @@ export default function LinkedInSuitePage() {
               {showCreateCampaign && (
                 <div style={{ ...card, borderColor: LI_BLUE, borderWidth: 2 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#111827', margin: 0 }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                       Create Campaign
                     </h3>
-                    <button onClick={() => setShowCreateCampaign(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', fontSize: '1.2rem' }}>
+                    <button onClick={() => setShowCreateCampaign(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: '1.2rem' }}>
                       x
                     </button>
                   </div>
@@ -820,21 +820,21 @@ export default function LinkedInSuitePage() {
 
               {/* Campaigns list */}
               <div style={card}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#111827', margin: '0 0 1rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 1rem' }}>
                   Campaigns
                 </h3>
 
                 {campaignsLoading ? (
-                  <p style={{ color: '#9ca3af', fontSize: '0.85rem', margin: 0 }}>Loading campaigns...</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>Loading campaigns...</p>
                 ) : campaigns.length === 0 ? (
-                  <p style={{ color: '#9ca3af', fontSize: '0.85rem', margin: 0, textAlign: 'center', padding: '2rem 0' }}>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, textAlign: 'center', padding: '2rem 0' }}>
                     No campaigns yet. Create your first campaign above.
                   </p>
                 ) : (
                   <div style={{ overflowX: 'auto' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
                       <thead>
-                        <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                        <tr style={{ borderBottom: '1px solid var(--border)' }}>
                           {['Name', 'Status', 'Type', 'Objective', 'Daily Budget', 'Dates'].map(h => (
                             <th key={h} style={{
                               textAlign: 'left', padding: '0.6rem 0.75rem',
@@ -847,7 +847,7 @@ export default function LinkedInSuitePage() {
                       <tbody>
                         {campaigns.map(c => (
                           <tr key={c.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                            <td style={{ padding: '0.7rem 0.75rem', fontWeight: 600, color: '#111827' }}>{c.name}</td>
+                            <td style={{ padding: '0.7rem 0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>{c.name}</td>
                             <td style={{ padding: '0.7rem 0.75rem' }}>
                               <span style={badge(
                                 c.status === 'ACTIVE' ? '#059669' : c.status === 'PAUSED' ? '#d97706' : '#6b7280',
@@ -856,12 +856,12 @@ export default function LinkedInSuitePage() {
                                 {c.status}
                               </span>
                             </td>
-                            <td style={{ padding: '0.7rem 0.75rem', color: '#374151' }}>{c.type || '-'}</td>
-                            <td style={{ padding: '0.7rem 0.75rem', color: '#374151' }}>{c.objective || '-'}</td>
-                            <td style={{ padding: '0.7rem 0.75rem', color: '#374151' }}>
+                            <td style={{ padding: '0.7rem 0.75rem', color: 'var(--text-primary)' }}>{c.type || '-'}</td>
+                            <td style={{ padding: '0.7rem 0.75rem', color: 'var(--text-primary)' }}>{c.objective || '-'}</td>
+                            <td style={{ padding: '0.7rem 0.75rem', color: 'var(--text-primary)' }}>
                               {c.daily_budget ? `$${Number(c.daily_budget).toFixed(2)}` : '-'}
                             </td>
-                            <td style={{ padding: '0.7rem 0.75rem', color: '#9ca3af', fontSize: '0.75rem' }}>
+                            <td style={{ padding: '0.7rem 0.75rem', color: 'var(--text-muted)', fontSize: '0.75rem' }}>
                               {c.start_date || '-'} {c.end_date ? `to ${c.end_date}` : ''}
                             </td>
                           </tr>
@@ -942,15 +942,15 @@ export default function LinkedInSuitePage() {
 
               {/* Analytics chart placeholder + table */}
               <div style={card}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#111827', margin: '0 0 1rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 1rem' }}>
                   Performance Over Time
                 </h3>
 
                 {analyticsLoading ? (
-                  <p style={{ color: '#9ca3af', fontSize: '0.85rem', margin: 0 }}>Loading analytics...</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>Loading analytics...</p>
                 ) : analyticsData.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '2.5rem 0' }}>
-                    <p style={{ color: '#9ca3af', fontSize: '0.85rem', margin: 0 }}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
                       No analytics data for the selected range.
                     </p>
                   </div>
@@ -960,7 +960,7 @@ export default function LinkedInSuitePage() {
                     <div style={{
                       display: 'flex', alignItems: 'flex-end', gap: 2, height: 120,
                       padding: '0 0 0.5rem', marginBottom: '1rem',
-                      borderBottom: '1px solid #e5e7eb',
+                      borderBottom: '1px solid var(--border)',
                     }}>
                       {analyticsData.slice(0, 60).map((d, i) => {
                         const maxImpressions = Math.max(...analyticsData.map(a => a.impressions), 1)
@@ -987,7 +987,7 @@ export default function LinkedInSuitePage() {
                     <div style={{ overflowX: 'auto' }}>
                       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.78rem' }}>
                         <thead>
-                          <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                          <tr style={{ borderBottom: '1px solid var(--border)' }}>
                             {['Date', 'Entity', 'Impressions', 'Clicks', 'CTR', 'Spend', 'Conversions', 'Engagement'].map(h => (
                               <th key={h} style={{
                                 textAlign: h === 'Date' || h === 'Entity' ? 'left' : 'right',
@@ -1000,13 +1000,13 @@ export default function LinkedInSuitePage() {
                         <tbody>
                           {analyticsData.slice(0, 50).map((a, i) => (
                             <tr key={i} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                              <td style={{ padding: '0.5rem 0.6rem', color: '#374151' }}>{a.date}</td>
+                              <td style={{ padding: '0.5rem 0.6rem', color: 'var(--text-primary)' }}>{a.date}</td>
                               <td style={{ padding: '0.5rem 0.6rem', color: '#6b7280', maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.entity_id}</td>
-                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: '#111827', fontWeight: 600 }}>{a.impressions.toLocaleString()}</td>
-                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: '#374151' }}>{a.clicks.toLocaleString()}</td>
-                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: '#374151' }}>{a.ctr != null ? `${(a.ctr * 100).toFixed(2)}%` : '-'}</td>
-                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: '#374151' }}>${a.spend.toFixed(2)}</td>
-                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: '#374151' }}>{a.conversions}</td>
+                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600 }}>{a.impressions.toLocaleString()}</td>
+                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: 'var(--text-primary)' }}>{a.clicks.toLocaleString()}</td>
+                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: 'var(--text-primary)' }}>{a.ctr != null ? `${(a.ctr * 100).toFixed(2)}%` : '-'}</td>
+                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: 'var(--text-primary)' }}>${a.spend.toFixed(2)}</td>
+                              <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: 'var(--text-primary)' }}>{a.conversions}</td>
                               <td style={{ padding: '0.5rem 0.6rem', textAlign: 'right', color: '#6b7280' }}>
                                 {(a.reactions + a.comments + a.shares).toLocaleString()}
                               </td>
@@ -1022,7 +1022,7 @@ export default function LinkedInSuitePage() {
               {/* Engagement breakdown */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
                 <div style={card}>
-                  <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#111827', margin: '0 0 0.75rem' }}>Social Engagement</h4>
+                  <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>Social Engagement</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {[
                       { label: 'Reactions', value: totals.reactions, color: '#ef4444' },
@@ -1033,10 +1033,10 @@ export default function LinkedInSuitePage() {
                       return (
                         <div key={item.label}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '0.25rem' }}>
-                            <span style={{ color: '#374151' }}>{item.label}</span>
-                            <span style={{ color: '#111827', fontWeight: 600 }}>{item.value.toLocaleString()}</span>
+                            <span style={{ color: 'var(--text-primary)' }}>{item.label}</span>
+                            <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{item.value.toLocaleString()}</span>
                           </div>
-                          <div style={{ height: 6, background: '#f3f4f6', borderRadius: 3, overflow: 'hidden' }}>
+                          <div style={{ height: 6, background: 'var(--bg-secondary)', borderRadius: 3, overflow: 'hidden' }}>
                             <div style={{
                               height: '100%',
                               width: `${(item.value / max) * 100}%`,
@@ -1052,7 +1052,7 @@ export default function LinkedInSuitePage() {
                 </div>
 
                 <div style={card}>
-                  <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#111827', margin: '0 0 0.75rem' }}>Cost Breakdown</h4>
+                  <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>Cost Breakdown</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                     {[
                       { label: 'Total Spend', value: `$${totals.spend.toFixed(2)}` },
@@ -1062,7 +1062,7 @@ export default function LinkedInSuitePage() {
                     ].map(item => (
                       <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
                         <span style={{ color: '#6b7280' }}>{item.label}</span>
-                        <span style={{ color: '#111827', fontWeight: 600 }}>{item.value}</span>
+                        <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{item.value}</span>
                       </div>
                     ))}
                   </div>
@@ -1083,13 +1083,13 @@ export default function LinkedInSuitePage() {
             </div>
           ) : orgsLoading ? (
             <div style={{ ...card, textAlign: 'center', padding: '2.5rem' }}>
-              <p style={{ color: '#9ca3af', fontSize: '0.85rem', margin: 0 }}>Loading organizations...</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>Loading organizations...</p>
             </div>
           ) : orgs.length === 0 ? (
             <div style={{ ...card, textAlign: 'center', padding: '2.5rem' }}>
               <div style={{
                 width: 56, height: 56, borderRadius: 14,
-                background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 margin: '0 auto 1rem', fontSize: '1.5rem',
               }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2">
@@ -1097,7 +1097,7 @@ export default function LinkedInSuitePage() {
                   <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
                 </svg>
               </div>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#111827', margin: '0 0 0.4rem' }}>No organizations found</h3>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.4rem' }}>No organizations found</h3>
               <p style={{ color: '#6b7280', fontSize: '0.82rem', margin: 0 }}>
                 You need admin access to a LinkedIn Company Page to see organization data.
               </p>
@@ -1116,7 +1116,7 @@ export default function LinkedInSuitePage() {
                       {org.name[0]?.toUpperCase() || 'O'}
                     </div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#111827' }}>{org.name}</div>
+                      <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>{org.name}</div>
                       <div style={{ fontSize: '0.78rem', color: '#6b7280', marginTop: '0.1rem' }}>Organization ID: {org.id}</div>
                     </div>
                     <a
@@ -1145,12 +1145,12 @@ export default function LinkedInSuitePage() {
 
                   {/* Follower analytics placeholder */}
                   <div style={card}>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#111827', margin: '0 0 0.75rem' }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>
                       Follower Growth
                     </h3>
                     <div style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      height: 160, background: '#f9fafb', borderRadius: 12,
+                      height: 160, background: 'var(--bg-secondary)', borderRadius: 12,
                       border: '1px dashed #d1d5db',
                     }}>
                       <div style={{ textAlign: 'center' }}>
@@ -1159,7 +1159,7 @@ export default function LinkedInSuitePage() {
                           <path d="M7 16l4-4 4 2 6-6" />
                           <circle cx="21" cy="8" r="1.5" />
                         </svg>
-                        <p style={{ color: '#9ca3af', fontSize: '0.82rem', margin: 0 }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', margin: 0 }}>
                           Follower growth chart will appear here once enough data is collected.
                         </p>
                       </div>
@@ -1169,30 +1169,30 @@ export default function LinkedInSuitePage() {
                   {/* Visitor demographics placeholder */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
                     <div style={card}>
-                      <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#111827', margin: '0 0 0.75rem' }}>
+                      <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>
                         Visitor Demographics
                       </h4>
                       <div style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        height: 120, background: '#f9fafb', borderRadius: 10,
+                        height: 120, background: 'var(--bg-secondary)', borderRadius: 10,
                         border: '1px dashed #d1d5db',
                       }}>
-                        <p style={{ color: '#9ca3af', fontSize: '0.78rem', margin: 0 }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', margin: 0 }}>
                           Demographics breakdown by job function, seniority, and industry.
                         </p>
                       </div>
                     </div>
 
                     <div style={card}>
-                      <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#111827', margin: '0 0 0.75rem' }}>
+                      <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem' }}>
                         Content Performance
                       </h4>
                       <div style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        height: 120, background: '#f9fafb', borderRadius: 10,
+                        height: 120, background: 'var(--bg-secondary)', borderRadius: 10,
                         border: '1px dashed #d1d5db',
                       }}>
-                        <p style={{ color: '#9ca3af', fontSize: '0.78rem', margin: 0 }}>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', margin: 0 }}>
                           Top-performing posts by engagement, reach, and click-through rate.
                         </p>
                       </div>

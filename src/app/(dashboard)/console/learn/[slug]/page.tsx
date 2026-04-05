@@ -202,7 +202,7 @@ export default function ConsoleCoursePage() {
               {enrollment.progress_pct}% complete
             </span>
           </div>
-          <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'var(--border)' }}>
             <div
               className="h-full rounded-full transition-all"
               style={{ width: `${enrollment.progress_pct}%`, background: 'var(--jp-green)' }}
@@ -291,7 +291,7 @@ export default function ConsoleCoursePage() {
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0"
                 style={{
-                  background: completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
+                  background: completed ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
                   color: completed ? '#6EE05A' : 'var(--jp-text-muted)',
                 }}
               >

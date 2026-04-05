@@ -100,8 +100,8 @@ export function SubscribeClient() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#f5f5f7',
-      color: '#1a1a1a',
+      background: 'var(--bg-secondary)',
+      color: 'var(--text-primary)',
       fontFamily: "'Instrument Sans', system-ui, sans-serif",
     }}>
       {/* ── Header ── */}
@@ -133,7 +133,7 @@ export function SubscribeClient() {
           fontWeight: 800,
           lineHeight: 1.15,
           margin: '0 0 0.75rem',
-          color: '#1a1a1a',
+          color: 'var(--text-primary)',
           letterSpacing: '-0.02em',
         }}>
           Choose Your Plan
@@ -168,7 +168,7 @@ export function SubscribeClient() {
               onMouseEnter={() => setHoveredPlan(plan.id)}
               onMouseLeave={() => setHoveredPlan(null)}
               style={{
-                background: '#fff',
+                background: 'var(--bg-card)',
                 borderRadius: '16px',
                 padding: isFeatured ? '2rem' : '1.75rem',
                 border: isFeatured
@@ -222,13 +222,13 @@ export function SubscribeClient() {
                 <span style={{
                   fontSize: '2.75rem',
                   fontWeight: 800,
-                  color: '#1a1a1a',
+                  color: 'var(--text-primary)',
                   letterSpacing: '-0.03em',
                   lineHeight: 1,
                 }}>
                   {plan.price}
                 </span>
-                <span style={{ fontSize: '1rem', color: '#9ca3af', fontWeight: 500 }}>
+                <span style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                   {plan.priceSub}
                 </span>
               </div>
@@ -247,7 +247,7 @@ export function SubscribeClient() {
                 gap: '0.625rem',
               }}>
                 {plan.features.map((feature, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.875rem', color: '#374151' }}>
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.875rem', color: 'var(--text-primary)' }}>
                     <svg
                       width="16" height="16" viewBox="0 0 16 16" fill="none"
                       style={{ flexShrink: 0, marginTop: '2px' }}
@@ -291,16 +291,16 @@ export function SubscribeClient() {
         padding: '3rem 1.5rem 5rem',
       }}>
         <div style={{
-          background: '#fff',
+          background: 'var(--bg-card)',
           borderRadius: '16px',
           padding: '2rem',
-          border: '1px solid #e5e7eb',
+          border: '1px solid var(--border)',
           boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
         }}>
           <h3 style={{
             fontSize: '1.125rem',
             fontWeight: 700,
-            color: '#1a1a1a',
+            color: 'var(--text-primary)',
             margin: '0 0 1.25rem',
             textAlign: 'center',
           }}>
@@ -312,7 +312,7 @@ export function SubscribeClient() {
             gap: '0.75rem',
           }}>
             {INCLUDED.map((item, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: '#374151' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: 'var(--text-primary)' }}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
                   <path d="M3.5 8.5l3 3 6-6" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -326,7 +326,7 @@ export function SubscribeClient() {
         <p style={{
           textAlign: 'center',
           fontSize: '0.8125rem',
-          color: '#9ca3af',
+          color: 'var(--text-muted)',
           marginTop: '2rem',
           lineHeight: 1.6,
         }}>

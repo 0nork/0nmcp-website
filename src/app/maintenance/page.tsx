@@ -21,7 +21,7 @@ export default function MaintenancePage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0a0c10',
+      background: 'var(--bg-primary)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -168,7 +168,7 @@ export default function MaintenancePage() {
           {['#6EE05A', '#00d4ff', '#a78bfa'].map((color, i) => (
             <div key={i} style={{
               width: i === phase ? '24px' : '8px', height: '8px', borderRadius: '4px',
-              background: i === phase ? color : 'rgba(255,255,255,0.1)',
+              background: i === phase ? color : 'var(--border)',
               transition: 'all 0.5s ease',
             }} />
           ))}
@@ -179,7 +179,7 @@ export default function MaintenancePage() {
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', marginTop: '2.5rem', padding: '0 2rem' }}>
         <h1 style={{
           fontSize: 'clamp(1.25rem, 4vw, 2rem)', fontWeight: 800,
-          color: '#ffffff', margin: '0 0 0.75rem', letterSpacing: '-0.02em', lineHeight: 1.3,
+          color: 'var(--text-primary)', margin: '0 0 0.75rem', letterSpacing: '-0.02em', lineHeight: 1.3,
         }}>
           We&apos;re doing some quick re-wiring.
         </h1>
@@ -193,7 +193,7 @@ export default function MaintenancePage() {
 
       {/* Footer */}
       <div style={{
-        position: 'absolute', bottom: '2rem', color: 'rgba(255,255,255,0.15)',
+        position: 'absolute', bottom: '2rem', color: 'var(--border-hover)',
         fontSize: '0.75rem', fontFamily: "'JetBrains Mono', monospace",
       }}>
         0nMCP — The Agentic Engine

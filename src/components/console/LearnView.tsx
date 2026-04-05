@@ -73,7 +73,7 @@ type SubView = 'catalog' | 'course' | 'lesson'
 function markdownToHtml(md: string): string {
   let html = md
     .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre style="background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:12px;overflow-x:auto;font-family:var(--font-mono);font-size:12px;line-height:1.5;margin:12px 0"><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.06);padding:2px 5px;border-radius:3px;font-family:var(--font-mono);font-size:12px">$1</code>')
+    .replace(/`([^`]+)`/g, '<code style="background:var(--border);padding:2px 5px;border-radius:3px;font-family:var(--font-mono);font-size:12px">$1</code>')
     .replace(/^### (.+)$/gm, '<h3 style="font-size:16px;font-weight:700;margin:20px 0 8px">$1</h3>')
     .replace(/^## (.+)$/gm, '<h2 style="font-size:18px;font-weight:700;margin:24px 0 10px">$1</h2>')
     .replace(/^# (.+)$/gm, '<h1 style="font-size:22px;font-weight:700;margin:28px 0 12px">$1</h1>')
@@ -446,7 +446,7 @@ function CatalogPanel({
                 {course.tags?.length > 0 && (
                   <div className="flex gap-1 flex-wrap mt-2">
                     {course.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)' }}>
+                      <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'var(--bg-card)', color: 'var(--text-muted)' }}>
                         {tag}
                       </span>
                     ))}
@@ -533,7 +533,7 @@ function CoursePanel({
               {enrollment.progress_pct}% complete
             </span>
           </div>
-          <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--border)' }}>
             <div
               className="h-full rounded-full transition-all"
               style={{ width: `${enrollment.progress_pct}%`, background: 'var(--accent)' }}
@@ -590,7 +590,7 @@ function CoursePanel({
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
                 style={{
-                  background: completed ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
+                  background: completed ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
                   color: completed ? '#6EE05A' : 'var(--text-muted)',
                 }}
               >

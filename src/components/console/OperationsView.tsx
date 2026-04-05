@@ -248,7 +248,7 @@ export function OperationsView({
                   animationDelay: `${i * 50}ms`,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+                  e.currentTarget.style.borderColor = 'var(--border)'
                   e.currentTarget.style.transform = 'translateY(-1px)'
                 }}
                 onMouseLeave={(e) => {
@@ -330,7 +330,7 @@ export function OperationsView({
                         fontSize: '0.625rem',
                         padding: '0.125rem 0.375rem',
                         borderRadius: '0.25rem',
-                        backgroundColor: 'rgba(255,255,255,0.04)',
+                        backgroundColor: 'var(--bg-card)',
                         color: 'var(--text-muted)',
                         fontFamily: 'var(--font-mono)',
                       }}

@@ -146,7 +146,7 @@ export function ToolFlowDoc({ serviceName, serviceIcon, howTo }: ToolFlowDocProp
                     fontSize: 12,
                     fontWeight: 500,
                     color: 'var(--text-secondary)',
-                    backgroundColor: 'rgba(255,255,255,0.06)',
+                    backgroundColor: 'var(--border)',
                     border: '1px solid var(--border)',
                     fontFamily: 'var(--font-mono)',
                   }}

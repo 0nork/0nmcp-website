@@ -117,7 +117,7 @@ function LiveDataNodeComponent({ data, selected }: NodeProps<StepNode>) {
               fontWeight: 700,
               padding: '1px 5px',
               borderRadius: 4,
-              background: liveEnabled ? `${accentColor}20` : 'rgba(255,255,255,0.05)',
+              background: liveEnabled ? `${accentColor}20` : 'var(--bg-card)',
               color: liveEnabled ? accentColor : 'var(--text-muted)',
               cursor: 'pointer',
               userSelect: 'none',
@@ -143,7 +143,7 @@ function LiveDataNodeComponent({ data, selected }: NodeProps<StepNode>) {
       {/* Live Data Preview */}
       {isLiveCapable && liveEnabled && (
         <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          borderTop: '1px solid var(--border)',
           padding: '6px 0 2px',
           marginTop: 4,
         }}>
@@ -162,7 +162,7 @@ function LiveDataNodeComponent({ data, selected }: NodeProps<StepNode>) {
               {items.map((item, i) => (
                 <div key={i} style={{
                   display: 'flex', gap: 6, fontSize: '0.5rem', color: 'var(--text-secondary)',
-                  padding: '2px 0', borderBottom: i < items.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none',
+                  padding: '2px 0', borderBottom: i < items.length - 1 ? '1px solid var(--bg-card)' : 'none',
                 }}>
                   <span style={{
                     width: 4, height: 4, borderRadius: '50%', background: accentColor,

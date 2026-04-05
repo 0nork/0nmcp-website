@@ -167,7 +167,7 @@ export default async function ServiceToolPage({ params }: Props) {
                           key={param.name}
                           className="text-[10px] px-2 py-0.5 rounded"
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.04)',
+                            backgroundColor: 'var(--bg-card)',
                             border: '1px solid var(--border)',
                             color: param.required ? 'var(--text-secondary)' : 'var(--text-muted)',
                             fontFamily: 'var(--font-mono)',

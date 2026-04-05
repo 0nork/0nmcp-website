@@ -49,7 +49,7 @@ function SiteNode({ data }: NodeProps) {
 
   return (
     <div style={{
-      background: '#111827',
+      background: 'var(--bg-card)',
       border: `2px solid ${d.color}40`,
       borderRadius: 12,
       padding: '10px 16px',
@@ -69,7 +69,7 @@ function SiteNode({ data }: NodeProps) {
           flexShrink: 0,
         }} />
         <span style={{
-          fontSize: 13, fontWeight: 700, color: '#E8EAED',
+          fontSize: 13, fontWeight: 700, color: 'var(--text-primary)',
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
           {d.label}
@@ -170,7 +170,7 @@ export default function CanvasClient() {
     <div style={{
       height: '100vh',
       width: '100vw',
-      background: '#0B0F19',
+      background: 'var(--bg-primary)',
       position: 'fixed',
       top: 0, left: 0,
       zIndex: 50,
@@ -201,7 +201,7 @@ export default function CanvasClient() {
         <MiniMap
           nodeColor={(n) => (n.data as any)?.color || '#6EE05A'}
           maskColor="rgba(11, 15, 25, 0.85)"
-          style={{ background: '#111827' }}
+          style={{ background: 'var(--bg-card)' }}
           position="bottom-right"
         />
 
@@ -210,8 +210,8 @@ export default function CanvasClient() {
           <div style={{
             display: 'flex', alignItems: 'center', gap: 12,
             padding: '10px 16px',
-            background: '#111827',
-            border: '1px solid #1E293B',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
             borderRadius: 12,
             boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
           }}>
@@ -222,12 +222,12 @@ export default function CanvasClient() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
               </svg>
-              <span style={{ fontSize: 14, fontWeight: 800, color: '#E8EAED', letterSpacing: '-0.02em' }}>
+              <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 <span style={{ color: '#6EE05A' }}>0n</span>Canvas
               </span>
             </div>
 
-            <div style={{ width: 1, height: 24, background: '#1E293B' }} />
+            <div style={{ width: 1, height: 24, background: 'var(--bg-card)' }} />
 
             {/* URL Input */}
             <input
@@ -239,9 +239,9 @@ export default function CanvasClient() {
                 width: 220,
                 padding: '8px 12px',
                 borderRadius: 8,
-                border: '1px solid #1E293B',
-                background: '#0B0F19',
-                color: '#E8EAED',
+                border: '1px solid var(--border)',
+                background: 'var(--bg-primary)',
+                color: 'var(--text-primary)',
                 fontSize: 12,
                 fontFamily: "'JetBrains Mono', monospace",
                 outline: 'none',
@@ -263,8 +263,8 @@ export default function CanvasClient() {
           <div style={{
             display: 'flex', flexDirection: 'column', gap: 8,
             padding: '12px 16px',
-            background: '#111827',
-            border: '1px solid #1E293B',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
             borderRadius: 12,
             boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
             minWidth: 180,
@@ -278,8 +278,8 @@ export default function CanvasClient() {
                   { label: 'Pages', value: stats.total_pages, color: '#6EE05A' },
                   { label: 'Dynamic', value: stats.dynamic_routes, color: '#a78bfa' },
                   { label: 'Groups', value: stats.groups, color: '#f59e0b' },
-                  { label: 'Nodes', value: stats.total_nodes, color: '#E8EAED' },
-                  { label: 'Connections', value: stats.total_edges, color: '#E8EAED' },
+                  { label: 'Nodes', value: stats.total_nodes, color: 'var(--text-primary)' },
+                  { label: 'Connections', value: stats.total_edges, color: 'var(--text-primary)' },
                 ].map(s => (
                   <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
                     <span style={{ color: '#7A8290' }}>{s.label}</span>
@@ -297,7 +297,7 @@ export default function CanvasClient() {
                   </button>
                   <button onClick={handleCopy} style={{
                     flex: 1, padding: '6px 10px', borderRadius: 6,
-                    background: '#1E293B', border: '1px solid #2D3748',
+                    background: 'var(--bg-card)', border: '1px solid #2D3748',
                     color: '#7A8290', fontSize: 10, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
                   }}>
                     Copy JSON
@@ -313,8 +313,8 @@ export default function CanvasClient() {
           <div style={{
             display: 'flex', gap: 12,
             padding: '8px 14px',
-            background: '#111827',
-            border: '1px solid #1E293B',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
             borderRadius: 8,
           }}>
             {legend.map(l => (
@@ -323,7 +323,7 @@ export default function CanvasClient() {
                 <span style={{ fontSize: 10, color: '#7A8290', fontWeight: 600 }}>{l.label}</span>
               </div>
             ))}
-            <div style={{ width: 1, height: 14, background: '#1E293B' }} />
+            <div style={{ width: 1, height: 14, background: 'var(--bg-card)' }} />
             <span style={{ fontSize: 10, color: '#4A5568' }}>
               Dashed = dynamic route
             </span>
@@ -335,7 +335,7 @@ export default function CanvasClient() {
           <a href="/" style={{
             display: 'flex', alignItems: 'center', gap: 6,
             padding: '6px 14px', borderRadius: 8,
-            background: '#111827', border: '1px solid #1E293B',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
             color: '#7A8290', fontSize: 11, fontWeight: 600,
             textDecoration: 'none', transition: 'all 0.2s',
           }}>

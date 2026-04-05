@@ -122,8 +122,8 @@ export function SkillInstallClient() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0B0F19',
-      color: '#e2e2e8',
+      background: 'var(--bg-primary)',
+      color: 'var(--text-primary)',
       fontFamily: 'system-ui, -apple-system, sans-serif',
     }}>
       {/* Hero */}
@@ -135,7 +135,7 @@ export function SkillInstallClient() {
       }}>
         <a href="/" style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
-          color: '#78788c', fontSize: 13, textDecoration: 'none', marginBottom: 32,
+          color: 'var(--text-muted)', fontSize: 13, textDecoration: 'none', marginBottom: 32,
         }}>
           ← Back to 0nmcp.com
         </a>
@@ -150,13 +150,13 @@ export function SkillInstallClient() {
 
         <h1 style={{
           fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800,
-          lineHeight: 1.1, margin: '0 0 16px 0', color: '#e2e2e8',
+          lineHeight: 1.1, margin: '0 0 16px 0', color: 'var(--text-primary)',
         }}>
           Add <span style={{ color: '#ff6b35' }}>0nMCP</span> to Claude
         </h1>
 
         <p style={{
-          fontSize: 'clamp(16px, 2.5vw, 20px)', color: '#9898a8',
+          fontSize: 'clamp(16px, 2.5vw, 20px)', color: 'var(--text-secondary)',
           maxWidth: 600, margin: '0 auto 40px', lineHeight: 1.6,
         }}>
           {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. Your Vault, workflows, and AI brain — right inside any Claude app.
@@ -166,7 +166,7 @@ export function SkillInstallClient() {
       {/* Platform Selector */}
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
         <h2 style={{
-          fontSize: 15, color: '#78788c', textAlign: 'center', marginBottom: 16,
+          fontSize: 15, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 16,
           fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1,
         }}>
           {detectedPlatform ? 'We detected your platform — choose yours' : 'Choose your platform'}
@@ -187,16 +187,16 @@ export function SkillInstallClient() {
                 style={{
                   position: 'relative',
                   background: isSelected ? `${p.color}12` : 'rgba(255,255,255,0.02)',
-                  border: `2px solid ${isSelected ? `${p.color}66` : 'rgba(255,255,255,0.06)'}`,
+                  border: `2px solid ${isSelected ? `${p.color}66` : 'var(--border)'}`,
                   borderRadius: 14, padding: '20px 16px',
                   cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s',
-                  color: '#e2e2e8',
+                  color: 'var(--text-primary)',
                 }}
               >
                 {isDetected && (
                   <div style={{
                     position: 'absolute', top: -8, right: -8,
-                    background: p.color, color: '#0B0F19', fontSize: 10, fontWeight: 700,
+                    background: p.color, color: 'var(--bg-primary)', fontSize: 10, fontWeight: 700,
                     padding: '2px 8px', borderRadius: 10, letterSpacing: '0.03em',
                   }}>
                     DETECTED
@@ -206,7 +206,7 @@ export function SkillInstallClient() {
                 <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? p.color : '#e2e2e8' }}>
                   {p.name}
                 </div>
-                <div style={{ fontSize: 12, color: '#78788c', marginTop: 2 }}>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
                   {p.subtitle}
                 </div>
               </button>
@@ -222,7 +222,7 @@ export function SkillInstallClient() {
             {platform.steps.map((step, i) => (
               <div key={i} style={{
                 display: 'flex', gap: 16, padding: '20px 0',
-                borderBottom: i < platform.steps.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                borderBottom: i < platform.steps.length - 1 ? '1px solid var(--bg-card)' : 'none',
               }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 18,
@@ -233,10 +233,10 @@ export function SkillInstallClient() {
                   {i + 1}
                 </div>
                 <div style={{ flex: 1, paddingTop: 4 }}>
-                  <h3 style={{ margin: '0 0 4px 0', fontSize: 16, color: '#e2e2e8', fontWeight: 700 }}>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: 16, color: 'var(--text-primary)', fontWeight: 700 }}>
                     {step.title}
                   </h3>
-                  <p style={{ margin: 0, fontSize: 14, color: '#9898a8', lineHeight: 1.5 }}>
+                  <p style={{ margin: 0, fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
                     {step.desc}
                   </p>
                 </div>
@@ -252,7 +252,7 @@ export function SkillInstallClient() {
           {selectedPlatform === 'claude-code' ? (
             <>
               <h2 style={{
-                fontSize: 15, color: '#78788c', textAlign: 'center', marginBottom: 16,
+                fontSize: 15, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 16,
                 fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1,
               }}>
                 Choose install method
@@ -272,8 +272,8 @@ export function SkillInstallClient() {
                       style={{
                         padding: '16px 18px', borderRadius: 12, textAlign: 'left',
                         background: isSelected ? `${m.color}0c` : 'rgba(255,255,255,0.02)',
-                        border: `2px solid ${isSelected ? `${m.color}55` : 'rgba(255,255,255,0.06)'}`,
-                        cursor: 'pointer', transition: 'all 0.15s', color: '#e2e2e8',
+                        border: `2px solid ${isSelected ? `${m.color}55` : 'var(--border)'}`,
+                        cursor: 'pointer', transition: 'all 0.15s', color: 'var(--text-primary)',
                         fontFamily: 'inherit',
                       }}
                     >
@@ -283,7 +283,7 @@ export function SkillInstallClient() {
                           {m.label}
                         </span>
                       </div>
-                      <p style={{ margin: 0, fontSize: 12, color: '#78788c', lineHeight: 1.4 }}>
+                      <p style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
                         {m.desc}
                       </p>
                     </button>
@@ -301,7 +301,7 @@ export function SkillInstallClient() {
                 }}>
                   {selectedMethod === 'one-line' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
                         Run this in your terminal — installs SKILL.md + dashboard + config:
                       </p>
                       <div style={{
@@ -309,7 +309,7 @@ export function SkillInstallClient() {
                         padding: '16px 20px', marginBottom: 16,
                         fontFamily: 'JetBrains Mono, SF Mono, monospace',
                         fontSize: 14, color: '#ff6b35', userSelect: 'all',
-                        border: '1px solid rgba(255,255,255,0.06)',
+                        border: '1px solid var(--border)',
                         textAlign: 'left',
                       }}>
                         curl -sL https://www.0nmcp.com/api/skill/install | sh
@@ -335,7 +335,7 @@ export function SkillInstallClient() {
 
                   {selectedMethod === 'download' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
                         Download the skill file and save it to your skills folder:
                       </p>
                       <a
@@ -355,7 +355,7 @@ export function SkillInstallClient() {
                         </svg>
                         Download SKILL.md
                       </a>
-                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
                         Save to: <code style={{ color: '#6EE05A' }}>~/.claude/skills/0nmcp/SKILL.md</code>
                       </p>
                     </>
@@ -363,7 +363,7 @@ export function SkillInstallClient() {
 
                   {selectedMethod === 'dashboard' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
                         A standalone HTML app — open locally to manage your 0nMCP account:
                       </p>
                       <a
@@ -378,7 +378,7 @@ export function SkillInstallClient() {
                       >
                         Download Dashboard
                       </a>
-                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
                         Open <code style={{ color: '#00d4ff' }}>dashboard.html</code> in any browser. Vault, Runs, Brain — all local.
                       </p>
                     </>
@@ -386,7 +386,7 @@ export function SkillInstallClient() {
 
                   {selectedMethod === 'config' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
                         Pre-configured Claude Code project settings with MCP server reference:
                       </p>
                       <a
@@ -401,7 +401,7 @@ export function SkillInstallClient() {
                       >
                         Download .claude.json
                       </a>
-                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
                         Place in your project root. Registers the skill + MCP server config.
                       </p>
                     </>
@@ -412,8 +412,8 @@ export function SkillInstallClient() {
               {!selectedMethod && (
                 <div style={{
                   padding: 24, borderRadius: 14,
-                  border: '1px dashed rgba(255,255,255,0.1)',
-                  textAlign: 'center', color: '#5a5a6a', fontSize: 14,
+                  border: '1px dashed var(--border)',
+                  textAlign: 'center', color: 'var(--text-muted)', fontSize: 14,
                 }}>
                   Select an install method above
                 </div>
@@ -427,7 +427,7 @@ export function SkillInstallClient() {
               border: `1px solid ${platform.color}22`,
               borderRadius: 16, textAlign: 'center',
             }}>
-              <p style={{ margin: '0 0 16px 0', fontSize: 14, color: '#9898a8' }}>
+              <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
                 Copy the 0nMCP instructions and paste them into your Claude Project:
               </p>
               <button
@@ -461,7 +461,7 @@ export function SkillInstallClient() {
                 )}
               </button>
               {selectedPlatform === 'claude-mobile' && (
-                <p style={{ margin: '16px 0 0 0', fontSize: 12, color: '#5a5a6a' }}>
+                <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
                   Tip: Set this up on your computer first — Projects sync to mobile automatically.
                 </p>
               )}
@@ -487,10 +487,10 @@ export function SkillInstallClient() {
             👤
           </div>
           <div style={{ flex: 1 }}>
-            <h3 style={{ margin: '0 0 4px 0', fontSize: 15, color: '#e2e2e8' }}>
+            <h3 style={{ margin: '0 0 4px 0', fontSize: 15, color: 'var(--text-primary)' }}>
               Free account required
             </h3>
-            <p style={{ margin: '0 0 12px 0', fontSize: 13, color: '#9898a8', lineHeight: 1.5 }}>
+            <p style={{ margin: '0 0 12px 0', fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
               You need an 0nmcp.com account. Sign up takes 30 seconds — no credit card.
             </p>
             <a
@@ -510,7 +510,7 @@ export function SkillInstallClient() {
 
       {/* What You Get */}
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px 60px' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, textAlign: 'center', marginBottom: 28, color: '#e2e2e8' }}>
+        <h2 style={{ fontSize: 24, fontWeight: 700, textAlign: 'center', marginBottom: 28, color: 'var(--text-primary)' }}>
           What you unlock inside Claude
         </h2>
         <div style={{
@@ -528,13 +528,13 @@ export function SkillInstallClient() {
           ].map((f) => (
             <div key={f.title} style={{
               padding: '20px 22px', background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14,
+              border: '1px solid var(--border)', borderRadius: 14,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                 <span style={{ fontSize: 24 }}>{f.icon}</span>
                 <h3 style={{ margin: 0, fontSize: 14, color: f.color, fontWeight: 700 }}>{f.title}</h3>
               </div>
-              <p style={{ margin: 0, fontSize: 13, color: '#78788c', lineHeight: 1.5 }}>{f.desc}</p>
+              <p style={{ margin: 0, fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5 }}>{f.desc}</p>
             </div>
           ))}
         </div>
@@ -542,11 +542,11 @@ export function SkillInstallClient() {
 
       {/* Command Reference */}
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 24px 60px' }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginBottom: 20, color: '#e2e2e8' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginBottom: 20, color: 'var(--text-primary)' }}>
           Just type these in Claude
         </h2>
         <div style={{
-          background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border)',
           borderRadius: 14, padding: '20px 24px', fontSize: 14, lineHeight: 2.2,
         }}>
           {[
@@ -560,7 +560,7 @@ export function SkillInstallClient() {
           ].map((c) => (
             <div key={c.cmd} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <code style={{ color: '#ff6b35', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600 }}>{c.cmd}</code>
-              <span style={{ color: '#5a5a6a', fontSize: 13 }}>{c.desc}</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: 13 }}>{c.desc}</span>
             </div>
           ))}
         </div>
@@ -569,9 +569,9 @@ export function SkillInstallClient() {
       {/* Bottom CTA */}
       <div style={{
         textAlign: 'center', padding: '40px 24px 80px',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
+        borderTop: '1px solid var(--bg-card)',
       }}>
-        <p style={{ color: '#9898a8', fontSize: 16, marginBottom: 20, fontWeight: 500 }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: 16, marginBottom: 20, fontWeight: 500 }}>
           Ready? It takes 60 seconds.
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -591,15 +591,15 @@ export function SkillInstallClient() {
             href="/signup"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 28px', background: 'rgba(255,255,255,0.05)',
-              color: '#e2e2e8', borderRadius: 12, fontWeight: 600, fontSize: 16,
-              textDecoration: 'none', border: '1px solid rgba(255,255,255,0.1)',
+              padding: '14px 28px', background: 'var(--bg-card)',
+              color: 'var(--text-primary)', borderRadius: 12, fontWeight: 600, fontSize: 16,
+              textDecoration: 'none', border: '1px solid var(--border)',
             }}
           >
             Create Free Account
           </a>
         </div>
-        <p style={{ color: '#5a5a6a', fontSize: 12, marginTop: 16 }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 16 }}>
           Works with Claude MAX, Pro, and Team plans. Free 0nmcp.com account required.
         </p>
       </div>

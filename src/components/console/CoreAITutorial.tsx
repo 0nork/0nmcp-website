@@ -41,8 +41,8 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
                   style={{
                     width: 44, height: 44, borderRadius: 12,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: p.key === provider ? `${p.color}20` : 'rgba(255,255,255,0.03)',
-                    border: `1px solid ${p.key === provider ? `${p.color}40` : 'rgba(255,255,255,0.06)'}`,
+                    background: p.key === provider ? `${p.color}20` : 'var(--bg-card)',
+                    border: `1px solid ${p.key === provider ? `${p.color}40` : 'var(--border)'}`,
                     opacity: p.key === provider ? 1 : 0.4,
                     transition: 'all 0.2s',
                   }}
@@ -134,7 +134,7 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
     >
       <div style={{
         width: '100%', maxWidth: 420,
-        background: '#0d0d14',
+        background: 'var(--bg-primary)',
         border: '1px solid rgba(126,217,87,0.2)',
         borderRadius: 20,
         boxShadow: '0 24px 80px rgba(0,0,0,0.6), 0 0 40px rgba(126,217,87,0.06)',
@@ -176,7 +176,7 @@ export function CoreAITutorial({ provider, onClose }: CoreAITutorialProps) {
                 key={i}
                 style={{
                   width: i === step ? 20 : 6, height: 6, borderRadius: 3,
-                  background: i === step ? '#6EE05A' : 'rgba(255,255,255,0.1)',
+                  background: i === step ? '#6EE05A' : 'var(--border)',
                   transition: 'all 0.3s',
                 }}
               />

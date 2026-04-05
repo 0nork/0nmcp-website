@@ -578,7 +578,7 @@ export default function PersonasAdmin() {
                         fontSize: '0.5625rem',
                         padding: '2px 6px',
                         borderRadius: 4,
-                        background: 'rgba(255,255,255,0.05)',
+                        background: 'var(--bg-card)',
                         color: 'var(--text-secondary)',
                       }}
                     >
@@ -1027,7 +1027,7 @@ export default function PersonasAdmin() {
                         }}
                         style={{
                           padding: '4px 10px', borderRadius: 6,
-                          background: config.enabled ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.05)',
+                          background: config.enabled ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
                           color: config.enabled ? '#6EE05A' : 'var(--text-muted)',
                           border: 'none', fontWeight: 700, fontSize: '0.5625rem',
                           cursor: 'pointer', textTransform: 'uppercase',
@@ -1057,7 +1057,7 @@ export default function PersonasAdmin() {
                           key={g}
                           style={{
                             fontSize: '0.5rem', padding: '1px 5px', borderRadius: 3,
-                            background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)',
+                            background: 'var(--bg-card)', color: 'var(--text-muted)',
                           }}
                         >
                           {g}

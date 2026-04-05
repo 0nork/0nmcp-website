@@ -885,7 +885,7 @@ export default function HomeClient() {
                 {step.desc}
               </p>
               <div style={{
-                background: '#0d1117',
+                background: 'var(--bg-card)',
                 border: '1px solid var(--border)',
                 borderRadius: 12,
                 padding: '14px 18px',

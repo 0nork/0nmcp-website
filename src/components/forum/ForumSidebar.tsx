@@ -68,8 +68,8 @@ function GroupIcon({ slug, color }: { slug: string; color: string }) {
         width: 28,
         height: 28,
         borderRadius: 8,
-        background: 'linear-gradient(145deg, rgba(255,255,255,0.06) 0%, #0B0F19 100%)',
-        boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.06), 0 2px 4px rgba(0,0,0,0.5)',
+        background: 'linear-gradient(145deg, var(--border) 0%, #0B0F19 100%)',
+        boxShadow: 'inset 0 1px 1px var(--border), 0 2px 4px rgba(0,0,0,0.5)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -112,8 +112,8 @@ export default function ForumSidebar({
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
-        backgroundColor: '#0B0F19',
-        borderRight: '1px solid rgba(255,255,255,0.06)',
+        backgroundColor: 'var(--bg-primary)',
+        borderRight: '1px solid var(--border)',
         transition: TRANSITION,
         overflow: 'hidden',
       }}
@@ -196,13 +196,13 @@ export default function ForumSidebar({
       </nav>
 
       {/* Footer */}
-      <div style={{ flexShrink: 0, padding: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ flexShrink: 0, padding: '0.75rem', borderTop: '1px solid var(--border)' }}>
         <Link
           href="/console"
           style={{
             display: 'flex', alignItems: 'center', gap: '0.5rem',
             padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-            fontSize: '0.75rem', fontWeight: 600, color: '#555',
+            fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)',
             textDecoration: 'none', transition: TRANSITION,
           }}
         >

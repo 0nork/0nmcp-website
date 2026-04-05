@@ -62,7 +62,7 @@ export function RunsView({ mcpOnline, mcpHealth, mcpWorkflows, onRunWorkflow }: 
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{
             width: 64, height: 64, borderRadius: 16,
-            background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             margin: '0 auto 1rem',
           }}>

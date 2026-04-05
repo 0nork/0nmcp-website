@@ -13,7 +13,7 @@ const ON_GREEN = '#6EE05A'
 
 export default function OnGramPage() {
   return (
-    <div style={{ minHeight: '100vh', paddingTop: '5rem', background: '#fafbfc' }}>
+    <div style={{ minHeight: '100vh', paddingTop: '5rem', background: 'var(--bg-secondary)' }}>
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 1.5rem 4rem' }}>
         <Link href="/downloads" style={{ fontSize: 12, color: ON_GREEN, textDecoration: 'none' }}>
           &larr; All Downloads
@@ -25,7 +25,7 @@ export default function OnGramPage() {
             <div style={{
               width: 56, height: 56, borderRadius: 14, background: TELEGRAM_BLUE,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff', fontSize: 24,
+              color: 'var(--text-primary)', fontSize: 24,
               boxShadow: `0 8px 24px rgba(34,158,217,0.3)`,
             }}>
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,38 +33,38 @@ export default function OnGramPage() {
               </svg>
             </div>
             <div>
-              <h1 style={{ fontSize: 32, fontWeight: 900, color: '#1a1a1a', margin: 0 }}>0nGram</h1>
-              <p style={{ fontSize: 14, color: '#888', margin: 0 }}>0n Inside Telegram</p>
+              <h1 style={{ fontSize: 32, fontWeight: 900, color: 'var(--text-primary)', margin: 0 }}>0nGram</h1>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: 0 }}>0n Inside Telegram</p>
             </div>
           </div>
-          <p style={{ fontSize: 17, color: '#555', lineHeight: 1.8 }}>
+          <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.8 }}>
             Your entire AI command center running inside Telegram. Full dashboard as a Mini App, AI chat bot, inline queries in any conversation, and Telegram Stars payments. 500M+ monthly mini app users.
           </p>
         </div>
 
         {/* Install Methods */}
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>Three Ways to Use 0nGram</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 16 }}>Three Ways to Use 0nGram</h2>
           <div style={{ display: 'grid', gap: 16 }}>
 
             {/* Card 1: Mini App */}
             <div style={{
-              background: '#fff', borderRadius: 16, padding: 28,
+              background: 'var(--bg-card)', borderRadius: 16, padding: 28,
               border: `2px solid ${TELEGRAM_BLUE}`,
               boxShadow: `0 4px 20px rgba(34,158,217,0.12)`,
               position: 'relative', overflow: 'hidden',
             }}>
               <div style={{
                 position: 'absolute', top: 12, right: 16,
-                background: TELEGRAM_BLUE, color: '#fff',
+                background: TELEGRAM_BLUE, color: 'var(--text-primary)',
                 fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 6,
                 textTransform: 'uppercase', letterSpacing: 1,
               }}>Featured</div>
               <div style={{ fontSize: 11, fontWeight: 700, color: TELEGRAM_BLUE, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
                 Mini App
               </div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#1a1a1a', marginBottom: 8 }}>Full Dashboard Inside Telegram</div>
-              <p style={{ fontSize: 14, color: '#666', lineHeight: 1.7, marginBottom: 16 }}>
+              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8 }}>Full Dashboard Inside Telegram</div>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 16 }}>
                 Opens command.0nmcp.com as a Telegram Mini App. Full-screen mode, home screen shortcuts, native look and feel. The entire 0nAI experience without leaving Telegram.
               </p>
               <a
@@ -73,7 +73,7 @@ export default function OnGramPage() {
                 rel="noopener"
                 style={{
                   display: 'inline-block', padding: '10px 24px', borderRadius: 10,
-                  background: TELEGRAM_BLUE, color: '#fff', fontWeight: 700, fontSize: 14,
+                  background: TELEGRAM_BLUE, color: 'var(--text-primary)', fontWeight: 700, fontSize: 14,
                   textDecoration: 'none', boxShadow: `0 4px 12px rgba(34,158,217,0.3)`,
                 }}
               >
@@ -83,14 +83,14 @@ export default function OnGramPage() {
 
             {/* Card 2: Bot Chat */}
             <div style={{
-              background: '#fff', borderRadius: 16, padding: 28,
-              border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              background: 'var(--bg-card)', borderRadius: 16, padding: 28,
+              border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: ON_GREEN, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
                 Bot Chat
               </div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#1a1a1a', marginBottom: 8 }}>AI Assistant in Your Pocket</div>
-              <p style={{ fontSize: 14, color: '#666', lineHeight: 1.7, marginBottom: 16 }}>
+              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8 }}>AI Assistant in Your Pocket</div>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 16 }}>
                 Message @0nGramBot for instant AI responses. Threaded conversations, streaming responses, full Knowledge Layer access. Your personal AI that lives in Telegram.
               </p>
               <a
@@ -99,7 +99,7 @@ export default function OnGramPage() {
                 rel="noopener"
                 style={{
                   display: 'inline-block', padding: '10px 24px', borderRadius: 10,
-                  background: '#1a1a1a', color: '#fff', fontWeight: 700, fontSize: 14,
+                  background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 700, fontSize: 14,
                   textDecoration: 'none',
                 }}
               >
@@ -109,19 +109,19 @@ export default function OnGramPage() {
 
             {/* Card 3: Inline Mode */}
             <div style={{
-              background: '#fff', borderRadius: 16, padding: 28,
-              border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              background: 'var(--bg-card)', borderRadius: 16, padding: 28,
+              border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: '#a78bfa', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
                 Inline Mode
               </div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: '#1a1a1a', marginBottom: 8 }}>Use 0n in Any Chat</div>
-              <p style={{ fontSize: 14, color: '#666', lineHeight: 1.7, marginBottom: 16 }}>
-                Type <code style={{ background: '#f3f4f6', padding: '2px 6px', borderRadius: 4, fontSize: 13 }}>@0nGramBot</code> in any conversation to run workflows, search contacts, check status. Share results as rich cards in any chat.
+              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8 }}>Use 0n in Any Chat</div>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 16 }}>
+                Type <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: 4, fontSize: 13 }}>@0nGramBot</code> in any conversation to run workflows, search contacts, check status. Share results as rich cards in any chat.
               </p>
               <div style={{
                 display: 'inline-block', padding: '10px 24px', borderRadius: 10,
-                background: '#f3f4f6', color: '#888', fontWeight: 700, fontSize: 14,
+                background: 'var(--bg-secondary)', color: 'var(--text-muted)', fontWeight: 700, fontSize: 14,
               }}>
                 Available in Any Chat
               </div>
@@ -131,7 +131,7 @@ export default function OnGramPage() {
 
         {/* What 0nGram Includes */}
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>What 0nGram Includes</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 16 }}>What 0nGram Includes</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
             {[
               { num: '1', title: 'Mini App', desc: 'Full 0nAI dashboard — chat, tasks, files, Knowledge Layer — all inside Telegram.' },
@@ -144,17 +144,17 @@ export default function OnGramPage() {
               { num: '8', title: 'Home Screen', desc: 'Add to phone home screen. Works like a native app — instant access.' },
             ].map(f => (
               <div key={f.num} style={{
-                background: '#fff', borderRadius: 14, padding: 20,
-                border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                background: 'var(--bg-card)', borderRadius: 14, padding: 20,
+                border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               }}>
                 <div style={{
                   width: 28, height: 28, borderRadius: 8,
                   background: `linear-gradient(135deg, ${TELEGRAM_BLUE}, ${ON_GREEN})`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', fontSize: 12, fontWeight: 900, marginBottom: 10,
+                  color: 'var(--text-primary)', fontSize: 12, fontWeight: 900, marginBottom: 10,
                 }}>{f.num}</div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', marginBottom: 6 }}>{f.title}</div>
-                <div style={{ fontSize: 13, color: '#666', lineHeight: 1.6 }}>{f.desc}</div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{f.title}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>{f.desc}</div>
               </div>
             ))}
           </div>
@@ -164,7 +164,7 @@ export default function OnGramPage() {
         <section style={{ marginBottom: 40 }}>
           <div style={{
             display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0,
-            background: '#1a1a1a', borderRadius: 16, overflow: 'hidden',
+            background: 'var(--bg-card)', borderRadius: 16, overflow: 'hidden',
             boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
           }}>
             {[
@@ -184,7 +184,7 @@ export default function OnGramPage() {
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                 }}>{s.value}</div>
-                <div style={{ fontSize: 11, color: '#999', marginTop: 4, fontWeight: 500 }}>{s.label}</div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4, fontWeight: 500 }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -194,7 +194,7 @@ export default function OnGramPage() {
         <div style={{
           borderRadius: 16, padding: '2.5rem 2rem', textAlign: 'center',
           background: `linear-gradient(135deg, ${TELEGRAM_BLUE}, #1a8fc2)`,
-          color: '#fff', boxShadow: '0 12px 40px rgba(34,158,217,0.25)',
+          color: 'var(--text-primary)', boxShadow: '0 12px 40px rgba(34,158,217,0.25)',
         }}>
           <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Coming Soon — Get Notified</h2>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', marginBottom: 24 }}>
@@ -213,14 +213,14 @@ export default function OnGramPage() {
               placeholder="you@example.com"
               style={{
                 padding: '12px 20px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.3)',
-                background: 'rgba(255,255,255,0.15)', color: '#fff', fontSize: 14,
+                background: 'var(--border-hover)', color: 'var(--text-primary)', fontSize: 14,
                 width: 260, outline: 'none',
               }}
             />
             <button
               type="submit"
               style={{
-                padding: '12px 28px', borderRadius: 10, background: '#fff',
+                padding: '12px 28px', borderRadius: 10, background: 'var(--bg-card)',
                 color: TELEGRAM_BLUE, fontWeight: 800, fontSize: 14,
                 border: 'none', cursor: 'pointer',
               }}

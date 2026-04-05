@@ -838,7 +838,7 @@ export default function PremiumOnboarding({
                             borderRadius: 20,
                             fontSize: 12,
                             fontWeight: 600,
-                            color: '#fff',
+                            color: 'var(--text-primary)',
                             background: `${platform?.color ?? '#555'}40`,
                             border: `1px solid ${platform?.color ?? '#555'}60`,
                           }}

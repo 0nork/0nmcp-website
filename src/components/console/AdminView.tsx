@@ -352,7 +352,7 @@ function NavButton({ item, active, onClick }: { item: NavItem; active: boolean; 
         background: active
           ? 'rgba(126,217,87,0.1)'
           : hovered
-            ? 'rgba(255,255,255,0.04)'
+            ? 'var(--bg-card)'
             : 'transparent',
         color: active ? '#6EE05A' : 'var(--text-secondary)',
         fontSize: '0.8rem', fontWeight: active ? 600 : 500,

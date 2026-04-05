@@ -251,7 +251,7 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
                 <div style={{ fontSize: 13, color: '#9AA0A8', fontWeight: 600 }}>
                   Drop a <span style={{ color: '#6EE05A' }}>.0n</span> file here or click to import
                 </div>
-                <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>
                   Auto-fills all fields from your SWITCH file
                 </div>
               </>
@@ -277,7 +277,7 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
               rows={3}
               style={{
                 width: '100%', padding: '8px 14px 10px', border: 'none',
-                background: 'transparent', color: '#E8EAED', fontSize: 12,
+                background: 'transparent', color: 'var(--text-primary)', fontSize: 12,
                 fontFamily: 'JetBrains Mono, monospace', outline: 'none',
                 resize: 'vertical', boxSizing: 'border-box',
               }}
@@ -452,8 +452,8 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
             border: '1px solid rgba(110, 224, 90, 0.1)',
             fontSize: 13, color: '#7A8290',
           }}>
-            Total: <strong style={{ color: '#E8EAED' }}>{data.module_count * data.lessons_per_module}</strong> lessons across{' '}
-            <strong style={{ color: '#E8EAED' }}>{data.module_count}</strong> modules
+            Total: <strong style={{ color: 'var(--text-primary)' }}>{data.module_count * data.lessons_per_module}</strong> lessons across{' '}
+            <strong style={{ color: 'var(--text-primary)' }}>{data.module_count}</strong> modules
           </div>
 
           <div style={{ marginTop: 20, display: 'flex', gap: 16 }}>
@@ -571,7 +571,7 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
 
           <div style={{
             marginTop: 20, padding: 20, borderRadius: 14,
-            background: '#0E1117', border: '1px solid #1a1f2e',
+            background: 'var(--bg-primary)', border: '1px solid #1a1f2e',
           }}>
             <SummaryRow label="Title" value={data.course_title} />
             {data.course_subtitle && <SummaryRow label="Subtitle" value={data.course_subtitle} />}
@@ -615,7 +615,7 @@ export default function CourseIntakeWizard({ onGenerate }: Props) {
               onClick={() => setWizardStep(s => s - 1)}
               style={{
                 flex: 1, padding: '12px 20px', borderRadius: 10,
-                background: '#0E1117', border: '1px solid #1a1f2e',
+                background: 'var(--bg-primary)', border: '1px solid #1a1f2e',
                 color: '#9AA0A8', fontSize: 13, fontWeight: 600,
                 cursor: 'pointer', fontFamily: 'inherit',
               }}
@@ -650,7 +650,7 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #1a1f2e' }}>
       <span style={{ fontSize: 13, color: '#7A8290' }}>{label}</span>
-      <span style={{ fontSize: 13, color: '#E8EAED', fontWeight: 500, textAlign: 'right', maxWidth: '60%' }}>{value}</span>
+      <span style={{ fontSize: 13, color: 'var(--text-primary)', fontWeight: 500, textAlign: 'right', maxWidth: '60%' }}>{value}</span>
     </div>
   )
 }
@@ -661,7 +661,7 @@ const stepContainer: React.CSSProperties = {
 }
 
 const stepTitle: React.CSSProperties = {
-  fontSize: 20, fontWeight: 800, color: '#E8EAED',
+  fontSize: 20, fontWeight: 800, color: 'var(--text-primary)',
   letterSpacing: '-0.02em', margin: 0,
 }
 
@@ -677,7 +677,7 @@ const labelStyle: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '12px 14px',
   borderRadius: 10, border: '1px solid #1a1f2e',
-  background: '#0E1117', color: '#E8EAED', fontSize: 14,
+  background: 'var(--bg-primary)', color: 'var(--text-primary)', fontSize: 14,
   fontFamily: 'inherit', outline: 'none',
   transition: 'border-color 0.2s',
   boxSizing: 'border-box',
@@ -693,10 +693,10 @@ const chipStyle: React.CSSProperties = {
 const rangeStyle: React.CSSProperties = {
   width: '100%', accentColor: '#6EE05A',
   height: 6, borderRadius: 3,
-  background: '#0E1117',
+  background: 'var(--bg-primary)',
 }
 
 const rangeLabels: React.CSSProperties = {
   display: 'flex', justifyContent: 'space-between',
-  fontSize: 11, color: '#555', marginTop: 4,
+  fontSize: 11, color: 'var(--text-muted)', marginTop: 4,
 }

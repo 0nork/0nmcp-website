@@ -153,7 +153,7 @@ export default function ExitIntentPopup() {
               padding: 4,
               lineHeight: 1,
               fontSize: 20,
-              color: '#999',
+              color: 'var(--text-muted)',
             }}
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -179,20 +179,20 @@ export default function ExitIntentPopup() {
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <h3 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', margin: '0 0 8px' }}>
+              <h3 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 8px' }}>
                 You&apos;re in!
               </h3>
-              <p style={{ fontSize: 14, color: '#555', margin: 0 }}>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: 0 }}>
                 Check your email for next steps.
               </p>
             </div>
           ) : (
             /* ── Form State ── */
             <>
-              <h2 style={{ fontSize: 28, fontWeight: 900, color: '#1a1a1a', margin: '0 0 8px', textAlign: 'center' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 900, color: 'var(--text-primary)', margin: '0 0 8px', textAlign: 'center' }}>
                 Don&apos;t Leave Yet!
               </h2>
-              <p style={{ fontSize: 14, color: '#555', margin: '0 0 20px', textAlign: 'center', lineHeight: 1.5 }}>
+              <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: '0 0 20px', textAlign: 'center', lineHeight: 1.5 }}>
                 Pre-register before our May 1st launch and get 30 days free.
               </p>
 
@@ -205,10 +205,10 @@ export default function ExitIntentPopup() {
                   { value: countdown.seconds, label: 'Sec' },
                 ].map(({ value, label }) => (
                   <div key={label} style={timerBoxStyle}>
-                    <span style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', fontVariantNumeric: 'tabular-nums' }}>
+                    <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', fontVariantNumeric: 'tabular-nums' }}>
                       {String(value).padStart(2, '0')}
                     </span>
-                    <span style={{ fontSize: 10, fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                       {label}
                     </span>
                   </div>
@@ -233,7 +233,7 @@ export default function ExitIntentPopup() {
                     boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.06)',
                     transition: 'border-color 0.2s, box-shadow 0.2s',
                     boxSizing: 'border-box',
-                    color: '#1a1a1a',
+                    color: 'var(--text-primary)',
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor = '#6EE05A'
@@ -255,8 +255,8 @@ export default function ExitIntentPopup() {
                     padding: '13px 24px',
                     fontSize: 15,
                     fontWeight: 700,
-                    color: '#fff',
-                    background: '#1a1a1a',
+                    color: 'var(--text-primary)',
+                    background: 'var(--bg-card)',
                     border: 'none',
                     borderRadius: 12,
                     cursor: loading ? 'wait' : 'pointer',
@@ -288,7 +288,7 @@ export default function ExitIntentPopup() {
                   border: 'none',
                   cursor: 'pointer',
                   fontSize: 12,
-                  color: '#999',
+                  color: 'var(--text-muted)',
                   padding: '4px 8px',
                   transition: 'color 0.2s',
                 }}

@@ -146,15 +146,15 @@ export default function ConsoleCTA() {
           background: linear-gradient(
             90deg,
             transparent 0%,
-            rgba(255,255,255,0.06) 45%,
+            var(--border) 45%,
             rgba(255,255,255,0.12) 50%,
-            rgba(255,255,255,0.06) 55%,
+            var(--border) 55%,
             transparent 100%
           );
           animation: shimmer 3s infinite;
         }
         .console-cta-btn-ghost {
-          background: rgba(255,255,255,0.04) !important;
+          background: var(--bg-card) !important;
           border: 1px solid var(--border) !important;
         }
         .console-cta-btn-ghost .console-cta-btn-glow {

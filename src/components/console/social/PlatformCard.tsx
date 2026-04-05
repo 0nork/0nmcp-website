@@ -203,7 +203,7 @@ export function PlatformCard({
                 padding: '8px 12px',
                 borderRadius: 10,
                 border: '1px solid var(--border)',
-                backgroundColor: 'rgba(255,255,255,0.03)',
+                backgroundColor: 'var(--bg-card)',
                 color: 'var(--text-muted)',
                 fontSize: 12,
                 fontWeight: 500,

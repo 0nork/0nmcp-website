@@ -109,7 +109,7 @@ export default function CourseReview({ structure, source, onSave, onPublish, onR
           editing={editingField}
           onStartEdit={setEditingField}
           onSave={updateField}
-          style={{ fontSize: 20, fontWeight: 800, color: '#E8EAED', letterSpacing: '-0.02em' }}
+          style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}
         />
         <EditableText
           value={data.description}
@@ -171,9 +171,9 @@ export default function CourseReview({ structure, source, onSave, onPublish, onR
         }}>
           <div style={{
             width: 480, padding: 28, borderRadius: 16,
-            background: '#0E1117', border: '1px solid #1a1f2e',
+            background: 'var(--bg-primary)', border: '1px solid #1a1f2e',
           }}>
-            <h3 style={{ fontSize: 18, fontWeight: 800, color: '#E8EAED', margin: '0 0 4px' }}>
+            <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 4px' }}>
               Deploy to CRM
             </h3>
             <p style={{ fontSize: 13, color: '#7A8290', margin: '0 0 20px' }}>
@@ -218,13 +218,13 @@ export default function CourseReview({ structure, source, onSave, onPublish, onR
                     placeholder="29"
                     style={{
                       width: '100%', padding: '12px 14px 12px 30px', borderRadius: 10,
-                      border: '1px solid #1a1f2e', background: '#080B0F',
-                      color: '#E8EAED', fontSize: 16, fontWeight: 700, fontFamily: 'inherit',
+                      border: '1px solid #1a1f2e', background: 'var(--bg-primary)',
+                      color: 'var(--text-primary)', fontSize: 16, fontWeight: 700, fontFamily: 'inherit',
                       outline: 'none', boxSizing: 'border-box',
                     }}
                   />
                 </div>
-                <p style={{ fontSize: 11, color: '#555', margin: '6px 0 0' }}>
+                <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: '6px 0 0' }}>
                   {pricingType === 'recurring' ? 'Charged monthly to enrolled students' : 'One-time payment for lifetime access'}
                 </p>
               </div>
@@ -248,12 +248,12 @@ export default function CourseReview({ structure, source, onSave, onPublish, onR
               placeholder="Bearer token — leave blank to use stored OAuth"
               style={{
                 width: '100%', padding: '12px 14px', borderRadius: 10,
-                border: '1px solid #1a1f2e', background: '#080B0F',
-                color: '#E8EAED', fontSize: 14, fontFamily: 'inherit',
+                border: '1px solid #1a1f2e', background: 'var(--bg-primary)',
+                color: 'var(--text-primary)', fontSize: 14, fontFamily: 'inherit',
                 outline: 'none', boxSizing: 'border-box',
               }}
             />
-            <p style={{ fontSize: 11, color: '#555', margin: '6px 0 0' }}>
+            <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: '6px 0 0' }}>
               Leave blank to use stored OAuth. Or paste a CRM access token.
             </p>
 
@@ -298,7 +298,7 @@ function ModuleCard({
     <div style={{
       borderRadius: 12, overflow: 'hidden',
       border: '1px solid #1a1f2e',
-      background: '#0E1117',
+      background: 'var(--bg-primary)',
     }}>
       <button onClick={onToggle} style={{
         width: '100%', padding: '14px 16px',
@@ -315,7 +315,7 @@ function ModuleCard({
           {mi + 1}
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#E8EAED' }}>{mod.title}</div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>{mod.title}</div>
           <div style={{ fontSize: 12, color: '#7A8290', marginTop: 2 }}>
             {mod.lessons.length} lessons &middot; {mod.lessons.reduce((s, l) => s + l.duration_minutes, 0)} min
           </div>
@@ -375,9 +375,9 @@ function ModuleCard({
                     {li + 1}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#E8EAED' }}>{lesson.title}</div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{lesson.title}</div>
                   </div>
-                  <span style={{ fontSize: 11, color: '#555', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
                     {lesson.duration_minutes} min
                   </span>
                   {lesson.quiz && lesson.quiz.length > 0 && (
@@ -409,7 +409,7 @@ function ModuleCard({
                       editing={editingField}
                       onStartEdit={onStartEdit}
                       onSave={onSave}
-                      style={{ fontSize: 14, fontWeight: 600, color: '#E8EAED', marginBottom: 8 }}
+                      style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 8 }}
                     />
                     <EditableText
                       value={lesson.content}
@@ -435,7 +435,7 @@ function ModuleCard({
                         </div>
                         {lesson.quiz.map((q, qi) => (
                           <div key={qi} style={{ marginBottom: qi < lesson.quiz!.length - 1 ? 8 : 0 }}>
-                            <div style={{ fontSize: 12, fontWeight: 600, color: '#E8EAED', marginBottom: 4 }}>
+                            <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>
                               {qi + 1}. {q.question}
                             </div>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
@@ -501,7 +501,7 @@ function EditableText({
     const inputStyle: React.CSSProperties = {
       width: '100%', padding: '8px 10px', borderRadius: 8,
       border: '1px solid rgba(110, 224, 90, 0.3)',
-      background: '#080B0F', color: '#E8EAED',
+      background: 'var(--bg-primary)', color: 'var(--text-primary)',
       fontSize: 13, fontFamily: "'JetBrains Mono', monospace",
       outline: 'none', boxSizing: 'border-box' as const,
     }
@@ -573,7 +573,7 @@ function EditableText({
 function Stat({ label, value }: { label: string; value: number | string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-      <span style={{ fontWeight: 700, color: '#E8EAED' }}>{value}</span>
+      <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{value}</span>
       <span>{label}</span>
     </div>
   )
@@ -582,7 +582,7 @@ function Stat({ label, value }: { label: string; value: number | string }) {
 // ── Button Styles ────────────────────────────────────────────────────
 const secondaryBtnStyle: React.CSSProperties = {
   flex: 1, padding: '12px 20px', borderRadius: 10,
-  background: '#0E1117', border: '1px solid #1a1f2e',
+  background: 'var(--bg-primary)', border: '1px solid #1a1f2e',
   color: '#9AA0A8', fontSize: 13, fontWeight: 600,
   cursor: 'pointer', fontFamily: 'inherit',
   transition: 'border-color 0.2s',

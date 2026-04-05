@@ -243,7 +243,7 @@ export function SeoView() {
                   </thead>
                   <tbody>
                     {topPages.map((page, i) => (
-                      <tr key={i} style={{ borderBottom: i < topPages.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none' }}>
+                      <tr key={i} style={{ borderBottom: i < topPages.length - 1 ? '1px solid var(--bg-card)' : 'none' }}>
                         <td style={{ padding: '0.625rem 1rem', color: '#6EE05A', fontWeight: 500, fontFamily: 'var(--font-mono)', fontSize: '0.75rem', maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {page.url || '/'}
                         </td>
@@ -291,7 +291,7 @@ export function SeoView() {
                   </thead>
                   <tbody>
                     {topQueries.map((q, i) => (
-                      <tr key={i} style={{ borderBottom: i < topQueries.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none' }}>
+                      <tr key={i} style={{ borderBottom: i < topQueries.length - 1 ? '1px solid var(--bg-card)' : 'none' }}>
                         <td style={{ padding: '0.625rem 1rem', color: '#00d4ff', fontWeight: 500 }}>
                           {q.query}
                         </td>
@@ -410,7 +410,7 @@ export function SeoView() {
             <div style={{ ...labelStyle, marginBottom: '0.75rem' }}>Results</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
               {Object.entries(indexResults).map(([key, result]) => {
-                const engine = ENGINE_LABELS[key] || { name: key, color: '#94a3b8' }
+                const engine = ENGINE_LABELS[key] || { name: key, color: 'var(--text-muted)' }
                 const isSuccess = result.status === 'success'
                 const isInfo = result.status === 'info'
                 return (

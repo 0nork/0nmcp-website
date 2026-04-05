@@ -66,7 +66,7 @@ export default function GlassTiltCard({ children, g1, g2, className, style }: Gl
           ? 'linear-gradient(135deg, rgba(6,6,12,0.98) 0%, rgba(2,2,8,0.98) 100%)'
           : defaultBg,
         boxShadow: hovering
-          ? `0 24px 64px ${glowColor1}, 0 12px 36px ${glowColor2}, 0 0 100px ${g1}12, inset 0 1px 0 rgba(255,255,255,0.05)`
+          ? `0 24px 64px ${glowColor1}, 0 12px 36px ${glowColor2}, 0 0 100px ${g1}12, inset 0 1px 0 var(--bg-card)`
           : (style?.boxShadow as string) || '0 4px 24px rgba(0,0,0,0.25)',
         borderColor: hovering ? `${g1}50` : undefined,
         transition: reducedMotion
@@ -85,7 +85,7 @@ export default function GlassTiltCard({ children, g1, g2, className, style }: Gl
           inset: 0,
           borderRadius: 'inherit',
           background: hovering
-            ? `radial-gradient(ellipse at ${50 + tilt.y * 6}% ${50 + tilt.x * 6}%, rgba(255,255,255,0.05) 0%, transparent 65%)`
+            ? `radial-gradient(ellipse at ${50 + tilt.y * 6}% ${50 + tilt.x * 6}%, var(--bg-card) 0%, transparent 65%)`
             : 'none',
           pointerEvents: 'none',
           transition: reducedMotion ? 'none' : 'background 0.2s ease',

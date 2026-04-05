@@ -119,7 +119,7 @@ export default function WordPressPage() {
           {PLUGINS.map(p => (
             <div key={p.name} className="module-card" style={{ padding: 24, position: 'relative', border: p.popular ? `2px solid ${p.color}` : undefined }}>
               {p.badge && (
-                <div style={{ position: 'absolute', top: -10, right: 16, background: p.color, color: '#fff', fontSize: 10, fontWeight: 800, padding: '3px 10px', borderRadius: 100, letterSpacing: '0.05em' }}>{p.badge}</div>
+                <div style={{ position: 'absolute', top: -10, right: 16, background: p.color, color: 'var(--text-primary)', fontSize: 10, fontWeight: 800, padding: '3px 10px', borderRadius: 100, letterSpacing: '0.05em' }}>{p.badge}</div>
               )}
               <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 2 }}>{p.name}</div>
               <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>{p.tagline}</div>
@@ -172,7 +172,7 @@ export default function WordPressPage() {
       {/* CTA */}
       <section style={{ padding: '40px 0 80px' }}>
         <div className="module-card" style={{ background: 'linear-gradient(135deg, #0B0F19, #1a1d2e)', padding: '48px 32px', textAlign: 'center', border: 'none' }}>
-          <h2 style={{ fontSize: 32, fontWeight: 900, color: '#fff', marginBottom: 12 }}>
+          <h2 style={{ fontSize: 32, fontWeight: 900, color: 'var(--text-primary)', marginBottom: 12 }}>
             Start Building With <span style={{ color: 'var(--accent, #7ed957)' }}>0nCore</span>
           </h2>
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', maxWidth: 480, margin: '0 auto 28px' }}>

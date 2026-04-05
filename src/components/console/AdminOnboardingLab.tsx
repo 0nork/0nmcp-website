@@ -365,7 +365,7 @@ function ExperimentDetail({
                     <div style={{ width: '90px', fontSize: '0.75rem', color: 'var(--text-secondary)', flexShrink: 0 }}>
                       {STEP_LABELS[f.step] || f.step}
                     </div>
-                    <div style={{ flex: 1, height: '20px', background: 'rgba(255,255,255,0.03)', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ flex: 1, height: '20px', background: 'var(--bg-card)', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
                       <div style={{
                         height: '100%', width: `${barWidth}%`,
                         background: 'linear-gradient(90deg, rgba(126,217,87,0.3), rgba(126,217,87,0.15))',

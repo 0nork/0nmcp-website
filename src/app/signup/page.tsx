@@ -181,7 +181,7 @@ export default function SignupPage() {
 
         {/* Right — Auth Form */}
         <div style={{
-          background: '#fff',
+          background: 'var(--bg-card)',
           border: '1px solid #e2e8f0',
           borderRadius: 16,
           padding: '2rem',
@@ -202,7 +202,7 @@ export default function SignupPage() {
 
           <div style={{
             display: 'flex', alignItems: 'center', gap: '1rem',
-            margin: '1.25rem 0', color: '#94a3b8', fontSize: '0.8rem',
+            margin: '1.25rem 0', color: 'var(--text-muted)', fontSize: '0.8rem',
           }}>
             <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
             <span>or</span>
@@ -296,7 +296,7 @@ export default function SignupPage() {
               style={{
                 width: '100%', height: 48, borderRadius: 8,
                 background: loading ? '#4a8a2e' : '#3da826',
-                color: '#fff', border: 'none',
+                color: 'var(--text-primary)', border: 'none',
                 fontSize: '0.95rem', fontWeight: 700,
                 cursor: loading ? 'wait' : 'pointer',
                 fontFamily: 'var(--font-display, system-ui)',
@@ -314,7 +314,7 @@ export default function SignupPage() {
           </p>
 
           <p style={{
-            color: '#94a3b8', fontSize: '0.7rem', textAlign: 'center', marginTop: '1rem', lineHeight: 1.5,
+            color: 'var(--text-muted)', fontSize: '0.7rem', textAlign: 'center', marginTop: '1rem', lineHeight: 1.5,
           }}>
             By signing up you agree to our Terms of Service and Privacy Policy.
           </p>

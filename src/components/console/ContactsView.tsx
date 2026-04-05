@@ -49,7 +49,7 @@ function isRecent(dateStr: string): boolean {
 function Spinner(): ReactNode {
   return (
     <div style={{
-      width: 20, height: 20, border: '2px solid rgba(255,255,255,0.1)',
+      width: 20, height: 20, border: '2px solid var(--border)',
       borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'crm-spin 0.6s linear infinite',
     }} />
@@ -139,10 +139,10 @@ export default function ContactsView() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#e8eaed', margin: '0 0 0.25rem', fontFamily: 'var(--font-display)' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.25rem', fontFamily: 'var(--font-display)' }}>
             Contacts
           </h1>
-          <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
             {total > 0 ? `${total} contact${total !== 1 ? 's' : ''}` : 'Manage your CRM contacts'}
           </p>
         </div>
@@ -163,7 +163,7 @@ export default function ContactsView() {
       {/* Add Contact Form */}
       {showAddForm && (
         <div style={{
-          padding: '1.25rem', borderRadius: 12, background: 'rgba(255,255,255,0.03)',
+          padding: '1.25rem', borderRadius: 12, background: 'var(--bg-card)',
           border: '1px solid rgba(126,217,87,0.15)', marginBottom: '1.25rem',
         }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '0.75rem' }}>
@@ -179,12 +179,12 @@ export default function ContactsView() {
                 onChange={e => setNewContact(prev => ({ ...prev, [field.key]: e.target.value }))}
                 placeholder={field.placeholder}
                 style={{
-                  padding: '0.6rem 0.875rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-                  background: 'rgba(255,255,255,0.03)', color: '#e8eaed', fontSize: '0.8rem',
+                  padding: '0.6rem 0.875rem', borderRadius: 8, border: '1px solid var(--border)',
+                  background: 'var(--bg-card)', color: 'var(--text-primary)', fontSize: '0.8rem',
                   fontFamily: 'inherit', outline: 'none', width: '100%', boxSizing: 'border-box',
                 }}
                 onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)' }}
-                onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
               />
             ))}
           </div>
@@ -193,13 +193,13 @@ export default function ContactsView() {
             onChange={e => setNewContact(prev => ({ ...prev, tags: e.target.value }))}
             placeholder="Tags (comma-separated)"
             style={{
-              padding: '0.6rem 0.875rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-              background: 'rgba(255,255,255,0.03)', color: '#e8eaed', fontSize: '0.8rem',
+              padding: '0.6rem 0.875rem', borderRadius: 8, border: '1px solid var(--border)',
+              background: 'var(--bg-card)', color: 'var(--text-primary)', fontSize: '0.8rem',
               fontFamily: 'inherit', outline: 'none', width: '100%', boxSizing: 'border-box',
               marginBottom: '0.75rem',
             }}
             onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+            onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
           />
           <button
             onClick={handleAdd}
@@ -225,21 +225,21 @@ export default function ContactsView() {
           placeholder="Search contacts by name, email, or phone..."
           style={{
             flex: 1, padding: '0.625rem 1rem', borderRadius: 8,
-            border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)',
-            color: '#e8eaed', fontSize: '0.8rem', fontFamily: 'inherit', outline: 'none',
+            border: '1px solid var(--border)', background: 'var(--bg-card)',
+            color: 'var(--text-primary)', fontSize: '0.8rem', fontFamily: 'inherit', outline: 'none',
           }}
           onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)' }}
-          onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+          onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
         />
         <button
           onClick={handleSearch}
           style={{
-            padding: '0.625rem 1rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(255,255,255,0.04)', color: '#7A8290', fontSize: '0.8rem',
+            padding: '0.625rem 1rem', borderRadius: 8, border: '1px solid var(--border)',
+            background: 'var(--bg-card)', color: '#7A8290', fontSize: '0.8rem',
             fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--border)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)' }}
         >
           Search
         </button>
@@ -271,8 +271,8 @@ export default function ContactsView() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {[1, 2, 3, 4, 5].map(i => (
             <div key={i} style={{
-              padding: '1.25rem', borderRadius: 12, background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.06)', height: 72,
+              padding: '1.25rem', borderRadius: 12, background: 'var(--bg-card)',
+              border: '1px solid var(--border)', height: 72,
               animation: 'crm-pulse 1.5s ease-in-out infinite',
             }} />
           ))}
@@ -283,10 +283,10 @@ export default function ContactsView() {
       {!loading && contacts.length === 0 && !error && (
         <div style={{
           padding: '3rem 1.5rem', textAlign: 'center', borderRadius: 12,
-          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
         }}>
           <div style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>No contacts found</div>
-          <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
             {search ? 'Try a different search term.' : 'Add your first contact to get started.'}
           </p>
         </div>
@@ -301,8 +301,8 @@ export default function ContactsView() {
 
             return (
               <div key={contact.id} style={{
-                borderRadius: 12, background: 'rgba(255,255,255,0.03)',
-                border: `1px solid ${expanded ? 'rgba(126,217,87,0.15)' : 'rgba(255,255,255,0.06)'}`,
+                borderRadius: 12, background: 'var(--bg-card)',
+                border: `1px solid ${expanded ? 'rgba(126,217,87,0.15)' : 'var(--border)'}`,
                 overflow: 'hidden', transition: 'border-color 0.15s ease',
               }}>
                 {/* Card header */}
@@ -323,11 +323,11 @@ export default function ContactsView() {
 
                   {/* Name + email */}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#e8eaed', marginBottom: 2 }}>
+                    <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>
                       {name}
                     </div>
                     <div style={{
-                      fontSize: '0.75rem', color: '#5f6672', overflow: 'hidden',
+                      fontSize: '0.75rem', color: 'var(--text-muted)', overflow: 'hidden',
                       textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                     }}>
                       {contact.email || contact.phone || 'No contact info'}
@@ -349,7 +349,7 @@ export default function ContactsView() {
                       )
                     })}
                     {(contact.tags || []).length > 3 && (
-                      <span style={{ fontSize: '0.65rem', color: '#5f6672', padding: '0.2rem 0.25rem' }}>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', padding: '0.2rem 0.25rem' }}>
                         +{contact.tags.length - 3}
                       </span>
                     )}
@@ -357,7 +357,7 @@ export default function ContactsView() {
 
                   {/* Chevron */}
                   <span style={{
-                    fontSize: '0.75rem', color: '#5f6672', transition: 'transform 0.15s ease',
+                    fontSize: '0.75rem', color: 'var(--text-muted)', transition: 'transform 0.15s ease',
                     transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
                   }}>
                     ▾
@@ -367,7 +367,7 @@ export default function ContactsView() {
                 {/* Expanded details */}
                 {expanded && (
                   <div style={{
-                    padding: '0 1.25rem 1.25rem', borderTop: '1px solid rgba(255,255,255,0.04)',
+                    padding: '0 1.25rem 1.25rem', borderTop: '1px solid var(--bg-card)',
                     paddingTop: '1rem',
                   }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem' }}>
@@ -382,7 +382,7 @@ export default function ContactsView() {
                         <div key={field.label}>
                           <div style={{
                             fontSize: '0.65rem', fontWeight: 600, textTransform: 'uppercase',
-                            letterSpacing: '0.06em', color: '#5f6672', marginBottom: 4,
+                            letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: 4,
                           }}>
                             {field.label}
                           </div>
@@ -396,7 +396,7 @@ export default function ContactsView() {
                       <div style={{ marginTop: '0.875rem' }}>
                         <div style={{
                           fontSize: '0.65rem', fontWeight: 600, textTransform: 'uppercase',
-                          letterSpacing: '0.06em', color: '#5f6672', marginBottom: 4,
+                          letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: 4,
                         }}>
                           Address
                         </div>
@@ -407,7 +407,7 @@ export default function ContactsView() {
                       <div style={{ marginTop: '0.875rem' }}>
                         <div style={{
                           fontSize: '0.65rem', fontWeight: 600, textTransform: 'uppercase',
-                          letterSpacing: '0.06em', color: '#5f6672', marginBottom: 6,
+                          letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: 6,
                         }}>
                           All Tags
                         </div>
@@ -442,13 +442,13 @@ export default function ContactsView() {
             onClick={() => fetchContacts(nextCursor, search)}
             disabled={loadingMore}
             style={{
-              padding: '0.625rem 1.5rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-              background: 'rgba(255,255,255,0.03)', color: '#7A8290', fontSize: '0.8rem',
+              padding: '0.625rem 1.5rem', borderRadius: 8, border: '1px solid var(--border)',
+              background: 'var(--bg-card)', color: '#7A8290', fontSize: '0.8rem',
               fontWeight: 600, cursor: loadingMore ? 'not-allowed' : 'pointer',
               fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: 8,
             }}
-            onMouseEnter={e => { if (!loadingMore) e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+            onMouseEnter={e => { if (!loadingMore) e.currentTarget.style.background = 'var(--border)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)' }}
           >
             {loadingMore ? <><Spinner /> Loading...</> : 'Load More'}
           </button>

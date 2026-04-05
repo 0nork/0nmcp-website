@@ -36,7 +36,7 @@ const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 function Spinner(): ReactNode {
   return (
     <div style={{
-      width: 20, height: 20, border: '2px solid rgba(255,255,255,0.1)',
+      width: 20, height: 20, border: '2px solid var(--border)',
       borderTopColor: '#6EE05A', borderRadius: '50%',
       animation: 'cal-spin 0.6s linear infinite',
     }} />
@@ -143,10 +143,10 @@ export default function CalendarView() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#e8eaed', margin: '0 0 0.25rem', fontFamily: 'var(--font-display)' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.25rem', fontFamily: 'var(--font-display)' }}>
             Calendar
           </h1>
-          <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
             {appointments.length} appointment{appointments.length !== 1 ? 's' : ''} this month
           </p>
         </div>
@@ -193,31 +193,31 @@ export default function CalendarView() {
         <button
           onClick={goToPrevMonth}
           style={{
-            width: 36, height: 36, borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(255,255,255,0.03)', color: '#7A8290', fontSize: '1rem',
+            width: 36, height: 36, borderRadius: 8, border: '1px solid var(--border)',
+            background: 'var(--bg-card)', color: '#7A8290', fontSize: '1rem',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: 'inherit',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--border)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)' }}
         >
           ‹
         </button>
         <span style={{
-          fontSize: '1rem', fontWeight: 700, color: '#e8eaed', fontFamily: 'var(--font-display)',
+          fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)',
         }}>
           {MONTH_NAMES[currentMonth]} {currentYear}
         </span>
         <button
           onClick={goToNextMonth}
           style={{
-            width: 36, height: 36, borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(255,255,255,0.03)', color: '#7A8290', fontSize: '1rem',
+            width: 36, height: 36, borderRadius: 8, border: '1px solid var(--border)',
+            background: 'var(--bg-card)', color: '#7A8290', fontSize: '1rem',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: 'inherit',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--border)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-card)' }}
         >
           ›
         </button>
@@ -225,7 +225,7 @@ export default function CalendarView() {
 
       {/* Calendar grid */}
       <div style={{
-        borderRadius: 12, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+        borderRadius: 12, background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
         overflow: 'hidden', marginBottom: '1.5rem', position: 'relative',
       }}>
         {loading && (
@@ -239,12 +239,12 @@ export default function CalendarView() {
         )}
 
         {/* Day headers */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', borderBottom: '1px solid var(--border)' }}>
           {DAY_LABELS.map(day => (
             <div key={day} style={{
               padding: '0.625rem 0', textAlign: 'center',
               fontSize: '0.65rem', fontWeight: 600, textTransform: 'uppercase',
-              letterSpacing: '0.06em', color: '#5f6672',
+              letterSpacing: '0.06em', color: 'var(--text-muted)',
             }}>
               {day}
             </div>
@@ -271,16 +271,16 @@ export default function CalendarView() {
                   background: isSelected
                     ? 'rgba(126,217,87,0.08)'
                     : isToday
-                      ? 'rgba(255,255,255,0.03)'
+                      ? 'var(--bg-card)'
                       : 'transparent',
                   cursor: 'pointer', textAlign: 'center', fontFamily: 'inherit',
-                  borderBottom: '1px solid rgba(255,255,255,0.03)',
-                  borderRight: '1px solid rgba(255,255,255,0.03)',
+                  borderBottom: '1px solid var(--bg-card)',
+                  borderRight: '1px solid var(--bg-card)',
                   position: 'relative',
                   transition: 'background 0.1s ease',
                 }}
-                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
-                onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = isToday ? 'rgba(255,255,255,0.03)' : 'transparent' }}
+                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'var(--bg-card)' }}
+                onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = isToday ? 'var(--bg-card)' : 'transparent' }}
               >
                 <div style={{
                   fontSize: '0.8rem', fontWeight: isToday ? 700 : 400,
@@ -300,7 +300,7 @@ export default function CalendarView() {
                       )
                     })}
                     {dayAppts.length > 3 && (
-                      <span style={{ fontSize: '0.5rem', color: '#5f6672', lineHeight: '5px' }}>
+                      <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', lineHeight: '5px' }}>
                         +{dayAppts.length - 3}
                       </span>
                     )}
@@ -317,7 +317,7 @@ export default function CalendarView() {
         <div>
           <h2 style={{
             fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#5f6672', marginBottom: '0.875rem',
+            letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '0.875rem',
           }}>
             {new Date(selectedDay + 'T12:00:00').toLocaleDateString([], {
               weekday: 'long', month: 'long', day: 'numeric',
@@ -327,8 +327,8 @@ export default function CalendarView() {
           {selectedAppointments.length === 0 ? (
             <div style={{
               padding: '2rem 1.5rem', textAlign: 'center', borderRadius: 12,
-              background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
-              color: '#5f6672', fontSize: '0.8rem',
+              background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
+              color: 'var(--text-muted)', fontSize: '0.8rem',
             }}>
               No appointments on this day.
             </div>
@@ -346,20 +346,20 @@ export default function CalendarView() {
                   return (
                     <div key={apt.id} style={{
                       padding: '1rem 1.25rem', borderRadius: 12,
-                      background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+                      background: 'var(--bg-card)', border: '1px solid var(--border)',
                       display: 'flex', alignItems: 'center', gap: '1rem',
                       borderLeft: `3px solid ${colors.text}`,
                     }}>
                       {/* Time */}
                       <div style={{ flexShrink: 0, textAlign: 'center', minWidth: 60 }}>
                         <div style={{
-                          fontSize: '0.875rem', fontWeight: 700, color: '#e8eaed',
+                          fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)',
                           fontFamily: 'var(--font-mono)',
                         }}>
                           {timeStr}
                         </div>
                         {endStr && (
-                          <div style={{ fontSize: '0.65rem', color: '#5f6672', fontFamily: 'var(--font-mono)' }}>
+                          <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                             {endStr}
                           </div>
                         )}
@@ -367,11 +367,11 @@ export default function CalendarView() {
 
                       {/* Details */}
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e8eaed', marginBottom: 3 }}>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 3 }}>
                           {apt.contactName || 'Unknown Contact'}
                         </div>
                         <div style={{
-                          fontSize: '0.75rem', color: '#5f6672',
+                          fontSize: '0.75rem', color: 'var(--text-muted)',
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                         }}>
                           {apt.title || apt.appointmentType || apt.calendarName || 'Appointment'}
@@ -400,7 +400,7 @@ export default function CalendarView() {
         <div>
           <h2 style={{
             fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#5f6672', marginBottom: '0.875rem',
+            letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: '0.875rem',
           }}>
             Upcoming This Month
           </h2>
@@ -416,23 +416,23 @@ export default function CalendarView() {
                 return (
                   <div key={apt.id} style={{
                     padding: '0.875rem 1.25rem', borderRadius: 12,
-                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+                    background: 'var(--bg-card)', border: '1px solid var(--border)',
                     display: 'flex', alignItems: 'center', gap: '1rem',
                     borderLeft: `3px solid ${colors.text}`,
                   }}>
                     <div style={{ flexShrink: 0, textAlign: 'center', minWidth: 50 }}>
-                      <div style={{ fontSize: '0.65rem', color: '#5f6672', textTransform: 'uppercase' }}>
+                      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
                         {start.toLocaleDateString([], { month: 'short' })}
                       </div>
-                      <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#e8eaed' }}>
+                      <div style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                         {start.getDate()}
                       </div>
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#e8eaed', marginBottom: 2 }}>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>
                         {apt.contactName || 'Unknown'}
                       </div>
-                      <div style={{ fontSize: '0.7rem', color: '#5f6672' }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                         {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} — {apt.title || apt.appointmentType || 'Appointment'}
                       </div>
                     </div>
@@ -454,10 +454,10 @@ export default function CalendarView() {
       {!selectedDay && !loading && appointments.length === 0 && !error && (
         <div style={{
           padding: '3rem 1.5rem', textAlign: 'center', borderRadius: 12,
-          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
         }}>
           <div style={{ fontSize: '1.25rem', color: '#3a3a4a', marginBottom: '0.5rem' }}>No appointments</div>
-          <p style={{ fontSize: '0.8rem', color: '#5f6672', margin: 0 }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0 }}>
             No appointments scheduled for {MONTH_NAMES[currentMonth]} {currentYear}.
           </p>
         </div>

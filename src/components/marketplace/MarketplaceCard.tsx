@@ -89,7 +89,7 @@ export default function MarketplaceCard({ listing, index = 0 }: { listing: Marke
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
+                border: '1px solid var(--border)',
                 transition: 'transform 0.2s ease, border-color 0.2s ease',
               }}
             >
@@ -107,7 +107,7 @@ export default function MarketplaceCard({ listing, index = 0 }: { listing: Marke
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '1px solid rgba(255,255,255,0.1)',
+                border: '1px solid var(--border)',
                 fontSize: 12,
                 fontWeight: 700,
                 fontFamily: 'var(--font-mono)',
@@ -157,7 +157,7 @@ export default function MarketplaceCard({ listing, index = 0 }: { listing: Marke
           style={{
             fontSize: 15,
             fontWeight: 700,
-            color: '#ffffff',
+            color: 'var(--text-primary)',
             marginBottom: 4,
             display: '-webkit-box',
             WebkitLineClamp: 2,

@@ -46,7 +46,7 @@ export default function CoursePublished({ result, courseTitle, onReset }: Props)
       </div>
 
       <h2 style={{
-        fontSize: 24, fontWeight: 800, color: '#E8EAED',
+        fontSize: 24, fontWeight: 800, color: 'var(--text-primary)',
         letterSpacing: '-0.03em', margin: '0 0 4px',
       }}>
         Course Deployed!
@@ -110,8 +110,8 @@ export default function CoursePublished({ result, courseTitle, onReset }: Props)
       <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 32 }}>
         <button onClick={onReset} style={{
           padding: '12px 28px', borderRadius: 10,
-          background: '#0E1117', border: '1px solid #1a1f2e',
-          color: '#E8EAED', fontSize: 14, fontWeight: 600,
+          background: 'var(--bg-primary)', border: '1px solid #1a1f2e',
+          color: 'var(--text-primary)', fontSize: 14, fontWeight: 600,
           cursor: 'pointer', fontFamily: 'inherit',
           transition: 'border-color 0.2s',
         }}>
@@ -134,12 +134,12 @@ function StatCard({ label, value, total }: { label: string; value: string | numb
   return (
     <div style={{
       padding: '14px 12px', borderRadius: 10,
-      background: '#0E1117', border: '1px solid #1a1f2e',
+      background: 'var(--bg-primary)', border: '1px solid #1a1f2e',
     }}>
-      <div style={{ fontSize: 20, fontWeight: 800, color: '#E8EAED', letterSpacing: '-0.02em' }}>
+      <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
         {value}
         {total !== undefined && (
-          <span style={{ fontSize: 12, color: '#555', fontWeight: 500 }}>/{total}</span>
+          <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500 }}>/{total}</span>
         )}
       </div>
       <div style={{ fontSize: 11, color: '#7A8290', marginTop: 2 }}>{label}</div>

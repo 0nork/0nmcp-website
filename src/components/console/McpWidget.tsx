@@ -86,7 +86,7 @@ export function McpWidget({ config, compact = true, refreshMs, onItemClick }: Mc
         {[1, 2, 3].map(i => (
           <div key={i} style={{
             height: '1.25rem', borderRadius: '0.375rem',
-            background: 'rgba(255,255,255,0.04)',
+            background: 'var(--bg-card)',
             width: `${85 - i * 15}%`,
             animation: 'pulse 1.5s ease-in-out infinite',
           }} />
@@ -113,7 +113,7 @@ export function McpWidget({ config, compact = true, refreshMs, onItemClick }: Mc
           onClick={() => { setLoading(true); setError(null); fetchData() }}
           style={{
             fontSize: '0.65rem', padding: '0.2rem 0.5rem', borderRadius: '0.375rem',
-            background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
             color: 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'inherit',
           }}
         >
@@ -215,7 +215,7 @@ function WidgetTable({
               {cols.map(col => (
                 <td key={col.key} style={{
                   padding: '0.3rem 0.5rem', color: 'var(--text-secondary)',
-                  borderBottom: '1px solid rgba(255,255,255,0.03)', whiteSpace: 'nowrap',
+                  borderBottom: '1px solid var(--bg-card)', whiteSpace: 'nowrap',
                   overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '200px',
                 }}>
                   {renderCell(item, col, color)}
@@ -258,7 +258,7 @@ function WidgetFeed({
         return (
           <div key={String(item.id || item._id || i)} style={{
             display: 'flex', alignItems: 'flex-start', gap: '0.5rem',
-            padding: '0.375rem 0', borderBottom: '1px solid rgba(255,255,255,0.03)',
+            padding: '0.375rem 0', borderBottom: '1px solid var(--bg-card)',
           }}>
             <div style={{
               width: 8, height: 8, borderRadius: '50%', flexShrink: 0, marginTop: 4,
@@ -338,7 +338,7 @@ function WidgetBoard({
             {stageItems.slice(0, compact ? 3 : 8).map((item, i) => (
               <div key={String(item.id || i)} style={{
                 padding: '0.375rem', borderRadius: '0.375rem',
-                background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)',
+                background: 'var(--bg-card)', border: '1px solid var(--bg-card)',
                 fontSize: '0.6rem',
               }}>
                 <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>

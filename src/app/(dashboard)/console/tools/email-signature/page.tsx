@@ -434,7 +434,7 @@ export default function EmailSignaturePage() {
 
           {/* Live Preview */}
           <div style={{
-            background: '#ffffff', borderRadius: 14, border: '1px solid var(--border)',
+            background: 'var(--bg-card)', borderRadius: 14, border: '1px solid var(--border)',
             padding: 32, minHeight: 300,
           }}>
             <div ref={previewRef} dangerouslySetInnerHTML={{ __html: html }} />

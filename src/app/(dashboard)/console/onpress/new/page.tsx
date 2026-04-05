@@ -55,8 +55,8 @@ export default function NewOnPressProject() {
 
   const inputStyle = {
     width: '100%', padding: '12px 16px', borderRadius: 10,
-    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
-    color: '#e8eaed', fontSize: 14, fontFamily: 'inherit', outline: 'none',
+    background: 'var(--bg-card)', border: '1px solid var(--border)',
+    color: 'var(--text-primary)', fontSize: 14, fontFamily: 'inherit', outline: 'none',
   }
 
   const labelStyle = {
@@ -77,7 +77,7 @@ export default function NewOnPressProject() {
         &larr; Back to OnPress
       </button>
 
-      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#e8eaed', letterSpacing: '-0.02em', margin: '0 0 8px' }}>
+      <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', margin: '0 0 8px' }}>
         New OnPress Project
       </h1>
       <p style={{ fontSize: 14, color: '#7a8290', marginBottom: 32 }}>
@@ -127,8 +127,8 @@ export default function NewOnPressProject() {
                 onClick={() => setType(t)}
                 style={{
                   flex: 1, padding: '12px', borderRadius: 10,
-                  background: type === t ? 'rgba(110,224,90,0.1)' : 'rgba(255,255,255,0.03)',
-                  border: `1px solid ${type === t ? 'rgba(110,224,90,0.3)' : 'rgba(255,255,255,0.08)'}`,
+                  background: type === t ? 'rgba(110,224,90,0.1)' : 'var(--bg-card)',
+                  border: `1px solid ${type === t ? 'rgba(110,224,90,0.3)' : 'var(--border)'}`,
                   color: type === t ? '#6EE05A' : '#7A8290',
                   fontWeight: 600, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit',
                   textTransform: 'capitalize' as const,

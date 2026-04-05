@@ -69,7 +69,7 @@ const COLORS = {
 const STATUS_COLORS: Record<string, { bg: string; color: string; border: string }> = {
   active: { bg: 'rgba(126,217,87,0.12)', color: '#6EE05A', border: 'rgba(126,217,87,0.3)' },
   draft: { bg: 'rgba(245,158,11,0.12)', color: '#f59e0b', border: 'rgba(245,158,11,0.3)' },
-  archived: { bg: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)', border: 'rgba(255,255,255,0.1)' },
+  archived: { bg: 'var(--border)', color: 'rgba(255,255,255,0.4)', border: 'var(--border)' },
 }
 
 const ASSET_TYPE_COLORS: Record<string, string> = {
@@ -273,7 +273,7 @@ function VendorViewInner({
               placeholder="Business Name"
               style={{
                 width: '100%', padding: '10px 14px', borderRadius: 10,
-                backgroundColor: 'rgba(255,255,255,0.06)', border: `1px solid ${COLORS.border}`,
+                backgroundColor: 'var(--border)', border: `1px solid ${COLORS.border}`,
                 color: COLORS.textPrimary, fontSize: 14, outline: 'none',
                 marginBottom: 10, boxSizing: 'border-box',
               }}
@@ -285,13 +285,13 @@ function VendorViewInner({
               onChange={(e) => setBusinessType(e.target.value)}
               style={{
                 width: '100%', padding: '10px 14px', borderRadius: 10,
-                backgroundColor: 'rgba(255,255,255,0.06)', border: `1px solid ${COLORS.border}`,
+                backgroundColor: 'var(--border)', border: `1px solid ${COLORS.border}`,
                 color: COLORS.textPrimary, fontSize: 14, outline: 'none',
                 marginBottom: 16, boxSizing: 'border-box', cursor: 'pointer',
               }}
             >
-              <option value="individual" style={{ backgroundColor: '#111' }}>Individual</option>
-              <option value="company" style={{ backgroundColor: '#111' }}>Company</option>
+              <option value="individual" style={{ backgroundColor: 'var(--bg-primary)' }}>Individual</option>
+              <option value="company" style={{ backgroundColor: 'var(--bg-primary)' }}>Company</option>
             </select>
 
             {applyError && (
@@ -378,7 +378,7 @@ function VendorViewInner({
           </p>
 
           <div style={{
-            padding: '16px 20px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.03)',
+            padding: '16px 20px', borderRadius: 10, backgroundColor: 'var(--bg-card)',
             border: `1px solid ${COLORS.border}`, textAlign: 'left',
           }}>
             <p style={{ fontSize: 13, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 12 }}>
@@ -393,7 +393,7 @@ function VendorViewInner({
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
                 <span style={{
                   width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-                  backgroundColor: 'rgba(255,255,255,0.06)', display: 'flex',
+                  backgroundColor: 'var(--border)', display: 'flex',
                   alignItems: 'center', justifyContent: 'center', fontSize: 10,
                   fontWeight: 700, color: COLORS.textMuted, marginTop: 1,
                 }}>
@@ -656,7 +656,7 @@ function VendorViewInner({
                             <div style={{
                               position: 'absolute', right: 0, top: '100%', zIndex: 50,
                               width: 160, borderRadius: 10, padding: 4,
-                              backgroundColor: '#1a1a1a', border: `1px solid ${COLORS.border}`,
+                              backgroundColor: 'var(--bg-card)', border: `1px solid ${COLORS.border}`,
                               boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
                             }}>
                               <MenuButton label="Edit" onClick={() => handleEdit(listing)} />
@@ -957,7 +957,7 @@ function MenuButton({ label, onClick, danger }: { label: string; onClick: () => 
         borderRadius: 6, color: danger ? COLORS.red : COLORS.textSecondary,
         transition: 'background-color 0.15s',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)' }}
+      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--border)' }}
       onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
     >
       {label}

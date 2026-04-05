@@ -367,7 +367,7 @@ export default function OnorkMini() {
             placeholder="Ask anything or type / ..."
             style={{ flex: 1, background: B.surface, border: `1px solid ${B.border}`, borderRadius: 10, padding: '9px 12px', color: B.text, fontSize: 13, outline: 'none', fontFamily: F }}
           />
-          <button onClick={send} style={{ background: B.grad, border: 'none', borderRadius: 10, padding: '0 16px', color: '#fff', fontSize: 15, cursor: 'pointer', fontWeight: 800 }}>{'\u2191'}</button>
+          <button onClick={send} style={{ background: B.grad, border: 'none', borderRadius: 10, padding: '0 16px', color: 'var(--text-primary)', fontSize: 15, cursor: 'pointer', fontWeight: 800 }}>{'\u2191'}</button>
         </div>
         <div style={{ textAlign: 'center', fontSize: 7, color: B.textMuted, marginTop: 5, letterSpacing: '0.15em', textTransform: 'uppercase' }}>0nork {'\u2219'} 0nMCP</div>
       </div>

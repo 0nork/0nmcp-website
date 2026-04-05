@@ -375,7 +375,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           style={{
             fontSize: '24px',
             fontWeight: 700,
-            color: '#ffffff',
+            color: 'var(--text-primary)',
             margin: 0,
           }}
         >
@@ -398,7 +398,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           display: 'flex',
           gap: '6px',
           marginBottom: '24px',
-          backgroundColor: '#111827',
+          backgroundColor: 'var(--bg-card)',
           border: '1px solid #222222',
           borderRadius: '12px',
           padding: '4px',
@@ -441,7 +441,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── File Upload Zone ── */}
           <div
             style={{
-              backgroundColor: '#111827',
+              backgroundColor: 'var(--bg-card)',
               border: dragOver ? '2px dashed #6EE05A' : '2px dashed #222222',
               borderRadius: '16px',
               padding: '40px 24px',
@@ -521,7 +521,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   <polyline points="17 8 12 3 7 8" />
                   <line x1="12" y1="3" x2="12" y2="15" />
                 </svg>
-                <p style={{ fontSize: '14px', color: '#ffffff', margin: '0 0 4px 0', fontWeight: 500 }}>
+                <p style={{ fontSize: '14px', color: 'var(--text-primary)', margin: '0 0 4px 0', fontWeight: 500 }}>
                   Drop your CSV here or click to browse
                 </p>
                 <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
@@ -572,14 +572,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {uploadResult && enrichPhase === 'uploaded' && (
             <div
               style={{
-                backgroundColor: '#111827',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
                 overflow: 'hidden',
               }}
             >
-              <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: '0 0 12px 0' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
                 Preview ({Math.min(5, uploadResult.preview.length)} of {uploadResult.totalRows} rows)
               </h3>
               <div style={{ overflowX: 'auto' }}>
@@ -637,13 +637,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {uploadResult && (enrichPhase === 'uploaded' || enrichPhase === 'sample-done') && (
             <div
               style={{
-                backgroundColor: '#111827',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
               }}
             >
-              <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: '0 0 16px 0' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
                 Enrichment Fields
               </h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '10px' }}>
@@ -679,7 +679,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                         }}
                       />
                       <div style={{ minWidth: 0 }}>
-                        <div style={{ fontSize: '13px', fontWeight: 600, color: '#ffffff' }}>{cfg.label}</div>
+                        <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{cfg.label}</div>
                         <div
                           style={{
                             fontSize: '11px',
@@ -718,10 +718,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       style={{
                         flex: '0 0 160px',
                         padding: '8px 12px',
-                        backgroundColor: 'rgba(255,255,255,0.04)',
+                        backgroundColor: 'var(--bg-card)',
                         border: '1px solid #222222',
                         borderRadius: '8px',
-                        color: '#ffffff',
+                        color: 'var(--text-primary)',
                         fontSize: '13px',
                         outline: 'none',
                       }}
@@ -733,10 +733,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       style={{
                         flex: 1,
                         padding: '8px 12px',
-                        backgroundColor: 'rgba(255,255,255,0.04)',
+                        backgroundColor: 'var(--bg-card)',
                         border: '1px solid #222222',
                         borderRadius: '8px',
-                        color: '#ffffff',
+                        color: 'var(--text-primary)',
                         fontSize: '13px',
                         outline: 'none',
                       }}
@@ -763,7 +763,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   onClick={addCustomField}
                   style={{
                     padding: '8px 16px',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: 'var(--bg-card)',
                     border: '1px dashed #222222',
                     borderRadius: '8px',
                     color: 'rgba(255,255,255,0.7)',
@@ -782,7 +782,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {uploadResult && (enrichPhase === 'uploaded' || enrichPhase === 'sample-done') && (
             <div
               style={{
-                backgroundColor: '#111827',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
@@ -796,7 +796,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       disabled={!canRun}
                       style={{
                         padding: '10px 20px',
-                        backgroundColor: canRun ? 'rgba(0,212,255,0.1)' : 'rgba(255,255,255,0.04)',
+                        backgroundColor: canRun ? 'rgba(0,212,255,0.1)' : 'var(--bg-card)',
                         border: canRun ? '1px solid rgba(0,212,255,0.3)' : '1px solid #222222',
                         borderRadius: '10px',
                         color: canRun ? '#00d4ff' : 'rgba(255,255,255,0.3)',
@@ -813,7 +813,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       disabled={!canRun}
                       style={{
                         padding: '10px 20px',
-                        backgroundColor: canRun ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.04)',
+                        backgroundColor: canRun ? 'rgba(126,217,87,0.1)' : 'var(--bg-card)',
                         border: canRun ? '1px solid rgba(126,217,87,0.3)' : '1px solid #222222',
                         borderRadius: '10px',
                         color: canRun ? '#6EE05A' : 'rgba(255,255,255,0.3)',
@@ -849,7 +849,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       onClick={() => setEnrichPhase('uploaded')}
                       style={{
                         padding: '10px 20px',
-                        backgroundColor: 'rgba(255,255,255,0.04)',
+                        backgroundColor: 'var(--bg-card)',
                         border: '1px solid #222222',
                         borderRadius: '10px',
                         color: 'rgba(255,255,255,0.7)',
@@ -883,14 +883,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {isRunning && (
             <div
               style={{
-                backgroundColor: '#111827',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '13px', color: '#ffffff', fontWeight: 600 }}>
+                <span style={{ fontSize: '13px', color: 'var(--text-primary)', fontWeight: 600 }}>
                   Processing lead {enrichProgress.current} of {enrichProgress.total}
                 </span>
                 <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>
@@ -919,7 +919,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               </div>
               <div style={{ display: 'flex', gap: '16px', fontSize: '12px' }}>
                 <span style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  Company: <span style={{ color: '#ffffff', fontWeight: 500 }}>{enrichProgress.company}</span>
+                  Company: <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{enrichProgress.company}</span>
                 </span>
                 <span style={{ color: '#6EE05A' }}>Qualified: {qualifiedCount}</span>
                 <span style={{ color: '#ff6b35' }}>Skipped: {skippedCount}</span>
@@ -931,14 +931,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {(enrichPhase === 'done' || enrichPhase === 'sample-done') && (
             <div
               style={{
-                backgroundColor: '#111827',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: 0 }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                   {enrichPhase === 'sample-done' ? 'Sample Results' : 'Enrichment Complete'}
                 </h3>
                 <button
@@ -1013,7 +1013,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     flex: 1,
                   }}
                 >
-                  <div style={{ fontSize: '22px', fontWeight: 700, color: '#ffffff', fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
                     {qualifiedCount + skippedCount}
                   </div>
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -1101,13 +1101,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
             return (
               <div
                 style={{
-                  backgroundColor: '#111827',
+                  backgroundColor: 'var(--bg-card)',
                   border: '1px solid #222222',
                   borderRadius: '16px',
                   padding: '20px',
                 }}
               >
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: '0 0 12px 0' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
                   Results ({results.length} processed)
                 </h3>
                 <div style={{ overflowX: 'auto', borderRadius: '10px', border: '1px solid #222222' }}>
@@ -1191,13 +1191,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Input Form ── */}
           <div
             style={{
-              backgroundColor: '#111827',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
             }}
           >
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: '0 0 16px 0' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
               Campaign Details
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -1212,10 +1212,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   style={{
                     width: '100%',
                     padding: '10px 14px',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: 'var(--bg-card)',
                     border: '1px solid #222222',
                     borderRadius: '10px',
-                    color: '#ffffff',
+                    color: 'var(--text-primary)',
                     fontSize: '13px',
                     outline: 'none',
                     boxSizing: 'border-box',
@@ -1234,10 +1234,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   style={{
                     width: '100%',
                     padding: '10px 14px',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: 'var(--bg-card)',
                     border: '1px solid #222222',
                     borderRadius: '10px',
-                    color: '#ffffff',
+                    color: 'var(--text-primary)',
                     fontSize: '13px',
                     outline: 'none',
                     resize: 'vertical',
@@ -1258,10 +1258,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   style={{
                     width: '100%',
                     padding: '10px 14px',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: 'var(--bg-card)',
                     border: '1px solid #222222',
                     borderRadius: '10px',
-                    color: '#ffffff',
+                    color: 'var(--text-primary)',
                     fontSize: '13px',
                     outline: 'none',
                     resize: 'vertical',
@@ -1282,10 +1282,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   style={{
                     width: '100%',
                     padding: '10px 14px',
-                    backgroundColor: 'rgba(255,255,255,0.04)',
+                    backgroundColor: 'var(--bg-card)',
                     border: '1px solid #222222',
                     borderRadius: '10px',
-                    color: '#ffffff',
+                    color: 'var(--text-primary)',
                     fontSize: '13px',
                     outline: 'none',
                     resize: 'vertical',
@@ -1300,13 +1300,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Template Style Selection ── */}
           <div
             style={{
-              backgroundColor: '#111827',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
             }}
           >
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: '0 0 16px 0' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
               Template Styles
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '10px' }}>
@@ -1341,7 +1341,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       }}
                     />
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#ffffff' }}>{style.label}</div>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{style.label}</div>
                       <div
                         style={{
                           fontSize: '11px',
@@ -1363,13 +1363,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {hasEnrichResults && (
             <div
               style={{
-                backgroundColor: '#111827',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
               }}
             >
-              <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: '0 0 16px 0' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
                 Personalization Weave
               </h3>
               <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '0 0 12px 0' }}>
@@ -1410,7 +1410,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                           }}
                         />
                         <div style={{ minWidth: 0 }}>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#ffffff' }}>
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
                             <span style={{ color: '#00d4ff', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
                               {pw.tag}
                             </span>
@@ -1437,7 +1437,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Generate Button ── */}
           <div
             style={{
-              backgroundColor: '#111827',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1456,7 +1456,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                 padding: '12px 24px',
                 backgroundColor:
                   !seqService.trim() || generatingSequence
-                    ? 'rgba(255,255,255,0.04)'
+                    ? 'var(--bg-card)'
                     : '#6EE05A',
                 border: 'none',
                 borderRadius: '10px',
@@ -1504,14 +1504,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {generatedSequence && (
             <div
               style={{
-                backgroundColor: '#111827',
+                backgroundColor: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '16px',
                 padding: '20px',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: 0 }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                   Generated Sequence
                 </h3>
                 <button
@@ -1521,7 +1521,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     alignItems: 'center',
                     gap: '6px',
                     padding: '8px 16px',
-                    backgroundColor: seqCopied ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.06)',
+                    backgroundColor: seqCopied ? 'rgba(126,217,87,0.1)' : 'var(--border)',
                     border: seqCopied ? '1px solid rgba(126,217,87,0.2)' : '1px solid #222222',
                     borderRadius: '8px',
                     color: seqCopied ? '#6EE05A' : 'rgba(255,255,255,0.7)',
@@ -1546,7 +1546,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               </div>
               <pre
                 style={{
-                  backgroundColor: '#0B0F19',
+                  backgroundColor: 'var(--bg-primary)',
                   border: '1px solid #222222',
                   borderRadius: '10px',
                   padding: '20px',
@@ -1587,7 +1587,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Pricing Inquiry ── */}
           <div
             style={{
-              backgroundColor: '#111827',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1595,7 +1595,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
               <div>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: 0 }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                   {REPLY_TEMPLATES.pricing_inquiry.label}
                 </h3>
                 <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '4px 0 0 0' }}>
@@ -1617,7 +1617,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   gap: '6px',
                   padding: '8px 16px',
                   backgroundColor:
-                    copiedTemplate === 'pricing' ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.06)',
+                    copiedTemplate === 'pricing' ? 'rgba(126,217,87,0.1)' : 'var(--border)',
                   border:
                     copiedTemplate === 'pricing'
                       ? '1px solid rgba(126,217,87,0.2)'
@@ -1645,7 +1645,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
             </div>
             <pre
               style={{
-                backgroundColor: '#0B0F19',
+                backgroundColor: 'var(--bg-primary)',
                 border: '1px solid #222222',
                 borderRadius: '10px',
                 padding: '16px',
@@ -1667,7 +1667,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           {/* ── Video Request Follow-up ── */}
           <div
             style={{
-              backgroundColor: '#111827',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid #222222',
               borderRadius: '16px',
               padding: '20px',
@@ -1675,7 +1675,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
               <div>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: 0 }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                   {REPLY_TEMPLATES.video_request.label}
                 </h3>
                 <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '4px 0 0 0' }}>
@@ -1698,7 +1698,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   gap: '6px',
                   padding: '8px 16px',
                   backgroundColor:
-                    copiedTemplate === 'video' ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.06)',
+                    copiedTemplate === 'video' ? 'rgba(126,217,87,0.1)' : 'var(--border)',
                   border:
                     copiedTemplate === 'video'
                       ? '1px solid rgba(126,217,87,0.2)'
@@ -1737,10 +1737,10 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                 style={{
                   width: '240px',
                   padding: '8px 12px',
-                  backgroundColor: 'rgba(255,255,255,0.04)',
+                  backgroundColor: 'var(--bg-card)',
                   border: '1px solid #222222',
                   borderRadius: '8px',
-                  color: '#ffffff',
+                  color: 'var(--text-primary)',
                   fontSize: '13px',
                   outline: 'none',
                 }}
@@ -1749,7 +1749,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
             <pre
               style={{
-                backgroundColor: '#0B0F19',
+                backgroundColor: 'var(--bg-primary)',
                 border: '1px solid #222222',
                 borderRadius: '10px',
                 padding: '16px',
@@ -1856,7 +1856,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
           </svg>
         </div>
         <div style={{ flex: 1 }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#fff', margin: 0 }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
             ListKit Integration
           </h2>
           <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0 0' }}>
@@ -1886,13 +1886,13 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
       {/* Quick Start */}
       <div
         style={{
-          background: '#111827',
+          background: 'var(--bg-card)',
           border: '1px solid #222222',
           borderRadius: '16px',
           padding: '24px',
         }}
       >
-        <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 16px 0' }}>
+        <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
           Quick Start — Works Right Now
         </h3>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'stretch' }}>
@@ -1930,7 +1930,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
               >
                 {s.step}
               </div>
-              <h4 style={{ fontSize: '13px', fontWeight: 600, color: '#fff', margin: '0 0 4px 0' }}>
+              <h4 style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 4px 0' }}>
                 {s.title}
               </h4>
               <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.5 }}>
@@ -1960,7 +1960,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
 
       {/* Integration Workflows */}
       <div>
-        <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 14px 0' }}>
+        <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px 0' }}>
           Integration Workflows
         </h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -1968,7 +1968,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
             <div
               key={i}
               style={{
-                background: '#111827',
+                background: 'var(--bg-card)',
                 border: '1px solid #222222',
                 borderRadius: '14px',
                 padding: '20px',
@@ -1977,7 +1977,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#fff', margin: 0, flex: 1 }}>
+                <h4 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)', margin: 0, flex: 1 }}>
                   {wf.title}
                 </h4>
                 <span
@@ -1988,7 +1988,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
                     fontWeight: 700,
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
-                    background: wf.ready ? 'rgba(126,217,87,0.1)' : 'rgba(255,255,255,0.04)',
+                    background: wf.ready ? 'rgba(126,217,87,0.1)' : 'var(--bg-card)',
                     color: wf.ready ? '#6EE05A' : 'rgba(255,255,255,0.35)',
                     border: `1px solid ${wf.ready ? 'rgba(126,217,87,0.2)' : '#222222'}`,
                   }}
@@ -2024,13 +2024,13 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
       {/* Column Mapping */}
       <div
         style={{
-          background: '#111827',
+          background: 'var(--bg-card)',
           border: '1px solid #222222',
           borderRadius: '16px',
           padding: '24px',
         }}
       >
-        <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 4px 0' }}>
+        <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 4px 0' }}>
           ListKit Column Mapping
         </h3>
         <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '0 0 16px 0' }}>
@@ -2045,7 +2045,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
                 borderRadius: '6px',
                 fontSize: '11px',
                 fontWeight: 500,
-                background: 'rgba(255,255,255,0.03)',
+                background: 'var(--bg-card)',
                 border: '1px solid #222222',
                 color: 'rgba(255,255,255,0.6)',
                 fontFamily: 'var(--font-mono)',
@@ -2068,7 +2068,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
           <div
             key={stat.label}
             style={{
-              background: '#111827',
+              background: 'var(--bg-card)',
               border: '1px solid #222222',
               borderRadius: '12px',
               padding: '16px',

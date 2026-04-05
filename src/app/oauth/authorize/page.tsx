@@ -38,7 +38,7 @@ function ScopePill({ scope }: { scope: string }) {
     }}>
       <span style={{ fontSize: '18px', lineHeight: 1, marginTop: '1px' }}>{meta.icon}</span>
       <div>
-        <div style={{ color: '#e8e8ef', fontWeight: 600, fontSize: '14px', marginBottom: '2px' }}>
+        <div style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '14px', marginBottom: '2px' }}>
           {meta.label}
         </div>
         <div style={{ color: '#8888a0', fontSize: '12px', lineHeight: 1.4 }}>
@@ -93,7 +93,7 @@ function ConsentForm() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0B0F19',
+      background: 'var(--bg-primary)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -115,8 +115,8 @@ function ConsentForm() {
       <div style={{
         width: '100%',
         maxWidth: '440px',
-        background: '#111827',
-        border: '1px solid rgba(255,255,255,0.08)',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border)',
         borderRadius: '20px',
         padding: '36px 32px',
         position: 'relative',
@@ -145,7 +145,7 @@ function ConsentForm() {
             }}>
               0n
             </div>
-            <span style={{ color: '#e8e8ef', fontWeight: 700, fontSize: '18px' }}>
+            <span style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '18px' }}>
               0nMCP
             </span>
           </div>
@@ -184,7 +184,7 @@ function ConsentForm() {
           </div>
 
           <h1 style={{
-            color: '#e8e8ef',
+            color: 'var(--text-primary)',
             fontSize: '20px',
             fontWeight: 700,
             margin: 0,
@@ -198,7 +198,7 @@ function ConsentForm() {
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginBottom: '20px' }} />
+        <div style={{ borderTop: '1px solid var(--border)', marginBottom: '20px' }} />
 
         {/* Scopes */}
         <div style={{ marginBottom: '24px' }}>
@@ -309,7 +309,7 @@ export default function OAuthAuthorizePage() {
     <Suspense fallback={
       <div style={{
         minHeight: '100vh',
-        background: '#0B0F19',
+        background: 'var(--bg-primary)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

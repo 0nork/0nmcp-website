@@ -12,10 +12,10 @@ const PLATFORM_OPTIONS: { id: PlatformId; label: string; color: string }[] = [
   { id: 'warrior_forum', label: 'Warrior Forum', color: '#D4A843' },
   { id: 'indiehackers', label: 'Indie Hackers', color: '#1F6BFF' },
   { id: 'growthhackers', label: 'GrowthHackers', color: '#00C65E' },
-  { id: 'medium', label: 'Medium', color: '#888' },
+  { id: 'medium', label: 'Medium', color: 'var(--text-muted)' },
   { id: 'hackernews', label: 'Hacker News', color: '#FF6600' },
   { id: 'producthunt', label: 'Product Hunt', color: '#DA552F' },
-  { id: 'dev_to', label: 'Dev.to', color: '#888' },
+  { id: 'dev_to', label: 'Dev.to', color: 'var(--text-muted)' },
   { id: 'hashnode', label: 'Hashnode', color: '#2962FF' },
   { id: 'linkedin', label: 'LinkedIn', color: '#0A66C2' },
 ]
@@ -223,7 +223,7 @@ export default function QAGeneratePage() {
                   style={{
                     padding: '6px 12px',
                     borderRadius: 8,
-                    background: selected ? platform.color + '20' : 'rgba(255,255,255,0.03)',
+                    background: selected ? platform.color + '20' : 'var(--bg-card)',
                     border: `1px solid ${selected ? platform.color + '60' : 'var(--border)'}`,
                     color: selected ? platform.color : 'var(--text-muted)',
                     fontSize: '0.75rem',
@@ -280,7 +280,7 @@ export default function QAGeneratePage() {
                     style={{
                       padding: '12px 16px',
                       borderRadius: 12,
-                      background: previewItem?.id === item.id ? 'rgba(255,255,255,0.06)' : 'var(--bg-card)',
+                      background: previewItem?.id === item.id ? 'var(--border)' : 'var(--bg-card)',
                       border: `1px solid ${previewItem?.id === item.id ? 'var(--accent)' : 'var(--border)'}`,
                       cursor: 'pointer',
                       transition: 'all 0.15s',
@@ -432,7 +432,7 @@ const selectStyle: React.CSSProperties = {
 const btnGhostStyle: React.CSSProperties = {
   padding: '6px 14px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-secondary)',
   fontWeight: 600,

@@ -137,7 +137,7 @@ export function DownloadsView() {
       <div style={{ marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
           <Download size={20} style={{ color: G }} />
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#e8eaed', margin: 0 }}>Downloads</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Downloads</h2>
         </div>
         <p style={{ fontSize: '0.8rem', color: '#808090', margin: 0 }}>
           Access tools, apps, and products. Install CLI tools, download templates, or unlock Pro features.
@@ -152,7 +152,7 @@ export function DownloadsView() {
           flex: 1, minWidth: 200, display: 'flex', alignItems: 'center', gap: 8,
           padding: '8px 12px', borderRadius: 8,
           background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
         }}>
           <Search size={14} style={{ color: '#4a4a5a', flexShrink: 0 }} />
           <input
@@ -161,7 +161,7 @@ export function DownloadsView() {
             placeholder="Search downloads..."
             style={{
               flex: 1, background: 'none', border: 'none', outline: 'none',
-              color: '#e8eaed', fontSize: '0.8rem', fontFamily: 'inherit',
+              color: 'var(--text-primary)', fontSize: '0.8rem', fontFamily: 'inherit',
             }}
           />
         </div>
@@ -173,7 +173,7 @@ export function DownloadsView() {
               style={{
                 padding: '6px 14px', borderRadius: 7,
                 background: category === c.key ? `${G}12` : 'rgba(255,255,255,0.02)',
-                border: `1px solid ${category === c.key ? `${G}30` : 'rgba(255,255,255,0.06)'}`,
+                border: `1px solid ${category === c.key ? `${G}30` : 'var(--border)'}`,
                 color: category === c.key ? G : '#808090',
                 fontSize: '0.7rem', fontWeight: 600,
                 cursor: 'pointer', fontFamily: 'inherit',
@@ -199,14 +199,14 @@ export function DownloadsView() {
           {filtered.map(item => (
             <div key={item.id} style={{
               background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              border: '1px solid var(--border)',
               borderRadius: 12,
               padding: '1.25rem',
               display: 'flex', flexDirection: 'column', gap: 12,
               transition: 'border-color 0.15s',
             }}
               onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.12)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.06)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)' }}
             >
               {/* Top row: icon + badge */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -233,7 +233,7 @@ export function DownloadsView() {
 
               {/* Name + description */}
               <div>
-                <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#e8eaed', margin: '0 0 4px 0' }}>
+                <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 4px 0' }}>
                   {item.name}
                 </h3>
                 <p style={{ fontSize: '0.75rem', color: '#808090', margin: 0, lineHeight: 1.5 }}>
@@ -247,7 +247,7 @@ export function DownloadsView() {
                   display: 'flex', alignItems: 'center', gap: 6,
                   padding: '8px 10px', borderRadius: 7,
                   background: 'rgba(0,0,0,0.3)',
-                  border: '1px solid rgba(255,255,255,0.04)',
+                  border: '1px solid var(--bg-card)',
                 }}>
                   <code style={{
                     flex: 1, fontSize: '0.7rem', color: G,

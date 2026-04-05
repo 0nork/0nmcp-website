@@ -267,7 +267,7 @@ function ActionMenu({
         zIndex: 100,
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--bg-card)',
         animation: 'vfp-menu-in 0.15s ease-out',
       }}
     >
@@ -295,7 +295,7 @@ function ActionMenu({
               transition: 'background-color 0.15s ease, color 0.15s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)'
+              e.currentTarget.style.backgroundColor = 'var(--border)'
               e.currentTarget.style.color = 'var(--text-primary)'
             }}
             onMouseLeave={(e) => {
@@ -464,7 +464,7 @@ function SkeletonCard({ index }: { index: number }) {
             width: '2.25rem',
             height: '2.25rem',
             borderRadius: '0.625rem',
-            backgroundColor: 'rgba(255,255,255,0.04)',
+            backgroundColor: 'var(--bg-card)',
             animation: 'vfp-pulse 1.5s ease-in-out infinite',
           }}
         />
@@ -474,7 +474,7 @@ function SkeletonCard({ index }: { index: number }) {
               width: '60%',
               height: '0.75rem',
               borderRadius: '0.375rem',
-              backgroundColor: 'rgba(255,255,255,0.06)',
+              backgroundColor: 'var(--border)',
               marginBottom: '0.375rem',
               animation: 'vfp-pulse 1.5s ease-in-out infinite',
             }}
@@ -484,7 +484,7 @@ function SkeletonCard({ index }: { index: number }) {
               width: '40%',
               height: '0.5rem',
               borderRadius: '0.25rem',
-              backgroundColor: 'rgba(255,255,255,0.04)',
+              backgroundColor: 'var(--bg-card)',
               animation: 'vfp-pulse 1.5s ease-in-out infinite',
               animationDelay: '0.2s',
             }}
@@ -496,7 +496,7 @@ function SkeletonCard({ index }: { index: number }) {
           width: '100%',
           height: '0.625rem',
           borderRadius: '0.25rem',
-          backgroundColor: 'rgba(255,255,255,0.04)',
+          backgroundColor: 'var(--bg-card)',
           marginBottom: '0.375rem',
           animation: 'vfp-pulse 1.5s ease-in-out infinite',
           animationDelay: '0.3s',
@@ -507,7 +507,7 @@ function SkeletonCard({ index }: { index: number }) {
           width: '75%',
           height: '0.625rem',
           borderRadius: '0.25rem',
-          backgroundColor: 'rgba(255,255,255,0.03)',
+          backgroundColor: 'var(--bg-card)',
           animation: 'vfp-pulse 1.5s ease-in-out infinite',
           animationDelay: '0.4s',
         }}
@@ -631,9 +631,9 @@ function FileCard({
                   fontWeight: 500,
                   padding: '0.125rem 0.375rem',
                   borderRadius: '0.25rem',
-                  backgroundColor: 'rgba(255,255,255,0.04)',
+                  backgroundColor: 'var(--bg-card)',
                   color: 'var(--text-muted)',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  border: '1px solid var(--border)',
                 }}
               >
                 {file.source}
@@ -659,7 +659,7 @@ function FileCard({
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = 'var(--text-primary)'
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)'
+              e.currentTarget.style.backgroundColor = 'var(--border)'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = 'var(--text-muted)'
@@ -868,7 +868,7 @@ export function VaultFilesPanel({ onSwitchToCredentials, onSwitchToBundles, onAd
               fontSize: '0.8125rem',
               outline: 'none',
               width: '12rem',
-              backgroundColor: 'rgba(255,255,255,0.04)',
+              backgroundColor: 'var(--bg-card)',
               border: '1px solid var(--border)',
               color: 'var(--text-primary)',
               fontFamily: 'inherit',
@@ -921,7 +921,7 @@ export function VaultFilesPanel({ onSwitchToCredentials, onSwitchToBundles, onAd
               }}
               onMouseEnter={(e) => {
                 if (!isActive) {
-                  e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                  e.currentTarget.style.backgroundColor = 'var(--bg-card)'
                   e.currentTarget.style.color = 'var(--text-primary)'
                 }
               }}
@@ -944,7 +944,7 @@ export function VaultFilesPanel({ onSwitchToCredentials, onSwitchToBundles, onAd
                     borderRadius: '999px',
                     minWidth: '1.25rem',
                     textAlign: 'center',
-                    backgroundColor: isActive ? cfg.color + '25' : 'rgba(255,255,255,0.06)',
+                    backgroundColor: isActive ? cfg.color + '25' : 'var(--border)',
                     color: isActive ? cfg.color : 'var(--text-muted)',
                   }}
                 >

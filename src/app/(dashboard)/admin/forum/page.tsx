@@ -160,7 +160,7 @@ export default function ForumModerationPage() {
             onClick={() => setTab(t)}
             style={{
               padding: '6px 16px', borderRadius: 8, border: 'none', cursor: 'pointer',
-              background: tab === t ? 'var(--accent)' : 'rgba(255,255,255,0.05)',
+              background: tab === t ? 'var(--accent)' : 'var(--bg-card)',
               color: tab === t ? '#000' : 'var(--text-secondary)',
               fontWeight: 700, fontSize: '0.75rem', textTransform: 'capitalize',
             }}
@@ -288,7 +288,7 @@ function timeAgo(date: string): string {
 }
 
 const btnStyle: React.CSSProperties = {
-  padding: '6px 14px', borderRadius: 8, background: 'rgba(255,255,255,0.05)',
+  padding: '6px 14px', borderRadius: 8, background: 'var(--bg-card)',
   border: '1px solid var(--border)', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '0.75rem', cursor: 'pointer',
 }
 

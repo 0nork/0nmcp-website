@@ -360,7 +360,7 @@ export default function SEODashboard() {
                     borderRadius: 10,
                     background:
                       selectedPage?.url === page.url
-                        ? 'rgba(255,255,255,0.06)'
+                        ? 'var(--border)'
                         : 'rgba(255,255,255,0.02)',
                     border: `1px solid ${
                       selectedPage?.url === page.url
@@ -585,7 +585,7 @@ export default function SEODashboard() {
                       flex: 1,
                       height: 6,
                       borderRadius: 3,
-                      background: 'rgba(255,255,255,0.05)',
+                      background: 'var(--bg-card)',
                       overflow: 'hidden',
                     }}
                   >
@@ -708,7 +708,7 @@ function MetricBox({ label, value }: { label: string; value: string }) {
       style={{
         padding: '8px 12px',
         borderRadius: 8,
-        background: 'rgba(255,255,255,0.03)',
+        background: 'var(--bg-card)',
         border: '1px solid var(--border)',
       }}
     >
@@ -731,7 +731,7 @@ function MetricBox({ label, value }: { label: string; value: string }) {
 const btnGhostStyle: React.CSSProperties = {
   padding: '6px 14px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-secondary)',
   fontWeight: 600,

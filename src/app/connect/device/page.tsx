@@ -248,11 +248,11 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: '#0B0F19',
+    background: 'var(--bg-primary)',
     padding: '1rem',
   },
   card: {
-    background: '#141420',
+    background: 'var(--bg-card)',
     border: '1px solid #2a2a3a',
     borderRadius: '1rem',
     padding: '3rem',
@@ -270,7 +270,7 @@ const styles: Record<string, React.CSSProperties> = {
   title: {
     fontSize: '1.25rem',
     fontWeight: 700,
-    color: '#e8e8ef',
+    color: 'var(--text-primary)',
     margin: '1rem 0 0.5rem',
   },
   subtitle: {
@@ -290,7 +290,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     textAlign: 'center' as const,
     letterSpacing: '0.2em',
-    background: '#0B0F19',
+    background: 'var(--bg-primary)',
     border: '2px solid #2a2a3a',
     borderRadius: '0.75rem',
     color: '#6EE05A',
@@ -344,7 +344,7 @@ const styles: Record<string, React.CSSProperties> = {
     marginBottom: '0.75rem',
   },
   infoBox: {
-    background: '#0B0F19',
+    background: 'var(--bg-primary)',
     border: '1px solid #2a2a3a',
     borderRadius: '0.75rem',
     padding: '1rem',
@@ -362,7 +362,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '0.8125rem',
   },
   infoValue: {
-    color: '#e8e8ef',
+    color: 'var(--text-primary)',
     fontSize: '0.8125rem',
     fontFamily: 'JetBrains Mono, monospace',
   },

@@ -323,7 +323,7 @@ export function BuilderView() {
               padding: 12,
               borderRadius: 8,
               border: `1px solid ${colors.border}`,
-              backgroundColor: 'rgba(255,255,255,0.03)',
+              backgroundColor: 'var(--bg-card)',
               color: colors.text,
               fontSize: 13,
               lineHeight: 1.5,
@@ -377,7 +377,7 @@ export function BuilderView() {
                   padding: '8px 10px',
                   borderRadius: 6,
                   border: `1px solid ${colors.border}`,
-                  backgroundColor: 'rgba(255,255,255,0.03)',
+                  backgroundColor: 'var(--bg-card)',
                   color: colors.text,
                   fontSize: 13,
                   outline: 'none',
@@ -509,7 +509,7 @@ export function BuilderView() {
                   padding: '8px 10px',
                   borderRadius: 6,
                   border: `1px solid ${colors.border}`,
-                  backgroundColor: 'rgba(255,255,255,0.03)',
+                  backgroundColor: 'var(--bg-card)',
                   color: colors.text,
                   fontSize: 12,
                   outline: 'none',
@@ -541,7 +541,7 @@ export function BuilderView() {
                   padding: '8px 10px',
                   borderRadius: 6,
                   border: `1px solid ${colors.border}`,
-                  backgroundColor: 'rgba(255,255,255,0.03)',
+                  backgroundColor: 'var(--bg-card)',
                   color: colors.text,
                   fontSize: 12,
                   outline: 'none',
@@ -620,7 +620,7 @@ export function BuilderView() {
               background: builder.generating
                 ? `linear-gradient(135deg, ${colors.accent}88, ${colors.accent}44)`
                 : `linear-gradient(135deg, ${colors.accent}, #e85d2c)`,
-              color: '#fff',
+              color: 'var(--text-primary)',
               fontSize: 14,
               fontWeight: 700,
               cursor: builder.generating || !prompt.trim() ? 'not-allowed' : 'pointer',
@@ -639,7 +639,7 @@ export function BuilderView() {
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: `linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)`,
+                  background: `linear-gradient(90deg, transparent, var(--border-hover), transparent)`,
                   animation: 'builder-shimmer 1.5s ease-in-out infinite',
                 }}
               />
@@ -760,7 +760,7 @@ export function BuilderView() {
             alignItems: 'flex-start',
             padding: 20,
             overflow: 'auto',
-            backgroundColor: '#080808',
+            backgroundColor: 'var(--bg-primary)',
           }}
         >
           {!builder.currentAsset && !builder.generating ? (
@@ -840,7 +840,7 @@ export function BuilderView() {
                 padding: 16,
                 borderRadius: 10,
                 border: `1px solid ${colors.border}`,
-                backgroundColor: '#0B0F19',
+                backgroundColor: 'var(--bg-primary)',
                 color: '#c8d6e5',
                 fontSize: 12,
                 lineHeight: 1.6,
@@ -863,7 +863,7 @@ export function BuilderView() {
                 overflow: 'hidden',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
                 border: `1px solid ${colors.border}`,
-                backgroundColor: '#fff',
+                backgroundColor: 'var(--bg-card)',
               }}
             >
               <iframe

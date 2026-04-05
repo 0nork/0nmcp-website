@@ -189,7 +189,7 @@ export function AdminServices() {
           style={{
             flex: 1,
             padding: '0.5rem 0.75rem',
-            background: 'rgba(255,255,255,0.04)',
+            background: 'var(--bg-card)',
             border: '1px solid var(--border)',
             borderRadius: '0.5rem',
             color: 'var(--text-primary)',
@@ -203,7 +203,7 @@ export function AdminServices() {
           onChange={e => setCategoryFilter(e.target.value)}
           style={{
             padding: '0.5rem 0.75rem',
-            background: 'rgba(255,255,255,0.04)',
+            background: 'var(--bg-card)',
             border: '1px solid var(--border)',
             borderRadius: '0.5rem',
             color: 'var(--text-primary)',
@@ -398,7 +398,7 @@ function ServiceRow({
             borderRadius: '9999px',
             border: 'none',
             cursor: saving ? 'wait' : 'pointer',
-            background: service.is_enabled ? '#6EE05A' : 'rgba(255,255,255,0.1)',
+            background: service.is_enabled ? '#6EE05A' : 'var(--border)',
             position: 'relative',
             transition: 'background 0.2s ease',
             flexShrink: 0,
@@ -407,7 +407,7 @@ function ServiceRow({
           <div style={{
             width: '0.9rem', height: '0.9rem',
             borderRadius: '50%',
-            background: '#fff',
+            background: 'var(--bg-card)',
             position: 'absolute',
             top: '50%',
             transform: 'translateY(-50%)',
@@ -441,7 +441,7 @@ function ServiceRow({
           style={{
             flex: 1,
             padding: '0.35rem 0.5rem',
-            background: 'rgba(255,255,255,0.03)',
+            background: 'var(--bg-card)',
             border: affiliateDirty
               ? '1px solid rgba(126,217,87,0.4)'
               : '1px solid rgba(42,42,58,0.6)',

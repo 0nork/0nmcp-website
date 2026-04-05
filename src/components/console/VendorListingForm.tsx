@@ -320,7 +320,7 @@ export function VendorListingForm({ listing, onSubmit, onClose }: VendorListingF
             <div style={{
               display: 'flex', flexWrap: 'wrap', gap: 6,
               padding: '10px 12px', borderRadius: 10,
-              backgroundColor: 'rgba(255,255,255,0.03)',
+              backgroundColor: 'var(--bg-card)',
               border: `1px solid ${COLORS.border}`,
             }}>
               {AVAILABLE_SERVICES.map((svc) => {
@@ -334,20 +334,20 @@ export function VendorListingForm({ listing, onSubmit, onClose }: VendorListingF
                       padding: '4px 10px', borderRadius: 6, border: 'none',
                       fontSize: 11, fontWeight: 600, cursor: 'pointer',
                       transition: 'all 0.15s',
-                      backgroundColor: selected ? COLORS.accentGlow : 'rgba(255,255,255,0.04)',
+                      backgroundColor: selected ? COLORS.accentGlow : 'var(--bg-card)',
                       color: selected ? COLORS.accent : COLORS.textMuted,
                       outline: selected ? `1px solid ${COLORS.accentBorder}` : '1px solid transparent',
                     }}
                     onMouseEnter={(e) => {
                       if (!selected) {
                         e.currentTarget.style.color = COLORS.textSecondary
-                        e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'
+                        e.currentTarget.style.backgroundColor = 'var(--border)'
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!selected) {
                         e.currentTarget.style.color = COLORS.textMuted
-                        e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                        e.currentTarget.style.backgroundColor = 'var(--bg-card)'
                       }
                     }}
                   >
@@ -405,16 +405,16 @@ export function VendorListingForm({ listing, onSubmit, onClose }: VendorListingF
             disabled={submitting}
             style={{
               padding: '10px 20px', borderRadius: 8,
-              border: `1px solid ${COLORS.border}`, backgroundColor: 'rgba(255,255,255,0.06)',
+              border: `1px solid ${COLORS.border}`, backgroundColor: 'var(--border)',
               color: COLORS.textPrimary, fontSize: 13, fontWeight: 600,
               cursor: submitting ? 'wait' : 'pointer',
               opacity: submitting ? 0.5 : 1, transition: 'all 0.2s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'
+              e.currentTarget.style.backgroundColor = 'var(--border)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)'
+              e.currentTarget.style.backgroundColor = 'var(--border)'
             }}
           >
             Save as Draft

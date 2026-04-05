@@ -132,7 +132,7 @@ export default function VoidLoader({ fullscreen = false, message, size = 400 }: 
       <div style={{
         ...(fullscreen ? {
           position: 'fixed' as const, inset: 0, zIndex: 9999,
-          background: '#050505',
+          background: 'var(--bg-primary)',
         } : {}),
         display: 'flex', flexDirection: 'column' as const,
         justifyContent: 'center', alignItems: 'center',

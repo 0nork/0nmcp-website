@@ -89,7 +89,7 @@ export default function DashboardTopBar({ onMobileMenu }: { onMobileMenu?: () =>
         .topbar-mega { animation: topbar-slide-down 0.35s ease-out forwards; }
         .topbar-search-overlay { animation: topbar-fadein 0.2s ease-out forwards; }
         .topbar-btn { transition: all 0.2s ease; }
-        .topbar-btn:hover { background: rgba(255,255,255,0.06) !important; }
+        .topbar-btn:hover { background: var(--border) !important; }
         .topbar-menu-item { transition: all 0.2s ease; border-radius: 8px; }
         .topbar-menu-item:hover { background: rgba(126,217,87,0.06) !important; }
         .topbar-avatar { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -120,7 +120,7 @@ export default function DashboardTopBar({ onMobileMenu }: { onMobileMenu?: () =>
           {/* Mega Menu Toggle */}
           <div ref={megaRef} style={{ position: 'relative' }}>
             <button onClick={() => setMegaMenuOpen(p => !p)} className="topbar-btn" style={{
-              background: megaMenuOpen ? 'rgba(255,255,255,0.06)' : 'none',
+              background: megaMenuOpen ? 'var(--border)' : 'none',
               border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: '6px 10px',
               borderRadius: 6, display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 500,
               fontFamily: 'inherit',
@@ -169,7 +169,7 @@ export default function DashboardTopBar({ onMobileMenu }: { onMobileMenu?: () =>
             padding: 6, display: 'flex', alignItems: 'center', gap: 6, borderRadius: 6, fontSize: 12, fontFamily: 'inherit',
           }}>
             <Search size={16} />
-            <span className="hidden sm:inline" style={{ color: 'var(--text-muted)', fontSize: 11, fontFamily: 'var(--font-mono)', background: 'rgba(255,255,255,0.04)', padding: '2px 6px', borderRadius: 4, border: '1px solid var(--border)' }}>⌘K</span>
+            <span className="hidden sm:inline" style={{ color: 'var(--text-muted)', fontSize: 11, fontFamily: 'var(--font-mono)', background: 'var(--bg-card)', padding: '2px 6px', borderRadius: 4, border: '1px solid var(--border)' }}>⌘K</span>
           </button>
 
           {/* Notifications */}
@@ -260,7 +260,7 @@ export default function DashboardTopBar({ onMobileMenu }: { onMobileMenu?: () =>
                 }}
               />
               <button onClick={() => setSearchOpen(false)} style={{
-                background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)',
+                background: 'var(--border)', border: '1px solid var(--border)',
                 borderRadius: 4, padding: '2px 6px', cursor: 'pointer', color: 'var(--text-muted)',
                 fontSize: 11, fontFamily: 'var(--font-mono)',
               }}>ESC</button>

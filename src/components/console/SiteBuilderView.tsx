@@ -130,7 +130,7 @@ export function SiteBuilderView() {
   // ── Loading state ──
   if (owned === null) {
     return (
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0B0F19' }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}>
         <Loader2 size={24} className="animate-spin" style={{ color: 'var(--accent)' }} />
       </div>
     )
@@ -139,7 +139,7 @@ export function SiteBuilderView() {
   // ── Not purchased — show upgrade CTA ──
   if (!owned) {
     return (
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0B0F19', padding: '2rem' }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)', padding: '2rem' }}>
         <div style={{ textAlign: 'center', maxWidth: 520 }}>
           <div style={{
             width: 80, height: 80, borderRadius: 24,
@@ -151,10 +151,10 @@ export function SiteBuilderView() {
             <Globe size={36} style={{ color: '#6EE05A' }} />
           </div>
 
-          <h2 style={{ fontSize: 28, fontWeight: 800, color: '#ffffff', marginBottom: 8 }}>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8 }}>
             web0n Site Builder
           </h2>
-          <p style={{ fontSize: 15, color: '#888', lineHeight: 1.6, marginBottom: 24 }}>
+          <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>
             AI-powered website generation + CRM funnel deployment.
             Generate 5-page professional websites in minutes with a single click.
           </p>
@@ -184,8 +184,8 @@ export function SiteBuilderView() {
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             marginBottom: 20,
           }}>
-            <span style={{ fontSize: 36, fontWeight: 900, color: '#ffffff' }}>$1,497</span>
-            <span style={{ fontSize: 14, color: '#666' }}>one-time</span>
+            <span style={{ fontSize: 36, fontWeight: 900, color: 'var(--text-primary)' }}>$1,497</span>
+            <span style={{ fontSize: 14, color: 'var(--text-muted)' }}>one-time</span>
           </div>
 
           <a
@@ -212,7 +212,7 @@ export function SiteBuilderView() {
   // ── Owned — show the builder form ──
   return (
     <div style={{
-      flex: 1, overflow: 'auto', background: '#0B0F19',
+      flex: 1, overflow: 'auto', background: 'var(--bg-primary)',
       padding: '2rem 1.5rem',
     }}>
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
@@ -227,10 +227,10 @@ export function SiteBuilderView() {
             <Globe size={22} style={{ color: '#6EE05A' }} />
           </div>
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: '#ffffff', margin: 0 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
               web0n Site Builder
             </h2>
-            <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
               AI website generation + CRM funnel deployment
             </p>
           </div>
@@ -242,7 +242,7 @@ export function SiteBuilderView() {
 
         {/* Build Form */}
         <div style={{
-          background: '#111827', border: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--bg-card)', border: '1px solid var(--border)',
           borderRadius: 16, padding: 28,
         }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -259,7 +259,7 @@ export function SiteBuilderView() {
                 required
                 style={inputStyle}
                 onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
               />
             </div>
 
@@ -272,7 +272,7 @@ export function SiteBuilderView() {
                   onChange={handleChange} placeholder="owner@business.com" required
                   style={inputStyle}
                   onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                  onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -282,7 +282,7 @@ export function SiteBuilderView() {
                   onChange={handleChange} placeholder="+1 555 000 0000"
                   style={inputStyle}
                   onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                  onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                 />
               </div>
             </div>
@@ -295,7 +295,7 @@ export function SiteBuilderView() {
                 onChange={handleChange} placeholder="123 Main St"
                 style={inputStyle}
                 onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
               />
             </div>
 
@@ -308,7 +308,7 @@ export function SiteBuilderView() {
                   onChange={handleChange} placeholder="Pittsburgh"
                   style={inputStyle}
                   onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                  onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -318,7 +318,7 @@ export function SiteBuilderView() {
                   onChange={handleChange} placeholder="PA" maxLength={2}
                   style={inputStyle}
                   onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                  onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -328,7 +328,7 @@ export function SiteBuilderView() {
                   onChange={handleChange} placeholder="15222"
                   style={inputStyle}
                   onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                  onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                 />
               </div>
             </div>
@@ -342,7 +342,7 @@ export function SiteBuilderView() {
                   onChange={handleChange} placeholder="https://example.com"
                   style={inputStyle}
                   onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                  onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -352,8 +352,8 @@ export function SiteBuilderView() {
                     name="brandColor" type="color" value={form.brandColor}
                     onChange={handleChange}
                     style={{
-                      width: 40, height: 40, border: '1px solid rgba(255,255,255,0.08)',
-                      borderRadius: 8, padding: 3, background: '#0B0F19', cursor: 'pointer',
+                      width: 40, height: 40, border: '1px solid var(--border)',
+                      borderRadius: 8, padding: 3, background: 'var(--bg-primary)', cursor: 'pointer',
                     }}
                   />
                   <input
@@ -361,7 +361,7 @@ export function SiteBuilderView() {
                     onChange={handleChange} placeholder="#6EE05A" maxLength={7}
                     style={{ ...inputStyle, flex: 1 }}
                     onFocus={e => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
                   />
                 </div>
               </div>
@@ -400,8 +400,8 @@ export function SiteBuilderView() {
             }}>
               <CheckCircle2 size={20} style={{ color: '#6EE05A', flexShrink: 0, marginTop: 1 }} />
               <div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', margin: 0 }}>Build triggered</p>
-                <p style={{ fontSize: 12, color: '#888', margin: '4px 0 0', fontFamily: 'var(--font-mono)' }}>
+                <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Build triggered</p>
+                <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '4px 0 0', fontFamily: 'var(--font-mono)' }}>
                   CRM agent processing · {result.conversationId?.slice(0, 16)}...
                 </p>
               </div>
@@ -416,8 +416,8 @@ export function SiteBuilderView() {
             }}>
               <XCircle size={20} style={{ color: '#ef4444', flexShrink: 0, marginTop: 1 }} />
               <div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', margin: 0 }}>Build failed</p>
-                <p style={{ fontSize: 12, color: '#888', margin: '4px 0 0' }}>{result.error}</p>
+                <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Build failed</p>
+                <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '4px 0 0' }}>{result.error}</p>
               </div>
             </div>
           )}
@@ -425,10 +425,10 @@ export function SiteBuilderView() {
 
         {/* How it works */}
         <div style={{
-          marginTop: 24, background: '#111827', border: '1px solid rgba(255,255,255,0.06)',
+          marginTop: 24, background: 'var(--bg-card)', border: '1px solid var(--border)',
           borderRadius: 16, padding: 24,
         }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 16 }}>How it works</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 16 }}>How it works</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
             {[
               { step: '1', title: 'Enter details', desc: 'Business name, email, address, brand color' },
@@ -446,8 +446,8 @@ export function SiteBuilderView() {
                   {s.step}
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#ffffff' }}>{s.title}</div>
-                  <div style={{ fontSize: 11, color: '#666', lineHeight: 1.4 }}>{s.desc}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>{s.title}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.4 }}>{s.desc}</div>
                 </div>
               </div>
             ))}
@@ -457,23 +457,23 @@ export function SiteBuilderView() {
         {/* Recent builds */}
         {recentBuilds.length > 0 && (
           <div style={{
-            marginTop: 24, background: '#111827', border: '1px solid rgba(255,255,255,0.06)',
+            marginTop: 24, background: 'var(--bg-card)', border: '1px solid var(--border)',
             borderRadius: 16, padding: 24,
           }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 16 }}>Recent builds</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 16 }}>Recent builds</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {recentBuilds.slice(0, 5).map((b, i) => (
                 <div key={i} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '10px 14px', borderRadius: 10,
-                  background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)',
+                  background: 'rgba(255,255,255,0.02)', border: '1px solid var(--bg-card)',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <Globe size={14} style={{ color: '#6EE05A' }} />
-                    <span style={{ fontSize: 13, fontWeight: 600, color: '#ffffff' }}>{b.businessName}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{b.businessName}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: 11, color: '#555', fontFamily: 'var(--font-mono)' }}>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                       {new Date(b.triggeredAt).toLocaleDateString()}
                     </span>
                     <div style={{
@@ -495,7 +495,7 @@ export function SiteBuilderView() {
             rel="noopener noreferrer"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              fontSize: 12, color: '#555', textDecoration: 'none',
+              fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none',
             }}
             onMouseEnter={e => { e.currentTarget.style.color = '#6EE05A' }}
             onMouseLeave={e => { e.currentTarget.style.color = '#555' }}
@@ -511,13 +511,13 @@ export function SiteBuilderView() {
 // ── Shared styles ──
 
 const labelStyle: React.CSSProperties = {
-  fontSize: 11, fontWeight: 600, color: '#666',
+  fontSize: 11, fontWeight: 600, color: 'var(--text-muted)',
   letterSpacing: '0.05em', textTransform: 'uppercase' as const,
 }
 
 const inputStyle: React.CSSProperties = {
-  background: '#0B0F19', border: '1px solid rgba(255,255,255,0.08)',
-  borderRadius: 10, color: '#ffffff', fontFamily: 'inherit',
+  background: 'var(--bg-primary)', border: '1px solid var(--border)',
+  borderRadius: 10, color: 'var(--text-primary)', fontFamily: 'inherit',
   fontSize: 14, padding: '10px 14px', outline: 'none',
   transition: 'border-color 0.15s',
 }

@@ -158,7 +158,7 @@ export default function QAHistoryPage() {
                 style={{
                   padding: '12px 16px',
                   borderRadius: 12,
-                  background: selectedItem?.id === item.id ? 'rgba(255,255,255,0.06)' : 'var(--bg-card)',
+                  background: selectedItem?.id === item.id ? 'var(--border)' : 'var(--bg-card)',
                   border: `1px solid ${selectedItem?.id === item.id ? 'var(--accent)' : 'var(--border)'}`,
                   cursor: 'pointer',
                   transition: 'all 0.15s',
@@ -312,7 +312,7 @@ export default function QAHistoryPage() {
                 <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>Keywords:</span>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {selectedItem.qa_content.keywords.map((kw, i) => (
-                    <span key={i} style={{ padding: '2px 6px', borderRadius: 4, background: 'rgba(255,255,255,0.05)', fontSize: '0.625rem', color: 'var(--text-secondary)' }}>
+                    <span key={i} style={{ padding: '2px 6px', borderRadius: 4, background: 'var(--bg-card)', fontSize: '0.625rem', color: 'var(--text-secondary)' }}>
                       {kw}
                     </span>
                   ))}
@@ -362,7 +362,7 @@ const selectStyle: React.CSSProperties = {
 const btnGhostStyle: React.CSSProperties = {
   padding: '6px 14px',
   borderRadius: 8,
-  background: 'rgba(255,255,255,0.05)',
+  background: 'var(--bg-card)',
   border: '1px solid var(--border)',
   color: 'var(--text-secondary)',
   fontWeight: 600,

@@ -133,7 +133,7 @@ export default function ProjectDetailPage() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 800, color: '#e8eaed', margin: 0 }}>{project.name}</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>{project.name}</h1>
           <p style={{ fontSize: 13, color: '#7A8290', marginTop: 4 }}>
             {project.generation_type} &middot; {project.figma_file_key}
           </p>
@@ -209,7 +209,7 @@ export default function ProjectDetailPage() {
       {/* Design System Preview */}
       {ds && (
         <div style={{ background: 'var(--jp-surface)', border: '1px solid var(--jp-border)', borderRadius: 12, padding: 20, marginBottom: 24 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: '#e8eaed', marginBottom: 12 }}>Design System</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>Design System</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12 }}>
             {[
               { label: 'Colors', count: ds.colors?.length || 0 },
@@ -219,8 +219,8 @@ export default function ProjectDetailPage() {
               { label: 'Spacing', count: ds.spacing?.length || 0 },
               { label: 'Radii', count: ds.radii?.length || 0 },
             ].map(stat => (
-              <div key={stat.label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '12px 14px' }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: '#e8eaed' }}>{stat.count}</div>
+              <div key={stat.label} style={{ background: 'var(--bg-card)', borderRadius: 8, padding: '12px 14px' }}>
+                <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)' }}>{stat.count}</div>
                 <div style={{ fontSize: 11, color: '#7A8290', marginTop: 2 }}>{stat.label}</div>
               </div>
             ))}
@@ -239,7 +239,7 @@ export default function ProjectDetailPage() {
                     style={{
                       width: 28, height: 28, borderRadius: 6,
                       background: c.value?.hex || '#000',
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      border: '1px solid var(--border)',
                     }}
                   />
                 ))}
@@ -252,7 +252,7 @@ export default function ProjectDetailPage() {
       {/* Generations */}
       {project.onpress_generations?.length > 0 && (
         <div style={{ background: 'var(--jp-surface)', border: '1px solid var(--jp-border)', borderRadius: 12, padding: 20 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: '#e8eaed', marginBottom: 12 }}>Builds</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>Builds</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {project.onpress_generations.map(gen => (
               <div key={gen.id} style={{
@@ -260,7 +260,7 @@ export default function ProjectDetailPage() {
                 padding: '10px 14px', background: 'rgba(255,255,255,0.02)', borderRadius: 8,
               }}>
                 <div>
-                  <span style={{ fontSize: 13, color: '#e8eaed' }}>v{gen.version}</span>
+                  <span style={{ fontSize: 13, color: 'var(--text-primary)' }}>v{gen.version}</span>
                   <span style={{ fontSize: 12, color: STATUS_COLORS[gen.status], marginLeft: 12, textTransform: 'capitalize' as const }}>
                     {gen.status}
                   </span>

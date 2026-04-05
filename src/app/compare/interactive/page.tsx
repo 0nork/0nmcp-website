@@ -558,7 +558,7 @@ export default function InteractiveComparePage() {
             style={{
               width: '100%',
               padding: '0.625rem 1rem',
-              background: 'rgba(255,255,255,0.03)',
+              background: 'var(--bg-card)',
               border: '1px solid var(--border)',
               borderRadius: 10,
               color: 'var(--text-primary)',

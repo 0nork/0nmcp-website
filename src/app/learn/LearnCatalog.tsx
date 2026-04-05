@@ -65,16 +65,16 @@ export default function LearnCatalog() {
         }}>
           LEARN 0nMCP
         </span>
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: '#1a1a1a', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 12 }}>
+        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 12 }}>
           Master AI Orchestration
         </h1>
-        <p style={{ fontSize: 17, color: '#555', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 24px' }}>
+        <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 24px' }}>
           From first install to enterprise deployment. Free courses, hands-on tutorials, and masterclasses that turn you into an AI automation expert.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
           <Link href="https://grid.0nmcp.com/login" style={{
             padding: '12px 28px', borderRadius: 10,
-            background: '#1a1a1a', color: '#fff', fontWeight: 700, fontSize: 14,
+            background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 700, fontSize: 14,
             textDecoration: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             transition: 'all 0.2s', display: 'inline-block',
           }}>
@@ -82,8 +82,8 @@ export default function LearnCatalog() {
           </Link>
           <Link href="/signup" style={{
             padding: '12px 28px', borderRadius: 10,
-            background: '#fff', color: '#1a1a1a', fontWeight: 600, fontSize: 14,
-            textDecoration: 'none', border: '1px solid #ddd',
+            background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 600, fontSize: 14,
+            textDecoration: 'none', border: '1px solid var(--border)',
             transition: 'all 0.2s', display: 'inline-block',
           }}>
             Create Free Account
@@ -100,22 +100,22 @@ export default function LearnCatalog() {
           { val: 'Live', label: 'Community' },
         ].map(s => (
           <div key={s.label} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 22, fontWeight: 900, color: '#1a1a1a' }}>{s.val}</div>
-            <div style={{ fontSize: 11, color: '#888', fontWeight: 600 }}>{s.label}</div>
+            <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--text-primary)' }}>{s.val}</div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600 }}>{s.label}</div>
           </div>
         ))}
       </section>
 
       {/* ── Featured courses ── */}
       <section style={{ maxWidth: 1000, margin: '0 auto', padding: '0 1.5rem 2rem' }}>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>Featured Courses</h2>
+        <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 16 }}>Featured Courses</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
           {FEATURED_COURSES.map(course => {
             const tier = TIERS[course.tier] || TIERS.free
             return (
               <div key={course.slug} style={{
-                background: '#fff', borderRadius: 14, padding: 24,
-                border: '1px solid #e5e7eb',
+                background: 'var(--bg-card)', borderRadius: 14, padding: 24,
+                border: '1px solid var(--border)',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 transition: 'box-shadow 0.25s, transform 0.25s',
                 cursor: 'pointer', display: 'flex', flexDirection: 'column',
@@ -132,14 +132,14 @@ export default function LearnCatalog() {
                   }}>
                     {tier.label}
                   </span>
-                  <span style={{ fontSize: 11, color: '#aaa' }}>{course.category.replace(/-/g, ' ')}</span>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{course.category.replace(/-/g, ' ')}</span>
                 </div>
 
-                <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1a1a1a', marginBottom: 6 }}>{course.title}</h3>
-                <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, flex: 1, marginBottom: 16 }}>{course.desc}</p>
+                <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>{course.title}</h3>
+                <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, flex: 1, marginBottom: 16 }}>{course.desc}</p>
 
                 {/* Stats */}
-                <div style={{ display: 'flex', gap: 16, fontSize: 12, color: '#999', marginBottom: 16 }}>
+                <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'var(--text-muted)', marginBottom: 16 }}>
                   <span>{course.lessons} lessons</span>
                   <span>{course.mins} min</span>
                 </div>
@@ -147,9 +147,9 @@ export default function LearnCatalog() {
                 {/* CTA */}
                 <Link href={`https://grid.0nmcp.com/login`} style={{
                   display: 'block', textAlign: 'center', padding: '10px 16px',
-                  borderRadius: 10, background: '#f5f5f7', color: '#1a1a1a',
+                  borderRadius: 10, background: 'var(--bg-secondary)', color: 'var(--text-primary)',
                   fontWeight: 700, fontSize: 13, textDecoration: 'none',
-                  border: '1px solid #e5e7eb', transition: 'all 0.2s',
+                  border: '1px solid var(--border)', transition: 'all 0.2s',
                 }}>
                   {course.tier === 'free' ? 'Start Free' : `Unlock (${tier.label})`}
                 </Link>
@@ -162,7 +162,7 @@ export default function LearnCatalog() {
       {/* ── Dynamic courses from API ── */}
       {displayCourses.length > 0 && (
         <section style={{ maxWidth: 1000, margin: '0 auto', padding: '1rem 1.5rem 2rem' }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a1a', marginBottom: 16 }}>All Courses</h2>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 16 }}>All Courses</h2>
 
           {/* Category filters */}
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 20 }}>
@@ -171,7 +171,7 @@ export default function LearnCatalog() {
                 padding: '6px 14px', borderRadius: 8, fontSize: 12, fontWeight: 600,
                 background: filter === cat ? '#1a1a1a' : '#fff',
                 color: filter === cat ? '#fff' : '#555',
-                border: `1px solid ${filter === cat ? '#1a1a1a' : '#ddd'}`,
+                border: `1px solid ${filter === cat ? 'var(--text-primary)' : 'var(--border)'}`,
                 cursor: 'pointer', transition: 'all 0.15s',
               }}>
                 {cat ? cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'All'}
@@ -184,8 +184,8 @@ export default function LearnCatalog() {
               const tier = TIERS[course.tier_required] || TIERS.free
               return (
                 <div key={course.id} style={{
-                  background: '#fff', borderRadius: 12, padding: 20,
-                  border: '1px solid #e5e7eb', boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                  background: 'var(--bg-card)', borderRadius: 12, padding: 20,
+                  border: '1px solid var(--border)', boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
                   transition: 'box-shadow 0.2s, transform 0.2s',
                 }}
                   onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.06)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
@@ -194,9 +194,9 @@ export default function LearnCatalog() {
                   <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
                     <span style={{ padding: '2px 8px', borderRadius: 5, fontSize: 10, fontWeight: 800, color: tier.color, background: tier.bg, textTransform: 'uppercase' }}>{tier.label}</span>
                   </div>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a', marginBottom: 4 }}>{course.title}</h3>
-                  <p style={{ fontSize: 12, color: '#666', lineHeight: 1.6, marginBottom: 12 }}>{course.description}</p>
-                  <div style={{ display: 'flex', gap: 12, fontSize: 11, color: '#999' }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>{course.title}</h3>
+                  <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 12 }}>{course.description}</p>
+                  <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'var(--text-muted)' }}>
                     <span>{course.lesson_count} lessons</span>
                     <span>{course.estimated_minutes} min</span>
                     <span>{course.enrollment_count} enrolled</span>
@@ -213,7 +213,7 @@ export default function LearnCatalog() {
         <div style={{
           borderRadius: 20, padding: '3rem 2rem',
           background: 'linear-gradient(135deg, #1a1a1a, #0f172a)',
-          color: '#fff', boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+          color: 'var(--text-primary)', boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
         }}>
           <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>Join the 0nMCP Community</h2>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>

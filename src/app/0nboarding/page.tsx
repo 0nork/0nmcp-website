@@ -616,12 +616,12 @@ function OnboardingInner() {
                     placeholder={f.placeholder}
                     style={{
                       width: '100%', height: 38, borderRadius: 8,
-                      background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                      color: '#fff', padding: '0 0.75rem', fontSize: '0.8rem', outline: 'none',
+                      background: 'var(--bg-card)', border: '1px solid var(--border)',
+                      color: 'var(--text-primary)', padding: '0 0.75rem', fontSize: '0.8rem', outline: 'none',
                       transition: 'border-color 0.2s ease', fontFamily: 'inherit',
                     }}
                     onFocus={e => { e.target.style.borderColor = 'rgba(126,217,87,0.4)' }}
-                    onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.08)' }}
+                    onBlur={e => { e.target.style.borderColor = 'var(--border)' }}
                   />
                 </div>
               ))}
@@ -643,7 +643,7 @@ function OnboardingInner() {
                   { label: 'DevOps', color: '#ef4444' },
                   { label: 'Content Creation', color: '#ec4899' },
                   { label: 'Data Analytics', color: '#06b6d4' },
-                  { label: 'Just Exploring', color: '#64748b' },
+                  { label: 'Just Exploring', color: 'var(--text-muted)' },
                 ].map(tag => {
                   const selected = interests.includes(tag.label)
                   return (
@@ -652,8 +652,8 @@ function OnboardingInner() {
                       onClick={() => toggleInterest(tag.label)}
                       style={{
                         padding: '6px 14px', borderRadius: 20, cursor: 'pointer',
-                        background: selected ? `${tag.color}20` : 'rgba(255,255,255,0.04)',
-                        border: `1px solid ${selected ? tag.color + '60' : 'rgba(255,255,255,0.08)'}`,
+                        background: selected ? `${tag.color}20` : 'var(--bg-card)',
+                        border: `1px solid ${selected ? tag.color + '60' : 'var(--border)'}`,
                         color: selected ? tag.color : 'var(--text-muted)',
                         fontSize: '0.775rem', fontWeight: 600,
                         transition: 'all 0.2s ease',

@@ -64,7 +64,7 @@ export default function PortalShell({ account }: { account: VipAccount }) {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#030508', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ width: 32, height: 32, border: `3px solid ${primary}33`, borderTopColor: primary, borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
@@ -74,7 +74,7 @@ export default function PortalShell({ account }: { account: VipAccount }) {
   /* ── LOGIN GATE ── */
   if (!authed) {
     return (
-      <div style={{ minHeight: '100vh', background: '#030508', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
         <div style={{ width: '100%', maxWidth: 400 }}>
           {/* Branding */}
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
@@ -89,15 +89,15 @@ export default function PortalShell({ account }: { account: VipAccount }) {
               }}>{account.company_name.charAt(0)}</div>
             )}
             <h1 style={{
-              fontSize: '1.5rem', fontWeight: 700, color: '#fff', margin: '0 0 0.5rem',
+              fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.5rem',
               fontFamily: 'var(--font-display, system-ui)',
             }}>{account.company_name}</h1>
-            <p style={{ color: '#64748b', fontSize: '0.875rem' }}>Sign in to your portal</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Sign in to your portal</p>
           </div>
 
           {/* Login Form */}
           <div style={{
-            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+            background: 'var(--bg-card)', border: '1px solid var(--border)',
             borderRadius: 16, padding: '2rem',
           }}>
             {error && (
@@ -109,26 +109,26 @@ export default function PortalShell({ account }: { account: VipAccount }) {
 
             <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
-                <label style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>Email</label>
+                <label style={{ display: 'block', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>Email</label>
                 <input
                   type="email" value={email} onChange={e => setEmail(e.target.value)}
                   placeholder="you@company.com" required autoFocus
                   style={{
                     width: '100%', height: 44, borderRadius: 8,
-                    background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#fff', padding: '0 0.875rem', fontSize: '0.9rem', outline: 'none',
+                    background: 'var(--bg-card)', border: '1px solid var(--border)',
+                    color: 'var(--text-primary)', padding: '0 0.875rem', fontSize: '0.9rem', outline: 'none',
                   }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>Password</label>
+                <label style={{ display: 'block', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600, marginBottom: 6 }}>Password</label>
                 <input
                   type="password" value={password} onChange={e => setPassword(e.target.value)}
                   placeholder="Your password" required
                   style={{
                     width: '100%', height: 44, borderRadius: 8,
-                    background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#fff', padding: '0 0.875rem', fontSize: '0.9rem', outline: 'none',
+                    background: 'var(--bg-card)', border: '1px solid var(--border)',
+                    color: 'var(--text-primary)', padding: '0 0.875rem', fontSize: '0.9rem', outline: 'none',
                   }}
                 />
               </div>
@@ -141,7 +141,7 @@ export default function PortalShell({ account }: { account: VipAccount }) {
             </form>
           </div>
 
-          <p style={{ textAlign: 'center', marginTop: '1.5rem', color: '#334155', fontSize: '0.75rem' }}>
+          <p style={{ textAlign: 'center', marginTop: '1.5rem', color: 'var(--text-muted)', fontSize: '0.75rem' }}>
             Powered by 0nMCP
           </p>
         </div>
@@ -153,11 +153,11 @@ export default function PortalShell({ account }: { account: VipAccount }) {
   const widgets = account.dashboard_config?.widgets || ['contacts', 'pipeline', 'chat', 'calendar', 'tasks']
 
   return (
-    <div style={{ minHeight: '100vh', background: '#060a0f', color: '#e2e8f0' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
       {/* Top Bar */}
       <header style={{
         height: 56, padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        borderBottom: '1px solid var(--border)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div style={{
@@ -166,7 +166,7 @@ export default function PortalShell({ account }: { account: VipAccount }) {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 13, fontWeight: 800, color: '#000',
           }}>{account.company_name.charAt(0)}</div>
-          <span style={{ fontWeight: 700, color: '#fff', fontSize: '0.95rem' }}>{account.company_name}</span>
+          <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>{account.company_name}</span>
           <span style={{
             padding: '2px 8px', borderRadius: 4, fontSize: '0.65rem', fontWeight: 600,
             background: `${primary}20`, color: primary, textTransform: 'uppercase', letterSpacing: '0.05em',
@@ -178,21 +178,21 @@ export default function PortalShell({ account }: { account: VipAccount }) {
           router.refresh()
           setAuthed(false)
         }} style={{
-          padding: '6px 14px', borderRadius: 6, background: 'rgba(255,255,255,0.05)',
-          border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', fontSize: '0.8rem', cursor: 'pointer',
+          padding: '6px 14px', borderRadius: 6, background: 'var(--bg-card)',
+          border: '1px solid var(--border)', color: 'var(--text-muted)', fontSize: '0.8rem', cursor: 'pointer',
         }}>Sign Out</button>
       </header>
 
       {/* Dashboard Grid */}
       <div style={{ padding: '1.5rem', maxWidth: 1200, margin: '0 auto' }}>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginBottom: '1.5rem' }}>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.5rem' }}>
           Welcome back{account.owner_name ? `, ${account.owner_name.split(' ')[0]}` : ''}
         </h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
           {widgets.map(w => (
             <div key={w} style={{
-              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
               borderRadius: 12, padding: '1.5rem', minHeight: 200,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
@@ -202,7 +202,7 @@ export default function PortalShell({ account }: { account: VipAccount }) {
                 }} />
                 <span style={{ fontWeight: 600, fontSize: '0.9rem', textTransform: 'capitalize' }}>{w}</span>
               </div>
-              <p style={{ color: '#475569', fontSize: '0.8rem' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                 {w === 'contacts' && 'Manage your contacts and client relationships'}
                 {w === 'pipeline' && 'Track deals and opportunities through stages'}
                 {w === 'chat' && 'AI-powered assistant — ask anything'}
@@ -213,15 +213,15 @@ export default function PortalShell({ account }: { account: VipAccount }) {
               </p>
               <div style={{
                 marginTop: '1rem', padding: '2rem', borderRadius: 8,
-                background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.06)',
-                textAlign: 'center', color: '#334155', fontSize: '0.75rem',
+                background: 'rgba(255,255,255,0.02)', border: '1px dashed var(--border)',
+                textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.75rem',
               }}>Coming soon</div>
             </div>
           ))}
         </div>
       </div>
 
-      <footer style={{ textAlign: 'center', padding: '2rem', color: '#1e293b', fontSize: '0.7rem' }}>
+      <footer style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-primary)', fontSize: '0.7rem' }}>
         Powered by 0nMCP — 1,589 tools across 102 services
       </footer>
     </div>

@@ -188,7 +188,7 @@ export default function SecureClaudePage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#fafafa', color: '#1a1a1a' }}>
+    <div className="min-h-screen" style={{ background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
@@ -226,7 +226,7 @@ export default function SecureClaudePage() {
           {/* H1 */}
           <h1
             className="text-4xl md:text-6xl font-black leading-tight mb-6"
-            style={{ color: '#ffffff' }}
+            style={{ color: 'var(--text-primary)' }}
           >
             Secure Your Claude Desktop
             <br />
@@ -234,7 +234,7 @@ export default function SecureClaudePage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: '#b0b8c4' }}>
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             The March 31, 2026 supply chain attack compromised npm packages used by thousands of developers.{' '}
             <strong style={{ color: '#ff6b6b' }}>0nDefender</strong> stops it before it starts.
           </p>
@@ -256,7 +256,7 @@ export default function SecureClaudePage() {
               className="px-8 py-3.5 rounded-lg font-bold text-base transition-all hover:scale-105"
               style={{
                 background: 'rgba(255, 255, 255, 0.08)',
-                color: '#ffffff',
+                color: 'var(--text-primary)',
                 border: '1px solid rgba(255, 255, 255, 0.15)',
               }}
             >
@@ -267,9 +267,9 @@ export default function SecureClaudePage() {
       </section>
 
       {/* ─── BLUF / WHAT HAPPENED ─── */}
-      <section className="py-20 px-4 md:px-8" style={{ background: '#ffffff' }}>
+      <section className="py-20 px-4 md:px-8" style={{ background: 'var(--bg-card)' }}>
         <div className="max-w-4xl mx-auto">
-          <nav className="text-xs mb-8 flex items-center gap-1.5" style={{ color: '#888' }} aria-label="Breadcrumb">
+          <nav className="text-xs mb-8 flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }} aria-label="Breadcrumb">
             <Link href="/" className="hover:underline">Home</Link>
             <span>/</span>
             <Link href="/security" className="hover:underline">Security</Link>
@@ -277,35 +277,35 @@ export default function SecureClaudePage() {
             <span style={{ color: '#6EE05A' }}>Secure Claude Desktop</span>
           </nav>
 
-          <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: '#1a1a1a' }}>
+          <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: 'var(--text-primary)' }}>
             What Happened on March 31, 2026
           </h2>
-          <p className="text-lg mb-4 leading-relaxed" style={{ color: '#444' }}>
-            Attackers published compromised versions of <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: '#f0f0f0' }}>axios@1.14.1</code> and{' '}
-            <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: '#f0f0f0' }}>axios@0.30.4</code> to npm.
+          <p className="text-lg mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            Attackers published compromised versions of <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: 'var(--bg-secondary)' }}>axios@1.14.1</code> and{' '}
+            <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: 'var(--bg-secondary)' }}>axios@0.30.4</code> to npm.
             The packages contained a Remote Access Trojan (RAT) payload hidden inside a transitive dependency called{' '}
-            <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: '#f0f0f0' }}>plain-crypto-js</code>.
-            The payload executed via a <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: '#f0f0f0' }}>postinstall</code> script, exfiltrating environment variables, SSH keys, and API credentials to an external server.
+            <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: 'var(--bg-secondary)' }}>plain-crypto-js</code>.
+            The payload executed via a <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: 'var(--bg-secondary)' }}>postinstall</code> script, exfiltrating environment variables, SSH keys, and API credentials to an external server.
           </p>
-          <p className="text-lg mb-10 leading-relaxed" style={{ color: '#444' }}>
-            Any developer who ran <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: '#f0f0f0' }}>npm install</code> in a project using those axios versions was compromised.
+          <p className="text-lg mb-10 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            Any developer who ran <code className="px-1.5 py-0.5 rounded text-sm font-mono" style={{ background: 'var(--bg-secondary)' }}>npm install</code> in a project using those axios versions was compromised.
             MCP server operators were particularly vulnerable because their environments contain API keys for dozens of connected services.
           </p>
 
           {/* Comparison Table */}
-          <div className="overflow-x-auto rounded-xl" style={{ border: '1px solid #e0e0e0' }}>
+          <div className="overflow-x-auto rounded-xl" style={{ border: '1px solid var(--border)' }}>
             <table className="w-full text-left">
               <thead>
-                <tr style={{ background: '#f5f5f7' }}>
-                  <th className="px-6 py-4 text-sm font-bold" style={{ color: '#666', borderBottom: '1px solid #e0e0e0' }}>Attack Vector</th>
-                  <th className="px-6 py-4 text-sm font-bold" style={{ color: '#cc0000', borderBottom: '1px solid #e0e0e0' }}>Unprotected</th>
-                  <th className="px-6 py-4 text-sm font-bold" style={{ color: '#1a8c1a', borderBottom: '1px solid #e0e0e0' }}>With 0nDefender</th>
+                <tr style={{ background: 'var(--bg-secondary)' }}>
+                  <th className="px-6 py-4 text-sm font-bold" style={{ color: 'var(--text-muted)', borderBottom: '1px solid var(--border)' }}>Attack Vector</th>
+                  <th className="px-6 py-4 text-sm font-bold" style={{ color: '#cc0000', borderBottom: '1px solid var(--border)' }}>Unprotected</th>
+                  <th className="px-6 py-4 text-sm font-bold" style={{ color: '#1a8c1a', borderBottom: '1px solid var(--border)' }}>With 0nDefender</th>
                 </tr>
               </thead>
               <tbody>
                 {COMPARISON_ROWS.map((row, i) => (
                   <tr key={i} style={{ borderBottom: i < COMPARISON_ROWS.length - 1 ? '1px solid #eee' : undefined }}>
-                    <td className="px-6 py-4 text-sm font-medium" style={{ color: '#333' }}>{row.attack}</td>
+                    <td className="px-6 py-4 text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{row.attack}</td>
                     <td className="px-6 py-4 text-sm" style={{ color: '#cc0000' }}>
                       <span className="inline-flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full" style={{ background: '#cc0000' }} />
@@ -314,7 +314,7 @@ export default function SecureClaudePage() {
                     </td>
                     <td className="px-6 py-4 text-sm" style={{ color: '#1a8c1a' }}>
                       <span className="inline-flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full" style={{ background: '#1a8c1a' }} />
+                        <span className="w-2 h-2 rounded-full" style={{ background: 'var(--bg-card)' }} />
                         {row.protected}
                       </span>
                     </td>
@@ -327,13 +327,13 @@ export default function SecureClaudePage() {
       </section>
 
       {/* ─── THE 4 SECURITY LAYERS ─── */}
-      <section className="py-20 px-4 md:px-8" style={{ background: '#f5f5f7' }}>
+      <section className="py-20 px-4 md:px-8" style={{ background: 'var(--bg-secondary)' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1a1a1a' }}>
+            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
               4 Security Layers. Zero Cost.
             </h2>
-            <p className="text-lg" style={{ color: '#666' }}>
+            <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
               Every layer ships free with 0nMCP. MIT licensed. No sign-up required.
             </p>
           </div>
@@ -344,8 +344,8 @@ export default function SecureClaudePage() {
                 key={layer.name}
                 className="rounded-xl p-8 transition-all hover:scale-[1.02]"
                 style={{
-                  background: '#ffffff',
-                  border: '1px solid #e0e0e0',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
                   boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
                 }}
               >
@@ -357,11 +357,11 @@ export default function SecureClaudePage() {
                     {layer.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-black" style={{ color: '#1a1a1a' }}>{layer.name}</h3>
+                    <h3 className="text-xl font-black" style={{ color: 'var(--text-primary)' }}>{layer.name}</h3>
                     <p className="text-sm font-medium" style={{ color: '#6EE05A' }}>{layer.tagline}</p>
                   </div>
                 </div>
-                <p className="text-sm leading-relaxed" style={{ color: '#555' }}>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                   {layer.description}
                 </p>
               </div>
@@ -371,13 +371,13 @@ export default function SecureClaudePage() {
       </section>
 
       {/* ─── INSTALL SECTION ─── */}
-      <section id="install" className="py-20 px-4 md:px-8 scroll-mt-20" style={{ background: '#ffffff' }}>
+      <section id="install" className="py-20 px-4 md:px-8 scroll-mt-20" style={{ background: 'var(--bg-card)' }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: '#1a1a1a' }}>
+            <h2 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>
               Install in 60 Seconds
             </h2>
-            <p className="text-lg" style={{ color: '#666' }}>
+            <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
               Three steps. Copy, paste, protected.
             </p>
           </div>
@@ -391,13 +391,13 @@ export default function SecureClaudePage() {
               >
                 1
               </span>
-              <h3 className="text-xl font-bold" style={{ color: '#1a1a1a' }}>Install 0nMCP globally</h3>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Install 0nMCP globally</h3>
             </div>
-            <div className="rounded-xl overflow-hidden" style={{ background: '#1a1a2e', border: '1px solid #2a2a4e' }}>
-              <div className="flex items-center justify-between px-4 py-2" style={{ background: '#12122a', borderBottom: '1px solid #2a2a4e' }}>
-                <span className="text-xs font-mono" style={{ color: '#888' }}>Terminal</span>
+            <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid #2a2a4e' }}>
+              <div className="flex items-center justify-between px-4 py-2" style={{ background: 'var(--bg-card)', borderBottom: '1px solid #2a2a4e' }}>
+                <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>Terminal</span>
               </div>
-              <pre className="p-6 text-sm font-mono overflow-x-auto" style={{ color: '#e0e0e0' }}>
+              <pre className="p-6 text-sm font-mono overflow-x-auto" style={{ color: 'var(--text-primary)' }}>
 {`npm install -g 0nmcp
 0nmcp engine verify`}
               </pre>
@@ -413,13 +413,13 @@ export default function SecureClaudePage() {
               >
                 2
               </span>
-              <h3 className="text-xl font-bold" style={{ color: '#1a1a1a' }}>Add to your Claude Desktop MCP config</h3>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Add to your Claude Desktop MCP config</h3>
             </div>
-            <div className="rounded-xl overflow-hidden" style={{ background: '#1a1a2e', border: '1px solid #2a2a4e' }}>
-              <div className="flex items-center justify-between px-4 py-2" style={{ background: '#12122a', borderBottom: '1px solid #2a2a4e' }}>
-                <span className="text-xs font-mono" style={{ color: '#888' }}>claude_desktop_config.json</span>
+            <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid #2a2a4e' }}>
+              <div className="flex items-center justify-between px-4 py-2" style={{ background: 'var(--bg-card)', borderBottom: '1px solid #2a2a4e' }}>
+                <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>claude_desktop_config.json</span>
               </div>
-              <pre className="p-6 text-sm font-mono overflow-x-auto" style={{ color: '#e0e0e0' }}>
+              <pre className="p-6 text-sm font-mono overflow-x-auto" style={{ color: 'var(--text-primary)' }}>
 {`{
   "mcpServers": {
     "0nMCP": {
@@ -441,16 +441,16 @@ export default function SecureClaudePage() {
               >
                 3
               </span>
-              <h3 className="text-xl font-bold" style={{ color: '#1a1a1a' }}>Add the preinstall hook to any project</h3>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Add the preinstall hook to any project</h3>
             </div>
-            <p className="text-sm mb-4" style={{ color: '#666' }}>
-              Add this to any project&apos;s <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: '#f0f0f0' }}>package.json</code> to block malicious packages before they install:
+            <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
+              Add this to any project&apos;s <code className="px-1.5 py-0.5 rounded text-xs font-mono" style={{ background: 'var(--bg-secondary)' }}>package.json</code> to block malicious packages before they install:
             </p>
-            <div className="rounded-xl overflow-hidden" style={{ background: '#1a1a2e', border: '1px solid #2a2a4e' }}>
-              <div className="flex items-center justify-between px-4 py-2" style={{ background: '#12122a', borderBottom: '1px solid #2a2a4e' }}>
-                <span className="text-xs font-mono" style={{ color: '#888' }}>package.json</span>
+            <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-card)', border: '1px solid #2a2a4e' }}>
+              <div className="flex items-center justify-between px-4 py-2" style={{ background: 'var(--bg-card)', borderBottom: '1px solid #2a2a4e' }}>
+                <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>package.json</span>
               </div>
-              <pre className="p-6 text-sm font-mono overflow-x-auto" style={{ color: '#e0e0e0' }}>
+              <pre className="p-6 text-sm font-mono overflow-x-auto" style={{ color: 'var(--text-primary)' }}>
 {`{
   "scripts": {
     "preinstall": "npx 0nmcp@latest defender scan --lockfile"
@@ -476,9 +476,9 @@ export default function SecureClaudePage() {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section className="py-20 px-4 md:px-8" style={{ background: '#f5f5f7' }}>
+      <section className="py-20 px-4 md:px-8" style={{ background: 'var(--bg-secondary)' }}>
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black mb-10 text-center" style={{ color: '#1a1a1a' }}>
+          <h2 className="text-3xl md:text-4xl font-black mb-10 text-center" style={{ color: 'var(--text-primary)' }}>
             Frequently Asked Questions
           </h2>
           <div className="space-y-6">
@@ -486,11 +486,11 @@ export default function SecureClaudePage() {
               <details
                 key={i}
                 className="group rounded-xl overflow-hidden"
-                style={{ background: '#ffffff', border: '1px solid #e0e0e0' }}
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
               >
                 <summary
                   className="px-6 py-5 cursor-pointer font-bold text-base flex items-center justify-between"
-                  style={{ color: '#1a1a1a' }}
+                  style={{ color: 'var(--text-primary)' }}
                 >
                   {faq.q}
                   <span
@@ -501,7 +501,7 @@ export default function SecureClaudePage() {
                   </span>
                 </summary>
                 <div className="px-6 pb-5">
-                  <p className="text-sm leading-relaxed" style={{ color: '#555' }}>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                     {faq.a}
                   </p>
                 </div>
@@ -512,7 +512,7 @@ export default function SecureClaudePage() {
       </section>
 
       {/* ─── SOCIAL PROOF / STATS ─── */}
-      <section className="py-20 px-4 md:px-8" style={{ background: '#ffffff' }}>
+      <section className="py-20 px-4 md:px-8" style={{ background: 'var(--bg-card)' }}>
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -524,12 +524,12 @@ export default function SecureClaudePage() {
               <div
                 key={i}
                 className="rounded-xl p-6"
-                style={{ background: '#f5f5f7', border: '1px solid #e0e0e0' }}
+                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}
               >
                 <div className="text-3xl md:text-4xl font-black mb-1" style={{ color: '#6EE05A' }}>
                   {stat.value}
                 </div>
-                <div className="text-xs font-medium uppercase tracking-wider" style={{ color: '#888' }}>
+                <div className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
                   {stat.label}
                 </div>
               </div>
@@ -546,10 +546,10 @@ export default function SecureClaudePage() {
         }}
       >
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: '#ffffff' }}>
+          <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: 'var(--text-primary)' }}>
             Want the Full Platform?
           </h2>
-          <p className="text-lg mb-8" style={{ color: '#b0b8c4' }}>
+          <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
             0nDefender is free and always will be. The full 0nMCP platform gives you{' '}
             {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services with AI orchestration, encrypted vault storage, and metered execution.
           </p>
@@ -557,7 +557,7 @@ export default function SecureClaudePage() {
           <div className="mb-8">
             <div
               className="inline-block rounded-xl overflow-hidden"
-              style={{ background: '#1a1a2e', border: '1px solid #2a2a4e' }}
+              style={{ background: 'var(--bg-card)', border: '1px solid #2a2a4e' }}
             >
               <pre className="px-8 py-4 text-base font-mono" style={{ color: '#6EE05A' }}>
                 npx 0nmcp@latest
@@ -583,7 +583,7 @@ export default function SecureClaudePage() {
               className="px-8 py-3.5 rounded-lg font-bold text-base transition-all hover:scale-105"
               style={{
                 background: 'rgba(255, 255, 255, 0.08)',
-                color: '#ffffff',
+                color: 'var(--text-primary)',
                 border: '1px solid rgba(255, 255, 255, 0.15)',
               }}
             >
@@ -591,7 +591,7 @@ export default function SecureClaudePage() {
             </a>
           </div>
 
-          <p className="text-xs mt-8" style={{ color: '#555' }}>
+          <p className="text-xs mt-8" style={{ color: 'var(--text-muted)' }}>
             0nMCP is open source (MIT). 0nDefender is included. 5 provisional patent applications covering 15+ distinct inventions filed with USPTO.
             <br />
             RocketOpp LLC &middot; {new Date().getFullYear()}

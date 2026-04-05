@@ -48,7 +48,7 @@ export default function PortalClient() {
     verify()
   }, [verify])
 
-  const darkWrap = { minHeight: '100vh' as const, background: '#030508', color: '#e2e8f0' }
+  const darkWrap = { minHeight: '100vh' as const, background: 'var(--bg-primary)', color: 'var(--text-primary)' }
 
   if (status === 'loading') {
     return (
@@ -72,7 +72,7 @@ export default function PortalClient() {
               margin: '0 auto 20px',
             }}
           />
-          <p style={{ color: '#94a3b8', fontSize: 15 }}>Verifying access...</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: 15 }}>Verifying access...</p>
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function PortalClient() {
             textAlign: 'center',
             maxWidth: 480,
             background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            border: '1px solid var(--border)',
             borderRadius: 20,
             padding: 48,
             backdropFilter: 'blur(20px)',
@@ -122,7 +122,7 @@ export default function PortalClient() {
             </svg>
           </div>
           <h2 style={{ fontSize: 22, marginBottom: 12 }}>Access Denied</h2>
-          <p style={{ color: '#94a3b8', fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
             {info?.error === 'Access has been revoked'
               ? 'Your access to these materials has been revoked.'
               : info?.error === 'Token has expired'
@@ -189,11 +189,11 @@ export default function PortalClient() {
           <span style={{ fontSize: 13, color: '#7ed957', fontWeight: 600, fontFamily: 'var(--font-mono, monospace)', letterSpacing: 1 }}>
             CONFIDENTIAL
           </span>
-          <span style={{ fontSize: 13, color: '#94a3b8' }}>
+          <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
             NDA signed by {info?.name} on {signedDate}
           </span>
         </div>
-        <span style={{ fontSize: 12, color: '#64748b' }}>
+        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
           Access expires 30 days from signing
         </span>
       </div>
@@ -204,10 +204,10 @@ export default function PortalClient() {
           display: 'flex',
           gap: 4,
           marginBottom: 24,
-          background: 'rgba(255,255,255,0.03)',
+          background: 'var(--bg-card)',
           borderRadius: 12,
           padding: 4,
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           width: 'fit-content',
         }}
       >
@@ -237,7 +237,7 @@ export default function PortalClient() {
       <div
         style={{
           background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid var(--border)',
           borderRadius: 16,
           overflow: 'hidden',
           minHeight: 'calc(100vh - 240px)',

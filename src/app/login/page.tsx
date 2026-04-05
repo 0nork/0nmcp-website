@@ -263,7 +263,7 @@ function RadialBurstAnimation() {
           {phases.map((p, i) => (
             <div key={i} style={{
               width: i === phase ? '20px' : '6px', height: '6px', borderRadius: '3px',
-              background: i === phase ? p.color : 'rgba(255,255,255,0.15)',
+              background: i === phase ? p.color : 'var(--border-hover)',
               transition: 'all 0.4s ease',
             }} />
           ))}

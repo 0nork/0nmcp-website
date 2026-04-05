@@ -112,8 +112,6 @@ const PLATFORM_CONFIGS: Record<string, {
       'Enter your PIT token from your 0nMCP dashboard',
     ],
     config: '',
-    configDownload: '/api/onpress/download',
-    configDownloadLabel: 'Download 0nPress Plugin',
     testLabel: 'Verify in WordPress',
     testDesc: 'Check your WordPress admin for the 0nCore menu item.',
   },

@@ -4,92 +4,32 @@ import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
+import { cn } from '@/lib/utils'
+import { getMenuList } from '@/lib/menus'
+import { Icon } from '@iconify/react'
 import '@/app/jampack.css'
-
-const NAV_ITEMS = [
-  {
-    label: 'Dashboard',
-    href: '/dashboard',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-        <polyline points="9 22 9 12 15 12 15 22" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Connect',
-    href: '/dashboard/connect',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Install',
-    href: '/dashboard/install',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="7 10 12 15 17 10" />
-        <line x1="12" y1="15" x2="12" y2="3" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Extensions',
-    href: '/dashboard/downloads',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="7 10 12 15 17 10" />
-        <line x1="12" y1="15" x2="12" y2="3" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Courses',
-    href: '/learn',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Billing',
-    href: '/dashboard/billing',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-        <line x1="1" y1="10" x2="23" y2="10" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Settings',
-    href: '/dashboard/settings',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3" />
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-      </svg>
-    ),
-  },
-]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [userName, setUserName] = useState('')
   const [userEmail, setUserEmail] = useState('')
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const router = useRouter()
   const pathname = usePathname()
 
+  const menuList = getMenuList(pathname)
+
   useEffect(() => {
+    // Load theme
+    const saved = localStorage.getItem('0n-theme') as 'light' | 'dark' | null
+    if (saved) {
+      setTheme(saved)
+      document.documentElement.setAttribute('data-theme', saved)
+    }
+
+    // Load auth
     fetch('/api/console/account')
       .then(r => {
         if (!r.ok) { router.push('/login'); return null }
@@ -105,169 +45,168 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       .catch(() => router.push('/login'))
   }, [router])
 
+  function toggleTheme() {
+    const next = theme === 'light' ? 'dark' : 'light'
+    setTheme(next)
+    localStorage.setItem('0n-theme', next)
+    document.documentElement.setAttribute('data-theme', next)
+  }
+
   async function handleLogout() {
     try {
       const supabase = createSupabaseBrowser()
       if (supabase) await supabase.auth.signOut()
-    } catch { /* ignore */ }
-    try {
-      await fetch('/api/auth/signout', { method: 'POST' })
     } catch { /* ignore */ }
     router.push('/login')
   }
 
   if (loading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'var(--jp-bg)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <div style={{
-          width: 36,
-          height: 36,
-          border: '2px solid var(--jp-border)',
-          borderTopColor: 'var(--jp-green)',
-          borderRadius: '50%',
-          animation: 'spin 0.8s linear infinite',
-        }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/20 border-t-primary" />
       </div>
     )
   }
 
   return (
-    <div className="jp-wrapper" style={{ position: 'fixed', inset: 0, zIndex: 200 }}>
+    <div className="flex min-h-screen bg-default-100 dark:bg-background">
       {/* ── SIDEBAR ── */}
-      <aside className={`jp-sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="jp-sidebar-header">
-          <Link href="/" className="jp-sidebar-brand" style={{ textDecoration: 'none' }}>
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="14" stroke="#6EE05A" strokeWidth="2" />
-              <circle cx="16" cy="16" r="6" fill="#6EE05A" />
-            </svg>
-            0nMCP
+      <aside className={cn(
+        'fixed inset-y-0 left-0 z-50 flex flex-col bg-card border-r border-border transition-all duration-300',
+        collapsed ? 'w-[72px]' : 'w-[260px]',
+        mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+      )}>
+        {/* Logo */}
+        <div className={cn('flex h-16 items-center border-b border-border px-4', collapsed && 'justify-center')}>
+          <Link href="/" className="flex items-center gap-2.5 no-underline">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/80 text-xs font-extrabold text-primary-foreground">
+              0n
+            </div>
+            {!collapsed && (
+              <span className="text-lg font-bold text-foreground">0nMCP</span>
+            )}
           </Link>
-          <button
-            className="jp-sidebar-toggle"
-            onClick={() => setSidebarOpen(false)}
-            style={{ display: sidebarOpen ? 'flex' : undefined }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
         </div>
 
-        <nav className="jp-sidebar-body">
-          <div className="jp-menu-group">
-            <div className="jp-menu-group-label">Menu</div>
-            {NAV_ITEMS.map(item => {
-              const isActive = item.href === '/dashboard'
-                ? pathname === '/dashboard'
-                : pathname.startsWith(item.href)
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`jp-nav-item ${isActive ? 'active' : ''}`}
-                  onClick={() => setSidebarOpen(false)}
-                >
-                  <span className="jp-nav-icon">{item.icon}</span>
-                  {item.label}
-                </Link>
-              )
-            })}
-          </div>
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto py-4">
+          {menuList.map(group => (
+            <div key={group.id} className="mb-4">
+              {!collapsed && (
+                <div className="px-4 mb-2 text-[0.65rem] font-semibold uppercase tracking-widest text-muted-foreground">
+                  {group.groupLabel}
+                </div>
+              )}
+              {group.menus.map(menu => {
+                const isActive = menu.active || pathname === menu.href
+                return (
+                  <div key={menu.id}>
+                    <Link
+                      href={menu.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors no-underline',
+                        isActive
+                          ? 'bg-primary/10 text-primary border-r-2 border-primary'
+                          : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                        collapsed && 'justify-center px-2',
+                      )}
+                      title={collapsed ? menu.label : undefined}
+                    >
+                      <Icon icon={menu.icon} className="h-5 w-5 flex-shrink-0" />
+                      {!collapsed && <span>{menu.label}</span>}
+                    </Link>
+                    {/* Sub items */}
+                    {!collapsed && isActive && menu.submenus.length > 0 && (
+                      <div className="ml-8 mt-1 space-y-0.5">
+                        {menu.submenus.map(sub => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={() => setMobileOpen(false)}
+                            className={cn(
+                              'block py-1.5 px-3 text-xs rounded-md transition-colors no-underline',
+                              sub.active
+                                ? 'text-primary font-semibold bg-primary/5'
+                                : 'text-muted-foreground hover:text-foreground',
+                            )}
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ))}
         </nav>
 
-        <div className="jp-sidebar-footer">
-          <div className="jp-sidebar-footer-label">{userEmail}</div>
+        {/* Bottom */}
+        <div className="border-t border-border p-3">
           <button
-            onClick={handleLogout}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--jp-text-muted)',
-              fontSize: '0.75rem',
-              cursor: 'pointer',
-              padding: '4px 0',
-              fontFamily: 'inherit',
-            }}
+            onClick={() => setCollapsed(!collapsed)}
+            className="hidden lg:flex w-full items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
           >
-            Sign out
+            <Icon icon={collapsed ? 'heroicons-outline:chevron-right' : 'heroicons-outline:chevron-left'} className="h-4 w-4" />
           </button>
         </div>
       </aside>
 
       {/* ── MAIN ── */}
-      <div className="jp-main">
-        <header className="jp-header">
-          <div className="jp-header-start">
+      <div className={cn('flex flex-1 flex-col transition-all duration-300', collapsed ? 'lg:ml-[72px]' : 'lg:ml-[260px]')}>
+        {/* Header */}
+        <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-card/80 backdrop-blur-sm px-4 lg:px-6">
+          <div className="flex items-center gap-3">
+            {/* Mobile toggle */}
             <button
-              className="jp-header-mobile-toggle"
-              onClick={() => setSidebarOpen(true)}
-              style={{ display: undefined }}
+              className="lg:hidden flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent"
+              onClick={() => setMobileOpen(!mobileOpen)}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
+              <Icon icon="heroicons-outline:bars-3" className="h-5 w-5" />
             </button>
-            <h1 style={{
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: 'var(--jp-text)',
-              margin: 0,
-            }}>
-              {NAV_ITEMS.find(i => pathname === '/dashboard' ? i.href === '/dashboard' : pathname.startsWith(i.href))?.label || 'Dashboard'}
-            </h1>
+            {/* Breadcrumb */}
+            <div className="text-sm font-medium text-foreground">
+              {menuList.flatMap(g => g.menus).find(m => m.active)?.label || 'Dashboard'}
+            </div>
           </div>
-          <div className="jp-header-end">
-            <span style={{
-              fontSize: '0.8125rem',
-              color: 'var(--jp-text-secondary)',
-            }}>
-              {userName || userEmail}
-            </span>
+
+          <div className="flex items-center gap-3">
+            {/* Theme toggle */}
+            <button onClick={toggleTheme} className="flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent transition-colors">
+              <Icon icon={theme === 'light' ? 'heroicons-outline:moon' : 'heroicons-outline:sun'} className="h-5 w-5" />
+            </button>
+            {/* Profile */}
+            <div className="flex items-center gap-2.5">
+              <div className="hidden sm:block text-right">
+                <div className="text-sm font-medium text-foreground">{userName || 'User'}</div>
+                <div className="text-xs text-muted-foreground">{userEmail}</div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                title="Sign out"
+              >
+                <Icon icon="heroicons-outline:arrow-right-on-rectangle" className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </header>
 
-        <main className="jp-content" style={{ overflowY: 'auto' }}>
+        {/* Content */}
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
           {children}
         </main>
       </div>
 
-      {/* ── MOBILE OVERLAY ── */}
-      {sidebarOpen && (
+      {/* Mobile overlay */}
+      {mobileOpen && (
         <div
-          onClick={() => setSidebarOpen(false)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0,0,0,0.5)',
-            zIndex: 1030,
-          }}
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          onClick={() => setMobileOpen(false)}
         />
       )}
-
-      <style>{`
-        @media (max-width: 768px) {
-          .jp-sidebar { transform: translateX(-100%); }
-          .jp-sidebar.open { transform: translateX(0); z-index: 1040; }
-          .jp-sidebar-toggle { display: flex !important; }
-          .jp-header-mobile-toggle { display: flex !important; }
-          .jp-main { margin-left: 0 !important; }
-        }
-        @media (min-width: 769px) {
-          .jp-main { margin-left: var(--jp-sidebar-width); }
-          .jp-header-mobile-toggle { display: none !important; }
-        }
-      `}</style>
     </div>
   )
 }

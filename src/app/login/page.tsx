@@ -2,10 +2,10 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
-import DataFlowAnimation from '@/components/DataFlowAnimation'
 
 export default function LoginPage() {
   return (
@@ -64,71 +64,105 @@ function LoginForm() {
     setLoading(false)
   }
 
+  /* ─── Magic Link Sent State ─────────────────────────────────────────── */
   if (magicLinkSent) {
     return (
-      <div className="signup-page">
-        <div className="signup-brand"><div className="signup-brand-inner"><DataFlowAnimation /></div></div>
-        <div className="signup-form-side">
-          <div className="auth-card signup-card" style={{ textAlign: 'center' }}>
-            <div style={{ width: 64, height: 64, borderRadius: '50%', border: '2px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div className="login-split">
+        <BrandPanel />
+        <div className="login-form-panel">
+          <div className="login-form-container" style={{ textAlign: 'center' }}>
+            <div className="login-magic-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
             </div>
-            <h1 className="auth-title">Check your email</h1>
-            <p className="auth-subtitle">We sent a sign-in link to <strong>{email}</strong></p>
-            <button className="auth-btn secondary" onClick={() => setMagicLinkSent(false)} style={{ marginTop: '1.5rem' }}>Back to login</button>
+            <h1 className="login-heading">Check your email</h1>
+            <p className="login-subheading">
+              We sent a sign-in link to <strong style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>{email}</strong>
+            </p>
+            <button
+              className="login-btn login-btn-secondary"
+              onClick={() => setMagicLinkSent(false)}
+              style={{ marginTop: '1.5rem' }}
+            >
+              Back to login
+            </button>
           </div>
         </div>
       </div>
     )
   }
 
+  /* ─── Main Login Form ───────────────────────────────────────────────── */
   return (
-    <div className="signup-page">
-      {/* Left: Radial Burst Animation */}
-      <div className="signup-brand">
-        <div className="signup-brand-inner">
-          <DataFlowAnimation />
-        </div>
-      </div>
+    <div className="login-split">
+      {/* Left: Brand Panel */}
+      <BrandPanel />
 
-      {/* Right: Login Form */}
-      <div className="signup-form-side">
-        <div className="auth-card signup-card">
-          <h1 className="auth-title">Welcome back</h1>
-          <p className="auth-subtitle">Sign in to your 0nMCP account</p>
+      {/* Right: Form Panel */}
+      <div className="login-form-panel">
+        <div className="login-form-container">
+          <h1 className="login-heading">Welcome back</h1>
+          <p className="login-subheading">Sign in to your 0nMCP account</p>
 
           <OAuthButtons mode="signin" redirectTo={redirect} />
 
-          <div className="auth-divider" style={{ margin: '1rem 0' }}>
+          <div className="login-divider">
             <span>or continue with email</span>
           </div>
 
-          {error && <div className="auth-error">{error}</div>}
+          {error && <div className="login-error">{error}</div>}
 
-          <form onSubmit={handleLogin} className="auth-form">
-            <div className="auth-field">
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="login-field">
               <label htmlFor="email">Email</label>
-              <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@company.com" required autoFocus autoComplete="email" />
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@company.com"
+                required
+                autoFocus
+                autoComplete="email"
+              />
             </div>
-            <div className="auth-field">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+
+            <div className="login-field">
+              <div className="login-field-header">
                 <label htmlFor="password">Password</label>
-                <Link href="/forgot-password" style={{ fontSize: '0.75rem', color: 'var(--accent)', textDecoration: 'none' }}>Forgot?</Link>
+                <Link href="/forgot-password" className="login-forgot-link">
+                  Forgot password?
+                </Link>
               </div>
-              <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required autoComplete="current-password" />
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                autoComplete="current-password"
+              />
             </div>
-            <button type="submit" className="auth-btn primary" disabled={loading}>
+
+            <button type="submit" className="login-btn login-btn-primary" disabled={loading}>
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </form>
 
-          <button onClick={handleMagicLink} className="auth-btn secondary" disabled={loading} style={{ marginTop: '0.5rem' }}>
+          <button
+            onClick={handleMagicLink}
+            className="login-btn login-btn-secondary"
+            disabled={loading}
+          >
             Send magic link instead
           </button>
 
-          <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+          <p className="login-signup-link">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}>Create one free</Link>
+            <Link href="/signup">Create one free</Link>
           </p>
         </div>
       </div>
@@ -136,152 +170,70 @@ function LoginForm() {
   )
 }
 
-/* ─── Radial Burst Animation ──────────────────────────────────────────────── */
+/* ─── Brand Panel (left side) ──────────────────────────────────────────── */
 
-function RadialBurstAnimation() {
-  const [phase, setPhase] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPhase(p => (p + 1) % 3)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const phases = [
-    { label: 'PIPELINE', desc: 'Sequential execution', color: '#6EE05A' },
-    { label: 'ASSEMBLY LINE', desc: 'Parallel processing', color: '#00d4ff' },
-    { label: 'RADIAL BURST', desc: 'Simultaneous deployment', color: '#a78bfa' },
-  ]
-
-  const current = phases[phase]
-
+function BrandPanel() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '2rem' }}>
-      {/* Brand */}
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 800, color: 'var(--accent)', letterSpacing: '-0.02em' }}>0nMCP</div>
-        <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.25rem' }}>The Agentic Engine</div>
-      </div>
-
-      {/* Animated visualization */}
-      <div style={{ position: 'relative', width: '280px', height: '280px' }}>
-        <svg viewBox="0 0 280 280" width="280" height="280" style={{ position: 'absolute', inset: 0 }}>
-          <defs>
-            <filter id="glow-login">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-          </defs>
-
-          {/* Center node */}
-          <circle cx="140" cy="140" r="16" fill={current.color} opacity="0.9" filter="url(#glow-login)">
-            <animate attributeName="r" values="14;18;14" dur="2s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="140" cy="140" r="28" fill="none" stroke={current.color} strokeWidth="1" opacity="0.2">
-            <animate attributeName="r" values="26;32;26" dur="3s" repeatCount="indefinite" />
-          </circle>
-
-          {/* Phase 0: Pipeline — sequential line */}
-          {phase === 0 && (
-            <>
-              {[0, 1, 2, 3, 4].map(i => (
-                <g key={i}>
-                  <line x1={60 + i * 40} y1="140" x2={100 + i * 40} y2="140" stroke="#6EE05A" strokeWidth="2" opacity="0.3">
-                    <animate attributeName="opacity" values="0.1;0.6;0.1" dur="1.5s" begin={`${i * 0.3}s`} repeatCount="indefinite" />
-                  </line>
-                  <circle cx={80 + i * 40} cy="140" r="6" fill="#6EE05A" opacity="0.6">
-                    <animate attributeName="opacity" values="0.2;0.8;0.2" dur="1.5s" begin={`${i * 0.3}s`} repeatCount="indefinite" />
-                  </circle>
-                </g>
-              ))}
-            </>
-          )}
-
-          {/* Phase 1: Assembly Line — parallel tracks */}
-          {phase === 1 && (
-            <>
-              {[-40, 0, 40].map((yOff, row) => (
-                <g key={row}>
-                  {[0, 1, 2].map(i => (
-                    <g key={i}>
-                      <circle cx={80 + i * 60} cy={140 + yOff} r="8" fill="#00d4ff" opacity="0.5">
-                        <animate attributeName="opacity" values="0.2;0.7;0.2" dur="1.2s" begin={`${i * 0.2 + row * 0.15}s`} repeatCount="indefinite" />
-                        <animate attributeName="r" values="6;10;6" dur="1.2s" begin={`${i * 0.2 + row * 0.15}s`} repeatCount="indefinite" />
-                      </circle>
-                      {i < 2 && <line x1={88 + i * 60} y1={140 + yOff} x2={132 + i * 60} y2={140 + yOff} stroke="#00d4ff" strokeWidth="1.5" opacity="0.2" />}
-                    </g>
-                  ))}
-                </g>
-              ))}
-            </>
-          )}
-
-          {/* Phase 2: Radial Burst — exploding outward */}
-          {phase === 2 && (
-            <>
-              {Array.from({ length: 12 }, (_, i) => {
-                const angle = (i / 12) * Math.PI * 2
-                const x = 140 + Math.cos(angle) * 90
-                const y = 140 + Math.sin(angle) * 90
-                return (
-                  <g key={i}>
-                    <line x1="140" y1="140" x2={x} y2={y} stroke="#a78bfa" strokeWidth="1.5" opacity="0.15">
-                      <animate attributeName="opacity" values="0;0.4;0" dur="2s" begin={`${i * 0.08}s`} repeatCount="indefinite" />
-                    </line>
-                    <circle cx={x} cy={y} r="5" fill="#a78bfa" opacity="0">
-                      <animate attributeName="opacity" values="0;0.8;0" dur="2s" begin={`${i * 0.08}s`} repeatCount="indefinite" />
-                      <animate attributeName="r" values="3;8;3" dur="2s" begin={`${i * 0.08}s`} repeatCount="indefinite" />
-                    </circle>
-                  </g>
-                )
-              })}
-              {/* Expanding ring */}
-              <circle cx="140" cy="140" r="40" fill="none" stroke="#a78bfa" strokeWidth="1" opacity="0">
-                <animate attributeName="r" values="20;120" dur="2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.4;0" dur="2s" repeatCount="indefinite" />
-              </circle>
-            </>
-          )}
-        </svg>
-      </div>
-
-      {/* Phase label */}
-      <div style={{ textAlign: 'center', transition: 'all 0.5s ease' }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700,
-          letterSpacing: '0.15em', color: current.color, marginBottom: '0.25rem',
-          textTransform: 'uppercase',
-        }}>
-          {current.label}
+    <div className="login-brand-panel">
+      <div className="login-brand-content">
+        {/* Logo */}
+        <div className="login-brand-logo">
+          <Image
+            src="/brand/0n-logo-white.svg"
+            alt="0nMCP"
+            width={140}
+            height={40}
+            priority
+          />
         </div>
-        <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
-          {current.desc}
-        </div>
-        {/* Phase dots */}
-        <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', marginTop: '1rem' }}>
-          {phases.map((p, i) => (
-            <div key={i} style={{
-              width: i === phase ? '20px' : '6px', height: '6px', borderRadius: '3px',
-              background: i === phase ? p.color : 'var(--border-hover)',
-              transition: 'all 0.4s ease',
-            }} />
-          ))}
-        </div>
-      </div>
 
-      {/* Selling points */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxWidth: '260px' }}>
-        {[
-          { text: '1,589 tools across 102 services', color: '#6EE05A' },
-          { text: 'Your own AI agent in seconds', color: '#00d4ff' },
-          { text: '7-layer encrypted vault', color: '#a78bfa' },
-        ].map((item, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: item.color, flexShrink: 0, boxShadow: `0 0 8px ${item.color}44` }} />
-            {item.text}
+        {/* Tagline */}
+        <h2 className="login-brand-tagline">
+          One Brain.<br />
+          Every Service.<br />
+          <span>Zero Limits.</span>
+        </h2>
+
+        {/* Stats bar */}
+        <div className="login-brand-stats">
+          <div className="login-brand-stat">
+            <span className="login-brand-stat-value">1,589</span>
+            <span className="login-brand-stat-label">Tools</span>
           </div>
-        ))}
+          <div className="login-brand-stat-divider" />
+          <div className="login-brand-stat">
+            <span className="login-brand-stat-value">102</span>
+            <span className="login-brand-stat-label">Services</span>
+          </div>
+          <div className="login-brand-stat-divider" />
+          <div className="login-brand-stat">
+            <span className="login-brand-stat-value">22</span>
+            <span className="login-brand-stat-label">Categories</span>
+          </div>
+        </div>
+
+        {/* Testimonial */}
+        <div className="login-brand-testimonial">
+          <p className="login-brand-quote">
+            &ldquo;0nMCP replaced 4 different tools and 3 custom integrations.
+            We went from days of setup to minutes.&rdquo;
+          </p>
+          <div className="login-brand-author">
+            <div className="login-brand-avatar">M</div>
+            <div>
+              <div className="login-brand-author-name">Mike Mento</div>
+              <div className="login-brand-author-role">Founder, RocketOpp LLC</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust badges */}
+        <div className="login-brand-trust">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>AES-256 encrypted &middot; SOC 2 ready &middot; Patent pending</span>
+        </div>
       </div>
     </div>
   )

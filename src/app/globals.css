@@ -1,52 +1,54 @@
 @import "tailwindcss";
 
 /* ============================================
-   0nCORE Brand Book v2.0 — Global Color System
-   ============================================
-   Brand Green: #7ed957
-   Action Green: #2d8a1e
-   Font Primary: Inter
-   Font Code: Roboto Mono
+   0nCORE BRAND BOOK V2.0 — FINAL Color System
+   From approved brand guide (April 5, 2026)
    ============================================ */
 
 /* ── LIGHT MODE (default) ── */
 :root,
 [data-theme="light"] {
-  /* Page */
+  /* Backgrounds */
   --bg-primary: #f1f2f7;
   --bg-secondary: #ffffff;
   --bg-tertiary: #f8f9fc;
   --bg-card: #ffffff;
+  --bg-sidebar: #1f2937;
+  --bg-header: #ffffff;
 
-  /* Sidebar — dark in both modes */
-  --bg-sidebar: #1f1375;
+  /* Sidebar (dark in both modes) */
   --sidebar-text: #e2e8f0;
   --sidebar-text-muted: #94a3b8;
   --sidebar-border: rgba(255,255,255,0.06);
   --sidebar-active-bg: rgba(126,217,87,0.12);
 
   /* Header */
-  --bg-header: #ffffff;
   --header-border: #e2e8f0;
 
   /* Text */
   --text-primary: #1f2937;
-  --text-secondary: #5a6577;
+  --text-secondary: #1f1578;
   --text-muted: #94a3b8;
 
-  /* Brand */
+  /* Brand Green */
   --accent: #7ed957;
   --accent-action: #2d8a1e;
   --accent-dim: #166534;
   --accent-glow: rgba(126, 217, 87, 0.12);
-  --accent-secondary: #14b8a6;
 
-  /* Accents */
+  /* Accent Colors (from brand guide) */
   --color-cyan: #14b8a6;
   --color-purple: #8b5cf6;
   --color-amber: #d97706;
   --color-red: #b91c1c;
   --color-success: #10b981;
+
+  /* States */
+  --active-state: #ffffff;
+  --active-bg: #8e6e8b;
+  --hover-state: #5e8700;
+  --cta-bg: #2d8a1e;
+  --cta-text: #ffffff;
 
   /* Borders */
   --border: #e2e8f0;
@@ -58,9 +60,9 @@
   --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.05);
   --shadow-sidebar: 4px 0 24px rgba(0,0,0,0.12);
 
-  /* Fonts */
+  /* Typography */
   --font-display: 'Inter', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-body: 'Nunito Sans', 'Inter', system-ui, sans-serif;
   --font-mono: 'Roboto Mono', 'JetBrains Mono', monospace;
 
   color-scheme: light;
@@ -68,41 +70,47 @@
 
 /* ── DARK MODE ── */
 [data-theme="dark"] {
-  /* Page */
+  /* Backgrounds */
   --bg-primary: #0d1117;
   --bg-secondary: #161b22;
   --bg-tertiary: #1c2333;
-  --bg-card: #161b22;
+  --bg-card: #1f2937;
+  --bg-sidebar: #0d1117;
+  --bg-header: #0d1117;
 
   /* Sidebar */
-  --bg-sidebar: #010409;
   --sidebar-text: #f0f4f8;
   --sidebar-text-muted: #8b949e;
   --sidebar-border: rgba(255,255,255,0.04);
   --sidebar-active-bg: rgba(126,217,87,0.1);
 
   /* Header */
-  --bg-header: #161b22;
   --header-border: #30363d;
 
   /* Text */
   --text-primary: #f0f4f8;
   --text-secondary: #94a3b8;
-  --text-muted: #6b7a8d;
+  --text-muted: #0f4670;
 
-  /* Brand */
+  /* Brand Green */
   --accent: #7ed957;
   --accent-action: #7ed957;
   --accent-dim: #5cb83a;
   --accent-glow: rgba(126, 217, 87, 0.15);
-  --accent-secondary: #14b8a6;
 
-  /* Accents */
+  /* Accent Colors */
   --color-cyan: #14b8a6;
   --color-purple: #8b5cf6;
   --color-amber: #d97706;
   --color-red: #b91c1c;
   --color-success: #10b981;
+
+  /* States */
+  --active-state: #8e6e8b;
+  --active-bg: rgba(126,217,87,0.15);
+  --hover-state: #8e6c7e;
+  --cta-bg: #5e6FB9;
+  --cta-text: #ffffff;
 
   /* Borders */
   --border: #30363d;
@@ -114,9 +122,9 @@
   --shadow-lg: 0 10px 20px rgba(0,0,0,0.5);
   --shadow-sidebar: 4px 0 32px rgba(0,0,0,0.6);
 
-  /* Fonts */
+  /* Typography */
   --font-display: 'Inter', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-body: 'Nunito Sans', 'Inter', system-ui, sans-serif;
   --font-mono: 'Roboto Mono', 'JetBrains Mono', monospace;
 
   color-scheme: dark;

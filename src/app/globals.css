@@ -4235,8 +4235,8 @@ a:hover {
 .mn-bar {
   display: flex; align-items: center;
   height: auto; padding: 0 2rem;
-  background: #fff;
-  border-bottom: 1px solid #eee;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
 }
 .mn-logo {
   display: flex; align-items: center; gap: 2px;
@@ -4307,8 +4307,8 @@ a:hover {
 /* ── Dropdown ── */
 .mn-dropdown {
   position: relative; width: 100%; max-width: 52rem;
-  margin: 0 auto; background: #fff;
-  border: 1px solid #eee; border-top: none;
+  margin: 0 auto; background: var(--bg-card);
+  border: 1px solid var(--border); border-top: none;
   border-radius: 0 0 12px 12px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.08);
   animation: mnDrop 0.2s ease-out;
@@ -4337,7 +4337,7 @@ a:hover {
 
 /* Featured card */
 .mn-featured {
-  border-left: 1px solid #eee; padding-left: 1.5rem;
+  border-left: 1px solid var(--border); padding-left: 1.5rem;
   display: flex; align-items: stretch;
 }
 .mn-featured-card {
@@ -4358,9 +4358,9 @@ a:hover {
 /* Mobile */
 .mn-mobile {
   position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
-  background: #fff; z-index: 99; padding: 1rem 1.5rem;
+  background: var(--bg-card); z-index: 99; padding: 1rem 1.5rem;
   overflow-y: auto; animation: mnSlide 0.25s ease-out;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border);
 }
 @keyframes mnSlide {
   from { opacity: 0; transform: translateY(-10px); }

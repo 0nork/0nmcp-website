@@ -11,7 +11,7 @@ export default function SiteChrome({ children, isWeb0n }: { children: React.Reac
 
   // Chromeless — no nav, no footer (dashboard, console, builder, auth pages)
   const isChromeless = isWeb0n || [
-    '/app', '/0nboarding', '/oauth', '/console', '/go',
+    '/app', '/0nboarding', '/oauth', '/go',
     '/builder', '/admin', '/web0n', '/0nengine',
     '/login', '/signup', '/grid', '/maintenance',
     '/start', '/activate', '/checkout', '/canvas',

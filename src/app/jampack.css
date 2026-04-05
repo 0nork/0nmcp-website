@@ -9,6 +9,7 @@
   --jp-sidebar-width: 260px;
   --jp-sidebar-collapsed-width: 0px;
   --jp-header-height: 64px;
+  --jp-nav-height: 56px;
   --jp-bg: #0B0F19;
   --jp-surface: #111827;
   --jp-bg-elevated: #162032;
@@ -51,7 +52,7 @@
 /* ======= Sidebar ======= */
 .jp-sidebar {
   position: fixed;
-  top: 0;
+  top: var(--jp-nav-height, 0px);
   left: 0;
   bottom: 0;
   width: var(--jp-sidebar-width);
@@ -262,7 +263,7 @@
   justify-content: space-between;
   padding: 0 24px;
   position: sticky;
-  top: 0;
+  top: var(--jp-nav-height, 0px);
   z-index: 1020;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);

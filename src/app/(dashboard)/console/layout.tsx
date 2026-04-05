@@ -76,23 +76,38 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
   }
 
   return (
-    <div className="jp-wrapper" style={{ position: 'relative', minHeight: '100vh', zIndex: 1 }}>
+    <div className="jp-wrapper" style={{ position: 'relative', minHeight: 'calc(100vh - var(--jp-nav-height, 0px))', zIndex: 1 }}>
       <ConsoleSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         isAdmin={isAdmin}
       />
       <div className="jp-main">
-        <ConsoleHeader
-          userEmail={userEmail}
-          userName={userName}
-          onMenuToggle={() => setSidebarOpen(true)}
-          onLogout={handleLogout}
-        />
+        {/* MegaNav is the main header now — only show mobile toggle */}
+        <div style={{
+          display: 'none',
+          height: 48,
+          alignItems: 'center',
+          padding: '0 16px',
+          borderBottom: '1px solid var(--jp-border)',
+          background: 'var(--jp-bg-elevated)',
+        }} className="jp-mobile-header">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            style={{ background: 'none', border: 'none', color: 'var(--jp-text)', cursor: 'pointer', padding: 8 }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
         <main className="jp-content" style={{ overflowY: 'auto' }}>
           {children}
         </main>
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .jp-mobile-header { display: flex !important; }
+        }
+      `}</style>
     </div>
   )
 }

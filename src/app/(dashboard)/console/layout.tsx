@@ -76,7 +76,7 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
   }
 
   return (
-    <div className="jp-wrapper" style={{ position: 'relative', minHeight: 'calc(100vh - var(--jp-nav-height, 0px))', zIndex: 1 }}>
+    <div className="jp-wrapper" style={{ position: 'relative', minHeight: '100vh', zIndex: 1, ['--jp-nav-height' as string]: '0px' }}>
       <ConsoleSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

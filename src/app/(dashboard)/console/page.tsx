@@ -601,7 +601,28 @@ export default function ConsolePage() {
     <div className="flex flex-col h-full overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0 min-h-0">
-        {/* Header removed — MegaNav + ConsoleSidebar handle navigation */}
+        <Header
+          view={view}
+          mcpOnline={mcpOnline}
+          mcpMode={mcpHealth?.mode}
+          connectedCount={vault.connectedCount}
+          userPlan={userPlan}
+          userName={userName}
+          userEmail={userEmail}
+          coreAI={vault.coreAI}
+          runCount={runCount}
+          runLimit={runLimit}
+          isOwner={isOwner}
+          onCmdK={() => setCmdPaletteOpen(true)}
+          onMobileMenu={() => {}}
+          onUpgradeClick={() => setShowUpgradeModal(true)}
+          onAccountClick={() => { setView('account'); setVisitedViews(prev => new Set([...prev, 'account'])) }}
+          onSetupAI={() => {
+            const footer = document.getElementById('core-ai-footer')
+            if (footer) footer.scrollIntoView({ behavior: 'smooth' })
+          }}
+          onNavigateVault={() => { setView('vault'); setVaultSubView('credentials') }}
+        />
 
         {/* Content — visited views stay mounted for state persistence */}
         <main className="flex-1 flex flex-col min-h-0 overflow-hidden">

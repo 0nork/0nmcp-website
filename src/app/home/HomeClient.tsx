@@ -8,42 +8,42 @@ import Link from 'next/link'
    ═══════════════════════════════════════════════════════════════════ */
 
 const BRAND = {
-  green: '#7ed957',
+  green: 'var(--accent)',
   greenDim: '#5cb83a',
   greenGlow: 'rgba(126,217,87,0.15)',
   cyan: '#00d4ff',
   purple: '#a78bfa',
   amber: '#f59e0b',
-  bg: '#060a0f',
-  bgCard: '#0c1220',
-  bgCardHover: '#111a2e',
-  border: '#1a2540',
-  textPrimary: '#f0f4f8',
-  textSecondary: '#94a3b8',
-  textMuted: '#64748b',
+  bg: 'var(--bg-primary)',
+  bgCard: 'var(--bg-card)',
+  bgCardHover: 'var(--bg-secondary)',
+  border: 'var(--border)',
+  textPrimary: 'var(--text-primary)',
+  textSecondary: 'var(--text-secondary)',
+  textMuted: 'var(--text-muted)',
 }
 
 const FORGE_SERVICES = [
-  { abbr: 'St', color: '#635bff' },
-  { abbr: 'Sl', color: '#4a154b' },
-  { abbr: 'Gh', color: '#333333' },
-  { abbr: 'Sb', color: '#3ecf8e' },
-  { abbr: 'Sg', color: '#1a82e2' },
-  { abbr: 'Tw', color: '#f22f46' },
-  { abbr: 'Go', color: '#4285f4' },
-  { abbr: 'Sh', color: '#96bf48' },
-  { abbr: 'Dc', color: '#5865f2' },
-  { abbr: 'Hs', color: '#ff7a59' },
-  { abbr: 'Li', color: '#5e6ad2' },
-  { abbr: 'Oa', color: '#10a37f' },
-  { abbr: 'An', color: '#d4a574' },
-  { abbr: 'Zm', color: '#2d8cff' },
-  { abbr: 'Ji', color: '#0052cc' },
-  { abbr: 'Mg', color: '#47a248' },
-  { abbr: 'Sq', color: '#333333' },
-  { abbr: 'Ln', color: '#0A66C2' },
-  { abbr: 'No', color: '#ffffff' },
-  { abbr: 'Tg', color: '#2AABEE' },
+  { id: 'stripe', name: 'Stripe', color: '#635bff' },
+  { id: 'slack', name: 'Slack', color: '#4a154b' },
+  { id: 'github', name: 'GitHub', color: '#333333' },
+  { id: 'supabase', name: 'Supabase', color: '#3ecf8e' },
+  { id: 'openai', name: 'OpenAI', color: '#10a37f' },
+  { id: 'anthropic', name: 'Anthropic', color: '#d4a574' },
+  { id: 'google', name: 'Google', color: '#4285f4' },
+  { id: 'shopify', name: 'Shopify', color: '#96bf48' },
+  { id: 'discord', name: 'Discord', color: '#5865f2' },
+  { id: 'hubspot', name: 'HubSpot', color: '#ff7a59' },
+  { id: 'linear', name: 'Linear', color: '#5e6ad2' },
+  { id: 'cloudflare', name: 'Cloudflare', color: '#f38020' },
+  { id: 'figma', name: 'Figma', color: '#a259ff' },
+  { id: 'zoom', name: 'Zoom', color: '#2d8cff' },
+  { id: 'jira', name: 'Jira', color: '#0052cc' },
+  { id: 'mongodb', name: 'MongoDB', color: '#47a248' },
+  { id: 'square', name: 'Square', color: '#333333' },
+  { id: 'linkedin', name: 'LinkedIn', color: '#0A66C2' },
+  { id: 'notion', name: 'Notion', color: '#ffffff' },
+  { id: 'telegram', name: 'Telegram', color: '#2AABEE' },
 ]
 
 const TICKER_SERVICES = [
@@ -298,29 +298,27 @@ function ForgeRadialBurst() {
                   animation: `forgeGlowPing 0.8s ease-out ${1.0 + i * 0.06}s both`,
                 }}
               />
-              {/* Node circle */}
+              {/* Node circle (brand color backdrop) */}
               <circle
                 cx={pos.x}
                 cy={pos.y}
                 r={isHovered ? nodeR * 1.15 : nodeR}
                 fill={svc.color}
+                fillOpacity={0.25}
+                stroke={svc.color}
+                strokeWidth={1.5}
                 filter={isHovered ? 'url(#forgeBigGlow)' : 'url(#forgeGlow)'}
                 style={{ transition: 'r 0.2s ease, filter 0.2s ease' }}
               />
-              {/* Abbreviation text */}
-              <text
-                x={pos.x}
-                y={pos.y + 1}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="#ffffff"
-                fontSize="11"
-                fontWeight="700"
-                fontFamily="var(--font-display, system-ui)"
+              {/* Brand logo */}
+              <image
+                href={`/brand/logos/${svc.id}.svg`}
+                x={pos.x - 14}
+                y={pos.y - 14}
+                width={28}
+                height={28}
                 style={{ pointerEvents: 'none' }}
-              >
-                {svc.abbr}
-              </text>
+              />
             </g>
           )
         })}
@@ -628,7 +626,7 @@ export default function HomeClient() {
           position: 'relative',
           minHeight: '100vh',
           overflow: 'hidden',
-          background: '#060a0f',
+          background: 'var(--bg-primary)',
         }}
       >
         {/* 3D Perspective Grid Background */}
@@ -1003,7 +1001,7 @@ export default function HomeClient() {
                 {step.desc}
               </p>
               <div style={{
-                background: '#0a0e16',
+                background: 'var(--bg-primary)',
                 border: `1px solid ${BRAND.border}`,
                 borderRadius: 10,
                 padding: '14px 18px',

@@ -189,7 +189,12 @@ export default async function MarketplaceDetailPage({ params }: { params: Promis
             </span>
             <Link
               href="/login"
-              className="btn-accent text-sm font-semibold px-6 py-2.5 rounded-lg no-underline"
+              className="text-sm font-semibold px-6 py-2.5 rounded-lg no-underline inline-flex items-center gap-2 transition-all"
+              style={{
+                backgroundColor: 'var(--cta-bg)',
+                color: 'var(--cta-text)',
+                fontFamily: 'var(--font-mono)',
+              }}
             >
               Get Workflow
             </Link>
@@ -318,7 +323,13 @@ export default async function MarketplaceDetailPage({ params }: { params: Promis
             <h2 className="text-sm font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
               Similar Workflows
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+                gap: '12px',
+              }}
+            >
               {similar.map((l, i) => (
                 <MarketplaceCard key={l.id} listing={l} index={i} />
               ))}

@@ -508,7 +508,13 @@ export default function MarketplaceBrowser({
           </a>
         </div>
       ) : viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+            gap: '12px',
+          }}
+        >
           {filtered.map((listing, i) => (
             <MarketplaceCard key={listing.id} listing={listing} index={i} />
           ))}

@@ -161,7 +161,13 @@ export function StoreView({ listings, purchasedIds, loading, onFetch, onCheckout
 
       {/* Grid */}
       {!loading && listings.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+            gap: '12px',
+          }}
+        >
           {listings.map((listing, i) => (
             <StoreListingCard
               key={listing.id}

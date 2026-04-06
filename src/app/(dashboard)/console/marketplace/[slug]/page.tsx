@@ -6,6 +6,16 @@ import { ArrowLeft, ShoppingBag, ShoppingCart, Sparkles, Tag, Download, Blocks, 
 import type { StoreListing } from '@/components/console/StoreTypes'
 import { addToCart, isInCart } from '@/lib/cart'
 
+async function safeJson(res: Response) {
+  try {
+    const text = await res.text()
+    if (!text) return {}
+    return JSON.parse(text)
+  } catch {
+    return {}
+  }
+}
+
 interface ListingDetail extends StoreListing {
   workflow_data?: Record<string, unknown> | null
 }
@@ -25,7 +35,7 @@ export default function MarketplaceDetailPage() {
   const fetchListing = useCallback(async () => {
     try {
       const res = await fetch(`/api/console/store?slug=${encodeURIComponent(slug)}`)
-      const data = await res.json()
+      const data = await safeJson(res)
       const found = (data.listings || [])[0] as ListingDetail | undefined
       if (found) {
         setListing(found)
@@ -59,7 +69,7 @@ export default function MarketplaceDetailPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ listingId: listing.id }),
       })
-      const data = await res.json()
+      const data = await safeJson(res)
       if (data.free) {
         setOwned(true)
         router.push('/console/workflows')
@@ -81,7 +91,7 @@ export default function MarketplaceDetailPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ listingId: listing.id }),
       })
-      const data = await res.json()
+      const data = await safeJson(res)
       if (data.workflow) {
         localStorage.setItem('0nmcp-builder-import', JSON.stringify(data.workflow))
         router.push('/builder')
@@ -335,8 +345,8 @@ export default function MarketplaceDetailPage() {
                 gap: 8,
                 padding: '12px 28px',
                 borderRadius: 10,
-                background: checkoutLoading ? 'var(--text-muted)' : 'var(--accent)',
-                color: '#0B0F19',
+                background: checkoutLoading ? 'var(--text-muted)' : 'var(--cta-bg)',
+                color: 'var(--cta-text)',
                 border: 'none',
                 cursor: checkoutLoading ? 'wait' : 'pointer',
                 fontWeight: 800,

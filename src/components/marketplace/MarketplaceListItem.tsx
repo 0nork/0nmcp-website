@@ -66,8 +66,8 @@ export default function MarketplaceListItem({ listing, index = 0 }: { listing: M
           <span
             className="shrink-0 text-xs font-bold px-2 py-0.5 rounded-full"
             style={{
-              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.1)' : 'rgba(255,107,53,0.1)',
-              color: listing.price === 0 ? 'var(--accent)' : '#ff6b35',
+              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.1)' : 'var(--accent-glow)',
+              color: 'var(--accent)',
               fontFamily: 'var(--font-mono)',
             }}
           >

@@ -621,15 +621,15 @@ export function ListingDetailModal({
             <button
               onClick={handlePurchase}
               disabled={purchasing}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all cursor-pointer border-none"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all cursor-pointer border-none"
               style={{
-                background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                color: 'var(--bg-primary)',
+                background: 'var(--cta-bg)',
+                color: 'var(--cta-text)',
                 opacity: purchasing ? 0.7 : 1,
               }}
               onMouseEnter={(e) => {
                 if (!purchasing) {
-                  e.currentTarget.style.boxShadow = '0 0 20px var(--accent-glow)'
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(255,107,53,0.3)'
                   e.currentTarget.style.transform = 'translateY(-1px)'
                 }
               }}

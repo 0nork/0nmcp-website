@@ -24,7 +24,7 @@ export default function MarketplaceCard({ listing, index = 0 }: { listing: Marke
         overflow: 'hidden',
         animation: 'console-stagger-in 0.4s ease both',
         animationDelay: `${index * 50}ms`,
-        maxWidth: 320,
+        maxWidth: 360,
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement
@@ -174,7 +174,7 @@ export default function MarketplaceCard({ listing, index = 0 }: { listing: Marke
         <p
           style={{
             fontSize: 12,
-            color: 'rgba(255,255,255,0.7)',
+            color: 'var(--text-secondary)',
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
@@ -204,8 +204,8 @@ export default function MarketplaceCard({ listing, index = 0 }: { listing: Marke
               fontWeight: 700,
               padding: '3px 10px',
               borderRadius: 20,
-              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.12)' : 'rgba(255,107,53,0.12)',
-              color: listing.price === 0 ? 'var(--accent)' : '#ff6b35',
+              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.12)' : 'var(--accent-glow)',
+              color: 'var(--accent)',
               fontFamily: 'var(--font-mono)',
             }}
           >

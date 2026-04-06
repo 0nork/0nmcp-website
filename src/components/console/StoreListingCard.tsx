@@ -27,7 +27,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
         animationDelay: `${index * 60}ms`,
         padding: 0,
         overflow: 'hidden',
-        maxWidth: 320,
+        maxWidth: 360,
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = owned ? 'rgba(126,217,87,0.5)' : catColor
@@ -140,7 +140,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
           {listing.title}
         </h3>
         {/* Vendor label */}
-        <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
           <span>By {listing.vendor_name || '0nMCP'}</span>
           {listing.vendor_tier && listing.vendor_tier !== 'standard' && (
             <span style={{
@@ -156,7 +156,7 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
         <p
           style={{
             fontSize: 12,
-            color: 'rgba(255,255,255,0.7)',
+            color: 'var(--text-secondary)',
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
@@ -176,8 +176,8 @@ export function StoreListingCard({ listing, owned, index, onClick }: StoreListin
               fontWeight: 700,
               padding: '3px 10px',
               borderRadius: 20,
-              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.12)' : 'rgba(255,107,53,0.12)',
-              color: listing.price === 0 ? 'var(--accent)' : '#ff6b35',
+              backgroundColor: listing.price === 0 ? 'rgba(126,217,87,0.12)' : 'var(--accent-glow)',
+              color: 'var(--accent)',
               fontFamily: 'var(--font-mono)',
             }}
           >

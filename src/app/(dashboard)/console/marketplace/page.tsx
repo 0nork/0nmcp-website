@@ -7,6 +7,16 @@ import type { StoreListing, StoreCategory } from '@/components/console/StoreType
 import { STORE_CATEGORIES } from '@/components/console/StoreTypes'
 import { addToCart, isInCart } from '@/lib/cart'
 
+async function safeJson(res: Response) {
+  try {
+    const text = await res.text()
+    if (!text) return {}
+    return JSON.parse(text)
+  } catch {
+    return {}
+  }
+}
+
 export default function MarketplacePage() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -28,7 +38,7 @@ export default function MarketplacePage() {
     if (q) params.set('search', q)
     try {
       const res = await fetch(`/api/console/store?${params}`)
-      const data = await res.json()
+      const data = await safeJson(res)
       setListings(data.listings || [])
       setPurchasedIds(data.purchasedListingIds || data.purchasedIds || [])
     } catch {
@@ -69,7 +79,7 @@ export default function MarketplacePage() {
     addToCart({
       listingId: listing.id,
       name: listing.title,
-      price: Math.round(listing.price * 100), // convert display price back to cents
+      price: Math.round(listing.price * 100),
       vendorId: listing.vendor_id,
       vendorName: listing.vendor_name,
       image: listing.cover_image_url,
@@ -81,7 +91,7 @@ export default function MarketplacePage() {
   }
 
   return (
-    <div style={{ padding: '24px 32px 64px', maxWidth: 1200, margin: '0 auto' }}>
+    <div style={{ padding: '24px 20px 64px', maxWidth: 1200, margin: '0 auto' }}>
       {/* Checkout success/cancel banner */}
       {checkoutStatus === 'success' && (
         <div style={{
@@ -89,7 +99,7 @@ export default function MarketplacePage() {
           borderRadius: 10,
           background: 'rgba(126,217,87,0.08)',
           border: '1px solid rgba(126,217,87,0.2)',
-          color: 'var(--jp-green)',
+          color: 'var(--accent)',
           fontSize: '0.875rem',
           fontWeight: 600,
           marginBottom: 20,
@@ -107,7 +117,7 @@ export default function MarketplacePage() {
           borderRadius: 10,
           background: 'rgba(251,191,36,0.08)',
           border: '1px solid rgba(251,191,36,0.2)',
-          color: 'var(--jp-amber)',
+          color: '#d97706',
           fontSize: '0.875rem',
           fontWeight: 600,
           marginBottom: 20,
@@ -118,8 +128,8 @@ export default function MarketplacePage() {
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-        <ShoppingBag size={20} style={{ color: 'var(--jp-green)' }} />
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--jp-text)' }}>
+        <ShoppingBag size={20} style={{ color: 'var(--accent)' }} />
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>
           Marketplace
         </h1>
       </div>
@@ -132,12 +142,12 @@ export default function MarketplacePage() {
           gap: 8,
           padding: '8px 14px',
           borderRadius: 10,
-          background: 'var(--jp-bg-card)',
-          border: '1px solid var(--jp-border)',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
           flex: '1 1 200px',
           maxWidth: 320,
         }}>
-          <Search size={14} style={{ color: 'var(--jp-text-muted)', flexShrink: 0 }} />
+          <Search size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Search workflows..."
@@ -147,7 +157,7 @@ export default function MarketplacePage() {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: 'var(--jp-text)',
+              color: 'var(--text-primary)',
               fontSize: '0.8125rem',
               width: '100%',
               fontFamily: 'inherit',
@@ -162,13 +172,13 @@ export default function MarketplacePage() {
               style={{
                 padding: '6px 14px',
                 borderRadius: 8,
-                border: 'none',
+                border: category === c.key ? '1px solid rgba(126,217,87,0.3)' : '1px solid var(--border)',
                 cursor: 'pointer',
                 fontSize: '0.75rem',
                 fontWeight: 600,
                 fontFamily: 'inherit',
-                background: category === c.key ? 'var(--jp-green-glow)' : 'var(--jp-bg-card)',
-                color: category === c.key ? 'var(--jp-green)' : 'var(--jp-text-secondary)',
+                background: category === c.key ? 'var(--accent-glow)' : 'var(--bg-card)',
+                color: category === c.key ? 'var(--accent)' : 'var(--text-secondary)',
                 transition: 'all 0.15s',
               }}
             >
@@ -180,19 +190,19 @@ export default function MarketplacePage() {
 
       {/* Grid */}
       {loading ? (
-        <div style={{ textAlign: 'center', padding: 60, color: 'var(--jp-text-muted)' }}>
+        <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}>
           Loading marketplace...
         </div>
       ) : listings.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: 60, color: 'var(--jp-text-muted)' }}>
+        <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}>
           <ShoppingBag size={32} style={{ opacity: 0.3, marginBottom: 8 }} />
           <p style={{ fontSize: '0.875rem' }}>No listings found</p>
         </div>
       ) : (
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: 14,
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: 12,
         }}>
           {listings.map(listing => {
             const owned = purchasedIds.includes(listing.id)
@@ -205,23 +215,25 @@ export default function MarketplacePage() {
                 style={{
                   textAlign: 'left',
                   borderRadius: 14,
-                  background: 'var(--jp-bg-card)',
-                  border: '1px solid var(--jp-border)',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
                   transition: 'all 0.15s',
                   display: 'flex',
                   flexDirection: 'column',
                   overflow: 'hidden',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'var(--jp-border-hi)'
-                  e.currentTarget.style.transform = 'translateY(-1px)'
+                  e.currentTarget.style.borderColor = 'var(--border-hover)'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.12)'
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'var(--jp-border)'
+                  e.currentTarget.style.borderColor = 'var(--border)'
                   e.currentTarget.style.transform = 'none'
+                  e.currentTarget.style.boxShadow = 'none'
                 }}
               >
-                {/* Cover — clickable to detail page */}
+                {/* Cover -- clickable to detail page */}
                 <button
                   onClick={() => router.push(`/console/marketplace/${listing.slug}`)}
                   style={{
@@ -248,14 +260,14 @@ export default function MarketplacePage() {
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
-                      <Sparkles size={28} style={{ color: 'var(--jp-green)', opacity: 0.3 }} />
+                      <Sparkles size={28} style={{ color: 'var(--accent)', opacity: 0.3 }} />
                     </div>
                   )}
                 </button>
 
                 {/* Content */}
                 <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
-                  {/* Title — clickable */}
+                  {/* Title -- clickable */}
                   <button
                     onClick={() => router.push(`/console/marketplace/${listing.slug}`)}
                     style={{
@@ -269,7 +281,7 @@ export default function MarketplacePage() {
                     <h3 style={{
                       fontSize: '0.875rem',
                       fontWeight: 700,
-                      color: 'var(--jp-text)',
+                      color: 'var(--text-primary)',
                       margin: 0,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -283,7 +295,7 @@ export default function MarketplacePage() {
                   {listing.description && (
                     <p style={{
                       fontSize: '0.75rem',
-                      color: 'var(--jp-text-secondary)',
+                      color: 'var(--text-secondary)',
                       margin: 0,
                       lineHeight: 1.4,
                       display: '-webkit-box',
@@ -298,15 +310,16 @@ export default function MarketplacePage() {
                   {/* Price + Category */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: 6 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <Tag size={12} style={{ color: 'var(--jp-text-muted)' }} />
-                      <span style={{ fontSize: '0.6875rem', color: 'var(--jp-text-muted)', textTransform: 'capitalize' }}>
+                      <Tag size={12} style={{ color: 'var(--text-muted)' }} />
+                      <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', textTransform: 'capitalize' }}>
                         {listing.category}
                       </span>
                     </div>
                     <span style={{
                       fontSize: '0.9375rem',
                       fontWeight: 800,
-                      color: listing.price === 0 ? 'var(--jp-green)' : 'var(--jp-text)',
+                      color: listing.price === 0 ? 'var(--accent)' : 'var(--accent)',
+                      fontFamily: 'var(--font-mono)',
                     }}>
                       {listing.price === 0 ? 'Free' : `$${listing.price.toFixed(2)}`}
                     </span>
@@ -322,8 +335,8 @@ export default function MarketplacePage() {
                         gap: 6,
                         padding: '8px 12px',
                         borderRadius: 8,
-                        background: 'rgba(126,217,87,0.06)',
-                        color: 'var(--jp-green)',
+                        background: 'rgba(126,217,87,0.08)',
+                        color: 'var(--accent)',
                         fontSize: '0.75rem',
                         fontWeight: 700,
                       }}>
@@ -342,7 +355,7 @@ export default function MarketplacePage() {
                           padding: '8px 12px',
                           borderRadius: 8,
                           background: 'rgba(126,217,87,0.08)',
-                          color: 'var(--jp-green)',
+                          color: 'var(--accent)',
                           border: '1px solid rgba(126,217,87,0.2)',
                           cursor: 'pointer',
                           fontSize: '0.75rem',
@@ -367,8 +380,8 @@ export default function MarketplacePage() {
                           borderRadius: 8,
                           background: justAdded
                             ? 'rgba(126,217,87,0.12)'
-                            : 'linear-gradient(135deg, var(--jp-green-dim), var(--jp-green))',
-                          color: justAdded ? 'var(--jp-green)' : '#000',
+                            : 'var(--cta-bg)',
+                          color: justAdded ? 'var(--accent)' : 'var(--cta-text)',
                           border: 'none',
                           cursor: 'pointer',
                           fontSize: '0.75rem',
@@ -385,7 +398,7 @@ export default function MarketplacePage() {
                         ) : (
                           <>
                             <ShoppingCart size={14} />
-                            Add to Cart
+                            {listing.price === 0 ? 'Get Free' : `Purchase $${listing.price.toFixed(2)}`}
                           </>
                         )}
                       </button>

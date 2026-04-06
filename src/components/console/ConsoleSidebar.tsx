@@ -345,29 +345,29 @@ export default function ConsoleSidebar({ isOpen, onClose, isAdmin }: ConsoleSide
     <>
       {/* Backdrop */}
       <div
-        className={`jp-backdrop ${isOpen ? 'visible' : ''}`}
+        className={`console-backdrop ${isOpen ? 'visible' : ''}`}
         onClick={onClose}
       />
 
       {/* Sidebar */}
-      <aside className={`jp-sidebar ${isOpen ? 'open' : ''}`}>
+      <aside className={`console-sidebar ${isOpen ? 'open' : ''}`}>
         {/* Header */}
-        <div className="jp-sidebar-header">
-          <Link href="/console" className="jp-sidebar-brand" onClick={onClose}>
+        <div className="console-sidebar-header">
+          <Link href="/console" className="console-sidebar-brand" onClick={onClose}>
             <img src="/brand/0n-logo-white.svg" alt="0nMCP" style={{ height: 28, objectFit: 'contain' }} />
           </Link>
         </div>
 
         {/* Nav */}
-        <div className="jp-sidebar-body">
+        <div className="console-sidebar-body">
           {navGroups.map((group, gi) => {
             const items = group.label === 'Account' && isAdmin
               ? [...group.items, adminItem]
               : group.items
             return (
-              <div className="jp-menu-group" key={gi}>
+              <div className="console-menu-group" key={gi}>
                 {group.label && (
-                  <div className="jp-menu-group-label">{group.label}</div>
+                  <div className="console-menu-group-label">{group.label}</div>
                 )}
                 {items.map((item) => {
                   const hasChildren = item.children && item.children.length > 0
@@ -383,17 +383,17 @@ export default function ConsoleSidebar({ isOpen, onClose, isAdmin }: ConsoleSide
                       {hasChildren ? (
                         <button
                           onClick={() => toggleExpand(item.name)}
-                          className={`jp-nav-item jp-nav-parent ${isChildActive(item.children) ? 'active' : ''}`}
+                          className={`console-nav-item console-nav-parent ${isChildActive(item.children) ? 'active' : ''}`}
                         >
-                          <span className="jp-nav-icon">{item.icon}</span>
+                          <span className="console-nav-icon">{item.icon}</span>
                           <span>{item.name}</span>
                           {item.badge && (
-                            <span className="jp-nav-badge">{item.badge}</span>
+                            <span className="console-nav-badge">{item.badge}</span>
                           )}
                           {item.badgeCyan && (
-                            <span className="jp-nav-badge cyan">{item.badgeCyan}</span>
+                            <span className="console-nav-badge cyan">{item.badgeCyan}</span>
                           )}
-                          <span className={`jp-submenu-indicator ${isExpanded ? 'expanded' : ''}`}>
+                          <span className={`console-submenu-indicator ${isExpanded ? 'expanded' : ''}`}>
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
                               <path d="M4.5 3L7.5 6L4.5 9" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -403,22 +403,22 @@ export default function ConsoleSidebar({ isOpen, onClose, isAdmin }: ConsoleSide
                         <Link
                           href={item.href}
                           onClick={onClose}
-                          className={`jp-nav-item ${isActive ? 'active' : ''}`}
+                          className={`console-nav-item ${isActive ? 'active' : ''}`}
                         >
-                          <span className="jp-nav-icon">{item.icon}</span>
+                          <span className="console-nav-icon">{item.icon}</span>
                           <span>{item.name}</span>
                           {item.badge && (
-                            <span className="jp-nav-badge">{item.badge}</span>
+                            <span className="console-nav-badge">{item.badge}</span>
                           )}
                           {item.badgeCyan && (
-                            <span className="jp-nav-badge cyan">{item.badgeCyan}</span>
+                            <span className="console-nav-badge cyan">{item.badgeCyan}</span>
                           )}
                         </Link>
                       )}
 
                       {/* Sub-menu */}
                       {hasChildren && (
-                        <div className={`jp-submenu ${isExpanded ? 'open' : ''}`}>
+                        <div className={`console-submenu ${isExpanded ? 'open' : ''}`}>
                           {item.children!.map((child) => {
                             const isSubActive = pathname === child.href
                             return (
@@ -426,7 +426,7 @@ export default function ConsoleSidebar({ isOpen, onClose, isAdmin }: ConsoleSide
                                 key={child.href}
                                 href={child.href}
                                 onClick={onClose}
-                                className={`jp-submenu-item ${isSubActive ? 'active' : ''}`}
+                                className={`console-submenu-item ${isSubActive ? 'active' : ''}`}
                               >
                                 {child.name}
                               </Link>
@@ -443,10 +443,10 @@ export default function ConsoleSidebar({ isOpen, onClose, isAdmin }: ConsoleSide
         </div>
 
         {/* Footer */}
-        <div className="jp-sidebar-footer">
-          <div className="jp-sidebar-footer-label">Powered by</div>
-          <div className="jp-sidebar-footer-value">
-            <span className="jp-sidebar-footer-dot" />
+        <div className="console-sidebar-footer">
+          <div className="console-sidebar-footer-label">Powered by</div>
+          <div className="console-sidebar-footer-value">
+            <span className="console-sidebar-footer-dot" />
             0nMCP v2.5.0
           </div>
         </div>

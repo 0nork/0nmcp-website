@@ -189,49 +189,139 @@ body {
   position: relative;
 }
 
-/* ── Animated Gradient Background ──
-   Subtle shifting blobs: grey, lime green, electric blue, purple
-   Full 20-second cycle, GPU-accelerated, no layout thrash */
+/* ============================================
+   AMBIENT GRADIENT SYSTEM — Breathing radial blobs
+   Dark base with green/teal/purple glows that pulse,
+   shift, and breathe. GPU-accelerated, no layout thrash.
+   ============================================ */
+
+/* Base ambient layer — always visible */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
-  opacity: 0.4;
-  background:
-    radial-gradient(ellipse 600px 400px at 15% 20%, rgba(110,224,90,0.12), transparent),
-    radial-gradient(ellipse 500px 500px at 80% 15%, rgba(0,180,255,0.08), transparent),
-    radial-gradient(ellipse 400px 350px at 60% 75%, rgba(167,139,250,0.07), transparent),
-    radial-gradient(ellipse 450px 300px at 30% 85%, rgba(200,200,210,0.1), transparent);
-  animation: gradientShift 20s ease-in-out infinite alternate;
   pointer-events: none;
-  will-change: background-position;
+  will-change: opacity;
+  background:
+    /* Primary green glow — center-bottom, the hero glow */
+    radial-gradient(ellipse 80% 50% at 50% 80%, rgba(126,217,87,0.08), transparent 70%),
+    /* Teal accent — top right, connectivity feel */
+    radial-gradient(ellipse 60% 40% at 85% 15%, rgba(0,194,199,0.05), transparent 60%),
+    /* Purple depth — bottom left, data flow */
+    radial-gradient(ellipse 50% 50% at 15% 70%, rgba(112,0,255,0.04), transparent 60%),
+    /* Gold warmth — center top, subtle orchestration */
+    radial-gradient(ellipse 40% 30% at 50% 10%, rgba(255,215,0,0.03), transparent 50%);
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position:
-      15% 20%, 80% 15%, 60% 75%, 30% 85%;
+/* Breathing blob 1 — green, center */
+body::after {
+  content: '';
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  width: 800px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(126,217,87,0.06) 0%, transparent 70%);
+  animation: ambientBreathe 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Reusable ambient section class — add to any section for local glow */
+.ambient-glow {
+  position: relative;
+  overflow: hidden;
+}
+.ambient-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(126,217,87,0.06), transparent 70%);
+  animation: ambientBreathe 12s ease-in-out infinite;
+}
+
+/* Teal glow variant — for API/connectivity sections */
+.ambient-glow-teal::before {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,194,199,0.06), transparent 70%);
+}
+
+/* Purple glow variant — for data/vault sections */
+.ambient-glow-purple::before {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(112,0,255,0.05), transparent 70%);
+}
+
+/* Orange glow variant — for CTA sections */
+.ambient-glow-orange::before {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,107,53,0.06), transparent 70%);
+}
+
+/* ── Breathing animations ── */
+@keyframes ambientBreathe {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  33% {
+    opacity: 0.7;
+    transform: translate(-48%, -52%) scale(1.15);
+  }
+  66% {
+    opacity: 0.3;
+    transform: translate(-52%, -48%) scale(0.9);
+  }
+}
+
+@keyframes ambientDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
   }
   25% {
-    background-position:
-      25% 30%, 70% 25%, 50% 65%, 40% 75%;
+    transform: translate(30px, -20px) scale(1.1);
+    opacity: 0.7;
   }
   50% {
-    background-position:
-      35% 15%, 60% 35%, 40% 80%, 55% 60%;
+    transform: translate(-20px, 15px) scale(0.95);
+    opacity: 0.35;
   }
   75% {
-    background-position:
-      20% 40%, 75% 20%, 55% 70%, 35% 90%;
-  }
-  100% {
-    background-position:
-      15% 20%, 80% 15%, 60% 75%, 30% 85%;
+    transform: translate(15px, 25px) scale(1.05);
+    opacity: 0.6;
   }
 }
 
-/* Grid background removed — brand standard 2026-03-21 */
+@keyframes ambientPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* Light mode — reduce intensity */
+:root body::before,
+[data-theme="light"] body::before {
+  opacity: 0.5;
+}
+:root body::after,
+[data-theme="light"] body::after {
+  opacity: 0.3;
+}
+
+/* Dark mode — full intensity */
+[data-theme="dark"] body::before {
+  opacity: 1;
+}
+[data-theme="dark"] body::after {
+  opacity: 1;
+}
 
 /* ============================================
    Global Contrast Enforcement

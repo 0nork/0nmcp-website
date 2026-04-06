@@ -187,210 +187,157 @@ function IconDiscord({ size = 20 }: { size?: number }) {
    =================================================================== */
 
 function ForgeRadialBurst() {
-  const [hoveredNode, setHoveredNode] = useState<number | null>(null)
-  const cx = 220
-  const cy = 220
-  const orbitR = 160
-  const nodeR = 22
+  const CX = 220, CY = 220, RADIUS = 160, HUB_R = 32
+  const [litCount, setLitCount] = useState(0)
+  const [showHub, setShowHub] = useState(false)
+  const [fading, setFading] = useState(false)
+  const [cycle, setCycle] = useState(0)
+  const N = FORGE_SERVICES.length
 
   const nodePositions = useMemo(() =>
     FORGE_SERVICES.map((_, i) => {
-      const angle = (i / FORGE_SERVICES.length) * Math.PI * 2 - Math.PI / 2
-      return {
-        x: cx + orbitR * Math.cos(angle),
-        y: cy + orbitR * Math.sin(angle),
-        angle,
-      }
-    }), []
+      const angle = (i / N) * Math.PI * 2 - Math.PI / 2
+      return { x: CX + RADIUS * Math.cos(angle), y: CY + RADIUS * Math.sin(angle) }
+    }), [N]
   )
 
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = []
+    const t = (ms: number, fn: () => void) => { timers.push(setTimeout(fn, ms)) }
+
+    setLitCount(0); setShowHub(false); setFading(false)
+    t(200, () => setShowHub(true))
+    for (let i = 0; i <= N; i++) { t(600 + i * 100, () => setLitCount(c => c + 1)) }
+    const allLit = 600 + N * 100
+    t(allLit + 4000, () => setFading(true))
+    t(allLit + 5000, () => setCycle(k => k + 1))
+
+    return () => timers.forEach(clearTimeout)
+  }, [cycle, N])
+
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: 480, aspectRatio: '1', margin: '0 auto' }}>
+    <div key={cycle} style={{
+      position: 'relative', width: '100%', maxWidth: 480, aspectRatio: '1', margin: '0 auto',
+      opacity: fading ? 0 : 1, transition: 'opacity 0.9s ease',
+    }}>
       <style>{`
-        @keyframes forgeDrawLine {
-          from { stroke-dashoffset: 300; }
-          to { stroke-dashoffset: 0; }
-        }
-        @keyframes forgeRadialBurst {
-          0% { opacity: 0; transform: scale(1); }
-          30% { opacity: 0.3; }
-          100% { opacity: 0; transform: scale(1.5); }
-        }
-        @keyframes forgeHubPulse {
-          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--accent)); }
-          50% { transform: scale(1.08); filter: drop-shadow(0 0 16px var(--accent)); }
-        }
-        @keyframes forgeNodeAppear {
-          from { transform: scale(0); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
-        }
-        @keyframes forgeGlowPing {
-          0% { r: 22; opacity: 0.5; }
-          100% { r: 34; opacity: 0; }
-        }
-        @keyframes forgeRingExpand {
-          from { opacity: 0; transform: scale(0.5); }
-          to { opacity: 0.2; transform: scale(1); }
-        }
-        @keyframes forgeOrbitSpin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
+        @keyframes forgeSpin    { to { transform: rotate(360deg) } }
+        @keyframes forgeSpinRev { to { transform: rotate(-360deg) } }
+        @keyframes forgeLineAnim { 0%,100% { opacity: .5 } 50% { opacity: .85 } }
+        @keyframes forgeNodeAnim { 0%,100% { opacity: .85 } 50% { opacity: 1 } }
+        @keyframes forgeHubPulse { 0%,100% { opacity: 0 } 40% { opacity: .12 } }
+        @keyframes forgeLogoPop  { from { opacity: 0; transform: scale(.5) } to { opacity: 1; transform: scale(1) } }
+        @keyframes forgeHubGlow  { 0%,100% { filter: drop-shadow(0 0 6px var(--accent)) } 50% { filter: drop-shadow(0 0 14px var(--accent)) } }
       `}</style>
       <svg viewBox="0 0 440 440" style={{ width: '100%', height: '100%' }}>
         <defs>
-          <radialGradient id="forgeHubGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.25" />
+          <radialGradient id="fHubFill" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.08" />
             <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
           </radialGradient>
-          <filter id="forgeGlow">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
+          <radialGradient id="fAura" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.14" />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+          </radialGradient>
+          <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
-          <filter id="forgeBigGlow">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
+          <filter id="fHubGlow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="5" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
-          {/* Clip circles for each node */}
-          {nodePositions.map((_, i) => (
-            <clipPath key={`clip-${i}`} id={`nodeClip-${i}`}>
-              <circle cx={nodePositions[i].x} cy={nodePositions[i].y} r={nodeR - 3} />
+          {nodePositions.map((p, i) => (
+            <clipPath key={`fc-${i}`} id={`fClip-${i}`}>
+              <circle cx={p.x} cy={p.y} r={11} />
             </clipPath>
           ))}
         </defs>
 
-        <circle cx={cx} cy={cy} r={80} fill="url(#forgeHubGlow)" />
+        {/* Hub aura */}
+        {showHub && litCount > 8 && (
+          <circle className="" cx={CX} cy={CY} r={60} fill="url(#fAura)" style={{ animation: 'forgeHubPulse 2.2s ease-out infinite' }} />
+        )}
 
-        {[60, 120, 180].map((r, i) => (
-          <circle
-            key={`ring-${i}`}
-            cx={cx}
-            cy={cy}
-            r={r}
-            fill="none"
-            stroke="var(--accent)"
-            strokeOpacity={0.08}
-            strokeWidth={1}
-            style={{
-              transformOrigin: `${cx}px ${cy}px`,
-              animation: `forgeRingExpand 1.2s ease-out ${0.3 + i * 0.2}s both`,
-            }}
-          />
-        ))}
-
-        {nodePositions.map((pos, i) => (
-          <line
-            key={`line-${i}`}
-            x1={cx}
-            y1={cy}
-            x2={pos.x}
-            y2={pos.y}
-            stroke="var(--accent)"
-            strokeOpacity={0.12}
-            strokeWidth={1}
-            strokeDasharray="300"
-            strokeDashoffset="0"
-            style={{
-              animation: `forgeDrawLine 0.8s ease-out ${0.5 + i * 0.08}s both`,
-            }}
-          />
-        ))}
-
-        {[1, 2, 3].map((n) => (
-          <circle
-            key={`burst-${n}`}
-            cx={cx}
-            cy={cy}
-            r={orbitR * 0.4 * n}
-            fill="none"
-            stroke="var(--accent)"
-            strokeWidth={1.5}
-            style={{
-              transformOrigin: `${cx}px ${cy}px`,
-              animation: `forgeRadialBurst 1.5s ease-out ${0.8 + n * 0.3}s both`,
-            }}
-          />
-        ))}
-
-        {FORGE_SERVICES.map((svc, i) => {
-          const pos = nodePositions[i]
-          const isHovered = hoveredNode === i
+        {/* Connection lines */}
+        {FORGE_SERVICES.map((_, i) => {
+          const p = nodePositions[i]
+          const lit = i < litCount
           return (
-            <g
-              key={`node-${i}`}
-              style={{
-                transformOrigin: `${pos.x}px ${pos.y}px`,
-                animation: `forgeNodeAppear 0.5s ease-out ${0.8 + i * 0.06}s both`,
-                cursor: 'pointer',
-              }}
-              onMouseEnter={() => setHoveredNode(i)}
-              onMouseLeave={() => setHoveredNode(null)}
-            >
-              <circle
-                cx={pos.x}
-                cy={pos.y}
-                r={nodeR}
-                fill="none"
-                stroke={svc.color}
-                strokeWidth={1.5}
-                opacity={0}
-                style={{
-                  animation: `forgeGlowPing 0.8s ease-out ${1.0 + i * 0.06}s both`,
-                }}
+            <line key={`fl-${i}`} x1={CX} y1={CY} x2={p.x} y2={p.y}
+              stroke={lit ? 'var(--accent)' : 'var(--border)'}
+              strokeWidth={lit ? 1.2 : 0.5}
+              strokeOpacity={lit ? 0.6 : 0.2}
+              style={lit ? { animation: 'forgeLineAnim 2s ease-in-out infinite' } : undefined}
+            />
+          )
+        })}
+
+        {/* Rotating rings */}
+        {showHub && (
+          <>
+            <circle cx={CX} cy={CY} r={50} fill="none" stroke="var(--accent)" strokeWidth={0.7} strokeOpacity={0.18} strokeDasharray="4 9"
+              style={{ transformOrigin: `${CX}px ${CY}px`, animation: 'forgeSpin 9s linear infinite' }} />
+            <circle cx={CX} cy={CY} r={62} fill="none" stroke="var(--accent)" strokeWidth={0.4} strokeOpacity={0.08} strokeDasharray="2 12"
+              style={{ transformOrigin: `${CX}px ${CY}px`, animation: 'forgeSpinRev 14s linear infinite' }} />
+          </>
+        )}
+
+        {/* Hub center with 0n logo */}
+        {showHub && (
+          <g filter="url(#fHubGlow)" style={{ animation: 'forgeHubGlow 3s ease-in-out infinite' }}>
+            <circle cx={CX} cy={CY} r={HUB_R} fill="var(--bg-card)" stroke="var(--accent)" strokeWidth={1.8} />
+            <image href="/brand/on-white.png" x={CX - 20} y={CY - 20} width={40} height={40} style={{ filter: 'drop-shadow(0 0 4px rgba(126,217,87,0.4))' }} />
+          </g>
+        )}
+
+        {/* Data packets traveling along lines */}
+        {FORGE_SERVICES.slice(0, litCount).map((svc, i) => {
+          const p = nodePositions[i]
+          const dur = (1.4 + (i % 5) * 0.28).toFixed(2)
+          const delay = ((i * 0.17) % parseFloat(dur)).toFixed(2)
+          return (
+            <circle key={`fpk-${i}`} r={2} fill={svc.color} opacity={0.85}>
+              <animateMotion dur={`${dur}s`} repeatCount="indefinite" begin={`${delay}s`} path={`M ${CX},${CY} L ${p.x},${p.y}`} />
+            </circle>
+          )
+        })}
+
+        {/* Service nodes with real logos */}
+        {FORGE_SERVICES.map((svc, i) => {
+          const p = nodePositions[i]
+          const lit = i < litCount
+          return (
+            <g key={`fn-${i}`} filter={lit ? 'url(#fGlow)' : undefined}
+              style={lit ? { animation: 'forgeNodeAnim 1.8s ease-in-out infinite' } : undefined}>
+              <circle cx={p.x} cy={p.y} r={16}
+                fill={lit ? `${svc.color}22` : 'var(--bg-card)'}
+                stroke={lit ? svc.color : 'var(--border)'}
+                strokeWidth={lit ? 1.4 : 0.5}
               />
-              <circle
-                cx={pos.x}
-                cy={pos.y}
-                r={isHovered ? nodeR * 1.15 : nodeR}
-                fill={svc.color}
-                filter={isHovered ? 'url(#forgeBigGlow)' : 'url(#forgeGlow)'}
-                style={{ transition: 'all 0.2s ease' }}
+              {/* White background for logo visibility */}
+              <circle cx={p.x} cy={p.y} r={11.5}
+                fill="rgba(255,255,255,0.92)"
+                opacity={lit ? 0.95 : 0.08}
               />
-              <image
-                href={`/logos/${svc.file}`}
-                x={pos.x - (nodeR - 5)}
-                y={pos.y - (nodeR - 5)}
-                width={(nodeR - 5) * 2}
-                height={(nodeR - 5) * 2}
-                clipPath={`url(#nodeClip-${i})`}
-                style={{ pointerEvents: 'none' }}
-              />
+              {lit && (
+                <image href={`/logos/${svc.file}`} x={p.x - 10.5} y={p.y - 10.5} width={21} height={21}
+                  clipPath={`url(#fClip-${i})`}
+                  style={{ animation: `forgeLogoPop 0.35s cubic-bezier(.34,1.56,.64,1) both`, animationDelay: `${i * 0.05}s` }}
+                />
+              )}
             </g>
           )
         })}
 
-        <g style={{
-          transformOrigin: `${cx}px ${cy}px`,
-          animation: 'forgeHubPulse 3s ease-in-out infinite',
-        }}>
-          <circle
-            cx={cx}
-            cy={cy}
-            r={30}
-            fill="var(--bg-card)"
-            stroke="var(--accent)"
-            strokeWidth={2.5}
-            filter="url(#forgeBigGlow)"
-          />
-          <text
-            x={cx}
-            y={cy + 1}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fill="var(--accent)"
-            fontSize="10"
-            fontWeight="800"
-            fontFamily="var(--font-display, system-ui)"
-          >
-            0nMCP
+        {/* Stats text */}
+        {litCount >= N && (
+          <text x={CX} y={CY + RADIUS + 32} textAnchor="middle"
+            fontFamily="var(--font-mono, monospace)" fontSize="9"
+            fill="var(--accent)" fillOpacity={0.4} letterSpacing=".08em">
+            + {STATS.services - N} more services
           </text>
-        </g>
+        )}
       </svg>
     </div>
   )

@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 /* ============================================
-   0nCORE BRAND BOOK V2.0 — FINAL Color System
-   From approved brand guide (April 5, 2026)
+   0nMCP BRAND SYSTEM V3.0 — Complete Design Tokens
+   Merged from: 0nCORE Brand Book V2.0 + Gemini Generation Guide
+   Single source of truth — change here, everything follows
    ============================================ */
 
 /* ── LIGHT MODE (default) ── */
@@ -15,6 +16,8 @@
   --bg-card: #ffffff;
   --bg-sidebar: #1f2937;
   --bg-header: #ffffff;
+  --bg-deep: #040A1A;         /* deep dark for hero/CTA sections */
+  --bg-vault: #081C4F;        /* OnVault secure blue for feature cards */
 
   /* Sidebar (dark in both modes) */
   --sidebar-text: #e2e8f0;
@@ -25,19 +28,25 @@
   /* Header */
   --header-border: #e2e8f0;
 
-  /* Text — WCAG AA contrast on white (#fff) backgrounds */
-  --text-primary: #1f2937;   /* gray-800 — 12.6:1 on white */
-  --text-secondary: #4b5563; /* gray-600 — 7.0:1 on white */
-  --text-muted: #6b7280;     /* gray-500 — 5.0:1 on white */
+  /* Text — WCAG AA compliant on white backgrounds */
+  --text-primary: #1f2937;   /* gray-800 — 12.6:1 contrast */
+  --text-secondary: #4b5563; /* gray-600 — 7.0:1 contrast */
+  --text-muted: #6b7280;     /* gray-500 — 5.0:1 contrast */
+  --text-on-dark: #E0E0E0;   /* universal grey for dark sections */
 
-  /* Brand Green */
+  /* Brand Green (primary brand color) */
   --accent: #7ed957;
   --accent-action: #2d8a1e;
-  --accent-dim: #166534;
+  --accent-dim: #5cb83a;
   --accent-glow: rgba(126, 217, 87, 0.12);
-  --grid-line-color: rgba(0, 0, 0, 0.04);
 
-  /* Accent Colors (from brand guide) */
+  /* Functional Colors (from Gemini generation guide) */
+  --color-orange: #FF6B35;   /* Action/CTA/Trigger */
+  --color-teal: #00C2C7;     /* API Connectivity */
+  --color-gold: #FFD700;     /* Orchestration Hub/Status */
+  --color-flow: #7000FF;     /* Data Flow Purple */
+
+  /* Accent Colors */
   --color-cyan: #14b8a6;
   --color-purple: #8b5cf6;
   --color-amber: #d97706;
@@ -48,14 +57,15 @@
   --active-state: #1f2937;
   --active-bg: rgba(126,217,87,0.12);
   --hover-state: #2d8a1e;
-  --cta-bg: #2d8a1e;
+  --cta-bg: #FF6B35;          /* Action Orange for primary CTAs */
   --cta-text: #ffffff;
+  --cta-bg-alt: #2d8a1e;     /* Green CTA alternative */
 
   /* Borders */
   --border: #e2e8f0;
   --border-hover: #cbd5e1;
+  --grid-line-color: rgba(0, 0, 0, 0.04);
 
-  /* Shadows */
   /* Shadows (Brand Directive Scale) */
   --shadow-low: 0 1px 2px rgba(0,0,0,0.05);
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
@@ -97,6 +107,8 @@
   --bg-card: #1f2937;
   --bg-sidebar: #0d1117;
   --bg-header: #0d1117;
+  --bg-deep: #040A1A;
+  --bg-vault: #081C4F;
 
   /* Sidebar */
   --sidebar-text: #f0f4f8;
@@ -107,17 +119,23 @@
   /* Header */
   --header-border: #30363d;
 
-  /* Text — WCAG AA contrast on dark (#0d1117) backgrounds */
-  --text-primary: #f0f4f8;   /* near-white — 15.4:1 on #0d1117 */
-  --text-secondary: #9ca3af; /* gray-400 — 7.5:1 on #0d1117 */
-  --text-muted: #6b7280;     /* gray-500 — 4.6:1 on #0d1117 */
+  /* Text — WCAG AA compliant on dark backgrounds */
+  --text-primary: #f0f4f8;   /* near-white — 15.4:1 contrast */
+  --text-secondary: #9ca3af; /* gray-400 — 7.5:1 contrast */
+  --text-muted: #6b7280;     /* gray-500 — 4.6:1 contrast */
+  --text-on-dark: #E0E0E0;
 
   /* Brand Green */
   --accent: #7ed957;
   --accent-action: #7ed957;
   --accent-dim: #5cb83a;
   --accent-glow: rgba(126, 217, 87, 0.15);
-  --grid-line-color: rgba(255, 255, 255, 0.03);
+
+  /* Functional Colors */
+  --color-orange: #FF6B35;
+  --color-teal: #00C2C7;
+  --color-gold: #FFD700;
+  --color-flow: #7000FF;
 
   /* Accent Colors */
   --color-cyan: #14b8a6;
@@ -130,12 +148,14 @@
   --active-state: #f0f4f8;
   --active-bg: rgba(126,217,87,0.15);
   --hover-state: #5cb83a;
-  --cta-bg: #7ed957;
-  --cta-text: #000000;
+  --cta-bg: #FF6B35;
+  --cta-text: #ffffff;
+  --cta-bg-alt: #7ed957;
 
   /* Borders */
   --border: #30363d;
   --border-hover: #484f58;
+  --grid-line-color: rgba(255, 255, 255, 0.03);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);

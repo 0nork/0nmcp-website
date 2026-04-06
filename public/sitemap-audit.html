@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>0nMCP.com — Full Sitemap Audit</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #0d1117; color: #f0f4f8; padding: 2rem; }
+  h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; }
+  h1 span { color: #7ed957; }
+  .subtitle { color: #6b7280; font-size: 0.875rem; margin-bottom: 1.5rem; }
+  .stats { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .stat { padding: 0.75rem 1.25rem; background: #161b22; border: 1px solid #30363d; border-radius: 8px; }
+  .stat-num { font-size: 1.5rem; font-weight: 800; color: #7ed957; font-family: 'JetBrains Mono', monospace; }
+  .stat-label { font-size: 0.7rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; }
+  .search { width: 100%; max-width: 500px; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid #30363d; background: #161b22; color: #f0f4f8; font-size: 0.875rem; margin-bottom: 2rem; outline: none; font-family: inherit; }
+  .search:focus { border-color: #7ed957; }
+  .section { margin-bottom: 2rem; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #FF6B35; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #1e293b; display: flex; align-items: center; gap: 0.5rem; }
+  .section-title .count { background: rgba(255,107,53,0.15); color: #FF6B35; padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0.5rem; }
+  .link { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.875rem; border-radius: 8px; background: #161b22; border: 1px solid #1e293b; text-decoration: none; transition: all 0.15s; }
+  .link:hover { border-color: #7ed957; background: #1c2333; transform: translateX(4px); }
+  .link-path { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #7ed957; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .link-type { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; }
+  .type-page { background: rgba(126,217,87,0.1); color: #7ed957; }
+  .type-dynamic { background: rgba(0,194,199,0.1); color: #00C2C7; }
+  .type-auth { background: rgba(255,215,0,0.1); color: #FFD700; }
+  .type-admin { background: rgba(239,68,68,0.1); color: #ef4444; }
+  .type-console { background: rgba(139,92,246,0.1); color: #8b5cf6; }
+  .hidden { display: none !important; }
+  .filter-bar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .filter-btn { padding: 0.4rem 0.875rem; border-radius: 20px; border: 1px solid #30363d; background: transparent; color: #9ca3af; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .filter-btn:hover, .filter-btn.active { background: rgba(126,217,87,0.1); border-color: #7ed957; color: #7ed957; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+
+<h1><span>0n</span>MCP.com — Sitemap Audit</h1>
+<p class="subtitle">Click any page to open in a new tab. Use search or filters to find pages. Tell me what to keep and what to delete.</p>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="total-count">0</div><div class="stat-label">Total Pages</div></div>
+  <div class="stat"><div class="stat-num" id="public-count">0</div><div class="stat-label">Public</div></div>
+  <div class="stat"><div class="stat-num" id="console-count">0</div><div class="stat-label">Console</div></div>
+  <div class="stat"><div class="stat-num" id="admin-count">0</div><div class="stat-label">Admin</div></div>
+  <div class="stat"><div class="stat-num" id="auth-count">0</div><div class="stat-label">Auth/System</div></div>
+</div>
+
+<input type="text" class="search" id="search" placeholder="Search pages... (e.g. blog, console, install, security)" autofocus>
+
+<div class="filter-bar" id="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="public">Public / Marketing</button>
+  <button class="filter-btn" data-filter="console">Console</button>
+  <button class="filter-btn" data-filter="admin">Admin</button>
+  <button class="filter-btn" data-filter="auth">Auth / System</button>
+  <button class="filter-btn" data-filter="seo">SEO / Programmatic</button>
+  <button class="filter-btn" data-filter="product">Products</button>
+</div>
+
+<div id="content"></div>
+
+<script>
+const BASE = 'https://www.0nmcp.com';
+
+const PAGES = [
+  // ─── PUBLIC / MARKETING ───
+  { path: '/', cat: 'public', label: 'Homepage' },
+  { path: '/start', cat: 'public', label: 'Get Started' },
+  { path: '/start/success', cat: 'public', label: 'Start Success' },
+  { path: '/install', cat: 'public', label: 'Install Hub' },
+  { path: '/install/claude', cat: 'public', label: 'Install on Claude' },
+  { path: '/install/skill', cat: 'public', label: 'Install Skill' },
+  { path: '/install/success', cat: 'public', label: 'Install Success' },
+  { path: '/install/error', cat: 'public', label: 'Install Error' },
+  { path: '/install0n', cat: 'public', label: 'Install0n (legacy)' },
+  { path: '/integrations', cat: 'seo', label: 'Integrations Hub' },
+  { path: '/integrations/[slug]', cat: 'seo', label: 'Integration Pages (26+)', dyn: true },
+  { path: '/turn-it-on', cat: 'seo', label: 'Turn it 0n Hub' },
+  { path: '/turn-it-on/[slug]', cat: 'seo', label: 'Service Hubs (26+)', dyn: true },
+  { path: '/compare', cat: 'seo', label: 'Comparisons Hub' },
+  { path: '/compare/[slug]', cat: 'seo', label: 'Comparison Pages (12+)', dyn: true },
+  { path: '/compare/interactive', cat: 'public', label: 'Interactive Compare' },
+  { path: '/glossary', cat: 'seo', label: 'Glossary Hub' },
+  { path: '/glossary/[term]', cat: 'seo', label: 'Glossary Terms (80+)', dyn: true },
+  { path: '/tools', cat: 'seo', label: 'Tools Hub' },
+  { path: '/tools/[serviceSlug]', cat: 'seo', label: 'Tool Pages (96+)', dyn: true },
+  { path: '/blog', cat: 'public', label: 'Blog Index' },
+  { path: '/blog/[slug]', cat: 'public', label: 'Blog Posts', dyn: true },
+  { path: '/learn', cat: 'public', label: 'Courses Hub' },
+  { path: '/learn/[slug]', cat: 'public', label: 'Course Pages', dyn: true },
+  { path: '/learn/[slug]/[lessonSlug]', cat: 'public', label: 'Lesson Pages', dyn: true },
+  { path: '/forum', cat: 'public', label: 'Forum Index' },
+  { path: '/forum/[slug]', cat: 'public', label: 'Forum Threads', dyn: true },
+  { path: '/forum/c/[group]', cat: 'public', label: 'Forum Groups', dyn: true },
+  { path: '/forum/new', cat: 'public', label: 'New Thread' },
+  { path: '/community', cat: 'public', label: 'Community Hub' },
+  { path: '/u/[id]', cat: 'public', label: 'User Profiles', dyn: true },
+  { path: '/audit', cat: 'public', label: 'SXO Audit Tool' },
+  { path: '/canvas', cat: 'public', label: 'Site Canvas Scanner' },
+  { path: '/demo', cat: 'public', label: 'Demo Page' },
+  { path: '/services', cat: 'public', label: 'Services Page' },
+  { path: '/capabilities', cat: 'public', label: 'Capabilities Page' },
+  { path: '/examples', cat: 'public', label: 'Examples Page' },
+  { path: '/downloads', cat: 'public', label: 'Downloads Hub' },
+  { path: '/downloads/onclaude', cat: 'public', label: 'Download 0nClaude' },
+  { path: '/downloads/ongpt', cat: 'public', label: 'Download 0nGPT' },
+  { path: '/downloads/ongram', cat: 'public', label: 'Download 0nGram' },
+  { path: '/slack', cat: 'public', label: 'Slack Integration' },
+  { path: '/mcp-integration', cat: 'public', label: 'MCP Integration' },
+  { path: '/automate-mcp', cat: 'public', label: 'Automate MCP' },
+  { path: '/crm-api', cat: 'public', label: 'CRM API Page' },
+  { path: '/roi-calculator', cat: 'public', label: 'ROI Calculator' },
+  { path: '/planner', cat: 'public', label: 'Planner' },
+  { path: '/report', cat: 'public', label: 'Report Page' },
+  { path: '/runs', cat: 'public', label: 'Runs Page' },
+  { path: '/feeds', cat: 'public', label: 'Feeds Page' },
+  { path: '/resources/feeds', cat: 'public', label: 'Resource Feeds' },
+
+  // ─── PRODUCTS ───
+  { path: '/products/app0n', cat: 'product', label: 'App0n Product' },
+  { path: '/products/cro9', cat: 'product', label: 'CRO9 Product' },
+  { path: '/products/social0n', cat: 'product', label: 'Social0n Product' },
+  { path: '/products/web0n', cat: 'product', label: 'Web0n Product' },
+  { path: '/store', cat: 'product', label: 'Store Page' },
+  { path: '/store/onork-mini', cat: 'product', label: 'Onork Mini Store' },
+  { path: '/marketplace', cat: 'product', label: 'Marketplace Hub' },
+  { path: '/marketplace/[slug]', cat: 'product', label: 'Marketplace Items', dyn: true },
+
+  // ─── TECHNOLOGY / SECURITY ───
+  { path: '/technology', cat: 'public', label: 'Technology Overview' },
+  { path: '/technology/0ncore', cat: 'public', label: 'Technology: 0nCore' },
+  { path: '/technology/0nplex', cat: 'public', label: 'Technology: 0nPlex' },
+  { path: '/technology/0nvault', cat: 'public', label: 'Technology: 0nVault' },
+  { path: '/technology/seal-of-truth', cat: 'public', label: 'Technology: Seal of Truth' },
+  { path: '/security', cat: 'public', label: 'Security Overview' },
+  { path: '/security/vault', cat: 'public', label: 'Security: Vault' },
+  { path: '/security/escrow', cat: 'public', label: 'Security: Escrow' },
+  { path: '/security/layers', cat: 'public', label: 'Security: Layers' },
+  { path: '/security/patent', cat: 'public', label: 'Security: Patent' },
+  { path: '/security/seal-of-truth', cat: 'public', label: 'Security: Seal of Truth' },
+  { path: '/security/transfer', cat: 'public', label: 'Security: Transfer' },
+  { path: '/secure-claude', cat: 'public', label: 'Secure Claude Page' },
+
+  // ─── BUSINESS ───
+  { path: '/sponsor', cat: 'public', label: 'Sponsor Page' },
+  { path: '/partners', cat: 'public', label: 'Partners Page' },
+  { path: '/affiliates', cat: 'public', label: 'Affiliates Page' },
+  { path: '/investors', cat: 'public', label: 'Investors Page' },
+  { path: '/investors/portal', cat: 'public', label: 'Investor Portal' },
+  { path: '/portal/[company]', cat: 'public', label: 'Company Portals', dyn: true },
+  { path: '/legal', cat: 'public', label: 'Legal / Terms' },
+  { path: '/privacy', cat: 'public', label: 'Privacy Policy' },
+  { path: '/0n-standard', cat: 'public', label: '.0n Standard Page' },
+  { path: '/verify/[certId]', cat: 'public', label: 'Certificate Verify', dyn: true },
+
+  // ─── CONVERT TOOLS ───
+  { path: '/convert', cat: 'public', label: 'Converter Hub' },
+  { path: '/convert/env', cat: 'public', label: 'Convert .env' },
+  { path: '/convert/gemini', cat: 'public', label: 'Convert Gemini' },
+  { path: '/convert/openai', cat: 'public', label: 'Convert OpenAI' },
+  { path: '/convert/openclaw', cat: 'public', label: 'Convert OpenClaw' },
+
+  // ─── AUTH / SYSTEM ───
+  { path: '/login', cat: 'auth', label: 'Login' },
+  { path: '/signup', cat: 'auth', label: 'Sign Up' },
+  { path: '/forgot-password', cat: 'auth', label: 'Forgot Password' },
+  { path: '/reset-password', cat: 'auth', label: 'Reset Password' },
+  { path: '/0nboarding', cat: 'auth', label: 'Onboarding Wizard' },
+  { path: '/activate', cat: 'auth', label: 'Activate Account' },
+  { path: '/subscribe', cat: 'auth', label: 'Subscribe' },
+  { path: '/checkout/success', cat: 'auth', label: 'Checkout Success' },
+  { path: '/chatgpt/consent', cat: 'auth', label: 'ChatGPT OAuth Consent' },
+  { path: '/oauth/authorize', cat: 'auth', label: 'OAuth Authorize' },
+  { path: '/oauth/consent', cat: 'auth', label: 'OAuth Consent' },
+  { path: '/connect', cat: 'auth', label: 'Connect Page' },
+  { path: '/connect/device', cat: 'auth', label: 'Device Connect' },
+  { path: '/go', cat: 'auth', label: 'Go Redirect' },
+  { path: '/maintenance', cat: 'auth', label: 'Maintenance Page' },
+  { path: '/setup', cat: 'auth', label: 'Setup Page' },
+  { path: '/account', cat: 'auth', label: 'Account Page' },
+  { path: '/ai', cat: 'auth', label: '0nAI Chat (mike only)' },
+  { path: '/app', cat: 'auth', label: 'PWA Shell' },
+  { path: '/0nengine', cat: 'auth', label: '0nEngine Page' },
+  { path: '/0nlive', cat: 'auth', label: '0nLive Page' },
+  { path: '/grid', cat: 'auth', label: 'Grid Page' },
+  { path: '/builder', cat: 'auth', label: 'Visual Builder' },
+
+  // ─── WEB0N ───
+  { path: '/web0n', cat: 'product', label: 'Web0n Home' },
+  { path: '/web0n/admin', cat: 'product', label: 'Web0n Admin' },
+  { path: '/web0n/onboard', cat: 'product', label: 'Web0n Onboard' },
+  { path: '/web0n/portal', cat: 'product', label: 'Web0n Portal' },
+
+  // ─── ONPRESS ───
+  { path: '/onpress', cat: 'product', label: 'OnPress Public' },
+  { path: '/onpress/success', cat: 'product', label: 'OnPress Success' },
+  { path: '/wordpress', cat: 'product', label: 'WordPress Page' },
+
+  // ─── DASHBOARD (legacy) ───
+  { path: '/dashboard', cat: 'console', label: 'Dashboard (redirects)' },
+  { path: '/dashboard/admin', cat: 'admin', label: 'Dashboard Admin' },
+  { path: '/dashboard/billing', cat: 'console', label: 'Dashboard Billing' },
+  { path: '/dashboard/connect', cat: 'console', label: 'Dashboard Connect' },
+  { path: '/dashboard/downloads', cat: 'console', label: 'Dashboard Downloads' },
+  { path: '/dashboard/grid', cat: 'console', label: 'Dashboard Grid' },
+  { path: '/dashboard/install', cat: 'console', label: 'Dashboard Install' },
+  { path: '/dashboard/projects', cat: 'console', label: 'Dashboard Projects' },
+  { path: '/dashboard/settings', cat: 'console', label: 'Dashboard Settings' },
+
+  // ─── CONSOLE ───
+  { path: '/console', cat: 'console', label: 'Console Main' },
+  { path: '/console/0nai', cat: 'console', label: 'Console: 0nAI' },
+  { path: '/console/ai-employee', cat: 'console', label: 'Console: AI Employee' },
+  { path: '/console/builder/canvas', cat: 'console', label: 'Console: Builder Canvas' },
+  { path: '/console/checkout', cat: 'console', label: 'Console: Checkout' },
+  { path: '/console/code', cat: 'console', label: 'Console: Code' },
+  { path: '/console/convert', cat: 'console', label: 'Console: Convert' },
+  { path: '/console/courses/generate', cat: 'console', label: 'Console: Course Generator' },
+  { path: '/console/crew', cat: 'console', label: 'Console: Crew' },
+  { path: '/console/crm', cat: 'console', label: 'Console: CRM' },
+  { path: '/console/facebook-ads', cat: 'console', label: 'Console: Facebook Ads' },
+  { path: '/console/integrations', cat: 'console', label: 'Console: Integrations' },
+  { path: '/console/learn', cat: 'console', label: 'Console: Learn' },
+  { path: '/console/learn/[slug]', cat: 'console', label: 'Console: Course', dyn: true },
+  { path: '/console/learn/[slug]/[lessonSlug]', cat: 'console', label: 'Console: Lesson', dyn: true },
+  { path: '/console/linkedin', cat: 'console', label: 'Console: LinkedIn' },
+  { path: '/console/mail', cat: 'console', label: 'Console: Mail Hub' },
+  { path: '/console/mail/analytics', cat: 'console', label: 'Console: Mail Analytics' },
+  { path: '/console/mail/campaigns', cat: 'console', label: 'Console: Mail Campaigns' },
+  { path: '/console/mail/deliverability', cat: 'console', label: 'Console: Deliverability' },
+  { path: '/console/mail/inboxes', cat: 'console', label: 'Console: Inboxes' },
+  { path: '/console/mail/replies', cat: 'console', label: 'Console: Replies' },
+  { path: '/console/mail/sequences', cat: 'console', label: 'Console: Sequences' },
+  { path: '/console/mail/settings', cat: 'console', label: 'Console: Mail Settings' },
+  { path: '/console/marketplace', cat: 'console', label: 'Console: Marketplace' },
+  { path: '/console/marketplace/[slug]', cat: 'console', label: 'Console: Marketplace Item', dyn: true },
+  { path: '/console/migrate', cat: 'console', label: 'Console: Migrate' },
+  { path: '/console/mods', cat: 'console', label: 'Console: Mods' },
+  { path: '/console/onpress', cat: 'console', label: 'Console: OnPress' },
+  { path: '/console/onpress/new', cat: 'console', label: 'Console: OnPress New' },
+  { path: '/console/onpress/[id]', cat: 'console', label: 'Console: OnPress Edit', dyn: true },
+  { path: '/console/operations', cat: 'console', label: 'Console: Operations' },
+  { path: '/console/orders', cat: 'console', label: 'Console: Orders' },
+  { path: '/console/pricing', cat: 'console', label: 'Console: Pricing' },
+  { path: '/console/reporting', cat: 'console', label: 'Console: Reporting' },
+  { path: '/console/site-builder', cat: 'console', label: 'Console: Site Builder' },
+  { path: '/console/social', cat: 'console', label: 'Console: Social' },
+  { path: '/console/terminal', cat: 'console', label: 'Console: Terminal' },
+  { path: '/console/tools', cat: 'console', label: 'Console: Tools Hub' },
+  { path: '/console/tools/ai-training', cat: 'console', label: 'Console: AI Training' },
+  { path: '/console/tools/email-signature', cat: 'console', label: 'Console: Email Signature' },
+  { path: '/console/tools/qr-code', cat: 'console', label: 'Console: QR Code' },
+  { path: '/console/vault', cat: 'console', label: 'Console: Vault' },
+  { path: '/console/workflow-generator', cat: 'console', label: 'Console: Workflow Generator' },
+  { path: '/console/workflows', cat: 'console', label: 'Console: Workflows' },
+
+  // ─── ADMIN ───
+  { path: '/admin', cat: 'admin', label: 'Admin Dashboard' },
+  { path: '/admin/ai-settings', cat: 'admin', label: 'Admin: AI Settings' },
+  { path: '/admin/analytics', cat: 'admin', label: 'Admin: Analytics' },
+  { path: '/admin/blog', cat: 'admin', label: 'Admin: Blog Manager' },
+  { path: '/admin/blog/generate', cat: 'admin', label: 'Admin: Blog Generate' },
+  { path: '/admin/blog/learning', cat: 'admin', label: 'Admin: Blog Learning' },
+  { path: '/admin/blog/seo', cat: 'admin', label: 'Admin: Blog SEO' },
+  { path: '/admin/catalog', cat: 'admin', label: 'Admin: Catalog' },
+  { path: '/admin/content', cat: 'admin', label: 'Admin: Content' },
+  { path: '/admin/email', cat: 'admin', label: 'Admin: Email' },
+  { path: '/admin/forum', cat: 'admin', label: 'Admin: Forum' },
+  { path: '/admin/personas', cat: 'admin', label: 'Admin: Personas' },
+  { path: '/admin/qa', cat: 'admin', label: 'Admin: QA Hub' },
+  { path: '/admin/qa/generate', cat: 'admin', label: 'Admin: QA Generate' },
+  { path: '/admin/qa/history', cat: 'admin', label: 'Admin: QA History' },
+  { path: '/admin/site-builder', cat: 'admin', label: 'Admin: Site Builder' },
+  { path: '/admin/users', cat: 'admin', label: 'Admin: Users' },
+  { path: '/admin/patent-intel', cat: 'admin', label: 'Admin: Patent Intel' },
+  { path: '/admin/patent-intel/findings/[id]', cat: 'admin', label: 'Admin: Patent Finding', dyn: true },
+  { path: '/admin/patent-intel/watchlist', cat: 'admin', label: 'Admin: Patent Watchlist' },
+];
+
+// ─── Render ───
+const content = document.getElementById('content');
+const search = document.getElementById('search');
+
+const categories = {
+  public: { title: 'Public / Marketing Pages', type: 'page' },
+  seo: { title: 'SEO / Programmatic Pages', type: 'page' },
+  product: { title: 'Product Pages', type: 'page' },
+  console: { title: 'Console (Dashboard)', type: 'console' },
+  admin: { title: 'Admin Pages', type: 'admin' },
+  auth: { title: 'Auth / System Pages', type: 'auth' },
+};
+
+function render(filter = 'all', query = '') {
+  content.innerHTML = '';
+  const q = query.toLowerCase();
+  let counts = { total: 0, public: 0, console: 0, admin: 0, auth: 0 };
+
+  for (const [catKey, catInfo] of Object.entries(categories)) {
+    const pages = PAGES.filter(p => {
+      if (p.cat !== catKey) return false;
+      if (filter !== 'all' && p.cat !== filter) return false;
+      if (q && !p.path.toLowerCase().includes(q) && !p.label.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    if (pages.length === 0) continue;
+
+    const section = document.createElement('div');
+    section.className = 'section';
+    section.innerHTML = `<div class="section-title">${catInfo.title} <span class="count">${pages.length}</span></div>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    for (const p of pages) {
+      const a = document.createElement('a');
+      a.className = 'link';
+      a.href = p.dyn ? '#' : BASE + p.path;
+      a.target = p.dyn ? '' : '_blank';
+      a.rel = 'noopener';
+      if (p.dyn) a.title = 'Dynamic route — needs a slug parameter';
+
+      const typeClass = p.dyn ? 'type-dynamic' : catKey === 'admin' ? 'type-admin' : catKey === 'console' ? 'type-console' : catKey === 'auth' ? 'type-auth' : 'type-page';
+      const typeLabel = p.dyn ? 'Dynamic' : catKey.toUpperCase();
+
+      a.innerHTML = `<span class="link-path">${p.path}</span><span class="link-type ${typeClass}">${typeLabel}</span>`;
+      grid.appendChild(a);
+
+      counts.total++;
+      if (catKey === 'public' || catKey === 'seo' || catKey === 'product') counts.public++;
+      else if (catKey === 'console') counts.console++;
+      else if (catKey === 'admin') counts.admin++;
+      else if (catKey === 'auth') counts.auth++;
+    }
+
+    section.appendChild(grid);
+    content.appendChild(section);
+  }
+
+  document.getElementById('total-count').textContent = counts.total;
+  document.getElementById('public-count').textContent = counts.public;
+  document.getElementById('console-count').textContent = counts.console;
+  document.getElementById('admin-count').textContent = counts.admin;
+  document.getElementById('auth-count').textContent = counts.auth;
+}
+
+// ─── Events ───
+let activeFilter = 'all';
+search.addEventListener('input', () => render(activeFilter, search.value));
+
+document.getElementById('filters').addEventListener('click', (e) => {
+  if (e.target.classList.contains('filter-btn')) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    activeFilter = e.target.dataset.filter;
+    render(activeFilter, search.value);
+  }
+});
+
+render();
+</script>
+</body>
+</html>

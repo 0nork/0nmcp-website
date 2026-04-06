@@ -238,6 +238,32 @@ export async function provisionUser(params: {
 
         newLocationId = location.id || newLocationId
         console.log(`[provision] Sub-account created: ${newLocationId} for ${params.email}`)
+
+        // ── Step 2b: Apply snapshot to new sub-location ──
+        // This loads ALL agents, KB, workflows, funnels, chat widget, pipeline, templates
+        const snapshotId = process.env.CRM_SNAPSHOT_ID || 'WHGzGLK0RKBFVAM439au'
+        try {
+          await retryWithBackoff(async () => {
+            const snapRes = await fetch(`${API_BASE}/locations/${newLocationId}`, {
+              method: 'PUT',
+              headers: getCrmHeaders(true), // agency key
+              body: JSON.stringify({
+                snapshotId,
+              }),
+              signal: AbortSignal.timeout(30000),
+            })
+            if (!snapRes.ok) {
+              const err = await snapRes.text()
+              throw new Error(`Snapshot apply ${snapRes.status}: ${err}`)
+            }
+            return snapRes.json()
+          })
+          console.log(`[provision] Snapshot ${snapshotId} applied to ${newLocationId}`)
+        } catch (snapErr) {
+          console.error('[provision] Snapshot apply failed (non-fatal):', snapErr instanceof Error ? snapErr.message : snapErr)
+          // Non-fatal — location still works, just without pre-loaded assets
+        }
+
       } catch (err) {
         console.error('[provision] Sub-account creation failed, using community location:', err instanceof Error ? err.message : err)
         // Continue with community location as fallback

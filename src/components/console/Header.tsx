@@ -66,7 +66,24 @@ interface HeaderProps {
 
 export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, userName, userEmail, coreAI, runCount, runLimit, isOwner, onCmdK, onMobileMenu, onUpgradeClick, onAccountClick, onSetupAI, onNavigateVault }: HeaderProps) {
   const [avatarOpen, setAvatarOpen] = useState(false)
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const avatarRef = useRef<HTMLDivElement>(null)
+
+  // Console defaults to dark mode
+  useEffect(() => {
+    const saved = localStorage.getItem('0n-theme') as 'light' | 'dark' | null
+    const initial = saved || 'dark'
+    setTheme(initial)
+    document.documentElement.setAttribute('data-theme', initial)
+  }, [])
+
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light'
+    setTheme(next)
+    localStorage.setItem('0n-theme', next)
+    localStorage.setItem('0n-theme-mode', next)
+    document.documentElement.setAttribute('data-theme', next)
+  }
 
   useEffect(() => {
     if (!avatarOpen) return
@@ -117,8 +134,8 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
 
         {view !== 'dashboard' && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: '#3a3a4a', fontSize: '0.875rem' }}>/</span>
-            <span style={{ color: '#e2e2e8', fontSize: '0.875rem', fontWeight: 600 }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>/</span>
+            <span style={{ color: 'var(--text-primary)', fontSize: '0.875rem', fontWeight: 600 }}>
               {VIEW_LABELS[view] || view}
             </span>
           </div>
@@ -146,6 +163,41 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
             {mcpOnline ? (mcpMode === 'local' ? 'Local' : 'Cloud') : 'Offline'}
           </span>
         </div>
+
+        {/* Theme toggle */}
+        <button
+          onClick={toggleTheme}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: 32, height: 32, borderRadius: 8,
+            background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
+            color: 'var(--text-muted)', cursor: 'pointer', transition: 'all 0.15s',
+          }}
+        >
+          {theme === 'dark' ? (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          )}
+        </button>
+
+        {/* Token */}
+        <a
+          href="/connect/token"
+          title="Access Token"
+          style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            padding: '5px 10px', borderRadius: 8,
+            background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
+            color: 'var(--text-muted)', textDecoration: 'none',
+            fontSize: '0.7rem', fontWeight: 600,
+            cursor: 'pointer', transition: 'all 0.15s',
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span className="hidden sm:inline">Token</span>
+        </a>
 
         {/* Search */}
         <button

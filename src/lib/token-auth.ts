@@ -115,10 +115,9 @@ export async function validateToken(token: string): Promise<TokenIdentity | null
 export async function regenerateToken(userId: string): Promise<string | null> {
   const admin = getAdmin()
 
-  // Generate cryptographically secure token
-  const bytes = new Uint8Array(24)
-  crypto.getRandomValues(bytes)
-  const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('')
+  // Use Node.js crypto for server-side token generation
+  const { randomBytes } = await import('crypto')
+  const hex = randomBytes(24).toString('hex')
   const newToken = `0n_${hex}`
 
   const { error } = await admin
@@ -139,9 +138,9 @@ export async function createScopedToken(
 ): Promise<{ token: string; id: string; label: string; permissions: string[]; expires_at: string | null } | null> {
   const admin = getAdmin()
 
-  const bytes = new Uint8Array(24)
-  crypto.getRandomValues(bytes)
-  const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('')
+  // Use Node.js crypto for server-side token generation
+  const { randomBytes } = await import('crypto')
+  const hex = randomBytes(24).toString('hex')
   const token = `0n_${hex}`
 
   const label = options.label || 'My Token'
@@ -160,7 +159,11 @@ export async function createScopedToken(
     .select('id, label, permissions, expires_at')
     .single()
 
-  if (error || !data) return null
+  if (error) {
+    console.error('[token-auth] createScopedToken insert error:', error.message, error.details)
+    return null
+  }
+  if (!data) return null
 
   return {
     token,

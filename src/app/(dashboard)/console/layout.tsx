@@ -3,20 +3,13 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
-import ConsoleSidebar from '@/components/console/ConsoleSidebar'
-import ConsoleHeader from '@/components/console/ConsoleHeader'
 import '@/app/console.css'
 
 export default function ConsoleLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
-  const [userName, setUserName] = useState('')
-  const [userEmail, setUserEmail] = useState('')
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    // Check auth
     fetch('/api/console/account')
       .then(r => {
         if (!r.ok) {
@@ -26,32 +19,12 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
         return r.json()
       })
       .then(data => {
-        if (data) {
-          setUserName(data.full_name || '')
-          setUserEmail(data.email || '')
-          setLoading(false)
-        }
+        if (data) setLoading(false)
       })
       .catch(() => {
         router.push('/login')
       })
-
-    // Check admin
-    fetch('/api/admin/users?stats=true')
-      .then(r => { if (r.ok) setIsAdmin(true) })
-      .catch(() => {})
   }, [router])
-
-  async function handleLogout() {
-    try {
-      const supabase = createSupabaseBrowser()
-      if (supabase) await supabase.auth.signOut()
-    } catch { /* ignore */ }
-    try {
-      await fetch('/api/auth/signout', { method: 'POST' })
-    } catch { /* ignore */ }
-    router.push('/login')
-  }
 
   if (loading) {
     return (
@@ -63,8 +36,7 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
         justifyContent: 'center',
       }}>
         <div style={{
-          width: 36,
-          height: 36,
+          width: 36, height: 36,
           border: '2px solid var(--border)',
           borderTopColor: 'var(--accent)',
           borderRadius: '50%',
@@ -75,34 +47,10 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
     )
   }
 
+  // No sidebar wrapper — the console page handles its own layout
   return (
-    <div className="console-wrap">
-      <ConsoleSidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        isAdmin={isAdmin}
-      />
-      <div className="console-main">
-        {/* Mobile toggle header */}
-        <div style={{
-          display: 'none',
-          height: 48,
-          alignItems: 'center',
-          padding: '0 16px',
-          borderBottom: '1px solid var(--border)',
-          background: 'var(--bg-secondary)',
-        }} className="console-mobile-header">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: 8 }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-        </div>
-        <main className="console-content">
-          {children}
-        </main>
-      </div>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', overflow: 'hidden' }}>
+      {children}
     </div>
   )
 }

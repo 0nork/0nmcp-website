@@ -20,6 +20,7 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 import { executeAction, EXECUTION_TOOLS, type ExecutionResult } from '@/lib/execution-engine'
 import { callAIChat } from '@/lib/ai-provider'
 import { STATS_DISPLAY } from '@/data/stats'
+import { getUserCredentials, type UserCredentials } from '@/lib/vault-bridge'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -65,7 +66,8 @@ interface AnthropicContent {
 
 async function callAnthropicWithTools(
   messages: AnthropicMessage[],
-  maxTokens = 4096
+  maxTokens = 4096,
+  userCredentials?: UserCredentials
 ): Promise<{
   text: string
   executions: ExecutionResult[]
@@ -141,7 +143,9 @@ async function callAnthropicWithTools(
 
       const result = await executeAction(
         toolUse.name,
-        (toolUse.input || {}) as Record<string, unknown>
+        (toolUse.input || {}) as Record<string, unknown>,
+        undefined,
+        userCredentials
       )
 
       executions.push(result)
@@ -324,7 +328,8 @@ export async function POST(request: NextRequest) {
       content: m.content,
     }))
 
-    const result = await callAnthropicWithTools(anthropicMessages)
+    const chatCreds = userId ? await getUserCredentials(userId) : undefined
+    const result = await callAnthropicWithTools(anthropicMessages, 4096, chatCreds)
     if (result) {
       console.log(`[chat] Execution complete: ${result.toolCalls.length} tool calls, ${result.executions.length} executions`)
       return createSSEResponse(result.text, result.executions, result.toolCalls, 'claude-sonnet-4')

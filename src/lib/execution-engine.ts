@@ -12,30 +12,33 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
+import type { UserCredentials } from '@/lib/vault-bridge'
 
 // ── Credentials ──
+// Each getter accepts optional UserCredentials from the vault bridge.
+// If provided, user's decrypted keys take priority. Otherwise falls back to process.env.
 
 const CRM_BASE = 'https://services.leadconnectorhq.com'
 const CRM_VERSION = '2021-07-28'
 
-function getCrmPit(): string {
-  return process.env.CRM_SUB_PIT || process.env.CRM_PIT || ''
+function getCrmPit(creds?: UserCredentials): string {
+  return creds?.crm?.pit || creds?.crm?.api_key || creds?.crm?.access_token || process.env.CRM_SUB_PIT || process.env.CRM_PIT || ''
 }
 
-function getCrmAgencyPit(): string {
-  return process.env.CRM_PIT || process.env.CRM_AGENCY_PIT || ''
+function getCrmAgencyPit(creds?: UserCredentials): string {
+  return creds?.crm?.agency_pit || process.env.CRM_PIT || process.env.CRM_AGENCY_PIT || ''
 }
 
-function getCrmLocationId(): string {
-  return process.env.CRM_LOCATION_ID || ''
+function getCrmLocationId(creds?: UserCredentials): string {
+  return creds?.crm?.location_id || process.env.CRM_LOCATION_ID || ''
 }
 
-function getStripeKey(): string {
-  return process.env.STRIPE_SECRET_KEY || ''
+function getStripeKey(creds?: UserCredentials): string {
+  return creds?.stripe?.api_key || creds?.stripe?.secret_key || process.env.STRIPE_SECRET_KEY || ''
 }
 
-function getSlackToken(): string {
-  return process.env.SLACK_BOT_TOKEN || ''
+function getSlackToken(creds?: UserCredentials): string {
+  return creds?.slack?.bot_token || creds?.slack?.api_key || process.env.SLACK_BOT_TOKEN || ''
 }
 
 function getAdmin() {
@@ -300,8 +303,8 @@ export const EXECUTION_TOOLS: ToolDefinition[] = [
 
 // ── Execution Functions ──
 
-async function crmFetch(path: string, options: RequestInit = {}): Promise<unknown> {
-  const pit = getCrmPit()
+async function crmFetch(path: string, options: RequestInit = {}, creds?: UserCredentials): Promise<unknown> {
+  const pit = getCrmPit(creds)
   if (!pit) throw new Error('CRM credentials not configured (CRM_PIT missing)')
 
   const url = `${CRM_BASE}${path}`
@@ -324,8 +327,8 @@ async function crmFetch(path: string, options: RequestInit = {}): Promise<unknow
   return res.json()
 }
 
-async function stripeFetch(path: string, options: RequestInit = {}): Promise<unknown> {
-  const key = getStripeKey()
+async function stripeFetch(path: string, options: RequestInit = {}, creds?: UserCredentials): Promise<unknown> {
+  const key = getStripeKey(creds)
   if (!key) throw new Error('Stripe credentials not configured (STRIPE_SECRET_KEY missing)')
 
   const url = `https://api.stripe.com/v1${path}`
@@ -346,8 +349,8 @@ async function stripeFetch(path: string, options: RequestInit = {}): Promise<unk
   return res.json()
 }
 
-async function slackFetch(method: string, body?: Record<string, unknown>): Promise<unknown> {
-  const token = getSlackToken()
+async function slackFetch(method: string, body?: Record<string, unknown>, creds?: UserCredentials): Promise<unknown> {
+  const token = getSlackToken(creds)
   if (!token) throw new Error('Slack credentials not configured (SLACK_BOT_TOKEN missing)')
 
   const res = await fetch(`https://slack.com/api/${method}`, {
@@ -370,24 +373,24 @@ async function slackFetch(method: string, body?: Record<string, unknown>): Promi
 
 // ── Individual Action Executors ──
 
-async function searchCrmContacts(params: { query: string }): Promise<unknown> {
-  const locationId = getCrmLocationId()
+async function searchCrmContacts(params: { query: string }, creds?: UserCredentials): Promise<unknown> {
+  const locationId = getCrmLocationId(creds)
   // Try search by email first
   const emailMatch = params.query.match(/[\w.-]+@[\w.-]+/)
   if (emailMatch) {
-    return crmFetch(`/contacts/search/duplicate?locationId=${locationId}&email=${encodeURIComponent(emailMatch[0])}`)
+    return crmFetch(`/contacts/search/duplicate?locationId=${locationId}&email=${encodeURIComponent(emailMatch[0])}`, {}, creds)
   }
   // Try search by phone
   const phoneMatch = params.query.match(/[\d+()-]{7,}/)
   if (phoneMatch) {
-    return crmFetch(`/contacts/search/duplicate?locationId=${locationId}&phone=${encodeURIComponent(phoneMatch[0])}`)
+    return crmFetch(`/contacts/search/duplicate?locationId=${locationId}&phone=${encodeURIComponent(phoneMatch[0])}`, {}, creds)
   }
   // General search via contacts list with query param
-  return crmFetch(`/contacts/?locationId=${locationId}&query=${encodeURIComponent(params.query)}&limit=10`)
+  return crmFetch(`/contacts/?locationId=${locationId}&query=${encodeURIComponent(params.query)}&limit=10`, {}, creds)
 }
 
-async function createCrmContact(params: { firstName?: string; lastName?: string; email: string; phone?: string; tags?: string[] }): Promise<unknown> {
-  const locationId = getCrmLocationId()
+async function createCrmContact(params: { firstName?: string; lastName?: string; email: string; phone?: string; tags?: string[] }, creds?: UserCredentials): Promise<unknown> {
+  const locationId = getCrmLocationId(creds)
   return crmFetch('/contacts/', {
     method: 'POST',
     body: JSON.stringify({
@@ -398,14 +401,14 @@ async function createCrmContact(params: { firstName?: string; lastName?: string;
       tags: params.tags || [],
       locationId,
     }),
-  })
+  }, creds)
 }
 
-async function getCrmContact(params: { contactId: string }): Promise<unknown> {
-  return crmFetch(`/contacts/${params.contactId}`)
+async function getCrmContact(params: { contactId: string }, creds?: UserCredentials): Promise<unknown> {
+  return crmFetch(`/contacts/${params.contactId}`, {}, creds)
 }
 
-async function updateCrmContact(params: { contactId: string; firstName?: string; lastName?: string; email?: string; phone?: string; tags?: string[] }): Promise<unknown> {
+async function updateCrmContact(params: { contactId: string; firstName?: string; lastName?: string; email?: string; phone?: string; tags?: string[] }, creds?: UserCredentials): Promise<unknown> {
   const { contactId, ...fields } = params
   // Filter out undefined fields
   const body: Record<string, unknown> = {}
@@ -418,12 +421,12 @@ async function updateCrmContact(params: { contactId: string; firstName?: string;
   return crmFetch(`/contacts/${contactId}`, {
     method: 'PUT',
     body: JSON.stringify(body),
-  })
+  }, creds)
 }
 
-async function sendEmail(params: { contactId: string; subject: string; body: string }): Promise<unknown> {
+async function sendEmail(params: { contactId: string; subject: string; body: string }, creds?: UserCredentials): Promise<unknown> {
   // Use sub-location PIT for sending emails (has conversation permissions)
-  const pit = process.env.CRM_SUB_PIT || getCrmPit()
+  const pit = getCrmPit(creds) || process.env.CRM_SUB_PIT
   if (!pit) throw new Error('CRM credentials not configured for email sending')
 
   const res = await fetch(`${CRM_BASE}/conversations/messages`, {
@@ -451,9 +454,9 @@ async function sendEmail(params: { contactId: string; subject: string; body: str
   return res.json()
 }
 
-async function getCrmPipelines(): Promise<unknown> {
-  const locationId = getCrmLocationId()
-  return crmFetch(`/opportunities/pipelines?locationId=${locationId}`)
+async function getCrmPipelines(creds?: UserCredentials): Promise<unknown> {
+  const locationId = getCrmLocationId(creds)
+  return crmFetch(`/opportunities/pipelines?locationId=${locationId}`, {}, creds)
 }
 
 async function createCrmOpportunity(params: {
@@ -462,8 +465,8 @@ async function createCrmOpportunity(params: {
   stageId: string
   contactId?: string
   monetaryValue?: number
-}): Promise<unknown> {
-  const locationId = getCrmLocationId()
+}, creds?: UserCredentials): Promise<unknown> {
+  const locationId = getCrmLocationId(creds)
   return crmFetch('/opportunities/', {
     method: 'POST',
     body: JSON.stringify({
@@ -474,18 +477,18 @@ async function createCrmOpportunity(params: {
       monetaryValue: params.monetaryValue || 0,
       locationId,
     }),
-  })
+  }, creds)
 }
 
-async function listCrmContacts(params: { limit?: number; query?: string }): Promise<unknown> {
-  const locationId = getCrmLocationId()
+async function listCrmContacts(params: { limit?: number; query?: string }, creds?: UserCredentials): Promise<unknown> {
+  const locationId = getCrmLocationId(creds)
   const limit = Math.min(params.limit || 20, 100)
   let url = `/contacts/?locationId=${locationId}&limit=${limit}`
   if (params.query) url += `&query=${encodeURIComponent(params.query)}`
-  return crmFetch(url)
+  return crmFetch(url, {}, creds)
 }
 
-async function getStripeRevenue(params: { period?: string; limit?: number }): Promise<unknown> {
+async function getStripeRevenue(params: { period?: string; limit?: number }, creds?: UserCredentials): Promise<unknown> {
   const limit = Math.min(params.limit || 100, 100)
 
   // Calculate created[gte] based on period
@@ -507,7 +510,7 @@ async function getStripeRevenue(params: { period?: string; limit?: number }): Pr
     // 'all' = no filter
   }
 
-  const data = await stripeFetch(`/charges?limit=${limit}${createdGte}`) as {
+  const data = await stripeFetch(`/charges?limit=${limit}${createdGte}`, {}, creds) as {
     data?: Array<{ amount: number; status: string; currency: string; created: number }>
   }
 
@@ -531,17 +534,17 @@ async function getStripeRevenue(params: { period?: string; limit?: number }): Pr
   }
 }
 
-async function listStripeCustomers(params: { limit?: number; email?: string }): Promise<unknown> {
+async function listStripeCustomers(params: { limit?: number; email?: string }, creds?: UserCredentials): Promise<unknown> {
   const limit = Math.min(params.limit || 20, 100)
   let url = `/customers?limit=${limit}`
   if (params.email) url += `&email=${encodeURIComponent(params.email)}`
-  return stripeFetch(url)
+  return stripeFetch(url, {}, creds)
 }
 
-async function listStripeSubscriptions(params: { status?: string; limit?: number }): Promise<unknown> {
+async function listStripeSubscriptions(params: { status?: string; limit?: number }, creds?: UserCredentials): Promise<unknown> {
   const limit = Math.min(params.limit || 20, 100)
   const status = params.status === 'all' ? '' : `&status=${params.status || 'active'}`
-  return stripeFetch(`/subscriptions?limit=${limit}${status}`)
+  return stripeFetch(`/subscriptions?limit=${limit}${status}`, {}, creds)
 }
 
 async function createStripeInvoice(params: {
@@ -549,13 +552,13 @@ async function createStripeInvoice(params: {
   amount: number
   description: string
   send?: boolean
-}): Promise<unknown> {
+}, creds?: UserCredentials): Promise<unknown> {
   // Create invoice
   const invoice = await stripeFetch('/invoices', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `customer=${params.customerId}&auto_advance=${params.send ? 'true' : 'false'}`,
-  }) as { id: string }
+  }, creds) as { id: string }
 
   // Add line item
   const amountCents = Math.round(params.amount * 100)
@@ -563,25 +566,25 @@ async function createStripeInvoice(params: {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `customer=${params.customerId}&amount=${amountCents}&currency=usd&description=${encodeURIComponent(params.description)}&invoice=${invoice.id}`,
-  })
+  }, creds)
 
   // Finalize
   const finalized = await stripeFetch(`/invoices/${invoice.id}/finalize`, {
     method: 'POST',
-  })
+  }, creds)
 
   // Optionally send
   if (params.send) {
     await stripeFetch(`/invoices/${invoice.id}/send`, {
       method: 'POST',
-    })
+    }, creds)
   }
 
   return finalized
 }
 
-async function getStripeBalance(): Promise<unknown> {
-  const data = await stripeFetch('/balance') as {
+async function getStripeBalance(creds?: UserCredentials): Promise<unknown> {
+  const data = await stripeFetch('/balance', {}, creds) as {
     available?: Array<{ amount: number; currency: string }>
     pending?: Array<{ amount: number; currency: string }>
   }
@@ -598,29 +601,29 @@ async function getStripeBalance(): Promise<unknown> {
   }
 }
 
-async function postToSlack(params: { channel: string; text: string }): Promise<unknown> {
+async function postToSlack(params: { channel: string; text: string }, creds?: UserCredentials): Promise<unknown> {
   return slackFetch('chat.postMessage', {
     channel: params.channel,
     text: params.text,
-  })
+  }, creds)
 }
 
-async function listSlackChannels(params: { limit?: number }): Promise<unknown> {
+async function listSlackChannels(params: { limit?: number }, creds?: UserCredentials): Promise<unknown> {
   const limit = params.limit || 50
   return slackFetch('conversations.list', {
     types: 'public_channel,private_channel',
     limit,
-  })
+  }, creds)
 }
 
-async function getSlackMessages(params: { channel: string; limit?: number }): Promise<unknown> {
+async function getSlackMessages(params: { channel: string; limit?: number }, creds?: UserCredentials): Promise<unknown> {
   return slackFetch('conversations.history', {
     channel: params.channel,
     limit: params.limit || 10,
-  })
+  }, creds)
 }
 
-async function queryData(params: { source: string; query: string }): Promise<unknown> {
+async function queryData(params: { source: string; query: string }, creds?: UserCredentials): Promise<unknown> {
   const admin = getAdmin()
   const { source, query } = params
 
@@ -633,40 +636,40 @@ async function queryData(params: { source: string; query: string }): Promise<unk
         const { data, error } = await admin.from('stripe_customers' as string).select('*').limit(20)
         if (error) {
           // FDW table might have different name — try via Stripe API
-          return listStripeCustomers({ limit: 20 })
+          return listStripeCustomers({ limit: 20 }, creds)
         }
         return { source: 'stripe_fdw', table: 'stripe_customers', data }
       }
       if (lower.includes('subscription')) {
         const { data, error } = await admin.from('stripe_subscriptions' as string).select('*').limit(20)
-        if (error) return listStripeSubscriptions({ limit: 20 })
+        if (error) return listStripeSubscriptions({ limit: 20 }, creds)
         return { source: 'stripe_fdw', table: 'stripe_subscriptions', data }
       }
       if (lower.includes('invoice')) {
         const { data, error } = await admin.from('stripe_invoices' as string).select('*').limit(20)
         if (error) {
           // Fall back to Stripe API
-          return stripeFetch('/invoices?limit=20')
+          return stripeFetch('/invoices?limit=20', {}, creds)
         }
         return { source: 'stripe_fdw', table: 'stripe_invoices', data }
       }
       if (lower.includes('charge') || lower.includes('revenue') || lower.includes('payment')) {
-        return getStripeRevenue({ period: 'month' })
+        return getStripeRevenue({ period: 'month' }, creds)
       }
       // Generic Stripe query via API
-      return getStripeRevenue({ period: 'all', limit: 50 })
+      return getStripeRevenue({ period: 'all', limit: 50 }, creds)
     }
 
     case 'slack': {
       const lower = query.toLowerCase()
       if (lower.includes('channel')) {
-        return listSlackChannels({ limit: 50 })
+        return listSlackChannels({ limit: 50 }, creds)
       }
       if (lower.includes('message')) {
         // Need a channel ID — try to extract or list channels first
-        return listSlackChannels({ limit: 20 })
+        return listSlackChannels({ limit: 20 }, creds)
       }
-      return listSlackChannels({ limit: 20 })
+      return listSlackChannels({ limit: 20 }, creds)
     }
 
     case 'supabase': {
@@ -700,9 +703,11 @@ async function queryData(params: { source: string; query: string }): Promise<unk
 export async function executeAction(
   actionName: string,
   params: Record<string, unknown>,
-  userId?: string
+  userId?: string,
+  userCredentials?: UserCredentials
 ): Promise<ExecutionResult> {
   const startTime = Date.now()
+  const creds = userCredentials
 
   try {
     let data: unknown
@@ -712,77 +717,77 @@ export async function executeAction(
       // CRM
       case 'search_crm_contacts':
         service = 'crm'
-        data = await searchCrmContacts(params as { query: string })
+        data = await searchCrmContacts(params as { query: string }, creds)
         break
       case 'create_crm_contact':
         service = 'crm'
-        data = await createCrmContact(params as { firstName?: string; lastName?: string; email: string; phone?: string; tags?: string[] })
+        data = await createCrmContact(params as { firstName?: string; lastName?: string; email: string; phone?: string; tags?: string[] }, creds)
         break
       case 'get_crm_contact':
         service = 'crm'
-        data = await getCrmContact(params as { contactId: string })
+        data = await getCrmContact(params as { contactId: string }, creds)
         break
       case 'update_crm_contact':
         service = 'crm'
-        data = await updateCrmContact(params as { contactId: string; firstName?: string; lastName?: string; email?: string; phone?: string; tags?: string[] })
+        data = await updateCrmContact(params as { contactId: string; firstName?: string; lastName?: string; email?: string; phone?: string; tags?: string[] }, creds)
         break
       case 'send_email':
         service = 'crm'
-        data = await sendEmail(params as { contactId: string; subject: string; body: string })
+        data = await sendEmail(params as { contactId: string; subject: string; body: string }, creds)
         break
       case 'get_crm_pipelines':
         service = 'crm'
-        data = await getCrmPipelines()
+        data = await getCrmPipelines(creds)
         break
       case 'create_crm_opportunity':
         service = 'crm'
-        data = await createCrmOpportunity(params as { name: string; pipelineId: string; stageId: string; contactId?: string; monetaryValue?: number })
+        data = await createCrmOpportunity(params as { name: string; pipelineId: string; stageId: string; contactId?: string; monetaryValue?: number }, creds)
         break
       case 'list_crm_contacts':
         service = 'crm'
-        data = await listCrmContacts(params as { limit?: number; query?: string })
+        data = await listCrmContacts(params as { limit?: number; query?: string }, creds)
         break
 
       // Stripe
       case 'get_stripe_revenue':
         service = 'stripe'
-        data = await getStripeRevenue(params as { period?: string; limit?: number })
+        data = await getStripeRevenue(params as { period?: string; limit?: number }, creds)
         break
       case 'list_stripe_customers':
         service = 'stripe'
-        data = await listStripeCustomers(params as { limit?: number; email?: string })
+        data = await listStripeCustomers(params as { limit?: number; email?: string }, creds)
         break
       case 'list_stripe_subscriptions':
         service = 'stripe'
-        data = await listStripeSubscriptions(params as { status?: string; limit?: number })
+        data = await listStripeSubscriptions(params as { status?: string; limit?: number }, creds)
         break
       case 'create_stripe_invoice':
         service = 'stripe'
-        data = await createStripeInvoice(params as { customerId: string; amount: number; description: string; send?: boolean })
+        data = await createStripeInvoice(params as { customerId: string; amount: number; description: string; send?: boolean }, creds)
         break
       case 'get_stripe_balance':
         service = 'stripe'
-        data = await getStripeBalance()
+        data = await getStripeBalance(creds)
         break
 
       // Slack
       case 'post_to_slack':
         service = 'slack'
-        data = await postToSlack(params as { channel: string; text: string })
+        data = await postToSlack(params as { channel: string; text: string }, creds)
         break
       case 'list_slack_channels':
         service = 'slack'
-        data = await listSlackChannels(params as { limit?: number })
+        data = await listSlackChannels(params as { limit?: number }, creds)
         break
       case 'get_slack_messages':
         service = 'slack'
-        data = await getSlackMessages(params as { channel: string; limit?: number })
+        data = await getSlackMessages(params as { channel: string; limit?: number }, creds)
         break
 
       // Data queries
       case 'query_data':
         service = 'data'
-        data = await queryData(params as { source: string; query: string })
+        data = await queryData(params as { source: string; query: string }, creds)
         break
 
       default:

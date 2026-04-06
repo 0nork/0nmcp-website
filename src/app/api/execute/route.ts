@@ -11,6 +11,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { executeAction, EXECUTION_TOOLS } from '@/lib/execution-engine'
+import { getUserCredentials } from '@/lib/vault-bridge'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -62,8 +63,11 @@ export async function POST(request: NextRequest) {
     // For now, trust auth + billing
   }
 
-  // Execute the action for real
-  const result = await executeAction(action, params || {}, user.id)
+  // Decrypt user's vault credentials for execution
+  const userCredentials = await getUserCredentials(user.id)
+
+  // Execute the action for real — user vault keys take priority, env vars as fallback
+  const result = await executeAction(action, params || {}, user.id, userCredentials)
 
   return NextResponse.json(result, {
     status: result.success ? 200 : 500,

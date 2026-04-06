@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { callAIChat } from '@/lib/ai-provider'
 import { EXECUTION_TOOLS, executeAction, type ExecutionResult } from '@/lib/execution-engine'
+import { getUserCredentials } from '@/lib/vault-bridge'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -172,6 +173,7 @@ export async function POST(request: NextRequest) {
   if (body.executeWorkflow?.steps) {
     const steps = body.executeWorkflow.steps
     const results: Array<{ stepId: string; action: string; result: ExecutionResult }> = []
+    const userCredentials = await getUserCredentials(user.id)
 
     for (const step of steps) {
       // Map workflow step action names to execution engine tool names
@@ -191,7 +193,7 @@ export async function POST(request: NextRequest) {
         continue
       }
 
-      const result = await executeAction(toolName, step.params || {}, user.id)
+      const result = await executeAction(toolName, step.params || {}, user.id, userCredentials)
       results.push({ stepId: step.id, action: toolName, result })
 
       // Stop on failure (unless it's a non-critical step)
@@ -240,7 +242,8 @@ export async function POST(request: NextRequest) {
 
     if (useExecution) {
       console.log(`[create] Execution mode for user ${user.id}`)
-      const execResult = await callAnthropicWithTools(SYSTEM_PROMPT, aiMessages, user.id)
+      const execCreds = await getUserCredentials(user.id)
+      const execResult = await callAnthropicWithTools(SYSTEM_PROMPT, aiMessages, user.id, execCreds)
 
       if (!execResult) {
         // Fall back to regular chat
@@ -356,7 +359,8 @@ interface ToolCallExecution {
 async function callAnthropicWithTools(
   system: string,
   messages: Array<{ role: 'user' | 'assistant'; content: string }>,
-  userId: string
+  userId: string,
+  userCredentials?: import('@/lib/vault-bridge').UserCredentials
 ): Promise<{ text: string; executions: ToolCallExecution[] } | null> {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
@@ -441,7 +445,7 @@ async function callAnthropicWithTools(
 
     for (const toolCall of toolUseBlocks) {
       console.log(`[create] Executing tool: ${toolCall.name}`, JSON.stringify(toolCall.input).slice(0, 200))
-      const result = await executeAction(toolCall.name, toolCall.input, userId)
+      const result = await executeAction(toolCall.name, toolCall.input, userId, userCredentials)
       executions.push({
         toolName: toolCall.name,
         toolInput: toolCall.input,

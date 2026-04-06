@@ -515,19 +515,44 @@ ${apiRoutes.length > 0 ? apiRoutes.map(p => `  - "${p}"`).join('\n') : '  []'}
 `
 }
 
-// ── Sitemap XML generator ──
+// ── Google-Optimized Sitemap XML generator ──
+
+function getChangefreq(path: string): string {
+  if (path === '/') return 'daily'
+  if (path.startsWith('/blog/') && path !== '/blog') return 'weekly'
+  if (['/about', '/legal', '/privacy', '/terms', '/imprint'].some(p => path === p)) return 'monthly'
+  if (path.startsWith('/integrations/') || path.startsWith('/turn-it-on/') || path.startsWith('/glossary/')) return 'weekly'
+  return 'weekly'
+}
+
+function getPriority(path: string): string {
+  if (path === '/') return '1.0'
+  // Blog posts get 0.7
+  if (path.startsWith('/blog/') && path !== '/blog') return '0.7'
+  // Count depth by segments
+  const segments = path.split('/').filter(Boolean)
+  if (segments.length === 1) return '0.8'
+  if (segments.length === 2) return '0.6'
+  return '0.4'
+}
 
 function generateSitemapXml(tree: RouteNode, site: string): string {
   const hostname = site.startsWith('http') ? site : `https://${site}`
+  const normalizedHost = hostname.replace(/\/$/, '')
 
-  function collectUrls(node: RouteNode): Array<{ path: string; lastmod?: string; priority?: string }> {
-    const urls: Array<{ path: string; lastmod?: string; priority?: string }> = []
-    // Skip dynamic routes for XML sitemap
-    if (!node.path.includes('[')) {
+  function collectUrls(node: RouteNode): Array<{ path: string; lastmod?: string }> {
+    const urls: Array<{ path: string; lastmod?: string }> = []
+    // Skip dynamic routes, API routes, query params, and fragments for XML sitemap
+    if (!node.path.includes('[') && !node.path.startsWith('/api')) {
+      // Clean path: no query params, no fragments
+      let cleanPath = node.path.split('?')[0].split('#')[0]
+      // Remove trailing slash (except root)
+      if (cleanPath !== '/' && cleanPath.endsWith('/')) {
+        cleanPath = cleanPath.replace(/\/+$/, '')
+      }
       urls.push({
-        path: node.path,
+        path: cleanPath,
         lastmod: node.lastmod,
-        priority: node.priority || (node.depth === 0 ? '1.0' : node.depth === 1 ? '0.8' : '0.6'),
       })
     }
     for (const child of node.children) {
@@ -536,18 +561,44 @@ function generateSitemapXml(tree: RouteNode, site: string): string {
     return urls
   }
 
-  const urls = collectUrls(tree)
+  const rawUrls = collectUrls(tree)
+
+  // Deduplicate by path
+  const seen = new Set<string>()
+  const uniqueUrls: Array<{ path: string; lastmod?: string }> = []
+  for (const u of rawUrls) {
+    if (!seen.has(u.path)) {
+      seen.add(u.path)
+      uniqueUrls.push(u)
+    }
+  }
+
+  // Sort: homepage first, then alphabetically
+  uniqueUrls.sort((a, b) => {
+    if (a.path === '/') return -1
+    if (b.path === '/') return 1
+    return a.path.localeCompare(b.path)
+  })
+
+  // Google limit: 50,000 URLs per sitemap
+  const capped = uniqueUrls.slice(0, 50000)
+
+  const today = new Date().toISOString().slice(0, 10)
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
-  for (const url of urls) {
+  for (const url of capped) {
+    const loc = url.path === '/' ? `${normalizedHost}/` : `${normalizedHost}${url.path}`
+    const lastmod = url.lastmod ? url.lastmod.slice(0, 10) : today
+    const changefreq = getChangefreq(url.path)
+    const priority = getPriority(url.path)
+
     xml += '  <url>\n'
-    xml += `    <loc>${hostname}${url.path}</loc>\n`
-    if (url.lastmod) {
-      xml += `    <lastmod>${url.lastmod}</lastmod>\n`
-    }
-    xml += `    <priority>${url.priority}</priority>\n`
+    xml += `    <loc>${loc}</loc>\n`
+    xml += `    <lastmod>${lastmod}</lastmod>\n`
+    xml += `    <changefreq>${changefreq}</changefreq>\n`
+    xml += `    <priority>${priority}</priority>\n`
     xml += '  </url>\n'
   }
 
@@ -569,7 +620,7 @@ export async function GET(request: NextRequest) {
     const xml = generateSitemapXml(tree, rawUrl)
     return new NextResponse(xml, {
       headers: {
-        'Content-Type': 'application/xml',
+        'Content-Type': 'application/xml; charset=utf-8',
         'Content-Disposition': `attachment; filename="${rawUrl.replace(/[^a-z0-9.]/gi, '-')}-sitemap.xml"`,
       },
     })

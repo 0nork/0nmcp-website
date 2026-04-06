@@ -10,6 +10,7 @@ import {
   useEdgesState,
   type Node,
   type Edge,
+  type ReactFlowInstance,
   Handle,
   Position,
   Panel,
@@ -427,6 +428,7 @@ export default function CanvasClient() {
   const [logMessages, setLogMessages] = useState<string[]>([])
   const [copiedJson, setCopiedJson] = useState(false)
   const [selectedNode, setSelectedNode] = useState<SiteNodeData | null>(null)
+  const reactFlowRef = useRef<ReactFlowInstance<SiteFlowNode, Edge> | null>(null)
 
   const loadCanvas = useCallback(
     async (url: string) => {
@@ -462,6 +464,13 @@ export default function CanvasClient() {
         setIsLive(data.isLive)
         setUrlCount(data.urlCount)
         setCurrentSite(url)
+
+        // Recenter and zoom after nodes load
+        setTimeout(() => {
+          if (reactFlowRef.current) {
+            reactFlowRef.current.fitView({ padding: 0.3, duration: 500 })
+          }
+        }, 100)
       } catch {
         setLogMessages((prev) => [...prev, 'Scan failed — check the URL and try again'])
       }
@@ -575,7 +584,12 @@ export default function CanvasClient() {
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
         onNodeClick={handleNodeClick}
-        fitView
+        defaultViewport={{ x: 200, y: 100, zoom: 0.85 }}
+        onInit={(instance) => {
+          reactFlowRef.current = instance
+          // Fit to content once initial nodes are loaded
+          setTimeout(() => instance.fitView({ padding: 0.3, duration: 500 }), 200)
+        }}
         minZoom={0.05}
         maxZoom={2.5}
         defaultEdgeOptions={{ type: 'smoothstep' }}
@@ -852,6 +866,32 @@ export default function CanvasClient() {
                       />
                     </svg>
                     Export Blueprint
+                  </button>
+
+                  <button
+                    onClick={handleExportXml}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: 'var(--radius-button)',
+                      background: 'color-mix(in srgb, var(--color-cyan) 10%, transparent)',
+                      border: '1px solid color-mix(in srgb, var(--color-cyan) 25%, transparent)',
+                      color: 'var(--color-cyan)',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font-display)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      transition: 'all var(--duration-fast)',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+                    </svg>
+                    Export Sitemap
                   </button>
 
                   <div style={{ display: 'flex', gap: 6 }}>

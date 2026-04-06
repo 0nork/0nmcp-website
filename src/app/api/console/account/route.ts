@@ -35,6 +35,8 @@ export async function GET() {
     created_at: profile?.created_at || user.created_at,
     stripe_customer_id: profile?.stripe_customer_id || null,
     preferences: profile?.preferences || {},
+    access_token: profile?.access_token || null,
+    crm_location_id: profile?.crm_location_id || null,
   })
 }
 

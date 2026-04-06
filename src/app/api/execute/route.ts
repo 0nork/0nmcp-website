@@ -12,6 +12,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import { executeAction, EXECUTION_TOOLS } from '@/lib/execution-engine'
 import { getUserCredentials } from '@/lib/vault-bridge'
+import { resolveAuth } from '@/lib/token-auth'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -20,15 +21,22 @@ export const runtime = 'nodejs'
 const OWNER_EMAILS = ['mike@rocketopp.com', 'mike@0nmcp.com']
 
 export async function POST(request: NextRequest) {
-  // Auth check
-  const supabase = await createSupabaseServer()
-  if (!supabase) {
-    return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
+  // Auth check — supports both session auth (web) and token auth (external)
+  const auth = await resolveAuth(request)
+  if (!auth) {
+    return NextResponse.json({ error: 'Unauthorized. Use session auth or pass Authorization: Bearer 0n_xxx' }, { status: 401 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const userId = auth.userId
+
+  // For rate limit check, get email
+  let userEmail: string | undefined
+  if (auth.source === 'session') {
+    const supabase = await createSupabaseServer()
+    if (supabase) {
+      const { data: { user } } = await supabase.auth.getUser()
+      userEmail = user?.email || undefined
+    }
   }
 
   // Parse body
@@ -57,17 +65,17 @@ export async function POST(request: NextRequest) {
   }
 
   // Rate limiting for non-owners (simple in-memory check)
-  const isOwner = user.email && OWNER_EMAILS.includes(user.email)
+  const isOwner = userEmail && OWNER_EMAILS.includes(userEmail)
   if (!isOwner) {
     // TODO: Add proper rate limiting with Redis/Supabase
     // For now, trust auth + billing
   }
 
   // Decrypt user's vault credentials for execution
-  const userCredentials = await getUserCredentials(user.id)
+  const userCredentials = await getUserCredentials(userId)
 
   // Execute the action for real — user vault keys take priority, env vars as fallback
-  const result = await executeAction(action, params || {}, user.id, userCredentials)
+  const result = await executeAction(action, params || {}, userId, userCredentials)
 
   return NextResponse.json(result, {
     status: result.success ? 200 : 500,

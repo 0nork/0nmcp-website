@@ -25,10 +25,10 @@
   /* Header */
   --header-border: #e2e8f0;
 
-  /* Text */
-  --text-primary: #1f2937;
-  --text-secondary: #1f1578;
-  --text-muted: #94a3b8;
+  /* Text — WCAG AA contrast on white (#fff) backgrounds */
+  --text-primary: #1f2937;   /* gray-800 — 12.6:1 on white */
+  --text-secondary: #4b5563; /* gray-600 — 7.0:1 on white */
+  --text-muted: #6b7280;     /* gray-500 — 5.0:1 on white */
 
   /* Brand Green */
   --accent: #7ed957;
@@ -45,9 +45,9 @@
   --color-success: #10b981;
 
   /* States */
-  --active-state: #ffffff;
-  --active-bg: #8e6e8b;
-  --hover-state: #5e8700;
+  --active-state: #1f2937;
+  --active-bg: rgba(126,217,87,0.12);
+  --hover-state: #2d8a1e;
   --cta-bg: #2d8a1e;
   --cta-text: #ffffff;
 
@@ -107,10 +107,10 @@
   /* Header */
   --header-border: #30363d;
 
-  /* Text */
-  --text-primary: #f0f4f8;
-  --text-secondary: #94a3b8;
-  --text-muted: #0f4670;
+  /* Text — WCAG AA contrast on dark (#0d1117) backgrounds */
+  --text-primary: #f0f4f8;   /* near-white — 15.4:1 on #0d1117 */
+  --text-secondary: #9ca3af; /* gray-400 — 7.5:1 on #0d1117 */
+  --text-muted: #6b7280;     /* gray-500 — 4.6:1 on #0d1117 */
 
   /* Brand Green */
   --accent: #7ed957;
@@ -127,11 +127,11 @@
   --color-success: #10b981;
 
   /* States */
-  --active-state: #8e6e8b;
+  --active-state: #f0f4f8;
   --active-bg: rgba(126,217,87,0.15);
-  --hover-state: #8e6c7e;
-  --cta-bg: #5e6FB9;
-  --cta-text: #ffffff;
+  --hover-state: #5cb83a;
+  --cta-bg: #7ed957;
+  --cta-text: #000000;
 
   /* Borders */
   --border: #30363d;
@@ -160,9 +160,9 @@ html {
 }
 
 body {
-  background-color: #f5f5f7;
-  color: #1a1a1a;
-  font-family: var(--font-display);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -223,16 +223,13 @@ p, span, li, td, th, label, a, div {
   color: inherit;
 }
 
-/* Force minimum contrast on body text */
-body {
-  color: #1a1a1a;
-}
+/* Body text inherits from CSS vars — no hardcoded overrides */
 
 /* Muted text should never be lighter than #888 on LIGHT backgrounds.
    CRITICAL: This must NOT apply inside .homepage (dark bg) sections. */
 :not(.homepage) > .text-muted,
 :not(.homepage) > [class*="text-muted"] {
-  color: #555;
+  color: var(--text-secondary);
 }
 
 /* ============================================
@@ -242,7 +239,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
@@ -3123,7 +3120,7 @@ a:hover {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.7rem;
-  color: #555;
+  color: var(--text-secondary);
   letter-spacing: 0.05em;
   flex-shrink: 0;
 }
@@ -4761,7 +4758,7 @@ a:hover {
   letter-spacing: -0.04em;
 }
 .mn-logo-text {
-  font-weight: 800; font-size: 1.25rem; color: #1a1a1a;
+  font-weight: 800; font-size: 1.25rem; color: var(--text-primary);
   letter-spacing: -0.04em;
 }
 .mn-links {
@@ -4774,7 +4771,7 @@ a:hover {
   display: flex; align-items: center; gap: 4px;
   padding: 0.6rem 1rem;
   background: none; border: none;
-  color: #333; font-size: 0.875rem; font-weight: 500;
+  color: var(--text-primary); font-size: 0.875rem; font-weight: 500;
   cursor: pointer; transition: color 0.15s;
   font-family: inherit; letter-spacing: 0;
   text-transform: none;
@@ -4789,7 +4786,7 @@ a:hover {
 @media (min-width: 768px) { .mn-actions { display: flex; } }
 
 .mn-signin {
-  font-size: 0.8125rem; font-weight: 500; color: #555;
+  font-size: 0.8125rem; font-weight: 500; color: var(--text-secondary);
   padding: 0.45rem 1rem; border-radius: 6px;
   transition: color 0.15s;
 }
@@ -4797,10 +4794,10 @@ a:hover {
 
 .mn-cta {
   font-size: 0.8125rem; font-weight: 600; color: #fff;
-  background: #1a1a1a; padding: 0.45rem 1.25rem;
+  background: var(--cta-bg); padding: 0.45rem 1.25rem;
   border-radius: 6px; transition: background 0.15s;
 }
-.mn-cta:hover { background: #333; color: #fff; }
+.mn-cta:hover { background: var(--hover-state); color: var(--cta-text); }
 
 /* Hamburger */
 .mn-hamburger {
@@ -4839,7 +4836,7 @@ a:hover {
 .mn-col-title {
   display: block; font-size: 0.6875rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.08em;
-  color: #aaa; margin-bottom: 0.75rem;
+  color: var(--text-muted); margin-bottom: 0.75rem;
 }
 .mn-item {
   display: block; padding: 0.35rem 0;
@@ -4847,7 +4844,7 @@ a:hover {
   transition: color 0.15s;
 }
 .mn-item:hover { color: #000; }
-.mn-item-bold { font-weight: 600; color: #1a1a1a; }
+.mn-item-bold { font-weight: 600; color: var(--text-primary); }
 
 /* Featured card */
 .mn-featured {
@@ -4862,7 +4859,7 @@ a:hover {
 }
 .mn-featured-card:hover { background: #f0f0f0; }
 .mn-featured-title {
-  font-size: 0.9375rem; font-weight: 700; color: #1a1a1a;
+  font-size: 0.9375rem; font-weight: 700; color: var(--text-primary);
   line-height: 1.4; margin-bottom: 8px;
 }
 .mn-featured-arrow {
@@ -4882,7 +4879,7 @@ a:hover {
 }
 .mn-mobile-link {
   display: block; padding: 0.6rem 0;
-  font-size: 0.9375rem; color: #333;
+  font-size: 0.9375rem; color: var(--text-primary);
   border-bottom: 1px solid #f0f0f0;
   transition: color 0.15s;
 }

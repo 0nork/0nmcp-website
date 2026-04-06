@@ -84,8 +84,8 @@ export const ONCORE_PLANS: Record<string, {
     features: ['10 executions/day', '1 location', 'Community support', 'Vault encryption', '1,183 tools'],
   },
   founders: {
-    priceId: process.env.STRIPE_PRICE_FOUNDERS || 'price_1T1rY5HThmAuKVQMEvWdsvcy',
-    name: 'Founders', tier: 'founders', amount: 50, mode: 'payment', trialDays: 30,
+    priceId: process.env.STRIPE_PRICE_FOUNDERS || 'price_1TJ4uRHThmAuKVQMhhjf8vJC',
+    name: 'Founders', tier: 'founders', amount: 50, mode: 'subscription', trialDays: 30,
     maxLocations: 3, badge: 'MOST POPULAR',
     features: ['Lifetime Founders Badge', '30 days free access', 'Early access to all features', 'Locked-in $80/mo after trial', '3 locations', 'Priority support', 'Vault encryption', '1,183 tools across 99 services'],
   },

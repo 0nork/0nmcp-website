@@ -713,7 +713,7 @@ a:hover {
   padding: 0.875rem 2rem;
   border-radius: 12px;
   background: linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%);
-  color: #0B0F19;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
@@ -726,7 +726,7 @@ a:hover {
 .hero-cta-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 60px rgba(110, 224, 90, 0.35), 0 8px 30px rgba(110, 224, 90, 0.2);
-  color: #0B0F19;
+  color: var(--text-primary);
 }
 
 .hero-cta-secondary {
@@ -1258,7 +1258,7 @@ a:hover {
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   background: linear-gradient(135deg, #6EE05A, #4CAF3D);
-  color: #0B0F19;
+  color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 700;
@@ -1326,7 +1326,7 @@ a:hover {
   padding: 0.75rem;
   border-radius: 10px;
   background: linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%);
-  color: #0B0F19;
+  color: var(--text-primary);
   font-weight: 700;
   font-size: 0.875rem;
   text-decoration: none;
@@ -1337,7 +1337,7 @@ a:hover {
 .pricing-cta-primary:hover {
   box-shadow: 0 0 40px rgba(110, 224, 90, 0.3);
   transform: translateY(-1px);
-  color: #0B0F19;
+  color: var(--text-primary);
 }
 
 .pricing-cta-secondary {
@@ -3120,8 +3120,8 @@ a:hover {
   right: 0;
   z-index: 51;
   height: 2rem;
-  background: #000;
-  border-bottom: 1px solid #1a1a1a;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
 }
@@ -3172,7 +3172,7 @@ a:hover {
   gap: 0.35rem;
   font-size: 0.65rem;
   font-weight: 500;
-  color: #888;
+  color: var(--text-muted);
   text-decoration: none;
   transition: color 0.15s ease;
 }
@@ -4796,7 +4796,7 @@ a:hover {
   font-family: inherit; letter-spacing: 0;
   text-transform: none;
 }
-.mn-trigger:hover, .mn-trigger.active, .mn-link:hover { color: #000; }
+.mn-trigger:hover, .mn-trigger.active, .mn-link:hover { color: var(--text-primary); }
 .mn-chev { transition: transform 0.2s; margin-left: 2px; }
 .mn-trigger.active .mn-chev { transform: rotate(180deg); }
 
@@ -4810,10 +4810,10 @@ a:hover {
   padding: 0.45rem 1rem; border-radius: 6px;
   transition: color 0.15s;
 }
-.mn-signin:hover { color: #000; }
+.mn-signin:hover { color: var(--text-primary); }
 
 .mn-cta {
-  font-size: 0.8125rem; font-weight: 600; color: #fff;
+  font-size: 0.8125rem; font-weight: 600; color: var(--cta-text);
   background: var(--cta-bg); padding: 0.45rem 1.25rem;
   border-radius: 6px; transition: background 0.15s;
 }
@@ -4829,7 +4829,7 @@ a:hover {
 .mn-burger { display: flex; flex-direction: column; gap: 5px; width: 20px; }
 .mn-burger span {
   display: block; width: 100%; height: 1.5px;
-  background: #333; transition: all 0.25s; border-radius: 1px;
+  background: var(--text-secondary); transition: all 0.25s; border-radius: 1px;
 }
 .mn-burger.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
 .mn-burger.open span:nth-child(2) { opacity: 0; }
@@ -4860,10 +4860,10 @@ a:hover {
 }
 .mn-item {
   display: block; padding: 0.35rem 0;
-  font-size: 0.875rem; color: #444;
+  font-size: 0.875rem; color: var(--text-secondary);
   transition: color 0.15s;
 }
-.mn-item:hover { color: #000; }
+.mn-item:hover { color: var(--text-primary); }
 .mn-item-bold { font-weight: 600; color: var(--text-primary); }
 
 /* Featured card */
@@ -4874,10 +4874,10 @@ a:hover {
 .mn-featured-card {
   display: flex; flex-direction: column; justify-content: center;
   padding: 1rem 1.25rem; border-radius: 10px;
-  background: #f8f8f8; width: 100%;
+  background: var(--bg-tertiary); width: 100%;
   transition: background 0.15s;
 }
-.mn-featured-card:hover { background: #f0f0f0; }
+.mn-featured-card:hover { background: var(--bg-tertiary); }
 .mn-featured-title {
   font-size: 0.9375rem; font-weight: 700; color: var(--text-primary);
   line-height: 1.4; margin-bottom: 8px;
@@ -4900,10 +4900,10 @@ a:hover {
 .mn-mobile-link {
   display: block; padding: 0.6rem 0;
   font-size: 0.9375rem; color: var(--text-primary);
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
   transition: color 0.15s;
 }
-.mn-mobile-link:hover { color: #000; }
+.mn-mobile-link:hover { color: var(--accent); }
 
 .mega-nav-bar {
   display: flex;

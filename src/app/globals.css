@@ -3404,7 +3404,7 @@ a:hover {
 }
 
 .store-demo {
-  background: #0d0f24;
+  background: var(--bg-deep);
   border: 1px solid #1e2258;
   border-radius: 16px;
   padding: 1.5rem;
@@ -4400,7 +4400,7 @@ a:hover {
 /* Recessed sections — lighter bg, pushed BACK in z-space */
 .section-recessed {
   position: relative;
-  background: #13131c;
+  background: var(--bg-deep);
   box-shadow:
     inset 0 4px 30px rgba(0, 0, 0, 0.6),
     inset 0 -4px 30px rgba(0, 0, 0, 0.6),
@@ -7916,7 +7916,7 @@ nav[aria-label="Breadcrumb"] a:hover {
    ============================================ */
 
 .on-terminal-container {
-  background: #060810;
+  background: var(--bg-deep);
   border: 1px solid rgba(0, 255, 102, 0.15);
   border-radius: 8px;
   overflow: hidden;
@@ -7982,7 +7982,7 @@ nav[aria-label="Breadcrumb"] a:hover {
   border-top: 1px solid rgba(0, 255, 102, 0.08);
   font-family: 'Share Tech Mono', monospace;
   font-size: 10px;
-  color: #3a4260;
+  color: var(--text-secondary);
   letter-spacing: 1px;
   flex-shrink: 0;
 }
@@ -8016,7 +8016,7 @@ nav[aria-label="Breadcrumb"] a:hover {
 .on-terminal-loading-text {
   font-family: 'Share Tech Mono', monospace;
   font-size: 12px;
-  color: #3a4260;
+  color: var(--text-secondary);
   letter-spacing: 2px;
 }
 
@@ -8036,7 +8036,7 @@ nav[aria-label="Breadcrumb"] a:hover {
 
 .on-terminal-toggle-btn.on-terminal-toggle-closed {
   border-bottom: 1px solid rgba(0,255,102,0.15);
-  color: #3a4260;
+  color: var(--text-secondary);
   background: rgba(0,255,102,0.03);
 }
 

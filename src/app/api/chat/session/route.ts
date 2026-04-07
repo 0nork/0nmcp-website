@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
   // Auto-generate title from first user message
   const autoTitle = title || (() => {
-    const firstUserMsg = messages.find((m: { role?: string }) => m.role === 'user') as { text?: string } | undefined
+    const firstUserMsg = messages.find((m: unknown) => (m as { role?: string }).role === 'user') as { text?: string } | undefined
     if (firstUserMsg?.text) {
       return firstUserMsg.text.slice(0, 100) + (firstUserMsg.text.length > 100 ? '...' : '')
     }

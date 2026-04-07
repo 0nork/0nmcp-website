@@ -47,6 +47,10 @@
     {
       "path": "/api/registry/sync",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/spa-scoring",
+      "schedule": "0 13 * * *"
     }
   ],
   "redirects": [

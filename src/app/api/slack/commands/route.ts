@@ -65,14 +65,14 @@ export async function POST(request: NextRequest) {
   const subcommand = (parts[0] || '').toLowerCase()
   const args = parts.slice(1).join(' ')
 
-  // Acknowledge immediately with a loading state
-  // Then send the real response to response_url
-  if (subcommand === 'run' && args) {
-    // Send immediate acknowledgment
-    sendAsync(responseUrl, await buildRunResponse(args))
+  // Commands that need async execution (AI + tool calls)
+  const asyncCommands = ['run', 'ask', 'council', 'chat', 'blog', 'social', 'sxo']
+  if (asyncCommands.includes(subcommand) && (args || subcommand === 'council')) {
+    const taskDesc = subcommand === 'run' ? args : `${subcommand}: ${args || 'help'}`
+    sendAsync(responseUrl, await buildRunResponse(taskDesc))
     return NextResponse.json({
       response_type: 'ephemeral',
-      text: `Executing: ${args}...`,
+      text: `Executing: ${subcommand} ${args}...`,
     })
   }
 
@@ -84,10 +84,34 @@ export async function POST(request: NextRequest) {
       blocks = buildStatusBlocks()
       break
     case 'connect':
+    case 'integrations':
+    case 'vault':
       blocks = buildConnectBlocks()
       break
     case 'help':
+    case 'commands':
       blocks = buildHelpBlocks()
+      break
+    case 'contacts':
+      sendAsync(responseUrl, await buildRunResponse('list the most recent 10 CRM contacts with their name and email'))
+      return NextResponse.json({ response_type: 'ephemeral', text: 'Fetching contacts...' })
+    case 'pipeline':
+      sendAsync(responseUrl, await buildRunResponse('get all CRM pipelines and show their stages'))
+      return NextResponse.json({ response_type: 'ephemeral', text: 'Fetching pipeline...' })
+    case 'calendar':
+      sendAsync(responseUrl, await buildRunResponse('what appointments or calendar events are coming up'))
+      return NextResponse.json({ response_type: 'ephemeral', text: 'Checking calendar...' })
+    case 'balance':
+      sendAsync(responseUrl, await buildRunResponse('check the Stripe balance and show current available and pending amounts'))
+      return NextResponse.json({ response_type: 'ephemeral', text: 'Checking balance...' })
+    case 'workflows':
+      blocks = buildWorkflowsBlocks()
+      break
+    case 'brain':
+      blocks = buildBrainBlocks()
+      break
+    case 'settings':
+      blocks = buildSettingsBlocks()
       break
     default:
       blocks = buildWelcomeBlocks()
@@ -103,23 +127,27 @@ export async function POST(request: NextRequest) {
 
 function buildWelcomeBlocks(): SlackBlock[] {
   return [
-    header('0nMCP -- Universal AI API Orchestrator'),
+    header('0nMCP -- Universal AI Orchestrator'),
     section(
-      `*${STATS_DISPLAY.tools} tools* across *${STATS_DISPLAY.services} services* in *${STATS_DISPLAY.categories} categories*.\n` +
+      `*${STATS_DISPLAY.tools} tools* across *${STATS_DISPLAY.services} services*. ` +
       'Stop building workflows. Start describing outcomes.'
     ),
     divider(),
     section(
       '*Quick Commands:*\n' +
-      '`/0n status` -- View connection status\n' +
-      '`/0n run <task>` -- Execute a task with AI (REAL execution)\n' +
-      '`/0n connect` -- Connect your services\n' +
-      '`/0n help` -- Show all commands'
+      '`/0n run <task>` -- Execute any task with AI (REAL execution)\n' +
+      '`/0n status` -- Platform stats + connection status\n' +
+      '`/0n contacts` -- List recent CRM contacts\n' +
+      '`/0n pipeline` -- View CRM pipeline stages\n' +
+      '`/0n balance` -- Check Stripe balance\n' +
+      '`/0n help` -- Full command list'
     ),
     divider(),
+    section('Or just *@0nMCP* in any channel to talk to Jaxx with full tool execution.'),
     actions([
-      button('Open Dashboard', 'open_dashboard', 'https://www.0nmcp.com/dashboard', 'primary'),
-      button('View Docs', 'open_docs', 'https://www.0nmcp.com/0n-standard'),
+      button('Open Console', 'open_dashboard', 'https://www.0nmcp.com/console', 'primary'),
+      button('Integrations', 'open_integrations', 'https://www.0nmcp.com/console/integrations'),
+      button('Commands', 'open_commands', 'https://www.0nmcp.com/commands'),
     ]),
   ]
 }
@@ -162,30 +190,103 @@ function buildConnectBlocks(): SlackBlock[] {
 
 function buildHelpBlocks(): SlackBlock[] {
   return [
-    header('0nMCP Commands'),
+    header('0nMCP Universal Commands'),
     section(
-      '`/0n` -- Welcome message and quick links\n' +
-      '`/0n status` -- Platform stats and tool counts\n' +
-      '`/0n run <description>` -- *Execute a task using AI (REAL)*\n' +
-      '`/0n connect` -- Connect your service accounts\n' +
-      '`/0n help` -- This help message'
+      '*Core:*\n' +
+      '`/0n` -- Welcome + quick links\n' +
+      '`/0n status` -- Platform stats + tool counts\n' +
+      '`/0n help` / `commands` -- This command list\n' +
+      '`/0n connect` / `vault` / `integrations` -- Manage connections\n' +
+      '`/0n settings` -- Account settings'
     ),
     divider(),
     section(
-      '*Execution Engine:*\n' +
-      'The `/0n run` command now ACTUALLY executes actions:\n' +
-      '- `/0n run search contacts for john` -- searches CRM for real\n' +
-      '- `/0n run how much revenue this month` -- queries Stripe\n' +
-      '- `/0n run post "hello team" to #general` -- posts to Slack\n' +
-      '- `/0n run create contact jane@example.com` -- creates CRM contact'
+      '*AI + Execution:*\n' +
+      '`/0n run <task>` -- *Execute any task with AI (REAL)*\n' +
+      '`/0n ask <question>` -- Ask Jaxx anything\n' +
+      '`/0n council <topic>` -- Ask the AI Council (multi-model)\n' +
+      '`/0n brain` -- Access knowledge base'
     ),
     divider(),
     section(
-      '*Mention the bot:*\n' +
-      'You can also @0nMCP in any channel to ask questions or run tasks.\n\n' +
-      '*DM the bot:*\n' +
-      'Send a direct message for private conversations.'
+      '*CRM:*\n' +
+      '`/0n contacts` -- List recent contacts\n' +
+      '`/0n pipeline` -- View pipeline + stages\n' +
+      '`/0n calendar` -- Check appointments\n' +
+      '`/0n workflows` -- List saved workflows'
     ),
+    divider(),
+    section(
+      '*Services:*\n' +
+      '`/0n balance` -- Stripe balance\n' +
+      '`/0n blog <topic>` -- Write + publish a blog post\n' +
+      '`/0n social <message>` -- Post to social channels\n' +
+      '`/0n sxo <url>` -- Score content against SXO criteria'
+    ),
+    divider(),
+    section(
+      '*Execution Examples:*\n' +
+      '`/0n run search contacts for john` -- searches CRM\n' +
+      '`/0n run how much revenue this month` -- queries Stripe\n' +
+      '`/0n run create contact jane@example.com` -- creates contact\n' +
+      '`/0n run post "hello team" to #general` -- posts to Slack\n\n' +
+      'Or *@0nMCP* in any channel / DM the bot for agentic conversations.'
+    ),
+    actions([
+      button('Full Command List', 'open_commands', 'https://www.0nmcp.com/commands'),
+      button('Console', 'open_console', 'https://www.0nmcp.com/console', 'primary'),
+    ]),
+  ]
+}
+
+function buildWorkflowsBlocks(): SlackBlock[] {
+  return [
+    header('0nMCP Workflows'),
+    section(
+      'Your saved workflows (SWITCH files) can be executed from anywhere — Slack, Console, CLI, Bot, or API.\n\n' +
+      'Use `/0n run <workflow name>` to execute a workflow, or try:\n' +
+      '`/0n run create a workflow that sends a welcome email when a new contact is added`'
+    ),
+    actions([
+      button('Workflow Builder', 'open_builder', 'https://www.0nmcp.com/console/workflows', 'primary'),
+      button('Browse Store', 'open_store', 'https://www.0nmcp.com/store'),
+    ]),
+  ]
+}
+
+function buildBrainBlocks(): SlackBlock[] {
+  return [
+    header('0nMCP Brain'),
+    section(
+      'Your AI knowledge base powers Jaxx across every surface.\n\n' +
+      '*What feeds the brain:*\n' +
+      '- Your CRM contacts, pipeline, and conversation history\n' +
+      '- Connected service data (Stripe, GitHub, etc.)\n' +
+      '- Custom FAQs and training data\n' +
+      '- Every interaction improves responses\n\n' +
+      'Use `/0n ask <question>` to query the brain.'
+    ),
+    actions([
+      button('AI Training', 'open_training', 'https://www.0nmcp.com/console/tools/ai-training', 'primary'),
+    ]),
+  ]
+}
+
+function buildSettingsBlocks(): SlackBlock[] {
+  return [
+    header('0nMCP Settings'),
+    section(
+      'Manage your account, connections, and preferences.\n\n' +
+      '*Quick Links:*\n' +
+      '- Integrations: Connect/disconnect services\n' +
+      '- Vault: Manage encrypted API keys\n' +
+      '- Tokens: Generate access tokens for external apps\n' +
+      '- Billing: View plan and usage'
+    ),
+    actions([
+      button('Open Settings', 'open_settings', 'https://www.0nmcp.com/console/settings', 'primary'),
+      button('Integrations', 'open_integrations', 'https://www.0nmcp.com/console/integrations'),
+    ]),
   ]
 }
 

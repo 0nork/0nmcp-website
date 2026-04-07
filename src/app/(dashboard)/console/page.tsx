@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 // Components
-import { Header } from '@/components/console/Header'
+// Header is now in layout.tsx (Pulse sidebar system)
 import { Chat, type ChatMessage } from '@/components/console/Chat'
 import { ChatInput } from '@/components/console/ChatInput'
 import { CommandPalette } from '@/components/console/CommandPalette'
@@ -654,34 +654,9 @@ export default function ConsolePage() {
   )
 
   return (
-    <div className="flex flex-col h-full" style={{ background: 'var(--bg-primary)', overflow: 'hidden', maxWidth: '100%', width: '100%', minWidth: 0 }}>
-      {/* Main content area */}
-      <div className="flex-1 flex flex-col" style={{ minWidth: 0, minHeight: 0, maxWidth: '100%', width: '100%', overflow: 'hidden' }}>
-        <Header
-          view={view}
-          mcpOnline={mcpOnline}
-          mcpMode={mcpHealth?.mode}
-          connectedCount={vault.connectedCount}
-          userPlan={userPlan}
-          userName={userName}
-          userEmail={userEmail}
-          coreAI={vault.coreAI}
-          runCount={runCount}
-          runLimit={runLimit}
-          isOwner={isOwner}
-          onCmdK={() => setCmdPaletteOpen(true)}
-          onMobileMenu={() => {}}
-          onUpgradeClick={() => setShowUpgradeModal(true)}
-          onAccountClick={() => { setView('account'); setVisitedViews(prev => new Set([...prev, 'account'])) }}
-          onSetupAI={() => {
-            const footer = document.getElementById('core-ai-footer')
-            if (footer) footer.scrollIntoView({ behavior: 'smooth' })
-          }}
-          onNavigateVault={() => { setView('vault'); setVaultSubView('credentials') }}
-        />
-
-        {/* Content — visited views stay mounted for state persistence */}
-        <main className="flex-1 flex flex-col min-h-0 overflow-hidden" style={{ minWidth: 0, maxWidth: '100%' }}>
+    <div className="flex flex-col h-full" style={{ overflow: 'hidden', maxWidth: '100%', width: '100%', minWidth: 0 }}>
+      {/* Content — visited views stay mounted for state persistence */}
+      <main className="flex-1 flex flex-col min-h-0 overflow-hidden" style={{ minWidth: 0, maxWidth: '100%' }}>
           {/* Dashboard */}
           <div style={{ display: view === 'dashboard' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="flex-1 flex-col min-h-0 overflow-auto">
             <DashboardView
@@ -1092,7 +1067,6 @@ export default function ConsolePage() {
             onTutorialTrigger={() => setShowTutorial(true)}
           />
         </div>
-      </div>
 
       {/* Core AI Tutorial Modal */}
       {showTutorial && vault.coreAI && (

@@ -291,6 +291,268 @@ export function getMCPServer(): McpServer {
     }
   )
 
+  // ── search_contacts ───────────────────────────────────────────────────────
+  server.tool(
+    'search_contacts',
+    'Search CRM contacts by name, email, or phone. Returns matching contacts with details. ' +
+    'Use this when users ask about contacts, leads, or customers.',
+    {
+      query: z.string().describe('Search term — name, email, or phone number'),
+      limit: z.number().int().min(1).max(50).default(10),
+    },
+    async (args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'search_crm_contacts', params: args, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `Found ${result.data?.length ?? 0} contacts matching "${args.query}"` : `Search failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── create_contact ───────────────────────────────────────────────────────
+  server.tool(
+    'create_contact',
+    'Create a new contact in the CRM. Requires at least an email. ' +
+    'Automatically tags and adds to pipeline.',
+    {
+      email: z.string().email().describe('Contact email address'),
+      firstName: z.string().optional().describe('First name'),
+      lastName: z.string().optional().describe('Last name'),
+      phone: z.string().optional().describe('Phone number'),
+      tags: z.array(z.string()).optional().describe('Tags to apply'),
+    },
+    async (args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'create_crm_contact', params: args, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `Contact created: ${args.firstName || ''} ${args.lastName || ''} (${args.email})` : `Failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── get_pipeline ─────────────────────────────────────────────────────────
+  server.tool(
+    'get_pipeline',
+    'Get CRM sales pipeline stages and opportunities. Shows deal flow and revenue.',
+    {},
+    async (_args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'get_crm_pipelines', params: {}, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `Pipeline loaded with ${result.data?.length ?? 0} stages` : `Failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── get_revenue ──────────────────────────────────────────────────────────
+  server.tool(
+    'get_revenue',
+    'Get Stripe revenue summary — total charges, breakdown by status, recent transactions. ' +
+    'Use for financial reporting and revenue questions.',
+    {
+      period: z.enum(['today', 'week', 'month', 'year']).default('month').describe('Time period'),
+    },
+    async (args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'get_stripe_revenue', params: args, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `Revenue data loaded for ${args.period}` : `Failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── get_balance ──────────────────────────────────────────────────────────
+  server.tool(
+    'get_balance',
+    'Get current Stripe account balance — available and pending funds.',
+    {},
+    async (_args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'get_stripe_balance', params: {}, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `Balance loaded` : `Failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── list_customers ───────────────────────────────────────────────────────
+  server.tool(
+    'list_customers',
+    'List Stripe customers with email, name, and subscription status.',
+    {
+      limit: z.number().int().min(1).max(100).default(20),
+      email: z.string().optional().describe('Filter by email'),
+    },
+    async (args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'list_stripe_customers', params: args, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `${result.data?.length ?? 0} customers loaded` : `Failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── send_email ───────────────────────────────────────────────────────────
+  server.tool(
+    'send_email',
+    'Send an email to a CRM contact. Requires contact ID, subject, and body (HTML supported). ' +
+    'Use search_contacts first to find the contact ID.',
+    {
+      contactId: z.string().describe('CRM contact ID (use search_contacts to find)'),
+      subject: z.string().describe('Email subject line'),
+      body: z.string().describe('Email body — HTML supported'),
+    },
+    async (args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'send_email', params: args, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `Email sent: "${args.subject}"` : `Failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── post_to_slack ────────────────────────────────────────────────────────
+  server.tool(
+    'post_to_slack',
+    'Post a message to a Slack channel. Useful for team notifications, announcements, and alerts.',
+    {
+      channel: z.string().describe('Channel name (e.g. "#general") or channel ID'),
+      message: z.string().describe('Message text — supports Slack mrkdwn formatting'),
+    },
+    async (args, extra) => {
+      const res = await fetch(`${API_BASE}/api/execute`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ action: 'post_to_slack', params: args, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.success ? `Posted to ${args.channel}` : `Failed: ${result.error}` }],
+      }
+    }
+  )
+
+  // ── ask_ai ───────────────────────────────────────────────────────────────
+  server.tool(
+    'ask_ai',
+    'Ask the 0nMCP AI brain a question. Uses the knowledge base, connected service data, ' +
+    'and CRM context to provide informed answers. For complex multi-step tasks, use run_pipeline instead.',
+    {
+      question: z.string().describe('Your question or task description'),
+    },
+    async (args, extra) => {
+      const res = await fetch(`${API_BASE}/api/console/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}`,
+        },
+        body: JSON.stringify({ message: args.question, source: 'chatgpt_app' }),
+      })
+      const result = await res.json()
+      return {
+        structuredContent: result,
+        content: [{ type: 'text' as const, text: result.reply || result.text || 'No response generated.' }],
+      }
+    }
+  )
+
+  // ── list_integrations ────────────────────────────────────────────────────
+  server.tool(
+    'list_integrations',
+    'List all connected service integrations and their status. Shows which services are active, ' +
+    'their capabilities, and whether they are wired to CRM agent workflows.',
+    {},
+    async (_args, extra) => {
+      const res = await fetch(`${API_BASE}/api/console/integrations`, {
+        headers: { Authorization: `Bearer ${((extra as Record<string, unknown>)?.authInfo as Record<string, string>)?.token ?? ''}` },
+      })
+      const data = await res.json()
+      return {
+        structuredContent: data,
+        content: [{ type: 'text' as const, text: `${data.integrations?.length ?? 0} services connected across ${data.categories?.length ?? 0} categories.` }],
+      }
+    }
+  )
+
+  // ── list_commands ────────────────────────────────────────────────────────
+  server.tool(
+    'list_commands',
+    'List all available 0nMCP universal commands. Shows what you can do across all surfaces ' +
+    '(Console, CLI, Slack, Telegram, ChatGPT, API). Includes free and premium add-on commands.',
+    {
+      category: z.string().optional().describe('Filter by category: core, workflows, ai, crm, services, content, tools'),
+    },
+    async () => {
+      const res = await fetch(`${API_BASE}/api/commands`)
+      const data = await res.json()
+      return {
+        structuredContent: data,
+        content: [{ type: 'text' as const, text: `${data.commands?.length ?? 35} universal commands available across 8 surfaces.` }],
+      }
+    }
+  )
+
   _server = server
   return server
 }

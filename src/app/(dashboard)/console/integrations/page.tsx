@@ -28,19 +28,34 @@ interface ServiceDef {
 }
 
 const SERVICES: ServiceDef[] = [
+  // ── AI ──
   {
     id: 'anthropic', name: 'Anthropic', color: '#D4A574', icon: 'An', pattern: 'sk-ant-...', placeholder: 'sk-ant-api03-...', category: 'AI',
     description: 'Claude AI — the brain behind 0nMCP orchestration',
-    toolCount: 12, scopes: ['Messages', 'Completions', 'Embeddings'],
+    toolCount: 12, scopes: ['Messages', 'Completions', 'Tool Use', 'Vision'],
     guide: ['Go to console.anthropic.com', 'Click "API Keys" in the left sidebar', 'Click "Create Key" and name it "0nMCP"', 'Copy the key (starts with sk-ant-)'],
-    keyUrl: 'https://console.anthropic.com/settings/keys', affiliateUrl: 'https://console.anthropic.com/settings/keys', keyLabel: 'Get API Key',
+    keyUrl: 'https://console.anthropic.com/settings/keys', keyLabel: 'Get API Key',
   },
   {
     id: 'openai', name: 'OpenAI', color: '#10a37f', icon: 'OA', pattern: 'sk-...', placeholder: 'sk-proj-...', category: 'AI',
-    description: 'GPT-4, DALL-E, Whisper — AI completions and generation',
-    toolCount: 15, scopes: ['Chat', 'Images', 'Audio', 'Embeddings', 'Files'],
+    description: 'GPT-4o, DALL-E, Whisper — AI completions and generation',
+    toolCount: 15, scopes: ['Chat', 'Images', 'Audio', 'Embeddings', 'Assistants'],
     guide: ['Go to platform.openai.com/api-keys', 'Click "Create new secret key"', 'Name it "0nMCP" and copy the key'],
     keyUrl: 'https://platform.openai.com/api-keys', keyLabel: 'Get API Key',
+  },
+  {
+    id: 'gemini', name: 'Google Gemini', color: '#4285F4', icon: 'Gm', pattern: 'AIza...', placeholder: 'AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', category: 'AI',
+    description: 'Gemini 2.0 — Google\'s multimodal AI with code and vision',
+    toolCount: 10, scopes: ['Chat', 'Embeddings', 'Vision', 'Code Generation'],
+    guide: ['Go to aistudio.google.com/apikey', 'Click "Create API Key"', 'Select your Google Cloud project', 'Copy the generated API key'],
+    keyUrl: 'https://aistudio.google.com/apikey', keyLabel: 'Get API Key',
+  },
+  {
+    id: 'grok', name: 'xAI Grok', color: '#1DA1F2', icon: 'Xr', pattern: 'xai-...', placeholder: 'xai-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'AI',
+    description: 'Grok — real-time reasoning with access to live data from X',
+    toolCount: 8, scopes: ['Chat', 'Reasoning', 'Real-Time Data'],
+    guide: ['Go to console.x.ai', 'Sign in with your X account', 'Click "Create API Key"', 'Copy the key (starts with xai-)'],
+    keyUrl: 'https://console.x.ai', keyLabel: 'Get API Key',
   },
   {
     id: 'groq', name: 'Groq', color: '#F55036', icon: 'Gq', pattern: 'gsk_...', placeholder: 'gsk_...', category: 'AI',
@@ -49,55 +64,23 @@ const SERVICES: ServiceDef[] = [
     guide: ['Go to console.groq.com/keys', 'Click "Create API Key"', 'Copy the key (starts with gsk_)'],
     keyUrl: 'https://console.groq.com/keys', keyLabel: 'Get Free Key',
   },
-  {
-    id: 'stripe', name: 'Stripe', color: '#635BFF', icon: 'St', pattern: 'rk_live_...', placeholder: 'rk_live_...', category: 'Payments',
-    description: 'Payment processing — invoices, subscriptions, checkout',
-    toolCount: 32, scopes: ['Charges', 'Customers', 'Invoices', 'Subscriptions', 'Products', 'Prices', 'Checkout'],
-    guide: ['Go to dashboard.stripe.com/apikeys', 'Copy your "Secret key" (live mode)', 'Starts with rk_live_ or sk_live_'],
-    keyUrl: 'https://dashboard.stripe.com/apikeys', affiliateUrl: 'https://stripe.com/partners/referral', keyLabel: 'Get API Key',
-  },
+  // ── CRM ──
   {
     id: 'crm', name: 'CRM (PIT Token)', color: '#6EE05A', icon: '0n', pattern: 'pit-...', placeholder: 'pit-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', category: 'CRM',
     description: 'Full CRM access — contacts, pipeline, calendar, email, SMS',
-    toolCount: 245, scopes: ['Contacts', 'Calendars', 'Opportunities', 'Invoices', 'Conversations', 'Social', 'Users', 'Locations'],
+    toolCount: 289, scopes: ['Contacts', 'Calendars', 'Opportunities', 'Invoices', 'Conversations', 'Social', 'Users', 'Objects'],
     guide: ['Go to your CRM Settings > Business Profile', 'Scroll to "API" section', 'Generate a Private Integration Token (PIT)', 'Copy the token (starts with pit-)'],
     keyUrl: 'https://app.rocketclients.com/settings', keyLabel: 'Get PIT Token',
   },
+  // ── Payments ──
   {
-    id: 'sendgrid', name: 'SendGrid', color: '#1A82E2', icon: 'SG', pattern: 'SG.', placeholder: 'SG.xxxxxxxx...', category: 'Email',
-    description: 'Transactional and marketing email delivery',
-    toolCount: 18, scopes: ['Send Email', 'Templates', 'Contacts', 'Lists', 'Stats'],
-    guide: ['Go to app.sendgrid.com/settings/api_keys', 'Click "Create API Key"', 'Choose "Full Access" and name it "0nMCP"', 'Copy the key (starts with SG.)'],
-    keyUrl: 'https://app.sendgrid.com/settings/api_keys', affiliateUrl: 'https://sendgrid.com/partners', keyLabel: 'Get API Key',
+    id: 'stripe', name: 'Stripe', color: '#635BFF', icon: 'St', pattern: 'rk_live_...', placeholder: 'rk_live_...', category: 'Payments',
+    description: 'Payment processing — invoices, subscriptions, checkout, billing',
+    toolCount: 32, scopes: ['Charges', 'Customers', 'Invoices', 'Subscriptions', 'Products', 'Checkout', 'Webhooks'],
+    guide: ['Go to dashboard.stripe.com/apikeys', 'Copy your "Secret key" (live mode)', 'Starts with rk_live_ or sk_live_'],
+    keyUrl: 'https://dashboard.stripe.com/apikeys', keyLabel: 'Get API Key',
   },
-  {
-    id: 'resend', name: 'Resend', color: '#000000', icon: 'Re', pattern: 're_...', placeholder: 're_xxxxxxxx...', category: 'Email',
-    description: 'Modern email API — developer-friendly transactional email',
-    toolCount: 8, scopes: ['Send', 'Domains', 'Audiences', 'Emails'],
-    guide: ['Go to resend.com/api-keys', 'Click "Create API Key"', 'Copy the key (starts with re_)'],
-    keyUrl: 'https://resend.com/api-keys', keyLabel: 'Get API Key',
-  },
-  {
-    id: 'github', name: 'GitHub', color: '#333333', icon: 'GH', pattern: 'ghp_...', placeholder: 'ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'Dev',
-    description: 'Repository management, issues, PRs, Actions, releases',
-    toolCount: 28, scopes: ['Repos', 'Issues', 'Pull Requests', 'Actions', 'Releases', 'Gists'],
-    guide: ['Go to github.com/settings/tokens', 'Click "Generate new token (classic)"', 'Select scopes: repo, workflow, read:org', 'Copy the token (starts with ghp_)'],
-    keyUrl: 'https://github.com/settings/tokens/new', keyLabel: 'Generate Token',
-  },
-  {
-    id: 'supabase', name: 'Supabase', color: '#3ECF8E', icon: 'Sb', pattern: 'eyJ...', placeholder: 'eyJhbGciOi...', category: 'Database',
-    description: 'Postgres database, auth, storage, realtime, edge functions',
-    toolCount: 22, scopes: ['Database', 'Auth', 'Storage', 'Realtime', 'Edge Functions'],
-    guide: ['Go to supabase.com/dashboard', 'Select your project', 'Go to Settings > API', 'Copy the "anon/public" key or "service_role" key'],
-    keyUrl: 'https://supabase.com/dashboard', keyLabel: 'Get API Key',
-  },
-  {
-    id: 'twilio', name: 'Twilio', color: '#F22F46', icon: 'Tw', pattern: 'AC...', placeholder: 'ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'Communication',
-    description: 'SMS, voice calls, WhatsApp, video — programmable comms',
-    toolCount: 16, scopes: ['SMS', 'Voice', 'WhatsApp', 'Verify', 'Lookup'],
-    guide: ['Go to console.twilio.com', 'Your Account SID is on the dashboard', 'Click "Show" to reveal Auth Token', 'Use format: AccountSID:AuthToken'],
-    keyUrl: 'https://console.twilio.com', affiliateUrl: 'https://www.twilio.com/referral', keyLabel: 'Get Credentials',
-  },
+  // ── Communication ──
   {
     id: 'slack', name: 'Slack', color: '#4A154B', icon: 'Sl', pattern: 'xoxb-...', placeholder: 'xoxb-xxxx-xxxx-xxxx', category: 'Communication',
     description: 'Team messaging, channels, notifications, workflows',
@@ -106,18 +89,94 @@ const SERVICES: ServiceDef[] = [
     keyUrl: 'https://api.slack.com/apps', keyLabel: 'Create App',
   },
   {
+    id: 'telegram', name: 'Telegram', color: '#26A5E4', icon: 'Tg', pattern: '123456:ABC...', placeholder: '123456789:AAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'Communication',
+    description: 'Telegram Bot API — messages, groups, channels, payments, inline',
+    toolCount: 132, scopes: ['Messages', 'Groups', 'Channels', 'Inline', 'Payments', 'Media', 'Commands'],
+    guide: ['Open Telegram and message @BotFather', 'Send /newbot and follow the prompts', 'Name your bot and choose a username', 'Copy the HTTP API token provided'],
+    keyUrl: 'https://t.me/BotFather', keyLabel: 'Create Bot',
+  },
+  {
+    id: 'twilio', name: 'Twilio', color: '#F22F46', icon: 'Tw', pattern: 'AC...', placeholder: 'ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'Communication',
+    description: 'SMS, voice calls, WhatsApp, video — programmable comms',
+    toolCount: 16, scopes: ['SMS', 'Voice', 'WhatsApp', 'Verify', 'Lookup'],
+    guide: ['Go to console.twilio.com', 'Your Account SID is on the dashboard', 'Click "Show" to reveal Auth Token', 'Use format: AccountSID:AuthToken'],
+    keyUrl: 'https://console.twilio.com', keyLabel: 'Get Credentials',
+  },
+  // ── Developer ──
+  {
+    id: 'github', name: 'GitHub', color: '#333333', icon: 'GH', pattern: 'ghp_...', placeholder: 'ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'Developer',
+    description: 'Repository management, issues, PRs, Actions, releases',
+    toolCount: 28, scopes: ['Repos', 'Issues', 'Pull Requests', 'Actions', 'Releases', 'Webhooks'],
+    guide: ['Go to github.com/settings/tokens', 'Click "Generate new token (classic)"', 'Select scopes: repo, workflow, read:org', 'Copy the token (starts with ghp_)'],
+    keyUrl: 'https://github.com/settings/tokens/new', keyLabel: 'Generate Token',
+  },
+  // ── Infrastructure ──
+  {
+    id: 'supabase', name: 'Supabase', color: '#3ECF8E', icon: 'Sb', pattern: 'eyJ...', placeholder: 'eyJhbGciOi...', category: 'Infrastructure',
+    description: 'Postgres database, auth, storage, realtime, edge functions',
+    toolCount: 22, scopes: ['Database', 'Auth', 'Storage', 'Realtime', 'Edge Functions'],
+    guide: ['Go to supabase.com/dashboard', 'Select your project', 'Go to Settings > API', 'Copy the "anon/public" key or "service_role" key'],
+    keyUrl: 'https://supabase.com/dashboard', keyLabel: 'Get API Key',
+  },
+  {
+    id: 'vercel', name: 'Vercel', color: '#000000', icon: 'Vc', pattern: 'token...', placeholder: 'xxxxxxxxxxxxxxxxxxxxxxxx', category: 'Infrastructure',
+    description: 'Deployment, hosting, domains, serverless — ship to production',
+    toolCount: 18, scopes: ['Deployments', 'Projects', 'Domains', 'Env Vars', 'Logs', 'Analytics'],
+    guide: ['Go to vercel.com/account/tokens', 'Click "Create" and name it "0nMCP"', 'Set scope and expiration', 'Copy the generated token'],
+    keyUrl: 'https://vercel.com/account/tokens', keyLabel: 'Create Token',
+  },
+  // ── Design ──
+  {
+    id: 'figma', name: 'Figma', color: '#F24E1E', icon: 'Fg', pattern: 'figd_...', placeholder: 'figd_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'Design',
+    description: 'Design files, components, styles, variables, exports',
+    toolCount: 20, scopes: ['Files', 'Components', 'Styles', 'Comments', 'Exports', 'Variables'],
+    guide: ['Go to figma.com/settings', 'Scroll to "Personal Access Tokens"', 'Click "Create a new personal access token"', 'Copy the token (starts with figd_)'],
+    keyUrl: 'https://www.figma.com/developers/api#access-tokens', keyLabel: 'Get Token',
+  },
+  // ── Content ──
+  {
+    id: 'sanity', name: 'Sanity CMS', color: '#F03E2F', icon: 'Sn', pattern: 'sk...', placeholder: 'skxxxxxxxxxxxxxxxxxxxxxxxxxx', category: 'Content',
+    description: 'Headless CMS — documents, schemas, GROQ queries, assets',
+    toolCount: 24, scopes: ['Documents', 'Schemas', 'Datasets', 'Assets', 'GROQ', 'Releases'],
+    guide: ['Go to sanity.io/manage', 'Select your project', 'Navigate to API > Tokens', 'Create a token with desired permissions'],
+    keyUrl: 'https://www.sanity.io/manage', keyLabel: 'Get Token',
+  },
+  {
+    id: 'devto', name: 'Dev.to', color: '#0A0A0A', icon: 'Dv', pattern: 'alphanumeric', placeholder: 'xxxxxxxxxxxxxxxxxxxxxxxx', category: 'Content',
+    description: 'Developer blogging — publish articles, comments, analytics',
+    toolCount: 10, scopes: ['Articles', 'Comments', 'Tags', 'Analytics', 'Publish'],
+    guide: ['Go to dev.to/settings/extensions', 'Scroll to "DEV Community API Keys"', 'Enter a description like "0nMCP"', 'Click "Generate API Key" and copy it'],
+    keyUrl: 'https://dev.to/settings/extensions', keyLabel: 'Get API Key',
+  },
+  // ── Email ──
+  {
+    id: 'sendgrid', name: 'SendGrid', color: '#1A82E2', icon: 'SG', pattern: 'SG.', placeholder: 'SG.xxxxxxxx...', category: 'Email',
+    description: 'Transactional and marketing email delivery',
+    toolCount: 18, scopes: ['Send Email', 'Templates', 'Contacts', 'Lists', 'Stats'],
+    guide: ['Go to app.sendgrid.com/settings/api_keys', 'Click "Create API Key"', 'Choose "Full Access" and name it "0nMCP"', 'Copy the key (starts with SG.)'],
+    keyUrl: 'https://app.sendgrid.com/settings/api_keys', keyLabel: 'Get API Key',
+  },
+  {
+    id: 'resend', name: 'Resend', color: '#000000', icon: 'Re', pattern: 're_...', placeholder: 're_xxxxxxxx...', category: 'Email',
+    description: 'Modern email API — developer-friendly transactional email',
+    toolCount: 8, scopes: ['Send', 'Domains', 'Audiences', 'Emails'],
+    guide: ['Go to resend.com/api-keys', 'Click "Create API Key"', 'Copy the key (starts with re_)'],
+    keyUrl: 'https://resend.com/api-keys', keyLabel: 'Get API Key',
+  },
+  // ── Analytics ──
+  {
+    id: 'ga4', name: 'Google Analytics 4', color: '#E37400', icon: 'GA', pattern: 'G-...', placeholder: 'G-XXXXXXXXXX', category: 'Analytics',
+    description: 'Pageviews, events, conversions, audiences, real-time reports',
+    toolCount: 6, scopes: ['Pageviews', 'Events', 'Conversions', 'Audiences', 'Realtime'],
+    guide: ['Go to analytics.google.com', 'Click Admin (gear icon)', 'Go to Data Streams > your stream', 'Copy the "Measurement ID" (starts with G-)'],
+    keyUrl: 'https://analytics.google.com', keyLabel: 'Get Measurement ID',
+  },
+  {
     id: 'meta_pixel', name: 'Meta Pixel', color: '#1877F2', icon: 'Px', pattern: 'Numeric ID', placeholder: '1234567890123456', category: 'Analytics',
     description: 'Facebook/Instagram conversion tracking and audiences',
     toolCount: 4, scopes: ['PageView', 'Purchase', 'Lead', 'Custom Events'],
     guide: ['Go to business.facebook.com/events_manager', 'Select your Pixel', 'Copy the Pixel ID (numeric, 15-16 digits)'],
     keyUrl: 'https://business.facebook.com/events_manager', keyLabel: 'Get Pixel ID',
-  },
-  {
-    id: 'ga4', name: 'GA4 Measurement ID', color: '#E37400', icon: 'GA', pattern: 'G-...', placeholder: 'G-XXXXXXXXXX', category: 'Analytics',
-    description: 'Google Analytics 4 — pageviews, events, conversions',
-    toolCount: 6, scopes: ['Pageviews', 'Events', 'Conversions', 'Audiences'],
-    guide: ['Go to analytics.google.com', 'Click Admin (gear icon)', 'Go to Data Streams > your stream', 'Copy the "Measurement ID" (starts with G-)'],
-    keyUrl: 'https://analytics.google.com', keyLabel: 'Get Measurement ID',
   },
   {
     id: 'google_ads', name: 'Google Ads', color: '#4285F4', icon: 'Ad', pattern: 'AW-...', placeholder: 'AW-123456789', category: 'Analytics',
@@ -206,8 +265,39 @@ export default function IntegrationsPage() {
           Connected Services
         </h1>
         <p style={{ fontSize: '0.8125rem', color: 'var(--jp-text-secondary)', margin: 0 }}>
-          {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services. Click any card to connect.
+          {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services. Connect to unlock AI agent workflows.
         </p>
+      </div>
+
+      {/* ── Agentic Chat Banner ── */}
+      <div style={{
+        background: 'linear-gradient(135deg, rgba(110,224,90,0.08), rgba(0,212,255,0.08))',
+        borderRadius: 'var(--jp-radius)', padding: '1rem 1.25rem',
+        border: '1px solid rgba(110,224,90,0.2)', marginBottom: '1.25rem',
+        display: 'flex', alignItems: 'center', gap: '0.75rem',
+      }}>
+        <div style={{
+          width: 36, height: 36, borderRadius: 10,
+          background: 'rgba(110,224,90,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--jp-green, #6EE05A)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+          </svg>
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--jp-text)' }}>
+            Agentic Workflows via Chat
+          </div>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--jp-text-secondary)', lineHeight: 1.4 }}>
+            Every connected service is available through the AI chat. Run multi-step workflows like &ldquo;Create a Stripe customer, add them to CRM, and notify Slack&rdquo; — all in natural language.
+          </div>
+        </div>
+        <a href="/console" style={{
+          padding: '6px 14px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 600,
+          background: 'var(--jp-green, #6EE05A)', color: '#000', textDecoration: 'none', whiteSpace: 'nowrap',
+        }}>
+          Open Chat
+        </a>
       </div>
 
       <GoogleConnectBanner />

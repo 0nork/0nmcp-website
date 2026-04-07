@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation"
 import {
   MessageSquare, Link2, Building2, Puzzle, Settings,
   Bell, User, ChevronRight, LogOut, CreditCard,
-  Shield, Key, Plug, LayoutDashboard, Search,
+  Shield, Key, Plug, LayoutDashboard, Search, Zap,
 } from "lucide-react"
 
 import {
@@ -67,6 +67,12 @@ const mainNav: NavItem[] = [
     title: "Integrations",
     url: "/console/integrations",
     icon: <Link2 className="size-4" />,
+    badge: "22",
+  },
+  {
+    title: "Workflows",
+    url: "/console/agent-workflows",
+    icon: <Zap className="size-4" />,
     badge: "22",
   },
   {

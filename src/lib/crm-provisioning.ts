@@ -241,7 +241,7 @@ export async function provisionUser(params: {
 
         // ── Step 2b: Apply snapshot to new sub-location ──
         // This loads ALL agents, KB, workflows, funnels, chat widget, pipeline, templates
-        const snapshotId = process.env.CRM_SNAPSHOT_ID || 'WHGzGLK0RKBFVAM439au'
+        const snapshotId = process.env.CRM_SNAPSHOT_ID || 'oaxVyPtc7dYQ2v1oizWQ'
         try {
           await retryWithBackoff(async () => {
             const snapRes = await fetch(`${API_BASE}/locations/${newLocationId}`, {

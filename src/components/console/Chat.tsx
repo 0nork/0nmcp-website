@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { User, Zap, CheckCircle2, XCircle, Loader2, Terminal, Sparkles } from 'lucide-react'
 import { STATS_DISPLAY } from '@/data/stats'
 
 export interface ChatMessage {
@@ -24,11 +23,11 @@ interface ChatProps {
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   '0nmcp': { label: '0nMCP', color: 'var(--accent)' },
-  'agent-studio': { label: '0n Agent', color: '#6EE05A' },
-  'claude-byok': { label: 'Claude (Your Key)', color: '#a78bfa' },
-  'claude': { label: 'Claude', color: '#00d4ff' },
-  'openai-byok': { label: 'GPT-4o (Your Key)', color: '#10a37f' },
-  'gemini-byok': { label: 'Gemini (Your Key)', color: '#4285f4' },
+  'agent-studio': { label: '0n Agent', color: 'var(--accent)' },
+  'claude-byok': { label: 'Claude', color: 'var(--color-purple, #a78bfa)' },
+  'claude': { label: 'Claude', color: 'var(--color-cyan, #00d4ff)' },
+  'openai-byok': { label: 'GPT-4o', color: '#10a37f' },
+  'gemini-byok': { label: 'Gemini', color: '#4285f4' },
   'local': { label: 'Local', color: 'var(--text-muted)' },
 }
 
@@ -39,12 +38,13 @@ function formatTime(ts?: string) {
   return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-const AI_PROVIDERS = [
-  { key: 'anthropic', label: 'Claude', sub: 'Anthropic', color: '#a78bfa', gradient: 'linear-gradient(135deg, #a78bfa, #6366f1)' },
-  { key: 'openai', label: 'GPT-4o', sub: 'OpenAI', color: '#10a37f', gradient: 'linear-gradient(135deg, #10a37f, #1a7f5a)' },
-  { key: 'google', label: 'Gemini', sub: 'Google', color: '#4285f4', gradient: 'linear-gradient(135deg, #4285f4, #34a853)' },
-  { key: 'groq', label: 'Groq', sub: 'Groq', color: '#f55036', gradient: 'linear-gradient(135deg, #f55036, #c43e28)' },
-]
+function sourceGradient(source?: string): string {
+  if (!source || !AI_SOURCE_SET.has(source)) return 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))'
+  if (source === 'openai-byok') return 'linear-gradient(135deg, #10a37f, #1a7f5a)'
+  if (source === 'gemini-byok') return 'linear-gradient(135deg, #4285f4, #34a853)'
+  if (source === 'claude-byok' || source === 'claude') return 'linear-gradient(135deg, #a78bfa, #6366f1)'
+  return 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))'
+}
 
 export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps) {
   const endRef = useRef<HTMLDivElement>(null)
@@ -57,58 +57,48 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
     }
   }, [messages.length])
 
-  // Show BYOK banner when last response was local (no AI key available)
   const lastSystemMsg = [...messages].reverse().find(m => m.role === 'system')
   const showInlineBYOK = !hasAIKey && lastSystemMsg?.source === 'local' && messages.length > 0
 
+  // ── Empty State ──
   if (messages.length === 0 && !loading) {
     return (
-      <div className="flex-1 flex items-center justify-center px-4 overflow-hidden min-h-0">
-        <div className="text-center max-w-lg">
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflow: 'hidden', minHeight: 0 }}>
+        <div style={{ textAlign: 'center', maxWidth: 440 }}>
           {!hasAIKey ? (
             <>
-              {/* Simplified — CoreAIFooter handles BYOK setup */}
-              <div
-                className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, rgba(126,217,87,0.15), rgba(0,212,255,0.1))' }}
-              >
-                <Sparkles size={28} style={{ color: '#6EE05A' }} />
+              <div style={{
+                width: 64, height: 64, borderRadius: 18, margin: '0 auto 16px',
+                background: 'linear-gradient(135deg, var(--accent-glow, rgba(126,217,87,0.15)), rgba(0,194,199,0.1))',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid var(--accent-dim, rgba(126,217,87,0.2))',
+              }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent, #7ed957)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3v1m0 16v1m8.66-13.5l-.87.5M4.21 16l-.87.5M20.66 16l-.87-.5M4.21 8l-.87-.5M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
               </div>
-              <h3
-                className="text-xl font-semibold mb-2"
-                style={{ color: 'var(--text-primary)' }}
-              >
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: 8, color: 'var(--text-primary, #f0f4f8)', fontFamily: 'var(--font-display, Inter)' }}>
                 Set up your Core AI below
               </h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--text-muted)' }}>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted, #6b7280)', marginBottom: 12, lineHeight: 1.5 }}>
                 Select a provider in the footer to unlock AI-powered chat, automation, and all console features.
               </p>
-              <div style={{ fontSize: 24, color: 'var(--text-muted)', animation: 'chatArrowBounce 1.5s ease infinite' }}>
-                &#8595;
-              </div>
-              <style>{`
-                @keyframes chatArrowBounce {
-                  0%, 100% { transform: translateY(0); opacity: 0.5; }
-                  50% { transform: translateY(6px); opacity: 1; }
-                }
-              `}</style>
+              <div style={{ fontSize: 22, color: 'var(--text-muted)', animation: 'chatArrowBounce 1.5s ease infinite' }}>&#8595;</div>
             </>
           ) : (
             <>
-              {/* Normal empty state — key connected */}
-              <div
-                className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
-                style={{ backgroundColor: 'var(--accent-glow)' }}
-              >
-                <Terminal size={28} style={{ color: 'var(--accent)' }} />
+              <div style={{
+                width: 64, height: 64, borderRadius: 18, margin: '0 auto 16px',
+                background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 0 30px var(--accent-glow, rgba(126,217,87,0.2))',
+              }}>
+                <span style={{ fontSize: '1.125rem', fontWeight: 900, color: '#000', fontFamily: 'var(--font-mono)' }}>0n</span>
               </div>
-              <h3
-                className="text-xl font-semibold mb-2"
-                style={{ color: 'var(--text-primary)' }}
-              >
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: 8, color: 'var(--text-primary, #f0f4f8)' }}>
                 Ask 0n anything
               </h3>
-              <p className="text-sm max-w-sm" style={{ color: 'var(--text-muted)' }}>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted, #6b7280)', lineHeight: 1.5 }}>
                 Execute tasks across {STATS_DISPLAY.services} services, manage workflows, or ask about your connected tools.
               </p>
             </>
@@ -118,194 +108,177 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
     )
   }
 
+  // ── Messages ──
   return (
-    <div className="flex-1 overflow-y-auto min-h-0 px-4 md:px-8 lg:px-12 py-4">
-      <div className="max-w-4xl mx-auto space-y-4">
+    <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, padding: '16px 16px' }}>
+      <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`flex items-start gap-3 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}
             style={{
-              animation: 'console-msg-in 0.3s ease both',
+              display: 'flex', alignItems: 'flex-start', gap: 12,
+              flexDirection: m.role === 'user' ? 'row-reverse' : 'row',
+              animation: 'chatMsgIn 0.3s ease both',
               animationDelay: `${Math.min(i, 5) * 40}ms`,
             }}
           >
             {/* Avatar */}
             {m.role === 'system' ? (
-              <div
-                className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center"
-                style={{
-                  background: m.source && AI_SOURCE_SET.has(m.source)
-                    ? m.source === 'openai-byok'
-                      ? 'linear-gradient(135deg, #10a37f, #1a7f5a)'
-                      : m.source === 'gemini-byok'
-                        ? 'linear-gradient(135deg, #4285f4, #34a853)'
-                        : 'linear-gradient(135deg, #a78bfa, #00d4ff)'
-                    : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                }}
-              >
+              <div style={{
+                width: 34, height: 34, borderRadius: 12, flexShrink: 0,
+                background: sourceGradient(m.source),
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: `0 0 12px color-mix(in srgb, ${SOURCE_LABELS[m.source || '0nmcp']?.color || 'var(--accent)'} 25%, transparent)`,
+              }}>
                 {m.loading ? (
-                  <Loader2 size={16} className="animate-spin" style={{ color: 'var(--bg-primary)' }} />
-                ) : m.source && AI_SOURCE_SET.has(m.source) ? (
-                  <Sparkles size={14} style={{ color: 'var(--text-primary)' }} />
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth={2} strokeLinecap="round" style={{ animation: 'spin 1s linear infinite' }}>
+                    <path d="M21 12a9 9 0 11-6.219-8.56" />
+                  </svg>
                 ) : (
-                  <span
-                    className="text-[10px] font-black"
-                    style={{ color: 'var(--bg-primary)' }}
-                  >
-                    0n
-                  </span>
+                  <span style={{ fontSize: '0.5625rem', fontWeight: 900, color: '#000', fontFamily: 'var(--font-mono)' }}>0n</span>
                 )}
               </div>
             ) : (
-              <div
-                className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center"
-                style={{
-                  backgroundColor: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                }}
-              >
-                <User size={14} style={{ color: 'var(--text-secondary)' }} />
+              <div style={{
+                width: 34, height: 34, borderRadius: 12, flexShrink: 0,
+                background: 'var(--bg-card, rgba(255,255,255,0.03))',
+                border: '1px solid var(--border, #1e1e2e)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary, #9ca3af)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
               </div>
             )}
 
-            {/* Bubble */}
-            <div className="max-w-[70%] lg:max-w-[60%] min-w-0">
-              <div
-                className="text-sm leading-relaxed break-words whitespace-pre-wrap px-4 py-3 rounded-2xl"
-                style={
-                  m.role === 'user'
-                    ? {
-                        background: 'linear-gradient(135deg, rgba(126,217,87,0.15), rgba(0,212,255,0.1))',
-                        borderTopRightRadius: '0.375rem',
-                        color: 'var(--text-primary)',
-                        border: '1px solid rgba(126,217,87,0.2)',
-                      }
-                    : {
-                        backgroundColor: 'var(--bg-card)',
-                        borderTopLeftRadius: '0.375rem',
-                        color: 'var(--text-primary)',
-                        border: '1px solid var(--border)',
-                      }
-                }
-              >
+            {/* Bubble + metadata */}
+            <div style={{ maxWidth: '70%', minWidth: 0 }}>
+              <div style={{
+                padding: '12px 16px', borderRadius: 16, fontSize: '0.8125rem', lineHeight: 1.6,
+                fontFamily: 'var(--font-body, sans-serif)',
+                whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+                ...(m.role === 'user' ? {
+                  background: 'linear-gradient(135deg, var(--accent-glow, rgba(126,217,87,0.12)), rgba(0,194,199,0.08))',
+                  border: '1px solid var(--accent-dim, rgba(126,217,87,0.2))',
+                  borderTopRightRadius: 4,
+                  color: 'var(--text-primary, #f0f4f8)',
+                } : {
+                  background: 'var(--bg-card, rgba(255,255,255,0.03))',
+                  border: '1px solid var(--border, #1e1e2e)',
+                  borderTopLeftRadius: 4,
+                  color: 'var(--text-primary, #f0f4f8)',
+                }),
+              }}>
                 {m.loading ? (
-                  <span className="flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                    <span className="console-loading-dots">Executing via 0nMCP</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)' }}>
+                    <span>Executing via 0nMCP</span>
+                    <span style={{ display: 'inline-flex', gap: 3 }}>
+                      {[0,1,2].map(d => (
+                        <span key={d} style={{
+                          width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)',
+                          animation: `chatDotPulse 1.2s ease infinite ${d * 0.2}s`,
+                        }} />
+                      ))}
+                    </span>
                   </span>
-                ) : (
-                  m.text
-                )}
+                ) : m.text}
               </div>
 
               {/* Execution metadata */}
               {m.role === 'system' && m.source === '0nmcp' && !m.loading && (
-                <div className="flex items-center gap-3 mt-1.5 px-1">
-                  <div className="flex items-center gap-1">
-                    {m.status === 'completed' ? (
-                      <CheckCircle2 size={11} style={{ color: 'var(--accent)' }} />
-                    ) : m.status === 'failed' ? (
-                      <XCircle size={11} className="text-red-500" />
-                    ) : null}
-                    <span
-                      className="text-[10px] uppercase tracking-wider"
-                      style={{ color: 'var(--text-muted)' }}
-                    >
-                      {m.status || 'done'}
-                    </span>
-                  </div>
-                  {m.steps != null && m.steps > 0 && (
-                    <div className="flex items-center gap-1">
-                      <Zap size={10} style={{ color: 'var(--accent-secondary)' }} />
-                      <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
-                        {m.steps} step{m.steps !== 1 ? 's' : ''}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 6, paddingLeft: 4 }}>
+                  {m.status && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span style={{
+                        width: 6, height: 6, borderRadius: '50%',
+                        background: m.status === 'completed' ? 'var(--accent, #7ed957)' : 'var(--color-red, #ef4444)',
+                        boxShadow: m.status === 'completed' ? '0 0 6px var(--accent-glow)' : '0 0 6px rgba(239,68,68,0.4)',
+                      }} />
+                      <span style={{ fontSize: '0.625rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                        {m.status}
                       </span>
                     </div>
                   )}
+                  {m.steps != null && m.steps > 0 && (
+                    <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                      {m.steps} step{m.steps !== 1 ? 's' : ''}
+                    </span>
+                  )}
                   {m.services && m.services.length > 0 && (
-                    <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                       via {m.services.join(', ')}
                     </span>
                   )}
                 </div>
               )}
 
-              {/* Source label + timestamp */}
-              <div
-                className={`flex items-center gap-2 text-xs mt-1 px-1 ${m.role === 'user' ? 'justify-end' : ''}`}
-                style={{ color: 'var(--text-muted)' }}
-              >
+              {/* Source + timestamp */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, paddingLeft: 4,
+                justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
+              }}>
                 {m.role === 'system' && m.source && SOURCE_LABELS[m.source] && (
-                  <span style={{ color: SOURCE_LABELS[m.source].color }}>
+                  <span style={{ fontSize: '0.625rem', fontWeight: 600, color: SOURCE_LABELS[m.source].color, fontFamily: 'var(--font-mono)' }}>
                     {SOURCE_LABELS[m.source].label}
                   </span>
                 )}
-                <span>{formatTime(m.timestamp)}</span>
+                <span style={{ fontSize: '0.5625rem', color: 'var(--text-muted, #6b7280)' }}>{formatTime(m.timestamp)}</span>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Inline BYOK banner — shown after local responses when no key */}
+        {/* Inline BYOK banner */}
         {showInlineBYOK && !loading && (
-          <div
-            className="flex items-center gap-3 px-4 py-3 rounded-xl mx-auto max-w-lg"
-            style={{
-              background: 'linear-gradient(135deg, rgba(167,139,250,0.08), rgba(0,212,255,0.06))',
-              border: '1px solid rgba(167,139,250,0.2)',
-              animation: 'console-msg-in 0.3s ease both',
-            }}
-          >
-            <Sparkles size={18} style={{ color: '#a78bfa' }} className="shrink-0" />
-            <div className="flex-1 min-w-0">
-              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                Connect an AI key (Claude, GPT, or Gemini) for AI-powered responses.
-              </p>
-            </div>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderRadius: 14,
+            maxWidth: 480, margin: '0 auto',
+            background: 'linear-gradient(135deg, rgba(167,139,250,0.08), rgba(0,212,255,0.06))',
+            border: '1px solid rgba(167,139,250,0.2)',
+            animation: 'chatMsgIn 0.3s ease both',
+          }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <path d="M12 3v1m0 16v1m8.66-13.5l-.87.5M4.21 16l-.87.5M20.66 16l-.87-.5M4.21 8l-.87-.5M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+            <p style={{ flex: 1, fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0 }}>
+              Connect an AI key for powered responses.
+            </p>
             <button
               onClick={() => onNavigateVault?.()}
-              className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer transition-all"
               style={{
-                background: 'rgba(167,139,250,0.15)',
-                border: '1px solid rgba(167,139,250,0.3)',
-                color: '#a78bfa',
+                padding: '5px 12px', borderRadius: 8, fontSize: '0.6875rem', fontWeight: 600,
+                background: 'rgba(167,139,250,0.15)', border: '1px solid rgba(167,139,250,0.3)',
+                color: '#a78bfa', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(167,139,250,0.25)' }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(167,139,250,0.15)' }}
             >
               Connect
             </button>
           </div>
         )}
 
-        {/* Loading indicator */}
-        {loading && !messages.some((m) => m.loading) && (
-          <div className="flex items-start gap-3">
-            <div
-              className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              }}
-            >
-              <Loader2 size={16} className="animate-spin" style={{ color: 'var(--bg-primary)' }} />
+        {/* Loading dots */}
+        {loading && !messages.some(m => m.loading) && (
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+            <div style={{
+              width: 34, height: 34, borderRadius: 12, flexShrink: 0,
+              background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth={2} strokeLinecap="round" style={{ animation: 'spin 1s linear infinite' }}>
+                <path d="M21 12a9 9 0 11-6.219-8.56" />
+              </svg>
             </div>
-            <div
-              className="px-4 py-3 rounded-2xl rounded-tl-md"
-              style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}
-            >
-              <div className="flex gap-1">
-                {[0, 1, 2].map((d) => (
-                  <span
-                    key={d}
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{
-                      backgroundColor: 'var(--accent)',
-                      animation: 'console-dot-pulse 1.2s ease infinite',
-                      animationDelay: `${d * 0.2}s`,
-                    }}
-                  />
-                ))}
-              </div>
+            <div style={{
+              padding: '12px 16px', borderRadius: 16, borderTopLeftRadius: 4,
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              display: 'flex', gap: 4,
+            }}>
+              {[0,1,2].map(d => (
+                <span key={d} style={{
+                  width: 6, height: 6, borderRadius: '50%', background: 'var(--accent, #7ed957)',
+                  animation: `chatDotPulse 1.2s ease infinite ${d * 0.2}s`,
+                }} />
+              ))}
             </div>
           </div>
         )}
@@ -314,23 +287,20 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
       </div>
 
       <style>{`
-        @keyframes console-msg-in {
+        @keyframes chatMsgIn {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes console-dot-pulse {
+        @keyframes chatDotPulse {
           0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
-          30% { opacity: 1; transform: scale(1); }
+          30% { opacity: 1; transform: scale(1.1); }
         }
-        .console-loading-dots::after {
-          content: '';
-          animation: console-ellipsis 1.5s infinite;
+        @keyframes chatArrowBounce {
+          0%, 100% { transform: translateY(0); opacity: 0.5; }
+          50% { transform: translateY(6px); opacity: 1; }
         }
-        @keyframes console-ellipsis {
-          0% { content: ''; }
-          25% { content: '.'; }
-          50% { content: '..'; }
-          75% { content: '...'; }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </div>

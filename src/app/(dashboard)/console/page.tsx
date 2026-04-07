@@ -700,110 +700,7 @@ export default function ConsolePage() {
           {/* Chat */}
           {visitedViews.has('chat') && (
             <div style={{ display: view === 'chat' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="flex-1 min-h-0 overflow-hidden">
-              {/* Chat Sessions Sidebar */}
-              <div style={{
-                width: 260, flexShrink: 0, display: 'flex', flexDirection: 'column',
-                background: 'var(--bg-deep, #040A1A)',
-                borderRight: '1px solid var(--border, #1e1e2e)',
-                overflow: 'hidden',
-              }}>
-                {/* New Chat Button */}
-                <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border, #1e1e2e)' }}>
-                  <button
-                    onClick={handleNewChat}
-                    style={{
-                      width: '100%', padding: '10px 14px', borderRadius: 10, border: 'none',
-                      background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))',
-                      color: '#000', fontSize: '0.8125rem', fontWeight: 700, cursor: 'pointer',
-                      fontFamily: 'var(--font-body, sans-serif)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                      transition: 'box-shadow 0.15s ease',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 20px var(--accent-glow, rgba(126,217,87,0.3))' }}
-                    onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 5v14M5 12h14" />
-                    </svg>
-                    New Chat
-                  </button>
-                </div>
-
-                {/* Session List */}
-                <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
-                  {messages.length > 0 && (
-                    <div style={{
-                      padding: '10px 12px', borderRadius: 8, marginBottom: 4, cursor: 'pointer',
-                      background: 'var(--accent-glow, rgba(126,217,87,0.08))',
-                      border: '1px solid var(--accent-dim, rgba(126,217,87,0.15))',
-                    }}>
-                      <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary, #f0f4f8)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {messages.find(m => m.role === 'user')?.text?.slice(0, 40) || 'Current Chat'}
-                      </div>
-                      <div style={{ fontSize: '0.625rem', color: 'var(--accent, #7ed957)', marginTop: 3, fontFamily: 'var(--font-mono, monospace)' }}>
-                        {messages.length} messages
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Saved sessions from localStorage */}
-                  {(() => {
-                    try {
-                      const saved = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('0n_chat_history') || '[]') : []
-                      return (saved as Array<{ id: string; title: string; count: number; time: string }>).slice(0, 20).map((s: { id: string; title: string; count: number; time: string }) => (
-                        <div key={s.id} style={{
-                          padding: '10px 12px', borderRadius: 8, marginBottom: 4, cursor: 'pointer',
-                          transition: 'background 0.1s',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-secondary, rgba(255,255,255,0.03))' }}
-                        onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
-                        >
-                          <div style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-secondary, #9ca3af)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {s.title}
-                          </div>
-                          <div style={{ fontSize: '0.5625rem', color: 'var(--text-muted, #6b7280)', marginTop: 3, fontFamily: 'var(--font-mono, monospace)' }}>
-                            {s.count} msgs · {s.time}
-                          </div>
-                        </div>
-                      ))
-                    } catch { return null }
-                  })()}
-
-                  {messages.length === 0 && (
-                    <div style={{ padding: '20px 12px', textAlign: 'center' }}>
-                      <div style={{
-                        width: 40, height: 40, borderRadius: 12, margin: '0 auto 10px',
-                        background: 'linear-gradient(135deg, var(--accent-glow, rgba(126,217,87,0.1)), rgba(0,194,199,0.06))',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      }}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted, #6b7280)" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                        </svg>
-                      </div>
-                      <p style={{ fontSize: '0.6875rem', color: 'var(--text-muted, #6b7280)', margin: 0, lineHeight: 1.5 }}>
-                        Start a conversation to see your chat history here
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Sidebar Footer */}
-                <div style={{
-                  padding: '10px 14px', borderTop: '1px solid var(--border, #1e1e2e)',
-                  display: 'flex', alignItems: 'center', gap: 8,
-                }}>
-                  <div style={{
-                    width: 6, height: 6, borderRadius: '50%',
-                    background: mcpOnline ? 'var(--accent, #7ed957)' : 'var(--text-muted)',
-                    boxShadow: mcpOnline ? '0 0 6px var(--accent-glow)' : 'none',
-                  }} />
-                  <span style={{ fontSize: '0.5625rem', color: 'var(--text-muted, #6b7280)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                    {mcpOnline ? 'Jaxx Online' : 'Offline'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Chat Content */}
+              {/* Chat Content (LEFT) */}
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
                 {/* Pinned Commands Bar */}
                 <PinnedCommands
@@ -829,18 +726,134 @@ export default function ConsolePage() {
                     }
                   }}
                 />
-                {/* AI Smart Prompts */}
-                <SmartPrompts
-                  recommendations={recommendations}
-                  onExecute={handleRecommendationExecute}
-                  isThinking={recsThinking}
-                />
                 <ChatInput
                   onSend={handleChatSend}
                   onSlash={() => setCmdPaletteOpen(true)}
                   loading={chatLoading}
                   mcpOnline={mcpOnline}
                 />
+              </div>
+
+              {/* Right Sidebar — Sessions + Suggestions */}
+              <div style={{
+                width: 280, flexShrink: 0, display: 'flex', flexDirection: 'column',
+                background: 'var(--bg-deep, #040A1A)',
+                borderLeft: '1px solid var(--border, #1e1e2e)',
+                overflow: 'hidden',
+              }}>
+                {/* New Chat Button */}
+                <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border, #1e1e2e)' }}>
+                  <button
+                    onClick={handleNewChat}
+                    style={{
+                      width: '100%', padding: '10px 14px', borderRadius: 10, border: 'none',
+                      background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))',
+                      color: '#000', fontSize: '0.8125rem', fontWeight: 700, cursor: 'pointer',
+                      fontFamily: 'var(--font-body, sans-serif)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                      transition: 'box-shadow 0.15s ease',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 20px var(--accent-glow, rgba(126,217,87,0.3))' }}
+                    onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 5v14M5 12h14" />
+                    </svg>
+                    New Chat
+                  </button>
+                </div>
+
+                {/* Suggestions Panel — moved here from above input */}
+                {recommendations.length > 0 && (
+                  <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border, #1e1e2e)' }}>
+                    <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted, #6b7280)', marginBottom: 8, fontFamily: 'var(--font-mono)' }}>
+                      Suggested Next
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      <SmartPrompts
+                        recommendations={recommendations}
+                        onExecute={handleRecommendationExecute}
+                        isThinking={recsThinking}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Session List */}
+                <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
+                  <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted, #6b7280)', padding: '4px 12px 8px', fontFamily: 'var(--font-mono)' }}>
+                    Conversations
+                  </div>
+
+                  {messages.length > 0 && (
+                    <div style={{
+                      padding: '10px 12px', borderRadius: 8, marginBottom: 4, cursor: 'pointer',
+                      background: 'var(--accent-glow, rgba(126,217,87,0.08))',
+                      border: '1px solid var(--accent-dim, rgba(126,217,87,0.15))',
+                    }}>
+                      <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary, #f0f4f8)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {messages.find(m => m.role === 'user')?.text?.slice(0, 35) || 'Current Chat'}
+                      </div>
+                      <div style={{ fontSize: '0.5625rem', color: 'var(--accent, #7ed957)', marginTop: 3, fontFamily: 'var(--font-mono, monospace)' }}>
+                        {messages.length} messages
+                      </div>
+                    </div>
+                  )}
+
+                  {(() => {
+                    try {
+                      const saved = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('0n_chat_history') || '[]') : []
+                      return (saved as Array<{ id: string; title: string; count: number; time: string }>).slice(0, 15).map((s: { id: string; title: string; count: number; time: string }) => (
+                        <div key={s.id} style={{
+                          padding: '10px 12px', borderRadius: 8, marginBottom: 4, cursor: 'pointer',
+                          transition: 'background 0.1s',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-secondary, rgba(255,255,255,0.03))' }}
+                        onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
+                        >
+                          <div style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-secondary, #9ca3af)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {s.title}
+                          </div>
+                          <div style={{ fontSize: '0.5rem', color: 'var(--text-muted, #6b7280)', marginTop: 3, fontFamily: 'var(--font-mono, monospace)' }}>
+                            {s.count} msgs · {s.time}
+                          </div>
+                        </div>
+                      ))
+                    } catch { return null }
+                  })()}
+
+                  {messages.length === 0 && (
+                    <div style={{ padding: '20px 12px', textAlign: 'center' }}>
+                      <div style={{
+                        width: 40, height: 40, borderRadius: 12, margin: '0 auto 10px',
+                        background: 'linear-gradient(135deg, var(--accent-glow, rgba(126,217,87,0.1)), rgba(0,194,199,0.06))',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted, #6b7280)" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                        </svg>
+                      </div>
+                      <p style={{ fontSize: '0.6875rem', color: 'var(--text-muted, #6b7280)', margin: 0, lineHeight: 1.5 }}>
+                        Your conversations will appear here
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Sidebar Footer */}
+                <div style={{
+                  padding: '10px 14px', borderTop: '1px solid var(--border, #1e1e2e)',
+                  display: 'flex', alignItems: 'center', gap: 8,
+                }}>
+                  <div style={{
+                    width: 6, height: 6, borderRadius: '50%',
+                    background: mcpOnline ? 'var(--accent, #7ed957)' : 'var(--text-muted)',
+                    boxShadow: mcpOnline ? '0 0 6px var(--accent-glow)' : 'none',
+                  }} />
+                  <span style={{ fontSize: '0.5625rem', color: 'var(--text-muted, #6b7280)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    {mcpOnline ? 'Jaxx Online' : 'Offline'}
+                  </span>
+                </div>
               </div>
             </div>
           )}

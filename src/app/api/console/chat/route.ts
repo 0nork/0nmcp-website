@@ -123,6 +123,120 @@ async function getCouncilKnowledge(message: string): Promise<string> {
   }
 }
 
+/**
+ * Load the user's personal knowledge base from location_knowledge_bases.
+ * This makes the AI aware of their business, services, tone, FAQs, and products.
+ * Each sub-location has their own KB — this is their "personal AI."
+ */
+async function getLocationKnowledge(userId: string): Promise<string> {
+  try {
+    const admin = getAdmin()
+
+    // Find user's CRM account to get their location
+    const { data: account } = await admin
+      .from('user_crm_accounts')
+      .select('location_id, kb_id, business_name')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    if (!account?.location_id) return ''
+
+    // Fetch their knowledge base
+    const { data: kb } = await admin
+      .from('location_knowledge_bases')
+      .select('*')
+      .eq('location_id', account.location_id)
+      .maybeSingle()
+
+    if (!kb) return ''
+
+    // Also fetch their branding
+    const { data: brand } = await admin
+      .from('location_branding')
+      .select('business_name, tagline, website_url, email_from_name')
+      .eq('location_id', account.location_id)
+      .maybeSingle()
+
+    // Build personal context
+    const parts: string[] = [
+      `--- YOUR BUSINESS KNOWLEDGE BASE ---`,
+      `You are ${kb.ai_name || '0n Assistant'}, the AI for ${kb.business_name || account.business_name || 'this business'}.`,
+      `Tone: ${kb.tone || 'professional'}. Language: ${kb.language || 'en'}.`,
+    ]
+
+    if (kb.system_prompt) parts.push(`Behavior: ${kb.system_prompt}`)
+    if (kb.business_type) parts.push(`Business type: ${kb.business_type}`)
+    if (kb.industry) parts.push(`Industry: ${kb.industry}`)
+    if (kb.target_audience) parts.push(`Target audience: ${kb.target_audience}`)
+    if (kb.services_offered?.length) parts.push(`Services offered: ${kb.services_offered.join(', ')}`)
+    if (kb.unique_selling_points?.length) parts.push(`Unique selling points: ${kb.unique_selling_points.join(', ')}`)
+
+    // FAQs
+    if (kb.faqs && Array.isArray(kb.faqs) && kb.faqs.length > 0) {
+      parts.push('\nFAQs:')
+      for (const faq of kb.faqs as Array<{ q: string; a: string }>) {
+        parts.push(`Q: ${faq.q}\nA: ${faq.a}`)
+      }
+    }
+
+    // Products/services
+    if (kb.product_info && Array.isArray(kb.product_info) && kb.product_info.length > 0) {
+      parts.push('\nProducts/Services: ' + JSON.stringify(kb.product_info))
+    }
+
+    // Policies
+    if (kb.policies && Object.keys(kb.policies).length > 0) {
+      parts.push('\nPolicies: ' + JSON.stringify(kb.policies))
+    }
+
+    // Links
+    if (kb.links && Object.keys(kb.links).length > 0) {
+      parts.push('\nLinks: ' + JSON.stringify(kb.links))
+    }
+
+    if (brand) {
+      if (brand.website_url) parts.push(`Website: ${brand.website_url}`)
+      if (brand.tagline) parts.push(`Tagline: ${brand.tagline}`)
+    }
+
+    parts.push(`\nLocation ID: ${account.location_id}`)
+    parts.push(`Use this knowledge to give personalized, business-specific answers. When generating workflows, use this business context.`)
+    parts.push(`--- END KNOWLEDGE BASE ---`)
+
+    return parts.join('\n')
+  } catch {
+    return ''
+  }
+}
+
+/**
+ * Detect if user is requesting a workflow and generate + deploy it.
+ * Returns the workflow definition if detected, null otherwise.
+ */
+async function detectAndGenerateWorkflow(
+  message: string,
+  userId: string,
+  locationId: string | null
+): Promise<{ generated: boolean; workflow?: Record<string, unknown>; reply?: string } | null> {
+  const lower = message.toLowerCase()
+
+  // Detect workflow intent
+  const workflowTriggers = [
+    'create a workflow', 'build a workflow', 'generate a workflow',
+    'automate', 'when a contact', 'when someone', 'after every',
+    'send a follow-up', 'send an email when', 'notify me when',
+    'create an automation', 'set up a sequence', 'build a campaign',
+    'when an appointment', 'after a booking', 'on new lead',
+  ]
+
+  const isWorkflowRequest = workflowTriggers.some(t => lower.includes(t))
+  if (!isWorkflowRequest) return null
+
+  // This is a workflow request — we'll let the AI generate it
+  // and then save it to crm_agent_workflows
+  return { generated: false } // Let the AI handle it with the enhanced prompt
+}
+
 // Build system prompt with REAL catalog data from snapshot
 const _stats = getSnapshotStats()
 const SYSTEM_PROMPT =
@@ -164,12 +278,37 @@ const SYSTEM_PROMPT =
   'Both endpoints return a full course structure with modules, lessons (600-1200 words each), quizzes, and estimated duration.\n' +
   'Users must be authenticated. .0n SWITCH files can define course generation as a workflow step.\n' +
   'When users ask about creating courses, explain these options and help them fill in the fields.\n\n' +
+  '## Workflow Generation & Deployment\n' +
+  'When a user describes an automation outcome (e.g., "send a follow-up email 24 hours after every appointment"),\n' +
+  'you MUST generate a complete workflow definition and offer to deploy it.\n\n' +
+  'Workflow format for crm_agent_workflows:\n' +
+  '```json\n' +
+  '{\n' +
+  '  "name": "Descriptive Name",\n' +
+  '  "slug": "kebab-case-slug",\n' +
+  '  "trigger_event": "appointment.status_changed | contact.created | contact.tag.added | schedule.daily | etc",\n' +
+  '  "trigger_conditions": { "locations": ["{{location_id}}"] },\n' +
+  '  "steps": [\n' +
+  '    { "step": 1, "service": "crm", "action": "get_contact", "description": "Fetch contact details" },\n' +
+  '    { "step": 2, "service": "crm", "action": "send_email", "description": "Send follow-up email" }\n' +
+  '  ],\n' +
+  '  "services": ["crm", "supabase"]\n' +
+  '}\n' +
+  '```\n\n' +
+  'Available trigger events: appointment.status_changed, contact.created, contact.tag.added, contact.no_show,\n' +
+  'conversation.message.inbound, campaign.completed, stripe.invoice.paid, schedule.daily, schedule.hourly,\n' +
+  'provision.pending, kb.updated, brand.updated, command.execute\n\n' +
+  'Available services for steps: crm, supabase, stripe, slack, telegram, anthropic, openai, github, vercel, figma, sanity, devto, ga4\n\n' +
+  'When you generate a workflow, output it in a ```0n-workflow code block so the frontend can detect it and offer a "Deploy" button.\n' +
+  'Always use the user\'s location_id from their KB context. Always explain what the workflow does in plain language first.\n\n' +
   '## Rules\n' +
   '- CRM operations use {{system.*}} — no launch codes needed\n' +
   '- Third-party services need launch_codes defined with help_url\n' +
   '- Never hardcode API keys — always use template variables\n' +
-  '- Output workflows as JSON in ```0n code blocks\n' +
-  '- Be concise and technical. Use markdown.'
+  '- Output workflows as JSON in ```0n or ```0n-workflow code blocks\n' +
+  '- Be concise and technical. Use markdown.\n' +
+  '- ALWAYS use the user\'s knowledge base context to personalize workflows\n' +
+  '- When generating workflows, make them specific to the user\'s business type and services'
 
 function getAdmin() {
   return createClient(
@@ -570,6 +709,12 @@ export async function POST(request: NextRequest) {
     if (parts.length > 0) {
       enhancedMessage = parts.join(' ') + '\n\n' + message
     }
+  }
+
+  // ── Inject location knowledge base (personal AI per sub-account) ──
+  const locationKB = await getLocationKnowledge(user.id)
+  if (locationKB) {
+    enhancedMessage = locationKB + '\n\n' + enhancedMessage
   }
 
   // ── Inject service knowledge for mentioned services ────────

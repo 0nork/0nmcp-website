@@ -63,7 +63,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
   if (messages.length === 0 && !loading) {
     return (
-      <div className="flex-1 flex items-center justify-center px-4">
+      <div className="flex-1 flex items-center justify-center px-4 overflow-hidden min-h-0">
         <div className="text-center max-w-lg">
           {!hasAIKey ? (
             <>
@@ -119,7 +119,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
   }
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 md:px-8 lg:px-12 py-4">
+    <div className="flex-1 overflow-y-auto min-h-0 px-4 md:px-8 lg:px-12 py-4">
       <div className="max-w-4xl mx-auto space-y-4">
         {messages.map((m, i) => (
           <div

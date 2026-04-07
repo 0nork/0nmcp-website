@@ -643,7 +643,7 @@ export default function ConsolePage() {
 
           {/* Chat */}
           {visitedViews.has('chat') && (
-            <div style={{ display: view === 'chat' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="flex-1 flex-col min-h-0">
+            <div style={{ display: view === 'chat' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="flex-1 flex-col min-h-0 overflow-hidden">
               {/* Pinned Commands Bar */}
               <PinnedCommands
                 onExecuteCommand={handlePinnedCommand}

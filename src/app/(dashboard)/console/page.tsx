@@ -699,14 +699,16 @@ export default function ConsolePage() {
 
           {/* Chat */}
           {visitedViews.has('chat') && (
-            <div style={{ display: view === 'chat' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="flex-1 min-h-0 overflow-hidden">
+            <div style={{ display: view === 'chat' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="chat-layout flex-1 min-h-0 overflow-hidden">
               {/* Chat Content (LEFT) */}
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
                 {/* Pinned Commands Bar */}
-                <PinnedCommands
-                  onExecuteCommand={handlePinnedCommand}
-                  onNavigate={handleSetView}
-                />
+                <div className="chat-pinned-bar">
+                  <PinnedCommands
+                    onExecuteCommand={handlePinnedCommand}
+                    onNavigate={handleSetView}
+                  />
+                </div>
                 {ideas.length > 0 && messages.length === 0 && (
                   <IdeasTicker ideas={ideas} onClick={handleIdeaClick} />
                 )}
@@ -734,13 +736,22 @@ export default function ConsolePage() {
                 />
               </div>
 
-              {/* Right Sidebar — Sessions + Suggestions */}
-              <div style={{
-                width: 280, flexShrink: 0, display: 'flex', flexDirection: 'column',
-                background: 'var(--bg-deep, #040A1A)',
-                borderLeft: '1px solid var(--border, #1e1e2e)',
-                overflow: 'hidden',
-              }}>
+              {/* Right Sidebar — Sessions + Suggestions (responsive) */}
+              <div className="chat-right-sidebar">
+                {/* Toggle button (visible on tablet/mobile) */}
+                <button
+                  className="chat-sidebar-toggle"
+                  onClick={() => {
+                    const sb = document.querySelector('.chat-right-sidebar')
+                    sb?.classList.toggle('open')
+                  }}
+                  aria-label="Toggle chat sidebar"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                  </svg>
+                </button>
+
                 {/* New Chat Button */}
                 <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border, #1e1e2e)' }}>
                   <button
@@ -751,10 +762,7 @@ export default function ConsolePage() {
                       color: '#000', fontSize: '0.8125rem', fontWeight: 700, cursor: 'pointer',
                       fontFamily: 'var(--font-body, sans-serif)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                      transition: 'box-shadow 0.15s ease',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 20px var(--accent-glow, rgba(126,217,87,0.3))' }}
-                    onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 5v14M5 12h14" />
@@ -763,19 +771,17 @@ export default function ConsolePage() {
                   </button>
                 </div>
 
-                {/* Suggestions Panel — moved here from above input */}
+                {/* Suggestions Panel */}
                 {recommendations.length > 0 && (
                   <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border, #1e1e2e)' }}>
                     <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted, #6b7280)', marginBottom: 8, fontFamily: 'var(--font-mono)' }}>
                       Suggested Next
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      <SmartPrompts
-                        recommendations={recommendations}
-                        onExecute={handleRecommendationExecute}
-                        isThinking={recsThinking}
-                      />
-                    </div>
+                    <SmartPrompts
+                      recommendations={recommendations}
+                      onExecute={handleRecommendationExecute}
+                      isThinking={recsThinking}
+                    />
                   </div>
                 )}
 

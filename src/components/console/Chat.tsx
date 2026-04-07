@@ -115,6 +115,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
         {messages.map((m, i) => (
           <div
             key={i}
+            className="chat-msg-row"
             style={{
               display: 'flex', alignItems: 'flex-start', gap: 12,
               flexDirection: m.role === 'user' ? 'row-reverse' : 'row',
@@ -152,7 +153,7 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
             )}
 
             {/* Bubble + metadata */}
-            <div style={{ maxWidth: '70%', minWidth: 0 }}>
+            <div className="chat-msg-bubble" style={{ maxWidth: '70%', minWidth: 0 }}>
               <div style={{
                 padding: '12px 16px', borderRadius: 16, fontSize: '0.8125rem', lineHeight: 1.6,
                 fontFamily: 'var(--font-body, sans-serif)',
@@ -301,6 +302,22 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
         }
         @keyframes spin {
           to { transform: rotate(360deg); }
+        }
+
+        /* Responsive chat */
+        @media (max-width: 767px) {
+          .chat-msg-bubble { max-width: 88% !important; }
+          .chat-msg-row { gap: 8px !important; }
+          .chat-msg-avatar { width: 28px !important; height: 28px !important; border-radius: 10px !important; }
+          .chat-msg-text { padding: 10px 12px !important; font-size: 0.8rem !important; border-radius: 14px !important; }
+        }
+        @media (max-width: 480px) {
+          .chat-msg-bubble { max-width: 92% !important; }
+          .chat-msg-text { padding: 8px 10px !important; font-size: 0.75rem !important; }
+        }
+        @media (max-width: 360px) {
+          .chat-msg-bubble { max-width: 95% !important; }
+          .chat-msg-avatar { width: 24px !important; height: 24px !important; }
         }
       `}</style>
     </div>

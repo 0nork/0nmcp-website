@@ -4,7 +4,7 @@ import { type ReactNode } from 'react'
 import { StatusDot } from './StatusDot'
 import {
   MessageSquare, KeyRound, Sparkles, Blocks,
-  ShoppingBag, Brain,
+  ShoppingBag, Brain, Link2,
 } from 'lucide-react'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
 
@@ -38,6 +38,7 @@ interface QuickAction {
 const ACTIONS: QuickAction[] = [
   { key: 'chat', label: 'Chat', desc: 'Talk to AI assistant', icon: <MessageSquare size={20} />, color: '#a78bfa' },
   { key: 'credentials', label: 'Vault', desc: 'Manage API keys', icon: <KeyRound size={20} />, color: '#6EE05A' },
+  { key: 'integrations', label: 'Integrations', desc: 'Connect services', icon: <Link2 size={20} />, color: '#00d4ff' },
   { key: 'flows', label: 'Create', desc: 'Build a workflow', icon: <Sparkles size={20} />, color: '#ff6b35' },
   { key: 'builder', label: 'Builder', desc: 'Visual editor', icon: <Blocks size={20} />, color: '#a78bfa' },
   { key: 'store', label: 'Store', desc: 'Browse marketplace', icon: <ShoppingBag size={20} />, color: '#ff6b35' },

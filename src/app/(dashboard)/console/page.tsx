@@ -77,9 +77,64 @@ export default function ConsolePage() {
   const [mcpHealth, setMcpHealth] = useState<McpHealth | null>(null)
   const [mcpWorkflows, setMcpWorkflows] = useState<McpWorkflow[]>([])
 
-  // ─── Chat State ───────────────────────────────────────────────
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+  // ─── Chat State (persisted to localStorage + Supabase) ────────
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    if (typeof window === 'undefined') return []
+    try {
+      const saved = localStorage.getItem('0n_chat_messages')
+      if (saved) {
+        const parsed = JSON.parse(saved) as ChatMessage[]
+        // Filter out loading messages from previous sessions
+        return parsed.filter(m => !m.loading)
+      }
+    } catch { /* ignore */ }
+    return []
+  })
   const [chatLoading, setChatLoading] = useState(false)
+  const [chatSessionId, setChatSessionId] = useState<string>(() => {
+    if (typeof window === 'undefined') return ''
+    return localStorage.getItem('0n_chat_session_id') || crypto.randomUUID()
+  })
+
+  // Auto-save chat messages to localStorage on every change
+  useEffect(() => {
+    if (messages.length === 0) return
+    const toSave = messages.filter(m => !m.loading)
+    localStorage.setItem('0n_chat_messages', JSON.stringify(toSave))
+    localStorage.setItem('0n_chat_session_id', chatSessionId)
+  }, [messages, chatSessionId])
+
+  // Sync chat session to Supabase (debounced — saves after 2s of no new messages)
+  useEffect(() => {
+    if (messages.length === 0) return
+    const toSave = messages.filter(m => !m.loading)
+    if (toSave.length === 0) return
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/chat/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: chatSessionId,
+            messages: toSave,
+          }),
+        })
+        if (!res.ok) console.warn('[chat] Session save failed:', res.status)
+      } catch { /* ignore — offline or API not ready */ }
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [messages, chatSessionId])
+
+  // Start a new chat session (clear messages + new ID)
+  const handleNewChat = useCallback(() => {
+    setMessages([])
+    const newId = crypto.randomUUID()
+    setChatSessionId(newId)
+    localStorage.removeItem('0n_chat_messages')
+    localStorage.setItem('0n_chat_session_id', newId)
+  }, [])
 
   // ─── Vault State ──────────────────────────────────────────────
   const [vaultSearch, setVaultSearch] = useState('')
@@ -516,6 +571,7 @@ export default function ConsolePage() {
     // These are now separate routes — sidebar handles navigation
     if (v === 'credentials' || v === 'vault') return
     if (v === 'terminal' || v === 'tools' || v === 'crew') return
+    if (v === 'integrations') { window.location.href = '/console/integrations'; return }
     setView(v as View)
     if (v !== 'vault') {
       setVaultService(null)

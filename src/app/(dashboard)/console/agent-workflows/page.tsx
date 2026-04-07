@@ -50,12 +50,19 @@ const SERVICE_COLORS: Record<string, string> = {
   devto: '#0A0A0A',
 }
 
+// Known locations for webhook registration
+const LOCATIONS = [
+  { id: 'F76MNKOMQCMruMrumtdf', name: 'Spa Ligonier', color: '#C8792D' },
+  { id: 'nphConTwfHcVE1oA0uep', name: '0ncore', color: '#7ed957' },
+]
+
 export default function AgentWorkflowsPage() {
   const [workflows, setWorkflows] = useState<Workflow[]>([])
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState<string | null>(null)
   const [filter, setFilter] = useState<'all' | 'spa' | 'platform'>('all')
   const [search, setSearch] = useState('')
+  const [webhookStatus, setWebhookStatus] = useState<Record<string, string>>({})
 
   useEffect(() => {
     fetch('/api/console/agent-workflows')
@@ -63,6 +70,25 @@ export default function AgentWorkflowsPage() {
       .then(data => { setWorkflows(data.workflows || []); setLoading(false) })
       .catch(() => setLoading(false))
   }, [])
+
+  const registerWebhook = async (locationId: string) => {
+    setWebhookStatus(prev => ({ ...prev, [locationId]: 'registering' }))
+    try {
+      const res = await fetch('/api/console/agent-workflows/register-webhook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ locationId }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setWebhookStatus(prev => ({ ...prev, [locationId]: data.alreadyExisted ? 'already_registered' : 'registered' }))
+      } else {
+        setWebhookStatus(prev => ({ ...prev, [locationId]: `error: ${data.error}` }))
+      }
+    } catch (err) {
+      setWebhookStatus(prev => ({ ...prev, [locationId]: `error: ${(err as Error).message}` }))
+    }
+  }
 
   const filtered = workflows.filter(w => {
     if (filter === 'spa' && !w.slug.startsWith('0nspa')) return false
@@ -119,6 +145,55 @@ export default function AgentWorkflowsPage() {
           </div>
         </div>
       </div>
+
+      {/* Webhook Registration Panel */}
+      <div style={{
+        padding: '14px 16px', borderRadius: 12, marginBottom: '1rem',
+        background: 'var(--bg-deep, #040A1A)', border: '1px solid var(--border)',
+        display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+      }}>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>
+            Connect CRM Webhooks
+          </div>
+          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+            Register 0nmcp.com/api/webhooks/crm as the webhook URL for each CRM location. One click — all events connected.
+          </div>
+        </div>
+        {LOCATIONS.map(loc => {
+          const status = webhookStatus[loc.id]
+          return (
+            <button
+              key={loc.id}
+              onClick={() => registerWebhook(loc.id)}
+              disabled={status === 'registering'}
+              style={{
+                padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                fontSize: '0.75rem', fontWeight: 700, fontFamily: 'inherit',
+                background: status === 'registered' || status === 'already_registered'
+                  ? 'rgba(126,217,87,0.12)' : `color-mix(in srgb, ${loc.color} 15%, transparent)`,
+                color: status === 'registered' || status === 'already_registered'
+                  ? 'var(--accent)' : loc.color,
+                transition: 'all 0.15s',
+                opacity: status === 'registering' ? 0.6 : 1,
+              }}
+            >
+              {status === 'registering' ? 'Connecting...'
+                : status === 'registered' ? 'Connected'
+                : status === 'already_registered' ? 'Already Connected'
+                : status?.startsWith('error') ? 'Retry'
+                : `Connect ${loc.name}`}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Error display */}
+      {Object.entries(webhookStatus).filter(([, s]) => s.startsWith('error')).map(([id, s]) => (
+        <div key={id} style={{ padding: '8px 12px', borderRadius: 8, marginBottom: 8, background: 'rgba(185,28,28,0.1)', border: '1px solid rgba(185,28,28,0.2)', color: '#ef4444', fontSize: '0.75rem' }}>
+          {LOCATIONS.find(l => l.id === id)?.name}: {s}
+        </div>
+      ))}
 
       {/* Workflow List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

@@ -76,6 +76,11 @@ const mainNav: NavItem[] = [
     badge: "22",
   },
   {
+    title: "Campaigns",
+    url: "/console/campaigns",
+    icon: <MessageSquare className="size-4" />,
+  },
+  {
     title: "My Business",
     url: "/console/my-business",
     icon: <Building2 className="size-4" />,

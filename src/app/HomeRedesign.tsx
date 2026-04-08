@@ -86,24 +86,9 @@ const KEYFRAMES = `
 
 function useReveal() {
   const ref = useRef<HTMLElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    // Fallback: if section is already in view or IO doesn't fire, show after 1s
-    const fallback = setTimeout(() => setVisible(true), 1500)
-
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); clearTimeout(fallback) } },
-      { threshold: 0.01, rootMargin: '100px 0px 0px 0px' }
-    )
-    obs.observe(el)
-    return () => { obs.disconnect(); clearTimeout(fallback) }
-  }, [])
-
-  return { ref: ref as React.RefObject<HTMLDivElement>, visible }
+  // Scroll reveal disabled — sections visible immediately
+  // IO was failing due to SiteChrome layout scroll context
+  return { ref: ref as React.RefObject<HTMLDivElement>, visible: true }
 }
 
 // ─── INLINE SVG HELPERS ──────────────────────────────────────────────────────

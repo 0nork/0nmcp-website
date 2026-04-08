@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import { PulseSidebar } from '@/components/console/PulseSidebar'
+import { AppLauncher } from '@/components/console/AppLauncher'
 import { Separator } from '@/components/ui/separator'
 import '@/app/console.css'
 
@@ -94,8 +95,46 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
             />
             <Separator orientation="vertical" style={{ height: 24 }} />
             <div style={{ flex: 1 }} />
-            {/* Header tools will be added from the page */}
-            <div id="console-header-tools" />
+            {/* Header toolbar */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              {/* Search */}
+              <button
+                onClick={() => {
+                  const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true })
+                  document.dispatchEvent(event)
+                }}
+                style={{
+                  width: 36, height: 36, borderRadius: 10, border: 'none',
+                  background: 'transparent', color: 'var(--text-muted)',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+                </svg>
+              </button>
+              {/* App Launcher */}
+              <AppLauncher />
+              {/* Notifications bell */}
+              <button
+                style={{
+                  width: 36, height: 36, borderRadius: 10, border: 'none',
+                  background: 'transparent', color: 'var(--text-muted)',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  position: 'relative',
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
+                </svg>
+                <span style={{
+                  position: 'absolute', top: 4, right: 4,
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: 'var(--accent, #7ed957)',
+                  boxShadow: '0 0 6px var(--accent-glow)',
+                }} />
+              </button>
+            </div>
           </header>
           <div style={{
             flex: 1, display: 'flex', flexDirection: 'column',

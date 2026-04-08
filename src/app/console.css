@@ -1,13 +1,30 @@
 /* ================================================
-   Console Layout System — replaces jampack.css
-   Minimal layout skeleton + variable bridge
+   Console Layout System — Wowdash + 0nMCP Brand
+   Tokens: shadcn/ui CSS variables → 0nMCP colors
    ================================================ */
 
-/* Variable bridge — maps jp- vars to globals.css values
-   so existing inline styles keep working without edits */
+/* ── Wowdash shadcn token overrides (0nMCP brand) ── */
+:root {
+  --radius: 0.625rem;
+
+  /* Console is always dark — these are the console-scope overrides */
+  --primary: #6EE05A;
+  --primary-foreground: #080B0F;
+
+  --sidebar: #0A0D12;
+  --sidebar-foreground: #e5e7eb;
+  --sidebar-primary: #6EE05A;
+  --sidebar-primary-foreground: #080B0F;
+  --sidebar-accent: rgba(110, 224, 90, 0.1);
+  --sidebar-accent-foreground: #e5e7eb;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #6EE05A;
+}
+
+/* ── Legacy variable bridge (existing pages still reference these) ── */
 :root {
   --console-sidebar-w: 260px;
-  --console-header-h: 56px;
+  --console-header-h: 72px;
 
   /* Bridge: jp vars → global theme vars */
   --jp-bg: var(--bg-primary);

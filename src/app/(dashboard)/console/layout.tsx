@@ -1,13 +1,17 @@
 'use client'
 
+/**
+ * Console Layout — Wowdash App Shell
+ * Pattern: SidebarProvider → Sidebar + Main (Header + Content + Footer)
+ * Adapted from Wowdash MainLayout.tsx + SidebarLayout.tsx
+ */
+
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { TooltipProvider } from '@/components/ui/tooltip'
-import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
-import { PulseSidebar } from '@/components/console/PulseSidebar'
-import { AppLauncher } from '@/components/console/AppLauncher'
-import { Separator } from '@/components/ui/separator'
-import '@/app/console.css'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { WowdashSidebar } from '@/components/console/WowdashSidebar'
+import { cn } from '@/lib/utils'
+import { Search, Bell } from 'lucide-react'
 
 export default function ConsoleLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
@@ -40,111 +44,72 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
 
   if (loading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'var(--bg-primary)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <div style={{
-          width: 36, height: 36,
-          border: '2px solid var(--border)',
-          borderTopColor: 'var(--accent)',
-          borderRadius: '50%',
-          animation: 'spin 0.8s linear infinite',
-        }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <div className="min-h-screen bg-[#080B0F] flex items-center justify-center">
+        <div className="size-9 border-2 border-neutral-700 border-t-primary rounded-full animate-spin" />
       </div>
     )
   }
 
   return (
-    <TooltipProvider delayDuration={0}>
-      <SidebarProvider>
-        <PulseSidebar
-          userName={userName}
-          userEmail={userEmail}
-          userPlan={userPlan}
-          onSignOut={async () => {
-            try {
-              await fetch('/api/auth/signout', { method: 'POST' })
-            } catch { /* ignore */ }
-            router.push('/login')
-          }}
-        />
-        <SidebarInset>
-          <header
-            className="console-pulse-header"
-            style={{
-              position: 'sticky', top: 0, zIndex: 40,
-              display: 'flex', height: 56, alignItems: 'center', gap: 8,
-              padding: '0 20px',
-              borderBottom: '1px solid var(--border)',
-              background: 'var(--bg-primary)',
-              backdropFilter: 'blur(12px)',
-              flexShrink: 0,
-            }}
-          >
-            <SidebarTrigger
-              style={{
-                width: 36, height: 36, borderRadius: 8, border: 'none',
-                background: 'transparent', color: 'var(--text-muted)',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    <SidebarProvider>
+      <WowdashSidebar
+        userName={userName}
+        userEmail={userEmail}
+        userPlan={userPlan}
+        onSignOut={async () => {
+          try {
+            await fetch('/api/auth/signout', { method: 'POST' })
+          } catch { /* ignore */ }
+          router.push('/login')
+        }}
+      />
+      <main className="grow flex flex-col min-h-screen">
+        {/* Header — Wowdash pattern */}
+        <div className={cn(
+          "bg-sidebar border-b border-neutral-700/30",
+          "flex items-center justify-between h-[72px] shrink-0 gap-2 px-6 py-4",
+          "sticky top-0 z-[2]"
+        )}>
+          {/* Left: Sidebar trigger + Search */}
+          <div className="flex items-center gap-4">
+            <SidebarTrigger className="!p-0 h-auto w-auto !bg-transparent cursor-pointer text-neutral-400 hover:text-white" />
+            <button
+              onClick={() => {
+                const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true })
+                document.dispatchEvent(event)
               }}
-            />
-            <Separator orientation="vertical" style={{ height: 24 }} />
-            <div style={{ flex: 1 }} />
-            {/* Header toolbar */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {/* Search */}
-              <button
-                onClick={() => {
-                  const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true })
-                  document.dispatchEvent(event)
-                }}
-                style={{
-                  width: 36, height: 36, borderRadius: 10, border: 'none',
-                  background: 'transparent', color: 'var(--text-muted)',
-                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-                </svg>
-              </button>
-              {/* App Launcher */}
-              <AppLauncher />
-              {/* Notifications bell */}
-              <button
-                style={{
-                  width: 36, height: 36, borderRadius: 10, border: 'none',
-                  background: 'transparent', color: 'var(--text-muted)',
-                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  position: 'relative',
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
-                </svg>
-                <span style={{
-                  position: 'absolute', top: 4, right: 4,
-                  width: 8, height: 8, borderRadius: '50%',
-                  background: 'var(--accent, #7ed957)',
-                  boxShadow: '0 0 6px var(--accent-glow)',
-                }} />
-              </button>
-            </div>
-          </header>
-          <div style={{
-            flex: 1, display: 'flex', flexDirection: 'column',
-            overflow: 'hidden', minHeight: 0,
-            background: 'var(--bg-primary)',
-          }}>
-            {children}
+              className="flex items-center gap-2 text-neutral-500 hover:text-neutral-300 transition-colors"
+            >
+              <Search className="size-4" />
+              <span className="text-sm hidden md:inline">Search...</span>
+              <kbd className="hidden md:inline text-[10px] px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-500 border border-neutral-700">
+                ⌘K
+              </kbd>
+            </button>
           </div>
-        </SidebarInset>
-      </SidebarProvider>
-    </TooltipProvider>
+
+          {/* Right: Notifications */}
+          <div className="flex items-center gap-3">
+            <button className="relative text-neutral-400 hover:text-white transition-colors">
+              <Bell className="size-5" />
+              <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-primary" />
+            </button>
+          </div>
+        </div>
+
+        {/* Content area — Wowdash dashboard-body pattern */}
+        <div className="bg-[#1e2734] dark:bg-[#1e2734] p-4 md:p-6 flex-1">
+          {children}
+        </div>
+
+        {/* Footer */}
+        <footer className="bg-sidebar py-4 px-6 border-t border-neutral-700/30">
+          <div className="flex items-center justify-between text-xs text-neutral-500">
+            <span>&copy; {new Date().getFullYear()} RocketOpp LLC. All rights reserved.</span>
+            <span className="text-primary font-medium">0nMCP</span>
+          </div>
+        </footer>
+      </main>
+    </SidebarProvider>
   )
 }

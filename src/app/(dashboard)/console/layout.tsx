@@ -8,10 +8,12 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { WowdashSidebar } from '@/components/console/WowdashSidebar'
 import { cn } from '@/lib/utils'
 import { Search, Bell } from 'lucide-react'
+import '@/app/console.css'
 
 export default function ConsoleLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
@@ -51,6 +53,7 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
   }
 
   return (
+    <TooltipProvider delayDuration={0}>
     <SidebarProvider>
       <WowdashSidebar
         userName={userName}
@@ -111,5 +114,6 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
         </footer>
       </main>
     </SidebarProvider>
+    </TooltipProvider>
   )
 }

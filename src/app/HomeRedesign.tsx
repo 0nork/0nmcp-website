@@ -4,22 +4,23 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
+// Use CSS variables so light/dark mode works automatically
 const COLORS = {
-  bgPrimary: '#0d1117',
-  bgCard: '#1f2937',
-  bgDeep: '#040A1A',
-  green: '#7ed957',
-  greenDim: '#5cb83a',
-  greenGlow: 'rgba(126, 217, 87, 0.15)',
+  bgPrimary: 'var(--bg-primary, #0d1117)',
+  bgCard: 'var(--bg-card, #1f2937)',
+  bgDeep: 'var(--bg-deep, #040A1A)',
+  green: 'var(--accent, #7ed957)',
+  greenDim: 'var(--accent-dim, #5cb83a)',
+  greenGlow: 'var(--accent-glow, rgba(126, 217, 87, 0.15))',
   teal: '#14b8a6',
   tealAlt: '#00C2C7',
   purple: '#8b5cf6',
   purpleLight: '#a78bfa',
-  orange: '#FF6B35',
-  textPrimary: '#f0f4f8',
-  textSecondary: '#9ca3af',
-  textMuted: '#6b7280',
-  border: 'rgba(255,255,255,0.08)',
+  orange: 'var(--cta-bg, #FF6B35)',
+  textPrimary: 'var(--text-primary, #f0f4f8)',
+  textSecondary: 'var(--text-secondary, #9ca3af)',
+  textMuted: 'var(--text-muted, #6b7280)',
+  border: 'var(--border, rgba(255,255,255,0.08))',
 }
 
 const SERVICES = [
@@ -276,7 +277,7 @@ export default function HomeRedesign() {
   const featuresSection = useScrollReveal()
   const demoSection = useScrollReveal()
   const pricingSection = useScrollReveal()
-  const socialSection = useScrollReveal()
+  // socialSection removed — no vanity metrics
   const bottomCta = useScrollReveal()
 
   // Counter refs
@@ -503,18 +504,10 @@ export default function HomeRedesign() {
               e.currentTarget.style.color = COLORS.textSecondary
             }}
             >
-              <span>npm install -g 0nmcp</span>
-              {/* Copy / check icon */}
-              {copied ? (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              ) : (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-                </svg>
-              )}
+              <span>See How It Works</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 17l9.2-9.2M17 17V7H7"/>
+              </svg>
             </button>
           </div>
 
@@ -1194,123 +1187,10 @@ export default function HomeRedesign() {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 8: SOCIAL PROOF
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={socialSection.ref} style={{
-          padding: 'clamp(60px, 10vh, 100px) clamp(16px, 5vw, 48px)',
-          background: COLORS.bgDeep,
-          opacity: socialSection.visible ? 1 : 0,
-          transform: socialSection.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
-        }}>
-          <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)',
-              fontWeight: 800,
-              margin: '0 0 16px',
-              letterSpacing: '-0.02em',
-            }}>
-              Trusted by developers and businesses worldwide.
-            </h2>
-            <p style={{
-              fontFamily: '"Nunito Sans", sans-serif',
-              fontSize: '1rem',
-              color: COLORS.textMuted,
-              margin: '0 0 40px',
-              lineHeight: 1.6,
-            }}>
-              Open source. Community-driven. Growing every day.
-            </p>
-
-            {/* Stats cards */}
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: 16,
-              marginBottom: 40,
-            }}>
-              {[
-                { label: 'Reddit opportunities tracked', value: '1,058' },
-                { label: 'Blog articles published', value: '10' },
-                { label: 'Community profiles', value: '34' },
-              ].map((stat, i) => (
-                <div key={stat.label} style={{
-                  background: COLORS.bgCard,
-                  border: `1px solid ${COLORS.border}`,
-                  borderRadius: 10,
-                  padding: '20px 28px',
-                  minWidth: 180,
-                  animation: socialSection.visible ? `fadeInUp 0.4s ease ${i * 0.1}s both` : 'none',
-                }}>
-                  <div style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '1.6rem',
-                    fontWeight: 800,
-                    color: COLORS.green,
-                    marginBottom: 4,
-                  }}>{stat.value}</div>
-                  <div style={{
-                    fontFamily: '"Nunito Sans", sans-serif',
-                    fontSize: '0.8rem',
-                    color: COLORS.textMuted,
-                  }}>{stat.label}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Badge placeholders */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: 16,
-              flexWrap: 'wrap',
-            }}>
-              {/* GitHub stars badge */}
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '8px 16px',
-                background: 'rgba(255,255,255,0.04)',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: 6,
-                fontFamily: '"JetBrains Mono", monospace',
-                fontSize: '0.8rem',
-                color: COLORS.textSecondary,
-              }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-                GitHub Stars
-              </div>
-
-              {/* npm downloads badge */}
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '8px 16px',
-                background: 'rgba(255,255,255,0.04)',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: 6,
-                fontFamily: '"JetBrains Mono", monospace',
-                fontSize: '0.8rem',
-                color: COLORS.textSecondary,
-              }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                </svg>
-                npm Downloads
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Social Proof section removed — no vanity metrics until we have real users */}
 
         {/* ════════════════════════════════════════════════════════════════════
-            SECTION 9: BOTTOM CTA
+            SECTION 8: BOTTOM CTA
             ════════════════════════════════════════════════════════════════════ */}
         <section ref={bottomCta.ref} style={{
           position: 'relative',
@@ -1412,15 +1292,6 @@ export default function HomeRedesign() {
               display: 'inline-block',
               background: 'rgba(0,0,0,0.5)',
               border: `1px solid ${COLORS.border}`,
-              borderRadius: 8,
-              padding: '10px 20px',
-              fontFamily: '"JetBrains Mono", monospace',
-              fontSize: '0.85rem',
-              color: COLORS.textSecondary,
-            }}>
-              npm install -g 0nmcp
-            </div>
-
             {/* Links */}
             <div style={{
               marginTop: 40,

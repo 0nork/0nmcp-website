@@ -85,6 +85,119 @@ const LIGHT_DEFAULTS: ThemeColors = {
   borderHover: '#cbd5e1',
 }
 
+// ── Theme Presets ──
+interface ThemePreset {
+  name: string
+  description: string
+  dark: ThemeColors
+  light: ThemeColors
+  logo?: string // SVG data URI or URL
+  accentName: string
+}
+
+const PRESETS: ThemePreset[] = [
+  {
+    name: '0nMCP Default',
+    description: 'The original — dark slate with lime green',
+    accentName: 'Lime Green',
+    dark: DARK_DEFAULTS,
+    light: LIGHT_DEFAULTS,
+  },
+  {
+    name: 'Spa Ligonier',
+    description: 'Luxury spa — burgundy, gold, cream',
+    accentName: 'Gold',
+    dark: {
+      ...DARK_DEFAULTS,
+      bgPrimary: '#100305', bgSecondary: '#1c0508', bgCard: '#160406', bgDeep: '#0a0102',
+      textPrimary: '#F4DCD0', textSecondary: '#c8a68a', textMuted: '#9a7262',
+      accent: '#C8792D', accentAction: '#C8792D', accentDim: '#a86420',
+      colorCyan: '#C8792D', colorPurple: '#8b5cf6', colorOrange: '#C8792D',
+      ctaBg: '#C8792D', ctaText: '#ffffff', ctaHover: '#a86420',
+      border: 'rgba(200,121,45,0.2)', borderHover: 'rgba(200,121,45,0.4)',
+    },
+    light: {
+      ...LIGHT_DEFAULTS,
+      bgPrimary: '#FAEEE8', bgSecondary: '#ffffff', bgCard: '#ffffff', bgDeep: '#F4DCD0',
+      textPrimary: '#272727', textSecondary: '#5a4a42', textMuted: '#9a7262',
+      accent: '#570301', accentAction: '#570301', accentDim: '#8B1A10',
+      ctaBg: '#C8792D', ctaText: '#ffffff', ctaHover: '#a86420',
+      border: '#e8d5c8', borderHover: '#d4b8a4',
+    },
+  },
+  {
+    name: 'Midnight Blue',
+    description: 'Deep ocean — navy with electric blue',
+    accentName: 'Electric Blue',
+    dark: {
+      ...DARK_DEFAULTS,
+      bgPrimary: '#0a0e1a', bgSecondary: '#111827', bgCard: '#1e293b', bgDeep: '#060a14',
+      accent: '#3b82f6', accentAction: '#2563eb', accentDim: '#1d4ed8',
+      colorCyan: '#06b6d4', colorPurple: '#8b5cf6',
+      ctaBg: '#3b82f6', ctaHover: '#2563eb',
+      border: '#1e293b', borderHover: '#334155',
+    },
+    light: {
+      ...LIGHT_DEFAULTS,
+      accent: '#2563eb', accentAction: '#1d4ed8', accentDim: '#3b82f6',
+      ctaBg: '#2563eb', ctaHover: '#1d4ed8',
+    },
+  },
+  {
+    name: 'Ember',
+    description: 'Warm fire — charcoal with orange glow',
+    accentName: 'Fire Orange',
+    dark: {
+      ...DARK_DEFAULTS,
+      bgPrimary: '#1a1210', bgSecondary: '#231a16', bgCard: '#2d211c', bgDeep: '#0f0a08',
+      accent: '#f97316', accentAction: '#ea580c', accentDim: '#c2410c',
+      colorCyan: '#14b8a6', colorAmber: '#f59e0b',
+      ctaBg: '#f97316', ctaHover: '#ea580c',
+      border: '#3d2e26', borderHover: '#5a4438',
+    },
+    light: {
+      ...LIGHT_DEFAULTS,
+      accent: '#ea580c', accentAction: '#c2410c', accentDim: '#f97316',
+      ctaBg: '#ea580c', ctaHover: '#c2410c',
+    },
+  },
+  {
+    name: 'Arctic',
+    description: 'Clean and clinical — white with teal',
+    accentName: 'Teal',
+    dark: {
+      ...DARK_DEFAULTS,
+      bgPrimary: '#0f1419', bgSecondary: '#151d26', bgCard: '#1c2733', bgDeep: '#080d12',
+      accent: '#14b8a6', accentAction: '#0d9488', accentDim: '#0f766e',
+      ctaBg: '#14b8a6', ctaHover: '#0d9488',
+      border: '#1c2733', borderHover: '#2a3a4a',
+    },
+    light: {
+      ...LIGHT_DEFAULTS,
+      accent: '#0d9488', accentAction: '#0f766e', accentDim: '#14b8a6',
+      ctaBg: '#0d9488', ctaHover: '#0f766e',
+    },
+  },
+  {
+    name: 'Royal Purple',
+    description: 'Regal — deep violet with purple accents',
+    accentName: 'Violet',
+    dark: {
+      ...DARK_DEFAULTS,
+      bgPrimary: '#0f0a1a', bgSecondary: '#1a1229', bgCard: '#251c38', bgDeep: '#080514',
+      accent: '#a78bfa', accentAction: '#8b5cf6', accentDim: '#7c3aed',
+      colorCyan: '#06b6d4', colorPurple: '#c084fc',
+      ctaBg: '#8b5cf6', ctaHover: '#7c3aed',
+      border: '#2d2044', borderHover: '#3f2e5c',
+    },
+    light: {
+      ...LIGHT_DEFAULTS,
+      accent: '#7c3aed', accentAction: '#6d28d9', accentDim: '#8b5cf6',
+      ctaBg: '#7c3aed', ctaHover: '#6d28d9',
+    },
+  },
+]
+
 const TOKEN_MAP: Record<keyof ThemeColors, string> = {
   bgPrimary: '--bg-primary',
   bgSecondary: '--bg-secondary',
@@ -183,12 +296,18 @@ export default function ThemeAdminPage() {
   const [mode, setMode] = useState<'dark' | 'light'>('dark')
   const [colors, setColors] = useState<ThemeColors>(DARK_DEFAULTS)
   const [saved, setSaved] = useState(false)
+  const [activePreset, setActivePreset] = useState<string>('0nMCP Default')
+  const [logoUrl, setLogoUrl] = useState<string>('')
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [tab, setTab] = useState<'presets' | 'colors' | 'logo'>('presets')
 
-  // Load saved theme on mount
+  // Load saved theme + logo on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem('0n_theme_' + mode)
       if (stored) setColors(JSON.parse(stored))
+      const savedLogo = localStorage.getItem('0n_custom_logo')
+      if (savedLogo) setLogoUrl(savedLogo)
     } catch { /* use defaults */ }
   }, [mode])
 
@@ -222,6 +341,27 @@ export default function ThemeAdminPage() {
     localStorage.removeItem('0n_theme_' + mode)
     setSaved(false)
   }, [mode])
+
+  const applyPreset = useCallback((preset: ThemePreset) => {
+    const c = mode === 'dark' ? preset.dark : preset.light
+    setColors(c)
+    applyTheme(c)
+    setActivePreset(preset.name)
+    setSaved(false)
+  }, [mode])
+
+  const handleLogoUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setLogoFile(file)
+    const reader = new FileReader()
+    reader.onload = () => {
+      const url = reader.result as string
+      setLogoUrl(url)
+      localStorage.setItem('0n_custom_logo', url)
+    }
+    reader.readAsDataURL(file)
+  }, [])
 
   const handleSwitchMode = useCallback((m: 'dark' | 'light') => {
     setMode(m)
@@ -277,7 +417,172 @@ export default function ThemeAdminPage() {
         </div>
       </div>
 
-      {/* Color Groups */}
+      {/* Tabs */}
+      <div style={{ display: 'flex', gap: 3, padding: 3, borderRadius: 10, background: 'var(--bg-card)', border: '1px solid var(--border)', marginBottom: '1.5rem' }}>
+        {(['presets', 'colors', 'logo'] as const).map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{
+            flex: 1, padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer',
+            fontSize: '0.75rem', fontWeight: 600, textTransform: 'capitalize', fontFamily: 'inherit',
+            background: tab === t ? 'var(--accent-glow, rgba(126,217,87,0.12))' : 'transparent',
+            color: tab === t ? 'var(--accent)' : 'var(--text-muted)',
+          }}>
+            {t === 'presets' ? 'Theme Presets' : t === 'colors' ? 'Custom Colors' : 'Logo & Branding'}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Presets Tab ── */}
+      {tab === 'presets' && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 12, marginBottom: 24 }}>
+          {PRESETS.map(preset => (
+            <button
+              key={preset.name}
+              onClick={() => applyPreset(preset)}
+              style={{
+                padding: '16px', borderRadius: 12, textAlign: 'left', cursor: 'pointer',
+                background: activePreset === preset.name ? 'var(--accent-glow, rgba(126,217,87,0.08))' : 'var(--bg-card)',
+                border: `1.5px solid ${activePreset === preset.name ? (mode === 'dark' ? preset.dark.accent : preset.light.accent) : 'var(--border)'}`,
+                fontFamily: 'inherit', width: '100%', transition: 'all 0.2s',
+              }}
+            >
+              {/* Color preview strip */}
+              <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+                {[
+                  mode === 'dark' ? preset.dark.bgPrimary : preset.light.bgPrimary,
+                  mode === 'dark' ? preset.dark.bgCard : preset.light.bgCard,
+                  mode === 'dark' ? preset.dark.accent : preset.light.accent,
+                  mode === 'dark' ? preset.dark.ctaBg : preset.light.ctaBg,
+                  mode === 'dark' ? preset.dark.colorPurple : preset.light.colorPurple,
+                ].map((c, i) => (
+                  <div key={i} style={{ flex: 1, height: 28, borderRadius: 6, background: c, border: '1px solid rgba(255,255,255,0.08)' }} />
+                ))}
+              </div>
+              <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>
+                {preset.name}
+              </div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginBottom: 6 }}>
+                {preset.description}
+              </div>
+              <div style={{
+                display: 'inline-flex', padding: '2px 8px', borderRadius: 4,
+                fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em',
+                background: `${mode === 'dark' ? preset.dark.accent : preset.light.accent}15`,
+                color: mode === 'dark' ? preset.dark.accent : preset.light.accent,
+              }}>
+                {preset.accentName}
+              </div>
+              {activePreset === preset.name && (
+                <div style={{ marginTop: 8, fontSize: '0.625rem', fontWeight: 600, color: 'var(--accent)' }}>
+                  Active
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── Logo Tab ── */}
+      {tab === 'logo' && (
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            {/* Current Logo */}
+            <div style={{ padding: '1.25rem', borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 12 }}>
+                Current Logo
+              </div>
+              <div style={{
+                width: '100%', height: 120, borderRadius: 10,
+                background: colors.bgPrimary, border: '1px solid var(--border)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12,
+              }}>
+                {logoUrl ? (
+                  <img src={logoUrl} alt="Logo" style={{ maxHeight: 80, maxWidth: '80%', objectFit: 'contain' }} />
+                ) : (
+                  <div style={{
+                    width: 56, height: 56, borderRadius: 14,
+                    background: `linear-gradient(135deg, ${colors.accent}, ${colors.colorCyan})`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <span style={{ fontSize: '1rem', fontWeight: 900, color: '#000', fontFamily: 'var(--font-mono)' }}>0n</span>
+                  </div>
+                )}
+              </div>
+              <label style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                padding: '10px 16px', borderRadius: 8, border: '1px dashed var(--border)',
+                cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600,
+                color: 'var(--text-secondary)', transition: 'all 0.15s',
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                </svg>
+                Upload Logo (PNG, SVG, WebP)
+                <input type="file" accept="image/*" onChange={handleLogoUpload} style={{ display: 'none' }} />
+              </label>
+            </div>
+
+            {/* Logo Variants */}
+            <div style={{ padding: '1.25rem', borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 12 }}>
+                Logo on Backgrounds
+              </div>
+              {/* Dark bg preview */}
+              <div style={{
+                width: '100%', height: 50, borderRadius: 8, marginBottom: 8,
+                background: colors.bgDeep, border: '1px solid var(--border)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {logoUrl ? (
+                  <img src={logoUrl} alt="" style={{ maxHeight: 32, objectFit: 'contain' }} />
+                ) : (
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: colors.accent, fontFamily: 'var(--font-mono)' }}>0nMCP</span>
+                )}
+              </div>
+              {/* Light bg preview */}
+              <div style={{
+                width: '100%', height: 50, borderRadius: 8, marginBottom: 8,
+                background: '#ffffff', border: '1px solid #e2e8f0',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {logoUrl ? (
+                  <img src={logoUrl} alt="" style={{ maxHeight: 32, objectFit: 'contain' }} />
+                ) : (
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#1f2937', fontFamily: 'var(--font-mono)' }}>0nMCP</span>
+                )}
+              </div>
+              {/* Accent bg preview */}
+              <div style={{
+                width: '100%', height: 50, borderRadius: 8,
+                background: colors.accent, border: '1px solid transparent',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {logoUrl ? (
+                  <img src={logoUrl} alt="" style={{ maxHeight: 32, objectFit: 'contain', filter: 'brightness(0)' }} />
+                ) : (
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#000', fontFamily: 'var(--font-mono)' }}>0nMCP</span>
+                )}
+              </div>
+
+              {/* Logo URL input */}
+              <div style={{ marginTop: 12 }}>
+                <div style={{ fontSize: '0.625rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: 4 }}>Or paste logo URL</div>
+                <input
+                  type="text" value={logoUrl} onChange={e => { setLogoUrl(e.target.value); localStorage.setItem('0n_custom_logo', e.target.value) }}
+                  placeholder="https://..."
+                  style={{
+                    width: '100%', padding: '8px 10px', borderRadius: 6, border: '1px solid var(--border)',
+                    background: 'var(--bg-primary)', color: 'var(--text-primary)',
+                    fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', outline: 'none',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Colors Tab ── */}
+      {tab === 'colors' && (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         {GROUPS.map(group => (
           <div key={group.label} style={{
@@ -299,8 +604,9 @@ export default function ThemeAdminPage() {
           </div>
         ))}
       </div>
+      )}
 
-      {/* Preview Section */}
+      {/* Preview Section — always visible */}
       <div style={{ marginTop: 24, padding: '1.25rem', borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
         <div style={{ fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 12 }}>
           Live Preview

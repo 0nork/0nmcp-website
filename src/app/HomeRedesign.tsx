@@ -2,1327 +2,1007 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-// ─── CONSTANTS ────────────────────────────────────────────────────────────────
+// ─── COLOR PALETTE (Grok-inspired, brighter) ────────────────────────────────
 
-// Use CSS variables so light/dark mode works automatically
-const COLORS = {
-  bgPrimary: 'var(--bg-primary, #0d1117)',
-  bgCard: 'var(--bg-card, #1f2937)',
-  bgDeep: 'var(--bg-deep, #040A1A)',
-  green: 'var(--accent, #7ed957)',
-  greenDim: 'var(--accent-dim, #5cb83a)',
-  greenGlow: 'var(--accent-glow, rgba(126, 217, 87, 0.15))',
-  teal: '#14b8a6',
-  tealAlt: '#00C2C7',
-  purple: '#8b5cf6',
-  purpleLight: '#a78bfa',
-  orange: 'var(--cta-bg, #FF6B35)',
-  textPrimary: 'var(--text-primary, #f0f4f8)',
-  textSecondary: 'var(--text-secondary, #9ca3af)',
-  textMuted: 'var(--text-muted, #6b7280)',
-  border: 'var(--border, rgba(255,255,255,0.08))',
+const C = {
+  bg: '#0F1217',
+  card: '#1A2028',
+  deep: '#080B10',
+  lime: '#B2FF4D',
+  purple: '#9B6EFF',
+  turquoise: '#3FFFE0',
+  orange: '#FF6B35',
+  text: '#f0f4f8',
+  textSec: '#8a93a3',
+  textMuted: '#555d6e',
+  border: 'rgba(178,255,77,0.08)',
 }
 
-const SERVICES = [
-  [
-    { name: 'CRM', abbr: 'CR', color: '#7ed957', tools: 245 },
-    { name: 'Stripe', abbr: 'St', color: '#635BFF', tools: 42 },
-    { name: 'Slack', abbr: 'Sl', color: '#4A154B', tools: 28 },
-    { name: 'OpenAI', abbr: 'OA', color: '#10a37f', tools: 35 },
-    { name: 'GitHub', abbr: 'GH', color: '#8b949e', tools: 48 },
-    { name: 'Supabase', abbr: 'Sb', color: '#3ECF8E', tools: 32 },
-  ],
-  [
-    { name: 'Telegram', abbr: 'Tg', color: '#26A5E4', tools: 18 },
-    { name: 'Figma', abbr: 'Fi', color: '#F24E1E', tools: 22 },
-    { name: 'Anthropic', abbr: 'An', color: '#D4A574', tools: 30 },
-    { name: 'Gemini', abbr: 'Ge', color: '#4285F4', tools: 25 },
-    { name: 'Vercel', abbr: 'Vc', color: '#e5e5e5', tools: 20 },
-    { name: 'Sanity', abbr: 'Sa', color: '#F03E2F', tools: 15 },
-  ],
-  [
-    { name: 'Discord', abbr: 'Dc', color: '#5865F2', tools: 24 },
-    { name: 'Twilio', abbr: 'Tw', color: '#F22F46', tools: 20 },
-    { name: 'SendGrid', abbr: 'SG', color: '#1A82E2', tools: 18 },
-    { name: 'HubSpot', abbr: 'HS', color: '#FF7A59', tools: 36 },
-    { name: 'Notion', abbr: 'No', color: '#e5e5e5', tools: 28 },
-    { name: 'Shopify', abbr: 'Sh', color: '#96BF48', tools: 34 },
-  ],
+// ─── ORBIT SERVICE ICONS ─────────────────────────────────────────────────────
+
+const ORBIT_ICONS = [
+  { abbr: 'Sl', color: '#4A154B', radius: 180, speed: 60, start: 0 },
+  { abbr: 'St', color: '#635BFF', radius: 220, speed: 80, start: 45 },
+  { abbr: 'HS', color: '#FF7A59', radius: 260, speed: 100, start: 90 },
+  { abbr: 'Gm', color: '#EA4335', radius: 200, speed: 70, start: 135 },
+  { abbr: 'No', color: '#e5e5e5', radius: 300, speed: 120, start: 180 },
+  { abbr: 'Sh', color: '#96BF48', radius: 240, speed: 90, start: 225 },
+  { abbr: 'Zd', color: '#03363D', radius: 280, speed: 110, start: 270 },
+  { abbr: 'Tw', color: '#F22F46', radius: 160, speed: 55, start: 315 },
+  { abbr: 'OA', color: '#10a37f', radius: 320, speed: 130, start: 160 },
+  { abbr: 'Fi', color: '#F24E1E', radius: 190, speed: 65, start: 200 },
 ]
 
-const FEATURES = [
-  {
-    title: '1,554 Tools',
-    desc: 'CRM, Stripe, Slack, and 93 more services unified in a single MCP server. Install once, access everything.',
-  },
-  {
-    title: 'AI-Native Execution',
-    desc: 'Describe outcomes, not steps. Your AI decides which tools to call, in what order, with what data.',
-  },
-  {
-    title: 'Vault Encryption',
-    desc: 'AES-256-GCM with machine-bound keys. PBKDF2-SHA512 at 100K iterations. Your credentials never leave your machine.',
-  },
-  {
-    title: 'Universal Commands',
-    desc: 'The same natural language commands work in Claude, ChatGPT, Cursor, Windsurf, Gemini, and the CLI.',
-  },
-  {
-    title: '5 Patents Pending',
-    desc: 'Three-Level Execution, Seal of Truth, 0nVault Container System, Capability Routing, and more.',
-  },
-  {
-    title: 'Free & Open Source',
-    desc: 'MIT licensed. Free forever. No usage limits on local execution. Premium cloud features unlock at scale.',
-  },
+// ─── INTEGRATION TILES ──────────────────────────────────────────────────────
+
+const INTEGRATIONS = [
+  { name: 'Slack', abbr: 'Sl', color: '#4A154B' },
+  { name: 'Stripe', abbr: 'St', color: '#635BFF' },
+  { name: 'Gmail', abbr: 'Gm', color: '#EA4335' },
+  { name: 'HubSpot', abbr: 'HS', color: '#FF7A59' },
+  { name: 'Shopify', abbr: 'Sh', color: '#96BF48' },
+  { name: 'QuickBooks', abbr: 'QB', color: '#2CA01C' },
+  { name: 'Figma', abbr: 'Fi', color: '#F24E1E' },
+  { name: 'Notion', abbr: 'No', color: '#e5e5e5' },
+  { name: 'Zapier', abbr: 'Zp', color: '#FF4A00' },
 ]
 
-const PRICING = [
-  {
-    tier: 'Free',
-    price: '$0',
-    period: 'forever',
-    features: [
-      '1,554 tools',
-      'Unlimited local execution',
-      'Vault encryption',
-      'All 96 services',
-      'MIT licensed',
-    ],
-    cta: 'Get Started',
-    href: '/signup',
-    highlighted: false,
-  },
-  {
-    tier: 'Pro',
-    price: '$19',
-    period: '/mo',
-    features: [
-      'Everything in Free',
-      'Cloud execution',
-      'Priority AI routing',
-      'Team workspaces',
-      'All add-ons included',
-    ],
-    cta: 'Start Pro Trial',
-    href: '/signup?plan=pro',
-    highlighted: true,
-  },
-  {
-    tier: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    features: [
-      'Everything in Pro',
-      'Dedicated support',
-      'SLA guarantee',
-      'Custom integrations',
-      'On-premise option',
-    ],
-    cta: 'Contact Sales',
-    href: '/partners',
-    highlighted: false,
-  },
-]
+// ─── KEYFRAMES (injected once) ───────────────────────────────────────────────
 
-// ─── FLOATING DOTS DATA ───────────────────────────────────────────────────────
-
-function generateDots(count: number) {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: 2 + Math.random() * 4,
-    opacity: 0.08 + Math.random() * 0.18,
-    duration: 12 + Math.random() * 20,
-    delay: Math.random() * -20,
-    drift: 20 + Math.random() * 40,
-  }))
+const KEYFRAMES = `
+@keyframes orbitFloat {
+  from { transform: rotate(var(--start)) translateX(var(--radius)) rotate(calc(-1 * var(--start))); }
+  to { transform: rotate(calc(var(--start) + 360deg)) translateX(var(--radius)) rotate(calc(-1 * (var(--start) + 360deg))); }
 }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(178,255,77,0.3), 0 0 60px rgba(178,255,77,0.1); }
+  50% { box-shadow: 0 0 30px rgba(178,255,77,0.5), 0 0 80px rgba(178,255,77,0.2); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes typingDots {
+  0%, 20% { opacity: 0.2; }
+  50% { opacity: 1; }
+  80%, 100% { opacity: 0.2; }
+}
+@keyframes chipPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@keyframes bottomGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.08); }
+}
+`
 
-const HERO_DOTS = generateDots(18)
+// ─── INTERSECTION OBSERVER HOOK ──────────────────────────────────────────────
 
-// ─── SCROLL REVEAL HOOK ──────────────────────────────────────────────────────
-
-function useScrollReveal() {
+function useReveal() {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.12 }
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
+      { threshold: 0.15 }
     )
-    observer.observe(el)
-    return () => observer.disconnect()
+    obs.observe(el)
+    return () => obs.disconnect()
   }, [])
 
   return { ref, visible }
 }
 
-// ─── COUNTER HOOK ─────────────────────────────────────────────────────────────
+// ─── INLINE SVG HELPERS ──────────────────────────────────────────────────────
 
-function useCountUp(target: number, duration: number = 1800) {
-  const [count, setCount] = useState(0)
-  const [started, setStarted] = useState(false)
-  const ref = useRef<HTMLSpanElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started) {
-          setStarted(true)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.5 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [started])
-
-  useEffect(() => {
-    if (!started) return
-    const start = performance.now()
-    function tick(now: number) {
-      const elapsed = now - start
-      const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.round(eased * target))
-      if (progress < 1) requestAnimationFrame(tick)
-    }
-    requestAnimationFrame(tick)
-  }, [started, target, duration])
-
-  return { ref, count }
+function ArrowRight({ size = 18, color = '#0F1217' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  )
 }
 
-// ─── TYPING ANIMATION HOOK ───────────────────────────────────────────────────
+function CheckIcon({ size = 14, color = C.lime }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  )
+}
 
-function useTypingAnimation(lines: string[], startDelay: number = 800) {
-  const [displayLines, setDisplayLines] = useState<string[]>([])
-  const [currentLine, setCurrentLine] = useState(0)
-  const [currentChar, setCurrentChar] = useState(0)
-  const [started, setStarted] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+function ShieldIcon({ size = 20, color = C.lime }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  )
+}
 
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started) {
-          setStarted(true)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.3 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [started])
+function ServerIcon({ size = 20, color = C.lime }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+      <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+      <line x1="6" y1="6" x2="6.01" y2="6" />
+      <line x1="6" y1="18" x2="6.01" y2="18" />
+    </svg>
+  )
+}
 
-  useEffect(() => {
-    if (!started) return
-    const timeout = setTimeout(() => {
-      if (currentLine >= lines.length) return
+function ZapIcon({ size = 20, color = C.lime }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </svg>
+  )
+}
 
-      const line = lines[currentLine]
-      if (currentChar < line.length) {
-        setDisplayLines((prev) => {
-          const copy = [...prev]
-          copy[currentLine] = line.substring(0, currentChar + 1)
-          return copy
-        })
-        setCurrentChar((c) => c + 1)
-      } else {
-        if (currentLine < lines.length - 1) {
-          setCurrentLine((l) => l + 1)
-          setCurrentChar(0)
-          setDisplayLines((prev) => [...prev, ''])
-        }
-      }
-    }, currentLine === 0 && currentChar === 0 ? startDelay : currentChar === 0 ? 400 : 25)
+function GlobeIcon({ size = 20, color = C.lime }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
+  )
+}
 
-    return () => clearTimeout(timeout)
-  }, [started, currentLine, currentChar, lines, startDelay])
+// ─── TYPING DOTS ─────────────────────────────────────────────────────────────
 
-  return { containerRef, displayLines }
+function TypingDots() {
+  return (
+    <span style={{ display: 'inline-flex', gap: 3, marginLeft: 6 }}>
+      {[0, 1, 2].map(i => (
+        <span
+          key={i}
+          style={{
+            width: 5, height: 5, borderRadius: '50%', background: C.lime,
+            animation: `typingDots 1.2s ease-in-out ${i * 0.2}s infinite`,
+          }}
+        />
+      ))}
+    </span>
+  )
 }
 
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 
 export default function HomeRedesign() {
-  const [copied, setCopied] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText('npm install -g 0nmcp')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  useEffect(() => {
+    setMounted(true)
+    // inject keyframes once
+    if (!document.getElementById('home-v2-keyframes')) {
+      const style = document.createElement('style')
+      style.id = 'home-v2-keyframes'
+      style.textContent = KEYFRAMES
+      document.head.appendChild(style)
+    }
   }, [])
 
-  // Section reveal refs
-  const whatIs = useScrollReveal()
-  const servicesSection = useScrollReveal()
-  const howSection = useScrollReveal()
-  const featuresSection = useScrollReveal()
-  const demoSection = useScrollReveal()
-  const pricingSection = useScrollReveal()
-  // socialSection removed — no vanity metrics
-  const bottomCta = useScrollReveal()
+  // Section reveal hooks
+  const chat = useReveal()
+  const crews = useReveal()
+  const integrations = useReveal()
+  const howItWorks = useReveal()
+  const features = useReveal()
+  const pricing = useReveal()
+  const bottomCta = useReveal()
 
-  // Counter refs
-  const toolsCounter = useCountUp(1554)
-  const servicesCounter = useCountUp(96)
-  const categoriesCounter = useCountUp(22)
-
-  // Typing animation for terminal
-  const terminalLines = [
-    '> "Search CRM for contacts tagged \'vip\', create Stripe invoice for each, notify Slack"',
-    '',
-    'Planning execution...',
-    '',
-    'Step 1: search_crm_contacts  -->  12 contacts found',
-    'Step 2: create_stripe_invoice  -->  12 invoices created',
-    'Step 3: post_to_slack  -->  "#revenue: 12 VIP invoices generated"',
-    '',
-    'Done. 3 services. 1 sentence. 4.2 seconds.',
-  ]
-  const terminal = useTypingAnimation(terminalLines)
+  if (!mounted) return null
 
   return (
-    <>
-      {/* ── GLOBAL KEYFRAMES ─────────────────────────────────────────────── */}
-      <style>{`
-        @keyframes heroGradientShift {
-          0%, 100% { background-position: 0% 50%; }
-          33% { background-position: 50% 100%; }
-          66% { background-position: 100% 50%; }
-        }
-        @keyframes floatDot {
-          0%, 100% { transform: translate(0, 0); }
-          25% { transform: translate(var(--drift), calc(var(--drift) * -0.6)); }
-          50% { transform: translate(calc(var(--drift) * -0.4), var(--drift)); }
-          75% { transform: translate(calc(var(--drift) * 0.7), calc(var(--drift) * -0.3)); }
-        }
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulseGlow {
-          0%, 100% { box-shadow: 0 0 20px rgba(126,217,87,0.3), 0 0 60px rgba(126,217,87,0.1); }
-          50% { box-shadow: 0 0 30px rgba(126,217,87,0.5), 0 0 80px rgba(126,217,87,0.15); }
-        }
-        @keyframes terminalGlow {
-          0%, 100% { box-shadow: 0 0 30px rgba(126,217,87,0.08), 0 4px 60px rgba(0,0,0,0.5); }
-          50% { box-shadow: 0 0 50px rgba(126,217,87,0.12), 0 4px 60px rgba(0,0,0,0.5); }
-        }
-        @keyframes slideInStagger {
-          from { opacity: 0; transform: translateX(-16px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-      `}</style>
+    <div style={{ background: C.bg, color: C.text, fontFamily: 'Inter, system-ui, -apple-system, sans-serif', overflowX: 'hidden' }}>
 
-      <div style={{ background: COLORS.bgPrimary, color: COLORS.textPrimary, minHeight: '100vh', overflow: 'hidden' }}>
-
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 1: HERO
-            ════════════════════════════════════════════════════════════════════ */}
-        <section style={{
-          position: 'relative',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'clamp(80px, 12vh, 140px) clamp(16px, 5vw, 48px) clamp(40px, 6vh, 80px)',
-          background: `linear-gradient(135deg,
-            ${COLORS.bgPrimary} 0%,
-            rgba(126,217,87,0.06) 25%,
-            rgba(20,184,166,0.08) 50%,
-            rgba(139,92,246,0.06) 75%,
-            ${COLORS.bgPrimary} 100%)`,
-          backgroundSize: '400% 400%',
-          animation: 'heroGradientShift 20s ease infinite',
-          overflow: 'hidden',
+      {/* ═══════════════════════════ SECTION 1: HERO ═══════════════════════════ */}
+      <section style={{
+        position: 'relative',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        padding: '60px 24px 80px',
+      }}>
+        {/* Orbiting service icons */}
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%',
+          width: 0, height: 0,
+          transform: 'translate(-50%, -55%)',
+          pointerEvents: 'none',
         }}>
-          {/* Floating dots */}
-          {HERO_DOTS.map((dot) => (
-            <div key={dot.id} style={{
-              position: 'absolute',
-              left: dot.left,
-              top: dot.top,
-              width: dot.size,
-              height: dot.size,
-              borderRadius: '50%',
-              background: COLORS.green,
-              opacity: dot.opacity,
-              animation: `floatDot ${dot.duration}s ease-in-out infinite`,
-              animationDelay: `${dot.delay}s`,
-              // @ts-expect-error CSS custom property
-              '--drift': `${dot.drift}px`,
-              pointerEvents: 'none',
-            }} />
+          {ORBIT_ICONS.map((icon, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: 36, height: 36,
+                borderRadius: '50%',
+                background: icon.color,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 11, fontWeight: 700, color: '#fff',
+                opacity: 0.2,
+                ['--start' as string]: `${icon.start}deg`,
+                ['--radius' as string]: `${icon.radius}px`,
+                animation: `orbitFloat ${icon.speed}s linear infinite`,
+                top: -18, left: -18,
+              }}
+            >
+              {icon.abbr}
+            </div>
           ))}
+        </div>
 
-          {/* Logo mark */}
-          <div style={{
-            width: 72,
-            height: 72,
-            borderRadius: '50%',
-            background: `linear-gradient(135deg, ${COLORS.green}, ${COLORS.teal})`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 32,
-            boxShadow: `0 0 40px ${COLORS.greenGlow}, 0 0 80px rgba(20,184,166,0.1)`,
-          }}>
-            <span style={{
-              fontFamily: '"JetBrains Mono", monospace',
-              fontSize: 28,
-              fontWeight: 800,
-              color: COLORS.bgPrimary,
-              letterSpacing: '-1px',
-            }}>0n</span>
-          </div>
-
-          {/* Headline */}
-          <h1 style={{
-            fontFamily: 'Inter, -apple-system, sans-serif',
-            fontSize: 'clamp(2.4rem, 6vw, 4.5rem)',
-            fontWeight: 900,
-            textAlign: 'center',
-            lineHeight: 1.08,
-            margin: '0 0 20px',
-            letterSpacing: '-0.03em',
-            color: COLORS.textPrimary,
-          }}>
-            The Universal AI Orchestrator
-          </h1>
-
-          {/* Stats line */}
-          <p style={{
-            fontFamily: 'Inter, -apple-system, sans-serif',
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-            fontWeight: 400,
-            textAlign: 'center',
-            margin: '0 0 16px',
-            color: COLORS.green,
-            letterSpacing: '0.01em',
-          }}>
-            1,554 tools. 96 services. One command.
-          </p>
-
-          {/* Tagline */}
-          <p style={{
-            fontFamily: '"Nunito Sans", sans-serif',
-            fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)',
-            fontStyle: 'italic',
-            textAlign: 'center',
-            margin: '0 0 40px',
-            color: COLORS.textMuted,
-            maxWidth: 520,
-          }}>
-            Stop building workflows. Start describing outcomes.
-          </p>
-
-          {/* CTAs */}
-          <div style={{
-            display: 'flex',
-            gap: 16,
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            marginBottom: 48,
-          }}>
-            <a href="/signup" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '14px 32px',
-              borderRadius: 10,
-              background: `linear-gradient(135deg, ${COLORS.green}, ${COLORS.teal})`,
-              color: COLORS.bgPrimary,
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              textDecoration: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              boxShadow: `0 0 24px ${COLORS.greenGlow}`,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)'
-              e.currentTarget.style.boxShadow = `0 0 36px rgba(126,217,87,0.4)`
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)'
-              e.currentTarget.style.boxShadow = `0 0 24px ${COLORS.greenGlow}`
-            }}
-            >
-              {/* Arrow icon */}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-              Get Started Free
-            </a>
-
-            <button onClick={handleCopy} style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 10,
-              padding: '14px 28px',
-              borderRadius: 10,
-              background: 'rgba(255,255,255,0.04)',
-              color: COLORS.textSecondary,
-              fontFamily: '"JetBrains Mono", monospace',
-              fontWeight: 500,
-              fontSize: '0.9rem',
-              border: `1px solid ${COLORS.border}`,
-              cursor: 'pointer',
-              transition: 'border-color 0.2s, color 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = COLORS.green
-              e.currentTarget.style.color = COLORS.textPrimary
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = COLORS.border
-              e.currentTarget.style.color = COLORS.textSecondary
-            }}
-            >
-              <span>See How It Works</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M7 17l9.2-9.2M17 17V7H7"/>
-              </svg>
-            </button>
-          </div>
-
-          {/* Stats bar */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 'clamp(12px, 3vw, 32px)',
-            fontFamily: '"JetBrains Mono", monospace',
-            fontSize: 'clamp(0.65rem, 1.2vw, 0.8rem)',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            color: COLORS.textMuted,
-            textTransform: 'uppercase',
-          }}>
-            {['1,554 TOOLS', '96 SERVICES', '22 CATEGORIES', 'MIT LICENSE', '5 PATENTS'].map((stat, i) => (
-              <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                {i > 0 && <span style={{ color: COLORS.green, opacity: 0.4 }}>*</span>}
-                {stat}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 2: WHAT IS 0nMCP
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={whatIs.ref} style={{
-          background: COLORS.bgDeep,
-          padding: 'clamp(60px, 10vh, 120px) clamp(16px, 5vw, 48px)',
-          opacity: whatIs.visible ? 1 : 0,
-          transform: whatIs.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
+        {/* Logo mark */}
+        <div style={{
+          width: 80, height: 80, borderRadius: '50%',
+          background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 28, fontWeight: 900, color: C.deep,
+          marginBottom: 32,
+          boxShadow: `0 0 40px rgba(178,255,77,0.25), 0 0 80px rgba(63,255,224,0.1)`,
+          animation: mounted ? 'fadeInUp 0.8s ease-out' : 'none',
+          position: 'relative', zIndex: 2,
         }}>
-          <div style={{ maxWidth: 960, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '0 0 16px',
-              letterSpacing: '-0.02em',
-            }}>
-              One MCP server. Every service.
-            </h2>
-            <p style={{
-              fontFamily: '"Nunito Sans", sans-serif',
-              fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
-              textAlign: 'center',
-              color: COLORS.textSecondary,
-              maxWidth: 640,
-              margin: '0 auto 48px',
-              lineHeight: 1.65,
-            }}>
-              Connect once. Access everything. Your AI describes the outcome — 0nMCP handles the rest.
-            </p>
+          0n
+        </div>
 
-            {/* Terminal block */}
-            <div ref={terminal.containerRef} style={{
-              maxWidth: 720,
-              margin: '0 auto',
-              background: 'rgba(0,0,0,0.6)',
-              border: `1px solid ${COLORS.border}`,
-              borderRadius: 12,
-              overflow: 'hidden',
-              animation: whatIs.visible ? 'terminalGlow 4s ease-in-out infinite' : 'none',
-            }}>
-              {/* Terminal header */}
+        {/* Headline */}
+        <h1 style={{
+          fontSize: 'clamp(32px, 5vw, 56px)',
+          fontWeight: 900,
+          letterSpacing: '-0.03em',
+          lineHeight: 1.1,
+          textAlign: 'center',
+          margin: '0 0 20px',
+          background: `linear-gradient(90deg, ${C.text}, ${C.text}, ${C.lime}, ${C.text}, ${C.text})`,
+          backgroundSize: '200% 100%',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          animation: 'shimmer 6s linear infinite',
+          position: 'relative', zIndex: 2,
+        }}>
+          The old workflow is dead.
+        </h1>
+
+        {/* Subheadline */}
+        <p style={{
+          fontSize: 'clamp(15px, 2vw, 18px)',
+          color: C.lime,
+          textAlign: 'center',
+          maxWidth: 560,
+          margin: '0 0 36px',
+          lineHeight: 1.6,
+          fontWeight: 500,
+          position: 'relative', zIndex: 2,
+          animation: 'fadeInUp 0.8s ease-out 0.2s both',
+        }}>
+          Describe the outcome. 0n orchestrates 100+ apps and runs it.
+        </p>
+
+        {/* CTA row */}
+        <div style={{
+          display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center',
+          position: 'relative', zIndex: 2,
+          animation: 'fadeInUp 0.8s ease-out 0.4s both',
+        }}>
+          <a href="/signup" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: C.lime, color: C.deep,
+            padding: '14px 28px', borderRadius: 999,
+            fontWeight: 700, fontSize: 15,
+            textDecoration: 'none',
+            animation: 'pulseGlow 3s ease-in-out infinite',
+            transition: 'transform 0.2s',
+          }}
+            onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.04)')}
+            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            Start Free — Connect in 9s
+            <ArrowRight size={16} color={C.deep} />
+          </a>
+          <a href="/demo" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: 'transparent', color: C.textSec,
+            padding: '14px 28px', borderRadius: 999,
+            fontWeight: 600, fontSize: 15,
+            textDecoration: 'none',
+            border: `1px solid ${C.border}`,
+            transition: 'border-color 0.2s, color 0.2s',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = C.lime; e.currentTarget.style.color = C.text }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textSec }}
+          >
+            Watch Demo
+          </a>
+        </div>
+
+        {/* Connected services row */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center',
+          marginTop: 40, position: 'relative', zIndex: 2,
+          animation: 'fadeInUp 0.8s ease-out 0.6s both',
+        }}>
+          {['Slack', 'Stripe', 'HubSpot', 'Gmail', 'Notion'].map(s => (
+            <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: C.textMuted }}>
+              <CheckIcon size={12} /> {s}
+            </span>
+          ))}
+          <span style={{ fontSize: 13, color: C.lime, fontWeight: 600 }}>+100 more</span>
+        </div>
+
+        {/* Bottom tagline */}
+        <p style={{
+          fontSize: 13, color: C.textMuted, textAlign: 'center',
+          marginTop: 32, letterSpacing: '0.02em',
+          position: 'relative', zIndex: 2,
+          animation: 'fadeInUp 0.8s ease-out 0.8s both',
+        }}>
+          Pre-connected tokens &middot; Agentic execution &middot; No steps. Just outcomes.
+        </p>
+      </section>
+
+      {/* ═══════════════════════ SECTION 2: AGENTIC CHAT ═══════════════════════ */}
+      <section
+        ref={chat.ref}
+        style={{
+          padding: 'clamp(60px, 8vw, 120px) 24px',
+          background: C.deep,
+          opacity: chat.visible ? 1 : 0,
+          transform: chat.visible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
+        }}
+      >
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          {/* Section label */}
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.lime, marginBottom: 12 }}>
+            Agentic Chat
+          </p>
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15 }}>
+            Tell 0n what to ship.
+          </h2>
+
+          {/* Chat mockup */}
+          <div style={{
+            background: C.card, borderRadius: 16, padding: 'clamp(20px, 3vw, 36px)',
+            border: `1px solid ${C.border}`,
+          }}>
+            {/* User message */}
+            <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
               <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '12px 16px',
-                background: 'rgba(255,255,255,0.03)',
-                borderBottom: `1px solid ${COLORS.border}`,
+                width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                background: `linear-gradient(135deg, ${C.purple}, ${C.turquoise})`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 12, fontWeight: 700,
               }}>
-                <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#ff5f57' }} />
-                <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#febc2e' }} />
-                <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#28c840' }} />
-                <span style={{
-                  marginLeft: 12,
-                  fontFamily: '"JetBrains Mono", monospace',
-                  fontSize: '0.75rem',
-                  color: COLORS.textMuted,
-                }}>0nmcp</span>
+                U
               </div>
-
-              {/* Terminal body */}
               <div style={{
-                padding: 'clamp(16px, 3vw, 28px)',
-                fontFamily: '"JetBrains Mono", monospace',
-                fontSize: 'clamp(0.72rem, 1.3vw, 0.88rem)',
-                lineHeight: 1.85,
-                minHeight: 260,
+                background: 'rgba(155,110,255,0.08)', borderRadius: 12,
+                padding: '14px 18px', maxWidth: '80%',
+                border: `1px solid rgba(155,110,255,0.15)`,
               }}>
-                {terminal.displayLines.map((line, i) => {
-                  let color = COLORS.green
-                  if (i === 0) color = COLORS.textPrimary
-                  if (line.startsWith('Planning')) color = COLORS.textMuted
-                  if (line.startsWith('Done.')) color = COLORS.teal
-                  if (line.startsWith('Step')) {
-                    const checkColor = COLORS.green
-                    return (
-                      <div key={i}>
-                        <span style={{ color: checkColor }}>{'  \u2713 '}</span>
-                        <span style={{ color: COLORS.textSecondary }}>{line.replace(/^Step/, 'Step')}</span>
-                      </div>
-                    )
-                  }
-                  return (
-                    <div key={i} style={{ color, minHeight: line === '' ? 8 : 'auto' }}>
-                      {line}
-                      {i === terminal.displayLines.length - 1 && i < terminalLines.length - 1 && (
-                        <span style={{ animation: 'blink 1s step-end infinite', marginLeft: 2 }}>|</span>
-                      )}
-                    </div>
-                  )
-                })}
-                {terminal.displayLines.length === 0 && (
-                  <span style={{ color: COLORS.textMuted, animation: 'blink 1s step-end infinite' }}>|</span>
-                )}
+                <p style={{ fontSize: 14, lineHeight: 1.6, margin: 0, color: C.text }}>
+                  Generate Q3 performance report and email top 10 clients with personalized invoice links.
+                </p>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 3: SERVICES GRID
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={servicesSection.ref} style={{
-          padding: 'clamp(60px, 10vh, 120px) clamp(16px, 5vw, 48px)',
-          background: COLORS.bgPrimary,
-          opacity: servicesSection.visible ? 1 : 0,
-          transform: servicesSection.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
-        }}>
-          <div style={{ maxWidth: 960, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '0 0 12px',
-              letterSpacing: '-0.02em',
-            }}>
-              96 Services. Their logos. Their colors.
-            </h2>
-            <p style={{
-              fontFamily: '"Nunito Sans", sans-serif',
-              fontSize: '1rem',
-              textAlign: 'center',
-              color: COLORS.textMuted,
-              margin: '0 0 48px',
-            }}>
-              Each integration speaks its own language. 0nMCP speaks all of them.
-            </p>
+            {/* 0n response */}
+            <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
+              <div style={{
+                width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 11, fontWeight: 900, color: C.deep,
+              }}>
+                0n
+              </div>
+              <div style={{
+                background: 'rgba(178,255,77,0.05)', borderRadius: 12,
+                padding: '14px 18px', maxWidth: '80%',
+                border: `1px solid rgba(178,255,77,0.1)`,
+              }}>
+                <p style={{ fontSize: 14, lineHeight: 1.8, margin: 0, color: C.textSec }}>
+                  <span style={{ color: C.lime, fontFamily: 'JetBrains Mono, monospace', fontSize: 12 }}>
+                    Pulling from Stripe + HubSpot + Google Sheets...
+                  </span>
+                  <br />
+                  <span style={{ color: C.turquoise, fontFamily: 'JetBrains Mono, monospace', fontSize: 12 }}>
+                    Building crew now
+                  </span>
+                  <TypingDots />
+                  <br />
+                  <span style={{ color: C.text, fontSize: 13, marginTop: 8, display: 'inline-block' }}>
+                    Analyzing 3 integrations &middot; Selecting optimal path &middot;{' '}
+                    <span style={{ color: C.lime, fontWeight: 600 }}>97% confidence</span>
+                  </span>
+                </p>
+              </div>
+            </div>
 
-            {/* Grid */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-              gap: 14,
-              maxWidth: 880,
-              margin: '0 auto',
-            }}>
-              {SERVICES.flat().map((service, i) => (
-                <div key={service.name} style={{
-                  background: COLORS.bgCard,
-                  border: `1px solid ${COLORS.border}`,
-                  borderRadius: 10,
-                  padding: '20px 12px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 8,
-                  cursor: 'default',
-                  transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
-                  animation: servicesSection.visible ? `fadeInUp 0.5s ease ${i * 0.05}s both` : 'none',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)'
-                  e.currentTarget.style.borderColor = service.color
-                  e.currentTarget.style.boxShadow = `0 0 20px ${service.color}22`
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)'
-                  e.currentTarget.style.borderColor = COLORS.border
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
+            {/* Quick-select chips */}
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
+              {[
+                { label: 'Add payment reminder', color: C.lime, bg: 'rgba(178,255,77,0.08)', border: 'rgba(178,255,77,0.2)' },
+                { label: 'Include Slack alert', color: C.purple, bg: 'rgba(155,110,255,0.08)', border: 'rgba(155,110,255,0.2)' },
+                { label: 'Train new agent', color: C.turquoise, bg: 'rgba(63,255,224,0.08)', border: 'rgba(63,255,224,0.2)' },
+              ].map(chip => (
+                <button
+                  key={chip.label}
+                  style={{
+                    background: chip.bg, color: chip.color,
+                    border: `1px solid ${chip.border}`,
+                    borderRadius: 999, padding: '8px 16px',
+                    fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                    transition: 'transform 0.15s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
+                  onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
                 >
-                  {/* Abbreviation */}
-                  <span style={{
-                    fontFamily: '"JetBrains Mono", monospace',
-                    fontSize: '1.3rem',
-                    fontWeight: 700,
-                    color: service.color,
-                  }}>{service.abbr}</span>
-
-                  {/* Name */}
-                  <span style={{
-                    fontFamily: '"Nunito Sans", sans-serif',
-                    fontSize: '0.8rem',
-                    color: COLORS.textSecondary,
-                  }}>{service.name}</span>
-
-                  {/* Tool count badge */}
-                  <span style={{
-                    fontFamily: '"JetBrains Mono", monospace',
-                    fontSize: '0.65rem',
-                    color: COLORS.textMuted,
-                    background: 'rgba(255,255,255,0.04)',
-                    padding: '2px 8px',
-                    borderRadius: 4,
-                  }}>{service.tools} tools</span>
-                </div>
+                  {chip.label}
+                </button>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-              {/* +78 more card */}
-              <a href="/integrations" style={{
-                background: 'transparent',
-                border: `1px dashed ${COLORS.textMuted}`,
-                borderRadius: 10,
-                padding: '20px 12px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6,
-                textDecoration: 'none',
-                cursor: 'pointer',
-                transition: 'border-color 0.2s, background 0.2s',
-                animation: servicesSection.visible ? `fadeInUp 0.5s ease 0.9s both` : 'none',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = COLORS.green
-                e.currentTarget.style.background = 'rgba(126,217,87,0.04)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = COLORS.textMuted
-                e.currentTarget.style.background = 'transparent'
-              }}
+      {/* ══════════════════════════ SECTION 3: CREWS ══════════════════════════ */}
+      <section
+        ref={crews.ref}
+        style={{
+          padding: 'clamp(60px, 8vw, 120px) 24px',
+          background: C.bg,
+          opacity: crews.visible ? 1 : 0,
+          transform: crews.visible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
+        }}
+      >
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.purple, marginBottom: 12 }}>
+            Crews
+          </p>
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15 }}>
+            Crews train once. Ship forever.
+          </h2>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 20,
+          }}>
+            {[
+              {
+                name: 'Revenue Crew', color: C.lime,
+                agents: 3, services: 'Stripe + HubSpot',
+                automations: 41, status: 'Active',
+              },
+              {
+                name: 'Marketing Crew', color: C.purple,
+                agents: 3, services: 'LinkedIn + Mailchimp',
+                automations: 47, status: 'Deployed 47x',
+              },
+              {
+                name: 'Support Crew', color: C.turquoise,
+                agents: 2, services: 'Zendesk + Slack',
+                automations: 24, status: '24/7 Active',
+              },
+            ].map(crew => (
+              <div
+                key={crew.name}
+                style={{
+                  background: C.card,
+                  borderRadius: 14,
+                  padding: 28,
+                  border: `1px solid ${crew.color}22`,
+                  borderTop: `3px solid ${crew.color}`,
+                  transition: 'border-color 0.3s, transform 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${crew.color}55`; e.currentTarget.style.transform = 'translateY(-4px)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = `${crew.color}22`; e.currentTarget.style.transform = 'translateY(0)' }}
               >
+                {/* Header row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: crew.color }}>{crew.name}</h3>
+                  <span style={{
+                    fontSize: 11, fontWeight: 700, color: C.deep,
+                    background: crew.color, borderRadius: 999, padding: '3px 10px',
+                  }}>
+                    {crew.agents} agents
+                  </span>
+                </div>
+
+                {/* Trained on */}
+                <p style={{ fontSize: 13, color: C.textSec, margin: '0 0 12px' }}>
+                  <span style={{ color: C.textMuted, fontWeight: 600 }}>Trained on:</span>{' '}
+                  {crew.services}
+                </p>
+
+                {/* Automation count */}
+                <p style={{ fontSize: 13, color: C.textSec, margin: '0 0 16px' }}>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace', color: crew.color, fontWeight: 700, fontSize: 20 }}>
+                    {crew.automations}
+                  </span>{' '}
+                  automations
+                </p>
+
+                {/* Status */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{
+                    width: 8, height: 8, borderRadius: '50%',
+                    background: crew.color, display: 'inline-block',
+                    boxShadow: `0 0 8px ${crew.color}66`,
+                  }} />
+                  <span style={{ fontSize: 12, color: C.textMuted, fontWeight: 600 }}>{crew.status}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p style={{
+            fontSize: 14, color: C.textMuted, textAlign: 'center',
+            marginTop: 32, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto',
+            lineHeight: 1.6,
+          }}>
+            Build specialized AI teams in plain language. Train once. Deploy everywhere.
+          </p>
+        </div>
+      </section>
+
+      {/* ═══════════════════ SECTION 4: INTEGRATIONS ══════════════════════════ */}
+      <section
+        ref={integrations.ref}
+        style={{
+          padding: 'clamp(60px, 8vw, 120px) 24px',
+          background: C.deep,
+          opacity: integrations.visible ? 1 : 0,
+          transform: integrations.visible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
+        }}
+      >
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.turquoise, marginBottom: 12 }}>
+            Integrations
+          </p>
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 12, lineHeight: 1.15 }}>
+            100+ Connected. Zero Setup.
+          </h2>
+          <p style={{ fontSize: 15, color: C.textSec, marginBottom: 48, maxWidth: 480 }}>
+            Pre-authorized tokens unlock instant orchestration
+          </p>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+            gap: 14,
+          }}>
+            {INTEGRATIONS.map(svc => (
+              <div
+                key={svc.name}
+                style={{
+                  background: C.card, borderRadius: 12, padding: 20,
+                  border: `1px solid ${C.border}`,
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12,
+                  transition: 'border-color 0.2s, transform 0.2s',
+                  cursor: 'default',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = svc.color + '44'; e.currentTarget.style.transform = 'translateY(-3px)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = 'translateY(0)' }}
+              >
+                {/* Service circle */}
+                <div style={{
+                  width: 44, height: 44, borderRadius: '50%',
+                  background: svc.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 14, fontWeight: 800, color: '#fff',
+                }}>
+                  {svc.abbr}
+                </div>
+                <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>{svc.name}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                  <span style={{
+                    fontSize: 10, fontWeight: 700, color: C.lime,
+                    background: 'rgba(178,255,77,0.1)', padding: '2px 8px', borderRadius: 999,
+                  }}>
+                    Token Active
+                  </span>
+                  <span style={{ fontSize: 10, color: C.textMuted }}>MCP ready</span>
+                </div>
+              </div>
+            ))}
+
+            {/* + Connect New */}
+            <a
+              href="/console/integrations"
+              style={{
+                background: 'transparent', borderRadius: 12, padding: 20,
+                border: `2px dashed rgba(178,255,77,0.15)`,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8,
+                textDecoration: 'none',
+                transition: 'border-color 0.2s',
+                minHeight: 130,
+              }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = C.lime + '44')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(178,255,77,0.15)')}
+            >
+              <span style={{ fontSize: 28, color: C.lime, fontWeight: 300, lineHeight: 1 }}>+</span>
+              <span style={{ fontSize: 12, color: C.textMuted, fontWeight: 600 }}>Connect New</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════ SECTION 5: HOW IT WORKS ═════════════════════════ */}
+      <section
+        ref={howItWorks.ref}
+        style={{
+          padding: 'clamp(60px, 8vw, 120px) 24px',
+          background: C.bg,
+          opacity: howItWorks.visible ? 1 : 0,
+          transform: howItWorks.visible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
+        }}
+      >
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <h2 style={{
+            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900,
+            letterSpacing: '-0.02em', marginBottom: 56, lineHeight: 1.15,
+            textAlign: 'center',
+          }}>
+            How it works
+          </h2>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: 32,
+          }}>
+            {[
+              {
+                step: '01', title: 'Describe',
+                desc: 'Tell 0n what you want in plain language. No steps, no diagrams, no config files.',
+              },
+              {
+                step: '02', title: '0n Decides',
+                desc: 'AI selects the right integrations, builds the execution path, and assembles a crew.',
+              },
+              {
+                step: '03', title: 'Outcome Ships',
+                desc: 'Result delivered. Crew handles it. You move on to the next thing that matters.',
+              },
+            ].map(item => (
+              <div key={item.step} style={{ textAlign: 'center' }}>
                 <span style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '1.4rem',
-                  fontWeight: 700,
-                  color: COLORS.green,
-                }}>+78</span>
-                <span style={{
-                  fontFamily: '"Nunito Sans", sans-serif',
-                  fontSize: '0.8rem',
-                  color: COLORS.textSecondary,
-                }}>more services</span>
+                  fontSize: 48, fontWeight: 900, color: C.lime,
+                  fontFamily: 'JetBrains Mono, monospace',
+                  opacity: 0.3, display: 'block', marginBottom: 12,
+                  lineHeight: 1,
+                }}>
+                  {item.step}
+                </span>
+                <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 12px', color: C.text }}>{item.title}</h3>
+                <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.7, margin: 0 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════ SECTION 6: FEATURES ═════════════════════════════ */}
+      <section
+        ref={features.ref}
+        style={{
+          padding: 'clamp(60px, 8vw, 120px) 24px',
+          background: C.deep,
+          opacity: features.visible ? 1 : 0,
+          transform: features.visible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
+        }}
+      >
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <h2 style={{
+            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900,
+            letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15,
+            textAlign: 'center',
+          }}>
+            Built different
+          </h2>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 18,
+          }}>
+            {[
+              {
+                icon: <ZapIcon size={24} color={C.lime} />,
+                title: 'Agentic AI',
+                desc: '0n decides the steps so you don\'t have to. Describe the outcome, the AI builds the path.',
+                accent: C.lime,
+              },
+              {
+                icon: <ServerIcon size={24} color={C.purple} />,
+                title: 'Live MCP Server',
+                desc: '1,554 tools, 96 services, real-time execution. The largest MCP server ever built.',
+                accent: C.purple,
+              },
+              {
+                icon: <ShieldIcon size={24} color={C.turquoise} />,
+                title: 'Vault Encryption',
+                desc: 'AES-256-GCM with hardware fingerprint binding. Your keys stay yours. Patent pending.',
+                accent: C.turquoise,
+              },
+              {
+                icon: <GlobeIcon size={24} color={C.orange} />,
+                title: 'Universal Surface',
+                desc: 'Console, CLI, Slack, Telegram, ChatGPT. Same commands everywhere. One brain.',
+                accent: C.orange,
+              },
+            ].map(feat => (
+              <div
+                key={feat.title}
+                style={{
+                  background: C.card, borderRadius: 14, padding: 28,
+                  border: `1px solid ${C.border}`,
+                  transition: 'border-color 0.3s, transform 0.2s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = feat.accent + '33'; e.currentTarget.style.transform = 'translateY(-3px)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = 'translateY(0)' }}
+              >
+                <div style={{ marginBottom: 16 }}>{feat.icon}</div>
+                <h3 style={{ fontSize: 17, fontWeight: 800, margin: '0 0 10px', color: C.text }}>{feat.title}</h3>
+                <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.65, margin: 0 }}>{feat.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════ SECTION 7: PRICING ══════════════════════════════ */}
+      <section
+        ref={pricing.ref}
+        style={{
+          padding: 'clamp(60px, 8vw, 120px) 24px',
+          background: C.bg,
+          opacity: pricing.visible ? 1 : 0,
+          transform: pricing.visible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
+        }}
+      >
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          <h2 style={{
+            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900,
+            letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15,
+            textAlign: 'center',
+          }}>
+            Simple pricing
+          </h2>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: 18,
+            alignItems: 'stretch',
+          }}>
+            {/* Free */}
+            <div style={{
+              background: C.card, borderRadius: 16, padding: 32,
+              border: `1px solid ${C.border}`,
+              display: 'flex', flexDirection: 'column',
+            }}>
+              <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 8px' }}>Free</h3>
+              <div style={{ marginBottom: 20 }}>
+                <span style={{ fontSize: 36, fontWeight: 900 }}>$0</span>
+                <span style={{ fontSize: 14, color: C.textMuted, marginLeft: 4 }}>/forever</span>
+              </div>
+              <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
+                Connect, orchestrate, ship. No credit card required.
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {['5 Crews', '100 executions/mo', '10 integrations', 'Community support'].map(f => (
+                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: C.textSec }}>
+                    <CheckIcon size={13} /> {f}
+                  </li>
+                ))}
+              </ul>
+              <a href="/signup" style={{
+                display: 'block', textAlign: 'center', padding: '12px 0',
+                borderRadius: 999, fontSize: 14, fontWeight: 700,
+                color: C.text, textDecoration: 'none',
+                border: `1px solid ${C.border}`,
+                transition: 'border-color 0.2s',
+              }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = C.lime)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}
+              >
+                Get Started
+              </a>
+            </div>
+
+            {/* Pro */}
+            <div style={{
+              background: C.card, borderRadius: 16, padding: 32,
+              border: `2px solid ${C.lime}33`,
+              display: 'flex', flexDirection: 'column',
+              position: 'relative',
+              boxShadow: `0 0 40px rgba(178,255,77,0.05)`,
+            }}>
+              <span style={{
+                position: 'absolute', top: -12, left: 24,
+                background: C.lime, color: C.deep,
+                fontSize: 11, fontWeight: 800, padding: '4px 14px',
+                borderRadius: 999, letterSpacing: '0.04em',
+              }}>
+                Popular
+              </span>
+              <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 8px' }}>Pro</h3>
+              <div style={{ marginBottom: 20 }}>
+                <span style={{ fontSize: 36, fontWeight: 900 }}>$19</span>
+                <span style={{ fontSize: 14, color: C.textMuted, marginLeft: 4 }}>/mo</span>
+              </div>
+              <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
+                Unlimited Crews, priority AI, all add-ons, team seats.
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {['Unlimited Crews', 'Unlimited executions', 'All integrations', 'Priority AI routing', 'Team seats', 'Priority support'].map(f => (
+                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: C.textSec }}>
+                    <CheckIcon size={13} /> {f}
+                  </li>
+                ))}
+              </ul>
+              <a href="/signup?plan=pro" style={{
+                display: 'block', textAlign: 'center', padding: '12px 0',
+                borderRadius: 999, fontSize: 14, fontWeight: 700,
+                color: C.deep, textDecoration: 'none',
+                background: C.lime,
+                transition: 'opacity 0.2s',
+              }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              >
+                Start Pro
+              </a>
+            </div>
+
+            {/* Enterprise */}
+            <div style={{
+              background: C.card, borderRadius: 16, padding: 32,
+              border: `1px solid ${C.border}`,
+              display: 'flex', flexDirection: 'column',
+            }}>
+              <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 8px' }}>Enterprise</h3>
+              <div style={{ marginBottom: 20 }}>
+                <span style={{ fontSize: 36, fontWeight: 900 }}>Custom</span>
+              </div>
+              <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
+                Dedicated support, SLA, custom integrations, white-label.
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {['Everything in Pro', 'Dedicated account manager', 'Custom SLA', 'White-label option', 'On-premise available', 'SSO / SAML'].map(f => (
+                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: C.textSec }}>
+                    <CheckIcon size={13} /> {f}
+                  </li>
+                ))}
+              </ul>
+              <a href="/contact" style={{
+                display: 'block', textAlign: 'center', padding: '12px 0',
+                borderRadius: 999, fontSize: 14, fontWeight: 700,
+                color: C.text, textDecoration: 'none',
+                border: `1px solid ${C.border}`,
+                transition: 'border-color 0.2s',
+              }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = C.purple)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}
+              >
+                Contact Sales
               </a>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 4: HOW IT WORKS
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={howSection.ref} style={{
-          padding: 'clamp(60px, 10vh, 120px) clamp(16px, 5vw, 48px)',
-          background: COLORS.bgDeep,
-          opacity: howSection.visible ? 1 : 0,
-          transform: howSection.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
-        }}>
-          <div style={{ maxWidth: 960, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '0 0 48px',
-              letterSpacing: '-0.02em',
-            }}>
-              Three steps. Zero config.
-            </h2>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: 24,
-            }}>
-              {[
-                {
-                  num: '01',
-                  title: 'Install',
-                  desc: 'One command. No dependencies. No Docker. No setup wizard.',
-                  code: 'npx -y 0nmcp',
-                },
-                {
-                  num: '02',
-                  title: 'Connect',
-                  desc: 'Import your API keys from .env, CSV, or JSON. AI verifies each one.',
-                  code: '0nmcp engine import',
-                },
-                {
-                  num: '03',
-                  title: 'Command',
-                  desc: 'Describe what you want in natural language. 0nMCP executes it.',
-                  code: '"Send VIP contacts a Stripe invoice and notify Slack"',
-                },
-              ].map((step, i) => (
-                <div key={step.num} style={{
-                  background: COLORS.bgCard,
-                  border: `1px solid ${COLORS.border}`,
-                  borderRadius: 14,
-                  padding: 'clamp(24px, 3vw, 36px)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 14,
-                  animation: howSection.visible ? `fadeInUp 0.5s ease ${i * 0.15}s both` : 'none',
-                }}>
-                  {/* Step number */}
-                  <span style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '2.4rem',
-                    fontWeight: 900,
-                    background: `linear-gradient(135deg, ${COLORS.green}, ${COLORS.teal})`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    lineHeight: 1,
-                  }}>{step.num}</span>
-
-                  <h3 style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '1.3rem',
-                    fontWeight: 700,
-                    margin: 0,
-                  }}>{step.title}</h3>
-
-                  <p style={{
-                    fontFamily: '"Nunito Sans", sans-serif',
-                    fontSize: '0.95rem',
-                    color: COLORS.textSecondary,
-                    lineHeight: 1.6,
-                    margin: 0,
-                  }}>{step.desc}</p>
-
-                  {/* Code snippet */}
-                  <div style={{
-                    background: 'rgba(0,0,0,0.4)',
-                    border: `1px solid ${COLORS.border}`,
-                    borderRadius: 8,
-                    padding: '10px 14px',
-                    fontFamily: '"JetBrains Mono", monospace',
-                    fontSize: '0.78rem',
-                    color: COLORS.green,
-                    overflowX: 'auto',
-                  }}>
-                    {step.code}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 5: FEATURES
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={featuresSection.ref} style={{
-          padding: 'clamp(60px, 10vh, 120px) clamp(16px, 5vw, 48px)',
-          background: COLORS.bgPrimary,
-          opacity: featuresSection.visible ? 1 : 0,
-          transform: featuresSection.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
-        }}>
-          <div style={{ maxWidth: 960, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '0 0 48px',
-              letterSpacing: '-0.02em',
-            }}>
-              Built for builders.
-            </h2>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 20,
-            }}>
-              {FEATURES.map((feat, i) => (
-                <div key={feat.title} style={{
-                  background: COLORS.bgCard,
-                  borderLeft: `3px solid ${COLORS.green}`,
-                  borderRadius: '0 10px 10px 0',
-                  padding: 'clamp(20px, 2.5vw, 28px)',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  animation: featuresSection.visible ? `fadeInUp 0.4s ease ${i * 0.08}s both` : 'none',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateX(4px)'
-                  e.currentTarget.style.boxShadow = `0 4px 24px rgba(0,0,0,0.3)`
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateX(0)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }}
-                >
-                  <h3 style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '1.15rem',
-                    fontWeight: 700,
-                    margin: '0 0 8px',
-                    color: COLORS.textPrimary,
-                  }}>{feat.title}</h3>
-                  <p style={{
-                    fontFamily: '"Nunito Sans", sans-serif',
-                    fontSize: '0.9rem',
-                    color: COLORS.textSecondary,
-                    lineHeight: 1.6,
-                    margin: 0,
-                  }}>{feat.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 6: LIVE DEMO
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={demoSection.ref} style={{
-          padding: 'clamp(60px, 10vh, 120px) clamp(16px, 5vw, 48px)',
-          background: COLORS.bgDeep,
-          opacity: demoSection.visible ? 1 : 0,
-          transform: demoSection.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
-        }}>
-          <div style={{ maxWidth: 640, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '0 0 12px',
-              letterSpacing: '-0.02em',
-            }}>
-              See it in action.
-            </h2>
-            <p style={{
-              fontFamily: '"Nunito Sans", sans-serif',
-              fontSize: '1rem',
-              textAlign: 'center',
-              color: COLORS.textMuted,
-              margin: '0 0 40px',
-            }}>
-              This is what you see when you start 0nMCP.
-            </p>
-
-            {/* Demo terminal */}
-            <div style={{
-              background: 'rgba(0,0,0,0.7)',
-              border: `1px solid ${COLORS.border}`,
-              borderRadius: 12,
-              overflow: 'hidden',
-              animation: demoSection.visible ? 'terminalGlow 4s ease-in-out infinite' : 'none',
-            }}>
-              {/* Header */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '12px 16px',
-                background: 'rgba(255,255,255,0.03)',
-                borderBottom: `1px solid ${COLORS.border}`,
-              }}>
-                <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#ff5f57' }} />
-                <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#febc2e' }} />
-                <span style={{ width: 12, height: 12, borderRadius: '50%', background: '#28c840' }} />
-                <span style={{
-                  marginLeft: 12,
-                  fontFamily: '"JetBrains Mono", monospace',
-                  fontSize: '0.75rem',
-                  color: COLORS.textMuted,
-                }}>terminal</span>
-              </div>
-
-              {/* Body */}
-              <div style={{
-                padding: 'clamp(20px, 3vw, 32px)',
-                fontFamily: '"JetBrains Mono", monospace',
-                fontSize: 'clamp(0.72rem, 1.3vw, 0.85rem)',
-                lineHeight: 1.9,
-              }}>
-                <div style={{ color: COLORS.textMuted }}>$ 0nmcp</div>
-                <div style={{ height: 12 }} />
-                <div style={{ color: COLORS.green, fontWeight: 700 }}>
-                  {'  '}0nMCP v3.2.2 -- Universal AI API Orchestrator
-                </div>
-                <div style={{ height: 8 }} />
-                <div style={{ color: COLORS.textSecondary }}>
-                  {'  '}Tools:{'      '}<span ref={toolsCounter.ref} style={{ color: COLORS.textPrimary, fontWeight: 600 }}>{toolsCounter.count.toLocaleString()}</span>
-                </div>
-                <div style={{ color: COLORS.textSecondary }}>
-                  {'  '}Services:{'   '}<span ref={servicesCounter.ref} style={{ color: COLORS.textPrimary, fontWeight: 600 }}>{servicesCounter.count}</span>
-                </div>
-                <div style={{ color: COLORS.textSecondary }}>
-                  {'  '}Categories:{'  '}<span ref={categoriesCounter.ref} style={{ color: COLORS.textPrimary, fontWeight: 600 }}>{categoriesCounter.count}</span>
-                </div>
-                <div style={{ color: COLORS.textSecondary }}>
-                  {'  '}License:{'    '}<span style={{ color: COLORS.textPrimary, fontWeight: 600 }}>MIT</span>
-                </div>
-                <div style={{ height: 12 }} />
-                <div style={{ color: COLORS.teal }}>
-                  {'  '}Ready. Describe your outcome.
-                </div>
-                <div style={{ height: 8 }} />
-                <div style={{ color: COLORS.textPrimary }}>
-                  {'> '}<span style={{ animation: 'blink 1s step-end infinite', color: COLORS.green }}>_</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 7: PRICING
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={pricingSection.ref} style={{
-          padding: 'clamp(60px, 10vh, 120px) clamp(16px, 5vw, 48px)',
-          background: COLORS.bgPrimary,
-          opacity: pricingSection.visible ? 1 : 0,
-          transform: pricingSection.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
-        }}>
-          <div style={{ maxWidth: 960, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '0 0 12px',
-              letterSpacing: '-0.02em',
-            }}>
-              Simple pricing. No surprises.
-            </h2>
-            <p style={{
-              fontFamily: '"Nunito Sans", sans-serif',
-              fontSize: '1rem',
-              textAlign: 'center',
-              color: COLORS.textMuted,
-              margin: '0 0 48px',
-            }}>
-              Start free. Scale when you are ready.
-            </p>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: 20,
-              alignItems: 'stretch',
-            }}>
-              {PRICING.map((plan, i) => (
-                <div key={plan.tier} style={{
-                  background: plan.highlighted ? 'rgba(126,217,87,0.04)' : COLORS.bgCard,
-                  border: `1px solid ${plan.highlighted ? COLORS.green + '44' : COLORS.border}`,
-                  borderRadius: 14,
-                  padding: 'clamp(28px, 3vw, 40px) clamp(20px, 2.5vw, 32px)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  animation: pricingSection.visible ? `fadeInUp 0.5s ease ${i * 0.12}s both` : 'none',
-                }}>
-                  {/* Popular badge */}
-                  {plan.highlighted && (
-                    <div style={{
-                      position: 'absolute',
-                      top: 14,
-                      right: -28,
-                      background: `linear-gradient(135deg, ${COLORS.green}, ${COLORS.teal})`,
-                      color: COLORS.bgPrimary,
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '0.65rem',
-                      fontWeight: 700,
-                      padding: '4px 36px',
-                      transform: 'rotate(45deg)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                    }}>Popular</div>
-                  )}
-
-                  <h3 style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '1.1rem',
-                    fontWeight: 700,
-                    margin: '0 0 8px',
-                    color: plan.highlighted ? COLORS.green : COLORS.textPrimary,
-                  }}>{plan.tier}</h3>
-
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    gap: 4,
-                    marginBottom: 24,
-                  }}>
-                    <span style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '2.4rem',
-                      fontWeight: 800,
-                      color: COLORS.textPrimary,
-                    }}>{plan.price}</span>
-                    <span style={{
-                      fontFamily: '"Nunito Sans", sans-serif',
-                      fontSize: '0.9rem',
-                      color: COLORS.textMuted,
-                    }}>{plan.period}</span>
-                  </div>
-
-                  <ul style={{
-                    listStyle: 'none',
-                    padding: 0,
-                    margin: '0 0 28px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 10,
-                    flex: 1,
-                  }}>
-                    {plan.features.map((f) => (
-                      <li key={f} style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 10,
-                        fontFamily: '"Nunito Sans", sans-serif',
-                        fontSize: '0.9rem',
-                        color: COLORS.textSecondary,
-                      }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={COLORS.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a href={plan.href} style={{
-                    display: 'block',
-                    textAlign: 'center',
-                    padding: '12px 20px',
-                    borderRadius: 8,
-                    fontFamily: 'Inter, sans-serif',
-                    fontWeight: 600,
-                    fontSize: '0.9rem',
-                    textDecoration: 'none',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    ...(plan.highlighted ? {
-                      background: `linear-gradient(135deg, ${COLORS.green}, ${COLORS.teal})`,
-                      color: COLORS.bgPrimary,
-                      boxShadow: `0 0 20px ${COLORS.greenGlow}`,
-                    } : {
-                      background: 'rgba(255,255,255,0.06)',
-                      color: COLORS.textPrimary,
-                      border: `1px solid ${COLORS.border}`,
-                    }),
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                  }}
-                  >
-                    {plan.cta}
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Social Proof section removed — no vanity metrics until we have real users */}
-
-        {/* ════════════════════════════════════════════════════════════════════
-            SECTION 8: BOTTOM CTA
-            ════════════════════════════════════════════════════════════════════ */}
-        <section ref={bottomCta.ref} style={{
-          position: 'relative',
-          padding: 'clamp(80px, 12vh, 140px) clamp(16px, 5vw, 48px)',
-          background: COLORS.bgDeep,
+      {/* ═══════════════════ SECTION 8: BOTTOM CTA ═══════════════════════════ */}
+      <section
+        ref={bottomCta.ref}
+        style={{
+          padding: 'clamp(80px, 10vw, 160px) 24px',
+          background: C.deep,
           textAlign: 'center',
+          position: 'relative',
           overflow: 'hidden',
           opacity: bottomCta.visible ? 1 : 0,
-          transform: bottomCta.visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
+          transform: bottomCta.visible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
+        }}
+      >
+        {/* Radial glow behind logo */}
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%',
+          transform: 'translate(-50%, -60%)',
+          width: 400, height: 400,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, rgba(178,255,77,0.12) 0%, transparent 70%)`,
+          animation: 'bottomGlow 4s ease-in-out infinite',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Logo */}
+        <div style={{
+          width: 72, height: 72, borderRadius: '50%',
+          background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 26, fontWeight: 900, color: C.deep,
+          margin: '0 auto 32px',
+          position: 'relative', zIndex: 1,
+          boxShadow: `0 0 50px rgba(178,255,77,0.3)`,
         }}>
-          {/* Green glow background */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 600,
-            height: 600,
-            borderRadius: '50%',
-            background: `radial-gradient(circle, ${COLORS.greenGlow} 0%, transparent 70%)`,
-            pointerEvents: 'none',
-            opacity: 0.5,
-          }} />
+          0n
+        </div>
 
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 640, margin: '0 auto' }}>
-            {/* Logo */}
-            <div style={{
-              width: 56,
-              height: 56,
-              borderRadius: '50%',
-              background: `linear-gradient(135deg, ${COLORS.green}, ${COLORS.teal})`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 28px',
-              boxShadow: `0 0 40px ${COLORS.greenGlow}`,
-            }}>
-              <span style={{
-                fontFamily: '"JetBrains Mono", monospace',
-                fontSize: 22,
-                fontWeight: 800,
-                color: COLORS.bgPrimary,
-              }}>0n</span>
-            </div>
+        <h2 style={{
+          fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 900,
+          letterSpacing: '-0.02em', marginBottom: 28, lineHeight: 1.2,
+          position: 'relative', zIndex: 1,
+        }}>
+          The old workflow is dead.<br />
+          <span style={{ color: C.lime }}>Describe it. 0n does it.</span>
+        </h2>
 
-            <h2 style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 'clamp(2rem, 4.5vw, 3rem)',
-              fontWeight: 900,
-              margin: '0 0 16px',
-              letterSpacing: '-0.02em',
-            }}>
-              Your entire stack. One command.
-            </h2>
-            <p style={{
-              fontFamily: '"Nunito Sans", sans-serif',
-              fontSize: '1.1rem',
-              color: COLORS.textSecondary,
-              margin: '0 0 36px',
-              lineHeight: 1.6,
-            }}>
-              Join thousands of developers who stopped writing boilerplate and started describing outcomes.
-            </p>
+        <a href="/signup" style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          background: C.lime, color: C.deep,
+          padding: '16px 36px', borderRadius: 999,
+          fontWeight: 700, fontSize: 16,
+          textDecoration: 'none',
+          animation: 'pulseGlow 3s ease-in-out infinite',
+          transition: 'transform 0.2s',
+          position: 'relative', zIndex: 1,
+        }}
+          onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
+          onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+        >
+          Start Free
+          <ArrowRight size={18} color={C.deep} />
+        </a>
 
-            {/* CTA button */}
-            <a href="/signup" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 10,
-              padding: '16px 40px',
-              borderRadius: 12,
-              background: `linear-gradient(135deg, ${COLORS.green}, ${COLORS.teal})`,
-              color: COLORS.bgPrimary,
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '1.1rem',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              animation: 'pulseGlow 3s ease-in-out infinite',
+        {/* Footer links */}
+        <div style={{
+          display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap',
+          marginTop: 48, position: 'relative', zIndex: 1,
+        }}>
+          {[
+            { label: 'GitHub', href: 'https://github.com/0nork/0nmcp' },
+            { label: 'npm', href: 'https://www.npmjs.com/package/0nmcp' },
+            { label: 'Docs', href: '/docs' },
+            { label: 'Community', href: '/community' },
+            { label: 'Blog', href: '/blog' },
+          ].map(link => (
+            <a key={link.label} href={link.href} style={{
+              fontSize: 13, color: C.textMuted, textDecoration: 'none',
+              transition: 'color 0.2s',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0) scale(1)'
-            }}
+              onMouseEnter={e => (e.currentTarget.style.color = C.text)}
+              onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-              Get Started Free
+              {link.label}
             </a>
-
-            {/* npm command */}
-            <div style={{
-              marginTop: 24,
-              display: 'inline-block',
-              background: 'rgba(0,0,0,0.5)',
-              border: `1px solid ${COLORS.border}`,
-            {/* Links */}
-            <div style={{
-              marginTop: 40,
-              display: 'flex',
-              justifyContent: 'center',
-              gap: 24,
-              flexWrap: 'wrap',
-            }}>
-              {[
-                { label: 'GitHub', href: 'https://github.com/0nork/0nmcp' },
-                { label: 'npm', href: 'https://npmjs.com/package/0nmcp' },
-                { label: 'Docs', href: '/learn' },
-                { label: 'Community', href: '/community' },
-              ].map((link) => (
-                <a key={link.label} href={link.href} style={{
-                  fontFamily: '"Nunito Sans", sans-serif',
-                  fontSize: '0.9rem',
-                  color: COLORS.textMuted,
-                  textDecoration: 'none',
-                  transition: 'color 0.2s',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.green }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.textMuted }}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-    </>
+          ))}
+        </div>
+      </section>
+    </div>
   )
 }

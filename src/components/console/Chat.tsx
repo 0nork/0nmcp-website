@@ -110,8 +110,8 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
   // ── Messages ──
   return (
-    <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, padding: '16px 16px' }}>
-      <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, padding: 'clamp(8px, 2vw, 20px)' }}>
+      <div style={{ maxWidth: 'min(760px, 100%)', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.5vw, 16px)' }}>
         {messages.map((m, i) => (
           <div
             key={i}
@@ -304,20 +304,24 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
           to { transform: rotate(360deg); }
         }
 
-        /* Responsive chat */
+        /* Fluid responsive chat — adapts to ANY screen */
+        .chat-msg-row { gap: clamp(6px, 1.5vw, 12px) !important; }
+        .chat-msg-bubble { max-width: clamp(75%, 85vw, 70%) !important; }
+
+        @media (max-width: 1023px) {
+          .chat-msg-bubble { max-width: 80% !important; }
+        }
         @media (max-width: 767px) {
           .chat-msg-bubble { max-width: 88% !important; }
           .chat-msg-row { gap: 8px !important; }
-          .chat-msg-avatar { width: 28px !important; height: 28px !important; border-radius: 10px !important; }
-          .chat-msg-text { padding: 10px 12px !important; font-size: 0.8rem !important; border-radius: 14px !important; }
+          .chat-msg-text { padding: 10px 12px !important; font-size: 0.8125rem !important; }
         }
         @media (max-width: 480px) {
-          .chat-msg-bubble { max-width: 92% !important; }
-          .chat-msg-text { padding: 8px 10px !important; font-size: 0.75rem !important; }
+          .chat-msg-bubble { max-width: 93% !important; }
+          .chat-msg-text { padding: 8px 10px !important; font-size: 0.8rem !important; }
         }
         @media (max-width: 360px) {
-          .chat-msg-bubble { max-width: 95% !important; }
-          .chat-msg-avatar { width: 24px !important; height: 24px !important; }
+          .chat-msg-bubble { max-width: 96% !important; }
         }
       `}</style>
     </div>

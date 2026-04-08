@@ -38,12 +38,12 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
 
   return (
     <div style={{
-      flexShrink: 0, padding: '8px 16px 16px',
+      flexShrink: 0, padding: 'clamp(6px, 1vw, 12px) clamp(10px, 2vw, 20px) clamp(10px, 1.5vw, 16px)',
       background: 'var(--bg-deep, #040A1A)',
       backdropFilter: 'blur(16px)',
       borderTop: '1px solid var(--border, #1e1e2e)',
     }}>
-      <div style={{ maxWidth: 760, margin: '0 auto' }}>
+      <div style={{ maxWidth: 'min(760px, 100%)', margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: 8 }}>
           <textarea
             ref={inputRef}

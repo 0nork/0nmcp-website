@@ -209,6 +209,7 @@ export default function HomeRedesign() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: 'Inter, system-ui, -apple-system, sans-serif', overflowX: 'hidden' }}>
+      <style dangerouslySetInnerHTML={{ __html: KEYFRAMES }} />
 
       {/* ═══════════════════════════ SECTION 1: HERO ═══════════════════════════ */}
       <section style={{
@@ -272,11 +273,7 @@ export default function HomeRedesign() {
           lineHeight: 1.1,
           textAlign: 'center',
           margin: '0 0 20px',
-          background: `linear-gradient(90deg, ${C.text}, ${C.text}, ${C.lime}, ${C.text}, ${C.text})`,
-          backgroundSize: '200% 100%',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          animation: 'shimmer 6s linear infinite',
+          color: C.text,
           position: 'relative', zIndex: 2,
         }}>
           The old workflow is dead.

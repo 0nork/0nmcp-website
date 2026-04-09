@@ -80,6 +80,41 @@ body {
 .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 50rem; }
 .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
+/* ── Global Animations ── */
+
+/* Smooth page transitions */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideLeft { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+/* Card hover micro-interactions */
+.card { transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease; }
+.card:hover { box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2); }
+
+/* Button transitions */
+button, a { transition: all 0.15s ease; }
+
+/* Input focus glow */
+input:focus, textarea:focus { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+
+/* Badge pulse for status indicators */
+@keyframes statusPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* Smooth sidebar transitions */
+[data-slot="sidebar-container"] { transition: left 0.2s ease, right 0.2s ease, width 0.2s ease !important; }
+[data-slot="sidebar-gap"] { transition: width 0.2s ease !important; }
+
+/* Smooth scroll */
+* { scroll-behavior: smooth; }
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
 /* Ticker */
 @keyframes console-ticker-scroll {
   from { transform: translateX(0); }

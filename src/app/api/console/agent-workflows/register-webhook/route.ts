@@ -53,8 +53,10 @@ export async function POST(request: NextRequest) {
   const locationId = body.locationId
   if (!locationId) return NextResponse.json({ error: 'locationId required' }, { status: 400 })
 
-  const pit = body.pitToken || LOCATION_PITS[locationId] || process.env.CRM_AGENCY_PIT
-  if (!pit) return NextResponse.json({ error: 'No PIT token available for this location' }, { status: 400 })
+  // Webhook management requires agency-level PIT, not location PIT
+  const agencyPit = process.env.CRM_AGENCY_PIT || 'pit-e789d87e-bc97-429e-abc3-ff46aa47a316'
+  const pit = body.pitToken || agencyPit
+  if (!pit) return NextResponse.json({ error: 'No agency PIT token available' }, { status: 400 })
 
   const headers = {
     'Authorization': `Bearer ${pit}`,

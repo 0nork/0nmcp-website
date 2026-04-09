@@ -146,46 +146,62 @@ export default function AgentWorkflowsPage() {
         </div>
       </div>
 
-      {/* Webhook Registration Panel */}
-      <div style={{
-        padding: '14px 16px', borderRadius: 12, marginBottom: '1rem',
-        background: 'var(--bg-deep, #040A1A)', border: '1px solid var(--border)',
-        display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-      }}>
-        <div style={{ flex: 1, minWidth: 200 }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>
-            Connect CRM Webhooks
+      {/* Webhook Registration Banner — Amber Alert */}
+      <div className="relative rounded-lg border border-amber-500/30 border-l-4 border-l-amber-500 bg-amber-500/10 p-4 mb-4">
+        {/* Pulsing amber dot */}
+        <span className="absolute top-4 left-[-2px] w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          {/* Icon + Text */}
+          <div className="flex items-start gap-3 flex-1 min-w-0">
+            <svg className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-sm font-bold text-amber-300">CRM Webhooks Not Connected</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">Action Required</span>
+              </div>
+              <p className="text-xs text-neutral-400 leading-relaxed m-0">
+                Your 9 workflows are built and ready. They won&apos;t fire until each CRM location is registered. One click per location.
+              </p>
+            </div>
           </div>
-          <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
-            Register 0nmcp.com/api/webhooks/crm as the webhook URL for each CRM location. One click — all events connected.
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2 shrink-0">
+            {LOCATIONS.map(loc => {
+              const status = webhookStatus[loc.id]
+              const isConnected = status === 'registered' || status === 'already_registered'
+              const isLoading = status === 'registering'
+              const isError = status?.startsWith('error')
+              const isPrimary = loc.name === 'Spa Ligonier'
+
+              return (
+                <button
+                  key={loc.id}
+                  onClick={() => registerWebhook(loc.id)}
+                  disabled={isLoading}
+                  className={`
+                    px-4 py-2 rounded-lg text-xs font-bold transition-all duration-150
+                    disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
+                    ${isConnected
+                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                      : isPrimary
+                        ? 'bg-[#6EE05A] text-[#080B0F] hover:bg-[#7FF06A] shadow-sm shadow-[#6EE05A]/20'
+                        : 'bg-transparent text-neutral-300 border border-neutral-600 hover:border-neutral-400 hover:text-white'
+                    }
+                  `}
+                >
+                  {isLoading ? 'Connecting...'
+                    : isConnected ? '✓ Connected'
+                    : isError ? 'Retry'
+                    : `Connect ${loc.name}`}
+                </button>
+              )
+            })}
           </div>
         </div>
-        {LOCATIONS.map(loc => {
-          const status = webhookStatus[loc.id]
-          return (
-            <button
-              key={loc.id}
-              onClick={() => registerWebhook(loc.id)}
-              disabled={status === 'registering'}
-              style={{
-                padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                fontSize: '0.75rem', fontWeight: 700, fontFamily: 'inherit',
-                background: status === 'registered' || status === 'already_registered'
-                  ? 'rgba(126,217,87,0.12)' : `color-mix(in srgb, ${loc.color} 15%, transparent)`,
-                color: status === 'registered' || status === 'already_registered'
-                  ? 'var(--accent)' : loc.color,
-                transition: 'all 0.15s',
-                opacity: status === 'registering' ? 0.6 : 1,
-              }}
-            >
-              {status === 'registering' ? 'Connecting...'
-                : status === 'registered' ? 'Connected'
-                : status === 'already_registered' ? 'Already Connected'
-                : status?.startsWith('error') ? 'Retry'
-                : `Connect ${loc.name}`}
-            </button>
-          )
-        })}
       </div>
 
       {/* Error display */}

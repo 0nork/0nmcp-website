@@ -672,21 +672,28 @@ export default function ConsolePage() {
             />
           </div>
 
-          {/* Chat */}
+          {/* Chat — Three-column layout (Wowdash shell) */}
           {visitedViews.has('chat') && (
-            <div style={{ display: view === 'chat' ? 'flex' : 'none', minWidth: 0, maxWidth: '100%' }} className="chat-layout flex-1 min-h-0 overflow-hidden">
-              {/* Chat Content (LEFT) */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
-                {/* Pinned Commands Bar */}
-                <div className="chat-pinned-bar">
+            <div
+              className="flex-1 min-h-0 overflow-hidden"
+              style={{ display: view === 'chat' ? 'flex' : 'none' }}
+            >
+              {/* CHAT MAIN — flex-1, takes remaining space */}
+              <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+                {/* Topbar — Quick Actions */}
+                <div className="flex items-center gap-1 p-3 border-b border-neutral-700/30 shrink-0">
                   <PinnedCommands
                     onExecuteCommand={handlePinnedCommand}
                     onNavigate={handleSetView}
                   />
                 </div>
+
+                {/* Ideas Ticker */}
                 {ideas.length > 0 && messages.length === 0 && (
                   <IdeasTicker ideas={ideas} onClick={handleIdeaClick} />
                 )}
+
+                {/* Messages Area — flex-1, scrollable */}
                 <Chat
                   messages={messages}
                   loading={chatLoading}
@@ -703,6 +710,8 @@ export default function ConsolePage() {
                     }
                   }}
                 />
+
+                {/* Input Bar — pinned to bottom */}
                 <ChatInput
                   onSend={handleChatSend}
                   onSlash={() => setCmdPaletteOpen(true)}
@@ -711,33 +720,13 @@ export default function ConsolePage() {
                 />
               </div>
 
-              {/* Right Sidebar — Sessions + Suggestions (responsive) */}
-              <div className="chat-right-sidebar">
-                {/* Toggle button (visible on tablet/mobile) */}
-                <button
-                  className="chat-sidebar-toggle"
-                  onClick={() => {
-                    const sb = document.querySelector('.chat-right-sidebar')
-                    sb?.classList.toggle('open')
-                  }}
-                  aria-label="Toggle chat sidebar"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                  </svg>
-                </button>
-
+              {/* CONTEXT PANEL — fixed w-72, never overlaps chat */}
+              <div className="w-72 shrink-0 border-l border-neutral-700/30 bg-[#0A0D12] hidden xl:flex flex-col overflow-hidden">
                 {/* New Chat Button */}
-                <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border, #1e1e2e)' }}>
+                <div className="p-3 border-b border-neutral-700/30">
                   <button
                     onClick={handleNewChat}
-                    style={{
-                      width: '100%', padding: '10px 14px', borderRadius: 10, border: 'none',
-                      background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))',
-                      color: '#000', fontSize: '0.8125rem', fontWeight: 700, cursor: 'pointer',
-                      fontFamily: 'var(--font-body, sans-serif)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                    }}
+                    className="w-full py-2.5 px-4 rounded-lg bg-[#6EE05A] text-[#080B0F] text-sm font-bold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#7FF06A] transition-colors"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 5v14M5 12h14" />
@@ -746,10 +735,10 @@ export default function ConsolePage() {
                   </button>
                 </div>
 
-                {/* Suggestions Panel */}
+                {/* Suggested Next */}
                 {recommendations.length > 0 && (
-                  <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border, #1e1e2e)' }}>
-                    <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted, #6b7280)', marginBottom: 8, fontFamily: 'var(--font-mono)' }}>
+                  <div className="p-3 border-b border-neutral-700/30">
+                    <div className="text-[9px] font-bold uppercase tracking-wider text-neutral-500 mb-2 font-mono">
                       Suggested Next
                     </div>
                     <SmartPrompts
@@ -760,22 +749,18 @@ export default function ConsolePage() {
                   </div>
                 )}
 
-                {/* Session List */}
-                <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
-                  <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted, #6b7280)', padding: '4px 12px 8px', fontFamily: 'var(--font-mono)' }}>
+                {/* Conversations */}
+                <div className="flex-1 overflow-y-auto p-2">
+                  <div className="text-[9px] font-bold uppercase tracking-wider text-neutral-500 px-3 py-1 mb-1 font-mono">
                     Conversations
                   </div>
 
                   {messages.length > 0 && (
-                    <div style={{
-                      padding: '10px 12px', borderRadius: 8, marginBottom: 4, cursor: 'pointer',
-                      background: 'var(--accent-glow, rgba(126,217,87,0.08))',
-                      border: '1px solid var(--accent-dim, rgba(126,217,87,0.15))',
-                    }}>
-                      <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary, #f0f4f8)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <div className="px-3 py-2.5 rounded-lg mb-1 cursor-pointer bg-[#6EE05A]/8 border border-[#6EE05A]/15">
+                      <div className="text-xs font-semibold text-neutral-200 truncate">
                         {messages.find(m => m.role === 'user')?.text?.slice(0, 35) || 'Current Chat'}
                       </div>
-                      <div style={{ fontSize: '0.5625rem', color: 'var(--accent, #7ed957)', marginTop: 3, fontFamily: 'var(--font-mono, monospace)' }}>
+                      <div className="text-[9px] text-[#6EE05A] mt-1 font-mono">
                         {messages.length} messages
                       </div>
                     </div>
@@ -785,17 +770,14 @@ export default function ConsolePage() {
                     try {
                       const saved = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('0n_chat_history') || '[]') : []
                       return (saved as Array<{ id: string; title: string; count: number; time: string }>).slice(0, 15).map((s: { id: string; title: string; count: number; time: string }) => (
-                        <div key={s.id} style={{
-                          padding: '10px 12px', borderRadius: 8, marginBottom: 4, cursor: 'pointer',
-                          transition: 'background 0.1s',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-secondary, rgba(255,255,255,0.03))' }}
-                        onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
+                        <div
+                          key={s.id}
+                          className="px-3 py-2.5 rounded-lg mb-1 cursor-pointer hover:bg-white/3 transition-colors"
                         >
-                          <div style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-secondary, #9ca3af)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <div className="text-xs font-medium text-neutral-400 truncate">
                             {s.title}
                           </div>
-                          <div style={{ fontSize: '0.5rem', color: 'var(--text-muted, #6b7280)', marginTop: 3, fontFamily: 'var(--font-mono, monospace)' }}>
+                          <div className="text-[10px] text-neutral-600 mt-1 font-mono">
                             {s.count} msgs · {s.time}
                           </div>
                         </div>
@@ -804,34 +786,23 @@ export default function ConsolePage() {
                   })()}
 
                   {messages.length === 0 && (
-                    <div style={{ padding: '20px 12px', textAlign: 'center' }}>
-                      <div style={{
-                        width: 40, height: 40, borderRadius: 12, margin: '0 auto 10px',
-                        background: 'linear-gradient(135deg, var(--accent-glow, rgba(126,217,87,0.1)), rgba(0,194,199,0.06))',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      }}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted, #6b7280)" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                    <div className="py-5 px-3 text-center">
+                      <div className="w-10 h-10 rounded-xl mx-auto mb-2.5 bg-gradient-to-br from-[#6EE05A]/10 to-cyan-500/5 flex items-center justify-center">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500">
                           <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
                         </svg>
                       </div>
-                      <p style={{ fontSize: '0.6875rem', color: 'var(--text-muted, #6b7280)', margin: 0, lineHeight: 1.5 }}>
+                      <p className="text-[11px] text-neutral-500 leading-relaxed">
                         Your conversations will appear here
                       </p>
                     </div>
                   )}
                 </div>
 
-                {/* Sidebar Footer */}
-                <div style={{
-                  padding: '10px 14px', borderTop: '1px solid var(--border, #1e1e2e)',
-                  display: 'flex', alignItems: 'center', gap: 8,
-                }}>
-                  <div style={{
-                    width: 6, height: 6, borderRadius: '50%',
-                    background: mcpOnline ? 'var(--accent, #7ed957)' : 'var(--text-muted)',
-                    boxShadow: mcpOnline ? '0 0 6px var(--accent-glow)' : 'none',
-                  }} />
-                  <span style={{ fontSize: '0.5625rem', color: 'var(--text-muted, #6b7280)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                {/* JAXX ONLINE — pinned to bottom */}
+                <div className="mt-auto flex items-center gap-2 text-xs text-neutral-500 p-4 border-t border-neutral-700/30">
+                  <span className={`w-2 h-2 rounded-full ${mcpOnline ? 'bg-[#6EE05A] animate-pulse shadow-sm shadow-[#6EE05A]/50' : 'bg-neutral-600'}`} />
+                  <span className="font-mono text-[9px] uppercase tracking-wider">
                     {mcpOnline ? 'Jaxx Online' : 'Offline'}
                   </span>
                 </div>

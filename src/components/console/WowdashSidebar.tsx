@@ -157,11 +157,12 @@ const navigation: NavItem[] = [
   // ─ Design ─
   { label: "Design" },
   {
-    title: "Theme",
+    title: "Brand",
     icon: Palette,
     items: [
-      { title: "Color Editor", url: "/console/settings/theme", circleColor: "bg-primary" },
-      { title: "Admin Demo", url: "/console/admin-setup", circleColor: "bg-yellow-500" },
+      { title: "0nBrand Generator", url: "/console/brand", circleColor: "bg-primary" },
+      { title: "Color Editor", url: "/console/settings/theme", circleColor: "bg-yellow-500" },
+      { title: "Style Docs", url: "/console/style-docs", circleColor: "bg-cyan-500" },
     ],
   },
 

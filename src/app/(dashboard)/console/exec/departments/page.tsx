@@ -76,7 +76,7 @@ export default function DepartmentsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="w-8 h-8 border-2 border-[#2A2A2A] border-t-[#FFFFFF] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[rgba(255,255,255,0.1)] border-t-[#fafafa] rounded-full animate-spin" />
       </div>
     )
   }
@@ -92,8 +92,8 @@ export default function DepartmentsPage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-[#FFFFFF] mb-1">Departments</h1>
-        <p className="text-sm text-[#6B6B6B]">
+        <h1 className="text-xl font-bold text-[#fafafa] mb-1">Departments</h1>
+        <p className="text-sm text-[#b4b4b4]">
           Five-lane view across Revenue, Marketing, Delivery, Team, and Retention.
         </p>
       </div>
@@ -137,18 +137,18 @@ export default function DepartmentsPage() {
             : 0
 
           return (
-            <Card key={lane.id} className="bg-[#111111] border-[#2A2A2A]">
+            <Card key={lane.id} className="bg-[#273142] border-[rgba(255,255,255,0.1)]">
               <CardContent className="p-5">
                 <div className="flex items-start gap-4">
                   {/* Lane header */}
-                  <div className="w-10 h-10 rounded-lg bg-[#1A1A1A] flex items-center justify-center shrink-0">
-                    <lane.icon className="w-5 h-5 text-[#FFFFFF]" />
+                  <div className="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center shrink-0">
+                    <lane.icon className="w-5 h-5 text-[#fafafa]" />
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-3">
-                        <h3 className="text-sm font-bold text-[#FFFFFF]">{lane.title}</h3>
+                        <h3 className="text-sm font-bold text-[#fafafa]">{lane.title}</h3>
                         {flagCount > 0 && (
                           <Badge className="bg-[#EF4444]/15 text-[#EF4444] border-0 text-[9px] gap-1">
                             <AlertCircle className="w-3 h-3" /> {flagCount} flags
@@ -156,11 +156,11 @@ export default function DepartmentsPage() {
                         )}
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl font-bold font-mono text-[#FFFFFF]">{normalizedAvg}</span>
+                        <span className="text-2xl font-bold font-mono text-[#fafafa]">{normalizedAvg}</span>
                         <ScoreRing score={normalizedAvg} band={band} size={40} strokeWidth={3} showLabel={false} />
                       </div>
                     </div>
-                    <p className="text-xs text-[#6B6B6B] mb-3">{lane.description}</p>
+                    <p className="text-xs text-[#b4b4b4] mb-3">{lane.description}</p>
 
                     {/* Client bars — worst 4 */}
                     <div className="space-y-2">
@@ -174,19 +174,19 @@ export default function DepartmentsPage() {
 
                         const barColor = clientBand === 'CRITICAL' ? '#EF4444'
                           : clientBand === 'REVIEW' ? '#F5C518'
-                          : clientBand === 'MONITOR' ? '#D4D4D4'
-                          : '#FFFFFF'
+                          : clientBand === 'MONITOR' ? '#fafafa'
+                          : '#fafafa'
 
                         return (
                           <div key={client.id} className="flex items-center gap-3">
-                            <span className="text-xs text-[#D4D4D4] w-36 truncate">{client.client_name}</span>
-                            <div className="flex-1 h-1.5 rounded-full bg-[#1A1A1A] overflow-hidden">
+                            <span className="text-xs text-[#fafafa] w-36 truncate">{client.client_name}</span>
+                            <div className="flex-1 h-1.5 rounded-full bg-[#1a1a1a] overflow-hidden">
                               <div
                                 className="h-full rounded-full transition-all"
                                 style={{ width: `${(val / maxScore) * 100}%`, background: barColor }}
                               />
                             </div>
-                            <span className="text-xs font-mono text-[#6B6B6B] w-8 text-right">{val}</span>
+                            <span className="text-xs font-mono text-[#b4b4b4] w-8 text-right">{val}</span>
                           </div>
                         )
                       })}
@@ -200,9 +200,9 @@ export default function DepartmentsPage() {
       </div>
 
       {/* PM Load Distribution */}
-      <Card className="bg-[#111111] border-[#2A2A2A]">
+      <Card className="bg-[#273142] border-[rgba(255,255,255,0.1)]">
         <CardContent className="p-5">
-          <h3 className="text-sm font-bold text-[#FFFFFF] mb-4">PM Load Distribution</h3>
+          <h3 className="text-sm font-bold text-[#fafafa] mb-4">PM Load Distribution</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {Array.from(pmGroups.entries()).map(([pm, pmClients]) => {
               const critCount = pmClients.filter(c => c.score?.band === 'CRITICAL').length
@@ -211,14 +211,14 @@ export default function DepartmentsPage() {
                 : 0
 
               return (
-                <div key={pm} className="rounded-lg bg-[#1A1A1A] border border-[#2A2A2A] p-4">
+                <div key={pm} className="rounded-lg bg-[#1a1a1a] border border-[rgba(255,255,255,0.1)] p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-[#FFFFFF]">{pm}</span>
-                    <span className="text-xs font-mono text-[#6B6B6B]">{pmClients.length} clients</span>
+                    <span className="text-sm font-semibold text-[#fafafa]">{pm}</span>
+                    <span className="text-xs font-mono text-[#b4b4b4]">{pmClients.length} clients</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-lg font-bold font-mono text-[#FFFFFF]">{avgScore}</span>
-                    <span className="text-xs text-[#6B6B6B]">avg score</span>
+                    <span className="text-lg font-bold font-mono text-[#fafafa]">{avgScore}</span>
+                    <span className="text-xs text-[#b4b4b4]">avg score</span>
                     {critCount > 0 && (
                       <Badge className="ml-auto bg-[#EF4444]/15 text-[#EF4444] border-0 text-[9px]">
                         {critCount} critical
@@ -228,9 +228,9 @@ export default function DepartmentsPage() {
                   <div className="mt-2 space-y-1">
                     {pmClients.map(c => (
                       <div key={c.id} className="flex items-center justify-between text-xs">
-                        <span className="text-[#D4D4D4] truncate mr-2">{c.client_name}</span>
+                        <span className="text-[#fafafa] truncate mr-2">{c.client_name}</span>
                         <span className="font-mono" style={{
-                          color: c.score?.band === 'CRITICAL' ? '#EF4444' : c.score?.band === 'REVIEW' ? '#F5C518' : '#D4D4D4'
+                          color: c.score?.band === 'CRITICAL' ? '#EF4444' : c.score?.band === 'REVIEW' ? '#F5C518' : '#fafafa'
                         }}>
                           {c.score?.score_total || 0}
                         </span>

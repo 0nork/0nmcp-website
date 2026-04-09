@@ -1,46 +1,61 @@
 /* ================================================
-   Console Color System — Black / White / Grey
-   Pure black background. White text. One green accent.
-   No other colors without Mike's explicit approval.
+   Console Theme — Wowdash Dark Mode Tokens
+   Use these exactly. No deviations. No custom colors.
+   Font: Inter only. Radius: 0.625rem (10px).
    ================================================ */
 
-:root {
-  --radius: 0.5rem;
-  --background: #000000;
-  --foreground: #FFFFFF;
-  --card: #111111;
-  --card-foreground: #FFFFFF;
-  --popover: #111111;
-  --popover-foreground: #FFFFFF;
-  --primary: #6EE05A;
-  --primary-foreground: #000000;
-  --secondary: #1A1A1A;
-  --secondary-foreground: #D4D4D4;
-  --muted: #1A1A1A;
-  --muted-foreground: #6B6B6B;
-  --accent: #6EE05A;
-  --accent-foreground: #000000;
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
-  --border: #2A2A2A;
-  --input: #1A1A1A;
-  --ring: #6EE05A;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
-  --sidebar: #111111;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #6EE05A;
-  --sidebar-primary-foreground: #000000;
-  --sidebar-accent: rgba(110, 224, 90, 0.1);
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #2A2A2A;
-  --sidebar-ring: #6EE05A;
+:root {
+  --radius: 0.625rem;
+  --background: #141414;
+  --foreground: #fafafa;
+  --card: #273142;
+  --card-foreground: #fafafa;
+  --popover: #273142;
+  --popover-foreground: #fafafa;
+  --primary: #487fff;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fafafa;
+  --muted: #1a1a1a;
+  --muted-foreground: #b4b4b4;
+  --accent: #487fff;
+  --accent-foreground: #ffffff;
+  --destructive: #EF4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #487fff;
+
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #487fff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(72, 127, 255, 0.1);
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #487fff;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+/* Card class — Wowdash verbatim */
+.card {
+  background: #273142;
+  padding: 1.5rem;
+  height: 100%;
+  border-radius: 0.625rem;
+  border-color: transparent;
 }
 
 /* Scrollbar */
 .scrollbar-thin::-webkit-scrollbar { width: 6px; }
 .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-.scrollbar-thin::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 50rem; }
-.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #3A3A3A; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 50rem; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* Ticker */
 @keyframes console-ticker-scroll {

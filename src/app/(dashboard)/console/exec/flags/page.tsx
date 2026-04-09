@@ -38,7 +38,7 @@ export default function FlagsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="w-8 h-8 border-2 border-[#2A2A2A] border-t-[#FFFFFF] rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[rgba(255,255,255,0.1)] border-t-[#fafafa] rounded-full animate-spin" />
       </div>
     )
   }
@@ -46,20 +46,20 @@ export default function FlagsPage() {
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-[#FFFFFF] mb-1">Flags & Alerts</h1>
-        <p className="text-sm text-[#6B6B6B]">
+        <h1 className="text-xl font-bold text-[#fafafa] mb-1">Flags & Alerts</h1>
+        <p className="text-sm text-[#b4b4b4]">
           {alerts.length} unacknowledged alerts across all clients.
         </p>
       </div>
 
       {alerts.length === 0 ? (
-        <Card className="bg-[#111111] border-[#2A2A2A]">
+        <Card className="bg-[#273142] border-[rgba(255,255,255,0.1)]">
           <CardContent className="p-12 text-center">
-            <div className="w-16 h-16 rounded-2xl mx-auto mb-4 bg-[#1A1A1A] flex items-center justify-center">
-              <CheckCircle2 className="w-7 h-7 text-[#FFFFFF]" />
+            <div className="w-16 h-16 rounded-2xl mx-auto mb-4 bg-[#1a1a1a] flex items-center justify-center">
+              <CheckCircle2 className="w-7 h-7 text-[#fafafa]" />
             </div>
-            <h3 className="text-lg font-bold text-[#FFFFFF] mb-2">No Active Flags</h3>
-            <p className="text-sm text-[#6B6B6B]">
+            <h3 className="text-lg font-bold text-[#fafafa] mb-2">No Active Flags</h3>
+            <p className="text-sm text-[#b4b4b4]">
               All clients are within normal parameters. Flags will appear here when scores drop or anomalies are detected.
             </p>
           </CardContent>
@@ -67,7 +67,7 @@ export default function FlagsPage() {
       ) : (
         <div className="space-y-3">
           {alerts.map(alert => (
-            <Card key={alert.id} className="bg-[#111111] border-[#2A2A2A]">
+            <Card key={alert.id} className="bg-[#273142] border-[rgba(255,255,255,0.1)]">
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
                   <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
@@ -81,7 +81,7 @@ export default function FlagsPage() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-bold text-[#FFFFFF]">
+                      <span className="text-sm font-bold text-[#fafafa]">
                         {alert.exec_clients?.client_name || 'Unknown Client'}
                       </span>
                       {alert.score_before != null && alert.score_after != null && (
@@ -90,17 +90,17 @@ export default function FlagsPage() {
                         </Badge>
                       )}
                       {alert.slack_sent && (
-                        <Badge className="bg-[#1A1A1A] text-[#6B6B6B] border border-[#2A2A2A] text-[9px]">
+                        <Badge className="bg-[#1a1a1a] text-[#b4b4b4] border border-[rgba(255,255,255,0.1)] text-[9px]">
                           Slack sent
                         </Badge>
                       )}
                     </div>
 
                     {alert.flag_issue && (
-                      <p className="text-xs text-[#D4D4D4] mb-1.5">{alert.flag_issue}</p>
+                      <p className="text-xs text-[#fafafa] mb-1.5">{alert.flag_issue}</p>
                     )}
 
-                    <div className="flex items-center gap-3 text-[10px] text-[#6B6B6B] font-mono">
+                    <div className="flex items-center gap-3 text-[10px] text-[#b4b4b4] font-mono">
                       {alert.flag_hack_number && (
                         <span>Hack #{alert.flag_hack_number}</span>
                       )}
@@ -120,7 +120,7 @@ export default function FlagsPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="shrink-0 border-[#2A2A2A] text-[#D4D4D4] hover:bg-[#1A1A1A] hover:text-[#FFFFFF]"
+                    className="shrink-0 border-[rgba(255,255,255,0.1)] text-[#fafafa] hover:bg-[#1a1a1a] hover:text-[#fafafa]"
                     onClick={async () => {
                       await fetch('/api/exec/flags', {
                         method: 'POST',

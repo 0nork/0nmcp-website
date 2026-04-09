@@ -27,6 +27,8 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
           setUserName(data.name || data.full_name || '')
           setUserEmail(data.email || '')
           setUserPlan(data.plan || 'free')
+          // Safety: sync user to CRM on every console load (fire-and-forget)
+          fetch('/api/auth/sync-crm', { method: 'POST' }).catch(() => {})
         }
       })
       .catch(() => router.push('/login'))

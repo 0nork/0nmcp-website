@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
             // Check if returning user (onboarding already completed)
             const isReturning = await checkReturningUser(user.id)
             if (isReturning) {
-              return NextResponse.redirect(`${origin}/dashboard`)
+              return NextResponse.redirect(`${origin}/console`)
             }
             return NextResponse.redirect(`${origin}/0nboarding?provider=${provider}`)
           }
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
           // Check if returning user for email auth too
           const isReturning = await checkReturningUser(user.id)
           if (isReturning && redirect === '/0nboarding') {
-            return NextResponse.redirect(`${origin}/dashboard`)
+            return NextResponse.redirect(`${origin}/console`)
           }
         }
 

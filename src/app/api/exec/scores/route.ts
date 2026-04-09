@@ -29,6 +29,19 @@ export async function GET(req: NextRequest) {
   }
 
   if (!userId) {
+    // Fall back to session-based auth via console account
+    try {
+      const accountRes = await fetch(new URL('/api/console/account', req.url).toString(), {
+        headers: { cookie: req.headers.get('cookie') || '' },
+      })
+      if (accountRes.ok) {
+        const account = await accountRes.json()
+        userId = account.id || account.user_id
+      }
+    } catch { /* ignore */ }
+  }
+
+  if (!userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

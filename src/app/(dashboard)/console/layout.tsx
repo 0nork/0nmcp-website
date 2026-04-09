@@ -60,6 +60,8 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
         <div className="bg-[#273142] border-b border-white/10 flex items-center justify-between h-[72px] shrink-0 gap-2 px-6 py-4 sticky top-0 z-[2]">
           <div className="flex items-center gap-4">
             <SidebarTrigger className="!p-0 h-auto w-auto !bg-transparent cursor-pointer text-[#b4b4b4] hover:text-[#fafafa]" />
+            <LocationSwitcher />
+            <div className="w-px h-6 bg-white/10 hidden md:block" />
             <button
               onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
               className="flex items-center gap-2 text-[#b4b4b4] hover:text-[#fafafa] transition-colors"
@@ -70,8 +72,6 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
             </button>
           </div>
           <div className="flex items-center gap-3">
-            <LocationSwitcher />
-            <div className="w-px h-6 bg-white/10 hidden md:block" />
             <button className="relative text-[#b4b4b4] hover:text-[#fafafa] transition-colors">
               <Bell className="size-5" />
               <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-[#487fff]" />

@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import { STATS_DISPLAY } from '@/data/stats'
+import { Zap, Lock, Link2, Mail, Users, Layers } from 'lucide-react'
 
 export interface ChatMessage {
   role: 'user' | 'system'
@@ -22,29 +23,29 @@ interface ChatProps {
 }
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
-  '0nmcp': { label: '0nMCP', color: 'var(--accent)' },
-  'agent-studio': { label: '0n Agent', color: 'var(--accent)' },
-  'claude-byok': { label: 'Claude', color: 'var(--color-purple, #a78bfa)' },
-  'claude': { label: 'Claude', color: 'var(--color-cyan, #00d4ff)' },
-  'openai-byok': { label: 'GPT-4o', color: '#10a37f' },
-  'gemini-byok': { label: 'Gemini', color: '#4285f4' },
-  'local': { label: 'Local', color: 'var(--text-muted)' },
+  '0nmcp': { label: '0nMCP', color: 'text-[#6EE05A]' },
+  'agent-studio': { label: '0n Agent', color: 'text-[#6EE05A]' },
+  'claude-byok': { label: 'Claude', color: 'text-violet-400' },
+  'claude': { label: 'Claude', color: 'text-cyan-400' },
+  'openai-byok': { label: 'GPT-4o', color: 'text-emerald-400' },
+  'gemini-byok': { label: 'Gemini', color: 'text-blue-400' },
+  'local': { label: 'Local', color: 'text-neutral-500' },
 }
-
-const AI_SOURCE_SET = new Set(['agent-studio', 'claude-byok', 'claude', 'openai-byok', 'gemini-byok'])
 
 function formatTime(ts?: string) {
   if (ts) return ts
   return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-function sourceGradient(source?: string): string {
-  if (!source || !AI_SOURCE_SET.has(source)) return 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))'
-  if (source === 'openai-byok') return 'linear-gradient(135deg, #10a37f, #1a7f5a)'
-  if (source === 'gemini-byok') return 'linear-gradient(135deg, #4285f4, #34a853)'
-  if (source === 'claude-byok' || source === 'claude') return 'linear-gradient(135deg, #a78bfa, #6366f1)'
-  return 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))'
-}
+// Capability cards for empty state
+const capabilities = [
+  { icon: Zap, label: 'Workflows', desc: 'Run, build, or schedule', prompt: 'Create a workflow that ' },
+  { icon: Lock, label: 'Vault', desc: 'Manage API keys safely', prompt: 'Open the vault and show my ' },
+  { icon: Link2, label: 'Services', desc: 'Connect new integrations', prompt: 'Connect my ' },
+  { icon: Mail, label: 'Campaigns', desc: 'Draft and send via AI', prompt: 'Draft a campaign for ' },
+  { icon: Users, label: 'Contacts', desc: 'Query your CRM data', prompt: 'Find all contacts who ' },
+  { icon: Layers, label: 'Builder', desc: 'Visual flow editor', prompt: 'Build a workflow that ' },
+]
 
 export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps) {
   const endRef = useRef<HTMLDivElement>(null)
@@ -63,45 +64,47 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
   // ── Empty State ──
   if (messages.length === 0 && !loading) {
     return (
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflow: 'hidden', minHeight: 0 }}>
-        <div style={{ textAlign: 'center', maxWidth: 440 }}>
-          {!hasAIKey ? (
-            <>
-              <div style={{
-                width: 64, height: 64, borderRadius: 18, margin: '0 auto 16px',
-                background: 'linear-gradient(135deg, var(--accent-glow, rgba(126,217,87,0.15)), rgba(0,194,199,0.1))',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                border: '1px solid var(--accent-dim, rgba(126,217,87,0.2))',
-              }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent, #7ed957)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3v1m0 16v1m8.66-13.5l-.87.5M4.21 16l-.87.5M20.66 16l-.87-.5M4.21 8l-.87-.5M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                </svg>
-              </div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: 8, color: 'var(--text-primary, #f0f4f8)', fontFamily: 'var(--font-display, Inter)' }}>
-                Set up your Core AI below
-              </h3>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted, #6b7280)', marginBottom: 12, lineHeight: 1.5 }}>
-                Select a provider in the footer to unlock AI-powered chat, automation, and all console features.
-              </p>
-              <div style={{ fontSize: 22, color: 'var(--text-muted)', animation: 'chatArrowBounce 1.5s ease infinite' }}>&#8595;</div>
-            </>
-          ) : (
-            <>
-              <div style={{
-                width: 64, height: 64, borderRadius: 18, margin: '0 auto 16px',
-                background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 0 30px var(--accent-glow, rgba(126,217,87,0.2))',
-              }}>
-                <span style={{ fontSize: '1.125rem', fontWeight: 900, color: '#000', fontFamily: 'var(--font-mono)' }}>0n</span>
-              </div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: 8, color: 'var(--text-primary, #f0f4f8)' }}>
-                Ask 0n anything
-              </h3>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted, #6b7280)', lineHeight: 1.5 }}>
-                Execute tasks across {STATS_DISPLAY.services} services, manage workflows, or ask about your connected tools.
-              </p>
-            </>
+      <div className="flex-1 flex items-center justify-center p-4 overflow-hidden min-h-0">
+        <div className="text-center max-w-lg">
+          {/* Avatar */}
+          <div className="w-16 h-16 rounded-2xl mx-auto mb-4 bg-[#6EE05A] flex items-center justify-center shadow-lg shadow-[#6EE05A]/20">
+            <span className="text-lg font-black text-[#080B0F] font-mono">0n</span>
+          </div>
+
+          <h3 className="text-lg font-bold text-white mb-2">Ask Jaxx anything</h3>
+          <p className="text-sm text-neutral-400 mb-6">
+            Execute tasks across {STATS_DISPLAY.services} services, manage workflows, or ask about your connected tools.
+          </p>
+
+          {/* Capability cards — 2x3 grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
+            {capabilities.map(cap => (
+              <button
+                key={cap.label}
+                className="flex flex-col items-center gap-2 p-4 rounded-lg border border-neutral-700/30 bg-[#0F1419] hover:border-[#6EE05A]/30 hover:bg-[#6EE05A]/5 transition-all cursor-pointer group"
+                onClick={() => {
+                  // Pre-fill input — dispatch custom event
+                  window.dispatchEvent(new CustomEvent('chat-prefill', { detail: cap.prompt }))
+                }}
+              >
+                <cap.icon className="w-5 h-5 text-neutral-500 group-hover:text-[#6EE05A] transition-colors" />
+                <span className="text-xs font-medium text-neutral-300 group-hover:text-white">{cap.label}</span>
+                <span className="text-[10px] text-neutral-600">{cap.desc}</span>
+              </button>
+            ))}
+          </div>
+
+          <p className="text-xs text-neutral-600">
+            Type <kbd className="px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400 border border-neutral-700 text-[10px] font-mono">/</kbd> to see all commands
+          </p>
+
+          {!hasAIKey && (
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                <path d="M12 3v1m0 16v1m8.66-13.5l-.87.5M4.21 16l-.87.5M20.66 16l-.87-.5M4.21 8l-.87-.5M12 8a4 4 0 100 8 4 4 0 000-8z" />
+              </svg>
+              <span className="text-xs text-neutral-500">Select a provider in the footer to unlock AI chat</span>
+            </div>
           )}
         </div>
       </div>
@@ -110,75 +113,47 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
   // ── Messages ──
   return (
-    <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, padding: 'clamp(8px, 2vw, 20px)' }}>
-      <div style={{ maxWidth: 'min(760px, 100%)', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.5vw, 16px)' }}>
+    <div className="flex-1 overflow-y-auto min-h-0 p-4 md:p-5">
+      <div className="max-w-3xl mx-auto flex flex-col gap-3">
         {messages.map((m, i) => (
           <div
             key={i}
-            className="chat-msg-row"
-            style={{
-              display: 'flex', alignItems: 'flex-start', gap: 12,
-              flexDirection: m.role === 'user' ? 'row-reverse' : 'row',
-              animation: 'chatMsgIn 0.3s ease both',
-              animationDelay: `${Math.min(i, 5) * 40}ms`,
-            }}
+            className={`flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
           >
             {/* Avatar */}
             {m.role === 'system' ? (
-              <div style={{
-                width: 34, height: 34, borderRadius: 12, flexShrink: 0,
-                background: sourceGradient(m.source),
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: `0 0 12px color-mix(in srgb, ${SOURCE_LABELS[m.source || '0nmcp']?.color || 'var(--accent)'} 25%, transparent)`,
-              }}>
+              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#6EE05A] flex items-center justify-center shadow-sm shadow-[#6EE05A]/25">
                 {m.loading ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth={2} strokeLinecap="round" style={{ animation: 'spin 1s linear infinite' }}>
-                    <path d="M21 12a9 9 0 11-6.219-8.56" />
-                  </svg>
+                  <div className="w-4 h-4 border-2 border-[#080B0F]/30 border-t-[#080B0F] rounded-full animate-spin" />
                 ) : (
-                  <span style={{ fontSize: '0.5625rem', fontWeight: 900, color: '#000', fontFamily: 'var(--font-mono)' }}>0n</span>
+                  <span className="text-[9px] font-black text-[#080B0F] font-mono">0n</span>
                 )}
               </div>
             ) : (
-              <div style={{
-                width: 34, height: 34, borderRadius: 12, flexShrink: 0,
-                background: 'var(--bg-card, rgba(255,255,255,0.03))',
-                border: '1px solid var(--border, #1e1e2e)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary, #9ca3af)" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#0F1419] border border-neutral-700/30 flex items-center justify-center">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500">
                   <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" />
                 </svg>
               </div>
             )}
 
             {/* Bubble + metadata */}
-            <div className="chat-msg-bubble" style={{ maxWidth: '70%', minWidth: 0 }}>
-              <div style={{
-                padding: '12px 16px', borderRadius: 16, fontSize: '0.8125rem', lineHeight: 1.6,
-                fontFamily: 'var(--font-body, sans-serif)',
-                whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-                ...(m.role === 'user' ? {
-                  background: 'linear-gradient(135deg, var(--accent-glow, rgba(126,217,87,0.12)), rgba(0,194,199,0.08))',
-                  border: '1px solid var(--accent-dim, rgba(126,217,87,0.2))',
-                  borderTopRightRadius: 4,
-                  color: 'var(--text-primary, #f0f4f8)',
-                } : {
-                  background: 'var(--bg-card, rgba(255,255,255,0.03))',
-                  border: '1px solid var(--border, #1e1e2e)',
-                  borderTopLeftRadius: 4,
-                  color: 'var(--text-primary, #f0f4f8)',
-                }),
-              }}>
+            <div className="max-w-[70%] min-w-0">
+              <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
+                m.role === 'user'
+                  ? 'bg-[#6EE05A]/10 border border-[#6EE05A]/20 rounded-tr-sm text-neutral-200'
+                  : 'bg-[#0F1419] border border-neutral-700/30 rounded-tl-sm text-neutral-200'
+              }`}>
                 {m.loading ? (
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)' }}>
+                  <span className="flex items-center gap-2 text-neutral-500">
                     <span>Executing via 0nMCP</span>
-                    <span style={{ display: 'inline-flex', gap: 3 }}>
-                      {[0,1,2].map(d => (
-                        <span key={d} style={{
-                          width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)',
-                          animation: `chatDotPulse 1.2s ease infinite ${d * 0.2}s`,
-                        }} />
+                    <span className="inline-flex gap-1">
+                      {[0, 1, 2].map(d => (
+                        <span
+                          key={d}
+                          className="w-1 h-1 rounded-full bg-[#6EE05A] animate-pulse"
+                          style={{ animationDelay: `${d * 200}ms` }}
+                        />
                       ))}
                     </span>
                   </span>
@@ -187,26 +162,22 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
               {/* Execution metadata */}
               {m.role === 'system' && m.source === '0nmcp' && !m.loading && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 6, paddingLeft: 4 }}>
+                <div className="flex items-center gap-2.5 mt-1.5 pl-1">
                   {m.status && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <span style={{
-                        width: 6, height: 6, borderRadius: '50%',
-                        background: m.status === 'completed' ? 'var(--accent, #7ed957)' : 'var(--color-red, #ef4444)',
-                        boxShadow: m.status === 'completed' ? '0 0 6px var(--accent-glow)' : '0 0 6px rgba(239,68,68,0.4)',
-                      }} />
-                      <span style={{ fontSize: '0.625rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                    <div className="flex items-center gap-1.5">
+                      <span className={`w-1.5 h-1.5 rounded-full ${m.status === 'completed' ? 'bg-[#6EE05A]' : 'bg-red-500'}`} />
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-neutral-500 font-mono">
                         {m.status}
                       </span>
                     </div>
                   )}
                   {m.steps != null && m.steps > 0 && (
-                    <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                    <span className="text-[10px] text-neutral-500 font-mono">
                       {m.steps} step{m.steps !== 1 ? 's' : ''}
                     </span>
                   )}
                   {m.services && m.services.length > 0 && (
-                    <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                    <span className="text-[10px] text-neutral-500 font-mono">
                       via {m.services.join(', ')}
                     </span>
                   )}
@@ -214,16 +185,13 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
               )}
 
               {/* Source + timestamp */}
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, paddingLeft: 4,
-                justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
-              }}>
+              <div className={`flex items-center gap-1.5 mt-1 pl-1 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {m.role === 'system' && m.source && SOURCE_LABELS[m.source] && (
-                  <span style={{ fontSize: '0.625rem', fontWeight: 600, color: SOURCE_LABELS[m.source].color, fontFamily: 'var(--font-mono)' }}>
+                  <span className={`text-[10px] font-semibold font-mono ${SOURCE_LABELS[m.source].color}`}>
                     {SOURCE_LABELS[m.source].label}
                   </span>
                 )}
-                <span style={{ fontSize: '0.5625rem', color: 'var(--text-muted, #6b7280)' }}>{formatTime(m.timestamp)}</span>
+                <span className="text-[9px] text-neutral-600">{formatTime(m.timestamp)}</span>
               </div>
             </div>
           </div>
@@ -231,26 +199,16 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
         {/* Inline BYOK banner */}
         {showInlineBYOK && !loading && (
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderRadius: 14,
-            maxWidth: 480, margin: '0 auto',
-            background: 'linear-gradient(135deg, rgba(167,139,250,0.08), rgba(0,212,255,0.06))',
-            border: '1px solid rgba(167,139,250,0.2)',
-            animation: 'chatMsgIn 0.3s ease both',
-          }}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl max-w-md mx-auto bg-violet-500/8 border border-violet-500/20 animate-in fade-in duration-300">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
               <path d="M12 3v1m0 16v1m8.66-13.5l-.87.5M4.21 16l-.87.5M20.66 16l-.87-.5M4.21 8l-.87-.5M12 8a4 4 0 100 8 4 4 0 000-8z" />
             </svg>
-            <p style={{ flex: 1, fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0 }}>
+            <p className="flex-1 text-xs text-neutral-400 m-0">
               Connect an AI key for powered responses.
             </p>
             <button
               onClick={() => onNavigateVault?.()}
-              style={{
-                padding: '5px 12px', borderRadius: 8, fontSize: '0.6875rem', fontWeight: 600,
-                background: 'rgba(167,139,250,0.15)', border: '1px solid rgba(167,139,250,0.3)',
-                color: '#a78bfa', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
-              }}
+              className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-violet-500/15 border border-violet-500/30 text-violet-400 cursor-pointer shrink-0 hover:bg-violet-500/25 transition-colors"
             >
               Connect
             </button>
@@ -259,26 +217,17 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
         {/* Loading dots */}
         {loading && !messages.some(m => m.loading) && (
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-            <div style={{
-              width: 34, height: 34, borderRadius: 12, flexShrink: 0,
-              background: 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth={2} strokeLinecap="round" style={{ animation: 'spin 1s linear infinite' }}>
-                <path d="M21 12a9 9 0 11-6.219-8.56" />
-              </svg>
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-xl shrink-0 bg-[#6EE05A] flex items-center justify-center">
+              <div className="w-4 h-4 border-2 border-[#080B0F]/30 border-t-[#080B0F] rounded-full animate-spin" />
             </div>
-            <div style={{
-              padding: '12px 16px', borderRadius: 16, borderTopLeftRadius: 4,
-              background: 'var(--bg-card)', border: '1px solid var(--border)',
-              display: 'flex', gap: 4,
-            }}>
-              {[0,1,2].map(d => (
-                <span key={d} style={{
-                  width: 6, height: 6, borderRadius: '50%', background: 'var(--accent, #7ed957)',
-                  animation: `chatDotPulse 1.2s ease infinite ${d * 0.2}s`,
-                }} />
+            <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-[#0F1419] border border-neutral-700/30 flex gap-1.5">
+              {[0, 1, 2].map(d => (
+                <span
+                  key={d}
+                  className="w-1.5 h-1.5 rounded-full bg-[#6EE05A] animate-pulse"
+                  style={{ animationDelay: `${d * 200}ms` }}
+                />
               ))}
             </div>
           </div>
@@ -286,44 +235,6 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
         <div ref={endRef} />
       </div>
-
-      <style>{`
-        @keyframes chatMsgIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes chatDotPulse {
-          0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
-          30% { opacity: 1; transform: scale(1.1); }
-        }
-        @keyframes chatArrowBounce {
-          0%, 100% { transform: translateY(0); opacity: 0.5; }
-          50% { transform: translateY(6px); opacity: 1; }
-        }
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-
-        /* Fluid responsive chat — adapts to ANY screen */
-        .chat-msg-row { gap: clamp(6px, 1.5vw, 12px) !important; }
-        .chat-msg-bubble { max-width: clamp(75%, 85vw, 70%) !important; }
-
-        @media (max-width: 1023px) {
-          .chat-msg-bubble { max-width: 80% !important; }
-        }
-        @media (max-width: 767px) {
-          .chat-msg-bubble { max-width: 88% !important; }
-          .chat-msg-row { gap: 8px !important; }
-          .chat-msg-text { padding: 10px 12px !important; font-size: 0.8125rem !important; }
-        }
-        @media (max-width: 480px) {
-          .chat-msg-bubble { max-width: 93% !important; }
-          .chat-msg-text { padding: 8px 10px !important; font-size: 0.8rem !important; }
-        }
-        @media (max-width: 360px) {
-          .chat-msg-bubble { max-width: 96% !important; }
-        }
-      `}</style>
     </div>
   )
 }

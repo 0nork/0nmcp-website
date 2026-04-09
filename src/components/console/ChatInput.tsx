@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { STATS_DISPLAY } from '@/data/stats'
+import { Send } from 'lucide-react'
 
 interface ChatInputProps {
   onSend: (text: string) => void
@@ -36,15 +37,23 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
     }
   }
 
+  // Listen for chat-prefill events from capability cards
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail
+      if (detail && typeof detail === 'string') {
+        setValue(detail)
+        inputRef.current?.focus()
+      }
+    }
+    window.addEventListener('chat-prefill', handler)
+    return () => window.removeEventListener('chat-prefill', handler)
+  }, [])
+
   return (
-    <div style={{
-      flexShrink: 0, padding: 'clamp(6px, 1vw, 12px) clamp(10px, 2vw, 20px) clamp(10px, 1.5vw, 16px)',
-      background: 'var(--bg-deep, #040A1A)',
-      backdropFilter: 'blur(16px)',
-      borderTop: '1px solid var(--border, #1e1e2e)',
-    }}>
-      <div style={{ maxWidth: 'min(760px, 100%)', margin: '0 auto' }}>
-        <div style={{ display: 'flex', gap: 8 }}>
+    <div className="shrink-0 p-3 md:p-4 bg-[#080B0F] border-t border-neutral-700/30">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex gap-2">
           <textarea
             ref={inputRef}
             value={value}
@@ -53,56 +62,27 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
             disabled={loading}
             placeholder={mcpOnline ? 'Ask Jaxx anything... or type / for commands' : 'Ask anything or type / for commands...'}
             rows={1}
-            style={{
-              flex: 1, padding: '12px 16px', height: 48, maxHeight: 120,
-              borderRadius: 12, fontSize: '0.8125rem', resize: 'none',
-              fontFamily: 'var(--font-body, sans-serif)',
-              background: 'var(--bg-primary, #0a0a0a)',
-              border: '1px solid var(--border, #1e1e2e)',
-              color: 'var(--text-primary, #f0f4f8)',
-              outline: 'none', opacity: loading ? 0.6 : 1,
-              transition: 'border-color 0.15s ease',
-            }}
-            onFocus={e => { e.currentTarget.style.borderColor = 'var(--accent, #7ed957)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'var(--border, #1e1e2e)' }}
+            className="flex-1 px-4 py-3 h-12 max-h-[120px] rounded-xl text-sm resize-none bg-[#0F1419] border border-neutral-700/30 text-neutral-200 placeholder:text-neutral-600 outline-none focus:border-[#6EE05A]/50 transition-colors disabled:opacity-50"
           />
           <button
             onClick={handleSend}
             disabled={loading || !value.trim()}
-            style={{
-              width: 48, height: 48, borderRadius: 12, border: 'none', cursor: 'pointer',
-              flexShrink: 0, alignSelf: 'flex-end',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: value.trim() && !loading
-                ? 'linear-gradient(135deg, var(--accent, #7ed957), var(--color-teal, #00C2C7))'
-                : 'var(--bg-secondary, #1e1e2e)',
-              color: value.trim() && !loading ? '#000' : 'var(--text-muted, #6b7280)',
-              transition: 'all 0.15s ease',
-              boxShadow: value.trim() && !loading ? '0 0 20px var(--accent-glow, rgba(126,217,87,0.2))' : 'none',
-            }}
+            className={`w-12 h-12 rounded-xl shrink-0 self-end flex items-center justify-center transition-all cursor-pointer disabled:cursor-not-allowed ${
+              value.trim() && !loading
+                ? 'bg-[#6EE05A] text-[#080B0F] shadow-sm shadow-[#6EE05A]/20 hover:bg-[#7FF06A]'
+                : 'bg-[#0F1419] text-neutral-600 border border-neutral-700/30'
+            }`}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-            </svg>
+            <Send className="w-4 h-4" />
           </button>
         </div>
 
         {/* Status bar */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          marginTop: 8, fontSize: '0.625rem', fontWeight: 600,
-          textTransform: 'uppercase', letterSpacing: '0.08em',
-          color: 'var(--text-muted, #6b7280)',
-          fontFamily: 'var(--font-mono, JetBrains Mono, monospace)',
-        }}>
-          <span style={{
-            width: 6, height: 6, borderRadius: '50%',
-            background: mcpOnline ? 'var(--accent, #7ed957)' : 'var(--text-muted, #6b7280)',
-            boxShadow: mcpOnline ? '0 0 6px var(--accent-glow, rgba(126,217,87,0.4))' : 'none',
-          }} />
+        <div className="flex items-center justify-center gap-2 mt-2 text-[10px] font-semibold uppercase tracking-wider text-neutral-600 font-mono">
+          <span className={`w-1.5 h-1.5 rounded-full ${mcpOnline ? 'bg-[#6EE05A] animate-pulse shadow-sm shadow-[#6EE05A]/50' : 'bg-neutral-600'}`} />
           {mcpOnline ? (
             <span>
-              <span style={{ color: 'var(--accent, #7ed957)' }}>0nMCP Live</span>
+              <span className="text-[#6EE05A]">0nMCP Live</span>
               {' \u00b7 '}{STATS_DISPLAY.tools} Tools{' \u00b7 '}{STATS_DISPLAY.services} Services
             </span>
           ) : (

@@ -59,6 +59,10 @@
     {
       "path": "/api/cron/evaluate-interventions",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/store/queue/process",
+      "schedule": "* * * * *"
     }
   ],
   "redirects": [

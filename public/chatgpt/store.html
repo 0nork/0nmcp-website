@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>0nMCP Store</title>
+  <style>
+    /* ── Reset + tokens ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #080B0F;
+      --card:    #0E1117;
+      --border:  #1e2533;
+      --accent:  #6EE05A;
+      --accent-dim: rgba(110,224,90,.15);
+      --blue:    #64A0FF;
+      --purple:  #A78BFA;
+      --orange:  #FFB432;
+      --muted:   #7a8694;
+      --dim:     #3d4758;
+      --text:    #e2e8f0;
+      --error:   #ff6b6b;
+      --success: #6EE05A;
+      --radius:  10px;
+      --radius-lg: 14px;
+      --font-display: 'Barlow', system-ui, sans-serif;
+      --font-body:    'Space Grotesk', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    html, body { width: 100%; height: 100%; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+
+    /* ── Layout ───────────────────────────────────────────────────────── */
+    .app   { display: flex; flex-direction: column; height: 100vh; }
+    .header{ align-items: center; background: var(--card); border-bottom: 1px solid var(--border); display: flex; flex-shrink: 0; gap: 12px; padding: 12px 16px; }
+    .logo  { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--accent); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+    .logo-icon { font-size: 18px; }
+    .nav-tabs { display: flex; gap: 4px; margin-left: auto; }
+    .nav-tab { background: none; border: 1px solid transparent; border-radius: 6px; color: var(--muted); cursor: pointer; font-family: var(--font-body); font-size: 12px; padding: 5px 12px; transition: all .15s; }
+    .nav-tab.active { border-color: var(--border); background: var(--bg); color: var(--text); }
+    .nav-tab:hover:not(.active) { color: var(--text); }
+    .body  { flex: 1; overflow-y: auto; padding: 16px; }
+
+    /* ── Loading / Spinner ────────────────────────────────────────────── */
+    .center { align-items: center; display: flex; flex-direction: column; gap: 16px; height: 100%; justify-content: center; padding: 32px; text-align: center; }
+    .spinner { animation: spin .7s linear infinite; border: 2px solid var(--border); border-radius: 50%; border-top-color: var(--accent); height: 32px; width: 32px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Section headers ──────────────────────────────────────────────── */
+    .section-title { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; margin-bottom: 12px; text-transform: uppercase; }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-header h2 { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+
+    /* ── Package Cards (Featured) ─────────────────────────────────────── */
+    .packages-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 24px; }
+    .package-card { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-lg); 
+      padding: 20px;
+      position: relative;
+      transition: all .2s;
+    }
+    .package-card:hover { border-color: rgba(110,224,90,.3); }
+    .package-card.featured { border-color: var(--accent); }
+    .package-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--bg);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 4px;
+      letter-spacing: .05em;
+    }
+    .package-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .package-tagline { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+    .package-price { display: flex; align-items: baseline; gap: 4px; margin-bottom: 16px; }
+    .package-price .amount { font-family: var(--font-display); font-size: 32px; font-weight: 900; color: var(--accent); }
+    .package-price .period { color: var(--muted); font-size: 14px; }
+    .package-price .compare { color: var(--dim); font-size: 12px; text-decoration: line-through; margin-left: 8px; }
+    .package-features { list-style: none; margin-bottom: 20px; }
+    .package-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; margin-bottom: 8px; color: var(--text); }
+    .package-features li::before { content: '✓'; color: var(--accent); font-weight: 600; flex-shrink: 0; }
+    .package-btn { 
+      width: 100%; 
+      padding: 12px; 
+      border: none; 
+      border-radius: 8px; 
+      font-family: var(--font-display); 
+      font-size: 14px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      transition: all .15s;
+    }
+    .package-btn.primary { background: var(--accent); color: var(--bg); }
+    .package-btn.primary:hover { opacity: .88; }
+    .package-btn.secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+    .package-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── À La Carte Products ──────────────────────────────────────────── */
+    .products-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    .product-card { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius); 
+      padding: 14px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .product-card:hover { border-color: rgba(110,224,90,.3); }
+    .product-icon { font-size: 24px; margin-bottom: 8px; }
+    .product-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .product-desc { color: var(--muted); font-size: 11px; line-height: 1.4; margin-bottom: 10px; }
+    .product-price { display: flex; align-items: center; justify-content: space-between; }
+    .product-price .price { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+    .product-price .add-btn { 
+      background: var(--accent-dim); 
+      border: none; 
+      border-radius: 4px; 
+      color: var(--accent); 
+      font-size: 11px; 
+      font-weight: 600;
+      padding: 4px 10px; 
+      cursor: pointer;
+    }
+    .product-price .add-btn:hover { background: var(--accent); color: var(--bg); }
+
+    /* ── Active Subscriptions ─────────────────────────────────────────── */
+    .subs-list { display: flex; flex-direction: column; gap: 10px; }
+    .sub-card { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius); 
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .sub-icon { 
+      width: 40px; 
+      height: 40px; 
+      background: var(--accent-dim); 
+      border-radius: 8px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 18px; 
+    }
+    .sub-info { flex: 1; }
+    .sub-name { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+    .sub-details { color: var(--muted); font-size: 12px; }
+    .sub-status { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: flex-end; 
+      gap: 4px; 
+    }
+    .sub-price { font-family: var(--font-mono); font-size: 14px; color: var(--accent); }
+    .sub-badge { 
+      font-size: 10px; 
+      padding: 2px 8px; 
+      border-radius: 4px; 
+      font-weight: 600;
+    }
+    .sub-badge.active { background: rgba(110,224,90,.1); color: var(--accent); }
+    .sub-badge.trial { background: rgba(100,160,255,.1); color: var(--blue); }
+    .sub-badge.cancelled { background: rgba(255,80,80,.1); color: var(--error); }
+
+    /* ── Checkout Form ────────────────────────────────────────────────── */
+    .checkout-container { max-width: 480px; margin: 0 auto; }
+    .checkout-header { text-align: center; margin-bottom: 24px; }
+    .checkout-header h2 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .checkout-header p { color: var(--muted); font-size: 13px; }
+    
+    .checkout-summary { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-lg); 
+      padding: 20px; 
+      margin-bottom: 20px; 
+    }
+    .checkout-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .checkout-item .name { font-weight: 500; }
+    .checkout-item .price { font-family: var(--font-mono); color: var(--accent); }
+    .checkout-total { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding-top: 12px; 
+      border-top: 1px solid var(--border); 
+      margin-top: 12px;
+    }
+    .checkout-total .label { font-weight: 600; }
+    .checkout-total .amount { font-family: var(--font-display); font-size: 24px; font-weight: 900; color: var(--accent); }
+
+    .billing-toggle { 
+      display: flex; 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      padding: 4px; 
+      margin-bottom: 20px; 
+    }
+    .billing-option { 
+      flex: 1; 
+      padding: 10px; 
+      text-align: center; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-size: 13px;
+      transition: all .15s;
+    }
+    .billing-option.active { background: var(--accent); color: var(--bg); font-weight: 600; }
+    .billing-option .save { 
+      display: block; 
+      font-size: 10px; 
+      color: var(--accent); 
+      margin-top: 2px; 
+    }
+    .billing-option.active .save { color: var(--bg); opacity: .8; }
+
+    .form-section { margin-bottom: 20px; }
+    .form-section-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+    .form-row { display: flex; gap: 12px; margin-bottom: 12px; }
+    .form-group { flex: 1; }
+    .form-group label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .05em; }
+    .form-input { 
+      width: 100%; 
+      background: var(--bg); 
+      border: 1px solid var(--border); 
+      border-radius: 6px; 
+      padding: 10px 12px; 
+      color: var(--text); 
+      font-family: var(--font-body); 
+      font-size: 14px;
+      transition: border-color .15s;
+    }
+    .form-input:focus { outline: none; border-color: var(--accent); }
+    .form-input::placeholder { color: var(--dim); }
+
+    .card-input-wrapper { 
+      background: var(--bg); 
+      border: 1px solid var(--border); 
+      border-radius: 6px; 
+      padding: 12px;
+    }
+    .card-input-wrapper.focused { border-color: var(--accent); }
+    
+    .checkout-btn { 
+      width: 100%; 
+      padding: 14px; 
+      background: var(--accent); 
+      border: none; 
+      border-radius: 8px; 
+      color: var(--bg); 
+      font-family: var(--font-display); 
+      font-size: 16px; 
+      font-weight: 700; 
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .checkout-btn:hover { opacity: .88; }
+    .checkout-btn:disabled { opacity: .5; cursor: not-allowed; }
+    
+    .checkout-secure { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 6px; 
+      margin-top: 12px; 
+      color: var(--muted); 
+      font-size: 11px; 
+    }
+
+    /* ── Success / Confirmation ───────────────────────────────────────── */
+    .success-container { text-align: center; padding: 40px 20px; }
+    .success-icon { 
+      width: 80px; 
+      height: 80px; 
+      background: var(--accent-dim); 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 36px; 
+      margin: 0 auto 20px;
+      animation: popIn .4s ease;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .success-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .success-desc { color: var(--muted); font-size: 14px; margin-bottom: 24px; max-width: 360px; margin-left: auto; margin-right: auto; }
+    .success-details { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius); 
+      padding: 16px; 
+      text-align: left;
+      max-width: 360px;
+      margin: 0 auto 20px;
+    }
+    .success-detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+    .success-detail-row:last-child { margin-bottom: 0; }
+    .success-detail-row .label { color: var(--muted); }
+    .success-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Progress Steps ───────────────────────────────────────────────── */
+    .progress-steps { 
+      display: flex; 
+      justify-content: center; 
+      margin-bottom: 24px; 
+      gap: 8px;
+    }
+    .progress-step { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      font-size: 12px; 
+      color: var(--dim);
+    }
+    .progress-step.active { color: var(--accent); }
+    .progress-step.completed { color: var(--muted); }
+    .progress-step .num { 
+      width: 20px; 
+      height: 20px; 
+      border: 1px solid currentColor; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 10px; 
+      font-weight: 600;
+    }
+    .progress-step.active .num { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+    .progress-step.completed .num { background: var(--muted); border-color: var(--muted); color: var(--bg); }
+    .progress-connector { width: 30px; height: 1px; background: var(--border); }
+
+    /* ── Alert boxes ──────────────────────────────────────────────────── */
+    .alert { border-radius: var(--radius); margin-bottom: 16px; padding: 12px 16px; font-size: 13px; }
+    .alert-error { background: rgba(255,80,80,.08); border: 1px solid rgba(255,80,80,.2); color: var(--error); }
+    .alert-success { background: rgba(110,224,90,.08); border: 1px solid rgba(110,224,90,.2); color: var(--accent); }
+    .alert-info { background: rgba(100,160,255,.08); border: 1px solid rgba(100,160,255,.2); color: var(--blue); }
+
+    /* ── Empty state ──────────────────────────────────────────────────── */
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: .5; }
+    .empty-state p { font-size: 14px; }
+
+    /* ── Scrollbar ────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="center">
+    <div class="spinner"></div>
+    <p style="color:var(--muted);font-size:13px">Loading 0nMCP Store...</p>
+  </div>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script type="module">
+  // ─── MCP Apps Standard PostMessage Bridge ─────────────────────────────────
+  let rpcId = 0
+  const pending = new Map()
+
+  const notify = (method, params) =>
+    window.parent.postMessage({ jsonrpc: '2.0', method, params }, '*')
+
+  const request = (method, params) =>
+    new Promise((resolve, reject) => {
+      const id = ++rpcId
+      pending.set(id, { resolve, reject })
+      window.parent.postMessage({ jsonrpc: '2.0', id, method, params }, '*')
+    })
+
+  window.addEventListener('message', (e) => {
+    if (e.source !== window.parent) return
+    const msg = e.data
+    if (!msg || msg.jsonrpc !== '2.0') return
+
+    if (typeof msg.id === 'number') {
+      const p = pending.get(msg.id)
+      if (!p) return
+      pending.delete(msg.id)
+      msg.error ? p.reject(msg.error) : p.resolve(msg.result)
+      return
+    }
+
+    // Handle notifications from model
+    if (msg.method === 'ui/notifications/tool-result') {
+      handleToolResult(msg.params)
+    }
+  }, { passive: true })
+
+  // Initialize bridge
+  const bridgeReady = (async () => {
+    try {
+      await request('ui/initialize', {
+        appInfo:         { name: '0nMCP Store', version: '1.0.0' },
+        appCapabilities: {},
+        protocolVersion: '2026-01-26',
+      })
+      notify('ui/notifications/initialized', {})
+    } catch (err) {
+      console.error('[0nMCP Store] Bridge init failed:', err)
+    }
+  })()
+
+  const callTool = async (name, args) => {
+    await bridgeReady
+    return request('tools/call', { name, arguments: args })
+  }
+
+  // ─── Stripe Setup ─────────────────────────────────────────────────────────
+  const stripePublicKey = 'pk_live_XXXXXXXX' // Replace with actual key
+  let stripe, elements, cardElement
+
+  const initStripe = () => {
+    if (stripe) return
+    stripe = Stripe(stripePublicKey)
+    elements = stripe.elements({
+      fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap' }]
+    })
+  }
+
+  // ─── State ─────────────────────────────────────────────────────────────────
+  let state = {
+    view: 'loading',     // loading | store | checkout | success | subscriptions
+    activeTab: 'store',  // store | subscriptions
+    packages: [],
+    products: [],
+    subscriptions: [],
+    cart: null,          // { type: 'package'|'product', item: {...}, billing: 'monthly'|'annual' }
+    checkout: {
+      step: 1,           // 1: business info, 2: payment
+      billing: 'monthly',
+      businessInfo: {},
+      processing: false,
+      error: null
+    },
+    success: null,
+    error: null
+  }
+
+  // ─── Products Data (loaded from MCP or hardcoded fallback) ─────────────────
+  const defaultPackages = [
+    {
+      id: 'local-starter',
+      name: 'Local Business Starter',
+      tagline: 'Everything you need to get found online',
+      priceMonthly: 149,
+      priceAnnual: 1490,
+      features: [
+        'APEX Canvas Website (5 pages)',
+        'Yext Essential (40+ directories)',
+        'WordPress Hosting',
+        '500 SMS/month',
+        '1,000 Emails/month',
+        'Basic CRM (1 pipeline)',
+        'Booking Calendar'
+      ],
+      featured: false,
+      icon: '🏪'
+    },
+    {
+      id: 'growth-engine',
+      name: 'Growth Engine',
+      tagline: 'Scale your marketing with AI',
+      priceMonthly: 297,
+      priceAnnual: 2970,
+      features: [
+        'Everything in Starter',
+        'APEX Canvas Pro (unlimited)',
+        'Yext Standard (60+ directories)',
+        'WhatsApp Integration',
+        'AI Employee',
+        '2,000 SMS/month',
+        '10,000 Emails/month',
+        'Advanced CRM (3 pipelines)'
+      ],
+      featured: true,
+      icon: '🚀'
+    },
+    {
+      id: 'agency-suite',
+      name: 'Agency Suite',
+      tagline: 'White-label everything for your clients',
+      priceMonthly: 997,
+      priceAnnual: 9970,
+      features: [
+        'Everything in Growth',
+        'APEX Canvas Agency (white-label)',
+        'Yext Premium (80+ directories)',
+        'Unlimited Sub-accounts',
+        'White-label Mobile App',
+        'Premium Workflows (5K/mo)',
+        'API Access',
+        '10 Team Seats'
+      ],
+      featured: false,
+      icon: '🏢'
+    }
+  ]
+
+  const defaultProducts = [
+    { id: 'yext-essential', name: 'Yext Essential', desc: '40+ directory listings', price: 59, icon: '📍', category: 'listings' },
+    { id: 'yext-standard', name: 'Yext Standard', desc: '60+ directory listings', price: 79, icon: '📍', category: 'listings' },
+    { id: 'yext-premium', name: 'Yext Premium', desc: '80+ directory listings', price: 119, icon: '📍', category: 'listings' },
+    { id: 'wp-hosting', name: 'WordPress Hosting', desc: 'Managed WP hosting', price: 39, icon: '🌐', category: 'hosting' },
+    { id: 'whatsapp', name: 'WhatsApp Business', desc: 'Messaging integration', price: 29, icon: '💬', category: 'communication' },
+    { id: 'ai-employee', name: 'AI Employee', desc: 'Conversation AI', price: 147, icon: '🤖', category: 'ai' },
+    { id: 'sms-500', name: 'SMS Pack (500)', desc: '500 SMS messages', price: 15, icon: '📱', category: 'communication' },
+    { id: 'sms-2000', name: 'SMS Pack (2,000)', desc: '2,000 SMS messages', price: 50, icon: '📱', category: 'communication' },
+  ]
+
+  // ─── Render Functions ──────────────────────────────────────────────────────
+  const app = document.getElementById('app')
+
+  const render = () => {
+    const { view, activeTab, error } = state
+
+    if (view === 'loading') {
+      app.innerHTML = `
+        <div class="center">
+          <div class="spinner"></div>
+          <p style="color:var(--muted);font-size:13px">Loading 0nMCP Store...</p>
+        </div>`
+      return
+    }
+
+    app.innerHTML = `
+      <div class="header">
+        <div class="logo">
+          <span class="logo-icon">🛒</span>
+          <span>0nMCP Store</span>
+        </div>
+        <div class="nav-tabs">
+          <button class="nav-tab ${activeTab === 'store' ? 'active' : ''}" data-tab="store">Products</button>
+          <button class="nav-tab ${activeTab === 'subscriptions' ? 'active' : ''}" data-tab="subscriptions">My Subs</button>
+        </div>
+      </div>
+      <div class="body" id="body"></div>`
+
+    const body = document.getElementById('body')
+
+    // Tab switching
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        state.activeTab = tab.dataset.tab
+        if (tab.dataset.tab === 'subscriptions') loadSubscriptions()
+        render()
+      })
+    })
+
+    // Error display
+    if (error) {
+      body.innerHTML = `<div class="alert alert-error">${error}</div>` + body.innerHTML
+    }
+
+    // Render view
+    if (view === 'checkout') {
+      renderCheckout(body)
+    } else if (view === 'success') {
+      renderSuccess(body)
+    } else if (activeTab === 'subscriptions') {
+      renderSubscriptions(body)
+    } else {
+      renderStore(body)
+    }
+  }
+
+  const renderStore = (body) => {
+    const packages = state.packages.length ? state.packages : defaultPackages
+    const products = state.products.length ? state.products : defaultProducts
+
+    body.innerHTML = `
+      <div class="section-header">
+        <h2>Packages</h2>
+      </div>
+      <div class="packages-grid">
+        ${packages.map(pkg => `
+          <div class="package-card ${pkg.featured ? 'featured' : ''}" data-package="${pkg.id}">
+            <div class="package-name">${pkg.icon} ${pkg.name}</div>
+            <div class="package-tagline">${pkg.tagline}</div>
+            <div class="package-price">
+              <span class="amount">$${pkg.priceMonthly}</span>
+              <span class="period">/month</span>
+              ${pkg.priceAnnual ? `<span class="compare">$${Math.round(pkg.priceAnnual / 10)}/mo annual</span>` : ''}
+            </div>
+            <ul class="package-features">
+              ${pkg.features.slice(0, 6).map(f => `<li>${f}</li>`).join('')}
+              ${pkg.features.length > 6 ? `<li style="color:var(--muted)">+${pkg.features.length - 6} more</li>` : ''}
+            </ul>
+            <button class="package-btn ${pkg.featured ? 'primary' : 'secondary'}" data-action="buy" data-type="package" data-id="${pkg.id}">
+              Get ${pkg.name.split(' ')[0]}
+            </button>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="section-header" style="margin-top:32px">
+        <h2>À La Carte</h2>
+      </div>
+      
+      ${['listings', 'hosting', 'communication', 'ai'].map(cat => {
+        const catProducts = products.filter(p => p.category === cat)
+        if (!catProducts.length) return ''
+        return `
+          <p class="section-title">${cat.charAt(0).toUpperCase() + cat.slice(1)}</p>
+          <div class="products-grid" style="margin-bottom:20px">
+            ${catProducts.map(p => `
+              <div class="product-card" data-product="${p.id}">
+                <div class="product-icon">${p.icon}</div>
+                <div class="product-name">${p.name}</div>
+                <div class="product-desc">${p.desc}</div>
+                <div class="product-price">
+                  <span class="price">$${p.price}/mo</span>
+                  <button class="add-btn" data-action="buy" data-type="product" data-id="${p.id}">Add</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `
+      }).join('')}`
+
+    // Buy button handlers
+    body.querySelectorAll('[data-action="buy"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation()
+        const type = btn.dataset.type
+        const id = btn.dataset.id
+        const item = type === 'package' 
+          ? packages.find(p => p.id === id)
+          : products.find(p => p.id === id)
+        
+        state.cart = { type, item, billing: 'monthly' }
+        state.view = 'checkout'
+        state.checkout = { step: 1, billing: 'monthly', businessInfo: {}, processing: false, error: null }
+        render()
+      })
+    })
+  }
+
+  const renderCheckout = (body) => {
+    const { cart, checkout } = state
+    if (!cart) { state.view = 'store'; render(); return }
+
+    const { item, type } = cart
+    const price = checkout.billing === 'annual' 
+      ? (item.priceAnnual || item.price * 10) 
+      : (item.priceMonthly || item.price)
+    const period = checkout.billing === 'annual' ? '/year' : '/month'
+
+    body.innerHTML = `
+      <div class="checkout-container">
+        <div class="progress-steps">
+          <div class="progress-step ${checkout.step >= 1 ? 'active' : ''} ${checkout.step > 1 ? 'completed' : ''}">
+            <span class="num">${checkout.step > 1 ? '✓' : '1'}</span>
+            <span>Business Info</span>
+          </div>
+          <div class="progress-connector"></div>
+          <div class="progress-step ${checkout.step >= 2 ? 'active' : ''}">
+            <span class="num">2</span>
+            <span>Payment</span>
+          </div>
+        </div>
+
+        <div class="checkout-header">
+          <h2>${item.icon || '📦'} ${item.name}</h2>
+          <p>${item.tagline || item.desc || ''}</p>
+        </div>
+
+        ${checkout.error ? `<div class="alert alert-error">${checkout.error}</div>` : ''}
+
+        <div class="checkout-summary">
+          <div class="checkout-item">
+            <span class="name">${item.name}</span>
+            <span class="price">$${price}${period}</span>
+          </div>
+          ${checkout.billing === 'annual' ? `
+            <div class="checkout-item" style="color:var(--accent)">
+              <span class="name">Annual savings</span>
+              <span class="price">-$${(item.priceMonthly || item.price) * 12 - price}</span>
+            </div>
+          ` : ''}
+          <div class="checkout-total">
+            <span class="label">Total</span>
+            <span class="amount">$${price}${period}</span>
+          </div>
+        </div>
+
+        <div class="billing-toggle">
+          <div class="billing-option ${checkout.billing === 'monthly' ? 'active' : ''}" data-billing="monthly">
+            Monthly
+          </div>
+          <div class="billing-option ${checkout.billing === 'annual' ? 'active' : ''}" data-billing="annual">
+            Annual
+            <span class="save">Save ~17%</span>
+          </div>
+        </div>
+
+        ${checkout.step === 1 ? renderBusinessInfoForm() : renderPaymentForm()}
+      </div>`
+
+    // Billing toggle
+    body.querySelectorAll('.billing-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        state.checkout.billing = opt.dataset.billing
+        render()
+      })
+    })
+
+    // Form handlers
+    if (checkout.step === 1) {
+      setupBusinessInfoForm(body)
+    } else {
+      setupPaymentForm(body)
+    }
+  }
+
+  const renderBusinessInfoForm = () => {
+    const { businessInfo } = state.checkout
+    return `
+      <div class="form-section">
+        <div class="form-section-title">Business Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Business Name</label>
+            <input type="text" class="form-input" name="businessName" value="${businessInfo.businessName || ''}" placeholder="Acme Roofing" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" class="form-input" name="address" value="${businessInfo.address || ''}" placeholder="123 Main St">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" class="form-input" name="city" value="${businessInfo.city || ''}" placeholder="Pittsburgh">
+          </div>
+          <div class="form-group" style="flex:0.4">
+            <label>State</label>
+            <input type="text" class="form-input" name="state" value="${businessInfo.state || ''}" placeholder="PA" maxlength="2">
+          </div>
+          <div class="form-group" style="flex:0.5">
+            <label>ZIP</label>
+            <input type="text" class="form-input" name="zip" value="${businessInfo.zip || ''}" placeholder="15213">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" class="form-input" name="phone" value="${businessInfo.phone || ''}" placeholder="(412) 555-1234">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-input" name="email" value="${businessInfo.email || ''}" placeholder="you@email.com" required>
+          </div>
+        </div>
+      </div>
+      <button class="checkout-btn" id="continue-btn">Continue to Payment →</button>
+    `
+  }
+
+  const renderPaymentForm = () => {
+    return `
+      <div class="form-section">
+        <div class="form-section-title">Payment Details</div>
+        <div class="form-group">
+          <label>Card Information</label>
+          <div class="card-input-wrapper" id="card-element"></div>
+        </div>
+      </div>
+      <button class="checkout-btn" id="pay-btn" ${state.checkout.processing ? 'disabled' : ''}>
+        ${state.checkout.processing ? 'Processing...' : 'Complete Purchase'}
+      </button>
+      <div class="checkout-secure">
+        🔒 Secured by Stripe
+      </div>
+      <button class="nav-tab" style="margin-top:16px;width:100%;justify-content:center" id="back-btn">← Back to business info</button>
+    `
+  }
+
+  const setupBusinessInfoForm = (body) => {
+    const continueBtn = body.querySelector('#continue-btn')
+    continueBtn.addEventListener('click', () => {
+      // Collect form data
+      const inputs = body.querySelectorAll('.form-input')
+      const businessInfo = {}
+      inputs.forEach(input => {
+        businessInfo[input.name] = input.value
+      })
+
+      // Validate required fields
+      if (!businessInfo.businessName || !businessInfo.email) {
+        state.checkout.error = 'Please fill in business name and email'
+        render()
+        return
+      }
+
+      state.checkout.businessInfo = businessInfo
+      state.checkout.step = 2
+      state.checkout.error = null
+      render()
+
+      // Initialize Stripe card element after render
+      setTimeout(initCardElement, 100)
+    })
+  }
+
+  const initCardElement = () => {
+    initStripe()
+    const container = document.getElementById('card-element')
+    if (!container) return
+
+    cardElement = elements.create('card', {
+      style: {
+        base: {
+          color: '#e2e8f0',
+          fontFamily: 'Space Grotesk, system-ui, sans-serif',
+          fontSize: '14px',
+          '::placeholder': { color: '#3d4758' }
+        },
+        invalid: { color: '#ff6b6b' }
+      }
+    })
+    cardElement.mount(container)
+
+    cardElement.on('focus', () => container.classList.add('focused'))
+    cardElement.on('blur', () => container.classList.remove('focused'))
+  }
+
+  const setupPaymentForm = (body) => {
+    const payBtn = body.querySelector('#pay-btn')
+    const backBtn = body.querySelector('#back-btn')
+
+    backBtn?.addEventListener('click', () => {
+      state.checkout.step = 1
+      render()
+    })
+
+    payBtn?.addEventListener('click', async () => {
+      if (state.checkout.processing) return
+      state.checkout.processing = true
+      state.checkout.error = null
+      render()
+
+      try {
+        // Create payment method
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+          type: 'card',
+          card: cardElement,
+          billing_details: {
+            name: state.checkout.businessInfo.businessName,
+            email: state.checkout.businessInfo.email
+          }
+        })
+
+        if (error) throw new Error(error.message)
+
+        // Call MCP tool to process purchase
+        const result = await callTool('purchase_product', {
+          productId: state.cart.item.id,
+          productType: state.cart.type,
+          billing: state.checkout.billing,
+          paymentMethodId: paymentMethod.id,
+          businessInfo: state.checkout.businessInfo
+        })
+
+        if (result?.structuredContent?.error) {
+          throw new Error(result.structuredContent.error)
+        }
+
+        // Success!
+        state.success = {
+          product: state.cart.item,
+          billing: state.checkout.billing,
+          subscriptionId: result?.structuredContent?.subscriptionId,
+          status: result?.structuredContent?.status || 'active'
+        }
+        state.view = 'success'
+        state.cart = null
+
+      } catch (err) {
+        state.checkout.error = err.message || 'Payment failed. Please try again.'
+      }
+
+      state.checkout.processing = false
+      render()
+    })
+  }
+
+  const renderSuccess = (body) => {
+    const { success } = state
+    if (!success) { state.view = 'store'; render(); return }
+
+    const price = success.billing === 'annual'
+      ? (success.product.priceAnnual || success.product.price * 10)
+      : (success.product.priceMonthly || success.product.price)
+
+    body.innerHTML = `
+      <div class="success-container">
+        <div class="success-icon">✓</div>
+        <h2 class="success-title">You're all set!</h2>
+        <p class="success-desc">Your ${success.product.name} subscription is now active. We're setting everything up for you.</p>
+        
+        <div class="success-details">
+          <div class="success-detail-row">
+            <span class="label">Product</span>
+            <span>${success.product.name}</span>
+          </div>
+          <div class="success-detail-row">
+            <span class="label">Billing</span>
+            <span>${success.billing === 'annual' ? 'Annual' : 'Monthly'}</span>
+          </div>
+          <div class="success-detail-row">
+            <span class="label">Amount</span>
+            <span style="color:var(--accent)">$${price}/${success.billing === 'annual' ? 'year' : 'month'}</span>
+          </div>
+          <div class="success-detail-row">
+            <span class="label">Status</span>
+            <span style="color:var(--accent)">✓ ${success.status}</span>
+          </div>
+        </div>
+
+        <div class="alert alert-info">
+          ⏳ Provisioning in progress. You'll receive an email when everything is ready (usually within 5 minutes).
+        </div>
+
+        <div class="success-actions">
+          <button class="package-btn primary" onclick="state.view='store';state.activeTab='subscriptions';loadSubscriptions();render()">
+            View My Subscriptions
+          </button>
+          <button class="package-btn secondary" onclick="state.view='store';state.activeTab='store';render()">
+            Browse More Products
+          </button>
+        </div>
+      </div>`
+  }
+
+  const renderSubscriptions = (body) => {
+    const { subscriptions } = state
+
+    if (!subscriptions.length) {
+      body.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">📦</div>
+          <p>No active subscriptions yet</p>
+          <button class="package-btn primary" style="margin-top:16px;padding:10px 24px" onclick="state.activeTab='store';render()">
+            Browse Products
+          </button>
+        </div>`
+      return
+    }
+
+    body.innerHTML = `
+      <div class="section-header">
+        <h2>Active Subscriptions</h2>
+      </div>
+      <div class="subs-list">
+        ${subscriptions.map(sub => `
+          <div class="sub-card">
+            <div class="sub-icon">${sub.icon || '📦'}</div>
+            <div class="sub-info">
+              <div class="sub-name">${sub.name}</div>
+              <div class="sub-details">${sub.billing} • Renews ${sub.renewsAt || 'monthly'}</div>
+            </div>
+            <div class="sub-status">
+              <div class="sub-price">$${sub.price}/mo</div>
+              <span class="sub-badge ${sub.status}">${sub.status}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>`
+  }
+
+  // ─── Handle tool results from model ────────────────────────────────────────
+  const handleToolResult = (params) => {
+    const data = params?.structuredContent
+    if (!data) return
+
+    const view = params?._meta?.ui?.view ?? ''
+
+    // Store products loaded
+    if (data.packages) state.packages = data.packages
+    if (data.products) state.products = data.products
+
+    // Subscriptions loaded
+    if (data.subscriptions) {
+      state.subscriptions = data.subscriptions
+      state.activeTab = 'subscriptions'
+    }
+
+    // Purchase completed
+    if (view === 'success' || data.subscriptionId) {
+      state.success = {
+        product: state.cart?.item || data.product,
+        billing: state.checkout?.billing || data.billing,
+        subscriptionId: data.subscriptionId,
+        status: data.status || 'active'
+      }
+      state.view = 'success'
+      state.cart = null
+    }
+
+    // Errors
+    if (data.error) {
+      state.error = data.error
+    }
+
+    render()
+  }
+
+  // ─── Load subscriptions ────────────────────────────────────────────────────
+  const loadSubscriptions = async () => {
+    try {
+      const result = await callTool('manage_subscription', { action: 'view' })
+      if (result?.structuredContent?.subscriptions) {
+        state.subscriptions = result.structuredContent.subscriptions
+        render()
+      }
+    } catch (err) {
+      console.error('[0nMCP Store] Load subscriptions failed:', err)
+    }
+  }
+
+  // ─── Load store products ───────────────────────────────────────────────────
+  const loadStore = async () => {
+    try {
+      const result = await callTool('browse_store', {})
+      if (result?.structuredContent) {
+        if (result.structuredContent.packages) state.packages = result.structuredContent.packages
+        if (result.structuredContent.products) state.products = result.structuredContent.products
+        render()
+      }
+    } catch (err) {
+      console.error('[0nMCP Store] Load store failed:', err)
+      // Use defaults
+    }
+  }
+
+  // ─── Boot ──────────────────────────────────────────────────────────────────
+  const boot = async () => {
+    state.view = 'loading'
+    render()
+
+    await bridgeReady
+    await loadStore()
+
+    state.view = 'store'
+    render()
+  }
+
+  // Make functions available globally for inline handlers
+  window.state = state
+  window.render = render
+  window.loadSubscriptions = loadSubscriptions
+
+  boot()
+</script>
+</body>
+</html>

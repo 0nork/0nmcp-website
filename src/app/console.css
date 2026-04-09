@@ -36,6 +36,29 @@
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #487fff;
+
+  /* Legacy var bridge — maps old names to Wowdash tokens */
+  --bg-primary: #141414;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #1a1a1a;
+  --bg-card: #273142;
+  --bg-deep: #141414;
+  --bg-sidebar: #1a1a1a;
+  --bg-header: #273142;
+  --text-primary: #fafafa;
+  --text-secondary: #b4b4b4;
+  --text-muted: #b4b4b4;
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --accent-dim: #3a6fdd;
+  --accent-glow: rgba(72, 127, 255, 0.15);
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Inter', sans-serif;
+  --color-cyan: #00C4CC;
+  --color-purple: #8B5CF6;
+  --color-teal: #22D3A5;
+  --color-amber: #F5C518;
+  --color-red: #EF4444;
 }
 
 body {

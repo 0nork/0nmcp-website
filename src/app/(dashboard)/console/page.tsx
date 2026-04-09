@@ -681,7 +681,7 @@ export default function ConsolePage() {
               {/* CHAT MAIN — flex-1, takes remaining space */}
               <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
                 {/* Topbar — Quick Actions */}
-                <div className="flex items-center gap-1 p-3 border-b border-[#2A2A2A] shrink-0">
+                <div className="flex items-center gap-1 p-3 border-b border-white/10 shrink-0">
                   <PinnedCommands
                     onExecuteCommand={handlePinnedCommand}
                     onNavigate={handleSetView}
@@ -721,12 +721,12 @@ export default function ConsolePage() {
               </div>
 
               {/* CONTEXT PANEL — fixed w-72, never overlaps chat */}
-              <div className="w-72 shrink-0 border-l border-[#2A2A2A] bg-[#000000] hidden xl:flex flex-col overflow-hidden">
+              <div className="w-72 shrink-0 border-l border-white/10 bg-[#141414] hidden xl:flex flex-col overflow-hidden">
                 {/* New Chat Button */}
-                <div className="p-3 border-b border-[#2A2A2A]">
+                <div className="p-3 border-b border-white/10">
                   <button
                     onClick={handleNewChat}
-                    className="w-full py-2.5 px-4 rounded-lg bg-[#6EE05A] text-[#080B0F] text-sm font-bold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#7FF06A] transition-colors"
+                    className="w-full py-2.5 px-4 rounded-lg bg-[#487fff] text-[#141414] text-sm font-bold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#487fff]/80 transition-colors"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 5v14M5 12h14" />
@@ -737,8 +737,8 @@ export default function ConsolePage() {
 
                 {/* Suggested Next */}
                 {recommendations.length > 0 && (
-                  <div className="p-3 border-b border-[#2A2A2A]">
-                    <div className="text-[9px] font-bold uppercase tracking-wider text-[#6B6B6B] mb-2 font-mono">
+                  <div className="p-3 border-b border-white/10">
+                    <div className="text-[9px] font-bold uppercase tracking-wider text-[#b4b4b4] mb-2 font-mono">
                       Suggested Next
                     </div>
                     <SmartPrompts
@@ -751,16 +751,16 @@ export default function ConsolePage() {
 
                 {/* Conversations */}
                 <div className="flex-1 overflow-y-auto p-2">
-                  <div className="text-[9px] font-bold uppercase tracking-wider text-[#6B6B6B] px-3 py-1 mb-1 font-mono">
+                  <div className="text-[9px] font-bold uppercase tracking-wider text-[#b4b4b4] px-3 py-1 mb-1 font-mono">
                     Conversations
                   </div>
 
                   {messages.length > 0 && (
-                    <div className="px-3 py-2.5 rounded-lg mb-1 cursor-pointer bg-[#6EE05A]/8 border border-[#6EE05A]/15">
+                    <div className="px-3 py-2.5 rounded-lg mb-1 cursor-pointer bg-[#487fff]/8 border border-[#487fff]/15">
                       <div className="text-xs font-semibold text-[#FFFFFF] truncate">
                         {messages.find(m => m.role === 'user')?.text?.slice(0, 35) || 'Current Chat'}
                       </div>
-                      <div className="text-[9px] text-[#6EE05A] mt-1 font-mono">
+                      <div className="text-[9px] text-[#487fff] mt-1 font-mono">
                         {messages.length} messages
                       </div>
                     </div>
@@ -774,10 +774,10 @@ export default function ConsolePage() {
                           key={s.id}
                           className="px-3 py-2.5 rounded-lg mb-1 cursor-pointer hover:bg-white/3 transition-colors"
                         >
-                          <div className="text-xs font-medium text-[#6B6B6B] truncate">
+                          <div className="text-xs font-medium text-[#b4b4b4] truncate">
                             {s.title}
                           </div>
-                          <div className="text-[10px] text-[#6B6B6B] mt-1 font-mono">
+                          <div className="text-[10px] text-[#b4b4b4] mt-1 font-mono">
                             {s.count} msgs · {s.time}
                           </div>
                         </div>
@@ -787,12 +787,12 @@ export default function ConsolePage() {
 
                   {messages.length === 0 && (
                     <div className="py-5 px-3 text-center">
-                      <div className="w-10 h-10 rounded-xl mx-auto mb-2.5 bg-gradient-to-br from-[#6EE05A]/10 to-cyan-500/5 flex items-center justify-center">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="text-[#6B6B6B]">
+                      <div className="w-10 h-10 rounded-xl mx-auto mb-2.5 bg-gradient-to-br from-[#487fff]/10 to-cyan-500/5 flex items-center justify-center">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="text-[#b4b4b4]">
                           <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
                         </svg>
                       </div>
-                      <p className="text-[11px] text-[#6B6B6B] leading-relaxed">
+                      <p className="text-[11px] text-[#b4b4b4] leading-relaxed">
                         Your conversations will appear here
                       </p>
                     </div>
@@ -800,8 +800,8 @@ export default function ConsolePage() {
                 </div>
 
                 {/* JAXX ONLINE — pinned to bottom */}
-                <div className="mt-auto flex items-center gap-2 text-xs text-[#6B6B6B] p-4 border-t border-[#2A2A2A]">
-                  <span className={`w-2 h-2 rounded-full ${mcpOnline ? 'bg-[#6EE05A] animate-pulse shadow-sm shadow-[#6EE05A]/50' : 'bg-[#6B6B6B]'}`} />
+                <div className="mt-auto flex items-center gap-2 text-xs text-[#b4b4b4] p-4 border-t border-white/10">
+                  <span className={`w-2 h-2 rounded-full ${mcpOnline ? 'bg-[#487fff] animate-pulse shadow-sm shadow-[#487fff]/50' : 'bg-[#b4b4b4]'}`} />
                   <span className="font-mono text-[9px] uppercase tracking-wider">
                     {mcpOnline ? 'Jaxx Online' : 'Offline'}
                   </span>

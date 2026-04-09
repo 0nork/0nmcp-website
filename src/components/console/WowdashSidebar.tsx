@@ -166,6 +166,18 @@ const navigation: NavItem[] = [
     ],
   },
 
+  // ─ 0nExec ─
+  { label: "0nExec" },
+  {
+    title: "Pipeline",
+    icon: BarChart3,
+    items: [
+      { title: "Pipeline Board", url: "/console/exec/pipeline", circleColor: "bg-primary" },
+      { title: "Departments", url: "/console/exec/departments", circleColor: "bg-yellow-500" },
+      { title: "Flags & Alerts", url: "/console/exec/flags", circleColor: "bg-red-500" },
+    ],
+  },
+
   // ─ Analytics ─
   { label: "Analytics" },
   {

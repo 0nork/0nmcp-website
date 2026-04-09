@@ -1,14 +1,18 @@
 'use client'
 
-/**
- * /console/agent-workflows — AI Agent Workflows Viewer
- *
- * Shows all 22 workflows from crm_agent_workflows.
- * Spa workflows highlighted with burgundy badge.
- * Expandable steps view. Filter by location/status.
- */
-
 import { useState, useEffect } from 'react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import {
+  Zap, Search, EllipsisVertical, Eye, Play, ChevronDown, ChevronRight, AlertCircle
+} from 'lucide-react'
 
 interface WorkflowStep {
   step: number
@@ -33,34 +37,25 @@ interface Workflow {
   created_at: string
 }
 
-const SERVICE_COLORS: Record<string, string> = {
-  crm: 'var(--accent, #7ed957)',
-  supabase: '#3ECF8E',
-  stripe: '#635BFF',
-  slack: '#4A154B',
-  telegram: '#26A5E4',
-  anthropic: '#D4A574',
-  openai: '#10a37f',
-  gemini: '#4285F4',
-  grok: '#1DA1F2',
-  github: '#8b949e',
-  vercel: '#fff',
-  figma: '#F24E1E',
-  ga4: '#E37400',
-  devto: '#0A0A0A',
+const SERVICE_BADGE: Record<string, { bg: string; text: string }> = {
+  crm:       { bg: 'bg-[#6EE05A]/10', text: 'text-[#6EE05A]' },
+  supabase:  { bg: 'bg-[#3ECF8E]/10', text: 'text-[#3ECF8E]' },
+  stripe:    { bg: 'bg-[#635BFF]/10', text: 'text-[#635BFF]' },
+  slack:     { bg: 'bg-[#E0B3E6]/10', text: 'text-[#E0B3E6]' },
+  telegram:  { bg: 'bg-[#26A5E4]/10', text: 'text-[#26A5E4]' },
+  anthropic: { bg: 'bg-[#D4A574]/10', text: 'text-[#D4A574]' },
 }
 
-// Known locations for webhook registration
 const LOCATIONS = [
-  { id: 'F76MNKOMQCMruMrumtdf', name: 'Spa Ligonier', color: '#C8792D' },
-  { id: 'nphConTwfHcVE1oA0uep', name: '0ncore', color: '#7ed957' },
+  { id: 'F76MNKOMQCMruMrumtdf', name: 'Spa Ligonier' },
+  { id: 'nphConTwfHcVE1oA0uep', name: '0ncore' },
 ]
 
 export default function AgentWorkflowsPage() {
   const [workflows, setWorkflows] = useState<Workflow[]>([])
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState<string | null>(null)
-  const [filter, setFilter] = useState<'all' | 'spa' | 'platform'>('all')
+  const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [webhookStatus, setWebhookStatus] = useState<Record<string, string>>({})
 
@@ -81,14 +76,17 @@ export default function AgentWorkflowsPage() {
       })
       const data = await res.json()
       if (data.success) {
-        setWebhookStatus(prev => ({ ...prev, [locationId]: data.alreadyExisted ? 'already_registered' : 'registered' }))
+        setWebhookStatus(prev => ({ ...prev, [locationId]: data.alreadyExisted ? 'already' : 'connected' }))
       } else {
-        setWebhookStatus(prev => ({ ...prev, [locationId]: `error: ${data.error}` }))
+        setWebhookStatus(prev => ({ ...prev, [locationId]: `error:${data.error}` }))
       }
     } catch (err) {
-      setWebhookStatus(prev => ({ ...prev, [locationId]: `error: ${(err as Error).message}` }))
+      setWebhookStatus(prev => ({ ...prev, [locationId]: `error:${(err as Error).message}` }))
     }
   }
+
+  const spaCount = workflows.filter(w => w.slug.startsWith('0nspa')).length
+  const platformCount = workflows.length - spaCount
 
   const filtered = workflows.filter(w => {
     if (filter === 'spa' && !w.slug.startsWith('0nspa')) return false
@@ -97,107 +95,60 @@ export default function AgentWorkflowsPage() {
     return true
   })
 
-  const spaCount = workflows.filter(w => w.slug.startsWith('0nspa')).length
-  const platformCount = workflows.length - spaCount
-
   if (loading) {
     return (
-      <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 200 }}>
-        <div style={{ width: 32, height: 32, border: '2px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <div className="flex items-center justify-center min-h-[300px]">
+        <div className="w-8 h-8 border-2 border-border border-t-primary rounded-full animate-spin" />
       </div>
     )
   }
 
   return (
-    <div style={{ padding: '2rem', maxWidth: 1100, margin: '0 auto' }}>
+    <div className="p-6 max-w-6xl mx-auto space-y-5">
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <h1 style={{ fontSize: '1.375rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 4px' }}>
-            AI Agent Workflows
-          </h1>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', margin: 0 }}>
-            {workflows.length} workflows — {workflows.filter(w => w.status === 'active').length} active — {spaCount} Spa Ligonier
-          </p>
-        </div>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <input
-            type="text" placeholder="Search..." value={search}
-            onChange={e => setSearch(e.target.value)}
-            style={{
-              padding: '8px 12px', borderRadius: 8, border: '1px solid var(--border)',
-              background: 'var(--bg-primary)', color: 'var(--text-primary)',
-              fontSize: '0.8125rem', width: 180, outline: 'none',
-            }}
-          />
-          <div style={{ display: 'flex', gap: 3, padding: 3, borderRadius: 10, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-            {([['all', `All (${workflows.length})`], ['spa', `Spa (${spaCount})`], ['platform', `Platform (${platformCount})`]] as const).map(([key, label]) => (
-              <button key={key} onClick={() => setFilter(key as 'all' | 'spa' | 'platform')} style={{
-                padding: '6px 14px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                fontSize: '0.6875rem', fontWeight: 600, fontFamily: 'inherit',
-                background: filter === key ? (key === 'spa' ? 'rgba(87,3,1,0.15)' : 'var(--accent-glow)') : 'transparent',
-                color: filter === key ? (key === 'spa' ? '#C8792D' : 'var(--accent)') : 'var(--text-muted)',
-              }}>
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
+      <div>
+        <h1 className="text-xl font-bold text-foreground mb-1">AI Agent Workflows</h1>
+        <p className="text-sm text-muted-foreground">
+          {workflows.length} workflows — {workflows.filter(w => w.status === 'active').length} active — {spaCount} Spa Ligonier
+        </p>
       </div>
 
-      {/* Webhook Registration Banner — Amber Alert */}
-      <div className="relative rounded-lg border border-amber-500/30 border-l-4 border-l-amber-500 bg-amber-500/10 p-4 mb-4">
-        {/* Pulsing amber dot */}
-        <span className="absolute top-4 left-[-2px] w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-
+      {/* Webhook Banner */}
+      <div className="rounded-lg border border-amber-500/30 border-l-4 border-l-amber-500 bg-amber-500/10 p-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-          {/* Icon + Text */}
           <div className="flex items-start gap-3 flex-1 min-w-0">
-            <svg className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
+            <Zap className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-sm font-bold text-amber-300">CRM Webhooks Not Connected</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400">Action Required</span>
+                <Badge className="bg-amber-500/20 text-amber-400 border-0 text-[10px]">ACTION REQUIRED</Badge>
               </div>
-              <p className="text-xs text-neutral-400 leading-relaxed m-0">
-                Your 9 workflows are built and ready. They won&apos;t fire until each CRM location is registered. One click per location.
+              <p className="text-xs text-foreground/70 m-0">
+                Your 9 workflows are built and ready. They won&apos;t fire until each CRM location is registered.
               </p>
             </div>
           </div>
-
-          {/* Action Buttons */}
           <div className="flex items-center gap-2 shrink-0">
             {LOCATIONS.map(loc => {
               const status = webhookStatus[loc.id]
-              const isConnected = status === 'registered' || status === 'already_registered'
+              const isOk = status === 'connected' || status === 'already'
               const isLoading = status === 'registering'
-              const isError = status?.startsWith('error')
+              const isErr = status?.startsWith('error')
               const isPrimary = loc.name === 'Spa Ligonier'
-
               return (
-                <button
+                <Button
                   key={loc.id}
                   onClick={() => registerWebhook(loc.id)}
                   disabled={isLoading}
-                  className={`
-                    px-4 py-2 rounded-lg text-xs font-bold transition-all duration-150
-                    disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
-                    ${isConnected
-                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                      : isPrimary
-                        ? 'bg-[#6EE05A] text-[#080B0F] hover:bg-[#7FF06A] shadow-sm shadow-[#6EE05A]/20'
-                        : 'bg-transparent text-neutral-300 border border-neutral-600 hover:border-neutral-400 hover:text-white'
-                    }
-                  `}
+                  size="sm"
+                  className={
+                    isOk ? 'bg-primary/15 text-primary border border-primary/30'
+                    : isPrimary ? 'bg-primary text-primary-foreground hover:opacity-90'
+                    : 'bg-transparent text-foreground border border-border hover:border-foreground'
+                  }
                 >
-                  {isLoading ? 'Connecting...'
-                    : isConnected ? '✓ Connected'
-                    : isError ? 'Retry'
-                    : `Connect ${loc.name}`}
-                </button>
+                  {isLoading ? 'Connecting...' : isOk ? '✓ Connected' : isErr ? 'Retry' : `Connect ${loc.name}`}
+                </Button>
               )
             })}
           </div>
@@ -206,148 +157,159 @@ export default function AgentWorkflowsPage() {
 
       {/* Error display */}
       {Object.entries(webhookStatus).filter(([, s]) => s.startsWith('error')).map(([id, s]) => (
-        <div key={id} style={{ padding: '8px 12px', borderRadius: 8, marginBottom: 8, background: 'rgba(185,28,28,0.1)', border: '1px solid rgba(185,28,28,0.2)', color: '#ef4444', fontSize: '0.75rem' }}>
-          {LOCATIONS.find(l => l.id === id)?.name}: {s}
+        <div key={id} className="rounded-lg border border-destructive/30 border-l-4 border-l-destructive bg-destructive/10 p-3 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-destructive shrink-0" />
+          <span className="text-xs text-foreground">{LOCATIONS.find(l => l.id === id)?.name}: {s.replace('error:', '')}</span>
         </div>
       ))}
 
-      {/* Workflow List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {filtered.map(w => {
-          const isSpa = w.slug.startsWith('0nspa')
-          const isExpanded = expanded === w.id
-
-          return (
-            <div
-              key={w.id}
-              style={{
-                borderRadius: 12, overflow: 'hidden',
-                background: isExpanded ? 'var(--bg-card)' : 'var(--bg-card)',
-                border: `1px solid ${isExpanded ? (isSpa ? 'rgba(200,121,45,0.3)' : 'var(--accent-dim)') : 'var(--border)'}`,
-                transition: 'border-color 0.15s',
-              }}
-            >
-              {/* Header Row */}
-              <button
-                onClick={() => setExpanded(isExpanded ? null : w.id)}
-                style={{
-                  width: '100%', padding: '14px 16px', border: 'none', cursor: 'pointer',
-                  background: 'transparent', textAlign: 'left', fontFamily: 'inherit',
-                  display: 'flex', flexDirection: 'column', gap: 6,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                  {/* Status dot */}
-                  <span style={{
-                    width: 7, height: 7, borderRadius: '50%', flexShrink: 0,
-                    background: w.status === 'active' ? 'var(--accent)' : 'var(--color-amber)',
-                    boxShadow: w.status === 'active' ? '0 0 6px var(--accent-glow)' : 'none',
-                  }} />
-                  {/* Name */}
-                  <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                    {w.name}
-                  </span>
-                  {/* Spa badge */}
-                  {isSpa && (
-                    <span style={{
-                      fontSize: '0.5rem', fontWeight: 800, padding: '2px 6px', borderRadius: 4,
-                      background: 'rgba(87,3,1,0.15)', color: '#C8792D',
-                      textTransform: 'uppercase', letterSpacing: '0.06em',
-                    }}>SPA LIGONIER</span>
-                  )}
-                  {/* Trigger */}
-                  <span style={{
-                    fontSize: '0.5625rem', fontWeight: 600, padding: '2px 8px', borderRadius: 4, marginLeft: 'auto',
-                    background: 'var(--bg-secondary)', color: 'var(--text-muted)',
-                    fontFamily: 'var(--font-mono, monospace)', flexShrink: 0,
-                  }}>
-                    {w.trigger_event}
-                  </span>
-                  {/* Expand arrow */}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth={2} strokeLinecap="round"
-                    style={{ transform: isExpanded ? 'rotate(90deg)' : 'rotate(0)', transition: 'transform 0.2s', flexShrink: 0 }}>
-                    <path d="M9 18l6-6-6-6" />
-                  </svg>
-                </div>
-                {/* Description */}
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4 }}>
-                  {w.description?.slice(0, 150)}{w.description && w.description.length > 150 ? '...' : ''}
-                </p>
-                {/* Service badges */}
-                <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                  {w.services?.map(s => (
-                    <span key={s} style={{
-                      fontSize: '0.5rem', fontWeight: 700, padding: '2px 6px', borderRadius: 4,
-                      background: `color-mix(in srgb, ${SERVICE_COLORS[s] || 'var(--text-muted)'} 12%, transparent)`,
-                      color: SERVICE_COLORS[s] || 'var(--text-muted)',
-                      fontFamily: 'var(--font-mono)',
-                      textTransform: 'uppercase',
-                    }}>{s}</span>
-                  ))}
-                </div>
-                {/* Stats */}
-                {(w.total_executions > 0 || w.last_executed_at) && (
-                  <div style={{ display: 'flex', gap: 12, fontSize: '0.5625rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                    <span>{w.total_executions} executions</span>
-                    {w.last_executed_at && <span>last: {new Date(w.last_executed_at).toLocaleDateString()}</span>}
-                  </div>
-                )}
-              </button>
-
-              {/* Expanded Steps */}
-              {isExpanded && w.steps && (
-                <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', padding: '12px 0 8px', fontFamily: 'var(--font-mono)' }}>
-                    {w.steps.length} Steps
-                  </div>
-                  {w.steps.map((step, i) => (
-                    <div key={i} style={{
-                      display: 'flex', gap: 10, padding: '8px 0',
-                      borderBottom: i < w.steps.length - 1 ? '1px solid var(--border)' : 'none',
-                      fontSize: '0.75rem',
-                    }}>
-                      <span style={{
-                        width: 22, height: 22, borderRadius: 6, flexShrink: 0,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        background: isSpa ? 'rgba(200,121,45,0.1)' : 'var(--accent-glow)',
-                        color: isSpa ? '#C8792D' : 'var(--accent)',
-                        fontSize: '0.5625rem', fontWeight: 800, fontFamily: 'var(--font-mono)',
-                      }}>
-                        {step.step}
-                      </span>
-                      <span style={{
-                        minWidth: 65, color: SERVICE_COLORS[step.service] || 'var(--color-cyan)',
-                        fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '0.6875rem', flexShrink: 0,
-                      }}>
-                        {step.service}
-                      </span>
-                      <span style={{ color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                        {step.description}
-                      </span>
-                    </div>
-                  ))}
-
-                  {/* Trigger conditions */}
-                  {w.trigger_conditions && Object.keys(w.trigger_conditions).length > 0 && (
-                    <div style={{ marginTop: 12, padding: '10px 12px', borderRadius: 8, background: 'var(--bg-secondary)', fontSize: '0.6875rem' }}>
-                      <span style={{ fontWeight: 700, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>Conditions: </span>
-                      <span style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
-                        {JSON.stringify(w.trigger_conditions)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
+      {/* Workflows Card with Tabs */}
+      <Card className="bg-card border-border !p-0 overflow-hidden">
+        <CardContent className="p-0">
+          {/* Tab Header */}
+          <div className="flex items-center justify-between border-b border-border px-4">
+            <Tabs value={filter} onValueChange={setFilter}>
+              <TabsList className="bg-transparent h-[50px] p-0 gap-0">
+                <TabsTrigger value="all" className="px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:text-primary border-b-2 border-transparent data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none bg-transparent cursor-pointer">
+                  All ({workflows.length})
+                </TabsTrigger>
+                <TabsTrigger value="spa" className="px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:text-amber-400 border-b-2 border-transparent data-[state=active]:border-amber-400 rounded-none data-[state=active]:shadow-none bg-transparent cursor-pointer">
+                  Spa ({spaCount})
+                </TabsTrigger>
+                <TabsTrigger value="platform" className="px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:text-primary border-b-2 border-transparent data-[state=active]:border-primary rounded-none data-[state=active]:shadow-none bg-transparent cursor-pointer">
+                  Platform ({platformCount})
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+              <Input
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search..."
+                className="pl-8 h-8 w-44 bg-secondary border-border text-foreground text-xs"
+              />
             </div>
-          )
-        })}
-      </div>
+          </div>
 
-      {filtered.length === 0 && (
-        <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-          No workflows match your filter
-        </div>
-      )}
+          {/* Table */}
+          <div className="p-4">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-0 hover:bg-transparent">
+                  <TableHead className="px-3 h-10 bg-secondary rounded-tl-lg text-xs font-bold text-muted-foreground uppercase tracking-wider">Workflow</TableHead>
+                  <TableHead className="px-3 h-10 bg-secondary text-xs font-bold text-muted-foreground uppercase tracking-wider">Trigger</TableHead>
+                  <TableHead className="px-3 h-10 bg-secondary text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Services</TableHead>
+                  <TableHead className="px-3 h-10 bg-secondary text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Steps</TableHead>
+                  <TableHead className="px-3 h-10 bg-secondary text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Runs</TableHead>
+                  <TableHead className="px-3 h-10 bg-secondary text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Status</TableHead>
+                  <TableHead className="px-3 h-10 bg-secondary rounded-tr-lg text-xs font-bold text-muted-foreground uppercase tracking-wider text-center w-12"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filtered.map(w => {
+                  const isSpa = w.slug.startsWith('0nspa')
+                  const isOpen = expanded === w.id
+
+                  return (
+                    <>
+                      <TableRow
+                        key={w.id}
+                        className="border-b border-border hover:bg-secondary/30 cursor-pointer"
+                        onClick={() => setExpanded(isOpen ? null : w.id)}
+                      >
+                        {/* Name */}
+                        <TableCell className="py-3 px-3">
+                          <div className="flex items-center gap-2">
+                            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${w.status === 'active' ? 'bg-primary' : 'bg-muted-foreground'}`} />
+                            <div>
+                              <span className="text-sm font-semibold text-foreground block">{w.name}</span>
+                              {isSpa && <Badge className="bg-amber-500/15 text-amber-400 border-0 text-[9px] mt-0.5">SPA LIGONIER</Badge>}
+                            </div>
+                          </div>
+                        </TableCell>
+
+                        {/* Trigger */}
+                        <TableCell className="py-3 px-3">
+                          <span className="text-xs font-mono text-muted-foreground bg-secondary px-2 py-1 rounded">{w.trigger_event}</span>
+                        </TableCell>
+
+                        {/* Services */}
+                        <TableCell className="py-3 px-3 text-center">
+                          <div className="flex gap-1 justify-center flex-wrap">
+                            {w.services?.slice(0, 3).map(s => {
+                              const style = SERVICE_BADGE[s] || { bg: 'bg-secondary', text: 'text-muted-foreground' }
+                              return (
+                                <Badge key={s} className={`${style.bg} ${style.text} border-0 text-[9px] font-bold font-mono uppercase`}>
+                                  {s}
+                                </Badge>
+                              )
+                            })}
+                            {(w.services?.length || 0) > 3 && (
+                              <Badge className="bg-secondary text-muted-foreground border-0 text-[9px]">+{w.services.length - 3}</Badge>
+                            )}
+                          </div>
+                        </TableCell>
+
+                        {/* Steps */}
+                        <TableCell className="py-3 px-3 text-center text-sm text-foreground font-mono">
+                          {w.steps?.length || 0}
+                        </TableCell>
+
+                        {/* Runs */}
+                        <TableCell className="py-3 px-3 text-center text-sm text-foreground font-mono">
+                          {w.total_executions}
+                        </TableCell>
+
+                        {/* Status */}
+                        <TableCell className="py-3 px-3 text-center">
+                          <Badge className={`rounded-full ${w.status === 'active' ? 'bg-primary/15 text-primary' : 'bg-amber-500/15 text-amber-400'} border-0`}>
+                            {w.status}
+                          </Badge>
+                        </TableCell>
+
+                        {/* Expand */}
+                        <TableCell className="py-3 px-3 text-center">
+                          {isOpen ? <ChevronDown className="w-4 h-4 text-muted-foreground" /> : <ChevronRight className="w-4 h-4 text-muted-foreground" />}
+                        </TableCell>
+                      </TableRow>
+
+                      {/* Expanded Steps */}
+                      {isOpen && w.steps && (
+                        <TableRow key={`${w.id}-steps`} className="border-b border-border">
+                          <TableCell colSpan={7} className="p-0">
+                            <div className="bg-secondary/30 px-6 py-4">
+                              <p className="text-xs text-muted-foreground mb-3">{w.description}</p>
+                              <div className="space-y-2">
+                                {w.steps.map((step, i) => {
+                                  const svcStyle = SERVICE_BADGE[step.service] || { bg: '', text: 'text-muted-foreground' }
+                                  return (
+                                    <div key={i} className="flex items-center gap-3 text-sm">
+                                      <span className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold font-mono ${isSpa ? 'bg-amber-500/10 text-amber-400' : 'bg-primary/10 text-primary'}`}>
+                                        {step.step}
+                                      </span>
+                                      <span className={`text-xs font-mono font-semibold min-w-[70px] ${svcStyle.text}`}>{step.service}</span>
+                                      <span className="text-foreground">{step.description}</span>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </>
+                  )
+                })}
+              </TableBody>
+            </Table>
+
+            {filtered.length === 0 && (
+              <p className="text-center py-8 text-muted-foreground text-sm">No workflows match your filter</p>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

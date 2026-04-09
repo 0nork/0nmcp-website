@@ -251,8 +251,8 @@ function NavMain({ items }: { items: NavItem[] }) {
                         tooltip={item.title}
                         onClick={() => handleToggleGroup(item.title)}
                         className={cn(
-                          "flex items-center py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-primary/10 hover:text-white",
-                          isOpen ? "bg-primary text-white" : ""
+                          "flex items-center py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-[#1A1A1A] hover:text-[#FFFFFF]",
+                          isOpen ? "bg-[#1A1A1A] text-[#FFFFFF] border-l-2 border-l-[#6EE05A]" : ""
                         )}
                       >
                         {item.icon && <item.icon className="!w-4.5 !h-4.5" />}
@@ -283,8 +283,8 @@ function NavMain({ items }: { items: NavItem[] }) {
                               <SidebarMenuSubButton
                                 asChild
                                 className={cn(
-                                  "py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-primary/10 hover:text-white",
-                                  isSubActive ? "bg-primary/10 font-bold text-white" : ""
+                                  "py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-[#1A1A1A] hover:text-[#FFFFFF]",
+                                  isSubActive ? "bg-[#1A1A1A] font-bold text-[#FFFFFF]" : ""
                                 )}
                               >
                                 <Link
@@ -318,8 +318,8 @@ function NavMain({ items }: { items: NavItem[] }) {
                   asChild
                   tooltip={item.title}
                   className={cn(
-                    "flex items-center py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-primary/10 hover:text-white",
-                    isMenuActive ? "bg-primary text-white" : ""
+                    "flex items-center py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-[#1A1A1A] hover:text-[#FFFFFF]",
+                    isMenuActive ? "bg-[#1A1A1A] text-[#FFFFFF] border-l-2 border-l-[#6EE05A]" : ""
                   )}
                   onClick={() => setOpenGroup(null)}
                 >

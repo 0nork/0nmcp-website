@@ -51,6 +51,14 @@
     {
       "path": "/api/cron/spa-scoring",
       "schedule": "0 13 * * *"
+    },
+    {
+      "path": "/api/cron/score-all",
+      "schedule": "0 */2 * * *"
+    },
+    {
+      "path": "/api/cron/evaluate-interventions",
+      "schedule": "0 6 * * *"
     }
   ],
   "redirects": [

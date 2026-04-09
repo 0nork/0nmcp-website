@@ -22,14 +22,14 @@ interface ChatProps {
   onNavigateVault?: (service?: string) => void
 }
 
-const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
-  '0nmcp': { label: '0nMCP', color: 'text-[#6EE05A]' },
-  'agent-studio': { label: '0n Agent', color: 'text-[#6EE05A]' },
-  'claude-byok': { label: 'Claude', color: 'text-[#D4D4D4]' },
-  'claude': { label: 'Claude', color: 'text-[#D4D4D4]' },
-  'openai-byok': { label: 'GPT-4o', color: 'text-[#D4D4D4]' },
-  'gemini-byok': { label: 'Gemini', color: 'text-[#D4D4D4]' },
-  'local': { label: 'Local', color: 'text-[#6B6B6B]' },
+const SOURCE_LABELS: Record<string, string> = {
+  '0nmcp': '0nMCP',
+  'agent-studio': '0n Agent',
+  'claude-byok': 'Claude',
+  'claude': 'Claude',
+  'openai-byok': 'GPT-4o',
+  'gemini-byok': 'Gemini',
+  'local': 'Local',
 }
 
 function formatTime(ts?: string) {
@@ -63,35 +63,33 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
   // ── Empty State ──
   if (messages.length === 0 && !loading) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4 overflow-hidden min-h-0">
+      <div className="flex-1 flex items-center justify-center p-6 overflow-hidden min-h-0">
         <div className="text-center max-w-lg">
-          <div className="w-16 h-16 rounded-2xl mx-auto mb-4 bg-[#6EE05A] flex items-center justify-center">
-            <span className="text-lg font-black text-[#000000] font-mono">0n</span>
+          <div className="w-16 h-16 rounded-2xl mx-auto mb-5 bg-primary flex items-center justify-center">
+            <span className="text-lg font-black text-primary-foreground font-mono">0n</span>
           </div>
-          <h3 className="text-lg font-bold text-[#FFFFFF] mb-2">Ask Jaxx anything</h3>
-          <p className="text-sm text-[#D4D4D4] mb-6">
+          <h3 className="text-xl font-bold text-foreground mb-2">Ask Jaxx anything</h3>
+          <p className="text-sm text-muted-foreground mb-8">
             Execute tasks across {STATS_DISPLAY.services} services, manage workflows, or ask about your connected tools.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
             {capabilities.map(cap => (
               <button
                 key={cap.label}
-                className="flex flex-col items-center gap-2 p-4 rounded-lg border border-[#2A2A2A] bg-[#111111] hover:border-[#6EE05A] hover:bg-[#1A1A1A] transition-all cursor-pointer group"
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent('chat-prefill', { detail: cap.prompt }))
-                }}
+                className="flex flex-col items-center gap-2.5 p-5 rounded-lg border border-border bg-card hover:border-primary transition-colors cursor-pointer group"
+                onClick={() => window.dispatchEvent(new CustomEvent('chat-prefill', { detail: cap.prompt }))}
               >
-                <cap.icon className="w-5 h-5 text-[#6B6B6B] group-hover:text-[#6EE05A] transition-colors" />
-                <span className="text-xs font-medium text-[#D4D4D4] group-hover:text-[#FFFFFF]">{cap.label}</span>
-                <span className="text-[10px] text-[#6B6B6B]">{cap.desc}</span>
+                <cap.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                <span className="text-sm font-medium text-foreground">{cap.label}</span>
+                <span className="text-xs text-muted-foreground">{cap.desc}</span>
               </button>
             ))}
           </div>
-          <p className="text-xs text-[#6B6B6B]">
-            Type <kbd className="px-1.5 py-0.5 rounded bg-[#1A1A1A] text-[#D4D4D4] border border-[#2A2A2A] text-[10px] font-mono">/</kbd> to see all commands
+          <p className="text-xs text-muted-foreground">
+            Type <kbd className="px-1.5 py-0.5 rounded bg-secondary text-foreground border border-border text-[10px] font-mono">/</kbd> to see all commands
           </p>
           {!hasAIKey && (
-            <p className="mt-4 text-xs text-[#6B6B6B]">Select a provider in the footer to unlock AI chat</p>
+            <p className="mt-4 text-xs text-muted-foreground">Select a provider in the footer to unlock AI chat</p>
           )}
         </div>
       </div>
@@ -100,75 +98,64 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
   // ── Messages ──
   return (
-    <div className="flex-1 overflow-y-auto min-h-0 p-4 md:p-5">
-      <div className="max-w-3xl mx-auto flex flex-col gap-4">
+    <div className="flex-1 overflow-y-auto min-h-0 p-5">
+      <div className="max-w-3xl mx-auto flex flex-col gap-5">
         {messages.map((m, i) => (
-          <div
-            key={i}
-            className={`flex items-start gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
-          >
+          <div key={i} className={`flex items-start gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
             {/* Avatar */}
             {m.role === 'system' ? (
-              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#6EE05A] flex items-center justify-center">
+              <div className="w-9 h-9 rounded-xl shrink-0 bg-primary flex items-center justify-center">
                 {m.loading ? (
-                  <div className="w-4 h-4 border-2 border-[#000000]/30 border-t-[#000000] rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                 ) : (
-                  <span className="text-[9px] font-black text-[#000000] font-mono">0n</span>
+                  <span className="text-[10px] font-black text-primary-foreground font-mono">0n</span>
                 )}
               </div>
             ) : (
-              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#1A1A1A] border border-[#2A2A2A] flex items-center justify-center">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-9 h-9 rounded-xl shrink-0 bg-secondary border border-border flex items-center justify-center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground">
                   <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" />
                 </svg>
               </div>
             )}
 
             {/* Bubble */}
-            <div className="max-w-[70%] min-w-0">
+            <div className="max-w-[75%] min-w-0">
               <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
                 m.role === 'user'
-                  ? 'bg-[#1A1A1A] border border-[#2A2A2A] rounded-tr-sm text-[#FFFFFF]'
-                  : 'bg-[#111111] border border-[#2A2A2A] rounded-tl-sm text-[#D4D4D4]'
+                  ? 'bg-secondary border border-border rounded-tr-sm text-foreground'
+                  : 'bg-card border border-border rounded-tl-sm text-foreground'
               }`}>
                 {m.loading ? (
-                  <span className="flex items-center gap-2 text-[#6B6B6B]">
+                  <span className="flex items-center gap-2 text-muted-foreground">
                     <span>Executing via 0nMCP</span>
                     <span className="inline-flex gap-1">
                       {[0, 1, 2].map(d => (
-                        <span key={d} className="w-1.5 h-1.5 rounded-full bg-[#6EE05A] animate-pulse" style={{ animationDelay: `${d * 200}ms` }} />
+                        <span key={d} className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: `${d * 200}ms` }} />
                       ))}
                     </span>
                   </span>
                 ) : m.text}
               </div>
 
-              {/* Execution metadata */}
-              {m.role === 'system' && m.source === '0nmcp' && !m.loading && (
-                <div className="flex items-center gap-2.5 mt-1.5 pl-1">
-                  {m.status && (
-                    <div className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${m.status === 'completed' ? 'bg-[#6EE05A]' : 'bg-[#EF4444]'}`} />
-                      <span className="text-[10px] font-semibold uppercase tracking-wide text-[#6B6B6B] font-mono">{m.status}</span>
-                    </div>
-                  )}
-                  {m.steps != null && m.steps > 0 && (
-                    <span className="text-[10px] text-[#6B6B6B] font-mono">{m.steps} step{m.steps !== 1 ? 's' : ''}</span>
-                  )}
-                  {m.services && m.services.length > 0 && (
-                    <span className="text-[10px] text-[#6B6B6B] font-mono">via {m.services.join(', ')}</span>
-                  )}
-                </div>
-              )}
-
-              {/* Source + timestamp */}
-              <div className={`flex items-center gap-1.5 mt-1 pl-1 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                {m.role === 'system' && m.source && SOURCE_LABELS[m.source] && (
-                  <span className={`text-[10px] font-semibold font-mono ${SOURCE_LABELS[m.source].color}`}>
-                    {SOURCE_LABELS[m.source].label}
-                  </span>
+              {/* Metadata row */}
+              <div className={`flex items-center gap-2 mt-1.5 px-1 text-[10px] font-mono ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {m.role === 'system' && m.source === '0nmcp' && !m.loading && m.status && (
+                  <>
+                    <span className={`w-1.5 h-1.5 rounded-full ${m.status === 'completed' ? 'bg-primary' : 'bg-destructive'}`} />
+                    <span className="text-muted-foreground uppercase tracking-wide">{m.status}</span>
+                  </>
                 )}
-                <span className="text-[9px] text-[#6B6B6B]">{formatTime(m.timestamp)}</span>
+                {m.role === 'system' && m.steps != null && m.steps > 0 && (
+                  <span className="text-muted-foreground">{m.steps} step{m.steps !== 1 ? 's' : ''}</span>
+                )}
+                {m.role === 'system' && m.services && m.services.length > 0 && (
+                  <span className="text-muted-foreground">via {m.services.join(', ')}</span>
+                )}
+                {m.role === 'system' && m.source && SOURCE_LABELS[m.source] && (
+                  <span className="text-primary font-semibold">{SOURCE_LABELS[m.source]}</span>
+                )}
+                <span className="text-muted-foreground">{formatTime(m.timestamp)}</span>
               </div>
             </div>
           </div>
@@ -176,9 +163,9 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
 
         {/* BYOK banner */}
         {showInlineBYOK && !loading && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl max-w-md mx-auto bg-[#1A1A1A] border border-[#2A2A2A]">
-            <p className="flex-1 text-xs text-[#D4D4D4] m-0">Connect an AI key for powered responses.</p>
-            <button onClick={() => onNavigateVault?.()} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-[#6EE05A] text-[#000000] cursor-pointer shrink-0 hover:bg-[#5BC94A] transition-colors">
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl max-w-md mx-auto bg-card border border-border">
+            <p className="flex-1 text-sm text-foreground m-0">Connect an AI key for powered responses.</p>
+            <button onClick={() => onNavigateVault?.()} className="px-4 py-2 rounded-lg text-sm font-bold bg-primary text-primary-foreground cursor-pointer shrink-0 hover:opacity-90 transition-opacity">
               Connect
             </button>
           </div>
@@ -187,12 +174,12 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
         {/* Loading */}
         {loading && !messages.some(m => m.loading) && (
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-xl shrink-0 bg-[#6EE05A] flex items-center justify-center">
-              <div className="w-4 h-4 border-2 border-[#000000]/30 border-t-[#000000] rounded-full animate-spin" />
+            <div className="w-9 h-9 rounded-xl shrink-0 bg-primary flex items-center justify-center">
+              <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
             </div>
-            <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-[#111111] border border-[#2A2A2A] flex gap-1.5">
+            <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-card border border-border flex gap-1.5">
               {[0, 1, 2].map(d => (
-                <span key={d} className="w-1.5 h-1.5 rounded-full bg-[#6EE05A] animate-pulse" style={{ animationDelay: `${d * 200}ms` }} />
+                <span key={d} className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: `${d * 200}ms` }} />
               ))}
             </div>
           </div>

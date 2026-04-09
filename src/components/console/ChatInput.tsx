@@ -37,7 +37,6 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
     }
   }
 
-  // Listen for chat-prefill events from capability cards
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail
@@ -51,7 +50,7 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
   }, [])
 
   return (
-    <div className="shrink-0 p-3 md:p-4 bg-[#080B0F] border-t border-neutral-700/30">
+    <div className="shrink-0 p-3 md:p-4 bg-[#000000] border-t border-[#2A2A2A]">
       <div className="max-w-3xl mx-auto">
         <div className="flex gap-2">
           <textarea
@@ -62,24 +61,22 @@ export function ChatInput({ onSend, onSlash, loading, mcpOnline }: ChatInputProp
             disabled={loading}
             placeholder={mcpOnline ? 'Ask Jaxx anything... or type / for commands' : 'Ask anything or type / for commands...'}
             rows={1}
-            className="flex-1 px-4 py-3 h-12 max-h-[120px] rounded-xl text-sm resize-none bg-[#0F1419] border border-neutral-700/30 text-neutral-200 placeholder:text-neutral-600 outline-none focus:border-[#6EE05A]/50 transition-colors disabled:opacity-50"
+            className="flex-1 px-4 py-3 h-12 max-h-[120px] rounded-xl text-sm resize-none bg-[#1A1A1A] border border-[#2A2A2A] text-[#FFFFFF] placeholder:text-[#6B6B6B] outline-none focus:border-[#FFFFFF] transition-colors disabled:opacity-50"
           />
           <button
             onClick={handleSend}
             disabled={loading || !value.trim()}
             className={`w-12 h-12 rounded-xl shrink-0 self-end flex items-center justify-center transition-all cursor-pointer disabled:cursor-not-allowed ${
               value.trim() && !loading
-                ? 'bg-[#6EE05A] text-[#080B0F] shadow-sm shadow-[#6EE05A]/20 hover:bg-[#7FF06A]'
-                : 'bg-[#0F1419] text-neutral-600 border border-neutral-700/30'
+                ? 'bg-[#6EE05A] text-[#000000] hover:bg-[#5BC94A]'
+                : 'bg-[#1A1A1A] text-[#6B6B6B] border border-[#2A2A2A]'
             }`}
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
-
-        {/* Status bar */}
-        <div className="flex items-center justify-center gap-2 mt-2 text-[10px] font-semibold uppercase tracking-wider text-neutral-600 font-mono">
-          <span className={`w-1.5 h-1.5 rounded-full ${mcpOnline ? 'bg-[#6EE05A] animate-pulse shadow-sm shadow-[#6EE05A]/50' : 'bg-neutral-600'}`} />
+        <div className="flex items-center justify-center gap-2 mt-2 text-[10px] font-semibold uppercase tracking-wider text-[#6B6B6B] font-mono">
+          <span className={`w-1.5 h-1.5 rounded-full ${mcpOnline ? 'bg-[#6EE05A] animate-pulse' : 'bg-[#6B6B6B]'}`} />
           {mcpOnline ? (
             <span>
               <span className="text-[#6EE05A]">0nMCP Live</span>

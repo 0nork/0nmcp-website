@@ -238,7 +238,7 @@ function NavMain({ items }: { items: NavItem[] }) {
                         tooltip={item.title}
                         onClick={() => handleToggleGroup(item.title)}
                         className={cn(
-                          "flex items-center py-5.5 px-3 text-base text-neutral-400 hover:bg-primary/10 hover:text-white",
+                          "flex items-center py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-primary/10 hover:text-white",
                           isOpen ? "bg-primary text-white" : ""
                         )}
                       >
@@ -270,7 +270,7 @@ function NavMain({ items }: { items: NavItem[] }) {
                               <SidebarMenuSubButton
                                 asChild
                                 className={cn(
-                                  "py-5.5 px-3 text-base text-neutral-400 hover:bg-primary/10 hover:text-white",
+                                  "py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-primary/10 hover:text-white",
                                   isSubActive ? "bg-primary/10 font-bold text-white" : ""
                                 )}
                               >
@@ -305,7 +305,7 @@ function NavMain({ items }: { items: NavItem[] }) {
                   asChild
                   tooltip={item.title}
                   className={cn(
-                    "flex items-center py-5.5 px-3 text-base text-neutral-400 hover:bg-primary/10 hover:text-white",
+                    "flex items-center py-5.5 px-3 text-base text-[#6B6B6B] hover:bg-primary/10 hover:text-white",
                     isMenuActive ? "bg-primary text-white" : ""
                   )}
                   onClick={() => setOpenGroup(null)}
@@ -350,14 +350,14 @@ export function WowdashSidebar({ userName, userEmail, userPlan, onSignOut }: Wow
       <SidebarHeader className="p-0">
         <Link
           href="/console"
-          className="h-[72px] py-3.5 flex items-center justify-center border-b border-neutral-700/30 px-4 gap-3"
+          className="h-[72px] py-3.5 flex items-center justify-center border-b border-[#2A2A2A] px-4 gap-3"
         >
           <div className="flex aspect-square size-9 items-center justify-center rounded-lg bg-primary">
             <span className="text-[11px] font-black text-black">0n</span>
           </div>
           <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
             <span className="font-bold text-sm text-white">0nMCP</span>
-            <span className="text-xs text-neutral-400">Console</span>
+            <span className="text-xs text-[#6B6B6B]">Console</span>
           </div>
         </Link>
       </SidebarHeader>
@@ -368,18 +368,18 @@ export function WowdashSidebar({ userName, userEmail, userPlan, onSignOut }: Wow
       </SidebarContent>
 
       {/* Footer — User Profile */}
-      <SidebarFooter className="border-t border-neutral-700/30 p-2">
+      <SidebarFooter className="border-t border-[#2A2A2A] p-2">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton size="lg" className="cursor-pointer text-white hover:bg-primary/10">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-neutral-700">
-                    <User className="size-4 text-neutral-300" />
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#1A1A1A]">
+                    <User className="size-4 text-[#D4D4D4]" />
                   </div>
                   <div className="flex flex-col gap-0.5 leading-none text-left group-data-[collapsible=icon]:hidden">
                     <span className="text-sm font-medium truncate text-white">{userName || 'User'}</span>
-                    <span className="text-xs text-neutral-400 truncate">{userEmail || ''}</span>
+                    <span className="text-xs text-[#6B6B6B] truncate">{userEmail || ''}</span>
                   </div>
                   {userPlan && (
                     <span className="text-[9px] font-bold px-1.5 py-0.5 rounded ml-auto bg-primary/15 text-primary group-data-[collapsible=icon]:hidden">

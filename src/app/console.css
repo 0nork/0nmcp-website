@@ -1,45 +1,48 @@
 /* ================================================
-   Console Theme Tokens — 0nMCP Dark
-   Wowdash shadcn/ui CSS variable overrides
+   Console Color System — Black / White / Grey
+   Pure black background. White text. One green accent.
+   No other colors without Mike's explicit approval.
    ================================================ */
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.5rem;
+  --background: #000000;
+  --foreground: #FFFFFF;
+  --card: #111111;
+  --card-foreground: #FFFFFF;
+  --popover: #111111;
+  --popover-foreground: #FFFFFF;
   --primary: #6EE05A;
-  --primary-foreground: #080B0F;
-  --background: #080B0F;
-  --foreground: #e5e7eb;
-  --card: #0F1419;
-  --card-foreground: #e5e7eb;
-  --popover: #0F1419;
-  --popover-foreground: #e5e7eb;
-  --secondary: #1A2030;
-  --secondary-foreground: #e5e7eb;
-  --muted: #1A2030;
-  --muted-foreground: #6B7280;
+  --primary-foreground: #000000;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #D4D4D4;
+  --muted: #1A1A1A;
+  --muted-foreground: #6B6B6B;
   --accent: #6EE05A;
-  --accent-foreground: #080B0F;
+  --accent-foreground: #000000;
   --destructive: #EF4444;
-  --border: #1A2030;
-  --input: #1A2030;
+  --destructive-foreground: #FFFFFF;
+  --border: #2A2A2A;
+  --input: #1A1A1A;
   --ring: #6EE05A;
-  --sidebar: #0A0D12;
-  --sidebar-foreground: #e5e7eb;
+
+  --sidebar: #111111;
+  --sidebar-foreground: #FFFFFF;
   --sidebar-primary: #6EE05A;
-  --sidebar-primary-foreground: #080B0F;
+  --sidebar-primary-foreground: #000000;
   --sidebar-accent: rgba(110, 224, 90, 0.1);
-  --sidebar-accent-foreground: #e5e7eb;
-  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #2A2A2A;
   --sidebar-ring: #6EE05A;
 }
 
-/* Scrollbar — thin dark style */
+/* Scrollbar */
 .scrollbar-thin::-webkit-scrollbar { width: 6px; }
 .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-.scrollbar-thin::-webkit-scrollbar-thumb { background: #334155; border-radius: 50rem; }
-.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #475569; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 50rem; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #3A3A3A; }
 
-/* Ticker animation */
+/* Ticker */
 @keyframes console-ticker-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }

@@ -25,11 +25,11 @@ interface ChatProps {
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   '0nmcp': { label: '0nMCP', color: 'text-[#6EE05A]' },
   'agent-studio': { label: '0n Agent', color: 'text-[#6EE05A]' },
-  'claude-byok': { label: 'Claude', color: 'text-violet-400' },
-  'claude': { label: 'Claude', color: 'text-cyan-400' },
-  'openai-byok': { label: 'GPT-4o', color: 'text-emerald-400' },
-  'gemini-byok': { label: 'Gemini', color: 'text-blue-400' },
-  'local': { label: 'Local', color: 'text-neutral-500' },
+  'claude-byok': { label: 'Claude', color: 'text-[#D4D4D4]' },
+  'claude': { label: 'Claude', color: 'text-[#D4D4D4]' },
+  'openai-byok': { label: 'GPT-4o', color: 'text-[#D4D4D4]' },
+  'gemini-byok': { label: 'Gemini', color: 'text-[#D4D4D4]' },
+  'local': { label: 'Local', color: 'text-[#6B6B6B]' },
 }
 
 function formatTime(ts?: string) {
@@ -37,7 +37,6 @@ function formatTime(ts?: string) {
   return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-// Capability cards for empty state
 const capabilities = [
   { icon: Zap, label: 'Workflows', desc: 'Run, build, or schedule', prompt: 'Create a workflow that ' },
   { icon: Lock, label: 'Vault', desc: 'Manage API keys safely', prompt: 'Open the vault and show my ' },
@@ -66,45 +65,33 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
     return (
       <div className="flex-1 flex items-center justify-center p-4 overflow-hidden min-h-0">
         <div className="text-center max-w-lg">
-          {/* Avatar */}
-          <div className="w-16 h-16 rounded-2xl mx-auto mb-4 bg-[#6EE05A] flex items-center justify-center shadow-lg shadow-[#6EE05A]/20">
-            <span className="text-lg font-black text-[#080B0F] font-mono">0n</span>
+          <div className="w-16 h-16 rounded-2xl mx-auto mb-4 bg-[#6EE05A] flex items-center justify-center">
+            <span className="text-lg font-black text-[#000000] font-mono">0n</span>
           </div>
-
-          <h3 className="text-lg font-bold text-white mb-2">Ask Jaxx anything</h3>
-          <p className="text-sm text-neutral-400 mb-6">
+          <h3 className="text-lg font-bold text-[#FFFFFF] mb-2">Ask Jaxx anything</h3>
+          <p className="text-sm text-[#D4D4D4] mb-6">
             Execute tasks across {STATS_DISPLAY.services} services, manage workflows, or ask about your connected tools.
           </p>
-
-          {/* Capability cards — 2x3 grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
             {capabilities.map(cap => (
               <button
                 key={cap.label}
-                className="flex flex-col items-center gap-2 p-4 rounded-lg border border-neutral-700/30 bg-[#0F1419] hover:border-[#6EE05A]/30 hover:bg-[#6EE05A]/5 transition-all cursor-pointer group"
+                className="flex flex-col items-center gap-2 p-4 rounded-lg border border-[#2A2A2A] bg-[#111111] hover:border-[#6EE05A] hover:bg-[#1A1A1A] transition-all cursor-pointer group"
                 onClick={() => {
-                  // Pre-fill input — dispatch custom event
                   window.dispatchEvent(new CustomEvent('chat-prefill', { detail: cap.prompt }))
                 }}
               >
-                <cap.icon className="w-5 h-5 text-neutral-500 group-hover:text-[#6EE05A] transition-colors" />
-                <span className="text-xs font-medium text-neutral-300 group-hover:text-white">{cap.label}</span>
-                <span className="text-[10px] text-neutral-600">{cap.desc}</span>
+                <cap.icon className="w-5 h-5 text-[#6B6B6B] group-hover:text-[#6EE05A] transition-colors" />
+                <span className="text-xs font-medium text-[#D4D4D4] group-hover:text-[#FFFFFF]">{cap.label}</span>
+                <span className="text-[10px] text-[#6B6B6B]">{cap.desc}</span>
               </button>
             ))}
           </div>
-
-          <p className="text-xs text-neutral-600">
-            Type <kbd className="px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400 border border-neutral-700 text-[10px] font-mono">/</kbd> to see all commands
+          <p className="text-xs text-[#6B6B6B]">
+            Type <kbd className="px-1.5 py-0.5 rounded bg-[#1A1A1A] text-[#D4D4D4] border border-[#2A2A2A] text-[10px] font-mono">/</kbd> to see all commands
           </p>
-
           {!hasAIKey && (
-            <div className="mt-4 flex items-center justify-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                <path d="M12 3v1m0 16v1m8.66-13.5l-.87.5M4.21 16l-.87.5M20.66 16l-.87-.5M4.21 8l-.87-.5M12 8a4 4 0 100 8 4 4 0 000-8z" />
-              </svg>
-              <span className="text-xs text-neutral-500">Select a provider in the footer to unlock AI chat</span>
-            </div>
+            <p className="mt-4 text-xs text-[#6B6B6B]">Select a provider in the footer to unlock AI chat</p>
           )}
         </div>
       </div>
@@ -114,46 +101,42 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
   // ── Messages ──
   return (
     <div className="flex-1 overflow-y-auto min-h-0 p-4 md:p-5">
-      <div className="max-w-3xl mx-auto flex flex-col gap-3">
+      <div className="max-w-3xl mx-auto flex flex-col gap-4">
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+            className={`flex items-start gap-3 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
           >
             {/* Avatar */}
             {m.role === 'system' ? (
-              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#6EE05A] flex items-center justify-center shadow-sm shadow-[#6EE05A]/25">
+              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#6EE05A] flex items-center justify-center">
                 {m.loading ? (
-                  <div className="w-4 h-4 border-2 border-[#080B0F]/30 border-t-[#080B0F] rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[#000000]/30 border-t-[#000000] rounded-full animate-spin" />
                 ) : (
-                  <span className="text-[9px] font-black text-[#080B0F] font-mono">0n</span>
+                  <span className="text-[9px] font-black text-[#000000] font-mono">0n</span>
                 )}
               </div>
             ) : (
-              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#0F1419] border border-neutral-700/30 flex items-center justify-center">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500">
+              <div className="w-8 h-8 rounded-xl shrink-0 bg-[#1A1A1A] border border-[#2A2A2A] flex items-center justify-center">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z" />
                 </svg>
               </div>
             )}
 
-            {/* Bubble + metadata */}
+            {/* Bubble */}
             <div className="max-w-[70%] min-w-0">
               <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
                 m.role === 'user'
-                  ? 'bg-[#6EE05A]/10 border border-[#6EE05A]/20 rounded-tr-sm text-neutral-200'
-                  : 'bg-[#0F1419] border border-neutral-700/30 rounded-tl-sm text-neutral-200'
+                  ? 'bg-[#1A1A1A] border border-[#2A2A2A] rounded-tr-sm text-[#FFFFFF]'
+                  : 'bg-[#111111] border border-[#2A2A2A] rounded-tl-sm text-[#D4D4D4]'
               }`}>
                 {m.loading ? (
-                  <span className="flex items-center gap-2 text-neutral-500">
+                  <span className="flex items-center gap-2 text-[#6B6B6B]">
                     <span>Executing via 0nMCP</span>
                     <span className="inline-flex gap-1">
                       {[0, 1, 2].map(d => (
-                        <span
-                          key={d}
-                          className="w-1 h-1 rounded-full bg-[#6EE05A] animate-pulse"
-                          style={{ animationDelay: `${d * 200}ms` }}
-                        />
+                        <span key={d} className="w-1.5 h-1.5 rounded-full bg-[#6EE05A] animate-pulse" style={{ animationDelay: `${d * 200}ms` }} />
                       ))}
                     </span>
                   </span>
@@ -165,21 +148,15 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
                 <div className="flex items-center gap-2.5 mt-1.5 pl-1">
                   {m.status && (
                     <div className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${m.status === 'completed' ? 'bg-[#6EE05A]' : 'bg-red-500'}`} />
-                      <span className="text-[10px] font-semibold uppercase tracking-wide text-neutral-500 font-mono">
-                        {m.status}
-                      </span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${m.status === 'completed' ? 'bg-[#6EE05A]' : 'bg-[#EF4444]'}`} />
+                      <span className="text-[10px] font-semibold uppercase tracking-wide text-[#6B6B6B] font-mono">{m.status}</span>
                     </div>
                   )}
                   {m.steps != null && m.steps > 0 && (
-                    <span className="text-[10px] text-neutral-500 font-mono">
-                      {m.steps} step{m.steps !== 1 ? 's' : ''}
-                    </span>
+                    <span className="text-[10px] text-[#6B6B6B] font-mono">{m.steps} step{m.steps !== 1 ? 's' : ''}</span>
                   )}
                   {m.services && m.services.length > 0 && (
-                    <span className="text-[10px] text-neutral-500 font-mono">
-                      via {m.services.join(', ')}
-                    </span>
+                    <span className="text-[10px] text-[#6B6B6B] font-mono">via {m.services.join(', ')}</span>
                   )}
                 </div>
               )}
@@ -191,43 +168,31 @@ export function Chat({ messages, loading, hasAIKey, onNavigateVault }: ChatProps
                     {SOURCE_LABELS[m.source].label}
                   </span>
                 )}
-                <span className="text-[9px] text-neutral-600">{formatTime(m.timestamp)}</span>
+                <span className="text-[9px] text-[#6B6B6B]">{formatTime(m.timestamp)}</span>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Inline BYOK banner */}
+        {/* BYOK banner */}
         {showInlineBYOK && !loading && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl max-w-md mx-auto bg-violet-500/8 border border-violet-500/20 animate-in fade-in duration-300">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-              <path d="M12 3v1m0 16v1m8.66-13.5l-.87.5M4.21 16l-.87.5M20.66 16l-.87-.5M4.21 8l-.87-.5M12 8a4 4 0 100 8 4 4 0 000-8z" />
-            </svg>
-            <p className="flex-1 text-xs text-neutral-400 m-0">
-              Connect an AI key for powered responses.
-            </p>
-            <button
-              onClick={() => onNavigateVault?.()}
-              className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-violet-500/15 border border-violet-500/30 text-violet-400 cursor-pointer shrink-0 hover:bg-violet-500/25 transition-colors"
-            >
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl max-w-md mx-auto bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="flex-1 text-xs text-[#D4D4D4] m-0">Connect an AI key for powered responses.</p>
+            <button onClick={() => onNavigateVault?.()} className="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-[#6EE05A] text-[#000000] cursor-pointer shrink-0 hover:bg-[#5BC94A] transition-colors">
               Connect
             </button>
           </div>
         )}
 
-        {/* Loading dots */}
+        {/* Loading */}
         {loading && !messages.some(m => m.loading) && (
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-xl shrink-0 bg-[#6EE05A] flex items-center justify-center">
-              <div className="w-4 h-4 border-2 border-[#080B0F]/30 border-t-[#080B0F] rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-[#000000]/30 border-t-[#000000] rounded-full animate-spin" />
             </div>
-            <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-[#0F1419] border border-neutral-700/30 flex gap-1.5">
+            <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-[#111111] border border-[#2A2A2A] flex gap-1.5">
               {[0, 1, 2].map(d => (
-                <span
-                  key={d}
-                  className="w-1.5 h-1.5 rounded-full bg-[#6EE05A] animate-pulse"
-                  style={{ animationDelay: `${d * 200}ms` }}
-                />
+                <span key={d} className="w-1.5 h-1.5 rounded-full bg-[#6EE05A] animate-pulse" style={{ animationDelay: `${d * 200}ms` }} />
               ))}
             </div>
           </div>

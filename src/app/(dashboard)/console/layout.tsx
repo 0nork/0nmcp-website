@@ -6,6 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { WowdashSidebar } from '@/components/console/WowdashSidebar'
 import { Search, Bell } from 'lucide-react'
+import { LocationSwitcher } from '@/components/console/LocationSwitcher'
 import '@/app/console.css'
 
 export default function ConsoleLayout({ children }: { children: React.ReactNode }) {
@@ -69,6 +70,8 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
             </button>
           </div>
           <div className="flex items-center gap-3">
+            <LocationSwitcher />
+            <div className="w-px h-6 bg-white/10 hidden md:block" />
             <button className="relative text-[#b4b4b4] hover:text-[#fafafa] transition-colors">
               <Bell className="size-5" />
               <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-[#487fff]" />

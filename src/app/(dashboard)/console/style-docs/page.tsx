@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { IntegrationOrbit } from '@/components/console/IntegrationOrbit'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -498,6 +499,20 @@ export default function StyleDocsPage() {
                 <ChevronRight className="w-4 h-4 text-neutral-600 group-hover:text-neutral-400 shrink-0" />
               </div>
             ))}
+          </div>
+        </Demo>
+      </Section>
+
+      {/* ═══════ ORBIT WIDGET ═══════ */}
+      <Section id="orbit" title="Integration Orbit" description="Rotating service icons around a central counter. Use on dashboards and landing pages.">
+        <Demo label="Default (1,554 Tools)">
+          <div className="py-8">
+            <IntegrationOrbit />
+          </div>
+        </Demo>
+        <Demo label="Custom (96 Services)">
+          <div className="py-8">
+            <IntegrationOrbit count="96" label="Services" size={300} />
           </div>
         </Demo>
       </Section>

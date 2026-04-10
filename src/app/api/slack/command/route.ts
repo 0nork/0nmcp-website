@@ -13,16 +13,50 @@ export async function POST(req: NextRequest) {
   }
 
   const params = new URLSearchParams(body)
+  const rawCommand = params.get('command') || '/0n'
   const text = params.get('text') || ''
   const userId = params.get('user_id') || ''
   const responseUrl = params.get('response_url') || ''
 
+  // Map specific slash commands to their prompt prefix
+  const COMMAND_MAP: Record<string, string> = {
+    '/0n-leads': 'leads',
+    '/0n-enrich': 'enrich',
+    '/0n-brief': 'brief',
+    '/0n-sequence': 'sequence',
+    '/0n-post': 'post',
+    '/0n-pipeline': 'pipeline',
+    '/0n-revenue': 'revenue',
+    '/0n-deploy': 'deploy-status',
+    '/0n-pr': 'pr',
+    '/0n-query': 'query',
+    '/0n-bug': 'bug',
+    '/0n-research': 'research',
+    '/0n-person': 'person',
+    '/0n-find': 'find',
+    '/0n-briefing': 'briefing',
+    '/0n-wrap': 'wrap',
+    '/0n-report': 'report',
+    '/0n-task': 'task',
+    '/0n-prospect': 'prospect',
+    '/0n-compete': 'compete',
+    '/0n-newsletter': 'newsletter',
+    '/0n-seo': 'seo-brief',
+    '/0n-security': 'security-check',
+    '/0n-stack': 'stack',
+  }
+
+  const prefix = COMMAND_MAP[rawCommand] || ''
+  const fullPrompt = prefix ? `${prefix} ${text}`.trim() : text
+
   // Immediately acknowledge (Slack requires <3s response)
-  processCommand(text, userId, responseUrl)
+  processCommand(fullPrompt, userId, responseUrl)
+
+  const displayCmd = rawCommand === '/0n' ? text : `${rawCommand.replace('/0n-', '')} ${text}`.trim()
 
   return NextResponse.json({
     response_type: 'ephemeral',
-    text: `Running: *${text}*\nResult coming in a few seconds...`,
+    text: `Running: *${displayCmd}*\nResult coming in a few seconds...`,
   })
 }
 

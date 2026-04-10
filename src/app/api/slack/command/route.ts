@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifySlackSignature } from '@/lib/slack-client'
+import { verifySlackRequest } from '@/lib/slack'
 import { runMCPCommand } from '@/lib/command-runner'
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
-  const headers = req.headers
 
-  const isValid = await verifySlackSignature(body, headers)
-  if (!isValid) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const timestamp = req.headers.get('x-slack-request-timestamp')
+  const signature = req.headers.get('x-slack-signature')
+
+  if (!verifySlackRequest(timestamp, signature, body)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
   const params = new URLSearchParams(body)
   const text = params.get('text') || ''

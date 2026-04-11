@@ -197,12 +197,9 @@ export default function OrchestratorForge() {
         style={{
           width: '100%',
           overflow: 'hidden',
-          background: 'linear-gradient(135deg, #0f172a 0%, #064e3b 50%, #0f172a 100%)',
-          color: 'var(--text-primary)',
+          background: '#07080C',
+          color: 'var(--text-primary, #E8ECF4)',
           position: 'relative',
-          border: '2px solid #6EE05A',
-          boxShadow: '0 0 30px rgba(110,224,90,0.15), 0 0 60px rgba(110,224,90,0.05)',
-          borderRadius: 24,
         }}
       >
         {/* Ambient background particles */}

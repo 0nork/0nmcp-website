@@ -168,7 +168,7 @@ export default function SxoHomepage() {
           </div>
         )}
         <h2 style={{ fontSize: 28, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 12 }}>Executive Summary</h2>
-        <p style={{ fontSize: 17, color: '#444', lineHeight: 1.8, fontWeight: 500 }} dangerouslySetInnerHTML={{ __html: bluf }} />
+        <p style={{ fontSize: 17, color: 'var(--text-secondary, #9ca3af)', lineHeight: 1.8, fontWeight: 500 }} dangerouslySetInnerHTML={{ __html: bluf }} />
       </section>
 
       {/* ── ORCHESTRATOR FORGE ── */}
@@ -208,12 +208,12 @@ export default function SxoHomepage() {
           {rows.map((row, i) => (
             <div key={row.metric} style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-              borderBottom: i < rows.length - 1 ? '1px solid #f0f0f0' : 'none',
-              background: i === 0 ? '#fafafa' : '#fff',
+              borderBottom: i < rows.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+              background: 'var(--bg-card)',
               transition: 'background 0.15s',
             }}
-              onMouseEnter={e => e.currentTarget.style.background = '#f8fafc'}
-              onMouseLeave={e => e.currentTarget.style.background = i === 0 ? '#fafafa' : '#fff'}
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-tertiary)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--bg-tertiary)'}
             >
               <div style={{ padding: '14px 20px', fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>
                 {row.metric}
@@ -342,7 +342,7 @@ export default function SxoHomepage() {
             background: 'var(--bg-card)', borderRadius: 16, border: '1px solid var(--border)',
             boxShadow: '0 4px 20px rgba(0,0,0,0.04)', overflow: 'hidden',
           }}>
-            <div style={{ padding: '14px 20px', borderBottom: '1px solid #f0f0f0', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #6EE05A, #00b4ff)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900, color: 'var(--text-primary)' }}>0n</div>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>0nMCP Assistant</div>

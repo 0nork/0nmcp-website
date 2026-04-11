@@ -884,7 +884,7 @@ export default async function BlogPostPage({
           margin-top: 0.5rem;
         }
 
-        /* ─── Left Sidebar (TOC) ─── */
+        /* ─── Left Sidebar (TOC) — Glassmorphic Dark ─── */
         .blog-sidebar-left {
           position: sticky;
           top: 5.5rem;
@@ -892,21 +892,23 @@ export default async function BlogPostPage({
           overflow-y: auto;
         }
         .sidebar-toc {
-          background: #fafafa;
-          border: 1px solid #e5e7eb;
-          border-radius: 14px;
-          padding: 1.125rem 1.25rem;
-          box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
+          background: rgba(15,17,23,0.7);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 16px;
+          padding: 1.25rem 1.375rem;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
         }
         .sidebar-toc h4 {
           font-size: 0.6875rem;
           font-weight: 800;
-          color: #1a1a1a;
+          color: rgba(255,255,255,0.4);
           text-transform: uppercase;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.1em;
           margin: 0 0 0.75rem;
           padding-bottom: 0.5rem;
-          border-bottom: 2px solid #6EE05A;
+          border-bottom: 1px solid rgba(110,224,90,0.2);
         }
         .sidebar-toc-list {
           list-style: none;
@@ -919,64 +921,71 @@ export default async function BlogPostPage({
         .sidebar-toc-list a {
           display: block;
           font-size: 0.75rem;
-          color: #555;
+          color: rgba(255,255,255,0.45);
           text-decoration: none;
-          padding: 0.3rem 0.5rem;
-          border-radius: 6px;
+          padding: 0.35rem 0.625rem;
+          border-radius: 8px;
           line-height: 1.4;
-          transition: color 0.2s, background 0.2s;
+          transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
           border-left: 2px solid transparent;
         }
         .sidebar-toc-list a:hover {
           color: #6EE05A;
           background: rgba(110,224,90,0.06);
           border-left-color: #6EE05A;
+          transform: translateX(2px);
         }
 
-        /* ─── Right Sidebar ─── */
+        /* ─── Right Sidebar — Glassmorphic Dark ─── */
         .blog-sidebar-right {
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
+          gap: 1.25rem;
         }
         .sidebar-card {
-          background: #fff;
-          border: 1px solid #e5e7eb;
-          border-radius: 14px;
+          background: rgba(15,17,23,0.7);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 16px;
           padding: 1.25rem 1.375rem;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-          transition: box-shadow 0.25s;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+          transition: border-color 0.3s, box-shadow 0.3s;
         }
         .sidebar-card:hover {
-          box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+          border-color: rgba(110,224,90,0.12);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(110,224,90,0.03);
         }
         .sidebar-card h4 {
-          font-size: 0.8125rem;
+          font-size: 0.75rem;
           font-weight: 800;
-          color: #1a1a1a;
+          color: rgba(255,255,255,0.4);
           text-transform: uppercase;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.08em;
           margin: 0 0 1rem;
           padding-bottom: 0.625rem;
-          border-bottom: 2px solid #6EE05A;
+          border-bottom: 1px solid rgba(110,224,90,0.15);
         }
 
-        /* ─── CTA Card — sticky after scroll ─── */
+        /* ─── CTA Card — Glassmorphic + Green Glow ─── */
         .sidebar-cta {
-          background: linear-gradient(135deg, #f0fdf0 0%, #ffffff 100%);
-          border: 1px solid rgba(110,224,90,0.25);
-          border-radius: 14px;
+          background: rgba(15,17,23,0.8);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(110,224,90,0.15);
+          border-radius: 16px;
           padding: 1.5rem;
           text-align: center;
           position: sticky;
           top: 5.5rem;
-          box-shadow: 0 4px 20px rgba(110,224,90,0.08);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 30px rgba(110,224,90,0.05);
         }
         .sidebar-cta-icon {
           width: 48px;
           height: 48px;
           border-radius: 12px;
-          background: rgba(110,224,90,0.12);
+          background: rgba(110,224,90,0.1);
+          border: 1px solid rgba(110,224,90,0.2);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -986,7 +995,7 @@ export default async function BlogPostPage({
         .sidebar-cta h4 {
           font-size: 1rem;
           font-weight: 800;
-          color: #1a1a1a;
+          color: #E8ECF4;
           margin: 0 0 0.5rem;
           border: none;
           padding: 0;
@@ -995,7 +1004,7 @@ export default async function BlogPostPage({
         }
         .sidebar-cta p {
           font-size: 0.8125rem;
-          color: #6b7280;
+          color: rgba(255,255,255,0.4);
           line-height: 1.55;
           margin: 0 0 1rem;
         }
@@ -1006,27 +1015,27 @@ export default async function BlogPostPage({
           padding: 0.625rem 1.25rem;
           border-radius: 10px;
           background: #6EE05A;
-          color: #000;
+          color: #07080C;
           font-size: 0.8125rem;
           font-weight: 700;
           text-decoration: none;
-          box-shadow: 0 2px 12px rgba(110,224,90,0.25);
-          transition: all 0.2s;
+          box-shadow: 0 2px 16px rgba(110,224,90,0.25);
+          transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
           width: 100%;
           justify-content: center;
         }
         .sidebar-cta-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 20px rgba(110,224,90,0.35);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 24px rgba(110,224,90,0.35);
         }
         .sidebar-cta-secondary {
           display: block;
           margin-top: 0.625rem;
           padding: 0.5rem 1rem;
           border-radius: 8px;
-          background: #fff;
-          border: 1px solid #e5e7eb;
-          color: #374151;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.08);
+          color: rgba(255,255,255,0.5);
           font-size: 0.75rem;
           font-weight: 600;
           text-decoration: none;
@@ -1034,8 +1043,9 @@ export default async function BlogPostPage({
           transition: all 0.2s;
         }
         .sidebar-cta-secondary:hover {
-          border-color: #6EE05A;
-          color: #1a1a1a;
+          border-color: rgba(110,224,90,0.3);
+          color: #6EE05A;
+          background: rgba(110,224,90,0.05);
         }
         .sidebar-cta-stats {
           display: flex;
@@ -1043,7 +1053,7 @@ export default async function BlogPostPage({
           gap: 1rem;
           margin-top: 1rem;
           padding-top: 0.75rem;
-          border-top: 1px solid rgba(110,224,90,0.15);
+          border-top: 1px solid rgba(255,255,255,0.06);
         }
         .sidebar-cta-stat {
           text-align: center;
@@ -1051,12 +1061,12 @@ export default async function BlogPostPage({
         .sidebar-cta-stat-value {
           font-size: 0.875rem;
           font-weight: 800;
-          color: #1a1a1a;
+          color: #6EE05A;
           font-family: 'JetBrains Mono', monospace;
         }
         .sidebar-cta-stat-label {
           font-size: 0.5625rem;
-          color: #9ca3af;
+          color: rgba(255,255,255,0.3);
           text-transform: uppercase;
           letter-spacing: 0.08em;
           font-weight: 600;
@@ -1076,21 +1086,22 @@ export default async function BlogPostPage({
           align-items: center;
           justify-content: space-between;
           font-size: 0.8125rem;
-          color: #555;
+          color: rgba(255,255,255,0.45);
           text-decoration: none;
-          padding: 0.4rem 0.5rem;
-          border-radius: 6px;
-          transition: color 0.2s, background 0.2s;
+          padding: 0.4rem 0.625rem;
+          border-radius: 8px;
+          transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
         }
         .sidebar-cat-list a:hover {
           color: #6EE05A;
           background: rgba(110,224,90,0.06);
+          transform: translateX(2px);
         }
         .sidebar-cat-count {
           font-size: 0.6875rem;
-          color: #aaa;
-          background: #f0f0f0;
-          padding: 1px 8px;
+          color: rgba(255,255,255,0.25);
+          background: rgba(255,255,255,0.05);
+          padding: 2px 8px;
           border-radius: 10px;
         }
 
@@ -1106,20 +1117,21 @@ export default async function BlogPostPage({
         .sidebar-popular-list a {
           display: block;
           font-size: 0.8125rem;
-          color: #555;
+          color: rgba(255,255,255,0.45);
           text-decoration: none;
-          padding: 0.4rem 0.5rem;
-          border-radius: 6px;
+          padding: 0.4rem 0.625rem;
+          border-radius: 8px;
           line-height: 1.4;
-          transition: color 0.2s, background 0.2s;
+          transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
         }
         .sidebar-popular-list a:hover {
           color: #6EE05A;
           background: rgba(110,224,90,0.06);
+          transform: translateX(2px);
         }
         .sidebar-popular-date {
           font-size: 0.6875rem;
-          color: #aaa;
+          color: rgba(255,255,255,0.2);
           margin-top: 0.125rem;
         }
 
@@ -1131,16 +1143,18 @@ export default async function BlogPostPage({
         }
         .sidebar-tag {
           font-size: 0.6875rem;
-          color: #555;
-          background: #f0f0f0;
+          color: rgba(255,255,255,0.4);
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.06);
           padding: 4px 12px;
-          border-radius: 6px;
+          border-radius: 8px;
           text-decoration: none;
-          transition: background 0.2s, color 0.2s;
+          transition: all 0.2s;
         }
         .sidebar-tag:hover {
-          background: #e5e5e5;
-          color: #1a1a1a;
+          background: rgba(110,224,90,0.08);
+          border-color: rgba(110,224,90,0.2);
+          color: #6EE05A;
         }
       `}</style>
 

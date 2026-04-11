@@ -1,0 +1,61 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#07080C"/>
+
+  <!-- Ambient glow -->
+  <ellipse cx="600" cy="400" rx="500" ry="300" fill="url(#glow1)" opacity="0.15"/>
+  <ellipse cx="300" cy="200" rx="300" ry="200" fill="url(#glow2)" opacity="0.08"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.06" stroke="#6EE05A" stroke-width="0.5">
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Circular trap visualization -->
+  <circle cx="600" cy="290" r="120" stroke="#6EE05A" stroke-width="2" fill="none" opacity="0.3"/>
+  <circle cx="600" cy="290" r="80" stroke="#00C2C7" stroke-width="1.5" fill="none" opacity="0.2"/>
+  <circle cx="600" cy="290" r="160" stroke="#6EE05A" stroke-width="1" fill="none" opacity="0.15" stroke-dasharray="8 8"/>
+
+  <!-- Arrows showing loop -->
+  <path d="M 520 200 A 100 100 0 0 1 680 200" stroke="#6EE05A" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 680 380 A 100 100 0 0 1 520 380" stroke="#ef4444" stroke-width="2" fill="none" opacity="0.5"/>
+
+  <!-- Rankings arrow up -->
+  <path d="M 560 250 L 560 220 L 550 230 M 560 220 L 570 230" stroke="#6EE05A" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <!-- Bounce arrow down -->
+  <path d="M 640 330 L 640 360 L 630 350 M 640 360 L 650 350" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Center icon -->
+  <circle cx="600" cy="290" r="24" fill="rgba(110,224,90,0.1)" stroke="#6EE05A" stroke-width="1.5"/>
+  <text x="600" y="296" text-anchor="middle" fill="#6EE05A" font-size="20" font-family="system-ui">&#x26A0;</text>
+
+  <!-- Category pill -->
+  <rect x="520" y="100" width="160" height="28" rx="14" fill="rgba(167,139,250,0.15)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+  <text x="600" y="119" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700" font-family="system-ui" letter-spacing="0.1em">DEEP DIVE</text>
+
+  <!-- Title -->
+  <text x="600" y="470" text-anchor="middle" fill="#E8ECF4" font-size="32" font-weight="800" font-family="system-ui" letter-spacing="-0.02em">The SEO Trap</text>
+  <text x="600" y="510" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="16" font-family="system-ui">Why Rankings Alone Are Costing You Rankings</text>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="570" width="1200" height="60" fill="rgba(110,224,90,0.03)"/>
+  <line x1="0" y1="570" x2="1200" y2="570" stroke="rgba(110,224,90,0.1)" stroke-width="1"/>
+  <text x="60" y="605" fill="rgba(255,255,255,0.3)" font-size="12" font-family="monospace">0nmcp.com/blog</text>
+  <text x="1140" y="605" text-anchor="end" fill="rgba(255,255,255,0.3)" font-size="12" font-family="monospace">April 2026</text>
+
+  <!-- Brand -->
+  <text x="600" y="605" text-anchor="middle" fill="#6EE05A" font-size="13" font-weight="700" font-family="system-ui">0nMCP</text>
+
+  <defs>
+    <radialGradient id="glow1"><stop offset="0%" stop-color="#6EE05A"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    <radialGradient id="glow2"><stop offset="0%" stop-color="#00C2C7"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+  </defs>
+</svg>

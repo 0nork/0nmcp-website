@@ -160,8 +160,8 @@ export default function MegaNav() {
         <div className="mn-actions" style={authReady ? undefined : { visibility: 'hidden' }}>
           {!user ? (
             <>
-              <Link href="/login" className="mn-signin no-underline">Login</Link>
-              <Link href="/start" className="mn-cta no-underline">Get Started</Link>
+              <Link href="https://0ncore.com/request" className="mn-signin no-underline">Request Access</Link>
+              <Link href="https://0ncore.com/login" className="mn-cta no-underline">Agency Login</Link>
             </>
           ) : (
             <Link href="/dashboard" className="mn-cta no-underline">Dashboard</Link>
@@ -222,8 +222,8 @@ export default function MegaNav() {
           <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {!user ? (
               <>
-                <Link href="/signup" className="mn-cta no-underline" style={{ textAlign: 'center' }} onClick={() => setMobileOpen(false)}>Request Access</Link>
-                <Link href="/login" className="mn-signin no-underline" style={{ textAlign: 'center' }} onClick={() => setMobileOpen(false)}>Login</Link>
+                <Link href="https://0ncore.com/request" className="mn-signin no-underline" style={{ textAlign: 'center' }} onClick={() => setMobileOpen(false)}>Request Access</Link>
+                <Link href="https://0ncore.com/login" className="mn-cta no-underline" style={{ textAlign: 'center' }} onClick={() => setMobileOpen(false)}>Agency Login</Link>
               </>
             ) : (
               <Link href="/dashboard" className="mn-cta no-underline" style={{ textAlign: 'center' }} onClick={() => setMobileOpen(false)}>Dashboard</Link>

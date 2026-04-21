@@ -1,42 +1,112 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 /* ============================================
-   0nMCP BRAND SYSTEM V3.0 — Complete Design Tokens
-   Merged from: 0nCORE Brand Book V2.0 + Gemini Generation Guide
-   Single source of truth — change here, everything follows
+   0nMCP BRAND SYSTEM V4.0 — Unified with 0nCore + 0ntask
+   shadcn/ui + Tailwind v4 + Dark mode only
    ============================================ */
+
+/* ── shadcn/ui Theme Tokens ── */
+@theme inline {
+  --color-background: #0d1117;
+  --color-foreground: #f0f4f8;
+  --color-card: #161b22;
+  --color-card-foreground: #f0f4f8;
+  --color-popover: #161b22;
+  --color-popover-foreground: #f0f4f8;
+  --color-primary: #6EE05A;
+  --color-primary-foreground: #0d1117;
+  --color-secondary: #1c2333;
+  --color-secondary-foreground: #f0f4f8;
+  --color-muted: #1c2333;
+  --color-muted-foreground: #9ca3af;
+  --color-accent: #1c2333;
+  --color-accent-foreground: #f0f4f8;
+  --color-destructive: #ef4444;
+  --color-border: #30363d;
+  --color-input: #30363d;
+  --color-ring: #6EE05A;
+  --color-chart-1: #6EE05A;
+  --color-chart-2: #14b8a6;
+  --color-chart-3: #8b5cf6;
+  --color-chart-4: #f59e0b;
+  --color-chart-5: #ef4444;
+  --color-sidebar: #0d1117;
+  --color-sidebar-foreground: #f0f4f8;
+  --color-sidebar-primary: #6EE05A;
+  --color-sidebar-primary-foreground: #0d1117;
+  --color-sidebar-accent: #1c2333;
+  --color-sidebar-accent-foreground: #f0f4f8;
+  --color-sidebar-border: #30363d;
+  --color-sidebar-ring: #6EE05A;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
+
+  /* 0n Brand Colors */
+  --color-bg-primary: #0d1117;
+  --color-bg-secondary: #161b22;
+  --color-bg-tertiary: #1c2333;
+  --color-bg-card: #161b22;
+  --color-bg-sidebar: #0d1117;
+  --color-bg-header: rgba(13, 17, 23, 0.85);
+  --color-bg-deep: #040A1A;
+  --color-bg-vault: #081C4F;
+  --color-text-primary: #f0f4f8;
+  --color-text-secondary: #9ca3af;
+  --color-text-muted: #6b7280;
+  --color-accent-brand: #6EE05A;
+  --color-accent-dim: #5cb83a;
+  --color-accent-glow: rgba(110, 224, 90, 0.15);
+  --color-core-green: #6EE05A;
+  --color-core-cyan: #14b8a6;
+  --color-core-purple: #8b5cf6;
+  --color-core-red: #ef4444;
+  --color-core-amber: #f59e0b;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Roboto Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  --animate-fade-in: fade-in 0.3s ease both;
+  --animate-slide-up: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 
 /* ── DARK MODE ONLY — No toggle, no light mode ── */
 :root {
   /* Backgrounds */
-  --bg-primary: #07080C;
-  --bg-secondary: #0F1117;
-  --bg-tertiary: #161B24;
-  --bg-card: #12151C;
-  --bg-sidebar: #0A0C12;
-  --bg-header: rgba(7,8,12,0.85);
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #1c2333;
+  --bg-card: #161b22;
+  --bg-sidebar: #0d1117;
+  --bg-header: rgba(13, 17, 23, 0.85);
   --bg-deep: #040A1A;
   --bg-vault: #081C4F;
 
   /* Sidebar */
   --sidebar-text: #f0f4f8;
   --sidebar-text-muted: #8b949e;
-  --sidebar-border: rgba(255,255,255,0.04);
+  --sidebar-border: #30363d;
   --sidebar-active-bg: rgba(110,224,90,0.1);
 
   /* Header */
-  --header-border: rgba(255,255,255,0.06);
+  --header-border: #30363d;
 
   /* Text — WCAG AA compliant on dark backgrounds */
-  --text-primary: #E8ECF4;
+  --text-primary: #f0f4f8;
   --text-secondary: #9ca3af;
-  --text-muted: #5a6374;
+  --text-muted: #6b7280;
   --text-on-dark: #E0E0E0;
 
   /* Brand Green */
   --accent: #6EE05A;
   --accent-action: #6EE05A;
-  --accent-dim: #4ecb3a;
+  --accent-dim: #5cb83a;
   --accent-glow: rgba(110, 224, 90, 0.15);
 
   /* Functional Colors */
@@ -57,13 +127,31 @@
   --active-bg: rgba(110,224,90,0.12);
   --hover-state: #6EE05A;
   --cta-bg: #6EE05A;
-  --cta-text: #07080C;
+  --cta-text: #0d1117;
   --cta-bg-alt: #6EE05A;
 
-  /* Borders */
-  --border: rgba(255,255,255,0.06);
+  /* Borders — aligned with 0nCore */
+  --border: #30363d;
   --border-hover: rgba(255,255,255,0.12);
   --grid-line-color: rgba(255, 255, 255, 0.03);
+
+  /* shadcn tokens */
+  --background: #0d1117;
+  --foreground: #f0f4f8;
+  --card: #161b22;
+  --card-foreground: #f0f4f8;
+  --popover: #161b22;
+  --popover-foreground: #f0f4f8;
+  --primary: #6EE05A;
+  --primary-foreground: #0d1117;
+  --secondary: #1c2333;
+  --secondary-foreground: #f0f4f8;
+  --muted: #1c2333;
+  --muted-foreground: #9ca3af;
+  --destructive: #ef4444;
+  --input: #30363d;
+  --ring: #6EE05A;
+  --radius: 0.625rem;
 
   /* Shadows */
   --shadow-low: 0 1px 2px rgba(0,0,0,0.3);
@@ -101,21 +189,30 @@
   color-scheme: dark;
 }
 
-/* Kill any remaining light mode selectors */
+/* Force dark on any stray light selectors */
 [data-theme="light"] {
-  --bg-primary: #07080C;
-  --bg-secondary: #0F1117;
-  --bg-tertiary: #161B24;
-  --bg-card: #12151C;
-  --bg-header: rgba(7,8,12,0.85);
-  --text-primary: #E8ECF4;
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #1c2333;
+  --bg-card: #161b22;
+  --bg-header: rgba(13, 17, 23, 0.85);
+  --text-primary: #f0f4f8;
   --text-secondary: #9ca3af;
-  --text-muted: #5a6374;
-  --border: rgba(255,255,255,0.06);
+  --text-muted: #6b7280;
+  --border: #30363d;
   --accent: #6EE05A;
   --cta-bg: #6EE05A;
-  --cta-text: #07080C;
+  --cta-text: #0d1117;
   color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 /* ── GRADIENT HEADING UTILITY ── */
@@ -124,6 +221,17 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ── shadcn keyframes ── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── ANIMATIONS ── */

@@ -114,57 +114,41 @@ export function AdminOnboardingLab() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="flex items-center justify-between">
         <div>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, fontFamily: 'var(--font-display)' }}>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] m-0">
             Onboarding Lab
           </h2>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.25rem 0 0' }}>
+          <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">
             A/B test onboarding flows — track conversion at every step
           </p>
         </div>
       </div>
 
       {/* Create New */}
-      <div style={{
-        background: 'rgba(255,255,255,0.02)', borderRadius: '0.75rem',
-        border: '1px solid var(--border)', padding: '1rem',
-      }}>
-        <div style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+      <div className="bg-white/[0.02] rounded-xl border border-[var(--border)] p-4">
+        <div className="text-[0.7rem] font-semibold text-[var(--text-muted)] uppercase tracking-[0.05em] mb-3">
           New Experiment
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div className="flex gap-2 flex-wrap">
           <input
             value={newName}
             onChange={e => setNewName(e.target.value)}
             placeholder="Experiment name"
-            style={{
-              flex: '1 1 200px', padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-              border: '1px solid var(--border)', background: 'var(--bg-primary)',
-              color: 'var(--text-primary)', fontSize: '0.85rem', fontFamily: 'inherit',
-            }}
+            className="flex-[1_1_200px] px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-[0.85rem] font-[inherit]"
           />
           <input
             value={newDesc}
             onChange={e => setNewDesc(e.target.value)}
             placeholder="Description (optional)"
-            style={{
-              flex: '2 1 300px', padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-              border: '1px solid var(--border)', background: 'var(--bg-primary)',
-              color: 'var(--text-primary)', fontSize: '0.85rem', fontFamily: 'inherit',
-            }}
+            className="flex-[2_1_300px] px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-[0.85rem] font-[inherit]"
           />
           <button
             onClick={handleCreate}
             disabled={creating || !newName.trim()}
-            style={{
-              padding: '0.5rem 1rem', borderRadius: '0.5rem', border: 'none',
-              background: '#6EE05A', color: '#000', fontWeight: 600,
-              fontSize: '0.85rem', cursor: 'pointer', opacity: creating || !newName.trim() ? 0.5 : 1,
-              fontFamily: 'inherit',
-            }}
+            className="px-4 py-2 rounded-lg border-0 bg-[#6EE05A] text-black font-semibold text-[0.85rem] cursor-pointer font-[inherit] disabled:opacity-50"
           >
             {creating ? 'Creating...' : 'Create'}
           </button>
@@ -173,60 +157,50 @@ export function AdminOnboardingLab() {
 
       {/* Experiments List */}
       {loading ? (
-        <div style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>Loading experiments...</div>
+        <div className="text-[var(--text-muted)] text-center py-8">Loading experiments...</div>
       ) : experiments.length === 0 ? (
-        <div style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>No experiments yet. Create one above.</div>
+        <div className="text-[var(--text-muted)] text-center py-8">No experiments yet. Create one above.</div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div className="flex flex-col gap-2">
           {experiments.map(exp => (
             <button
               key={exp.id}
               onClick={() => setSelectedExp(exp.id)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '1rem',
-                padding: '1rem', borderRadius: '0.75rem',
-                border: '1px solid var(--border)', background: 'rgba(255,255,255,0.02)',
-                cursor: 'pointer', textAlign: 'left', width: '100%',
-                fontFamily: 'inherit', color: 'inherit',
-                transition: 'border-color 0.15s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(126,217,87,0.3)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              className="flex items-center gap-4 p-4 rounded-xl border border-[var(--border)] bg-white/[0.02] cursor-pointer text-left w-full font-[inherit] text-inherit transition-[border-color] duration-150 hover:border-[rgba(126,217,87,0.3)]"
             >
-              <div style={{
-                width: '8px', height: '8px', borderRadius: '50%',
-                background: STATUS_COLORS[exp.status] || '#94a3b8',
-                flexShrink: 0,
-              }} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{exp.name}</div>
+              <div
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ background: STATUS_COLORS[exp.status] || '#94a3b8' }}
+              />
+              <div className="flex-1 min-w-0">
+                <div className="text-[0.9rem] font-semibold text-[var(--text-primary)]">{exp.name}</div>
                 {exp.description && (
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.125rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div className="text-xs text-[var(--text-muted)] mt-0.5 truncate">
                     {exp.description}
                   </div>
                 )}
               </div>
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexShrink: 0 }}>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+              <div className="flex gap-4 items-center shrink-0">
+                <div className="text-right">
+                  <div className="text-base font-bold text-[var(--text-primary)] font-mono">
                     {exp.totalUsers || 0}
                   </div>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>users</div>
+                  <div className="text-[0.65rem] text-[var(--text-muted)]">users</div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
+                <div className="text-right">
+                  <div className="text-base font-bold text-[#6EE05A] font-mono">
                     {exp.completionRate || 0}%
                   </div>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>completion</div>
+                  <div className="text-[0.65rem] text-[var(--text-muted)]">completion</div>
                 </div>
-                <div style={{
-                  padding: '0.2rem 0.5rem', borderRadius: '9999px',
-                  background: `${STATUS_COLORS[exp.status]}20`,
-                  border: `1px solid ${STATUS_COLORS[exp.status]}40`,
-                  fontSize: '0.65rem', fontWeight: 600,
-                  color: STATUS_COLORS[exp.status],
-                  textTransform: 'uppercase', letterSpacing: '0.05em',
-                }}>
+                <div
+                  className="px-2 py-0.5 rounded-full text-[0.65rem] font-semibold uppercase tracking-[0.05em]"
+                  style={{
+                    background: `${STATUS_COLORS[exp.status]}20`,
+                    border: `1px solid ${STATUS_COLORS[exp.status]}40`,
+                    color: STATUS_COLORS[exp.status],
+                  }}
+                >
                   {exp.status}
                 </div>
               </div>
@@ -250,39 +224,33 @@ function ExperimentDetail({
   const { experiment, variants } = detail
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="flex flex-col gap-6">
       {/* Back + Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      <div className="flex items-center gap-3">
         <button
           onClick={onBack}
-          style={{
-            background: 'none', border: '1px solid var(--border)', color: 'var(--text-secondary)',
-            borderRadius: '0.5rem', padding: '0.375rem 0.75rem', cursor: 'pointer',
-            fontSize: '0.8rem', fontFamily: 'inherit',
-          }}
+          className="bg-transparent border border-[var(--border)] text-[var(--text-secondary)] rounded-lg px-3 py-1.5 cursor-pointer text-[0.8rem] font-[inherit]"
         >
           Back
         </button>
-        <div style={{ flex: 1 }}>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, fontFamily: 'var(--font-display)' }}>
+        <div className="flex-1">
+          <h2 className="text-[1.15rem] font-bold text-[var(--text-primary)] m-0">
             {experiment.name}
           </h2>
           {experiment.description && (
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.125rem 0 0' }}>{experiment.description}</p>
+            <p className="text-xs text-[var(--text-muted)] mt-0.5 mb-0">{experiment.description}</p>
           )}
         </div>
-        <div style={{ display: 'flex', gap: '0.375rem' }}>
+        <div className="flex gap-1.5">
           {['draft', 'active', 'paused', 'completed'].map(status => (
             <button
               key={status}
               onClick={() => onStatusChange(experiment.id, status)}
+              className="px-2.5 py-1 rounded-md text-[0.7rem] font-semibold cursor-pointer capitalize font-[inherit] transition-colors"
               style={{
-                padding: '0.25rem 0.625rem', borderRadius: '0.375rem',
                 border: experiment.status === status ? `1px solid ${STATUS_COLORS[status]}` : '1px solid var(--border)',
                 background: experiment.status === status ? `${STATUS_COLORS[status]}15` : 'transparent',
                 color: experiment.status === status ? STATUS_COLORS[status] : 'var(--text-muted)',
-                fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer',
-                textTransform: 'capitalize', fontFamily: 'inherit',
               }}
             >
               {status}
@@ -293,57 +261,60 @@ function ExperimentDetail({
 
       {/* Variant Cards */}
       {variants.map(v => (
-        <div key={v.id} style={{
-          background: 'rgba(255,255,255,0.02)', borderRadius: '0.75rem',
-          border: `1px solid ${v.is_control ? 'rgba(0,212,255,0.2)' : 'var(--border)'}`,
-          padding: '1rem', overflow: 'hidden',
-        }}>
+        <div
+          key={v.id}
+          className="bg-white/[0.02] rounded-xl p-4 overflow-hidden"
+          style={{ border: `1px solid ${v.is_control ? 'rgba(0,212,255,0.2)' : 'var(--border)'}` }}
+        >
           {/* Variant Header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-            <div style={{
-              padding: '0.2rem 0.5rem', borderRadius: '0.375rem',
-              background: v.is_control ? 'rgba(0,212,255,0.1)' : 'rgba(167,139,250,0.1)',
-              border: `1px solid ${v.is_control ? 'rgba(0,212,255,0.2)' : 'rgba(167,139,250,0.2)'}`,
-              fontSize: '0.65rem', fontWeight: 600,
-              color: v.is_control ? '#00d4ff' : '#a78bfa',
-            }}>
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="px-2 py-0.5 rounded-md text-[0.65rem] font-semibold"
+              style={{
+                background: v.is_control ? 'rgba(0,212,255,0.1)' : 'rgba(167,139,250,0.1)',
+                border: `1px solid ${v.is_control ? 'rgba(0,212,255,0.2)' : 'rgba(167,139,250,0.2)'}`,
+                color: v.is_control ? '#00d4ff' : '#a78bfa',
+              }}
+            >
               {v.is_control ? 'CONTROL' : 'VARIANT'}
             </div>
-            <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{v.name}</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+            <span className="text-[0.9rem] font-semibold text-[var(--text-primary)]">{v.name}</span>
+            <span className="text-[0.7rem] text-[var(--text-muted)] font-mono">
               {v.weight}% weight
             </span>
-            <div style={{ marginLeft: 'auto', display: 'flex', gap: '1rem' }}>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+            <div className="ml-auto flex gap-4">
+              <div className="text-right">
+                <div className="text-xl font-bold text-[var(--text-primary)] font-mono">
                   {v.totalUsers || 0}
                 </div>
-                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>users</div>
+                <div className="text-[0.6rem] text-[var(--text-muted)]">users</div>
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
+              <div className="text-right">
+                <div className="text-xl font-bold text-[#6EE05A] font-mono">
                   {v.completionRate || 0}%
                 </div>
-                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>completed</div>
+                <div className="text-[0.6rem] text-[var(--text-muted)]">completed</div>
               </div>
             </div>
           </div>
 
           {/* Step Order */}
-          <div style={{ display: 'flex', gap: '0.25rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+          <div className="flex gap-1 mb-4 flex-wrap">
             {(v.step_order || []).map((step, i) => {
               const config = v.step_config?.[step] || {}
               const isSkipped = config.skip
               return (
-                <div key={step} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  {i > 0 && <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>→</span>}
-                  <span style={{
-                    padding: '0.2rem 0.5rem', borderRadius: '0.375rem',
-                    background: isSkipped ? 'rgba(239,68,68,0.1)' : 'rgba(126,217,87,0.08)',
-                    border: `1px solid ${isSkipped ? 'rgba(239,68,68,0.2)' : 'rgba(126,217,87,0.15)'}`,
-                    fontSize: '0.7rem', color: isSkipped ? '#ef4444' : 'var(--text-secondary)',
-                    textDecoration: isSkipped ? 'line-through' : 'none',
-                  }}>
+                <div key={step} className="flex items-center gap-1">
+                  {i > 0 && <span className="text-[var(--text-muted)] text-[0.7rem]">→</span>}
+                  <span
+                    className="px-2 py-0.5 rounded-md text-[0.7rem]"
+                    style={{
+                      background: isSkipped ? 'rgba(239,68,68,0.1)' : 'rgba(126,217,87,0.08)',
+                      border: `1px solid ${isSkipped ? 'rgba(239,68,68,0.2)' : 'rgba(126,217,87,0.15)'}`,
+                      color: isSkipped ? '#ef4444' : 'var(--text-secondary)',
+                      textDecoration: isSkipped ? 'line-through' : 'none',
+                    }}
+                  >
                     {STEP_LABELS[step] || step}
                   </span>
                 </div>
@@ -353,36 +324,34 @@ function ExperimentDetail({
 
           {/* Funnel */}
           {v.funnel && v.funnel.length > 0 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-              <div style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <div className="flex flex-col gap-1.5">
+              <div className="text-[0.65rem] font-semibold text-[var(--text-muted)] uppercase tracking-[0.05em]">
                 Conversion Funnel
               </div>
               {v.funnel.map(f => {
                 const maxViews = Math.max(...v.funnel!.map(ff => ff.views), 1)
                 const barWidth = (f.views / maxViews) * 100
                 return (
-                  <div key={f.step} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <div style={{ width: '90px', fontSize: '0.75rem', color: 'var(--text-secondary)', flexShrink: 0 }}>
+                  <div key={f.step} className="flex items-center gap-2">
+                    <div className="w-[90px] text-xs text-[var(--text-secondary)] shrink-0">
                       {STEP_LABELS[f.step] || f.step}
                     </div>
-                    <div style={{ flex: 1, height: '20px', background: 'var(--bg-card)', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
-                      <div style={{
-                        height: '100%', width: `${barWidth}%`,
-                        background: 'linear-gradient(90deg, rgba(126,217,87,0.3), rgba(126,217,87,0.15))',
-                        borderRadius: '4px',
-                        transition: 'width 0.3s ease',
-                      }} />
-                      <div style={{
-                        position: 'absolute', top: '50%', left: '0.5rem', transform: 'translateY(-50%)',
-                        fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: 'var(--text-primary)',
-                      }}>
+                    <div className="flex-1 h-5 bg-[var(--bg-card)] rounded-[4px] overflow-hidden relative">
+                      <div
+                        className="h-full rounded-[4px] transition-[width_0.3s_ease]"
+                        style={{
+                          width: `${barWidth}%`,
+                          background: 'linear-gradient(90deg, rgba(126,217,87,0.3), rgba(126,217,87,0.15))',
+                        }}
+                      />
+                      <div className="absolute top-1/2 left-2 -translate-y-1/2 text-[0.65rem] font-mono text-[var(--text-primary)]">
                         {f.views} views → {f.completes} done
-                        {f.skips > 0 && <span style={{ color: '#f59e0b' }}> ({f.skips} skip)</span>}
-                        {f.dropOffs > 0 && <span style={{ color: '#ef4444' }}> ({f.dropOffs} drop)</span>}
+                        {f.skips > 0 && <span className="text-[#f59e0b]"> ({f.skips} skip)</span>}
+                        {f.dropOffs > 0 && <span className="text-[#ef4444]"> ({f.dropOffs} drop)</span>}
                       </div>
                     </div>
                     {f.avgDuration > 0 && (
-                      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', flexShrink: 0, width: '50px', textAlign: 'right' }}>
+                      <div className="text-[0.65rem] text-[var(--text-muted)] font-mono shrink-0 w-[50px] text-right">
                         {f.avgDuration > 60000 ? `${Math.round(f.avgDuration / 60000)}m` : `${Math.round(f.avgDuration / 1000)}s`}
                       </div>
                     )}

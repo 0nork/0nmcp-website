@@ -115,7 +115,6 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
   const iconsOnly = mode === 'icons'
   const width = showLabels ? '13.5rem' : iconsOnly ? '3.5rem' : '13.5rem'
 
-  // Items that navigate to separate routes instead of setting view state
   const ROUTE_ITEMS: Record<string, string> = { grid: '/grid', blog: '/blog' }
 
   const handleNav = useCallback((item: NavItem) => {
@@ -144,60 +143,32 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
   }, [mode])
 
   const content = (
-    <aside style={{
-      width,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      flexShrink: 0,
-      background: 'var(--bg-primary)',
-      borderRight: '1px solid var(--border)',
-      transition: 'width 0.2s ease',
-      overflow: 'hidden',
-    }}>
+    <aside
+      className="flex flex-col shrink-0 bg-[var(--bg-primary)] border-r border-[var(--border)] overflow-hidden h-full transition-[width] duration-200 ease-[ease]"
+      style={{ width }}
+    >
       {/* Logo */}
-      <div style={{
-        height: 56,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: iconsOnly ? 'center' : 'flex-start',
-        padding: iconsOnly ? '0 0.5rem' : '0 1.125rem',
-        borderBottom: '1px solid var(--border)',
-        flexShrink: 0,
-      }}>
+      <div
+        className={`h-14 flex items-center border-b border-[var(--border)] shrink-0 ${iconsOnly ? 'justify-center px-2' : 'justify-start px-[1.125rem]'}`}
+      >
         {iconsOnly ? (
           <Icon0n size={24} />
         ) : (
-          <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={120} height={42} style={{ objectFit: 'contain' }} priority />
+          <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={120} height={42} className="object-contain" priority />
         )}
       </div>
 
       {/* Nav */}
-      <nav className="sb-nav" style={{
-        flex: 1,
-        padding: '0.625rem 0.5rem',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1,
-        overflowY: 'auto',
-        overflowX: 'hidden',
-      }}>
+      <nav className="sb-nav flex-1 py-2.5 px-2 flex flex-col gap-px overflow-y-auto overflow-x-hidden">
         {SECTIONS.map((section, si) => (
-          <div key={si} style={{ marginBottom: si < SECTIONS.length - 1 ? 2 : 0 }}>
+          <div key={si} className={si < SECTIONS.length - 1 ? 'mb-0.5' : ''}>
             {section.label && showLabels && (
-              <div style={{
-                fontSize: '0.6rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                color: 'rgba(255,255,255,0.2)',
-                padding: '0.875rem 0.75rem 0.375rem',
-              }}>
+              <div className="text-[0.6rem] font-bold uppercase tracking-[0.1em] text-white/20 px-3 pt-3.5 pb-1.5">
                 {section.label}
               </div>
             )}
             {iconsOnly && si > 0 && (
-              <div style={{ height: 1, background: 'var(--bg-card)', margin: '6px 10px' }} />
+              <div className="h-px bg-[var(--bg-card)] my-1.5 mx-2.5" />
             )}
             {section.items.filter(item => !item.paidOnly || isPaid).map(item => (
               <SidebarItem
@@ -214,11 +185,7 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
       </nav>
 
       {/* Bottom */}
-      <div style={{
-        padding: '0.375rem 0.5rem 0.5rem',
-        borderTop: '1px solid var(--border)',
-        flexShrink: 0,
-      }}>
+      <div className="px-2 pt-1.5 pb-2 border-t border-[var(--border)] shrink-0">
         {BOTTOM_ITEMS.map(item => (
           <SidebarItem
             key={item.key}
@@ -239,33 +206,18 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
           />
         )}
 
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: iconsOnly ? 'center' : 'space-between',
-          padding: '0.625rem 0.625rem 0.25rem',
-          marginTop: 4,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div className={`flex items-center px-2.5 pt-2.5 pb-1 mt-1 ${iconsOnly ? 'justify-center' : 'justify-between'}`}>
+          <div className="flex items-center gap-1.5">
             <StatusDot status={mcpOnline ? 'online' : 'offline'} />
             {showLabels && (
-              <span style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,0.25)' }}>
+              <span className="text-[0.625rem] text-white/25">
                 {connectedCount} connected
               </span>
             )}
           </div>
           <button
             onClick={onToggleMode}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--border-hover)',
-              cursor: 'pointer',
-              padding: 4,
-              borderRadius: 4,
-              display: 'flex',
-              alignItems: 'center',
-            }}
+            className="bg-transparent border-none text-[var(--border-hover)] cursor-pointer p-1 rounded flex items-center"
           >
             {iconsOnly || !showLabels ? <PanelLeft size={14} /> : <PanelLeftClose size={14} />}
           </button>
@@ -282,18 +234,17 @@ export function Sidebar({ view, setView, mode, onToggleMode, connectedCount, mcp
 
   if (mode === 'hidden') {
     return (
-      <div style={{ position: 'relative', width: 0, flexShrink: 0, height: '100%', zIndex: 100 }}>
+      <div className="relative w-0 shrink-0 h-full z-[100]">
         <div
           onMouseEnter={onHotzoneEnter}
-          style={{ position: 'fixed', left: 0, top: 0, width: 6, height: '100%', zIndex: 101 }}
+          className="fixed left-0 top-0 w-1.5 h-full z-[101]"
         />
         <div
           onMouseEnter={onSidebarEnter}
           onMouseLeave={onSidebarLeave}
+          className="fixed left-0 top-0 h-full z-[100] transition-transform duration-[0.25s] ease-[ease]"
           style={{
-            position: 'fixed', left: 0, top: 0, height: '100%', zIndex: 100,
             transform: hoverVisible ? 'translateX(0)' : 'translateX(-100%)',
-            transition: 'transform 0.25s ease',
             boxShadow: hoverVisible ? '4px 0 24px rgba(0,0,0,0.4)' : 'none',
           }}
         >
@@ -319,61 +270,35 @@ function SidebarItem({ item, active, showLabels, iconsOnly, onClick }: {
   const c = item.color || '#6EE05A'
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div className="relative">
       <button
         onClick={onClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        className="w-full flex items-center gap-2.5 rounded-lg border-none cursor-pointer font-[inherit] transition-all duration-[0.12s] ease-[ease]"
         style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
           padding: iconsOnly ? '8px 0' : '7px 10px',
           justifyContent: iconsOnly ? 'center' : 'flex-start',
-          borderRadius: 8,
-          border: 'none',
-          cursor: 'pointer',
-          fontFamily: 'inherit',
           background: active ? `${c}10` : hovered ? 'var(--bg-card)' : 'transparent',
           borderLeft: iconsOnly ? 'none' : active ? `2px solid ${c}` : '2px solid transparent',
-          transition: 'all 0.12s ease',
           color: active ? c : hovered ? '#e2e2e8' : '#808090',
         }}
       >
-        <span style={{ flexShrink: 0, display: 'flex', opacity: active ? 1 : 0.65 }}>
+        <span className="shrink-0 flex" style={{ opacity: active ? 1 : 0.65 }}>
           {item.icon}
         </span>
         {showLabels && (
-          <span style={{
-            fontSize: '0.8rem',
-            fontWeight: active ? 600 : 450,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-          }}>
+          <span className="text-[0.8rem] whitespace-nowrap overflow-hidden" style={{ fontWeight: active ? 600 : 450 }}>
             {item.label}
           </span>
         )}
       </button>
 
       {iconsOnly && hovered && (
-        <div style={{
-          position: 'absolute',
-          left: 'calc(100% + 8px)',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          background: 'var(--bg-card)',
-          color: c,
-          fontSize: '0.7rem',
-          fontWeight: 600,
-          padding: '4px 10px',
-          borderRadius: 6,
-          whiteSpace: 'nowrap',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-          border: `1px solid ${c}20`,
-          zIndex: 200,
-          pointerEvents: 'none',
-        }}>
+        <div
+          className="absolute left-[calc(100%+8px)] top-1/2 -translate-y-1/2 text-[0.7rem] font-semibold px-2.5 py-1 rounded-[6px] whitespace-nowrap shadow-[0_4px_12px_rgba(0,0,0,0.5)] z-[200] pointer-events-none border bg-[var(--bg-card)]"
+          style={{ color: c, borderColor: `${c}20` }}
+        >
           {item.label}
         </div>
       )}

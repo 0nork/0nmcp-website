@@ -49,17 +49,29 @@ const examples = [
   {
     prompt: 'A dark mode login form with glassmorphism',
     label: 'Glassmorphic Login',
-    color: '#4ade80',
+    colorClass: 'text-green-400',
+    barFrom: 'from-green-400/13',
+    barTo: 'to-green-400/5',
+    badgeBg: 'bg-green-400/8',
+    badgeBorder: 'border-green-400/19',
   },
   {
     prompt: 'A pricing table with 3 tiers and hover animations',
     label: 'Animated Pricing',
-    color: '#00d4ff',
+    colorClass: 'text-cyan-400',
+    barFrom: 'from-cyan-400/13',
+    barTo: 'to-cyan-400/5',
+    badgeBg: 'bg-cyan-400/8',
+    badgeBorder: 'border-cyan-400/19',
   },
   {
     prompt: 'A testimonial carousel with star ratings',
     label: 'Testimonial Carousel',
-    color: '#a78bfa',
+    colorClass: 'text-violet-400',
+    barFrom: 'from-violet-400/13',
+    barTo: 'to-violet-400/5',
+    badgeBg: 'bg-violet-400/8',
+    badgeBorder: 'border-violet-400/19',
   },
 ]
 
@@ -116,23 +128,38 @@ const faqs = [
 ]
 
 function FeatureIcon({ icon }: { icon: string }) {
-  const s = { width: 24, height: 24, stroke: '#4ade80', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
+  const svgProps = {
+    width: 24,
+    height: 24,
+    viewBox: '0 0 24 24',
+    fill: 'none' as const,
+    stroke: '#4ade80',
+    strokeWidth: 1.5,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  }
   switch (icon) {
     case 'grid':
-      return <svg viewBox="0 0 24 24" {...s}><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>
+      return <svg {...svgProps}><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>
     case 'stream':
-      return <svg viewBox="0 0 24 24" {...s}><path d="M4 12h4l3-9 4 18 3-9h4" /></svg>
+      return <svg {...svgProps}><path d="M4 12h4l3-9 4 18 3-9h4" /></svg>
     case 'focus':
-      return <svg viewBox="0 0 24 24" {...s}><circle cx="12" cy="12" r="3" /><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2" /></svg>
+      return <svg {...svgProps}><circle cx="12" cy="12" r="3" /><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2" /></svg>
     case 'editor':
-      return <svg viewBox="0 0 24 24" {...s}><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>
+      return <svg {...svgProps}><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>
     case 'history':
-      return <svg viewBox="0 0 24 24" {...s}><circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15.5 14" /></svg>
+      return <svg {...svgProps}><circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15.5 14" /></svg>
     case 'ship':
-      return <svg viewBox="0 0 24 24" {...s}><path d="M5 12l5 5L20 7" /></svg>
+      return <svg {...svgProps}><path d="M5 12l5 5L20 7" /></svg>
     default:
       return null
   }
+}
+
+const stepColors: Record<string, { text: string; gradientFrom: string }> = {
+  '#4ade80': { text: 'text-green-400', gradientFrom: 'from-green-400' },
+  '#00d4ff': { text: 'text-cyan-400', gradientFrom: 'from-cyan-400' },
+  '#a78bfa': { text: 'text-violet-400', gradientFrom: 'from-violet-400' },
 }
 
 export default function OnCodeProductPage() {
@@ -167,66 +194,32 @@ export default function OnCodeProductPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ── Hero ── */}
-      <section style={{
-        background: 'var(--bg-deep)',
-        padding: '120px 24px 100px',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
+      <section className="bg-[#040A1A] px-6 pt-[120px] pb-[100px] text-center relative overflow-hidden">
         {/* Subtle grid background */}
-        <div style={{
-          position: 'absolute', inset: 0, opacity: 0.04,
-          backgroundImage: 'linear-gradient(rgba(74,222,128,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.3) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
-        }} />
-        <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto' }}>
+        <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(rgba(74,222,128,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(74,222,128,0.3)_1px,transparent_1px)] [background-size:48px_48px]" />
+        <div className="relative max-w-[800px] mx-auto">
           {/* Badge */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '6px 16px', borderRadius: 12, marginBottom: 24,
-            background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)',
-          }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80' }} />
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#4ade80', fontFamily: 'var(--font-mono)', letterSpacing: '0.02em' }}>AI-Powered Design Tool</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl mb-6 bg-green-400/[0.08] border border-green-400/20">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+            <span className="text-[13px] font-semibold text-green-400 font-mono tracking-[0.02em]">AI-Powered Design Tool</span>
           </div>
 
-          <h1 style={{
-            fontSize: 'clamp(48px, 8vw, 80px)', fontWeight: 800, color: '#f0f4f8',
-            fontFamily: 'var(--font-display)', margin: '0 0 16px', letterSpacing: '-0.03em', lineHeight: 1,
-          }}>
-            0n<span style={{ color: '#4ade80' }}>Code</span>
+          <h1 className="text-[clamp(48px,8vw,80px)] font-extrabold text-[#f0f4f8] font-sans m-0 mb-4 tracking-[-0.03em] leading-none">
+            0n<span className="text-green-400">Code</span>
           </h1>
-          <p style={{
-            fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 600, color: '#e0e0e0',
-            margin: '0 0 16px', fontFamily: 'var(--font-display)',
-          }}>
+          <p className="text-[clamp(20px,3vw,28px)] font-semibold text-[#e0e0e0] font-sans mb-4">
             Describe it. Design it. Deploy it.
           </p>
-          <p style={{
-            fontSize: 16, color: '#9ca3af', maxWidth: 560, margin: '0 auto 40px',
-            lineHeight: 1.7,
-          }}>
+          <p className="text-base text-[#9ca3af] max-w-[560px] mx-auto mb-10 leading-[1.7]">
             AI-powered code snippet designer. 3 unique design variations per prompt.
             Real-time streaming. Production-ready HTML/CSS.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/console/0ncode" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 32px', borderRadius: 12, border: 'none',
-              background: '#4ade80', color: '#0d1117', fontWeight: 700, fontSize: 15,
-              textDecoration: 'none', fontFamily: 'var(--font-display)',
-            }}>
+          <div className="flex gap-3 justify-center flex-wrap">
+            <Link href="/console/0ncode" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-green-400 text-[#0d1117] font-bold text-[15px] no-underline font-sans">
               Try 0nCode Free
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
-            <a href="#pricing" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 32px', borderRadius: 12,
-              background: 'transparent', border: '1px solid rgba(74,222,128,0.3)',
-              color: '#4ade80', fontWeight: 600, fontSize: 15,
-              textDecoration: 'none', fontFamily: 'var(--font-display)',
-            }}>
+            <a href="#pricing" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-transparent border border-green-400/30 text-green-400 font-semibold text-[15px] no-underline font-sans">
               View Pricing
             </a>
           </div>
@@ -234,47 +227,33 @@ export default function OnCodeProductPage() {
       </section>
 
       {/* ── How It Works ── */}
-      <section style={{
-        background: 'var(--bg-primary)',
-        padding: '100px 24px',
-      }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 style={{ fontSize: 36, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 12px' }}>
+      <section className="bg-[#0d1117] px-6 py-[100px]">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-[36px] font-extrabold text-[var(--text-primary)] font-sans m-0 mb-3">
               How It Works
             </h2>
-            <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 480, margin: '0 auto' }}>
+            <p className="text-base text-[var(--text-muted)] max-w-[480px] mx-auto">
               From idea to production-ready code in three steps.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 32 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-8">
             {[
-              { step: '01', title: 'Describe', desc: 'Type what you want in plain language: "a pricing table with 3 tiers and hover effects."', color: '#4ade80' },
-              { step: '02', title: 'Generate', desc: 'AI creates 3 unique design variations using physical metaphors — Kinetic Wireframe, Risograph Press, Volumetric Glass.', color: '#00d4ff' },
-              { step: '03', title: 'Export', desc: 'View source, edit inline, copy to clipboard, or export production-ready HTML + CSS + JS.', color: '#a78bfa' },
+              { step: '01', title: 'Describe', desc: 'Type what you want in plain language: "a pricing table with 3 tiers and hover effects."', color: '#4ade80', textClass: 'text-green-400', gradFrom: 'from-green-400' },
+              { step: '02', title: 'Generate', desc: 'AI creates 3 unique design variations using physical metaphors — Kinetic Wireframe, Risograph Press, Volumetric Glass.', color: '#00d4ff', textClass: 'text-cyan-400', gradFrom: 'from-cyan-400' },
+              { step: '03', title: 'Export', desc: 'View source, edit inline, copy to clipboard, or export production-ready HTML + CSS + JS.', color: '#a78bfa', textClass: 'text-violet-400', gradFrom: 'from-violet-400' },
             ].map((s) => (
-              <div key={s.step} style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                borderRadius: 12, padding: 32, position: 'relative',
-              }}>
-                <div style={{
-                  fontSize: 13, fontWeight: 700, color: s.color,
-                  fontFamily: 'var(--font-mono)', marginBottom: 16,
-                  opacity: 0.7,
-                }}>
+              <div key={s.step} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-8 relative">
+                <div className={`text-[13px] font-bold ${s.textClass} font-mono mb-4 opacity-70`}>
                   STEP {s.step}
                 </div>
-                <h3 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 12px' }}>
+                <h3 className="text-[22px] font-bold text-[var(--text-primary)] font-sans m-0 mb-3">
                   {s.title}
                 </h3>
-                <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>
+                <p className="text-sm text-[var(--text-secondary)] leading-[1.7] m-0">
                   {s.desc}
                 </p>
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-                  background: `linear-gradient(90deg, ${s.color}, transparent)`,
-                  borderRadius: '12px 12px 0 0',
-                }} />
+                <div className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${s.gradFrom} to-transparent rounded-t-xl`} />
               </div>
             ))}
           </div>
@@ -282,37 +261,26 @@ export default function OnCodeProductPage() {
       </section>
 
       {/* ── Features ── */}
-      <section style={{
-        background: 'var(--bg-secondary)',
-        padding: '100px 24px',
-      }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 style={{ fontSize: 36, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 12px' }}>
+      <section className="bg-[var(--bg-secondary)] px-6 py-[100px]">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-[36px] font-extrabold text-[var(--text-primary)] font-sans m-0 mb-3">
               Built for Speed and Quality
             </h2>
-            <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 480, margin: '0 auto' }}>
+            <p className="text-base text-[var(--text-muted)] max-w-[480px] mx-auto">
               Every feature designed to get you from prompt to production faster.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
             {features.map((f) => (
-              <div key={f.title} style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                borderRadius: 12, padding: 28,
-              }}>
-                <div style={{
-                  width: 44, height: 44, borderRadius: 10,
-                  background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.15)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginBottom: 16,
-                }}>
+              <div key={f.title} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-7">
+                <div className="w-11 h-11 rounded-[10px] bg-green-400/[0.08] border border-green-400/15 flex items-center justify-center mb-4">
                   <FeatureIcon icon={f.icon} />
                 </div>
-                <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 8px' }}>
+                <h3 className="text-[17px] font-bold text-[var(--text-primary)] font-sans m-0 mb-2">
                   {f.title}
                 </h3>
-                <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>
+                <p className="text-sm text-[var(--text-secondary)] leading-[1.7] m-0">
                   {f.description}
                 </p>
               </div>
@@ -322,62 +290,40 @@ export default function OnCodeProductPage() {
       </section>
 
       {/* ── Examples ── */}
-      <section style={{
-        background: 'var(--bg-primary)',
-        padding: '100px 24px',
-      }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 style={{ fontSize: 36, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 12px' }}>
+      <section className="bg-[#0d1117] px-6 py-[100px]">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-[36px] font-extrabold text-[var(--text-primary)] font-sans m-0 mb-3">
               See What You Can Build
             </h2>
-            <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 480, margin: '0 auto' }}>
+            <p className="text-base text-[var(--text-muted)] max-w-[480px] mx-auto">
               One prompt. Three designs. Infinite possibilities.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
             {examples.map((ex) => (
-              <div key={ex.label} style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                borderRadius: 12, overflow: 'hidden',
-              }}>
+              <div key={ex.label} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl overflow-hidden">
                 {/* Mock preview area */}
-                <div style={{
-                  height: 180, background: 'var(--bg-deep)', position: 'relative',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  borderBottom: `1px solid var(--border)`,
-                }}>
+                <div className="h-[180px] bg-[#040A1A] relative flex items-center justify-center border-b border-[var(--border)]">
                   {/* Decorative code lines */}
-                  <div style={{ padding: 20, width: '100%' }}>
+                  <div className="p-5 w-full">
                     {[0.9, 0.6, 0.75, 0.5, 0.85, 0.4].map((w, i) => (
-                      <div key={i} style={{
-                        height: 8, borderRadius: 4, marginBottom: 8,
-                        background: `linear-gradient(90deg, ${ex.color}22, ${ex.color}08)`,
-                        width: `${w * 100}%`,
-                      }} />
+                      <div
+                        key={i}
+                        className={`h-2 rounded mb-2 bg-gradient-to-r ${ex.barFrom} ${ex.barTo}`}
+                        style={{ width: `${w * 100}%` }}
+                      />
                     ))}
                   </div>
-                  <div style={{
-                    position: 'absolute', bottom: 12, right: 12,
-                    padding: '4px 10px', borderRadius: 6,
-                    background: `${ex.color}15`, border: `1px solid ${ex.color}30`,
-                    fontSize: 11, fontWeight: 600, color: ex.color,
-                    fontFamily: 'var(--font-mono)',
-                  }}>
+                  <div className={`absolute bottom-3 right-3 px-2.5 py-1 rounded-md ${ex.badgeBg} border ${ex.badgeBorder} text-[11px] font-semibold ${ex.colorClass} font-mono`}>
                     {ex.label}
                   </div>
                 </div>
-                <div style={{ padding: '16px 20px' }}>
-                  <div style={{
-                    fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)',
-                    marginBottom: 4,
-                  }}>
+                <div className="px-5 py-4">
+                  <div className="text-xs text-[var(--text-muted)] font-mono mb-1">
                     PROMPT
                   </div>
-                  <p style={{
-                    fontSize: 14, color: 'var(--text-primary)', margin: 0,
-                    fontStyle: 'italic',
-                  }}>
+                  <p className="text-sm text-[var(--text-primary)] m-0 italic">
                     &quot;{ex.prompt}&quot;
                   </p>
                 </div>
@@ -388,69 +334,51 @@ export default function OnCodeProductPage() {
       </section>
 
       {/* ── Pricing ── */}
-      <section id="pricing" style={{
-        background: 'var(--bg-secondary)',
-        padding: '100px 24px',
-      }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 style={{ fontSize: 36, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 12px' }}>
+      <section id="pricing" className="bg-[var(--bg-secondary)] px-6 py-[100px]">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-[36px] font-extrabold text-[var(--text-primary)] font-sans m-0 mb-3">
               Simple, Transparent Pricing
             </h2>
-            <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 480, margin: '0 auto' }}>
+            <p className="text-base text-[var(--text-muted)] max-w-[480px] mx-auto">
               Start free. Upgrade when you need more.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
             {pricing.map((plan) => (
-              <div key={plan.name} style={{
-                background: 'var(--bg-card)',
-                border: plan.highlight ? '2px solid #4ade80' : '1px solid var(--border)',
-                borderRadius: 12, padding: 32, position: 'relative',
-                display: 'flex', flexDirection: 'column',
-              }}>
+              <div
+                key={plan.name}
+                className={`bg-[var(--bg-card)] rounded-xl p-8 relative flex flex-col ${plan.highlight ? 'border-2 border-green-400' : 'border border-[var(--border)]'}`}
+              >
                 {plan.highlight && (
-                  <div style={{
-                    position: 'absolute', top: -1, left: '50%', transform: 'translateX(-50%) translateY(-50%)',
-                    background: '#4ade80', color: '#0d1117', fontSize: 11, fontWeight: 700,
-                    padding: '4px 14px', borderRadius: 20, fontFamily: 'var(--font-display)',
-                    letterSpacing: '0.03em',
-                  }}>
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-green-400 text-[#0d1117] text-[11px] font-bold px-3.5 py-1 rounded-full font-sans tracking-[0.03em]">
                     MOST POPULAR
                   </div>
                 )}
-                <h3 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 4px' }}>
+                <h3 className="text-[22px] font-bold text-[var(--text-primary)] font-sans m-0 mb-1">
                   {plan.name}
                 </h3>
-                <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 20px' }}>
+                <p className="text-[13px] text-[var(--text-muted)] m-0 mb-5">
                   {plan.description}
                 </p>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 24 }}>
-                  <span style={{ fontSize: 44, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', lineHeight: 1 }}>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-[44px] font-extrabold text-[var(--text-primary)] font-sans leading-none">
                     {plan.price}
                   </span>
-                  <span style={{ fontSize: 15, color: 'var(--text-muted)' }}>{plan.period}</span>
+                  <span className="text-[15px] text-[var(--text-muted)]">{plan.period}</span>
                 </div>
-                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', flex: 1 }}>
+                <ul className="list-none p-0 m-0 mb-7 flex-1">
                   {plan.features.map((feat) => (
-                    <li key={feat} style={{
-                      display: 'flex', alignItems: 'flex-start', gap: 10,
-                      fontSize: 14, color: 'var(--text-secondary)', marginBottom: 12,
-                      lineHeight: 1.5,
-                    }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><path d="M5 12l5 5L20 7" /></svg>
+                    <li key={feat} className="flex items-start gap-2.5 text-sm text-[var(--text-secondary)] mb-3 leading-[1.5]">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><path d="M5 12l5 5L20 7" /></svg>
                       {feat}
                     </li>
                   ))}
                 </ul>
-                <Link href={plan.href} style={{
-                  display: 'block', textAlign: 'center', padding: '12px 24px',
-                  borderRadius: 12, textDecoration: 'none', fontWeight: 700, fontSize: 14,
-                  fontFamily: 'var(--font-display)',
-                  background: plan.highlight ? '#4ade80' : 'transparent',
-                  color: plan.highlight ? '#0d1117' : '#4ade80',
-                  border: plan.highlight ? 'none' : '1px solid rgba(74,222,128,0.3)',
-                }}>
+                <Link
+                  href={plan.href}
+                  className={`block text-center px-6 py-3 rounded-xl no-underline font-bold text-sm font-sans ${plan.highlight ? 'bg-green-400 text-[#0d1117] border-0' : 'bg-transparent text-green-400 border border-green-400/30'}`}
+                >
                   {plan.cta}
                 </Link>
               </div>
@@ -460,26 +388,20 @@ export default function OnCodeProductPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section style={{
-        background: 'var(--bg-primary)',
-        padding: '100px 24px',
-      }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
-            <h2 style={{ fontSize: 36, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 12px' }}>
+      <section className="bg-[#0d1117] px-6 py-[100px]">
+        <div className="max-w-[720px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-[36px] font-extrabold text-[var(--text-primary)] font-sans m-0 mb-3">
               Frequently Asked Questions
             </h2>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="flex flex-col gap-4">
             {faqs.map((faq) => (
-              <div key={faq.q} style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                borderRadius: 12, padding: '24px 28px',
-              }}>
-                <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: '0 0 10px' }}>
+              <div key={faq.q} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl px-7 py-6">
+                <h3 className="text-base font-bold text-[var(--text-primary)] font-sans m-0 mb-2.5">
                   {faq.q}
                 </h3>
-                <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>
+                <p className="text-sm text-[var(--text-secondary)] leading-[1.7] m-0">
                   {faq.a}
                 </p>
               </div>
@@ -489,34 +411,16 @@ export default function OnCodeProductPage() {
       </section>
 
       {/* ── Bottom CTA ── */}
-      <section style={{
-        background: 'var(--bg-deep)',
-        padding: '100px 24px',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0, opacity: 0.03,
-          backgroundImage: 'radial-gradient(circle at 50% 50%, #4ade80 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
-        }} />
-        <div style={{ position: 'relative', maxWidth: 600, margin: '0 auto' }}>
-          <h2 style={{
-            fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: '#f0f4f8',
-            fontFamily: 'var(--font-display)', margin: '0 0 16px', lineHeight: 1.2,
-          }}>
+      <section className="bg-[#040A1A] px-6 py-[100px] text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03] [background-image:radial-gradient(circle_at_50%_50%,#4ade80_1px,transparent_1px)] [background-size:32px_32px]" />
+        <div className="relative max-w-[600px] mx-auto">
+          <h2 className="text-[clamp(28px,4vw,40px)] font-extrabold text-[#f0f4f8] font-sans m-0 mb-4 leading-[1.2]">
             Your next UI component is one prompt away.
           </h2>
-          <p style={{ fontSize: 16, color: '#9ca3af', margin: '0 0 36px', lineHeight: 1.7 }}>
+          <p className="text-base text-[#9ca3af] m-0 mb-9 leading-[1.7]">
             Stop hand-coding boilerplate. Describe what you need and let AI handle the design.
           </p>
-          <Link href="/console/0ncode" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '16px 40px', borderRadius: 12, border: 'none',
-            background: '#4ade80', color: '#0d1117', fontWeight: 700, fontSize: 16,
-            textDecoration: 'none', fontFamily: 'var(--font-display)',
-          }}>
+          <Link href="/console/0ncode" className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-green-400 text-[#0d1117] font-bold text-base no-underline font-sans">
             Try 0nCode Free
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </Link>

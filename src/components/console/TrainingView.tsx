@@ -11,18 +11,6 @@ const TIER_ICONS: Record<number, string> = {
   0: '🌱', 1: '🌿', 2: '🌳', 3: '🏔️', 4: '🧠',
 }
 
-const card: React.CSSProperties = {
-  background: 'var(--bg-card, #0B0F19)',
-  border: '1px solid var(--border, #1a1a1a)',
-  borderRadius: '0.75rem',
-  padding: '1.25rem',
-}
-
-const sub: React.CSSProperties = {
-  color: 'var(--text-muted, #666)',
-  fontSize: '0.8rem',
-}
-
 interface TrainingViewProps {
   isAdmin?: boolean
 }
@@ -42,20 +30,20 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
 
   if (loading) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🧠</div>
-        <div style={sub}>Loading Brain Training Dashboard...</div>
+      <div className="p-8 text-center">
+        <div className="text-4xl mb-2">🧠</div>
+        <div className="text-[0.8rem] text-[var(--text-muted,#666)]">Loading Brain Training Dashboard...</div>
       </div>
     )
   }
 
   if (!data) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🧠</div>
-        <div style={{ color: 'var(--text-primary, #e5e5e5)' }}>Brain Training Factory</div>
-        <div style={{ ...sub, marginTop: '0.5rem' }}>
-          No training data yet. Run <code style={{ color: '#6EE05A' }}>/training</code> in Claude Code to start the first session.
+      <div className="p-8 text-center">
+        <div className="text-4xl mb-2">🧠</div>
+        <div className="text-[var(--text-primary,#e5e5e5)]">Brain Training Factory</div>
+        <div className="text-[0.8rem] text-[var(--text-muted,#666)] mt-2">
+          No training data yet. Run <code className="text-[#6EE05A]">/training</code> in Claude Code to start the first session.
         </div>
       </div>
     )
@@ -76,7 +64,6 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
   }
 
   // Latest run
-  const lastRun = data.recentRuns[0]
   const lastTrainedRun = data.recentRuns.find(r => r.run_type !== 'housekeeping')
   const lastTrainedAgo = lastTrainedRun
     ? timeAgo(new Date(lastTrainedRun.created_at))
@@ -89,51 +76,56 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
     : 0
 
   return (
-    <div style={{ padding: '1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="p-6 max-w-[1200px] mx-auto">
       {/* ─── Hero Status Bar ─── */}
-      <div style={{ ...card, marginBottom: '1.5rem', borderColor: `${tierColor}33` }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+      <div
+        className="bg-[var(--bg-card,#0B0F19)] border rounded-xl p-5 mb-6"
+        style={{ borderColor: `${tierColor}33` }}
+      >
+        <div className="flex items-center gap-4 flex-wrap">
           {/* Tier Badge */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '0.5rem',
-            background: `${tierColor}15`, border: `1px solid ${tierColor}44`,
-            borderRadius: '2rem', padding: '0.5rem 1rem',
-            boxShadow: `0 0 20px ${tierColor}22`,
-          }}>
-            <span style={{ fontSize: '1.5rem' }}>{tierIcon}</span>
+          <div
+            className="flex items-center gap-2 rounded-[2rem] px-4 py-2"
+            style={{
+              background: `${tierColor}15`,
+              border: `1px solid ${tierColor}44`,
+              boxShadow: `0 0 20px ${tierColor}22`,
+            }}
+          >
+            <span className="text-2xl">{tierIcon}</span>
             <div>
-              <div style={{ color: tierColor, fontWeight: 700, fontSize: '1.1rem' }}>
+              <div className="font-bold text-[1.1rem]" style={{ color: tierColor }}>
                 Tier {data.currentTier.tier}: {data.currentTier.name}
               </div>
-              <div style={{ ...sub, fontSize: '0.7rem' }}>
+              <div className="text-[0.7rem] text-[var(--text-muted,#666)]">
                 {data.currentTier.personaCount} personas · {data.currentTier.domains.length} domains
               </div>
             </div>
           </div>
 
           {/* Knowledge Count */}
-          <div style={{ flex: 1, minWidth: '200px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-              <span style={{ color: 'var(--text-secondary, #a3a3a3)', fontSize: '0.8rem' }}>
+          <div className="flex-1 min-w-[200px]">
+            <div className="flex justify-between mb-1">
+              <span className="text-[var(--text-secondary,#a3a3a3)] text-[0.8rem]">
                 Knowledge: {data.totalKnowledge}
               </span>
-              <span style={{ ...sub, fontSize: '0.75rem' }}>
+              <span className="text-[0.75rem] text-[var(--text-muted,#666)]">
                 {data.nextTierProgress.label}
               </span>
             </div>
-            <div style={{ background: 'var(--bg-card)', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
-              <div style={{
-                width: `${Math.min((data.nextTierProgress.current / data.nextTierProgress.needed) * 100, 100)}%`,
-                height: '100%',
-                background: `linear-gradient(90deg, ${tierColor}, ${tierColor}88)`,
-                borderRadius: '4px',
-                transition: 'width 0.5s ease',
-              }} />
+            <div className="bg-[var(--bg-card)] rounded h-2 overflow-hidden">
+              <div
+                className="h-full rounded transition-[width] duration-500"
+                style={{
+                  width: `${Math.min((data.nextTierProgress.current / data.nextTierProgress.needed) * 100, 100)}%`,
+                  background: `linear-gradient(90deg, ${tierColor}, ${tierColor}88)`,
+                }}
+              />
             </div>
           </div>
 
           {/* Stats */}
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
+          <div className="flex gap-6">
             <StatPill label="Last Trained" value={lastTrainedAgo} color={lastTrainedRun ? '#6EE05A' : '#64748b'} pulse={!!lastTrainedRun} />
             <StatPill label="Avg Score" value={data.avgScore ? data.avgScore.toFixed(3) : '—'} color={getScoreColor(data.avgScore)} />
             <StatPill label="Brain Health" value={brainHealth ? brainHealth.toFixed(3) : '—'} color={getScoreColor(brainHealth)} />
@@ -142,46 +134,48 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
       </div>
 
       {/* ─── Grid: Personas + Domain Coverage ─── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+      <div className="grid grid-cols-2 gap-6 mb-6">
         {/* Persona Cards */}
-        <div style={card}>
-          <h3 style={{ color: 'var(--text-primary, #e5e5e5)', margin: '0 0 1rem', fontSize: '1rem' }}>
+        <div className="bg-[var(--bg-card,#0B0F19)] border border-[var(--border,#1a1a1a)] rounded-xl p-5">
+          <h3 className="text-[var(--text-primary,#e5e5e5)] mt-0 mb-4 text-base">
             Council Personas
           </h3>
-          <div style={{ display: 'grid', gap: '0.75rem' }}>
+          <div className="grid gap-3">
             {data.personaScores.map(p => (
-              <div key={p.id} style={{
-                display: 'flex', alignItems: 'center', gap: '0.75rem',
-                padding: '0.5rem 0.75rem',
-                background: p.isActive ? '#111' : '#0B0F19',
-                borderRadius: '0.5rem',
-                border: `1px solid ${p.isActive ? '#1a1a1a' : '#111'}`,
-                opacity: p.isActive ? 1 : 0.45,
-                filter: p.isActive ? 'none' : 'grayscale(1)',
-              }}>
-                <span style={{ fontSize: '1.25rem' }}>{(p as { avatar?: string }).avatar || '🤖'}</span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--text-primary, #e5e5e5)', fontWeight: 600, fontSize: '0.85rem' }}>
+              <div
+                key={p.id}
+                className="flex items-center gap-3 py-2 px-3 rounded-lg border"
+                style={{
+                  background: p.isActive ? '#111' : '#0B0F19',
+                  borderColor: p.isActive ? '#1a1a1a' : '#111',
+                  opacity: p.isActive ? 1 : 0.45,
+                  filter: p.isActive ? 'none' : 'grayscale(1)',
+                }}
+              >
+                <span className="text-xl">{(p as { avatar?: string }).avatar || '🤖'}</span>
+                <div className="flex-1">
+                  <div className="flex justify-between">
+                    <span className="text-[var(--text-primary,#e5e5e5)] font-semibold text-[0.85rem]">
                       {p.name}
                     </span>
                     {p.isActive ? (
-                      <span style={{ color: getScoreColor(p.avgScore), fontSize: '0.8rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                      <span className="text-[0.8rem] font-mono" style={{ color: getScoreColor(p.avgScore) }}>
                         {p.avgScore > 0 ? p.avgScore.toFixed(3) : '—'}
                       </span>
                     ) : (
-                      <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Tier {p.unlocksAtTier}</span>
+                      <span className="text-[0.7rem] text-[var(--text-muted)]">Tier {p.unlocksAtTier}</span>
                     )}
                   </div>
-                  <div style={{ ...sub, fontSize: '0.7rem' }}>{p.specialty}</div>
+                  <div className="text-[0.7rem] text-[var(--text-muted,#666)]">{p.specialty}</div>
                   {p.isActive && p.avgScore > 0 && (
-                    <div style={{ background: 'var(--bg-card)', borderRadius: '3px', height: '4px', marginTop: '4px' }}>
-                      <div style={{
-                        width: `${Math.min(p.avgScore * 100, 100)}%`,
-                        height: '100%',
-                        background: getScoreColor(p.avgScore),
-                        borderRadius: '3px',
-                      }} />
+                    <div className="bg-[var(--bg-card)] rounded-sm h-1 mt-1">
+                      <div
+                        className="h-full rounded-sm"
+                        style={{
+                          width: `${Math.min(p.avgScore * 100, 100)}%`,
+                          background: getScoreColor(p.avgScore),
+                        }}
+                      />
                     </div>
                   )}
                 </div>
@@ -191,31 +185,32 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
         </div>
 
         {/* Domain Coverage */}
-        <div style={card}>
-          <h3 style={{ color: 'var(--text-primary, #e5e5e5)', margin: '0 0 1rem', fontSize: '1rem' }}>
+        <div className="bg-[var(--bg-card,#0B0F19)] border border-[var(--border,#1a1a1a)] rounded-xl p-5">
+          <h3 className="text-[var(--text-primary,#e5e5e5)] mt-0 mb-4 text-base">
             Domain Coverage
           </h3>
           {data.domainCoverage.length === 0 ? (
-            <div style={sub}>No domain data yet. Run /training to start.</div>
+            <div className="text-[0.8rem] text-[var(--text-muted,#666)]">No domain data yet. Run /training to start.</div>
           ) : (
-            <div style={{ display: 'grid', gap: '0.75rem' }}>
+            <div className="grid gap-3">
               {data.domainCoverage.map(d => (
                 <div key={d.domain}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <span style={{ color: 'var(--text-secondary, #a3a3a3)', fontSize: '0.8rem' }}>
+                  <div className="flex justify-between mb-1">
+                    <span className="text-[var(--text-secondary,#a3a3a3)] text-[0.8rem]">
                       {(d as { label?: string }).label || d.domain}
                     </span>
-                    <span style={{ color: getScoreColor(d.avgScore), fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <span className="text-[0.75rem] font-mono" style={{ color: getScoreColor(d.avgScore) }}>
                       {d.count} entries · {d.avgScore.toFixed(3)}
                     </span>
                   </div>
-                  <div style={{ background: 'var(--bg-card)', borderRadius: '4px', height: '6px' }}>
-                    <div style={{
-                      width: `${Math.min(d.avgScore * 100, 100)}%`,
-                      height: '100%',
-                      background: getScoreColor(d.avgScore),
-                      borderRadius: '4px',
-                    }} />
+                  <div className="bg-[var(--bg-card)] rounded h-1.5">
+                    <div
+                      className="h-full rounded"
+                      style={{
+                        width: `${Math.min(d.avgScore * 100, 100)}%`,
+                        background: getScoreColor(d.avgScore),
+                      }}
+                    />
                   </div>
                 </div>
               ))}
@@ -225,47 +220,49 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
       </div>
 
       {/* ─── Training Run Log ─── */}
-      <div style={{ ...card, marginBottom: '1.5rem' }}>
-        <h3 style={{ color: 'var(--text-primary, #e5e5e5)', margin: '0 0 1rem', fontSize: '1rem' }}>
+      <div className="bg-[var(--bg-card,#0B0F19)] border border-[var(--border,#1a1a1a)] rounded-xl p-5 mb-6">
+        <h3 className="text-[var(--text-primary,#e5e5e5)] mt-0 mb-4 text-base">
           Training Run Log
         </h3>
         {data.recentRuns.length === 0 ? (
-          <div style={sub}>No training runs yet.</div>
+          <div className="text-[0.8rem] text-[var(--text-muted,#666)]">No training runs yet.</div>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-[0.8rem]">
               <thead>
-                <tr style={{ borderBottom: '1px solid #1a1a1a' }}>
+                <tr className="border-b border-[#1a1a1a]">
                   {['Time', 'Type', 'Tier', 'Batch', 'Avg Score', 'Added', 'Pruned', 'Duration'].map(h => (
-                    <th key={h} style={{ textAlign: 'left', padding: '0.5rem', color: 'var(--text-muted)', fontWeight: 500 }}>{h}</th>
+                    <th key={h} className="text-left py-2 px-2 text-[var(--text-muted)] font-medium">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {data.recentRuns.map(run => (
-                  <tr key={run.id} style={{ borderBottom: '1px solid #111' }}>
-                    <td style={{ padding: '0.5rem', color: 'var(--text-muted)' }}>{timeAgo(new Date(run.created_at))}</td>
-                    <td style={{ padding: '0.5rem' }}>
-                      <span style={{
-                        fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px',
-                        background: run.run_type === 'offline' ? '#6EE05A22' : run.run_type === 'housekeeping' ? '#64748b22' : '#ff6b3522',
-                        color: run.run_type === 'offline' ? '#6EE05A' : run.run_type === 'housekeeping' ? '#64748b' : '#ff6b35',
-                      }}>
+                  <tr key={run.id} className="border-b border-[#111]">
+                    <td className="py-2 px-2 text-[var(--text-muted)]">{timeAgo(new Date(run.created_at))}</td>
+                    <td className="py-2 px-2">
+                      <span
+                        className="text-[0.7rem] py-0.5 px-1.5 rounded"
+                        style={{
+                          background: run.run_type === 'offline' ? '#6EE05A22' : run.run_type === 'housekeeping' ? '#64748b22' : '#ff6b3522',
+                          color: run.run_type === 'offline' ? '#6EE05A' : run.run_type === 'housekeeping' ? '#64748b' : '#ff6b35',
+                        }}
+                      >
                         {run.run_type}
                       </span>
                     </td>
-                    <td style={{ padding: '0.5rem', color: TIER_COLORS[run.tier_level] || '#666' }}>T{run.tier_level}</td>
-                    <td style={{ padding: '0.5rem', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>{run.batch_size || '—'}</td>
-                    <td style={{ padding: '0.5rem', color: getScoreColor(run.avg_composite_score || 0), fontFamily: 'JetBrains Mono, monospace' }}>
+                    <td className="py-2 px-2" style={{ color: TIER_COLORS[run.tier_level] || '#666' }}>T{run.tier_level}</td>
+                    <td className="py-2 px-2 text-[var(--text-muted)] font-mono">{run.batch_size || '—'}</td>
+                    <td className="py-2 px-2 font-mono" style={{ color: getScoreColor(run.avg_composite_score || 0) }}>
                       {run.avg_composite_score ? run.avg_composite_score.toFixed(3) : '—'}
                     </td>
-                    <td style={{ padding: '0.5rem', color: run.entries_added ? '#6EE05A' : '#666', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <td className="py-2 px-2 font-mono" style={{ color: run.entries_added ? '#6EE05A' : '#666' }}>
                       {run.entries_added ? `+${run.entries_added}` : '—'}
                     </td>
-                    <td style={{ padding: '0.5rem', color: run.entries_pruned ? '#ef4444' : '#666', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <td className="py-2 px-2 font-mono" style={{ color: run.entries_pruned ? '#ef4444' : '#666' }}>
                       {run.entries_pruned ? `-${run.entries_pruned}` : '—'}
                     </td>
-                    <td style={{ padding: '0.5rem', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <td className="py-2 px-2 text-[var(--text-muted)] font-mono">
                       {run.duration_ms ? `${(run.duration_ms / 1000).toFixed(1)}s` : '—'}
                     </td>
                   </tr>
@@ -277,37 +274,32 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
       </div>
 
       {/* ─── Grid: Milestones + Admin ─── */}
-      <div style={{ display: 'grid', gridTemplateColumns: isAdmin ? '1fr 1fr' : '1fr', gap: '1.5rem' }}>
+      <div className={`grid gap-6 ${isAdmin ? 'grid-cols-2' : 'grid-cols-1'}`}>
         {/* Milestones */}
-        <div style={card}>
-          <h3 style={{ color: 'var(--text-primary, #e5e5e5)', margin: '0 0 1rem', fontSize: '1rem' }}>
+        <div className="bg-[var(--bg-card,#0B0F19)] border border-[var(--border,#1a1a1a)] rounded-xl p-5">
+          <h3 className="text-[var(--text-primary,#e5e5e5)] mt-0 mb-4 text-base">
             Milestones
           </h3>
           {data.milestones.length === 0 ? (
-            <div style={sub}>No milestones achieved yet. Run /training to begin.</div>
+            <div className="text-[0.8rem] text-[var(--text-muted,#666)]">No milestones achieved yet. Run /training to begin.</div>
           ) : (
-            <div style={{ position: 'relative', paddingLeft: '1.5rem' }}>
+            <div className="relative pl-6">
               {/* Vertical line */}
-              <div style={{
-                position: 'absolute', left: '6px', top: 0, bottom: 0,
-                width: '2px', background: 'var(--bg-card)',
-              }} />
-              {data.milestones.map((m, i) => {
+              <div className="absolute left-[6px] top-0 bottom-0 w-0.5 bg-[var(--bg-card)]" />
+              {data.milestones.map((m) => {
                 const isTier = m.milestone_key.startsWith('tier_')
                 const color = isTier ? (TIER_COLORS[parseInt(m.milestone_key.replace('tier_', '').replace('_reached', ''))] || '#6EE05A') : '#6EE05A'
                 return (
-                  <div key={m.milestone_key} style={{ position: 'relative', marginBottom: '1rem' }}>
+                  <div key={m.milestone_key} className="relative mb-4">
                     {/* Dot */}
-                    <div style={{
-                      position: 'absolute', left: '-1.5rem', top: '4px',
-                      width: '10px', height: '10px', borderRadius: '50%',
-                      background: color, border: '2px solid #0B0F19',
-                      boxShadow: `0 0 8px ${color}44`,
-                    }} />
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-primary, #e5e5e5)', fontWeight: 600 }}>
+                    <div
+                      className="absolute left-[-1.5rem] top-1 w-2.5 h-2.5 rounded-full border-2 border-[#0B0F19]"
+                      style={{ background: color, boxShadow: `0 0 8px ${color}44` }}
+                    />
+                    <div className="text-[0.85rem] text-[var(--text-primary,#e5e5e5)] font-semibold">
                       {formatMilestoneKey(m.milestone_key)}
                     </div>
-                    <div style={{ ...sub, fontSize: '0.7rem' }}>
+                    <div className="text-[0.7rem] text-[var(--text-muted,#666)]">
                       {new Date(m.reached_at).toLocaleDateString()} · {timeAgo(new Date(m.reached_at))}
                     </div>
                   </div>
@@ -319,31 +311,30 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
 
         {/* Admin Panel */}
         {isAdmin && (
-          <div style={card}>
-            <h3 style={{ color: 'var(--text-primary, #e5e5e5)', margin: '0 0 1rem', fontSize: '1rem' }}>
+          <div className="bg-[var(--bg-card,#0B0F19)] border border-[var(--border,#1a1a1a)] rounded-xl p-5">
+            <h3 className="text-[var(--text-primary,#e5e5e5)] mt-0 mb-4 text-base">
               Admin Controls
             </h3>
             <button
               onClick={triggerHousekeeping}
               disabled={runningHousekeeping}
+              className="w-full py-3 rounded-lg font-semibold text-[0.9rem] mb-4 transition-colors duration-150"
               style={{
-                width: '100%', padding: '0.75rem', borderRadius: '0.5rem',
                 background: runningHousekeeping ? '#1a1a1a' : `${tierColor}22`,
                 border: `1px solid ${runningHousekeeping ? '#333' : tierColor}44`,
                 color: runningHousekeeping ? '#666' : tierColor,
                 cursor: runningHousekeeping ? 'not-allowed' : 'pointer',
-                fontWeight: 600, fontSize: '0.9rem', marginBottom: '1rem',
               }}
             >
               {runningHousekeeping ? 'Running...' : 'Run Housekeeping Now'}
             </button>
-            <div style={sub}>
+            <div className="text-[0.8rem] text-[var(--text-muted,#666)]">
               Housekeeping prunes expired entries, checks tier upgrades, and sends milestone notifications.
-              Actual training runs happen offline via <code style={{ color: '#6EE05A' }}>/training</code>.
+              Actual training runs happen offline via <code className="text-[#6EE05A]">/training</code>.
             </div>
 
             {/* Quick Stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginTop: '1rem' }}>
+            <div className="grid grid-cols-2 gap-3 mt-4">
               <MiniStat label="Total Knowledge" value={String(data.totalKnowledge)} />
               <MiniStat label="Avg Score" value={data.avgScore ? data.avgScore.toFixed(3) : '0'} />
               <MiniStat label="Training Runs" value={String(data.recentRuns.filter(r => r.run_type !== 'housekeeping').length)} />
@@ -362,17 +353,16 @@ export function TrainingView({ isAdmin }: TrainingViewProps) {
 
 function StatPill({ label, value, color, pulse }: { label: string; value: string; color: string; pulse?: boolean }) {
   return (
-    <div style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}>
+    <div className="text-center">
+      <div className="text-[0.65rem] text-[var(--text-muted)] mb-0.5">{label}</div>
+      <div className="flex items-center gap-1 justify-center">
         {pulse && (
-          <span style={{
-            width: '6px', height: '6px', borderRadius: '50%',
-            background: color, display: 'inline-block',
-            boxShadow: `0 0 6px ${color}`,
-          }} />
+          <span
+            className="w-1.5 h-1.5 rounded-full inline-block"
+            style={{ background: color, boxShadow: `0 0 6px ${color}` }}
+          />
         )}
-        <span style={{ color, fontFamily: 'JetBrains Mono, monospace', fontSize: '0.85rem', fontWeight: 600 }}>
+        <span className="font-mono text-[0.85rem] font-semibold" style={{ color }}>
           {value}
         </span>
       </div>
@@ -382,9 +372,9 @@ function StatPill({ label, value, color, pulse }: { label: string; value: string
 
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ background: '#111', borderRadius: '0.5rem', padding: '0.5rem', textAlign: 'center' }}>
-      <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{label}</div>
-      <div style={{ color: 'var(--text-primary, #e5e5e5)', fontWeight: 600, fontSize: '1rem', fontFamily: 'JetBrains Mono, monospace' }}>
+    <div className="bg-[#111] rounded-lg p-2 text-center">
+      <div className="text-[0.65rem] text-[var(--text-muted)]">{label}</div>
+      <div className="text-[var(--text-primary,#e5e5e5)] font-semibold text-base font-mono">
         {value}
       </div>
     </div>

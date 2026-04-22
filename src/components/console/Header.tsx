@@ -102,7 +102,6 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
     try {
       await fetch('/api/auth/signout', { method: 'POST' })
     } catch { /* ignore */ }
-    // Clear any local state and redirect
     document.cookie.split(';').forEach(c => {
       document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
     })
@@ -110,32 +109,20 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
   }
 
   return (
-    <header style={{
-      height: 56,
-      flexShrink: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '0 1.25rem',
-      background: 'var(--bg-primary)',
-      borderBottom: '1px solid var(--border)',
-      position: 'relative',
-      zIndex: 10,
-    }}>
+    <header className="h-14 shrink-0 flex items-center justify-between px-5 bg-[var(--bg-primary)] border-b border-[var(--border)] relative z-10">
       {/* Left */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="flex items-center gap-3">
         <button
           onClick={onMobileMenu}
-          className="md:hidden"
-          style={{ background: 'none', border: 'none', color: '#808090', cursor: 'pointer', padding: 4 }}
+          className="md:hidden bg-transparent border-none text-[#808090] cursor-pointer p-1"
         >
           <Menu size={20} />
         </button>
 
         {view !== 'dashboard' && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>/</span>
-            <span style={{ color: 'var(--text-primary)', fontSize: '0.875rem', fontWeight: 600 }}>
+          <div className="flex items-center gap-2">
+            <span className="text-[var(--text-muted)] text-sm">/</span>
+            <span className="text-[var(--text-primary)] text-sm font-semibold">
               {VIEW_LABELS[view] || view}
             </span>
           </div>
@@ -143,23 +130,11 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
       </div>
 
       {/* Right */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div className="flex items-center gap-2">
         {/* MCP status */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          padding: '5px 10px',
-          borderRadius: 8,
-          background: 'rgba(255,255,255,0.02)',
-          border: '1px solid var(--border)',
-        }}>
+        <div className="flex items-center gap-1.5 py-[5px] px-2.5 rounded-lg bg-white/[0.02] border border-[var(--border)]">
           <StatusDot status={mcpOnline ? 'online' : 'offline'} />
-          <span style={{
-            fontSize: '0.7rem',
-            fontWeight: 600,
-            color: mcpOnline ? '#6EE05A' : '#4a4a5a',
-          }}>
+          <span className={`text-[0.7rem] font-semibold ${mcpOnline ? 'text-[#6EE05A]' : 'text-[#4a4a5a]'}`}>
             {mcpOnline ? (mcpMode === 'local' ? 'Local' : 'Cloud') : 'Offline'}
           </span>
         </div>
@@ -168,12 +143,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
         <button
           onClick={toggleTheme}
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            width: 32, height: 32, borderRadius: 8,
-            background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
-            color: 'var(--text-muted)', cursor: 'pointer', transition: 'all 0.15s',
-          }}
+          className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.02] border border-[var(--border)] text-[var(--text-muted)] cursor-pointer transition-all duration-150"
         >
           {theme === 'dark' ? (
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
@@ -186,14 +156,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
         <a
           href="/connect/token"
           title="Access Token"
-          style={{
-            display: 'flex', alignItems: 'center', gap: 5,
-            padding: '5px 10px', borderRadius: 8,
-            background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
-            color: 'var(--text-muted)', textDecoration: 'none',
-            fontSize: '0.7rem', fontWeight: 600,
-            cursor: 'pointer', transition: 'all 0.15s',
-          }}
+          className="flex items-center gap-[5px] py-[5px] px-2.5 rounded-lg bg-white/[0.02] border border-[var(--border)] text-[var(--text-muted)] no-underline text-[0.7rem] font-semibold cursor-pointer transition-all duration-150"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
           <span className="hidden sm:inline">Token</span>
@@ -202,33 +165,11 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
         {/* Search */}
         <button
           onClick={onCmdK}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '5px 12px',
-            borderRadius: 8,
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid var(--border)',
-            color: '#68687a',
-            cursor: 'pointer',
-            fontFamily: 'inherit',
-            transition: 'border-color 0.15s',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(126,217,87,0.2)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)' }}
+          className="flex items-center gap-2 py-[5px] px-3 rounded-lg bg-white/[0.02] border border-[var(--border)] text-[#68687a] cursor-pointer font-[inherit] transition-colors duration-150 hover:border-[rgba(126,217,87,0.2)]"
         >
           <Search size={13} />
-          <span className="hidden sm:inline" style={{ fontSize: '0.75rem' }}>Search</span>
-          <kbd className="hidden sm:inline" style={{
-            fontSize: '0.6rem',
-            padding: '2px 5px',
-            borderRadius: 4,
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            color: '#4a4a5a',
-            fontFamily: 'var(--font-mono)',
-          }}>
+          <span className="hidden sm:inline text-xs">Search</span>
+          <kbd className="hidden sm:inline text-[0.6rem] py-0.5 px-[5px] rounded bg-[var(--bg-card)] border border-[var(--border)] text-[#4a4a5a] font-mono">
             {'\u2318'}K
           </kbd>
         </button>
@@ -240,21 +181,16 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
           return (
             <button
               onClick={onNavigateVault}
+              className="flex items-center gap-[5px] py-[5px] px-2.5 rounded-lg cursor-pointer font-[inherit] transition-all duration-150"
               style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                padding: '5px 10px', borderRadius: 8,
                 background: `${info?.color || '#6EE05A'}08`,
                 border: `1px solid ${info?.color || '#6EE05A'}20`,
-                cursor: 'pointer', fontFamily: 'inherit',
-                transition: 'border-color 0.15s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = `${info?.color || '#6EE05A'}40` }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = `${info?.color || '#6EE05A'}20` }}
             >
               {logo ? (
-                <img src={logo} alt="" width={14} height={14} style={{ borderRadius: 3 }} />
+                <img src={logo} alt="" width={14} height={14} className="rounded-[3px]" />
               ) : null}
-              <span className="hidden sm:inline" style={{ fontSize: '0.7rem', fontWeight: 600, color: info?.color || '#6EE05A' }}>
+              <span className="hidden sm:inline text-[0.7rem] font-semibold" style={{ color: info?.color || '#6EE05A' }}>
                 {info?.label || coreAI}
               </span>
             </button>
@@ -262,17 +198,10 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
         })() : (
           <button
             onClick={onSetupAI}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 5,
-              padding: '5px 10px', borderRadius: 8,
-              background: 'rgba(255,107,53,0.06)',
-              border: '1px solid rgba(255,107,53,0.2)',
-              cursor: 'pointer', fontFamily: 'inherit',
-              animation: 'headerPulse 2s ease infinite',
-            }}
+            className="flex items-center gap-[5px] py-[5px] px-2.5 rounded-lg bg-[rgba(255,107,53,0.06)] border border-[rgba(255,107,53,0.2)] cursor-pointer font-[inherit] [animation:headerPulse_2s_ease_infinite]"
           >
-            <AlertTriangle size={12} style={{ color: '#ff6b35' }} />
-            <span className="hidden sm:inline" style={{ fontSize: '0.7rem', fontWeight: 600, color: '#ff6b35' }}>
+            <AlertTriangle size={12} className="text-[#ff6b35]" />
+            <span className="hidden sm:inline text-[0.7rem] font-semibold text-[#ff6b35]">
               Set up AI
             </span>
           </button>
@@ -280,22 +209,17 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
 
         {/* Spark Counter */}
         {(runCount !== undefined && runCount !== null) && (
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 4,
-            padding: '5px 10px', borderRadius: 8,
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid var(--border)',
-          }}>
-            <Zap size={11} style={{
-              color: isOwner ? '#6EE05A'
-                : runLimit && runCount / runLimit > 0.5 ? '#6EE05A'
-                : runLimit && runCount / runLimit > 0.1 ? '#f59e0b'
-                : '#ef4444'
-            }} />
-            <span style={{
-              fontSize: '0.7rem', fontWeight: 600,
-              color: isOwner ? '#6EE05A' : 'var(--text-secondary)',
-            }}>
+          <div className="flex items-center gap-1 py-[5px] px-2.5 rounded-lg bg-white/[0.02] border border-[var(--border)]">
+            <Zap
+              size={11}
+              style={{
+                color: isOwner ? '#6EE05A'
+                  : runLimit && runCount / runLimit > 0.5 ? '#6EE05A'
+                  : runLimit && runCount / runLimit > 0.1 ? '#f59e0b'
+                  : '#ef4444'
+              }}
+            />
+            <span className={`text-[0.7rem] font-semibold ${isOwner ? 'text-[#6EE05A]' : 'text-[var(--text-secondary)]'}`}>
               {isOwner ? '\u221E' : runLimit ? `${runCount}/${runLimit}` : runCount}
             </span>
           </div>
@@ -305,119 +229,55 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
         {(userPlan === 'free' || !userPlan) ? (
           <button
             onClick={onUpgradeClick}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 5,
-              padding: '5px 12px',
-              borderRadius: 8,
-              background: 'rgba(126,217,87,0.06)',
-              border: '1px solid rgba(126,217,87,0.15)',
-              color: '#6EE05A',
-              fontSize: '0.7rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
+            className="flex items-center gap-[5px] py-[5px] px-3 rounded-lg bg-[rgba(126,217,87,0.06)] border border-[rgba(126,217,87,0.15)] text-[#6EE05A] text-[0.7rem] font-bold cursor-pointer font-[inherit]"
           >
             <Zap size={12} />
             <span className="hidden sm:inline">Upgrade</span>
           </button>
         ) : (
-          <span style={{
-            padding: '5px 10px',
-            borderRadius: 8,
-            fontSize: '0.625rem',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            background: 'rgba(126,217,87,0.06)',
-            color: '#6EE05A',
-            border: '1px solid rgba(126,217,87,0.12)',
-          }}>
+          <span className="py-[5px] px-2.5 rounded-lg text-[0.625rem] font-bold uppercase tracking-[0.06em] bg-[rgba(126,217,87,0.06)] text-[#6EE05A] border border-[rgba(126,217,87,0.12)]">
             {userPlan}
           </span>
         )}
 
         {/* Avatar */}
-        <div ref={avatarRef} style={{ position: 'relative' }}>
+        <div ref={avatarRef} className="relative">
           <button
             onClick={() => setAvatarOpen(p => !p)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '3px 8px 3px 3px',
-              borderRadius: 8,
-              border: `1px solid ${avatarOpen ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
-              background: avatarOpen ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-              transition: 'border-color 0.15s',
-            }}
+            className={`flex items-center gap-1.5 py-[3px] pr-2 pl-[3px] rounded-lg border cursor-pointer font-[inherit] transition-colors duration-150 ${avatarOpen ? 'border-[rgba(126,217,87,0.2)] bg-[rgba(126,217,87,0.04)]' : 'border-[var(--border)] bg-white/[0.02]'}`}
           >
-            <div style={{
-              width: 28, height: 28, borderRadius: 7,
-              background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#0B0F19' }}>{initials}</span>
+            <div className="w-7 h-7 rounded-[7px] bg-gradient-to-br from-[#6EE05A] to-[#4CAF3D] flex items-center justify-center">
+              <span className="text-[11px] font-extrabold text-[#0B0F19]">{initials}</span>
             </div>
             <ChevronDown
               size={12}
-              className="hidden sm:block"
-              style={{
-                color: '#4a4a5a',
-                transform: avatarOpen ? 'rotate(180deg)' : 'none',
-                transition: 'transform 0.2s',
-              }}
+              className={`hidden sm:block text-[#4a4a5a] transition-transform duration-200 ${avatarOpen ? 'rotate-180' : ''}`}
             />
           </button>
 
           {avatarOpen && (
-            <div style={{
-              position: 'absolute',
-              top: 'calc(100% + 8px)',
-              right: 0,
-              width: 220,
-              background: 'var(--bg-primary)',
-              border: '1px solid var(--border)',
-              borderRadius: 12,
-              boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
-              zIndex: 100,
-              overflow: 'hidden',
-              animation: 'headerDrop 0.12s ease',
-            }}>
+            <div className="absolute top-[calc(100%+8px)] right-0 w-[220px] bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] z-[100] overflow-hidden [animation:headerDrop_0.12s_ease]">
               {/* User info */}
-              <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border)' }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e2e8', marginBottom: 2 }}>
+              <div className="px-3.5 py-3 border-b border-[var(--border)]">
+                <div className="text-[13px] font-semibold text-[#e2e2e8] mb-0.5">
                   {userName || 'User'}
                 </div>
-                <div style={{ fontSize: 11, color: '#4a4a5a', fontFamily: 'var(--font-mono)' }}>
+                <div className="text-[11px] text-[#4a4a5a] font-mono">
                   {userEmail}
                 </div>
                 {userPlan && (
-                  <span style={{
-                    display: 'inline-block',
-                    marginTop: 6,
-                    fontSize: 10,
-                    fontWeight: 700,
-                    padding: '2px 8px',
-                    borderRadius: 5,
-                    fontFamily: 'var(--font-mono)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    background: userPlan === 'free' ? 'var(--bg-card)' : 'rgba(126,217,87,0.08)',
-                    color: userPlan === 'free' ? '#4a4a5a' : '#6EE05A',
-                    border: `1px solid ${userPlan === 'free' ? 'var(--border)' : 'rgba(126,217,87,0.15)'}`,
-                  }}>
+                  <span className={`inline-block mt-1.5 text-[10px] font-bold py-0.5 px-2 rounded-[5px] font-mono uppercase tracking-[0.06em] border ${
+                    userPlan === 'free'
+                      ? 'bg-[var(--bg-card)] text-[#4a4a5a] border-[var(--border)]'
+                      : 'bg-[rgba(126,217,87,0.08)] text-[#6EE05A] border-[rgba(126,217,87,0.15)]'
+                  }`}>
                     {userPlan}
                   </span>
                 )}
               </div>
 
               {/* Menu */}
-              <div style={{ padding: 4 }}>
+              <div className="p-1">
                 {[
                   { icon: <Settings size={14} />, label: 'Account', action: () => { setAvatarOpen(false); onAccountClick() } },
                   { icon: <User size={14} />, label: 'Profile', action: () => { setAvatarOpen(false); window.location.href = '/forum' } },
@@ -425,24 +285,7 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
                   <button
                     key={item.label}
                     onClick={item.action}
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 10,
-                      padding: '8px 12px',
-                      borderRadius: 8,
-                      border: 'none',
-                      background: 'none',
-                      color: '#808090',
-                      fontSize: 13,
-                      fontWeight: 500,
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                      textAlign: 'left',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-card)'; e.currentTarget.style.color = '#e2e2e8' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'none'; e.currentTarget.style.color = '#808090' }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg border-none bg-transparent text-[#808090] text-[13px] font-medium cursor-pointer font-[inherit] text-left transition-all duration-100 hover:bg-[var(--bg-card)] hover:text-[#e2e2e8]"
                   >
                     {item.icon}
                     {item.label}
@@ -451,27 +294,10 @@ export function Header({ view, mcpOnline, mcpMode, connectedCount, userPlan, use
               </div>
 
               {/* Sign out */}
-              <div style={{ padding: 4, borderTop: '1px solid var(--border)' }}>
+              <div className="p-1 border-t border-[var(--border)]">
                 <button
                   onClick={handleSignOut}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    padding: '8px 12px',
-                    borderRadius: 8,
-                    border: 'none',
-                    background: 'none',
-                    color: '#ef4444',
-                    fontSize: 13,
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    fontFamily: 'inherit',
-                    textAlign: 'left',
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(239,68,68,0.06)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = 'none' }}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg border-none bg-transparent text-[#ef4444] text-[13px] font-medium cursor-pointer font-[inherit] text-left transition-all duration-100 hover:bg-[rgba(239,68,68,0.06)]"
                 >
                   <LogOut size={14} />
                   Sign Out

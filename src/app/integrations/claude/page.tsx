@@ -168,17 +168,13 @@ export default function ClaudeIntegrationPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <main style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh' }}>
+      <main className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen">
 
         {/* ── HERO ── */}
-        <section style={{
-          background: 'linear-gradient(180deg, #0d0d1a 0%, var(--bg-primary) 100%)',
-          padding: '80px 24px 64px',
-          textAlign: 'center',
-        }}>
-          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <section className="bg-gradient-to-b from-[#0d0d1a] to-[var(--bg-primary)] px-6 pt-20 pb-16 text-center">
+          <div className="max-w-[900px] mx-auto">
             {/* Anthropic + 0nMCP lockup */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 32 }}>
+            <div className="flex items-center justify-center gap-4 mb-8">
               {/* Claude logo mark */}
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                 <rect width="48" height="48" rx="12" fill="#a78bfa" fillOpacity="0.15" />
@@ -188,78 +184,35 @@ export default function ClaudeIntegrationPage() {
                 <path d="M4 10h12" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" />
               </svg>
               {/* 0nMCP mark */}
-              <div style={{
-                width: 48, height: 48, borderRadius: 12,
-                background: 'rgba(110, 224, 90, 0.15)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 14, color: '#6EE05A',
-              }}>0n</div>
+              <div className="w-12 h-12 rounded-xl bg-[#6EE05A]/15 flex items-center justify-center font-mono font-bold text-sm text-[#6EE05A]">0n</div>
             </div>
 
-            <h1 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(36px, 5vw, 56px)',
-              fontWeight: 800,
-              lineHeight: 1.1,
-              margin: '0 0 20px',
-              letterSpacing: '-0.02em',
-            }}>
-              0nMCP for <span style={{ color: '#a78bfa' }}>Claude</span>
+            <h1 className="font-display text-[clamp(36px,5vw,56px)] font-extrabold leading-tight tracking-tight mb-5">
+              0nMCP for <span className="text-[#a78bfa]">Claude</span>
             </h1>
-            <p style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(18px, 2.5vw, 24px)',
-              color: 'var(--text-secondary)',
-              margin: '0 0 40px',
-              lineHeight: 1.5,
-            }}>
+            <p className="font-display text-[clamp(18px,2.5vw,24px)] text-[var(--text-secondary)] mb-10 leading-relaxed">
               1,554 tools. 96 services. The most comprehensive MCP server ever built.
             </p>
 
             {/* Stats bar */}
-            <div style={{
-              display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 0,
-              marginBottom: 40,
-              border: '1px solid var(--border)',
-              borderRadius: 12,
-              overflow: 'hidden',
-              background: 'var(--bg-card)',
-            }}>
+            <div className="flex flex-wrap justify-center gap-0 mb-10 border border-[var(--border)] rounded-xl overflow-hidden bg-[var(--bg-card)]">
               {STATS.map((s, i) => (
-                <div key={s.label} style={{
-                  padding: '16px 28px',
-                  borderRight: i < STATS.length - 1 ? '1px solid var(--border)' : 'none',
-                  flex: '1 1 auto',
-                  minWidth: 100,
-                }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 22, fontWeight: 700, color: '#a78bfa' }}>{s.value}</div>
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>{s.label}</div>
+                <div key={s.label} className={`px-7 py-4 flex-auto min-w-[100px] ${i < STATS.length - 1 ? 'border-r border-[var(--border)]' : ''}`}>
+                  <div className="font-mono text-[22px] font-bold text-[#a78bfa]">{s.value}</div>
+                  <div className="text-[13px] text-[var(--text-muted)] mt-0.5">{s.label}</div>
                 </div>
               ))}
             </div>
 
             {/* CTAs */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16 }}>
-              <a href="#install" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '14px 32px', borderRadius: 8,
-                background: '#a78bfa', color: '#fff',
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16,
-                textDecoration: 'none',
-                transition: 'transform 150ms ease, box-shadow 150ms ease',
-              }}>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a href="#install" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-[#a78bfa] text-white font-display font-bold text-base no-underline transition-all hover:-translate-y-px hover:shadow-lg">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 5v14M5 12h14" />
                 </svg>
                 Add to Claude Desktop
               </a>
-              <div style={{
-                display: 'inline-flex', alignItems: 'center',
-                padding: '14px 28px', borderRadius: 8,
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                fontFamily: 'var(--font-mono)', fontSize: 15, color: '#6EE05A',
-                userSelect: 'all', cursor: 'text',
-              }}>
+              <div className="inline-flex items-center px-7 py-3.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] font-mono text-[15px] text-[#6EE05A] select-all cursor-text">
                 npm install -g 0nmcp
               </div>
             </div>
@@ -267,39 +220,21 @@ export default function ClaudeIntegrationPage() {
         </section>
 
         {/* ── HOW IT WORKS ── */}
-        <section style={{ padding: '80px 24px', maxWidth: 1100, margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
-            textAlign: 'center', marginBottom: 48,
-          }}>
+        <section className="px-6 py-20 max-w-[1100px] mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center mb-12">
             Three Ways to Connect
           </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
             {/* Method 1: Claude Desktop */}
-            <div style={{
-              background: 'var(--bg-card)', border: '1px solid var(--border)',
-              borderRadius: 12, padding: 32, position: 'relative', overflow: 'hidden',
-            }}>
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: 3,
-                background: 'linear-gradient(90deg, #a78bfa, #00d4ff)',
-              }} />
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                width: 36, height: 36, borderRadius: 8,
-                background: 'rgba(167, 139, 250, 0.12)',
-                color: '#a78bfa', fontWeight: 700, fontSize: 16, marginBottom: 16,
-              }}>1</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, margin: '0 0 8px' }}>Claude Desktop</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>
-                Add this to your <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: '#a78bfa' }}>claude_desktop_config.json</span>. Done.
+            <div className="relative bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-8 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#a78bfa] to-[#00d4ff]" />
+              <div className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#a78bfa]/12 text-[#a78bfa] font-bold text-base mb-4">1</div>
+              <h3 className="font-display text-xl font-bold mb-2">Claude Desktop</h3>
+              <p className="text-[var(--text-secondary)] text-sm mb-5 leading-relaxed">
+                Add this to your <span className="font-mono text-[13px] text-[#a78bfa]">claude_desktop_config.json</span>. Done.
               </p>
-              <pre style={{
-                background: '#0d0d1a', borderRadius: 8, padding: 20,
-                fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6,
-                color: '#e0e0e0', overflow: 'auto', margin: 0,
-              }}>{`{
+              <pre className="bg-[#0d0d1a] rounded-lg p-5 font-mono text-[13px] leading-relaxed text-[#e0e0e0] overflow-auto m-0">{`{
   "mcpServers": {
     "0nMCP": {
       "command": "npx",
@@ -310,176 +245,95 @@ export default function ClaudeIntegrationPage() {
             </div>
 
             {/* Method 2: Claude Code */}
-            <div style={{
-              background: 'var(--bg-card)', border: '1px solid var(--border)',
-              borderRadius: 12, padding: 32, position: 'relative', overflow: 'hidden',
-            }}>
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: 3,
-                background: 'linear-gradient(90deg, #a78bfa, #6EE05A)',
-              }} />
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                width: 36, height: 36, borderRadius: 8,
-                background: 'rgba(167, 139, 250, 0.12)',
-                color: '#a78bfa', fontWeight: 700, fontSize: 16, marginBottom: 16,
-              }}>2</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, margin: '0 0 8px' }}>Claude Code</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>
+            <div className="relative bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-8 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#a78bfa] to-[#6EE05A]" />
+              <div className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#a78bfa]/12 text-[#a78bfa] font-bold text-base mb-4">2</div>
+              <h3 className="font-display text-xl font-bold mb-2">Claude Code</h3>
+              <p className="text-[var(--text-secondary)] text-sm mb-5 leading-relaxed">
                 One command. Instant connection.
               </p>
-              <pre style={{
-                background: '#0d0d1a', borderRadius: 8, padding: 20,
-                fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6,
-                color: '#e0e0e0', overflow: 'auto', margin: 0,
-              }}>{`claude mcp add 0nmcp -- npx -y 0nmcp`}</pre>
+              <pre className="bg-[#0d0d1a] rounded-lg p-5 font-mono text-[13px] leading-relaxed text-[#e0e0e0] overflow-auto m-0">{`claude mcp add 0nmcp -- npx -y 0nmcp`}</pre>
             </div>
 
             {/* Method 3: npm Global */}
-            <div style={{
-              background: 'var(--bg-card)', border: '1px solid var(--border)',
-              borderRadius: 12, padding: 32, position: 'relative', overflow: 'hidden',
-            }}>
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0, height: 3,
-                background: 'linear-gradient(90deg, #6EE05A, #00d4ff)',
-              }} />
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                width: 36, height: 36, borderRadius: 8,
-                background: 'rgba(110, 224, 90, 0.12)',
-                color: '#6EE05A', fontWeight: 700, fontSize: 16, marginBottom: 16,
-              }}>3</div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, margin: '0 0 8px' }}>npm Global Install</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>
+            <div className="relative bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-8 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#6EE05A] to-[#00d4ff]" />
+              <div className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#6EE05A]/12 text-[#6EE05A] font-bold text-base mb-4">3</div>
+              <h3 className="font-display text-xl font-bold mb-2">npm Global Install</h3>
+              <p className="text-[var(--text-secondary)] text-sm mb-5 leading-relaxed">
                 Install globally. Run as stdio MCP server.
               </p>
-              <pre style={{
-                background: '#0d0d1a', borderRadius: 8, padding: 20,
-                fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6,
-                color: '#e0e0e0', overflow: 'auto', margin: 0,
-              }}>{`npm install -g 0nmcp
+              <pre className="bg-[#0d0d1a] rounded-lg p-5 font-mono text-[13px] leading-relaxed text-[#e0e0e0] overflow-auto m-0">{`npm install -g 0nmcp
 0nmcp`}</pre>
             </div>
           </div>
         </section>
 
         {/* ── WHAT YOU GET ── */}
-        <section style={{
-          padding: '80px 24px',
-          background: 'var(--bg-card)',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
-        }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
-              textAlign: 'center', marginBottom: 12,
-            }}>
-              What You Get
-            </h2>
-            <p style={{
-              textAlign: 'center', color: 'var(--text-secondary)', fontSize: 16,
-              marginBottom: 48, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto',
-            }}>
+        <section className="px-6 py-20 bg-[var(--bg-card)] border-t border-b border-[var(--border)]">
+          <div className="max-w-[1100px] mx-auto">
+            <h2 className="font-display text-3xl font-bold text-center mb-3">What You Get</h2>
+            <p className="text-center text-[var(--text-secondary)] text-base mb-12 max-w-[600px] mx-auto">
               96 services organized into 22 categories. Every tool available to Claude instantly.
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
               {CATEGORIES.map((cat) => (
-                <div key={cat.name} style={{
-                  background: 'var(--bg-primary)', border: '1px solid var(--border)',
-                  borderRadius: 12, padding: '20px 24px',
-                  borderLeft: `3px solid ${cat.color}`,
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 8 }}>
-                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, margin: 0 }}>{cat.name}</h3>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: cat.color, fontWeight: 600 }}>{cat.tools}</span>
+                <div key={cat.name} className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl px-6 py-5" style={{ borderLeft: `3px solid ${cat.color}` }}>
+                  <div className="flex items-baseline justify-between mb-2">
+                    <h3 className="font-display text-base font-bold m-0">{cat.name}</h3>
+                    <span className="font-mono text-[13px] font-semibold" style={{ color: cat.color }}>{cat.tools}</span>
                   </div>
-                  <p style={{ color: 'var(--text-muted)', fontSize: 13, margin: 0, lineHeight: 1.5 }}>{cat.services}</p>
+                  <p className="text-[var(--text-muted)] text-[13px] m-0 leading-relaxed">{cat.services}</p>
                 </div>
               ))}
             </div>
 
-            <p style={{
-              textAlign: 'center', color: 'var(--text-muted)', fontSize: 14,
-              marginTop: 24,
-            }}>
+            <p className="text-center text-[var(--text-muted)] text-sm mt-6">
               Plus 85+ more services across file storage, project management, advertising, DNS, and more.
             </p>
           </div>
         </section>
 
         {/* ── CLAUDE-SPECIFIC SUPERPOWERS ── */}
-        <section style={{ padding: '80px 24px', maxWidth: 1100, margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
-            textAlign: 'center', marginBottom: 48,
-          }}>
+        <section className="px-6 py-20 max-w-[1100px] mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center mb-12">
             Claude-Specific Superpowers
           </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6">
             {SUPERPOWERS.map((sp) => (
-              <div key={sp.title} style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                borderRadius: 12, padding: 32,
-              }}>
-                <div style={{ marginBottom: 16 }}>{sp.icon}</div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, margin: '0 0 12px' }}>{sp.title}</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 14, margin: 0, lineHeight: 1.7 }}>{sp.desc}</p>
+              <div key={sp.title} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-8">
+                <div className="mb-4">{sp.icon}</div>
+                <h3 className="font-display text-lg font-bold mb-3">{sp.title}</h3>
+                <p className="text-[var(--text-secondary)] text-sm m-0 leading-[1.7]">{sp.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* ── REAL EXAMPLES ── */}
-        <section style={{
-          padding: '80px 24px',
-          background: 'var(--bg-card)',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
-        }}>
-          <div style={{ maxWidth: 720, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
-              textAlign: 'center', marginBottom: 12,
-            }}>
-              Real Conversations
-            </h2>
-            <p style={{
-              textAlign: 'center', color: 'var(--text-secondary)', fontSize: 16,
-              marginBottom: 48,
-            }}>
+        <section className="px-6 py-20 bg-[var(--bg-card)] border-t border-b border-[var(--border)]">
+          <div className="max-w-[720px] mx-auto">
+            <h2 className="font-display text-3xl font-bold text-center mb-3">Real Conversations</h2>
+            <p className="text-center text-[var(--text-secondary)] text-base mb-12">
               What it actually looks like when Claude has 0nMCP.
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+            <div className="flex flex-col gap-8">
               {EXAMPLES.map((ex, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div key={i} className="flex flex-col gap-3">
                   {/* User bubble */}
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <div style={{
-                      background: '#a78bfa', color: '#fff',
-                      padding: '12px 18px', borderRadius: '16px 16px 4px 16px',
-                      fontSize: 14, lineHeight: 1.6, maxWidth: '85%',
-                      fontFamily: 'var(--font-display)',
-                    }}>
+                  <div className="flex justify-end">
+                    <div className="bg-[#a78bfa] text-white px-[18px] py-3 rounded-[16px_16px_4px_16px] text-sm leading-relaxed max-w-[85%] font-display">
                       {ex.prompt}
                     </div>
                   </div>
                   {/* Claude bubble */}
-                  <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                    <div style={{
-                      background: 'var(--bg-primary)', border: '1px solid var(--border)',
-                      padding: '12px 18px', borderRadius: '16px 16px 16px 4px',
-                      fontSize: 14, lineHeight: 1.6, maxWidth: '85%',
-                    }}>
-                      <div style={{ marginBottom: 8 }}>{ex.result}</div>
-                      <div style={{
-                        fontFamily: 'var(--font-mono)', fontSize: 11,
-                        color: 'var(--text-muted)', opacity: 0.8,
-                      }}>
+                  <div className="flex justify-start">
+                    <div className="bg-[var(--bg-primary)] border border-[var(--border)] px-[18px] py-3 rounded-[16px_16px_16px_4px] text-sm leading-relaxed max-w-[85%]">
+                      <div className="mb-2">{ex.result}</div>
+                      <div className="font-mono text-[11px] text-[var(--text-muted)] opacity-80">
                         {ex.tools}
                       </div>
                     </div>
@@ -491,32 +345,26 @@ export default function ClaudeIntegrationPage() {
         </section>
 
         {/* ── COMPARISON TABLE ── */}
-        <section style={{ padding: '80px 24px', maxWidth: 800, margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
-            textAlign: 'center', marginBottom: 48,
-          }}>
+        <section className="px-6 py-20 max-w-[800px] mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center mb-12">
             0nMCP vs. Typical MCP Servers
           </h2>
 
-          <div style={{
-            background: 'var(--bg-card)', border: '1px solid var(--border)',
-            borderRadius: 12, overflow: 'hidden',
-          }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl overflow-hidden">
+            <table className="w-full border-collapse">
               <thead>
-                <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  <th style={{ padding: '14px 20px', textAlign: 'left', fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: 'var(--text-muted)' }}>Feature</th>
-                  <th style={{ padding: '14px 20px', textAlign: 'center', fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: '#a78bfa' }}>0nMCP</th>
-                  <th style={{ padding: '14px 20px', textAlign: 'center', fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: 'var(--text-muted)' }}>Typical</th>
+                <tr className="border-b border-[var(--border)]">
+                  <th className="px-5 py-3.5 text-left font-display text-sm font-semibold text-[var(--text-muted)]">Feature</th>
+                  <th className="px-5 py-3.5 text-center font-display text-sm font-bold text-[#a78bfa]">0nMCP</th>
+                  <th className="px-5 py-3.5 text-center font-display text-sm font-semibold text-[var(--text-muted)]">Typical</th>
                 </tr>
               </thead>
               <tbody>
                 {COMPARISON.map((row, i) => (
-                  <tr key={row.feature} style={{ borderBottom: i < COMPARISON.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                    <td style={{ padding: '12px 20px', fontSize: 14, fontWeight: 500 }}>{row.feature}</td>
-                    <td style={{ padding: '12px 20px', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 14, color: '#6EE05A', fontWeight: 600 }}>{row.onmcp}</td>
-                    <td style={{ padding: '12px 20px', textAlign: 'center', fontSize: 14, color: 'var(--text-muted)' }}>{row.typical}</td>
+                  <tr key={row.feature} className={i < COMPARISON.length - 1 ? 'border-b border-[var(--border)]' : ''}>
+                    <td className="px-5 py-3 text-sm font-medium">{row.feature}</td>
+                    <td className="px-5 py-3 text-center font-mono text-sm text-[#6EE05A] font-semibold">{row.onmcp}</td>
+                    <td className="px-5 py-3 text-center text-sm text-[var(--text-muted)]">{row.typical}</td>
                   </tr>
                 ))}
               </tbody>
@@ -525,50 +373,30 @@ export default function ClaudeIntegrationPage() {
         </section>
 
         {/* ── INSTALLATION DETAIL ── */}
-        <section id="install" style={{
-          padding: '80px 24px',
-          background: 'var(--bg-card)',
-          borderTop: '1px solid var(--border)',
-          borderBottom: '1px solid var(--border)',
-        }}>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
-              textAlign: 'center', marginBottom: 12,
-            }}>
-              Installation
-            </h2>
-            <p style={{
-              textAlign: 'center', color: 'var(--text-secondary)', fontSize: 16,
-              marginBottom: 48,
-            }}>
+        <section id="install" className="px-6 py-20 bg-[var(--bg-card)] border-t border-b border-[var(--border)]">
+          <div className="max-w-[800px] mx-auto">
+            <h2 className="font-display text-3xl font-bold text-center mb-3">Installation</h2>
+            <p className="text-center text-[var(--text-secondary)] text-base mb-12">
               Three methods, all under 60 seconds.
             </p>
 
             {/* Step-by-step for Claude Desktop */}
-            <div style={{ marginBottom: 48 }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, marginBottom: 20, color: '#a78bfa' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', marginRight: 8 }}>01</span>
+            <div className="mb-12">
+              <h3 className="font-display text-xl font-bold mb-5 text-[#a78bfa]">
+                <span className="font-mono mr-2">01</span>
                 Claude Desktop
               </h3>
-              <ol style={{ padding: '0 0 0 20px', margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <li style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.7 }}>
+              <ol className="pl-5 m-0 flex flex-col gap-3">
+                <li className="text-[var(--text-secondary)] text-sm leading-[1.7]">
                   Open Claude Desktop settings (gear icon) or navigate to the config file directly:
                   <br />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)' }}>
-                    macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
-                  </span>
+                  <span className="font-mono text-xs text-[var(--text-muted)]">macOS: ~/Library/Application Support/Claude/claude_desktop_config.json</span>
                   <br />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)' }}>
-                    Windows: %APPDATA%\Claude\claude_desktop_config.json
-                  </span>
+                  <span className="font-mono text-xs text-[var(--text-muted)]">Windows: %APPDATA%\Claude\claude_desktop_config.json</span>
                 </li>
-                <li style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.7 }}>
+                <li className="text-[var(--text-secondary)] text-sm leading-[1.7]">
                   Add the 0nMCP server config:
-                  <pre style={{
-                    background: '#0d0d1a', borderRadius: 8, padding: 16, marginTop: 8,
-                    fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#e0e0e0', overflow: 'auto',
-                  }}>{`{
+                  <pre className="bg-[#0d0d1a] rounded-lg p-4 mt-2 font-mono text-[13px] leading-relaxed text-[#e0e0e0] overflow-auto">{`{
   "mcpServers": {
     "0nMCP": {
       "command": "npx",
@@ -577,40 +405,34 @@ export default function ClaudeIntegrationPage() {
   }
 }`}</pre>
                 </li>
-                <li style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.7 }}>
+                <li className="text-[var(--text-secondary)] text-sm leading-[1.7]">
                   Restart Claude Desktop. You will see 0nMCP in the MCP server list with 1,554 tools available.
                 </li>
               </ol>
             </div>
 
             {/* Claude Code */}
-            <div style={{ marginBottom: 48 }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, marginBottom: 20, color: '#a78bfa' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', marginRight: 8 }}>02</span>
+            <div className="mb-12">
+              <h3 className="font-display text-xl font-bold mb-5 text-[#a78bfa]">
+                <span className="font-mono mr-2">02</span>
                 Claude Code
               </h3>
-              <pre style={{
-                background: '#0d0d1a', borderRadius: 8, padding: 20,
-                fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#e0e0e0', overflow: 'auto',
-              }}>{`claude mcp add 0nmcp -- npx -y 0nmcp`}</pre>
-              <p style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 8 }}>
+              <pre className="bg-[#0d0d1a] rounded-lg p-5 font-mono text-[13px] leading-relaxed text-[#e0e0e0] overflow-auto">{`claude mcp add 0nmcp -- npx -y 0nmcp`}</pre>
+              <p className="text-[var(--text-muted)] text-[13px] mt-2">
                 That is it. 0nMCP is now available in every Claude Code session.
               </p>
             </div>
 
             {/* Turn it 0n */}
             <div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, marginBottom: 20, color: '#6EE05A' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', marginRight: 8 }}>03</span>
+              <h3 className="font-display text-xl font-bold mb-5 text-[#6EE05A]">
+                <span className="font-mono mr-2">03</span>
                 Turn it 0n -- Import Credentials
               </h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 16, lineHeight: 1.7 }}>
+              <p className="text-[var(--text-secondary)] text-sm mb-4 leading-[1.7]">
                 After installing, import your API keys to unlock all 96 services:
               </p>
-              <pre style={{
-                background: '#0d0d1a', borderRadius: 8, padding: 20,
-                fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.8, color: '#e0e0e0', overflow: 'auto',
-              }}>{`# Import credentials from .env files
+              <pre className="bg-[#0d0d1a] rounded-lg p-5 font-mono text-[13px] leading-[1.8] text-[#e0e0e0] overflow-auto">{`# Import credentials from .env files
 0nmcp engine import
 
 # Verify all API keys work
@@ -618,77 +440,48 @@ export default function ClaudeIntegrationPage() {
 
 # Generate Claude Desktop config with your services
 0nmcp engine platforms`}</pre>
-              <p style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 12 }}>
-                Credentials are stored in <span style={{ fontFamily: 'var(--font-mono)' }}>~/.0n/connections/</span> and encrypted with AES-256-GCM via the 0nVault.
+              <p className="text-[var(--text-muted)] text-[13px] mt-3">
+                Credentials are stored in <span className="font-mono">~/.0n/connections/</span> and encrypted with AES-256-GCM via the 0nVault.
               </p>
             </div>
           </div>
         </section>
 
         {/* ── FAQ ── */}
-        <section style={{ padding: '80px 24px', maxWidth: 800, margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
-            textAlign: 'center', marginBottom: 48,
-          }}>
+        <section className="px-6 py-20 max-w-[800px] mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center mb-12">
             Frequently Asked Questions
           </h2>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <div className="flex flex-col gap-6">
             {FAQ.map((item) => (
-              <div key={item.q} style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                borderRadius: 12, padding: '24px 28px',
-              }}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, margin: '0 0 10px' }}>{item.q}</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 14, margin: 0, lineHeight: 1.7 }}>{item.a}</p>
+              <div key={item.q} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl px-7 py-6">
+                <h3 className="font-display text-base font-bold mb-2.5">{item.q}</h3>
+                <p className="text-[var(--text-secondary)] text-sm m-0 leading-[1.7]">{item.a}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* ── BOTTOM CTA ── */}
-        <section style={{
-          padding: '80px 24px',
-          background: 'linear-gradient(180deg, var(--bg-primary) 0%, #0d0d1a 100%)',
-          textAlign: 'center',
-          borderTop: '1px solid var(--border)',
-        }}>
-          <div style={{ maxWidth: 600, margin: '0 auto' }}>
-            <h2 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 40px)',
-              fontWeight: 800, marginBottom: 16, lineHeight: 1.2,
-            }}>
+        <section className="px-6 py-20 bg-gradient-to-b from-[var(--bg-primary)] to-[#0d0d1a] text-center border-t border-[var(--border)]">
+          <div className="max-w-[600px] mx-auto">
+            <h2 className="font-display text-[clamp(28px,4vw,40px)] font-extrabold mb-4 leading-tight">
               The most comprehensive MCP server.
               <br />
-              <span style={{ color: '#6EE05A' }}>Free and open source.</span>
+              <span className="text-[#6EE05A]">Free and open source.</span>
             </h2>
-            <p style={{
-              color: 'var(--text-secondary)', fontSize: 16, marginBottom: 36, lineHeight: 1.6,
-            }}>
+            <p className="text-[var(--text-secondary)] text-base mb-9 leading-relaxed">
               1,554 tools across 96 services. MIT licensed. Add it to Claude in under 60 seconds.
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16 }}>
-              <a href="#install" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '14px 32px', borderRadius: 8,
-                background: '#a78bfa', color: '#fff',
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16,
-                textDecoration: 'none',
-              }}>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a href="#install" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-[#a78bfa] text-white font-display font-bold text-base no-underline">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 5v14M5 12h14" />
                 </svg>
                 Add to Claude
               </a>
-              <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '14px 28px', borderRadius: 8,
-                background: 'transparent', border: '1px solid var(--border)',
-                color: 'var(--text-primary)',
-                fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 16,
-                textDecoration: 'none',
-              }}>
+              <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg bg-transparent border border-[var(--border)] text-[var(--text-primary)] font-display font-semibold text-base no-underline">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
                 </svg>

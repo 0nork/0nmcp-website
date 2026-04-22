@@ -49,29 +49,6 @@ const EXPORT_OPTIONS: { key: ExportFormat; label: string }[] = [
 ]
 
 /* ──────────────────────────────────────────── */
-/*  Styles                                      */
-/* ──────────────────────────────────────────── */
-
-const colors = {
-  bg: '#0B0F19',
-  card: '#111827',
-  cardHover: '#111827',
-  border: '#222222',
-  borderHover: '#2D3748',
-  text: '#e5e5e5',
-  textSecondary: '#999999',
-  textMuted: '#4A5568',
-  accent: '#ff6b35',
-  accentDim: 'rgba(255, 107, 53, 0.15)',
-  accentBorder: 'rgba(255, 107, 53, 0.3)',
-  green: '#6EE05A',
-  greenDim: 'rgba(110, 224, 90, 0.15)',
-  greenBorder: 'rgba(110, 224, 90, 0.3)',
-  red: '#ef4444',
-  redDim: 'rgba(239, 68, 68, 0.15)',
-}
-
-/* ──────────────────────────────────────────── */
 /*  BuilderView                                 */
 /* ──────────────────────────────────────────── */
 
@@ -222,87 +199,39 @@ export function BuilderView() {
   /* ──────────────────────────────────────────── */
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        height: '100%',
-        minHeight: 0,
-        backgroundColor: colors.bg,
-        color: colors.text,
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        animation: 'builder-fade-in 0.3s ease',
-      }}
-    >
+    <div className="flex h-full min-h-0 bg-[#0B0F19] text-[#e5e5e5] animate-[builder-fade-in_0.3s_ease]">
       {/* ═══ LEFT PANEL — Config ═══ */}
-      <div
-        style={{
-          width: 320,
-          minWidth: 320,
-          borderRight: `1px solid ${colors.border}`,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            padding: '16px 16px 12px',
-            borderBottom: `1px solid ${colors.border}`,
-          }}
-        >
-          <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, color: colors.text }}>
+      <div className="w-80 min-w-80 border-r border-[#222222] flex flex-col overflow-hidden">
+        <div className="px-4 pt-4 pb-3 border-b border-[#222222]">
+          <h2 className="text-base font-bold m-0 text-[#e5e5e5]">
             AI Builder
           </h2>
-          <p style={{ fontSize: 12, color: colors.textSecondary, margin: '4px 0 0' }}>
+          <p className="text-xs text-[#999999] mt-1 mb-0">
             Generate marketing assets with AI
           </p>
         </div>
 
-        <div style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
+        <div className="flex-1 overflow-y-auto p-4">
           {/* Asset Type Segmented Control */}
-          <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 8 }}>
+          <label className="text-[11px] font-semibold text-[#999999] uppercase tracking-[0.05em] block mb-2">
             Asset Type
           </label>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 6,
-              marginBottom: 16,
-            }}
-          >
+          <div className="grid grid-cols-2 gap-1.5 mb-4">
             {ASSET_TYPES.map((t) => (
               <button
                 key={t}
                 onClick={() => setAssetType(t)}
-                style={{
-                  padding: '8px 8px',
-                  borderRadius: 8,
-                  border: assetType === t
-                    ? `1px solid ${ASSET_TYPE_COLORS[t]}`
-                    : `1px solid ${colors.border}`,
-                  backgroundColor: assetType === t
-                    ? `${ASSET_TYPE_COLORS[t]}15`
-                    : 'transparent',
-                  color: assetType === t ? ASSET_TYPE_COLORS[t] : colors.textSecondary,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                  outline: 'none',
-                }}
-                onMouseEnter={(e) => {
-                  if (assetType !== t) {
-                    e.currentTarget.style.borderColor = colors.borderHover
-                    e.currentTarget.style.color = colors.text
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (assetType !== t) {
-                    e.currentTarget.style.borderColor = colors.border
-                    e.currentTarget.style.color = colors.textSecondary
-                  }
-                }}
+                className={[
+                  'py-2 px-2 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-150 outline-none',
+                  assetType === t
+                    ? 'border'
+                    : 'border border-[#222222] text-[#999999] hover:border-[#2D3748] hover:text-[#e5e5e5]',
+                ].join(' ')}
+                style={assetType === t ? {
+                  border: `1px solid ${ASSET_TYPE_COLORS[t]}`,
+                  backgroundColor: `${ASSET_TYPE_COLORS[t]}15`,
+                  color: ASSET_TYPE_COLORS[t],
+                } : undefined}
               >
                 {ASSET_TYPE_LABELS[t]}
               </button>
@@ -310,7 +239,7 @@ export function BuilderView() {
           </div>
 
           {/* Prompt */}
-          <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 8 }}>
+          <label className="text-[11px] font-semibold text-[#999999] uppercase tracking-[0.05em] block mb-2">
             Prompt
           </label>
           <textarea
@@ -318,103 +247,55 @@ export function BuilderView() {
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Describe what you want to build..."
             rows={6}
-            style={{
-              width: '100%',
-              padding: 12,
-              borderRadius: 8,
-              border: `1px solid ${colors.border}`,
-              backgroundColor: 'var(--bg-card)',
-              color: colors.text,
-              fontSize: 13,
-              lineHeight: 1.5,
-              resize: 'vertical',
-              outline: 'none',
-              fontFamily: 'inherit',
-              boxSizing: 'border-box',
-            }}
-            onFocus={(e) => { e.currentTarget.style.borderColor = colors.accent }}
-            onBlur={(e) => { e.currentTarget.style.borderColor = colors.border }}
+            className="w-full p-3 rounded-lg border border-[#222222] bg-card text-[#e5e5e5] text-[13px] leading-relaxed resize-y outline-none font-[inherit] box-border focus:border-[#ff6b35] transition-colors duration-150"
           />
 
           {/* Brand Settings — Collapsible */}
           <button
             onClick={() => setBrandOpen(!brandOpen)}
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '10px 0',
-              marginTop: 12,
-              border: 'none',
-              backgroundColor: 'transparent',
-              color: colors.textSecondary,
-              fontSize: 11,
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              cursor: 'pointer',
-            }}
+            className="w-full flex items-center justify-between py-2.5 mt-3 border-none bg-transparent text-[#999999] text-[11px] font-semibold uppercase tracking-[0.05em] cursor-pointer"
           >
             <span>Brand Settings</span>
-            <span style={{ fontSize: 14, transition: 'transform 0.2s', transform: brandOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+            <span
+              className="text-sm transition-transform duration-200"
+              style={{ transform: brandOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+            >
               ▾
             </span>
           </button>
 
           {brandOpen && (
-            <div style={{ paddingBottom: 12 }}>
+            <div className="pb-3">
               {/* Company Name */}
-              <label style={{ fontSize: 11, color: colors.textMuted, display: 'block', marginBottom: 4 }}>
+              <label className="text-[11px] text-[#4A5568] block mb-1">
                 Company Name
               </label>
               <input
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
                 placeholder="Your company"
-                style={{
-                  width: '100%',
-                  padding: '8px 10px',
-                  borderRadius: 6,
-                  border: `1px solid ${colors.border}`,
-                  backgroundColor: 'var(--bg-card)',
-                  color: colors.text,
-                  fontSize: 13,
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                  marginBottom: 10,
-                }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = colors.accent }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = colors.border }}
+                className="w-full py-2 px-2.5 rounded-md border border-[#222222] bg-card text-[#e5e5e5] text-[13px] outline-none box-border mb-2.5 focus:border-[#ff6b35] transition-colors duration-150"
               />
 
               {/* Color Pickers */}
-              <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+              <div className="flex gap-2.5 mb-2.5">
                 {[
                   { label: 'Primary', value: primaryColor, setter: setPrimaryColor },
                   { label: 'Secondary', value: secondaryColor, setter: setSecondaryColor },
                   { label: 'Accent', value: accentColor, setter: setAccentColor },
                 ].map((c) => (
-                  <div key={c.label} style={{ flex: 1 }}>
-                    <label style={{ fontSize: 10, color: colors.textMuted, display: 'block', marginBottom: 4 }}>
+                  <div key={c.label} className="flex-1">
+                    <label className="text-[10px] text-[#4A5568] block mb-1">
                       {c.label}
                     </label>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div className="flex items-center gap-1.5">
                       <input
                         type="color"
                         value={c.value}
                         onChange={(e) => c.setter(e.target.value)}
-                        style={{
-                          width: 28,
-                          height: 28,
-                          padding: 0,
-                          border: `1px solid ${colors.border}`,
-                          borderRadius: 6,
-                          cursor: 'pointer',
-                          backgroundColor: 'transparent',
-                        }}
+                        className="w-7 h-7 p-0 border border-[#222222] rounded-md cursor-pointer bg-transparent"
                       />
-                      <span style={{ fontSize: 10, color: colors.textMuted, fontFamily: 'monospace' }}>
+                      <span className="text-[10px] text-[#4A5568] font-mono">
                         {c.value}
                       </span>
                     </div>
@@ -425,35 +306,28 @@ export function BuilderView() {
           )}
 
           {/* Style Selector */}
-          <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginTop: 12, marginBottom: 8 }}>
+          <label className="text-[11px] font-semibold text-[#999999] uppercase tracking-[0.05em] block mt-3 mb-2">
             Style
           </label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 16 }}>
+          <div className="flex flex-col gap-1 mb-4">
             {STYLE_OPTIONS.map((opt) => (
               <label
                 key={opt.key}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '6px 8px',
-                  borderRadius: 6,
-                  cursor: 'pointer',
-                  backgroundColor: style === opt.key ? colors.accentDim : 'transparent',
-                  border: style === opt.key
-                    ? `1px solid ${colors.accentBorder}`
-                    : `1px solid transparent`,
-                  transition: 'all 0.15s ease',
-                }}
+                className={[
+                  'flex items-center gap-2 py-1.5 px-2 rounded-md cursor-pointer transition-all duration-150',
+                  style === opt.key
+                    ? 'bg-[rgba(255,107,53,0.15)] border border-[rgba(255,107,53,0.3)]'
+                    : 'border border-transparent',
+                ].join(' ')}
               >
                 <input
                   type="radio"
                   name="style"
                   checked={style === opt.key}
                   onChange={() => setStyle(opt.key)}
-                  style={{ accentColor: colors.accent, margin: 0 }}
+                  className="m-0 accent-[#ff6b35]"
                 />
-                <span style={{ fontSize: 12, color: style === opt.key ? colors.accent : colors.textSecondary }}>
+                <span className={`text-xs ${style === opt.key ? 'text-[#ff6b35]' : 'text-[#999999]'}`}>
                   {opt.label}
                 </span>
               </label>
@@ -463,29 +337,23 @@ export function BuilderView() {
           {/* Landing Page Sections */}
           {assetType === 'landing_page' && (
             <>
-              <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 8 }}>
+              <label className="text-[11px] font-semibold text-[#999999] uppercase tracking-[0.05em] block mb-2">
                 Sections
               </label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 16 }}>
+              <div className="flex flex-col gap-1 mb-4">
                 {SECTION_OPTIONS.map((sec) => (
                   <label
                     key={sec.key}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      padding: '5px 8px',
-                      borderRadius: 6,
-                      cursor: 'pointer',
-                      fontSize: 12,
-                      color: sections.includes(sec.key) ? colors.text : colors.textSecondary,
-                    }}
+                    className={[
+                      'flex items-center gap-2 py-[5px] px-2 rounded-md cursor-pointer text-xs',
+                      sections.includes(sec.key) ? 'text-[#e5e5e5]' : 'text-[#999999]',
+                    ].join(' ')}
                   >
                     <input
                       type="checkbox"
                       checked={sections.includes(sec.key)}
                       onChange={() => toggleSection(sec.key)}
-                      style={{ accentColor: colors.accent, margin: 0 }}
+                      className="m-0 accent-[#ff6b35]"
                     />
                     {sec.label}
                   </label>
@@ -497,28 +365,14 @@ export function BuilderView() {
           {/* Form — CRM Webhook */}
           {assetType === 'form' && (
             <>
-              <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 8 }}>
+              <label className="text-[11px] font-semibold text-[#999999] uppercase tracking-[0.05em] block mb-2">
                 CRM Webhook URL
               </label>
               <input
                 value={crmWebhook}
                 onChange={(e) => setCrmWebhook(e.target.value)}
                 placeholder="https://..."
-                style={{
-                  width: '100%',
-                  padding: '8px 10px',
-                  borderRadius: 6,
-                  border: `1px solid ${colors.border}`,
-                  backgroundColor: 'var(--bg-card)',
-                  color: colors.text,
-                  fontSize: 12,
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                  fontFamily: 'monospace',
-                  marginBottom: 16,
-                }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = colors.accent }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = colors.border }}
+                className="w-full py-2 px-2.5 rounded-md border border-[#222222] bg-card text-[#e5e5e5] text-xs outline-none box-border font-mono mb-4 focus:border-[#ff6b35] transition-colors duration-150"
               />
             </>
           )}
@@ -526,7 +380,7 @@ export function BuilderView() {
           {/* Product Page — Price + Checkout */}
           {assetType === 'product_page' && (
             <>
-              <label style={{ fontSize: 11, fontWeight: 600, color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 8 }}>
+              <label className="text-[11px] font-semibold text-[#999999] uppercase tracking-[0.05em] block mb-2">
                 Price ($)
               </label>
               <input
@@ -536,40 +390,19 @@ export function BuilderView() {
                 type="number"
                 min="0"
                 step="0.01"
-                style={{
-                  width: '100%',
-                  padding: '8px 10px',
-                  borderRadius: 6,
-                  border: `1px solid ${colors.border}`,
-                  backgroundColor: 'var(--bg-card)',
-                  color: colors.text,
-                  fontSize: 12,
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                  fontFamily: 'monospace',
-                  marginBottom: 10,
-                }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = colors.accent }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = colors.border }}
+                className="w-full py-2 px-2.5 rounded-md border border-[#222222] bg-card text-[#e5e5e5] text-xs outline-none box-border font-mono mb-2.5 focus:border-[#ff6b35] transition-colors duration-150"
               />
               <label
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '5px 8px',
-                  borderRadius: 6,
-                  cursor: 'pointer',
-                  fontSize: 12,
-                  color: includeCheckout ? colors.text : colors.textSecondary,
-                  marginBottom: 16,
-                }}
+                className={[
+                  'flex items-center gap-2 py-[5px] px-2 rounded-md cursor-pointer text-xs mb-4',
+                  includeCheckout ? 'text-[#e5e5e5]' : 'text-[#999999]',
+                ].join(' ')}
               >
                 <input
                   type="checkbox"
                   checked={includeCheckout}
                   onChange={() => setIncludeCheckout(!includeCheckout)}
-                  style={{ accentColor: colors.accent, margin: 0 }}
+                  className="m-0 accent-[#ff6b35]"
                 />
                 Include Checkout
               </label>
@@ -578,30 +411,11 @@ export function BuilderView() {
 
           {/* Error */}
           {builder.error && (
-            <div
-              style={{
-                padding: '8px 10px',
-                borderRadius: 6,
-                backgroundColor: colors.redDim,
-                border: `1px solid ${colors.red}33`,
-                color: colors.red,
-                fontSize: 12,
-                marginBottom: 12,
-              }}
-            >
+            <div className="py-2 px-2.5 rounded-md bg-[rgba(239,68,68,0.15)] border border-[rgba(239,68,68,0.2)] text-[#ef4444] text-xs mb-3">
               {builder.error}
               <button
                 onClick={builder.clearError}
-                style={{
-                  float: 'right',
-                  background: 'none',
-                  border: 'none',
-                  color: colors.red,
-                  cursor: 'pointer',
-                  fontSize: 14,
-                  lineHeight: 1,
-                  padding: 0,
-                }}
+                className="float-right bg-none border-none text-[#ef4444] cursor-pointer text-sm leading-none p-0"
               >
                 x
               </button>
@@ -612,53 +426,26 @@ export function BuilderView() {
           <button
             onClick={handleGenerate}
             disabled={builder.generating || !prompt.trim()}
+            className={[
+              'w-full py-3 px-4 rounded-xl border-none text-sm font-bold transition-all duration-200 relative overflow-hidden flex items-center justify-center gap-2',
+              builder.generating || !prompt.trim() ? 'cursor-not-allowed' : 'cursor-pointer',
+              !prompt.trim() && !builder.generating ? 'opacity-50' : 'opacity-100',
+            ].join(' ')}
             style={{
-              width: '100%',
-              padding: '12px 16px',
-              borderRadius: 10,
-              border: 'none',
               background: builder.generating
-                ? `linear-gradient(135deg, ${colors.accent}88, ${colors.accent}44)`
-                : `linear-gradient(135deg, ${colors.accent}, #e85d2c)`,
+                ? 'linear-gradient(135deg, rgba(255,107,53,0.53), rgba(255,107,53,0.27))'
+                : 'linear-gradient(135deg, #ff6b35, #e85d2c)',
               color: 'var(--text-primary)',
-              fontSize: 14,
-              fontWeight: 700,
-              cursor: builder.generating || !prompt.trim() ? 'not-allowed' : 'pointer',
-              opacity: !prompt.trim() && !builder.generating ? 0.5 : 1,
-              transition: 'all 0.2s ease',
-              position: 'relative',
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
             }}
           >
             {builder.generating && (
-              <span
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: `linear-gradient(90deg, transparent, var(--border-hover), transparent)`,
-                  animation: 'builder-shimmer 1.5s ease-in-out infinite',
-                }}
-              />
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[builder-shimmer_1.5s_ease-in-out_infinite]" />
             )}
-            <span style={{ position: 'relative', zIndex: 1 }}>
+            <span className="relative z-10">
               {builder.generating ? 'Generating...' : 'Generate'}
             </span>
             {!builder.generating && (
-              <span
-                style={{
-                  position: 'relative',
-                  zIndex: 1,
-                  fontSize: 10,
-                  padding: '2px 6px',
-                  borderRadius: 4,
-                  backgroundColor: 'rgba(0,0,0,0.25)',
-                  fontWeight: 500,
-                }}
-              >
+              <span className="relative z-10 text-[10px] py-0.5 px-1.5 rounded bg-black/25 font-medium">
                 10 Runs
               </span>
             )}
@@ -667,55 +454,19 @@ export function BuilderView() {
       </div>
 
       {/* ═══ CENTER PANEL — Preview ═══ */}
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          minWidth: 0,
-          overflow: 'hidden',
-        }}
-      >
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Device Toggle Bar */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 4,
-            padding: '8px 16px',
-            borderBottom: `1px solid ${colors.border}`,
-          }}
-        >
+        <div className="flex items-center gap-1 py-2 px-4 border-b border-[#222222]">
           {(['desktop', 'tablet', 'mobile'] as DeviceSize[]).map((d) => (
             <button
               key={d}
               onClick={() => setDevice(d)}
-              style={{
-                padding: '6px 14px',
-                borderRadius: 6,
-                border: device === d
-                  ? `1px solid ${colors.accentBorder}`
-                  : `1px solid ${colors.border}`,
-                backgroundColor: device === d ? colors.accentDim : 'transparent',
-                color: device === d ? colors.accent : colors.textSecondary,
-                fontSize: 12,
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                outline: 'none',
-              }}
-              onMouseEnter={(e) => {
-                if (device !== d) {
-                  e.currentTarget.style.borderColor = colors.borderHover
-                  e.currentTarget.style.color = colors.text
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (device !== d) {
-                  e.currentTarget.style.borderColor = colors.border
-                  e.currentTarget.style.color = colors.textSecondary
-                }
-              }}
+              className={[
+                'py-1.5 px-3.5 rounded-md text-xs font-medium cursor-pointer transition-all duration-150 outline-none',
+                device === d
+                  ? 'border border-[rgba(255,107,53,0.3)] bg-[rgba(255,107,53,0.15)] text-[#ff6b35]'
+                  : 'border border-[#222222] text-[#999999] hover:border-[#2D3748] hover:text-[#e5e5e5]',
+              ].join(' ')}
             >
               {d.charAt(0).toUpperCase() + d.slice(1)} {DEVICE_WIDTHS[d]}
             </button>
@@ -723,7 +474,7 @@ export function BuilderView() {
 
           {/* Right side: edit toggle */}
           {builder.currentAsset && (
-            <div style={{ marginLeft: 'auto', display: 'flex', gap: 6 }}>
+            <div className="ml-auto flex gap-1.5">
               <button
                 onClick={() => {
                   if (editingHtml) {
@@ -732,18 +483,12 @@ export function BuilderView() {
                     setEditingHtml(true)
                   }
                 }}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: 6,
-                  border: `1px solid ${editingHtml ? colors.greenBorder : colors.border}`,
-                  backgroundColor: editingHtml ? colors.greenDim : 'transparent',
-                  color: editingHtml ? colors.green : colors.textSecondary,
-                  fontSize: 11,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  outline: 'none',
-                  transition: 'all 0.15s ease',
-                }}
+                className={[
+                  'py-1.5 px-3 rounded-md text-[11px] font-medium cursor-pointer outline-none transition-all duration-150',
+                  editingHtml
+                    ? 'border border-[rgba(110,224,90,0.3)] bg-[rgba(110,224,90,0.15)] text-[#6EE05A]'
+                    : 'border border-[#222222] text-[#999999]',
+                ].join(' ')}
               >
                 {editingHtml ? 'Save HTML' : 'Edit HTML'}
               </button>
@@ -752,79 +497,29 @@ export function BuilderView() {
         </div>
 
         {/* Preview Area */}
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            padding: 20,
-            overflow: 'auto',
-            backgroundColor: 'var(--bg-primary)',
-          }}
-        >
+        <div className="flex-1 flex justify-center items-start p-5 overflow-auto bg-[var(--bg-primary)]">
           {!builder.currentAsset && !builder.generating ? (
             /* Empty state */
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                minHeight: 400,
-                gap: 16,
-              }}
-            >
-              <div
-                style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: 20,
-                  backgroundColor: colors.accentDim,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 36,
-                }}
-              >
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke={colors.accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <div className="flex flex-col items-center justify-center h-full min-h-[400px] gap-4">
+              <div className="w-20 h-20 rounded-2xl bg-[rgba(255,107,53,0.15)] flex items-center justify-center text-4xl">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                   <line x1="3" y1="9" x2="21" y2="9" />
                   <line x1="9" y1="21" x2="9" y2="9" />
                 </svg>
               </div>
-              <h3 style={{ fontSize: 18, fontWeight: 600, color: colors.text, margin: 0 }}>
+              <h3 className="text-lg font-semibold text-[#e5e5e5] m-0">
                 Generate your first marketing asset
               </h3>
-              <p style={{ fontSize: 13, color: colors.textSecondary, margin: 0, maxWidth: 360, textAlign: 'center', lineHeight: 1.5 }}>
+              <p className="text-[13px] text-[#999999] m-0 max-w-[360px] text-center leading-relaxed">
                 Choose an asset type, describe what you want, and let AI build it. Landing pages, emails, forms, and product pages.
               </p>
             </div>
           ) : builder.generating ? (
             /* Loading state */
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                minHeight: 400,
-                gap: 16,
-              }}
-            >
-              <div
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 12,
-                  border: `2px solid ${colors.accent}`,
-                  borderTopColor: 'transparent',
-                  animation: 'builder-spin 0.8s linear infinite',
-                }}
-              />
-              <p style={{ fontSize: 14, color: colors.textSecondary, margin: 0 }}>
+            <div className="flex flex-col items-center justify-center h-full min-h-[400px] gap-4">
+              <div className="w-12 h-12 rounded-xl border-2 border-[#ff6b35] border-t-transparent animate-spin" />
+              <p className="text-sm text-[#999999] m-0">
                 Building your {ASSET_TYPE_LABELS[assetType].toLowerCase()}...
               </p>
             </div>
@@ -833,49 +528,19 @@ export function BuilderView() {
             <textarea
               value={editHtmlValue}
               onChange={(e) => setEditHtmlValue(e.target.value)}
-              style={{
-                width: '100%',
-                height: '100%',
-                minHeight: 500,
-                padding: 16,
-                borderRadius: 10,
-                border: `1px solid ${colors.border}`,
-                backgroundColor: 'var(--bg-primary)',
-                color: '#c8d6e5',
-                fontSize: 12,
-                lineHeight: 1.6,
-                fontFamily: '"JetBrains Mono", "Fira Code", monospace',
-                resize: 'none',
-                outline: 'none',
-                boxSizing: 'border-box',
-              }}
-              onFocus={(e) => { e.currentTarget.style.borderColor = colors.green }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = colors.border }}
+              className="w-full h-full min-h-[500px] p-4 rounded-xl border border-[#222222] bg-[var(--bg-primary)] text-[#c8d6e5] text-xs leading-relaxed font-[JetBrains_Mono,Fira_Code,monospace] resize-none outline-none box-border focus:border-[#6EE05A] transition-colors duration-150"
             />
           ) : (
             /* iframe preview */
             <div
-              style={{
-                width: DEVICE_WIDTHS[device],
-                maxWidth: '100%',
-                transition: 'width 0.3s ease',
-                borderRadius: 12,
-                overflow: 'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-                border: `1px solid ${colors.border}`,
-                backgroundColor: 'var(--bg-card)',
-              }}
+              className="max-w-full rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-[#222222] bg-card transition-[width] duration-300"
+              style={{ width: DEVICE_WIDTHS[device] }}
             >
               <iframe
                 ref={iframeRef}
                 srcDoc={builder.previewHtml || ''}
                 title="Asset Preview"
-                style={{
-                  width: '100%',
-                  height: 700,
-                  border: 'none',
-                  display: 'block',
-                }}
+                className="w-full h-[700px] border-none block"
                 sandbox="allow-scripts"
               />
             </div>
@@ -884,54 +549,19 @@ export function BuilderView() {
       </div>
 
       {/* ═══ RIGHT PANEL — Actions + Asset List ═══ */}
-      <div
-        style={{
-          width: 280,
-          minWidth: 280,
-          borderLeft: `1px solid ${colors.border}`,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
-      >
+      <div className="w-[280px] min-w-[280px] border-l border-[#222222] flex flex-col overflow-hidden">
         {/* Actions section */}
         {builder.currentAsset && (
-          <div
-            style={{
-              padding: 16,
-              borderBottom: `1px solid ${colors.border}`,
-            }}
-          >
-            <h3 style={{ fontSize: 12, fontWeight: 600, color: colors.textSecondary, margin: '0 0 12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div className="p-4 border-b border-[#222222]">
+            <h3 className="text-xs font-semibold text-[#999999] m-0 mb-3 uppercase tracking-[0.05em]">
               Export
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 12 }}>
+            <div className="grid grid-cols-2 gap-1.5 mb-3">
               {EXPORT_OPTIONS.map((opt) => (
                 <button
                   key={opt.key}
                   onClick={() => handleExport(opt.key)}
-                  style={{
-                    padding: '7px 8px',
-                    borderRadius: 6,
-                    border: `1px solid ${colors.border}`,
-                    backgroundColor: 'transparent',
-                    color: colors.textSecondary,
-                    fontSize: 11,
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                    outline: 'none',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = colors.accent
-                    e.currentTarget.style.color = colors.accent
-                    e.currentTarget.style.backgroundColor = colors.accentDim
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = colors.border
-                    e.currentTarget.style.color = colors.textSecondary
-                    e.currentTarget.style.backgroundColor = 'transparent'
-                  }}
+                  className="py-[7px] px-2 rounded-md border border-[#222222] bg-transparent text-[#999999] text-[11px] font-medium cursor-pointer transition-all duration-150 outline-none hover:border-[#ff6b35] hover:text-[#ff6b35] hover:bg-[rgba(255,107,53,0.15)]"
                 >
                   {opt.label}
                 </button>
@@ -941,28 +571,7 @@ export function BuilderView() {
             {/* Copy HTML */}
             <button
               onClick={handleCopyHtml}
-              style={{
-                width: '100%',
-                padding: '8px 12px',
-                borderRadius: 6,
-                border: `1px solid ${colors.border}`,
-                backgroundColor: 'transparent',
-                color: colors.textSecondary,
-                fontSize: 12,
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                outline: 'none',
-                marginBottom: 8,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = colors.borderHover
-                e.currentTarget.style.color = colors.text
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = colors.border
-                e.currentTarget.style.color = colors.textSecondary
-              }}
+              className="w-full py-2 px-3 rounded-md border border-[#222222] bg-transparent text-[#999999] text-xs font-medium cursor-pointer transition-all duration-150 outline-none mb-2 hover:border-[#2D3748] hover:text-[#e5e5e5]"
             >
               Copy HTML
             </button>
@@ -974,26 +583,7 @@ export function BuilderView() {
                   builder.updateAsset(builder.currentAsset.id, { status: 'published' })
                 }
               }}
-              style={{
-                width: '100%',
-                padding: '8px 12px',
-                borderRadius: 6,
-                border: `1px solid ${colors.greenBorder}`,
-                backgroundColor: colors.greenDim,
-                color: colors.green,
-                fontSize: 12,
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                outline: 'none',
-                marginBottom: 8,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = `${colors.green}25`
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = colors.greenDim
-              }}
+              className="w-full py-2 px-3 rounded-md border border-[rgba(110,224,90,0.3)] bg-[rgba(110,224,90,0.15)] text-[#6EE05A] text-xs font-semibold cursor-pointer transition-all duration-150 outline-none mb-2 hover:bg-[rgba(110,224,90,0.22)]"
             >
               Sell on Marketplace
             </button>
@@ -1001,25 +591,7 @@ export function BuilderView() {
             {/* Delete */}
             <button
               onClick={handleDelete}
-              style={{
-                padding: '6px 10px',
-                borderRadius: 6,
-                border: `1px solid transparent`,
-                backgroundColor: 'transparent',
-                color: colors.textMuted,
-                fontSize: 11,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-                outline: 'none',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = colors.red
-                e.currentTarget.style.backgroundColor = colors.redDim
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = colors.textMuted
-                e.currentTarget.style.backgroundColor = 'transparent'
-              }}
+              className="py-1.5 px-2.5 rounded-md border border-transparent bg-transparent text-[#4A5568] text-[11px] cursor-pointer transition-all duration-150 outline-none hover:text-[#ef4444] hover:bg-[rgba(239,68,68,0.15)]"
             >
               Delete Asset
             </button>
@@ -1027,42 +599,24 @@ export function BuilderView() {
         )}
 
         {/* My Assets List */}
-        <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          <div
-            style={{
-              padding: '12px 16px',
-              borderBottom: `1px solid ${colors.border}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <h3 style={{ fontSize: 12, fontWeight: 600, color: colors.textSecondary, margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <div className="flex-1 overflow-hidden flex flex-col">
+          <div className="py-3 px-4 border-b border-[#222222] flex items-center justify-between">
+            <h3 className="text-xs font-semibold text-[#999999] m-0 uppercase tracking-[0.05em]">
               My Assets
             </h3>
-            <span style={{ fontSize: 11, color: colors.textMuted }}>
+            <span className="text-[11px] text-[#4A5568]">
               {builder.assets.length}
             </span>
           </div>
 
-          <div style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
+          <div className="flex-1 overflow-y-auto p-2">
             {builder.loading && builder.assets.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: 32 }}>
-                <div
-                  style={{
-                    width: 24,
-                    height: 24,
-                    borderRadius: 6,
-                    border: `2px solid ${colors.accent}`,
-                    borderTopColor: 'transparent',
-                    animation: 'builder-spin 0.8s linear infinite',
-                    margin: '0 auto',
-                  }}
-                />
+              <div className="text-center p-8">
+                <div className="w-6 h-6 rounded-md border-2 border-[#ff6b35] border-t-transparent animate-spin mx-auto" />
               </div>
             ) : builder.assets.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '32px 16px' }}>
-                <p style={{ fontSize: 12, color: colors.textMuted, margin: 0 }}>
+              <div className="text-center py-8 px-4">
+                <p className="text-xs text-[#4A5568] m-0">
                   No assets yet. Generate your first one.
                 </p>
               </div>
@@ -1071,65 +625,32 @@ export function BuilderView() {
                 <button
                   key={asset.id}
                   onClick={() => handleSelectAsset(asset)}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 4,
-                    padding: '10px 12px',
-                    borderRadius: 8,
-                    border: builder.currentAsset?.id === asset.id
-                      ? `1px solid ${colors.accentBorder}`
-                      : `1px solid transparent`,
-                    backgroundColor: builder.currentAsset?.id === asset.id
-                      ? colors.accentDim
-                      : 'transparent',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    outline: 'none',
-                    transition: 'all 0.15s ease',
-                    marginBottom: 2,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (builder.currentAsset?.id !== asset.id) {
-                      e.currentTarget.style.backgroundColor = colors.cardHover
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (builder.currentAsset?.id !== asset.id) {
-                      e.currentTarget.style.backgroundColor = 'transparent'
-                    }
-                  }}
+                  className={[
+                    'w-full flex flex-col gap-1 py-2.5 px-3 rounded-lg cursor-pointer text-left outline-none transition-all duration-150 mb-0.5',
+                    builder.currentAsset?.id === asset.id
+                      ? 'border border-[rgba(255,107,53,0.3)] bg-[rgba(255,107,53,0.15)]'
+                      : 'border border-transparent hover:bg-[#111827]',
+                  ].join(' ')}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div className="flex items-center gap-1.5">
                     <span
+                      className="text-[9px] font-bold py-0.5 px-1.5 rounded uppercase tracking-[0.03em] whitespace-nowrap"
                       style={{
-                        fontSize: 9,
-                        fontWeight: 700,
-                        padding: '2px 6px',
-                        borderRadius: 4,
                         backgroundColor: `${ASSET_TYPE_COLORS[asset.asset_type]}20`,
                         color: ASSET_TYPE_COLORS[asset.asset_type],
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.03em',
-                        whiteSpace: 'nowrap',
                       }}
                     >
                       {ASSET_TYPE_LABELS[asset.asset_type]}
                     </span>
-                    <span style={{ fontSize: 10, color: colors.textMuted, marginLeft: 'auto', whiteSpace: 'nowrap' }}>
+                    <span className="text-[10px] text-[#4A5568] ml-auto whitespace-nowrap">
                       {formatDate(asset.created_at)}
                     </span>
                   </div>
                   <span
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 500,
-                      color: builder.currentAsset?.id === asset.id ? colors.text : colors.textSecondary,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
+                    className={[
+                      'text-xs font-medium overflow-hidden text-ellipsis whitespace-nowrap',
+                      builder.currentAsset?.id === asset.id ? 'text-[#e5e5e5]' : 'text-[#999999]',
+                    ].join(' ')}
                   >
                     {asset.title}
                   </span>
@@ -1145,10 +666,6 @@ export function BuilderView() {
         @keyframes builder-fade-in {
           from { opacity: 0; }
           to { opacity: 1; }
-        }
-        @keyframes builder-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
         }
         @keyframes builder-shimmer {
           0% { transform: translateX(-100%); }

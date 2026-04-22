@@ -264,66 +264,59 @@ function CategoryCard({ cat }: { cat: typeof categories[0] }) {
   const [open, setOpen] = useState(false)
   return (
     <div
+      className="rounded-2xl p-6 cursor-pointer transition-all duration-200"
       style={{
         background: 'rgba(255,255,255,0.02)',
         border: `1px solid ${open ? cat.color + '44' : 'var(--border)'}`,
-        borderRadius: 16,
-        padding: '1.5rem',
-        cursor: 'pointer',
-        transition: 'border-color 0.25s, box-shadow 0.25s',
         boxShadow: open ? `0 0 30px ${cat.color}11` : 'none',
       }}
       onClick={() => setOpen(!open)}
     >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: open ? '1rem' : 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{
-            width: 40, height: 40, borderRadius: 10,
-            background: cat.color + '15',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '0.75rem', fontWeight: 700, color: cat.color,
-            fontFamily: 'var(--font-mono)',
-          }}>
+      <div className={`flex items-center justify-between ${open ? 'mb-4' : ''}`}>
+        <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-[10px] flex items-center justify-center text-xs font-bold font-mono"
+            style={{ background: cat.color + '15', color: cat.color }}
+          >
             {cat.icon}
           </div>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.0625rem', fontWeight: 700 }}>{cat.name}</h3>
-            <p style={{ margin: 0, fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)' }}>{cat.count} tools</p>
+            <h3 className="m-0 text-[1.0625rem] font-bold">{cat.name}</h3>
+            <p className="m-0 text-[0.8125rem] text-white/40">{cat.count} tools</p>
           </div>
         </div>
-        <div style={{
-          width: 28, height: 28, borderRadius: '50%',
-          border: `1px solid ${cat.color}33`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '0.875rem', color: cat.color,
-          transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-          transition: 'transform 0.2s',
-        }}>
+        <div
+          className="w-7 h-7 rounded-full flex items-center justify-center text-sm transition-transform duration-200"
+          style={{
+            border: `1px solid ${cat.color}33`,
+            color: cat.color,
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+        >
           v
         </div>
       </div>
       {!open && (
-        <p style={{ margin: '0.75rem 0 0', fontSize: '0.8125rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>
+        <p className="mt-3 mb-0 text-[0.8125rem] text-white/50 leading-relaxed">
           {cat.desc}
         </p>
       )}
       {open && (
         <div>
-          <p style={{ margin: '0 0 1rem', fontSize: '0.8125rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>
+          <p className="mb-4 text-[0.8125rem] text-white/50 leading-relaxed">
             {cat.desc}
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+          <div className="flex flex-wrap gap-1.5">
             {cat.tools.map((t) => (
-              <span key={t} style={{
-                fontSize: '0.6875rem',
-                fontFamily: 'var(--font-mono)',
-                padding: '0.25rem 0.625rem',
-                borderRadius: 6,
-                background: cat.color + '10',
-                color: cat.color,
-                border: `1px solid ${cat.color}22`,
-                whiteSpace: 'nowrap',
-              }}>
+              <span
+                key={t}
+                className="text-[0.6875rem] font-mono px-2.5 py-1 rounded-md whitespace-nowrap"
+                style={{
+                  background: cat.color + '10',
+                  color: cat.color,
+                  border: `1px solid ${cat.color}22`,
+                }}
+              >
                 {t}
               </span>
             ))}
@@ -338,19 +331,15 @@ function FAQItem({ item }: { item: typeof faqItems[0] }) {
   const [open, setOpen] = useState(false)
   return (
     <div
-      style={{
-        borderBottom: '1px solid var(--border)',
-        padding: '1.25rem 0',
-        cursor: 'pointer',
-      }}
+      className="border-b border-border py-5 cursor-pointer"
       onClick={() => setOpen(!open)}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>{item.q}</h3>
-        <span style={{ color: '#6EE05A', fontSize: '1.25rem', flexShrink: 0, marginLeft: '1rem' }}>{open ? '-' : '+'}</span>
+      <div className="flex justify-between items-center">
+        <h3 className="m-0 text-base font-semibold">{item.q}</h3>
+        <span className="text-[#6EE05A] text-xl flex-shrink-0 ml-4">{open ? '-' : '+'}</span>
       </div>
       {open && (
-        <p style={{ margin: '0.75rem 0 0', fontSize: '0.9375rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
+        <p className="mt-3 mb-0 text-[0.9375rem] text-white/60 leading-relaxed">
           {item.a}
         </p>
       )}
@@ -415,98 +404,65 @@ export default function CrmApiPage() {
         ],
       }) }} />
 
-      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: "var(--font-display, 'Instrument Sans', system-ui, sans-serif)" }}>
+      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
 
         {/* ════════════════════════════════════════════
             HERO SECTION
             ════════════════════════════════════════════ */}
-        <section style={{
-          minHeight: '85vh',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          textAlign: 'center', padding: '6rem 1.5rem 3rem',
-          position: 'relative', overflow: 'hidden',
-        }}>
+        <section className="min-h-[85vh] flex flex-col items-center justify-center text-center px-6 pt-24 pb-12 relative overflow-hidden">
           {/* Subtle radial glow */}
-          <div style={{
-            position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)',
-            width: '800px', height: '800px', borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(126,217,87,0.06) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }} />
+          <div className="absolute pointer-events-none rounded-full"
+            style={{
+              top: '-20%', left: '50%', transform: 'translateX(-50%)',
+              width: 800, height: 800,
+              background: 'radial-gradient(circle, rgba(126,217,87,0.06) 0%, transparent 70%)',
+            }}
+          />
 
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            padding: '0.5rem 1rem', borderRadius: 100,
-            background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)',
-            fontSize: '0.8125rem', fontWeight: 600, color: '#6EE05A',
-            marginBottom: '2rem', position: 'relative',
-          }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[0.8125rem] font-semibold text-[#6EE05A] mb-8 relative"
+            style={{ background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)' }}>
             The #1 CRM API Integration Platform
           </div>
 
-          <h1 style={{
-            fontSize: 'clamp(2.25rem, 6vw, 4.25rem)',
-            fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05,
-            margin: '0 0 1.25rem', maxWidth: '800px', position: 'relative',
-          }}>
+          <h1 className="text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold tracking-[-0.03em] leading-[1.05] m-0 mb-5 max-w-[800px] relative">
             Every CRM API Endpoint.{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>
+            <span className="bg-gradient-to-br from-[#6EE05A] to-[#4CAF3D] bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               One Platform.
             </span>{' '}
             Zero Limitations.
           </h1>
 
-          <p style={{
-            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-            color: 'rgba(255,255,255,0.55)', margin: '0 0 2.5rem',
-            maxWidth: '640px', lineHeight: 1.6, position: 'relative',
-          }}>
+          <p className="text-[clamp(1rem,2vw,1.25rem)] text-white/55 mb-10 max-w-[640px] leading-relaxed relative">
             Your CRM has {totalTools} API endpoints. Most users can access 10. 0nMCP unlocks all of
             them — contacts, pipelines, conversations, calendars, invoices, social posting, courses,
             and {totalTools - 10}+ more — through one natural language interface.
           </p>
 
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', position: 'relative' }}>
-            <Link href="/signup" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '1rem 2.25rem', borderRadius: 14,
-              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
-              color: '#0B0F19', fontSize: '1.0625rem', fontWeight: 700,
-              textDecoration: 'none', boxShadow: '0 0 40px rgba(126,217,87,0.25)',
-              transition: 'transform 0.15s, box-shadow 0.15s',
-            }}>
+          <div className="flex gap-4 flex-wrap justify-center relative">
+            <Link href="/signup"
+              className="inline-flex items-center gap-2 px-9 py-4 rounded-[14px] text-[1.0625rem] font-bold no-underline transition-all duration-150 hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)', color: '#0B0F19', boxShadow: '0 0 40px rgba(126,217,87,0.25)' }}>
               Request Early Access
             </Link>
-            <a href="#tools" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '1rem 2.25rem', borderRadius: 14,
-              background: 'var(--bg-card)', border: '1px solid var(--border)',
-              color: 'var(--text-primary)', fontSize: '1.0625rem', fontWeight: 600,
-              textDecoration: 'none', transition: 'border-color 0.2s',
-            }}>
+            <a href="#tools"
+              className="inline-flex items-center gap-2 px-9 py-4 rounded-[14px] text-[1.0625rem] font-semibold no-underline transition-colors duration-200 hover:border-[var(--accent)]"
+              style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
               See All {totalTools} Tools
             </a>
           </div>
 
           {/* Stats Bar */}
-          <div style={{
-            display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center',
-            marginTop: '3.5rem', padding: '1.25rem 2rem',
-            borderRadius: 14, background: 'rgba(255,255,255,0.02)',
-            border: '1px solid var(--border)', position: 'relative',
-          }}>
+          <div className="flex gap-8 flex-wrap justify-center mt-14 px-8 py-5 rounded-[14px] relative"
+            style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
             {[
               { val: `${totalTools}`, label: 'CRM Tools' },
               { val: '12', label: 'Categories' },
               { val: 'MCP', label: 'Protocol' },
               { val: '7+', label: 'AI Platforms' },
             ].map((s) => (
-              <div key={s.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '1.375rem', fontWeight: 800, color: '#6EE05A' }}>{s.val}</div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.125rem' }}>{s.label}</div>
+              <div key={s.label} className="text-center">
+                <div className="text-[1.375rem] font-extrabold text-[#6EE05A]">{s.val}</div>
+                <div className="text-[0.75rem] text-white/40 mt-0.5">{s.label}</div>
               </div>
             ))}
           </div>
@@ -515,37 +471,27 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             PROBLEM SECTION
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{
-              fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#ef4444', marginBottom: '0.75rem',
-            }}>
+        <section className="py-20 px-6 max-w-[1000px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#ef4444] mb-3">
               The problem
             </p>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: 0 }}>
+            <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0">
               The CRM API Problem Everyone Knows
             </h2>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '1.25rem',
-          }}>
+          <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
             {painPoints.map((p) => (
-              <div key={p.title} style={{
-                padding: '1.5rem', borderRadius: 16,
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid var(--border)',
-              }}>
-                <div style={{
-                  width: 8, height: 8, borderRadius: '50%',
-                  background: p.color, marginBottom: '1rem',
-                  boxShadow: `0 0 12px ${p.color}44`,
-                }} />
-                <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, margin: '0 0 0.5rem' }}>{p.title}</h3>
-                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.6 }}>{p.desc}</p>
+              <div key={p.title}
+                className="p-6 rounded-2xl"
+                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
+                <div
+                  className="w-2 h-2 rounded-full mb-4"
+                  style={{ background: p.color, boxShadow: `0 0 12px ${p.color}44` }}
+                />
+                <h3 className="text-[1.0625rem] font-bold m-0 mb-2">{p.title}</h3>
+                <p className="text-[0.875rem] text-white/50 m-0 leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
@@ -554,57 +500,38 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             SOLUTION SECTION
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-          <p style={{
-            fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
-          }}>
+        <section className="py-20 px-6 max-w-[800px] mx-auto text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#6EE05A] mb-3">
             The solution
           </p>
-          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: '0 0 1rem' }}>
+          <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0 mb-4">
             0nMCP: The Universal CRM API Layer
           </h2>
-          <p style={{ fontSize: '1.125rem', color: 'rgba(255,255,255,0.5)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+          <p className="text-lg text-white/50 mb-10 leading-relaxed">
             One command. Any CRM action. AI handles the rest.
           </p>
 
           {/* Code example */}
-          <div style={{
-            textAlign: 'left', borderRadius: 16,
-            background: 'var(--bg-primary)', border: '1px solid rgba(126,217,87,0.15)',
-            overflow: 'hidden', maxWidth: '640px', margin: '0 auto',
-          }}>
-            <div style={{
-              padding: '0.75rem 1.25rem',
-              borderBottom: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', gap: '0.5rem',
-            }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fbbf24' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#6EE05A' }} />
-              <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.3)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>
+          <div className="text-left rounded-2xl overflow-hidden max-w-[640px] mx-auto"
+            style={{ background: 'var(--bg-primary)', border: '1px solid rgba(126,217,87,0.15)' }}>
+            <div className="flex items-center gap-2 px-5 py-3 border-b border-border">
+              <div className="w-2 h-2 rounded-full bg-[#ef4444]" />
+              <div className="w-2 h-2 rounded-full bg-[#fbbf24]" />
+              <div className="w-2 h-2 rounded-full bg-[#6EE05A]" />
+              <span className="text-[0.6875rem] text-white/30 ml-auto font-mono">
                 natural language
               </span>
             </div>
-            <div style={{ padding: '1.5rem' }}>
-              <p style={{
-                fontSize: '0.9375rem', color: 'rgba(255,255,255,0.8)',
-                margin: '0 0 1.5rem', lineHeight: 1.6, fontStyle: 'italic',
-              }}>
+            <div className="p-6">
+              <p className="text-[0.9375rem] text-white/80 mb-6 leading-relaxed italic">
                 &ldquo;Create a contact named Sarah Chen, add tag &apos;VIP&apos;,
                 create an opportunity in the Sales pipeline,
                 and send her a welcome email&rdquo;
               </p>
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: '0.75rem',
-                padding: '0.875rem 1rem', borderRadius: 10,
-                background: 'rgba(126,217,87,0.06)', border: '1px solid rgba(126,217,87,0.12)',
-              }}>
-                <div style={{
-                  width: 10, height: 10, borderRadius: '50%',
-                  background: '#6EE05A', boxShadow: '0 0 8px rgba(126,217,87,0.5)',
-                }} />
-                <span style={{ fontSize: '0.875rem', fontFamily: 'var(--font-mono)', color: '#6EE05A' }}>
+              <div className="flex items-center gap-3 px-4 py-3.5 rounded-[10px]"
+                style={{ background: 'rgba(126,217,87,0.06)', border: '1px solid rgba(126,217,87,0.12)' }}>
+                <div className="w-2.5 h-2.5 rounded-full bg-[#6EE05A]" style={{ boxShadow: '0 0 8px rgba(126,217,87,0.5)' }} />
+                <span className="text-[0.875rem] font-mono text-[#6EE05A]">
                   0nMCP executed 4 API calls in 2.1 seconds
                 </span>
               </div>
@@ -615,27 +542,20 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             THE 245 TOOLS SECTION
             ════════════════════════════════════════════ */}
-        <section id="tools" style={{ padding: '5rem 1.5rem', maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{
-              fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
-            }}>
+        <section id="tools" className="py-20 px-6 max-w-[1000px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#6EE05A] mb-3">
               The showstopper
             </p>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: '0 0 0.5rem' }}>
+            <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0 mb-2">
               {totalTools} CRM Tools Across 12 Categories
             </h2>
-            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
+            <p className="text-base text-white/45 m-0">
               Click any category to see every tool available
             </p>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1rem',
-          }}>
+          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
             {categories.map((cat) => (
               <CategoryCard key={cat.name} cat={cat} />
             ))}
@@ -645,24 +565,17 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             HOW IT WORKS
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{
-              fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#00d4ff', marginBottom: '0.75rem',
-            }}>
+        <section className="py-20 px-6 max-w-[1000px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#00d4ff] mb-3">
               Three integration methods
             </p>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: 0 }}>
+            <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0">
               Three Ways to Use 0nMCP with Your CRM
             </h2>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.25rem',
-          }}>
+          <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {[
               {
                 num: '01',
@@ -683,29 +596,23 @@ export default function CrmApiPage() {
                 color: '#a78bfa',
               },
             ].map((m) => (
-              <div key={m.num} style={{
-                padding: '2rem 1.5rem', borderRadius: 16,
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid var(--border)',
-                position: 'relative', overflow: 'hidden',
-              }}>
-                <div style={{
-                  position: 'absolute', top: '1rem', right: '1rem',
-                  fontSize: '3rem', fontWeight: 900, color: m.color + '08',
-                  fontFamily: 'var(--font-mono)', lineHeight: 1,
-                }}>
+              <div key={m.num}
+                className="p-8 px-6 rounded-2xl relative overflow-hidden"
+                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
+                <div
+                  className="absolute top-4 right-4 text-5xl font-black font-mono leading-none"
+                  style={{ color: m.color + '08' }}
+                >
                   {m.num}
                 </div>
-                <div style={{
-                  width: 40, height: 40, borderRadius: 10,
-                  background: m.color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', fontWeight: 700, color: m.color, fontFamily: 'var(--font-mono)',
-                  marginBottom: '1rem',
-                }}>
+                <div
+                  className="w-10 h-10 rounded-[10px] flex items-center justify-center text-xs font-bold font-mono mb-4"
+                  style={{ background: m.color + '15', color: m.color }}
+                >
                   {m.num}
                 </div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>{m.title}</h3>
-                <p style={{ fontSize: '0.9375rem', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.6 }}>{m.desc}</p>
+                <h3 className="text-xl font-bold m-0 mb-2">{m.title}</h3>
+                <p className="text-[0.9375rem] text-white/50 m-0 leading-relaxed">{m.desc}</p>
               </div>
             ))}
           </div>
@@ -714,49 +621,34 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             WHAT YOU CAN BUILD
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{
-              fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#a78bfa', marginBottom: '0.75rem',
-            }}>
+        <section className="py-20 px-6 max-w-[1000px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#a78bfa] mb-3">
               Real use cases
             </p>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: 0 }}>
+            <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0">
               What CRM Users Are Building with 0nMCP
             </h2>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.25rem',
-          }}>
+          <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {useCases.map((uc) => (
-              <div key={uc.title} style={{
-                padding: '1.5rem', borderRadius: 16,
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid var(--border)',
-              }}>
-                <div style={{
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-                  marginBottom: '0.75rem',
-                }}>
-                  <div style={{
-                    width: 8, height: 8, borderRadius: '50%',
-                    background: uc.color, boxShadow: `0 0 12px ${uc.color}44`,
-                    marginTop: '0.375rem',
-                  }} />
-                  <span style={{
-                    fontSize: '0.6875rem', fontWeight: 600, color: uc.color,
-                    padding: '0.25rem 0.625rem', borderRadius: 6,
-                    background: uc.color + '10', border: `1px solid ${uc.color}22`,
-                  }}>
+              <div key={uc.title}
+                className="p-6 rounded-2xl"
+                style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
+                <div className="flex justify-between items-start mb-3">
+                  <div
+                    className="w-2 h-2 rounded-full mt-1.5"
+                    style={{ background: uc.color, boxShadow: `0 0 12px ${uc.color}44` }}
+                  />
+                  <span
+                    className="text-[0.6875rem] font-semibold px-2.5 py-1 rounded-md"
+                    style={{ color: uc.color, background: uc.color + '10', border: `1px solid ${uc.color}22` }}>
                     {uc.price}
                   </span>
                 </div>
-                <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, margin: '0 0 0.375rem' }}>{uc.title}</h3>
-                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.5 }}>{uc.desc}</p>
+                <h3 className="text-[1.0625rem] font-bold m-0 mb-1.5">{uc.title}</h3>
+                <p className="text-[0.875rem] text-white/50 m-0 leading-relaxed">{uc.desc}</p>
               </div>
             ))}
           </div>
@@ -765,43 +657,33 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             COMPARISON TABLE
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '700px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{
-              fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#fbbf24', marginBottom: '0.75rem',
-            }}>
+        <section className="py-20 px-6 max-w-[700px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#fbbf24] mb-3">
               The comparison
             </p>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: 0 }}>
+            <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0">
               0nMCP vs Building It Yourself
             </h2>
           </div>
 
-          <div style={{
-            borderRadius: 16, overflow: 'hidden',
-            border: '1px solid var(--border)',
-          }}>
+          <div className="rounded-2xl overflow-hidden border border-border">
             {/* Header */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-              padding: '1rem 1.25rem', background: 'var(--bg-card)',
-              borderBottom: '1px solid var(--border)',
-            }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Feature</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center' }}>DIY</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6EE05A', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center' }}>0nMCP</span>
+            <div className="grid grid-cols-3 px-5 py-4 bg-[var(--bg-card)] border-b border-border">
+              <span className="text-xs font-bold text-white/40 uppercase tracking-[0.08em]">Feature</span>
+              <span className="text-xs font-bold text-white/40 uppercase tracking-[0.08em] text-center">DIY</span>
+              <span className="text-xs font-bold text-[#6EE05A] uppercase tracking-[0.08em] text-center">0nMCP</span>
             </div>
             {comparisonRows.map((row, i) => (
-              <div key={row.label} style={{
-                display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-                padding: '1rem 1.25rem',
-                background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)',
-                borderBottom: i < comparisonRows.length - 1 ? '1px solid var(--bg-card)' : 'none',
-              }}>
-                <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.7)' }}>{row.label}</span>
-                <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.35)', textAlign: 'center' }}>{row.diy}</span>
-                <span style={{ fontSize: '0.875rem', color: '#6EE05A', textAlign: 'center', fontWeight: 600 }}>{row.onmcp}</span>
+              <div key={row.label}
+                className="grid grid-cols-3 px-5 py-4"
+                style={{
+                  background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)',
+                  borderBottom: i < comparisonRows.length - 1 ? '1px solid var(--bg-card)' : 'none',
+                }}>
+                <span className="text-[0.875rem] text-white/70">{row.label}</span>
+                <span className="text-[0.875rem] text-white/35 text-center">{row.diy}</span>
+                <span className="text-[0.875rem] text-[#6EE05A] text-center font-semibold">{row.onmcp}</span>
               </div>
             ))}
           </div>
@@ -810,27 +692,20 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             PRICING
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{
-              fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
-            }}>
+        <section className="py-20 px-6 max-w-[1000px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#6EE05A] mb-3">
               Pricing
             </p>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: '0 0 0.5rem' }}>
+            <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0 mb-2">
               Simple Pricing. No Surprises.
             </h2>
-            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
+            <p className="text-base text-white/45 m-0">
               1 Spark = 1 CRM API action = $0.01
             </p>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1.25rem',
-          }}>
+          <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
             {[
               {
                 name: 'Free', price: '$0', period: 'forever',
@@ -851,49 +726,39 @@ export default function CrmApiPage() {
                 highlight: true,
               },
             ].map((plan) => (
-              <div key={plan.name} style={{
-                padding: '2rem 1.5rem', borderRadius: 16,
-                background: plan.highlight ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
-                border: `1px solid ${plan.highlight ? 'rgba(126,217,87,0.25)' : 'var(--border)'}`,
-                position: 'relative',
-              }}>
+              <div key={plan.name}
+                className="px-6 py-8 rounded-2xl relative"
+                style={{
+                  background: plan.highlight ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
+                  border: `1px solid ${plan.highlight ? 'rgba(126,217,87,0.25)' : 'var(--border)'}`,
+                }}>
                 {plan.highlight && (
-                  <div style={{
-                    position: 'absolute', top: '-0.75rem', left: '50%', transform: 'translateX(-50%)',
-                    padding: '0.25rem 1rem', borderRadius: 100,
-                    background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                    fontSize: '0.6875rem', fontWeight: 700, color: '#0B0F19',
-                    whiteSpace: 'nowrap',
-                  }}>
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[0.6875rem] font-bold text-[#0B0F19] whitespace-nowrap"
+                    style={{ background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)' }}>
                     Most Popular
                   </div>
                 )}
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: '0 0 0.25rem' }}>{plan.name}</h3>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', margin: '0 0 0.25rem' }}>
-                  <span style={{ fontSize: '2.5rem', fontWeight: 800, color: plan.highlight ? '#6EE05A' : '#fff' }}>{plan.price}</span>
-                  <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.4)' }}>{plan.period}</span>
+                <h3 className="text-lg font-bold m-0 mb-1">{plan.name}</h3>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-[2.5rem] font-extrabold" style={{ color: plan.highlight ? '#6EE05A' : '#fff' }}>{plan.price}</span>
+                  <span className="text-[0.875rem] text-white/40">{plan.period}</span>
                 </div>
-                <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)', margin: '0 0 1.5rem' }}>{plan.desc}</p>
-                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem' }}>
+                <p className="text-[0.8125rem] text-white/40 mb-6">{plan.desc}</p>
+                <ul className="list-none p-0 m-0 mb-6">
                   {plan.features.map((f) => (
-                    <li key={f} style={{
-                      fontSize: '0.875rem', color: 'rgba(255,255,255,0.6)',
-                      padding: '0.375rem 0',
-                      display: 'flex', alignItems: 'center', gap: '0.5rem',
-                    }}>
-                      <span style={{ color: '#6EE05A', fontWeight: 700, fontSize: '0.75rem' }}>+</span>
+                    <li key={f} className="py-1.5 flex items-center gap-2 text-[0.875rem] text-white/60">
+                      <span className="text-[#6EE05A] font-bold text-xs">+</span>
                       {f}
                     </li>
                   ))}
                 </ul>
-                <Link href="/signup" style={{
-                  display: 'block', textAlign: 'center',
-                  padding: '0.75rem', borderRadius: 10,
-                  background: plan.highlight ? 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)' : 'var(--border)',
-                  color: plan.highlight ? '#0B0F19' : '#fff',
-                  fontSize: '0.9375rem', fontWeight: 700,
-                  textDecoration: 'none', border: plan.highlight ? 'none' : '1px solid var(--border)',
-                }}>
+                <Link href="/signup"
+                  className="block text-center py-3 rounded-[10px] text-[0.9375rem] font-bold no-underline"
+                  style={{
+                    background: plan.highlight ? 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)' : 'var(--border)',
+                    color: plan.highlight ? '#0B0F19' : '#fff',
+                    border: plan.highlight ? 'none' : '1px solid var(--border)',
+                  }}>
                   {plan.price === '$0' ? 'Start Free' : 'Get Started'}
                 </Link>
               </div>
@@ -904,58 +769,41 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             MCP PROTOCOL
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-          <p style={{
-            fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '0.12em', color: '#00d4ff', marginBottom: '0.75rem',
-          }}>
+        <section className="py-20 px-6 max-w-[800px] mx-auto text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#00d4ff] mb-3">
             Universal compatibility
           </p>
-          <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, margin: '0 0 1rem' }}>
+          <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold m-0 mb-4">
             Works with Every AI Platform
           </h2>
-          <p style={{ fontSize: '1.0625rem', color: 'rgba(255,255,255,0.5)', marginBottom: '2rem', lineHeight: 1.6 }}>
+          <p className="text-[1.0625rem] text-white/50 mb-8 leading-relaxed">
             0nMCP speaks the Model Context Protocol. Any AI tool that supports MCP can access
             your CRM — Claude Desktop, Cursor, Windsurf, Gemini, Continue, Cline, and OpenAI.
           </p>
 
           {/* Platform pills */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', justifyContent: 'center', marginBottom: '2.5rem' }}>
+          <div className="flex flex-wrap gap-2.5 justify-center mb-10">
             {['Claude Desktop', 'Cursor', 'Windsurf', 'Gemini', 'Continue', 'Cline', 'OpenAI'].map((p) => (
-              <span key={p} style={{
-                padding: '0.5rem 1.125rem', borderRadius: 10,
-                background: 'rgba(0,212,255,0.06)', border: '1px solid rgba(0,212,255,0.15)',
-                fontSize: '0.875rem', fontWeight: 600, color: '#00d4ff',
-              }}>
+              <span key={p}
+                className="px-4 py-2 rounded-[10px] text-[0.875rem] font-semibold text-[#00d4ff]"
+                style={{ background: 'rgba(0,212,255,0.06)', border: '1px solid rgba(0,212,255,0.15)' }}>
                 {p}
               </span>
             ))}
           </div>
 
           {/* MCP config example */}
-          <div style={{
-            textAlign: 'left', borderRadius: 16,
-            background: 'var(--bg-primary)', border: '1px solid rgba(0,212,255,0.15)',
-            overflow: 'hidden', maxWidth: '480px', margin: '0 auto',
-          }}>
-            <div style={{
-              padding: '0.75rem 1.25rem',
-              borderBottom: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', gap: '0.5rem',
-            }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fbbf24' }} />
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#6EE05A' }} />
-              <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.3)', marginLeft: 'auto', fontFamily: 'var(--font-mono)' }}>
+          <div className="text-left rounded-2xl overflow-hidden max-w-[480px] mx-auto"
+            style={{ background: 'var(--bg-primary)', border: '1px solid rgba(0,212,255,0.15)' }}>
+            <div className="flex items-center gap-2 px-5 py-3 border-b border-border">
+              <div className="w-2 h-2 rounded-full bg-[#ef4444]" />
+              <div className="w-2 h-2 rounded-full bg-[#fbbf24]" />
+              <div className="w-2 h-2 rounded-full bg-[#6EE05A]" />
+              <span className="text-[0.6875rem] text-white/30 ml-auto font-mono">
                 mcp.json
               </span>
             </div>
-            <pre style={{
-              padding: '1.25rem', margin: 0,
-              fontSize: '0.8125rem', lineHeight: 1.7,
-              fontFamily: 'var(--font-mono)', color: 'rgba(255,255,255,0.7)',
-              overflow: 'auto',
-            }}>
+            <pre className="px-5 py-5 m-0 text-[0.8125rem] leading-[1.7] font-mono text-white/70 overflow-auto">
 {`{
   "0nMCP": {
     "command": "npx",
@@ -964,7 +812,7 @@ export default function CrmApiPage() {
 }`}
             </pre>
           </div>
-          <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.3)', marginTop: '1rem' }}>
+          <p className="text-[0.8125rem] text-white/30 mt-4">
             That is it. One config. {totalTools} CRM tools in your AI.
           </p>
         </section>
@@ -972,35 +820,24 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             SSO / MARKETPLACE INSTALL
             ════════════════════════════════════════════ */}
-        <section style={{
-          padding: '3rem 1.5rem', maxWidth: '700px', margin: '0 auto', textAlign: 'center',
-        }}>
-          <div style={{
-            padding: '2rem', borderRadius: 16,
-            background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)',
-          }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, margin: '0 0 0.5rem' }}>
+        <section className="py-12 px-6 max-w-[700px] mx-auto text-center">
+          <div className="p-8 rounded-2xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
+            <h3 className="text-xl font-bold m-0 mb-2">
               Already use the CRM?
             </h3>
-            <p style={{ fontSize: '0.9375rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.5rem', lineHeight: 1.6 }}>
+            <p className="text-[0.9375rem] text-white/50 mb-6 leading-relaxed">
               Sign in with your CRM account for instant setup. Or install directly from the CRM Marketplace
               for one-click activation across all your locations.
             </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/login" style={{
-                padding: '0.75rem 1.5rem', borderRadius: 10,
-                background: 'var(--border)', border: '1px solid var(--border)',
-                color: 'var(--text-primary)', fontSize: '0.9375rem', fontWeight: 600,
-                textDecoration: 'none',
-              }}>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <Link href="/login"
+                className="px-6 py-3 rounded-[10px] text-[0.9375rem] font-semibold no-underline"
+                style={{ background: 'var(--border)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
                 Sign in with CRM
               </Link>
-              <Link href="/connect" style={{
-                padding: '0.75rem 1.5rem', borderRadius: 10,
-                background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)',
-                color: '#6EE05A', fontSize: '0.9375rem', fontWeight: 600,
-                textDecoration: 'none',
-              }}>
+              <Link href="/connect"
+                className="px-6 py-3 rounded-[10px] text-[0.9375rem] font-semibold no-underline text-[#6EE05A]"
+                style={{ background: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.2)' }}>
                 CRM Marketplace Install
               </Link>
             </div>
@@ -1010,15 +847,12 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             FAQ
             ════════════════════════════════════════════ */}
-        <section style={{ padding: '5rem 1.5rem', maxWidth: '700px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <p style={{
-              fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '0.12em', color: '#6EE05A', marginBottom: '0.75rem',
-            }}>
+        <section className="py-20 px-6 max-w-[700px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#6EE05A] mb-3">
               FAQ
             </p>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', fontWeight: 800, margin: 0 }}>
+            <h2 className="text-[clamp(1.75rem,4vw,2.25rem)] font-extrabold m-0">
               Common Questions
             </h2>
           </div>
@@ -1033,54 +867,33 @@ export default function CrmApiPage() {
         {/* ════════════════════════════════════════════
             FINAL CTA
             ════════════════════════════════════════════ */}
-        <section style={{
-          padding: '6rem 1.5rem', textAlign: 'center',
-          position: 'relative', overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute', bottom: '-30%', left: '50%', transform: 'translateX(-50%)',
-            width: '600px', height: '600px', borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(126,217,87,0.05) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }} />
-          <h2 style={{
-            fontSize: 'clamp(1.75rem, 5vw, 2.75rem)',
-            fontWeight: 800, letterSpacing: '-0.02em',
-            margin: '0 0 1rem', position: 'relative',
-          }}>
+        <section className="py-24 px-6 text-center relative overflow-hidden">
+          <div className="absolute pointer-events-none rounded-full"
+            style={{
+              bottom: '-30%', left: '50%', transform: 'translateX(-50%)',
+              width: 600, height: 600,
+              background: 'radial-gradient(circle, rgba(126,217,87,0.05) 0%, transparent 70%)',
+            }}
+          />
+          <h2 className="text-[clamp(1.75rem,5vw,2.75rem)] font-extrabold tracking-[-0.02em] m-0 mb-4 relative">
             Your CRM. Unlimited API Access.{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>
+            <span className="bg-gradient-to-br from-[#6EE05A] to-[#4CAF3D] bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Start Free.
             </span>
           </h2>
-          <p style={{
-            fontSize: '1.0625rem', color: 'rgba(255,255,255,0.5)',
-            margin: '0 0 2.5rem', position: 'relative',
-          }}>
+          <p className="text-[1.0625rem] text-white/50 mb-10 relative">
             100 Sparks. No credit card. No commitment.
           </p>
-          <Link href="/signup" style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            padding: '1rem 3rem', borderRadius: 14,
-            background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)',
-            color: '#0B0F19', fontSize: '1.125rem', fontWeight: 700,
-            textDecoration: 'none',
-            boxShadow: '0 0 50px rgba(126,217,87,0.3)',
-            position: 'relative',
-          }}>
+          <Link href="/signup"
+            className="inline-flex items-center gap-2 px-12 py-4 rounded-[14px] text-lg font-bold no-underline relative"
+            style={{ background: 'linear-gradient(135deg, #6EE05A 0%, #4CAF3D 100%)', color: '#0B0F19', boxShadow: '0 0 50px rgba(126,217,87,0.3)' }}>
             Request Early Access
           </Link>
         </section>
 
-        {/* ── Footer ── */}
-        <footer style={{
-          padding: '2rem 1.5rem', textAlign: 'center',
-          borderTop: '1px solid var(--border)',
-        }}>
-          <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)', margin: 0 }}>
+        {/* Footer */}
+        <footer className="px-6 py-8 text-center border-t border-border">
+          <p className="text-xs text-white/25 m-0">
             &copy; {new Date().getFullYear()} RocketOpp, LLC. All rights reserved. 0nMCP is a product of RocketOpp.
           </p>
         </footer>

@@ -111,49 +111,29 @@ export function SeoView() {
     setIndexing(false)
   }, [customUrls])
 
-  const cardStyle = {
-    background: 'rgba(255,255,255,0.02)',
-    borderRadius: '0.75rem',
-    border: '1px solid var(--border)',
-    padding: '1.25rem',
-  }
-
-  const labelStyle = {
-    fontSize: '0.6rem',
-    fontWeight: 600 as const,
-    textTransform: 'uppercase' as const,
-    letterSpacing: '0.08em',
-    color: 'var(--text-muted)',
-  }
-
   return (
-    <div style={{ padding: '1.5rem 2rem', maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: 'column' as const, gap: '1.5rem' }}>
+    <div className="px-8 py-6 max-w-[1100px] mx-auto flex flex-col gap-6">
 
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0, fontFamily: 'var(--font-display)' }}>
+          <h1 className="text-2xl font-extrabold text-[var(--text-primary)] m-0">
             SEO Engine
           </h1>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '0.25rem 0 0' }}>
+          <p className="text-[0.8rem] text-[var(--text-muted)] mt-1 mb-0">
             Google Search Console analytics + multi-engine indexing
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '0.375rem' }}>
+        <div className="flex gap-1.5">
           {[7, 28, 90].map(d => (
             <button
               key={d}
               onClick={() => setPeriod(d)}
+              className="px-3 py-1.5 rounded-md text-xs font-semibold cursor-pointer font-[inherit] transition-colors"
               style={{
-                padding: '0.375rem 0.75rem',
-                borderRadius: '0.375rem',
                 border: period === d ? '1px solid #6EE05A' : '1px solid var(--border)',
                 background: period === d ? 'rgba(126,217,87,0.1)' : 'transparent',
                 color: period === d ? '#6EE05A' : 'var(--text-muted)',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
               }}
             >
               {d}d
@@ -164,16 +144,11 @@ export function SeoView() {
 
       {/* Connection status */}
       {!googleConnected && (
-        <div style={{
-          ...cardStyle,
-          borderColor: 'rgba(255,107,53,0.3)',
-          background: 'rgba(255,107,53,0.05)',
-          display: 'flex', alignItems: 'center', gap: '0.75rem',
-        }}>
-          <span style={{ fontSize: '1.25rem' }}>&#9888;</span>
+        <div className="rounded-xl border border-[#ff6b35]/30 bg-[#ff6b35]/5 p-5 flex items-center gap-3">
+          <span className="text-xl">&#9888;</span>
           <div>
-            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#ff6b35' }}>Google not connected</div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            <div className="text-[0.85rem] font-semibold text-[#ff6b35]">Google not connected</div>
+            <div className="text-xs text-[var(--text-muted)]">
               Connect Google in the Vault to see Search Console data. IndexNow indexing still works without Google.
             </div>
           </div>
@@ -182,44 +157,38 @@ export function SeoView() {
 
       {/* Summary Cards */}
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+        <div className="text-center py-12 text-[var(--text-muted)] text-[0.85rem]">
           Loading Search Console data...
         </div>
       ) : summary ? (
         <>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
+          <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
             {[
               { label: 'Total Clicks', value: summary.totalClicks.toLocaleString(), color: '#6EE05A', sub: `${summary.period} period` },
               { label: 'Impressions', value: summary.totalImpressions.toLocaleString(), color: '#00d4ff', sub: `${summary.totalPages} pages` },
               { label: 'Avg CTR', value: `${summary.avgCtr}%`, color: '#a78bfa', sub: summary.avgCtr > 3 ? 'Above average' : 'Room to grow' },
               { label: 'Avg Position', value: summary.avgPosition.toFixed(1), color: '#ff6b35', sub: summary.avgPosition < 20 ? 'Page 1-2 avg' : 'Optimization needed' },
             ].map((card, i) => (
-              <div key={i} style={cardStyle}>
-                <div style={labelStyle}>{card.label}</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: card.color, fontFamily: 'var(--font-mono)', marginTop: '0.25rem' }}>
+              <div key={i} className="bg-white/[0.02] rounded-xl border border-[var(--border)] p-5">
+                <div className="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">{card.label}</div>
+                <div className="text-[1.75rem] font-extrabold mt-1 font-mono" style={{ color: card.color }}>
                   {card.value}
                 </div>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{card.sub}</div>
+                <div className="text-[0.65rem] text-[var(--text-muted)] mt-1">{card.sub}</div>
               </div>
             ))}
           </div>
 
           {/* Tab toggle */}
-          <div style={{ display: 'flex', gap: '0.25rem', background: 'rgba(255,255,255,0.02)', borderRadius: '0.5rem', padding: '0.25rem', width: 'fit-content' }}>
+          <div className="flex gap-1 bg-white/[0.02] rounded-lg p-1 w-fit">
             {(['pages', 'queries'] as const).map(t => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
+                className="px-4 py-2 rounded-md border-0 text-[0.8rem] font-semibold cursor-pointer font-[inherit] transition-colors"
                 style={{
-                  padding: '0.5rem 1rem',
-                  borderRadius: '0.375rem',
-                  border: 'none',
                   background: tab === t ? 'rgba(126,217,87,0.1)' : 'transparent',
                   color: tab === t ? '#6EE05A' : 'var(--text-muted)',
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
                 }}
               >
                 Top {t === 'pages' ? 'Pages' : 'Queries'}
@@ -229,13 +198,13 @@ export function SeoView() {
 
           {/* Top Pages Table */}
           {tab === 'pages' && (
-            <div style={{ ...cardStyle, padding: 0, overflow: 'hidden' }}>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+            <div className="rounded-xl border border-[var(--border)] overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-[0.8rem]">
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border)' }}>
+                    <tr className="border-b border-[var(--border)]">
                       {['Page', 'Top Query', 'Clicks', 'Impr', 'CTR', 'Pos'].map(h => (
-                        <th key={h} style={{ padding: '0.75rem 1rem', textAlign: h === 'Page' || h === 'Top Query' ? 'left' : 'right', ...labelStyle }}>
+                        <th key={h} className={`px-4 py-3 text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)] ${h === 'Page' || h === 'Top Query' ? 'text-left' : 'text-right'}`}>
                           {h}
                         </th>
                       ))}
@@ -243,23 +212,29 @@ export function SeoView() {
                   </thead>
                   <tbody>
                     {topPages.map((page, i) => (
-                      <tr key={i} style={{ borderBottom: i < topPages.length - 1 ? '1px solid var(--bg-card)' : 'none' }}>
-                        <td style={{ padding: '0.625rem 1rem', color: '#6EE05A', fontWeight: 500, fontFamily: 'var(--font-mono)', fontSize: '0.75rem', maxWidth: 240, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <tr key={i} className={i < topPages.length - 1 ? 'border-b border-[var(--bg-card)]' : ''}>
+                        <td className="px-4 py-2.5 text-[#6EE05A] font-medium font-mono text-xs max-w-[240px] overflow-hidden text-ellipsis whitespace-nowrap">
                           {page.url || '/'}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', color: 'var(--text-secondary)', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <td className="px-4 py-2.5 text-[var(--text-secondary)] max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
                           {page.query}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
+                        <td className="px-4 py-2.5 text-right text-[var(--text-primary)] font-semibold font-mono">
                           {page.clicks}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                        <td className="px-4 py-2.5 text-right text-[var(--text-muted)] font-mono">
                           {page.impressions.toLocaleString()}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', fontFamily: 'var(--font-mono)', color: page.ctr > 0.05 ? '#6EE05A' : page.ctr > 0.02 ? '#ff6b35' : 'var(--text-muted)' }}>
+                        <td
+                          className="px-4 py-2.5 text-right font-mono"
+                          style={{ color: page.ctr > 0.05 ? '#6EE05A' : page.ctr > 0.02 ? '#ff6b35' : 'var(--text-muted)' }}
+                        >
                           {(page.ctr * 100).toFixed(1)}%
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', fontFamily: 'var(--font-mono)', color: page.position <= 10 ? '#6EE05A' : page.position <= 20 ? '#00d4ff' : 'var(--text-muted)' }}>
+                        <td
+                          className="px-4 py-2.5 text-right font-mono"
+                          style={{ color: page.position <= 10 ? '#6EE05A' : page.position <= 20 ? '#00d4ff' : 'var(--text-muted)' }}
+                        >
                           {page.position.toFixed(1)}
                         </td>
                       </tr>
@@ -268,7 +243,7 @@ export function SeoView() {
                 </table>
               </div>
               {topPages.length === 0 && (
-                <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                <div className="py-8 text-center text-[var(--text-muted)] text-[0.8rem]">
                   No page data available for this period
                 </div>
               )}
@@ -277,13 +252,13 @@ export function SeoView() {
 
           {/* Top Queries Table */}
           {tab === 'queries' && (
-            <div style={{ ...cardStyle, padding: 0, overflow: 'hidden' }}>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+            <div className="rounded-xl border border-[var(--border)] overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-[0.8rem]">
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border)' }}>
+                    <tr className="border-b border-[var(--border)]">
                       {['Query', 'Clicks', 'Impressions', 'Pages'].map(h => (
-                        <th key={h} style={{ padding: '0.75rem 1rem', textAlign: h === 'Query' ? 'left' : 'right', ...labelStyle }}>
+                        <th key={h} className={`px-4 py-3 text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)] ${h === 'Query' ? 'text-left' : 'text-right'}`}>
                           {h}
                         </th>
                       ))}
@@ -291,17 +266,17 @@ export function SeoView() {
                   </thead>
                   <tbody>
                     {topQueries.map((q, i) => (
-                      <tr key={i} style={{ borderBottom: i < topQueries.length - 1 ? '1px solid var(--bg-card)' : 'none' }}>
-                        <td style={{ padding: '0.625rem 1rem', color: '#00d4ff', fontWeight: 500 }}>
+                      <tr key={i} className={i < topQueries.length - 1 ? 'border-b border-[var(--bg-card)]' : ''}>
+                        <td className="px-4 py-2.5 text-[#00d4ff] font-medium">
                           {q.query}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', color: 'var(--text-primary)', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
+                        <td className="px-4 py-2.5 text-right text-[var(--text-primary)] font-semibold font-mono">
                           {q.clicks}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                        <td className="px-4 py-2.5 text-right text-[var(--text-muted)] font-mono">
                           {q.impressions.toLocaleString()}
                         </td>
-                        <td style={{ padding: '0.625rem 1rem', textAlign: 'right', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                        <td className="px-4 py-2.5 text-right text-[var(--text-muted)] font-mono">
                           {q.pages}
                         </td>
                       </tr>
@@ -310,7 +285,7 @@ export function SeoView() {
                 </table>
               </div>
               {topQueries.length === 0 && (
-                <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                <div className="py-8 text-center text-[var(--text-muted)] text-[0.8rem]">
                   No query data available for this period
                 </div>
               )}
@@ -318,87 +293,65 @@ export function SeoView() {
           )}
         </>
       ) : error ? (
-        <div style={{ ...cardStyle, borderColor: 'rgba(239,68,68,0.2)', textAlign: 'center' }}>
-          <div style={{ fontSize: '0.85rem', color: '#ef4444', marginBottom: '0.5rem' }}>Unable to load Search Console data</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{error}</div>
+        <div className="rounded-xl border border-red-500/20 p-5 text-center">
+          <div className="text-[0.85rem] text-red-500 mb-2">Unable to load Search Console data</div>
+          <div className="text-xs text-[var(--text-muted)]">{error}</div>
         </div>
       ) : null}
 
       {/* Indexing Section */}
       <div>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 1rem', fontFamily: 'var(--font-display)' }}>
+        <h2 className="text-[1.1rem] font-bold text-[var(--text-primary)] mb-4">
           Search Engine Indexing
         </h2>
 
         {/* Quick Actions */}
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+        <div className="flex gap-2 flex-wrap mb-4">
           <button
             onClick={() => handleIndex('submit_all')}
             disabled={indexing}
-            style={{
-              padding: '0.625rem 1.25rem', borderRadius: '0.5rem', border: 'none',
-              background: '#6EE05A', color: '#000', fontWeight: 700,
-              fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'inherit',
-              opacity: indexing ? 0.6 : 1,
-            }}
+            className="px-5 py-2.5 rounded-lg border-0 bg-[#6EE05A] text-black font-bold text-[0.85rem] cursor-pointer font-[inherit] disabled:opacity-60"
           >
             {indexing ? 'Submitting...' : 'Submit All (GSC + IndexNow)'}
           </button>
           <button
             onClick={() => handleIndex('ping_sitemap')}
             disabled={indexing}
-            style={{
-              padding: '0.625rem 1.25rem', borderRadius: '0.5rem',
-              border: '1px solid var(--border)', background: 'transparent',
-              color: 'var(--text-primary)', fontWeight: 600,
-              fontSize: '0.85rem', cursor: 'pointer', fontFamily: 'inherit',
-              opacity: indexing ? 0.6 : 1,
-            }}
+            className="px-5 py-2.5 rounded-lg border border-[var(--border)] bg-transparent text-[var(--text-primary)] font-semibold text-[0.85rem] cursor-pointer font-[inherit] disabled:opacity-60"
           >
             Sitemap Only
           </button>
         </div>
 
         {/* Engine Status Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.625rem', marginBottom: '1rem' }}>
+        <div className="grid gap-2.5 mb-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
           {[
             { label: 'Google GSC', color: '#4285f4', desc: 'OAuth sitemap submit' },
             { label: 'IndexNow', color: '#00d4ff', desc: '4 engines simultaneous' },
             { label: 'Sitemap', color: '#6EE05A', desc: 'sitemap.xml (300+ pages)' },
           ].map((card, i) => (
-            <div key={i} style={{ ...cardStyle, padding: '0.875rem' }}>
-              <div style={labelStyle}>{card.label}</div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 600, color: card.color, marginTop: '0.25rem' }}>Active</div>
-              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '0.125rem' }}>{card.desc}</div>
+            <div key={i} className="bg-white/[0.02] rounded-xl border border-[var(--border)] p-3.5">
+              <div className="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">{card.label}</div>
+              <div className="text-[0.85rem] font-semibold mt-1" style={{ color: card.color }}>Active</div>
+              <div className="text-[0.65rem] text-[var(--text-muted)] mt-0.5">{card.desc}</div>
             </div>
           ))}
         </div>
 
         {/* Custom URL Submit */}
-        <div style={cardStyle}>
-          <div style={{ ...labelStyle, marginBottom: '0.5rem' }}>Custom URL Submission (IndexNow)</div>
+        <div className="bg-white/[0.02] rounded-xl border border-[var(--border)] p-5">
+          <div className="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)] mb-2">Custom URL Submission (IndexNow)</div>
           <textarea
             value={customUrls}
             onChange={e => setCustomUrls(e.target.value)}
             placeholder={'Enter URLs (one per line)\nhttps://www.0nmcp.com/new-page\nhttps://www.0nmcp.com/blog/new-post'}
             rows={3}
-            style={{
-              width: '100%', padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-              border: '1px solid var(--border)', background: 'var(--bg-primary)',
-              color: 'var(--text-primary)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)',
-              resize: 'vertical',
-            }}
+            className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] text-[0.8rem] font-mono resize-y"
           />
           <button
             onClick={() => handleIndex('indexnow')}
             disabled={indexing || !customUrls.trim()}
-            style={{
-              marginTop: '0.5rem', padding: '0.5rem 1rem', borderRadius: '0.5rem',
-              border: '1px solid var(--border)', background: 'transparent',
-              color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.8rem',
-              cursor: 'pointer', fontFamily: 'inherit',
-              opacity: indexing || !customUrls.trim() ? 0.5 : 1,
-            }}
+            className="mt-2 px-4 py-2 rounded-lg border border-[var(--border)] bg-transparent text-[var(--text-primary)] font-semibold text-[0.8rem] cursor-pointer font-[inherit] disabled:opacity-50"
           >
             Submit Custom URLs
           </button>
@@ -406,27 +359,28 @@ export function SeoView() {
 
         {/* Indexing Results */}
         {indexResults && (
-          <div style={{ ...cardStyle, marginTop: '0.75rem' }}>
-            <div style={{ ...labelStyle, marginBottom: '0.75rem' }}>Results</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+          <div className="bg-white/[0.02] rounded-xl border border-[var(--border)] p-5 mt-3">
+            <div className="text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)] mb-3">Results</div>
+            <div className="flex flex-col gap-1.5">
               {Object.entries(indexResults).map(([key, result]) => {
                 const engine = ENGINE_LABELS[key] || { name: key, color: 'var(--text-muted)' }
                 const isSuccess = result.status === 'success'
                 const isInfo = result.status === 'info'
                 return (
-                  <div key={key} style={{
-                    display: 'flex', alignItems: 'center', gap: '0.75rem',
-                    padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                    background: isSuccess ? 'rgba(126,217,87,0.05)' : isInfo ? 'rgba(0,212,255,0.05)' : 'rgba(239,68,68,0.05)',
-                    border: `1px solid ${isSuccess ? 'rgba(126,217,87,0.15)' : isInfo ? 'rgba(0,212,255,0.15)' : 'rgba(239,68,68,0.15)'}`,
-                  }}>
-                    <div style={{
-                      width: 8, height: 8, borderRadius: '50%',
-                      background: isSuccess ? '#6EE05A' : isInfo ? '#00d4ff' : '#ef4444',
-                      flexShrink: 0,
-                    }} />
-                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: engine.color, flex: 1 }}>{engine.name}</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                  <div
+                    key={key}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                    style={{
+                      background: isSuccess ? 'rgba(126,217,87,0.05)' : isInfo ? 'rgba(0,212,255,0.05)' : 'rgba(239,68,68,0.05)',
+                      border: `1px solid ${isSuccess ? 'rgba(126,217,87,0.15)' : isInfo ? 'rgba(0,212,255,0.15)' : 'rgba(239,68,68,0.15)'}`,
+                    }}
+                  >
+                    <div
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ background: isSuccess ? '#6EE05A' : isInfo ? '#00d4ff' : '#ef4444' }}
+                    />
+                    <span className="text-[0.8rem] font-semibold flex-1" style={{ color: engine.color }}>{engine.name}</span>
+                    <span className="text-xs text-[var(--text-muted)] font-mono">
                       {result.response || result.error || result.status}
                     </span>
                   </div>

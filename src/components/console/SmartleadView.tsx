@@ -14,24 +14,16 @@ interface SmartleadViewProps {
 // ── Stat Card ────────────────────────────────────────────────
 function StatCard({ label, value, icon: Icon, color }: { label: string; value: string | number; icon: typeof Mail; color: string }) {
   return (
-    <div style={{
-      background: 'var(--bg-card)',
-      border: '1px solid var(--border)',
-      borderRadius: '0.75rem',
-      padding: '1rem 1.25rem',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
-    }}>
-      <div style={{
-        width: 36, height: 36, borderRadius: '0.5rem',
-        background: `${color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
+    <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl px-5 py-4 flex items-center gap-3">
+      <div
+        className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+        style={{ background: `${color}18` }}
+      >
         <Icon size={18} color={color} />
       </div>
       <div>
-        <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>{value}</div>
-        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
+        <div className="text-xl font-bold text-[var(--text-primary)] font-mono">{value}</div>
+        <div className="text-xs text-[var(--text-muted)] mt-px">{label}</div>
       </div>
     </div>
   )
@@ -46,11 +38,12 @@ function StatusBadge({ status }: { status: string }) {
     : s === 'draft' ? '#6b7280'
     : '#e2e2e2'
   return (
-    <span style={{
-      fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase',
-      padding: '0.15rem 0.5rem', borderRadius: 999,
-      background: `${color}20`, color, letterSpacing: '0.04em',
-    }}>{status || 'unknown'}</span>
+    <span
+      className="text-[0.7rem] font-semibold uppercase tracking-[0.04em] px-2 py-0.5 rounded-full"
+      style={{ background: `${color}20`, color }}
+    >
+      {status || 'unknown'}
+    </span>
   )
 }
 
@@ -58,36 +51,19 @@ function StatusBadge({ status }: { status: string }) {
 function NotConnectedView({ onNavigateVault }: { onNavigateVault: () => void }) {
   return (
     <div className="flex-1 flex items-center justify-center p-8">
-      <div style={{
-        maxWidth: 420, width: '100%', borderRadius: '1.5rem',
-        padding: '2.5rem 2rem', textAlign: 'center',
-        background: 'var(--bg-card)', border: '1px solid var(--border)',
-      }}>
-        <div style={{
-          width: 56, height: 56, borderRadius: '1rem', margin: '0 auto 1.25rem',
-          background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 0 24px rgba(59,130,246,0.3)',
-        }}>
+      <div className="max-w-[420px] w-full rounded-3xl p-10 text-center bg-[var(--bg-card)] border border-[var(--border)]">
+        <div className="w-14 h-14 rounded-2xl mx-auto mb-5 flex items-center justify-center shadow-[0_0_24px_rgba(59,130,246,0.3)] bg-gradient-to-br from-blue-500 to-blue-700">
           <Mail size={28} color="#fff" />
         </div>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+        <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">
           Connect Smartlead
         </h2>
-        <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+        <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
           Add your Smartlead API key in the Vault to unlock cold email campaigns, lead management, sequences, and outreach analytics.
         </p>
         <button
           onClick={onNavigateVault}
-          style={{
-            width: '100%', padding: '0.75rem 1.5rem', borderRadius: '0.75rem',
-            background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-            color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.875rem',
-            border: 'none', cursor: 'pointer',
-            transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(59,130,246,0.4)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
+          className="w-full py-3 px-6 rounded-xl font-semibold text-sm text-white transition-all duration-150 bg-gradient-to-br from-blue-500 to-blue-700 hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(59,130,246,0.4)] border-0 cursor-pointer"
         >
           Open Vault → Add API Key
         </button>
@@ -95,7 +71,7 @@ function NotConnectedView({ onNavigateVault }: { onNavigateVault: () => void }) 
           href="https://app.smartlead.ai/app/settings/api"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '1rem', textDecoration: 'underline' }}
+          className="block text-xs text-[var(--text-muted)] mt-4 underline"
         >
           Get your Smartlead API key →
         </a>
@@ -108,19 +84,19 @@ function NotConnectedView({ onNavigateVault }: { onNavigateVault: () => void }) 
 function CreateCampaignModal({ onClose, onCreate, creating }: { onClose: () => void; onCreate: (name: string) => void; creating: boolean }) {
   const [name, setName] = useState('')
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 1000,
-      background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }} onClick={onClose}>
-      <div style={{
-        background: 'var(--bg-card)', border: '1px solid var(--border)',
-        borderRadius: '1rem', padding: '2rem', width: '100%', maxWidth: 420,
-        animation: 'console-scale-in 0.2s ease-out',
-      }} onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>New Campaign</h3>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><X size={18} /></button>
+    <div
+      className="fixed inset-0 z-[1000] bg-black/60 backdrop-blur-[6px] flex items-center justify-center"
+      onClick={onClose}
+    >
+      <div
+        className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-8 w-full max-w-[420px] animate-[console-scale-in_0.2s_ease-out]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-lg font-bold text-[var(--text-primary)]">New Campaign</h3>
+          <button onClick={onClose} className="bg-transparent border-0 cursor-pointer text-[var(--text-muted)]">
+            <X size={18} />
+          </button>
         </div>
         <input
           type="text"
@@ -128,26 +104,16 @@ function CreateCampaignModal({ onClose, onCreate, creating }: { onClose: () => v
           onChange={(e) => setName(e.target.value)}
           placeholder="Campaign name..."
           autoFocus
-          style={{
-            width: '100%', padding: '0.75rem 1rem', borderRadius: '0.5rem',
-            background: 'var(--bg-primary)', border: '1px solid var(--border)',
-            color: 'var(--text-primary)', fontSize: '0.875rem',
-            outline: 'none', fontFamily: 'inherit',
-          }}
-          onFocus={(e) => e.currentTarget.style.borderColor = '#3b82f6'}
-          onBlur={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+          className="w-full px-4 py-3 rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] text-sm outline-none font-[inherit] focus:border-blue-500 transition-colors"
           onKeyDown={(e) => { if (e.key === 'Enter' && name.trim()) onCreate(name.trim()) }}
         />
         <button
           onClick={() => { if (name.trim()) onCreate(name.trim()) }}
           disabled={!name.trim() || creating}
+          className="w-full mt-4 py-3 rounded-xl border-0 cursor-pointer font-semibold text-sm font-[inherit] transition-opacity disabled:opacity-60"
           style={{
-            width: '100%', marginTop: '1rem', padding: '0.75rem',
-            borderRadius: '0.75rem', border: 'none', cursor: 'pointer',
             background: name.trim() ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' : 'var(--border)',
             color: name.trim() ? '#fff' : 'var(--text-muted)',
-            fontWeight: 600, fontSize: '0.875rem', fontFamily: 'inherit',
-            opacity: creating ? 0.6 : 1,
           }}
         >
           {creating ? 'Creating...' : 'Create Campaign'}
@@ -159,31 +125,22 @@ function CreateCampaignModal({ onClose, onCreate, creating }: { onClose: () => v
 
 // ── Campaign Row ─────────────────────────────────────────────
 function CampaignRow({ campaign, onSelect }: { campaign: SmartleadHook['campaigns'][0]; onSelect: () => void }) {
-  const [hovered, setHovered] = useState(false)
   return (
     <button
       onClick={onSelect}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '1rem 1.25rem', borderRadius: '0.75rem',
-        background: hovered ? 'rgba(59,130,246,0.06)' : 'var(--bg-card)',
-        border: '1px solid var(--border)', cursor: 'pointer',
-        transition: 'all 0.15s ease', fontFamily: 'inherit', textAlign: 'left',
-      }}
+      className="w-full flex items-center justify-between px-5 py-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] cursor-pointer transition-all duration-150 font-[inherit] text-left hover:bg-blue-500/[0.06]"
     >
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+      <div className="flex-1 min-w-0">
+        <div className="text-[0.9rem] font-semibold text-[var(--text-primary)] mb-1 truncate">
           {campaign.name}
         </div>
-        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+        <div className="flex gap-4 text-xs text-[var(--text-muted)]">
           {campaign.lead_count != null && <span>{campaign.lead_count} leads</span>}
           {campaign.sent_count != null && <span>{campaign.sent_count} sent</span>}
           {campaign.reply_count != null && <span>{campaign.reply_count} replies</span>}
         </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+      <div className="flex items-center gap-3 shrink-0">
         <StatusBadge status={campaign.status} />
         <ChevronRight size={16} color="var(--text-muted)" />
       </div>
@@ -202,22 +159,18 @@ function CampaignDetail({ campaign, leads, loading, onBack, onFetchLeads }: {
   useEffect(() => { onFetchLeads(campaign.id) }, [campaign.id, onFetchLeads])
 
   return (
-    <div style={{ padding: '1.5rem', maxWidth: 800, margin: '0 auto', width: '100%' }}>
-      <button onClick={onBack} style={{
-        background: 'none', border: 'none', cursor: 'pointer',
-        color: '#3b82f6', fontSize: '0.8rem', fontWeight: 600, marginBottom: '1rem',
-        display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'inherit',
-      }}>
+    <div className="px-6 py-6 max-w-3xl mx-auto w-full">
+      <button onClick={onBack} className="bg-transparent border-0 cursor-pointer text-blue-500 text-[0.8rem] font-semibold mb-4 flex items-center gap-1 font-[inherit]">
         ← Back to Campaigns
       </button>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', flex: 1 }}>{campaign.name}</h2>
+      <div className="flex items-center gap-3 mb-6">
+        <h2 className="text-xl font-bold text-[var(--text-primary)] flex-1">{campaign.name}</h2>
         <StatusBadge status={campaign.status} />
       </div>
 
       {/* Stats Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
+      <div className="grid gap-3 mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}>
         <StatCard label="Sent" value={campaign.sent_count || 0} icon={Mail} color="#3b82f6" />
         <StatCard label="Opens" value={campaign.open_count || 0} icon={Eye} color="#22c55e" />
         <StatCard label="Clicks" value={campaign.click_count || 0} icon={MousePointerClick} color="#f59e0b" />
@@ -226,44 +179,37 @@ function CampaignDetail({ campaign, leads, loading, onBack, onFetchLeads }: {
       </div>
 
       {/* Leads Table */}
-      <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-        Leads {leads.length > 0 && <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({leads.length})</span>}
+      <h3 className="text-[0.9rem] font-semibold text-[var(--text-primary)] mb-3">
+        Leads {leads.length > 0 && <span className="text-[var(--text-muted)] font-normal">({leads.length})</span>}
       </h3>
 
       {loading ? (
-        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-          <RefreshCw size={20} className="animate-spin" style={{ margin: '0 auto 0.5rem' }} />
+        <div className="py-8 text-center text-[var(--text-muted)]">
+          <RefreshCw size={20} className="animate-spin mx-auto mb-2" />
           Loading leads...
         </div>
       ) : leads.length === 0 ? (
-        <div style={{
-          padding: '2rem', textAlign: 'center', borderRadius: '0.75rem',
-          background: 'var(--bg-card)', border: '1px solid var(--border)',
-          color: 'var(--text-muted)', fontSize: '0.875rem',
-        }}>
+        <div className="py-8 text-center rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-muted)] text-sm">
           No leads in this campaign yet.
         </div>
       ) : (
-        <div style={{
-          borderRadius: '0.75rem', border: '1px solid var(--border)',
-          overflow: 'hidden',
-        }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+        <div className="rounded-xl border border-[var(--border)] overflow-hidden">
+          <table className="w-full border-collapse text-[0.8rem]">
             <thead>
-              <tr style={{ background: 'var(--bg-card)' }}>
-                <th style={{ padding: '0.6rem 1rem', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 600, borderBottom: '1px solid var(--border)' }}>Email</th>
-                <th style={{ padding: '0.6rem 1rem', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 600, borderBottom: '1px solid var(--border)' }}>Name</th>
-                <th style={{ padding: '0.6rem 1rem', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 600, borderBottom: '1px solid var(--border)' }}>Company</th>
-                <th style={{ padding: '0.6rem 1rem', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 600, borderBottom: '1px solid var(--border)' }}>Status</th>
+              <tr className="bg-[var(--bg-card)]">
+                <th className="px-4 py-2.5 text-left text-[var(--text-muted)] font-semibold border-b border-[var(--border)]">Email</th>
+                <th className="px-4 py-2.5 text-left text-[var(--text-muted)] font-semibold border-b border-[var(--border)]">Name</th>
+                <th className="px-4 py-2.5 text-left text-[var(--text-muted)] font-semibold border-b border-[var(--border)]">Company</th>
+                <th className="px-4 py-2.5 text-left text-[var(--text-muted)] font-semibold border-b border-[var(--border)]">Status</th>
               </tr>
             </thead>
             <tbody>
               {leads.slice(0, 50).map((lead, i) => (
-                <tr key={lead.id || i} style={{ borderBottom: '1px solid var(--border)' }}>
-                  <td style={{ padding: '0.6rem 1rem', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>{lead.email}</td>
-                  <td style={{ padding: '0.6rem 1rem', color: 'var(--text-secondary)' }}>{[lead.first_name, lead.last_name].filter(Boolean).join(' ') || '—'}</td>
-                  <td style={{ padding: '0.6rem 1rem', color: 'var(--text-secondary)' }}>{lead.company_name || '—'}</td>
-                  <td style={{ padding: '0.6rem 1rem' }}><StatusBadge status={lead.status || 'pending'} /></td>
+                <tr key={lead.id || i} className="border-b border-[var(--border)]">
+                  <td className="px-4 py-2.5 text-[var(--text-primary)] font-mono text-xs">{lead.email}</td>
+                  <td className="px-4 py-2.5 text-[var(--text-secondary)]">{[lead.first_name, lead.last_name].filter(Boolean).join(' ') || '—'}</td>
+                  <td className="px-4 py-2.5 text-[var(--text-secondary)]">{lead.company_name || '—'}</td>
+                  <td className="px-4 py-2.5"><StatusBadge status={lead.status || 'pending'} /></td>
                 </tr>
               ))}
             </tbody>
@@ -311,40 +257,31 @@ export function SmartleadView({ smartlead, onNavigateVault }: SmartleadViewProps
 
   // Main campaigns list
   return (
-    <div className="flex-1 overflow-y-auto" style={{ padding: '1.5rem' }}>
-      <div style={{ maxWidth: 800, margin: '0 auto', width: '100%' }}>
+    <div className="flex-1 overflow-y-auto p-6">
+      <div className="max-w-3xl mx-auto w-full">
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <h1 className="text-[1.35rem] font-bold text-[var(--text-primary)] flex items-center gap-2">
               <Mail size={22} color="#3b82f6" />
               Smartlead
             </h1>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 4 }}>
+            <p className="text-[0.8rem] text-[var(--text-muted)] mt-1">
               Cold email campaigns, leads, and outreach analytics
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div className="flex gap-2">
             <button
               onClick={() => fetchCampaigns()}
               disabled={loading}
-              style={{
-                padding: '0.5rem', borderRadius: '0.5rem', cursor: 'pointer',
-                background: 'var(--bg-card)', border: '1px solid var(--border)',
-                color: 'var(--text-secondary)', display: 'flex', alignItems: 'center',
-              }}
+              className="p-2 rounded-lg cursor-pointer bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] flex items-center"
               title="Refresh"
             >
               <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
             </button>
             <button
               onClick={() => setShowCreate(true)}
-              style={{
-                padding: '0.5rem 1rem', borderRadius: '0.5rem', cursor: 'pointer',
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                border: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.8rem',
-                display: 'flex', alignItems: 'center', gap: '0.35rem', fontFamily: 'inherit',
-              }}
+              className="px-4 py-2 rounded-lg cursor-pointer font-semibold text-[0.8rem] flex items-center gap-1.5 font-[inherit] text-white border-0 bg-gradient-to-br from-blue-500 to-blue-700"
             >
               <Plus size={15} /> New Campaign
             </button>
@@ -353,19 +290,15 @@ export function SmartleadView({ smartlead, onNavigateVault }: SmartleadViewProps
 
         {/* Error */}
         {error && (
-          <div style={{
-            padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1rem',
-            background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)',
-            color: '#ef4444', fontSize: '0.8rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          }}>
+          <div className="px-4 py-3 rounded-lg mb-4 bg-red-500/10 border border-red-500/20 text-red-500 text-[0.8rem] flex justify-between items-center">
             <span>{error}</span>
-            <button onClick={() => setError(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444' }}><X size={14} /></button>
+            <button onClick={() => setError(null)} className="bg-transparent border-0 cursor-pointer text-red-500"><X size={14} /></button>
           </div>
         )}
 
         {/* Stats Grid */}
         {stats && stats.total_campaigns > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
+          <div className="grid gap-3 mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
             <StatCard label="Campaigns" value={stats.total_campaigns} icon={Mail} color="#3b82f6" />
             <StatCard label="Total Leads" value={stats.total_leads.toLocaleString()} icon={Users} color="#22c55e" />
             <StatCard label="Emails Sent" value={stats.total_sent.toLocaleString()} icon={Upload} color="#a855f7" />
@@ -377,28 +310,21 @@ export function SmartleadView({ smartlead, onNavigateVault }: SmartleadViewProps
 
         {/* Loading */}
         {loading && campaigns.length === 0 && (
-          <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-            <RefreshCw size={24} className="animate-spin" style={{ margin: '0 auto 0.75rem' }} />
+          <div className="py-12 text-center text-[var(--text-muted)]">
+            <RefreshCw size={24} className="animate-spin mx-auto mb-3" />
             <div>Loading campaigns...</div>
           </div>
         )}
 
         {/* Empty */}
         {!loading && campaigns.length === 0 && connected !== null && connected && (
-          <div style={{
-            padding: '3rem', textAlign: 'center', borderRadius: '0.75rem',
-            background: 'var(--bg-card)', border: '1px solid var(--border)',
-          }}>
-            <Mail size={32} color="var(--text-muted)" style={{ margin: '0 auto 0.75rem' }} />
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600, marginBottom: 4 }}>No campaigns yet</p>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '1rem' }}>Create your first cold email campaign to get started.</p>
+          <div className="py-12 text-center rounded-xl bg-[var(--bg-card)] border border-[var(--border)]">
+            <Mail size={32} color="var(--text-muted)" className="mx-auto mb-3" />
+            <p className="text-[var(--text-secondary)] text-[0.9rem] font-semibold mb-1">No campaigns yet</p>
+            <p className="text-[var(--text-muted)] text-[0.8rem] mb-4">Create your first cold email campaign to get started.</p>
             <button
               onClick={() => setShowCreate(true)}
-              style={{
-                padding: '0.6rem 1.25rem', borderRadius: '0.5rem', cursor: 'pointer',
-                background: '#3b82f6', border: 'none', color: '#fff',
-                fontWeight: 600, fontSize: '0.8rem', fontFamily: 'inherit',
-              }}
+              className="px-5 py-2.5 rounded-lg cursor-pointer bg-blue-500 border-0 text-white font-semibold text-[0.8rem] font-[inherit]"
             >
               Create Campaign
             </button>
@@ -407,8 +333,8 @@ export function SmartleadView({ smartlead, onNavigateVault }: SmartleadViewProps
 
         {/* Campaign List */}
         {campaigns.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <h2 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-[0.85rem] font-semibold text-[var(--text-muted)] uppercase tracking-[0.05em] mb-1">
               Campaigns ({campaigns.length})
             </h2>
             {campaigns.map((c) => (

@@ -81,6 +81,9 @@ const STEP_TITLES = [
   'Review & Pay',
 ]
 
+const inputCls = 'w-full px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] text-[var(--text-primary)] text-[0.95rem] outline-none'
+const labelCls = 'block text-[0.85rem] text-[var(--text-secondary)] mb-1.5 font-medium'
+
 export default function Web0nOnboard() {
   const router = useRouter()
   const [step, setStep] = useState(0)
@@ -261,103 +264,66 @@ export default function Web0nOnboard() {
     }
   }
 
-  const inputStyle = {
-    width: '100%',
-    padding: '0.75rem 1rem',
-    borderRadius: '8px',
-    border: '1px solid var(--border)',
-    background: 'var(--bg-secondary)',
-    color: 'var(--text-primary)',
-    fontSize: '0.95rem',
-    fontFamily: 'var(--font-display)',
-    outline: 'none',
-  }
-
-  const labelStyle = {
-    display: 'block',
-    fontSize: '0.85rem',
-    color: 'var(--text-secondary)',
-    marginBottom: '0.35rem',
-    fontWeight: 500 as const,
-  }
-
   return (
-    <div style={{ maxWidth: 680, margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
+    <div className="max-w-[680px] mx-auto px-6 pt-8 pb-16">
       {/* Progress bar */}
-      <div style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Step {step + 1} of 6</span>
-          <span style={{ fontSize: '0.8rem', color: '#6EE05A', fontWeight: 500 }}>{STEP_TITLES[step]}</span>
+      <div className="mb-8">
+        <div className="flex justify-between mb-2">
+          <span className="text-[0.8rem] text-[var(--text-muted)]">Step {step + 1} of 6</span>
+          <span className="text-[0.8rem] text-[var(--accent-brand)] font-medium">{STEP_TITLES[step]}</span>
         </div>
-        <div style={{ height: 4, borderRadius: 2, background: 'var(--bg-tertiary)', overflow: 'hidden' }}>
-          <div style={{
-            width: `${((step + 1) / 6) * 100}%`,
-            height: '100%',
-            background: 'linear-gradient(90deg, #6EE05A, #a3e87c)',
-            borderRadius: 2,
-            transition: 'width 0.3s ease',
-          }} />
+        <div className="h-1 rounded-sm bg-[var(--bg-tertiary)] overflow-hidden">
+          <div
+            className="h-full rounded-sm transition-[width] duration-300 ease-in-out"
+            style={{
+              width: `${((step + 1) / 6) * 100}%`,
+              background: 'linear-gradient(90deg, #6EE05A, #a3e87c)',
+            }}
+          />
         </div>
       </div>
 
       {/* Step 0: Business Search */}
       {step === 0 && (
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Find Your Business</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+          <h2 className="text-2xl font-bold mb-2">Find Your Business</h2>
+          <p className="text-[var(--text-secondary)] mb-6">
             Search for your business to auto-fill your information.
           </p>
-          <div style={{ position: 'relative' }}>
+          <div className="relative">
             <input
               type="text"
               placeholder="Type your business name and city..."
               value={form.searchQuery}
               onChange={e => setForm(prev => ({ ...prev, searchQuery: e.target.value }))}
-              style={inputStyle}
+              className={inputCls}
               autoFocus
             />
             {searching && (
-              <div style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-[0.8rem]">
                 Searching...
               </div>
             )}
           </div>
           {searchResults.length > 0 && (
-            <div style={{
-              marginTop: '0.5rem',
-              border: '1px solid var(--border)',
-              borderRadius: '8px',
-              background: 'var(--bg-card)',
-              overflow: 'hidden',
-            }}>
+            <div className="mt-2 border border-[var(--border)] rounded-lg bg-[var(--bg-card)] overflow-hidden">
               {searchResults.map(place => (
                 <button
                   key={place.placeId}
                   onClick={() => selectPlace(place)}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    padding: '0.75rem 1rem',
-                    textAlign: 'left',
-                    background: 'transparent',
-                    border: 'none',
-                    borderBottom: '1px solid var(--border)',
-                    cursor: 'pointer',
-                    color: 'var(--text-primary)',
-                    fontFamily: 'var(--font-display)',
-                  }}
+                  className="block w-full px-4 py-3 text-left bg-transparent border-none border-b border-[var(--border)] cursor-pointer text-[var(--text-primary)] last:border-b-0"
                 >
-                  <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>{place.name}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{place.address}</div>
+                  <div className="font-semibold text-[0.95rem]">{place.name}</div>
+                  <div className="text-[0.8rem] text-[var(--text-muted)] mt-0.5">{place.address}</div>
                 </button>
               ))}
             </div>
           )}
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1rem' }}>
+          <p className="text-[var(--text-muted)] text-[0.8rem] mt-4">
             Can&apos;t find your business?{' '}
             <button
               onClick={() => setStep(1)}
-              style={{ background: 'none', border: 'none', color: '#6EE05A', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', textDecoration: 'underline' }}
+              className="bg-transparent border-none text-[var(--accent-brand)] cursor-pointer text-[0.8rem] underline"
             >
               Enter info manually
             </button>
@@ -368,91 +334,75 @@ export default function Web0nOnboard() {
       {/* Step 1: Business Info */}
       {step === 1 && (
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Business Information</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+          <h2 className="text-2xl font-bold mb-2">Business Information</h2>
+          <p className="text-[var(--text-secondary)] mb-6">
             {form.selectedPlace ? 'We pre-filled what we could — edit anything below.' : 'Tell us about your business.'}
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="flex flex-col gap-4">
             <div>
-              <label style={labelStyle}>Business Name *</label>
-              <input style={inputStyle} value={form.businessName} onChange={e => setForm(prev => ({ ...prev, businessName: e.target.value }))} />
-            </div>
-            <div>
-              <label style={labelStyle}>Business Type</label>
-              <input style={inputStyle} value={form.businessType} onChange={e => setForm(prev => ({ ...prev, businessType: e.target.value }))} placeholder="e.g., Salon, Plumber, Restaurant" />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div>
-                <label style={labelStyle}>Phone</label>
-                <input style={inputStyle} value={form.phone} onChange={e => setForm(prev => ({ ...prev, phone: e.target.value }))} />
-              </div>
-              <div>
-                <label style={labelStyle}>Email *</label>
-                <input style={inputStyle} type="email" value={form.email} onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))} />
-              </div>
+              <label className={labelCls}>Business Name *</label>
+              <input className={inputCls} value={form.businessName} onChange={e => setForm(prev => ({ ...prev, businessName: e.target.value }))} />
             </div>
             <div>
-              <label style={labelStyle}>Address</label>
-              <input style={inputStyle} value={form.address} onChange={e => setForm(prev => ({ ...prev, address: e.target.value }))} />
+              <label className={labelCls}>Business Type</label>
+              <input className={inputCls} value={form.businessType} onChange={e => setForm(prev => ({ ...prev, businessType: e.target.value }))} placeholder="e.g., Salon, Plumber, Restaurant" />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '1rem' }}>
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label style={labelStyle}>City</label>
-                <input style={inputStyle} value={form.city} onChange={e => setForm(prev => ({ ...prev, city: e.target.value }))} />
+                <label className={labelCls}>Phone</label>
+                <input className={inputCls} value={form.phone} onChange={e => setForm(prev => ({ ...prev, phone: e.target.value }))} />
               </div>
               <div>
-                <label style={labelStyle}>State</label>
-                <input style={inputStyle} value={form.state} onChange={e => setForm(prev => ({ ...prev, state: e.target.value }))} />
-              </div>
-              <div>
-                <label style={labelStyle}>Zip</label>
-                <input style={inputStyle} value={form.zip} onChange={e => setForm(prev => ({ ...prev, zip: e.target.value }))} />
+                <label className={labelCls}>Email *</label>
+                <input className={inputCls} type="email" value={form.email} onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))} />
               </div>
             </div>
             <div>
-              <label style={labelStyle}>Existing Website (if any)</label>
-              <input style={inputStyle} value={form.websiteUrl} onChange={e => setForm(prev => ({ ...prev, websiteUrl: e.target.value }))} placeholder="https://" />
+              <label className={labelCls}>Address</label>
+              <input className={inputCls} value={form.address} onChange={e => setForm(prev => ({ ...prev, address: e.target.value }))} />
+            </div>
+            <div className="grid gap-4" style={{ gridTemplateColumns: '2fr 1fr 1fr' }}>
+              <div>
+                <label className={labelCls}>City</label>
+                <input className={inputCls} value={form.city} onChange={e => setForm(prev => ({ ...prev, city: e.target.value }))} />
+              </div>
+              <div>
+                <label className={labelCls}>State</label>
+                <input className={inputCls} value={form.state} onChange={e => setForm(prev => ({ ...prev, state: e.target.value }))} />
+              </div>
+              <div>
+                <label className={labelCls}>Zip</label>
+                <input className={inputCls} value={form.zip} onChange={e => setForm(prev => ({ ...prev, zip: e.target.value }))} />
+              </div>
+            </div>
+            <div>
+              <label className={labelCls}>Existing Website (if any)</label>
+              <input className={inputCls} value={form.websiteUrl} onChange={e => setForm(prev => ({ ...prev, websiteUrl: e.target.value }))} placeholder="https://" />
             </div>
 
             {/* Google Business Listing — shown when business wasn't found in Places */}
             {!form.selectedPlace && (
-              <div style={{
-                padding: '1.25rem',
-                borderRadius: '12px',
-                border: '1px solid rgba(110, 224, 90, 0.2)',
-                background: 'rgba(110, 224, 90, 0.03)',
-              }}>
-                <label style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '0.75rem',
-                  cursor: 'pointer',
-                }}>
+              <div className="p-5 rounded-xl border border-[rgba(110,224,90,0.2)] bg-[rgba(110,224,90,0.03)]">
+                <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={form.interestedInGoogleListing}
                     onChange={e => setForm(prev => ({ ...prev, interestedInGoogleListing: e.target.checked }))}
-                    style={{ marginTop: '0.2rem', accentColor: '#6EE05A', width: 18, height: 18 }}
+                    className="mt-0.5 w-4.5 h-4.5 accent-[#6EE05A]"
                   />
                   <div>
-                    <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>
+                    <span className="font-semibold text-[0.95rem]">
                       I&apos;d like help getting my business listed on Google
                     </span>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '0.5rem', lineHeight: 1.5 }}>
+                    <p className="text-[var(--text-secondary)] text-[0.8rem] mt-2 leading-relaxed">
                       A Google Business Profile is one of the most impactful things you can do for local visibility. Here&apos;s what it gets you:
                     </p>
-                    <ul style={{
-                      color: 'var(--text-secondary)',
-                      fontSize: '0.8rem',
-                      lineHeight: 1.8,
-                      paddingLeft: '1rem',
-                      marginTop: '0.35rem',
-                    }}>
-                      <li><strong style={{ color: 'var(--text-primary)' }}>Google Maps visibility</strong> — customers find you when searching nearby</li>
-                      <li><strong style={{ color: 'var(--text-primary)' }}>Search ranking boost</strong> — Google prioritizes businesses with verified profiles</li>
-                      <li><strong style={{ color: 'var(--text-primary)' }}>Reviews & trust</strong> — collect Google reviews that show in search results</li>
-                      <li><strong style={{ color: 'var(--text-primary)' }}>Free traffic</strong> — your hours, phone, and website show without paying for ads</li>
-                      <li><strong style={{ color: 'var(--text-primary)' }}>Insights & analytics</strong> — see how customers find and interact with your listing</li>
+                    <ul className="text-[var(--text-secondary)] text-[0.8rem] leading-loose pl-4 mt-1.5">
+                      <li><strong className="text-[var(--text-primary)]">Google Maps visibility</strong> — customers find you when searching nearby</li>
+                      <li><strong className="text-[var(--text-primary)]">Search ranking boost</strong> — Google prioritizes businesses with verified profiles</li>
+                      <li><strong className="text-[var(--text-primary)]">Reviews &amp; trust</strong> — collect Google reviews that show in search results</li>
+                      <li><strong className="text-[var(--text-primary)]">Free traffic</strong> — your hours, phone, and website show without paying for ads</li>
+                      <li><strong className="text-[var(--text-primary)]">Insights &amp; analytics</strong> — see how customers find and interact with your listing</li>
                     </ul>
                   </div>
                 </label>
@@ -465,23 +415,23 @@ export default function Web0nOnboard() {
       {/* Step 2: Brand & Style */}
       {step === 2 && (
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Brand & Style</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+          <h2 className="text-2xl font-bold mb-2">Brand &amp; Style</h2>
+          <p className="text-[var(--text-secondary)] mb-6">
             Help us match your brand. Skip anything you&apos;re not sure about — we&apos;ll pick great defaults.
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="flex flex-col gap-4">
             <div>
-              <label style={labelStyle}>Brand Colors</label>
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <label className={labelCls}>Brand Colors</label>
+              <div className="flex gap-4 items-center">
                 {(['primaryColor', 'secondaryColor', 'accentColor'] as const).map((key, i) => (
-                  <div key={key} style={{ textAlign: 'center' }}>
+                  <div key={key} className="text-center">
                     <input
                       type="color"
                       value={form[key]}
                       onChange={e => setForm(prev => ({ ...prev, [key]: e.target.value }))}
-                      style={{ width: 48, height: 48, border: 'none', borderRadius: 8, cursor: 'pointer', background: 'transparent' }}
+                      className="w-12 h-12 border-none rounded-lg cursor-pointer bg-transparent"
                     />
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                    <div className="text-[0.75rem] text-[var(--text-muted)] mt-1">
                       {['Primary', 'Secondary', 'Accent'][i]}
                     </div>
                   </div>
@@ -489,7 +439,7 @@ export default function Web0nOnboard() {
               </div>
             </div>
             <div>
-              <label style={labelStyle}>Logo</label>
+              <label className={labelCls}>Logo</label>
               <input
                 type="file"
                 accept="image/*"
@@ -503,18 +453,18 @@ export default function Web0nOnboard() {
                     }))
                   }
                 }}
-                style={{ ...inputStyle, padding: '0.5rem' }}
+                className="w-full px-2 py-2 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] text-[var(--text-primary)] text-[0.95rem] outline-none"
               />
               {form.logoPreview && (
-                <div style={{ marginTop: '0.5rem' }}>
+                <div className="mt-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={form.logoPreview} alt="Logo preview" style={{ maxHeight: 80, borderRadius: 8 }} />
+                  <img src={form.logoPreview} alt="Logo preview" className="max-h-20 rounded-lg" />
                 </div>
               )}
             </div>
             <div>
-              <label style={labelStyle}>Tagline / Slogan</label>
-              <input style={inputStyle} value={form.tagline} onChange={e => setForm(prev => ({ ...prev, tagline: e.target.value }))} placeholder="e.g., Quality service you can trust" />
+              <label className={labelCls}>Tagline / Slogan</label>
+              <input className={inputCls} value={form.tagline} onChange={e => setForm(prev => ({ ...prev, tagline: e.target.value }))} placeholder="e.g., Quality service you can trust" />
             </div>
           </div>
         </div>
@@ -523,15 +473,15 @@ export default function Web0nOnboard() {
       {/* Step 3: Services */}
       {step === 3 && (
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Your Services</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+          <h2 className="text-2xl font-bold mb-2">Your Services</h2>
+          <p className="text-[var(--text-secondary)] mb-6">
             What services does your business offer? We&apos;ll feature these on your website.
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div className="flex flex-col gap-3">
             {form.services.map((service, i) => (
-              <div key={i} style={{ display: 'flex', gap: '0.5rem' }}>
+              <div key={i} className="flex gap-2">
                 <input
-                  style={{ ...inputStyle, flex: 1 }}
+                  className={`${inputCls} flex-1`}
                   value={service}
                   onChange={e => updateService(i, e.target.value)}
                   placeholder={`Service ${i + 1}`}
@@ -539,15 +489,7 @@ export default function Web0nOnboard() {
                 {form.services.length > 1 && (
                   <button
                     onClick={() => removeService(i)}
-                    style={{
-                      padding: '0 0.75rem',
-                      borderRadius: '8px',
-                      border: '1px solid var(--border)',
-                      background: 'transparent',
-                      color: 'var(--text-muted)',
-                      cursor: 'pointer',
-                      fontSize: '1.2rem',
-                    }}
+                    className="px-3 rounded-lg border border-[var(--border)] bg-transparent text-[var(--text-muted)] cursor-pointer text-xl"
                   >
                     &times;
                   </button>
@@ -557,17 +499,7 @@ export default function Web0nOnboard() {
           </div>
           <button
             onClick={addService}
-            style={{
-              marginTop: '0.75rem',
-              padding: '0.5rem 1rem',
-              borderRadius: '8px',
-              border: '1px dashed var(--border)',
-              background: 'transparent',
-              color: '#6EE05A',
-              cursor: 'pointer',
-              fontSize: '0.85rem',
-              fontFamily: 'var(--font-display)',
-            }}
+            className="mt-3 px-4 py-2 rounded-lg border border-dashed border-[var(--border)] bg-transparent text-[var(--accent-brand)] cursor-pointer text-[0.85rem]"
           >
             + Add Service
           </button>
@@ -577,12 +509,12 @@ export default function Web0nOnboard() {
       {/* Step 4: Special Requests */}
       {step === 4 && (
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Special Requests</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+          <h2 className="text-2xl font-bold mb-2">Special Requests</h2>
+          <p className="text-[var(--text-secondary)] mb-6">
             Anything specific you want on your site? Special features, content, or preferences?
           </p>
           <textarea
-            style={{ ...inputStyle, minHeight: 180, resize: 'vertical' }}
+            className="w-full px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] text-[var(--text-primary)] text-[0.95rem] outline-none min-h-[180px] resize-y"
             value={form.specialRequests}
             onChange={e => setForm(prev => ({ ...prev, specialRequests: e.target.value }))}
             placeholder="Tell us anything — specific wording, features, pages, content you want highlighted..."
@@ -593,80 +525,77 @@ export default function Web0nOnboard() {
       {/* Step 5: Review */}
       {step === 5 && (
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Review & Pay</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+          <h2 className="text-2xl font-bold mb-2">Review &amp; Pay</h2>
+          <p className="text-[var(--text-secondary)] mb-6">
             Review your info below. After submitting, you&apos;ll receive a deposit invoice for $998.50.
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="flex flex-col gap-4">
             {/* Business Info Summary */}
-            <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Business</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', fontSize: '0.9rem' }}>
-                <div><span style={{ color: 'var(--text-muted)' }}>Name:</span> {form.businessName}</div>
-                <div><span style={{ color: 'var(--text-muted)' }}>Type:</span> {form.businessType || '—'}</div>
-                <div><span style={{ color: 'var(--text-muted)' }}>Email:</span> {form.email}</div>
-                <div><span style={{ color: 'var(--text-muted)' }}>Phone:</span> {form.phone || '—'}</div>
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]">
+              <h3 className="text-[0.9rem] font-semibold text-[var(--accent-brand)] mb-3">Business</h3>
+              <div className="grid grid-cols-2 gap-2 text-[0.9rem]">
+                <div><span className="text-[var(--text-muted)]">Name:</span> {form.businessName}</div>
+                <div><span className="text-[var(--text-muted)]">Type:</span> {form.businessType || '—'}</div>
+                <div><span className="text-[var(--text-muted)]">Email:</span> {form.email}</div>
+                <div><span className="text-[var(--text-muted)]">Phone:</span> {form.phone || '—'}</div>
               </div>
               {form.address && (
-                <div style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Address:</span> {[form.address, form.city, form.state, form.zip].filter(Boolean).join(', ')}
+                <div className="text-[0.9rem] mt-2">
+                  <span className="text-[var(--text-muted)]">Address:</span> {[form.address, form.city, form.state, form.zip].filter(Boolean).join(', ')}
                 </div>
               )}
             </div>
 
             {/* Brand Summary */}
-            <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Brand</h3>
-              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]">
+              <h3 className="text-[0.9rem] font-semibold text-[var(--accent-brand)] mb-3">Brand</h3>
+              <div className="flex gap-2 mb-2">
                 {[form.primaryColor, form.secondaryColor, form.accentColor].map((c, i) => (
-                  <div key={i} style={{ width: 28, height: 28, borderRadius: 6, background: c, border: '1px solid var(--border)' }} />
+                  <div key={i} className="w-7 h-7 rounded-md border border-[var(--border)]" style={{ background: c }} />
                 ))}
               </div>
-              {form.tagline && <div style={{ fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Tagline:</span> {form.tagline}</div>}
+              {form.tagline && <div className="text-[0.9rem]"><span className="text-[var(--text-muted)]">Tagline:</span> {form.tagline}</div>}
             </div>
 
             {/* Services Summary */}
-            <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Services</h3>
-              <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]">
+              <h3 className="text-[0.9rem] font-semibold text-[var(--accent-brand)] mb-3">Services</h3>
+              <div className="text-[0.9rem] text-[var(--text-secondary)]">
                 {form.services.filter(s => s.trim()).join(' / ') || 'None specified'}
               </div>
             </div>
 
             {/* Google Listing Interest */}
             {form.interestedInGoogleListing && (
-              <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(110, 224, 90, 0.2)', background: 'rgba(110, 224, 90, 0.03)' }}>
-                <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.25rem' }}>Google Business Listing</h3>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              <div className="p-5 rounded-xl border border-[rgba(110,224,90,0.2)] bg-[rgba(110,224,90,0.03)]">
+                <h3 className="text-[0.9rem] font-semibold text-[var(--accent-brand)] mb-1">Google Business Listing</h3>
+                <div className="text-[0.85rem] text-[var(--text-secondary)]">
                   We&apos;ll reach out to help get your business listed on Google Maps &amp; Search.
                 </div>
               </div>
             )}
 
             {/* Coupon Code */}
-            <div style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-              <h3 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#6EE05A', marginBottom: '0.75rem' }}>Coupon Code</h3>
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--bg-card)]">
+              <h3 className="text-[0.9rem] font-semibold text-[var(--accent-brand)] mb-3">Coupon Code</h3>
               <input
-                style={{
-                  ...inputStyle,
-                  borderColor: couponResult?.valid ? 'rgba(110, 224, 90, 0.5)' : couponResult && !couponResult.valid ? 'rgba(255, 80, 80, 0.5)' : undefined,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}
+                className={`${inputCls} uppercase tracking-wide ${
+                  couponResult?.valid
+                    ? 'border-[rgba(110,224,90,0.5)]'
+                    : couponResult && !couponResult.valid
+                    ? 'border-[rgba(255,80,80,0.5)]'
+                    : ''
+                }`}
                 value={form.couponCode}
                 onChange={e => setForm(prev => ({ ...prev, couponCode: e.target.value }))}
                 placeholder="Enter coupon code (optional)"
               />
               {checkingCoupon && (
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>Checking code...</div>
+                <div className="text-[0.8rem] text-[var(--text-muted)] mt-1.5">Checking code...</div>
               )}
               {couponResult && !checkingCoupon && (
-                <div style={{
-                  fontSize: '0.8rem',
-                  marginTop: '0.35rem',
-                  color: couponResult.valid ? '#6EE05A' : '#ff5050',
-                }}>
+                <div className={`text-[0.8rem] mt-1.5 ${couponResult.valid ? 'text-[#6EE05A]' : 'text-[#ff5050]'}`}>
                   {couponResult.valid
                     ? couponResult.isFree
                       ? '100% off — no payment required!'
@@ -677,23 +606,23 @@ export default function Web0nOnboard() {
             </div>
 
             {/* Price */}
-            <div style={{
-              padding: '1.25rem',
-              borderRadius: '12px',
-              border: `1px solid ${couponResult?.valid ? 'rgba(110, 224, 90, 0.5)' : 'rgba(110, 224, 90, 0.3)'}`,
-              background: 'rgba(110, 224, 90, 0.05)',
-              textAlign: 'center',
-            }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#6EE05A' }}>
+            <div
+              className="p-5 rounded-xl text-center"
+              style={{
+                border: `1px solid ${couponResult?.valid ? 'rgba(110,224,90,0.5)' : 'rgba(110,224,90,0.3)'}`,
+                background: 'rgba(110,224,90,0.05)',
+              }}
+            >
+              <div className="text-2xl font-bold text-[var(--accent-brand)]">
                 {couponResult?.valid && couponResult.isFree ? (
-                  <><s style={{ opacity: 0.4 }}>$998.50</s> FREE</>
+                  <><s className="opacity-40">$998.50</s> FREE</>
                 ) : couponResult?.valid && couponResult.discountPercent ? (
-                  <><s style={{ opacity: 0.4, fontSize: '1.1rem' }}>$998.50</s>{' '}${couponResult.depositDue?.toFixed(2)} Deposit</>
+                  <><s className="opacity-40 text-xl">$998.50</s>{' '}${couponResult.depositDue?.toFixed(2)} Deposit</>
                 ) : (
                   '$998.50 Deposit'
                 )}
               </div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+              <div className="text-[0.85rem] text-[var(--text-muted)] mt-1">
                 {couponResult?.valid && couponResult.isFree
                   ? 'Coupon applied — no payment required'
                   : couponResult?.valid && couponResult.discountPercent
@@ -704,7 +633,7 @@ export default function Web0nOnboard() {
           </div>
 
           {error && (
-            <div style={{ marginTop: '1rem', padding: '0.75rem', borderRadius: '8px', background: 'rgba(255, 50, 50, 0.1)', border: '1px solid rgba(255, 50, 50, 0.3)', color: '#ff5050', fontSize: '0.9rem' }}>
+            <div className="mt-4 px-4 py-3 rounded-lg bg-[rgba(255,50,50,0.1)] border border-[rgba(255,50,50,0.3)] text-[#ff5050] text-[0.9rem]">
               {error}
             </div>
           )}
@@ -712,20 +641,11 @@ export default function Web0nOnboard() {
       )}
 
       {/* Navigation */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem', gap: '1rem' }}>
+      <div className="flex justify-between mt-8 gap-4">
         {step > 0 ? (
           <button
             onClick={() => setStep(s => s - 1)}
-            style={{
-              padding: '0.7rem 1.5rem',
-              borderRadius: '8px',
-              border: '1px solid var(--border)',
-              background: 'transparent',
-              color: 'var(--text-primary)',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.9rem',
-            }}
+            className="px-6 py-2.5 rounded-lg border border-[var(--border)] bg-transparent text-[var(--text-primary)] cursor-pointer text-[0.9rem]"
           >
             Back
           </button>
@@ -735,16 +655,11 @@ export default function Web0nOnboard() {
           <button
             onClick={() => setStep(s => s + 1)}
             disabled={!canProceed()}
+            className="px-6 py-2.5 rounded-lg border-none font-semibold text-[0.9rem] transition-colors"
             style={{
-              padding: '0.7rem 1.5rem',
-              borderRadius: '8px',
               background: canProceed() ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)' : 'var(--bg-tertiary)',
               color: canProceed() ? '#fff' : 'var(--text-muted)',
-              border: 'none',
               cursor: canProceed() ? 'pointer' : 'not-allowed',
-              fontWeight: 600,
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.9rem',
             }}
           >
             Continue
@@ -753,16 +668,11 @@ export default function Web0nOnboard() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
+            className="px-8 py-2.5 rounded-lg border-none font-semibold text-[0.95rem] transition-opacity"
             style={{
-              padding: '0.7rem 2rem',
-              borderRadius: '8px',
               background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
               color: '#0B0F19',
-              border: 'none',
               cursor: submitting ? 'not-allowed' : 'pointer',
-              fontWeight: 600,
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.95rem',
               opacity: submitting ? 0.7 : 1,
             }}
           >

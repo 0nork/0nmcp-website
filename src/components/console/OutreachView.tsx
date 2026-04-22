@@ -169,7 +169,6 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
       let qualified = isSample ? 0 : qualifiedCount
       let skipped = isSample ? 0 : skippedCount
       const results: EnrichResultRow[] = isSample ? [] : [...enrichResults]
-      const startIdx = results.length
 
       setEnrichProgress({ current: 0, total: rows.length, company: '' })
 
@@ -360,51 +359,19 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
   /* ──────────────────────────────────────────── */
 
   return (
-    <div
-      style={{
-        padding: '24px',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        width: '100%',
-        animation: 'console-fade-in 0.3s ease',
-      }}
-    >
+    <div className="p-6 max-w-[1200px] mx-auto w-full animate-[console-fade-in_0.3s_ease]">
       {/* ── Header ── */}
-      <div style={{ marginBottom: '24px' }}>
-        <h1
-          style={{
-            fontSize: '24px',
-            fontWeight: 700,
-            color: 'var(--text-primary)',
-            margin: 0,
-          }}
-        >
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-[var(--text-primary)] m-0">
           Outreach Enricher
         </h1>
-        <p
-          style={{
-            fontSize: '13px',
-            color: 'rgba(255,255,255,0.7)',
-            margin: '4px 0 0 0',
-          }}
-        >
-          AI-powered lead enrichment & cold email sequences
+        <p className="text-[13px] text-white/70 mt-1 mb-0">
+          AI-powered lead enrichment &amp; cold email sequences
         </p>
       </div>
 
       {/* ── Tab Bar ── */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '6px',
-          marginBottom: '24px',
-          backgroundColor: 'var(--bg-card)',
-          border: '1px solid #222222',
-          borderRadius: '12px',
-          padding: '4px',
-          width: 'fit-content',
-        }}
-      >
+      <div className="flex gap-1.5 mb-6 bg-[var(--bg-card)] border border-[#222222] rounded-xl p-1 w-fit">
         {(
           [
             { key: 'enrich', label: 'Enrich' },
@@ -416,17 +383,12 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            style={{
-              backgroundColor: activeTab === tab.key ? '#6EE05A' : 'transparent',
-              color: activeTab === tab.key ? '#0B0F19' : 'rgba(255,255,255,0.45)',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '8px 20px',
-              fontSize: '13px',
-              fontWeight: activeTab === tab.key ? 700 : 500,
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-            }}
+            className={[
+              'border-none rounded-lg px-5 py-2 text-[13px] cursor-pointer transition-all duration-200',
+              activeTab === tab.key
+                ? 'bg-[#6EE05A] text-[#0B0F19] font-bold'
+                : 'bg-transparent text-white/45 font-medium',
+            ].join(' ')}
           >
             {tab.label}
           </button>
@@ -437,19 +399,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
       {/*  TAB 1: ENRICH                            */}
       {/* ══════════════════════════════════════════ */}
       {activeTab === 'enrich' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className="flex flex-col gap-5">
           {/* ── File Upload Zone ── */}
           <div
-            style={{
-              backgroundColor: 'var(--bg-card)',
-              border: dragOver ? '2px dashed #6EE05A' : '2px dashed #222222',
-              borderRadius: '16px',
-              padding: '40px 24px',
-              textAlign: 'center',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              position: 'relative',
-            }}
+            className={[
+              'bg-[var(--bg-card)] rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 relative',
+              dragOver ? 'border-2 border-dashed border-[#6EE05A]' : 'border-2 border-dashed border-[#222222]',
+            ].join(' ')}
             onDragOver={(e) => {
               e.preventDefault()
               setDragOver(true)
@@ -463,44 +419,24 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               type="file"
               accept=".csv"
               onChange={onFileSelect}
-              style={{ display: 'none' }}
+              className="hidden"
             />
             {uploading ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                <div
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    border: '3px solid #222222',
-                    borderTopColor: '#6EE05A',
-                    borderRadius: '50%',
-                    animation: 'spin 0.8s linear infinite',
-                  }}
-                />
-                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>Uploading...</span>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-8 h-8 border-[3px] border-[#222222] border-t-[#6EE05A] rounded-full animate-spin" />
+                <span className="text-[14px] text-white/70">Uploading...</span>
               </div>
             ) : uploadResult ? (
               <div>
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
-                    backgroundColor: 'rgba(126,217,87,0.1)',
-                    border: '1px solid rgba(126,217,87,0.2)',
-                    borderRadius: '8px',
-                    marginBottom: '8px',
-                  }}
-                >
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.2)] rounded-lg mb-2">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
-                  <span style={{ fontSize: '14px', color: '#6EE05A', fontWeight: 600 }}>
+                  <span className="text-[14px] text-[#6EE05A] font-semibold">
                     {uploadResult.totalRows} leads loaded
                   </span>
                 </div>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '8px 0 0 0' }}>
+                <p className="text-[12px] text-white/45 mt-2 mb-0">
                   Click or drag to upload a different file
                 </p>
               </div>
@@ -515,16 +451,16 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  style={{ margin: '0 auto 12px' }}
+                  className="mx-auto mb-3"
                 >
                   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                   <polyline points="17 8 12 3 7 8" />
                   <line x1="12" y1="3" x2="12" y2="15" />
                 </svg>
-                <p style={{ fontSize: '14px', color: 'var(--text-primary)', margin: '0 0 4px 0', fontWeight: 500 }}>
+                <p className="text-[14px] text-[var(--text-primary)] mb-1 font-medium">
                   Drop your CSV here or click to browse
                 </p>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
+                <p className="text-[12px] text-white/45 m-0">
                   Supports .csv files with company data
                 </p>
               </div>
@@ -532,19 +468,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           </div>
 
           {uploadError && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 16px',
-                backgroundColor: 'rgba(255,59,48,0.1)',
-                border: '1px solid rgba(255,59,48,0.2)',
-                borderRadius: '12px',
-                color: '#ff6b6b',
-                fontSize: '13px',
-              }}
-            >
+            <div className="flex items-center gap-2 px-4 py-3 bg-[rgba(255,59,48,0.1)] border border-[rgba(255,59,48,0.2)] rounded-xl text-[#ff6b6b] text-[13px]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="12" />
@@ -553,15 +477,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               {uploadError}
               <button
                 onClick={() => setUploadError(null)}
-                style={{
-                  marginLeft: 'auto',
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#ff6b6b',
-                  cursor: 'pointer',
-                  fontSize: '12px',
-                  textDecoration: 'underline',
-                }}
+                className="ml-auto bg-transparent border-none text-[#ff6b6b] cursor-pointer text-[12px] underline"
               >
                 Dismiss
               </button>
@@ -570,36 +486,18 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
           {/* ── Preview Table ── */}
           {uploadResult && enrichPhase === 'uploaded' && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '16px',
-                padding: '20px',
-                overflow: 'hidden',
-              }}
-            >
-              <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
+            <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5 overflow-hidden">
+              <h3 className="text-[15px] font-semibold text-[var(--text-primary)] mt-0 mb-3">
                 Preview ({Math.min(5, uploadResult.preview.length)} of {uploadResult.totalRows} rows)
               </h3>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-[12px]">
                   <thead>
                     <tr>
                       {uploadResult.headers.slice(0, 8).map((h) => (
                         <th
                           key={h}
-                          style={{
-                            padding: '8px 12px',
-                            textAlign: 'left',
-                            color: 'rgba(255,255,255,0.45)',
-                            fontWeight: 600,
-                            fontSize: '11px',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.5px',
-                            borderBottom: '1px solid #222222',
-                            whiteSpace: 'nowrap',
-                          }}
+                          className="px-3 py-2 text-left text-white/45 font-semibold text-[11px] uppercase tracking-wide border-b border-[#222222] whitespace-nowrap"
                         >
                           {h}
                         </th>
@@ -612,15 +510,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                         {uploadResult.headers.slice(0, 8).map((h) => (
                           <td
                             key={h}
-                            style={{
-                              padding: '8px 12px',
-                              color: 'rgba(255,255,255,0.7)',
-                              borderBottom: '1px solid rgba(34,34,34,0.5)',
-                              whiteSpace: 'nowrap',
-                              maxWidth: '200px',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                            }}
+                            className="px-3 py-2 text-white/70 border-b border-[rgba(34,34,34,0.5)] whitespace-nowrap max-w-[200px] overflow-hidden text-ellipsis"
                           >
                             {row[h] || '—'}
                           </td>
@@ -635,62 +525,33 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
           {/* ── Field Selection ── */}
           {uploadResult && (enrichPhase === 'uploaded' || enrichPhase === 'sample-done') && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '16px',
-                padding: '20px',
-              }}
-            >
-              <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
+            <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+              <h3 className="text-[15px] font-semibold text-[var(--text-primary)] mt-0 mb-4">
                 Enrichment Fields
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '10px' }}>
+              <div className="grid gap-2.5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
                 {FIELD_KEYS.map((key) => {
                   const cfg = FIELD_PROMPTS[key]
                   const checked = selectedFields.has(key)
                   return (
                     <label
                       key={key}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '10px',
-                        padding: '12px 14px',
-                        backgroundColor: checked ? 'rgba(126,217,87,0.06)' : 'rgba(255,255,255,0.02)',
-                        border: checked ? '1px solid rgba(126,217,87,0.2)' : '1px solid #222222',
-                        borderRadius: '10px',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
+                      className={[
+                        'flex items-start gap-2.5 px-3.5 py-3 rounded-[10px] cursor-pointer transition-all duration-150',
+                        checked
+                          ? 'bg-[rgba(126,217,87,0.06)] border border-[rgba(126,217,87,0.2)]'
+                          : 'bg-[rgba(255,255,255,0.02)] border border-[#222222]',
+                      ].join(' ')}
                     >
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleField(key)}
-                        style={{
-                          accentColor: '#6EE05A',
-                          marginTop: '2px',
-                          cursor: 'pointer',
-                          width: '16px',
-                          height: '16px',
-                          flexShrink: 0,
-                        }}
+                        className="mt-0.5 cursor-pointer w-4 h-4 shrink-0 accent-[#6EE05A]"
                       />
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{cfg.label}</div>
-                        <div
-                          style={{
-                            fontSize: '11px',
-                            color: 'rgba(255,255,255,0.45)',
-                            marginTop: '2px',
-                            lineHeight: 1.4,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
+                      <div className="min-w-0">
+                        <div className="text-[13px] font-semibold text-[var(--text-primary)]">{cfg.label}</div>
+                        <div className="text-[11px] text-white/45 mt-0.5 leading-[1.4] overflow-hidden text-ellipsis whitespace-nowrap">
                           {cfg.example}
                         </div>
                       </div>
@@ -700,60 +561,24 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               </div>
 
               {/* ── Custom Fields ── */}
-              <div style={{ marginTop: '16px' }}>
+              <div className="mt-4">
                 {customFields.map((cf, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      display: 'flex',
-                      gap: '8px',
-                      alignItems: 'flex-start',
-                      marginBottom: '8px',
-                    }}
-                  >
+                  <div key={idx} className="flex gap-2 items-start mb-2">
                     <input
                       placeholder="Field name"
                       value={cf.name}
                       onChange={(e) => updateCustomField(idx, { name: e.target.value })}
-                      style={{
-                        flex: '0 0 160px',
-                        padding: '8px 12px',
-                        backgroundColor: 'var(--bg-card)',
-                        border: '1px solid #222222',
-                        borderRadius: '8px',
-                        color: 'var(--text-primary)',
-                        fontSize: '13px',
-                        outline: 'none',
-                      }}
+                      className="shrink-0 basis-[160px] px-3 py-2 bg-[var(--bg-card)] border border-[#222222] rounded-lg text-[var(--text-primary)] text-[13px] outline-none"
                     />
                     <input
                       placeholder="AI prompt for this field..."
                       value={cf.prompt}
                       onChange={(e) => updateCustomField(idx, { prompt: e.target.value })}
-                      style={{
-                        flex: 1,
-                        padding: '8px 12px',
-                        backgroundColor: 'var(--bg-card)',
-                        border: '1px solid #222222',
-                        borderRadius: '8px',
-                        color: 'var(--text-primary)',
-                        fontSize: '13px',
-                        outline: 'none',
-                      }}
+                      className="flex-1 px-3 py-2 bg-[var(--bg-card)] border border-[#222222] rounded-lg text-[var(--text-primary)] text-[13px] outline-none"
                     />
                     <button
                       onClick={() => removeCustomField(idx)}
-                      style={{
-                        padding: '8px',
-                        backgroundColor: 'rgba(255,59,48,0.1)',
-                        border: '1px solid rgba(255,59,48,0.2)',
-                        borderRadius: '8px',
-                        color: '#ff6b6b',
-                        cursor: 'pointer',
-                        fontSize: '16px',
-                        lineHeight: 1,
-                        flexShrink: 0,
-                      }}
+                      className="p-2 bg-[rgba(255,59,48,0.1)] border border-[rgba(255,59,48,0.2)] rounded-lg text-[#ff6b6b] cursor-pointer text-[16px] leading-none shrink-0"
                     >
                       x
                     </button>
@@ -761,16 +586,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                 ))}
                 <button
                   onClick={addCustomField}
-                  style={{
-                    padding: '8px 16px',
-                    backgroundColor: 'var(--bg-card)',
-                    border: '1px dashed #222222',
-                    borderRadius: '8px',
-                    color: 'rgba(255,255,255,0.7)',
-                    fontSize: '13px',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
+                  className="px-4 py-2 bg-[var(--bg-card)] border border-dashed border-[#222222] rounded-lg text-white/70 text-[13px] cursor-pointer transition-all duration-150"
                 >
                   + Add Custom Field
                 </button>
@@ -780,48 +596,31 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
           {/* ── Run Controls ── */}
           {uploadResult && (enrichPhase === 'uploaded' || enrichPhase === 'sample-done') && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '16px',
-                padding: '20px',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+              <div className="flex items-center gap-3 flex-wrap">
                 {enrichPhase === 'uploaded' && (
                   <>
                     <button
                       onClick={runSample}
                       disabled={!canRun}
-                      style={{
-                        padding: '10px 20px',
-                        backgroundColor: canRun ? 'rgba(0,212,255,0.1)' : 'var(--bg-card)',
-                        border: canRun ? '1px solid rgba(0,212,255,0.3)' : '1px solid #222222',
-                        borderRadius: '10px',
-                        color: canRun ? '#00d4ff' : 'rgba(255,255,255,0.3)',
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        cursor: canRun ? 'pointer' : 'not-allowed',
-                        transition: 'all 0.15s ease',
-                      }}
+                      className={[
+                        'px-5 py-2.5 rounded-[10px] text-[13px] font-semibold transition-all duration-150',
+                        canRun
+                          ? 'bg-[rgba(0,212,255,0.1)] border border-[rgba(0,212,255,0.3)] text-[#00d4ff] cursor-pointer'
+                          : 'bg-[var(--bg-card)] border border-[#222222] text-white/30 cursor-not-allowed',
+                      ].join(' ')}
                     >
                       Run Sample (3 leads)
                     </button>
                     <button
                       onClick={runAll}
                       disabled={!canRun}
-                      style={{
-                        padding: '10px 20px',
-                        backgroundColor: canRun ? 'rgba(126,217,87,0.1)' : 'var(--bg-card)',
-                        border: canRun ? '1px solid rgba(126,217,87,0.3)' : '1px solid #222222',
-                        borderRadius: '10px',
-                        color: canRun ? '#6EE05A' : 'rgba(255,255,255,0.3)',
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        cursor: canRun ? 'pointer' : 'not-allowed',
-                        transition: 'all 0.15s ease',
-                      }}
+                      className={[
+                        'px-5 py-2.5 rounded-[10px] text-[13px] font-semibold transition-all duration-150',
+                        canRun
+                          ? 'bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.3)] text-[#6EE05A] cursor-pointer'
+                          : 'bg-[var(--bg-card)] border border-[#222222] text-white/30 cursor-not-allowed',
+                      ].join(' ')}
                     >
                       Run All ({uploadResult.totalRows} leads)
                     </button>
@@ -831,45 +630,19 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   <>
                     <button
                       onClick={runRemaining}
-                      style={{
-                        padding: '10px 20px',
-                        backgroundColor: 'rgba(126,217,87,0.1)',
-                        border: '1px solid rgba(126,217,87,0.3)',
-                        borderRadius: '10px',
-                        color: '#6EE05A',
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
+                      className="px-5 py-2.5 bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.3)] rounded-[10px] text-[#6EE05A] text-[13px] font-semibold cursor-pointer transition-all duration-150"
                     >
                       Approve — Run All Remaining
                     </button>
                     <button
                       onClick={() => setEnrichPhase('uploaded')}
-                      style={{
-                        padding: '10px 20px',
-                        backgroundColor: 'var(--bg-card)',
-                        border: '1px solid #222222',
-                        borderRadius: '10px',
-                        color: 'rgba(255,255,255,0.7)',
-                        fontSize: '13px',
-                        fontWeight: 500,
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
+                      className="px-5 py-2.5 bg-[var(--bg-card)] border border-[#222222] rounded-[10px] text-white/70 text-[13px] font-medium cursor-pointer transition-all duration-150"
                     >
                       Adjust Fields
                     </button>
                   </>
                 )}
-                <span
-                  style={{
-                    fontSize: '12px',
-                    color: 'rgba(255,255,255,0.45)',
-                    marginLeft: 'auto',
-                  }}
-                >
+                <span className="text-[12px] text-white/45 ml-auto">
                   {enrichPhase === 'sample-done'
                     ? `3 Runs used`
                     : `${enrichPhase === 'uploaded' ? uploadResult.totalRows : uploadResult.totalRows - 3} Runs`}{' '}
@@ -881,82 +654,41 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
           {/* ── Progress Bar ── */}
           {isRunning && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '16px',
-                padding: '20px',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '13px', color: 'var(--text-primary)', fontWeight: 600 }}>
+            <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-[13px] text-[var(--text-primary)] font-semibold">
                   Processing lead {enrichProgress.current} of {enrichProgress.total}
                 </span>
-                <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>
+                <span className="text-[12px] text-white/45">
                   {Math.round((enrichProgress.current / enrichProgress.total) * 100)}%
                 </span>
               </div>
-              <div
-                style={{
-                  width: '100%',
-                  height: '8px',
-                  backgroundColor: '#222222',
-                  borderRadius: '4px',
-                  overflow: 'hidden',
-                  marginBottom: '10px',
-                }}
-              >
+              <div className="w-full h-2 bg-[#222222] rounded overflow-hidden mb-2.5">
                 <div
-                  style={{
-                    width: `${(enrichProgress.current / enrichProgress.total) * 100}%`,
-                    height: '100%',
-                    backgroundColor: '#6EE05A',
-                    borderRadius: '4px',
-                    transition: 'width 0.3s ease',
-                  }}
+                  className="h-full bg-[#6EE05A] rounded transition-[width] duration-300"
+                  style={{ width: `${(enrichProgress.current / enrichProgress.total) * 100}%` }}
                 />
               </div>
-              <div style={{ display: 'flex', gap: '16px', fontSize: '12px' }}>
-                <span style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  Company: <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{enrichProgress.company}</span>
+              <div className="flex gap-4 text-[12px]">
+                <span className="text-white/70">
+                  Company: <span className="text-[var(--text-primary)] font-medium">{enrichProgress.company}</span>
                 </span>
-                <span style={{ color: '#6EE05A' }}>Qualified: {qualifiedCount}</span>
-                <span style={{ color: '#ff6b35' }}>Skipped: {skippedCount}</span>
+                <span className="text-[#6EE05A]">Qualified: {qualifiedCount}</span>
+                <span className="text-[#ff6b35]">Skipped: {skippedCount}</span>
               </div>
             </div>
           )}
 
           {/* ── Results Summary ── */}
           {(enrichPhase === 'done' || enrichPhase === 'sample-done') && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '16px',
-                padding: '20px',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+            <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-[15px] font-semibold text-[var(--text-primary)] m-0">
                   {enrichPhase === 'sample-done' ? 'Sample Results' : 'Enrichment Complete'}
                 </h3>
                 <button
                   onClick={downloadCsv}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '8px 16px',
-                    backgroundColor: 'rgba(126,217,87,0.1)',
-                    border: '1px solid rgba(126,217,87,0.2)',
-                    borderRadius: '8px',
-                    color: '#6EE05A',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
+                  className="flex items-center gap-1.5 px-4 py-2 bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.2)] rounded-lg text-[#6EE05A] text-[13px] font-semibold cursor-pointer transition-all duration-150"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
@@ -968,55 +700,28 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               </div>
 
               {/* Summary stats */}
-              <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
-                <div
-                  style={{
-                    padding: '12px 16px',
-                    backgroundColor: 'rgba(126,217,87,0.06)',
-                    border: '1px solid rgba(126,217,87,0.15)',
-                    borderRadius: '10px',
-                    textAlign: 'center',
-                    flex: 1,
-                  }}
-                >
-                  <div style={{ fontSize: '22px', fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
+              <div className="flex gap-4 mb-4">
+                <div className="flex-1 p-3 px-4 bg-[rgba(126,217,87,0.06)] border border-[rgba(126,217,87,0.15)] rounded-[10px] text-center">
+                  <div className="text-[22px] font-bold text-[#6EE05A] font-mono">
                     {qualifiedCount}
                   </div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  <div className="text-[11px] text-white/45 uppercase tracking-wide">
                     Qualified
                   </div>
                 </div>
-                <div
-                  style={{
-                    padding: '12px 16px',
-                    backgroundColor: 'rgba(255,107,53,0.06)',
-                    border: '1px solid rgba(255,107,53,0.15)',
-                    borderRadius: '10px',
-                    textAlign: 'center',
-                    flex: 1,
-                  }}
-                >
-                  <div style={{ fontSize: '22px', fontWeight: 700, color: '#ff6b35', fontFamily: 'var(--font-mono)' }}>
+                <div className="flex-1 p-3 px-4 bg-[rgba(255,107,53,0.06)] border border-[rgba(255,107,53,0.15)] rounded-[10px] text-center">
+                  <div className="text-[22px] font-bold text-[#ff6b35] font-mono">
                     {skippedCount}
                   </div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  <div className="text-[11px] text-white/45 uppercase tracking-wide">
                     Skipped
                   </div>
                 </div>
-                <div
-                  style={{
-                    padding: '12px 16px',
-                    backgroundColor: 'rgba(255,255,255,0.02)',
-                    border: '1px solid #222222',
-                    borderRadius: '10px',
-                    textAlign: 'center',
-                    flex: 1,
-                  }}
-                >
-                  <div style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                <div className="flex-1 p-3 px-4 bg-[rgba(255,255,255,0.02)] border border-[#222222] rounded-[10px] text-center">
+                  <div className="text-[22px] font-bold text-[var(--text-primary)] font-mono">
                     {qualifiedCount + skippedCount}
                   </div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  <div className="text-[11px] text-white/45 uppercase tracking-wide">
                     Total
                   </div>
                 </div>
@@ -1028,25 +733,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                 const cols = getResultColumns(results)
                 if (results.length === 0 || cols.length === 0) return null
                 return (
-                  <div style={{ overflowX: 'auto', borderRadius: '10px', border: '1px solid #222222' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+                  <div className="overflow-x-auto rounded-[10px] border border-[#222222]">
+                    <table className="w-full border-collapse text-[12px]">
                       <thead>
                         <tr>
                           {cols.map((col) => (
                             <th
                               key={col}
-                              style={{
-                                padding: '10px 12px',
-                                textAlign: 'left',
-                                color: 'rgba(255,255,255,0.45)',
-                                fontWeight: 600,
-                                fontSize: '10px',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px',
-                                borderBottom: '1px solid #222222',
-                                backgroundColor: 'rgba(255,255,255,0.02)',
-                                whiteSpace: 'nowrap',
-                              }}
+                              className="px-3 py-2.5 text-left text-white/45 font-semibold text-[10px] uppercase tracking-wide border-b border-[#222222] bg-[rgba(255,255,255,0.02)] whitespace-nowrap"
                             >
                               {col}
                             </th>
@@ -1063,20 +757,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                               return (
                                 <td
                                   key={col}
-                                  style={{
-                                    padding: '8px 12px',
-                                    color: isQualCol
+                                  className={[
+                                    'px-3 py-2 border-b border-[rgba(34,34,34,0.5)] whitespace-nowrap max-w-[250px] overflow-hidden text-ellipsis',
+                                    isQualCol
                                       ? isQualified
-                                        ? '#6EE05A'
-                                        : '#ff6b35'
-                                      : 'rgba(255,255,255,0.7)',
-                                    borderBottom: '1px solid rgba(34,34,34,0.5)',
-                                    whiteSpace: 'nowrap',
-                                    maxWidth: '250px',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    fontWeight: isQualCol ? 600 : 400,
-                                  }}
+                                        ? 'text-[#6EE05A] font-semibold'
+                                        : 'text-[#ff6b35] font-semibold'
+                                      : 'text-white/70 font-normal',
+                                  ].join(' ')}
                                   title={val}
                                 >
                                   {val || '—'}
@@ -1099,36 +787,18 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
             const cols = getResultColumns(results)
             if (results.length === 0 || cols.length === 0) return null
             return (
-              <div
-                style={{
-                  backgroundColor: 'var(--bg-card)',
-                  border: '1px solid #222222',
-                  borderRadius: '16px',
-                  padding: '20px',
-                }}
-              >
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
+              <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+                <h3 className="text-[15px] font-semibold text-[var(--text-primary)] mt-0 mb-3">
                   Results ({results.length} processed)
                 </h3>
-                <div style={{ overflowX: 'auto', borderRadius: '10px', border: '1px solid #222222' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+                <div className="overflow-x-auto rounded-[10px] border border-[#222222]">
+                  <table className="w-full border-collapse text-[12px]">
                     <thead>
                       <tr>
                         {cols.map((col) => (
                           <th
                             key={col}
-                            style={{
-                              padding: '10px 12px',
-                              textAlign: 'left',
-                              color: 'rgba(255,255,255,0.45)',
-                              fontWeight: 600,
-                              fontSize: '10px',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.5px',
-                              borderBottom: '1px solid #222222',
-                              backgroundColor: 'rgba(255,255,255,0.02)',
-                              whiteSpace: 'nowrap',
-                            }}
+                            className="px-3 py-2.5 text-left text-white/45 font-semibold text-[10px] uppercase tracking-wide border-b border-[#222222] bg-[rgba(255,255,255,0.02)] whitespace-nowrap"
                           >
                             {col}
                           </th>
@@ -1145,20 +815,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                             return (
                               <td
                                 key={col}
-                                style={{
-                                  padding: '8px 12px',
-                                  color: isQualCol
+                                className={[
+                                  'px-3 py-2 border-b border-[rgba(34,34,34,0.5)] whitespace-nowrap max-w-[250px] overflow-hidden text-ellipsis',
+                                  isQualCol
                                     ? isQualified
-                                      ? '#6EE05A'
-                                      : '#ff6b35'
-                                    : 'rgba(255,255,255,0.7)',
-                                  borderBottom: '1px solid rgba(34,34,34,0.5)',
-                                  whiteSpace: 'nowrap',
-                                  maxWidth: '250px',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  fontWeight: isQualCol ? 600 : 400,
-                                }}
+                                      ? 'text-[#6EE05A] font-semibold'
+                                      : 'text-[#ff6b35] font-semibold'
+                                    : 'text-white/70 font-normal',
+                                ].join(' ')}
                                 title={val}
                               >
                                 {val || '—'}
@@ -1173,13 +837,6 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               </div>
             )
           })()}
-
-          {/* Spinner keyframe for upload */}
-          <style>{`
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
-          `}</style>
         </div>
       )}
 
@@ -1187,43 +844,26 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
       {/*  TAB 2: SEQUENCE                          */}
       {/* ══════════════════════════════════════════ */}
       {activeTab === 'sequence' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className="flex flex-col gap-5">
           {/* ── Input Form ── */}
-          <div
-            style={{
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid #222222',
-              borderRadius: '16px',
-              padding: '20px',
-            }}
-          >
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
+          <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+            <h3 className="text-[15px] font-semibold text-[var(--text-primary)] mt-0 mb-4">
               Campaign Details
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div className="flex flex-col gap-3">
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '6px' }}>
+                <label className="text-[12px] font-semibold text-white/70 block mb-1.5">
                   Service being sold *
                 </label>
                 <input
                   value={seqService}
                   onChange={(e) => setSeqService(e.target.value)}
                   placeholder="e.g. Custom branded merchandise for corporate teams"
-                  style={{
-                    width: '100%',
-                    padding: '10px 14px',
-                    backgroundColor: 'var(--bg-card)',
-                    border: '1px solid #222222',
-                    borderRadius: '10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '13px',
-                    outline: 'none',
-                    boxSizing: 'border-box',
-                  }}
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[#222222] rounded-[10px] text-[var(--text-primary)] text-[13px] outline-none box-border"
                 />
               </div>
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '6px' }}>
+                <label className="text-[12px] font-semibold text-white/70 block mb-1.5">
                   Case studies
                 </label>
                 <textarea
@@ -1231,23 +871,11 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   onChange={(e) => setSeqCaseStudies(e.target.value)}
                   placeholder="Used verbatim, never fabricated"
                   rows={3}
-                  style={{
-                    width: '100%',
-                    padding: '10px 14px',
-                    backgroundColor: 'var(--bg-card)',
-                    border: '1px solid #222222',
-                    borderRadius: '10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '13px',
-                    outline: 'none',
-                    resize: 'vertical',
-                    fontFamily: 'inherit',
-                    boxSizing: 'border-box',
-                  }}
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[#222222] rounded-[10px] text-[var(--text-primary)] text-[13px] outline-none resize-y font-[inherit] box-border"
                 />
               </div>
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '6px' }}>
+                <label className="text-[12px] font-semibold text-white/70 block mb-1.5">
                   Guarantees
                 </label>
                 <textarea
@@ -1255,23 +883,11 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   onChange={(e) => setSeqGuarantees(e.target.value)}
                   placeholder="e.g. Free mockup before you commit, 100% refund guarantee"
                   rows={2}
-                  style={{
-                    width: '100%',
-                    padding: '10px 14px',
-                    backgroundColor: 'var(--bg-card)',
-                    border: '1px solid #222222',
-                    borderRadius: '10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '13px',
-                    outline: 'none',
-                    resize: 'vertical',
-                    fontFamily: 'inherit',
-                    boxSizing: 'border-box',
-                  }}
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[#222222] rounded-[10px] text-[var(--text-primary)] text-[13px] outline-none resize-y font-[inherit] box-border"
                 />
               </div>
               <div>
-                <label style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '6px' }}>
+                <label className="text-[12px] font-semibold text-white/70 block mb-1.5">
                   CTAs to test
                 </label>
                 <textarea
@@ -1279,77 +895,39 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   onChange={(e) => setSeqCtas(e.target.value)}
                   placeholder="e.g. Share a video, send a catalog, book a 15-min call"
                   rows={2}
-                  style={{
-                    width: '100%',
-                    padding: '10px 14px',
-                    backgroundColor: 'var(--bg-card)',
-                    border: '1px solid #222222',
-                    borderRadius: '10px',
-                    color: 'var(--text-primary)',
-                    fontSize: '13px',
-                    outline: 'none',
-                    resize: 'vertical',
-                    fontFamily: 'inherit',
-                    boxSizing: 'border-box',
-                  }}
+                  className="w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[#222222] rounded-[10px] text-[var(--text-primary)] text-[13px] outline-none resize-y font-[inherit] box-border"
                 />
               </div>
             </div>
           </div>
 
           {/* ── Template Style Selection ── */}
-          <div
-            style={{
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid #222222',
-              borderRadius: '16px',
-              padding: '20px',
-            }}
-          >
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
+          <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+            <h3 className="text-[15px] font-semibold text-[var(--text-primary)] mt-0 mb-4">
               Template Styles
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '10px' }}>
+            <div className="grid gap-2.5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
               {Object.entries(TEMPLATE_STYLES).map(([key, style]) => {
                 const checked = seqTemplates.has(key)
                 return (
                   <label
                     key={key}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '10px',
-                      padding: '12px 14px',
-                      backgroundColor: checked ? 'rgba(167,139,250,0.06)' : 'rgba(255,255,255,0.02)',
-                      border: checked ? '1px solid rgba(167,139,250,0.2)' : '1px solid #222222',
-                      borderRadius: '10px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease',
-                    }}
+                    className={[
+                      'flex items-start gap-2.5 px-3.5 py-3 rounded-[10px] cursor-pointer transition-all duration-150',
+                      checked
+                        ? 'bg-[rgba(167,139,250,0.06)] border border-[rgba(167,139,250,0.2)]'
+                        : 'bg-[rgba(255,255,255,0.02)] border border-[#222222]',
+                    ].join(' ')}
                   >
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleSeqTemplate(key)}
-                      style={{
-                        accentColor: '#a78bfa',
-                        marginTop: '2px',
-                        cursor: 'pointer',
-                        width: '16px',
-                        height: '16px',
-                        flexShrink: 0,
-                      }}
+                      className="mt-0.5 cursor-pointer w-4 h-4 shrink-0 accent-[#a78bfa]"
                     />
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>{style.label}</div>
-                      <div
-                        style={{
-                          fontSize: '11px',
-                          color: 'rgba(255,255,255,0.45)',
-                          marginTop: '2px',
-                          lineHeight: 1.4,
-                        }}
-                      >
+                    <div className="min-w-0">
+                      <div className="text-[13px] font-semibold text-[var(--text-primary)]">{style.label}</div>
+                      <div className="text-[11px] text-white/45 mt-0.5 leading-[1.4]">
                         {style.example}
                       </div>
                     </div>
@@ -1361,21 +939,14 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
           {/* ── Personalization Weave ── */}
           {hasEnrichResults && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '16px',
-                padding: '20px',
-              }}
-            >
-              <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
+            <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+              <h3 className="text-[15px] font-semibold text-[var(--text-primary)] mt-0 mb-4">
                 Personalization Weave
               </h3>
-              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '0 0 12px 0' }}>
+              <p className="text-[12px] text-white/45 mt-0 mb-3">
                 Select enriched fields to weave into your email sequence as merge tags.
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '10px' }}>
+              <div className="grid gap-2.5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
                 {enrichedFieldKeys
                   .filter((key) => key in PERSONALIZATION_WEAVE)
                   .map((key) => {
@@ -1384,46 +955,27 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                     return (
                       <label
                         key={key}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '10px',
-                          padding: '12px 14px',
-                          backgroundColor: checked ? 'rgba(0,212,255,0.06)' : 'rgba(255,255,255,0.02)',
-                          border: checked ? '1px solid rgba(0,212,255,0.2)' : '1px solid #222222',
-                          borderRadius: '10px',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s ease',
-                        }}
+                        className={[
+                          'flex items-start gap-2.5 px-3.5 py-3 rounded-[10px] cursor-pointer transition-all duration-150',
+                          checked
+                            ? 'bg-[rgba(0,212,255,0.06)] border border-[rgba(0,212,255,0.2)]'
+                            : 'bg-[rgba(255,255,255,0.02)] border border-[#222222]',
+                        ].join(' ')}
                       >
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => toggleSeqPersonalization(key)}
-                          style={{
-                            accentColor: '#00d4ff',
-                            marginTop: '2px',
-                            cursor: 'pointer',
-                            width: '16px',
-                            height: '16px',
-                            flexShrink: 0,
-                          }}
+                          className="mt-0.5 cursor-pointer w-4 h-4 shrink-0 accent-[#00d4ff]"
                         />
-                        <div style={{ minWidth: 0 }}>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
-                            <span style={{ color: '#00d4ff', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                        <div className="min-w-0">
+                          <div className="text-[13px] font-semibold text-[var(--text-primary)]">
+                            <span className="text-[#00d4ff] font-mono text-[12px]">
                               {pw.tag}
                             </span>
                             {' '}{pw.label}
                           </div>
-                          <div
-                            style={{
-                              fontSize: '11px',
-                              color: 'rgba(255,255,255,0.45)',
-                              marginTop: '2px',
-                              lineHeight: 1.4,
-                            }}
-                          >
+                          <div className="text-[11px] text-white/45 mt-0.5 leading-[1.4]">
                             {pw.example}
                           </div>
                         </div>
@@ -1435,53 +987,20 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           )}
 
           {/* ── Generate Button ── */}
-          <div
-            style={{
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid #222222',
-              borderRadius: '16px',
-              padding: '20px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-            }}
-          >
+          <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5 flex items-center gap-3">
             <button
               onClick={generateSequence}
               disabled={!seqService.trim() || generatingSequence}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                backgroundColor:
-                  !seqService.trim() || generatingSequence
-                    ? 'var(--bg-card)'
-                    : '#6EE05A',
-                border: 'none',
-                borderRadius: '10px',
-                color:
-                  !seqService.trim() || generatingSequence
-                    ? 'rgba(255,255,255,0.3)'
-                    : '#0B0F19',
-                fontSize: '14px',
-                fontWeight: 700,
-                cursor: !seqService.trim() || generatingSequence ? 'not-allowed' : 'pointer',
-                transition: 'all 0.15s ease',
-              }}
+              className={[
+                'flex items-center gap-2 px-6 py-3 rounded-[10px] border-none text-[14px] font-bold transition-all duration-150',
+                !seqService.trim() || generatingSequence
+                  ? 'bg-[var(--bg-card)] text-white/30 cursor-not-allowed'
+                  : 'bg-[#6EE05A] text-[#0B0F19] cursor-pointer',
+              ].join(' ')}
             >
               {generatingSequence ? (
                 <>
-                  <div
-                    style={{
-                      width: '16px',
-                      height: '16px',
-                      border: '2px solid rgba(255,255,255,0.2)',
-                      borderTopColor: 'rgba(255,255,255,0.6)',
-                      borderRadius: '50%',
-                      animation: 'spin 0.8s linear infinite',
-                    }}
-                  />
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
                   Generating...
                 </>
               ) : (
@@ -1494,7 +1013,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
               )}
             </button>
             {!seqService.trim() && (
-              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>
+              <span className="text-[12px] text-white/45">
                 Enter the service you sell to enable generation
               </span>
             )}
@@ -1502,34 +1021,19 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 
           {/* ── Generated Sequence Output ── */}
           {generatedSequence && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '16px',
-                padding: '20px',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+            <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-[15px] font-semibold text-[var(--text-primary)] m-0">
                   Generated Sequence
                 </h3>
                 <button
                   onClick={copySequence}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '8px 16px',
-                    backgroundColor: seqCopied ? 'rgba(126,217,87,0.1)' : 'var(--border)',
-                    border: seqCopied ? '1px solid rgba(126,217,87,0.2)' : '1px solid #222222',
-                    borderRadius: '8px',
-                    color: seqCopied ? '#6EE05A' : 'rgba(255,255,255,0.7)',
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
+                  className={[
+                    'flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-medium cursor-pointer transition-all duration-150',
+                    seqCopied
+                      ? 'bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.2)] text-[#6EE05A]'
+                      : 'bg-[var(--border)] border border-[#222222] text-white/70',
+                  ].join(' ')}
                 >
                   {seqCopied ? (
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1544,61 +1048,32 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                   {seqCopied ? 'Copied' : 'Copy to Clipboard'}
                 </button>
               </div>
-              <pre
-                style={{
-                  backgroundColor: 'var(--bg-primary)',
-                  border: '1px solid #222222',
-                  borderRadius: '10px',
-                  padding: '20px',
-                  color: 'rgba(255,255,255,0.85)',
-                  fontSize: '13px',
-                  fontFamily: 'var(--font-mono)',
-                  lineHeight: 1.7,
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                  margin: 0,
-                  maxHeight: '600px',
-                  overflowY: 'auto',
-                }}
-              >
+              <pre className="bg-[var(--bg-primary)] border border-[#222222] rounded-[10px] p-5 text-white/85 text-[13px] font-mono leading-[1.7] whitespace-pre-wrap break-words m-0 max-h-[600px] overflow-y-auto">
                 {generatedSequence}
               </pre>
             </div>
           )}
-
-          <style>{`
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
-          `}</style>
         </div>
       )}
 
-      {/* ══════════════════════════════════════════ */}
-      {/*  TAB 3: TEMPLATES                         */}
-      {/* ══════════════════════════════════════════ */}
       {/* ══════════════════════════════════════════ */}
       {/*  TAB 4: LISTKIT                            */}
       {/* ══════════════════════════════════════════ */}
       {activeTab === 'listkit' && <ListKitTab onSwitchTab={setActiveTab} />}
 
+      {/* ══════════════════════════════════════════ */}
+      {/*  TAB 3: TEMPLATES                         */}
+      {/* ══════════════════════════════════════════ */}
       {activeTab === 'templates' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className="flex flex-col gap-5">
           {/* ── Pricing Inquiry ── */}
-          <div
-            style={{
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid #222222',
-              borderRadius: '16px',
-              padding: '20px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+                <h3 className="text-[15px] font-semibold text-[var(--text-primary)] m-0">
                   {REPLY_TEMPLATES.pricing_inquiry.label}
                 </h3>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '4px 0 0 0' }}>
+                <p className="text-[12px] text-white/45 mt-1 mb-0">
                   Auto-fills {day1} and {day2} as next business days
                 </p>
               </div>
@@ -1611,24 +1086,12 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       .replace(/{day2}/g, day2)
                   )
                 }
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '8px 16px',
-                  backgroundColor:
-                    copiedTemplate === 'pricing' ? 'rgba(126,217,87,0.1)' : 'var(--border)',
-                  border:
-                    copiedTemplate === 'pricing'
-                      ? '1px solid rgba(126,217,87,0.2)'
-                      : '1px solid #222222',
-                  borderRadius: '8px',
-                  color: copiedTemplate === 'pricing' ? '#6EE05A' : 'rgba(255,255,255,0.7)',
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
+                className={[
+                  'flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-medium cursor-pointer transition-all duration-150',
+                  copiedTemplate === 'pricing'
+                    ? 'bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.2)] text-[#6EE05A]'
+                    : 'bg-[var(--border)] border border-[#222222] text-white/70',
+                ].join(' ')}
               >
                 {copiedTemplate === 'pricing' ? (
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1643,21 +1106,7 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                 {copiedTemplate === 'pricing' ? 'Copied' : 'Copy'}
               </button>
             </div>
-            <pre
-              style={{
-                backgroundColor: 'var(--bg-primary)',
-                border: '1px solid #222222',
-                borderRadius: '10px',
-                padding: '16px',
-                color: 'rgba(255,255,255,0.85)',
-                fontSize: '13px',
-                fontFamily: 'var(--font-mono)',
-                lineHeight: 1.6,
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                margin: 0,
-              }}
-            >
+            <pre className="bg-[var(--bg-primary)] border border-[#222222] rounded-[10px] p-4 text-white/85 text-[13px] font-mono leading-[1.6] whitespace-pre-wrap break-words m-0">
               {REPLY_TEMPLATES.pricing_inquiry.template
                 .replace(/{day1}/g, day1)
                 .replace(/{day2}/g, day2)}
@@ -1665,20 +1114,13 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
           </div>
 
           {/* ── Video Request Follow-up ── */}
-          <div
-            style={{
-              backgroundColor: 'var(--bg-card)',
-              border: '1px solid #222222',
-              borderRadius: '16px',
-              padding: '20px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-5">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+                <h3 className="text-[15px] font-semibold text-[var(--text-primary)] m-0">
                   {REPLY_TEMPLATES.video_request.label}
                 </h3>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '4px 0 0 0' }}>
+                <p className="text-[12px] text-white/45 mt-1 mb-0">
                   Auto-fills name, {day1}, and {day2}
                 </p>
               </div>
@@ -1692,24 +1134,12 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
                       .replace(/{day2}/g, day2)
                   )
                 }
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '8px 16px',
-                  backgroundColor:
-                    copiedTemplate === 'video' ? 'rgba(126,217,87,0.1)' : 'var(--border)',
-                  border:
-                    copiedTemplate === 'video'
-                      ? '1px solid rgba(126,217,87,0.2)'
-                      : '1px solid #222222',
-                  borderRadius: '8px',
-                  color: copiedTemplate === 'video' ? '#6EE05A' : 'rgba(255,255,255,0.7)',
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
+                className={[
+                  'flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-medium cursor-pointer transition-all duration-150',
+                  copiedTemplate === 'video'
+                    ? 'bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.2)] text-[#6EE05A]'
+                    : 'bg-[var(--border)] border border-[#222222] text-white/70',
+                ].join(' ')}
               >
                 {copiedTemplate === 'video' ? (
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1726,42 +1156,19 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
             </div>
 
             {/* First Name input */}
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', display: 'block', marginBottom: '6px' }}>
+            <div className="mb-3">
+              <label className="text-[12px] font-semibold text-white/70 block mb-1.5">
                 First Name
               </label>
               <input
                 value={templateFirstName}
                 onChange={(e) => setTemplateFirstName(e.target.value)}
                 placeholder="Enter first name..."
-                style={{
-                  width: '240px',
-                  padding: '8px 12px',
-                  backgroundColor: 'var(--bg-card)',
-                  border: '1px solid #222222',
-                  borderRadius: '8px',
-                  color: 'var(--text-primary)',
-                  fontSize: '13px',
-                  outline: 'none',
-                }}
+                className="w-[240px] px-3 py-2 bg-[var(--bg-card)] border border-[#222222] rounded-lg text-[var(--text-primary)] text-[13px] outline-none"
               />
             </div>
 
-            <pre
-              style={{
-                backgroundColor: 'var(--bg-primary)',
-                border: '1px solid #222222',
-                borderRadius: '10px',
-                padding: '16px',
-                color: 'rgba(255,255,255,0.85)',
-                fontSize: '13px',
-                fontFamily: 'var(--font-mono)',
-                lineHeight: 1.6,
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                margin: 0,
-              }}
-            >
+            <pre className="bg-[var(--bg-primary)] border border-[#222222] rounded-[10px] p-4 text-white/85 text-[13px] font-mono leading-[1.6] whitespace-pre-wrap break-words m-0">
               {REPLY_TEMPLATES.video_request.template
                 .replace(/{firstName}/g, templateFirstName || '{firstName}')
                 .replace(/{day1}/g, day1)
@@ -1779,8 +1186,6 @@ export function OutreachView({ initialTab }: { initialTab?: Tab } = {}) {
 /* ──────────────────────────────────────────── */
 
 const LISTKIT_CYAN = '#00d4ff'
-const LISTKIT_CYAN_DIM = 'rgba(0, 212, 255, 0.08)'
-const LISTKIT_CYAN_BORDER = 'rgba(0, 212, 255, 0.2)'
 
 const LISTKIT_COLUMNS = [
   'First Name', 'Last Name', 'Business Email', 'Personal Email',
@@ -1822,32 +1227,10 @@ const INTEGRATION_WORKFLOWS = [
 
 function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div className="flex flex-col gap-5">
       {/* Hero */}
-      <div
-        style={{
-          background: `linear-gradient(135deg, ${LISTKIT_CYAN_DIM}, rgba(167,139,250,0.06))`,
-          border: `1px solid ${LISTKIT_CYAN_BORDER}`,
-          borderRadius: '16px',
-          padding: '28px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '20px',
-        }}
-      >
-        <div
-          style={{
-            width: 56,
-            height: 56,
-            borderRadius: 14,
-            background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            boxShadow: '0 4px 20px rgba(0, 212, 255, 0.25)',
-          }}
-        >
+      <div className="bg-[linear-gradient(135deg,rgba(0,212,255,0.08),rgba(167,139,250,0.06))] border border-[rgba(0,212,255,0.2)] rounded-2xl p-7 flex items-center gap-5">
+        <div className="w-14 h-14 rounded-[14px] bg-[linear-gradient(135deg,#00d4ff,#0099cc)] flex items-center justify-center shrink-0 shadow-[0_4px_20px_rgba(0,212,255,0.25)]">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
             <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
@@ -1855,11 +1238,11 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
             <line x1="9" y1="16" x2="13" y2="16" />
           </svg>
         </div>
-        <div style={{ flex: 1 }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+        <div className="flex-1">
+          <h2 className="text-[18px] font-bold text-[var(--text-primary)] m-0">
             ListKit Integration
           </h2>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0 0' }}>
+          <p className="text-[13px] text-white/60 mt-1 mb-0">
             731M+ B2B contacts with triple-verified emails. Export from ListKit → Enrich with AI → Generate cold sequences.
           </p>
         </div>
@@ -1867,35 +1250,18 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
           href="https://listkit.io"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            padding: '8px 16px',
-            background: LISTKIT_CYAN_DIM,
-            border: `1px solid ${LISTKIT_CYAN_BORDER}`,
-            borderRadius: '8px',
-            color: LISTKIT_CYAN,
-            fontSize: '12px',
-            fontWeight: 600,
-            textDecoration: 'none',
-            whiteSpace: 'nowrap',
-          }}
+          className="px-4 py-2 bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.2)] rounded-lg text-[#00d4ff] text-[12px] font-semibold no-underline whitespace-nowrap"
         >
           Open ListKit
         </a>
       </div>
 
       {/* Quick Start */}
-      <div
-        style={{
-          background: 'var(--bg-card)',
-          border: '1px solid #222222',
-          borderRadius: '16px',
-          padding: '24px',
-        }}
-      >
-        <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
+      <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-6">
+        <h3 className="text-[15px] font-bold text-[var(--text-primary)] mt-0 mb-4">
           Quick Start — Works Right Now
         </h3>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'stretch' }}>
+        <div className="flex gap-3 items-stretch">
           {[
             { step: '1', title: 'Build List in ListKit', desc: 'Use AI Company Search or Data Stream to find leads. Triple-verified emails included.', color: LISTKIT_CYAN },
             { step: '2', title: 'Export CSV', desc: 'Download your lead list as CSV. ListKit includes Company Name, URL, Industry, and more.', color: '#6EE05A' },
@@ -1904,36 +1270,19 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
           ].map((s) => (
             <div
               key={s.step}
-              style={{
-                flex: 1,
-                padding: '16px',
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid #222222',
-                borderRadius: '12px',
-                borderTop: `3px solid ${s.color}`,
-              }}
+              className="flex-1 p-4 bg-[rgba(255,255,255,0.02)] border border-[#222222] rounded-xl"
+              style={{ borderTop: `3px solid ${s.color}` }}
             >
               <div
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: '50%',
-                  background: `${s.color}20`,
-                  color: s.color,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  marginBottom: '10px',
-                }}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold mb-2.5"
+                style={{ background: `${s.color}20`, color: s.color }}
               >
                 {s.step}
               </div>
-              <h4 style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 4px 0' }}>
+              <h4 className="text-[13px] font-semibold text-[var(--text-primary)] mt-0 mb-1">
                 {s.title}
               </h4>
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.5 }}>
+              <p className="text-[11px] text-white/50 m-0 leading-[1.5]">
                 {s.desc}
               </p>
             </div>
@@ -1941,18 +1290,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
         </div>
         <button
           onClick={() => onSwitchTab('enrich')}
-          style={{
-            marginTop: '16px',
-            padding: '10px 24px',
-            background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-            border: 'none',
-            borderRadius: '10px',
-            color: '#0B0F19',
-            fontSize: '13px',
-            fontWeight: 700,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
+          className="mt-4 px-6 py-2.5 bg-[linear-gradient(135deg,#6EE05A,#4CAF3D)] border-none rounded-[10px] text-[#0B0F19] text-[13px] font-bold cursor-pointer transition-all duration-150"
         >
           Start Enriching →
         </button>
@@ -1960,59 +1298,45 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
 
       {/* Integration Workflows */}
       <div>
-        <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px 0' }}>
+        <h3 className="text-[15px] font-bold text-[var(--text-primary)] mt-0 mb-3.5">
           Integration Workflows
         </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        <div className="grid grid-cols-2 gap-3">
           {INTEGRATION_WORKFLOWS.map((wf, i) => (
             <div
               key={i}
+              className="bg-[var(--bg-card)] border border-[#222222] rounded-[14px] p-5"
               style={{
-                background: 'var(--bg-card)',
-                border: '1px solid #222222',
-                borderRadius: '14px',
-                padding: '20px',
                 borderLeft: `3px solid ${wf.color}`,
                 opacity: wf.ready ? 1 : 0.7,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <h4 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)', margin: 0, flex: 1 }}>
+              <div className="flex items-center gap-2 mb-2">
+                <h4 className="text-[14px] font-semibold text-[var(--text-primary)] m-0 flex-1">
                   {wf.title}
                 </h4>
                 <span
-                  style={{
-                    padding: '2px 8px',
-                    borderRadius: '6px',
-                    fontSize: '10px',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    background: wf.ready ? 'rgba(126,217,87,0.1)' : 'var(--bg-card)',
-                    color: wf.ready ? '#6EE05A' : 'rgba(255,255,255,0.35)',
-                    border: `1px solid ${wf.ready ? 'rgba(126,217,87,0.2)' : '#222222'}`,
-                  }}
+                  className={[
+                    'px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wide',
+                    wf.ready
+                      ? 'bg-[rgba(126,217,87,0.1)] text-[#6EE05A] border border-[rgba(126,217,87,0.2)]'
+                      : 'bg-[var(--bg-card)] text-white/35 border border-[#222222]',
+                  ].join(' ')}
                 >
                   {wf.ready ? 'Ready' : 'Coming'}
                 </span>
               </div>
-              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', margin: '0 0 12px 0', lineHeight: 1.5 }}>
+              <p className="text-[12px] text-white/50 mt-0 mb-3 leading-[1.5]">
                 {wf.desc}
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div className="flex flex-col gap-1">
                 {wf.steps.map((step, j) => (
-                  <div key={j} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div key={j} className="flex items-center gap-2">
                     <div
-                      style={{
-                        width: 5,
-                        height: 5,
-                        borderRadius: '50%',
-                        background: wf.color,
-                        opacity: 0.6,
-                        flexShrink: 0,
-                      }}
+                      className="w-[5px] h-[5px] rounded-full shrink-0 opacity-60"
+                      style={{ background: wf.color }}
                     />
-                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>{step}</span>
+                    <span className="text-[11px] text-white/40">{step}</span>
                   </div>
                 ))}
               </div>
@@ -2022,34 +1346,18 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
       </div>
 
       {/* Column Mapping */}
-      <div
-        style={{
-          background: 'var(--bg-card)',
-          border: '1px solid #222222',
-          borderRadius: '16px',
-          padding: '24px',
-        }}
-      >
-        <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 4px 0' }}>
+      <div className="bg-[var(--bg-card)] border border-[#222222] rounded-2xl p-6">
+        <h3 className="text-[15px] font-bold text-[var(--text-primary)] mt-0 mb-1">
           ListKit Column Mapping
         </h3>
-        <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', margin: '0 0 16px 0' }}>
+        <p className="text-[12px] text-white/45 mt-0 mb-4">
           These ListKit CSV columns are auto-detected by the Enricher
         </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+        <div className="flex flex-wrap gap-1.5">
           {LISTKIT_COLUMNS.map((col) => (
             <span
               key={col}
-              style={{
-                padding: '5px 12px',
-                borderRadius: '6px',
-                fontSize: '11px',
-                fontWeight: 500,
-                background: 'var(--bg-card)',
-                border: '1px solid #222222',
-                color: 'rgba(255,255,255,0.6)',
-                fontFamily: 'var(--font-mono)',
-              }}
+              className="px-3 py-1 rounded-md text-[11px] font-medium bg-[var(--bg-card)] border border-[#222222] text-white/60 font-mono"
             >
               {col}
             </span>
@@ -2058,7 +1366,7 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
       </div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+      <div className="grid grid-cols-4 gap-3">
         {[
           { label: 'B2B Contacts', value: '731M+', color: LISTKIT_CYAN },
           { label: 'Email Deliverability', value: '~98%', color: '#6EE05A' },
@@ -2067,18 +1375,12 @@ function ListKitTab({ onSwitchTab }: { onSwitchTab: (tab: Tab) => void }) {
         ].map((stat) => (
           <div
             key={stat.label}
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid #222222',
-              borderRadius: '12px',
-              padding: '16px',
-              textAlign: 'center',
-            }}
+            className="bg-[var(--bg-card)] border border-[#222222] rounded-xl p-4 text-center"
           >
-            <div style={{ fontSize: '22px', fontWeight: 800, color: stat.color, marginBottom: '4px' }}>
+            <div className="text-[22px] font-extrabold mb-1" style={{ color: stat.color }}>
               {stat.value}
             </div>
-            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
+            <div className="text-[11px] text-white/40 font-medium">
               {stat.label}
             </div>
           </div>

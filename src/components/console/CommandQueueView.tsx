@@ -120,7 +120,7 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
 
   if (loading) {
     return (
-      <div style={{ padding: 32, textAlign: 'center', color: 'var(--text-muted)' }}>
+      <div className="p-8 text-center text-[var(--text-muted)]">
         Loading command queue...
       </div>
     )
@@ -128,17 +128,11 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
 
   if (error) {
     return (
-      <div style={{ padding: 32 }}>
-        <div style={{
-          background: 'rgba(255, 82, 82, 0.1)',
-          border: '1px solid rgba(255, 82, 82, 0.3)',
-          borderRadius: 12,
-          padding: '24px 32px',
-          textAlign: 'center',
-        }}>
-          <div style={{ fontSize: 24, marginBottom: 8 }}>?</div>
-          <div style={{ color: '#ff5252', fontWeight: 600 }}>{error}</div>
-          <div style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 8 }}>
+      <div className="p-8">
+        <div className="bg-[rgba(255,82,82,0.1)] border border-[rgba(255,82,82,0.3)] rounded-xl px-8 py-6 text-center">
+          <div className="text-2xl mb-2">?</div>
+          <div className="text-[#ff5252] font-semibold">{error}</div>
+          <div className="text-[var(--text-muted)] text-[13px] mt-2">
             Only VIP admins and the owner can access the command queue.
           </div>
         </div>
@@ -147,23 +141,18 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
   }
 
   return (
-    <div style={{ padding: '24px 32px', maxWidth: 1000, margin: '0 auto' }}>
+    <div className="px-8 py-6 max-w-[1000px] mx-auto">
       {/* Header */}
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-          <div style={{
-            width: 40, height: 40, borderRadius: 10,
-            background: 'linear-gradient(135deg, #00d4ff 0%, #a78bfa 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 20,
-          }}>
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-[10px] bg-gradient-to-br from-[#00d4ff] to-[#a78bfa] flex items-center justify-center text-xl shrink-0">
             ?
           </div>
           <div>
-            <h2 style={{ margin: 0, fontSize: 20, color: 'var(--text-primary)' }}>
+            <h2 className="m-0 text-xl text-[var(--text-primary)] font-semibold">
               0nCommand Sync
             </h2>
-            <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+            <div className="text-[13px] text-[var(--text-muted)]">
               Bridge between offline (Claude Code) and live (Vercel)
             </div>
           </div>
@@ -171,29 +160,18 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
       </div>
 
       {/* Status Cards */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 12,
-        marginBottom: 24,
-      }}>
+      <div className="grid grid-cols-4 gap-3 mb-6">
         {[
           { label: 'Pending', value: stats?.pending || 0, color: '#ffb74d' },
           { label: 'Running', value: stats?.running || 0, color: '#00d4ff' },
           { label: 'Completed Today', value: stats?.completed_today || 0, color: '#6EE05A' },
           { label: 'Failed Today', value: stats?.failed_today || 0, color: '#ff5252' },
         ].map((card) => (
-          <div key={card.label} style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            borderRadius: 10,
-            padding: 16,
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: 28, fontWeight: 700, color: card.color }}>
+          <div key={card.label} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[10px] p-4 text-center">
+            <div className="text-[28px] font-bold" style={{ color: card.color }}>
               {card.value}
             </div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>
+            <div className="text-xs text-[var(--text-muted)] mt-1">
               {card.label}
             </div>
           </div>
@@ -202,15 +180,11 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
 
       {/* Quick Actions — Queue Commands */}
       {isAdmin && (
-        <div style={{ marginBottom: 24 }}>
-          <h3 style={{ fontSize: 14, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>
+        <div className="mb-6">
+          <h3 className="text-[14px] text-[var(--text-secondary)] mb-3 uppercase tracking-[1px]">
             Queue Command for 0nCommand
           </h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 10,
-          }}>
+          <div className="grid grid-cols-3 gap-2.5">
             {Object.entries(COMMAND_LABELS)
               .filter(([, v]) => v.icon === '?' || v.icon === '?' || v.icon === '?')
               .slice(0, 6)
@@ -219,24 +193,13 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
                   key={type}
                   onClick={() => queueCommand(type)}
                   disabled={queueing}
-                  style={{
-                    background: 'var(--bg-card)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 10,
-                    padding: '14px 16px',
-                    cursor: queueing ? 'wait' : 'pointer',
-                    textAlign: 'left',
-                    transition: 'border-color 0.2s',
-                    color: 'var(--text-primary)',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#00d4ff')}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
+                  className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[10px] px-4 py-3.5 cursor-pointer text-left transition-[border-color] duration-200 text-[var(--text-primary)] disabled:cursor-wait hover:border-[#00d4ff]"
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                  <div className="flex items-center gap-2 mb-1">
                     <span>{info.icon}</span>
-                    <span style={{ fontWeight: 600, fontSize: 14 }}>{info.label}</span>
+                    <span className="font-semibold text-[14px]">{info.label}</span>
                   </div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{info.desc}</div>
+                  <div className="text-xs text-[var(--text-muted)]">{info.desc}</div>
                 </button>
               ))}
           </div>
@@ -244,37 +207,31 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
       )}
 
       {/* How It Works */}
-      <div style={{
-        background: 'rgba(0, 212, 255, 0.05)',
-        border: '1px solid rgba(0, 212, 255, 0.2)',
-        borderRadius: 12,
-        padding: '20px 24px',
-        marginBottom: 24,
-      }}>
-        <h3 style={{ fontSize: 14, color: '#00d4ff', marginBottom: 12, marginTop: 0 }}>
+      <div className="bg-[rgba(0,212,255,0.05)] border border-[rgba(0,212,255,0.2)] rounded-xl px-6 py-5 mb-6">
+        <h3 className="text-[14px] text-[#00d4ff] mb-3 mt-0">
           How 0nCommand Sync Works
         </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr auto 1fr', gap: 12, alignItems: 'center' }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 20, marginBottom: 4 }}>?</div>
-            <div style={{ fontSize: 13, color: 'var(--text-primary)', fontWeight: 600 }}>0nLive</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Queue commands</div>
+        <div className="grid gap-3 items-center" style={{ gridTemplateColumns: '1fr auto 1fr auto 1fr' }}>
+          <div className="text-center">
+            <div className="text-xl mb-1">?</div>
+            <div className="text-[13px] text-[var(--text-primary)] font-semibold">0nLive</div>
+            <div className="text-[11px] text-[var(--text-muted)]">Queue commands</div>
           </div>
-          <div style={{ color: '#00d4ff', fontSize: 20 }}>→</div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 20, marginBottom: 4 }}>?</div>
-            <div style={{ fontSize: 13, color: 'var(--text-primary)', fontWeight: 600 }}>Supabase</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Message bus</div>
+          <div className="text-[#00d4ff] text-xl">→</div>
+          <div className="text-center">
+            <div className="text-xl mb-1">?</div>
+            <div className="text-[13px] text-[var(--text-primary)] font-semibold">Supabase</div>
+            <div className="text-[11px] text-[var(--text-muted)]">Message bus</div>
           </div>
-          <div style={{ color: '#00d4ff', fontSize: 20 }}>→</div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 20, marginBottom: 4 }}>?</div>
-            <div style={{ fontSize: 13, color: 'var(--text-primary)', fontWeight: 600 }}>0nCommand</div>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Execute offline</div>
+          <div className="text-[#00d4ff] text-xl">→</div>
+          <div className="text-center">
+            <div className="text-xl mb-1">?</div>
+            <div className="text-[13px] text-[var(--text-primary)] font-semibold">0nCommand</div>
+            <div className="text-[11px] text-[var(--text-muted)]">Execute offline</div>
           </div>
         </div>
-        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 12, lineHeight: 1.5 }}>
-          Commands queued here are picked up by <code style={{ color: '#ff6b35' }}>/0ncommand sync</code> running in Claude Code.
+        <div className="text-xs text-[var(--text-muted)] mt-3 leading-relaxed">
+          Commands queued here are picked up by <code className="text-[#ff6b35]">/0ncommand sync</code> running in Claude Code.
           All AI work runs on your MAX plan — zero external API costs.
           Results are pushed back to Supabase and appear here automatically.
         </div>
@@ -282,74 +239,54 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
 
       {/* Recent Commands */}
       <div>
-        <h3 style={{ fontSize: 14, color: 'var(--text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>
+        <h3 className="text-[14px] text-[var(--text-secondary)] mb-3 uppercase tracking-[1px]">
           Command History
         </h3>
         {(!stats?.recent || stats.recent.length === 0) ? (
-          <div style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            borderRadius: 10,
-            padding: '32px 24px',
-            textAlign: 'center',
-            color: 'var(--text-muted)',
-          }}>
-            <div style={{ fontSize: 32, marginBottom: 8 }}>?</div>
+          <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[10px] px-6 py-8 text-center text-[var(--text-muted)]">
+            <div className="text-3xl mb-2">?</div>
             <div>No commands yet</div>
-            <div style={{ fontSize: 12, marginTop: 4 }}>
-              Queue a command above or run <code style={{ color: '#ff6b35' }}>/0ncommand sync</code> to push results from Claude Code.
+            <div className="text-xs mt-1">
+              Queue a command above or run <code className="text-[#ff6b35]">/0ncommand sync</code> to push results from Claude Code.
             </div>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="flex flex-col gap-2">
             {stats.recent.map((cmd) => {
               const statusStyle = STATUS_COLORS[cmd.status] || STATUS_COLORS.pending
               const cmdInfo = COMMAND_LABELS[cmd.command_type]
               return (
-                <div key={cmd.id} style={{
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 10,
-                  padding: '14px 18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                }}>
+                <div key={cmd.id} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[10px] px-[18px] py-3.5 flex items-center gap-3">
                   {/* Direction indicator */}
-                  <div style={{
-                    width: 32, height: 32, borderRadius: 8,
-                    background: cmd.direction === 'to_offline' ? 'rgba(0, 212, 255, 0.1)' : 'rgba(110, 224, 90, 0.1)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 14,
-                    flexShrink: 0,
-                  }}>
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-[14px] shrink-0"
+                    style={{
+                      background: cmd.direction === 'to_offline' ? 'rgba(0, 212, 255, 0.1)' : 'rgba(110, 224, 90, 0.1)',
+                    }}
+                  >
                     {cmd.direction === 'to_offline' ? '?' : '?'}
                   </div>
 
                   {/* Command info */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontWeight: 600, fontSize: 14, color: 'var(--text-primary)' }}>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-[14px] text-[var(--text-primary)]">
                         {cmdInfo?.label || cmd.command_type}
                       </span>
-                      <span style={{
-                        fontSize: 11,
-                        padding: '2px 8px',
-                        borderRadius: 4,
-                        background: statusStyle.bg,
-                        color: statusStyle.text,
-                        fontWeight: 600,
-                      }}>
+                      <span
+                        className="text-[11px] px-2 py-0.5 rounded font-semibold"
+                        style={{ background: statusStyle.bg, color: statusStyle.text }}
+                      >
                         {cmd.status}
                       </span>
                     </div>
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+                    <div className="text-xs text-[var(--text-muted)] mt-0.5">
                       {timeAgo(cmd.created_at)}
                       {cmd.completed_at && cmd.started_at && (
                         <> — took {Math.round((new Date(cmd.completed_at).getTime() - new Date(cmd.started_at).getTime()) / 1000)}s</>
                       )}
                       {cmd.error && (
-                        <span style={{ color: '#ff5252', marginLeft: 8 }}>{cmd.error}</span>
+                        <span className="text-[#ff5252] ml-2">{cmd.error}</span>
                       )}
                     </div>
                   </div>
@@ -358,15 +295,7 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
                   {(cmd.status === 'pending' || cmd.status === 'running') && isAdmin && (
                     <button
                       onClick={() => cancelCmd(cmd.id)}
-                      style={{
-                        background: 'rgba(255, 82, 82, 0.1)',
-                        border: '1px solid rgba(255, 82, 82, 0.3)',
-                        borderRadius: 6,
-                        padding: '4px 10px',
-                        color: '#ff5252',
-                        fontSize: 12,
-                        cursor: 'pointer',
-                      }}
+                      className="bg-[rgba(255,82,82,0.1)] border border-[rgba(255,82,82,0.3)] rounded-md px-2.5 py-1 text-[#ff5252] text-xs cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -379,18 +308,10 @@ export function CommandQueueView({ isAdmin }: { isAdmin: boolean }) {
       </div>
 
       {/* Refresh */}
-      <div style={{ textAlign: 'center', marginTop: 16 }}>
+      <div className="text-center mt-4">
         <button
           onClick={loadStats}
-          style={{
-            background: 'transparent',
-            border: '1px solid var(--border)',
-            borderRadius: 6,
-            padding: '6px 16px',
-            color: 'var(--text-muted)',
-            fontSize: 12,
-            cursor: 'pointer',
-          }}
+          className="bg-transparent border border-[var(--border)] rounded-md px-4 py-1.5 text-[var(--text-muted)] text-xs cursor-pointer"
         >
           Refresh (auto-refreshes every 15s)
         </button>

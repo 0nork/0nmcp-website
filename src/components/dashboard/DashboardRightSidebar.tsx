@@ -78,40 +78,18 @@ const CREDIT_PACKAGES = [
   { key: 'pro',     label: 'Pro Pack', credits: 200, price: '$49', featured: false },
 ]
 
-// ─── Shared styles ──────────────────────────────────────────────────────────
-
-const PANEL_BG       = 'rgba(12, 14, 20, 0.92)'
-const PANEL_BORDER   = 'rgba(255, 255, 255, 0.07)'
-const CARD_BG        = 'rgba(255, 255, 255, 0.03)'
-const CARD_BG_HOVER  = 'rgba(255, 255, 255, 0.06)'
-const CARD_BORDER    = 'rgba(255, 255, 255, 0.06)'
-const ACCENT         = '#6EE05A'
-const ACCENT_DIM     = 'rgba(110, 224, 90, 0.12)'
-const ACCENT_BORDER  = 'rgba(110, 224, 90, 0.3)'
-const TEXT_PRIMARY   = '#e8eaed'
-const TEXT_SECONDARY = '#7A8290'
-const TEXT_MUTED     = '#5f6672'
-
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
 function TabButton({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      style={{
-        flex: 1,
-        padding: '10px 0',
-        fontSize: 12,
-        fontWeight: active ? 600 : 400,
-        letterSpacing: active ? '0.01em' : '0',
-        color: active ? ACCENT : TEXT_MUTED,
-        background: 'none',
-        border: 'none',
-        borderBottom: `2px solid ${active ? ACCENT : 'transparent'}`,
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        fontFamily: 'inherit',
-      }}
+      className={[
+        'flex-1 py-2.5 text-xs cursor-pointer border-b-2 transition-all duration-200 bg-transparent border-x-0 border-t-0 font-[inherit]',
+        active
+          ? 'font-semibold tracking-[0.01em] text-[#6EE05A] border-b-[#6EE05A]'
+          : 'font-normal text-[#5f6672] border-b-transparent',
+      ].join(' ')}
     >
       {label}
     </button>
@@ -128,18 +106,16 @@ function ServiceLogo({ id, size = 28 }: { id: string; size?: number }) {
         alt={id}
         width={size}
         height={size}
-        style={{ objectFit: 'contain', borderRadius: 6, flexShrink: 0 }}
+        className="object-contain rounded-[6px] shrink-0"
         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
       />
     )
   }
   return (
-    <div style={{
-      width: size, height: size, borderRadius: 6, flexShrink: 0,
-      background: ACCENT_DIM,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: 10, fontWeight: 700, color: ACCENT,
-    }}>
+    <div
+      className="rounded-[6px] shrink-0 bg-[rgba(110,224,90,0.12)] flex items-center justify-center text-[10px] font-bold text-[#6EE05A]"
+      style={{ width: size, height: size }}
+    >
       {initials}
     </div>
   )
@@ -159,48 +135,30 @@ function ConnectorCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => !connector.connected && onConnect(connector.id)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 8,
-        padding: '12px',
-        borderRadius: 10,
-        border: connector.connected
-          ? `1px solid ${ACCENT_BORDER}`
-          : `1px solid ${hovered ? 'rgba(255,255,255,0.12)' : CARD_BORDER}`,
-        background: connector.connected
-          ? 'rgba(126,217,87,0.04)'
-          : hovered ? CARD_BG_HOVER : CARD_BG,
-        transition: 'all 0.2s ease',
-        cursor: connector.connected ? 'default' : 'pointer',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
+      className={[
+        'flex flex-col gap-2 p-3 rounded-[10px] border transition-all duration-200 relative overflow-hidden',
+        connector.connected
+          ? 'border-[rgba(110,224,90,0.3)] bg-[rgba(126,217,87,0.04)] cursor-default'
+          : hovered
+          ? 'border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.06)] cursor-pointer'
+          : 'border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] cursor-pointer',
+      ].join(' ')}
     >
       {/* Top row: logo + status */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+      <div className="flex items-start justify-between">
         <ServiceLogo id={connector.id} size={32} />
         {connector.connected ? (
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 4,
-            fontSize: 10, fontWeight: 600, color: ACCENT,
-          }}>
-            <div style={{
-              width: 6, height: 6, borderRadius: '50%',
-              background: ACCENT,
-              boxShadow: `0 0 6px ${ACCENT}`,
-            }} />
+          <div className="flex items-center gap-1 text-[10px] font-semibold text-[#6EE05A]">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#6EE05A] shadow-[0_0_6px_#6EE05A]" />
             Active
           </div>
         ) : (
-          <div style={{
-            fontSize: 10, fontWeight: 500, padding: '2px 8px',
-            borderRadius: 4,
-            background: hovered ? ACCENT_DIM : 'transparent',
-            color: hovered ? ACCENT : TEXT_MUTED,
-            transition: 'all 0.2s',
-            border: hovered ? `1px solid ${ACCENT_BORDER}` : '1px solid transparent',
-          }}>
+          <div className={[
+            'text-[10px] font-medium px-2 py-0.5 rounded transition-all duration-200 border',
+            hovered
+              ? 'bg-[rgba(110,224,90,0.12)] text-[#6EE05A] border-[rgba(110,224,90,0.3)]'
+              : 'bg-transparent text-[#5f6672] border-transparent',
+          ].join(' ')}>
             Connect
           </div>
         )}
@@ -208,16 +166,10 @@ function ConnectorCard({
 
       {/* Name + description */}
       <div>
-        <div style={{
-          fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY,
-          lineHeight: 1.3,
-        }}>
+        <div className="text-xs font-semibold text-[#e8eaed] leading-tight">
           {connector.name}
         </div>
-        <div style={{
-          fontSize: 10, color: TEXT_MUTED, marginTop: 2,
-          lineHeight: 1.4,
-        }}>
+        <div className="text-[10px] text-[#5f6672] mt-0.5 leading-snug">
           {connector.description}
         </div>
       </div>
@@ -253,69 +205,38 @@ function ConnectorsTab({
   const notConnected = filtered.filter(c => !c.connected)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className="flex flex-col h-full">
 
       {/* Header stats */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '12px 16px',
-        borderBottom: `1px solid ${PANEL_BORDER}`,
-        flexShrink: 0,
-      }}>
-        <div style={{ fontSize: 12, color: TEXT_SECONDARY }}>
-          <span style={{ fontWeight: 700, color: ACCENT, fontSize: 16 }}>
-            {connectedCount}
-          </span>
-          <span style={{ marginLeft: 4 }}>of {CONNECTORS.length}</span>
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.07)] shrink-0">
+        <div className="text-xs text-[#7A8290]">
+          <span className="font-bold text-[#6EE05A] text-base">{connectedCount}</span>
+          <span className="ml-1">of {CONNECTORS.length}</span>
         </div>
         <button
           onClick={onOpenVault}
-          style={{
-            fontSize: 11, padding: '5px 12px', borderRadius: 6,
-            background: ACCENT_DIM,
-            border: `1px solid ${ACCENT_BORDER}`,
-            color: ACCENT, cursor: 'pointer', fontFamily: 'inherit',
-            fontWeight: 600, transition: 'all 0.15s',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(126,217,87,0.2)'
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLButtonElement).style.background = ACCENT_DIM
-          }}
+          className="text-[11px] px-3 py-[5px] rounded-[6px] bg-[rgba(110,224,90,0.12)] border border-[rgba(110,224,90,0.3)] text-[#6EE05A] cursor-pointer font-[inherit] font-semibold transition-all duration-150 hover:bg-[rgba(110,224,90,0.2)]"
         >
           + Import
         </button>
       </div>
 
       {/* Search */}
-      <div style={{ padding: '10px 16px', flexShrink: 0 }}>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          padding: '8px 12px', borderRadius: 8,
-          background: CARD_BG,
-          border: `1px solid ${CARD_BORDER}`,
-          transition: 'border-color 0.2s',
-        }}>
-          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke={TEXT_MUTED} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+      <div className="px-4 py-2.5 shrink-0">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] transition-colors duration-200">
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#5f6672" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
             <circle cx={11} cy={11} r={8} /><path d="m21 21-4.35-4.35" />
           </svg>
           <input
             value={filter}
             onChange={e => setFilter(e.target.value)}
             placeholder="Search connectors..."
-            style={{
-              flex: 1, background: 'none', border: 'none', outline: 'none',
-              fontSize: 12, color: TEXT_PRIMARY, fontFamily: 'inherit',
-            }}
+            className="flex-1 bg-transparent border-none outline-none text-xs text-[#e8eaed] font-[inherit] placeholder:text-[#5f6672]"
           />
           {filter && (
             <button
               onClick={() => setFilter('')}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: TEXT_MUTED, padding: 0, display: 'flex',
-              }}
+              className="bg-transparent border-none cursor-pointer text-[#5f6672] p-0 flex"
             >
               <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                 <line x1={18} y1={6} x2={6} y2={18} /><line x1={6} y1={6} x2={18} y2={18} />
@@ -326,24 +247,17 @@ function ConnectorsTab({
       </div>
 
       {/* Category pills */}
-      <div style={{
-        display: 'flex', gap: 6, padding: '0 16px 10px', flexWrap: 'wrap', flexShrink: 0,
-      }}>
+      <div className="flex gap-1.5 px-4 pb-2.5 flex-wrap shrink-0">
         {categories.map(cat => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
-            style={{
-              fontSize: 11, padding: '4px 10px', borderRadius: 6,
-              background: category === cat ? ACCENT_DIM : 'transparent',
-              border: category === cat
-                ? `1px solid ${ACCENT_BORDER}`
-                : `1px solid ${CARD_BORDER}`,
-              color: category === cat ? ACCENT : TEXT_MUTED,
-              cursor: 'pointer', fontFamily: 'inherit',
-              fontWeight: category === cat ? 600 : 400,
-              transition: 'all 0.15s',
-            }}
+            className={[
+              'text-[11px] px-2.5 py-1 rounded-[6px] cursor-pointer font-[inherit] transition-all duration-150 border',
+              category === cat
+                ? 'bg-[rgba(110,224,90,0.12)] border-[rgba(110,224,90,0.3)] text-[#6EE05A] font-semibold'
+                : 'bg-transparent border-[rgba(255,255,255,0.06)] text-[#5f6672] font-normal',
+            ].join(' ')}
           >
             {cat}
           </button>
@@ -351,40 +265,27 @@ function ConnectorsTab({
       </div>
 
       {/* Connector grid */}
-      <div style={{
-        flex: 1, overflowY: 'auto', padding: '4px 16px 16px',
-        display: 'flex', flexDirection: 'column', gap: 8,
-      }}>
+      <div className="flex-1 overflow-y-auto px-4 pb-4 pt-1 flex flex-col gap-2">
         {connected.length > 0 && (
           <>
-            <div style={{
-              fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '.08em', color: ACCENT, padding: '8px 0 4px',
-            }}>
+            <div className="text-[10px] font-bold uppercase tracking-[0.08em] text-[#6EE05A] py-2 pb-1">
               Connected
             </div>
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
-            }}>
+            <div className="grid grid-cols-2 gap-2">
               {connected.map(c => (
                 <ConnectorCard key={c.id} connector={c} onConnect={onConnect} />
               ))}
             </div>
-            <div style={{ height: 4 }} />
+            <div className="h-1" />
           </>
         )}
 
         {notConnected.length > 0 && (
           <>
-            <div style={{
-              fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
-              letterSpacing: '.08em', color: TEXT_MUTED, padding: '8px 0 4px',
-            }}>
+            <div className="text-[10px] font-bold uppercase tracking-[0.08em] text-[#5f6672] py-2 pb-1">
               Available
             </div>
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8,
-            }}>
+            <div className="grid grid-cols-2 gap-2">
               {notConnected.map(c => (
                 <ConnectorCard key={c.id} connector={c} onConnect={onConnect} />
               ))}
@@ -393,10 +294,7 @@ function ConnectorsTab({
         )}
 
         {filtered.length === 0 && (
-          <div style={{
-            textAlign: 'center', padding: '32px 0',
-            color: TEXT_MUTED, fontSize: 13,
-          }}>
+          <div className="text-center py-8 text-[#5f6672] text-sm">
             No connectors match &ldquo;{filter}&rdquo;
           </div>
         )}
@@ -430,27 +328,23 @@ function VaultTab({ onOpenVault }: { onOpenVault: () => void }) {
   }, [])
 
   const stats = [
-    { label: 'SWITCH files',  value: loading ? '-' : String(summary?.workflows  ?? 0), color: ACCENT },
+    { label: 'SWITCH files',  value: loading ? '-' : String(summary?.workflows  ?? 0), color: '#6EE05A' },
     { label: 'Brand assets',  value: loading ? '-' : String(summary?.brand      ?? 0), color: '#a78bfa' },
     { label: 'Credentials',   value: loading ? '-' : String(summary?.credentials ?? 0), color: '#00d4ff' },
     { label: 'Total files',   value: loading ? '-' : String(summary?.total      ?? 0), color: '#ff6b35' },
   ]
 
   return (
-    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div className="p-4 flex flex-col gap-3.5">
 
       {/* Stat grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+      <div className="grid grid-cols-2 gap-2.5">
         {stats.map(s => (
-          <div key={s.label} style={{
-            padding: '14px', borderRadius: 10,
-            background: CARD_BG,
-            border: `1px solid ${CARD_BORDER}`,
-          }}>
-            <div style={{ fontSize: 22, fontWeight: 800, color: s.color, lineHeight: 1 }}>
+          <div key={s.label} className="p-3.5 rounded-[10px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)]">
+            <div className="text-[22px] font-black leading-none" style={{ color: s.color }}>
               {s.value}
             </div>
-            <div style={{ fontSize: 10, color: TEXT_MUTED, marginTop: 6, fontWeight: 500 }}>
+            <div className="text-[10px] text-[#5f6672] mt-1.5 font-medium">
               {s.label}
             </div>
           </div>
@@ -458,52 +352,27 @@ function VaultTab({ onOpenVault }: { onOpenVault: () => void }) {
       </div>
 
       {/* .0n info card */}
-      <div style={{
-        padding: '14px', borderRadius: 10,
-        background: 'rgba(126,217,87,0.04)',
-        border: `1px solid rgba(126,217,87,0.15)`,
-      }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: ACCENT, marginBottom: 6 }}>
+      <div className="p-3.5 rounded-[10px] bg-[rgba(126,217,87,0.04)] border border-[rgba(126,217,87,0.15)]">
+        <div className="text-xs font-bold text-[#6EE05A] mb-1.5">
           .0n file format
         </div>
-        <div style={{ fontSize: 11, color: TEXT_SECONDARY, lineHeight: 1.6 }}>
+        <div className="text-[11px] text-[#7A8290] leading-relaxed">
           SWITCH files are executable .0n workflow definitions.
           Build in the visual builder, run anywhere.
         </div>
       </div>
 
       {/* Actions */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="flex flex-col gap-2">
         <button
           onClick={onOpenVault}
-          style={{
-            padding: '11px 16px', borderRadius: 8, border: 'none',
-            background: ACCENT, color: '#080B0F',
-            fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-            transition: 'all .15s',
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85' }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
+          className="px-4 py-[11px] rounded-lg border-none bg-[#6EE05A] text-[#080B0F] text-[13px] font-bold cursor-pointer font-[inherit] transition-all duration-150 hover:opacity-85"
         >
           Open Vault
         </button>
         <a
           href="/builder"
-          style={{
-            display: 'block', padding: '10px 16px', borderRadius: 8,
-            border: `1px solid ${CARD_BORDER}`,
-            color: TEXT_SECONDARY, background: 'transparent',
-            fontSize: 12, fontWeight: 500, textAlign: 'center', textDecoration: 'none',
-            transition: 'all .15s',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border-hover)'
-            ;(e.currentTarget as HTMLAnchorElement).style.color = TEXT_PRIMARY
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = CARD_BORDER
-            ;(e.currentTarget as HTMLAnchorElement).style.color = TEXT_SECONDARY
-          }}
+          className="block px-4 py-2.5 rounded-lg border border-[rgba(255,255,255,0.06)] text-[#7A8290] bg-transparent text-xs font-medium text-center no-underline transition-all duration-150 hover:border-[rgba(255,255,255,0.12)] hover:text-[#e8eaed]"
         >
           Open Builder
         </a>
@@ -547,98 +416,57 @@ function CreditsTab() {
   }
 
   return (
-    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div className="p-4 flex flex-col gap-3.5">
 
       {/* Balance card */}
-      <div style={{
-        padding: '20px', borderRadius: 12,
-        background: 'linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.04))',
-        border: `1px solid ${ACCENT_BORDER}`,
-        textAlign: 'center',
-      }}>
-        <div style={{
-          fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
-          letterSpacing: '.1em', color: 'rgba(126,217,87,0.65)', marginBottom: 8,
-        }}>
+      <div className="p-5 rounded-xl bg-gradient-to-br from-[rgba(126,217,87,0.08)] to-[rgba(0,212,255,0.04)] border border-[rgba(110,224,90,0.3)] text-center">
+        <div className="text-[10px] font-bold uppercase tracking-[0.1em] text-[rgba(126,217,87,0.65)] mb-2">
           Credit balance
         </div>
-        <div style={{
-          fontSize: 40, fontWeight: 900, color: ACCENT, lineHeight: 1,
-          fontFamily: "'JetBrains Mono', monospace",
-          textShadow: '0 0 20px rgba(126,217,87,0.2)',
-        }}>
+        <div className="text-[40px] font-black text-[#6EE05A] leading-none font-mono [text-shadow:0_0_20px_rgba(126,217,87,0.2)]">
           {balance === null ? '-' : balance.toLocaleString()}
         </div>
-        <div style={{ fontSize: 11, color: TEXT_MUTED, marginTop: 6 }}>
+        <div className="text-[11px] text-[#5f6672] mt-1.5">
           {plan.charAt(0).toUpperCase() + plan.slice(1)} plan
         </div>
       </div>
 
-      <div style={{ fontSize: 12, color: TEXT_SECONDARY, lineHeight: 1.6 }}>
+      <div className="text-xs text-[#7A8290] leading-relaxed">
         Each workflow execution costs 1-5 credits. Purchase below to keep building.
       </div>
 
-      {/* Package cards — in-panel purchase buttons */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {/* Package cards */}
+      <div className="flex flex-col gap-2">
         {CREDIT_PACKAGES.map(pkg => (
           <button
             key={pkg.key}
             onClick={() => handlePurchase(pkg)}
             disabled={purchasing === pkg.key}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 12,
-              padding: '12px 14px', borderRadius: 10,
-              background: pkg.featured ? 'rgba(126,217,87,0.06)' : CARD_BG,
-              border: pkg.featured
-                ? `1px solid ${ACCENT_BORDER}`
-                : `1px solid ${CARD_BORDER}`,
-              transition: 'all .2s',
-              cursor: purchasing === pkg.key ? 'wait' : 'pointer',
-              fontFamily: 'inherit',
-              textAlign: 'left',
-              width: '100%',
-              opacity: purchasing === pkg.key ? 0.6 : 1,
-            }}
-            onMouseEnter={e => {
-              if (!purchasing) {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = ACCENT_BORDER
-                ;(e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'
-                ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.3)'
-              }
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = pkg.featured ? ACCENT_BORDER : CARD_BORDER
-              ;(e.currentTarget as HTMLButtonElement).style.transform = 'none'
-              ;(e.currentTarget as HTMLButtonElement).style.boxShadow = 'none'
-            }}
+            className={[
+              'flex items-center gap-3 px-3.5 py-3 rounded-[10px] border transition-all duration-200 cursor-pointer font-[inherit] text-left w-full',
+              'hover:border-[rgba(110,224,90,0.3)] hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]',
+              pkg.featured
+                ? 'bg-[rgba(126,217,87,0.06)] border-[rgba(110,224,90,0.3)]'
+                : 'bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.06)]',
+              purchasing === pkg.key ? 'opacity-60 cursor-wait' : '',
+            ].join(' ')}
           >
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
+            <div className="flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[13px] font-semibold text-[#e8eaed]">
                   {pkg.label}
                 </span>
                 {pkg.featured && (
-                  <span style={{
-                    fontSize: 9, padding: '2px 6px', borderRadius: 4,
-                    background: ACCENT_DIM, color: ACCENT,
-                    fontWeight: 700, letterSpacing: '.04em',
-                  }}>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-[rgba(110,224,90,0.12)] text-[#6EE05A] font-bold tracking-[0.04em]">
                     POPULAR
                   </span>
                 )}
               </div>
-              <div style={{ fontSize: 11, color: TEXT_MUTED, marginTop: 2 }}>
+              <div className="text-[11px] text-[#5f6672] mt-0.5">
                 {pkg.credits} credits
               </div>
             </div>
-            <div style={{
-              fontSize: 14, fontWeight: 700,
-              color: '#080B0F',
-              background: ACCENT,
-              padding: '5px 12px',
-              borderRadius: 6,
-              fontFamily: "'JetBrains Mono', monospace",
-            }}>
+            <div className="text-sm font-bold text-[#080B0F] bg-[#6EE05A] px-3 py-[5px] rounded-[6px] font-mono">
               {purchasing === pkg.key ? '...' : pkg.price}
             </div>
           </button>
@@ -663,7 +491,7 @@ function ChevronIcon({ direction = 'left', size = 14 }: { direction?: 'left' | '
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
       strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"
-      style={{ transform: direction === 'right' ? 'rotate(180deg)' : 'none' }}>
+      className={direction === 'right' ? 'rotate-180' : ''}>
       <polyline points="15 18 9 12 15 6" />
     </svg>
   )
@@ -734,67 +562,25 @@ export default function DashboardRightSidebar({
   const activeConnectedCount = connectors.filter(c => c.connected).length || connectedCount
 
   return (
-    <div ref={panelRef} style={{ position: 'relative', flexShrink: 0, height: '100%' }}>
+    <div ref={panelRef} className="relative shrink-0 h-full">
 
       {/* ── Floating trigger strip ──────────────────────────────────────────── */}
-      <div style={{
-        width: 44,
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: 16,
-        gap: 6,
-        background: 'transparent',
-        zIndex: 10,
-        position: 'relative',
-      }}>
+      <div className="w-11 h-full flex flex-col items-center pt-4 gap-1.5 bg-transparent z-10 relative">
         {/* Main toggle */}
         <button
-          className={open ? '' : 'sidebar-trigger-pulse'}
+          className={[
+            'sidebar-trigger-pulse w-9 h-9 rounded-[11px] border cursor-pointer flex items-center justify-center transition-all duration-200 relative',
+            open
+              ? 'border-[rgba(110,224,90,0.3)] bg-[rgba(110,224,90,0.12)] text-[#6EE05A]'
+              : 'border-[rgba(126,217,87,0.2)] bg-[rgba(126,217,87,0.06)] text-[#8ee86a] hover:bg-[rgba(126,217,87,0.15)] hover:text-[#6EE05A] hover:border-[rgba(110,224,90,0.3)]',
+          ].join(' ')}
           onClick={() => setOpen(p => !p)}
           title="Extensions"
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 11,
-            border: `1px solid ${open ? ACCENT_BORDER : 'rgba(126,217,87,0.2)'}`,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: open ? ACCENT_DIM : 'rgba(126,217,87,0.06)',
-            color: open ? ACCENT : '#8ee86a',
-            transition: 'all 0.2s ease',
-            position: 'relative',
-          }}
-          onMouseEnter={e => {
-            if (!open) {
-              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(126,217,87,0.15)'
-              ;(e.currentTarget as HTMLButtonElement).style.color = ACCENT
-              ;(e.currentTarget as HTMLButtonElement).style.borderColor = ACCENT_BORDER
-            }
-          }}
-          onMouseLeave={e => {
-            if (!open) {
-              (e.currentTarget as HTMLButtonElement).style.background = 'rgba(126,217,87,0.06)'
-              ;(e.currentTarget as HTMLButtonElement).style.color = '#8ee86a'
-              ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(126,217,87,0.2)'
-            }
-          }}
         >
           <PuzzleIcon size={17} />
           {/* Badge */}
           {activeConnectedCount > 0 && (
-            <div style={{
-              position: 'absolute', top: -4, right: -4,
-              width: 16, height: 16, borderRadius: '50%',
-              background: ACCENT, color: '#080B0F',
-              fontSize: 9, fontWeight: 800,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              lineHeight: 1,
-              boxShadow: `0 0 8px rgba(126,217,87,0.4)`,
-            }}>
+            <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#6EE05A] text-[#080B0F] text-[9px] font-black flex items-center justify-center leading-none shadow-[0_0_8px_rgba(126,217,87,0.4)]">
               {activeConnectedCount > 9 ? '9+' : activeConnectedCount}
             </div>
           )}
@@ -804,31 +590,12 @@ export default function DashboardRightSidebar({
         <button
           onClick={() => { setActiveTab('credits'); setOpen(true) }}
           title="Credits"
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: 10,
-            border: `1px solid ${(open && activeTab === 'credits') ? ACCENT_BORDER : CARD_BORDER}`,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: (open && activeTab === 'credits') ? ACCENT_DIM : CARD_BG,
-            color: (open && activeTab === 'credits') ? ACCENT : TEXT_MUTED,
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={e => {
-            if (!(open && activeTab === 'credits')) {
-              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
-            }
-          }}
-          onMouseLeave={e => {
-            if (!(open && activeTab === 'credits')) {
-              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
-            }
-          }}
+          className={[
+            'w-[34px] h-[34px] rounded-[10px] border cursor-pointer flex items-center justify-center transition-all duration-200',
+            open && activeTab === 'credits'
+              ? 'border-[rgba(110,224,90,0.3)] bg-[rgba(110,224,90,0.12)] text-[#6EE05A]'
+              : 'border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] text-[#5f6672] hover:bg-[rgba(255,255,255,0.06)] hover:text-[#7A8290]',
+          ].join(' ')}
         >
           <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor"
             strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -840,31 +607,12 @@ export default function DashboardRightSidebar({
         <button
           onClick={() => { setActiveTab('vault'); setOpen(true) }}
           title="Vault"
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: 10,
-            border: `1px solid ${(open && activeTab === 'vault') ? ACCENT_BORDER : CARD_BORDER}`,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: (open && activeTab === 'vault') ? ACCENT_DIM : CARD_BG,
-            color: (open && activeTab === 'vault') ? ACCENT : TEXT_MUTED,
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={e => {
-            if (!(open && activeTab === 'vault')) {
-              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
-            }
-          }}
-          onMouseLeave={e => {
-            if (!(open && activeTab === 'vault')) {
-              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
-            }
-          }}
+          className={[
+            'w-[34px] h-[34px] rounded-[10px] border cursor-pointer flex items-center justify-center transition-all duration-200',
+            open && activeTab === 'vault'
+              ? 'border-[rgba(110,224,90,0.3)] bg-[rgba(110,224,90,0.12)] text-[#6EE05A]'
+              : 'border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] text-[#5f6672] hover:bg-[rgba(255,255,255,0.06)] hover:text-[#7A8290]',
+          ].join(' ')}
         >
           <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor"
             strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -876,71 +624,31 @@ export default function DashboardRightSidebar({
 
       {/* ── Floating panel ──────────────────────────────────────────────────── */}
       <div
+        className="fixed right-14 top-[60px] bottom-3 w-[360px] rounded-2xl border border-[rgba(255,255,255,0.07)] flex flex-col overflow-hidden z-[100]"
         style={{
-          position: 'fixed',
-          right: 56,
-          top: 60,
-          bottom: 12,
-          width: 360,
-          background: PANEL_BG,
+          background: 'rgba(12, 14, 20, 0.92)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
-          borderRadius: 16,
-          border: `1px solid ${PANEL_BORDER}`,
           boxShadow: open
             ? '0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px var(--bg-card) inset'
             : 'none',
           transform: open ? 'translateX(0) scale(1)' : 'translateX(16px) scale(0.97)',
           opacity: open ? 1 : 0,
           transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, box-shadow 0.3s ease',
-          zIndex: 100,
           pointerEvents: open ? 'auto' : 'none',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
         }}
       >
         {/* Panel header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-          padding: '14px 18px',
-          borderBottom: `1px solid ${PANEL_BORDER}`,
-          flexShrink: 0,
-        }}>
-          <div style={{
-            width: 28, height: 28, borderRadius: 8,
-            background: ACCENT_DIM,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: ACCENT,
-          }}>
+        <div className="flex items-center gap-2.5 px-[18px] py-3.5 border-b border-[rgba(255,255,255,0.07)] shrink-0">
+          <div className="w-7 h-7 rounded-lg bg-[rgba(110,224,90,0.12)] flex items-center justify-center text-[#6EE05A]">
             <PuzzleIcon size={14} />
           </div>
-          <span style={{
-            fontSize: 14, fontWeight: 700, color: TEXT_PRIMARY, flex: 1,
-            letterSpacing: '-0.01em',
-          }}>
+          <span className="text-sm font-bold text-[#e8eaed] flex-1 tracking-[-0.01em]">
             Extensions
           </span>
           <button
             onClick={() => setOpen(false)}
-            style={{
-              width: 28, height: 28, borderRadius: 8,
-              border: `1px solid ${CARD_BORDER}`,
-              background: 'transparent', cursor: 'pointer',
-              color: TEXT_MUTED, display: 'flex',
-              alignItems: 'center', justifyContent: 'center', padding: 0,
-              transition: 'all .15s',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.background = CARD_BG_HOVER
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_SECONDARY
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
-              ;(e.currentTarget as HTMLButtonElement).style.color = TEXT_MUTED
-            }}
+            className="w-7 h-7 rounded-lg border border-[rgba(255,255,255,0.06)] bg-transparent cursor-pointer text-[#5f6672] flex items-center justify-center p-0 transition-all duration-150 hover:bg-[rgba(255,255,255,0.06)] hover:text-[#7A8290]"
           >
             <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor"
               strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
@@ -950,19 +658,14 @@ export default function DashboardRightSidebar({
         </div>
 
         {/* Tabs */}
-        <div style={{
-          display: 'flex',
-          borderBottom: `1px solid ${PANEL_BORDER}`,
-          flexShrink: 0,
-          padding: '0 12px',
-        }}>
+        <div className="flex border-b border-[rgba(255,255,255,0.07)] shrink-0 px-3">
           <TabButton label="Connectors" active={activeTab === 'connectors'} onClick={() => setActiveTab('connectors')} />
           <TabButton label="Vault" active={activeTab === 'vault'} onClick={() => setActiveTab('vault')} />
           <TabButton label="Credits" active={activeTab === 'credits'} onClick={() => setActiveTab('credits')} />
         </div>
 
         {/* Tab content */}
-        <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+        <div className="flex-1 overflow-hidden flex flex-col">
           {activeTab === 'connectors' && (
             <ConnectorsTab
               connectors={connectors}
@@ -972,12 +675,12 @@ export default function DashboardRightSidebar({
             />
           )}
           {activeTab === 'vault' && (
-            <div style={{ flex: 1, overflowY: 'auto' }}>
+            <div className="flex-1 overflow-y-auto">
               <VaultTab onOpenVault={handleOpenVault} />
             </div>
           )}
           {activeTab === 'credits' && (
-            <div style={{ flex: 1, overflowY: 'auto' }}>
+            <div className="flex-1 overflow-y-auto">
               <CreditsTab />
             </div>
           )}

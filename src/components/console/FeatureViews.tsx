@@ -3,107 +3,50 @@
 import { useState } from 'react'
 import { STATS_DISPLAY } from '@/data/stats'
 
-/* ─── SHARED STYLES ─────────────────────────────────────────── */
-const card = {
-  background: 'var(--bg-card)',
-  border: '1px solid var(--border)',
-  borderRadius: '0.875rem',
-  padding: '1.25rem',
-} as const
-
-const header = {
-  fontSize: '1.25rem',
-  fontWeight: 700,
-  color: 'var(--text-primary)',
-  fontFamily: 'var(--font-display)',
-  margin: 0,
-} as const
-
-const sub = {
-  fontSize: '0.75rem',
-  color: 'var(--text-muted)',
-  margin: '0.25rem 0 0 0',
-} as const
-
-const badge = (color: string) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '0.375rem',
-  fontSize: '0.65rem',
-  fontWeight: 700,
-  padding: '0.25rem 0.625rem',
-  borderRadius: '0.375rem',
-  background: `${color}12`,
-  color,
-  border: `1px solid ${color}25`,
-  letterSpacing: '0.04em',
-}) as const
-
-const statBlock = (color: string) => ({
-  ...card,
-  display: 'flex',
-  flexDirection: 'column' as const,
-  alignItems: 'center',
-  gap: '0.375rem',
-  padding: '1.25rem',
-  textAlign: 'center' as const,
-  borderColor: `${color}20`,
-})
-
-const grid = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-  gap: '0.75rem',
-} as const
-
 /* ─── OPERATIONS VIEW ───────────────────────────────────────── */
 export function OperationsView({ flowCount, history }: {
   flowCount: number
   history: { id: string; type: string; detail: string; ts: number }[]
 }) {
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      <h1 style={header}>Operations</h1>
-      <p style={sub}>Active automations, workflow runs, and execution history</p>
+    <div className="p-5 max-w-[1200px] mx-auto w-full">
+      <h1 className="text-xl font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0">Operations</h1>
+      <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">Active automations, workflow runs, and execution history</p>
 
-      <div style={{ ...grid, marginTop: '1.25rem', gridTemplateColumns: 'repeat(3, 1fr)' }}>
-        <div style={statBlock('#22d3ee')}>
-          <span style={{ fontSize: '2rem', fontWeight: 800, color: '#22d3ee', fontFamily: 'var(--font-mono)' }}>{flowCount}</span>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Saved Workflows</span>
+      <div className="grid grid-cols-3 gap-3 mt-5">
+        <div className="bg-[var(--bg-card)] border border-[rgba(34,211,238,0.13)] rounded-[0.875rem] p-5 flex flex-col items-center gap-1.5 text-center">
+          <span className="text-3xl font-extrabold text-[#22d3ee] font-[var(--font-mono)]">{flowCount}</span>
+          <span className="text-[0.7rem] text-[var(--text-muted)]">Saved Workflows</span>
         </div>
-        <div style={statBlock('#6EE05A')}>
-          <span style={{ fontSize: '2rem', fontWeight: 800, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>{history.filter(h => h.type === 'workflow').length}</span>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Runs This Session</span>
+        <div className="bg-[var(--bg-card)] border border-[rgba(110,224,90,0.13)] rounded-[0.875rem] p-5 flex flex-col items-center gap-1.5 text-center">
+          <span className="text-3xl font-extrabold text-[#6EE05A] font-[var(--font-mono)]">{history.filter(h => h.type === 'workflow').length}</span>
+          <span className="text-[0.7rem] text-[var(--text-muted)]">Runs This Session</span>
         </div>
-        <div style={statBlock('#ff6b35')}>
-          <span style={{ fontSize: '2rem', fontWeight: 800, color: '#ff6b35', fontFamily: 'var(--font-mono)' }}>{history.filter(h => h.type === 'error').length}</span>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Errors</span>
+        <div className="bg-[var(--bg-card)] border border-[rgba(255,107,53,0.13)] rounded-[0.875rem] p-5 flex flex-col items-center gap-1.5 text-center">
+          <span className="text-3xl font-extrabold text-[#ff6b35] font-[var(--font-mono)]">{history.filter(h => h.type === 'error').length}</span>
+          <span className="text-[0.7rem] text-[var(--text-muted)]">Errors</span>
         </div>
       </div>
 
-      <div style={{ ...card, marginTop: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Recent Activity</span>
-          <span style={badge('#22d3ee')}>LIVE</span>
+      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 mt-4">
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[0.85rem] font-bold text-[var(--text-primary)]">Recent Activity</span>
+          <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold py-1 px-2.5 rounded-md bg-[rgba(34,211,238,0.07)] text-[#22d3ee] border border-[rgba(34,211,238,0.15)] tracking-[0.04em]">LIVE</span>
         </div>
         {history.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+          <div className="text-center py-8 text-[var(--text-muted)] text-[0.8rem]">
             No operations yet. Run a workflow or execute a command to see activity here.
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div className="flex flex-col gap-2">
             {history.slice(0, 15).map(entry => (
-              <div key={entry.id} style={{
-                display: 'flex', alignItems: 'center', gap: '0.75rem',
-                padding: '0.5rem 0.75rem', borderRadius: '0.5rem',
-                background: 'rgba(255,255,255,0.02)',
-              }}>
-                <div style={{
-                  width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-                  background: entry.type === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#22d3ee' : '#6EE05A',
-                }} />
-                <span style={{ flex: 1, fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{entry.detail}</span>
-                <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+              <div key={entry.id} className="flex items-center gap-3 py-2 px-3 rounded-lg bg-white/[0.02]">
+                <div
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ background: entry.type === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#22d3ee' : '#6EE05A' }}
+                />
+                <span className="flex-1 text-[0.75rem] text-[var(--text-secondary)]">{entry.detail}</span>
+                <span className="text-[0.65rem] text-[var(--text-muted)] font-[var(--font-mono)]">
                   {new Date(entry.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
@@ -127,35 +70,36 @@ export function SocialView() {
   ]
 
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      <h1 style={header}>Social Hub</h1>
-      <p style={sub}>Multi-platform content distribution powered by 0nMCP</p>
+    <div className="p-5 max-w-[1200px] mx-auto w-full">
+      <h1 className="text-xl font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0">Social Hub</h1>
+      <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">Multi-platform content distribution powered by 0nMCP</p>
 
-      <div style={{ ...grid, marginTop: '1.25rem' }}>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3 mt-5">
         {platforms.map(p => (
-          <div key={p.name} style={{
-            ...card,
-            display: 'flex', alignItems: 'center', gap: '0.75rem',
-            opacity: p.status === 'coming' ? 0.5 : 1,
-            cursor: p.status === 'ready' ? 'pointer' : 'default',
-          }}>
-            <span style={{ fontSize: '1.5rem' }}>{p.icon}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>{p.name}</div>
-              <div style={{ fontSize: '0.65rem', color: p.status === 'ready' ? '#6EE05A' : 'var(--text-muted)' }}>
+          <div
+            key={p.name}
+            className={[
+              'bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 flex items-center gap-3',
+              p.status === 'coming' ? 'opacity-50' : 'cursor-pointer',
+            ].join(' ')}
+          >
+            <span className="text-2xl">{p.icon}</span>
+            <div className="flex-1">
+              <div className="text-[0.85rem] font-semibold text-[var(--text-primary)]">{p.name}</div>
+              <div className={`text-[0.65rem] ${p.status === 'ready' ? 'text-[#6EE05A]' : 'text-[var(--text-muted)]'}`}>
                 {p.status === 'ready' ? 'Connected' : 'Coming soon'}
               </div>
             </div>
             {p.status === 'ready' && (
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#6EE05A' }} />
+              <div className="w-2 h-2 rounded-full bg-[#6EE05A]" />
             )}
           </div>
         ))}
       </div>
 
-      <div style={{ ...card, marginTop: '1rem' }}>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Quick Post</span>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.5rem 0' }}>
+      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 mt-4">
+        <span className="text-[0.85rem] font-bold text-[var(--text-primary)]">Quick Post</span>
+        <p className="text-[0.75rem] text-[var(--text-muted)] mt-2 mb-0">
           Use the AI Chat to draft and publish. Try: &quot;Write a LinkedIn post about AI automation&quot;
         </p>
       </div>
@@ -168,27 +112,31 @@ export function ReportingView({ historyCount, messageCount, connectedCount }: {
   historyCount: number; messageCount: number; connectedCount: number
 }) {
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      <h1 style={header}>Reporting</h1>
-      <p style={sub}>Analytics, usage metrics, and insights</p>
+    <div className="p-5 max-w-[1200px] mx-auto w-full">
+      <h1 className="text-xl font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0">Reporting</h1>
+      <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">Analytics, usage metrics, and insights</p>
 
-      <div style={{ ...grid, marginTop: '1.25rem', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+      <div className="grid grid-cols-4 gap-3 mt-5">
         {[
           { label: 'Actions', value: historyCount, color: '#6EE05A' },
           { label: 'Messages', value: messageCount, color: '#00d4ff' },
           { label: 'Services', value: connectedCount, color: '#ff6b35' },
           { label: 'Uptime', value: '99.9%', color: '#a78bfa' },
         ].map(s => (
-          <div key={s.label} style={statBlock(s.color)}>
-            <span style={{ fontSize: '1.75rem', fontWeight: 800, color: s.color, fontFamily: 'var(--font-mono)' }}>{s.value}</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{s.label}</span>
+          <div
+            key={s.label}
+            className="bg-[var(--bg-card)] rounded-[0.875rem] p-5 flex flex-col items-center gap-1.5 text-center"
+            style={{ border: `1px solid ${s.color}20` }}
+          >
+            <span className="text-[1.75rem] font-extrabold font-[var(--font-mono)]" style={{ color: s.color }}>{s.value}</span>
+            <span className="text-[0.7rem] text-[var(--text-muted)]">{s.label}</span>
           </div>
         ))}
       </div>
 
-      <div style={{ ...card, marginTop: '1rem' }}>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Session Summary</span>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.5rem 0' }}>
+      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 mt-4">
+        <span className="text-[0.85rem] font-bold text-[var(--text-primary)]">Session Summary</span>
+        <p className="text-[0.75rem] text-[var(--text-muted)] mt-2 mb-0">
           Detailed analytics dashboards available with the Builder plan. Includes API usage tracking, cost analysis, and performance metrics.
         </p>
       </div>
@@ -201,37 +149,31 @@ export function CodeView() {
   const [tab, setTab] = useState<'files' | 'editor'>('files')
 
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <div className="p-5 max-w-[1200px] mx-auto w-full">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 style={header}>0n Code</h1>
-          <p style={sub}>View and edit .0n workflow files</p>
+          <h1 className="text-xl font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0">0n Code</h1>
+          <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">View and edit .0n workflow files</p>
         </div>
-        <div style={{ display: 'flex', gap: '0.25rem' }}>
+        <div className="flex gap-1">
           {(['files', 'editor'] as const).map(t => (
-            <button key={t} onClick={() => setTab(t)} style={{
-              padding: '0.375rem 0.75rem', borderRadius: '0.5rem', border: 'none',
-              background: tab === t ? 'rgba(167,139,250,0.15)' : 'transparent',
-              color: tab === t ? '#a78bfa' : 'var(--text-muted)',
-              fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-            }}>{t === 'files' ? 'Files' : 'Editor'}</button>
+            <button key={t} onClick={() => setTab(t)} className={[
+              'py-1.5 px-3 rounded-lg border-none text-[0.75rem] font-semibold cursor-pointer font-[inherit]',
+              tab === t ? 'bg-[rgba(167,139,250,0.15)] text-[#a78bfa]' : 'bg-transparent text-[var(--text-muted)]',
+            ].join(' ')}>
+              {t === 'files' ? 'Files' : 'Editor'}
+            </button>
           ))}
         </div>
       </div>
 
-      <div style={{ ...card, marginTop: '1.25rem' }}>
+      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 mt-5">
         {tab === 'files' ? (
           <div>
-            <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>~/.0n/</div>
+            <div className="text-[0.8rem] font-semibold text-[var(--text-primary)] mb-3">~/.0n/</div>
             {['config.json', 'connections/', 'workflows/', 'snapshots/', 'history/', 'cache/', 'plugins/'].map(f => (
-              <div key={f} style={{
-                display: 'flex', alignItems: 'center', gap: '0.5rem',
-                padding: '0.5rem 0.75rem', borderRadius: '0.375rem',
-                fontSize: '0.75rem', color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-mono)',
-                borderBottom: '1px solid var(--border)',
-              }}>
-                <span style={{ color: f.endsWith('/') ? '#ff6b35' : '#a78bfa' }}>
+              <div key={f} className="flex items-center gap-2 py-2 px-3 rounded-md text-[0.75rem] text-[var(--text-secondary)] font-[var(--font-mono)] border-b border-[var(--border)]">
+                <span className={f.endsWith('/') ? 'text-[#ff6b35]' : 'text-[#a78bfa]'}>
                   {f.endsWith('/') ? '📁' : '📄'}
                 </span>
                 {f}
@@ -239,22 +181,18 @@ export function CodeView() {
             ))}
           </div>
         ) : (
-          <div style={{
-            background: 'var(--bg-primary)', borderRadius: '0.5rem', padding: '1rem',
-            fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#a78bfa',
-            lineHeight: 1.8, minHeight: '300px',
-          }}>
-            <span style={{ color: 'var(--text-muted)' }}>{'# Select a .0n file to edit'}</span>
+          <div className="bg-[var(--bg-primary)] rounded-lg p-4 font-[var(--font-mono)] text-[0.75rem] text-[#a78bfa] leading-[1.8] min-h-[300px]">
+            <span className="text-[var(--text-muted)]">{'# Select a .0n file to edit'}</span>
             <br />
-            <span style={{ color: '#6EE05A' }}>name</span>: <span style={{ color: '#ff6b35' }}>my-workflow</span>
+            <span className="text-[#6EE05A]">name</span>: <span className="text-[#ff6b35]">my-workflow</span>
             <br />
-            <span style={{ color: '#6EE05A' }}>version</span>: <span style={{ color: '#ff6b35' }}>&quot;1.0&quot;</span>
+            <span className="text-[#6EE05A]">version</span>: <span className="text-[#ff6b35]">&quot;1.0&quot;</span>
             <br />
-            <span style={{ color: '#6EE05A' }}>steps</span>:
+            <span className="text-[#6EE05A]">steps</span>:
             <br />
-            <span style={{ color: 'var(--text-muted)' }}>{'  '}- <span style={{ color: '#6EE05A' }}>id</span>: <span style={{ color: '#ff6b35' }}>step_001</span></span>
+            <span className="text-[var(--text-muted)]">{'  '}- <span className="text-[#6EE05A]">id</span>: <span className="text-[#ff6b35]">step_001</span></span>
             <br />
-            <span style={{ color: 'var(--text-muted)' }}>{'    '}<span style={{ color: '#6EE05A' }}>tool</span>: <span style={{ color: '#ff6b35' }}>search_contacts</span></span>
+            <span className="text-[var(--text-muted)]">{'    '}<span className="text-[#6EE05A]">tool</span>: <span className="text-[#ff6b35]">search_contacts</span></span>
           </div>
         )}
       </div>
@@ -265,27 +203,31 @@ export function CodeView() {
 /* ─── LINKEDIN VIEW ─────────────────────────────────────────── */
 export function LinkedInView() {
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      <h1 style={header}>LinkedIn</h1>
-      <p style={sub}>LinkedIn content management and publishing</p>
+    <div className="p-5 max-w-[1200px] mx-auto w-full">
+      <h1 className="text-xl font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0">LinkedIn</h1>
+      <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">LinkedIn content management and publishing</p>
 
-      <div style={{ ...grid, marginTop: '1.25rem', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+      <div className="grid grid-cols-3 gap-3 mt-5">
         {[
           { label: 'Draft Post', desc: 'AI-generated LinkedIn post', icon: '✏️', color: '#0077b5' },
           { label: 'Schedule', desc: 'Queue posts for optimal times', icon: '📅', color: '#00d4ff' },
           { label: 'Analytics', desc: 'Track engagement metrics', icon: '📊', color: '#6EE05A' },
         ].map(a => (
-          <div key={a.label} style={{ ...card, cursor: 'pointer', borderColor: `${a.color}20` }}>
-            <span style={{ fontSize: '1.5rem' }}>{a.icon}</span>
-            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '0.5rem' }}>{a.label}</div>
-            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{a.desc}</div>
+          <div
+            key={a.label}
+            className="bg-[var(--bg-card)] rounded-[0.875rem] p-5 cursor-pointer"
+            style={{ border: `1px solid ${a.color}20` }}
+          >
+            <span className="text-2xl">{a.icon}</span>
+            <div className="text-[0.85rem] font-semibold text-[var(--text-primary)] mt-2">{a.label}</div>
+            <div className="text-[0.7rem] text-[var(--text-muted)] mt-1">{a.desc}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ ...card, marginTop: '1rem' }}>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Quick Draft</span>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.5rem 0' }}>
+      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 mt-4">
+        <span className="text-[0.85rem] font-bold text-[var(--text-primary)]">Quick Draft</span>
+        <p className="text-[0.75rem] text-[var(--text-muted)] mt-2 mb-0">
           Use AI Chat: &quot;Write a LinkedIn post about [topic]&quot; to generate professional content instantly.
         </p>
       </div>
@@ -305,35 +247,28 @@ export function MigrateView() {
   ]
 
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      <h1 style={header}>Migrate</h1>
-      <p style={sub}>Import workflows and credentials from other platforms</p>
+    <div className="p-5 max-w-[1200px] mx-auto w-full">
+      <h1 className="text-xl font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0">Migrate</h1>
+      <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">Import workflows and credentials from other platforms</p>
 
-      <div style={{ ...grid, marginTop: '1.25rem' }}>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3 mt-5">
         {sources.map(s => (
-          <div key={s.name} style={{
-            ...card, cursor: 'pointer',
-            display: 'flex', alignItems: 'center', gap: '0.75rem',
-          }}>
-            <span style={{ fontSize: '1.5rem' }}>{s.icon}</span>
+          <div key={s.name} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 cursor-pointer flex items-center gap-3">
+            <span className="text-2xl">{s.icon}</span>
             <div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>{s.name}</div>
-              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Import from {s.name}</div>
+              <div className="text-[0.85rem] font-semibold text-[var(--text-primary)]">{s.name}</div>
+              <div className="text-[0.65rem] text-[var(--text-muted)]">Import from {s.name}</div>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{ ...card, marginTop: '1rem' }}>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Credential Import</span>
-        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.5rem 0' }}>
+      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 mt-4">
+        <span className="text-[0.85rem] font-bold text-[var(--text-primary)]">Credential Import</span>
+        <p className="text-[0.75rem] text-[var(--text-muted)] mt-2 mb-0">
           Drop a .env file or paste JSON credentials to auto-map them to 0nMCP services. Supports all {STATS_DISPLAY.services} services.
         </p>
-        <div style={{
-          marginTop: '0.75rem', padding: '2rem', borderRadius: '0.5rem',
-          border: '2px dashed var(--border)', textAlign: 'center',
-          color: 'var(--text-muted)', fontSize: '0.75rem',
-        }}>
+        <div className="mt-3 p-8 rounded-lg border-2 border-dashed border-[var(--border)] text-center text-[var(--text-muted)] text-[0.75rem]">
           Drop .env, .json, or .csv file here — or use AI Chat: &quot;import my credentials&quot;
         </div>
       </div>
@@ -351,33 +286,28 @@ export function ConvertView() {
   ]
 
   return (
-    <div style={{ padding: '1.25rem', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      <h1 style={header}>Convert</h1>
-      <p style={sub}>Transform configurations between AI platforms</p>
+    <div className="p-5 max-w-[1200px] mx-auto w-full">
+      <h1 className="text-xl font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0">Convert</h1>
+      <p className="text-xs text-[var(--text-muted)] mt-1 mb-0">Transform configurations between AI platforms</p>
 
-      <div style={{ ...grid, marginTop: '1.25rem', gridTemplateColumns: 'repeat(2, 1fr)' }}>
+      <div className="grid grid-cols-2 gap-3 mt-5">
         {formats.map(f => (
-          <div key={f.name} style={{
-            ...card, cursor: 'pointer',
-            borderColor: `${f.color}20`,
-          }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: f.color }}>{f.name}</div>
-            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{f.desc}</div>
+          <div
+            key={f.name}
+            className="bg-[var(--bg-card)] rounded-[0.875rem] p-5 cursor-pointer"
+            style={{ border: `1px solid ${f.color}20` }}
+          >
+            <div className="text-[0.85rem] font-bold" style={{ color: f.color }}>{f.name}</div>
+            <div className="text-[0.7rem] text-[var(--text-muted)] mt-1">{f.desc}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ ...card, marginTop: '1rem' }}>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Paste & Convert</span>
+      <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[0.875rem] p-5 mt-4">
+        <span className="text-[0.85rem] font-bold text-[var(--text-primary)]">Paste & Convert</span>
         <textarea
           placeholder='Paste your OpenAI function_call JSON, Gemini tool config, or any AI platform config here...'
-          style={{
-            width: '100%', marginTop: '0.75rem', padding: '0.75rem',
-            background: 'var(--bg-primary)', border: '1px solid var(--border)',
-            borderRadius: '0.5rem', color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-mono)', fontSize: '0.75rem',
-            minHeight: '150px', resize: 'vertical',
-          }}
+          className="w-full mt-3 p-3 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-secondary)] font-[var(--font-mono)] text-[0.75rem] min-h-[150px] resize-y outline-none focus:border-[var(--accent)] transition-colors duration-150"
         />
       </div>
     </div>

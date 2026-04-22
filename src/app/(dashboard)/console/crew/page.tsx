@@ -86,24 +86,21 @@ export default function CrewPage() {
   const activeCount = agents.filter(a => a.status === 'active').length
 
   return (
-    <div className="p-4 md:p-6 lg:p-8 max-w-6xl mx-auto w-full" style={{ animation: 'crew-fadein 0.3s ease' }}>
+    <div className="p-4 md:p-6 lg:p-8 max-w-6xl mx-auto w-full [animation:crew-fadein_0.3s_ease]">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-2xl font-bold mb-1 text-[var(--text-primary)]">
             0nCrew
           </h1>
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-sm text-[var(--text-muted)]">
             {agents.length} agent{agents.length !== 1 ? 's' : ''} &middot; {activeCount} active
           </p>
         </div>
         <button
           onClick={() => { setShowWizard(true); setWizardStep('template'); setWizardAgent({}) }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer border-none transition-all"
-          style={{
-            background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-            color: 'var(--bg-primary)',
-          }}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer border-none transition-all text-[var(--bg-primary)]"
+          style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))' }}
         >
           <Plus size={16} />
           Add Agent
@@ -125,28 +122,25 @@ export default function CrewPage() {
         {/* Add placeholder card */}
         <button
           onClick={() => { setShowWizard(true); setWizardStep('template'); setWizardAgent({}) }}
-          className="glow-box rounded-xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all border-none min-h-[140px]"
-          style={{ borderStyle: 'dashed', background: 'transparent' }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = '' }}
+          className="glow-box rounded-xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all border-none border-dashed bg-transparent min-h-[140px] hover:border-[var(--accent)]"
         >
-          <Plus size={24} style={{ color: 'var(--text-muted)' }} />
-          <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>Add Agent</span>
+          <Plus size={24} className="text-[var(--text-muted)]" />
+          <span className="text-xs font-medium text-[var(--text-muted)]">Add Agent</span>
         </button>
       </div>
 
       {/* Config Panel */}
       {selected && (
-        <div className="glow-box rounded-xl overflow-hidden" style={{ animation: 'crew-slidein 0.2s ease' }}>
+        <div className="glow-box rounded-xl overflow-hidden [animation:crew-slidein_0.2s_ease]">
           {/* Config header */}
-          <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex items-center justify-between px-5 py-3 border-b border-[var(--border)]">
             <div className="flex items-center gap-3">
               <span className="text-xl">{selected.avatar}</span>
               <div>
-                <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
+                <span className="text-sm font-bold text-[var(--text-primary)]">
                   {selected.name}
                 </span>
-                <span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>
+                <span className="text-xs ml-2 text-[var(--text-muted)]">
                   {selected.role}
                 </span>
               </div>
@@ -154,20 +148,14 @@ export default function CrewPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => removeAgent(selected.id)}
-                className="p-1.5 rounded-lg cursor-pointer bg-transparent border-none transition-colors"
-                style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#ef4444' }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)' }}
+                className="p-1.5 rounded-lg cursor-pointer bg-transparent border-none transition-colors text-[var(--text-muted)] hover:text-[#ef4444]"
                 title="Remove agent"
               >
                 <Trash2 size={14} />
               </button>
               <button
                 onClick={() => setSelectedId(null)}
-                className="p-1.5 rounded-lg cursor-pointer bg-transparent border-none transition-colors"
-                style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-primary)' }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)' }}
+                className="p-1.5 rounded-lg cursor-pointer bg-transparent border-none transition-colors text-[var(--text-muted)] hover:text-[var(--text-primary)]"
               >
                 <X size={14} />
               </button>
@@ -175,7 +163,7 @@ export default function CrewPage() {
           </div>
 
           {/* Config tabs */}
-          <div className="flex gap-0" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex gap-0 border-b border-[var(--border)]">
             {([
               { key: 'configure' as const, label: 'Configure', icon: Settings },
               { key: 'workflow' as const, label: 'Workflow', icon: FileCode2 },
@@ -214,22 +202,19 @@ export default function CrewPage() {
       {/* Add Agent Wizard Modal */}
       {showWizard && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
           onClick={(e) => { if (e.target === e.currentTarget) setShowWizard(false) }}
         >
           <div
-            className="glow-box rounded-2xl w-full max-w-lg overflow-hidden"
-            style={{ animation: 'crew-fadein 0.2s ease', backgroundColor: 'var(--bg-card)' }}
+            className="glow-box rounded-2xl w-full max-w-lg overflow-hidden bg-[var(--bg-card)] [animation:crew-fadein_0.2s_ease]"
           >
-            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--border)' }}>
-              <h3 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border)]">
+              <h3 className="text-base font-bold text-[var(--text-primary)]">
                 {wizardStep === 'template' ? 'Choose a Template' : 'Customize Agent'}
               </h3>
               <button
                 onClick={() => setShowWizard(false)}
-                className="p-1 cursor-pointer bg-transparent border-none"
-                style={{ color: 'var(--text-muted)' }}
+                className="p-1 cursor-pointer bg-transparent border-none text-[var(--text-muted)]"
               >
                 <X size={16} />
               </button>
@@ -245,17 +230,17 @@ export default function CrewPage() {
                         setWizardAgent({ ...tmpl, id: `${tmpl.id}_${Date.now()}` })
                         setWizardStep('customize')
                       }}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl text-left cursor-pointer bg-transparent transition-all"
-                      style={{ border: '1px solid var(--border)' }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = tmpl.color }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
+                      className="w-full flex items-center gap-3 p-3 rounded-xl text-left cursor-pointer bg-transparent transition-all border border-[var(--border)] hover:border-[var(--accent)]"
                     >
                       <span className="text-2xl">{tmpl.avatar}</span>
                       <div className="flex-1">
-                        <div className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{tmpl.name}</div>
-                        <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{tmpl.role}</div>
+                        <div className="text-sm font-bold text-[var(--text-primary)]">{tmpl.name}</div>
+                        <div className="text-xs text-[var(--text-muted)]">{tmpl.role}</div>
                       </div>
-                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: tmpl.color + '18', color: tmpl.color }}>
+                      <span
+                        className="text-xs px-2 py-0.5 rounded-full"
+                        style={{ background: tmpl.color + '18', color: tmpl.color }}
+                      >
                         {tmpl.abilities.length} tools
                       </span>
                     </button>
@@ -275,15 +260,12 @@ export default function CrewPage() {
                       })
                       setWizardStep('customize')
                     }}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl text-left cursor-pointer bg-transparent transition-all"
-                    style={{ border: '1px dashed var(--border)' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)' }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
+                    className="w-full flex items-center gap-3 p-3 rounded-xl text-left cursor-pointer bg-transparent transition-all border border-dashed border-[var(--border)] hover:border-[var(--accent)]"
                   >
                     <span className="text-2xl">{'\u{1F916}'}</span>
                     <div className="flex-1">
-                      <div className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Start from Scratch</div>
-                      <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Build a custom agent</div>
+                      <div className="text-sm font-bold text-[var(--text-primary)]">Start from Scratch</div>
+                      <div className="text-xs text-[var(--text-muted)]">Build a custom agent</div>
                     </div>
                   </button>
                 </div>
@@ -292,32 +274,29 @@ export default function CrewPage() {
               {wizardStep === 'customize' && (
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs font-semibold mb-1.5 block" style={{ color: 'var(--text-muted)' }}>Name</label>
+                    <label className="text-xs font-semibold mb-1.5 block text-[var(--text-muted)]">Name</label>
                     <input
                       type="text"
                       value={wizardAgent.name ?? ''}
                       onChange={e => setWizardAgent(prev => ({ ...prev, name: e.target.value }))}
                       placeholder="e.g. Scout, Closer, Publisher"
-                      className="w-full h-10 px-3 rounded-lg text-sm outline-none"
-                      style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
+                      className="w-full h-10 px-3 rounded-lg text-sm outline-none bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)]"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold mb-1.5 block" style={{ color: 'var(--text-muted)' }}>Role</label>
+                    <label className="text-xs font-semibold mb-1.5 block text-[var(--text-muted)]">Role</label>
                     <input
                       type="text"
                       value={wizardAgent.role ?? ''}
                       onChange={e => setWizardAgent(prev => ({ ...prev, role: e.target.value }))}
                       placeholder="What does this agent do?"
-                      className="w-full h-10 px-3 rounded-lg text-sm outline-none"
-                      style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
+                      className="w-full h-10 px-3 rounded-lg text-sm outline-none bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)]"
                     />
                   </div>
                   <div className="flex gap-3">
                     <button
                       onClick={() => setWizardStep('template')}
-                      className="flex-1 py-2.5 rounded-xl text-sm font-medium cursor-pointer transition-all"
-                      style={{ backgroundColor: 'transparent', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
+                      className="flex-1 py-2.5 rounded-xl text-sm font-medium cursor-pointer transition-all bg-transparent border border-[var(--border)] text-[var(--text-secondary)]"
                     >
                       Back
                     </button>
@@ -337,10 +316,9 @@ export default function CrewPage() {
                         })
                       }}
                       disabled={!wizardAgent.name}
-                      className="flex-1 py-2.5 rounded-xl text-sm font-semibold cursor-pointer border-none transition-all"
+                      className="flex-1 py-2.5 rounded-xl text-sm font-semibold cursor-pointer border-none transition-all text-[var(--bg-primary)]"
                       style={{
                         background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                        color: 'var(--bg-primary)',
                         opacity: wizardAgent.name ? 1 : 0.4,
                       }}
                     >
@@ -404,10 +382,10 @@ function AgentCard({
         </button>
       </div>
 
-      <div className="text-sm font-bold mb-0.5" style={{ color: 'var(--text-primary)' }}>
+      <div className="text-sm font-bold mb-0.5 text-[var(--text-primary)]">
         {agent.name}
       </div>
-      <div className="text-xs mb-3 line-clamp-2" style={{ color: 'var(--text-muted)', minHeight: '2rem' }}>
+      <div className="text-xs mb-3 line-clamp-2 text-[var(--text-muted)] min-h-8">
         {agent.role}
       </div>
 
@@ -421,7 +399,7 @@ function AgentCard({
             {isActive ? 'Active' : agent.status === 'disabled' ? 'Disabled' : 'Idle'}
           </span>
         </div>
-        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+        <span className="text-xs text-[var(--text-muted)]">
           {agent.abilities.length} tool{agent.abilities.length !== 1 ? 's' : ''}
         </span>
       </div>
@@ -445,40 +423,37 @@ function ConfigurePanel({
       {/* Name + Role */}
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs font-semibold mb-1.5 block" style={{ color: 'var(--text-muted)' }}>Name</label>
+          <label className="text-xs font-semibold mb-1.5 block text-[var(--text-muted)]">Name</label>
           <input
             type="text"
             value={agent.name}
             onChange={e => onUpdate(agent.id, { name: e.target.value })}
-            className="w-full h-9 px-3 rounded-lg text-sm outline-none"
-            style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
+            className="w-full h-9 px-3 rounded-lg text-sm outline-none bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)]"
           />
         </div>
         <div>
-          <label className="text-xs font-semibold mb-1.5 block" style={{ color: 'var(--text-muted)' }}>Avatar</label>
+          <label className="text-xs font-semibold mb-1.5 block text-[var(--text-muted)]">Avatar</label>
           <input
             type="text"
             value={agent.avatar}
             onChange={e => onUpdate(agent.id, { avatar: e.target.value })}
-            className="w-full h-9 px-3 rounded-lg text-sm outline-none"
-            style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
+            className="w-full h-9 px-3 rounded-lg text-sm outline-none bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)]"
           />
         </div>
       </div>
       <div>
-        <label className="text-xs font-semibold mb-1.5 block" style={{ color: 'var(--text-muted)' }}>Role</label>
+        <label className="text-xs font-semibold mb-1.5 block text-[var(--text-muted)]">Role</label>
         <input
           type="text"
           value={agent.role}
           onChange={e => onUpdate(agent.id, { role: e.target.value })}
-          className="w-full h-9 px-3 rounded-lg text-sm outline-none"
-          style={{ backgroundColor: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
+          className="w-full h-9 px-3 rounded-lg text-sm outline-none bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)]"
         />
       </div>
 
       {/* Status toggle */}
       <div className="flex items-center justify-between">
-        <label className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Status</label>
+        <label className="text-xs font-semibold text-[var(--text-muted)]">Status</label>
         <button
           onClick={() => onUpdate(agent.id, { status: agent.status === 'active' ? 'idle' : 'active' })}
           className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer border-none transition-all"
@@ -495,16 +470,18 @@ function ConfigurePanel({
       {/* Abilities */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+          <label className="text-xs font-semibold text-[var(--text-muted)]">
             Abilities ({agent.abilities.length})
           </label>
           <button
             onClick={() => setShowAbilities(!showAbilities)}
-            className="flex items-center gap-1 text-xs cursor-pointer bg-transparent border-none transition-colors"
-            style={{ color: 'var(--accent)' }}
+            className="flex items-center gap-1 text-xs cursor-pointer bg-transparent border-none transition-colors text-[var(--accent)]"
           >
             {showAbilities ? 'Close' : 'Edit'}
-            <ChevronDown size={12} style={{ transform: showAbilities ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+            <ChevronDown
+              size={12}
+              style={{ transform: showAbilities ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+            />
           </button>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -518,12 +495,12 @@ function ConfigurePanel({
             </span>
           ))}
           {agent.abilities.length === 0 && (
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>No abilities assigned</span>
+            <span className="text-xs text-[var(--text-muted)]">No abilities assigned</span>
           )}
         </div>
 
         {showAbilities && (
-          <div className="mt-3 space-y-3" style={{ animation: 'crew-slidein 0.2s ease' }}>
+          <div className="mt-3 space-y-3 [animation:crew-slidein_0.2s_ease]">
             {Object.entries(ABILITY_GROUPS).map(([groupKey, group]) => (
               <div key={groupKey}>
                 <div className="text-xs font-semibold mb-1.5" style={{ color: group.color }}>{group.label}</div>
@@ -546,7 +523,7 @@ function ConfigurePanel({
                           border: `1px solid ${isActive ? group.color + '40' : 'var(--border)'}`,
                         }}
                       >
-                        {isActive && <CheckCircle2 size={10} style={{ display: 'inline', marginRight: 3, verticalAlign: 'text-top' }} />}
+                        {isActive && <CheckCircle2 size={10} className="inline mr-0.5 align-text-top" />}
                         {tool.label}
                       </button>
                     )
@@ -560,7 +537,7 @@ function ConfigurePanel({
 
       {/* Triggers */}
       <div>
-        <label className="text-xs font-semibold mb-2 block" style={{ color: 'var(--text-muted)' }}>Triggers</label>
+        <label className="text-xs font-semibold mb-2 block text-[var(--text-muted)]">Triggers</label>
         <div className="flex flex-wrap gap-1.5">
           {TRIGGER_TYPES.map(tr => {
             const isActive = agent.triggers.includes(tr.value)
@@ -611,22 +588,21 @@ function WorkflowPanel({ agent }: { agent: CrewAgent }) {
     <div className="space-y-4">
       {agent.abilities.length === 0 ? (
         <div className="text-center py-8">
-          <FileCode2 size={32} style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+          <FileCode2 size={32} className="text-[var(--text-muted)] mx-auto mb-2" />
+          <p className="text-sm text-[var(--text-muted)]">
             Add abilities to this agent first, then generate a workflow.
           </p>
         </div>
       ) : (
         <>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+            <span className="text-xs font-semibold text-[var(--text-muted)]">
               {agent.id}.0n
             </span>
             <div className="flex gap-2">
               <button
                 onClick={() => { navigator.clipboard.writeText(workflowJson); setGenerated(true); setTimeout(() => setGenerated(false), 2000) }}
-                className="text-xs px-3 py-1.5 rounded-lg cursor-pointer border-none transition-all font-medium"
-                style={{ background: 'var(--bg-card)', color: 'var(--text-secondary)' }}
+                className="text-xs px-3 py-1.5 rounded-lg cursor-pointer border-none transition-all font-medium bg-[var(--bg-card)] text-[var(--text-secondary)]"
               >
                 {generated ? 'Copied!' : 'Copy'}
               </button>
@@ -641,13 +617,7 @@ function WorkflowPanel({ agent }: { agent: CrewAgent }) {
             </div>
           </div>
           <pre
-            className="text-xs leading-relaxed p-4 rounded-xl overflow-auto max-h-64"
-            style={{
-              backgroundColor: 'var(--bg-primary)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-secondary)',
-              fontFamily: 'var(--font-mono)',
-            }}
+            className="text-xs leading-relaxed p-4 rounded-xl overflow-auto max-h-64 bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-secondary)] font-mono"
           >
             {workflowJson}
           </pre>
@@ -685,11 +655,11 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
   if (!isMonitorAgent) {
     return (
       <div className="text-center py-8">
-        <Clock size={32} style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
-        <p className="text-sm mb-1" style={{ color: 'var(--text-muted)' }}>
+        <Clock size={32} className="text-[var(--text-muted)] mx-auto mb-2" />
+        <p className="text-sm mb-1 text-[var(--text-muted)]">
           No execution history yet
         </p>
-        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-xs text-[var(--text-muted)]">
           Agent runs will appear here once triggered.
         </p>
       </div>
@@ -706,7 +676,7 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
     <div className="space-y-4">
       {/* Run Now button */}
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
+        <span className="text-xs font-semibold text-[var(--text-muted)]">
           {history.length} run{history.length !== 1 ? 's' : ''} recorded
         </span>
         <button
@@ -736,8 +706,8 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
       {/* History list */}
       {history.length === 0 ? (
         <div className="text-center py-6">
-          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            No runs yet. Click "Run Now" to scan RSS feeds and check scopes.
+          <p className="text-xs text-[var(--text-muted)]">
+            No runs yet. Click &quot;Run Now&quot; to scan RSS feeds and check scopes.
           </p>
         </div>
       ) : (
@@ -751,8 +721,7 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
               <div key={run.runId}>
                 <button
                   onClick={() => setExpanded(isExpanded ? null : run.runId)}
-                  className="w-full flex items-center gap-3 p-3 rounded-xl text-left cursor-pointer bg-transparent transition-all"
-                  style={{ border: '1px solid var(--border)' }}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl text-left cursor-pointer bg-transparent transition-all border border-[var(--border)]"
                 >
                   {/* Status dot */}
                   <span
@@ -767,14 +736,14 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
+                      <span className="text-xs font-semibold text-[var(--text-primary)]">
                         {run.alerts.length} alert{run.alerts.length !== 1 ? 's' : ''}
                       </span>
-                      <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                      <span className="text-xs text-[var(--text-muted)]">
                         {run.servicesChecked} services checked
                       </span>
                     </div>
-                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                    <div className="text-xs text-[var(--text-muted)]">
                       {new Date(run.startedAt).toLocaleString()}
                     </div>
                   </div>
@@ -795,34 +764,29 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
 
                   <ChevronDown
                     size={12}
-                    style={{
-                      color: 'var(--text-muted)',
-                      transform: isExpanded ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.2s',
-                      flexShrink: 0,
-                    }}
+                    className="text-[var(--text-muted)] flex-shrink-0 transition-transform duration-200"
+                    style={{ transform: isExpanded ? 'rotate(180deg)' : 'none' }}
                   />
                 </button>
 
                 {/* Expanded alert details */}
                 {isExpanded && run.alerts.length > 0 && (
-                  <div className="mt-1 ml-5 space-y-1" style={{ animation: 'crew-slidein 0.15s ease' }}>
+                  <div className="mt-1 ml-5 space-y-1 [animation:crew-slidein_0.15s_ease]">
                     {run.alerts.map((alert, i) => (
                       <div
                         key={i}
-                        className="flex items-start gap-2 p-2.5 rounded-lg text-xs"
-                        style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}
+                        className="flex items-start gap-2 p-2.5 rounded-lg text-xs bg-white/[0.02] border border-[var(--border)]"
                       >
                         <span
                           className="w-1.5 h-1.5 rounded-full mt-1 flex-shrink-0"
                           style={{ backgroundColor: severityColors[alert.severity] }}
                         />
                         <div className="flex-1 min-w-0">
-                          <div className="font-semibold mb-0.5" style={{ color: 'var(--text-primary)' }}>
+                          <div className="font-semibold mb-0.5 text-[var(--text-primary)]">
                             {alert.title}
                           </div>
                           {alert.detail && (
-                            <div className="mb-1" style={{ color: 'var(--text-muted)' }}>
+                            <div className="mb-1 text-[var(--text-muted)]">
                               {alert.detail.slice(0, 150)}
                             </div>
                           )}
@@ -842,8 +806,8 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
                                 href={alert.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="underline"
-                                style={{ color: 'var(--accent)', fontSize: '10px' }}
+                                className="underline text-[var(--accent)]"
+                                style={{ fontSize: '10px' }}
                                 onClick={e => e.stopPropagation()}
                               >
                                 View
@@ -857,7 +821,7 @@ function HistoryPanel({ agent }: { agent: CrewAgent }) {
                 )}
 
                 {isExpanded && run.alerts.length === 0 && (
-                  <div className="mt-1 ml-5 p-3 rounded-lg text-xs" style={{ background: 'rgba(34,197,94,0.05)', color: '#22c55e' }}>
+                  <div className="mt-1 ml-5 p-3 rounded-lg text-xs text-[#22c55e] bg-[rgba(34,197,94,0.05)]">
                     All clear — no changes detected across {run.servicesChecked} services.
                   </div>
                 )}

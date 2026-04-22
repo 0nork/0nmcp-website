@@ -55,13 +55,13 @@ function emptyStep(n: number): CampaignStep {
   }
 }
 
-const STATUS_COLORS: Record<string, string> = {
-  draft: '#f59e0b',
-  scheduled: '#3b82f6',
-  running: 'var(--accent)',
-  paused: 'var(--text-muted)',
-  completed: 'var(--color-purple)',
-  cancelled: '#ef4444',
+const STATUS_CLASSES: Record<string, string> = {
+  draft: 'text-amber-400 bg-amber-400/10',
+  scheduled: 'text-blue-400 bg-blue-400/10',
+  running: 'text-[var(--accent)] bg-[var(--accent)]/10',
+  paused: 'text-[var(--text-muted)] bg-[var(--text-muted)]/10',
+  completed: 'text-purple-400 bg-purple-400/10',
+  cancelled: 'text-red-400 bg-red-400/10',
 }
 
 /* ─── component ─── */
@@ -158,103 +158,33 @@ export default function CampaignBuilderPage() {
 
   const totalDays = steps.reduce((a, s) => a + s.delay_days, 0)
 
-  /* ─── render helpers ─── */
-  const cardStyle: React.CSSProperties = {
-    background: 'var(--bg-card)',
-    border: '1px solid var(--border)',
-    borderRadius: 12,
-    padding: '1.25rem',
-  }
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '0.6rem 0.75rem',
-    background: 'var(--bg-primary)',
-    border: '1px solid var(--border)',
-    borderRadius: 8,
-    color: 'var(--text-primary)',
-    fontSize: '0.85rem',
-    fontFamily: 'Inter, sans-serif',
-    outline: 'none',
-    boxSizing: 'border-box',
-  }
-
-  const labelStyle: React.CSSProperties = {
-    display: 'block',
-    fontSize: '0.75rem',
-    fontWeight: 600,
-    color: 'var(--text-secondary)',
-    marginBottom: '0.35rem',
-    fontFamily: 'Inter, sans-serif',
-  }
-
-  const btnPrimary: React.CSSProperties = {
-    padding: '0.6rem 1.25rem',
-    background: 'var(--accent)',
-    color: '#000',
-    border: 'none',
-    borderRadius: 8,
-    fontWeight: 700,
-    fontSize: '0.8rem',
-    cursor: 'pointer',
-    fontFamily: 'Inter, sans-serif',
-  }
-
-  const btnOutline: React.CSSProperties = {
-    padding: '0.6rem 1.25rem',
-    background: 'transparent',
-    color: 'var(--text-primary)',
-    border: '1px solid var(--border)',
-    borderRadius: 8,
-    fontWeight: 600,
-    fontSize: '0.8rem',
-    cursor: 'pointer',
-    fontFamily: 'Inter, sans-serif',
-  }
-
   /* ─── render ─── */
   return (
-    <div style={{ padding: '2rem', maxWidth: 960, margin: '0 auto', width: '100%', fontFamily: 'Inter, sans-serif' }}>
+    <div className="p-8 max-w-[960px] mx-auto w-full font-sans">
       {/* toast */}
       {toast && (
-        <div style={{
-          position: 'fixed', top: 24, right: 24, zIndex: 9999,
-          padding: '0.75rem 1.25rem', borderRadius: 10,
-          background: toast.type === 'ok' ? 'var(--accent)' : '#ef4444',
-          color: toast.type === 'ok' ? '#000' : '#fff',
-          fontWeight: 600, fontSize: '0.8rem',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
-          fontFamily: 'Inter, sans-serif',
-        }}>
+        <div className={`fixed top-6 right-6 z-[9999] px-5 py-3 rounded-[10px] font-semibold text-[0.8rem] shadow-[0_4px_20px_rgba(0,0,0,0.4)] ${toast.type === 'ok' ? 'bg-[var(--accent)] text-black' : 'bg-red-500 text-white'}`}>
           {toast.msg}
         </div>
       )}
 
       {/* header */}
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, fontFamily: 'Inter, sans-serif' }}>
-        Campaign Builder
-      </h1>
-      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '0.25rem 0 1.25rem 0' }}>
+      <h1 className="text-2xl font-bold text-[var(--text-primary)] m-0">Campaign Builder</h1>
+      <p className="text-[0.8rem] text-[var(--text-muted)] mt-1 mb-5">
         Build sequential email campaigns with conditional logic and audience segmentation
       </p>
 
       {/* tabs */}
-      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
+      <div className="flex gap-2 mb-6">
         {(['list', 'new'] as const).map(t => (
           <button
             key={t}
             onClick={() => { setTab(t); if (t === 'new') resetBuilder() }}
-            style={{
-              padding: '0.5rem 1rem',
-              borderRadius: 8,
-              border: tab === t ? '1px solid var(--accent)' : '1px solid var(--border)',
-              background: tab === t ? 'rgba(126,217,87,0.1)' : 'transparent',
-              color: tab === t ? 'var(--accent)' : 'var(--text-secondary)',
-              fontWeight: 600,
-              fontSize: '0.8rem',
-              cursor: 'pointer',
-              fontFamily: 'Inter, sans-serif',
-            }}
+            className={`px-4 py-2 rounded-lg font-semibold text-[0.8rem] cursor-pointer transition-all border ${
+              tab === t
+                ? 'border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]'
+                : 'border-[var(--border)] bg-transparent text-[var(--text-secondary)]'
+            }`}
           >
             {t === 'list' ? 'My Campaigns' : 'New Campaign'}
           </button>
@@ -265,61 +195,51 @@ export default function CampaignBuilderPage() {
       {tab === 'list' && (
         <div>
           {loading ? (
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Loading campaigns...</p>
+            <p className="text-[var(--text-muted)] text-[0.85rem]">Loading campaigns...</p>
           ) : campaigns.length === 0 ? (
-            <div style={{ ...cardStyle, textAlign: 'center', padding: '3rem' }}>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>
+            <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-12 text-center">
+              <p className="text-[var(--text-muted)] text-[0.9rem] m-0">
                 No campaigns yet. Create your first sequential email campaign.
               </p>
-              <button onClick={() => setTab('new')} style={{ ...btnPrimary, marginTop: '1rem' }}>
+              <button onClick={() => setTab('new')} className="mt-4 px-5 py-2 bg-[var(--accent)] text-black rounded-lg font-bold text-[0.8rem] cursor-pointer border-none">
                 Create Campaign
               </button>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div className="flex flex-col gap-3">
               {campaigns.map(c => {
                 const expanded = expandedId === c.id
                 return (
-                  <div key={c.id} style={cardStyle}>
+                  <div key={c.id} className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5">
                     <div
                       onClick={() => setExpandedId(expanded ? null : c.id)}
-                      style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                      className="cursor-pointer flex items-center justify-between"
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <span style={{
-                          display: 'inline-block', padding: '0.2rem 0.6rem', borderRadius: 6,
-                          background: `${STATUS_COLORS[c.status] || '#666'}22`,
-                          color: STATUS_COLORS[c.status] || '#666',
-                          fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase',
-                          letterSpacing: '0.04em', fontFamily: 'JetBrains Mono, monospace',
-                        }}>
+                      <div className="flex items-center gap-3">
+                        <span className={`inline-block px-2 py-0.5 rounded font-bold text-[0.65rem] uppercase tracking-wide font-mono ${STATUS_CLASSES[c.status] || 'text-[var(--text-muted)] bg-[var(--text-muted)]/10'}`}>
                           {c.status}
                         </span>
-                        <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.9rem' }}>{c.name}</span>
+                        <span className="font-semibold text-[var(--text-primary)] text-[0.9rem]">{c.name}</span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                        <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace' }}>
+                      <div className="flex items-center gap-5">
+                        <span className="text-[0.7rem] text-[var(--text-muted)] font-mono">
                           {c.steps?.length || 0} step{(c.steps?.length || 0) !== 1 ? 's' : ''}
                         </span>
-                        <div style={{ display: 'flex', gap: '1rem' }}>
+                        <div className="flex gap-4">
                           {[
-                            { label: 'Sent', value: c.total_sent, color: 'var(--text-secondary)' },
-                            { label: 'Opened', value: c.total_opened, color: 'var(--color-cyan)' },
-                            { label: 'Clicked', value: c.total_clicked, color: 'var(--accent)' },
+                            { label: 'Sent', value: c.total_sent, cls: 'text-[var(--text-secondary)]' },
+                            { label: 'Opened', value: c.total_opened, cls: 'text-[var(--color-cyan)]' },
+                            { label: 'Clicked', value: c.total_clicked, cls: 'text-[var(--accent)]' },
                           ].map(s => (
-                            <span key={s.label} style={{ fontSize: '0.65rem', color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>
+                            <span key={s.label} className={`text-[0.65rem] font-mono ${s.cls}`}>
                               {s.value} {s.label.toLowerCase()}
                             </span>
                           ))}
                         </div>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>
+                        <span className="text-[0.65rem] text-[var(--text-muted)]">
                           {new Date(c.created_at).toLocaleDateString()}
                         </span>
-                        <span style={{
-                          transform: expanded ? 'rotate(180deg)' : 'rotate(0)',
-                          transition: 'transform 0.2s', display: 'inline-block',
-                          color: 'var(--text-muted)', fontSize: '0.7rem',
-                        }}>
+                        <span className={`text-[0.7rem] text-[var(--text-muted)] inline-block transition-transform duration-200 ${expanded ? 'rotate-180' : 'rotate-0'}`}>
                           &#9660;
                         </span>
                       </div>
@@ -327,27 +247,21 @@ export default function CampaignBuilderPage() {
 
                     {/* expanded steps */}
                     {expanded && c.steps && c.steps.length > 0 && (
-                      <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
+                      <div className="mt-4 pt-4 border-t border-[var(--border)]">
                         {c.steps.map((s, i) => (
-                          <div key={i} style={{ display: 'flex', gap: '0.75rem', marginBottom: i < c.steps.length - 1 ? '0.5rem' : 0 }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 28 }}>
-                              <div style={{
-                                width: 24, height: 24, borderRadius: '50%',
-                                background: 'var(--accent)', color: '#000',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontSize: '0.65rem', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace',
-                                flexShrink: 0,
-                              }}>
+                          <div key={i} className={`flex gap-3 ${i < c.steps.length - 1 ? 'mb-2' : ''}`}>
+                            <div className="flex flex-col items-center min-w-[28px]">
+                              <div className="w-6 h-6 rounded-full bg-[var(--accent)] text-black flex items-center justify-center text-[0.65rem] font-bold font-mono shrink-0">
                                 {s.step}
                               </div>
                               {i < c.steps.length - 1 && (
-                                <div style={{ width: 2, flex: 1, background: 'var(--accent)', opacity: 0.3, marginTop: 4, marginBottom: 4 }} />
+                                <div className="w-0.5 flex-1 bg-[var(--accent)] opacity-30 mt-1 mb-1" />
                               )}
                             </div>
-                            <div style={{ flex: 1, paddingBottom: i < c.steps.length - 1 ? '0.5rem' : 0 }}>
-                              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)' }}>{s.subject || '(no subject)'}</div>
-                              {s.preheader && <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>{s.preheader}</div>}
-                              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: 4, fontFamily: 'JetBrains Mono, monospace' }}>
+                            <div className={`flex-1 ${i < c.steps.length - 1 ? 'pb-2' : ''}`}>
+                              <div className="text-[0.8rem] font-semibold text-[var(--text-primary)]">{s.subject || '(no subject)'}</div>
+                              {s.preheader && <div className="text-[0.7rem] text-[var(--text-muted)] mt-0.5">{s.preheader}</div>}
+                              <div className="text-[0.65rem] text-[var(--text-muted)] mt-1 font-mono">
                                 {s.delay_days === 0 ? 'Immediately' : `+${s.delay_days} day${s.delay_days !== 1 ? 's' : ''}`}
                                 {s.conditions?.only_if_opened_previous ? ' / opened prev' : ''}
                                 {s.conditions?.skip_if_booked ? ' / skip if booked' : ''}
@@ -369,7 +283,7 @@ export default function CampaignBuilderPage() {
       {tab === 'new' && (
         <div>
           {/* wizard nav */}
-          <div style={{ display: 'flex', gap: '0.25rem', marginBottom: '1.5rem' }}>
+          <div className="flex gap-1 mb-6">
             {[
               { n: 1, label: 'Campaign Info' },
               { n: 2, label: 'Email Steps' },
@@ -378,15 +292,11 @@ export default function CampaignBuilderPage() {
               <button
                 key={w.n}
                 onClick={() => setWizardStep(w.n)}
-                style={{
-                  flex: 1, padding: '0.6rem', borderRadius: 8, border: 'none',
-                  background: wizardStep === w.n ? 'var(--accent)' : 'var(--bg-card)',
-                  color: wizardStep === w.n ? '#000' : 'var(--text-muted)',
-                  fontWeight: wizardStep === w.n ? 700 : 500,
-                  fontSize: '0.75rem', cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif',
-                  transition: 'background 0.2s',
-                }}
+                className={`flex-1 py-2 rounded-lg border-none text-[0.75rem] cursor-pointer transition-colors duration-200 ${
+                  wizardStep === w.n
+                    ? 'bg-[var(--accent)] text-black font-bold'
+                    : 'bg-[var(--bg-card)] text-[var(--text-muted)] font-medium'
+                }`}
               >
                 {w.n}. {w.label}
               </button>
@@ -395,56 +305,52 @@ export default function CampaignBuilderPage() {
 
           {/* ── Step 1: Info ── */}
           {wizardStep === 1 && (
-            <div style={cardStyle}>
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={labelStyle}>Campaign Name</label>
+            <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5">
+              <div className="mb-4">
+                <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-1.5">Campaign Name</label>
                 <input
                   value={name}
                   onChange={e => setName(e.target.value)}
                   placeholder="e.g. Spring Re-engagement Sequence"
-                  style={inputStyle}
+                  className="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.85rem] outline-none box-border"
                 />
                 {name && (
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: 4, fontFamily: 'JetBrains Mono, monospace' }}>
+                  <div className="text-[0.65rem] text-[var(--text-muted)] mt-1 font-mono">
                     slug: {slugify(name)}
                   </div>
                 )}
               </div>
 
-              <div style={{ marginBottom: '1.25rem' }}>
-                <label style={labelStyle}>Description</label>
+              <div className="mb-5">
+                <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-1.5">Description</label>
                 <textarea
                   value={description}
                   onChange={e => setDescription(e.target.value)}
                   placeholder="Brief description of campaign goals and audience..."
                   rows={3}
-                  style={{ ...inputStyle, resize: 'vertical' }}
+                  className="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.85rem] outline-none box-border resize-y"
                 />
               </div>
 
-              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
-                <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.75rem 0' }}>
-                  Audience Segment
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {/* has email */}
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+              <div className="border-t border-[var(--border)] pt-4">
+                <h3 className="text-[0.85rem] font-bold text-[var(--text-primary)] m-0 mb-3">Audience Segment</h3>
+                <div className="flex flex-col gap-3">
+                  <label className="flex items-center gap-2 cursor-pointer text-[0.8rem] text-[var(--text-secondary)]">
                     <input
                       type="checkbox"
                       checked={hasEmail}
                       onChange={e => setHasEmail(e.target.checked)}
-                      style={{ accentColor: 'var(--accent)' }}
+                      className="accent-[var(--accent)]"
                     />
                     Has email address
                   </label>
 
-                  {/* tier */}
                   <div>
-                    <label style={labelStyle}>Tier</label>
+                    <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-1.5">Tier</label>
                     <select
                       value={tier}
                       onChange={e => setTier(e.target.value)}
-                      style={{ ...inputStyle, maxWidth: 200, cursor: 'pointer' }}
+                      className="max-w-[200px] px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.85rem] outline-none cursor-pointer"
                     >
                       <option value="all">All tiers</option>
                       <option value="vip">VIP</option>
@@ -453,21 +359,20 @@ export default function CampaignBuilderPage() {
                     </select>
                   </div>
 
-                  {/* exclude tags */}
                   <div>
-                    <label style={labelStyle}>Exclude Tags (comma-separated)</label>
+                    <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-1.5">Exclude Tags (comma-separated)</label>
                     <input
                       value={excludeTags}
                       onChange={e => setExcludeTags(e.target.value)}
                       placeholder="e.g. unsubscribed, do-not-email"
-                      style={inputStyle}
+                      className="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.85rem] outline-none box-border"
                     />
                   </div>
                 </div>
               </div>
 
-              <div style={{ marginTop: '1.25rem', display: 'flex', justifyContent: 'flex-end' }}>
-                <button onClick={() => setWizardStep(2)} style={btnPrimary}>
+              <div className="mt-5 flex justify-end">
+                <button onClick={() => setWizardStep(2)} className="px-5 py-2 bg-[var(--accent)] text-black rounded-lg font-bold text-[0.8rem] cursor-pointer border-none">
                   Next: Email Steps
                 </button>
               </div>
@@ -479,41 +384,27 @@ export default function CampaignBuilderPage() {
             <div>
               {steps.map((s, idx) => (
                 <div key={idx}>
-                  {/* delay badge between steps */}
+                  {/* delay connector between steps */}
                   {idx > 0 && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0' }}>
-                      <div style={{ width: 2, height: 20, background: 'var(--accent)', opacity: 0.4 }} />
-                    </div>
-                  )}
-                  {idx > 0 && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
-                      <span style={{
-                        padding: '0.2rem 0.75rem', borderRadius: 20,
-                        background: 'rgba(126,217,87,0.12)', border: '1px solid rgba(126,217,87,0.25)',
-                        color: 'var(--accent)', fontSize: '0.65rem', fontWeight: 600,
-                        fontFamily: 'JetBrains Mono, monospace',
-                      }}>
-                        {s.delay_days} day{s.delay_days !== 1 ? 's' : ''} later
-                      </span>
-                    </div>
-                  )}
-                  {idx > 0 && (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '0.25rem' }}>
-                      <div style={{ width: 2, height: 20, background: 'var(--accent)', opacity: 0.4 }} />
-                    </div>
+                    <>
+                      <div className="flex items-center justify-center py-1">
+                        <div className="w-0.5 h-5 bg-[var(--accent)] opacity-40" />
+                      </div>
+                      <div className="flex items-center justify-center mb-1">
+                        <span className="px-3 py-0.5 rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/25 text-[var(--accent)] text-[0.65rem] font-semibold font-mono">
+                          {s.delay_days} day{s.delay_days !== 1 ? 's' : ''} later
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-center pb-1">
+                        <div className="w-0.5 h-5 bg-[var(--accent)] opacity-40" />
+                      </div>
+                    </>
                   )}
 
                   {/* step card */}
-                  <div style={{ ...cardStyle, position: 'relative' }}>
+                  <div className="relative bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5">
                     {/* step number circle */}
-                    <div style={{
-                      position: 'absolute', top: -10, left: 20,
-                      width: 28, height: 28, borderRadius: '50%',
-                      background: 'var(--accent)', color: '#000',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '0.7rem', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace',
-                      border: '2px solid var(--bg-primary)',
-                    }}>
+                    <div className="absolute -top-2.5 left-5 w-7 h-7 rounded-full bg-[var(--accent)] text-black flex items-center justify-center text-[0.7rem] font-bold font-mono border-2 border-[var(--bg-primary)]">
                       {idx + 1}
                     </div>
 
@@ -521,26 +412,22 @@ export default function CampaignBuilderPage() {
                     {steps.length > 1 && (
                       <button
                         onClick={() => removeStep(idx)}
-                        style={{
-                          position: 'absolute', top: 8, right: 12,
-                          background: 'none', border: 'none', color: 'var(--text-muted)',
-                          cursor: 'pointer', fontSize: '0.75rem', fontFamily: 'Inter, sans-serif',
-                        }}
+                        className="absolute top-2 right-3 bg-transparent border-none text-[var(--text-muted)] cursor-pointer text-[0.75rem]"
                         title="Remove step"
                       >
                         Remove
                       </button>
                     )}
 
-                    <div style={{ marginTop: '0.5rem' }}>
+                    <div className="mt-2">
                       {/* delay */}
                       {idx > 0 && (
-                        <div style={{ marginBottom: '0.75rem' }}>
-                          <label style={labelStyle}>Delay (days after previous step)</label>
+                        <div className="mb-3">
+                          <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-1.5">Delay (days after previous step)</label>
                           <select
                             value={s.delay_days}
                             onChange={e => updateStep(idx, { delay_days: parseInt(e.target.value) })}
-                            style={{ ...inputStyle, maxWidth: 120, cursor: 'pointer' }}
+                            className="max-w-[120px] px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.85rem] outline-none cursor-pointer"
                           >
                             {Array.from({ length: 31 }, (_, i) => (
                               <option key={i} value={i}>{i} day{i !== 1 ? 's' : ''}</option>
@@ -550,47 +437,47 @@ export default function CampaignBuilderPage() {
                       )}
 
                       {/* subject */}
-                      <div style={{ marginBottom: '0.75rem' }}>
-                        <label style={labelStyle}>Subject Line</label>
+                      <div className="mb-3">
+                        <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-1.5">Subject Line</label>
                         <input
                           value={s.subject}
                           onChange={e => updateStep(idx, { subject: e.target.value })}
                           placeholder={idx === 0 ? 'e.g. Welcome to our community' : `e.g. Step ${idx + 1} follow-up`}
-                          style={inputStyle}
+                          className="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.85rem] outline-none box-border"
                         />
                       </div>
 
                       {/* preheader */}
-                      <div style={{ marginBottom: '0.75rem' }}>
-                        <label style={labelStyle}>Preheader Text</label>
+                      <div className="mb-3">
+                        <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-1.5">Preheader Text</label>
                         <input
                           value={s.preheader}
                           onChange={e => updateStep(idx, { preheader: e.target.value })}
                           placeholder="Preview text shown in inbox..."
-                          style={inputStyle}
+                          className="w-full px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.85rem] outline-none box-border"
                         />
                       </div>
 
                       {/* conditions */}
-                      <div style={{ borderTop: '1px solid var(--border)', paddingTop: '0.75rem' }}>
-                        <label style={{ ...labelStyle, marginBottom: '0.5rem' }}>Conditions</label>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                      <div className="border-t border-[var(--border)] pt-3">
+                        <label className="block text-[0.75rem] font-semibold text-[var(--text-secondary)] mb-2">Conditions</label>
+                        <div className="flex flex-col gap-1.5">
+                          <label className="flex items-center gap-2 text-[0.75rem] text-[var(--text-secondary)] cursor-pointer">
                             <input
                               type="checkbox"
                               checked={!!s.conditions.only_if_opened_previous}
                               onChange={e => updateStep(idx, { conditions: { ...s.conditions, only_if_opened_previous: e.target.checked } })}
-                              style={{ accentColor: 'var(--accent)' }}
+                              className="accent-[var(--accent)]"
                               disabled={idx === 0}
                             />
-                            <span style={{ opacity: idx === 0 ? 0.4 : 1 }}>Only send if opened previous email</span>
+                            <span className={idx === 0 ? 'opacity-40' : ''}>Only send if opened previous email</span>
                           </label>
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                          <label className="flex items-center gap-2 text-[0.75rem] text-[var(--text-secondary)] cursor-pointer">
                             <input
                               type="checkbox"
                               checked={!!s.conditions.skip_if_booked}
                               onChange={e => updateStep(idx, { conditions: { ...s.conditions, skip_if_booked: e.target.checked } })}
-                              style={{ accentColor: 'var(--accent)' }}
+                              className="accent-[var(--accent)]"
                             />
                             Skip if already booked
                           </label>
@@ -602,95 +489,65 @@ export default function CampaignBuilderPage() {
               ))}
 
               {/* add step */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.25rem 0' }}>
-                <div style={{ width: 2, height: 24, background: 'var(--accent)', opacity: 0.25 }} />
+              <div className="flex items-center justify-center py-1">
+                <div className="w-0.5 h-6 bg-[var(--accent)] opacity-25" />
               </div>
               <button
                 onClick={addStep}
-                style={{
-                  ...btnOutline,
-                  width: '100%',
-                  borderStyle: 'dashed',
-                  borderColor: 'var(--accent)',
-                  color: 'var(--accent)',
-                  padding: '0.75rem',
-                }}
+                className="w-full py-3 rounded-lg border border-dashed border-[var(--accent)] bg-transparent text-[var(--accent)] font-semibold text-[0.8rem] cursor-pointer"
               >
                 + Add Email Step
               </button>
 
               {/* nav */}
-              <div style={{ marginTop: '1.25rem', display: 'flex', justifyContent: 'space-between' }}>
-                <button onClick={() => setWizardStep(1)} style={btnOutline}>Back</button>
-                <button onClick={() => setWizardStep(3)} style={btnPrimary}>Next: Review</button>
+              <div className="mt-5 flex justify-between">
+                <button onClick={() => setWizardStep(1)} className="px-5 py-2 bg-transparent text-[var(--text-primary)] border border-[var(--border)] rounded-lg font-semibold text-[0.8rem] cursor-pointer">Back</button>
+                <button onClick={() => setWizardStep(3)} className="px-5 py-2 bg-[var(--accent)] text-black rounded-lg font-bold text-[0.8rem] cursor-pointer border-none">Next: Review</button>
               </div>
             </div>
           )}
 
           {/* ── Step 3: Review ── */}
           {wizardStep === 3 && (
-            <div style={cardStyle}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 1rem 0' }}>
-                Campaign Summary
-              </h3>
+            <div className="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl p-5">
+              <h3 className="text-base font-bold text-[var(--text-primary)] mt-0 mb-4">Campaign Summary</h3>
 
               {/* stats row */}
-              <div style={{
-                display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem',
-                marginBottom: '1.25rem',
-              }}>
+              <div className="grid grid-cols-3 gap-3 mb-5">
                 {[
-                  { label: 'Emails', value: steps.length, color: 'var(--accent)' },
-                  { label: 'Duration', value: `${totalDays} day${totalDays !== 1 ? 's' : ''}`, color: 'var(--color-cyan)' },
-                  { label: 'Audience', value: tier === 'all' ? 'All contacts' : tier.toUpperCase(), color: 'var(--color-purple)' },
+                  { label: 'Emails', value: steps.length, cls: 'text-[var(--accent)]' },
+                  { label: 'Duration', value: `${totalDays} day${totalDays !== 1 ? 's' : ''}`, cls: 'text-[var(--color-cyan)]' },
+                  { label: 'Audience', value: tier === 'all' ? 'All contacts' : tier.toUpperCase(), cls: 'text-[var(--color-purple)]' },
                 ].map(s => (
-                  <div key={s.label} style={{
-                    background: 'var(--bg-primary)', borderRadius: 10, padding: '1rem', textAlign: 'center',
-                    border: '1px solid var(--border)',
-                  }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>{s.value}</div>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: 4 }}>{s.label}</div>
+                  <div key={s.label} className="bg-[var(--bg-primary)] rounded-xl p-4 text-center border border-[var(--border)]">
+                    <div className={`text-2xl font-extrabold font-mono ${s.cls}`}>{s.value}</div>
+                    <div className="text-[0.65rem] text-[var(--text-muted)] mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
 
               {/* name + desc */}
-              <div style={{ marginBottom: '1rem' }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>{name || '(unnamed)'}</div>
-                {description && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>{description}</div>}
+              <div className="mb-4">
+                <div className="text-[0.9rem] font-semibold text-[var(--text-primary)]">{name || '(unnamed)'}</div>
+                {description && <div className="text-[0.75rem] text-[var(--text-muted)] mt-1">{description}</div>}
               </div>
 
               {/* segment */}
-              <div style={{
-                background: 'var(--bg-primary)', borderRadius: 8, padding: '0.75rem',
-                border: '1px solid var(--border)', marginBottom: '1rem',
-              }}>
-                <div style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>Segment Filter</div>
-                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <div className="bg-[var(--bg-primary)] rounded-lg p-3 border border-[var(--border)] mb-4">
+                <div className="text-[0.7rem] font-semibold text-[var(--text-secondary)] mb-1.5">Segment Filter</div>
+                <div className="flex gap-3 flex-wrap">
                   {hasEmail && (
-                    <span style={{
-                      padding: '0.15rem 0.5rem', borderRadius: 6,
-                      background: 'rgba(126,217,87,0.1)', color: 'var(--accent)',
-                      fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace',
-                    }}>
+                    <span className="px-2 py-0.5 rounded font-mono text-[0.65rem] bg-[var(--accent)]/10 text-[var(--accent)]">
                       has_email
                     </span>
                   )}
                   {tier !== 'all' && (
-                    <span style={{
-                      padding: '0.15rem 0.5rem', borderRadius: 6,
-                      background: 'rgba(0,212,255,0.1)', color: 'var(--color-cyan)',
-                      fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace',
-                    }}>
+                    <span className="px-2 py-0.5 rounded font-mono text-[0.65rem] bg-[var(--color-cyan)]/10 text-[var(--color-cyan)]">
                       tier:{tier}
                     </span>
                   )}
                   {excludeTags && excludeTags.split(',').filter(t => t.trim()).map(t => (
-                    <span key={t.trim()} style={{
-                      padding: '0.15rem 0.5rem', borderRadius: 6,
-                      background: 'rgba(239,68,68,0.1)', color: '#ef4444',
-                      fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace',
-                    }}>
+                    <span key={t.trim()} className="px-2 py-0.5 rounded font-mono text-[0.65rem] bg-red-500/10 text-red-400">
                       -{t.trim()}
                     </span>
                   ))}
@@ -698,30 +555,17 @@ export default function CampaignBuilderPage() {
               </div>
 
               {/* steps preview */}
-              <div style={{ marginBottom: '1.25rem' }}>
-                <div style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Steps</div>
+              <div className="mb-5">
+                <div className="text-[0.7rem] font-semibold text-[var(--text-secondary)] mb-2">Steps</div>
                 {steps.map((s, i) => (
-                  <div key={i} style={{
-                    display: 'flex', alignItems: 'center', gap: '0.6rem',
-                    padding: '0.4rem 0',
-                    borderBottom: i < steps.length - 1 ? '1px solid var(--border)' : 'none',
-                  }}>
-                    <div style={{
-                      width: 20, height: 20, borderRadius: '50%',
-                      background: 'var(--accent)', color: '#000',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '0.6rem', fontWeight: 700, flexShrink: 0,
-                      fontFamily: 'JetBrains Mono, monospace',
-                    }}>
+                  <div key={i} className={`flex items-center gap-2 py-1.5 ${i < steps.length - 1 ? 'border-b border-[var(--border)]' : ''}`}>
+                    <div className="w-5 h-5 rounded-full bg-[var(--accent)] text-black flex items-center justify-center text-[0.6rem] font-bold shrink-0 font-mono">
                       {i + 1}
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500 }}>{s.subject || '(no subject)'}</div>
+                    <div className="flex-1">
+                      <div className="text-[0.8rem] text-[var(--text-primary)] font-medium">{s.subject || '(no subject)'}</div>
                     </div>
-                    <span style={{
-                      fontSize: '0.6rem', color: 'var(--text-muted)',
-                      fontFamily: 'JetBrains Mono, monospace',
-                    }}>
+                    <span className="text-[0.6rem] text-[var(--text-muted)] font-mono">
                       {s.delay_days === 0 ? 'Day 0' : `+${s.delay_days}d`}
                     </span>
                   </div>
@@ -729,33 +573,28 @@ export default function CampaignBuilderPage() {
               </div>
 
               {/* safety notice */}
-              <div style={{
-                background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)',
-                borderRadius: 8, padding: '0.75rem', marginBottom: '1.25rem',
-              }}>
-                <div style={{ fontSize: '0.75rem', color: '#f59e0b', fontWeight: 600, marginBottom: '0.25rem' }}>
-                  Safety Notice
-                </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+              <div className="bg-amber-400/5 border border-amber-400/20 rounded-lg p-3 mb-5">
+                <div className="text-[0.75rem] text-amber-400 font-semibold mb-1">Safety Notice</div>
+                <div className="text-[0.7rem] text-[var(--text-muted)] leading-relaxed">
                   Campaigns are saved as drafts and will never auto-send. Double confirmation is required before any emails are dispatched.
                 </div>
               </div>
 
               {/* actions */}
-              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'space-between' }}>
-                <button onClick={() => setWizardStep(2)} style={btnOutline}>Back</button>
-                <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div className="flex gap-3 justify-between">
+                <button onClick={() => setWizardStep(2)} className="px-5 py-2 bg-transparent text-[var(--text-primary)] border border-[var(--border)] rounded-lg font-semibold text-[0.8rem] cursor-pointer">Back</button>
+                <div className="flex gap-3">
                   <button
                     onClick={() => saveCampaign(false)}
                     disabled={saving}
-                    style={{ ...btnOutline, opacity: saving ? 0.5 : 1 }}
+                    className={`px-5 py-2 bg-transparent text-[var(--text-primary)] border border-[var(--border)] rounded-lg font-semibold text-[0.8rem] cursor-pointer ${saving ? 'opacity-50' : ''}`}
                   >
                     {saving ? 'Saving...' : 'Save as Draft'}
                   </button>
                   <button
                     onClick={() => saveCampaign(true)}
                     disabled={saving}
-                    style={{ ...btnPrimary, opacity: saving ? 0.5 : 1 }}
+                    className={`px-5 py-2 bg-[var(--accent)] text-black rounded-lg font-bold text-[0.8rem] cursor-pointer border-none ${saving ? 'opacity-50' : ''}`}
                     title="Double confirmation required to send"
                   >
                     {saving ? 'Saving...' : 'Request Approval'}

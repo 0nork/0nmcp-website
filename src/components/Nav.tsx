@@ -110,13 +110,11 @@ export default function Nav() {
 
   return (
     <nav
-      className="fixed left-0 right-0 z-50"
+      className="fixed left-0 right-0 z-50 top-8 border-b border-[var(--border)]"
       style={{
-        top: '2rem',
         backgroundColor: 'rgba(10, 10, 15, 0.85)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid var(--border)',
       }}
     >
       <div className="section-container flex items-center justify-between h-16">
@@ -129,13 +127,7 @@ export default function Nav() {
             <rect width="40" height="40" rx="8" fill="#0B0F19" stroke="#6EE05A" strokeWidth="1.5" strokeOpacity="0.4"/>
             <text x="20" y="27" textAnchor="middle" fill="#6EE05A" fontSize="20" fontWeight="700" fontFamily="monospace">0n</text>
           </svg>
-          <span
-            className="text-lg font-bold tracking-tight"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--accent)',
-            }}
-          >
+          <span className="text-lg font-bold tracking-tight font-mono text-[var(--accent)]">
             MCP
           </span>
         </Link>
@@ -146,8 +138,7 @@ export default function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="nav-link text-sm font-medium"
-              style={{ fontFamily: 'var(--font-display)' }}
+              className="nav-link text-sm font-medium font-[var(--font-display)]"
             >
               {link.label}
             </Link>
@@ -157,16 +148,10 @@ export default function Nav() {
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-3">
           {/* 0nCommand Dropdown */}
-          <div ref={dropdownRef} style={{ position: 'relative' }}>
+          <div ref={dropdownRef} className="relative">
             <button
               onClick={() => setCommandOpen(!commandOpen)}
-              className="btn-accent"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                cursor: 'pointer',
-              }}
+              className="btn-accent flex items-center gap-1.5 cursor-pointer"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="4 17 10 11 4 5" />
@@ -182,10 +167,7 @@ export default function Nav() {
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                style={{
-                  transition: 'transform 0.2s ease',
-                  transform: commandOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                }}
+                className={`transition-transform duration-200 ${commandOpen ? 'rotate-180' : 'rotate-0'}`}
               >
                 <polyline points="6 9 12 15 18 9" />
               </svg>
@@ -194,20 +176,12 @@ export default function Nav() {
             {/* Dropdown Menu */}
             {commandOpen && (
               <div
+                className="absolute top-[calc(100%+0.5rem)] right-0 w-[260px] rounded-xl p-1.5 z-[100] [animation:commandDropIn_0.15s_ease-out] border border-[var(--border)]"
                 style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 0.5rem)',
-                  right: 0,
-                  width: '260px',
                   background: 'rgba(10, 10, 15, 0.98)',
                   backdropFilter: 'blur(20px)',
                   WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.75rem',
-                  padding: '0.375rem',
                   boxShadow: '0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(126,217,87,0.06)',
-                  zIndex: 100,
-                  animation: 'commandDropIn 0.15s ease-out',
                 }}
               >
                 {commandLinks.map((item) => (
@@ -215,56 +189,16 @@ export default function Nav() {
                     key={item.href}
                     href={item.href}
                     onClick={() => { setCommandOpen(false); setMobileOpen(false) }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.75rem',
-                      padding: '0.625rem 0.75rem',
-                      borderRadius: '0.5rem',
-                      textDecoration: 'none',
-                      color: 'var(--text-primary)',
-                      transition: 'all 0.15s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(126,217,87,0.08)'
-                      e.currentTarget.style.color = '#6EE05A'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent'
-                      e.currentTarget.style.color = 'var(--text-primary)'
-                    }}
+                    className="flex items-center gap-3 px-3 py-[0.625rem] rounded-lg no-underline text-[var(--text-primary)] transition-all duration-150 hover:bg-[rgba(126,217,87,0.08)] hover:text-[#6EE05A] group"
                   >
-                    <div
-                      style={{
-                        width: '2rem',
-                        height: '2rem',
-                        borderRadius: '0.5rem',
-                        background: 'rgba(126,217,87,0.08)',
-                        border: '1px solid rgba(126,217,87,0.15)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#6EE05A',
-                        flexShrink: 0,
-                      }}
-                    >
+                    <div className="w-8 h-8 rounded-lg bg-[rgba(126,217,87,0.08)] border border-[rgba(126,217,87,0.15)] flex items-center justify-center text-[#6EE05A] shrink-0">
                       {item.icon}
                     </div>
                     <div>
-                      <div style={{
-                        fontSize: '0.85rem',
-                        fontWeight: 600,
-                        fontFamily: 'var(--font-display)',
-                        lineHeight: 1.2,
-                      }}>
+                      <div className="text-[0.85rem] font-semibold font-[var(--font-display)] leading-tight">
                         {item.label}
                       </div>
-                      <div style={{
-                        fontSize: '0.7rem',
-                        color: 'var(--text-muted)',
-                        fontFamily: 'var(--font-display)',
-                        lineHeight: 1.3,
-                      }}>
+                      <div className="text-[0.7rem] text-[var(--text-muted)] font-[var(--font-display)] leading-snug">
                         {item.desc}
                       </div>
                     </div>
@@ -272,34 +206,11 @@ export default function Nav() {
                 ))}
 
                 {/* Divider + quick action */}
-                <div style={{
-                  height: '1px',
-                  background: 'var(--border)',
-                  margin: '0.25rem 0.5rem',
-                }} />
+                <div className="h-px bg-[var(--border)] my-1 mx-2" />
                 <Link
                   href="/turn-it-on"
                   onClick={() => { setCommandOpen(false); setMobileOpen(false) }}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 0.75rem',
-                    borderRadius: '0.5rem',
-                    textDecoration: 'none',
-                    color: 'var(--text-muted)',
-                    fontSize: '0.75rem',
-                    fontFamily: 'var(--font-mono)',
-                    transition: 'all 0.15s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(126,217,87,0.06)'
-                    e.currentTarget.style.color = '#6EE05A'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.color = 'var(--text-muted)'
-                  }}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg no-underline text-[var(--text-muted)] text-xs font-mono transition-all duration-150 hover:bg-[rgba(126,217,87,0.06)] hover:text-[#6EE05A]"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
@@ -313,14 +224,13 @@ export default function Nav() {
           </div>
 
           {user ? (
-            <Link href="/account" className="btn-ghost" style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+            <Link href="/account" className="btn-ghost border-[var(--accent)] text-[var(--accent)]">
               Account
             </Link>
           ) : (
             <button
-              className="btn-ghost"
+              className="btn-ghost cursor-pointer"
               onClick={() => setShowAuthModal(true)}
-              style={{ cursor: 'pointer' }}
             >
               Sign in
             </button>
@@ -329,55 +239,34 @@ export default function Nav() {
 
         {/* Mobile Hamburger */}
         <button
-          className="md:hidden flex flex-col justify-center items-center gap-1.5 w-10 h-10"
+          className="md:hidden flex flex-col justify-center items-center gap-1.5 w-10 h-10 bg-transparent border-none"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle navigation menu"
-          style={{ background: 'none', border: 'none' }}
         >
           <span
-            className="block w-5 h-0.5 transition-all duration-300"
-            style={{
-              backgroundColor: 'var(--text-primary)',
-              transform: mobileOpen
-                ? 'rotate(45deg) translate(2px, 2px)'
-                : 'none',
-            }}
+            className="block w-5 h-0.5 bg-[var(--text-primary)] transition-all duration-300"
+            style={{ transform: mobileOpen ? 'rotate(45deg) translate(2px, 2px)' : 'none' }}
           />
           <span
-            className="block w-5 h-0.5 transition-all duration-300"
-            style={{
-              backgroundColor: 'var(--text-primary)',
-              opacity: mobileOpen ? 0 : 1,
-            }}
+            className="block w-5 h-0.5 bg-[var(--text-primary)] transition-all duration-300"
+            style={{ opacity: mobileOpen ? 0 : 1 }}
           />
           <span
-            className="block w-5 h-0.5 transition-all duration-300"
-            style={{
-              backgroundColor: 'var(--text-primary)',
-              transform: mobileOpen
-                ? 'rotate(-45deg) translate(2px, -2px)'
-                : 'none',
-            }}
+            className="block w-5 h-0.5 bg-[var(--text-primary)] transition-all duration-300"
+            style={{ transform: mobileOpen ? 'rotate(-45deg) translate(2px, -2px)' : 'none' }}
           />
         </button>
       </div>
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div
-          className="md:hidden"
-          style={{
-            backgroundColor: 'var(--bg-secondary)',
-            borderBottom: '1px solid var(--border)',
-          }}
-        >
+        <div className="md:hidden bg-[var(--bg-secondary)] border-b border-[var(--border)]">
           <div className="section-container py-4 flex flex-col gap-3">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium py-2"
-                style={{ color: 'var(--text-secondary)' }}
+                className="text-sm font-medium py-2 text-[var(--text-secondary)]"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -385,23 +274,8 @@ export default function Nav() {
             ))}
 
             {/* 0nCommand section */}
-            <div
-              style={{
-                borderTop: '1px solid var(--border)',
-                paddingTop: '0.75rem',
-                marginTop: '0.5rem',
-              }}
-            >
-              <div style={{
-                fontSize: '0.65rem',
-                fontWeight: 700,
-                color: '#6EE05A',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                fontFamily: 'var(--font-mono)',
-                marginBottom: '0.5rem',
-                padding: '0 0.25rem',
-              }}>
+            <div className="border-t border-[var(--border)] pt-3 mt-2">
+              <div className="text-[0.65rem] font-bold text-[#6EE05A] tracking-[0.1em] uppercase font-mono mb-2 px-1">
                 0nCommand
               </div>
               <div className="flex flex-col gap-1">
@@ -410,42 +284,16 @@ export default function Nav() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.75rem',
-                      padding: '0.625rem 0.5rem',
-                      borderRadius: '0.5rem',
-                      textDecoration: 'none',
-                      color: 'var(--text-primary)',
-                    }}
+                    className="flex items-center gap-3 px-2 py-[0.625rem] rounded-lg no-underline text-[var(--text-primary)]"
                   >
-                    <div style={{
-                      width: '2rem',
-                      height: '2rem',
-                      borderRadius: '0.5rem',
-                      background: 'rgba(126,217,87,0.08)',
-                      border: '1px solid rgba(126,217,87,0.15)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#6EE05A',
-                      flexShrink: 0,
-                    }}>
+                    <div className="w-8 h-8 rounded-lg bg-[rgba(126,217,87,0.08)] border border-[rgba(126,217,87,0.15)] flex items-center justify-center text-[#6EE05A] shrink-0">
                       {item.icon}
                     </div>
                     <div>
-                      <div style={{
-                        fontSize: '0.85rem',
-                        fontWeight: 600,
-                        fontFamily: 'var(--font-display)',
-                      }}>
+                      <div className="text-[0.85rem] font-semibold font-[var(--font-display)]">
                         {item.label}
                       </div>
-                      <div style={{
-                        fontSize: '0.7rem',
-                        color: 'var(--text-muted)',
-                      }}>
+                      <div className="text-[0.7rem] text-[var(--text-muted)]">
                         {item.desc}
                       </div>
                     </div>
@@ -455,23 +303,18 @@ export default function Nav() {
             </div>
 
             {/* Auth */}
-            <div
-              className="flex flex-col gap-3 pt-3 mt-1"
-              style={{ borderTop: '1px solid var(--border)' }}
-            >
+            <div className="flex flex-col gap-3 pt-3 mt-1 border-t border-[var(--border)]">
               {user ? (
                 <Link
                   href="/account"
-                  className="btn-ghost text-center justify-center"
-                  style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
+                  className="btn-ghost text-center justify-center border-[var(--accent)] text-[var(--accent)]"
                   onClick={() => setMobileOpen(false)}
                 >
                   Account
                 </Link>
               ) : (
                 <button
-                  className="btn-ghost text-center justify-center"
-                  style={{ width: '100%', cursor: 'pointer' }}
+                  className="btn-ghost text-center justify-center w-full cursor-pointer"
                   onClick={() => { setMobileOpen(false); setShowAuthModal(true) }}
                 >
                   Sign in

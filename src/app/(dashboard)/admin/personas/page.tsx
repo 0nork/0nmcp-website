@@ -138,8 +138,6 @@ export default function PersonasAdmin() {
   }, [])
 
   const loadSeeds = useCallback(async () => {
-    // We'll load seeds from the personas library via a simple fetch
-    // For now using the admin supabase client pattern
     const res = await fetch('/api/personas?seeds=true')
     if (res.ok) {
       const data = await res.json()
@@ -167,9 +165,7 @@ export default function PersonasAdmin() {
     setWorkflowLoading(false)
   }, [])
 
-  useEffect(() => {
-    loadPersonas()
-  }, [loadPersonas])
+  useEffect(() => { loadPersonas() }, [loadPersonas])
 
   const loadQueue = useCallback(async () => {
     setQueueLoading(true)
@@ -326,7 +322,6 @@ export default function PersonasAdmin() {
 
   async function addSeed() {
     if (!seedTopic.trim()) return
-    // Direct insert via personas route with seed data
     const res = await fetch('/api/personas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -413,43 +408,31 @@ export default function PersonasAdmin() {
 
   if (loading) {
     return (
-      <div style={{ padding: '120px 32px', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent)', fontSize: '2rem', fontWeight: 900 }}>0n</div>
-        <p style={{ color: 'var(--text-secondary)', marginTop: 8 }}>Loading personas...</p>
+      <div className="px-8 pt-[120px] pb-16 text-center">
+        <div className="font-mono text-[var(--accent)] text-[2rem] font-black">0n</div>
+        <p className="text-[var(--text-secondary)] mt-2">Loading personas...</p>
       </div>
     )
   }
 
   return (
-    <div style={{ padding: '100px 32px 64px', maxWidth: 1200, margin: '0 auto' }}>
+    <div className="px-8 pt-[100px] pb-16 max-w-[1200px] mx-auto">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 900, letterSpacing: '-0.02em' }}>AI Personas</h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+          <h1 className="text-[1.75rem] font-black tracking-tight">AI Personas</h1>
+          <p className="text-[var(--text-secondary)] text-[0.875rem]">
             Forum agents — generate characters, seed discussions, build community.
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 6 }}>
-          <button
-            onClick={handleCreateModerator}
-            disabled={generating}
-            style={btnStyle('#FFD700')}
-          >
+        <div className="flex gap-1.5">
+          <button onClick={handleCreateModerator} disabled={generating} className="px-4 py-2 rounded-lg border-none font-bold text-[0.75rem] cursor-pointer text-[#FFD700] bg-[#FFD700]/10">
             Create Moderator
           </button>
-          <button
-            onClick={handleGenerateCohort}
-            disabled={generating}
-            style={btnStyle('#00d4ff')}
-          >
+          <button onClick={handleGenerateCohort} disabled={generating} className="px-4 py-2 rounded-lg border-none font-bold text-[0.75rem] cursor-pointer text-[#00d4ff] bg-[#00d4ff]/10">
             {generating ? 'Generating...' : 'Generate Cohort (6)'}
           </button>
-          <button
-            onClick={() => triggerConverse('seed_thread')}
-            disabled={conversing}
-            style={btnStyle('#9945ff')}
-          >
+          <button onClick={() => triggerConverse('seed_thread')} disabled={conversing} className="px-4 py-2 rounded-lg border-none font-bold text-[0.75rem] cursor-pointer text-[#9945ff] bg-[#9945ff]/10">
             {conversing ? 'Working...' : 'Seed Thread'}
           </button>
         </div>
@@ -457,46 +440,30 @@ export default function PersonasAdmin() {
 
       {/* Message */}
       {message && (
-        <div
-          style={{
-            padding: '10px 16px',
-            borderRadius: 12,
-            marginBottom: 16,
-            fontSize: '0.8125rem',
-            fontWeight: 600,
-            background: message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.1)' : 'rgba(126,217,87,0.1)',
-            color: message.includes('fail') || message.includes('error') ? '#ff3d3d' : 'var(--accent)',
-            border: `1px solid ${message.includes('fail') || message.includes('error') ? 'rgba(255,61,61,0.2)' : 'rgba(126,217,87,0.2)'}`,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
+        <div className={`flex justify-between items-center px-4 py-2.5 rounded-xl mb-4 text-[0.8125rem] font-semibold border ${
+          message.includes('fail') || message.includes('error')
+            ? 'bg-red-500/10 text-[#ff3d3d] border-red-500/20'
+            : 'bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/20'
+        }`}>
           {message}
-          <button onClick={() => setMessage('')} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}>&times;</button>
+          <button onClick={() => setMessage('')} className="bg-transparent border-none text-inherit cursor-pointer">&times;</button>
         </div>
       )}
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
+      <div className="flex gap-1 mb-6 border-b border-[var(--border)]">
         {(['personas', 'generate', 'seeds', 'activity', 'workflows', 'queue'] as Tab[]).map(t => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            style={{
-              padding: '8px 16px',
-              background: 'none',
-              border: 'none',
-              borderBottom: tab === t ? '2px solid var(--accent)' : '2px solid transparent',
-              color: tab === t ? 'var(--accent)' : 'var(--text-secondary)',
-              fontWeight: tab === t ? 700 : 500,
-              fontSize: '0.8125rem',
-              cursor: 'pointer',
-              textTransform: 'capitalize',
-              transition: 'all 0.15s',
-            }}
+            className={`px-4 py-2 bg-transparent border-none border-b-2 font-[0.8125rem] cursor-pointer capitalize transition-all duration-150 ${
+              tab === t
+                ? 'border-[var(--accent)] text-[var(--accent)] font-bold border-solid'
+                : 'border-transparent text-[var(--text-secondary)] font-medium'
+            }`}
+            style={{ borderBottomStyle: 'solid', fontSize: '0.8125rem' }}
           >
-            {t === 'seeds' ? 'Topic Seeds' : t === 'activity' ? 'Activity Log' : t === 'workflows' ? 'Workflows' : t === 'queue' ? 'Queue' : t}
+            {t === 'seeds' ? 'Topic Seeds' : t === 'activity' ? 'Activity Log' : t}
           </button>
         ))}
       </div>
@@ -505,40 +472,34 @@ export default function PersonasAdmin() {
       {tab === 'personas' && (
         <div>
           {/* Stats row */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
-            <StatBox label="Total" value={personas.length} color="var(--text)" />
+          <div className="flex gap-3 mb-5">
+            <StatBox label="Total" value={personas.length} color="var(--text-primary)" />
             <StatBox label="Active" value={personas.filter(p => p.is_active).length} color="#6EE05A" />
             <StatBox label="Threads" value={personas.reduce((s, p) => s + p.thread_count, 0)} color="#9945ff" />
             <StatBox label="Replies" value={personas.reduce((s, p) => s + p.reply_count, 0)} color="#00d4ff" />
           </div>
 
           {/* Persona grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 12 }}>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-3">
             {personas.map(p => (
               <div
                 key={p.id}
-                style={{
-                  padding: '16px 20px',
-                  borderRadius: 16,
-                  background: 'var(--bg-card)',
-                  border: `1px solid ${p.is_active ? 'var(--border)' : 'rgba(255,61,61,0.2)'}`,
-                  opacity: p.is_active ? 1 : 0.6,
-                }}
+                className={`px-5 py-4 rounded-2xl bg-[var(--bg-card)] border transition-opacity ${p.is_active ? 'opacity-100 border-[var(--border)]' : 'opacity-60 border-red-500/20'}`}
               >
                 {/* Header */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: '50%',
-                    background: `${ROLE_COLORS[p.role || ''] || '#484e78'}20`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '0.875rem', fontWeight: 900,
-                    color: ROLE_COLORS[p.role || ''] || '#fff',
-                  }}>
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-[0.875rem] font-black shrink-0"
+                    style={{
+                      background: `${ROLE_COLORS[p.role || ''] || '#484e78'}20`,
+                      color: ROLE_COLORS[p.role || ''] || '#fff',
+                    }}
+                  >
                     {p.name.charAt(0)}
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: '0.875rem' }}>{p.name}</div>
-                    <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+                  <div className="flex-1">
+                    <div className="font-bold text-[0.875rem]">{p.name}</div>
+                    <div className="text-[0.6875rem] text-[var(--text-muted)]">
                       <span style={{ color: ROLE_COLORS[p.role || ''] || 'var(--text-muted)' }}>{p.role}</span>
                       {' '}&middot;{' '}
                       <span style={{ color: LEVEL_COLORS[p.knowledge_level] || 'var(--text-muted)' }}>{p.knowledge_level}</span>
@@ -546,17 +507,7 @@ export default function PersonasAdmin() {
                   </div>
                   <button
                     onClick={() => toggleActive(p)}
-                    style={{
-                      padding: '4px 10px',
-                      borderRadius: 6,
-                      background: p.is_active ? 'rgba(126,217,87,0.1)' : 'rgba(255,61,61,0.1)',
-                      color: p.is_active ? '#6EE05A' : '#ff3d3d',
-                      border: 'none',
-                      fontWeight: 700,
-                      fontSize: '0.625rem',
-                      cursor: 'pointer',
-                      textTransform: 'uppercase',
-                    }}
+                    className={`px-2.5 py-1 rounded font-bold text-[0.625rem] cursor-pointer border-none uppercase ${p.is_active ? 'bg-[#6EE05A]/10 text-[#6EE05A]' : 'bg-red-500/10 text-[#ff3d3d]'}`}
                   >
                     {p.is_active ? 'Active' : 'Off'}
                   </button>
@@ -564,24 +515,15 @@ export default function PersonasAdmin() {
 
                 {/* Bio */}
                 {p.bio && (
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0 0 8px', lineHeight: 1.5 }}>
+                  <p className="text-[0.75rem] text-[var(--text-secondary)] my-2 leading-relaxed">
                     {p.bio}
                   </p>
                 )}
 
                 {/* Tags */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 8 }}>
+                <div className="flex flex-wrap gap-1 mb-2">
                   {(p.expertise || []).slice(0, 4).map(tag => (
-                    <span
-                      key={tag}
-                      style={{
-                        fontSize: '0.5625rem',
-                        padding: '2px 6px',
-                        borderRadius: 4,
-                        background: 'var(--bg-card)',
-                        color: 'var(--text-secondary)',
-                      }}
-                    >
+                    <span key={tag} className="text-[0.5625rem] px-1.5 py-0.5 rounded bg-[var(--bg-card)] text-[var(--text-secondary)]">
                       {tag}
                     </span>
                   ))}
@@ -589,37 +531,29 @@ export default function PersonasAdmin() {
 
                 {/* Writing style badge */}
                 {p.personality?.writing_style && (
-                  <div style={{
-                    fontSize: '0.5625rem',
-                    padding: '2px 6px',
-                    borderRadius: 4,
-                    background: 'rgba(153,69,255,0.1)',
-                    color: '#9945ff',
-                    marginBottom: 8,
-                    display: 'inline-block',
-                  }}>
+                  <div className="text-[0.5625rem] px-1.5 py-0.5 rounded bg-[#9945ff]/10 text-[#9945ff] mb-2 inline-block">
                     {p.personality.writing_style}
                   </div>
                 )}
 
                 {/* Stats + personality */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
+                <div className="flex justify-between items-center">
+                  <div className="text-[0.625rem] text-[var(--text-muted)]">
                     {p.thread_count} threads &middot; {p.reply_count} replies
                     {p.personality && <> &middot; {p.personality.tone}</>}
-                    {p.role === 'moderator' && <> &middot; <span style={{ color: '#FFD700', fontWeight: 700 }}>MOD</span></>}
+                    {p.role === 'moderator' && <> &middot; <span className="text-[#FFD700] font-bold">MOD</span></>}
                   </div>
-                  <div style={{ display: 'flex', gap: 4 }}>
+                  <div className="flex gap-1">
                     <button
                       onClick={() => triggerConverse('seed_thread', p.id)}
                       disabled={conversing || !p.is_active}
-                      style={{ ...btnStyleSmall('#9945ff'), opacity: p.is_active ? 1 : 0.5 }}
+                      className={`px-2 py-0.5 rounded font-bold text-[0.5625rem] cursor-pointer border-none bg-[#9945ff]/15 text-[#9945ff] ${!p.is_active ? 'opacity-50' : ''}`}
                     >
                       Post
                     </button>
                     <button
                       onClick={() => deletePersona(p.id)}
-                      style={btnStyleSmall('#ff3d3d')}
+                      className="px-2 py-0.5 rounded font-bold text-[0.5625rem] cursor-pointer border-none bg-[#ff3d3d]/15 text-[#ff3d3d]"
                     >
                       Del
                     </button>
@@ -629,9 +563,9 @@ export default function PersonasAdmin() {
             ))}
 
             {personas.length === 0 && (
-              <div style={{ gridColumn: '1 / -1', padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
-                <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>No personas yet</p>
-                <p style={{ fontSize: '0.75rem' }}>Go to the Generate tab to create your first one</p>
+              <div className="col-span-full p-10 text-center text-[var(--text-muted)]">
+                <p className="text-[0.875rem] font-semibold">No personas yet</p>
+                <p className="text-[0.75rem]">Go to the Generate tab to create your first one</p>
               </div>
             )}
           </div>
@@ -641,17 +575,9 @@ export default function PersonasAdmin() {
       {/* ==================== Generate Tab ==================== */}
       {tab === 'generate' && (
         <div>
-          <div
-            style={{
-              padding: 24,
-              borderRadius: 16,
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              marginBottom: 20,
-            }}
-          >
-            <h3 style={{ fontSize: '0.875rem', fontWeight: 700, marginBottom: 4 }}>Generate Persona</h3>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 16 }}>
+          <div className="p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] mb-5">
+            <h3 className="text-[0.875rem] font-bold mb-1">Generate Persona</h3>
+            <p className="text-[0.75rem] text-[var(--text-muted)] mb-4">
               Describe the kind of person you want. Example: &quot;A junior developer from Brazil who just discovered 0nMCP and is excited about automating their freelance client onboarding.&quot;
             </p>
 
@@ -660,34 +586,13 @@ export default function PersonasAdmin() {
               onChange={e => setGenPrompt(e.target.value)}
               placeholder="Describe the persona you want to create..."
               rows={4}
-              style={{
-                width: '100%',
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border)',
-                borderRadius: 10,
-                padding: '10px 12px',
-                color: 'var(--text)',
-                fontSize: '0.8125rem',
-                lineHeight: 1.6,
-                resize: 'vertical',
-                fontFamily: 'inherit',
-                marginBottom: 12,
-              }}
+              className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl px-3 py-2.5 text-[var(--text-primary)] text-[0.8125rem] leading-relaxed resize-y font-[inherit] mb-3 outline-none box-border"
             />
 
             <button
               onClick={handleGenerate}
               disabled={generating || !genPrompt.trim()}
-              style={{
-                padding: '10px 24px',
-                borderRadius: 10,
-                background: generating ? 'var(--bg-card)' : 'var(--accent)',
-                color: generating ? 'var(--text-muted)' : 'var(--bg-primary)',
-                border: 'none',
-                fontWeight: 700,
-                fontSize: '0.875rem',
-                cursor: generating ? 'wait' : 'pointer',
-              }}
+              className={`px-6 py-2.5 rounded-xl border-none font-bold text-[0.875rem] cursor-pointer ${generating ? 'bg-[var(--bg-card)] text-[var(--text-muted)]' : 'bg-[var(--accent)] text-[var(--bg-primary)]'}`}
             >
               {generating ? 'Generating with Claude...' : 'Generate Persona'}
             </button>
@@ -695,40 +600,24 @@ export default function PersonasAdmin() {
 
           {/* Preview */}
           {preview && (
-            <div
-              style={{
-                padding: 24,
-                borderRadius: 16,
-                background: 'var(--bg-card)',
-                border: '1px solid var(--accent)',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 16 }}>
-                <h3 style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--accent)' }}>Preview</h3>
+            <div className="p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--accent)]">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-[0.875rem] font-bold text-[var(--accent)]">Preview</h3>
                 <button
                   onClick={handleSavePersona}
                   disabled={saving}
-                  style={{
-                    padding: '8px 20px',
-                    borderRadius: 10,
-                    background: saving ? 'var(--bg-card)' : '#6EE05A',
-                    color: saving ? 'var(--text-muted)' : '#000',
-                    border: 'none',
-                    fontWeight: 700,
-                    fontSize: '0.8125rem',
-                    cursor: saving ? 'wait' : 'pointer',
-                  }}
+                  className={`px-5 py-2 rounded-xl border-none font-bold text-[0.8125rem] cursor-pointer ${saving ? 'bg-[var(--bg-card)] text-[var(--text-muted)]' : 'bg-[#6EE05A] text-black'}`}
                 >
                   {saving ? 'Saving...' : 'Save Persona'}
                 </button>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="grid grid-cols-2 gap-4">
                 <Field label="Name" value={preview.name || ''} />
                 <Field label="Slug" value={preview.slug || ''} />
                 <Field label="Role" value={preview.role || ''} color={ROLE_COLORS[preview.role || '']} />
                 <Field label="Level" value={preview.knowledge_level || ''} color={LEVEL_COLORS[preview.knowledge_level || '']} />
-                <div style={{ gridColumn: '1 / -1' }}>
+                <div className="col-span-2">
                   <Field label="Bio" value={preview.bio || ''} />
                 </div>
                 <Field label="Expertise" value={(preview.expertise || []).join(', ')} />
@@ -741,7 +630,7 @@ export default function PersonasAdmin() {
                 <Field label="Sentences" value={preview.personality?.sentence_structure || ''} />
                 <Field label="Vocabulary" value={preview.personality?.vocabulary_level || ''} />
                 <Field label="Punctuation" value={preview.personality?.punctuation_style || ''} />
-                <div style={{ gridColumn: '1 / -1' }}>
+                <div className="col-span-2">
                   <Field label="Quirks" value={(preview.personality?.quirks || []).join(' / ')} />
                 </div>
               </div>
@@ -754,29 +643,21 @@ export default function PersonasAdmin() {
       {tab === 'seeds' && (
         <div>
           {/* Add seed form */}
-          <div
-            style={{
-              padding: 20,
-              borderRadius: 16,
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              marginBottom: 20,
-            }}
-          >
-            <h3 style={{ fontSize: '0.8125rem', fontWeight: 700, marginBottom: 12 }}>Add Topic Seed</h3>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'end' }}>
-              <div style={{ flex: 2 }}>
-                <label style={labelStyle}>Topic</label>
+          <div className="p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] mb-5">
+            <h3 className="text-[0.8125rem] font-bold mb-3">Add Topic Seed</h3>
+            <div className="flex gap-2 flex-wrap items-end">
+              <div className="flex-[2_2_0%]">
+                <label className="block text-[0.6875rem] text-[var(--text-muted)] mb-1">Topic</label>
                 <input
                   value={seedTopic}
                   onChange={e => setSeedTopic(e.target.value)}
                   placeholder="e.g. How to connect Stripe webhooks with 0nMCP"
-                  style={inputStyle}
+                  className="w-full px-3 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-[0.75rem] font-semibold outline-none"
                 />
               </div>
               <div>
-                <label style={labelStyle}>Group</label>
-                <select value={seedCategory} onChange={e => setSeedCategory(e.target.value)} style={selectStyle}>
+                <label className="block text-[0.6875rem] text-[var(--text-muted)] mb-1">Group</label>
+                <select value={seedCategory} onChange={e => setSeedCategory(e.target.value)} className="px-3 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-[0.75rem] font-semibold">
                   <option value="">Any</option>
                   <option value="general">General</option>
                   <option value="help">Help</option>
@@ -788,52 +669,39 @@ export default function PersonasAdmin() {
                 </select>
               </div>
               <div>
-                <label style={labelStyle}>Priority</label>
-                <select value={seedPriority} onChange={e => setSeedPriority(Number(e.target.value))} style={selectStyle}>
+                <label className="block text-[0.6875rem] text-[var(--text-muted)] mb-1">Priority</label>
+                <select value={seedPriority} onChange={e => setSeedPriority(Number(e.target.value))} className="px-3 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-[0.75rem] font-semibold">
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                     <option key={n} value={n}>{n}</option>
                   ))}
                 </select>
               </div>
-              <button onClick={addSeed} style={btnStyle('#6EE05A')}>Add</button>
+              <button onClick={addSeed} className="px-4 py-2 rounded-lg border-none font-bold text-[0.75rem] cursor-pointer text-[#6EE05A] bg-[#6EE05A]/10">Add</button>
             </div>
-            <div style={{ marginTop: 8 }}>
-              <label style={labelStyle}>Prompt Hint (optional)</label>
+            <div className="mt-2">
+              <label className="block text-[0.6875rem] text-[var(--text-muted)] mb-1">Prompt Hint (optional)</label>
               <input
                 value={seedHint}
                 onChange={e => setSeedHint(e.target.value)}
                 placeholder="Extra context for AI generation..."
-                style={inputStyle}
+                className="w-full px-3 py-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-[0.75rem] font-semibold outline-none"
               />
             </div>
           </div>
 
           {/* Seeds list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div className="flex flex-col gap-1.5">
             {seeds.map(s => (
-              <div
-                key={s.id}
-                style={{
-                  padding: '12px 16px',
-                  borderRadius: 12,
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                }}
-              >
-                <div style={{
-                  minWidth: 28, height: 28, borderRadius: 8,
-                  background: `rgba(153,69,255,${Math.min(s.priority / 10, 1) * 0.3})`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', fontWeight: 900, color: '#9945ff',
-                }}>
+              <div key={s.id} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border)]">
+                <div
+                  className="min-w-[28px] h-7 rounded-lg flex items-center justify-center text-[0.75rem] font-black text-[#9945ff] shrink-0"
+                  style={{ background: `rgba(153,69,255,${Math.min(s.priority / 10, 1) * 0.3})` }}
+                >
                   {s.priority}
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.8125rem', fontWeight: 600 }}>{s.topic}</div>
-                  <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
+                <div className="flex-1">
+                  <div className="text-[0.8125rem] font-semibold">{s.topic}</div>
+                  <div className="text-[0.625rem] text-[var(--text-muted)]">
                     {s.category || 'any group'} &middot; used {s.used_count}x
                     {s.prompt_hint && <> &middot; hint: {s.prompt_hint.slice(0, 40)}...</>}
                   </div>
@@ -842,9 +710,9 @@ export default function PersonasAdmin() {
             ))}
 
             {seeds.length === 0 && (
-              <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
-                <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>No topic seeds yet</p>
-                <p style={{ fontSize: '0.75rem' }}>Add seeds above to guide persona conversations</p>
+              <div className="p-10 text-center text-[var(--text-muted)]">
+                <p className="text-[0.875rem] font-semibold">No topic seeds yet</p>
+                <p className="text-[0.75rem]">Add seeds above to guide persona conversations</p>
               </div>
             )}
           </div>
@@ -853,40 +721,28 @@ export default function PersonasAdmin() {
 
       {/* ==================== Activity Log Tab ==================== */}
       {tab === 'activity' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div className="flex flex-col gap-1.5">
           {activity.map(a => (
-            <div
-              key={a.id}
-              style={{
-                padding: '12px 16px',
-                borderRadius: 12,
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+            <div key={a.id} className="px-4 py-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border)]">
+              <div className="flex items-center gap-2 mb-1">
                 <span
-                  style={{
-                    fontSize: '0.5625rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    padding: '2px 6px',
-                    borderRadius: 4,
-                    background: a.action === 'created_thread' ? 'rgba(153,69,255,0.15)' : 'rgba(0,212,255,0.15)',
-                    color: a.action === 'created_thread' ? '#9945ff' : '#00d4ff',
-                  }}
+                  className={`text-[0.5625rem] font-bold uppercase px-1.5 py-0.5 rounded ${
+                    a.action === 'created_thread'
+                      ? 'bg-[#9945ff]/15 text-[#9945ff]'
+                      : 'bg-[#00d4ff]/15 text-[#00d4ff]'
+                  }`}
                 >
                   {a.action === 'created_thread' ? 'New Thread' : 'Reply'}
                 </span>
-                <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>
+                <span className="text-[0.75rem] font-semibold">
                   {a.persona_name || a.persona_id.slice(0, 8)}
                 </span>
-                <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', marginLeft: 'auto' }}>
+                <span className="text-[0.625rem] text-[var(--text-muted)] ml-auto">
                   {new Date(a.created_at).toLocaleString()}
                 </span>
               </div>
               {a.content_preview && (
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0 }}>
+                <p className="text-[0.75rem] text-[var(--text-secondary)] m-0">
                   {a.content_preview}
                 </p>
               )}
@@ -894,9 +750,9 @@ export default function PersonasAdmin() {
           ))}
 
           {activity.length === 0 && (
-            <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>No activity yet</p>
-              <p style={{ fontSize: '0.75rem' }}>Persona conversations will appear here</p>
+            <div className="p-10 text-center text-[var(--text-muted)]">
+              <p className="text-[0.875rem] font-semibold">No activity yet</p>
+              <p className="text-[0.75rem]">Persona conversations will appear here</p>
             </div>
           )}
         </div>
@@ -906,22 +762,14 @@ export default function PersonasAdmin() {
       {tab === 'workflows' && (
         <div>
           {/* Batch actions bar */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20,
-            padding: '16px 20px', borderRadius: 16, background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-          }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.875rem', fontWeight: 700 }}>Persona Workflows</div>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+          <div className="flex items-center gap-2 mb-5 px-5 py-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)]">
+            <div className="flex-1">
+              <div className="text-[0.875rem] font-bold">Persona Workflows</div>
+              <div className="text-[0.6875rem] text-[var(--text-muted)]">
                 Configure posting schedules per persona. Run individually or batch.
               </div>
             </div>
-            <button
-              onClick={runAllWorkflows}
-              disabled={runningAll}
-              style={btnStyle('#6EE05A')}
-            >
+            <button onClick={runAllWorkflows} disabled={runningAll} className="px-4 py-2 rounded-lg border-none font-bold text-[0.75rem] cursor-pointer text-[#6EE05A] bg-[#6EE05A]/10">
               {runningAll ? 'Running...' : 'Run All Enabled'}
             </button>
             <button
@@ -939,81 +787,70 @@ export default function PersonasAdmin() {
                 }).catch(() => setMessage('Batch failed'))
               }}
               disabled={runningAll}
-              style={btnStyle('#9945ff')}
+              className="px-4 py-2 rounded-lg border-none font-bold text-[0.75rem] cursor-pointer text-[#9945ff] bg-[#9945ff]/10"
             >
               Batch Threads
             </button>
           </div>
 
           {workflowLoading ? (
-            <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>Loading workflows...</div>
+            <div className="text-center p-10 text-[var(--text-muted)]">Loading workflows...</div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div className="flex flex-col gap-2">
               {workflowPersonas.filter(p => p.is_active).map(p => {
                 const config = p.workflow_config || { enabled: false, threads_per_week: 2, replies_per_week: 5, preferred_groups: p.preferred_groups || [], topics: [] }
                 const isRunning = runningPersona === p.id
                 return (
                   <div
                     key={p.id}
-                    style={{
-                      padding: '16px 20px', borderRadius: 14,
-                      background: 'var(--bg-card)', border: `1px solid ${config.enabled ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
-                      opacity: config.enabled ? 1 : 0.7,
-                    }}
+                    className={`px-5 py-4 rounded-[14px] bg-[var(--bg-card)] border transition-opacity ${config.enabled ? 'border-[#6EE05A]/20 opacity-100' : 'border-[var(--border)] opacity-70'}`}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div className="flex items-center gap-3">
                       {/* Avatar initial */}
-                      <div style={{
-                        width: 36, height: 36, borderRadius: '50%',
-                        background: `${ROLE_COLORS[p.role || ''] || '#484e78'}20`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.875rem', fontWeight: 900,
-                        color: ROLE_COLORS[p.role || ''] || '#fff',
-                        flexShrink: 0,
-                      }}>
+                      <div
+                        className="w-9 h-9 rounded-full flex items-center justify-center text-[0.875rem] font-black shrink-0"
+                        style={{
+                          background: `${ROLE_COLORS[p.role || ''] || '#484e78'}20`,
+                          color: ROLE_COLORS[p.role || ''] || '#fff',
+                        }}
+                      >
                         {p.name.charAt(0)}
                       </div>
 
                       {/* Name + role */}
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontWeight: 700, fontSize: '0.8125rem' }}>{p.name}</div>
-                        <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-[0.8125rem]">{p.name}</div>
+                        <div className="text-[0.625rem] text-[var(--text-muted)]">
                           <span style={{ color: ROLE_COLORS[p.role || ''] || 'var(--text-muted)' }}>{p.role}</span>
                           {' '}&middot; {p.activity_level}
                         </div>
                       </div>
 
                       {/* Weekly stats */}
-                      <div style={{ textAlign: 'center', padding: '0 12px' }}>
-                        <div style={{ fontSize: '0.875rem', fontWeight: 900, color: '#9945ff' }}>{p.weekly_threads}</div>
-                        <div style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>threads/wk</div>
+                      <div className="text-center px-3">
+                        <div className="text-[0.875rem] font-black text-[#9945ff]">{p.weekly_threads}</div>
+                        <div className="text-[0.5rem] text-[var(--text-muted)] uppercase">threads/wk</div>
                       </div>
-                      <div style={{ textAlign: 'center', padding: '0 12px' }}>
-                        <div style={{ fontSize: '0.875rem', fontWeight: 900, color: '#00d4ff' }}>{p.weekly_replies}</div>
-                        <div style={{ fontSize: '0.5rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>replies/wk</div>
+                      <div className="text-center px-3">
+                        <div className="text-[0.875rem] font-black text-[#00d4ff]">{p.weekly_replies}</div>
+                        <div className="text-[0.5rem] text-[var(--text-muted)] uppercase">replies/wk</div>
                       </div>
 
                       {/* Schedule controls */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <label style={{ fontSize: '0.5625rem', color: 'var(--text-muted)' }}>T/wk</label>
+                      <div className="flex items-center gap-1.5">
+                        <label className="text-[0.5625rem] text-[var(--text-muted)]">T/wk</label>
                         <select
                           value={config.threads_per_week}
-                          onChange={e => {
-                            const newConfig = { ...config, threads_per_week: Number(e.target.value) }
-                            updateWorkflowConfig(p.id, newConfig)
-                          }}
-                          style={{ ...selectStyle, width: 52, padding: '4px 6px' }}
+                          onChange={e => updateWorkflowConfig(p.id, { ...config, threads_per_week: Number(e.target.value) })}
+                          className="w-[52px] px-1.5 py-1 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-[0.75rem]"
                         >
                           {[0, 1, 2, 3, 5, 7, 10].map(n => <option key={n} value={n}>{n}</option>)}
                         </select>
-                        <label style={{ fontSize: '0.5625rem', color: 'var(--text-muted)' }}>R/wk</label>
+                        <label className="text-[0.5625rem] text-[var(--text-muted)]">R/wk</label>
                         <select
                           value={config.replies_per_week}
-                          onChange={e => {
-                            const newConfig = { ...config, replies_per_week: Number(e.target.value) }
-                            updateWorkflowConfig(p.id, newConfig)
-                          }}
-                          style={{ ...selectStyle, width: 52, padding: '4px 6px' }}
+                          onChange={e => updateWorkflowConfig(p.id, { ...config, replies_per_week: Number(e.target.value) })}
+                          className="w-[52px] px-1.5 py-1 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-[0.75rem]"
                         >
                           {[0, 1, 2, 3, 5, 7, 10, 15, 20].map(n => <option key={n} value={n}>{n}</option>)}
                         </select>
@@ -1021,18 +858,8 @@ export default function PersonasAdmin() {
 
                       {/* Enable toggle */}
                       <button
-                        onClick={() => {
-                          const newConfig = { ...config, enabled: !config.enabled }
-                          updateWorkflowConfig(p.id, newConfig)
-                        }}
-                        style={{
-                          padding: '4px 10px', borderRadius: 6,
-                          background: config.enabled ? 'rgba(126,217,87,0.15)' : 'var(--bg-card)',
-                          color: config.enabled ? '#6EE05A' : 'var(--text-muted)',
-                          border: 'none', fontWeight: 700, fontSize: '0.5625rem',
-                          cursor: 'pointer', textTransform: 'uppercase',
-                          minWidth: 48,
-                        }}
+                        onClick={() => updateWorkflowConfig(p.id, { ...config, enabled: !config.enabled })}
+                        className={`px-2.5 py-1 rounded font-bold text-[0.5625rem] cursor-pointer border-none uppercase min-w-[48px] ${config.enabled ? 'bg-[#6EE05A]/15 text-[#6EE05A]' : 'bg-[var(--bg-card)] text-[var(--text-muted)]'}`}
                       >
                         {config.enabled ? 'ON' : 'OFF'}
                       </button>
@@ -1041,29 +868,20 @@ export default function PersonasAdmin() {
                       <button
                         onClick={() => runPersonaWorkflow(p.id)}
                         disabled={isRunning || runningAll}
-                        style={{
-                          ...btnStyleSmall('#ff6b35'),
-                          opacity: isRunning || runningAll ? 0.5 : 1,
-                        }}
+                        className={`px-2 py-0.5 rounded font-bold text-[0.5625rem] cursor-pointer border-none bg-[#ff6b35]/15 text-[#ff6b35] ${isRunning || runningAll ? 'opacity-50' : ''}`}
                       >
                         {isRunning ? '...' : 'Run'}
                       </button>
                     </div>
 
                     {/* Groups row */}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 8 }}>
+                    <div className="flex flex-wrap gap-0.5 mt-2">
                       {(p.preferred_groups || []).map(g => (
-                        <span
-                          key={g}
-                          style={{
-                            fontSize: '0.5rem', padding: '1px 5px', borderRadius: 3,
-                            background: 'var(--bg-card)', color: 'var(--text-muted)',
-                          }}
-                        >
+                        <span key={g} className="text-[0.5rem] px-1.5 py-px rounded bg-[var(--bg-card)] text-[var(--text-muted)]">
                           {g}
                         </span>
                       ))}
-                      <span style={{ fontSize: '0.5rem', color: 'var(--text-muted)', marginLeft: 4 }}>
+                      <span className="text-[0.5rem] text-[var(--text-muted)] ml-1">
                         Total: {p.thread_count}t / {p.reply_count}r
                       </span>
                     </div>
@@ -1072,59 +890,56 @@ export default function PersonasAdmin() {
               })}
 
               {workflowPersonas.filter(p => p.is_active).length === 0 && (
-                <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
-                  <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>No active personas</p>
-                  <p style={{ fontSize: '0.75rem' }}>Create and activate personas first</p>
+                <div className="p-10 text-center text-[var(--text-muted)]">
+                  <p className="text-[0.875rem] font-semibold">No active personas</p>
+                  <p className="text-[0.75rem]">Create and activate personas first</p>
                 </div>
               )}
             </div>
           )}
         </div>
       )}
+
       {/* ==================== Queue Tab ==================== */}
       {tab === 'queue' && (
         <div>
           {/* Stats */}
-          <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+          <div className="flex gap-3 mb-5">
             <StatBox label="Queued" value={queue.filter(q => q.status === 'queued').length} color="#9945ff" />
             <StatBox label="Posted" value={queue.filter(q => q.status === 'posted').length} color="#6EE05A" />
             <StatBox label="Failed" value={queue.filter(q => q.status === 'failed').length} color="#ff3d3d" />
           </div>
 
           {queueLoading ? (
-            <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>Loading queue...</div>
+            <div className="text-center p-10 text-[var(--text-muted)]">Loading queue...</div>
           ) : queue.length === 0 ? (
-            <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>Content queue is empty</p>
-              <p style={{ fontSize: '0.75rem' }}>Scheduled persona content will appear here</p>
+            <div className="p-10 text-center text-[var(--text-muted)]">
+              <p className="text-[0.875rem] font-semibold">Content queue is empty</p>
+              <p className="text-[0.75rem]">Scheduled persona content will appear here</p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div className="flex flex-col gap-1.5">
               {queue.map(item => (
-                <div
-                  key={item.id}
-                  style={{
-                    padding: '12px 16px', borderRadius: 12,
-                    background: 'var(--bg-card)', border: '1px solid var(--border)',
-                    display: 'flex', alignItems: 'center', gap: 12,
-                  }}
-                >
+                <div key={item.id} className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border)]">
                   {/* Status badge */}
-                  <span style={{
-                    fontSize: '0.5625rem', fontWeight: 700, textTransform: 'uppercase',
-                    padding: '2px 6px', borderRadius: 4, minWidth: 48, textAlign: 'center',
-                    background: item.status === 'queued' ? 'rgba(153,69,255,0.15)' : item.status === 'posted' ? 'rgba(126,217,87,0.15)' : 'rgba(255,61,61,0.15)',
-                    color: item.status === 'queued' ? '#9945ff' : item.status === 'posted' ? '#6EE05A' : '#ff3d3d',
-                  }}>
+                  <span
+                    className={`text-[0.5625rem] font-bold uppercase px-1.5 py-0.5 rounded min-w-[48px] text-center ${
+                      item.status === 'queued'
+                        ? 'bg-[#9945ff]/15 text-[#9945ff]'
+                        : item.status === 'posted'
+                        ? 'bg-[#6EE05A]/15 text-[#6EE05A]'
+                        : 'bg-red-500/15 text-[#ff3d3d]'
+                    }`}
+                  >
                     {item.status}
                   </span>
 
                   {/* Content */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '0.8125rem', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[0.8125rem] font-semibold truncate">
                       {item.title || 'Untitled'}
                     </div>
-                    <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)' }}>
+                    <div className="text-[0.625rem] text-[var(--text-muted)]">
                       {item.persona_slug} &middot; {item.content_type} &middot; {new Date(item.scheduled_at).toLocaleString()}
                     </div>
                   </div>
@@ -1140,7 +955,7 @@ export default function PersonasAdmin() {
                         })
                         loadQueue()
                       }}
-                      style={btnStyleSmall('#ff3d3d')}
+                      className="px-2 py-0.5 rounded font-bold text-[0.5625rem] cursor-pointer border-none bg-[#ff3d3d]/15 text-[#ff3d3d]"
                     >
                       Cancel
                     </button>
@@ -1155,7 +970,7 @@ export default function PersonasAdmin() {
                         })
                         loadQueue()
                       }}
-                      style={btnStyleSmall('#ff6b35')}
+                      className="px-2 py-0.5 rounded font-bold text-[0.5625rem] cursor-pointer border-none bg-[#ff6b35]/15 text-[#ff6b35]"
                     >
                       Retry
                     </button>
@@ -1170,83 +985,22 @@ export default function PersonasAdmin() {
   )
 }
 
-// ==================== Shared Styles ====================
+// ==================== Shared Components ====================
 
 function Field({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <div>
-      <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>{label}</div>
-      <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: color || 'var(--text)' }}>{value || '—'}</div>
+      <div className="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.05em] mb-0.5">{label}</div>
+      <div className="text-[0.8125rem] font-semibold" style={{ color: color || 'var(--text-primary)' }}>{value || '—'}</div>
     </div>
   )
 }
 
 function StatBox({ label, value, color }: { label: string; value: number; color: string }) {
   return (
-    <div style={{
-      padding: '12px 20px',
-      borderRadius: 12,
-      background: 'var(--bg-card)',
-      border: '1px solid var(--border)',
-      textAlign: 'center',
-      flex: 1,
-    }}>
-      <div style={{ fontSize: '1.5rem', fontWeight: 900, color }}>{value}</div>
-      <div style={{ fontSize: '0.625rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{label}</div>
+    <div className="px-5 py-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] text-center flex-1">
+      <div className="text-2xl font-black" style={{ color }}>{value}</div>
+      <div className="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.1em]">{label}</div>
     </div>
   )
-}
-
-const selectStyle: React.CSSProperties = {
-  padding: '7px 12px',
-  borderRadius: 8,
-  background: 'var(--bg-secondary)',
-  border: '1px solid var(--border)',
-  color: 'var(--text)',
-  fontSize: '0.75rem',
-  fontWeight: 600,
-}
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '7px 12px',
-  borderRadius: 8,
-  background: 'var(--bg-secondary)',
-  border: '1px solid var(--border)',
-  color: 'var(--text)',
-  fontSize: '0.75rem',
-  fontWeight: 600,
-}
-
-const labelStyle: React.CSSProperties = {
-  fontSize: '0.6875rem',
-  color: 'var(--text-muted)',
-  display: 'block',
-  marginBottom: 4,
-}
-
-function btnStyle(color: string): React.CSSProperties {
-  return {
-    padding: '8px 16px',
-    borderRadius: 8,
-    background: color + '18',
-    color,
-    border: 'none',
-    fontWeight: 700,
-    fontSize: '0.75rem',
-    cursor: 'pointer',
-  }
-}
-
-function btnStyleSmall(color: string): React.CSSProperties {
-  return {
-    padding: '3px 8px',
-    borderRadius: 5,
-    background: color + '15',
-    color,
-    border: 'none',
-    fontWeight: 700,
-    fontSize: '0.5625rem',
-    cursor: 'pointer',
-  }
 }

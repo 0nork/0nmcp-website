@@ -54,40 +54,28 @@ function ProvisionStep({ label, delay, onDone }: { label: string; delay: number;
   }, [delay])
 
   return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: '0.75rem',
-      padding: '0.75rem 1rem', borderRadius: 10,
-      background: status === 'done' ? 'rgba(126,217,87,0.06)' : 'transparent',
-      border: `1px solid ${status === 'done' ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
-      transition: 'all 0.4s ease',
-      opacity: status === 'waiting' ? 0.4 : 1,
-    }}>
+    <div className={[
+      'flex items-center gap-3 px-4 py-3 rounded-[10px] border transition-all duration-[400ms]',
+      status === 'done'
+        ? 'bg-[rgba(126,217,87,0.06)] border-[rgba(126,217,87,0.2)]'
+        : 'bg-transparent border-[var(--border)]',
+      status === 'waiting' ? 'opacity-40' : 'opacity-100',
+    ].join(' ')}>
       {status === 'done' ? (
-        <div style={{
-          width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
-          background: '#7ed957', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+        <div className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center bg-[#7ed957]">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
       ) : status === 'running' ? (
-        <div style={{
-          width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
-          border: '2px solid var(--border)', borderTopColor: '#7ed957',
-          animation: 'spin 0.7s linear infinite',
-        }} />
+        <div className="w-6 h-6 rounded-full shrink-0 border-2 border-[var(--border)] border-t-[#7ed957] animate-spin" />
       ) : (
-        <div style={{
-          width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
-          border: '2px solid var(--border)',
-        }} />
+        <div className="w-6 h-6 rounded-full shrink-0 border-2 border-[var(--border)]" />
       )}
-      <span style={{
-        fontSize: '0.875rem', fontWeight: status === 'done' ? 600 : 400,
-        color: status === 'done' ? 'var(--text-primary)' : 'var(--text-secondary)',
-        transition: 'all 0.3s',
-      }}>{label}</span>
+      <span className={[
+        'text-sm transition-all duration-300',
+        status === 'done' ? 'font-semibold text-[var(--text-primary)]' : 'font-normal text-[var(--text-secondary)]',
+      ].join(' ')}>{label}</span>
       {status === 'done' && (
-        <span style={{ marginLeft: 'auto', fontSize: '0.7rem', color: '#7ed957', fontWeight: 600 }}>Done</span>
+        <span className="ml-auto text-[0.7rem] text-[#7ed957] font-semibold">Done</span>
       )}
     </div>
   )
@@ -615,64 +603,46 @@ function OnboardingInner() {
         ))}
       </div>
 
-      {error && <div className="auth-error" style={{ maxWidth: 600, margin: '0 auto 1rem' }}>{error}</div>}
+      {error && <div className="auth-error max-w-[600px] mx-auto mb-4">{error}</div>}
 
       {/* ===== STEP 1: WELCOME + PLATFORM PICKER ===== */}
       {step === 1 && (
-        <div className="onboarding-card fadeInUp" style={{ maxWidth: 720, position: 'relative', overflow: 'hidden' }}>
+        <div className="onboarding-card fadeInUp max-w-[720px] relative overflow-hidden">
           {/* Animated gradient background glow */}
-          <div style={{
-            position: 'absolute', top: -120, left: '50%', transform: 'translateX(-50%)',
-            width: 500, height: 500, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(126,217,87,0.08) 0%, rgba(0,212,255,0.04) 40%, transparent 70%)',
-            animation: 'pulseGlow 4s ease-in-out infinite',
-            pointerEvents: 'none', zIndex: 0,
-          }} />
+          <div className="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
+            style={{ background: 'radial-gradient(circle, rgba(126,217,87,0.08) 0%, rgba(0,212,255,0.04) 40%, transparent 70%)', animation: 'pulseGlow 4s ease-in-out infinite' }} />
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
+          <div className="relative z-[1]">
             {/* Welcome */}
-            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px',
-                borderRadius: 20, background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)',
-                marginBottom: '1.25rem', fontSize: '0.75rem', fontWeight: 600, color: '#7ed957',
-                letterSpacing: '0.05em', textTransform: 'uppercase',
-              }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7ed957', animation: 'pulseGlow 2s ease-in-out infinite' }} />
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-[20px] bg-[rgba(126,217,87,0.1)] border border-[rgba(126,217,87,0.2)] mb-5 text-xs font-semibold text-[#7ed957] tracking-[0.05em] uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#7ed957]" style={{ animation: 'pulseGlow 2s ease-in-out infinite' }} />
                 You&apos;re in — {STATS_DISPLAY.tools} tools unlocked
               </div>
-              <h1 className="onboarding-title" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
+              <h1 className="onboarding-title text-[clamp(1.5rem,3vw,2rem)]">
                 {fullName ? `Welcome, ${fullName.split(' ')[0]}!` : 'Welcome to 0nMCP'}
               </h1>
-              <p className="onboarding-subtitle" style={{ maxWidth: 480, margin: '0.5rem auto 0' }}>
+              <p className="onboarding-subtitle max-w-[480px] mx-auto mt-2 mb-0">
                 The universal AI orchestrator. {STATS_DISPLAY.tools} tools, {STATS_DISPLAY.services} services, 7-layer encryption.
                 Let&apos;s get you set up in 60 seconds.
               </p>
             </div>
 
             {/* Quick Profile (optional) */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem',
-              marginBottom: '2rem', maxWidth: 520, margin: '0 auto 2rem',
-            }}>
+            <div className="grid grid-cols-2 gap-3 mb-8 max-w-[520px] mx-auto">
               {[
                 { id: 'ob-company', label: 'Company', placeholder: 'Acme Inc', value: company, setter: setCompany, icon: 'M3 21h18M3 7l9-4 9 4M5 7v10h2V7M17 7v10h2V7M9 7v10h2V7M13 7v10h2V7' },
                 { id: 'ob-website', label: 'Website', placeholder: 'acme.com', value: bio, setter: setBio, icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zM3 12h18M12 3c2.5 2.8 4 6 4 9s-1.5 6.2-4 9c-2.5-2.8-4-6-4-9s1.5-6.2 4-9z' },
               ].map(f => (
                 <div key={f.id}>
-                  <label htmlFor={f.id} style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.7rem', fontWeight: 600, marginBottom: 4 }}>
+                  <label htmlFor={f.id} className="flex items-center gap-1.5 text-[var(--text-muted)] text-[0.7rem] font-semibold mb-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={f.icon}/></svg>
-                    {f.label} <span style={{ color: 'rgba(255,255,255,0.2)', fontWeight: 400 }}>(optional)</span>
+                    {f.label} <span className="text-[rgba(255,255,255,0.2)] font-normal">(optional)</span>
                   </label>
                   <input
                     id={f.id} type="text" value={f.value} onChange={e => f.setter(e.target.value)}
                     placeholder={f.placeholder}
-                    style={{
-                      width: '100%', height: 38, borderRadius: 8,
-                      background: 'var(--bg-card)', border: '1px solid var(--border)',
-                      color: 'var(--text-primary)', padding: '0 0.75rem', fontSize: '0.8rem', outline: 'none',
-                      transition: 'border-color 0.2s ease', fontFamily: 'inherit',
-                    }}
+                    className="w-full h-[38px] rounded-lg bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-primary)] px-3 text-[0.8rem] outline-none transition-[border-color] duration-200 font-[inherit]"
                     onFocus={e => { e.target.style.borderColor = 'rgba(126,217,87,0.4)' }}
                     onBlur={e => { e.target.style.borderColor = 'var(--border)' }}
                   />
@@ -681,13 +651,11 @@ function OnboardingInner() {
             </div>
 
             {/* What are you installing for? */}
-            <div style={{ marginBottom: '2rem' }}>
-              <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600, marginBottom: '1rem' }}>
+            <div className="mb-8">
+              <p className="text-center text-[var(--text-secondary)] text-[0.85rem] font-semibold mb-4">
                 What are you building with 0nMCP?
               </p>
-              <div style={{
-                display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center',
-              }}>
+              <div className="flex flex-wrap gap-2 justify-center">
                 {[
                   { label: 'AI Automation', color: '#7ed957' },
                   { label: 'CRM + Sales', color: '#00d4ff' },
@@ -703,13 +671,11 @@ function OnboardingInner() {
                     <button
                       key={tag.label}
                       onClick={() => toggleInterest(tag.label)}
+                      className="px-3.5 py-1.5 rounded-[20px] cursor-pointer text-[0.775rem] font-semibold transition-all duration-200"
                       style={{
-                        padding: '6px 14px', borderRadius: 20, cursor: 'pointer',
                         background: selected ? `${tag.color}20` : 'var(--bg-card)',
                         border: `1px solid ${selected ? tag.color + '60' : 'var(--border)'}`,
                         color: selected ? tag.color : 'var(--text-muted)',
-                        fontSize: '0.775rem', fontWeight: 600,
-                        transition: 'all 0.2s ease',
                         transform: selected ? 'scale(1.05)' : 'scale(1)',
                       }}
                     >{tag.label}</button>
@@ -719,42 +685,31 @@ function OnboardingInner() {
             </div>
 
             {/* Stats */}
-            <div style={{
-              display: 'flex', justifyContent: 'center', gap: '2rem', marginBottom: '2rem',
-              flexWrap: 'wrap',
-            }}>
+            <div className="flex justify-center gap-8 mb-8 flex-wrap">
               {[
                 { val: STATS_DISPLAY.tools, label: 'Tools', color: '#7ed957' },
                 { val: STATS_DISPLAY.services, label: 'Services', color: '#00d4ff' },
                 { val: '5', label: 'Patents', color: '#a78bfa' },
                 { val: '$0', label: 'Free', color: '#f59e0b' },
               ].map((s, i) => (
-                <div key={i} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: s.color, fontFamily: 'var(--font-mono)' }}>{s.val}</div>
-                  <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>{s.label}</div>
+                <div key={i} className="text-center">
+                  <div className="text-2xl font-extrabold font-mono" style={{ color: s.color }}>{s.val}</div>
+                  <div className="text-[0.65rem] text-[var(--text-muted)] uppercase tracking-widest font-semibold">{s.label}</div>
                 </div>
               ))}
             </div>
 
             {/* CTAs */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', maxWidth: 400, margin: '0 auto' }}>
+            <div className="flex flex-col gap-3 items-center max-w-[400px] mx-auto">
               <a
                 href="/install"
-                style={{
-                  maxWidth: 360, width: '100%', height: 52, borderRadius: 10,
-                  background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)',
-                  color: '#000', border: 'none', fontSize: '1rem', fontWeight: 700,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                  textDecoration: 'none', cursor: 'pointer',
-                  boxShadow: '0 4px 20px rgba(126,217,87,0.3)',
-                  transition: 'all 0.2s ease',
-                  fontFamily: 'var(--font-display)',
-                }}
+                className="max-w-[360px] w-full h-[52px] rounded-[10px] text-black border-none text-base font-bold flex items-center justify-center gap-2 no-underline cursor-pointer transition-all duration-200"
+                style={{ background: 'linear-gradient(135deg, #7ed957 0%, #5cb83a 100%)', boxShadow: '0 4px 20px rgba(126,217,87,0.3)' }}
               >
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 Install 0nMCP Now
               </a>
-              <button className="auth-btn secondary" onClick={async () => {
+              <button className="auth-btn secondary max-w-[360px] w-full text-[0.8rem] opacity-70" onClick={async () => {
                 if (company || bio || interests.length > 0) {
                   if (supabase && userId) {
                     await supabase.from('profiles').update({
@@ -763,7 +718,7 @@ function OnboardingInner() {
                   }
                 }
                 goNext()
-              }} style={{ maxWidth: 360, width: '100%', fontSize: '0.8rem', opacity: 0.7 }}>
+              }}>
                 Skip for now — set up profile first
               </button>
             </div>
@@ -788,38 +743,26 @@ function OnboardingInner() {
           </p>
 
           {/* Archetype Card */}
-          <div style={{
-            background: 'rgba(126,217,87,0.06)',
-            border: `1px solid ${ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A'}40`,
-            borderRadius: '1rem',
-            padding: '2rem',
-            textAlign: 'center',
-            margin: '1.5rem 0',
-          }}>
-            <div style={{ marginBottom: '0.5rem', color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A' }}>
+          <div className="rounded-2xl p-8 text-center my-6 bg-[rgba(126,217,87,0.06)]"
+            style={{ border: `1px solid ${ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A'}40` }}>
+            <div className="mb-2" style={{ color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A' }}>
               {(() => { const AIcon = ARCHETYPE_DISPLAY[archetypeTier]?.icon || IconStar; return <AIcon size={48} /> })()}
             </div>
-            <div style={{
-              fontSize: '1.5rem',
-              fontWeight: 800,
-              color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A',
-              fontFamily: 'var(--font-display)',
-              marginBottom: '0.5rem',
-            }}>
+            <div className="text-2xl font-extrabold mb-2" style={{ color: ARCHETYPE_DISPLAY[archetypeTier]?.color || '#6EE05A' }}>
               {ARCHETYPE_DISPLAY[archetypeTier]?.title || archetypeTier}
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '400px', margin: '0 auto' }}>
+            <p className="text-[var(--text-secondary)] text-[0.9rem] max-w-[400px] mx-auto m-0">
               {ARCHETYPE_DISPLAY[archetypeTier]?.desc || 'Your unique profile has been classified.'}
             </p>
           </div>
 
           {/* Follow-up Question */}
           {followUpQuestion && (
-            <div style={{ marginTop: '1.5rem' }}>
-              <label className="onboarding-section-label" style={{ display: 'block', marginBottom: '0.75rem' }}>
+            <div className="mt-6">
+              <label className="onboarding-section-label block mb-3">
                 One quick question to personalize your experience:
               </label>
-              <p style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, marginBottom: '0.75rem' }}>
+              <p className="text-[var(--text-primary)] text-base font-semibold mb-3">
                 {followUpQuestion}
               </p>
               <div className="auth-field">
@@ -828,14 +771,14 @@ function OnboardingInner() {
                   onChange={e => setFollowUpAnswer(e.target.value.slice(0, 500))}
                   placeholder="Share your thoughts..."
                   rows={3}
-                  style={{ resize: 'none' }}
+                  className="resize-none"
                 />
                 <span className="onboarding-char-count">{followUpAnswer.length}/500</span>
               </div>
             </div>
           )}
 
-          <div className="onboarding-actions" style={{ marginTop: '1.5rem' }}>
+          <div className="onboarding-actions mt-6">
             <button className="auth-btn secondary" onClick={goBack}>Back</button>
             <button className="auth-btn primary" onClick={() => {
               // Save follow-up answer if provided (fire-and-forget)
@@ -882,7 +825,7 @@ function OnboardingInner() {
                 onChange={e => setBio(e.target.value.slice(0, 300))}
                 placeholder="What are you building with 0nMCP?"
                 rows={3}
-                style={{ resize: 'none' }}
+                className="resize-none"
               />
               <span className="onboarding-char-count">{bio.length}/300</span>
             </div>
@@ -948,7 +891,7 @@ function OnboardingInner() {
           </p>
 
           {/* Animated provision checklist */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', margin: '1.5rem 0' }}>
+          <div className="flex flex-col gap-3 my-6">
             {[
               { label: 'Creating your AI knowledge base', delay: 0 },
               { label: 'Configuring encrypted vault', delay: 400 },
@@ -981,72 +924,52 @@ function OnboardingInner() {
           </p>
 
           {/* Benefits */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '0.75rem',
-            marginBottom: '1.5rem',
-          }}>
+          <div className="grid grid-cols-3 gap-3 mb-6">
             {[
               { icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z', label: 'One-click marketplace', color: '#6EE05A' },
               { icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', label: 'Instant Runs top-up', color: '#00d4ff' },
               { icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', label: 'Stripe secured', color: '#a78bfa' },
             ].map(({ icon, label, color }) => (
-              <div key={label} style={{
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border)',
-                borderRadius: '0.75rem',
-                padding: '1rem',
-                textAlign: 'center',
-              }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 6 }}>
+              <div key={label} className="bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-xl p-4 text-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-1.5">
                   <path d={icon} />
                 </svg>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>{label}</div>
+                <div className="text-[0.72rem] text-[var(--text-secondary)] leading-snug">{label}</div>
               </div>
             ))}
           </div>
 
           {/* Saved cards */}
           {paymentMethods.length > 0 && (
-            <div style={{ marginBottom: '1.5rem' }}>
+            <div className="mb-6">
               <label className="onboarding-section-label">Saved cards</label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <div className="flex flex-col gap-2">
                 {paymentMethods.map(pm => (
                   <div
                     key={pm.id}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl"
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.75rem',
-                      padding: '0.75rem 1rem',
                       background: pm.is_default ? 'rgba(126,217,87,0.06)' : 'var(--bg-tertiary)',
                       border: pm.is_default ? '1px solid rgba(126,217,87,0.3)' : '1px solid var(--border)',
-                      borderRadius: '0.75rem',
                     }}
                   >
                     <svg width="24" height="16" viewBox="0 0 24 16" fill="none" stroke="var(--text-secondary)" strokeWidth="1.5">
                       <rect x="1" y="1" width="22" height="14" rx="2" />
                       <line x1="1" y1="6" x2="23" y2="6" />
                     </svg>
-                    <div style={{ flex: 1 }}>
-                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>
+                    <div className="flex-1">
+                      <span className="text-[0.85rem] font-semibold text-[var(--text-primary)] capitalize">
                         {pm.card_brand}
                       </span>
-                      <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', marginLeft: 8 }}>
+                      <span className="text-[0.85rem] text-[var(--text-secondary)] font-mono ml-2">
                         ****{pm.card_last4}
                       </span>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 8 }}>
+                      <span className="text-[0.75rem] text-[var(--text-muted)] ml-2">
                         {pm.card_exp_month}/{pm.card_exp_year}
                       </span>
                     </div>
                     {pm.is_default && (
-                      <span style={{
-                        fontSize: '0.65rem', fontWeight: 700, color: '#6EE05A',
-                        fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
-                        padding: '2px 8px', borderRadius: 4,
-                        background: 'rgba(126,217,87,0.12)',
-                      }}>
+                      <span className="text-[0.65rem] font-bold text-[#6EE05A] font-mono tracking-[0.05em] px-2 py-0.5 rounded bg-[rgba(126,217,87,0.12)]">
                         DEFAULT
                       </span>
                     )}
@@ -1059,10 +982,9 @@ function OnboardingInner() {
           {/* Add card button */}
           {paymentMethods.length === 0 && (
             <button
-              className="auth-btn primary"
+              className="auth-btn primary max-w-[320px] mx-auto mb-4 flex items-center justify-center gap-2"
               onClick={handleAddPaymentMethod}
               disabled={paymentLoading}
-              style={{ maxWidth: 320, margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
@@ -1072,7 +994,7 @@ function OnboardingInner() {
             </button>
           )}
 
-          <div className="onboarding-trust" style={{ marginBottom: '1rem' }}>
+          <div className="onboarding-trust mb-4">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="#635bff">
               <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
             </svg>
@@ -1097,39 +1019,31 @@ function OnboardingInner() {
           </p>
 
           {/* Community channels — clean compact list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', margin: '1.5rem 0' }}>
+          <div className="flex flex-col gap-2 my-6">
             {[
               { name: 'Announcements', desc: 'Product updates and releases', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> },
               { name: 'Help & Support', desc: 'Ask questions, get answers fast', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> },
               { name: 'Showcase', desc: 'Show what you&apos;ve built with 0nMCP', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
               { name: 'Feature Requests', desc: 'Vote on what gets built next', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" strokeWidth="2" strokeLinecap="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg> },
             ].map((ch) => (
-              <div key={ch.name} style={{
-                display: 'flex', alignItems: 'center', gap: '0.875rem',
-                padding: '0.75rem 1rem', borderRadius: 10,
-                background: 'rgba(126,217,87,0.04)', border: '1px solid rgba(126,217,87,0.1)',
-              }}>
-                <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 8, background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div key={ch.name} className="flex items-center gap-3.5 px-4 py-3 rounded-[10px] bg-[rgba(126,217,87,0.04)] border border-[rgba(126,217,87,0.1)]">
+                <div className="shrink-0 w-8 h-8 rounded-lg bg-[var(--bg-primary)] flex items-center justify-center">
                   {ch.icon}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{ch.name}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{ch.desc}</div>
+                  <div className="font-semibold text-[0.875rem] text-[var(--text-primary)]">{ch.name}</div>
+                  <div className="text-[0.75rem] text-[var(--text-muted)]">{ch.desc}</div>
                 </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2.5" strokeLinecap="round" style={{ marginLeft: 'auto', flexShrink: 0 }}><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7ed957" strokeWidth="2.5" strokeLinecap="round" className="ml-auto shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
             ))}
           </div>
 
-          <div style={{
-            textAlign: 'center', padding: '1rem',
-            background: 'rgba(126,217,87,0.06)', borderRadius: 10,
-            border: '1px solid rgba(126,217,87,0.15)', marginBottom: '1rem',
-          }}>
-            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          <div className="text-center p-4 bg-[rgba(126,217,87,0.06)] rounded-[10px] border border-[rgba(126,217,87,0.15)] mb-4">
+            <div className="text-[0.8rem] text-[var(--text-muted)]">
               Access the full community anytime from your console or at
             </div>
-            <a href="/forum" style={{ color: 'var(--accent)', fontWeight: 600, fontSize: '0.85rem', textDecoration: 'none' }}>
+            <a href="/forum" className="text-[var(--accent)] font-semibold text-[0.85rem] no-underline">
               0nmcp.com/forum
             </a>
           </div>
@@ -1157,7 +1071,7 @@ function OnboardingInner() {
             {role && (
               <div className="onboarding-summary-row">
                 <span className="onboarding-summary-label">Role</span>
-                <span className="onboarding-summary-value" style={{ textTransform: 'capitalize' }}>{role}</span>
+                <span className="onboarding-summary-value capitalize">{role}</span>
               </div>
             )}
             {credentialCount > 0 && (
@@ -1169,7 +1083,7 @@ function OnboardingInner() {
             {paymentMethods.length > 0 && (
               <div className="onboarding-summary-row">
                 <span className="onboarding-summary-label">Payment</span>
-                <span className="onboarding-summary-value" style={{ textTransform: 'capitalize' }}>
+                <span className="onboarding-summary-value capitalize">
                   {paymentMethods[0].card_brand} ****{paymentMethods[0].card_last4}
                 </span>
               </div>
@@ -1183,39 +1097,33 @@ function OnboardingInner() {
           </div>
 
           {/* Vendor application */}
-          <div style={{
-            background: 'rgba(0,212,255,0.04)',
-            border: '1px solid rgba(0,212,255,0.15)',
-            borderRadius: '0.75rem',
-            padding: '1.25rem',
-            marginBottom: '1.5rem',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+          <div className="bg-[rgba(0,212,255,0.04)] border border-[rgba(0,212,255,0.15)] rounded-xl p-5 mb-6">
+            <div className="flex items-center gap-2 mb-2">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 2L3 7v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5z" />
                 <line x1="3" y1="7" x2="21" y2="7" />
                 <path d="M16 11a4 4 0 0 1-8 0" />
               </svg>
-              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#00d4ff' }}>
+              <span className="text-[0.9rem] font-bold text-[#00d4ff]">
                 Want to sell on the marketplace?
               </span>
             </div>
 
             {vendorApplied ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className="flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="#6EE05A">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
                 </svg>
-                <span style={{ fontSize: '0.85rem', color: '#6EE05A', fontWeight: 600 }}>
+                <span className="text-[0.85rem] text-[#6EE05A] font-semibold">
                   Vendor application submitted! We&apos;ll review and set up your Stripe Connect account.
                 </span>
               </div>
             ) : wantsVendor ? (
               <div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+                <p className="text-[0.8rem] text-[var(--text-secondary)] mb-3">
                   Sell workflows, templates, and services. Earn 80% of every sale with automated payouts via Stripe Connect.
                 </p>
-                <div className="auth-field" style={{ marginBottom: '0.75rem' }}>
+                <div className="auth-field mb-3">
                   <input
                     type="text"
                     value={vendorBusiness}
@@ -1223,19 +1131,17 @@ function OnboardingInner() {
                     placeholder="Your business or brand name"
                   />
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <div className="flex gap-2">
                   <button
-                    className="auth-btn primary"
+                    className="auth-btn primary text-[0.8rem] py-2 px-4"
                     onClick={handleApplyVendor}
                     disabled={saving}
-                    style={{ fontSize: '0.8rem', padding: '0.5rem 1rem' }}
                   >
                     {saving ? 'Submitting...' : 'Apply as Vendor'}
                   </button>
                   <button
-                    className="auth-btn secondary"
+                    className="auth-btn secondary text-[0.8rem] py-2 px-4"
                     onClick={() => setWantsVendor(false)}
-                    style={{ fontSize: '0.8rem', padding: '0.5rem 1rem' }}
                   >
                     Cancel
                   </button>
@@ -1243,16 +1149,12 @@ function OnboardingInner() {
               </div>
             ) : (
               <div>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+                <p className="text-[0.8rem] text-[var(--text-secondary)] mb-3">
                   Sell workflows, templates, and services to the 0n community. Earn 80% with automated Stripe payouts.
                 </p>
                 <button
                   onClick={() => setWantsVendor(true)}
-                  style={{
-                    background: 'none', border: '1px solid rgba(0,212,255,0.3)', borderRadius: 8,
-                    color: '#00d4ff', fontSize: '0.8rem', fontWeight: 600, padding: '0.5rem 1rem',
-                    cursor: 'pointer', fontFamily: 'inherit',
-                  }}
+                  className="bg-transparent border border-[rgba(0,212,255,0.3)] rounded-lg text-[#00d4ff] text-[0.8rem] font-semibold px-4 py-2 cursor-pointer font-[inherit]"
                 >
                   Apply to sell
                 </button>
@@ -1260,24 +1162,24 @@ function OnboardingInner() {
             )}
           </div>
 
-          <label className="onboarding-section-label" style={{ textAlign: 'center', display: 'block', marginBottom: '1rem' }}>Choose your path</label>
+          <label className="onboarding-section-label text-center block mb-4">Choose your path</label>
           <div className="onboarding-path-grid">
             <Link href="/learn" className="onboarding-path-card">
-              <div className="onboarding-path-icon" style={{ color: '#00d4ff' }}><IconBook size={28} /></div>
+              <div className="onboarding-path-icon text-[#00d4ff]"><IconBook size={28} /></div>
               <div className="onboarding-path-title">Explore Courses</div>
               <div className="onboarding-path-desc">Learn 0nMCP from scratch with free interactive lessons</div>
             </Link>
             <Link href="/builder" className="onboarding-path-card">
-              <div className="onboarding-path-icon" style={{ color: '#a78bfa' }}><IconHammer size={28} /></div>
+              <div className="onboarding-path-icon text-[#a78bfa]"><IconHammer size={28} /></div>
               <div className="onboarding-path-title">Build a Workflow</div>
               <div className="onboarding-path-desc">Describe what you need — AI builds your .0n file</div>
             </Link>
             <Link href="/forum" className="onboarding-path-card">
-              <div className="onboarding-path-icon" style={{ color: '#6EE05A' }}><IconForum size={28} /></div>
+              <div className="onboarding-path-icon text-[#6EE05A]"><IconForum size={28} /></div>
               <div className="onboarding-path-title">Browse Forum</div>
               <div className="onboarding-path-desc">Ask questions, share tips, earn reputation</div>
             </Link>
-            <a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" target="_blank" rel="noopener noreferrer" className="onboarding-path-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <a href="https://0n.app.clientclub.net/communities/groups/the-0nboard/home" target="_blank" rel="noopener noreferrer" className="onboarding-path-card no-underline text-[inherit]">
               <div className="onboarding-path-icon"><BrandIcon name="0nmcp" size={28} /></div>
               <div className="onboarding-path-title">The 0nBoard</div>
               <div className="onboarding-path-desc">Our community hub — real-time support &amp; announcements</div>
@@ -1290,9 +1192,9 @@ function OnboardingInner() {
             </Link>
           </div>
 
-          <div className="onboarding-actions" style={{ justifyContent: 'center' }}>
+          <div className="onboarding-actions justify-center">
             <button className="auth-btn secondary" onClick={goBack}>Back</button>
-            <button className="auth-btn primary" onClick={handleComplete} disabled={saving} style={{ minWidth: 200 }}>
+            <button className="auth-btn primary min-w-[200px]" onClick={handleComplete} disabled={saving}>
               {saving ? 'Finishing...' : 'Launch Console'}
             </button>
           </div>

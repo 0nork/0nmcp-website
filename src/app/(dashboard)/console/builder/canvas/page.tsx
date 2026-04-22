@@ -175,7 +175,7 @@ const COMPONENTS: CanvasComponentDef[] = [
 
 const CATEGORIES = ['All', 'Typography', 'Elements', 'Layout', 'Media', 'Forms', 'Sections']
 
-// Component renderer
+// Component renderer — dynamic props require inline styles for runtime values
 function RenderComponent({
   component,
   def,
@@ -186,11 +186,10 @@ function RenderComponent({
     case 'heading': {
       const HeadingTag = (props.level || 'h1') as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
       return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', textAlign: props.align }}>
+        <div className="w-full h-full flex items-center" style={{ textAlign: props.align }}>
           <HeadingTag
+            className="w-full text-[var(--text-primary)]"
             style={{
-              width: '100%',
-              color: 'var(--text-primary)',
               fontWeight: props.level === 'h1' ? 700 : props.level === 'h2' ? 600 : 500,
               fontSize: props.level === 'h1' ? '1.875rem' : props.level === 'h2' ? '1.5rem' : '1.25rem',
             }}
@@ -203,24 +202,20 @@ function RenderComponent({
 
     case 'text':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '0.5rem', overflow: 'hidden', textAlign: props.align }}>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-primary)' }}>{props.text}</p>
+        <div className="w-full h-full p-2 overflow-hidden" style={{ textAlign: props.align }}>
+          <p className="text-sm text-[var(--text-primary)]">{props.text}</p>
         </div>
       )
 
     case 'button':
       return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="w-full h-full flex items-center justify-center">
           <button
+            className="px-4 py-2 rounded-md font-medium text-sm cursor-pointer border-none"
             style={{
-              padding: '0.5rem 1rem',
-              borderRadius: '6px',
-              fontWeight: 500,
-              fontSize: '0.875rem',
               border: props.variant === 'outline' ? '1px solid #1E293B' : 'none',
               background: props.variant === 'primary' ? '#6EE05A' : props.variant === 'secondary' ? '#162032' : 'transparent',
               color: props.variant === 'primary' ? '#0B0F19' : '#E8EAED',
-              cursor: 'pointer',
             }}
           >
             {props.text}
@@ -230,16 +225,13 @@ function RenderComponent({
 
     case 'image':
       return (
-        <div style={{
-          width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'rgba(30, 41, 59, 0.5)', borderRadius: '4px', overflow: 'hidden',
-        }}>
+        <div className="w-full h-full flex items-center justify-center bg-[rgba(30,41,59,0.5)] rounded overflow-hidden">
           {props.src ? (
-            <img src={props.src} alt={props.alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={props.src} alt={props.alt} className="w-full h-full object-cover" />
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', color: '#4A5568' }}>
-              <ImageIcon style={{ width: 32, height: 32 }} />
-              <span style={{ fontSize: '0.75rem' }}>Add image URL</span>
+            <div className="flex flex-col items-center gap-2 text-[#4A5568]">
+              <ImageIcon className="w-8 h-8" />
+              <span className="text-xs">Add image URL</span>
             </div>
           )}
         </div>
@@ -247,14 +239,15 @@ function RenderComponent({
 
     case 'container':
       return (
-        <div style={{
-          width: '100%', height: '100%',
-          border: '1px dashed rgba(74, 85, 104, 0.3)',
-          borderRadius: props.borderRadius,
-          backgroundColor: props.bgColor,
-          padding: props.padding,
-        }}>
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4A5568', fontSize: '0.75rem' }}>
+        <div
+          className="w-full h-full border border-dashed border-[rgba(74,85,104,0.3)]"
+          style={{
+            borderRadius: props.borderRadius,
+            backgroundColor: props.bgColor,
+            padding: props.padding,
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center text-[#4A5568] text-xs">
             Container
           </div>
         </div>
@@ -262,59 +255,55 @@ function RenderComponent({
 
     case 'divider':
       return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
-          <hr style={{ width: '100%', borderColor: props.color, borderWidth: props.thickness, borderStyle: 'solid' }} />
+        <div className="w-full h-full flex items-center">
+          <hr className="w-full" style={{ borderColor: props.color, borderWidth: props.thickness, borderStyle: 'solid' }} />
         </div>
       )
 
     case 'input':
       return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: '4px', padding: '0.5rem' }}>
-          <label style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-primary)' }}>{props.label}</label>
+        <div className="w-full h-full flex flex-col gap-1 p-2">
+          <label className="text-xs font-medium text-[var(--text-primary)]">{props.label}</label>
           <input
             type="text"
             placeholder={props.placeholder}
             readOnly
-            style={{
-              width: '100%', padding: '0.5rem 0.75rem', fontSize: '0.875rem',
-              borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)',
-            }}
+            className="w-full px-3 py-2 text-sm rounded-md border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)]"
           />
         </div>
       )
 
     case 'form':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: '8px', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          <h4 style={{ fontWeight: 500, fontSize: '0.875rem', color: 'var(--text-primary)' }}>Contact Form</h4>
+        <div className="w-full h-full p-4 border border-[var(--border)] rounded-lg bg-[var(--bg-card)] flex flex-col gap-3">
+          <h4 className="font-medium text-sm text-[var(--text-primary)]">Contact Form</h4>
           {props.fields?.map((field: string, i: number) => (
-            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <label style={{ fontSize: '0.75rem', textTransform: 'capitalize', color: '#7A8290' }}>{field}</label>
-              <input readOnly style={{ width: '100%', padding: '4px 8px', fontSize: '0.875rem', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} />
+            <div key={i} className="flex flex-col gap-1">
+              <label className="text-xs capitalize text-[#7A8290]">{field}</label>
+              <input readOnly className="w-full px-2 py-1 text-sm rounded border border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)]" />
             </div>
           ))}
-          <button style={{ marginTop: '0.5rem', padding: '0.375rem 0.75rem', fontSize: '0.875rem', background: '#6EE05A', color: '#0B0F19', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Submit</button>
+          <button className="mt-2 px-3 py-1.5 text-sm bg-[#6EE05A] text-[#0B0F19] rounded border-none cursor-pointer">Submit</button>
         </div>
       )
 
     case 'card':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '1rem', border: '1px solid var(--border)', borderRadius: '8px', background: 'var(--bg-card)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <h3 style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{props.title}</h3>
-          <p style={{ fontSize: '0.875rem', color: '#7A8290' }}>{props.description}</p>
+        <div className="w-full h-full p-4 border border-[var(--border)] rounded-lg bg-[var(--bg-card)] flex flex-col gap-2">
+          <h3 className="font-semibold text-[var(--text-primary)]">{props.title}</h3>
+          <p className="text-sm text-[#7A8290]">{props.description}</p>
         </div>
       )
 
     case 'hero':
       return (
-        <div style={{
-          width: '100%', height: '100%', padding: '2rem',
-          background: 'linear-gradient(135deg, rgba(110, 224, 90, 0.12), rgba(110, 224, 90, 0.03))',
-          borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', textAlign: 'center',
-        }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>{props.headline}</h1>
-          <p style={{ color: '#7A8290' }}>{props.subheadline}</p>
-          <button style={{ padding: '0.5rem 1.5rem', background: '#6EE05A', color: '#0B0F19', borderRadius: '6px', fontWeight: 500, border: 'none', cursor: 'pointer' }}>
+        <div
+          className="w-full h-full p-8 rounded-lg flex flex-col items-center justify-center gap-4 text-center"
+          style={{ background: 'linear-gradient(135deg, rgba(110,224,90,0.12), rgba(110,224,90,0.03))' }}
+        >
+          <h1 className="text-2xl font-bold text-[var(--text-primary)]">{props.headline}</h1>
+          <p className="text-[#7A8290]">{props.subheadline}</p>
+          <button className="px-6 py-2 bg-[#6EE05A] text-[#0B0F19] rounded-md font-medium border-none cursor-pointer">
             {props.ctaText}
           </button>
         </div>
@@ -322,11 +311,11 @@ function RenderComponent({
 
     case 'navbar':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '0 1rem', background: 'var(--bg-card)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{props.brand}</span>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+        <div className="w-full h-full px-4 bg-[var(--bg-card)] border-b border-[var(--border)] flex items-center justify-between">
+          <span className="font-bold text-[var(--text-primary)]">{props.brand}</span>
+          <div className="flex gap-4">
             {props.links?.map((link: string, i: number) => (
-              <span key={i} style={{ fontSize: '0.875rem', color: '#7A8290', cursor: 'pointer' }}>{link}</span>
+              <span key={i} className="text-sm text-[#7A8290] cursor-pointer">{link}</span>
             ))}
           </div>
         </div>
@@ -334,15 +323,15 @@ function RenderComponent({
 
     case 'footer':
       return (
-        <div style={{ width: '100%', height: '100%', padding: '0 1rem', background: 'rgba(30, 41, 59, 0.3)', borderTop: '1px solid #1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontSize: '0.875rem', color: '#7A8290' }}>{props.copyright}</span>
+        <div className="w-full h-full px-4 bg-[rgba(30,41,59,0.3)] border-t border-[#1E293B] flex items-center justify-center">
+          <span className="text-sm text-[#7A8290]">{props.copyright}</span>
         </div>
       )
 
     default:
       return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(30, 41, 59, 0.3)', borderRadius: '4px' }}>
-          <span style={{ fontSize: '0.75rem', color: '#4A5568' }}>{def.name}</span>
+        <div className="w-full h-full flex items-center justify-center bg-[rgba(30,41,59,0.3)] rounded">
+          <span className="text-xs text-[#4A5568]">{def.name}</span>
         </div>
       )
   }
@@ -381,7 +370,7 @@ function PropertyEditor({
           </div>
           <div>
             <Label>Alignment</Label>
-            <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
+            <div className="flex gap-1 mt-1">
               {(['left', 'center', 'right'] as const).map((align) => (
                 <Button
                   key={align}
@@ -389,9 +378,9 @@ function PropertyEditor({
                   size="icon"
                   onClick={() => onChange({ ...props, align })}
                 >
-                  {align === 'left' && <AlignLeft style={{ width: 16, height: 16 }} />}
-                  {align === 'center' && <AlignCenter style={{ width: 16, height: 16 }} />}
-                  {align === 'right' && <AlignRight style={{ width: 16, height: 16 }} />}
+                  {align === 'left' && <AlignLeft className="w-4 h-4" />}
+                  {align === 'center' && <AlignCenter className="w-4 h-4" />}
+                  {align === 'right' && <AlignRight className="w-4 h-4" />}
                 </Button>
               ))}
             </div>
@@ -408,7 +397,7 @@ function PropertyEditor({
           </div>
           <div>
             <Label>Alignment</Label>
-            <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
+            <div className="flex gap-1 mt-1">
               {(['left', 'center', 'right'] as const).map((align) => (
                 <Button
                   key={align}
@@ -416,9 +405,9 @@ function PropertyEditor({
                   size="icon"
                   onClick={() => onChange({ ...props, align })}
                 >
-                  {align === 'left' && <AlignLeft style={{ width: 16, height: 16 }} />}
-                  {align === 'center' && <AlignCenter style={{ width: 16, height: 16 }} />}
-                  {align === 'right' && <AlignRight style={{ width: 16, height: 16 }} />}
+                  {align === 'left' && <AlignLeft className="w-4 h-4" />}
+                  {align === 'center' && <AlignCenter className="w-4 h-4" />}
+                  {align === 'right' && <AlignRight className="w-4 h-4" />}
                 </Button>
               ))}
             </div>
@@ -508,7 +497,7 @@ function PropertyEditor({
       )
 
     default:
-      return <div style={{ fontSize: '0.875rem', color: '#4A5568' }}>No editable properties for this component.</div>
+      return <div className="text-sm text-[#4A5568]">No editable properties for this component.</div>
   }
 }
 
@@ -685,18 +674,18 @@ export default function CanvasPage() {
       {leftPanelOpen && (
         <div className="canvas-left-panel">
           <div className="canvas-panel-header">
-            <h2 style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>Components</h2>
+            <h2 className="font-semibold text-sm text-[var(--text-primary)]">Components</h2>
             <Button variant="ghost" size="icon" onClick={() => setLeftPanelOpen(false)}>
-              <ChevronLeft style={{ width: 16, height: 16 }} />
+              <ChevronLeft className="w-4 h-4" />
             </Button>
           </div>
 
-          <div style={{ padding: '0.75rem', borderBottom: '1px solid var(--border)' }}>
-            <div style={{ position: 'relative' }}>
-              <Search style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#4A5568' }} />
+          <div className="p-3 border-b border-[var(--border)]">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A5568]" />
               <Input
                 placeholder="Search..."
-                style={{ paddingLeft: '2rem', height: 32, fontSize: '0.875rem' }}
+                className="pl-8 h-8 text-sm"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -725,20 +714,20 @@ export default function CanvasPage() {
                     className={`canvas-lib-item ${accessible ? 'accessible' : 'locked'}`}
                   >
                     <div className="canvas-lib-icon">
-                      <Icon style={{ width: 16, height: 16 }} />
+                      <Icon className="w-4 h-4" />
                     </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ fontWeight: 500, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{comp.name}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-sm text-[var(--text-primary)]">{comp.name}</span>
                         {!accessible && (
                           <Badge variant="secondary" className="canvas-tier-badge">
                             {comp.tier.toUpperCase()}
                           </Badge>
                         )}
                       </div>
-                      <span style={{ fontSize: '0.75rem', color: '#4A5568' }}>{comp.category}</span>
+                      <span className="text-xs text-[#4A5568]">{comp.category}</span>
                     </div>
-                    <Plus style={{ width: 16, height: 16, color: '#4A5568' }} />
+                    <Plus className="w-4 h-4 text-[#4A5568]" />
                   </button>
                 )
               })}
@@ -751,28 +740,28 @@ export default function CanvasPage() {
       <div className="canvas-main">
         {/* Toolbar */}
         <div className="canvas-toolbar">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className="flex items-center gap-2">
             {!leftPanelOpen && (
               <Button variant="ghost" size="sm" onClick={() => setLeftPanelOpen(true)}>
-                <ChevronRight style={{ width: 16, height: 16, marginRight: 4 }} />
+                <ChevronRight className="w-4 h-4 mr-1" />
                 Components
               </Button>
             )}
             <div className="canvas-divider" />
             <Button variant="ghost" size="icon" onClick={undo} disabled={historyIndex <= 0}>
-              <Undo style={{ width: 16, height: 16 }} />
+              <Undo className="w-4 h-4" />
             </Button>
             <Button variant="ghost" size="icon" onClick={redo} disabled={historyIndex >= history.length - 1}>
-              <Redo style={{ width: 16, height: 16 }} />
+              <Redo className="w-4 h-4" />
             </Button>
             {selectedId && (
               <>
                 <div className="canvas-divider" />
                 <Button variant="ghost" size="icon" onClick={duplicateSelected}>
-                  <Copy style={{ width: 16, height: 16 }} />
+                  <Copy className="w-4 h-4" />
                 </Button>
                 <Button variant="ghost" size="icon" className="canvas-delete-btn" onClick={deleteSelected}>
-                  <Trash2 style={{ width: 16, height: 16 }} />
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               </>
             )}
@@ -780,23 +769,23 @@ export default function CanvasPage() {
 
           <div className="canvas-view-modes">
             <Button variant={viewMode === 'desktop' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('desktop')}>
-              <Monitor style={{ width: 16, height: 16 }} />
+              <Monitor className="w-4 h-4" />
             </Button>
             <Button variant={viewMode === 'tablet' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('tablet')}>
-              <Tablet style={{ width: 16, height: 16 }} />
+              <Tablet className="w-4 h-4" />
             </Button>
             <Button variant={viewMode === 'mobile' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('mobile')}>
-              <Smartphone style={{ width: 16, height: 16 }} />
+              <Smartphone className="w-4 h-4" />
             </Button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className="flex items-center gap-2">
             <Button variant="outline" size="sm">
-              <Eye style={{ width: 16, height: 16, marginRight: 4 }} />
+              <Eye className="w-4 h-4 mr-1" />
               Preview
             </Button>
             <Button size="sm">
-              <Save style={{ width: 16, height: 16, marginRight: 4 }} />
+              <Save className="w-4 h-4 mr-1" />
               Save
             </Button>
           </div>
@@ -816,10 +805,10 @@ export default function CanvasPage() {
             {components.length === 0 ? (
               <div className="canvas-empty">
                 <div className="canvas-empty-icon">
-                  <MousePointer style={{ width: 32, height: 32, color: '#4A5568' }} />
+                  <MousePointer className="w-8 h-8 text-[#4A5568]" />
                 </div>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 500, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Start Building</h3>
-                <p style={{ color: '#4A5568', fontSize: '0.875rem', maxWidth: '24rem' }}>
+                <h3 className="text-lg font-medium mb-2 text-[var(--text-primary)]">Start Building</h3>
+                <p className="text-[#4A5568] text-sm max-w-[24rem]">
                   Click components in the left panel to add them to your canvas. Drag to position, resize with handles.
                 </p>
               </div>
@@ -846,7 +835,7 @@ export default function CanvasPage() {
                     onClick={(e) => e.stopPropagation()}
                   >
                     {/* Component render */}
-                    <div style={{ width: '100%', height: '100%', overflow: 'hidden', borderRadius: '4px', pointerEvents: 'none' }}>
+                    <div className="w-full h-full overflow-hidden rounded pointer-events-none">
                       <RenderComponent component={comp} def={def} isSelected={isSelected} />
                     </div>
 
@@ -855,7 +844,7 @@ export default function CanvasPage() {
                       <>
                         {/* Move handle */}
                         <div className="canvas-move-handle">
-                          <Move style={{ width: 12, height: 12 }} />
+                          <Move className="w-3 h-3" />
                           {def.name}
                         </div>
 
@@ -867,7 +856,7 @@ export default function CanvasPage() {
                             handleMouseDown(e, comp.instanceId, 'resize')
                           }}
                         >
-                          <Maximize2 style={{ width: 10, height: 10 }} />
+                          <Maximize2 className="w-2.5 h-2.5" />
                         </div>
                       </>
                     )}
@@ -883,12 +872,12 @@ export default function CanvasPage() {
       {rightPanelOpen && selectedComponent && selectedDef && (
         <div className="canvas-right-panel">
           <div className="canvas-panel-header">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Settings style={{ width: 16, height: 16, color: '#7A8290' }} />
-              <h2 style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{selectedDef.name}</h2>
+            <div className="flex items-center gap-2">
+              <Settings className="w-4 h-4 text-[#7A8290]" />
+              <h2 className="font-semibold text-sm text-[var(--text-primary)]">{selectedDef.name}</h2>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setRightPanelOpen(false)}>
-              <X style={{ width: 16, height: 16 }} />
+              <X className="w-4 h-4" />
             </Button>
           </div>
 
@@ -906,9 +895,9 @@ export default function CanvasPage() {
               <div className="canvas-props-group">
                 <div>
                   <Label>Position</Label>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginTop: '4px' }}>
+                  <div className="grid grid-cols-2 gap-2 mt-1">
                     <div>
-                      <span style={{ fontSize: '0.625rem', color: '#4A5568' }}>X</span>
+                      <span className="text-[0.625rem] text-[#4A5568]">X</span>
                       <Input
                         type="number"
                         value={Math.round(selectedComponent.x)}
@@ -918,7 +907,7 @@ export default function CanvasPage() {
                       />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.625rem', color: '#4A5568' }}>Y</span>
+                      <span className="text-[0.625rem] text-[#4A5568]">Y</span>
                       <Input
                         type="number"
                         value={Math.round(selectedComponent.y)}
@@ -931,9 +920,9 @@ export default function CanvasPage() {
                 </div>
                 <div>
                   <Label>Size</Label>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginTop: '4px' }}>
+                  <div className="grid grid-cols-2 gap-2 mt-1">
                     <div>
-                      <span style={{ fontSize: '0.625rem', color: '#4A5568' }}>Width</span>
+                      <span className="text-[0.625rem] text-[#4A5568]">Width</span>
                       <Input
                         type="number"
                         value={Math.round(selectedComponent.width)}
@@ -943,7 +932,7 @@ export default function CanvasPage() {
                       />
                     </div>
                     <div>
-                      <span style={{ fontSize: '0.625rem', color: '#4A5568' }}>Height</span>
+                      <span className="text-[0.625rem] text-[#4A5568]">Height</span>
                       <Input
                         type="number"
                         value={Math.round(selectedComponent.height)}
@@ -959,12 +948,12 @@ export default function CanvasPage() {
           </Tabs>
 
           <div className="canvas-panel-footer">
-            <Button variant="outline" size="sm" onClick={duplicateSelected} style={{ width: '100%' }}>
-              <Copy style={{ width: 16, height: 16, marginRight: '0.5rem' }} />
+            <Button variant="outline" size="sm" onClick={duplicateSelected} className="w-full">
+              <Copy className="w-4 h-4 mr-2" />
               Duplicate
             </Button>
-            <Button variant="destructive" size="sm" onClick={deleteSelected} style={{ width: '100%' }}>
-              <Trash2 style={{ width: 16, height: 16, marginRight: '0.5rem' }} />
+            <Button variant="destructive" size="sm" onClick={deleteSelected} className="w-full">
+              <Trash2 className="w-4 h-4 mr-2" />
               Delete
             </Button>
           </div>

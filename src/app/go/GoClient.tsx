@@ -25,8 +25,6 @@ const PRODUCTS = [
   { name: '0nSwitch', tag: 'Workflows', icon: '/brand/icons/0nswitch.svg', desc: 'Portable .0n workflow files. Create, share, and run automation recipes across any 0nMCP-compatible platform.', href: '/0n-standard', color: '#6EE05A' },
 ]
 
-/* ─── Services ───────────────────────────────────────────── */
-
 /* ─── Carousel Services (real SVG logos) ─────────────────── */
 
 const CAROUSEL_SERVICES = [
@@ -86,28 +84,28 @@ const PLANS = [
   {
     name: 'Free', tag: 'Turn It On', price: '$0', period: 'forever',
     desc: 'Get started. No credit card.', color: '#6EE05A',
-    bg: 'rgba(126,217,87,0.06)', border: 'rgba(126,217,87,0.2)',
+    popular: false,
     cta: 'Request Access', href: '/signup?redirect=/console',
     features: ['Console access', 'Encrypted Vault (5 services)', 'Visual workflow builder', 'Community access', '10 AI posts/month'],
   },
   {
     name: 'Creator', tag: 'Turn It Up', price: '$19', period: '/month',
     desc: '7-day free trial. Cancel anytime.', color: '#6EE05A',
-    bg: 'rgba(126,217,87,0.08)', border: 'rgba(126,217,87,0.35)',
+    popular: false,
     cta: 'Request Early Access', href: '/signup?redirect=/console',
     features: ['Everything in Free', 'Unlimited executions', 'AI chat (BYOK)', 'Voice learning + correction memory', 'Full marketplace access', 'Vault sync across devices'],
   },
   {
     name: 'Operator', tag: 'The Full Stack', price: '$49', period: '/month',
     desc: '7-day free trial. Cancel anytime.', color: '#6EE05A',
-    bg: 'rgba(126,217,87,0.10)', border: 'rgba(126,217,87,0.45)',
-    cta: 'Request Early Access', href: '/signup?redirect=/console', popular: true,
+    popular: true,
+    cta: 'Request Early Access', href: '/signup?redirect=/console',
     features: ['Everything in Creator', 'Multi-channel Social0n', 'CRM integration', 'Council Arena access', 'Analytics dashboard', 'Priority support'],
   },
   {
     name: 'Agency', tag: 'Run the Stack', price: '$149', period: '/month',
     desc: '7-day free trial. Cancel anytime.', color: '#00d4ff',
-    bg: 'rgba(0,212,255,0.06)', border: 'rgba(0,212,255,0.3)',
+    popular: false,
     cta: 'Contact Sales', href: '/contact',
     features: ['Everything in Operator', '10 client accounts', 'White-label branding', 'Team management', 'Dedicated support + SLA'],
   },
@@ -140,7 +138,9 @@ function CtaButton({ children, href, size = 'lg', variant = 'primary' }: {
   children: React.ReactNode; href: string; size?: 'lg' | 'md'; variant?: 'primary' | 'secondary'
 }) {
   return (
-    <Link href={href} className="inline-flex items-center justify-center font-semibold rounded-xl transition-all no-underline"
+    <Link
+      href={href}
+      className="inline-flex items-center justify-center font-semibold rounded-xl transition-all no-underline"
       style={{
         padding: size === 'lg' ? '16px 40px' : '12px 28px',
         fontSize: size === 'lg' ? '16px' : '14px',
@@ -155,9 +155,9 @@ function CtaButton({ children, href, size = 'lg', variant = 'primary' }: {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ textAlign: 'center', marginBottom: 16 }}>
-      <div style={{ width: 40, height: 3, background: 'linear-gradient(90deg, #6EE05A, #00d4ff)', borderRadius: 2, margin: '0 auto 16px' }} />
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--accent)' }}>
+    <div className="text-center mb-4">
+      <div className="w-10 h-[3px] rounded-sm mx-auto mb-4" style={{ background: 'linear-gradient(90deg, #6EE05A, #00d4ff)' }} />
+      <span className="font-mono text-[0.7rem] font-bold uppercase tracking-[0.15em] text-[var(--accent)]">
         {children}
       </span>
     </div>
@@ -167,13 +167,22 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
-    <div style={{ borderBottom: '1px solid var(--border)', padding: '20px 0' }}>
-      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between text-left cursor-pointer"
-        style={{ background: 'none', border: 'none', color: 'var(--text-primary)', fontSize: 16, fontWeight: 600, fontFamily: 'var(--font-display)', padding: 0 }}>
+    <div className="border-b border-border py-5">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between text-left cursor-pointer bg-transparent border-none p-0 text-[var(--text-primary)] text-base font-semibold"
+      >
         <span>{q}</span>
-        <span style={{ color: 'var(--accent)', fontSize: 20, transition: 'transform 0.2s ease', transform: open ? 'rotate(45deg)' : 'none', flexShrink: 0, marginLeft: 16 }}>+</span>
+        <span
+          className="text-xl flex-shrink-0 ml-4 transition-transform duration-200 text-[var(--accent)]"
+          style={{ transform: open ? 'rotate(45deg)' : 'none' }}
+        >
+          +
+        </span>
       </button>
-      {open && <p style={{ color: 'var(--text-secondary)', fontSize: 15, lineHeight: 1.7, marginTop: 12, marginBottom: 0 }}>{a}</p>}
+      {open && (
+        <p className="mt-3 mb-0 text-[var(--text-secondary)] text-[15px] leading-[1.7]">{a}</p>
+      )}
     </div>
   )
 }
@@ -223,41 +232,31 @@ function DemoSection() {
     return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
   }, [])
 
-  const termStyle: React.CSSProperties = {
-    borderRadius: 12,
-    background: 'var(--bg-card)',
-    border: '1px solid var(--border)',
-    overflow: 'hidden',
-  }
-
-  const dotBar: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 6,
-    padding: '10px 16px',
-    borderBottom: '1px solid var(--border)',
-    background: 'rgba(255,255,255,0.02)',
-  }
-
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, maxWidth: 1100, margin: '0 auto' }}>
+    <div className="grid gap-4 max-w-[1100px] mx-auto" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
       {/* Panel 1: Describe */}
-      <div style={termStyle}>
-        <div style={dotBar}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} />
-          <span style={{ marginLeft: 12, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>01 Describe</span>
+      <div className="rounded-xl bg-[var(--bg-card)] border border-border overflow-hidden">
+        <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-white/[0.02]">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+          <span className="ml-3 font-mono text-[11px] text-[var(--text-muted)] uppercase tracking-[0.1em]">01 Describe</span>
         </div>
-        <div style={{ padding: '24px 20px', minHeight: 140 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-            <span style={{ color: 'var(--accent)' }}>&gt;</span> {typed}
-            {phase === 'typing' && <span style={{ color: 'var(--accent)', animation: 'blink 1s infinite' }}>|</span>}
+        <div className="px-5 py-6 min-h-[140px]">
+          <div className="font-mono text-sm text-[var(--text-secondary)] leading-[1.7]">
+            <span className="text-[var(--accent)]">&gt;</span> {typed}
+            {phase === 'typing' && <span className="text-[var(--accent)] animate-[blink_1s_infinite]">|</span>}
           </div>
           {phase !== 'typing' && (
-            <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: phase === 'done' ? '#6EE05A' : '#fbbf24', animation: phase === 'processing' ? 'pulse-dot 1s infinite' : 'none' }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: phase === 'done' ? '#6EE05A' : '#fbbf24' }}>
+            <div className="mt-4 flex items-center gap-2">
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{
+                  background: phase === 'done' ? '#6EE05A' : '#fbbf24',
+                  animation: phase === 'processing' ? 'pulse-dot 1s infinite' : 'none',
+                }}
+              />
+              <span className="font-mono text-[13px]" style={{ color: phase === 'done' ? '#6EE05A' : '#fbbf24' }}>
                 {phase === 'done' ? 'Complete — 3 services executed' : 'Processing 3 services...'}
               </span>
             </div>
@@ -266,63 +265,74 @@ function DemoSection() {
       </div>
 
       {/* Panel 2: Orchestrate */}
-      <div style={termStyle}>
-        <div style={dotBar}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} />
-          <span style={{ marginLeft: 12, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>02 Orchestrate</span>
+      <div className="rounded-xl bg-[var(--bg-card)] border border-border overflow-hidden">
+        <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-white/[0.02]">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+          <span className="ml-3 font-mono text-[11px] text-[var(--text-muted)] uppercase tracking-[0.1em]">02 Orchestrate</span>
         </div>
-        <div style={{ padding: '20px', minHeight: 140, display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div className="px-5 py-5 min-h-[140px] flex flex-col gap-3.5">
           {PIPELINE_STEPS.map((step, i) => (
-            <div key={step.service} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ width: 10, height: 10, borderRadius: '50%', background: step.color, opacity: activeStep >= i ? 1 : 0.3, transition: 'opacity 0.3s' }} />
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: activeStep >= i ? 'var(--text-primary)' : 'var(--text-muted)', transition: 'color 0.3s' }}>{step.service}</div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{step.action}</div>
+            <div key={step.service} className="flex items-center gap-3">
+              <span
+                className="w-2.5 h-2.5 rounded-full flex-shrink-0 transition-opacity duration-300"
+                style={{ background: step.color, opacity: activeStep >= i ? 1 : 0.3 }}
+              />
+              <div className="flex-1">
+                <div
+                  className="text-sm font-semibold transition-colors duration-300"
+                  style={{ color: activeStep >= i ? 'var(--text-primary)' : 'var(--text-muted)' }}
+                >
+                  {step.service}
+                </div>
+                <div className="text-xs text-[var(--text-muted)]">{step.action}</div>
               </div>
-              <div style={{ width: 80, height: 4, borderRadius: 2, background: 'var(--border)', overflow: 'hidden' }}>
-                <div style={{ height: '100%', borderRadius: 2, background: step.color, width: `${progress[i]}%`, transition: 'width 0.6s ease' }} />
+              <div className="w-20 h-1 rounded-sm bg-[var(--border)] overflow-hidden">
+                <div
+                  className="h-full rounded-sm transition-[width] duration-[600ms] ease-out"
+                  style={{ background: step.color, width: `${progress[i]}%` }}
+                />
               </div>
-              {progress[i] === 100 && <span style={{ color: '#6EE05A', fontSize: 14 }}>&#x2713;</span>}
+              {progress[i] === 100 && <span className="text-[#6EE05A] text-sm">&#x2713;</span>}
             </div>
           ))}
         </div>
       </div>
 
       {/* Panel 3: Done */}
-      <div style={termStyle}>
-        <div style={dotBar}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e' }} />
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} />
-          <span style={{ marginLeft: 12, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>03 Done</span>
+      <div className="rounded-xl bg-[var(--bg-card)] border border-border overflow-hidden">
+        <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-white/[0.02]">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+          <span className="ml-3 font-mono text-[11px] text-[var(--text-muted)] uppercase tracking-[0.1em]">03 Done</span>
         </div>
-        <div style={{ padding: '20px', minHeight: 140 }}>
+        <div className="px-5 py-5 min-h-[140px]">
           {phase === 'done' ? (
-            <div style={{ animation: 'fade-in 0.3s ease' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: '#6EE05A', marginBottom: 12 }}>&#x2713; All 3 services completed</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Invoice</span>
-                  <span style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>INV-2026-0847</span>
+            <div className="animate-[fade-in_0.3s_ease]">
+              <div className="font-mono text-[13px] text-[#6EE05A] mb-3">&#x2713; All 3 services completed</div>
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-between text-[13px]">
+                  <span className="text-[var(--text-muted)]">Invoice</span>
+                  <span className="text-[var(--text-secondary)] font-mono">INV-2026-0847</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Email</span>
-                  <span style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>Delivered</span>
+                <div className="flex justify-between text-[13px]">
+                  <span className="text-[var(--text-muted)]">Email</span>
+                  <span className="text-[var(--text-secondary)] font-mono">Delivered</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
-                  <span style={{ color: 'var(--text-muted)' }}>CRM</span>
-                  <span style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>Activity logged</span>
+                <div className="flex justify-between text-[13px]">
+                  <span className="text-[var(--text-muted)]">CRM</span>
+                  <span className="text-[var(--text-secondary)] font-mono">Activity logged</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginTop: 8, paddingTop: 8, borderTop: '1px solid var(--border)' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Time</span>
-                  <span style={{ color: '#6EE05A', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>1.2s</span>
+                <div className="flex justify-between text-[13px] mt-2 pt-2 border-t border-border">
+                  <span className="text-[var(--text-muted)]">Time</span>
+                  <span className="text-[#6EE05A] font-mono font-semibold">1.2s</span>
                 </div>
               </div>
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 120, color: 'var(--text-muted)', fontSize: 14 }}>
+            <div className="flex items-center justify-center h-[120px] text-[var(--text-muted)] text-sm">
               {phase === 'typing' ? 'Waiting for command...' : 'Executing...'}
             </div>
           )}
@@ -366,95 +376,78 @@ function AnimatedCounter({ end, suffix = '' }: { end: number; suffix?: string })
 
 export default function GoClient() {
   return (
-    <div style={{ background: 'var(--bg-primary)', minHeight: '100vh' }}>
+    <div className="bg-[var(--bg-primary)] min-h-screen">
 
       {/* ── Sticky Header ────────────────────────────────── */}
-      <header style={{
-        position: 'sticky', top: 0, zIndex: 100,
-        background: 'rgba(10,10,15,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid var(--border)', padding: '10px 24px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <Image src="/brand/icon-green.png" alt="0nMCP" width={28} height={28} style={{ objectFit: 'contain' }} />
-          <span style={{ fontWeight: 800, fontSize: 16, color: 'var(--text-primary)' }}>0nMCP</span>
+      <header className="sticky top-0 z-[100] flex items-center justify-between px-6 py-2.5 border-b border-border backdrop-blur-xl"
+        style={{ background: 'rgba(10,10,15,0.85)' }}>
+        <Link href="/" className="flex items-center gap-2.5 no-underline">
+          <Image src="/brand/icon-green.png" alt="0nMCP" width={28} height={28} className="object-contain" />
+          <span className="font-extrabold text-base text-[var(--text-primary)]">0nMCP</span>
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <Link href="/login" style={{ fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none' }}>Sign In</Link>
-          <Link href="/signup?redirect=/console" className="no-underline" style={{
-            padding: '8px 24px', borderRadius: 10,
-            background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-            color: '#0B0F19', fontWeight: 600, fontSize: 14, textDecoration: 'none',
-          }}>Request Access</Link>
+        <div className="flex items-center gap-4">
+          <Link href="/login" className="text-sm text-[var(--text-secondary)] no-underline">Sign In</Link>
+          <Link
+            href="/signup?redirect=/console"
+            className="px-6 py-2 rounded-[10px] font-semibold text-sm no-underline text-[#0B0F19]"
+            style={{ background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)' }}
+          >
+            Request Access
+          </Link>
         </div>
       </header>
 
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section style={{ padding: '80px 24px 40px', textAlign: 'center', maxWidth: 900, margin: '0 auto' }}>
-        <div style={{
-          display: 'inline-block', padding: '6px 16px', borderRadius: 100,
-          background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)',
-          color: '#6EE05A', fontSize: 13, fontWeight: 600, marginBottom: 24, letterSpacing: '0.03em',
-        }}>
+      <section className="px-6 pt-20 pb-10 text-center max-w-[900px] mx-auto">
+        <div className="inline-block px-4 py-1.5 rounded-full text-[#6EE05A] text-[13px] font-semibold mb-6 tracking-[0.03em]"
+          style={{ background: 'rgba(126,217,87,0.1)', border: '1px solid rgba(126,217,87,0.2)' }}>
           {STATS_DISPLAY.tools} tools &middot; {STATS_DISPLAY.services} services &middot; Patent pending
         </div>
 
-        <h1 style={{
-          fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 800, lineHeight: 1.08,
-          letterSpacing: '-0.035em', color: 'var(--text-primary)', marginBottom: 24,
-        }}>
+        <h1 className="text-[clamp(36px,6vw,64px)] font-extrabold leading-[1.08] tracking-[-0.035em] text-[var(--text-primary)] mb-6">
           Describe it.{' '}
-          <span style={{ background: 'linear-gradient(135deg, #6EE05A, #00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <span className="bg-gradient-to-br from-[#6EE05A] to-[#00d4ff] bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             AI does it.
           </span>
         </h1>
 
-        <p style={{
-          fontSize: 'clamp(16px, 2.5vw, 20px)', lineHeight: 1.7,
-          color: 'var(--text-secondary)', maxWidth: 640, margin: '0 auto 40px',
-        }}>
+        <p className="text-[clamp(16px,2.5vw,20px)] leading-[1.7] text-[var(--text-secondary)] max-w-[640px] mx-auto mb-10">
           0nMCP connects your CRM, email, payments, social media, and 44 other services into one AI-powered platform.
           One command triggers everything. One screen controls it all.
         </p>
 
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div className="flex gap-3 justify-center flex-wrap">
           <CtaButton href="/signup?redirect=/console">Request Early Access</CtaButton>
           <CtaButton href="#demo" variant="secondary" size="md">See it in action</CtaButton>
         </div>
       </section>
 
       {/* ── STATS BAR ────────────────────────────────────── */}
-      <section style={{ padding: '40px 24px 60px', maxWidth: 800, margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap' }}>
+      <section className="px-6 pt-10 pb-16 max-w-[800px] mx-auto">
+        <div className="flex justify-center gap-12 flex-wrap">
           {[
             { v: STATS.tools, s: '+', l: 'Tools' },
             { v: STATS.services, s: '', l: 'Services' },
             { v: 14, s: '', l: 'Products' },
             { v: 7, s: '', l: 'AI Personas' },
           ].map(s => (
-            <div key={s.l} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+            <div key={s.l} className="text-center">
+              <div className="text-[28px] font-extrabold text-[var(--text-primary)] font-mono">
                 <AnimatedCounter end={s.v} suffix={s.s} />
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{s.l}</div>
+              <div className="text-[11px] text-[var(--text-muted)] uppercase tracking-[0.1em]">{s.l}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── DEMO: Describe. Orchestrate. Done. ────────────── */}
-      <section id="demo" className="section-recessed" style={{ padding: '80px 24px' }}>
+      <section id="demo" className="section-recessed px-6 py-20">
         <SectionLabel>See it in action</SectionLabel>
-        <h2 style={{
-          fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 800, textAlign: 'center',
-          letterSpacing: '-0.03em', color: 'var(--text-primary)', marginBottom: 16,
-        }}>
+        <h2 className="text-[clamp(28px,5vw,48px)] font-extrabold text-center tracking-[-0.03em] text-[var(--text-primary)] mb-4">
           Describe. Orchestrate. Done.
         </h2>
-        <p style={{
-          textAlign: 'center', fontSize: '1.05rem', color: 'var(--text-secondary)',
-          maxWidth: 640, margin: '0 auto 48px', lineHeight: 1.7,
-        }}>
+        <p className="text-center text-[1.05rem] text-[var(--text-secondary)] max-w-[640px] mx-auto mb-12 leading-[1.7]">
           Watch 0nMCP execute a real multi-service workflow in under a second.
           One natural language command triggers Stripe, SendGrid, and CRM simultaneously.
         </p>
@@ -462,58 +455,49 @@ export default function GoClient() {
       </section>
 
       {/* ── PRODUCT SUITE ────────────────────────────────── */}
-      <section className="section-elevated" style={{ padding: '80px 24px', maxWidth: 1200, margin: '0 auto' }}>
+      <section className="section-elevated px-6 py-20 max-w-[1200px] mx-auto">
         <SectionLabel>The 0n Ecosystem</SectionLabel>
-        <h2 style={{
-          fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 800, textAlign: 'center',
-          letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: 12,
-        }}>
+        <h2 className="text-[clamp(24px,4vw,40px)] font-extrabold text-center tracking-[-0.02em] text-[var(--text-primary)] mb-3">
           14 products.{' '}
-          <span style={{ color: 'var(--accent)' }}>One platform.</span>
+          <span className="text-[var(--accent)]">One platform.</span>
         </h2>
-        <p style={{
-          textAlign: 'center', fontSize: '1.05rem', color: 'var(--text-secondary)',
-          maxWidth: 600, margin: '0 auto 48px', lineHeight: 1.7,
-        }}>
+        <p className="text-center text-[1.05rem] text-[var(--text-secondary)] max-w-[600px] mx-auto mb-12 leading-[1.7]">
           Every tool your business needs — orchestration, security, AI, social, apps, websites, SEO, community, and marketplace.
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-          gap: 16,
-        }}>
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
           {PRODUCTS.map(p => (
-            <Link key={p.name} href={p.href} className="float-card" style={{
-              display: 'flex', flexDirection: 'column', gap: 12,
-              padding: '24px 20px', borderRadius: 14,
-              background: 'var(--bg-card)', border: '1px solid var(--border)',
-              textDecoration: 'none', transition: 'all 0.25s ease',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <Image src={p.icon} alt={p.name} width={32} height={32} style={{ filter: 'brightness(1)' }} />
+            <Link
+              key={p.name}
+              href={p.href}
+              className="float-card flex flex-col gap-3 px-5 py-6 rounded-[14px] bg-[var(--bg-card)] border border-border no-underline transition-all duration-200 hover:-translate-y-0.5"
+            >
+              <div className="flex items-center gap-3">
+                <Image src={p.icon} alt={p.name} width={32} height={32} />
                 <div>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>{p.name}</div>
-                  <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: p.color, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{p.tag}</div>
+                  <div className="text-base font-bold text-[var(--text-primary)]">{p.name}</div>
+                  <div
+                    className="text-[11px] font-mono uppercase tracking-[0.08em]"
+                    style={{ color: p.color }}
+                  >
+                    {p.tag}
+                  </div>
                 </div>
               </div>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>{p.desc}</p>
+              <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed m-0">{p.desc}</p>
             </Link>
           ))}
         </div>
       </section>
 
       {/* ── SECURITY ─────────────────────────────────────── */}
-      <section className="section-recessed" style={{ padding: '80px 24px' }}>
+      <section className="section-recessed px-6 py-20">
         <SectionLabel>Enterprise Security</SectionLabel>
-        <h2 style={{
-          fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 800, textAlign: 'center',
-          letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: 48,
-        }}>
+        <h2 className="text-[clamp(24px,4vw,40px)] font-extrabold text-center tracking-[-0.02em] text-[var(--text-primary)] mb-12">
           Patent-pending protection
         </h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, maxWidth: 1000, margin: '0 auto' }}>
+        <div className="grid gap-5 max-w-[1000px] mx-auto" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
           {[
             { title: 'AES-256-GCM', desc: 'Military-grade encryption for all credentials. Your API keys are encrypted before they leave your browser.' },
             { title: 'Zero Knowledge', desc: 'We literally cannot read your keys. Decryption happens only on your device with your passphrase.' },
@@ -522,68 +506,49 @@ export default function GoClient() {
             { title: 'Seal of Truth', desc: 'SHA3-256 content-addressed integrity verification. Tamper-proof audit trail for every operation.' },
             { title: 'Ed25519 Signatures', desc: 'Digital signatures on every container. Chain of custody tracking for business deed transfers.' },
           ].map(s => (
-            <div key={s.title} style={{
-              padding: '24px 20px', borderRadius: 14,
-              background: 'var(--bg-card)', border: '1px solid var(--border)',
-            }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--accent)', marginBottom: 8, fontFamily: 'var(--font-mono)' }}>{s.title}</h3>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
+            <div key={s.title} className="px-5 py-6 rounded-[14px] bg-[var(--bg-card)] border border-border">
+              <h3 className="text-[15px] font-bold text-[var(--accent)] mb-2 font-mono">{s.title}</h3>
+              <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed m-0">{s.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── CONNECTED SERVICES CAROUSEL ──────────────────── */}
-      <section className="section-elevated" style={{ padding: '60px 0', textAlign: 'center' }}>
-        <div style={{ padding: '0 24px', marginBottom: 32 }}>
-          <h2 style={{
-            fontSize: 'clamp(20px, 3vw, 32px)', fontWeight: 700,
-            color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 8,
-          }}>
+      <section className="section-elevated py-16 text-center">
+        <div className="px-6 mb-8">
+          <h2 className="text-[clamp(20px,3vw,32px)] font-bold text-[var(--text-primary)] tracking-[-0.02em] mb-2">
             {STATS_DISPLAY.services} services. One API key each. Infinite possibilities.
           </h2>
-          <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: 0 }}>
+          <p className="text-sm text-[var(--text-muted)] m-0">
             Real SVG logos. Real integrations. All connected.
           </p>
         </div>
 
-        <div style={{ position: 'relative', overflow: 'hidden', height: 50 }}>
+        <div className="relative overflow-hidden h-[50px]">
           {/* Fade edges */}
-          <div style={{
-            position: 'absolute', left: 0, top: 0, bottom: 0, width: 80, zIndex: 2,
-            background: 'linear-gradient(to right, var(--bg-primary), transparent)',
-            pointerEvents: 'none',
-          }} />
-          <div style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0, width: 80, zIndex: 2,
-            background: 'linear-gradient(to left, var(--bg-primary), transparent)',
-            pointerEvents: 'none',
-          }} />
-
+          <div
+            className="absolute left-0 top-0 bottom-0 w-20 z-[2] pointer-events-none"
+            style={{ background: 'linear-gradient(to right, var(--bg-primary), transparent)' }}
+          />
+          <div
+            className="absolute right-0 top-0 bottom-0 w-20 z-[2] pointer-events-none"
+            style={{ background: 'linear-gradient(to left, var(--bg-primary), transparent)' }}
+          />
           {/* Scrolling track */}
-          <div style={{
-            display: 'flex', alignItems: 'center', height: 50, gap: 40, width: 'max-content',
-            animation: 'service-scroll 60s linear infinite',
-          }}>
+          <div className="flex items-center h-[50px] gap-10 w-max animate-[service-scroll_60s_linear_infinite]">
             {/* Original set */}
             {CAROUSEL_SERVICES.map((s, i) => {
               const Logo = SERVICE_LOGOS[s.key]
               return (
-                <div key={`a-${i}`} style={{
-                  display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0,
-                }}>
+                <div key={`a-${i}`} className="flex items-center gap-2.5 flex-shrink-0">
                   {Logo ? <Logo size={24} /> : (
-                    <span style={{
-                      width: 24, height: 24, borderRadius: 6,
-                      background: 'rgba(126,217,87,0.15)', display: 'flex',
-                      alignItems: 'center', justifyContent: 'center',
-                      fontSize: 12, fontWeight: 700, color: '#6EE05A',
-                    }}>{s.name[0]}</span>
+                    <span className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold text-[#6EE05A]"
+                      style={{ background: 'rgba(126,217,87,0.15)' }}>
+                      {s.name[0]}
+                    </span>
                   )}
-                  <span style={{
-                    fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)',
-                    whiteSpace: 'nowrap',
-                  }}>{s.name}</span>
+                  <span className="text-sm font-semibold text-[var(--text-secondary)] whitespace-nowrap">{s.name}</span>
                 </div>
               )
             })}
@@ -591,21 +556,14 @@ export default function GoClient() {
             {CAROUSEL_SERVICES.map((s, i) => {
               const Logo = SERVICE_LOGOS[s.key]
               return (
-                <div key={`b-${i}`} style={{
-                  display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0,
-                }}>
+                <div key={`b-${i}`} className="flex items-center gap-2.5 flex-shrink-0">
                   {Logo ? <Logo size={24} /> : (
-                    <span style={{
-                      width: 24, height: 24, borderRadius: 6,
-                      background: 'rgba(126,217,87,0.15)', display: 'flex',
-                      alignItems: 'center', justifyContent: 'center',
-                      fontSize: 12, fontWeight: 700, color: '#6EE05A',
-                    }}>{s.name[0]}</span>
+                    <span className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold text-[#6EE05A]"
+                      style={{ background: 'rgba(126,217,87,0.15)' }}>
+                      {s.name[0]}
+                    </span>
                   )}
-                  <span style={{
-                    fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)',
-                    whiteSpace: 'nowrap',
-                  }}>{s.name}</span>
+                  <span className="text-sm font-semibold text-[var(--text-secondary)] whitespace-nowrap">{s.name}</span>
                 </div>
               )
             })}
@@ -614,125 +572,119 @@ export default function GoClient() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────── */}
-      <section className="section-recessed" style={{ padding: '80px 24px', maxWidth: 900, margin: '0 auto' }}>
+      <section className="section-recessed px-6 py-20 max-w-[900px] mx-auto">
         <SectionLabel>Quick Start</SectionLabel>
-        <h2 style={{
-          fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 800, textAlign: 'center',
-          letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: 48,
-        }}>
+        <h2 className="text-[clamp(24px,4vw,40px)] font-extrabold text-center tracking-[-0.02em] text-[var(--text-primary)] mb-12">
           Three steps. Five minutes.
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
+        <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
           {[
             { num: '01', title: 'Sign up', desc: 'Free. 30 seconds. No credit card required.', color: '#6EE05A' },
-            { num: '02', title: 'Connect your tools', desc: 'Paste your API keys into the encrypted Vault. We can\'t see them — ever.', color: '#00d4ff' },
+            { num: '02', title: 'Connect your tools', desc: "Paste your API keys into the encrypted Vault. We can't see them — ever.", color: '#00d4ff' },
             { num: '03', title: 'Describe what you need', desc: 'Type in plain English or drag and drop in the visual builder. AI handles the rest.', color: '#a78bfa' },
           ].map(s => (
-            <div key={s.num} style={{ padding: '32px 28px', borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <div style={{ fontSize: 40, fontWeight: 900, fontFamily: 'var(--font-mono)', color: s.color, opacity: 0.3, lineHeight: 1, marginBottom: 16 }}>{s.num}</div>
-              <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8, color: 'var(--text-primary)' }}>{s.title}</h3>
-              <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>{s.desc}</p>
+            <div key={s.num} className="px-7 py-8 rounded-2xl bg-[var(--bg-card)] border border-border">
+              <div className="text-[40px] font-black font-mono leading-none mb-4 opacity-30" style={{ color: s.color }}>{s.num}</div>
+              <h3 className="text-xl font-bold mb-2 text-[var(--text-primary)]">{s.title}</h3>
+              <p className="text-[15px] leading-relaxed text-[var(--text-secondary)] m-0">{s.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── PRICING ──────────────────────────────────────── */}
-      <section id="pricing" className="section-elevated" style={{ padding: '80px 24px', maxWidth: 1100, margin: '0 auto' }}>
+      <section id="pricing" className="section-elevated px-6 py-20 max-w-[1100px] mx-auto">
         <SectionLabel>Pricing</SectionLabel>
-        <h2 style={{
-          fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 800, textAlign: 'center',
-          letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: 12,
-        }}>
+        <h2 className="text-[clamp(24px,4vw,40px)] font-extrabold text-center tracking-[-0.02em] text-[var(--text-primary)] mb-3">
           Simple pricing. No surprises.
         </h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: 48, fontSize: 15 }}>
+        <p className="text-center text-[var(--text-muted)] mb-12 text-[15px]">
           Start free. Upgrade when you&apos;re ready. Cancel anytime.
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: 16, alignItems: 'start',
-        }}>
+        <div className="grid gap-4 items-start" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
           {PLANS.map(plan => (
-            <div key={plan.name} style={{
-              padding: '28px 24px', borderRadius: 16,
-              background: plan.bg,
-              border: plan.popular ? `2px solid ${plan.border}` : `1px solid ${plan.border}`,
-              position: 'relative',
-            }}>
+            <div
+              key={plan.name}
+              className="px-6 py-7 rounded-2xl relative"
+              style={{
+                background: plan.name === 'Agency' ? 'rgba(0,212,255,0.06)' : 'rgba(126,217,87,0.06)',
+                border: plan.popular
+                  ? `2px solid ${plan.name === 'Agency' ? 'rgba(0,212,255,0.45)' : 'rgba(126,217,87,0.45)'}`
+                  : `1px solid ${plan.name === 'Agency' ? 'rgba(0,212,255,0.2)' : 'rgba(126,217,87,0.2)'}`,
+              }}
+            >
               {plan.popular && (
-                <div style={{
-                  position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
-                  padding: '4px 16px', borderRadius: 100,
-                  background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                  color: '#0B0F19', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em',
-                }}>Most Popular</div>
+                <div
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.08em] text-[#0B0F19] whitespace-nowrap"
+                  style={{ background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)' }}
+                >
+                  Most Popular
+                </div>
               )}
-              <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>{plan.tag}</div>
-              <h3 style={{ fontSize: 20, fontWeight: 700, color: plan.color, marginBottom: 4 }}>{plan.name}</h3>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 4 }}>
-                <span style={{ fontSize: 36, fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>{plan.price}</span>
-                <span style={{ fontSize: 14, color: 'var(--text-muted)' }}>{plan.period}</span>
+              <div className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-[0.08em] mb-1">{plan.tag}</div>
+              <h3 className="text-xl font-bold mb-1" style={{ color: plan.color }}>{plan.name}</h3>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="text-[36px] font-extrabold text-[var(--text-primary)] font-mono">{plan.price}</span>
+                <span className="text-sm text-[var(--text-muted)]">{plan.period}</span>
               </div>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>{plan.desc}</p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <p className="text-[13px] text-[var(--text-muted)] mb-5">{plan.desc}</p>
+              <ul className="list-none p-0 m-0 mb-6 flex flex-col gap-2.5">
                 {plan.features.map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'start', gap: 10, fontSize: 13 }}>
-                    <span style={{ color: plan.color, fontSize: 13, lineHeight: '18px', flexShrink: 0 }}>&check;</span>
-                    <span style={{ color: 'var(--text-secondary)', lineHeight: '18px' }}>{f}</span>
+                  <li key={f} className="flex items-start gap-2.5 text-[13px]">
+                    <span className="flex-shrink-0 leading-[18px]" style={{ color: plan.color }}>&check;</span>
+                    <span className="text-[var(--text-secondary)] leading-[18px]">{f}</span>
                   </li>
                 ))}
               </ul>
-              <Link href={plan.href} className="no-underline" style={{
-                display: 'block', textAlign: 'center', padding: 12, borderRadius: 12,
-                fontWeight: 700, fontSize: 14, textDecoration: 'none',
-                background: plan.popular ? `linear-gradient(135deg, ${plan.color}, ${plan.color === '#6EE05A' ? '#4CAF3D' : '#0099cc'})` : 'var(--border)',
-                color: plan.popular ? '#0B0F19' : 'var(--text-primary)',
-                border: plan.popular ? 'none' : '1px solid var(--border)',
-              }}>{plan.cta}</Link>
+              <Link
+                href={plan.href}
+                className="block text-center py-3 rounded-xl font-bold text-sm no-underline"
+                style={{
+                  background: plan.popular
+                    ? `linear-gradient(135deg, ${plan.color}, ${plan.color === '#6EE05A' ? '#4CAF3D' : '#0099cc'})`
+                    : 'var(--border)',
+                  color: plan.popular ? '#0B0F19' : 'var(--text-primary)',
+                  border: plan.popular ? 'none' : '1px solid var(--border)',
+                }}
+              >
+                {plan.cta}
+              </Link>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────── */}
-      <section className="section-recessed" style={{ padding: '80px 24px', maxWidth: 700, margin: '0 auto' }}>
+      <section className="section-recessed px-6 py-20 max-w-[700px] mx-auto">
         <SectionLabel>FAQ</SectionLabel>
-        <h2 style={{
-          fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, textAlign: 'center',
-          letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: 40,
-        }}>
+        <h2 className="text-[clamp(24px,4vw,36px)] font-extrabold text-center tracking-[-0.02em] text-[var(--text-primary)] mb-10">
           Questions? Answers.
         </h2>
         <div>{FAQS.map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}</div>
       </section>
 
       {/* ── FINAL CTA ────────────────────────────────────── */}
-      <section style={{ padding: '100px 24px', textAlign: 'center', maxWidth: 640, margin: '0 auto' }}>
-        <h2 style={{
-          fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800,
-          letterSpacing: '-0.035em', color: 'var(--text-primary)', marginBottom: 16, lineHeight: 1.1,
-        }}>
+      <section className="px-6 py-24 text-center max-w-[640px] mx-auto">
+        <h2 className="text-[clamp(32px,5vw,52px)] font-extrabold tracking-[-0.035em] text-[var(--text-primary)] mb-4 leading-[1.1]">
           Ready to{' '}
-          <span style={{ background: 'linear-gradient(135deg, #6EE05A, #00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <span className="bg-gradient-to-br from-[#6EE05A] to-[#00d4ff] bg-clip-text text-transparent" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Turn it 0n?
           </span>
         </h2>
-        <p style={{ fontSize: 17, color: 'var(--text-secondary)', marginBottom: 32, lineHeight: 1.6 }}>
+        <p className="text-[17px] text-[var(--text-secondary)] mb-8 leading-relaxed">
           Free account. No credit card. Start automating in 5 minutes.
         </p>
         <CtaButton href="/signup?redirect=/console">Request Early Access &rarr;</CtaButton>
       </section>
 
       {/* ── Footer ───────────────────────────────────────── */}
-      <footer style={{ padding: '32px 24px', textAlign: 'center', borderTop: '1px solid var(--border)' }}>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+      <footer className="px-6 py-8 text-center border-t border-border">
+        <p className="text-[13px] text-[var(--text-muted)] m-0">
           &copy; {new Date().getFullYear()} RocketOpp LLC &middot; Patent Pending #63/990,046 &middot;{' '}
-          <Link href="/legal" style={{ color: 'var(--text-muted)', textDecoration: 'underline' }}>Legal</Link>
+          <Link href="/legal" className="text-[var(--text-muted)] underline">Legal</Link>
           {' '}&middot;{' '}
-          <Link href="/security" style={{ color: 'var(--text-muted)', textDecoration: 'underline' }}>Security</Link>
+          <Link href="/security" className="text-[var(--text-muted)] underline">Security</Link>
         </p>
       </footer>
 

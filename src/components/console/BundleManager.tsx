@@ -31,7 +31,7 @@ function ServiceLogo({ service, size = 20 }: { service: string; size?: number })
       alt=""
       width={size}
       height={size}
-      style={{ borderRadius: 4, flexShrink: 0 }}
+      className="rounded shrink-0"
       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
     />
   )
@@ -88,7 +88,6 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
       const connections = Array.from(selected).map(svc => {
         const cfg = SVC[svc]
         const creds = vault[svc] ?? {}
-        // Determine auth type from service config
         let authType = 'api_key'
         if (svc === 'crm' || svc.startsWith('crm-')) authType = 'pit'
         else if (svc === 'github') authType = 'token'
@@ -185,7 +184,6 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
     try {
       const results = await openBundle(importedBundle, importPassphrase)
 
-      // Install each connection into the vault
       for (const conn of results) {
         for (const [key, value] of Object.entries(conn.credentials)) {
           onImport(conn.service, key, value)
@@ -201,103 +199,47 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
     }
   }
 
-  // ─── Shared Styles ────────────────────────────────────────
+  // ─── Shared class helpers ─────────────────────────────────
 
-  const cardStyle: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.02)',
-    border: '1px solid var(--border)',
-    borderRadius: 12,
-    padding: '1.25rem',
-  }
-
-  const btnPrimary: React.CSSProperties = {
-    background: 'var(--accent)',
-    color: '#000',
-    border: 'none',
-    borderRadius: 8,
-    padding: '0.625rem 1.25rem',
-    fontWeight: 600,
-    fontSize: '0.875rem',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-  }
-
-  const btnGhost: React.CSSProperties = {
-    background: 'var(--bg-card)',
-    color: 'var(--text-primary)',
-    border: '1px solid var(--border)',
-    borderRadius: 8,
-    padding: '0.625rem 1.25rem',
-    fontWeight: 500,
-    fontSize: '0.875rem',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-  }
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '0.625rem 0.875rem',
-    background: 'var(--bg-card)',
-    border: '1px solid var(--border)',
-    borderRadius: 8,
-    color: 'var(--text-primary)',
-    fontSize: '0.875rem',
-    outline: 'none',
-    fontFamily: 'var(--font-mono)',
-  }
+  const cardCls = 'bg-white/[0.02] border border-[var(--border)] rounded-xl p-5'
+  const btnPrimary = 'flex items-center gap-2 px-5 py-2.5 bg-[var(--accent)] text-black border-none rounded-lg font-semibold text-sm cursor-pointer'
+  const btnGhost = 'flex items-center gap-2 px-5 py-2.5 bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border)] rounded-lg font-medium text-sm cursor-pointer'
+  const inputCls = 'w-full px-3.5 py-2.5 bg-[var(--bg-card)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-sm outline-none font-mono'
+  const labelSpan = 'block text-[0.8125rem] font-semibold text-[var(--text-secondary)] mb-1'
+  const errorCls = 'px-3 py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-[0.8125rem]'
 
   // ─── Render ───────────────────────────────────────────────
 
   // Home
   if (step === 'home') {
     return (
-      <div style={{ padding: '1rem' }}>
-        <div style={{ marginBottom: '1.5rem' }}>
-          <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            Credential Bundles
-          </h2>
-          <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-            Package your vault credentials into portable, encrypted .0n files. Import on any machine with <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--border)', padding: '2px 6px', borderRadius: 4 }}>0nmcp engine open</code>
+      <div className="p-4">
+        <div className="mb-6">
+          <h2 className="m-0 text-xl font-bold text-[var(--text-primary)]">Credential Bundles</h2>
+          <p className="mt-1 mb-0 text-[0.8125rem] text-[var(--text-secondary)]">
+            Package your vault credentials into portable, encrypted .0n files. Import on any machine with{' '}
+            <code className="font-mono text-xs bg-[var(--border)] px-1.5 py-0.5 rounded">0nmcp engine open</code>
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', maxWidth: 640 }}>
+        <div className="grid gap-4" style={{ gridTemplateColumns: '1fr 1fr', maxWidth: 640 }}>
           {/* Create Bundle */}
           <button
             onClick={startCreate}
-            style={{
-              ...cardStyle,
-              cursor: 'pointer',
-              textAlign: 'left',
-              transition: 'border-color 0.2s, background 0.2s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.borderColor = 'var(--accent)'
-              e.currentTarget.style.background = 'rgba(126,217,87,0.04)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'var(--border)'
-              e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
-            }}
+            className={`${cardCls} cursor-pointer text-left transition-colors duration-200 hover:border-[var(--accent)] hover:bg-[#7ed95704]`}
           >
-            <div style={{ fontSize: '1.5rem', marginBottom: 8 }}>
+            <div className="mb-2">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5">
                 <rect x="3" y="3" width="18" height="18" rx="3" />
                 <path d="M12 8v8M8 12h8" />
               </svg>
             </div>
-            <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.9375rem', marginBottom: 4 }}>
-              Create Bundle
-            </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+            <div className="font-semibold text-[var(--text-primary)] text-[0.9375rem] mb-1">Create Bundle</div>
+            <div className="text-[0.8125rem] text-[var(--text-secondary)] leading-snug">
               Select services, set a passphrase, download an encrypted .0n file
             </div>
             {connectedServices.length > 0 && (
-              <div style={{ marginTop: 12, fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 500 }}>
+              <div className="mt-3 text-xs text-[var(--accent)] font-medium">
                 {connectedServices.length} service{connectedServices.length !== 1 ? 's' : ''} ready
               </div>
             )}
@@ -306,48 +248,33 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
           {/* Import Bundle */}
           <button
             onClick={startImport}
-            style={{
-              ...cardStyle,
-              cursor: 'pointer',
-              textAlign: 'left',
-              transition: 'border-color 0.2s, background 0.2s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.borderColor = '#00d4ff'
-              e.currentTarget.style.background = 'rgba(0,212,255,0.04)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'var(--border)'
-              e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
-            }}
+            className={`${cardCls} cursor-pointer text-left transition-colors duration-200 hover:border-[#00d4ff] hover:bg-[#00d4ff04]`}
           >
-            <div style={{ fontSize: '1.5rem', marginBottom: 8 }}>
+            <div className="mb-2">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" strokeWidth="1.5">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
             </div>
-            <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.9375rem', marginBottom: 4 }}>
-              Import Bundle
-            </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+            <div className="font-semibold text-[var(--text-primary)] text-[0.9375rem] mb-1">Import Bundle</div>
+            <div className="text-[0.8125rem] text-[var(--text-secondary)] leading-snug">
               Upload a .0n bundle file and decrypt credentials into your vault
             </div>
           </button>
         </div>
 
-        {/* Info */}
-        <div style={{
-          marginTop: '2rem',
-          padding: '1rem 1.25rem',
-          background: 'rgba(126,217,87,0.04)',
-          border: '1px solid rgba(126,217,87,0.12)',
-          borderRadius: 10,
-          maxWidth: 640,
-        }}>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            <strong style={{ color: 'var(--accent)' }}>How it works:</strong> Bundles are encrypted with AES-256-GCM using a passphrase you choose. Your credentials never leave your browser unencrypted. The .0n bundle file is compatible with the 0nMCP CLI — run <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', background: 'var(--border)', padding: '2px 6px', borderRadius: 4 }}>0nmcp engine open bundle.0n</code> to install credentials on any machine.
+        <div
+          className="mt-8 p-4 rounded-[10px] border"
+          style={{
+            maxWidth: 640,
+            background: 'rgba(126,217,87,0.04)',
+            borderColor: 'rgba(126,217,87,0.12)',
+          }}
+        >
+          <div className="text-[0.8125rem] text-[var(--text-secondary)] leading-relaxed">
+            <strong className="text-[var(--accent)]">How it works:</strong> Bundles are encrypted with AES-256-GCM using a passphrase you choose. Your credentials never leave your browser unencrypted. The .0n bundle file is compatible with the 0nMCP CLI — run{' '}
+            <code className="font-mono text-xs bg-[var(--border)] px-1.5 py-0.5 rounded">0nmcp engine open bundle.0n</code> to install credentials on any machine.
           </div>
         </div>
       </div>
@@ -357,44 +284,40 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   // Create — Select Services
   if (step === 'create-select') {
     return (
-      <div style={{ padding: '1rem' }}>
-        <button onClick={() => setStep('home')} style={{ ...btnGhost, marginBottom: '1rem', padding: '0.375rem 0.75rem', fontSize: '0.8125rem' }}>
+      <div className="p-4">
+        <button onClick={() => setStep('home')} className={`${btnGhost} mb-4 !px-3 !py-1.5 !text-[0.8125rem]`}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           Back
         </button>
 
-        <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Select Services
-        </h2>
-        <p style={{ margin: '0 0 1rem 0', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+        <h2 className="mt-0 mb-1 text-lg font-bold text-[var(--text-primary)]">Select Services</h2>
+        <p className="mt-0 mb-4 text-[0.8125rem] text-[var(--text-secondary)]">
           Choose which credentials to include in your bundle. {selected.size} selected.
         </p>
 
         {connectedServices.length === 0 ? (
-          <div style={{ ...cardStyle, textAlign: 'center', padding: '2rem' }}>
-            <p style={{ color: 'var(--text-secondary)', margin: '0 0 1rem 0' }}>No services connected yet</p>
-            <button onClick={onSwitchToCredentials} style={btnPrimary}>Connect Services</button>
+          <div className={`${cardCls} text-center py-8`}>
+            <p className="text-[var(--text-secondary)] mt-0 mb-4">No services connected yet</p>
+            <button onClick={onSwitchToCredentials} className={btnPrimary}>Connect Services</button>
           </div>
         ) : (
           <>
-            {/* Select all / none */}
-            <div style={{ display: 'flex', gap: 8, marginBottom: '0.75rem' }}>
+            <div className="flex gap-2 mb-3">
               <button
                 onClick={() => setSelected(new Set(connectedServices))}
-                style={{ ...btnGhost, padding: '0.25rem 0.625rem', fontSize: '0.75rem' }}
+                className={`${btnGhost} !px-2.5 !py-1 !text-xs`}
               >
                 Select All
               </button>
               <button
                 onClick={() => setSelected(new Set())}
-                style={{ ...btnGhost, padding: '0.25rem 0.625rem', fontSize: '0.75rem' }}
+                className={`${btnGhost} !px-2.5 !py-1 !text-xs`}
               >
                 Clear
               </button>
             </div>
 
-            {/* Service grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 8, marginBottom: '1.5rem' }}>
+            <div className="grid gap-2 mb-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
               {connectedServices.map(svc => {
                 const cfg = SVC[svc]
                 const isSelected = selected.has(svc)
@@ -403,35 +326,33 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
                   <button
                     key={svc}
                     onClick={() => toggleService(svc)}
+                    className="flex items-center gap-2.5 rounded-lg cursor-pointer text-left transition-all duration-150"
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 10,
                       padding: '0.625rem 0.875rem',
                       background: isSelected ? 'rgba(126,217,87,0.08)' : 'rgba(255,255,255,0.02)',
                       border: `1px solid ${isSelected ? 'var(--accent)' : 'var(--border)'}`,
-                      borderRadius: 8,
-                      cursor: 'pointer',
                       color: 'var(--text-primary)',
-                      textAlign: 'left',
-                      transition: 'all 0.15s',
                     }}
                   >
-                    {/* Checkbox */}
-                    <div style={{
-                      width: 18, height: 18, borderRadius: 4, flexShrink: 0,
-                      border: `2px solid ${isSelected ? 'var(--accent)' : 'var(--border-hover)'}`,
-                      background: isSelected ? 'var(--accent)' : 'transparent',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    }}>
-                      {isSelected && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>}
+                    <div
+                      className="flex items-center justify-center shrink-0 rounded"
+                      style={{
+                        width: 18,
+                        height: 18,
+                        border: `2px solid ${isSelected ? 'var(--accent)' : 'var(--border-hover)'}`,
+                        background: isSelected ? 'var(--accent)' : 'transparent',
+                      }}
+                    >
+                      {isSelected && (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
                     </div>
                     <ServiceLogo service={svc} size={18} />
-                    <div style={{ minWidth: 0, flex: 1 }}>
-                      <div style={{ fontSize: '0.8125rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {cfg?.l ?? svc}
-                      </div>
-                      <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[0.8125rem] font-semibold truncate">{cfg?.l ?? svc}</div>
+                      <div className="text-[0.6875rem] text-[var(--text-muted)]">
                         {credCount} key{credCount !== 1 ? 's' : ''}
                       </div>
                     </div>
@@ -443,11 +364,8 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             <button
               onClick={() => { setError(''); setStep('create-passphrase') }}
               disabled={selected.size === 0}
-              style={{
-                ...btnPrimary,
-                opacity: selected.size === 0 ? 0.5 : 1,
-                cursor: selected.size === 0 ? 'not-allowed' : 'pointer',
-              }}
+              className={`${btnPrimary}`}
+              style={{ opacity: selected.size === 0 ? 0.5 : 1, cursor: selected.size === 0 ? 'not-allowed' : 'pointer' }}
             >
               Continue with {selected.size} service{selected.size !== 1 ? 's' : ''}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
@@ -461,97 +379,93 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   // Create — Passphrase
   if (step === 'create-passphrase') {
     return (
-      <div style={{ padding: '1rem', maxWidth: 480 }}>
-        <button onClick={() => setStep('create-select')} style={{ ...btnGhost, marginBottom: '1rem', padding: '0.375rem 0.75rem', fontSize: '0.8125rem' }}>
+      <div className="p-4" style={{ maxWidth: 480 }}>
+        <button onClick={() => setStep('create-select')} className={`${btnGhost} mb-4 !px-3 !py-1.5 !text-[0.8125rem]`}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           Back
         </button>
 
-        <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Seal Your Bundle
-        </h2>
-        <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+        <h2 className="mt-0 mb-1 text-lg font-bold text-[var(--text-primary)]">Seal Your Bundle</h2>
+        <p className="mt-0 mb-6 text-[0.8125rem] text-[var(--text-secondary)]">
           Choose a passphrase to encrypt {selected.size} service{selected.size !== 1 ? 's' : ''} with AES-256-GCM.
           You&apos;ll need this passphrase to open the bundle later.
         </p>
 
-        {/* Bundle name */}
-        <label style={{ display: 'block', marginBottom: '1rem' }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 4 }}>Bundle Name</span>
+        <label className="block mb-4">
+          <span className={labelSpan}>Bundle Name</span>
           <input
             type="text"
             value={bundleName}
             onChange={e => setBundleName(e.target.value)}
-            style={inputStyle}
+            className={inputCls}
             placeholder="My 0n Bundle"
           />
         </label>
 
-        {/* Passphrase */}
-        <label style={{ display: 'block', marginBottom: '1rem' }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 4 }}>Passphrase</span>
-          <div style={{ position: 'relative' }}>
+        <label className="block mb-4">
+          <span className={labelSpan}>Passphrase</span>
+          <div className="relative">
             <input
               type={showPassphrase ? 'text' : 'password'}
               value={passphrase}
               onChange={e => { setPassphrase(e.target.value); setError('') }}
-              style={inputStyle}
+              className={inputCls}
               placeholder="At least 8 characters"
               autoFocus
             />
             <button
               type="button"
               onClick={() => setShowPassphrase(!showPassphrase)}
-              style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.75rem' }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-none border-none text-[var(--text-muted)] cursor-pointer text-xs"
             >
               {showPassphrase ? 'Hide' : 'Show'}
             </button>
           </div>
-          {/* Strength indicator */}
           {passphrase.length > 0 && (
-            <div style={{ marginTop: 6, display: 'flex', gap: 3 }}>
+            <div className="mt-1.5 flex gap-0.5">
               {[1,2,3,4].map(i => (
-                <div key={i} style={{
-                  height: 3, flex: 1, borderRadius: 2,
-                  background: passphrase.length >= i * 4
-                    ? passphrase.length >= 16 ? '#6EE05A' : passphrase.length >= 12 ? '#fbbf24' : '#f97316'
-                    : 'var(--border)',
-                }} />
+                <div
+                  key={i}
+                  className="h-[3px] flex-1 rounded-sm"
+                  style={{
+                    background: passphrase.length >= i * 4
+                      ? passphrase.length >= 16 ? '#6EE05A' : passphrase.length >= 12 ? '#fbbf24' : '#f97316'
+                      : 'var(--border)',
+                  }}
+                />
               ))}
             </div>
           )}
         </label>
 
-        {/* Confirm */}
-        <label style={{ display: 'block', marginBottom: '1.5rem' }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 4 }}>Confirm Passphrase</span>
+        <label className="block mb-6">
+          <span className={labelSpan}>Confirm Passphrase</span>
           <input
             type={showPassphrase ? 'text' : 'password'}
             value={confirmPassphrase}
             onChange={e => { setConfirmPassphrase(e.target.value); setError('') }}
-            style={inputStyle}
+            className={inputCls}
             placeholder="Re-enter passphrase"
           />
         </label>
 
-        {error && (
-          <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, color: '#ef4444', fontSize: '0.8125rem', marginBottom: '1rem' }}>
-            {error}
-          </div>
-        )}
+        {error && <div className={`${errorCls} mb-4`}>{error}</div>}
 
         <button
           onClick={handleCreate}
           disabled={creating || !passphrase || !confirmPassphrase}
+          className={btnPrimary}
           style={{
-            ...btnPrimary,
             opacity: creating || !passphrase || !confirmPassphrase ? 0.5 : 1,
             cursor: creating ? 'wait' : 'pointer',
           }}
         >
           {creating ? (
             <>
-              <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#000', borderRadius: '50%', animation: 'spin 0.6s linear infinite' }} />
+              <span
+                className="inline-block rounded-full animate-spin"
+                style={{ width: 14, height: 14, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#000' }}
+              />
               Encrypting...
             </>
           ) : (
@@ -564,8 +478,6 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             </>
           )}
         </button>
-
-        <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )
   }
@@ -574,38 +486,34 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   if (step === 'create-done' && createdBundle) {
     const info = inspectBundle(createdBundle)
     return (
-      <div style={{ padding: '1rem', maxWidth: 520 }}>
-        {/* Success header */}
-        <div style={{
-          textAlign: 'center', padding: '2rem 1rem',
-          background: 'rgba(126,217,87,0.06)',
-          border: '1px solid rgba(126,217,87,0.15)',
-          borderRadius: 12, marginBottom: '1.5rem',
-        }}>
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" style={{ marginBottom: 12 }}>
+      <div className="p-4" style={{ maxWidth: 520 }}>
+        <div
+          className="text-center py-8 px-4 rounded-xl mb-6"
+          style={{
+            background: 'rgba(126,217,87,0.06)',
+            border: '1px solid rgba(126,217,87,0.15)',
+          }}
+        >
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" className="mb-3 mx-auto">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
             <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
-          <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            Bundle Sealed
-          </h2>
-          <p style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+          <h2 className="mt-0 mb-1 text-xl font-bold text-[var(--text-primary)]">Bundle Sealed</h2>
+          <p className="m-0 text-[0.8125rem] text-[var(--text-secondary)]">
             {info.connectionCount} service{info.connectionCount !== 1 ? 's' : ''} encrypted with AES-256-GCM
           </p>
         </div>
 
-        {/* Service list */}
-        <div style={{ ...cardStyle, marginBottom: '1rem' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
+        <div className={`${cardCls} mb-4`}>
+          <div className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-[0.05em] mb-2">
             Included Services
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          <div className="flex flex-wrap gap-1.5">
             {info.services.map(s => (
-              <div key={s.service} style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                padding: '4px 10px', background: 'var(--bg-card)',
-                borderRadius: 6, fontSize: '0.8125rem', color: 'var(--text-primary)',
-              }}>
+              <div
+                key={s.service}
+                className="flex items-center gap-1.5 px-2.5 py-1 bg-[var(--bg-card)] rounded text-[0.8125rem] text-[var(--text-primary)]"
+              >
                 <ServiceLogo service={s.service} size={14} />
                 {s.name}
               </div>
@@ -613,9 +521,8 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
           </div>
         </div>
 
-        {/* Download */}
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={downloadBundle} style={btnPrimary}>
+        <div className="flex gap-2">
+          <button onClick={downloadBundle} className={btnPrimary}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="7 10 12 15 17 10" />
@@ -623,20 +530,15 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             </svg>
             Download Bundle
           </button>
-          <button onClick={() => setStep('home')} style={btnGhost}>
-            Done
-          </button>
+          <button onClick={() => setStep('home')} className={btnGhost}>Done</button>
         </div>
 
-        {/* CLI instructions */}
-        <div style={{
-          marginTop: '1.5rem', padding: '0.875rem 1rem',
-          background: 'rgba(0,0,0,0.3)', borderRadius: 8,
-          fontFamily: 'var(--font-mono)', fontSize: '0.75rem',
-          color: 'var(--text-secondary)', lineHeight: 1.6,
-        }}>
-          <div style={{ color: 'var(--text-muted)', marginBottom: 4 }}># Import on any machine:</div>
-          <div style={{ color: 'var(--accent)' }}>0nmcp engine open {bundleName.replace(/\s+/g, '-').toLowerCase()}.0n</div>
+        <div
+          className="mt-6 p-3.5 rounded-lg font-mono text-xs text-[var(--text-secondary)] leading-relaxed"
+          style={{ background: 'rgba(0,0,0,0.3)' }}
+        >
+          <div className="text-[var(--text-muted)] mb-1"># Import on any machine:</div>
+          <div className="text-[var(--accent)]">0nmcp engine open {bundleName.replace(/\s+/g, '-').toLowerCase()}.0n</div>
         </div>
       </div>
     )
@@ -645,120 +547,95 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   // Import — Upload
   if (step === 'import-upload') {
     return (
-      <div style={{ padding: '1rem', maxWidth: 520 }}>
-        <button onClick={() => setStep('home')} style={{ ...btnGhost, marginBottom: '1rem', padding: '0.375rem 0.75rem', fontSize: '0.8125rem' }}>
+      <div className="p-4" style={{ maxWidth: 520 }}>
+        <button onClick={() => setStep('home')} className={`${btnGhost} mb-4 !px-3 !py-1.5 !text-[0.8125rem]`}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           Back
         </button>
 
-        <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Import Bundle
-        </h2>
-        <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+        <h2 className="mt-0 mb-1 text-lg font-bold text-[var(--text-primary)]">Import Bundle</h2>
+        <p className="mt-0 mb-6 text-[0.8125rem] text-[var(--text-secondary)]">
           Upload a .0n bundle file to decrypt and install credentials into your vault.
         </p>
 
-        {/* Drop zone */}
         <div
           onDragOver={e => { e.preventDefault(); e.currentTarget.style.borderColor = '#00d4ff' }}
           onDragLeave={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
           onDrop={handleFileDrop}
           onClick={() => fileInputRef.current?.click()}
-          style={{
-            border: '2px dashed var(--border)',
-            borderRadius: 12,
-            padding: '3rem 2rem',
-            textAlign: 'center',
-            cursor: 'pointer',
-            transition: 'border-color 0.2s, background 0.2s',
-            background: 'rgba(255,255,255,0.01)',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.background = 'rgba(255,255,255,0.02)' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'rgba(255,255,255,0.01)' }}
+          className="border-2 border-dashed border-[var(--border)] rounded-xl py-12 px-8 text-center cursor-pointer transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.02]"
+          style={{ background: 'rgba(255,255,255,0.01)' }}
         >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" style={{ marginBottom: 12 }}>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" className="mb-3 mx-auto">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="17 8 12 3 7 8" />
             <line x1="12" y1="3" x2="12" y2="15" />
           </svg>
-          <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>
-            Drop .0n bundle here
-          </div>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-            or click to browse
-          </div>
+          <div className="text-[0.9375rem] font-semibold text-[var(--text-primary)] mb-1">Drop .0n bundle here</div>
+          <div className="text-[0.8125rem] text-[var(--text-muted)]">or click to browse</div>
           <input
             ref={fileInputRef}
             type="file"
             accept=".0n,.json"
             onChange={handleFileSelect}
-            style={{ display: 'none' }}
+            className="hidden"
           />
         </div>
 
-        {error && (
-          <div style={{ marginTop: '1rem', padding: '0.5rem 0.75rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, color: '#ef4444', fontSize: '0.8125rem' }}>
-            {error}
-          </div>
-        )}
+        {error && <div className={`${errorCls} mt-4`}>{error}</div>}
       </div>
     )
   }
 
-  // Import — Preview (inspect without passphrase)
+  // Import — Preview
   if (step === 'import-preview' && importedBundle) {
     const info = inspectBundle(importedBundle)
     const isSealed = info.encryption !== 'none'
     return (
-      <div style={{ padding: '1rem', maxWidth: 520 }}>
-        <button onClick={() => setStep('import-upload')} style={{ ...btnGhost, marginBottom: '1rem', padding: '0.375rem 0.75rem', fontSize: '0.8125rem' }}>
+      <div className="p-4" style={{ maxWidth: 520 }}>
+        <button onClick={() => setStep('import-upload')} className={`${btnGhost} mb-4 !px-3 !py-1.5 !text-[0.8125rem]`}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           Back
         </button>
 
-        <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Bundle Preview
-        </h2>
+        <h2 className="mt-0 mb-1 text-lg font-bold text-[var(--text-primary)]">Bundle Preview</h2>
 
-        {/* Bundle info card */}
-        <div style={{ ...cardStyle, marginBottom: '1rem' }}>
-          <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--text-primary)', marginBottom: 4 }}>{info.name}</div>
-          {info.description && <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: 12 }}>{info.description}</div>}
-          <div style={{ display: 'flex', gap: 16, fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+        <div className={`${cardCls} mb-4`}>
+          <div className="font-semibold text-[0.9375rem] text-[var(--text-primary)] mb-1">{info.name}</div>
+          {info.description && (
+            <div className="text-[0.8125rem] text-[var(--text-secondary)] mb-3">{info.description}</div>
+          )}
+          <div className="flex gap-4 text-xs text-[var(--text-muted)]">
             <span>{info.connectionCount} service{info.connectionCount !== 1 ? 's' : ''}</span>
             <span>{isSealed ? 'Encrypted' : 'Unsealed'}</span>
             <span>{new Date(info.created).toLocaleDateString()}</span>
           </div>
         </div>
 
-        {/* Services list */}
-        <div style={{ ...cardStyle, marginBottom: '1.5rem' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
+        <div className={`${cardCls} mb-6`}>
+          <div className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-[0.05em] mb-2">
             Services in this bundle
           </div>
           {info.services.map(s => (
-            <div key={s.service} style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '0.5rem 0',
-              borderBottom: '1px solid var(--bg-card)',
-            }}>
+            <div
+              key={s.service}
+              className="flex items-center gap-2.5 py-2 border-b border-[var(--bg-card)]"
+            >
               <ServiceLogo service={s.service} size={18} />
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)' }}>{s.name}</div>
-                <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
-                  {s.credential_keys.join(', ')}
-                </div>
+              <div className="flex-1">
+                <div className="text-[0.8125rem] font-semibold text-[var(--text-primary)]">{s.name}</div>
+                <div className="text-[0.6875rem] text-[var(--text-muted)]">{s.credential_keys.join(', ')}</div>
               </div>
-              <div style={{
-                width: 8, height: 8, borderRadius: '50%',
-                background: s.sealed ? '#fbbf24' : '#6EE05A',
-              }} />
+              <div
+                className="w-2 h-2 rounded-full"
+                style={{ background: s.sealed ? '#fbbf24' : '#6EE05A' }}
+              />
             </div>
           ))}
         </div>
 
         {isSealed ? (
-          <button onClick={() => { setError(''); setStep('import-passphrase') }} style={btnPrimary}>
+          <button onClick={() => { setError(''); setStep('import-passphrase') }} className={btnPrimary}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
               <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -766,7 +643,7 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             Enter Passphrase to Import
           </button>
         ) : (
-          <button onClick={handleImport} disabled={importing} style={btnPrimary}>
+          <button onClick={handleImport} disabled={importing} className={btnPrimary}>
             {importing ? 'Importing...' : 'Import to Vault'}
           </button>
         )}
@@ -777,50 +654,47 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   // Import — Passphrase
   if (step === 'import-passphrase') {
     return (
-      <div style={{ padding: '1rem', maxWidth: 480 }}>
-        <button onClick={() => setStep('import-preview')} style={{ ...btnGhost, marginBottom: '1rem', padding: '0.375rem 0.75rem', fontSize: '0.8125rem' }}>
+      <div className="p-4" style={{ maxWidth: 480 }}>
+        <button onClick={() => setStep('import-preview')} className={`${btnGhost} mb-4 !px-3 !py-1.5 !text-[0.8125rem]`}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           Back
         </button>
 
-        <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-          Unseal Bundle
-        </h2>
-        <p style={{ margin: '0 0 1.5rem 0', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+        <h2 className="mt-0 mb-1 text-lg font-bold text-[var(--text-primary)]">Unseal Bundle</h2>
+        <p className="mt-0 mb-6 text-[0.8125rem] text-[var(--text-secondary)]">
           Enter the passphrase that was used to seal this bundle.
         </p>
 
-        <label style={{ display: 'block', marginBottom: '1.5rem' }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 4 }}>Passphrase</span>
+        <label className="block mb-6">
+          <span className={labelSpan}>Passphrase</span>
           <input
             type="password"
             value={importPassphrase}
             onChange={e => { setImportPassphrase(e.target.value); setError('') }}
-            style={inputStyle}
+            className={inputCls}
             placeholder="Enter bundle passphrase"
             autoFocus
             onKeyDown={e => { if (e.key === 'Enter' && importPassphrase) handleImport() }}
           />
         </label>
 
-        {error && (
-          <div style={{ padding: '0.5rem 0.75rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, color: '#ef4444', fontSize: '0.8125rem', marginBottom: '1rem' }}>
-            {error}
-          </div>
-        )}
+        {error && <div className={`${errorCls} mb-4`}>{error}</div>}
 
         <button
           onClick={handleImport}
           disabled={importing || !importPassphrase}
+          className={btnPrimary}
           style={{
-            ...btnPrimary,
             opacity: importing || !importPassphrase ? 0.5 : 1,
             cursor: importing ? 'wait' : 'pointer',
           }}
         >
           {importing ? (
             <>
-              <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#000', borderRadius: '50%', animation: 'spin 0.6s linear infinite' }} />
+              <span
+                className="inline-block rounded-full animate-spin"
+                style={{ width: 14, height: 14, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#000' }}
+              />
               Decrypting...
             </>
           ) : (
@@ -833,8 +707,6 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
             </>
           )}
         </button>
-
-        <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )
   }
@@ -842,35 +714,29 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
   // Import — Done
   if (step === 'import-done') {
     return (
-      <div style={{ padding: '1rem', maxWidth: 520 }}>
-        <div style={{
-          textAlign: 'center', padding: '2rem 1rem',
-          background: 'rgba(126,217,87,0.06)',
-          border: '1px solid rgba(126,217,87,0.15)',
-          borderRadius: 12, marginBottom: '1.5rem',
-        }}>
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" style={{ marginBottom: 12 }}>
+      <div className="p-4" style={{ maxWidth: 520 }}>
+        <div
+          className="text-center py-8 px-4 rounded-xl mb-6"
+          style={{
+            background: 'rgba(126,217,87,0.06)',
+            border: '1px solid rgba(126,217,87,0.15)',
+          }}
+        >
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" className="mb-3 mx-auto">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
             <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
-          <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            Credentials Imported
-          </h2>
-          <p style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+          <h2 className="mt-0 mb-1 text-xl font-bold text-[var(--text-primary)]">Credentials Imported</h2>
+          <p className="m-0 text-[0.8125rem] text-[var(--text-secondary)]">
             {importResults.length} service{importResults.length !== 1 ? 's' : ''} installed to your vault
           </p>
         </div>
 
-        {/* Imported services */}
-        <div style={{ ...cardStyle, marginBottom: '1.5rem' }}>
+        <div className={`${cardCls} mb-6`}>
           {importResults.map(r => (
-            <div key={r.service} style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '0.5rem 0',
-              borderBottom: '1px solid var(--bg-card)',
-            }}>
+            <div key={r.service} className="flex items-center gap-2.5 py-2 border-b border-[var(--bg-card)]">
               <ServiceLogo service={r.service} size={18} />
-              <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', flex: 1 }}>{r.name}</span>
+              <span className="text-[0.8125rem] font-semibold text-[var(--text-primary)] flex-1">{r.name}</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6EE05A" strokeWidth="2">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
@@ -878,13 +744,9 @@ export function BundleManager({ connectedServices, vault, onImport, onSwitchToCr
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={onSwitchToCredentials} style={btnPrimary}>
-            View Vault
-          </button>
-          <button onClick={() => setStep('home')} style={btnGhost}>
-            Done
-          </button>
+        <div className="flex gap-2">
+          <button onClick={onSwitchToCredentials} className={btnPrimary}>View Vault</button>
+          <button onClick={() => setStep('home')} className={btnGhost}>Done</button>
         </div>
       </div>
     )

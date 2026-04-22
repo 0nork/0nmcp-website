@@ -216,10 +216,11 @@ function ForgeRadialBurst() {
   }, [cycle, N])
 
   return (
-    <div key={cycle} style={{
-      position: 'relative', width: '100%', maxWidth: 480, aspectRatio: '1', margin: '0 auto',
-      opacity: fading ? 0 : 1, transition: 'opacity 0.9s ease',
-    }}>
+    <div
+      key={cycle}
+      className="relative w-full max-w-[480px] mx-auto transition-opacity duration-[900ms]"
+      style={{ aspectRatio: '1', opacity: fading ? 0 : 1 }}
+    >
       <style>{`
         @keyframes forgeSpin    { to { transform: rotate(360deg) } }
         @keyframes forgeSpinRev { to { transform: rotate(-360deg) } }
@@ -229,7 +230,7 @@ function ForgeRadialBurst() {
         @keyframes forgeLogoPop  { from { opacity: 0; transform: scale(.5) } to { opacity: 1; transform: scale(1) } }
         @keyframes forgeHubGlow  { 0%,100% { filter: drop-shadow(0 0 6px var(--accent)) } 50% { filter: drop-shadow(0 0 14px var(--accent)) } }
       `}</style>
-      <svg viewBox="0 0 440 440" style={{ width: '100%', height: '100%' }}>
+      <svg viewBox="0 0 440 440" className="w-full h-full">
         <defs>
           <radialGradient id="fHubFill" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.08" />
@@ -256,7 +257,7 @@ function ForgeRadialBurst() {
 
         {/* Hub aura */}
         {showHub && litCount > 8 && (
-          <circle className="" cx={CX} cy={CY} r={60} fill="url(#fAura)" style={{ animation: 'forgeHubPulse 2.2s ease-out infinite' }} />
+          <circle cx={CX} cy={CY} r={60} fill="url(#fAura)" style={{ animation: 'forgeHubPulse 2.2s ease-out infinite' }} />
         )}
 
         {/* Connection lines */}
@@ -383,24 +384,9 @@ function AnimatedNumber({ target, duration = 2000 }: { target: number; duration?
 
 function PillBadge({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 8,
-      background: 'var(--accent-glow)',
-      border: '1px solid var(--accent)',
-      borderRadius: 100,
-      padding: '8px 20px',
-      marginBottom: 24,
-    }}>
-      <span style={{
-        fontSize: 12,
-        fontWeight: 700,
-        color: 'var(--accent)',
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        fontFamily: 'var(--font-display, system-ui)',
-      }}>
+    <div className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-6 border border-[var(--accent)]"
+      style={{ background: 'var(--accent-glow)' }}>
+      <span className="text-xs font-bold text-[var(--accent)] tracking-[0.1em] uppercase">
         {children}
       </span>
     </div>
@@ -440,20 +426,19 @@ function Section({
     <section
       ref={ref}
       id={id}
-      style={{
-        background: bg || 'transparent',
-        padding: '0',
-      }}
+      style={{ background: bg || 'transparent', padding: '0' }}
     >
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: '100px 24px',
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(32px)',
-        transition: 'opacity 0.8s ease, transform 0.8s ease',
-        ...style,
-      }}>
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '100px 24px',
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(32px)',
+          transition: 'opacity 0.8s ease, transform 0.8s ease',
+          ...style,
+        }}
+      >
         {children}
       </div>
     </section>
@@ -473,13 +458,7 @@ export default function HomeClient() {
   }, [logoFilter])
 
   return (
-    <div style={{
-      background: 'var(--bg-primary)',
-      color: 'var(--text-primary)',
-      minHeight: '100vh',
-      scrollBehavior: 'smooth',
-      overflow: 'hidden',
-    }}>
+    <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen overflow-hidden scroll-smooth">
 
       {/* Global homepage styles */}
       <style>{`
@@ -579,141 +558,88 @@ export default function HomeClient() {
       {/* ============================================================
          1. HERO
          ============================================================ */}
-      <section style={{
-        position: 'relative',
-        minHeight: '100vh',
-        overflow: 'hidden',
-        background: 'linear-gradient(135deg, var(--bg-primary) 0%, rgba(126,217,87,0.03) 50%, var(--bg-primary) 100%)',
-        backgroundSize: '400% 400%',
-        animation: 'gradientShift 15s ease infinite',
-      }}>
+      <section
+        className="relative min-h-screen overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, var(--bg-primary) 0%, rgba(126,217,87,0.03) 50%, var(--bg-primary) 100%)',
+          backgroundSize: '400% 400%',
+          animation: 'gradientShift 15s ease infinite',
+        }}
+      >
         {/* Perspective grid background */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          perspective: '600px',
-          perspectiveOrigin: '50% 40%',
-          pointerEvents: 'none',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute',
-            top: '30%',
-            left: '-20%',
-            width: '140%',
-            height: '120%',
-            backgroundImage: `
-              linear-gradient(var(--grid-line-color, var(--accent-glow)) 1px, transparent 1px),
-              linear-gradient(90deg, var(--grid-line-color, var(--accent-glow)) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px',
-            transform: 'rotateX(55deg)',
-            transformOrigin: '50% 0%',
-            maskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%)',
-          }} />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ perspective: '600px', perspectiveOrigin: '50% 40%' }}>
+          <div
+            className="absolute"
+            style={{
+              top: '30%', left: '-20%', width: '140%', height: '120%',
+              backgroundImage: `
+                linear-gradient(var(--grid-line-color, var(--accent-glow)) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line-color, var(--accent-glow)) 1px, transparent 1px)
+              `,
+              backgroundSize: '60px 60px',
+              transform: 'rotateX(55deg)',
+              transformOrigin: '50% 0%',
+              maskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%)',
+              WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%)',
+            }}
+          />
         </div>
 
         {/* Subtle center glow */}
-        <div style={{
-          position: 'absolute',
-          top: '30%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 900,
-          height: 600,
-          background: 'radial-gradient(ellipse, var(--accent-glow) 0%, transparent 65%)',
-          pointerEvents: 'none',
-        }} />
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: '30%', left: '50%', transform: 'translate(-50%, -50%)',
+            width: 900, height: 600,
+            background: 'radial-gradient(ellipse, var(--accent-glow) 0%, transparent 65%)',
+          }}
+        />
 
         {/* Hero content */}
         <div
-          className="hero-grid"
+          className="hero-grid relative z-[1] max-w-[1200px] mx-auto grid items-center gap-12"
           style={{
-            position: 'relative',
-            zIndex: 1,
-            maxWidth: 1200,
-            margin: '0 auto',
             padding: '140px 24px 80px',
-            display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            alignItems: 'center',
-            gap: 48,
             minHeight: '90vh',
             animation: 'heroFadeIn 1s ease-out both',
           }}
         >
           {/* Left: Text */}
-          <div style={{ position: 'relative', zIndex: 1 }}>
+          <div className="relative z-[1]">
             <PillBadge>Open Source -- MIT Licensed</PillBadge>
 
-            <h1 style={{
-              fontSize: 'clamp(40px, 5.5vw, 72px)',
-              fontWeight: 900,
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-              fontFamily: 'var(--font-display, system-ui)',
-              marginBottom: 24,
-              color: 'var(--text-primary)',
-            }}>
-              <span style={{ color: 'var(--accent)' }}>0n</span>MCP
+            <h1
+              className="text-[clamp(40px,5.5vw,72px)] font-black leading-[1.05] tracking-[-0.03em] mb-6 text-[var(--text-primary)]"
+            >
+              <span className="text-[var(--accent)]">0n</span>MCP
             </h1>
 
-            <p style={{
-              fontSize: 'clamp(20px, 2.5vw, 28px)',
-              fontWeight: 600,
-              lineHeight: 1.3,
-              fontFamily: 'var(--font-display, system-ui)',
-              color: 'var(--text-primary)',
-              marginBottom: 16,
-            }}>
+            <p className="text-[clamp(20px,2.5vw,28px)] font-semibold leading-[1.3] text-[var(--text-primary)] mb-4">
               One Brain. Every Service. Zero Limits.
             </p>
 
-            <p style={{
-              fontSize: 'clamp(16px, 1.8vw, 18px)',
-              lineHeight: 1.65,
-              color: 'var(--text-secondary)',
-              fontFamily: 'var(--font-body, system-ui)',
-              marginBottom: 40,
-              maxWidth: 520,
-            }}>
+            <p className="text-[clamp(16px,1.8vw,18px)] leading-[1.65] text-[var(--text-secondary)] mb-10 max-w-[520px]">
               The universal AI orchestrator connecting {STATS_DISPLAY.services} services
               through {STATS_DISPLAY.tools} tools. Install once, connect to everything.
             </p>
 
             {/* Stats Row */}
-            <div className="hero-stats-row" style={{
-              display: 'flex',
-              gap: 32,
-              flexWrap: 'wrap',
-              marginBottom: 40,
-            }}>
+            <div className="hero-stats-row flex gap-8 flex-wrap mb-10">
               {[
                 { value: STATS.tools, label: 'TOOLS', color: 'var(--accent)' },
                 { value: STATS.services, label: 'SERVICES', color: 'var(--color-cyan)' },
                 { value: STATS.patents, label: 'PATENTS', color: 'var(--color-purple)' },
                 { valueStr: 'MIT', label: 'LICENSED', color: 'var(--color-amber)' },
               ].map((stat) => (
-                <div key={stat.label} style={{ textAlign: 'left' }}>
-                  <div style={{
-                    fontSize: 'clamp(24px, 2.5vw, 34px)',
-                    fontWeight: 800,
-                    color: stat.color,
-                    fontFamily: 'var(--font-display, system-ui)',
-                    letterSpacing: '-0.02em',
-                    lineHeight: 1,
-                  }}>
+                <div key={stat.label} className="text-left">
+                  <div
+                    className="text-[clamp(24px,2.5vw,34px)] font-extrabold leading-none tracking-[-0.02em]"
+                    style={{ color: stat.color }}
+                  >
                     {'valueStr' in stat && stat.valueStr ? stat.valueStr : <AnimatedNumber target={stat.value as number} />}
                   </div>
-                  <div style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: 'var(--text-muted)',
-                    letterSpacing: '0.14em',
-                    marginTop: 6,
-                    fontFamily: 'var(--font-display, system-ui)',
-                  }}>
+                  <div className="text-[10px] font-bold text-[var(--text-muted)] tracking-[0.14em] mt-1.5">
                     {stat.label}
                   </div>
                 </div>
@@ -721,23 +647,11 @@ export default function HomeClient() {
             </div>
 
             {/* CTAs */}
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 32 }}>
+            <div className="flex gap-4 flex-wrap mb-8">
               <Link
                 href="/start"
-                className="cta-primary"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  background: 'var(--cta-bg)',
-                  color: 'var(--cta-text)',
-                  fontWeight: 700,
-                  fontSize: 16,
-                  padding: '16px 32px',
-                  borderRadius: 12,
-                  textDecoration: 'none',
-                  fontFamily: 'var(--font-display, system-ui)',
-                }}
+                className="cta-primary inline-flex items-center gap-2 font-bold text-base px-8 py-4 rounded-xl no-underline"
+                style={{ background: 'var(--cta-bg)', color: 'var(--cta-text)' }}
               >
                 Get Started
                 <IconArrowRight size={16} />
@@ -746,21 +660,7 @@ export default function HomeClient() {
                 href="https://github.com/0nork/0nMCP"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="cta-outline"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  background: 'transparent',
-                  color: 'var(--text-primary)',
-                  fontWeight: 600,
-                  fontSize: 16,
-                  padding: '16px 32px',
-                  borderRadius: 12,
-                  textDecoration: 'none',
-                  fontFamily: 'var(--font-display, system-ui)',
-                  border: '1px solid var(--border)',
-                }}
+                className="cta-outline inline-flex items-center gap-2 font-semibold text-base px-8 py-4 rounded-xl no-underline border border-[var(--border)] bg-transparent text-[var(--text-primary)]"
               >
                 <IconGitHub size={18} />
                 View on GitHub
@@ -768,29 +668,16 @@ export default function HomeClient() {
             </div>
 
             {/* npx badge */}
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 10,
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: 10,
-              padding: '12px 20px',
-            }}>
+            <div className="inline-flex items-center gap-2.5 bg-[var(--bg-card)] border border-[var(--border)] rounded-[10px] px-5 py-3">
               <IconTerminal size={16} />
-              <code style={{
-                fontFamily: 'var(--font-mono, monospace)',
-                fontSize: 14,
-                color: 'var(--accent)',
-                fontWeight: 600,
-              }}>
+              <code className="font-mono text-sm text-[var(--accent)] font-semibold">
                 npx 0nmcp@latest
               </code>
             </div>
           </div>
 
           {/* Right: Forge Radial Burst */}
-          <div style={{ position: 'relative', zIndex: 1 }}>
+          <div className="relative z-[1]">
             <ForgeRadialBurst />
           </div>
         </div>
@@ -800,46 +687,19 @@ export default function HomeClient() {
          2. INTEGRATION LOGO GRID
          ============================================================ */}
       <Section bg="var(--bg-secondary)">
-        <div style={{ textAlign: 'center' }}>
+        <div className="text-center">
           <PillBadge>Integrations</PillBadge>
-          <h2 style={{
-            fontSize: 'clamp(32px, 4vw, 52px)',
-            fontWeight: 800,
-            color: 'var(--text-primary)',
-            fontFamily: 'var(--font-display, system-ui)',
-            letterSpacing: '-0.02em',
-            marginBottom: 16,
-          }}>
+          <h2 className="text-[clamp(32px,4vw,52px)] font-extrabold text-[var(--text-primary)] tracking-[-0.02em] mb-4">
             Connect to All Modern Platforms
           </h2>
-          <p style={{
-            fontSize: 18,
-            color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-body, system-ui)',
-            marginBottom: 40,
-            maxWidth: 540,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            lineHeight: 1.6,
-          }}>
+          <p className="text-lg text-[var(--text-secondary)] mb-10 max-w-[540px] mx-auto leading-relaxed">
             From Stripe to Slack to Supabase. Every major API, one install.
           </p>
         </div>
 
         {/* Search/filter bar */}
-        <div style={{
-          maxWidth: 400,
-          margin: '0 auto 40px',
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            borderRadius: 12,
-            padding: '12px 18px',
-          }}>
+        <div className="max-w-[400px] mx-auto mb-10">
+          <div className="flex items-center gap-2.5 bg-[var(--bg-card)] border border-[var(--border)] rounded-xl px-[18px] py-3">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -849,77 +709,38 @@ export default function HomeClient() {
               placeholder="Search services..."
               value={logoFilter}
               onChange={(e) => setLogoFilter(e.target.value)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                color: 'var(--text-primary)',
-                fontFamily: 'var(--font-body, system-ui)',
-                fontSize: 14,
-                width: '100%',
-              }}
+              className="bg-transparent border-none outline-none text-[var(--text-primary)] text-sm w-full"
             />
           </div>
         </div>
 
         <div
-          className="logo-grid-inner"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(6, 1fr)',
-            gap: 20,
-            maxWidth: 900,
-            margin: '0 auto',
-          }}
+          className="logo-grid-inner grid gap-5 max-w-[900px] mx-auto"
+          style={{ gridTemplateColumns: 'repeat(6, 1fr)' }}
         >
           {filteredLogos.map((svc) => (
             <div
               key={svc.name}
-              className="logo-item"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 10,
-                padding: '24px 12px',
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 14,
-              }}
+              className="logo-item flex flex-col items-center justify-center gap-2.5 py-6 px-3 bg-[var(--bg-card)] border border-[var(--border)] rounded-[14px]"
             >
               <img
                 src={`/logos/${svc.file}`}
                 alt={svc.name}
                 width={32}
                 height={32}
-                style={{ objectFit: 'contain' }}
+                className="object-contain"
               />
-              <span style={{
-                fontSize: 12,
-                fontWeight: 600,
-                color: 'var(--text-muted)',
-                fontFamily: 'var(--font-display, system-ui)',
-              }}>
+              <span className="text-xs font-semibold text-[var(--text-muted)]">
                 {svc.name}
               </span>
             </div>
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 32 }}>
+        <div className="text-center mt-8">
           <Link
             href="/integrations"
-            style={{
-              color: 'var(--accent)',
-              fontWeight: 600,
-              fontSize: 15,
-              textDecoration: 'none',
-              fontFamily: 'var(--font-display, system-ui)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
+            className="text-[var(--accent)] font-semibold text-[15px] no-underline inline-flex items-center gap-1.5"
           >
             View all {STATS_DISPLAY.services}+ integrations
             <IconArrowRight size={14} />
@@ -931,40 +752,17 @@ export default function HomeClient() {
          3. FEATURES GRID (3 columns)
          ============================================================ */}
       <Section>
-        <div style={{ textAlign: 'center' }}>
+        <div className="text-center">
           <PillBadge>Features</PillBadge>
-          <h2 style={{
-            fontSize: 'clamp(32px, 4vw, 52px)',
-            fontWeight: 800,
-            color: 'var(--text-primary)',
-            fontFamily: 'var(--font-display, system-ui)',
-            letterSpacing: '-0.02em',
-            marginBottom: 16,
-          }}>
+          <h2 className="text-[clamp(32px,4vw,52px)] font-extrabold text-[var(--text-primary)] tracking-[-0.02em] mb-4">
             The universal AI orchestrator
           </h2>
-          <p style={{
-            fontSize: 18,
-            color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-body, system-ui)',
-            marginBottom: 56,
-            maxWidth: 540,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            lineHeight: 1.6,
-          }}>
+          <p className="text-lg text-[var(--text-secondary)] mb-14 max-w-[540px] mx-auto leading-relaxed">
             One server. Every service. Every AI platform. No lock-in.
           </p>
         </div>
 
-        <div
-          className="features-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 24,
-          }}
-        >
+        <div className="features-grid grid gap-6" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
           {[
             {
               icon: <IconBolt size={28} />,
@@ -1005,45 +803,18 @@ export default function HomeClient() {
           ].map((feature) => (
             <div
               key={feature.title}
-              className="home-card"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 20,
-                padding: 32,
-                boxShadow: 'var(--shadow-sm)',
-              }}
+              className="home-card bg-[var(--bg-card)] border border-[var(--border)] rounded-[20px] p-8"
             >
-              <div style={{
-                width: 52,
-                height: 52,
-                borderRadius: 14,
-                background: 'var(--accent-glow)',
-                border: '1px solid var(--border)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: 20,
-                color: feature.accent,
-              }}>
+              <div
+                className="w-[52px] h-[52px] rounded-[14px] border border-[var(--border)] flex items-center justify-center mb-5"
+                style={{ background: 'var(--accent-glow)', color: feature.accent }}
+              >
                 {feature.icon}
               </div>
-              <h3 style={{
-                fontSize: 20,
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-                fontFamily: 'var(--font-display, system-ui)',
-                marginBottom: 10,
-              }}>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2.5">
                 {feature.title}
               </h3>
-              <p style={{
-                fontSize: 15,
-                color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-body, system-ui)',
-                lineHeight: 1.7,
-                margin: 0,
-              }}>
+              <p className="text-[15px] text-[var(--text-secondary)] leading-[1.7] m-0">
                 {feature.desc}
               </p>
             </div>
@@ -1055,123 +826,38 @@ export default function HomeClient() {
          4. HOW IT WORKS (3 steps)
          ============================================================ */}
       <Section bg="var(--bg-secondary)">
-        <div style={{ textAlign: 'center' }}>
+        <div className="text-center">
           <PillBadge>How It Works</PillBadge>
-          <h2 style={{
-            fontSize: 'clamp(32px, 4vw, 52px)',
-            fontWeight: 800,
-            color: 'var(--text-primary)',
-            fontFamily: 'var(--font-display, system-ui)',
-            letterSpacing: '-0.02em',
-            marginBottom: 16,
-          }}>
+          <h2 className="text-[clamp(32px,4vw,52px)] font-extrabold text-[var(--text-primary)] tracking-[-0.02em] mb-4">
             Three steps to AI orchestration
           </h2>
-          <p style={{
-            fontSize: 18,
-            color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-body, system-ui)',
-            marginBottom: 56,
-            maxWidth: 540,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            lineHeight: 1.6,
-          }}>
+          <p className="text-lg text-[var(--text-secondary)] mb-14 max-w-[540px] mx-auto leading-relaxed">
             Install once. Connect your APIs. Let AI do the rest.
           </p>
         </div>
 
-        <div
-          className="process-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 24,
-          }}
-        >
+        <div className="process-grid grid gap-6" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
           {[
-            {
-              num: 1,
-              title: 'Install',
-              desc: 'One command installs all tools across every supported service.',
-              code: '$ npx 0nmcp@latest',
-            },
-            {
-              num: 2,
-              title: 'Connect',
-              desc: 'Import your API keys. Auto-maps to all services. Vault-encrypted.',
-              code: '$ 0nmcp engine import',
-            },
-            {
-              num: 3,
-              title: 'Build',
-              desc: 'Describe what you want in natural language. AI calls the tools.',
-              code: '"Invoice on Stripe, notify Slack"',
-            },
+            { num: 1, title: 'Install', desc: 'One command installs all tools across every supported service.', code: '$ npx 0nmcp@latest' },
+            { num: 2, title: 'Connect', desc: 'Import your API keys. Auto-maps to all services. Vault-encrypted.', code: '$ 0nmcp engine import' },
+            { num: 3, title: 'Build', desc: 'Describe what you want in natural language. AI calls the tools.', code: '"Invoice on Stripe, notify Slack"' },
           ].map((step) => (
             <div
               key={step.num}
-              className="home-card"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 20,
-                padding: 36,
-                textAlign: 'center',
-                boxShadow: 'var(--shadow-sm)',
-              }}
+              className="home-card bg-[var(--bg-card)] border border-[var(--border)] rounded-[20px] p-9 text-center"
             >
               {/* Number circle */}
-              <div style={{
-                width: 56,
-                height: 56,
-                borderRadius: '50%',
-                border: '2px solid var(--accent)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 24px',
-                background: 'var(--accent-glow)',
-              }}>
-                <span style={{
-                  fontSize: 22,
-                  fontWeight: 800,
-                  color: 'var(--accent)',
-                  fontFamily: 'var(--font-display, system-ui)',
-                }}>
-                  {step.num}
-                </span>
+              <div
+                className="w-14 h-14 rounded-full border-2 border-[var(--accent)] flex items-center justify-center mx-auto mb-6"
+                style={{ background: 'var(--accent-glow)' }}
+              >
+                <span className="text-[22px] font-extrabold text-[var(--accent)]">{step.num}</span>
               </div>
 
-              <h3 style={{
-                fontSize: 22,
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-                fontFamily: 'var(--font-display, system-ui)',
-                marginBottom: 10,
-              }}>
-                {step.title}
-              </h3>
-              <p style={{
-                fontSize: 15,
-                color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-body, system-ui)',
-                lineHeight: 1.65,
-                marginBottom: 24,
-              }}>
-                {step.desc}
-              </p>
+              <h3 className="text-[22px] font-bold text-[var(--text-primary)] mb-2.5">{step.title}</h3>
+              <p className="text-[15px] text-[var(--text-secondary)] leading-[1.65] mb-6">{step.desc}</p>
               {/* Terminal-style code block */}
-              <div style={{
-                background: 'var(--bg-primary)',
-                border: '1px solid var(--border)',
-                borderRadius: 12,
-                padding: '14px 18px',
-                fontFamily: 'var(--font-mono, monospace)',
-                fontSize: 14,
-                color: 'var(--accent)',
-                textAlign: 'left',
-              }}>
+              <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl px-[18px] py-3.5 font-mono text-sm text-[var(--accent)] text-left">
                 <code>{step.code}</code>
               </div>
             </div>
@@ -1183,179 +869,72 @@ export default function HomeClient() {
          5. PRICING (3 tiers)
          ============================================================ */}
       <Section id="pricing">
-        <div style={{ textAlign: 'center' }}>
+        <div className="text-center">
           <PillBadge>Pricing</PillBadge>
-          <h2 style={{
-            fontSize: 'clamp(32px, 4vw, 52px)',
-            fontWeight: 800,
-            color: 'var(--text-primary)',
-            fontFamily: 'var(--font-display, system-ui)',
-            letterSpacing: '-0.02em',
-            marginBottom: 16,
-          }}>
+          <h2 className="text-[clamp(32px,4vw,52px)] font-extrabold text-[var(--text-primary)] tracking-[-0.02em] mb-4">
             Simple, transparent pricing
           </h2>
-          <p style={{
-            fontSize: 18,
-            color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-body, system-ui)',
-            marginBottom: 56,
-            maxWidth: 540,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            lineHeight: 1.6,
-          }}>
+          <p className="text-lg text-[var(--text-secondary)] mb-14 max-w-[540px] mx-auto leading-relaxed">
             Open source core. Managed platform for teams.
           </p>
         </div>
 
-        <div
-          className="pricing-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 24,
-            alignItems: 'start',
-          }}
-        >
+        <div className="pricing-grid grid gap-6 items-start" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
           {[
             {
-              name: 'Tier 1',
-              price: '$0',
-              period: 'forever',
+              name: 'Tier 1', price: '$0', period: 'forever',
               desc: 'Full MCP server. Self-hosted. Open source.',
-              features: [
-                `All ${STATS_DISPLAY.services} services`,
-                `${STATS_DISPLAY.tools} tools`,
-                'Vault encryption',
-                'CLI + HTTP modes',
-                '.0n workflow engine',
-                'Community support',
-              ],
-              cta: 'Get Started',
-              ctaHref: 'https://github.com/0nork/0nMCP',
-              featured: false,
+              features: [`All ${STATS_DISPLAY.services} services`, `${STATS_DISPLAY.tools} tools`, 'Vault encryption', 'CLI + HTTP modes', '.0n workflow engine', 'Community support'],
+              cta: 'Get Started', ctaHref: 'https://github.com/0nork/0nMCP', featured: false,
             },
             {
-              name: 'Tier 2',
-              price: '$80',
-              period: '/mo',
+              name: 'Tier 2', price: '$80', period: '/mo',
               desc: 'Managed dashboard. CRM integration. Priority.',
-              features: [
-                'Everything in Tier 1',
-                'Web dashboard',
-                'CRM integration',
-                'AI assistant',
-                'Voice AI agent',
-                'Priority support',
-              ],
-              cta: 'Get Started',
-              ctaHref: '/signup',
-              featured: true,
-              badge: 'MOST POPULAR',
+              features: ['Everything in Tier 1', 'Web dashboard', 'CRM integration', 'AI assistant', 'Voice AI agent', 'Priority support'],
+              cta: 'Get Started', ctaHref: '/signup', featured: true, badge: 'MOST POPULAR',
             },
             {
-              name: 'Enterprise',
-              price: 'Custom',
-              period: '',
+              name: 'Enterprise', price: 'Custom', period: '',
               desc: 'White-label. Unlimited locations. SLA.',
-              features: [
-                'Everything in Tier 2',
-                'White-label branding',
-                'Unlimited locations',
-                'Domain customization',
-                'Dedicated support',
-                'Custom SLA',
-              ],
-              cta: 'Contact Sales',
-              ctaHref: 'mailto:mike@rocketopp.com',
-              featured: false,
+              features: ['Everything in Tier 2', 'White-label branding', 'Unlimited locations', 'Domain customization', 'Dedicated support', 'Custom SLA'],
+              cta: 'Contact Sales', ctaHref: 'mailto:mike@rocketopp.com', featured: false,
             },
           ].map((plan) => (
             <div
               key={plan.name}
-              className="pricing-card"
+              className="pricing-card bg-[var(--bg-card)] rounded-[20px] p-8 relative flex flex-col"
               style={{
-                background: 'var(--bg-card)',
                 border: plan.featured ? '2px solid var(--accent)' : '1px solid var(--border)',
-                borderRadius: 20,
-                padding: 32,
-                position: 'relative',
                 boxShadow: plan.featured ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
-                display: 'flex',
-                flexDirection: 'column' as const,
               }}
             >
               {plan.badge && (
-                <div style={{
-                  position: 'absolute',
-                  top: -14,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  background: 'var(--cta-bg)',
-                  color: 'var(--cta-text)',
-                  fontSize: 11,
-                  fontWeight: 800,
-                  padding: '6px 18px',
-                  borderRadius: 100,
-                  letterSpacing: '0.08em',
-                  fontFamily: 'var(--font-display, system-ui)',
-                  whiteSpace: 'nowrap',
-                }}>
+                <div
+                  className="absolute -top-3.5 left-1/2 -translate-x-1/2 font-extrabold text-[11px] px-[18px] py-1.5 rounded-full tracking-[0.08em] whitespace-nowrap"
+                  style={{ background: 'var(--cta-bg)', color: 'var(--cta-text)' }}
+                >
                   {plan.badge}
                 </div>
               )}
-              <h3 style={{
-                fontSize: 20,
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-                fontFamily: 'var(--font-display, system-ui)',
-                marginBottom: 12,
-              }}>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">
                 {plan.name}
               </h3>
-              <div style={{ marginBottom: 12 }}>
-                <span style={{
-                  fontSize: plan.price === 'Custom' ? 36 : 44,
-                  fontWeight: 800,
-                  color: 'var(--text-primary)',
-                  fontFamily: 'var(--font-display, system-ui)',
-                  letterSpacing: '-0.03em',
-                }}>
+              <div className="mb-3">
+                <span
+                  className="font-extrabold"
+                  style={{ fontSize: plan.price === 'Custom' ? 36 : 44, color: 'var(--text-primary)' }}
+                >
                   {plan.price}
                 </span>
-                {plan.period && plan.period !== 'forever' && (
-                  <span style={{ fontSize: 16, color: 'var(--text-muted)', marginLeft: 4 }}>
-                    {plan.period}
-                  </span>
+                {plan.period && (
+                  <span className="text-sm text-[var(--text-muted)] ml-1">{plan.period}</span>
                 )}
               </div>
-              <p style={{
-                fontSize: 14,
-                color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-body, system-ui)',
-                marginBottom: 24,
-                lineHeight: 1.5,
-              }}>
-                {plan.desc}
-              </p>
-              <ul style={{
-                listStyle: 'none',
-                padding: 0,
-                margin: '0 0 28px',
-                flex: 1,
-              }}>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6">{plan.desc}</p>
+              <ul className="list-none p-0 m-0 mb-6 flex flex-col gap-2.5 flex-1">
                 {plan.features.map((f) => (
-                  <li key={f} style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    fontSize: 14,
-                    color: 'var(--text-secondary)',
-                    fontFamily: 'var(--font-body, system-ui)',
-                    padding: '7px 0',
-                  }}>
-                    <span style={{ flexShrink: 0, color: 'var(--accent)' }}>
+                  <li key={f} className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                    <span className="text-[var(--accent)] flex-shrink-0">
                       <IconCheck size={14} />
                     </span>
                     {f}
@@ -1364,29 +943,12 @@ export default function HomeClient() {
               </ul>
               <Link
                 href={plan.ctaHref}
-                {...(plan.ctaHref.startsWith('http') || plan.ctaHref.startsWith('mailto')
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
-                className={plan.featured ? 'cta-primary' : 'cta-outline'}
+                className="block text-center py-3 rounded-xl text-sm font-bold no-underline transition-all duration-200"
                 style={{
-                  display: 'block',
-                  textAlign: 'center',
-                  padding: '14px 0',
-                  borderRadius: 12,
-                  fontWeight: 700,
-                  fontSize: 15,
-                  textDecoration: 'none',
-                  fontFamily: 'var(--font-display, system-ui)',
                   ...(plan.featured
-                    ? {
-                        background: 'var(--cta-bg)',
-                        color: 'var(--cta-text)',
-                      }
-                    : {
-                        background: 'transparent',
-                        color: 'var(--text-primary)',
-                        border: '1px solid var(--border)',
-                      }),
+                    ? { background: 'var(--cta-bg)', color: 'var(--cta-text)' }
+                    : { background: 'transparent', color: 'var(--text-primary)', border: '1px solid var(--border)' }
+                  ),
                 }}
               >
                 {plan.cta}
@@ -1400,105 +962,50 @@ export default function HomeClient() {
          6. TESTIMONIALS / SOCIAL PROOF
          ============================================================ */}
       <Section bg="var(--bg-secondary)">
-        <div style={{ textAlign: 'center' }}>
+        <div className="text-center">
           <PillBadge>Social Proof</PillBadge>
-          <h2 style={{
-            fontSize: 'clamp(32px, 4vw, 52px)',
-            fontWeight: 800,
-            color: 'var(--text-primary)',
-            fontFamily: 'var(--font-display, system-ui)',
-            letterSpacing: '-0.02em',
-            marginBottom: 56,
-          }}>
+          <h2 className="text-[clamp(32px,4vw,52px)] font-extrabold text-[var(--text-primary)] tracking-[-0.02em] mb-14">
             Trusted by builders worldwide
           </h2>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 24,
-        }}
-        className="features-grid"
-        >
+        <div className="features-grid grid gap-6" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
           {[
             {
               quote: 'Replaced 6 different integration tools with one install. The .0n workflow engine is a game-changer.',
-              name: 'Alex Chen',
-              role: 'CTO, DataFlow',
-              initials: 'AC',
+              name: 'Alex Chen', role: 'CTO, DataFlow', initials: 'AC',
             },
             {
               quote: '1,000+ tools accessible from any AI platform. We went from weeks of integration work to minutes.',
-              name: 'Sarah Kim',
-              role: 'Lead Engineer, BuildCo',
-              initials: 'SK',
+              name: 'Sarah Kim', role: 'Lead Engineer, BuildCo', initials: 'SK',
             },
             {
               quote: 'The vault encryption and patent-pending security gives us the confidence to run production workloads.',
-              name: 'Marcus Lee',
-              role: 'Security Lead, ShieldOps',
-              initials: 'ML',
+              name: 'Marcus Lee', role: 'Security Lead, ShieldOps', initials: 'ML',
             },
           ].map((testimonial) => (
             <div
               key={testimonial.name}
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 20,
-                padding: 32,
-                boxShadow: 'var(--shadow-sm)',
-              }}
+              className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[20px] p-8"
             >
               {/* Quote mark */}
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--accent)" opacity={0.3} style={{ marginBottom: 16 }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--accent)" opacity={0.3} className="mb-4">
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10H0z" />
               </svg>
-              <p style={{
-                fontSize: 15,
-                color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-body, system-ui)',
-                lineHeight: 1.7,
-                marginBottom: 24,
-                fontStyle: 'italic',
-              }}>
+              <p className="text-[15px] text-[var(--text-secondary)] leading-[1.7] mb-6 italic">
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div className="flex items-center gap-3">
                 {/* Avatar */}
-                <div style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: '50%',
-                  background: 'var(--accent-glow)',
-                  border: '1px solid var(--accent)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--accent)',
-                  fontSize: 14,
-                  fontWeight: 700,
-                  fontFamily: 'var(--font-display, system-ui)',
-                }}>
+                <div
+                  className="w-10 h-10 rounded-full border border-[var(--accent)] flex items-center justify-center text-[var(--accent)] text-sm font-bold"
+                  style={{ background: 'var(--accent-glow)' }}
+                >
                   {testimonial.initials}
                 </div>
                 <div>
-                  <div style={{
-                    fontSize: 14,
-                    fontWeight: 700,
-                    color: 'var(--text-primary)',
-                    fontFamily: 'var(--font-display, system-ui)',
-                  }}>
-                    {testimonial.name}
-                  </div>
-                  <div style={{
-                    fontSize: 13,
-                    color: 'var(--text-muted)',
-                    fontFamily: 'var(--font-body, system-ui)',
-                  }}>
-                    {testimonial.role}
-                  </div>
+                  <div className="text-sm font-bold text-[var(--text-primary)]">{testimonial.name}</div>
+                  <div className="text-[13px] text-[var(--text-muted)]">{testimonial.role}</div>
                 </div>
               </div>
             </div>
@@ -1509,99 +1016,36 @@ export default function HomeClient() {
       {/* ============================================================
          7. FINAL CTA
          ============================================================ */}
-      <section style={{
-        position: 'relative',
-        padding: '120px 24px 140px',
-        textAlign: 'center',
-        overflow: 'hidden',
-        background: 'var(--bg-primary)',
-      }}>
+      <section className="relative px-6 pt-[120px] pb-[140px] text-center overflow-hidden bg-[var(--bg-primary)]">
         {/* Background glow */}
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 700,
-          height: 500,
-          background: 'radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          style={{ width: 700, height: 500, background: 'radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%)' }}
+        />
 
-        <h2 style={{
-          position: 'relative',
-          fontSize: 'clamp(36px, 5vw, 60px)',
-          fontWeight: 800,
-          lineHeight: 1.1,
-          fontFamily: 'var(--font-display, system-ui)',
-          letterSpacing: '-0.03em',
-          marginBottom: 20,
-          color: 'var(--text-primary)',
-        }}>
+        <h2 className="relative text-[clamp(36px,5vw,60px)] font-extrabold leading-[1.1] tracking-[-0.03em] mb-5 text-[var(--text-primary)]">
           Stop configuring.<br />
-          <span style={{ color: 'var(--accent)' }}>
+          <span className="text-[var(--accent)]">
             Start building.
           </span>
         </h2>
 
-        <p style={{
-          position: 'relative',
-          fontSize: 19,
-          color: 'var(--text-secondary)',
-          fontFamily: 'var(--font-body, system-ui)',
-          marginBottom: 40,
-          lineHeight: 1.6,
-          maxWidth: 520,
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}>
+        <p className="relative text-[19px] text-[var(--text-secondary)] mb-10 leading-relaxed max-w-[520px] mx-auto">
           {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. Every AI platform. One command.
         </p>
 
-        <div style={{
-          position: 'relative',
-          display: 'flex',
-          justifyContent: 'center',
-          gap: 16,
-          flexWrap: 'wrap',
-        }}>
+        <div className="relative flex justify-center gap-4 flex-wrap">
           <Link
             href="/start"
-            className="cta-primary"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: 'var(--cta-bg)',
-              color: 'var(--cta-text)',
-              fontWeight: 700,
-              fontSize: 17,
-              padding: '18px 36px',
-              borderRadius: 12,
-              textDecoration: 'none',
-              fontFamily: 'var(--font-display, system-ui)',
-            }}
+            className="cta-primary inline-flex items-center gap-2 font-bold text-[17px] px-9 py-[18px] rounded-xl no-underline"
+            style={{ background: 'var(--cta-bg)', color: 'var(--cta-text)' }}
           >
             Get Started
             <IconArrowRight size={16} />
           </Link>
           <Link
             href="/install"
-            className="cta-outline"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: 'transparent',
-              color: 'var(--text-primary)',
-              fontWeight: 600,
-              fontSize: 17,
-              padding: '18px 36px',
-              borderRadius: 12,
-              textDecoration: 'none',
-              fontFamily: 'var(--font-display, system-ui)',
-              border: '1px solid var(--border)',
-            }}
+            className="cta-outline inline-flex items-center gap-2 font-semibold text-[17px] px-9 py-[18px] rounded-xl no-underline border border-[var(--border)] bg-transparent text-[var(--text-primary)]"
           >
             <IconTerminal size={18} />
             Install Now
@@ -1612,43 +1056,20 @@ export default function HomeClient() {
       {/* ============================================================
          8. FOOTER (dark, 4 columns)
          ============================================================ */}
-      <footer style={{
-        background: 'var(--bg-sidebar)',
-        color: 'var(--sidebar-text)',
-        padding: '64px 24px 32px',
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div
-            className="footer-grid"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: 40,
-              marginBottom: 48,
-            }}
-          >
+      <footer className="bg-[var(--bg-sidebar)] text-[var(--sidebar-text)] pt-16 pb-8 px-6">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="footer-grid grid gap-10 mb-12" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
             {/* Brand column */}
             <div>
-              <div style={{
-                fontSize: 22,
-                fontWeight: 800,
-                fontFamily: 'var(--font-display, system-ui)',
-                marginBottom: 12,
-              }}>
-                <span style={{ color: 'var(--accent)' }}>0n</span>
-                <span style={{ color: 'var(--sidebar-text)' }}>CORE</span>
+              <div className="text-[22px] font-extrabold mb-3">
+                <span className="text-[var(--accent)]">0n</span>
+                <span className="text-[var(--sidebar-text)]">CORE</span>
               </div>
-              <p style={{
-                fontSize: 14,
-                color: 'var(--sidebar-text-muted)',
-                fontFamily: 'var(--font-body, system-ui)',
-                lineHeight: 1.6,
-                marginBottom: 20,
-              }}>
+              <p className="text-sm text-[var(--sidebar-text-muted)] leading-relaxed mb-5">
                 Unifying Digital Connectivity
               </p>
               {/* Social icons */}
-              <div style={{ display: 'flex', gap: 16 }}>
+              <div className="flex gap-4">
                 {[
                   { icon: <IconGitHub size={18} />, href: 'https://github.com/0nork/0nMCP', label: 'GitHub' },
                   { icon: <IconTwitter size={18} />, href: 'https://x.com/0nmcp', label: 'X' },
@@ -1661,10 +1082,7 @@ export default function HomeClient() {
                     target={social.href.startsWith('http') ? '_blank' : undefined}
                     rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     aria-label={social.label}
-                    style={{
-                      color: 'var(--sidebar-text-muted)',
-                      transition: 'color 0.2s',
-                    }}
+                    className="text-[var(--sidebar-text-muted)] transition-colors duration-200 hover:text-[var(--sidebar-text)]"
                   >
                     {social.icon}
                   </Link>
@@ -1674,32 +1092,21 @@ export default function HomeClient() {
 
             {/* Home column */}
             <div>
-              <h4 style={{
-                fontSize: 14,
-                fontWeight: 700,
-                color: 'var(--sidebar-text)',
-                fontFamily: 'var(--font-display, system-ui)',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                marginBottom: 16,
-              }}>
+              <h4 className="text-sm font-bold text-[var(--sidebar-text)] tracking-[0.05em] uppercase mb-4">
                 Home
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <ul className="list-none p-0 m-0">
                 {[
                   { label: 'Features', href: '#features' },
                   { label: 'Integrations', href: '/integrations' },
                   { label: 'About', href: '/about' },
                   { label: 'Blog', href: '/blog' },
                 ].map((link) => (
-                  <li key={link.label} style={{ marginBottom: 10 }}>
-                    <Link href={link.href} style={{
-                      color: 'var(--sidebar-text-muted)',
-                      textDecoration: 'none',
-                      fontSize: 14,
-                      fontFamily: 'var(--font-body, system-ui)',
-                      transition: 'color 0.2s',
-                    }}>
+                  <li key={link.label} className="mb-2.5">
+                    <Link
+                      href={link.href}
+                      className="text-[var(--sidebar-text-muted)] no-underline text-sm transition-colors duration-200 hover:text-[var(--sidebar-text)]"
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -1709,32 +1116,21 @@ export default function HomeClient() {
 
             {/* Product column */}
             <div>
-              <h4 style={{
-                fontSize: 14,
-                fontWeight: 700,
-                color: 'var(--sidebar-text)',
-                fontFamily: 'var(--font-display, system-ui)',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                marginBottom: 16,
-              }}>
+              <h4 className="text-sm font-bold text-[var(--sidebar-text)] tracking-[0.05em] uppercase mb-4">
                 Product
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <ul className="list-none p-0 m-0">
                 {[
                   { label: 'Documentation', href: '/docs' },
                   { label: 'Pricing', href: '#pricing' },
                   { label: 'Downloads', href: '/downloads' },
                   { label: 'Changelog', href: '/changelog' },
                 ].map((link) => (
-                  <li key={link.label} style={{ marginBottom: 10 }}>
-                    <Link href={link.href} style={{
-                      color: 'var(--sidebar-text-muted)',
-                      textDecoration: 'none',
-                      fontSize: 14,
-                      fontFamily: 'var(--font-body, system-ui)',
-                      transition: 'color 0.2s',
-                    }}>
+                  <li key={link.label} className="mb-2.5">
+                    <Link
+                      href={link.href}
+                      className="text-[var(--sidebar-text-muted)] no-underline text-sm transition-colors duration-200 hover:text-[var(--sidebar-text)]"
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -1744,35 +1140,21 @@ export default function HomeClient() {
 
             {/* People column */}
             <div>
-              <h4 style={{
-                fontSize: 14,
-                fontWeight: 700,
-                color: 'var(--sidebar-text)',
-                fontFamily: 'var(--font-display, system-ui)',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                marginBottom: 16,
-              }}>
+              <h4 className="text-sm font-bold text-[var(--sidebar-text)] tracking-[0.05em] uppercase mb-4">
                 People
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <ul className="list-none p-0 m-0">
                 {[
                   { label: 'Community', href: '/community' },
                   { label: 'Forum', href: '/forum' },
                   { label: 'Partners', href: '/partners' },
                   { label: 'Contact', href: 'mailto:mike@rocketopp.com' },
                 ].map((link) => (
-                  <li key={link.label} style={{ marginBottom: 10 }}>
+                  <li key={link.label} className="mb-2.5">
                     <Link
                       href={link.href}
                       {...(link.href.startsWith('mailto') ? { target: '_blank' } : {})}
-                      style={{
-                        color: 'var(--sidebar-text-muted)',
-                        textDecoration: 'none',
-                        fontSize: 14,
-                        fontFamily: 'var(--font-body, system-ui)',
-                        transition: 'color 0.2s',
-                      }}
+                      className="text-[var(--sidebar-text-muted)] no-underline text-sm transition-colors duration-200 hover:text-[var(--sidebar-text)]"
                     >
                       {link.label}
                     </Link>
@@ -1783,33 +1165,20 @@ export default function HomeClient() {
           </div>
 
           {/* Bottom bar */}
-          <div style={{
-            borderTop: '1px solid var(--sidebar-border)',
-            paddingTop: 24,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: 12,
-          }}>
-            <span style={{
-              fontSize: 13,
-              color: 'var(--sidebar-text-muted)',
-              fontFamily: 'var(--font-body, system-ui)',
-            }}>
+          <div className="border-t border-[var(--sidebar-border)] pt-6 flex justify-between items-center flex-wrap gap-3">
+            <span className="text-[13px] text-[var(--sidebar-text-muted)]">
               &copy; {new Date().getFullYear()} RocketOpp LLC. All rights reserved.
             </span>
-            <div style={{ display: 'flex', gap: 20 }}>
+            <div className="flex gap-5">
               {[
                 { label: 'Privacy', href: '/privacy' },
                 { label: 'Terms', href: '/terms' },
               ].map((link) => (
-                <Link key={link.label} href={link.href} style={{
-                  fontSize: 13,
-                  color: 'var(--sidebar-text-muted)',
-                  textDecoration: 'none',
-                  fontFamily: 'var(--font-body, system-ui)',
-                }}>
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="text-[13px] text-[var(--sidebar-text-muted)] no-underline transition-colors duration-200 hover:text-[var(--sidebar-text)]"
+                >
                   {link.label}
                 </Link>
               ))}

@@ -204,97 +204,89 @@ function LocationsTab() {
     setTimeout(() => setMessage(null), 3000)
   }
 
-  const inputStyle = {
-    width: '100%', padding: '10px 14px', borderRadius: 8,
-    background: 'var(--bg-card)', border: '1px solid var(--border)',
-    color: 'var(--text-primary)', fontSize: 13, fontFamily: 'inherit', outline: 'none',
-  } as const
-
-  const cardS = {
-    padding: '1.25rem', borderRadius: 12,
-    background: 'rgba(255,255,255,0.025)', border: '1px solid var(--border)',
-  } as const
+  const inputCls = 'w-full px-3.5 py-2.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-primary)] text-[13px] font-[inherit] outline-none'
 
   return (
-    <div style={cardS}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>CRM Locations</h2>
+    <div className="p-5 rounded-xl bg-[rgba(255,255,255,0.025)] border border-[var(--border)]">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-[16px] font-semibold text-[var(--text-primary)] m-0">CRM Locations</h2>
         <button
           onClick={() => { setAdding(true); setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }}
-          style={{
-            padding: '7px 16px', borderRadius: 8, border: 'none',
-            background: '#6EE05A', color: '#080B0F',
-            fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-          }}
+          className="px-4 py-[7px] rounded-lg border-none bg-[#6EE05A] text-[#080B0F] text-[12px] font-bold cursor-pointer font-[inherit]"
         >
           + Add Location
         </button>
       </div>
 
       {message && (
-        <div style={{
-          padding: '8px 14px', borderRadius: 8, marginBottom: 12, fontSize: 12,
-          background: message.type === 'success' ? 'rgba(126,217,87,0.08)' : 'rgba(239,68,68,0.08)',
-          border: `1px solid ${message.type === 'success' ? 'rgba(126,217,87,0.2)' : 'rgba(239,68,68,0.2)'}`,
-          color: message.type === 'success' ? '#6EE05A' : '#ef4444',
-        }}>
+        <div className={[
+          'px-3.5 py-2 rounded-lg mb-3 text-[12px] border',
+          message.type === 'success'
+            ? 'bg-[rgba(126,217,87,0.08)] border-[rgba(126,217,87,0.2)] text-[#6EE05A]'
+            : 'bg-[rgba(239,68,68,0.08)] border-[rgba(239,68,68,0.2)] text-[#ef4444]',
+        ].join(' ')}>
           {message.text}
         </div>
       )}
 
       {loading ? (
-        <div style={{ color: 'var(--text-muted)', fontSize: 13, padding: 20, textAlign: 'center' }}>Loading locations...</div>
+        <div className="text-[var(--text-muted)] text-[13px] p-5 text-center">Loading locations...</div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div className="flex flex-col gap-2">
           {locations.map(loc => (
-            <div key={loc.id} style={{
-              display: 'flex', alignItems: 'center', gap: 12,
-              padding: '12px 16px', borderRadius: 10,
-              background: loc.isActive ? 'rgba(126,217,87,0.04)' : 'rgba(255,255,255,0.02)',
-              border: `1px solid ${loc.isActive ? 'rgba(126,217,87,0.2)' : 'var(--border)'}`,
-            }}>
+            <div
+              key={loc.id}
+              className={[
+                'flex items-center gap-3 px-4 py-3 rounded-[10px] border',
+                loc.isActive
+                  ? 'bg-[rgba(126,217,87,0.04)] border-[rgba(126,217,87,0.2)]'
+                  : 'bg-[rgba(255,255,255,0.02)] border-[var(--border)]',
+              ].join(' ')}
+            >
               {/* Status dot */}
-              <div style={{
-                width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-                background: loc.isActive ? '#6EE05A' : '#5f6672',
-                boxShadow: loc.isActive ? '0 0 6px rgba(126,217,87,0.5)' : 'none',
-              }} />
+              <div
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{
+                  background: loc.isActive ? '#6EE05A' : '#5f6672',
+                  boxShadow: loc.isActive ? '0 0 6px rgba(126,217,87,0.5)' : 'none',
+                }}
+              />
 
               {editingId === loc.id ? (
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Location Name" style={inputStyle} />
-                  <input value={form.locationId} onChange={e => setForm(f => ({ ...f, locationId: e.target.value }))} placeholder="Location ID" style={inputStyle} />
-                  <input value={form.pitToken} onChange={e => setForm(f => ({ ...f, pitToken: e.target.value }))} placeholder="PIT Token (optional)" style={{ ...inputStyle, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }} />
-                  <div style={{ display: 'flex', gap: 6 }}>
-                    <button onClick={() => handleUpdate(loc)} disabled={saving} style={{ padding: '6px 14px', borderRadius: 6, border: 'none', background: '#6EE05A', color: '#080B0F', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                <div className="flex-1 flex flex-col gap-2">
+                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Location Name" className={inputCls} />
+                  <input value={form.locationId} onChange={e => setForm(f => ({ ...f, locationId: e.target.value }))} placeholder="Location ID" className={inputCls} />
+                  <input value={form.pitToken} onChange={e => setForm(f => ({ ...f, pitToken: e.target.value }))} placeholder="PIT Token (optional)" className={`${inputCls} font-mono text-[11px]`} />
+                  <div className="flex gap-1.5">
+                    <button onClick={() => handleUpdate(loc)} disabled={saving} className="px-3.5 py-1.5 rounded-md border-none bg-[#6EE05A] text-[#080B0F] text-[11px] font-bold cursor-pointer font-[inherit]">
                       {saving ? '...' : 'Save'}
                     </button>
-                    <button onClick={() => { setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '6px 14px', borderRadius: 6, border: '1px solid var(--border)', background: 'transparent', color: '#7A8290', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    <button onClick={() => { setEditingId(null); setForm({ name: '', locationId: '', pitToken: '' }) }} className="px-3.5 py-1.5 rounded-md border border-[var(--border)] bg-transparent text-[#7A8290] text-[11px] cursor-pointer font-[inherit]">
                       Cancel
                     </button>
                   </div>
                 </div>
               ) : (
                 <>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
+                  <div className="flex-1">
+                    <div className="text-[13px] font-semibold text-[var(--text-primary)]">
                       {loc.name}
-                      {loc.isActive && <span style={{ marginLeft: 8, fontSize: 9, padding: '2px 6px', borderRadius: 4, background: 'rgba(126,217,87,0.12)', color: '#6EE05A', fontWeight: 700 }}>ACTIVE</span>}
+                      {loc.isActive && <span className="ml-2 text-[9px] px-1.5 py-0.5 rounded bg-[rgba(126,217,87,0.12)] text-[#6EE05A] font-bold">ACTIVE</span>}
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: "'JetBrains Mono', monospace", marginTop: 2 }}>
+                    <div className="text-[11px] text-[var(--text-muted)] font-mono mt-0.5">
                       {loc.locationId}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                  <div className="flex gap-1.5 shrink-0">
                     {!loc.isActive && (
-                      <button onClick={() => handleSetActive(loc.id)} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(126,217,87,0.2)', background: 'transparent', color: '#6EE05A', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>
+                      <button onClick={() => handleSetActive(loc.id)} className="px-2.5 py-1 rounded-md border border-[rgba(126,217,87,0.2)] bg-transparent text-[#6EE05A] text-[10px] cursor-pointer font-[inherit] font-semibold">
                         Set Active
                       </button>
                     )}
-                    <button onClick={() => { setEditingId(loc.id); setForm({ name: loc.name, locationId: loc.locationId, pitToken: loc.pitToken }) }} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid var(--border)', background: 'transparent', color: '#7A8290', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    <button onClick={() => { setEditingId(loc.id); setForm({ name: loc.name, locationId: loc.locationId, pitToken: loc.pitToken }) }} className="px-2.5 py-1 rounded-md border border-[var(--border)] bg-transparent text-[#7A8290] text-[10px] cursor-pointer font-[inherit]">
                       Edit
                     </button>
-                    <button onClick={() => handleRemove(loc.id)} style={{ padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(239,68,68,0.2)', background: 'transparent', color: '#ef4444', fontSize: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    <button onClick={() => handleRemove(loc.id)} className="px-2.5 py-1 rounded-md border border-[rgba(239,68,68,0.2)] bg-transparent text-[#ef4444] text-[10px] cursor-pointer font-[inherit]">
                       Remove
                     </button>
                   </div>
@@ -304,7 +296,7 @@ function LocationsTab() {
           ))}
 
           {locations.length === 0 && !adding && (
-            <div style={{ textAlign: 'center', padding: 24, color: 'var(--text-muted)', fontSize: 13 }}>
+            <div className="text-center p-6 text-[var(--text-muted)] text-[13px]">
               No locations connected. Add your first CRM location.
             </div>
           )}
@@ -313,29 +305,29 @@ function LocationsTab() {
 
       {/* Add Location Form */}
       {adding && (
-        <div style={{ marginTop: 12, padding: '16px', borderRadius: 10, background: 'rgba(126,217,87,0.03)', border: '1px solid rgba(126,217,87,0.12)' }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 12 }}>Connect New Location</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div className="mt-3 p-4 rounded-[10px] bg-[rgba(126,217,87,0.03)] border border-[rgba(126,217,87,0.12)]">
+          <div className="text-[13px] font-semibold text-[var(--text-primary)] mb-3">Connect New Location</div>
+          <div className="flex flex-col gap-2.5">
             <div>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#7A8290', marginBottom: 4 }}>Location Name *</label>
-              <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. The Spa In Ligonier" style={inputStyle} />
+              <label className="block text-[11px] font-semibold text-[#7A8290] mb-1">Location Name *</label>
+              <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. The Spa In Ligonier" className={inputCls} />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#7A8290', marginBottom: 4 }}>CRM Location ID *</label>
-              <input value={form.locationId} onChange={e => setForm(f => ({ ...f, locationId: e.target.value }))} placeholder="e.g. F76MNKOMQCMruMrumtdf" style={{ ...inputStyle, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }} />
+              <label className="block text-[11px] font-semibold text-[#7A8290] mb-1">CRM Location ID *</label>
+              <input value={form.locationId} onChange={e => setForm(f => ({ ...f, locationId: e.target.value }))} placeholder="e.g. F76MNKOMQCMruMrumtdf" className={`${inputCls} font-mono text-[11px]`} />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#7A8290', marginBottom: 4 }}>PIT Token (Private Integration Token)</label>
-              <input value={form.pitToken} onChange={e => setForm(f => ({ ...f, pitToken: e.target.value }))} placeholder="pit-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" style={{ ...inputStyle, fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }} type="password" />
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4 }}>
+              <label className="block text-[11px] font-semibold text-[#7A8290] mb-1">PIT Token (Private Integration Token)</label>
+              <input value={form.pitToken} onChange={e => setForm(f => ({ ...f, pitToken: e.target.value }))} placeholder="pit-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" className={`${inputCls} font-mono text-[11px]`} type="password" />
+              <div className="text-[10px] text-[var(--text-muted)] mt-1">
                 Find this in your CRM under Settings &gt; Business Profile &gt; Private Integrations
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
-              <button onClick={handleAdd} disabled={saving} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#6EE05A', color: '#080B0F', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+            <div className="flex gap-2 mt-1">
+              <button onClick={handleAdd} disabled={saving} className="px-5 py-2.5 rounded-lg border-none bg-[#6EE05A] text-[#080B0F] text-[13px] font-bold cursor-pointer font-[inherit]">
                 {saving ? 'Connecting...' : 'Connect Location'}
               </button>
-              <button onClick={() => { setAdding(false); setForm({ name: '', locationId: '', pitToken: '' }) }} style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid var(--border)', background: 'transparent', color: '#7A8290', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+              <button onClick={() => { setAdding(false); setForm({ name: '', locationId: '', pitToken: '' }) }} className="px-5 py-2.5 rounded-lg border border-[var(--border)] bg-transparent text-[#7A8290] text-[13px] cursor-pointer font-[inherit]">
                 Cancel
               </button>
             </div>
@@ -521,78 +513,34 @@ export function AccountView() {
 
   if (loading) {
     return (
-      <div style={{ padding: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-        <span style={{ color: 'var(--text-muted)', fontSize: 14 }}>Loading account...</span>
+      <div className="p-6 flex items-center justify-center h-full">
+        <span className="text-[var(--text-muted)] text-[14px]">Loading account...</span>
       </div>
     )
   }
 
-  const cardStyle: React.CSSProperties = {
-    backgroundColor: 'var(--bg-card)',
-    border: '1px solid var(--border)',
-    borderRadius: 16,
-    padding: 24,
-    marginBottom: 20,
-  }
-
-  const labelStyle: React.CSSProperties = {
-    fontSize: 12,
-    fontWeight: 600,
-    color: 'var(--text-muted)',
-    textTransform: 'uppercase' as const,
-    letterSpacing: '0.06em',
-    marginBottom: 6,
-    fontFamily: 'var(--font-mono)',
-  }
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '10px 14px',
-    borderRadius: 10,
-    border: '1px solid var(--border)',
-    backgroundColor: 'var(--bg-card)',
-    color: 'var(--text-primary)',
-    fontSize: 14,
-    fontFamily: 'inherit',
-    outline: 'none',
-    transition: 'border-color 0.2s',
-  }
+  const cardCls = 'bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl p-6 mb-5'
+  const labelCls = 'text-[12px] font-semibold text-[var(--text-muted)] uppercase tracking-[0.06em] mb-1.5 font-mono'
+  const inputCls = 'w-full px-3.5 py-2.5 rounded-[10px] border border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-primary)] text-[14px] font-[inherit] outline-none transition-[border-color] duration-200'
 
   return (
-    <div
-      style={{
-        padding: 24,
-        width: '100%',
-        maxWidth: 800,
-        margin: '0 auto',
-        animation: 'console-fade-in 0.3s ease',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: 0, letterSpacing: '-0.02em' }}>
+    <div className="p-6 w-full max-w-[800px] mx-auto animate-[console-fade-in_0.3s_ease]">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-[28px] font-bold text-[var(--text-primary)] font-[var(--font-display)] m-0 tracking-[-0.02em]">
           Account
         </h1>
         {tab === 'profile' && (
-          <div style={{ display: 'flex', gap: 12 }}>
+          <div className="flex gap-3">
             {saved && (
-              <span style={{ color: 'var(--accent)', fontSize: 13, fontWeight: 500, alignSelf: 'center' }}>Saved</span>
+              <span className="text-[var(--accent)] text-[13px] font-medium self-center">Saved</span>
             )}
             <button
               onClick={handleSave}
               disabled={saving}
-              style={{
-                padding: '10px 24px',
-                borderRadius: 12,
-                border: 'none',
-                background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                color: '#0B0F19',
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: saving ? 'wait' : 'pointer',
-                opacity: saving ? 0.6 : 1,
-                fontFamily: 'var(--font-display)',
-                transition: 'opacity 0.2s',
-              }}
+              className={[
+                'px-6 py-2.5 rounded-xl border-none bg-[linear-gradient(135deg,var(--accent),var(--accent-secondary,#00d4ff))] text-[#0B0F19] text-[14px] font-semibold font-[var(--font-display)] transition-opacity duration-200',
+                saving ? 'opacity-60 cursor-wait' : 'cursor-pointer',
+              ].join(' ')}
             >
               {saving ? 'Saving...' : 'Save Changes'}
             </button>
@@ -601,7 +549,7 @@ export function AccountView() {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
+      <div className="flex gap-1 mb-6 border-b border-[var(--border)] pb-0">
         {([
           { key: 'profile' as AccountTab, label: 'Profile & Settings' },
           { key: 'locations' as AccountTab, label: 'CRM Locations' },
@@ -612,19 +560,12 @@ export function AccountView() {
           <button
             key={key}
             onClick={() => setTab(key)}
-            style={{
-              padding: '10px 20px',
-              fontSize: 13,
-              fontWeight: tab === key ? 600 : 400,
-              color: tab === key ? 'var(--accent)' : 'var(--text-muted)',
-              background: 'none',
-              border: 'none',
-              borderBottom: tab === key ? '2px solid var(--accent)' : '2px solid transparent',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-display)',
-              transition: 'color 0.2s, border-color 0.2s',
-              marginBottom: -1,
-            }}
+            className={[
+              'px-5 py-2.5 text-[13px] bg-none border-none cursor-pointer font-[var(--font-display)] transition-[color,border-color] duration-200 -mb-px border-b-2',
+              tab === key
+                ? 'font-semibold text-[var(--accent)] border-b-[var(--accent)]'
+                : 'font-normal text-[var(--text-muted)] border-b-transparent',
+            ].join(' ')}
           >
             {label}
           </button>
@@ -639,35 +580,32 @@ export function AccountView() {
 
       {/* ─── History Tab ─── */}
       {tab === 'history' && (
-        <div style={cardStyle}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Console History</h2>
+        <div className={cardCls}>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[16px] font-semibold text-[var(--text-primary)] m-0">Console History</h2>
             {history.length > 0 && (
               <button
                 onClick={() => {
                   localStorage.removeItem('0n-console-history')
                   setHistory([])
                 }}
-                style={{
-                  padding: '6px 14px', borderRadius: 8, border: '1px solid var(--border)',
-                  background: 'none', color: 'var(--text-muted)', fontSize: 12, cursor: 'pointer', fontFamily: 'var(--font-mono)',
-                }}
+                className="px-3.5 py-1.5 rounded-lg border border-[var(--border)] bg-none text-[var(--text-muted)] text-[12px] cursor-pointer font-mono"
               >
                 Clear
               </button>
             )}
           </div>
           {history.length === 0 ? (
-            <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>No history yet. Actions you take in the console will appear here.</p>
+            <p className="text-[var(--text-muted)] text-[14px]">No history yet. Actions you take in the console will appear here.</p>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div className="flex flex-col gap-2">
               {history.slice().reverse().slice(0, 50).map((h) => (
-                <div key={h.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 12px', borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
-                  <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', flexShrink: 0, minWidth: 60 }}>
+                <div key={h.id} className="flex items-center gap-3 px-3 py-2 rounded-[10px] bg-[rgba(255,255,255,0.02)] border border-[var(--border)]">
+                  <span className="text-[11px] text-[var(--text-muted)] font-mono shrink-0 min-w-[60px]">
                     {h.type}
                   </span>
-                  <span style={{ fontSize: 13, color: 'var(--text-secondary)', flex: 1 }}>{h.detail}</span>
-                  <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
+                  <span className="text-[13px] text-[var(--text-secondary)] flex-1">{h.detail}</span>
+                  <span className="text-[11px] text-[var(--text-muted)] font-mono shrink-0">
                     {new Date(h.ts).toLocaleTimeString()}
                   </span>
                 </div>
@@ -681,54 +619,50 @@ export function AccountView() {
       {tab === 'contributor' && (
         <div>
           {/* What is a Contributor? */}
-          <div style={cardStyle}>
-            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 12, marginTop: 0 }}>
+          <div className={cardCls}>
+            <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-3 mt-0">
               What is a Contributor?
             </h2>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 12 }}>
-              Contributors sell workflows, templates, and automations on the 0n Marketplace. You keep <strong style={{ color: '#6EE05A' }}>85%</strong> of every sale.
+            <p className="text-[13px] text-[var(--text-secondary)] leading-[1.7] mb-3">
+              Contributors sell workflows, templates, and automations on the 0n Marketplace. You keep <strong className="text-[#6EE05A]">85%</strong> of every sale.
               Payouts are automated through Stripe Connect.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+            <div className="grid grid-cols-3 gap-3">
               {[
                 { label: 'Revenue Split', value: '85/15', note: 'You keep 85%' },
                 { label: 'Payouts', value: 'Auto', note: 'Via Stripe Connect' },
                 { label: 'Minimum Tier', value: 'Agency', note: '$149/mo or higher' },
               ].map(item => (
-                <div key={item.label} style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,107,53,0.06)', border: '1px solid rgba(255,107,53,0.15)', textAlign: 'center' }}>
-                  <div style={{ fontSize: 20, fontWeight: 700, color: '#ff6b35', fontFamily: 'var(--font-mono)' }}>{item.value}</div>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{item.label}</div>
-                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2 }}>{item.note}</div>
+                <div key={item.label} className="px-4 py-3 rounded-[10px] bg-[rgba(255,107,53,0.06)] border border-[rgba(255,107,53,0.15)] text-center">
+                  <div className="text-[20px] font-bold text-[#ff6b35] font-mono">{item.value}</div>
+                  <div className="text-[11px] text-[var(--text-muted)] mt-0.5">{item.label}</div>
+                  <div className="text-[10px] text-[var(--text-muted)] mt-0.5">{item.note}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Status + Action */}
-          <div style={cardStyle}>
-            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 16, marginTop: 0 }}>
+          <div className={cardCls}>
+            <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-4 mt-0">
               Your Contributor Status
             </h2>
 
             {!billing?.vendorEligible ? (
               <div>
-                <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>
-                  You need an <strong style={{ color: '#ff6b35' }}>Agency</strong> ($149/mo) or <strong style={{ color: '#a78bfa' }}>Enterprise</strong> ($499/mo) plan to become a Contributor.
+                <p className="text-[13px] text-[var(--text-secondary)] mb-3">
+                  You need an <strong className="text-[#ff6b35]">Agency</strong> ($149/mo) or <strong className="text-[#a78bfa]">Enterprise</strong> ($499/mo) plan to become a Contributor.
                 </p>
                 <button
                   onClick={() => setShowUpgradeModal(true)}
-                  style={{
-                    padding: '10px 24px', borderRadius: 10, border: 'none',
-                    background: 'linear-gradient(135deg, #ff6b35, #cc5529)',
-                    color: 'var(--text-primary)', fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                  }}
+                  className="px-6 py-2.5 rounded-[10px] border-none bg-[linear-gradient(135deg,#ff6b35,#cc5529)] text-[var(--text-primary)] text-[13px] font-semibold cursor-pointer"
                 >
                   Upgrade to Agency
                 </button>
               </div>
             ) : !billing?.vendorStatus ? (
               <div>
-                <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>
+                <p className="text-[13px] text-[var(--text-secondary)] mb-3">
                   Your plan qualifies for Contributor access. Apply to start selling on the marketplace.
                 </p>
                 <button
@@ -738,25 +672,21 @@ export function AccountView() {
                       fetchProfile()
                     } catch { /* ignore */ }
                   }}
-                  style={{
-                    padding: '10px 24px', borderRadius: 10, border: 'none',
-                    background: 'linear-gradient(135deg, #ff6b35, #cc5529)',
-                    color: 'var(--text-primary)', fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                  }}
+                  className="px-6 py-2.5 rounded-[10px] border-none bg-[linear-gradient(135deg,#ff6b35,#cc5529)] text-[var(--text-primary)] text-[13px] font-semibold cursor-pointer"
                 >
                   Apply as Contributor
                 </button>
               </div>
             ) : billing.vendorStatus === 'applied' ? (
-              <div style={{ padding: '16px 20px', borderRadius: 10, backgroundColor: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: '#f59e0b', marginBottom: 4 }}>Application Pending</div>
-                <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+              <div className="px-5 py-4 rounded-[10px] bg-[rgba(245,158,11,0.08)] border border-[rgba(245,158,11,0.2)]">
+                <div className="text-[14px] font-semibold text-[#f59e0b] mb-1">Application Pending</div>
+                <p className="text-[13px] text-[var(--text-muted)] m-0">
                   Your contributor application is being reviewed. You&apos;ll be notified when approved.
                 </p>
               </div>
             ) : billing.vendorStatus === 'approved' ? (
               <div>
-                <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>
+                <p className="text-[13px] text-[var(--text-secondary)] mb-3">
                   You&apos;re approved! Complete your Stripe Connect onboarding to start receiving payouts.
                 </p>
                 <button
@@ -767,11 +697,7 @@ export function AccountView() {
                       if (data.url) window.location.href = data.url
                     } catch { /* ignore */ }
                   }}
-                  style={{
-                    padding: '10px 24px', borderRadius: 10, border: 'none',
-                    background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                    color: '#0B0F19', fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                  }}
+                  className="px-6 py-2.5 rounded-[10px] border-none bg-[linear-gradient(135deg,#6EE05A,#4CAF3D)] text-[#0B0F19] text-[13px] font-semibold cursor-pointer"
                 >
                   Complete Stripe Onboarding
                 </button>
@@ -780,30 +706,30 @@ export function AccountView() {
               <div>
                 {/* Revenue stats */}
                 {billing.vendorProfile && (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
-                    <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(126,217,87,0.08)', border: '1px solid rgba(126,217,87,0.15)', textAlign: 'center' }}>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: '#6EE05A', fontFamily: 'var(--font-mono)' }}>
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div className="px-4 py-3 rounded-[10px] bg-[rgba(126,217,87,0.08)] border border-[rgba(126,217,87,0.15)] text-center">
+                      <div className="text-[22px] font-bold text-[#6EE05A] font-mono">
                         ${((billing.vendorProfile.total_revenue_cents || 0) / 100).toFixed(0)}
                       </div>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Total Revenue</div>
+                      <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Total Revenue</div>
                     </div>
-                    <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.15)', textAlign: 'center' }}>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: '#00d4ff', fontFamily: 'var(--font-mono)' }}>
+                    <div className="px-4 py-3 rounded-[10px] bg-[rgba(0,212,255,0.08)] border border-[rgba(0,212,255,0.15)] text-center">
+                      <div className="text-[22px] font-bold text-[#00d4ff] font-mono">
                         {billing.vendorProfile.total_sales || 0}
                       </div>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Total Sales</div>
+                      <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Total Sales</div>
                     </div>
-                    <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'rgba(255,107,53,0.08)', border: '1px solid rgba(255,107,53,0.15)', textAlign: 'center' }}>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: billing.vendorProfile.charges_enabled ? '#6EE05A' : '#f59e0b', fontFamily: 'var(--font-mono)' }}>
+                    <div className="px-4 py-3 rounded-[10px] bg-[rgba(255,107,53,0.08)] border border-[rgba(255,107,53,0.15)] text-center">
+                      <div className={`text-[22px] font-bold font-mono ${billing.vendorProfile.charges_enabled ? 'text-[#6EE05A]' : 'text-[#f59e0b]'}`}>
                         {billing.vendorProfile.charges_enabled ? 'Active' : 'Pending'}
                       </div>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Payouts</div>
+                      <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Payouts</div>
                     </div>
                   </div>
                 )}
-                <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 4 }}>
+                <div className="text-[13px] text-[var(--text-secondary)] mb-1">
                   {billing.vendorProfile?.business_name && (
-                    <strong style={{ color: 'var(--text-primary)' }}>{billing.vendorProfile.business_name} — </strong>
+                    <strong className="text-[var(--text-primary)]">{billing.vendorProfile.business_name} — </strong>
                   )}
                   Vendor account active.
                 </div>
@@ -812,20 +738,20 @@ export function AccountView() {
           </div>
 
           {/* Quick Docs */}
-          <div style={cardStyle}>
-            <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 16, marginTop: 0 }}>
+          <div className={cardCls}>
+            <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-4 mt-0">
               Contributor Guide
             </h2>
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+            <div className="text-[13px] text-[var(--text-secondary)] leading-[1.8]">
               {[
                 { q: 'How payouts work', a: 'You earn 85% of every sale. Payouts are automated via Stripe Connect on a rolling basis. Set up your banking details during onboarding.' },
                 { q: 'Creating listings', a: 'Build workflows in the Console Builder, then publish them to the Store. Set your own price point and description.' },
                 { q: 'Pricing strategies', a: 'Most successful listings are priced between $9-$49 for individual workflows and $99-$299 for bundles.' },
                 { q: 'White-label reports', a: 'Agency+ tiers can generate branded reports for clients showing workflow performance and ROI.' },
               ].map(item => (
-                <div key={item.q} style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 4 }}>{item.q}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{item.a}</div>
+                <div key={item.q} className="mb-4">
+                  <div className="text-[13px] font-semibold text-[var(--text-primary)] mb-1">{item.q}</div>
+                  <div className="text-[12px] text-[var(--text-muted)]">{item.a}</div>
                 </div>
               ))}
             </div>
@@ -837,77 +763,46 @@ export function AccountView() {
       {tab === 'profile' && (<>
 
       {/* Profile */}
-      <div style={cardStyle}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20, marginTop: 0 }}>Profile</h2>
+      <div className={cardCls}>
+        <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-5 mt-0">Profile</h2>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
-          <div
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 16,
-              background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <span style={{ fontSize: 22, fontWeight: 800, color: '#0B0F19' }}>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-14 h-14 rounded-2xl bg-[linear-gradient(135deg,var(--accent),var(--accent-secondary,#00d4ff))] flex items-center justify-center shrink-0">
+            <span className="text-[22px] font-extrabold text-[#0B0F19]">
               {fullName ? fullName[0].toUpperCase() : '?'}
             </span>
           </div>
           <div>
-            <div style={{ fontSize: 14, color: 'var(--text-secondary)' }}>{profile?.email || 'No email'}</div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+            <div className="text-[14px] text-[var(--text-secondary)]">{profile?.email || 'No email'}</div>
+            <div className="text-[12px] text-[var(--text-muted)] mt-0.5">
               Member since {profile?.created_at ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '—'}
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <div style={labelStyle}>Display Name</div>
-            <input
-              style={inputStyle}
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Your name"
-            />
+            <div className={labelCls}>Display Name</div>
+            <input className={inputCls} value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Your name" />
           </div>
           <div>
-            <div style={labelStyle}>Company</div>
-            <input
-              style={inputStyle}
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              placeholder="Company name"
-            />
+            <div className={labelCls}>Company</div>
+            <input className={inputCls} value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company name" />
           </div>
           <div>
-            <div style={labelStyle}>Role</div>
-            <input
-              style={inputStyle}
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              placeholder="e.g. Developer, Founder"
-            />
+            <div className={labelCls}>Role</div>
+            <input className={inputCls} value={role} onChange={(e) => setRole(e.target.value)} placeholder="e.g. Developer, Founder" />
           </div>
           <div>
-            <div style={labelStyle}>Bio</div>
-            <input
-              style={inputStyle}
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder="A short bio"
-            />
+            <div className={labelCls}>Bio</div>
+            <input className={inputCls} value={bio} onChange={(e) => setBio(e.target.value)} placeholder="A short bio" />
           </div>
         </div>
       </div>
 
       {/* Plan & Billing */}
-      <div style={cardStyle}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20, marginTop: 0 }}>Plan & Billing</h2>
+      <div className={cardCls}>
+        <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-5 mt-0">Plan & Billing</h2>
 
         {/* Current Plan */}
         {(() => {
@@ -928,12 +823,15 @@ export function AccountView() {
           return (
             <>
               {/* Tier badge + vendor badge */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                <span style={{ padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', backgroundColor: c.bg, color: c.color, border: `1px solid ${c.border}`, textTransform: 'capitalize' }}>
+              <div className="flex items-center gap-3 mb-4">
+                <span
+                  className="px-4 py-1.5 rounded-[20px] text-[13px] font-bold font-mono capitalize"
+                  style={{ backgroundColor: c.bg, color: c.color, border: `1px solid ${c.border}` }}
+                >
                   {planKey === 'owner' ? 'Owner' : tierInfo.label}
                 </span>
                 {billing?.vendorStatus && (
-                  <span style={{ padding: '4px 10px', borderRadius: 12, fontSize: 10, fontWeight: 600, fontFamily: 'var(--font-mono)', backgroundColor: 'rgba(255,107,53,0.1)', color: '#ff6b35', border: '1px solid rgba(255,107,53,0.2)', textTransform: 'uppercase' }}>
+                  <span className="px-2.5 py-1 rounded-xl text-[10px] font-semibold font-mono uppercase bg-[rgba(255,107,53,0.1)] text-[#ff6b35] border border-[rgba(255,107,53,0.2)]">
                     Vendor: {billing.vendorStatus}
                   </span>
                 )}
@@ -941,29 +839,29 @@ export function AccountView() {
 
               {/* Seats & Locations */}
               {td && planKey !== 'owner' && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: c.color, fontFamily: 'var(--font-mono)' }}>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="px-4 py-3 rounded-[10px] bg-[var(--bg-card)] border border-[var(--border)]">
+                    <div className="flex justify-between items-baseline">
+                      <div className="text-[22px] font-bold font-mono" style={{ color: c.color }}>
                         {billing?.activeSeats ?? 0}/{td.maxUsers}
                       </div>
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Team Seats</div>
+                    <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Team Seats</div>
                     {td.addOns && (
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, fontFamily: 'var(--font-mono)' }}>
+                      <div className="text-[10px] text-[var(--text-muted)] mt-1 font-mono">
                         +${td.addOns.extraUserMonthly}/mo per extra seat
                       </div>
                     )}
                   </div>
-                  <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: c.color, fontFamily: 'var(--font-mono)' }}>
+                  <div className="px-4 py-3 rounded-[10px] bg-[var(--bg-card)] border border-[var(--border)]">
+                    <div className="flex justify-between items-baseline">
+                      <div className="text-[22px] font-bold font-mono" style={{ color: c.color }}>
                         {billing?.activeLocations ?? 0}/{td.maxLocations}
                       </div>
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Locations</div>
+                    <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Locations</div>
                     {td.addOns && (
-                      <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4, fontFamily: 'var(--font-mono)' }}>
+                      <div className="text-[10px] text-[var(--text-muted)] mt-1 font-mono">
                         +${td.addOns.extraLocationMonthly}/mo per extra location
                       </div>
                     )}
@@ -981,9 +879,9 @@ export function AccountView() {
           const planData = CONSOLE_PLANS[planKey]
           if (!planData) return null
           return (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+            <div className="flex flex-wrap gap-1.5 mb-4">
               {planData.features.map((f) => (
-                <span key={f} style={{ fontSize: 11, color: 'var(--text-muted)', padding: '3px 8px', borderRadius: 6, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                <span key={f} className="text-[11px] text-[var(--text-muted)] px-2 py-0.5 rounded-md bg-[var(--bg-card)] border border-[var(--border)]">
                   {f}
                 </span>
               ))}
@@ -991,24 +889,17 @@ export function AccountView() {
           )
         })()}
 
-        <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+        <div className="flex gap-3 mb-5">
           <button
             onClick={() => setShowUpgradeModal(true)}
-            style={{
-              padding: '8px 20px', borderRadius: 10, border: 'none',
-              background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: '#0B0F19', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-display)',
-            }}
+            className="px-5 py-2 rounded-[10px] border-none bg-[linear-gradient(135deg,var(--accent),var(--accent-secondary,#00d4ff))] text-[#0B0F19] text-[13px] font-semibold cursor-pointer font-[var(--font-display)]"
           >
             {billing?.plan === 'free' || !billing?.plan ? 'Upgrade Plan' : 'Switch Plan'}
           </button>
           {billing?.hasCustomer && (
             <button
               onClick={handleBillingPortal}
-              style={{
-                padding: '8px 20px', borderRadius: 10, border: '1px solid var(--border)',
-                background: 'none', color: 'var(--text-secondary)', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit',
-              }}
+              className="px-5 py-2 rounded-[10px] border border-[var(--border)] bg-none text-[var(--text-secondary)] text-[13px] font-medium cursor-pointer font-[inherit]"
             >
               Manage Billing
             </button>
@@ -1016,43 +907,43 @@ export function AccountView() {
         </div>
 
         {/* Usage This Period */}
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginBottom: 16 }}>
-          <div style={{ ...labelStyle, marginBottom: 12 }}>Usage This Period</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+        <div className="border-t border-[var(--border)] pt-4 mb-4">
+          <div className={`${labelCls} mb-3`}>Usage This Period</div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="px-4 py-3 rounded-[10px] bg-[var(--bg-card)] border border-[var(--border)]">
+              <div className="text-[22px] font-bold text-[var(--text-primary)] font-mono">
                 {billing?.runsBalance ?? 0}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Runs Balance</div>
+              <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Runs Balance</div>
             </div>
-            <div style={{ padding: '12px 16px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+            <div className="px-4 py-3 rounded-[10px] bg-[var(--bg-card)] border border-[var(--border)]">
+              <div className="text-[22px] font-bold text-[var(--text-primary)] font-mono">
                 {billing?.executionsThisMonth ?? 0}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>Executions This Month</div>
+              <div className="text-[11px] text-[var(--text-muted)] mt-0.5">Executions This Month</div>
             </div>
           </div>
         </div>
 
         {/* Payment Method */}
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, marginBottom: 16 }}>
-          <div style={{ ...labelStyle, marginBottom: 12 }}>Payment Method</div>
+        <div className="border-t border-[var(--border)] pt-4 mb-4">
+          <div className={`${labelCls} mb-3`}>Payment Method</div>
           {billing?.paymentMethod ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', borderRadius: 10, backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', textTransform: 'capitalize' }}>
+            <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-[10px] bg-[var(--bg-card)] border border-[var(--border)]">
+              <span className="text-[13px] font-semibold text-[var(--text-primary)] capitalize">
                 {billing.paymentMethod.card_brand || 'Card'}
               </span>
-              <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
+              <span className="text-[13px] text-[var(--text-secondary)] font-mono">
                 **** {billing.paymentMethod.card_last4}
               </span>
-              <span style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+              <span className="text-[11px] text-[var(--text-muted)] font-mono">
                 {billing.paymentMethod.card_exp_month}/{billing.paymentMethod.card_exp_year}
               </span>
             </div>
           ) : (
-            <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+            <div className="text-[13px] text-[var(--text-muted)]">
               No payment method on file.{' '}
-              <button onClick={handleBillingPortal} style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: 13, fontWeight: 600, padding: 0 }}>
+              <button onClick={handleBillingPortal} className="bg-none border-none text-[var(--accent)] cursor-pointer text-[13px] font-semibold p-0">
                 Add one
               </button>
             </div>
@@ -1061,27 +952,28 @@ export function AccountView() {
 
         {/* Invoices */}
         {billing?.invoices && billing.invoices.length > 0 && (
-          <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16 }}>
-            <div style={{ ...labelStyle, marginBottom: 12 }}>Recent Invoices</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div className="border-t border-[var(--border)] pt-4">
+            <div className={`${labelCls} mb-3`}>Recent Invoices</div>
+            <div className="flex flex-col gap-1.5">
               {billing.invoices.map((inv) => (
-                <div key={inv.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 12px', borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)' }}>
-                  <span style={{ fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', minWidth: 72 }}>
+                <div key={inv.id} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[var(--border)]">
+                  <span className="text-[12px] text-[var(--text-muted)] font-mono min-w-[72px]">
                     {new Date(inv.created * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </span>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', minWidth: 60 }}>
+                  <span className="text-[13px] font-semibold text-[var(--text-primary)] font-mono min-w-[60px]">
                     ${(inv.amount_paid / 100).toFixed(2)}
                   </span>
-                  <span style={{
-                    fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 10, textTransform: 'capitalize',
-                    backgroundColor: inv.status === 'paid' ? 'rgba(126,217,87,0.12)' : 'rgba(245,158,11,0.12)',
-                    color: inv.status === 'paid' ? '#6EE05A' : '#f59e0b',
-                  }}>
+                  <span className={[
+                    'text-[10px] font-semibold px-2 py-0.5 rounded-[10px] capitalize',
+                    inv.status === 'paid'
+                      ? 'bg-[rgba(126,217,87,0.12)] text-[#6EE05A]'
+                      : 'bg-[rgba(245,158,11,0.12)] text-[#f59e0b]',
+                  ].join(' ')}>
                     {inv.status}
                   </span>
-                  <span style={{ flex: 1 }} />
+                  <span className="flex-1" />
                   {inv.invoice_pdf && (
-                    <a href={inv.invoice_pdf} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
+                    <a href={inv.invoice_pdf} target="_blank" rel="noopener noreferrer" className="text-[11px] text-[var(--accent)] no-underline font-medium">
                       PDF
                     </a>
                   )}
@@ -1101,20 +993,16 @@ export function AccountView() {
       )}
 
       {/* Preferences */}
-      <div style={cardStyle}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20, marginTop: 0 }}>Preferences</h2>
+      <div className={cardCls}>
+        <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-5 mt-0">Preferences</h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <div style={labelStyle}>Default View</div>
+            <div className={labelCls}>Default View</div>
             <select
               value={defaultView}
               onChange={(e) => setDefaultView(e.target.value)}
-              style={{
-                ...inputStyle,
-                cursor: 'pointer',
-                appearance: 'none' as const,
-              }}
+              className={`${inputCls} cursor-pointer appearance-none`}
             >
               <option value="dashboard">Dashboard</option>
               <option value="chat">Chat</option>
@@ -1124,57 +1012,44 @@ export function AccountView() {
             </select>
           </div>
           <div>
-            <div style={labelStyle}>Theme</div>
-            <div style={{ padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)', backgroundColor: 'var(--bg-card)', color: 'var(--text-muted)', fontSize: 14 }}>
+            <div className={labelCls}>Theme</div>
+            <div className="px-3.5 py-2.5 rounded-[10px] border border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-muted)] text-[14px]">
               Dark (only theme)
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 16 }}>
+        <div className="flex items-center gap-2.5 mt-4">
           <button
             onClick={() => setNotifications(!notifications)}
-            style={{
-              position: 'relative' as const,
-              width: 44,
-              height: 24,
-              borderRadius: 12,
-              border: 'none',
-              cursor: 'pointer',
-              backgroundColor: notifications ? 'var(--accent)' : 'var(--border)',
-              transition: 'background-color 0.2s',
-              padding: 0,
-            }}
+            className={[
+              'relative w-11 h-6 rounded-xl border-none cursor-pointer p-0 transition-[background-color] duration-200',
+              notifications ? 'bg-[var(--accent)]' : 'bg-[var(--border)]',
+            ].join(' ')}
           >
             <span
-              style={{
-                position: 'absolute' as const,
-                top: 3,
-                left: notifications ? 23 : 3,
-                width: 18,
-                height: 18,
-                borderRadius: '50%',
-                backgroundColor: notifications ? '#0B0F19' : 'var(--text-muted)',
-                transition: 'left 0.2s, background-color 0.2s',
-              }}
+              className={[
+                'absolute top-[3px] w-[18px] h-[18px] rounded-full transition-[left,background-color] duration-200',
+                notifications ? 'left-[23px] bg-[#0B0F19]' : 'left-[3px] bg-[var(--text-muted)]',
+              ].join(' ')}
             />
           </button>
-          <span style={{ fontSize: 13, color: notifications ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+          <span className={`text-[13px] ${notifications ? 'text-[var(--text-primary)]' : 'text-[var(--text-muted)]'}`}>
             Email notifications
           </span>
         </div>
       </div>
 
       {/* Change Password */}
-      <div style={cardStyle}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 20, marginTop: 0 }}>Change Password</h2>
+      <div className={cardCls}>
+        <h2 className="text-[16px] font-semibold text-[var(--text-primary)] mb-5 mt-0">Change Password</h2>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 400 }}>
+        <div className="flex flex-col gap-4 max-w-[400px]">
           <div>
-            <div style={labelStyle}>Current Password</div>
+            <div className={labelCls}>Current Password</div>
             <input
               type="password"
-              style={inputStyle}
+              className={inputCls}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Enter current password"
@@ -1182,28 +1057,25 @@ export function AccountView() {
             />
           </div>
           <div>
-            <div style={labelStyle}>New Password</div>
+            <div className={labelCls}>New Password</div>
             <input
               type="password"
-              style={inputStyle}
+              className={inputCls}
               value={newPassword}
               onChange={(e) => { setNewPassword(e.target.value); setPasswordMsg(null) }}
               placeholder="At least 8 characters"
               autoComplete="new-password"
             />
             {newPassword && (
-              <div style={{ display: 'flex', gap: 4, marginTop: 8 }}>
+              <div className="flex gap-1 mt-2">
                 {[1, 2, 3, 4].map((level) => (
                   <div
                     key={level}
+                    className="flex-1 h-1 rounded-sm transition-[background-color] duration-200"
                     style={{
-                      flex: 1,
-                      height: 4,
-                      borderRadius: 2,
                       backgroundColor: passwordStrength >= level
                         ? level <= 1 ? '#ff3b30' : level <= 2 ? '#ff9500' : level <= 3 ? '#ffcc00' : '#34c759'
                         : 'var(--border)',
-                      transition: 'background-color 0.2s',
                     }}
                   />
                 ))}
@@ -1211,10 +1083,10 @@ export function AccountView() {
             )}
           </div>
           <div>
-            <div style={labelStyle}>Confirm New Password</div>
+            <div className={labelCls}>Confirm New Password</div>
             <input
               type="password"
-              style={inputStyle}
+              className={inputCls}
               value={confirmPassword}
               onChange={(e) => { setConfirmPassword(e.target.value); setPasswordMsg(null) }}
               placeholder="Re-enter new password"
@@ -1223,15 +1095,12 @@ export function AccountView() {
           </div>
 
           {passwordMsg && (
-            <div style={{
-              padding: '10px 14px',
-              borderRadius: 10,
-              fontSize: 13,
-              fontWeight: 500,
-              backgroundColor: passwordMsg.type === 'success' ? 'rgba(52,199,89,0.1)' : 'rgba(255,59,48,0.1)',
-              color: passwordMsg.type === 'success' ? '#34c759' : '#ff3b30',
-              border: `1px solid ${passwordMsg.type === 'success' ? 'rgba(52,199,89,0.3)' : 'rgba(255,59,48,0.3)'}`,
-            }}>
+            <div className={[
+              'px-3.5 py-2.5 rounded-[10px] text-[13px] font-medium border',
+              passwordMsg.type === 'success'
+                ? 'bg-[rgba(52,199,89,0.1)] text-[#34c759] border-[rgba(52,199,89,0.3)]'
+                : 'bg-[rgba(255,59,48,0.1)] text-[#ff3b30] border-[rgba(255,59,48,0.3)]',
+            ].join(' ')}>
               {passwordMsg.text}
             </div>
           )}
@@ -1239,22 +1108,13 @@ export function AccountView() {
           <button
             onClick={handlePasswordChange}
             disabled={passwordSaving || !currentPassword || !newPassword || !confirmPassword}
-            style={{
-              padding: '10px 24px',
-              borderRadius: 10,
-              border: 'none',
-              background: (!currentPassword || !newPassword || !confirmPassword)
-                ? 'var(--border)'
-                : 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-              color: (!currentPassword || !newPassword || !confirmPassword) ? 'var(--text-muted)' : '#0B0F19',
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: (passwordSaving || !currentPassword || !newPassword || !confirmPassword) ? 'not-allowed' : 'pointer',
-              opacity: passwordSaving ? 0.6 : 1,
-              fontFamily: 'var(--font-display)',
-              transition: 'opacity 0.2s',
-              alignSelf: 'flex-start',
-            }}
+            className={[
+              'px-6 py-2.5 rounded-[10px] border-none text-[14px] font-semibold font-[var(--font-display)] transition-opacity duration-200 self-start',
+              (!currentPassword || !newPassword || !confirmPassword)
+                ? 'bg-[var(--border)] text-[var(--text-muted)] cursor-not-allowed'
+                : 'bg-[linear-gradient(135deg,var(--accent),var(--accent-secondary,#00d4ff))] text-[#0B0F19] cursor-pointer',
+              passwordSaving ? 'opacity-60' : '',
+            ].join(' ')}
           >
             {passwordSaving ? 'Updating...' : 'Update Password'}
           </button>
@@ -1262,39 +1122,19 @@ export function AccountView() {
       </div>
 
       {/* Danger Zone */}
-      <div style={{ ...cardStyle, borderColor: 'rgba(255, 59, 48, 0.2)' }}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: '#ff3b30', marginBottom: 16, marginTop: 0 }}>Danger Zone</h2>
+      <div className="bg-[var(--bg-card)] border border-[rgba(255,59,48,0.2)] rounded-2xl p-6 mb-5">
+        <h2 className="text-[16px] font-semibold text-[#ff3b30] mb-4 mt-0">Danger Zone</h2>
 
-        <div style={{ display: 'flex', gap: 12 }}>
+        <div className="flex gap-3">
           <button
             onClick={handleSignOut}
-            style={{
-              padding: '8px 20px',
-              borderRadius: 10,
-              border: '1px solid rgba(255,59,48,0.3)',
-              background: 'rgba(255,59,48,0.08)',
-              color: '#ff3b30',
-              fontSize: 13,
-              fontWeight: 500,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
+            className="px-5 py-2 rounded-[10px] border border-[rgba(255,59,48,0.3)] bg-[rgba(255,59,48,0.08)] text-[#ff3b30] text-[13px] font-medium cursor-pointer font-[inherit]"
           >
             Sign Out
           </button>
           <button
             onClick={() => window.open('mailto:mike@rocketopp.com?subject=Delete%20my%200nmcp.com%20account', '_blank')}
-            style={{
-              padding: '8px 20px',
-              borderRadius: 10,
-              border: '1px solid var(--border)',
-              background: 'none',
-              color: 'var(--text-muted)',
-              fontSize: 13,
-              fontWeight: 500,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
+            className="px-5 py-2 rounded-[10px] border border-[var(--border)] bg-none text-[var(--text-muted)] text-[13px] font-medium cursor-pointer font-[inherit]"
           >
             Request Account Deletion
           </button>

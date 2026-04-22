@@ -45,26 +45,18 @@ interface VendorViewProps {
   onGetDashboardLink: () => Promise<{ url?: string; error?: string }>
 }
 
-// ── Shared Styles ──
+// ── Color constants (kept for dynamic CSS where Tailwind can't be used) ──
 
-const COLORS = {
-  bg: '#0B0F19',
-  card: '#111827',
-  cardHover: '#111827',
-  border: '#222222',
-  borderHover: '#2D3748',
-  accent: '#6EE05A',
-  accentGlow: 'rgba(110, 224, 90, 0.12)',
-  accentBorder: 'rgba(110, 224, 90, 0.3)',
-  orange: '#ff6b35',
-  cyan: '#00d4ff',
-  purple: '#a78bfa',
-  yellow: '#f59e0b',
-  red: '#ef4444',
-  textPrimary: '#ffffff',
-  textSecondary: 'rgba(255, 255, 255, 0.7)',
-  textMuted: 'rgba(255, 255, 255, 0.4)',
-} as const
+const ACCENT = '#6EE05A'
+const ACCENT_GLOW = 'rgba(110, 224, 90, 0.12)'
+const ACCENT_BORDER = 'rgba(110, 224, 90, 0.3)'
+const CARD_BORDER = '#222222'
+const CARD_BORDER_HOVER = '#2D3748'
+const ORANGE = '#ff6b35'
+const CYAN = '#00d4ff'
+const PURPLE = '#a78bfa'
+const YELLOW = '#f59e0b'
+const RED = '#ef4444'
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; border: string }> = {
   active: { bg: 'rgba(126,217,87,0.12)', color: '#6EE05A', border: 'rgba(126,217,87,0.3)' },
@@ -222,12 +214,11 @@ function VendorViewInner({
 
   if (loading && !vendor) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 0' }}>
-        <div style={{
-          width: 24, height: 24, border: `2px solid ${COLORS.border}`,
-          borderTopColor: COLORS.accent, borderRadius: '50%',
-          animation: 'vendor-spin 0.8s linear infinite',
-        }} />
+      <div className="flex items-center justify-center py-20">
+        <div
+          className="w-6 h-6 rounded-full border-2 border-t-[#6EE05A] animate-spin"
+          style={{ borderColor: `${CARD_BORDER} ${CARD_BORDER} ${CARD_BORDER} ${ACCENT}` }}
+        />
         <style>{`@keyframes vendor-spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     )
@@ -237,76 +228,66 @@ function VendorViewInner({
 
   if (vendorStatus === 'not_vendor') {
     return (
-      <div style={{ padding: '24px', maxWidth: 720, margin: '0 auto', animation: 'vendor-fade-in 0.3s ease' }}>
+      <div className="p-6 max-w-[720px] mx-auto animate-[vendor-fade-in_0.3s_ease]">
         {/* Hero */}
-        <div style={{
-          textAlign: 'center', padding: '48px 24px',
-          background: `linear-gradient(145deg, ${COLORS.accentGlow} 0%, ${COLORS.card} 60%, ${COLORS.bg} 100%)`,
-          borderRadius: 16, border: `1px solid ${COLORS.accentBorder}`,
-          marginBottom: 32,
-        }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 14,
-            backgroundColor: COLORS.accentGlow, display: 'flex',
-            alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
-            border: `1px solid ${COLORS.accentBorder}`,
-          }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={COLORS.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div
+          className="text-center py-12 px-6 rounded-2xl mb-8 border"
+          style={{
+            background: `linear-gradient(145deg, ${ACCENT_GLOW} 0%, #111827 60%, #0B0F19 100%)`,
+            borderColor: ACCENT_BORDER,
+          }}
+        >
+          <div
+            className="w-14 h-14 rounded-[14px] flex items-center justify-center mx-auto mb-4 border"
+            style={{ backgroundColor: ACCENT_GLOW, borderColor: ACCENT_BORDER }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 01-8 0" />
             </svg>
           </div>
 
-          <h2 style={{ fontSize: 26, fontWeight: 800, color: COLORS.textPrimary, marginBottom: 8, letterSpacing: '-0.02em' }}>
+          <h2 className="text-[26px] font-extrabold text-white mb-2 tracking-[-0.02em]">
             Sell on the 0nMCP Marketplace
           </h2>
-          <p style={{ fontSize: 15, color: COLORS.textSecondary, maxWidth: 460, margin: '0 auto 32px', lineHeight: 1.6 }}>
+          <p className="text-[15px] text-white/70 max-w-[460px] mx-auto mb-8 leading-[1.6]">
             Create and sell workflows, templates, landing pages, and more. Earn 80% of every sale.
           </p>
 
           {/* Apply form */}
-          <div style={{ maxWidth: 360, margin: '0 auto' }}>
+          <div className="max-w-[360px] mx-auto">
             <input
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
               placeholder="Business Name"
-              style={{
-                width: '100%', padding: '10px 14px', borderRadius: 10,
-                backgroundColor: 'var(--border)', border: `1px solid ${COLORS.border}`,
-                color: COLORS.textPrimary, fontSize: 14, outline: 'none',
-                marginBottom: 10, boxSizing: 'border-box',
-              }}
-              onFocus={(e) => { e.currentTarget.style.borderColor = COLORS.accent }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = COLORS.border }}
+              className="w-full px-3.5 py-2.5 rounded-[10px] text-white text-[14px] outline-none mb-2.5 box-border"
+              style={{ backgroundColor: 'var(--border)', border: `1px solid ${CARD_BORDER}` }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = ACCENT }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = CARD_BORDER }}
             />
             <select
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
-              style={{
-                width: '100%', padding: '10px 14px', borderRadius: 10,
-                backgroundColor: 'var(--border)', border: `1px solid ${COLORS.border}`,
-                color: COLORS.textPrimary, fontSize: 14, outline: 'none',
-                marginBottom: 16, boxSizing: 'border-box', cursor: 'pointer',
-              }}
+              className="w-full px-3.5 py-2.5 rounded-[10px] text-white text-[14px] outline-none mb-4 box-border cursor-pointer"
+              style={{ backgroundColor: 'var(--border)', border: `1px solid ${CARD_BORDER}` }}
             >
               <option value="individual" style={{ backgroundColor: 'var(--bg-primary)' }}>Individual</option>
               <option value="company" style={{ backgroundColor: 'var(--bg-primary)' }}>Company</option>
             </select>
 
             {applyError && (
-              <p style={{ fontSize: 13, color: COLORS.red, marginBottom: 12 }}>{applyError}</p>
+              <p className="text-[13px] text-[#ef4444] mb-3">{applyError}</p>
             )}
 
             <button
               onClick={handleApply}
               disabled={applyLoading}
-              style={{
-                width: '100%', padding: '12px 0', borderRadius: 10, border: 'none',
-                backgroundColor: COLORS.accent, color: '#000', fontSize: 14,
-                fontWeight: 700, cursor: applyLoading ? 'wait' : 'pointer',
-                opacity: applyLoading ? 0.6 : 1, transition: 'opacity 0.2s',
-              }}
+              className={[
+                'w-full py-3 rounded-[10px] border-none text-[#000] text-[14px] font-bold transition-opacity duration-200',
+                applyLoading ? 'opacity-60 cursor-wait' : 'cursor-pointer',
+              ].join(' ')}
+              style={{ backgroundColor: ACCENT }}
             >
               {applyLoading ? 'Submitting...' : 'Apply Now'}
             </button>
@@ -314,32 +295,25 @@ function VendorViewInner({
         </div>
 
         {/* Feature cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+        <div className="grid grid-cols-3 gap-3">
           {[
             { icon: '85%', title: '85% Revenue Share', desc: 'Keep the majority of every sale. Starting at just 15% platform fee.' },
             { icon: '$', title: 'Stripe Express Payouts', desc: 'Automatic payouts to your bank account. Stripe handles everything.' },
             { icon: '~', title: 'Global Marketplace', desc: 'Reach thousands of AI engineers looking for premium workflows.' },
           ].map((feat) => (
-            <div key={feat.title} style={{
-              padding: '20px 16px', borderRadius: 12, backgroundColor: COLORS.card,
-              border: `1px solid ${COLORS.border}`, textAlign: 'center',
-            }}>
-              <div style={{
-                width: 40, height: 40, borderRadius: 10,
-                backgroundColor: COLORS.accentGlow, display: 'flex',
-                alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto 12px', fontSize: 18, fontWeight: 800,
-                color: COLORS.accent, fontFamily: 'var(--font-mono)',
-                border: `1px solid ${COLORS.accentBorder}`,
-              }}>
+            <div
+              key={feat.title}
+              className="px-4 py-5 rounded-xl text-center"
+              style={{ backgroundColor: '#111827', border: `1px solid ${CARD_BORDER}` }}
+            >
+              <div
+                className="w-10 h-10 rounded-[10px] flex items-center justify-center mx-auto mb-3 text-[18px] font-extrabold font-mono border"
+                style={{ backgroundColor: ACCENT_GLOW, color: ACCENT, borderColor: ACCENT_BORDER }}
+              >
                 {feat.icon}
               </div>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: COLORS.textPrimary, marginBottom: 6 }}>
-                {feat.title}
-              </h4>
-              <p style={{ fontSize: 11, color: COLORS.textMuted, lineHeight: 1.5 }}>
-                {feat.desc}
-              </p>
+              <h4 className="text-[13px] font-bold text-white mb-1.5">{feat.title}</h4>
+              <p className="text-[11px] text-white/40 leading-[1.5] m-0">{feat.desc}</p>
             </div>
           ))}
         </div>
@@ -353,35 +327,30 @@ function VendorViewInner({
 
   if (vendorStatus === 'applied') {
     return (
-      <div style={{ padding: '24px', maxWidth: 560, margin: '0 auto', animation: 'vendor-fade-in 0.3s ease' }}>
-        <div style={{
-          padding: '40px 32px', borderRadius: 16, backgroundColor: COLORS.card,
-          border: `1px solid ${COLORS.border}`, textAlign: 'center',
-        }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 14,
-            backgroundColor: 'rgba(245,158,11,0.12)', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
-            border: '1px solid rgba(245,158,11,0.3)',
-          }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={COLORS.yellow} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <div className="p-6 max-w-[560px] mx-auto animate-[vendor-fade-in_0.3s_ease]">
+        <div
+          className="py-10 px-8 rounded-2xl text-center border"
+          style={{ backgroundColor: '#111827', borderColor: CARD_BORDER }}
+        >
+          <div className="w-14 h-14 rounded-[14px] bg-[rgba(245,158,11,0.12)] flex items-center justify-center mx-auto mb-5 border border-[rgba(245,158,11,0.3)]">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
           </div>
 
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: COLORS.textPrimary, marginBottom: 8, letterSpacing: '-0.02em' }}>
+          <h2 className="text-[22px] font-extrabold text-white mb-2 tracking-[-0.02em]">
             Application Under Review
           </h2>
-          <p style={{ fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.6, marginBottom: 24, maxWidth: 400, margin: '0 auto 24px' }}>
+          <p className="text-[14px] text-white/70 leading-[1.6] max-w-[400px] mx-auto mb-6">
             Your vendor application is being reviewed by our team. This typically takes 1-2 business days.
           </p>
 
-          <div style={{
-            padding: '16px 20px', borderRadius: 10, backgroundColor: 'var(--bg-card)',
-            border: `1px solid ${COLORS.border}`, textAlign: 'left',
-          }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: COLORS.textPrimary, marginBottom: 12 }}>
+          <div
+            className="py-4 px-5 rounded-[10px] border text-left"
+            style={{ backgroundColor: 'var(--bg-card)', borderColor: CARD_BORDER }}
+          >
+            <p className="text-[13px] font-semibold text-white mb-3">
               What happens next:
             </p>
             {[
@@ -390,16 +359,14 @@ function VendorViewInner({
               'You complete identity verification with Stripe',
               'Your vendor storefront goes live',
             ].map((step, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
-                <span style={{
-                  width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-                  backgroundColor: 'var(--border)', display: 'flex',
-                  alignItems: 'center', justifyContent: 'center', fontSize: 10,
-                  fontWeight: 700, color: COLORS.textMuted, marginTop: 1,
-                }}>
+              <div key={i} className="flex items-start gap-2.5 mb-2">
+                <span
+                  className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center text-[10px] font-bold mt-px"
+                  style={{ backgroundColor: 'var(--border)', color: 'rgba(255,255,255,0.4)' }}
+                >
                   {i + 1}
                 </span>
-                <span style={{ fontSize: 13, color: COLORS.textSecondary, lineHeight: 1.5 }}>
+                <span className="text-[13px] text-white/70 leading-[1.5]">
                   {step}
                 </span>
               </div>
@@ -407,8 +374,8 @@ function VendorViewInner({
           </div>
 
           {vendor?.business_name && (
-            <p style={{ fontSize: 12, color: COLORS.textMuted, marginTop: 16 }}>
-              Applied as <span style={{ color: COLORS.textSecondary, fontWeight: 600 }}>{vendor.business_name}</span>
+            <p className="text-[12px] text-white/40 mt-4">
+              Applied as <span className="text-white/70 font-semibold">{vendor.business_name}</span>
             </p>
           )}
         </div>
@@ -422,48 +389,45 @@ function VendorViewInner({
 
   if (vendorStatus === 'approved_needs_onboarding') {
     return (
-      <div style={{ padding: '24px', maxWidth: 560, margin: '0 auto', animation: 'vendor-fade-in 0.3s ease' }}>
-        <div style={{
-          padding: '40px 32px', borderRadius: 16, backgroundColor: COLORS.card,
-          border: `1px solid ${COLORS.accentBorder}`, textAlign: 'center',
-        }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 14,
-            backgroundColor: COLORS.accentGlow, display: 'flex',
-            alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
-            border: `1px solid ${COLORS.accentBorder}`,
-          }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={COLORS.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <div className="p-6 max-w-[560px] mx-auto animate-[vendor-fade-in_0.3s_ease]">
+        <div
+          className="py-10 px-8 rounded-2xl text-center border"
+          style={{ backgroundColor: '#111827', borderColor: ACCENT_BORDER }}
+        >
+          <div
+            className="w-14 h-14 rounded-[14px] flex items-center justify-center mx-auto mb-5 border"
+            style={{ backgroundColor: ACCENT_GLOW, borderColor: ACCENT_BORDER }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
               <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
           </div>
 
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: COLORS.textPrimary, marginBottom: 8, letterSpacing: '-0.02em' }}>
+          <h2 className="text-[22px] font-extrabold text-white mb-2 tracking-[-0.02em]">
             Complete Stripe Setup
           </h2>
-          <p style={{ fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.6, maxWidth: 400, margin: '0 auto 24px' }}>
+          <p className="text-[14px] text-white/70 leading-[1.6] max-w-[400px] mx-auto mb-6">
             Your application has been approved. Complete your Stripe Express onboarding to start receiving payments. Stripe securely handles identity verification, tax information, and banking details.
           </p>
 
           {actionError && (
-            <p style={{ fontSize: 13, color: COLORS.red, marginBottom: 16 }}>{actionError}</p>
+            <p className="text-[13px] text-[#ef4444] mb-4">{actionError}</p>
           )}
 
           <button
             onClick={handleStartOnboarding}
             disabled={onboardingLoading}
-            style={{
-              padding: '12px 32px', borderRadius: 10, border: 'none',
-              backgroundColor: COLORS.accent, color: '#000', fontSize: 14,
-              fontWeight: 700, cursor: onboardingLoading ? 'wait' : 'pointer',
-              opacity: onboardingLoading ? 0.6 : 1, transition: 'opacity 0.2s',
-            }}
+            className={[
+              'px-8 py-3 rounded-[10px] border-none text-[#000] text-[14px] font-bold transition-opacity duration-200',
+              onboardingLoading ? 'opacity-60 cursor-wait' : 'cursor-pointer',
+            ].join(' ')}
+            style={{ backgroundColor: ACCENT }}
           >
             {onboardingLoading ? 'Redirecting to Stripe...' : 'Start Stripe Onboarding'}
           </button>
 
-          <p style={{ fontSize: 11, color: COLORS.textMuted, marginTop: 16, lineHeight: 1.5 }}>
+          <p className="text-[11px] text-white/40 mt-4 leading-[1.5]">
             You will be redirected to Stripe to complete verification.<br />
             This process typically takes 5-10 minutes.
           </p>
@@ -478,7 +442,7 @@ function VendorViewInner({
 
   const tierFee = vendor?.application_fee_percent ?? 15
   const tierLabel = tierFee <= 5 ? 'Partner' : tierFee <= 10 ? 'Top Seller' : 'Contributor'
-  const tierColor = tierFee <= 5 ? COLORS.accent : tierFee <= 10 ? COLORS.cyan : COLORS.orange
+  const tierColor = tierFee <= 5 ? ACCENT : tierFee <= 10 ? CYAN : ORANGE
 
   const totalRevenueDollars = (vendor?.total_revenue_cents ?? 0) / 100
   const pendingPayoutsCents = transactions
@@ -495,67 +459,60 @@ function VendorViewInner({
   ]
 
   return (
-    <div style={{ padding: '24px', maxWidth: 960, margin: '0 auto', animation: 'vendor-fade-in 0.3s ease' }}>
+    <div className="p-6 max-w-[960px] mx-auto animate-[vendor-fade-in_0.3s_ease]">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: COLORS.textPrimary, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={COLORS.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <h2 className="text-[22px] font-extrabold text-white tracking-[-0.02em] flex items-center gap-2.5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 01-8 0" />
             </svg>
             Vendor Dashboard
           </h2>
-          <p style={{ fontSize: 13, color: COLORS.textSecondary, marginTop: 2 }}>
+          <p className="text-[13px] text-white/70 mt-0.5">
             {vendor?.business_name || 'Your storefront'}
           </p>
         </div>
 
         {/* Tier badge */}
-        <span style={{
-          fontSize: 11, fontWeight: 700, padding: '5px 12px', borderRadius: 20,
-          backgroundColor: `${tierColor}18`, color: tierColor,
-          border: `1px solid ${tierColor}40`, fontFamily: 'var(--font-mono)',
-          textTransform: 'uppercase', letterSpacing: '0.05em',
-        }}>
+        <span
+          className="text-[11px] font-bold px-3 py-1 rounded-[20px] font-mono uppercase tracking-[0.05em]"
+          style={{
+            backgroundColor: `${tierColor}18`,
+            color: tierColor,
+            border: `1px solid ${tierColor}40`,
+          }}
+        >
           {tierLabel} ({100 - tierFee}% share)
         </span>
       </div>
 
       {actionError && (
-        <div style={{
-          padding: '10px 16px', borderRadius: 10, marginBottom: 16,
-          backgroundColor: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)',
-          color: COLORS.red, fontSize: 13, display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
+        <div className="px-4 py-2.5 rounded-[10px] mb-4 bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.3)] text-[#ef4444] text-[13px] flex items-center justify-between">
           <span>{actionError}</span>
-          <button onClick={() => setActionError(null)} style={{
-            background: 'none', border: 'none', color: COLORS.red,
-            cursor: 'pointer', fontSize: 16, padding: '0 4px',
-          }}>x</button>
+          <button onClick={() => setActionError(null)} className="bg-none border-none text-[#ef4444] cursor-pointer text-[16px] px-1">x</button>
         </div>
       )}
 
       {/* Tabs */}
-      <div style={{ display: 'flex', gap: 2, marginBottom: 24, borderBottom: `1px solid ${COLORS.border}`, paddingBottom: 0 }}>
+      <div className="flex gap-0.5 mb-6 border-b border-[#222222] pb-0">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            style={{
-              padding: '10px 18px', border: 'none', background: 'none',
-              fontSize: 13, fontWeight: 600, cursor: 'pointer',
-              color: activeTab === tab.key ? COLORS.accent : COLORS.textMuted,
-              borderBottom: activeTab === tab.key ? `2px solid ${COLORS.accent}` : '2px solid transparent',
-              transition: 'all 0.2s', marginBottom: -1,
-            }}
+            className={[
+              'px-[18px] py-2.5 border-none bg-none text-[13px] font-semibold cursor-pointer transition-all duration-200 -mb-px border-b-2',
+              activeTab === tab.key
+                ? 'text-[#6EE05A] border-b-[#6EE05A]'
+                : 'text-white/40 border-b-transparent',
+            ].join(' ')}
             onMouseEnter={(e) => {
-              if (activeTab !== tab.key) e.currentTarget.style.color = COLORS.textSecondary
+              if (activeTab !== tab.key) e.currentTarget.style.color = 'rgba(255,255,255,0.7)'
             }}
             onMouseLeave={(e) => {
-              if (activeTab !== tab.key) e.currentTarget.style.color = COLORS.textMuted
+              if (activeTab !== tab.key) e.currentTarget.style.color = 'rgba(255,255,255,0.4)'
             }}
           >
             {tab.label}
@@ -566,17 +523,14 @@ function VendorViewInner({
       {/* ── My Listings Tab ── */}
       {activeTab === 'listings' && (
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <p style={{ fontSize: 13, color: COLORS.textSecondary }}>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-[13px] text-white/70 m-0">
               {listings.length} listing{listings.length !== 1 ? 's' : ''}
             </p>
             <button
               onClick={() => { setEditingListing(null); setShowListingForm(true) }}
-              style={{
-                padding: '8px 16px', borderRadius: 8, border: 'none',
-                backgroundColor: COLORS.accent, color: '#000', fontSize: 13,
-                fontWeight: 700, cursor: 'pointer', transition: 'opacity 0.2s',
-              }}
+              className="px-4 py-2 rounded-lg border-none text-[#000] text-[13px] font-bold cursor-pointer transition-opacity duration-200"
+              style={{ backgroundColor: ACCENT }}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
               onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
             >
@@ -585,64 +539,61 @@ function VendorViewInner({
           </div>
 
           {listings.length === 0 && !loading && (
-            <div style={{
-              textAlign: 'center', padding: '48px 24px', borderRadius: 12,
-              backgroundColor: COLORS.card, border: `1px solid ${COLORS.border}`,
-            }}>
-              <p style={{ fontSize: 15, color: COLORS.textSecondary, marginBottom: 4 }}>No listings yet</p>
-              <p style={{ fontSize: 12, color: COLORS.textMuted }}>Create your first listing to start selling.</p>
+            <div
+              className="text-center py-12 px-6 rounded-xl border"
+              style={{ backgroundColor: '#111827', borderColor: CARD_BORDER }}
+            >
+              <p className="text-[15px] text-white/70 mb-1">No listings yet</p>
+              <p className="text-[12px] text-white/40 m-0">Create your first listing to start selling.</p>
             </div>
           )}
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
+          <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
             {listings.map((listing, i) => {
               const statusStyle = STATUS_COLORS[listing.status] || STATUS_COLORS.draft
-              const typeColor = ASSET_TYPE_COLORS[listing.asset_type] || COLORS.accent
+              const typeColor = ASSET_TYPE_COLORS[listing.asset_type] || ACCENT
               const typeLabel = ASSET_TYPE_LABELS[listing.asset_type] || listing.asset_type
 
               return (
                 <div
                   key={listing.id}
+                  className="rounded-xl overflow-hidden transition-[border-color,transform] duration-200 relative"
                   style={{
-                    borderRadius: 12, backgroundColor: COLORS.card,
-                    border: `1px solid ${COLORS.border}`, overflow: 'hidden',
-                    transition: 'border-color 0.2s, transform 0.2s',
+                    backgroundColor: '#111827',
+                    border: `1px solid ${CARD_BORDER}`,
                     animation: 'vendor-stagger-in 0.4s ease both',
                     animationDelay: `${i * 60}ms`,
-                    position: 'relative',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = COLORS.borderHover
+                    e.currentTarget.style.borderColor = CARD_BORDER_HOVER
                     e.currentTarget.style.transform = 'translateY(-2px)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = COLORS.border
+                    e.currentTarget.style.borderColor = CARD_BORDER
                     e.currentTarget.style.transform = 'translateY(0)'
                   }}
                 >
                   {/* Card header */}
-                  <div style={{ padding: '14px 16px 12px' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <h4 style={{
-                        fontSize: 14, fontWeight: 700, color: COLORS.textPrimary,
-                        flex: 1, marginRight: 8, lineHeight: 1.3,
-                        display: '-webkit-box', WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical', overflow: 'hidden',
-                      }}>
+                  <div className="px-4 pt-3.5 pb-3">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4
+                        className="text-[14px] font-bold text-white flex-1 mr-2 leading-[1.3] overflow-hidden"
+                        style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                        }}
+                      >
                         {listing.title}
                       </h4>
 
                       {/* Three-dot menu */}
-                      <div style={{ position: 'relative' }}>
+                      <div className="relative">
                         <button
                           onClick={() => setMenuOpen(menuOpen === listing.id ? null : listing.id)}
-                          style={{
-                            background: 'none', border: 'none', cursor: 'pointer',
-                            padding: '2px 6px', borderRadius: 4, color: COLORS.textMuted,
-                            fontSize: 18, lineHeight: 1,
-                          }}
-                          onMouseEnter={(e) => { e.currentTarget.style.color = COLORS.textPrimary }}
-                          onMouseLeave={(e) => { e.currentTarget.style.color = COLORS.textMuted }}
+                          className="bg-none border-none cursor-pointer px-1.5 py-0.5 rounded text-white/40 text-[18px] leading-none"
+                          onMouseEnter={(e) => { e.currentTarget.style.color = 'white' }}
+                          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
                         >
                           ...
                         </button>
@@ -650,15 +601,13 @@ function VendorViewInner({
                         {menuOpen === listing.id && (
                           <>
                             <div
-                              style={{ position: 'fixed', inset: 0, zIndex: 40 }}
+                              className="fixed inset-0 z-40"
                               onClick={() => setMenuOpen(null)}
                             />
-                            <div style={{
-                              position: 'absolute', right: 0, top: '100%', zIndex: 50,
-                              width: 160, borderRadius: 10, padding: 4,
-                              backgroundColor: 'var(--bg-card)', border: `1px solid ${COLORS.border}`,
-                              boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-                            }}>
+                            <div
+                              className="absolute right-0 top-full z-50 w-40 rounded-[10px] p-1 border shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                              style={{ backgroundColor: 'var(--bg-card)', borderColor: CARD_BORDER }}
+                            >
                               <MenuButton label="Edit" onClick={() => handleEdit(listing)} />
                               <MenuButton
                                 label={listing.status === 'active' ? 'Unpublish' : 'Publish'}
@@ -672,33 +621,27 @@ function VendorViewInner({
                     </div>
 
                     {/* Badges row */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
-                      <span style={{
-                        fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
-                        backgroundColor: statusStyle.bg, color: statusStyle.color,
-                        border: `1px solid ${statusStyle.border}`, textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
-                      }}>
+                    <div className="flex items-center gap-1.5 flex-wrap mb-2.5">
+                      <span
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-[20px] uppercase tracking-[0.04em]"
+                        style={{ backgroundColor: statusStyle.bg, color: statusStyle.color, border: `1px solid ${statusStyle.border}` }}
+                      >
                         {listing.status}
                       </span>
-                      <span style={{
-                        fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 20,
-                        backgroundColor: `${typeColor}15`, color: typeColor,
-                        border: `1px solid ${typeColor}30`,
-                      }}>
+                      <span
+                        className="text-[10px] font-semibold px-2 py-0.5 rounded-[20px]"
+                        style={{ backgroundColor: `${typeColor}15`, color: typeColor, border: `1px solid ${typeColor}30` }}
+                      >
                         {typeLabel}
                       </span>
                     </div>
 
                     {/* Price & purchases */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{
-                        fontSize: 14, fontWeight: 700, color: COLORS.textPrimary,
-                        fontFamily: 'var(--font-mono)',
-                      }}>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[14px] font-bold text-white font-mono">
                         {listing.price === 0 ? 'Free' : `$${(listing.price / 100).toFixed(2)}`}
                       </span>
-                      <span style={{ fontSize: 11, color: COLORS.textMuted }}>
+                      <span className="text-[11px] text-white/40">
                         {listing.total_purchases} sale{listing.total_purchases !== 1 ? 's' : ''}
                       </span>
                     </div>
@@ -714,42 +657,50 @@ function VendorViewInner({
       {activeTab === 'earnings' && (
         <div>
           {/* KPI cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
-            <KpiCard label="Total Revenue" value={`$${totalRevenueDollars.toFixed(2)}`} color={COLORS.accent} />
-            <KpiCard label="Pending Payouts" value={`$${(pendingPayoutsCents / 100).toFixed(2)}`} color={COLORS.cyan} />
-            <KpiCard label="Platform Fees" value={`$${totalPlatformFees.toFixed(2)}`} color={COLORS.orange} />
-            <KpiCard label="Total Sales" value={String(totalSales)} color={COLORS.purple} />
+          <div className="grid grid-cols-4 gap-3 mb-6">
+            <KpiCard label="Total Revenue" value={`$${totalRevenueDollars.toFixed(2)}`} color={ACCENT} />
+            <KpiCard label="Pending Payouts" value={`$${(pendingPayoutsCents / 100).toFixed(2)}`} color={CYAN} />
+            <KpiCard label="Platform Fees" value={`$${totalPlatformFees.toFixed(2)}`} color={ORANGE} />
+            <KpiCard label="Total Sales" value={String(totalSales)} color={PURPLE} />
           </div>
 
           {/* Tier info */}
-          <div style={{
-            padding: '20px 24px', borderRadius: 12, backgroundColor: COLORS.card,
-            border: `1px solid ${COLORS.border}`,
-          }}>
-            <h4 style={{ fontSize: 14, fontWeight: 700, color: COLORS.textPrimary, marginBottom: 12 }}>
+          <div
+            className="px-6 py-5 rounded-xl border"
+            style={{ backgroundColor: '#111827', borderColor: CARD_BORDER }}
+          >
+            <h4 className="text-[14px] font-bold text-white mb-3">
               Vendor Tier
             </h4>
-            <div style={{ display: 'flex', gap: 16 }}>
+            <div className="flex gap-4">
               {[
-                { label: 'Contributor', fee: 15, min: 0, color: COLORS.orange },
-                { label: 'Top Seller', fee: 10, min: 100, color: COLORS.cyan },
-                { label: 'Partner', fee: 5, min: 500, color: COLORS.accent },
+                { label: 'Contributor', fee: 15, min: 0, color: ORANGE },
+                { label: 'Top Seller', fee: 10, min: 100, color: CYAN },
+                { label: 'Partner', fee: 5, min: 500, color: ACCENT },
               ].map((tier) => {
                 const isActive = tierLabel === tier.label
                 return (
-                  <div key={tier.label} style={{
-                    flex: 1, padding: '14px 16px', borderRadius: 10,
-                    backgroundColor: isActive ? `${tier.color}12` : 'rgba(255,255,255,0.02)',
-                    border: isActive ? `1px solid ${tier.color}40` : `1px solid ${COLORS.border}`,
-                    textAlign: 'center',
-                  }}>
-                    <p style={{ fontSize: 14, fontWeight: 700, color: isActive ? tier.color : COLORS.textMuted, marginBottom: 4 }}>
+                  <div
+                    key={tier.label}
+                    className="flex-1 px-4 py-3.5 rounded-[10px] text-center"
+                    style={{
+                      backgroundColor: isActive ? `${tier.color}12` : 'rgba(255,255,255,0.02)',
+                      border: isActive ? `1px solid ${tier.color}40` : `1px solid ${CARD_BORDER}`,
+                    }}
+                  >
+                    <p
+                      className="text-[14px] font-bold mb-1"
+                      style={{ color: isActive ? tier.color : 'rgba(255,255,255,0.4)' }}
+                    >
                       {tier.label}
                     </p>
-                    <p style={{ fontSize: 22, fontWeight: 800, color: isActive ? COLORS.textPrimary : COLORS.textMuted, fontFamily: 'var(--font-mono)' }}>
+                    <p
+                      className="text-[22px] font-extrabold font-mono m-0"
+                      style={{ color: isActive ? 'white' : 'rgba(255,255,255,0.4)' }}
+                    >
                       {100 - tier.fee}%
                     </p>
-                    <p style={{ fontSize: 10, color: COLORS.textMuted, marginTop: 4 }}>
+                    <p className="text-[10px] text-white/40 mt-1 m-0">
                       {tier.min === 0 ? 'Starting tier' : `${tier.min}+ sales`}
                     </p>
                   </div>
@@ -762,27 +713,26 @@ function VendorViewInner({
 
       {/* ── Transactions Tab ── */}
       {activeTab === 'transactions' && (
-        <div style={{
-          borderRadius: 12, backgroundColor: COLORS.card,
-          border: `1px solid ${COLORS.border}`, overflow: 'hidden',
-        }}>
+        <div
+          className="rounded-xl overflow-hidden border"
+          style={{ backgroundColor: '#111827', borderColor: CARD_BORDER }}
+        >
           {transactions.length === 0 ? (
-            <div style={{ padding: '48px 24px', textAlign: 'center' }}>
-              <p style={{ fontSize: 14, color: COLORS.textSecondary }}>No transactions yet</p>
-              <p style={{ fontSize: 12, color: COLORS.textMuted, marginTop: 4 }}>
+            <div className="py-12 px-6 text-center">
+              <p className="text-[14px] text-white/70 m-0">No transactions yet</p>
+              <p className="text-[12px] text-white/40 mt-1 m-0">
                 Transactions will appear here when buyers purchase your listings.
               </p>
             </div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <table className="w-full border-collapse">
               <thead>
-                <tr style={{ borderBottom: `1px solid ${COLORS.border}` }}>
+                <tr style={{ borderBottom: `1px solid ${CARD_BORDER}` }}>
                   {['Date', 'Listing', 'Amount', 'Fee', 'Net', 'Status'].map((h) => (
-                    <th key={h} style={{
-                      padding: '10px 14px', fontSize: 11, fontWeight: 600,
-                      color: COLORS.textMuted, textAlign: 'left',
-                      textTransform: 'uppercase', letterSpacing: '0.04em',
-                    }}>
+                    <th
+                      key={h}
+                      className="px-3.5 py-2.5 text-[11px] font-semibold text-white/40 text-left uppercase tracking-[0.04em]"
+                    >
                       {h}
                     </th>
                   ))}
@@ -792,32 +742,33 @@ function VendorViewInner({
                 {transactions.map((tx) => (
                   <tr
                     key={tx.id}
-                    style={{ borderBottom: `1px solid ${COLORS.border}` }}
+                    style={{ borderBottom: `1px solid ${CARD_BORDER}` }}
                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)' }}
                     onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
                   >
-                    <td style={{ padding: '10px 14px', fontSize: 12, color: COLORS.textSecondary, fontFamily: 'var(--font-mono)' }}>
+                    <td className="px-3.5 py-2.5 text-[12px] text-white/70 font-mono">
                       {new Date(tx.created_at).toLocaleDateString()}
                     </td>
-                    <td style={{ padding: '10px 14px', fontSize: 13, color: COLORS.textPrimary, fontWeight: 500 }}>
+                    <td className="px-3.5 py-2.5 text-[13px] text-white font-medium">
                       {tx.listing_name}
                     </td>
-                    <td style={{ padding: '10px 14px', fontSize: 13, color: COLORS.textPrimary, fontFamily: 'var(--font-mono)' }}>
+                    <td className="px-3.5 py-2.5 text-[13px] text-white font-mono">
                       ${(tx.amount_cents / 100).toFixed(2)}
                     </td>
-                    <td style={{ padding: '10px 14px', fontSize: 13, color: COLORS.red, fontFamily: 'var(--font-mono)' }}>
+                    <td className="px-3.5 py-2.5 text-[13px] font-mono" style={{ color: RED }}>
                       -${(tx.platform_fee_cents / 100).toFixed(2)}
                     </td>
-                    <td style={{ padding: '10px 14px', fontSize: 13, color: COLORS.accent, fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
+                    <td className="px-3.5 py-2.5 text-[13px] font-semibold font-mono" style={{ color: ACCENT }}>
                       ${(tx.vendor_payout_cents / 100).toFixed(2)}
                     </td>
-                    <td style={{ padding: '10px 14px' }}>
-                      <span style={{
-                        fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
-                        backgroundColor: tx.status === 'completed' ? 'rgba(126,217,87,0.12)' : 'rgba(245,158,11,0.12)',
-                        color: tx.status === 'completed' ? COLORS.accent : COLORS.yellow,
-                        textTransform: 'uppercase',
-                      }}>
+                    <td className="px-3.5 py-2.5">
+                      <span
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-[20px] uppercase"
+                        style={{
+                          backgroundColor: tx.status === 'completed' ? 'rgba(126,217,87,0.12)' : 'rgba(245,158,11,0.12)',
+                          color: tx.status === 'completed' ? ACCENT : YELLOW,
+                        }}
+                      >
                         {tx.status}
                       </span>
                     </td>
@@ -832,48 +783,44 @@ function VendorViewInner({
       {/* ── Payouts Tab ── */}
       {activeTab === 'payouts' && (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
+          <div className="flex justify-end mb-3">
             <button
               onClick={handleOpenStripeDashboard}
-              style={{
-                padding: '8px 16px', borderRadius: 8, border: `1px solid ${COLORS.border}`,
-                backgroundColor: 'transparent', color: COLORS.textSecondary, fontSize: 12,
-                fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s',
-              }}
+              className="px-4 py-2 rounded-lg text-[12px] font-semibold cursor-pointer transition-all duration-200 bg-transparent"
+              style={{ border: `1px solid ${CARD_BORDER}`, color: 'rgba(255,255,255,0.7)' }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = COLORS.accent
-                e.currentTarget.style.color = COLORS.accent
+                e.currentTarget.style.borderColor = ACCENT
+                e.currentTarget.style.color = ACCENT
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = COLORS.border
-                e.currentTarget.style.color = COLORS.textSecondary
+                e.currentTarget.style.borderColor = CARD_BORDER
+                e.currentTarget.style.color = 'rgba(255,255,255,0.7)'
               }}
             >
               Open Stripe Dashboard
             </button>
           </div>
 
-          <div style={{
-            borderRadius: 12, backgroundColor: COLORS.card,
-            border: `1px solid ${COLORS.border}`, overflow: 'hidden',
-          }}>
+          <div
+            className="rounded-xl overflow-hidden border"
+            style={{ backgroundColor: '#111827', borderColor: CARD_BORDER }}
+          >
             {payouts.length === 0 ? (
-              <div style={{ padding: '48px 24px', textAlign: 'center' }}>
-                <p style={{ fontSize: 14, color: COLORS.textSecondary }}>No payouts yet</p>
-                <p style={{ fontSize: 12, color: COLORS.textMuted, marginTop: 4 }}>
+              <div className="py-12 px-6 text-center">
+                <p className="text-[14px] text-white/70 m-0">No payouts yet</p>
+                <p className="text-[12px] text-white/40 mt-1 m-0">
                   Payouts are processed automatically by Stripe when you make sales.
                 </p>
               </div>
             ) : (
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr style={{ borderBottom: `1px solid ${COLORS.border}` }}>
+                  <tr style={{ borderBottom: `1px solid ${CARD_BORDER}` }}>
                     {['Date', 'Amount', 'Status', 'Arrival Date'].map((h) => (
-                      <th key={h} style={{
-                        padding: '10px 14px', fontSize: 11, fontWeight: 600,
-                        color: COLORS.textMuted, textAlign: 'left',
-                        textTransform: 'uppercase', letterSpacing: '0.04em',
-                      }}>
+                      <th
+                        key={h}
+                        className="px-3.5 py-2.5 text-[11px] font-semibold text-white/40 text-left uppercase tracking-[0.04em]"
+                      >
                         {h}
                       </th>
                     ))}
@@ -883,27 +830,36 @@ function VendorViewInner({
                   {payouts.map((po) => (
                     <tr
                       key={po.id}
-                      style={{ borderBottom: `1px solid ${COLORS.border}` }}
+                      style={{ borderBottom: `1px solid ${CARD_BORDER}` }}
                       onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)' }}
                       onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
                     >
-                      <td style={{ padding: '10px 14px', fontSize: 12, color: COLORS.textSecondary, fontFamily: 'var(--font-mono)' }}>
+                      <td className="px-3.5 py-2.5 text-[12px] text-white/70 font-mono">
                         {new Date(po.created_at).toLocaleDateString()}
                       </td>
-                      <td style={{ padding: '10px 14px', fontSize: 14, color: COLORS.accent, fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                      <td className="px-3.5 py-2.5 text-[14px] font-bold font-mono" style={{ color: ACCENT }}>
                         ${(po.amount_cents / 100).toFixed(2)}
                       </td>
-                      <td style={{ padding: '10px 14px' }}>
-                        <span style={{
-                          fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
-                          backgroundColor: po.status === 'paid' ? 'rgba(126,217,87,0.12)' : po.status === 'in_transit' ? 'rgba(0,212,255,0.12)' : 'rgba(245,158,11,0.12)',
-                          color: po.status === 'paid' ? COLORS.accent : po.status === 'in_transit' ? COLORS.cyan : COLORS.yellow,
-                          textTransform: 'uppercase',
-                        }}>
+                      <td className="px-3.5 py-2.5">
+                        <span
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-[20px] uppercase"
+                          style={{
+                            backgroundColor: po.status === 'paid'
+                              ? 'rgba(126,217,87,0.12)'
+                              : po.status === 'in_transit'
+                              ? 'rgba(0,212,255,0.12)'
+                              : 'rgba(245,158,11,0.12)',
+                            color: po.status === 'paid'
+                              ? ACCENT
+                              : po.status === 'in_transit'
+                              ? CYAN
+                              : YELLOW,
+                          }}
+                        >
                           {po.status}
                         </span>
                       </td>
-                      <td style={{ padding: '10px 14px', fontSize: 12, color: COLORS.textSecondary, fontFamily: 'var(--font-mono)' }}>
+                      <td className="px-3.5 py-2.5 text-[12px] text-white/70 font-mono">
                         {po.arrival_date ? new Date(po.arrival_date).toLocaleDateString() : '--'}
                       </td>
                     </tr>
@@ -933,14 +889,14 @@ function VendorViewInner({
 
 function KpiCard({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div style={{
-      padding: '16px 18px', borderRadius: 12, backgroundColor: COLORS.card,
-      border: `1px solid ${COLORS.border}`,
-    }}>
-      <p style={{ fontSize: 11, color: COLORS.textMuted, marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>
+    <div
+      className="px-[18px] py-4 rounded-xl border"
+      style={{ backgroundColor: '#111827', borderColor: CARD_BORDER }}
+    >
+      <p className="text-[11px] text-white/40 mb-1.5 uppercase tracking-[0.04em] font-semibold m-0 pb-1.5">
         {label}
       </p>
-      <p style={{ fontSize: 22, fontWeight: 800, color, fontFamily: 'var(--font-mono)', letterSpacing: '-0.02em' }}>
+      <p className="text-[22px] font-extrabold font-mono tracking-[-0.02em] m-0" style={{ color }}>
         {value}
       </p>
     </div>
@@ -951,12 +907,8 @@ function MenuButton({ label, onClick, danger }: { label: string; onClick: () => 
   return (
     <button
       onClick={onClick}
-      style={{
-        display: 'block', width: '100%', padding: '8px 12px', border: 'none',
-        background: 'none', textAlign: 'left', fontSize: 13, cursor: 'pointer',
-        borderRadius: 6, color: danger ? COLORS.red : COLORS.textSecondary,
-        transition: 'background-color 0.15s',
-      }}
+      className="block w-full px-3 py-2 border-none bg-none text-left text-[13px] cursor-pointer rounded-md transition-[background-color] duration-150"
+      style={{ color: danger ? RED : 'rgba(255,255,255,0.7)' }}
       onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--border)' }}
       onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
     >

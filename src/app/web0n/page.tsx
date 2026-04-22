@@ -190,7 +190,7 @@ function FeatureIcon({ icon }: { icon: string }) {
       <svg {...props}><path d="M18 4l14 8-14 8L4 12l14-8z" stroke={c} strokeWidth="2" strokeLinejoin="round" fill="rgba(126,217,87,0.08)" /><path d="M4 18l14 8 14-8" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 24l14 8 14-8" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
     )
     case 'search': return (
-      <svg {...props}><circle cx="16" cy="16" r="10" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.08)" /><line x1="24" y1="24" x2="32" y2="32" stroke={c} strokeWidth="2.5" strokeLinecap="round" /><path d="M13 13l6 6M19 13l-6 6" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0" /><circle cx="16" cy="16" r="3" fill={c} opacity="0.2" /></svg>
+      <svg {...props}><circle cx="16" cy="16" r="10" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.08)" /><line x1="24" y1="24" x2="32" y2="32" stroke={c} strokeWidth="2.5" strokeLinecap="round" /><circle cx="16" cy="16" r="3" fill={c} opacity="0.2" /></svg>
     )
     case 'phone': return (
       <svg {...props}><rect x="9" y="3" width="18" height="30" rx="4" stroke={c} strokeWidth="2" fill="rgba(126,217,87,0.06)" /><line x1="15" y1="28" x2="21" y2="28" stroke={c} strokeWidth="2" strokeLinecap="round" /><rect x="12" y="7" width="12" height="16" rx="1" fill="rgba(126,217,87,0.1)" /></svg>
@@ -243,7 +243,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
   const s = `url(#${id})`
 
   switch (index) {
-    case 0: /* Contacts */
+    case 0:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -253,7 +253,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <path d="M40 26c3.314 2 5 4.686 5 8" stroke={s} strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.5" />
         </svg>
       )
-    case 1: /* Calendar */
+    case 1:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -264,7 +264,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <circle cx="24" cy="30" r="4" fill={s} opacity="0.7" />
         </svg>
       )
-    case 2: /* Forms */
+    case 2:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -276,7 +276,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <path d="M32.5 36l1 1 2-2.5" stroke="#0B0F19" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       )
-    case 3: /* Pipeline */
+    case 3:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -286,7 +286,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <rect x="18" y="40" width="12" height="4" rx="2" fill={s} opacity="0.7" />
         </svg>
       )
-    case 4: /* Email & SMS */
+    case 4:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -296,7 +296,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
           <path d="M36 12h4M38 10v4" stroke={s} strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       )
-    case 5: /* Reporting */
+    case 5:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -312,7 +312,7 @@ function CrmIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
   }
 }
 
-/* Feature Icons with gradient fills — matches CRM card style */
+/* Feature Icons with gradient fills */
 function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
   const id = `w0nFg${index}`
   const grad = (
@@ -326,7 +326,7 @@ function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: str
   const s = `url(#${id})`
 
   switch (index) {
-    case 0: /* Bolt — Live in 5-7 Days */
+    case 0:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -334,7 +334,7 @@ function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: str
           <path d="M26 6L10 26h12l-3 16 18-22H24l4-14z" fill={s} opacity="0.15" />
         </svg>
       )
-    case 1: /* Eye — Human-Reviewed */
+    case 1:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -343,7 +343,7 @@ function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: str
           <circle cx="24" cy="24" r="3" fill={s} opacity="0.7" />
         </svg>
       )
-    case 2: /* Layers — CRM Included */
+    case 2:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -352,7 +352,7 @@ function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: str
           <path d="M4 32l20 10 20-10" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       )
-    case 3: /* Search — SEO-Optimized */
+    case 3:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -362,7 +362,7 @@ function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: str
           <path d="M16 18l10 0M16 24l6 0" stroke={s} strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
         </svg>
       )
-    case 4: /* Phone — Mobile-First */
+    case 4:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -372,7 +372,7 @@ function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: str
           <circle cx="24" cy="21" r="4" fill={s} opacity="0.3" />
         </svg>
       )
-    case 5: /* Shield — No Hidden Fees */
+    case 5:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -385,7 +385,7 @@ function FeatureGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: str
   }
 }
 
-/* Page Icons with gradient fills — matches CRM card style */
+/* Page Icons with gradient fills */
 function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string }) {
   const id = `w0nPg${index}`
   const grad = (
@@ -399,7 +399,7 @@ function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string
   const s = `url(#${id})`
 
   switch (index) {
-    case 0: /* Home Page */
+    case 0:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -407,7 +407,7 @@ function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string
           <path d="M10 22v18h10v-10h8v10h10V22" stroke={s} strokeWidth="2.5" strokeLinejoin="round" fill={s} fillOpacity="0.1" />
         </svg>
       )
-    case 1: /* Services Page */
+    case 1:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -417,7 +417,7 @@ function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string
           <rect x="27" y="27" width="16" height="16" rx="4" stroke={s} strokeWidth="2.5" fill={s} fillOpacity="0.2" />
         </svg>
       )
-    case 2: /* Contact Page */
+    case 2:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -426,7 +426,7 @@ function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string
           <rect x="4" y="10" width="40" height="28" rx="4" fill={s} fillOpacity="0.06" />
         </svg>
       )
-    case 3: /* Booking Page */
+    case 3:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -437,7 +437,7 @@ function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string
           <path d="M19 30l4 4 8-8" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       )
-    case 4: /* Pricing Page */
+    case 4:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -445,7 +445,7 @@ function PageGradIcon({ index, g1, g2 }: { index: number; g1: string; g2: string
           <path d="M24 10v28M17 16h10a4 4 0 010 8h-8a4 4 0 000 8h10" stroke={s} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       )
-    case 5: /* CRM Sub-Account (bonus card) */
+    case 5:
       return (
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           {grad}
@@ -508,7 +508,6 @@ export default function Web0nLanding() {
           border-color:rgba(126,217,87,0.3)!important;
           box-shadow:0 4px 24px rgba(126,217,87,0.06);
         }
-        /* CRM cards use GlassTiltCard component for hover effects */
         .w0n-stat-card{
           transition:transform .3s ease,box-shadow .3s ease;
         }
@@ -531,17 +530,14 @@ export default function Web0nLanding() {
         }
       `}</style>
 
-      <article itemScope itemType="https://schema.org/WebPage" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 1.5rem', width: '100%', boxSizing: 'border-box' }}>
+      <article itemScope itemType="https://schema.org/WebPage" className="max-w-[1280px] mx-auto px-6 w-full box-border">
 
         {/* ========== HERO ========== */}
-        <header style={{ textAlign: 'center', padding: '4rem 0 0', position: 'relative' }}>
+        <header className="text-center pt-16 relative">
           {/* Decorative radial glow */}
-          <div style={{
-            position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)',
-            width: '600px', height: '400px',
-            background: 'radial-gradient(ellipse, rgba(126,217,87,0.06) 0%, transparent 70%)',
-            pointerEvents: 'none', zIndex: 0,
-          }} />
+          <div className="absolute top-[-80px] left-1/2 -translate-x-1/2 w-[600px] h-[400px] pointer-events-none z-0"
+            style={{ background: 'radial-gradient(ellipse, rgba(126,217,87,0.06) 0%, transparent 70%)' }}
+          />
 
           <Image
             src="/brand/web0n-logo.png"
@@ -549,64 +545,34 @@ export default function Web0nLanding() {
             width={320}
             height={105}
             priority
-            style={{ margin: '0 auto 1.5rem', display: 'block', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 4px 24px rgba(126,217,87,0.15))' }}
+            className="mx-auto mb-6 block relative z-[1] drop-shadow-[0_4px_24px_rgba(126,217,87,0.15)]"
           />
 
-          <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.25rem)',
-            fontWeight: 700,
-            lineHeight: 1.15,
-            marginBottom: '1.25rem',
-            fontFamily: 'var(--font-display)',
-            position: 'relative', zIndex: 1,
-          }}>
+          <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.15] mb-5 relative z-[1]">
             Professional Websites for{' '}
             <RotatingText words={INDUSTRIES} /><br />
-            <span style={{ color: '#6EE05A' }}>Built in Days, Not Months.</span>
+            <span className="text-[#6EE05A]">Built in Days, Not Months.</span>
           </h1>
 
-          <p style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-            color: 'var(--text-secondary)',
-            maxWidth: 640,
-            margin: '0 auto 2rem',
-            lineHeight: 1.65,
-            position: 'relative', zIndex: 1,
-          }}>
+          <p className="text-[clamp(1rem,2.5vw,1.2rem)] text-[var(--text-secondary)] max-w-[640px] mx-auto mb-8 leading-[1.65] relative z-[1]">
             5-page business website with CRM, online booking, and SEO.
             Human-reviewed. AI-powered. One flat price&nbsp;&mdash;&nbsp;no surprises.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.5rem', position: 'relative', zIndex: 1 }}>
+          <div className="flex justify-center gap-4 flex-wrap mb-2 relative z-[1]">
             <Link
               href="/onboard"
-              className="w0n-cta"
+              className="w0n-cta px-9 py-3.5 rounded-[10px] font-bold text-[1.05rem] no-underline text-[#0B0F19]"
               style={{
-                padding: '0.9rem 2.25rem',
-                borderRadius: '10px',
                 background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                color: '#0B0F19',
-                fontWeight: 700,
-                fontSize: '1.05rem',
-                textDecoration: 'none',
-                boxShadow: '0 4px 24px rgba(110, 224, 90, 0.3)',
+                boxShadow: '0 4px 24px rgba(110,224,90,0.3)',
               }}
             >
               Get Started &mdash; $1,997
             </Link>
             <a
               href="#how-it-works"
-              className="w0n-cta"
-              style={{
-                padding: '0.9rem 2.25rem',
-                borderRadius: '10px',
-                border: '1px solid var(--border)',
-                color: 'var(--text-primary)',
-                fontWeight: 500,
-                fontSize: '1.05rem',
-                textDecoration: 'none',
-                background: 'transparent',
-              }}
+              className="w0n-cta px-9 py-3.5 rounded-[10px] border border-[var(--border)] text-[var(--text-primary)] font-medium text-[1.05rem] no-underline bg-transparent"
             >
               See How It Works
             </a>
@@ -618,10 +584,7 @@ export default function Web0nLanding() {
 
         {/* ========== TRUST SIGNALS ========== */}
         <ScrollReveal>
-          <section aria-label="Key features at a glance" style={{
-            display: 'flex', justifyContent: 'center', gap: '2.5rem', flexWrap: 'wrap',
-            padding: '2.5rem 0', textAlign: 'center',
-          }}>
+          <section aria-label="Key features at a glance" className="flex justify-center gap-10 flex-wrap py-10 text-center">
             {[
               { pre: '', val: 5, suf: '-7 Days', sub: 'To go live' },
               { pre: '', val: 5, suf: ' Pages', sub: 'Professionally designed' },
@@ -629,10 +592,10 @@ export default function Web0nLanding() {
               { pre: '$', val: 1997, suf: '', sub: 'Flat — no monthly fees' },
             ].map((s) => (
               <div key={s.sub}>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#6EE05A' }}>
+                <div className="text-[1.4rem] font-bold text-[#6EE05A]">
                   <CountUp end={s.val} prefix={s.pre} suffix={s.suf} />
                 </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>{s.sub}</div>
+                <div className="text-[0.8rem] text-[var(--text-muted)] mt-0.5">{s.sub}</div>
               </div>
             ))}
           </section>
@@ -642,58 +605,40 @@ export default function Web0nLanding() {
         <ScrollReveal>
           <section
             aria-labelledby="stats-heading"
+            className="py-12 px-8 my-4 -mx-6 rounded-[20px] border border-[rgba(126,217,87,0.08)] relative overflow-hidden"
             style={{
-              padding: '3rem 2rem',
-              margin: '1rem -1.5rem',
-              borderRadius: '20px',
               background: 'linear-gradient(160deg, rgba(126,217,87,0.04) 0%, rgba(0,212,255,0.03) 50%, rgba(167,139,250,0.03) 100%)',
-              border: '1px solid rgba(126,217,87,0.08)',
-              position: 'relative',
-              overflow: 'hidden',
             }}
           >
-            {/* Subtle floating particles */}
-            <div style={{ position: 'absolute', top: '20%', left: '10%', width: 6, height: 6, borderRadius: '50%', background: 'rgba(126,217,87,0.15)', animation: 'w0nFloat 4s ease-in-out infinite' }} />
-            <div style={{ position: 'absolute', top: '60%', right: '15%', width: 4, height: 4, borderRadius: '50%', background: 'rgba(0,212,255,0.15)', animation: 'w0nFloat 5s ease-in-out infinite 1s' }} />
-            <div style={{ position: 'absolute', bottom: '20%', left: '30%', width: 5, height: 5, borderRadius: '50%', background: 'rgba(167,139,250,0.12)', animation: 'w0nFloat 6s ease-in-out infinite 2s' }} />
+            {/* Floating particles */}
+            <div className="absolute top-[20%] left-[10%] w-1.5 h-1.5 rounded-full pointer-events-none" style={{ background: 'rgba(126,217,87,0.15)', animation: 'w0nFloat 4s ease-in-out infinite' }} />
+            <div className="absolute top-[60%] right-[15%] w-1 h-1 rounded-full pointer-events-none" style={{ background: 'rgba(0,212,255,0.15)', animation: 'w0nFloat 5s ease-in-out infinite 1s' }} />
+            <div className="absolute bottom-[20%] left-[30%] w-[5px] h-[5px] rounded-full pointer-events-none" style={{ background: 'rgba(167,139,250,0.12)', animation: 'w0nFloat 6s ease-in-out infinite 2s' }} />
 
-            <h2 id="stats-heading" style={{ textAlign: 'center', fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.5rem', position: 'relative' }}>
-              Why an <span style={{ color: '#6EE05A' }}>AI-Optimized</span> Website Matters
+            <h2 id="stats-heading" className="text-center text-[1.75rem] font-bold mb-2 relative">
+              Why an <span className="text-[#6EE05A]">AI-Optimized</span> Website Matters
             </h2>
-            <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.9rem' }}>
+            <p className="text-center text-[var(--text-muted)] mb-8 text-[0.9rem]">
               The numbers don&apos;t lie &mdash; your website is your most important employee.
             </p>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '1rem',
-              position: 'relative',
-            }}>
+            <div className="grid gap-4 relative" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
               {AI_STATS.map((stat) => (
                 <div
                   key={stat.label}
-                  className="w0n-stat-card"
+                  className="w0n-stat-card px-5 py-6 rounded-2xl text-center border border-[rgba(126,217,87,0.1)] backdrop-blur-sm"
                   style={{
-                    padding: '1.5rem 1.25rem',
-                    borderRadius: '14px',
                     background: 'rgba(10,10,15,0.6)',
-                    border: '1px solid rgba(126,217,87,0.1)',
-                    textAlign: 'center',
-                    backdropFilter: 'blur(8px)',
                     boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
                   }}
                 >
-                  <div style={{
-                    fontSize: '2.5rem', fontWeight: 800, color: '#6EE05A',
-                    fontFamily: 'var(--font-display)',
-                    textShadow: '0 0 30px rgba(126,217,87,0.2)',
-                    lineHeight: 1,
-                    marginBottom: '0.5rem',
-                  }}>
+                  <div
+                    className="text-[2.5rem] font-extrabold text-[#6EE05A] leading-none mb-2"
+                    style={{ textShadow: '0 0 30px rgba(126,217,87,0.2)' }}
+                  >
                     <CountUp end={stat.value} suffix={stat.suffix} duration={2500} />
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                  <p className="text-[0.8rem] text-[var(--text-secondary)] leading-relaxed">
                     {stat.label}
                   </p>
                 </div>
@@ -706,33 +651,21 @@ export default function Web0nLanding() {
         <ScrollReveal>
           <section
             aria-labelledby="why-heading"
-            style={{
-              padding: '3.5rem 2rem',
-              margin: '1rem -1.5rem',
-              borderRadius: '20px',
-              background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,212,255,0.02) 50%, rgba(0,0,0,0) 100%)',
-              position: 'relative',
-            }}
+            className="py-14 px-8 my-4 -mx-6 rounded-[20px] relative"
+            style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,212,255,0.02) 50%, rgba(0,0,0,0) 100%)' }}
           >
             {/* Top glow accent */}
-            <div style={{
-              position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-              width: '60%', height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent)',
-            }} />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px pointer-events-none"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent)' }}
+            />
 
-            <h2 id="why-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-              Why Businesses Choose <span style={{ color: '#6EE05A' }}>web0n</span>
+            <h2 id="why-heading" className="text-center text-[2rem] font-bold mb-2">
+              Why Businesses Choose <span className="text-[#6EE05A]">web0n</span>
             </h2>
-            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
+            <p className="text-center text-[var(--text-secondary)] max-w-[560px] mx-auto mb-10">
               We combine AI efficiency with human quality control to deliver professional websites faster than anyone else.
             </p>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '1.5rem',
-              width: '100%',
-            }}>
+            <div className="grid gap-6 w-full" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
               {FEATURES.map((f, i) => (
                 <ScrollReveal key={f.title} delay={i * 100}>
                   <GlassTiltCard
@@ -747,19 +680,21 @@ export default function Web0nLanding() {
                       height: '100%',
                     }}
                   >
-                    <div style={{ marginBottom: '1.15rem', filter: `drop-shadow(0 4px 12px ${f.g1}22)` }}>
+                    <div className="mb-[1.15rem]" style={{ filter: `drop-shadow(0 4px 12px ${f.g1}22)` }}>
                       <FeatureGradIcon index={i} g1={f.g1} g2={f.g2} />
                     </div>
-                    <h3 style={{
-                      fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
-                      background: `linear-gradient(135deg, ${f.g1}, ${f.g2})`,
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}>
+                    <h3
+                      className="text-[1.2rem] font-bold mb-2"
+                      style={{
+                        background: `linear-gradient(135deg, ${f.g1}, ${f.g2})`,
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}
+                    >
                       {f.title}
                     </h3>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                    <p className="text-[0.95rem] text-[var(--text-secondary)] leading-[1.7]">
                       {f.desc}
                     </p>
                   </GlassTiltCard>
@@ -773,34 +708,21 @@ export default function Web0nLanding() {
         <ScrollReveal>
           <section
             aria-labelledby="crm-heading"
-            style={{
-              padding: '3.5rem 2rem',
-              margin: '1rem -1.5rem',
-              borderRadius: '20px',
-              background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(126,217,87,0.02) 50%, rgba(0,0,0,0) 100%)',
-              position: 'relative',
-            }}
+            className="py-14 px-8 my-4 -mx-6 rounded-[20px] relative"
+            style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(126,217,87,0.02) 50%, rgba(0,0,0,0) 100%)' }}
           >
-            {/* Top glow accent */}
-            <div style={{
-              position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-              width: '60%', height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(126,217,87,0.2), transparent)',
-            }} />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px pointer-events-none"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(126,217,87,0.2), transparent)' }}
+            />
 
-            <h2 id="crm-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-              Your Website Comes With a <span style={{ color: '#6EE05A' }}>Full CRM</span>
+            <h2 id="crm-heading" className="text-center text-[2rem] font-bold mb-2">
+              Your Website Comes With a <span className="text-[#6EE05A]">Full CRM</span>
             </h2>
-            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
+            <p className="text-center text-[var(--text-secondary)] max-w-[560px] mx-auto mb-10">
               Every web0n website includes these powerful business tools &mdash; at no extra cost.
             </p>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '1.5rem',
-              width: '100%',
-            }}>
+            <div className="grid gap-6 w-full" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
               {CRM_DATA.map((crm, i) => (
                 <ScrollReveal key={crm.title} delay={i * 100}>
                   <GlassTiltCard
@@ -815,19 +737,21 @@ export default function Web0nLanding() {
                       height: '100%',
                     }}
                   >
-                    <div style={{ marginBottom: '1.15rem', filter: `drop-shadow(0 4px 12px ${crm.g1}22)` }}>
+                    <div className="mb-[1.15rem]" style={{ filter: `drop-shadow(0 4px 12px ${crm.g1}22)` }}>
                       <CrmIcon index={i} g1={crm.g1} g2={crm.g2} />
                     </div>
-                    <h3 style={{
-                      fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
-                      background: `linear-gradient(135deg, ${crm.g1}, ${crm.g2})`,
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}>
+                    <h3
+                      className="text-[1.2rem] font-bold mb-2"
+                      style={{
+                        background: `linear-gradient(135deg, ${crm.g1}, ${crm.g2})`,
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}
+                    >
                       {crm.title}
                     </h3>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                    <p className="text-[0.95rem] text-[var(--text-secondary)] leading-[1.7]">
                       {crm.desc}
                     </p>
                   </GlassTiltCard>
@@ -844,33 +768,20 @@ export default function Web0nLanding() {
         <ScrollReveal>
           <section
             aria-labelledby="pages-heading"
-            style={{
-              padding: '3.5rem 2rem',
-              margin: '1rem -1.5rem',
-              borderRadius: '20px',
-              background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(167,139,250,0.02) 50%, rgba(0,0,0,0) 100%)',
-              position: 'relative',
-            }}
+            className="py-14 px-8 my-4 -mx-6 rounded-[20px] relative"
+            style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(167,139,250,0.02) 50%, rgba(0,0,0,0) 100%)' }}
           >
-            {/* Top glow accent */}
-            <div style={{
-              position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-              width: '60%', height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(167,139,250,0.2), transparent)',
-            }} />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px pointer-events-none"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(167,139,250,0.2), transparent)' }}
+            />
 
-            <h2 id="pages-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+            <h2 id="pages-heading" className="text-center text-[2rem] font-bold mb-2">
               Everything Your Business Needs Online
             </h2>
-            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
+            <p className="text-center text-[var(--text-secondary)] max-w-[560px] mx-auto mb-10">
               5 professionally designed pages plus a CRM sub-account &mdash; everything to look great and capture leads from day one.
             </p>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '1.5rem',
-              width: '100%',
-            }}>
+            <div className="grid gap-6 w-full" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
               {PAGES.map((page, i) => (
                 <ScrollReveal key={page.name} delay={i * 100}>
                   <GlassTiltCard
@@ -885,19 +796,21 @@ export default function Web0nLanding() {
                       height: '100%',
                     }}
                   >
-                    <div style={{ marginBottom: '1.15rem', filter: `drop-shadow(0 4px 12px ${page.g1}22)` }}>
+                    <div className="mb-[1.15rem]" style={{ filter: `drop-shadow(0 4px 12px ${page.g1}22)` }}>
                       <PageGradIcon index={i} g1={page.g1} g2={page.g2} />
                     </div>
-                    <h3 style={{
-                      fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
-                      background: `linear-gradient(135deg, ${page.g1}, ${page.g2})`,
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}>
+                    <h3
+                      className="text-[1.2rem] font-bold mb-2"
+                      style={{
+                        background: `linear-gradient(135deg, ${page.g1}, ${page.g2})`,
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}
+                    >
                       {page.name}
                     </h3>
-                    <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                    <p className="text-[0.95rem] text-[var(--text-secondary)] leading-[1.7]">
                       {page.desc}
                     </p>
                   </GlassTiltCard>
@@ -911,24 +824,26 @@ export default function Web0nLanding() {
                     padding: '2rem 2rem 2.25rem',
                     borderRadius: '16px',
                     background: 'linear-gradient(135deg, rgba(17,17,25,0.95) 0%, rgba(10,10,15,0.95) 100%)',
-                    border: '1px solid rgba(110, 224, 90, 0.15)',
+                    border: '1px solid rgba(110,224,90,0.15)',
                     boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
                     height: '100%',
                   }}
                 >
-                  <div style={{ marginBottom: '1.15rem', filter: 'drop-shadow(0 4px 12px rgba(126,217,87,0.15))' }}>
+                  <div className="mb-[1.15rem] drop-shadow-[0_4px_12px_rgba(126,217,87,0.15)]">
                     <PageGradIcon index={5} g1="#6EE05A" g2="#4CAF3D" />
                   </div>
-                  <h3 style={{
-                    fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem',
-                    background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}>
+                  <h3
+                    className="text-[1.2rem] font-bold mb-2"
+                    style={{
+                      background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
                     + CRM Sub-Account
                   </h3>
-                  <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                  <p className="text-[0.95rem] text-[var(--text-secondary)] leading-[1.7]">
                     Starter-tier CRM with contact management, booking calendar, lead capture forms, and pipeline tracking &mdash; included at no extra cost.
                   </p>
                 </GlassTiltCard>
@@ -939,34 +854,25 @@ export default function Web0nLanding() {
 
         {/* ========== HOW IT WORKS ========== */}
         <ScrollReveal>
-          <section id="how-it-works" aria-labelledby="how-heading" style={{ padding: '3rem 0 2.5rem' }}>
-            <h2 id="how-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
+          <section id="how-it-works" aria-labelledby="how-heading" className="py-12 pb-10">
+            <h2 id="how-heading" className="text-center text-[2rem] font-bold mb-10">
               Three Simple Steps to Your New Website
             </h2>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1.5rem',
-            }}>
+            <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
               {STEPS.map((step, i) => (
                 <ScrollReveal key={step.num} delay={i * 120}>
-                  <div style={{ textAlign: 'center' }}>
+                  <div className="text-center">
                     <div
-                      className="w0n-step-num"
+                      className="w0n-step-num w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 font-extrabold text-[1.15rem] text-[#0B0F19]"
                       style={{
-                        width: 56, height: 56, borderRadius: '16px',
                         background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        margin: '0 auto 1rem',
-                        fontWeight: 800, fontSize: '1.15rem', color: '#0B0F19',
-                        fontFamily: 'var(--font-display)',
                         boxShadow: '0 4px 20px rgba(126,217,87,0.2)',
                       }}
                     >
                       {step.num}
                     </div>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{step.title}</h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{step.desc}</p>
+                    <h3 className="text-[1.1rem] font-semibold mb-2">{step.title}</h3>
+                    <p className="text-[0.9rem] text-[var(--text-secondary)] leading-relaxed">{step.desc}</p>
                   </div>
                 </ScrollReveal>
               ))}
@@ -976,56 +882,42 @@ export default function Web0nLanding() {
 
         {/* ========== PRICING ========== */}
         <ScrollReveal>
-          <section aria-labelledby="pricing-heading" style={{ padding: '3rem 0' }}>
-            <h2 id="pricing-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
+          <section aria-labelledby="pricing-heading" className="py-12">
+            <h2 id="pricing-heading" className="text-center text-[2rem] font-bold mb-10">
               Simple, Transparent Pricing
             </h2>
-            <div style={{
-              maxWidth: 500, margin: '0 auto', padding: '2.5rem 2rem',
-              borderRadius: '20px',
-              border: '1px solid rgba(110, 224, 90, 0.3)',
-              background: 'linear-gradient(160deg, rgba(17,17,25,0.8) 0%, var(--bg-card) 100%)',
-              textAlign: 'center',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.25), 0 0 60px rgba(126,217,87,0.04)',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
+            <div
+              className="max-w-[500px] mx-auto px-8 py-10 rounded-[20px] text-center relative overflow-hidden border border-[rgba(110,224,90,0.3)]"
+              style={{
+                background: 'linear-gradient(160deg, rgba(17,17,25,0.8) 0%, var(--bg-card) 100%)',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.25), 0 0 60px rgba(126,217,87,0.04)',
+              }}
+            >
               {/* Decorative corner glow */}
-              <div style={{
-                position: 'absolute', top: -40, right: -40, width: 120, height: 120,
-                background: 'radial-gradient(circle, rgba(126,217,87,0.08) 0%, transparent 70%)',
-                pointerEvents: 'none',
-              }} />
+              <div className="absolute top-[-40px] right-[-40px] w-[120px] h-[120px] pointer-events-none rounded-full"
+                style={{ background: 'radial-gradient(circle, rgba(126,217,87,0.08) 0%, transparent 70%)' }}
+              />
 
-              <div style={{
-                fontSize: '3.5rem', fontWeight: 800, color: '#6EE05A', marginBottom: '0.25rem',
-                fontFamily: 'var(--font-display)',
-                textShadow: '0 0 40px rgba(126,217,87,0.15)',
-              }}>
+              <div
+                className="text-[3.5rem] font-extrabold text-[#6EE05A] mb-1"
+                style={{ textShadow: '0 0 40px rgba(126,217,87,0.15)' }}
+              >
                 $<CountUp end={1997} duration={2000} />
               </div>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1rem' }}>
+              <p className="text-[var(--text-secondary)] mb-6 text-[1rem]">
                 One-time flat rate &mdash; no monthly fees for the build
               </p>
-              <div style={{
-                padding: '1rem', borderRadius: '12px',
-                background: 'rgba(110, 224, 90, 0.04)',
-                border: '1px solid var(--border)',
-                marginBottom: '1.5rem',
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>50% Deposit to Start</span>
-                  <span style={{ fontWeight: 600 }}>$998.50</span>
+              <div className="p-4 rounded-xl bg-[rgba(110,224,90,0.04)] border border-[var(--border)] mb-6">
+                <div className="flex justify-between mb-2">
+                  <span className="text-[var(--text-secondary)] text-[0.9rem]">50% Deposit to Start</span>
+                  <span className="font-semibold">$998.50</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>50% Before Launch</span>
-                  <span style={{ fontWeight: 600 }}>$998.50</span>
+                <div className="flex justify-between">
+                  <span className="text-[var(--text-secondary)] text-[0.9rem]">50% Before Launch</span>
+                  <span className="font-semibold">$998.50</span>
                 </div>
               </div>
-              <ul style={{
-                listStyle: 'none', padding: 0, margin: '0 0 1.5rem',
-                textAlign: 'left', fontSize: '0.9rem', lineHeight: 2.2,
-              }}>
+              <ul className="list-none p-0 m-0 mb-6 text-left text-[0.9rem] leading-[2.2]">
                 {[
                   '5 professionally designed pages',
                   'Mobile-responsive design',
@@ -1037,20 +929,17 @@ export default function Web0nLanding() {
                   'Live within 5-7 business days',
                   'Hosting included',
                 ].map((item) => (
-                  <li key={item} style={{ color: 'var(--text-secondary)' }}>
-                    <span style={{ color: '#6EE05A', marginRight: '0.5rem', fontWeight: 700 }}>&#10003;</span>
+                  <li key={item} className="text-[var(--text-secondary)]">
+                    <span className="text-[#6EE05A] mr-2 font-bold">&#10003;</span>
                     {item}
                   </li>
                 ))}
               </ul>
               <Link
                 href="/onboard"
-                className="w0n-cta"
+                className="w0n-cta block py-3.5 rounded-[10px] font-bold text-[1.05rem] no-underline text-center text-[#0B0F19]"
                 style={{
-                  display: 'block', padding: '0.9rem', borderRadius: '10px',
                   background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                  color: '#0B0F19', fontWeight: 700, fontSize: '1.05rem',
-                  textDecoration: 'none', textAlign: 'center',
                   boxShadow: '0 4px 20px rgba(126,217,87,0.25)',
                 }}
               >
@@ -1062,32 +951,22 @@ export default function Web0nLanding() {
 
         {/* ========== FAQ ========== */}
         <ScrollReveal>
-          <section aria-labelledby="faq-heading" style={{ padding: '2.5rem 0' }}>
-            <h2 id="faq-heading" style={{ textAlign: 'center', fontSize: '2rem', fontWeight: 700, marginBottom: '2.5rem' }}>
+          <section aria-labelledby="faq-heading" className="py-10">
+            <h2 id="faq-heading" className="text-center text-[2rem] font-bold mb-10">
               Frequently Asked Questions
             </h2>
-            <div style={{ maxWidth: 720, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div className="max-w-[720px] mx-auto flex flex-col gap-3">
               {FAQS.map((faq, i) => (
                 <ScrollReveal key={faq.q} delay={i * 50}>
                   <details
-                    className="w0n-faq"
-                    style={{
-                      padding: '1.25rem 1.5rem',
-                      borderRadius: '14px',
-                      border: '1px solid var(--border)',
-                      background: 'var(--bg-card)',
-                      boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-                    }}
+                    className="w0n-faq px-6 py-5 rounded-2xl border border-[var(--border)] bg-[var(--bg-card)]"
+                    style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.1)' }}
                   >
-                    <summary style={{
-                      fontWeight: 600, cursor: 'pointer',
-                      fontSize: '1rem', listStyle: 'none',
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    }}>
+                    <summary className="font-semibold cursor-pointer text-[1rem] list-none flex items-center justify-between">
                       {faq.q}
-                      <span style={{ color: '#6EE05A', fontSize: '1.2rem', marginLeft: '0.75rem', flexShrink: 0, transition: 'transform 0.2s ease' }}>+</span>
+                      <span className="text-[#6EE05A] text-[1.2rem] ml-3 flex-shrink-0 transition-transform duration-200">+</span>
                     </summary>
-                    <p style={{ color: 'var(--text-secondary)', marginTop: '0.75rem', fontSize: '0.9rem', lineHeight: 1.65 }}>
+                    <p className="text-[var(--text-secondary)] mt-3 text-[0.9rem] leading-[1.65]">
                       {faq.a}
                     </p>
                   </details>
@@ -1099,49 +978,32 @@ export default function Web0nLanding() {
 
         {/* ========== FINAL CTA ========== */}
         <ScrollReveal>
-          <section aria-label="Get started" style={{
-            padding: '4rem 2rem 5rem', textAlign: 'center',
-            position: 'relative',
-          }}>
+          <section aria-label="Get started" className="py-16 pb-20 text-center relative">
             {/* Background glow */}
-            <div style={{
-              position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
-              width: '400px', height: '300px',
-              background: 'radial-gradient(ellipse, rgba(126,217,87,0.04) 0%, transparent 70%)',
-              pointerEvents: 'none',
-            }} />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[400px] h-[300px] pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse, rgba(126,217,87,0.04) 0%, transparent 70%)' }}
+            />
 
             <Image
               src="/brand/web0n-icon.jpg"
               alt="web0n"
               width={60}
               height={60}
-              style={{
-                borderRadius: 16, margin: '0 auto 1.25rem', display: 'block',
-                boxShadow: '0 4px 24px rgba(126,217,87,0.15)',
-                position: 'relative',
-              }}
+              className="rounded-2xl mx-auto mb-5 block relative"
+              style={{ boxShadow: '0 4px 24px rgba(126,217,87,0.15)' }}
             />
-            <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.75rem', position: 'relative' }}>
+            <h2 className="text-[2rem] font-bold mb-3 relative">
               Ready to Launch Your Website?
             </h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: 480, margin: '0 auto 2rem', lineHeight: 1.65, position: 'relative' }}>
+            <p className="text-[var(--text-secondary)] max-w-[480px] mx-auto mb-8 leading-[1.65] relative">
               Tell us about your business. We&apos;ll handle the design, the code, the CRM, and the SEO. You just show up and launch.
             </p>
             <Link
               href="/onboard"
-              className="w0n-cta"
+              className="w0n-cta inline-block px-[2.75rem] py-[0.95rem] rounded-xl font-bold text-[1.1rem] no-underline text-[#0B0F19] relative"
               style={{
-                display: 'inline-block',
-                padding: '0.95rem 2.75rem',
-                borderRadius: '12px',
                 background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                color: '#0B0F19',
-                fontWeight: 700,
-                fontSize: '1.1rem',
-                textDecoration: 'none',
-                boxShadow: '0 4px 24px rgba(110, 224, 90, 0.3)',
-                position: 'relative',
+                boxShadow: '0 4px 24px rgba(110,224,90,0.3)',
               }}
             >
               Get Started &mdash; $1,997

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-// ─── COLOR PALETTE (Grok-inspired, brighter) ────────────────────────────────
+// ─── COLOR PALETTE ───────────────────────────────────────────────────────────
 
 const C = {
   bg: '#0F1217',
@@ -151,12 +151,13 @@ function GlobeIcon({ size = 20, color = C.lime }: { size?: number; color?: strin
 
 function TypingDots() {
   return (
-    <span style={{ display: 'inline-flex', gap: 3, marginLeft: 6 }}>
+    <span className="inline-flex gap-[3px] ml-1.5">
       {[0, 1, 2].map(i => (
         <span
           key={i}
+          className="w-[5px] h-[5px] rounded-full"
           style={{
-            width: 5, height: 5, borderRadius: '50%', background: C.lime,
+            background: C.lime,
             animation: `typingDots 1.2s ease-in-out ${i * 0.2}s infinite`,
           }}
         />
@@ -197,33 +198,15 @@ export default function HomeRedesign() {
       <style dangerouslySetInnerHTML={{ __html: KEYFRAMES }} />
 
       {/* ═══════════════════════════ SECTION 1: HERO ═══════════════════════════ */}
-      <section style={{
-        position: 'relative',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        padding: '60px 24px 80px',
-      }}>
+      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 pt-[60px] pb-[80px]">
         {/* Orbiting service icons */}
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%',
-          width: 0, height: 0,
-          transform: 'translate(-50%, -55%)',
-          pointerEvents: 'none',
-        }}>
+        <div className="absolute pointer-events-none" style={{ top: '50%', left: '50%', width: 0, height: 0, transform: 'translate(-50%, -55%)' }}>
           {ORBIT_ICONS.map((icon, i) => (
             <div
               key={i}
+              className="absolute w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-white"
               style={{
-                position: 'absolute',
-                width: 36, height: 36,
-                borderRadius: '50%',
                 background: icon.color,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 11, fontWeight: 700, color: '#fff',
                 opacity: 0.2,
                 ['--start' as string]: `${icon.start}deg`,
                 ['--radius' as string]: `${icon.radius}px`,
@@ -237,78 +220,57 @@ export default function HomeRedesign() {
         </div>
 
         {/* Logo mark */}
-        <div style={{
-          width: 80, height: 80, borderRadius: '50%',
-          background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 28, fontWeight: 900, color: C.deep,
-          marginBottom: 32,
-          boxShadow: `0 0 40px rgba(178,255,77,0.25), 0 0 80px rgba(63,255,224,0.1)`,
-          animation: mounted ? 'fadeInUp 0.8s ease-out' : 'none',
-          position: 'relative', zIndex: 2,
-        }}>
+        <div
+          className="w-20 h-20 rounded-full flex items-center justify-center text-[28px] font-black mb-8 relative z-[2]"
+          style={{
+            background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
+            color: C.deep,
+            boxShadow: `0 0 40px rgba(178,255,77,0.25), 0 0 80px rgba(63,255,224,0.1)`,
+            animation: mounted ? 'fadeInUp 0.8s ease-out' : 'none',
+          }}
+        >
           0n
         </div>
 
         {/* Headline */}
-        <h1 style={{
-          fontSize: 'clamp(32px, 5vw, 56px)',
-          fontWeight: 900,
-          letterSpacing: '-0.03em',
-          lineHeight: 1.1,
-          textAlign: 'center',
-          margin: '0 0 20px',
-          color: C.text,
-          position: 'relative', zIndex: 2,
-        }}>
+        <h1
+          className="text-[clamp(32px,5vw,56px)] font-black tracking-[-0.03em] leading-[1.1] text-center m-0 mb-5 relative z-[2]"
+          style={{ color: C.text }}
+        >
           The old workflow is dead.
         </h1>
 
         {/* Subheadline */}
-        <p style={{
-          fontSize: 'clamp(15px, 2vw, 18px)',
-          color: C.lime,
-          textAlign: 'center',
-          maxWidth: 560,
-          margin: '0 0 36px',
-          lineHeight: 1.6,
-          fontWeight: 500,
-          position: 'relative', zIndex: 2,
-          animation: 'fadeInUp 0.8s ease-out 0.2s both',
-        }}>
+        <p
+          className="text-[clamp(15px,2vw,18px)] text-center max-w-[560px] m-0 mb-9 leading-relaxed font-medium relative z-[2]"
+          style={{ color: C.lime, animation: 'fadeInUp 0.8s ease-out 0.2s both' }}
+        >
           Describe the outcome. 0n orchestrates 100+ apps and runs it.
         </p>
 
         {/* CTA row */}
-        <div style={{
-          display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center',
-          position: 'relative', zIndex: 2,
-          animation: 'fadeInUp 0.8s ease-out 0.4s both',
-        }}>
-          <a href="/signup" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: C.lime, color: C.deep,
-            padding: '14px 28px', borderRadius: 999,
-            fontWeight: 700, fontSize: 15,
-            textDecoration: 'none',
-            animation: 'pulseGlow 3s ease-in-out infinite',
-            transition: 'transform 0.2s',
-          }}
-            onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.04)')}
-            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+        <div
+          className="flex gap-3.5 flex-wrap justify-center relative z-[2]"
+          style={{ animation: 'fadeInUp 0.8s ease-out 0.4s both' }}
+        >
+          <a
+            href="/signup"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-[15px] no-underline transition-transform duration-200 hover:scale-[1.04]"
+            style={{
+              background: C.lime, color: C.deep,
+              animation: 'pulseGlow 3s ease-in-out infinite',
+            }}
           >
             Start Free — Connect in 9s
             <ArrowRight size={16} color={C.deep} />
           </a>
-          <a href="/demo" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: 'transparent', color: C.textSec,
-            padding: '14px 28px', borderRadius: 999,
-            fontWeight: 600, fontSize: 15,
-            textDecoration: 'none',
-            border: `1px solid ${C.border}`,
-            transition: 'border-color 0.2s, color 0.2s',
-          }}
+          <a
+            href="/demo"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-[15px] no-underline transition-all duration-200 hover:border-[color:var(--lime)] hover:text-white"
+            style={{
+              background: 'transparent', color: C.textSec,
+              border: `1px solid ${C.border}`,
+            }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = C.lime; e.currentTarget.style.color = C.text }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textSec }}
           >
@@ -317,26 +279,23 @@ export default function HomeRedesign() {
         </div>
 
         {/* Connected services row */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center',
-          marginTop: 40, position: 'relative', zIndex: 2,
-          animation: 'fadeInUp 0.8s ease-out 0.6s both',
-        }}>
+        <div
+          className="flex items-center gap-4 flex-wrap justify-center mt-10 relative z-[2]"
+          style={{ animation: 'fadeInUp 0.8s ease-out 0.6s both' }}
+        >
           {['Slack', 'Stripe', 'HubSpot', 'Gmail', 'Notion'].map(s => (
-            <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 13, color: C.textMuted }}>
+            <span key={s} className="inline-flex items-center gap-1 text-[13px]" style={{ color: C.textMuted }}>
               <CheckIcon size={12} /> {s}
             </span>
           ))}
-          <span style={{ fontSize: 13, color: C.lime, fontWeight: 600 }}>+100 more</span>
+          <span className="text-[13px] font-semibold" style={{ color: C.lime }}>+100 more</span>
         </div>
 
         {/* Bottom tagline */}
-        <p style={{
-          fontSize: 13, color: C.textMuted, textAlign: 'center',
-          marginTop: 32, letterSpacing: '0.02em',
-          position: 'relative', zIndex: 2,
-          animation: 'fadeInUp 0.8s ease-out 0.8s both',
-        }}>
+        <p
+          className="text-[13px] text-center mt-8 tracking-[0.02em] relative z-[2]"
+          style={{ color: C.textMuted, animation: 'fadeInUp 0.8s ease-out 0.8s both' }}
+        >
           Pre-connected tokens &middot; Agentic execution &middot; No steps. Just outcomes.
         </p>
       </section>
@@ -344,84 +303,77 @@ export default function HomeRedesign() {
       {/* ═══════════════════════ SECTION 2: AGENTIC CHAT ═══════════════════════ */}
       <section
         ref={chat.ref}
+        className="px-6 transition-all duration-700"
         style={{
           padding: 'clamp(60px, 8vw, 120px) 24px',
           background: C.deep,
           opacity: chat.visible ? 1 : 0,
           transform: chat.visible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
         }}
       >
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          {/* Section label */}
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.lime, marginBottom: 12 }}>
+        <div className="max-w-[900px] mx-auto">
+          <p className="text-xs font-bold tracking-[0.12em] uppercase mb-3" style={{ color: C.lime }}>
             Agentic Chat
           </p>
-          <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15 }}>
+          <h2 className="text-[clamp(26px,4vw,42px)] font-black tracking-[-0.02em] mb-12 leading-[1.15]">
             Tell 0n what to ship.
           </h2>
 
           {/* Chat mockup */}
-          <div style={{
-            background: C.card, borderRadius: 16, padding: 'clamp(20px, 3vw, 36px)',
-            border: `1px solid ${C.border}`,
-          }}>
+          <div
+            className="rounded-2xl p-[clamp(20px,3vw,36px)]"
+            style={{ background: C.card, border: `1px solid ${C.border}` }}
+          >
             {/* User message */}
-            <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-              <div style={{
-                width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-                background: `linear-gradient(135deg, ${C.purple}, ${C.turquoise})`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 12, fontWeight: 700,
-              }}>
+            <div className="flex gap-3 mb-6">
+              <div
+                className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold"
+                style={{ background: `linear-gradient(135deg, ${C.purple}, ${C.turquoise})` }}
+              >
                 U
               </div>
-              <div style={{
-                background: 'rgba(155,110,255,0.08)', borderRadius: 12,
-                padding: '14px 18px', maxWidth: '80%',
-                border: `1px solid rgba(155,110,255,0.15)`,
-              }}>
-                <p style={{ fontSize: 14, lineHeight: 1.6, margin: 0, color: C.text }}>
+              <div
+                className="rounded-xl px-[18px] py-3.5 max-w-[80%]"
+                style={{ background: 'rgba(155,110,255,0.08)', border: '1px solid rgba(155,110,255,0.15)' }}
+              >
+                <p className="text-sm leading-relaxed m-0" style={{ color: C.text }}>
                   Generate Q3 performance report and email top 10 clients with personalized invoice links.
                 </p>
               </div>
             </div>
 
             {/* 0n response */}
-            <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-              <div style={{
-                width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-                background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 11, fontWeight: 900, color: C.deep,
-              }}>
+            <div className="flex gap-3 mb-6">
+              <div
+                className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[11px] font-black"
+                style={{ background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`, color: C.deep }}
+              >
                 0n
               </div>
-              <div style={{
-                background: 'rgba(178,255,77,0.05)', borderRadius: 12,
-                padding: '14px 18px', maxWidth: '80%',
-                border: `1px solid rgba(178,255,77,0.1)`,
-              }}>
-                <p style={{ fontSize: 14, lineHeight: 1.8, margin: 0, color: C.textSec }}>
-                  <span style={{ color: C.lime, fontFamily: 'JetBrains Mono, monospace', fontSize: 12 }}>
+              <div
+                className="rounded-xl px-[18px] py-3.5 max-w-[80%]"
+                style={{ background: 'rgba(178,255,77,0.05)', border: '1px solid rgba(178,255,77,0.1)' }}
+              >
+                <p className="text-sm leading-[1.8] m-0" style={{ color: C.textSec }}>
+                  <span className="font-mono text-xs" style={{ color: C.lime }}>
                     Pulling from Stripe + HubSpot + Google Sheets...
                   </span>
                   <br />
-                  <span style={{ color: C.turquoise, fontFamily: 'JetBrains Mono, monospace', fontSize: 12 }}>
+                  <span className="font-mono text-xs" style={{ color: C.turquoise }}>
                     Building crew now
                   </span>
                   <TypingDots />
                   <br />
-                  <span style={{ color: C.text, fontSize: 13, marginTop: 8, display: 'inline-block' }}>
+                  <span className="text-[13px] mt-2 inline-block" style={{ color: C.text }}>
                     Analyzing 3 integrations &middot; Selecting optimal path &middot;{' '}
-                    <span style={{ color: C.lime, fontWeight: 600 }}>97% confidence</span>
+                    <span className="font-semibold" style={{ color: C.lime }}>97% confidence</span>
                   </span>
                 </p>
               </div>
             </div>
 
             {/* Quick-select chips */}
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 8 }}>
+            <div className="flex gap-2.5 flex-wrap mt-2">
               {[
                 { label: 'Add payment reminder', color: C.lime, bg: 'rgba(178,255,77,0.08)', border: 'rgba(178,255,77,0.2)' },
                 { label: 'Include Slack alert', color: C.purple, bg: 'rgba(155,110,255,0.08)', border: 'rgba(155,110,255,0.2)' },
@@ -429,12 +381,10 @@ export default function HomeRedesign() {
               ].map(chip => (
                 <button
                   key={chip.label}
+                  className="rounded-full px-4 py-2 text-xs font-semibold cursor-pointer transition-transform duration-150 hover:scale-[1.05]"
                   style={{
                     background: chip.bg, color: chip.color,
                     border: `1px solid ${chip.border}`,
-                    borderRadius: 999, padding: '8px 16px',
-                    fontSize: 12, fontWeight: 600, cursor: 'pointer',
-                    transition: 'transform 0.15s',
                   }}
                   onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
                   onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
@@ -450,100 +400,77 @@ export default function HomeRedesign() {
       {/* ══════════════════════════ SECTION 3: CREWS ══════════════════════════ */}
       <section
         ref={crews.ref}
+        className="px-6 transition-all duration-700"
         style={{
           padding: 'clamp(60px, 8vw, 120px) 24px',
           background: C.bg,
           opacity: crews.visible ? 1 : 0,
           transform: crews.visible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
         }}
       >
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.purple, marginBottom: 12 }}>
+        <div className="max-w-[1000px] mx-auto">
+          <p className="text-xs font-bold tracking-[0.12em] uppercase mb-3" style={{ color: C.purple }}>
             Crews
           </p>
-          <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15 }}>
+          <h2 className="text-[clamp(26px,4vw,42px)] font-black tracking-[-0.02em] mb-12 leading-[1.15]">
             Crews train once. Ship forever.
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 20,
-          }}>
+          <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {[
-              {
-                name: 'Revenue Crew', color: C.lime,
-                agents: 3, services: 'Stripe + HubSpot',
-                automations: 41, status: 'Active',
-              },
-              {
-                name: 'Marketing Crew', color: C.purple,
-                agents: 3, services: 'LinkedIn + Mailchimp',
-                automations: 47, status: 'Deployed 47x',
-              },
-              {
-                name: 'Support Crew', color: C.turquoise,
-                agents: 2, services: 'Zendesk + Slack',
-                automations: 24, status: '24/7 Active',
-              },
+              { name: 'Revenue Crew', color: C.lime, agents: 3, services: 'Stripe + HubSpot', automations: 41, status: 'Active' },
+              { name: 'Marketing Crew', color: C.purple, agents: 3, services: 'LinkedIn + Mailchimp', automations: 47, status: 'Deployed 47x' },
+              { name: 'Support Crew', color: C.turquoise, agents: 2, services: 'Zendesk + Slack', automations: 24, status: '24/7 Active' },
             ].map(crew => (
               <div
                 key={crew.name}
+                className="rounded-[14px] p-7 transition-all duration-200 hover:-translate-y-1"
                 style={{
                   background: C.card,
-                  borderRadius: 14,
-                  padding: 28,
                   border: `1px solid ${crew.color}22`,
                   borderTop: `3px solid ${crew.color}`,
-                  transition: 'border-color 0.3s, transform 0.2s',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = `${crew.color}55`; e.currentTarget.style.transform = 'translateY(-4px)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = `${crew.color}22`; e.currentTarget.style.transform = 'translateY(0)' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${crew.color}55` }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = `${crew.color}22` }}
               >
                 {/* Header row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-                  <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: crew.color }}>{crew.name}</h3>
-                  <span style={{
-                    fontSize: 11, fontWeight: 700, color: C.deep,
-                    background: crew.color, borderRadius: 999, padding: '3px 10px',
-                  }}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-extrabold m-0" style={{ color: crew.color }}>{crew.name}</h3>
+                  <span
+                    className="text-[11px] font-bold rounded-full px-2.5 py-[3px]"
+                    style={{ color: C.deep, background: crew.color }}
+                  >
                     {crew.agents} agents
                   </span>
                 </div>
 
                 {/* Trained on */}
-                <p style={{ fontSize: 13, color: C.textSec, margin: '0 0 12px' }}>
-                  <span style={{ color: C.textMuted, fontWeight: 600 }}>Trained on:</span>{' '}
+                <p className="text-[13px] m-0 mb-3" style={{ color: C.textSec }}>
+                  <span className="font-semibold" style={{ color: C.textMuted }}>Trained on:</span>{' '}
                   {crew.services}
                 </p>
 
                 {/* Automation count */}
-                <p style={{ fontSize: 13, color: C.textSec, margin: '0 0 16px' }}>
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', color: crew.color, fontWeight: 700, fontSize: 20 }}>
+                <p className="text-[13px] m-0 mb-4" style={{ color: C.textSec }}>
+                  <span className="font-mono font-bold text-xl" style={{ color: crew.color }}>
                     {crew.automations}
                   </span>{' '}
                   automations
                 </p>
 
                 {/* Status */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{
-                    width: 8, height: 8, borderRadius: '50%',
-                    background: crew.color, display: 'inline-block',
-                    boxShadow: `0 0 8px ${crew.color}66`,
-                  }} />
-                  <span style={{ fontSize: 12, color: C.textMuted, fontWeight: 600 }}>{crew.status}</span>
+                <div className="flex items-center gap-1.5">
+                  <span
+                    className="w-2 h-2 rounded-full inline-block"
+                    style={{ background: crew.color, boxShadow: `0 0 8px ${crew.color}66` }}
+                  />
+                  <span className="text-xs font-semibold" style={{ color: C.textMuted }}>{crew.status}</span>
                 </div>
               </div>
             ))}
           </div>
 
-          <p style={{
-            fontSize: 14, color: C.textMuted, textAlign: 'center',
-            marginTop: 32, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto',
-            lineHeight: 1.6,
-          }}>
+          <p className="text-sm text-center mt-8 max-w-[540px] mx-auto leading-relaxed" style={{ color: C.textMuted }}>
             Build specialized AI teams in plain language. Train once. Deploy everywhere.
           </p>
         </div>
@@ -552,61 +479,49 @@ export default function HomeRedesign() {
       {/* ═══════════════════ SECTION 4: INTEGRATIONS ══════════════════════════ */}
       <section
         ref={integrations.ref}
+        className="px-6 transition-all duration-700"
         style={{
           padding: 'clamp(60px, 8vw, 120px) 24px',
           background: C.deep,
           opacity: integrations.visible ? 1 : 0,
           transform: integrations.visible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
         }}
       >
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.turquoise, marginBottom: 12 }}>
+        <div className="max-w-[900px] mx-auto">
+          <p className="text-xs font-bold tracking-[0.12em] uppercase mb-3" style={{ color: C.turquoise }}>
             Integrations
           </p>
-          <h2 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 12, lineHeight: 1.15 }}>
+          <h2 className="text-[clamp(26px,4vw,42px)] font-black tracking-[-0.02em] mb-3 leading-[1.15]">
             100+ Connected. Zero Setup.
           </h2>
-          <p style={{ fontSize: 15, color: C.textSec, marginBottom: 48, maxWidth: 480 }}>
+          <p className="text-[15px] mb-12 max-w-[480px]" style={{ color: C.textSec }}>
             Pre-authorized tokens unlock instant orchestration
           </p>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-            gap: 14,
-          }}>
+          <div className="grid gap-3.5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
             {INTEGRATIONS.map(svc => (
               <div
                 key={svc.name}
-                style={{
-                  background: C.card, borderRadius: 12, padding: 20,
-                  border: `1px solid ${C.border}`,
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12,
-                  transition: 'border-color 0.2s, transform 0.2s',
-                  cursor: 'default',
-                }}
+                className="rounded-xl p-5 flex flex-col items-center gap-3 cursor-default transition-all duration-200"
+                style={{ background: C.card, border: `1px solid ${C.border}` }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = svc.color + '44'; e.currentTarget.style.transform = 'translateY(-3px)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = 'translateY(0)' }}
               >
-                {/* Service circle */}
-                <div style={{
-                  width: 44, height: 44, borderRadius: '50%',
-                  background: svc.color,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 14, fontWeight: 800, color: '#fff',
-                }}>
+                <div
+                  className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-extrabold text-white"
+                  style={{ background: svc.color }}
+                >
                   {svc.abbr}
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>{svc.name}</span>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                  <span style={{
-                    fontSize: 10, fontWeight: 700, color: C.lime,
-                    background: 'rgba(178,255,77,0.1)', padding: '2px 8px', borderRadius: 999,
-                  }}>
+                <span className="text-[13px] font-bold" style={{ color: C.text }}>{svc.name}</span>
+                <div className="flex flex-col items-center gap-1">
+                  <span
+                    className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                    style={{ color: C.lime, background: 'rgba(178,255,77,0.1)' }}
+                  >
                     Token Active
                   </span>
-                  <span style={{ fontSize: 10, color: C.textMuted }}>MCP ready</span>
+                  <span className="text-[10px]" style={{ color: C.textMuted }}>MCP ready</span>
                 </div>
               </div>
             ))}
@@ -614,19 +529,13 @@ export default function HomeRedesign() {
             {/* + Connect New */}
             <a
               href="/console/integrations"
-              style={{
-                background: 'transparent', borderRadius: 12, padding: 20,
-                border: `2px dashed rgba(178,255,77,0.15)`,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8,
-                textDecoration: 'none',
-                transition: 'border-color 0.2s',
-                minHeight: 130,
-              }}
+              className="rounded-xl p-5 flex flex-col items-center justify-center gap-2 no-underline transition-all duration-200 min-h-[130px]"
+              style={{ background: 'transparent', border: `2px dashed rgba(178,255,77,0.15)` }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = C.lime + '44')}
               onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(178,255,77,0.15)')}
             >
-              <span style={{ fontSize: 28, color: C.lime, fontWeight: 300, lineHeight: 1 }}>+</span>
-              <span style={{ fontSize: 12, color: C.textMuted, fontWeight: 600 }}>Connect New</span>
+              <span className="text-[28px] font-light leading-none" style={{ color: C.lime }}>+</span>
+              <span className="text-xs font-semibold" style={{ color: C.textMuted }}>Connect New</span>
             </a>
           </div>
         </div>
@@ -635,53 +544,34 @@ export default function HomeRedesign() {
       {/* ═══════════════════ SECTION 5: HOW IT WORKS ═════════════════════════ */}
       <section
         ref={howItWorks.ref}
+        className="px-6 transition-all duration-700"
         style={{
           padding: 'clamp(60px, 8vw, 120px) 24px',
           background: C.bg,
           opacity: howItWorks.visible ? 1 : 0,
           transform: howItWorks.visible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
         }}
       >
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <h2 style={{
-            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900,
-            letterSpacing: '-0.02em', marginBottom: 56, lineHeight: 1.15,
-            textAlign: 'center',
-          }}>
+        <div className="max-w-[900px] mx-auto">
+          <h2 className="text-[clamp(26px,4vw,42px)] font-black tracking-[-0.02em] mb-14 leading-[1.15] text-center">
             How it works
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: 32,
-          }}>
+          <div className="grid gap-8" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
             {[
-              {
-                step: '01', title: 'Describe',
-                desc: 'Tell 0n what you want in plain language. No steps, no diagrams, no config files.',
-              },
-              {
-                step: '02', title: '0n Decides',
-                desc: 'AI selects the right integrations, builds the execution path, and assembles a crew.',
-              },
-              {
-                step: '03', title: 'Outcome Ships',
-                desc: 'Result delivered. Crew handles it. You move on to the next thing that matters.',
-              },
+              { step: '01', title: 'Describe', desc: 'Tell 0n what you want in plain language. No steps, no diagrams, no config files.' },
+              { step: '02', title: '0n Decides', desc: 'AI selects the right integrations, builds the execution path, and assembles a crew.' },
+              { step: '03', title: 'Outcome Ships', desc: 'Result delivered. Crew handles it. You move on to the next thing that matters.' },
             ].map(item => (
-              <div key={item.step} style={{ textAlign: 'center' }}>
-                <span style={{
-                  fontSize: 48, fontWeight: 900, color: C.lime,
-                  fontFamily: 'JetBrains Mono, monospace',
-                  opacity: 0.3, display: 'block', marginBottom: 12,
-                  lineHeight: 1,
-                }}>
+              <div key={item.step} className="text-center">
+                <span
+                  className="text-[48px] font-black block mb-3 leading-none"
+                  style={{ color: C.lime, fontFamily: 'JetBrains Mono, monospace', opacity: 0.3 }}
+                >
                   {item.step}
                 </span>
-                <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 12px', color: C.text }}>{item.title}</h3>
-                <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.7, margin: 0 }}>{item.desc}</p>
+                <h3 className="text-xl font-extrabold m-0 mb-3" style={{ color: C.text }}>{item.title}</h3>
+                <p className="text-sm leading-[1.7] m-0" style={{ color: C.textSec }}>{item.desc}</p>
               </div>
             ))}
           </div>
@@ -691,67 +581,36 @@ export default function HomeRedesign() {
       {/* ═══════════════════ SECTION 6: FEATURES ═════════════════════════════ */}
       <section
         ref={features.ref}
+        className="px-6 transition-all duration-700"
         style={{
           padding: 'clamp(60px, 8vw, 120px) 24px',
           background: C.deep,
           opacity: features.visible ? 1 : 0,
           transform: features.visible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
         }}
       >
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <h2 style={{
-            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900,
-            letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15,
-            textAlign: 'center',
-          }}>
+        <div className="max-w-[900px] mx-auto">
+          <h2 className="text-[clamp(26px,4vw,42px)] font-black tracking-[-0.02em] mb-12 leading-[1.15] text-center">
             Built different
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 18,
-          }}>
+          <div className="grid gap-[18px]" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {[
-              {
-                icon: <ZapIcon size={24} color={C.lime} />,
-                title: 'Agentic AI',
-                desc: '0n decides the steps so you don\'t have to. Describe the outcome, the AI builds the path.',
-                accent: C.lime,
-              },
-              {
-                icon: <ServerIcon size={24} color={C.purple} />,
-                title: 'Live MCP Server',
-                desc: '1,554 tools, 96 services, real-time execution. The largest MCP server ever built.',
-                accent: C.purple,
-              },
-              {
-                icon: <ShieldIcon size={24} color={C.turquoise} />,
-                title: 'Vault Encryption',
-                desc: 'AES-256-GCM with hardware fingerprint binding. Your keys stay yours. Patent pending.',
-                accent: C.turquoise,
-              },
-              {
-                icon: <GlobeIcon size={24} color={C.orange} />,
-                title: 'Universal Surface',
-                desc: 'Console, CLI, Slack, Telegram, ChatGPT. Same commands everywhere. One brain.',
-                accent: C.orange,
-              },
+              { icon: <ZapIcon size={24} color={C.lime} />, title: 'Agentic AI', desc: "0n decides the steps so you don't have to. Describe the outcome, the AI builds the path.", accent: C.lime },
+              { icon: <ServerIcon size={24} color={C.purple} />, title: 'Live MCP Server', desc: '1,554 tools, 96 services, real-time execution. The largest MCP server ever built.', accent: C.purple },
+              { icon: <ShieldIcon size={24} color={C.turquoise} />, title: 'Vault Encryption', desc: 'AES-256-GCM with hardware fingerprint binding. Your keys stay yours. Patent pending.', accent: C.turquoise },
+              { icon: <GlobeIcon size={24} color={C.orange} />, title: 'Universal Surface', desc: 'Console, CLI, Slack, Telegram, ChatGPT. Same commands everywhere. One brain.', accent: C.orange },
             ].map(feat => (
               <div
                 key={feat.title}
-                style={{
-                  background: C.card, borderRadius: 14, padding: 28,
-                  border: `1px solid ${C.border}`,
-                  transition: 'border-color 0.3s, transform 0.2s',
-                }}
+                className="rounded-[14px] p-7 transition-all duration-200"
+                style={{ background: C.card, border: `1px solid ${C.border}` }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = feat.accent + '33'; e.currentTarget.style.transform = 'translateY(-3px)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = 'translateY(0)' }}
               >
-                <div style={{ marginBottom: 16 }}>{feat.icon}</div>
-                <h3 style={{ fontSize: 17, fontWeight: 800, margin: '0 0 10px', color: C.text }}>{feat.title}</h3>
-                <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.65, margin: 0 }}>{feat.desc}</p>
+                <div className="mb-4">{feat.icon}</div>
+                <h3 className="text-[17px] font-extrabold m-0 mb-2.5" style={{ color: C.text }}>{feat.title}</h3>
+                <p className="text-sm leading-[1.65] m-0" style={{ color: C.textSec }}>{feat.desc}</p>
               </div>
             ))}
           </div>
@@ -761,57 +620,44 @@ export default function HomeRedesign() {
       {/* ═══════════════════ SECTION 7: PRICING ══════════════════════════════ */}
       <section
         ref={pricing.ref}
+        className="px-6 transition-all duration-700"
         style={{
           padding: 'clamp(60px, 8vw, 120px) 24px',
           background: C.bg,
           opacity: pricing.visible ? 1 : 0,
           transform: pricing.visible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
         }}
       >
-        <div style={{ maxWidth: 960, margin: '0 auto' }}>
-          <h2 style={{
-            fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 900,
-            letterSpacing: '-0.02em', marginBottom: 48, lineHeight: 1.15,
-            textAlign: 'center',
-          }}>
+        <div className="max-w-[960px] mx-auto">
+          <h2 className="text-[clamp(26px,4vw,42px)] font-black tracking-[-0.02em] mb-12 leading-[1.15] text-center">
             Simple pricing
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 18,
-            alignItems: 'stretch',
-          }}>
+          <div className="grid gap-[18px] items-stretch" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
             {/* Free */}
-            <div style={{
-              background: C.card, borderRadius: 16, padding: 32,
-              border: `1px solid ${C.border}`,
-              display: 'flex', flexDirection: 'column',
-            }}>
-              <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 8px' }}>Free</h3>
-              <div style={{ marginBottom: 20 }}>
-                <span style={{ fontSize: 36, fontWeight: 900 }}>$0</span>
-                <span style={{ fontSize: 14, color: C.textMuted, marginLeft: 4 }}>/forever</span>
+            <div
+              className="rounded-2xl p-8 flex flex-col"
+              style={{ background: C.card, border: `1px solid ${C.border}` }}
+            >
+              <h3 className="text-xl font-extrabold m-0 mb-2">Free</h3>
+              <div className="mb-5">
+                <span className="text-[36px] font-black">$0</span>
+                <span className="text-sm ml-1" style={{ color: C.textMuted }}>/forever</span>
               </div>
-              <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
+              <p className="text-sm leading-relaxed m-0 mb-6 flex-1" style={{ color: C.textSec }}>
                 Connect, orchestrate, ship. No credit card required.
               </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <ul className="list-none p-0 m-0 mb-6 flex flex-col gap-2.5">
                 {['5 Crews', '100 executions/mo', '10 integrations', 'Community support'].map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: C.textSec }}>
+                  <li key={f} className="flex items-center gap-2 text-[13px]" style={{ color: C.textSec }}>
                     <CheckIcon size={13} /> {f}
                   </li>
                 ))}
               </ul>
-              <a href="/signup" style={{
-                display: 'block', textAlign: 'center', padding: '12px 0',
-                borderRadius: 999, fontSize: 14, fontWeight: 700,
-                color: C.text, textDecoration: 'none',
-                border: `1px solid ${C.border}`,
-                transition: 'border-color 0.2s',
-              }}
+              <a
+                href="/signup"
+                className="block text-center py-3 rounded-full text-sm font-bold no-underline transition-all duration-200"
+                style={{ color: C.text, border: `1px solid ${C.border}` }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = C.lime)}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}
               >
@@ -820,77 +666,63 @@ export default function HomeRedesign() {
             </div>
 
             {/* Pro */}
-            <div style={{
-              background: C.card, borderRadius: 16, padding: 32,
-              border: `2px solid ${C.lime}33`,
-              display: 'flex', flexDirection: 'column',
-              position: 'relative',
-              boxShadow: `0 0 40px rgba(178,255,77,0.05)`,
-            }}>
-              <span style={{
-                position: 'absolute', top: -12, left: 24,
-                background: C.lime, color: C.deep,
-                fontSize: 11, fontWeight: 800, padding: '4px 14px',
-                borderRadius: 999, letterSpacing: '0.04em',
-              }}>
+            <div
+              className="rounded-2xl p-8 flex flex-col relative"
+              style={{ background: C.card, border: `2px solid ${C.lime}33`, boxShadow: `0 0 40px rgba(178,255,77,0.05)` }}
+            >
+              <span
+                className="absolute -top-3 left-6 text-[11px] font-extrabold px-3.5 py-1 rounded-full tracking-[0.04em]"
+                style={{ background: C.lime, color: C.deep }}
+              >
                 Popular
               </span>
-              <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 8px' }}>Pro</h3>
-              <div style={{ marginBottom: 20 }}>
-                <span style={{ fontSize: 36, fontWeight: 900 }}>$19</span>
-                <span style={{ fontSize: 14, color: C.textMuted, marginLeft: 4 }}>/mo</span>
+              <h3 className="text-xl font-extrabold m-0 mb-2">Pro</h3>
+              <div className="mb-5">
+                <span className="text-[36px] font-black">$19</span>
+                <span className="text-sm ml-1" style={{ color: C.textMuted }}>/mo</span>
               </div>
-              <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
+              <p className="text-sm leading-relaxed m-0 mb-6 flex-1" style={{ color: C.textSec }}>
                 Unlimited Crews, priority AI, all add-ons, team seats.
               </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <ul className="list-none p-0 m-0 mb-6 flex flex-col gap-2.5">
                 {['Unlimited Crews', 'Unlimited executions', 'All integrations', 'Priority AI routing', 'Team seats', 'Priority support'].map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: C.textSec }}>
+                  <li key={f} className="flex items-center gap-2 text-[13px]" style={{ color: C.textSec }}>
                     <CheckIcon size={13} /> {f}
                   </li>
                 ))}
               </ul>
-              <a href="/signup?plan=pro" style={{
-                display: 'block', textAlign: 'center', padding: '12px 0',
-                borderRadius: 999, fontSize: 14, fontWeight: 700,
-                color: C.deep, textDecoration: 'none',
-                background: C.lime,
-                transition: 'opacity 0.2s',
-              }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              <a
+                href="/signup?plan=pro"
+                className="block text-center py-3 rounded-full text-sm font-bold no-underline transition-opacity duration-200 hover:opacity-90"
+                style={{ color: C.deep, background: C.lime }}
               >
                 Start Pro
               </a>
             </div>
 
             {/* Enterprise */}
-            <div style={{
-              background: C.card, borderRadius: 16, padding: 32,
-              border: `1px solid ${C.border}`,
-              display: 'flex', flexDirection: 'column',
-            }}>
-              <h3 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 8px' }}>Enterprise</h3>
-              <div style={{ marginBottom: 20 }}>
-                <span style={{ fontSize: 36, fontWeight: 900 }}>Custom</span>
+            <div
+              className="rounded-2xl p-8 flex flex-col"
+              style={{ background: C.card, border: `1px solid ${C.border}` }}
+            >
+              <h3 className="text-xl font-extrabold m-0 mb-2">Enterprise</h3>
+              <div className="mb-5">
+                <span className="text-[36px] font-black">Custom</span>
               </div>
-              <p style={{ fontSize: 14, color: C.textSec, lineHeight: 1.6, margin: '0 0 24px', flex: 1 }}>
+              <p className="text-sm leading-relaxed m-0 mb-6 flex-1" style={{ color: C.textSec }}>
                 Dedicated support, SLA, custom integrations, white-label.
               </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <ul className="list-none p-0 m-0 mb-6 flex flex-col gap-2.5">
                 {['Everything in Pro', 'Dedicated account manager', 'Custom SLA', 'White-label option', 'On-premise available', 'SSO / SAML'].map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: C.textSec }}>
+                  <li key={f} className="flex items-center gap-2 text-[13px]" style={{ color: C.textSec }}>
                     <CheckIcon size={13} /> {f}
                   </li>
                 ))}
               </ul>
-              <a href="/contact" style={{
-                display: 'block', textAlign: 'center', padding: '12px 0',
-                borderRadius: 999, fontSize: 14, fontWeight: 700,
-                color: C.text, textDecoration: 'none',
-                border: `1px solid ${C.border}`,
-                transition: 'border-color 0.2s',
-              }}
+              <a
+                href="/contact"
+                className="block text-center py-3 rounded-full text-sm font-bold no-underline transition-all duration-200"
+                style={{ color: C.text, border: `1px solid ${C.border}` }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = C.purple)}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}
               >
@@ -904,72 +736,59 @@ export default function HomeRedesign() {
       {/* ═══════════════════ SECTION 8: BOTTOM CTA ═══════════════════════════ */}
       <section
         ref={bottomCta.ref}
+        className="px-6 text-center relative overflow-hidden transition-all duration-700"
         style={{
           padding: 'clamp(80px, 10vw, 160px) 24px',
           background: C.deep,
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
           opacity: bottomCta.visible ? 1 : 0,
           transform: bottomCta.visible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.7s ease-out, transform 0.7s ease-out',
         }}
       >
         {/* Radial glow behind logo */}
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%',
-          transform: 'translate(-50%, -60%)',
-          width: 400, height: 400,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, rgba(178,255,77,0.12) 0%, transparent 70%)`,
-          animation: 'bottomGlow 4s ease-in-out infinite',
-          pointerEvents: 'none',
-        }} />
+        <div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -60%)',
+            width: 400, height: 400,
+            background: `radial-gradient(circle, rgba(178,255,77,0.12) 0%, transparent 70%)`,
+            animation: 'bottomGlow 4s ease-in-out infinite',
+          }}
+        />
 
         {/* Logo */}
-        <div style={{
-          width: 72, height: 72, borderRadius: '50%',
-          background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 26, fontWeight: 900, color: C.deep,
-          margin: '0 auto 32px',
-          position: 'relative', zIndex: 1,
-          boxShadow: `0 0 50px rgba(178,255,77,0.3)`,
-        }}>
+        <div
+          className="w-[72px] h-[72px] rounded-full flex items-center justify-center text-[26px] font-black mx-auto mb-8 relative z-[1]"
+          style={{
+            background: `linear-gradient(135deg, ${C.lime}, ${C.turquoise})`,
+            color: C.deep,
+            boxShadow: `0 0 50px rgba(178,255,77,0.3)`,
+          }}
+        >
           0n
         </div>
 
-        <h2 style={{
-          fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 900,
-          letterSpacing: '-0.02em', marginBottom: 28, lineHeight: 1.2,
-          position: 'relative', zIndex: 1,
-        }}>
+        <h2
+          className="text-[clamp(24px,4vw,40px)] font-black tracking-[-0.02em] mb-7 leading-[1.2] relative z-[1]"
+        >
           The old workflow is dead.<br />
           <span style={{ color: C.lime }}>Describe it. 0n does it.</span>
         </h2>
 
-        <a href="/signup" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          background: C.lime, color: C.deep,
-          padding: '16px 36px', borderRadius: 999,
-          fontWeight: 700, fontSize: 16,
-          textDecoration: 'none',
-          animation: 'pulseGlow 3s ease-in-out infinite',
-          transition: 'transform 0.2s',
-          position: 'relative', zIndex: 1,
-        }}
-          onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-          onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+        <a
+          href="/signup"
+          className="inline-flex items-center gap-2 px-9 py-4 rounded-full font-bold text-base no-underline transition-transform duration-200 hover:scale-[1.05] relative z-[1]"
+          style={{
+            background: C.lime, color: C.deep,
+            animation: 'pulseGlow 3s ease-in-out infinite',
+          }}
         >
           Start Free
           <ArrowRight size={18} color={C.deep} />
         </a>
 
         {/* Footer links */}
-        <div style={{
-          display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap',
-          marginTop: 48, position: 'relative', zIndex: 1,
-        }}>
+        <div className="flex gap-6 justify-center flex-wrap mt-12 relative z-[1]">
           {[
             { label: 'GitHub', href: 'https://github.com/0nork/0nmcp' },
             { label: 'npm', href: 'https://www.npmjs.com/package/0nmcp' },
@@ -977,10 +796,11 @@ export default function HomeRedesign() {
             { label: 'Community', href: '/community' },
             { label: 'Blog', href: '/blog' },
           ].map(link => (
-            <a key={link.label} href={link.href} style={{
-              fontSize: 13, color: C.textMuted, textDecoration: 'none',
-              transition: 'color 0.2s',
-            }}
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-[13px] no-underline transition-colors duration-200"
+              style={{ color: C.textMuted }}
               onMouseEnter={e => (e.currentTarget.style.color = C.text)}
               onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
             >

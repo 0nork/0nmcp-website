@@ -8,6 +8,8 @@ import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 
 const PIN_CODE = '412724'
 
+// Brand palette — kept as constants for SVG refs and dynamic style values
+// that cannot be expressed with static Tailwind classes
 const B = {
   bg: '#08081a', surface: '#0d0f24', card: '#12143a',
   border: '#1e2258', borderHi: '#2d3580',
@@ -75,9 +77,6 @@ const IDEAS: Record<string, string[]> = {
   _base:['Connect services to unlock smart workflow ideas','Each connection adds triggers, actions, and AI combos','Try Stripe + CRM for payment-to-contact automation'],
 }
 
-const F = "'Inter', sans-serif"
-const FM = "'JetBrains Mono', monospace"
-
 // Hooks
 function useVault() {
   const [c, sC] = useState<Record<string, Record<string, string>>>({})
@@ -135,11 +134,26 @@ function respond(t: string, v: ReturnType<typeof useVault>, fl: ReturnType<typeo
 
 // Small components
 function Ico({ name, sz = 26 }: { name: string; sz?: number }) {
-  return <span dangerouslySetInnerHTML={{ __html: L[name] || L.onork }} style={{ width: sz, height: sz, display: 'inline-flex', flexShrink: 0 }} />
+  return (
+    <span
+      dangerouslySetInnerHTML={{ __html: L[name] || L.onork }}
+      className="inline-flex shrink-0"
+      style={{ width: sz, height: sz }}
+    />
+  )
 }
 
 function Dot({ on }: { on: boolean }) {
-  return <span style={{ width: 6, height: 6, borderRadius: '50%', display: 'inline-block', background: on ? B.green : B.red, boxShadow: `0 0 6px ${on ? B.green : B.red}55` }} />
+  return (
+    <span
+      className="inline-block rounded-full"
+      style={{
+        width: 6, height: 6,
+        background: on ? B.green : B.red,
+        boxShadow: `0 0 6px ${on ? B.green : B.red}55`,
+      }}
+    />
+  )
 }
 
 function Ticker({ vault }: { vault: ReturnType<typeof useVault> }) {
@@ -152,16 +166,23 @@ function Ticker({ vault }: { vault: ReturnType<typeof useVault> }) {
   }, [conn.join(',')])
   const d = [...ideas, ...ideas]
   return (
-    <div style={{ overflow: 'hidden', borderBottom: `1px solid ${B.border}`, padding: '6px 0', flexShrink: 0, position: 'relative' }}>
-      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 24, zIndex: 2, background: `linear-gradient(90deg,${B.bg},transparent)` }} />
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 24, zIndex: 2, background: `linear-gradient(90deg,transparent,${B.bg})` }} />
-      <div style={{ display: 'flex', alignItems: 'center', gap: 4, paddingLeft: 12, marginBottom: 2 }}>
-        <span style={{ fontSize: 8, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: B.p3 }}>IDEAS</span>
+    <div
+      className="overflow-hidden shrink-0 relative"
+      style={{ borderBottom: `1px solid ${B.border}`, padding: '6px 0' }}
+    >
+      <div className="absolute left-0 top-0 bottom-0 w-6 z-[2]" style={{ background: `linear-gradient(90deg,${B.bg},transparent)` }} />
+      <div className="absolute right-0 top-0 bottom-0 w-6 z-[2]" style={{ background: `linear-gradient(90deg,transparent,${B.bg})` }} />
+      <div className="flex items-center gap-1 pl-3 mb-0.5">
+        <span className="text-[8px] font-extrabold tracking-[0.12em] uppercase" style={{ color: B.p3 }}>IDEAS</span>
       </div>
-      <div className="onork-ticker-scroll" style={{ display: 'flex', whiteSpace: 'nowrap' }}>
-        {d.map((x, i) => <span key={i} style={{ display: 'inline-flex', alignItems: 'center', padding: '2px 14px', fontSize: 11, color: B.textDim, flexShrink: 0 }}>
-          <span style={{ color: B.p3, marginRight: 8, fontSize: 7 }}>{'\u25CF'}</span>{x}<span style={{ margin: '0 16px', color: B.textMuted }}>{'\u00B7'}</span>
-        </span>)}
+      <div className="onork-ticker-scroll flex whitespace-nowrap">
+        {d.map((x, i) => (
+          <span key={i} className="inline-flex items-center shrink-0 text-[11px]" style={{ padding: '2px 14px', color: B.textDim }}>
+            <span className="text-[7px] mr-2" style={{ color: B.p3 }}>&#9679;</span>
+            {x}
+            <span className="mx-4" style={{ color: B.textMuted }}>&#183;</span>
+          </span>
+        ))}
       </div>
     </div>
   )
@@ -200,9 +221,14 @@ export default function OnorkMini() {
   }
 
   return (
-    <div className="onork-mini-root">
+    <div
+      className="onork-mini-root w-full h-full flex flex-col relative overflow-hidden font-sans"
+      style={{
+        background: `radial-gradient(ellipse at 50% 0%,${B.glow},transparent 60%),${B.bg}`,
+        color: B.text,
+      }}
+    >
       <style>{`
-        .onork-mini-root { width:100%; height:100%; display:flex; flex-direction:column; position:relative; overflow:hidden; background:radial-gradient(ellipse at 50% 0%,${B.glow},transparent 60%),${B.bg}; font-family:${F}; color:${B.text}; }
         .onork-mini-root *{box-sizing:border-box;margin:0;padding:0}
         .onork-mini-root ::-webkit-scrollbar{width:3px} .onork-mini-root ::-webkit-scrollbar-thumb{background:${B.border};border-radius:3px}
         @keyframes onork-su{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -214,21 +240,56 @@ export default function OnorkMini() {
       `}</style>
 
       {/* HEADER */}
-      <div style={{ padding: '10px 14px', borderBottom: `1px solid ${B.border}`, background: 'rgba(8,8,26,0.9)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div
+        className="flex items-center justify-between shrink-0 z-10"
+        style={{
+          padding: '10px 14px',
+          borderBottom: `1px solid ${B.border}`,
+          background: 'rgba(8,8,26,0.9)',
+          backdropFilter: 'blur(12px)',
+        }}
+      >
+        <div className="flex items-center gap-2">
           <div style={{ animation: 'onork-br 3s ease infinite' }}><Ico name="onork" sz={30} /></div>
           <div>
-            <div style={{ fontSize: 16, fontWeight: 900, letterSpacing: '-0.03em', background: `linear-gradient(90deg,${B.p3},${B.b2})`, backgroundSize: '200% auto', animation: 'onork-sh 3s linear infinite', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>0nork</div>
-            <div style={{ fontSize: 9, color: B.textMuted, display: 'flex', alignItems: 'center', gap: 4 }}><Dot on={vault.n > 0} /> {vault.n}/{Object.keys(SVC).length}</div>
+            <div
+              className="text-base font-black tracking-tight"
+              style={{
+                background: `linear-gradient(90deg,${B.p3},${B.b2})`,
+                backgroundSize: '200% auto',
+                animation: 'onork-sh 3s linear infinite',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              0nork
+            </div>
+            <div className="text-[9px] flex items-center gap-1" style={{ color: B.textMuted }}>
+              <Dot on={vault.n > 0} /> {vault.n}/{Object.keys(SVC).length}
+            </div>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 5 }}>
-          {([['history', '\u{1F4CB}', B.p3], ['flows', '\u26A1', B.b2], ['vault', '\u{1F510}', B.p1]] as const).map(([v, ic, c]) => (
-            <button key={v} onClick={() => { setV(view === v ? 'home' : v); if (v === 'vault') setAS(null) }} style={{
-              background: view === v ? c + '22' : 'transparent', border: `1px solid ${view === v ? c + '44' : B.border}`,
-              borderRadius: 8, padding: '5px 8px', color: B.text, fontSize: 12, cursor: 'pointer', fontFamily: F
-            }}>{ic}</button>
-          ))}
+        <div className="flex gap-1.5">
+          {(['history', 'flows', 'vault'] as const).map((v) => {
+            const icons = { history: 'H', flows: 'F', vault: 'V' }
+            const colors = { history: B.p3, flows: B.b2, vault: B.p1 }
+            return (
+              <button
+                key={v}
+                onClick={() => { setV(view === v ? 'home' : v); if (v === 'vault') setAS(null) }}
+                className="text-[12px] cursor-pointer rounded-lg"
+                style={{
+                  background: view === v ? colors[v] + '22' : 'transparent',
+                  border: `1px solid ${view === v ? colors[v] + '44' : B.border}`,
+                  padding: '5px 8px',
+                  color: B.text,
+                  fontFamily: 'inherit',
+                }}
+              >
+                {icons[v]}
+              </button>
+            )
+          })}
         </div>
       </div>
 
@@ -236,25 +297,70 @@ export default function OnorkMini() {
 
       {/* VAULT OVERLAY */}
       {view === 'vault' && (
-        <div style={{ position: 'absolute', inset: 0, zIndex: 100, background: 'rgba(8,8,26,0.97)', backdropFilter: 'blur(16px)', display: 'flex', flexDirection: 'column', animation: 'onork-su 0.2s ease' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 18px', borderBottom: `1px solid ${B.border}` }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ fontSize: 15, fontWeight: 700, color: B.text }}>{'\u{1F510}'} Vault</span><span style={{ fontSize: 11, color: B.textMuted }}>{vault.n}/{Object.keys(SVC).length}</span></div>
-            <button onClick={() => setV('home')} style={{ background: 'none', border: 'none', color: B.textDim, fontSize: 18, cursor: 'pointer' }}>{'\u2715'}</button>
+        <div
+          className="absolute inset-0 z-[100] flex flex-col"
+          style={{
+            background: 'rgba(8,8,26,0.97)',
+            backdropFilter: 'blur(16px)',
+            animation: 'onork-su 0.2s ease',
+          }}
+        >
+          <div
+            className="flex justify-between items-center"
+            style={{ padding: '14px 18px', borderBottom: `1px solid ${B.border}` }}
+          >
+            <div className="flex items-center gap-1.5">
+              <span className="text-[15px] font-bold" style={{ color: B.text }}>Vault</span>
+              <span className="text-[11px]" style={{ color: B.textMuted }}>{vault.n}/{Object.keys(SVC).length}</span>
+            </div>
+            <button
+              onClick={() => setV('home')}
+              className="bg-transparent border-none text-[18px] cursor-pointer"
+              style={{ color: B.textDim }}
+            >
+              &times;
+            </button>
           </div>
-          <div style={{ flex: 1, overflow: 'auto', padding: 14 }}>
+          <div className="flex-1 overflow-auto p-3.5">
             {activeSvc ? (
               <VaultDetail svcKey={activeSvc} vault={vault} hist={hist} onBack={() => setAS(null)} show={show} setShow={setShow} />
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+              <div className="grid grid-cols-2 gap-1.5">
                 {Object.entries(SVC).map(([k, s]) => {
                   const cn = vault.isC(k)
                   return (
-                    <button key={k} onClick={() => setAS(k)} style={{ background: B.card, border: `1px solid ${cn ? s.c + '30' : B.border}`, borderRadius: 10, padding: '12px 10px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}><Ico name={s.logo} sz={22} /><span style={{ fontWeight: 600, fontSize: 12, color: B.text }}>{s.l}</span></div>
-                      <div style={{ fontSize: 10, color: B.textDim, lineHeight: 1.35, marginBottom: 5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.d.split('.')[0]}.</div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 9, color: B.textDim }}><Dot on={cn} />{cn ? 'Live' : 'Setup'}</span>
-                        <span style={{ fontSize: 8, color: s.c === '#e2e2e2' ? B.b2 : s.c, fontWeight: 700 }}>{s.cap.length} tools</span>
+                    <button
+                      key={k}
+                      onClick={() => setAS(k)}
+                      className="rounded-[10px] cursor-pointer text-left transition-all"
+                      style={{
+                        background: B.card,
+                        border: `1px solid ${cn ? s.c + '30' : B.border}`,
+                        padding: '12px 10px',
+                      }}
+                    >
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <Ico name={s.logo} sz={22} />
+                        <span className="font-semibold text-[12px]" style={{ color: B.text }}>{s.l}</span>
+                      </div>
+                      <div
+                        className="text-[10px] leading-[1.35] mb-1.5 overflow-hidden"
+                        style={{
+                          color: B.textDim,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                        }}
+                      >
+                        {s.d.split('.')[0]}.
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="flex items-center gap-0.5 text-[9px]" style={{ color: B.textDim }}>
+                          <Dot on={cn} />{cn ? 'Live' : 'Setup'}
+                        </span>
+                        <span className="text-[8px] font-bold" style={{ color: s.c === '#e2e2e2' ? B.b2 : s.c }}>
+                          {s.cap.length} tools
+                        </span>
                       </div>
                     </button>
                   )
@@ -262,28 +368,47 @@ export default function OnorkMini() {
               </div>
             )}
           </div>
-          <div style={{ padding: '8px 14px', borderTop: `1px solid ${B.border}`, fontSize: 8, color: B.textMuted, textAlign: 'center' }}>{'\u{1F512}'} Encrypted in browser</div>
+          <div
+            className="text-[8px] text-center tracking-[0.15em] uppercase"
+            style={{ padding: '8px 14px', borderTop: `1px solid ${B.border}`, color: B.textMuted }}
+          >
+            Encrypted in browser
+          </div>
         </div>
       )}
 
       {/* FLOWS OVERLAY */}
       {view === 'flows' && (
-        <div style={{ position: 'absolute', inset: 0, zIndex: 100, background: 'rgba(8,8,26,0.97)', backdropFilter: 'blur(16px)', display: 'flex', flexDirection: 'column', animation: 'onork-su 0.2s ease' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 18px', borderBottom: `1px solid ${B.border}` }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: B.text }}>{'\u26A1'} Workflows <span style={{ fontSize: 11, color: B.textMuted }}>{flows.f.length}</span></div>
-            <button onClick={() => setV('home')} style={{ background: 'none', border: 'none', color: B.textDim, fontSize: 18, cursor: 'pointer' }}>{'\u2715'}</button>
+        <div
+          className="absolute inset-0 z-[100] flex flex-col"
+          style={{ background: 'rgba(8,8,26,0.97)', backdropFilter: 'blur(16px)', animation: 'onork-su 0.2s ease' }}
+        >
+          <div className="flex justify-between items-center" style={{ padding: '14px 18px', borderBottom: `1px solid ${B.border}` }}>
+            <div className="text-[15px] font-bold" style={{ color: B.text }}>
+              Workflows <span className="text-[11px]" style={{ color: B.textMuted }}>{flows.f.length}</span>
+            </div>
+            <button onClick={() => setV('home')} className="bg-transparent border-none text-[18px] cursor-pointer" style={{ color: B.textDim }}>&times;</button>
           </div>
-          <div style={{ flex: 1, overflow: 'auto', padding: 14 }}>
+          <div className="flex-1 overflow-auto p-3.5">
             {flows.f.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: 36, color: B.textDim }}><div style={{ fontSize: 36, marginBottom: 6 }}>{'\u26A1'}</div><div style={{ fontSize: 14, fontWeight: 600, color: B.text }}>No workflows yet</div><div style={{ fontSize: 12, marginTop: 4 }}>Build your first automation</div></div>
+              <div className="text-center pt-9" style={{ color: B.textDim }}>
+                <div className="text-[14px] font-semibold" style={{ color: B.text }}>No workflows yet</div>
+                <div className="text-[12px] mt-1">Build your first automation</div>
+              </div>
             ) : flows.f.map(f => (
-              <div key={f.id} style={{ background: B.card, border: `1px solid ${f.on ? B.b2 + '30' : B.border}`, borderRadius: 10, padding: 12, marginBottom: 6 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
-                  <span style={{ fontWeight: 600, fontSize: 13, color: B.text }}>{f.name}</span>
-                  <button onClick={() => { flows.tog(f.id); hist.add('workflow', `Toggled "${f.name}"`) }} style={{ padding: '2px 8px', borderRadius: 14, border: 'none', fontSize: 9, fontWeight: 700, cursor: 'pointer', background: f.on ? B.green + '22' : B.card, color: f.on ? B.green : B.textMuted }}>{f.on ? 'ON' : 'OFF'}</button>
+              <div key={f.id} className="rounded-[10px] p-3 mb-1.5" style={{ background: B.card, border: `1px solid ${f.on ? B.b2 + '30' : B.border}` }}>
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="font-semibold text-[13px]" style={{ color: B.text }}>{f.name}</span>
+                  <button
+                    onClick={() => { flows.tog(f.id); hist.add('workflow', `Toggled "${f.name}"`) }}
+                    className="px-2 py-0.5 rounded-xl border-none text-[9px] font-bold cursor-pointer"
+                    style={{ background: f.on ? B.green + '22' : B.card, color: f.on ? B.green : B.textMuted }}
+                  >
+                    {f.on ? 'ON' : 'OFF'}
+                  </button>
                 </div>
-                <div style={{ fontSize: 11, color: B.b2 }}>{'\u26A1'} {f.trigger}</div>
-                {f.actions.map((a, i) => <div key={i} style={{ fontSize: 11, color: B.textDim, paddingLeft: 10, marginTop: 1 }}>{'\u2192'} {a}</div>)}
+                <div className="text-[11px]" style={{ color: B.b2 }}>{f.trigger}</div>
+                {f.actions.map((a, i) => <div key={i} className="text-[11px] pl-2.5 mt-px" style={{ color: B.textDim }}>&rarr; {a}</div>)}
               </div>
             ))}
           </div>
@@ -292,22 +417,34 @@ export default function OnorkMini() {
 
       {/* HISTORY OVERLAY */}
       {view === 'history' && (
-        <div style={{ position: 'absolute', inset: 0, zIndex: 100, background: 'rgba(8,8,26,0.97)', backdropFilter: 'blur(16px)', display: 'flex', flexDirection: 'column', animation: 'onork-su 0.2s ease' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 18px', borderBottom: `1px solid ${B.border}` }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: B.text }}>{'\u{1F4CB}'} History <span style={{ fontSize: 11, color: B.textMuted }}>{hist.h.length}</span></div>
-            <button onClick={() => setV('home')} style={{ background: 'none', border: 'none', color: B.textDim, fontSize: 18, cursor: 'pointer' }}>{'\u2715'}</button>
+        <div
+          className="absolute inset-0 z-[100] flex flex-col"
+          style={{ background: 'rgba(8,8,26,0.97)', backdropFilter: 'blur(16px)', animation: 'onork-su 0.2s ease' }}
+        >
+          <div className="flex justify-between items-center" style={{ padding: '14px 18px', borderBottom: `1px solid ${B.border}` }}>
+            <div className="text-[15px] font-bold" style={{ color: B.text }}>
+              History <span className="text-[11px]" style={{ color: B.textMuted }}>{hist.h.length}</span>
+            </div>
+            <button onClick={() => setV('home')} className="bg-transparent border-none text-[18px] cursor-pointer" style={{ color: B.textDim }}>&times;</button>
           </div>
-          <div style={{ flex: 1, overflow: 'auto', padding: 14 }}>
+          <div className="flex-1 overflow-auto p-3.5">
             {hist.h.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: 36, color: B.textDim }}><div style={{ fontSize: 14, fontWeight: 600, color: B.text }}>No activity yet</div></div>
+              <div className="text-center pt-9">
+                <div className="text-[14px] font-semibold" style={{ color: B.text }}>No activity yet</div>
+              </div>
             ) : hist.h.map(e => (
-              <div key={e.id} style={{ display: 'flex', gap: 10, padding: '8px 0', borderBottom: `1px solid ${B.border}22` }}>
-                <div style={{ width: 28, height: 28, borderRadius: 8, background: e.type === 'connect' ? B.green + '18' : e.type === 'workflow' ? B.b2 + '18' : B.p1 + '18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>
+              <div key={e.id} className="flex gap-2.5 py-2" style={{ borderBottom: `1px solid ${B.border}22` }}>
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[12px] shrink-0"
+                  style={{
+                    background: e.type === 'connect' ? B.green + '18' : e.type === 'workflow' ? B.b2 + '18' : B.p1 + '18',
+                  }}
+                >
                   {e.type === 'connect' ? '\u{1F517}' : e.type === 'workflow' ? '\u26A1' : '\u{1F4AC}'}
                 </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 12, color: B.text, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.detail}</div>
-                  <div style={{ fontSize: 9, color: B.textMuted, marginTop: 2 }}>{new Date(e.ts).toLocaleString()}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[12px] font-medium truncate" style={{ color: B.text }}>{e.detail}</div>
+                  <div className="text-[9px] mt-0.5" style={{ color: B.textMuted }}>{new Date(e.ts).toLocaleString()}</div>
                 </div>
               </div>
             ))}
@@ -316,32 +453,57 @@ export default function OnorkMini() {
       )}
 
       {/* SERVICE QUICK GRID */}
-      <div style={{ padding: '10px 12px 6px', borderBottom: `1px solid ${B.border}`, flexShrink: 0 }}>
-        <div style={{ fontSize: 8, color: B.textMuted, marginBottom: 6, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Services</div>
-        <div style={{ display: 'flex', gap: 4, overflow: 'auto', paddingBottom: 4 }}>
+      <div className="shrink-0" style={{ padding: '10px 12px 6px', borderBottom: `1px solid ${B.border}` }}>
+        <div className="text-[8px] font-extrabold tracking-[0.12em] uppercase mb-1.5" style={{ color: B.textMuted }}>Services</div>
+        <div className="flex gap-1 overflow-auto pb-1">
           {Object.entries(SVC).map(([k, s]) => (
-            <button key={k} onClick={() => { setAS(k); setV('vault') }} style={{
-              background: vault.isC(k) ? `${s.c === '#e2e2e2' ? B.p2 : s.c}12` : B.card,
-              border: `1px solid ${vault.isC(k) ? (s.c === '#e2e2e2' ? B.p2 : s.c) + '25' : B.border}`,
-              borderRadius: 8, padding: '8px 4px 6px', cursor: 'pointer', textAlign: 'center', minWidth: 48, flexShrink: 0
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 2 }}><Ico name={s.logo} sz={20} /></div>
-              <div style={{ fontSize: 8, color: B.text, fontWeight: 600, lineHeight: 1.1, whiteSpace: 'nowrap' }}>{s.l}</div>
+            <button
+              key={k}
+              onClick={() => { setAS(k); setV('vault') }}
+              className="rounded-lg cursor-pointer text-center min-w-[48px] shrink-0"
+              style={{
+                background: vault.isC(k) ? `${s.c === '#e2e2e2' ? B.p2 : s.c}12` : B.card,
+                border: `1px solid ${vault.isC(k) ? (s.c === '#e2e2e2' ? B.p2 : s.c) + '25' : B.border}`,
+                padding: '8px 4px 6px',
+              }}
+            >
+              <div className="flex justify-center mb-0.5"><Ico name={s.logo} sz={20} /></div>
+              <div className="text-[8px] font-semibold leading-[1.1] whitespace-nowrap" style={{ color: B.text }}>{s.l}</div>
             </button>
           ))}
         </div>
       </div>
 
       {/* CHAT */}
-      <div style={{ flex: 1, overflow: 'auto', padding: '10px 8px' }}>
+      <div className="flex-1 overflow-auto" style={{ padding: '10px 8px' }}>
         {msgs.map((m, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: m.r === 'user' ? 'flex-end' : 'flex-start', marginBottom: 6, padding: '0 2px', animation: 'onork-su 0.15s ease', alignItems: 'flex-start' }}>
-            {m.r === 'sys' && <div style={{ width: 18, height: 18, flexShrink: 0, marginRight: 5, marginTop: 4 }}><Ico name="onork" sz={18} /></div>}
-            <div style={{
-              maxWidth: '82%', padding: '9px 12px', fontSize: 13, lineHeight: 1.5, wordBreak: 'break-word', whiteSpace: 'pre-wrap',
-              borderRadius: m.r === 'user' ? '12px 12px 3px 12px' : '12px 12px 12px 3px',
-              background: m.r === 'user' ? B.grad : B.card, border: m.r === 'user' ? 'none' : `1px solid ${B.border}`, color: B.text
-            }}>{m.t}</div>
+          <div
+            key={i}
+            className="flex items-start mb-1.5 px-0.5"
+            style={{
+              justifyContent: m.r === 'user' ? 'flex-end' : 'flex-start',
+              animation: 'onork-su 0.15s ease',
+            }}
+          >
+            {m.r === 'sys' && (
+              <div className="w-[18px] h-[18px] shrink-0 mr-1.5 mt-1">
+                <Ico name="onork" sz={18} />
+              </div>
+            )}
+            <div
+              className="text-[13px] leading-[1.5] break-words whitespace-pre-wrap"
+              style={{
+                maxWidth: '82%',
+                padding: '9px 12px',
+                wordBreak: 'break-word',
+                borderRadius: m.r === 'user' ? '12px 12px 3px 12px' : '12px 12px 12px 3px',
+                background: m.r === 'user' ? B.grad : B.card,
+                border: m.r === 'user' ? 'none' : `1px solid ${B.border}`,
+                color: B.text,
+              }}
+            >
+              {m.t}
+            </div>
           </div>
         ))}
         <div ref={chatEnd} />
@@ -349,27 +511,66 @@ export default function OnorkMini() {
 
       {/* CMD PALETTE */}
       {showCmd && (
-        <div style={{ position: 'absolute', bottom: 64, left: 8, right: 8, zIndex: 50, background: B.surface, border: `1px solid ${B.border}`, borderRadius: 12, padding: 5, animation: 'onork-su 0.1s ease' }}>
+        <div
+          className="absolute bottom-16 left-2 right-2 z-50 rounded-xl p-1.5"
+          style={{
+            background: B.surface,
+            border: `1px solid ${B.border}`,
+            animation: 'onork-su 0.1s ease',
+          }}
+        >
           {['/help', '/status', '/vault', '/flows', '/history'].map(cmd => (
-            <button key={cmd} onClick={() => { setInp(cmd + ' '); setSC(false); iRef.current?.focus() }} style={{ display: 'block', width: '100%', background: 'none', border: 'none', padding: '7px 8px', borderRadius: 6, color: B.text, fontSize: 12, cursor: 'pointer', fontFamily: F, textAlign: 'left' }}>
-              <span style={{ fontFamily: FM, color: B.p3 }}>{cmd}</span>
+            <button
+              key={cmd}
+              onClick={() => { setInp(cmd + ' '); setSC(false); iRef.current?.focus() }}
+              className="block w-full bg-transparent border-none text-[12px] cursor-pointer text-left rounded"
+              style={{ padding: '7px 8px', color: B.text, fontFamily: 'inherit' }}
+            >
+              <span className="font-mono" style={{ color: B.p3 }}>{cmd}</span>
             </button>
           ))}
         </div>
       )}
 
       {/* INPUT */}
-      <div style={{ padding: '8px 12px 12px', borderTop: `1px solid ${B.border}`, background: 'rgba(8,8,26,0.92)', backdropFilter: 'blur(12px)', flexShrink: 0 }}>
-        <div style={{ display: 'flex', gap: 6 }}>
-          <input ref={iRef} value={inp}
+      <div
+        className="shrink-0"
+        style={{
+          padding: '8px 12px 12px',
+          borderTop: `1px solid ${B.border}`,
+          background: 'rgba(8,8,26,0.92)',
+          backdropFilter: 'blur(12px)',
+        }}
+      >
+        <div className="flex gap-1.5">
+          <input
+            ref={iRef}
+            value={inp}
             onChange={e => { setInp(e.target.value); setSC(e.target.value === '/') }}
             onKeyDown={e => e.key === 'Enter' && send()}
             placeholder="Ask anything or type / ..."
-            style={{ flex: 1, background: B.surface, border: `1px solid ${B.border}`, borderRadius: 10, padding: '9px 12px', color: B.text, fontSize: 13, outline: 'none', fontFamily: F }}
+            className="flex-1 rounded-[10px] text-[13px] outline-none font-[inherit]"
+            style={{
+              background: B.surface,
+              border: `1px solid ${B.border}`,
+              padding: '9px 12px',
+              color: B.text,
+            }}
           />
-          <button onClick={send} style={{ background: B.grad, border: 'none', borderRadius: 10, padding: '0 16px', color: 'var(--text-primary)', fontSize: 15, cursor: 'pointer', fontWeight: 800 }}>{'\u2191'}</button>
+          <button
+            onClick={send}
+            className="rounded-[10px] px-4 border-none text-[15px] cursor-pointer font-extrabold text-[var(--text-primary)]"
+            style={{ background: B.grad }}
+          >
+            &#8593;
+          </button>
         </div>
-        <div style={{ textAlign: 'center', fontSize: 7, color: B.textMuted, marginTop: 5, letterSpacing: '0.15em', textTransform: 'uppercase' }}>0nork {'\u2219'} 0nMCP</div>
+        <div
+          className="text-center text-[7px] mt-1 tracking-[0.15em] uppercase"
+          style={{ color: B.textMuted }}
+        >
+          0nork &#8729; 0nMCP
+        </div>
       </div>
     </div>
   )
@@ -385,27 +586,101 @@ function VaultDetail({ svcKey, vault, hist, onBack, show, setShow }: {
   const s = SVC[svcKey]; const conn = vault.isC(svcKey)
   return (
     <div style={{ animation: 'onork-su 0.2s ease' }}>
-      <button onClick={onBack} style={{ background: 'none', border: 'none', color: B.b2, fontSize: 12, cursor: 'pointer', marginBottom: 14, padding: 0, fontFamily: F }}>{'\u2190'} Back</button>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+      <button
+        onClick={onBack}
+        className="bg-transparent border-none text-[12px] cursor-pointer mb-3.5 p-0"
+        style={{ color: B.b2, fontFamily: 'inherit' }}
+      >
+        &larr; Back
+      </button>
+      <div className="flex items-center gap-3 mb-3.5">
         <Ico name={s.logo} sz={34} />
-        <div style={{ flex: 1 }}><div style={{ fontWeight: 700, fontSize: 17, color: B.text }}>{s.l}</div>
-          <div style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 5 }}><Dot on={conn} /><span style={{ color: conn ? B.green : B.red }}>{conn ? 'Connected' : 'Not connected'}</span></div></div>
-      </div>
-      <div style={{ fontSize: 12, color: B.textDim, lineHeight: 1.6, marginBottom: 16, padding: '10px 12px', background: B.card, borderRadius: 10, border: `1px solid ${B.border}` }}>{s.d}</div>
-      <div style={{ marginBottom: 18 }}><div style={{ fontSize: 9, color: B.textMuted, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Capabilities ({s.cap.length})</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>{s.cap.map(c => <span key={c} style={{ fontSize: 10, padding: '3px 10px', borderRadius: 16, background: `${s.c}14`, border: `1px solid ${s.c}30`, color: s.c === '#e2e2e2' ? B.text : s.c, fontWeight: 500 }}>{c}</span>)}</div></div>
-      <div style={{ fontSize: 9, color: B.textMuted, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>Credentials ({s.f.length})</div>
-      {s.f.map(f => (
-        <div key={f.k} style={{ marginBottom: 12, padding: '12px 14px', background: B.card, borderRadius: 12, border: `1px solid ${vault.get(svcKey, f.k) ? s.c + '30' : B.border}` }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-            <label style={{ fontSize: 11, color: B.text, fontWeight: 600 }}>{f.lb}</label>
-            {f.s ? <button onClick={() => setShow(p => ({ ...p, [f.k]: !p[f.k] }))} style={{ background: 'none', border: 'none', color: B.textDim, fontSize: 10, cursor: 'pointer', fontFamily: F }}>{show[f.k] ? 'Hide' : 'Show'}</button> : null}
+        <div className="flex-1">
+          <div className="font-bold text-[17px]" style={{ color: B.text }}>{s.l}</div>
+          <div className="text-[11px] flex items-center gap-1.5">
+            <Dot on={conn} />
+            <span style={{ color: conn ? B.green : B.red }}>{conn ? 'Connected' : 'Not connected'}</span>
           </div>
-          <input type={f.s && !show[f.k] ? 'password' : 'text'} value={vault.get(svcKey, f.k)}
+        </div>
+      </div>
+      <div
+        className="text-[12px] leading-[1.6] mb-4 rounded-[10px]"
+        style={{ color: B.textDim, padding: '10px 12px', background: B.card, border: `1px solid ${B.border}` }}
+      >
+        {s.d}
+      </div>
+      <div className="mb-4">
+        <div
+          className="text-[9px] font-extrabold tracking-[0.1em] uppercase mb-2"
+          style={{ color: B.textMuted }}
+        >
+          Capabilities ({s.cap.length})
+        </div>
+        <div className="flex flex-wrap gap-1">
+          {s.cap.map(c => (
+            <span
+              key={c}
+              className="text-[10px] font-medium rounded-2xl"
+              style={{
+                padding: '3px 10px',
+                background: `${s.c}14`,
+                border: `1px solid ${s.c}30`,
+                color: s.c === '#e2e2e2' ? B.text : s.c,
+              }}
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="text-[9px] font-extrabold tracking-[0.1em] uppercase mb-2.5" style={{ color: B.textMuted }}>
+        Credentials ({s.f.length})
+      </div>
+      {s.f.map(f => (
+        <div
+          key={f.k}
+          className="mb-3 rounded-xl"
+          style={{
+            padding: '12px 14px',
+            background: B.card,
+            border: `1px solid ${vault.get(svcKey, f.k) ? s.c + '30' : B.border}`,
+          }}
+        >
+          <div className="flex justify-between items-center mb-1.5">
+            <label className="text-[11px] font-semibold" style={{ color: B.text }}>{f.lb}</label>
+            {f.s ? (
+              <button
+                onClick={() => setShow(p => ({ ...p, [f.k]: !p[f.k] }))}
+                className="bg-transparent border-none text-[10px] cursor-pointer"
+                style={{ color: B.textDim, fontFamily: 'inherit' }}
+              >
+                {show[f.k] ? 'Hide' : 'Show'}
+              </button>
+            ) : null}
+          </div>
+          <input
+            type={f.s && !show[f.k] ? 'password' : 'text'}
+            value={vault.get(svcKey, f.k)}
             onChange={e => { vault.set(svcKey, f.k, e.target.value); if (e.target.value && f.s) hist.add('connect', `Updated ${f.lb} for ${s.l}`) }}
-            placeholder={f.ph} style={{ width: '100%', background: B.bg, border: `1px solid ${B.border}`, borderRadius: 8, padding: '8px 10px', color: B.text, fontSize: 12, fontFamily: FM, outline: 'none' }} />
-          <div style={{ fontSize: 10, color: B.textMuted, marginTop: 5 }}>{f.h}</div>
-          <a href={f.lk} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, color: s.c === '#e2e2e2' ? B.b2 : s.c, textDecoration: 'none', marginTop: 4, fontWeight: 500 }}>{'\u2197'} {f.ll}</a>
+            placeholder={f.ph}
+            className="w-full rounded-lg text-[12px] outline-none font-mono"
+            style={{
+              background: B.bg,
+              border: `1px solid ${B.border}`,
+              padding: '8px 10px',
+              color: B.text,
+            }}
+          />
+          <div className="text-[10px] mt-1.5" style={{ color: B.textMuted }}>{f.h}</div>
+          <a
+            href={f.lk}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[10px] font-medium no-underline mt-1"
+            style={{ color: s.c === '#e2e2e2' ? B.b2 : s.c }}
+          >
+            &#8599; {f.ll}
+          </a>
         </div>
       ))}
     </div>
@@ -430,24 +705,62 @@ function PinScreen({ onUnlock }: { onUnlock: () => void }) {
   }
 
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: `radial-gradient(ellipse at 50% 30%,${B.glow},transparent 70%),${B.bg}`, fontFamily: F }}>
+    <div
+      className="h-full flex flex-col items-center justify-center font-sans"
+      style={{ background: `radial-gradient(ellipse at 50% 30%,${B.glow},transparent 70%),${B.bg}` }}
+    >
       <style>{`
         @keyframes onork-su{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
         @keyframes onork-pk{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
       `}</style>
-      <div style={{ animation: 'onork-su 0.5s ease', textAlign: 'center' }}>
-        <span dangerouslySetInnerHTML={{ __html: LOGO_SVG }} style={{ width: 52, height: 52, display: 'inline-flex' }} />
-        <div style={{ fontSize: 30, fontWeight: 900, letterSpacing: '-0.03em', background: `linear-gradient(135deg,${B.p3},${B.b2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginTop: 4 }}>0nork</div>
-        <div style={{ fontSize: 11, color: B.textDim, marginTop: 4, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Enter Access Code</div>
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', margin: '24px 0', animation: shk ? 'onork-pk 0.35s ease' : 'none' }}>
-          {[0, 1, 2, 3, 4, 5].map(i => <div key={i} style={{ width: 14, height: 14, borderRadius: '50%', border: `2px solid ${err ? B.red : i < pin.length ? B.p2 : B.border}`, background: i < pin.length ? (err ? B.red : B.p2) : 'transparent', transition: 'all 0.12s', boxShadow: i < pin.length && !err ? `0 0 8px ${B.p2}44` : 'none' }} />)}
+      <div className="text-center" style={{ animation: 'onork-su 0.5s ease' }}>
+        <span dangerouslySetInnerHTML={{ __html: LOGO_SVG }} className="w-[52px] h-[52px] inline-flex" />
+        <div
+          className="text-[30px] font-black tracking-tight mt-1"
+          style={{
+            background: `linear-gradient(135deg,${B.p3},${B.b2})`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          0nork
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, maxWidth: 230, margin: '0 auto' }}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, null, 0, '\u232B'].map((n, i) => n === null ? <div key={i} /> :
-            <button key={i} onClick={() => n === '\u232B' ? setPin(p => p.slice(0, -1)) : d(String(n))} style={{
-              width: 60, height: 52, borderRadius: 12, background: n === '\u232B' ? 'transparent' : B.card, border: n === '\u232B' ? 'none' : `1px solid ${B.border}`,
-              color: B.text, fontSize: n === '\u232B' ? 18 : 20, fontWeight: 600, fontFamily: F, cursor: 'pointer'
-            }}>{n}</button>)}
+        <div className="text-[11px] mt-1 tracking-[0.15em] uppercase" style={{ color: B.textDim }}>
+          Enter Access Code
+        </div>
+        <div
+          className="flex gap-2.5 justify-center my-6"
+          style={{ animation: shk ? 'onork-pk 0.35s ease' : 'none' }}
+        >
+          {[0, 1, 2, 3, 4, 5].map(i => (
+            <div
+              key={i}
+              className="w-3.5 h-3.5 rounded-full transition-all duration-[120ms]"
+              style={{
+                border: `2px solid ${err ? B.red : i < pin.length ? B.p2 : B.border}`,
+                background: i < pin.length ? (err ? B.red : B.p2) : 'transparent',
+                boxShadow: i < pin.length && !err ? `0 0 8px ${B.p2}44` : 'none',
+              }}
+            />
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-2 max-w-[230px] mx-auto">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, null, 0, '\u232B'].map((n, i) => n === null ? <div key={i} /> : (
+            <button
+              key={i}
+              onClick={() => n === '\u232B' ? setPin(p => p.slice(0, -1)) : d(String(n))}
+              className="w-[60px] h-[52px] rounded-xl font-semibold cursor-pointer"
+              style={{
+                background: n === '\u232B' ? 'transparent' : B.card,
+                border: n === '\u232B' ? 'none' : `1px solid ${B.border}`,
+                color: B.text,
+                fontSize: n === '\u232B' ? 18 : 20,
+                fontFamily: 'inherit',
+              }}
+            >
+              {n}
+            </button>
+          ))}
         </div>
       </div>
     </div>

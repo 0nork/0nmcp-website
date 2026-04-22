@@ -175,123 +175,97 @@ function InstallModal({ platform, onClose, onInstallAnother }: {
     })
   }, [])
 
+  const phases = ['preview', 'install', 'complete'] as const
+
   return (
     <div
       onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 9000,
-        background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '1rem', animation: 'fadeIn 0.2s ease',
-      }}
+      className="fixed inset-0 z-[9000] bg-black/60 backdrop-blur-[6px] flex items-center justify-center p-4"
+      style={{ animation: 'fadeIn 0.2s ease' }}
     >
       <div
         onClick={e => e.stopPropagation()}
-        style={{
-          background: 'var(--bg-card)', border: '1px solid var(--border)',
-          borderRadius: 20, maxWidth: 520, width: '100%',
-          animation: 'slideUp 0.25s ease',
-          boxShadow: '0 24px 48px rgba(0,0,0,0.3)',
-          maxHeight: '90vh', overflowY: 'auto',
-        }}
+        className="bg-[var(--bg-card)] border border-[var(--border)] rounded-[20px] max-w-[520px] w-full max-h-[90vh] overflow-y-auto"
+        style={{ animation: 'slideUp 0.25s ease', boxShadow: '0 24px 48px rgba(0,0,0,0.3)' }}
       >
         {/* ─── Header (always visible) ─── */}
-        <div style={{ padding: '1.5rem 2rem 0', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{
-            width: 48, height: 48, borderRadius: 12,
-            background: `${platform.color}18`, border: `1px solid ${platform.color}30`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-          }}>
-            {LOGO_MAP[platform.id] || <span style={{ fontSize: '1.1rem', fontWeight: 800, color: platform.color }}>{platform.icon}</span>}
+        <div className="px-8 pt-6 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center"
+            style={{ background: `${platform.color}18`, border: `1px solid ${platform.color}30` }}>
+            {LOGO_MAP[platform.id] || <span className="text-[1.1rem] font-extrabold" style={{ color: platform.color }}>{platform.icon}</span>}
           </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>{platform.name}</div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{platform.desc}</div>
+          <div className="flex-1">
+            <div className="font-bold text-[1.05rem] text-[var(--text-primary)]">{platform.name}</div>
+            <div className="text-xs text-[var(--text-muted)]">{platform.desc}</div>
           </div>
-          <button onClick={onClose} style={{
-            background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer',
-            padding: 4, borderRadius: 6, display: 'flex',
-          }}>
+          <button onClick={onClose} className="bg-transparent border-none text-[var(--text-muted)] cursor-pointer p-1 rounded-md flex">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
 
         {/* ─── Phase indicator ─── */}
-        <div style={{ padding: '1rem 2rem 0', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-          {(['preview', 'install', 'complete'] as const).map((p, i) => (
-            <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{
-                width: 24, height: 24, borderRadius: '50%',
-                background: phase === p ? platform.color : ((['preview', 'install', 'complete'].indexOf(phase) > i) ? '#7ed957' : 'var(--border)'),
-                color: phase === p || (['preview', 'install', 'complete'].indexOf(phase) > i) ? '#fff' : 'var(--text-muted)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.65rem', fontWeight: 700, transition: 'all 0.3s',
-              }}>
-                {(['preview', 'install', 'complete'].indexOf(phase) > i) ? (
+        <div className="px-8 pt-4 flex gap-2 items-center">
+          {phases.map((p, i) => (
+            <div key={p} className="flex items-center gap-2">
+              <div
+                className="w-6 h-6 rounded-full flex items-center justify-center text-[0.65rem] font-bold transition-all duration-300"
+                style={{
+                  background: phase === p ? platform.color : (phases.indexOf(phase) > i ? '#7ed957' : 'var(--border)'),
+                  color: phase === p || phases.indexOf(phase) > i ? '#fff' : 'var(--text-muted)',
+                }}
+              >
+                {phases.indexOf(phase) > i ? (
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                 ) : i + 1}
               </div>
-              {i < 2 && <div style={{ width: 32, height: 2, background: (['preview', 'install', 'complete'].indexOf(phase) > i) ? '#7ed957' : 'var(--border)', borderRadius: 1, transition: 'all 0.3s' }} />}
+              {i < 2 && (
+                <div
+                  className="w-8 h-0.5 rounded-sm transition-all duration-300"
+                  style={{ background: phases.indexOf(phase) > i ? '#7ed957' : 'var(--border)' }}
+                />
+              )}
             </div>
           ))}
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginLeft: 'auto' }}>
+          <span className="text-[0.7rem] text-[var(--text-muted)] ml-auto">
             {phase === 'preview' ? 'Overview' : phase === 'install' ? 'Installing' : 'Done'}
           </span>
         </div>
 
-        <div style={{ padding: '1.25rem 2rem 2rem' }}>
+        <div className="px-8 pt-5 pb-8">
 
           {/* ═══ PHASE 1: Preview ═══ */}
           {phase === 'preview' && (
             <>
               {/* Connection diagram */}
-              <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem',
-                padding: '1.25rem 0',
-              }}>
-                <div style={{
-                  width: 44, height: 44, borderRadius: 10,
-                  background: 'linear-gradient(135deg, #7ed957, #5cb83a)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontWeight: 900, fontSize: 11, color: '#000',
-                }}>0n</div>
+              <div className="flex items-center justify-center gap-4 py-5">
+                <div className="w-11 h-11 rounded-[10px] flex items-center justify-center font-black text-[11px] text-black"
+                  style={{ background: 'linear-gradient(135deg, #7ed957, #5cb83a)' }}>0n</div>
                 <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
                   <path d="M0 8h40M36 3l6 5-6 5" stroke={platform.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="44" strokeDashoffset="44">
                     <animate attributeName="stroke-dashoffset" from="44" to="0" dur="0.8s" fill="freeze" />
                   </path>
                 </svg>
-                <div style={{
-                  width: 44, height: 44, borderRadius: 10, background: `${platform.color}20`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  {LOGO_MAP[platform.id] || <span style={{ fontSize: '0.9rem', fontWeight: 800, color: platform.color }}>{platform.icon}</span>}
+                <div className="w-11 h-11 rounded-[10px] flex items-center justify-center" style={{ background: `${platform.color}20` }}>
+                  {LOGO_MAP[platform.id] || <span className="text-[0.9rem] font-extrabold" style={{ color: platform.color }}>{platform.icon}</span>}
                 </div>
               </div>
 
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7, margin: '0 0 1.25rem', textAlign: 'center' }}>
+              <p className="text-[var(--text-secondary)] text-sm leading-[1.7] mb-5 text-center">
                 {platform.howItConnects}
               </p>
 
               {/* Feature chips */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem' }}>
+              <div className="flex flex-wrap gap-2 justify-center mb-6">
                 {platform.features.map((f, i) => (
-                  <span key={i} style={{
-                    padding: '0.3rem 0.75rem', borderRadius: 20,
-                    background: `${platform.color}12`, border: `1px solid ${platform.color}25`,
-                    color: platform.color, fontSize: '0.75rem', fontWeight: 600,
-                  }}>{f}</span>
+                  <span key={i} className="px-3 py-1 rounded-[20px] text-xs font-semibold"
+                    style={{ background: `${platform.color}12`, border: `1px solid ${platform.color}25`, color: platform.color }}>{f}</span>
                 ))}
               </div>
 
               <button
                 onClick={() => setPhase('install')}
-                style={{
-                  width: '100%', padding: '0.85rem', borderRadius: 12,
-                  background: platform.color, border: 'none',
-                  color: '#fff', fontWeight: 700, fontSize: '0.95rem',
-                  cursor: 'pointer', transition: 'all 0.15s',
-                  boxShadow: `0 4px 16px ${platform.color}40`,
-                }}
+                className="w-full py-3.5 rounded-xl border-none text-white font-bold text-[0.95rem] cursor-pointer transition-all duration-150"
+                style={{ background: platform.color, boxShadow: `0 4px 16px ${platform.color}40` }}
               >Install on {platform.name}</button>
             </>
           )}
@@ -299,109 +273,93 @@ function InstallModal({ platform, onClose, onInstallAnother }: {
           {/* ═══ PHASE 2: Install Steps ═══ */}
           {phase === 'install' && (
             <>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+              <div className="text-[0.8rem] text-[var(--text-muted)] mb-4">
                 Follow each step. Click to mark complete.
               </div>
 
               {/* Steps as checkable items */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem', marginBottom: '1.25rem' }}>
+              <div className="flex flex-col gap-2.5 mb-5">
                 {platform.steps.map((step, i) => {
                   const done = completedSteps.has(i)
                   return (
                     <button
                       key={i}
                       onClick={() => toggleStep(i)}
+                      className="flex gap-3 items-start p-3 rounded-[10px] cursor-pointer transition-all duration-200 text-left"
                       style={{
-                        display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
-                        padding: '0.75rem', borderRadius: 10, cursor: 'pointer',
                         background: done ? `${platform.color}08` : 'transparent',
                         border: `1px solid ${done ? platform.color + '30' : 'var(--border)'}`,
-                        transition: 'all 0.2s', textAlign: 'left',
                       }}
                     >
-                      <div style={{
-                        width: 22, height: 22, borderRadius: 6, flexShrink: 0,
-                        background: done ? platform.color : 'transparent',
-                        border: `2px solid ${done ? platform.color : 'var(--border)'}`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'all 0.2s',
-                      }}>
+                      <div
+                        className="w-[22px] h-[22px] rounded-md shrink-0 flex items-center justify-center transition-all duration-200"
+                        style={{
+                          background: done ? platform.color : 'transparent',
+                          border: `2px solid ${done ? platform.color : 'var(--border)'}`,
+                        }}
+                      >
                         {done && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
                       </div>
-                      <span style={{
-                        color: done ? 'var(--text-muted)' : 'var(--text-secondary)',
-                        fontSize: '0.85rem', lineHeight: 1.5,
-                        textDecoration: done ? 'line-through' : 'none',
-                        transition: 'all 0.2s',
-                      }}>{step}</span>
+                      <span
+                        className="text-[0.85rem] leading-[1.5] transition-all duration-200"
+                        style={{
+                          color: done ? 'var(--text-muted)' : 'var(--text-secondary)',
+                          textDecoration: done ? 'line-through' : 'none',
+                        }}
+                      >{step}</span>
                     </button>
                   )
                 })}
               </div>
 
-              {/* Config code block — clicking Copy triggers the action */}
-              <div style={{
-                background: '#0d1117', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 10, overflow: 'hidden', marginBottom: '1.25rem',
-              }}>
-                <div style={{
-                  padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  background: '#161b22', borderBottom: '1px solid rgba(255,255,255,0.06)',
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <div style={{ display: 'flex', gap: 4 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ff5f57' }} />
-                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#febc2e' }} />
-                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#28c840' }} />
+              {/* Config code block */}
+              <div className="bg-[#0d1117] border border-[rgba(255,255,255,0.08)] rounded-[10px] overflow-hidden mb-5">
+                <div className="px-3 py-2 flex items-center justify-between bg-[#161b22] border-b border-[rgba(255,255,255,0.06)]">
+                  <div className="flex items-center gap-1.5">
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+                      <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
+                      <div className="w-2 h-2 rounded-full bg-[#28c840]" />
                     </div>
-                    <span style={{ fontSize: '0.65rem', color: '#8b949e', marginLeft: 6 }}>
+                    <span className="text-[0.65rem] text-[#8b949e] ml-1.5">
                       {platform.id === 'terminal' || platform.id === 'http' ? 'Terminal' : platform.configPath.split('/').pop()}
                     </span>
                   </div>
                   <button
                     onClick={() => handleCopy(platform.config)}
+                    className="px-3 py-1 rounded-md text-[0.7rem] font-semibold cursor-pointer transition-all duration-150"
                     style={{
-                      padding: '4px 12px', borderRadius: 6,
                       background: copied ? 'rgba(126,217,87,0.25)' : 'rgba(255,255,255,0.08)',
                       border: `1px solid ${copied ? '#7ed95740' : 'rgba(255,255,255,0.1)'}`,
                       color: copied ? '#7ed957' : '#c9d1d9',
-                      fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer',
-                      transition: 'all 0.15s',
                     }}
                   >
                     {copied ? (
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span className="flex items-center gap-1">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                         Copied!
                       </span>
                     ) : (
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span className="flex items-center gap-1">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                         Click to Copy
                       </span>
                     )}
                   </button>
                 </div>
-                <pre style={{
-                  padding: '0.875rem', margin: 0,
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.75rem', lineHeight: 1.6, color: '#7ed957',
-                  overflow: 'auto', maxHeight: 140,
-                }}>{platform.config}</pre>
+                <pre className="p-3.5 m-0 font-mono text-[0.75rem] leading-[1.6] text-[#7ed957] overflow-auto max-h-[140px]"
+                  style={{ fontFamily: "'JetBrains Mono', monospace" }}>{platform.config}</pre>
               </div>
 
               {/* Progress bar */}
-              <div style={{ marginBottom: '1rem' }}>
-                <div style={{
-                  height: 4, borderRadius: 2, background: 'var(--border)', overflow: 'hidden',
-                }}>
-                  <div style={{
-                    height: '100%', borderRadius: 2, background: platform.color,
-                    width: `${(completedSteps.size / platform.steps.length) * 100}%`,
-                    transition: 'width 0.3s ease',
-                  }} />
+              <div className="mb-4">
+                <div className="h-1 rounded-sm bg-[var(--border)] overflow-hidden">
+                  <div
+                    className="h-full rounded-sm transition-[width] duration-300 ease-out"
+                    style={{ background: platform.color, width: `${(completedSteps.size / platform.steps.length) * 100}%` }}
+                  />
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 6, textAlign: 'right' }}>
+                <div className="text-[0.7rem] text-[var(--text-muted)] mt-1.5 text-right">
                   {completedSteps.size}/{platform.steps.length} steps complete
                 </div>
               </div>
@@ -414,12 +372,8 @@ function InstallModal({ platform, onClose, onInstallAnother }: {
                     platform.steps.forEach((_, i) => all.add(i))
                     setCompletedSteps(all)
                   }}
-                  style={{
-                    width: '100%', padding: '0.75rem', borderRadius: 10,
-                    background: 'transparent', border: `1px solid ${platform.color}40`,
-                    color: platform.color, fontWeight: 600, fontSize: '0.85rem',
-                    cursor: 'pointer', transition: 'all 0.15s',
-                  }}
+                  className="w-full py-3 rounded-[10px] bg-transparent font-semibold text-[0.85rem] cursor-pointer transition-all duration-150"
+                  style={{ border: `1px solid ${platform.color}40`, color: platform.color }}
                 >I&apos;ve completed all steps</button>
               )}
             </>
@@ -429,38 +383,36 @@ function InstallModal({ platform, onClose, onInstallAnother }: {
           {phase === 'complete' && (
             <>
               {/* Success animation */}
-              <div style={{ textAlign: 'center', padding: '1rem 0 1.5rem' }}>
-                <div style={{
-                  width: 72, height: 72, borderRadius: '50%', margin: '0 auto 1rem',
-                  background: `${platform.color}15`, border: `2px solid ${platform.color}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  animation: 'scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                }}>
+              <div className="text-center py-4 pb-6">
+                <div
+                  className="w-[72px] h-[72px] rounded-full mx-auto mb-4 flex items-center justify-center"
+                  style={{
+                    background: `${platform.color}15`,
+                    border: `2px solid ${platform.color}`,
+                    animation: 'scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  }}
+                >
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={platform.color} strokeWidth="2.5" strokeLinecap="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 0.5rem' }}>
+                <h3 className="text-[1.2rem] font-bold text-[var(--text-primary)] mb-2">
                   {platform.name} is ready!
                 </h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, lineHeight: 1.6 }}>
+                <p className="text-[var(--text-muted)] text-[0.85rem] m-0 leading-[1.6]">
                   0nMCP is now connected. Try: &quot;Send an email with SendGrid&quot;
                 </p>
               </div>
 
               {/* What you get grid */}
-              <div style={{
-                padding: '1rem', marginBottom: '1.25rem',
-                background: 'rgba(126,217,87,0.04)', border: '1px solid rgba(126,217,87,0.12)',
-                borderRadius: 10,
-              }}>
-                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#7ed957', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div className="p-4 mb-5 rounded-[10px] bg-[rgba(126,217,87,0.04)] border border-[rgba(126,217,87,0.12)]">
+                <div className="text-[0.7rem] font-bold text-[#7ed957] mb-2 uppercase tracking-[0.05em]">
                   What you now have access to
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem' }}>
+                <div className="grid grid-cols-2 gap-1">
                   {['1,589 AI tools', '102 services', 'CRM (245 tools)', 'Stripe payments', 'Slack & Discord', 'GitHub & Jira', 'OpenAI & Anthropic', 'Encrypted vault'].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                      <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#7ed957', flexShrink: 0 }} />
+                    <div key={i} className="flex items-center gap-1 text-[0.72rem] text-[var(--text-muted)]">
+                      <div className="w-1 h-1 rounded-full bg-[#7ed957] shrink-0" />
                       {item}
                     </div>
                   ))}
@@ -468,23 +420,12 @@ function InstallModal({ platform, onClose, onInstallAnother }: {
               </div>
 
               {/* Action buttons */}
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div className="flex gap-3">
                 <button
                   onClick={onInstallAnother}
-                  style={{
-                    flex: 1, padding: '0.75rem', borderRadius: 10,
-                    background: 'transparent', border: '1px solid var(--border)',
-                    color: 'var(--text-secondary)', fontWeight: 600, fontSize: '0.85rem',
-                    cursor: 'pointer',
-                  }}
+                  className="flex-1 py-3 rounded-[10px] bg-transparent border border-[var(--border)] text-[var(--text-secondary)] font-semibold text-[0.85rem] cursor-pointer"
                 >Install Another</button>
-                <Link href="/console" style={{
-                  flex: 2, padding: '0.75rem', borderRadius: 10,
-                  background: '#7ed957', border: 'none',
-                  color: '#000', fontWeight: 700, fontSize: '0.85rem',
-                  textDecoration: 'none', textAlign: 'center',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                }}>
+                <Link href="/console" className="flex-[2] py-3 rounded-[10px] bg-[#7ed957] border-none text-black font-bold text-[0.85rem] no-underline text-center flex items-center justify-center gap-1.5">
                   Continue to Console
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </Link>
@@ -511,24 +452,25 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
   const activePlatform = PLATFORMS.find(p => p.id === activeId)
 
   return (
-    <div style={{ minHeight: embedded ? 'auto' : '100vh', background: embedded ? 'transparent' : 'var(--bg-primary)', color: 'var(--text-primary)' }}>
+    <div className={[embedded ? '' : 'min-h-screen bg-[var(--bg-primary)]', 'text-[var(--text-primary)]'].join(' ')}
+      style={{ background: embedded ? 'transparent' : undefined }}>
 
       {/* Hero */}
-      <section style={{ textAlign: 'center', padding: '3rem 1rem 1rem', maxWidth: 700, margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
-          <Image src="/brand/0nmcp-logo-dark.svg" alt="0nMCP" width={48} height={48} style={{ borderRadius: 12 }} />
+      <section className="text-center pt-12 px-4 pb-4 max-w-[700px] mx-auto">
+        <div className="flex justify-center mb-5">
+          <Image src="/brand/0nmcp-logo-dark.svg" alt="0nMCP" width={48} height={48} className="rounded-xl" />
         </div>
-        <h1 style={{ fontSize: 'clamp(1.75rem,4vw,2.5rem)', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.15, margin: '0 0 1rem' }}>
-          Where do you want to<br /><span style={{ color: '#7ed957' }}>install 0nMCP?</span>
+        <h1 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold text-[var(--text-primary)] leading-[1.15] mb-4">
+          Where do you want to<br /><span className="text-[#7ed957]">install 0nMCP?</span>
         </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: 1.6 }}>
-          Pick your platform. Paste one config. Get <strong style={{ color: 'var(--text-primary)' }}>1,589 tools</strong> across <strong style={{ color: 'var(--text-primary)' }}>102 services</strong> instantly.
+        <p className="text-[var(--text-muted)] text-base leading-[1.6]">
+          Pick your platform. Paste one config. Get <strong className="text-[var(--text-primary)]">1,589 tools</strong> across <strong className="text-[var(--text-primary)]">102 services</strong> instantly.
         </p>
       </section>
 
       {/* Platform Grid */}
-      <section style={{ maxWidth: 800, margin: '2rem auto', padding: '0 1rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+      <section className="max-w-[800px] mx-auto mt-8 px-4">
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
           {PLATFORMS.map(p => {
             const isHovered = hoveredId === p.id
             return (
@@ -537,25 +479,23 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
                 onClick={() => setActiveId(p.id)}
                 onMouseEnter={() => setHoveredId(p.id)}
                 onMouseLeave={() => setHoveredId(null)}
+                className="rounded-xl p-6 cursor-pointer flex flex-col items-center gap-3 transition-all duration-[250ms] cubic-bezier-[0.4,0,0.2,1]"
                 style={{
                   background: isHovered ? `${p.color}08` : 'var(--bg-card)',
                   border: `1px solid ${isHovered ? p.color + '30' : 'var(--border)'}`,
-                  borderRadius: 12, padding: '1.5rem', cursor: 'pointer',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                   transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
                   boxShadow: isHovered ? `0 8px 24px ${p.color}20` : '0 1px 3px rgba(0,0,0,0.05)',
                 }}
               >
-                <div style={{
-                  width: 48, height: 48, borderRadius: 10,
-                  background: `${p.color}20`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'transform 0.25s ease',
-                  transform: isHovered ? 'scale(1.1)' : 'scale(1)',
-                }}>{LOGO_MAP[p.id] || <span style={{ fontSize: '1.25rem', fontWeight: 800, color: p.color }}>{p.icon}</span>}</div>
-                <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>{p.name}</div>
-                <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{p.desc}</div>
+                <div
+                  className="w-12 h-12 rounded-[10px] flex items-center justify-center transition-transform duration-[250ms]"
+                  style={{
+                    background: `${p.color}20`,
+                    transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                  }}
+                >{LOGO_MAP[p.id] || <span className="text-[1.25rem] font-extrabold" style={{ color: p.color }}>{p.icon}</span>}</div>
+                <div className="font-bold text-[var(--text-primary)] text-[0.95rem]">{p.name}</div>
+                <div className="text-[var(--text-muted)] text-xs">{p.desc}</div>
               </button>
             )
           })}
@@ -572,7 +512,7 @@ export default function InstallClient({ embedded }: { embedded?: boolean }) {
       )}
 
       {/* Bottom stats */}
-      <section style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+      <section className="text-center py-12 px-4 text-[var(--text-muted)] text-[0.8rem]">
         <p>npm install 0nmcp &nbsp;|&nbsp; MIT Licensed &nbsp;|&nbsp; 5 Patents Pending</p>
       </section>
     </div>

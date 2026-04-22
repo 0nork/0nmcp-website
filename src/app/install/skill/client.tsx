@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { STATS_DISPLAY } from '@/data/stats'
+import { Check, Copy, Download, ArrowLeft } from 'lucide-react'
 
 type Platform = 'claude-desktop' | 'claude-web' | 'claude-mobile' | 'claude-code'
 type InstallMethod = 'one-line' | 'download' | 'config' | 'dashboard'
@@ -120,63 +121,35 @@ export function SkillInstallClient() {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'var(--bg-primary)',
-      color: 'var(--text-primary)',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-    }}>
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
+
       {/* Hero */}
-      <div style={{
-        maxWidth: 900,
-        margin: '0 auto',
-        padding: '60px 24px 40px',
-        textAlign: 'center',
-      }}>
-        <a href="/" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 6,
-          color: 'var(--text-muted)', fontSize: 13, textDecoration: 'none', marginBottom: 32,
-        }}>
-          ← Back to 0nmcp.com
+      <div className="max-w-[900px] mx-auto px-6 pt-[60px] pb-10 text-center">
+        <a href="/" className="inline-flex items-center gap-1.5 text-[var(--text-muted)] text-[13px] no-underline mb-8">
+          <ArrowLeft size={14} />
+          Back to 0nmcp.com
         </a>
 
-        <div style={{
-          display: 'inline-flex', padding: '6px 16px', borderRadius: 20,
-          background: 'rgba(110, 224, 90, 0.1)', border: '1px solid rgba(110, 224, 90, 0.3)',
-          fontSize: 13, color: '#6EE05A', fontWeight: 600, marginBottom: 24,
-        }}>
+        <div className="inline-flex px-4 py-1.5 rounded-[20px] bg-[rgba(110,224,90,0.1)] border border-[rgba(110,224,90,0.3)] text-[13px] text-[#6EE05A] font-semibold mb-6">
           Free — No credit card needed
         </div>
 
-        <h1 style={{
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800,
-          lineHeight: 1.1, margin: '0 0 16px 0', color: 'var(--text-primary)',
-        }}>
-          Add <span style={{ color: '#ff6b35' }}>0nMCP</span> to Claude
+        <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[1.1] mb-4 text-[var(--text-primary)]">
+          Add <span className="text-[#ff6b35]">0nMCP</span> to Claude
         </h1>
 
-        <p style={{
-          fontSize: 'clamp(16px, 2.5vw, 20px)', color: 'var(--text-secondary)',
-          maxWidth: 600, margin: '0 auto 40px', lineHeight: 1.6,
-        }}>
+        <p className="text-[clamp(16px,2.5vw,20px)] text-[var(--text-secondary)] max-w-[600px] mx-auto mb-10 leading-[1.6]">
           {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. Your Vault, workflows, and AI brain — right inside any Claude app.
         </p>
       </div>
 
       {/* Platform Selector */}
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
-        <h2 style={{
-          fontSize: 15, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 16,
-          fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1,
-        }}>
+      <div className="max-w-[900px] mx-auto px-6">
+        <h2 className="text-[15px] text-[var(--text-muted)] text-center mb-4 font-semibold uppercase tracking-[1px]">
           {detectedPlatform ? 'We detected your platform — choose yours' : 'Choose your platform'}
         </h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: 12, marginBottom: 40,
-        }}>
+        <div className="grid gap-3 mb-10" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
           {PLATFORMS.map((p) => {
             const isSelected = selectedPlatform === p.id
             const isDetected = detectedPlatform === p.id
@@ -184,29 +157,25 @@ export function SkillInstallClient() {
               <button
                 key={p.id}
                 onClick={() => { setSelectedPlatform(p.id); setSelectedMethod(null) }}
+                className="relative rounded-[14px] px-4 py-5 cursor-pointer text-center transition-all duration-200 text-[var(--text-primary)]"
                 style={{
-                  position: 'relative',
                   background: isSelected ? `${p.color}12` : 'rgba(255,255,255,0.02)',
                   border: `2px solid ${isSelected ? `${p.color}66` : 'var(--border)'}`,
-                  borderRadius: 14, padding: '20px 16px',
-                  cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s',
-                  color: 'var(--text-primary)',
                 }}
               >
                 {isDetected && (
-                  <div style={{
-                    position: 'absolute', top: -8, right: -8,
-                    background: p.color, color: 'var(--bg-primary)', fontSize: 10, fontWeight: 700,
-                    padding: '2px 8px', borderRadius: 10, letterSpacing: '0.03em',
-                  }}>
+                  <div
+                    className="absolute -top-2 -right-2 text-[10px] font-bold px-2 py-0.5 rounded-[10px] tracking-[0.03em]"
+                    style={{ background: p.color, color: 'var(--bg-primary)' }}
+                  >
                     DETECTED
                   </div>
                 )}
-                <div style={{ fontSize: 36, marginBottom: 8 }}>{p.icon}</div>
-                <div style={{ fontWeight: 700, fontSize: 15, color: isSelected ? p.color : '#e2e2e8' }}>
+                <div className="text-[36px] mb-2">{p.icon}</div>
+                <div className="font-bold text-[15px]" style={{ color: isSelected ? p.color : '#e2e2e8' }}>
                   {p.name}
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+                <div className="text-xs text-[var(--text-muted)] mt-0.5">
                   {p.subtitle}
                 </div>
               </button>
@@ -217,26 +186,26 @@ export function SkillInstallClient() {
 
       {/* Platform-specific instructions */}
       {platform && (
-        <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 24px 20px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        <div className="max-w-[700px] mx-auto px-6 pb-5">
+          <div className="flex flex-col gap-0">
             {platform.steps.map((step, i) => (
-              <div key={i} style={{
-                display: 'flex', gap: 16, padding: '20px 0',
-                borderBottom: i < platform.steps.length - 1 ? '1px solid var(--bg-card)' : 'none',
-              }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 18,
-                  background: `${platform.color}18`, border: `2px solid ${platform.color}44`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontWeight: 800, color: platform.color, fontSize: 15, flexShrink: 0,
-                }}>
+              <div key={i} className="flex gap-4 py-5"
+                style={{ borderBottom: i < platform.steps.length - 1 ? '1px solid var(--bg-card)' : 'none' }}>
+                <div
+                  className="w-9 h-9 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[15px]"
+                  style={{
+                    background: `${platform.color}18`,
+                    border: `2px solid ${platform.color}44`,
+                    color: platform.color,
+                  }}
+                >
                   {i + 1}
                 </div>
-                <div style={{ flex: 1, paddingTop: 4 }}>
-                  <h3 style={{ margin: '0 0 4px 0', fontSize: 16, color: 'var(--text-primary)', fontWeight: 700 }}>
+                <div className="flex-1 pt-1">
+                  <h3 className="m-0 mb-1 text-base text-[var(--text-primary)] font-bold">
                     {step.title}
                   </h3>
-                  <p style={{ margin: 0, fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                  <p className="m-0 text-sm text-[var(--text-secondary)] leading-[1.5]">
                     {step.desc}
                   </p>
                 </div>
@@ -248,42 +217,33 @@ export function SkillInstallClient() {
 
       {/* Installation Methods — Claude Code gets all 4, others get copy */}
       {platform && (
-        <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 24px 40px' }}>
+        <div className="max-w-[700px] mx-auto px-6 pb-10">
           {selectedPlatform === 'claude-code' ? (
             <>
-              <h2 style={{
-                fontSize: 15, color: 'var(--text-muted)', textAlign: 'center', marginBottom: 16,
-                fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1,
-              }}>
+              <h2 className="text-[15px] text-[var(--text-muted)] text-center mb-4 font-semibold uppercase tracking-[1px]">
                 Choose install method
               </h2>
 
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: 10, marginBottom: 24,
-              }}>
+              <div className="grid grid-cols-2 gap-2.5 mb-6">
                 {INSTALL_METHODS.map((m) => {
                   const isSelected = selectedMethod === m.id
                   return (
                     <button
                       key={m.id}
                       onClick={() => setSelectedMethod(m.id)}
+                      className="px-4 py-4 rounded-xl text-left transition-all duration-150 text-[var(--text-primary)] font-[inherit] cursor-pointer"
                       style={{
-                        padding: '16px 18px', borderRadius: 12, textAlign: 'left',
                         background: isSelected ? `${m.color}0c` : 'rgba(255,255,255,0.02)',
                         border: `2px solid ${isSelected ? `${m.color}55` : 'var(--border)'}`,
-                        cursor: 'pointer', transition: 'all 0.15s', color: 'var(--text-primary)',
-                        fontFamily: 'inherit',
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                        <span style={{ fontSize: 20 }}>{m.icon}</span>
-                        <span style={{ fontWeight: 700, fontSize: 14, color: isSelected ? m.color : '#e2e2e8' }}>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-[20px]">{m.icon}</span>
+                        <span className="font-bold text-sm" style={{ color: isSelected ? m.color : '#e2e2e8' }}>
                           {m.label}
                         </span>
                       </div>
-                      <p style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                      <p className="m-0 text-xs text-[var(--text-muted)] leading-[1.4]">
                         {m.desc}
                       </p>
                     </button>
@@ -293,115 +253,88 @@ export function SkillInstallClient() {
 
               {/* Method-specific action */}
               {selectedMethod && (
-                <div style={{
-                  padding: 28,
-                  background: `${INSTALL_METHODS.find(m => m.id === selectedMethod)!.color}08`,
-                  border: `1px solid ${INSTALL_METHODS.find(m => m.id === selectedMethod)!.color}22`,
-                  borderRadius: 16, textAlign: 'center',
-                }}>
+                <div
+                  className="p-7 rounded-2xl text-center"
+                  style={{
+                    background: `${INSTALL_METHODS.find(m => m.id === selectedMethod)!.color}08`,
+                    border: `1px solid ${INSTALL_METHODS.find(m => m.id === selectedMethod)!.color}22`,
+                  }}
+                >
                   {selectedMethod === 'one-line' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
+                      <p className="mb-4 text-sm text-[var(--text-secondary)]">
                         Run this in your terminal — installs SKILL.md + dashboard + config:
                       </p>
-                      <div style={{
-                        background: 'rgba(0,0,0,0.4)', borderRadius: 10,
-                        padding: '16px 20px', marginBottom: 16,
-                        fontFamily: 'JetBrains Mono, SF Mono, monospace',
-                        fontSize: 14, color: '#ff6b35', userSelect: 'all',
-                        border: '1px solid var(--border)',
-                        textAlign: 'left',
-                      }}>
+                      <div className="bg-black/40 rounded-[10px] px-5 py-4 mb-4 text-sm text-[#ff6b35] select-all border border-[var(--border)] text-left"
+                        style={{ fontFamily: 'JetBrains Mono, SF Mono, monospace' }}>
                         curl -sL https://www.0nmcp.com/api/skill/install | sh
                       </div>
                       <button
                         onClick={copyInstaller}
-                        className="btn-primary"
+                        className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl border-none font-bold text-base cursor-pointer transition-all duration-300 font-[inherit] text-white"
                         style={{
-                          display: 'inline-flex', alignItems: 'center', gap: 10,
-                          padding: '14px 32px',
                           background: installerCopied
                             ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                             : 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-                          color: 'white', borderRadius: 12, fontWeight: 700,
-                          fontSize: 16, border: 'none', cursor: 'pointer',
-                          transition: 'all 0.3s', fontFamily: 'inherit',
                         }}
                       >
-                        {installerCopied ? 'Copied!' : 'Copy Command'}
+                        {installerCopied ? <><Check size={18} /> Copied!</> : <><Copy size={18} /> Copy Command</>}
                       </button>
                     </>
                   )}
 
                   {selectedMethod === 'download' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
+                      <p className="mb-4 text-sm text-[var(--text-secondary)]">
                         Download the skill file and save it to your skills folder:
                       </p>
                       <a
                         href="/api/skill/download"
-                        style={{
-                          display: 'inline-flex', alignItems: 'center', gap: 10,
-                          padding: '14px 32px',
-                          background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)',
-                          color: 'white', borderRadius: 12, fontWeight: 700,
-                          fontSize: 16, textDecoration: 'none', border: 'none',
-                        }}
+                        className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-base no-underline border-none text-white"
+                        style={{ background: 'linear-gradient(135deg, #6EE05A, #4CAF3D)' }}
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                          <polyline points="7 10 12 15 17 10" />
-                          <line x1="12" y1="15" x2="12" y2="3" />
-                        </svg>
+                        <Download size={18} />
                         Download SKILL.md
                       </a>
-                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
-                        Save to: <code style={{ color: '#6EE05A' }}>~/.claude/skills/0nmcp/SKILL.md</code>
+                      <p className="mt-4 mb-0 text-xs text-[var(--text-muted)]">
+                        Save to: <code className="text-[#6EE05A]">~/.claude/skills/0nmcp/SKILL.md</code>
                       </p>
                     </>
                   )}
 
                   {selectedMethod === 'dashboard' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
+                      <p className="mb-4 text-sm text-[var(--text-secondary)]">
                         A standalone HTML app — open locally to manage your 0nMCP account:
                       </p>
                       <a
                         href="/api/skill/dashboard"
-                        style={{
-                          display: 'inline-flex', alignItems: 'center', gap: 10,
-                          padding: '14px 32px',
-                          background: 'linear-gradient(135deg, #00d4ff, #0099cc)',
-                          color: 'white', borderRadius: 12, fontWeight: 700,
-                          fontSize: 16, textDecoration: 'none', border: 'none',
-                        }}
+                        className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-base no-underline border-none text-white"
+                        style={{ background: 'linear-gradient(135deg, #00d4ff, #0099cc)' }}
                       >
+                        <Download size={18} />
                         Download Dashboard
                       </a>
-                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
-                        Open <code style={{ color: '#00d4ff' }}>dashboard.html</code> in any browser. Vault, Runs, Brain — all local.
+                      <p className="mt-4 mb-0 text-xs text-[var(--text-muted)]">
+                        Open <code className="text-[#00d4ff]">dashboard.html</code> in any browser. Vault, Runs, Brain — all local.
                       </p>
                     </>
                   )}
 
                   {selectedMethod === 'config' && (
                     <>
-                      <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
+                      <p className="mb-4 text-sm text-[var(--text-secondary)]">
                         Pre-configured Claude Code project settings with MCP server reference:
                       </p>
                       <a
                         href="/api/skill/config"
-                        style={{
-                          display: 'inline-flex', alignItems: 'center', gap: 10,
-                          padding: '14px 32px',
-                          background: 'linear-gradient(135deg, #a78bfa, #8b5cf6)',
-                          color: 'white', borderRadius: 12, fontWeight: 700,
-                          fontSize: 16, textDecoration: 'none', border: 'none',
-                        }}
+                        className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-base no-underline border-none text-white"
+                        style={{ background: 'linear-gradient(135deg, #a78bfa, #8b5cf6)' }}
                       >
+                        <Download size={18} />
                         Download .claude.json
                       </a>
-                      <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
+                      <p className="mt-4 mb-0 text-xs text-[var(--text-muted)]">
                         Place in your project root. Registers the skill + MCP server config.
                       </p>
                     </>
@@ -410,58 +343,40 @@ export function SkillInstallClient() {
               )}
 
               {!selectedMethod && (
-                <div style={{
-                  padding: 24, borderRadius: 14,
-                  border: '1px dashed var(--border)',
-                  textAlign: 'center', color: 'var(--text-muted)', fontSize: 14,
-                }}>
+                <div className="p-6 rounded-[14px] border border-dashed border-[var(--border)] text-center text-[var(--text-muted)] text-sm">
                   Select an install method above
                 </div>
               )}
             </>
           ) : (
             /* Non-Code platforms: copy instructions */
-            <div style={{
-              padding: 28,
-              background: `${platform.color}08`,
-              border: `1px solid ${platform.color}22`,
-              borderRadius: 16, textAlign: 'center',
-            }}>
-              <p style={{ margin: '0 0 16px 0', fontSize: 14, color: 'var(--text-secondary)' }}>
+            <div
+              className="p-7 rounded-2xl text-center"
+              style={{
+                background: `${platform.color}08`,
+                border: `1px solid ${platform.color}22`,
+              }}
+            >
+              <p className="mb-4 text-sm text-[var(--text-secondary)]">
                 Copy the 0nMCP instructions and paste them into your Claude Project:
               </p>
               <button
                 onClick={copyInstructions}
+                className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-base border-none cursor-pointer transition-all duration-300 min-w-[260px] font-[inherit] text-white"
                 style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 10,
-                  padding: '14px 32px',
                   background: copied
                     ? 'linear-gradient(135deg, #6EE05A, #4CAF3D)'
                     : `linear-gradient(135deg, ${platform.color}, ${platform.color}cc)`,
-                  color: 'white', borderRadius: 12, fontWeight: 700,
-                  fontSize: 16, border: 'none', cursor: 'pointer',
-                  transition: 'all 0.3s', minWidth: 260, fontFamily: 'inherit',
                 }}
               >
                 {copied ? (
-                  <>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    Copied! Now paste in Claude
-                  </>
+                  <><Check size={18} /> Copied! Now paste in Claude</>
                 ) : (
-                  <>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                    Copy 0nMCP Instructions
-                  </>
+                  <><Copy size={18} /> Copy 0nMCP Instructions</>
                 )}
               </button>
               {selectedPlatform === 'claude-mobile' && (
-                <p style={{ margin: '16px 0 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
+                <p className="mt-4 mb-0 text-xs text-[var(--text-muted)]">
                   Tip: Set this up on your computer first — Projects sync to mobile automatically.
                 </p>
               )}
@@ -471,36 +386,21 @@ export function SkillInstallClient() {
       )}
 
       {/* Account requirement */}
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 24px 40px' }}>
-        <div style={{
-          background: 'rgba(255, 107, 53, 0.06)',
-          border: '1px solid rgba(255, 107, 53, 0.15)',
-          borderRadius: 14, padding: '24px 28px',
-          display: 'flex', gap: 16, alignItems: 'center',
-        }}>
-          <div style={{
-            width: 48, height: 48, borderRadius: 12,
-            background: 'rgba(255, 107, 53, 0.12)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 24, flexShrink: 0,
-          }}>
+      <div className="max-w-[600px] mx-auto px-6 pb-10">
+        <div className="bg-[rgba(255,107,53,0.06)] border border-[rgba(255,107,53,0.15)] rounded-[14px] px-7 py-6 flex gap-4 items-center">
+          <div className="w-12 h-12 rounded-xl bg-[rgba(255,107,53,0.12)] flex items-center justify-center text-2xl shrink-0">
             👤
           </div>
-          <div style={{ flex: 1 }}>
-            <h3 style={{ margin: '0 0 4px 0', fontSize: 15, color: 'var(--text-primary)' }}>
+          <div className="flex-1">
+            <h3 className="m-0 mb-1 text-[15px] text-[var(--text-primary)]">
               Free account required
             </h3>
-            <p style={{ margin: '0 0 12px 0', fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            <p className="m-0 mb-3 text-[13px] text-[var(--text-secondary)] leading-[1.5]">
               You need an 0nmcp.com account. Sign up takes 30 seconds — no credit card.
             </p>
             <a
               href="/signup"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                padding: '8px 20px', background: 'rgba(255, 107, 53, 0.15)',
-                color: '#ff6b35', borderRadius: 8, fontWeight: 600, fontSize: 13,
-                textDecoration: 'none', border: '1px solid rgba(255, 107, 53, 0.3)',
-              }}
+              className="inline-flex items-center gap-1.5 px-5 py-2 bg-[rgba(255,107,53,0.15)] text-[#ff6b35] rounded-lg font-semibold text-[13px] no-underline border border-[rgba(255,107,53,0.3)]"
             >
               Create Free Account →
             </a>
@@ -509,15 +409,11 @@ export function SkillInstallClient() {
       </div>
 
       {/* What You Get */}
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px 60px' }}>
-        <h2 style={{ fontSize: 24, fontWeight: 700, textAlign: 'center', marginBottom: 28, color: 'var(--text-primary)' }}>
+      <div className="max-w-[900px] mx-auto px-6 pb-15">
+        <h2 className="text-2xl font-bold text-center mb-7 text-[var(--text-primary)]">
           What you unlock inside Claude
         </h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: 14,
-        }}>
+        <div className="grid gap-3.5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
           {[
             { icon: '🔐', title: 'Vault — Encrypted API Keys', desc: 'AES-256 encrypted. 2-way sync between Claude and the web.', color: '#f59e0b' },
             { icon: '⚡', title: 'Runs — Pay Per Action', desc: 'Credits that power everything. Check, spend, top up.', color: '#ff6b35' },
@@ -526,29 +422,23 @@ export function SkillInstallClient() {
             { icon: '🔧', title: `${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services`, desc: 'CRM, Stripe, Slack, GitHub, Supabase, and more.', color: '#6EE05A' },
             { icon: '🔄', title: '4 Install Methods', desc: 'One-liner, download, dashboard, config — however you work.', color: '#00d4ff' },
           ].map((f) => (
-            <div key={f.title} style={{
-              padding: '20px 22px', background: 'rgba(255,255,255,0.02)',
-              border: '1px solid var(--border)', borderRadius: 14,
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                <span style={{ fontSize: 24 }}>{f.icon}</span>
-                <h3 style={{ margin: 0, fontSize: 14, color: f.color, fontWeight: 700 }}>{f.title}</h3>
+            <div key={f.title} className="px-5 py-5 bg-[rgba(255,255,255,0.02)] border border-[var(--border)] rounded-[14px]">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="text-2xl">{f.icon}</span>
+                <h3 className="m-0 text-sm font-bold" style={{ color: f.color }}>{f.title}</h3>
               </div>
-              <p style={{ margin: 0, fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5 }}>{f.desc}</p>
+              <p className="m-0 text-[13px] text-[var(--text-muted)] leading-[1.5]">{f.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Command Reference */}
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 24px 60px' }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginBottom: 20, color: 'var(--text-primary)' }}>
+      <div className="max-w-[600px] mx-auto px-6 pb-15">
+        <h2 className="text-xl font-bold text-center mb-5 text-[var(--text-primary)]">
           Just type these in Claude
         </h2>
-        <div style={{
-          background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border)',
-          borderRadius: 14, padding: '20px 24px', fontSize: 14, lineHeight: 2.2,
-        }}>
+        <div className="bg-black/30 border border-[var(--border)] rounded-[14px] px-6 py-5 text-sm leading-[2.2]">
           {[
             { cmd: '/0nmcp login', desc: 'Connect your account' },
             { cmd: '/0nmcp', desc: 'See your status' },
@@ -558,48 +448,35 @@ export function SkillInstallClient() {
             { cmd: '/0nmcp store', desc: 'Browse workflows' },
             { cmd: '/0nmcp brain', desc: 'AI brain status' },
           ].map((c) => (
-            <div key={c.cmd} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <code style={{ color: '#ff6b35', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600 }}>{c.cmd}</code>
-              <span style={{ color: 'var(--text-muted)', fontSize: 13 }}>{c.desc}</span>
+            <div key={c.cmd} className="flex justify-between items-center">
+              <code className="text-[#ff6b35] font-semibold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{c.cmd}</code>
+              <span className="text-[var(--text-muted)] text-[13px]">{c.desc}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Bottom CTA */}
-      <div style={{
-        textAlign: 'center', padding: '40px 24px 80px',
-        borderTop: '1px solid var(--bg-card)',
-      }}>
-        <p style={{ color: 'var(--text-secondary)', fontSize: 16, marginBottom: 20, fontWeight: 500 }}>
+      <div className="text-center px-6 py-10 pb-20 border-t border-[var(--bg-card)]">
+        <p className="text-[var(--text-secondary)] text-base mb-5 font-medium">
           Ready? It takes 60 seconds.
         </p>
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div className="flex gap-3 justify-center flex-wrap">
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 28px',
-              background: 'linear-gradient(135deg, #ff6b35, #e55a2b)',
-              color: 'white', borderRadius: 12, fontWeight: 700, fontSize: 16,
-              border: 'none', cursor: 'pointer',
-            }}
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-base border-none cursor-pointer text-white"
+            style={{ background: 'linear-gradient(135deg, #ff6b35, #e55a2b)' }}
           >
             Get Started ↑
           </button>
           <a
             href="/signup"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 28px', background: 'var(--bg-card)',
-              color: 'var(--text-primary)', borderRadius: 12, fontWeight: 600, fontSize: 16,
-              textDecoration: 'none', border: '1px solid var(--border)',
-            }}
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--bg-card)] text-[var(--text-primary)] rounded-xl font-semibold text-base no-underline border border-[var(--border)]"
           >
             Create Free Account
           </a>
         </div>
-        <p style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 16 }}>
+        <p className="text-[var(--text-muted)] text-xs mt-4">
           Works with Claude MAX, Pro, and Team plans. Free 0nmcp.com account required.
         </p>
       </div>

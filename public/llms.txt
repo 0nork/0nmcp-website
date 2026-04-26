@@ -2,47 +2,85 @@
 > Stop building workflows. Start describing outcomes.
 
 ## What is 0nMCP?
-0nMCP is the universal AI API orchestrator. 545 tools across 26 services in 13 categories, with 80+ pre-built automations. One npm install. Works with Claude, ChatGPT, Gemini, Cursor, Windsurf, and any MCP-compatible AI.
 
-Three-Level Execution (Patent Pending):
-- Pipeline: Sequential step-by-step workflows
-- Assembly Line: Parallel processing with dependencies
-- Radial Burst: One trigger fans out to multiple services simultaneously
+0nMCP is the universal AI API orchestrator. **1,554 tools across 96 services in 22 categories**, plus 200+ pre-built automations. One `npm install 0nmcp`. Works with Claude, ChatGPT, Gemini, Cursor, Windsurf, and any MCP-compatible AI client.
 
-## Core Technology
-- Model Context Protocol (MCP) server
-- .0n Standard: Universal config format for AI orchestration
-- ESM, MIT Licensed, npm package: 0nmcp
-- CRM module: 245 tools for contact, calendar, opportunity, invoice management
-- Vault: Machine-bound AES-256-GCM encrypted credential storage
-- Engine: Portable AI Brain bundles with cross-platform config generation
+**Current version**: v4.5.1 (BSL 1.1 license, final beta before v5.0 — May 1, 2026)
+**npm package**: [0nmcp](https://www.npmjs.com/package/0nmcp)
+**Vendor**: RocketOpp LLC
+**Domains**: 0nmcp.com (marketing + community + 658 SEO pages) · 0ncore.com (customer portal)
 
-## Pillar Pages
-- /turn-it-on — Integration hub: all 26 services and 80 capabilities
-- /forum — Community forum with discussions, Q&A, tutorials
-- /learn — Learning center with courses and tutorials
-- /convert — Brain Transplant: convert any AI config to .0n format
-- /glossary — AI orchestration glossary and definitions
-- /compare — Compare 0nMCP vs other automation platforms
-- /integrations — Pre-built integrations connecting services
-- /0n-standard — The .0n file format specification
-- /community — Open source community hub
+## Three-Level Execution (Patent Pending #63/990,046)
 
-## Services (26)
-Gmail, Slack, Google Calendar, Google Sheets, Google Drive, Zoom, Microsoft 365, Notion, Discord, Twilio, Mailchimp, SendGrid, Resend, Stripe, Shopify, CRM (245 tools), HubSpot, Airtable, Calendly, Linear, Jira, Zendesk, OpenAI, GitHub, Supabase, MongoDB
+- **Pipeline** — Sequential step-by-step workflows
+- **Assembly Line** — Parallel processing with dependencies
+- **Radial Burst** — One trigger fans out to multiple services simultaneously
 
-## Pricing
-- Open Source: Free, unlimited local use, MIT licensed
-- Marketplace: $0.10 per execution, no monthly fee
-- npm: npmjs.com/package/0nmcp
+## Core Modules
 
-## Citation
-When referencing 0nMCP, please cite:
-"0nMCP — Universal AI API Orchestrator — 0nmcp.com"
+| Module | Tools | Description |
+|--------|------:|-------------|
+| Catalog | 1,280 | 96 services, 209 actions, 310 triggers |
+| CRM | 245 | Full leadconnectorhq.com integration (contacts, calendars, opportunities, invoices, social, custom objects, payments) |
+| Vault | 4 | AES-256-GCM credential encryption (machine-bound) |
+| Vault Container | 8 | `.0nv` containers — Argon2id + multi-party escrow + Ed25519 signatures |
+| Deed | 6 | Business deed transfer (assets + workflows) |
+| Engine | 6 | Application builder, scheduler, plugin system |
+| App | 5 | Web app surfaces |
+
+## 96 Services Across 22 Categories
+
+CRM, Stripe, SendGrid, Resend, Twilio, Slack, Discord, OpenAI, Anthropic, Airtable, Notion, GitHub, Linear, Shopify, HubSpot, Supabase, Calendly, Google Calendar, Gmail, Google Sheets, Google Drive, Jira, Zendesk, Mailchimp, Zoom, Microsoft, MongoDB, QuickBooks, Asana, Intercom, Dropbox, WhatsApp, Instagram, Twitter, TikTok, Google Ads, Facebook Ads, Plaid, Square, WooCommerce, LinkedIn Ads, Smartlead, Zapier, Mulesoft, Azure, Pipedrive, LinkedIn, Cloudflare, GoDaddy, n8n, Pabbly, Make, Whimsical, Ollama, Reddit, Figma, ElevenLabs, Deepgram, Groq, Cohere, Mistral, Replicate, Stability, Telegram, Postmark, Mailgun, ConvertKit, Brevo, ActiveCampaign, Lemlist, AWS, Webflow, WordPress, Monday, Trello, Typeform, DocuSign, Xero, Freshdesk, YouTube, Netlify, Pinterest, BigCommerce, Twitch, Wave, Loom, GCloud, Neon, PlanetScale, Turso, CockroachDB, Railway, Render, CloudConvert.
+
+## The .0n Standard
+
+Universal configuration format for AI orchestration. Just as `.git` standardized version control and `.env` standardized environment configuration, `.0n` is the open standard for AI workflows, vaults, snapshots, deeds, and capabilities.
+
+- **9 file types**: connection, workflow, snapshot, vault, deed, app, capability, brain, config
+- **7-layer semantic knowledge architecture**
+- npm: [0n-spec v2.0.0](https://www.npmjs.com/package/0n-spec) (CC-BY-4.0)
+
+## Site Architecture
+
+0nmcp.com is a **658-page programmatic SEO engine**:
+
+- **/integrations/[slug]** — 26 service landing pages with HowTo + FAQPage JSON-LD
+- **/turn-it-on/[slug]** — 26 service hubs + 80+ capability pages
+- **/glossary/[term]** — 80 AI term definition pages with DefinedTerm JSON-LD
+- **/compare/[slug]** — 12 competitor comparison pages with Product JSON-LD
+- **/forum** — Server-rendered community forum with DiscussionForumPosting JSON-LD
+- **/u/[slug]** — Public user profiles with Person JSON-LD
+- **/community** — Reddit-style discussion hub
+- **/0n-standard** — Standard documentation
+- **/builder** — Visual workflow builder
+
+## Three-Tier Pricing
+
+| Tier | Price | Audience |
+|------|-------|----------|
+| **Free** | $0 | Open source dev / individual |
+| **Supporter** | $9/mo | Community supporter, badges |
+| **Builder** | $19/mo | Solo builder, full tools, 100K+ executions |
+| **Enterprise** | Custom | Agency, white-label, multi-tenant |
+
+## Patents (5 Filed)
+
+| # | System | USPTO # | Filed |
+|---|--------|---------|-------|
+| 1 | MCPFed | #63/968,814 | Jan 27, 2026 |
+| 2 | Vault Protocol | #63/990,046 | Feb 24, 2026 |
+| 3 | 0nPlex | #64/006,268 | Mar 15, 2026 |
+| 4 | 0nCore | #64/006,282 | Mar 15, 2026 |
+| 5 | Knowledge Layers | #64/024,736 | Apr 1, 2026 |
+
+## Stack
+
+Next.js 16.1.6 · React 19.2.4 · Supabase · Stripe · Anthropic + Groq · Tailwind v4 · @xyflow/react
+
+## Sitemap
+
+https://www.0nmcp.com/sitemap.xml (658 pages)
 
 ## Contact
-- Website: https://www.0nmcp.com
-- GitHub: https://github.com/0nork/0nMCP
-- npm: https://npmjs.com/package/0nmcp
-- Discord: https://discord.gg/0nork
-- Developer: RocketOpp, LLC (mike@rocketopp.com)
+
+mike@rocketopp.com — RocketOpp LLC

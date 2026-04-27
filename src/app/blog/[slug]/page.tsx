@@ -439,12 +439,12 @@ export default async function BlogPostPage({
           align-items: center;
           gap: 0.375rem;
           font-size: 0.8rem;
-          color: #888;
+          color: rgba(255,255,255,0.5);
           margin-bottom: 1.75rem;
           flex-wrap: wrap;
         }
         .blog-breadcrumb a {
-          color: #888;
+          color: rgba(255,255,255,0.5);
           text-decoration: none;
           transition: color 0.2s;
         }
@@ -452,7 +452,7 @@ export default async function BlogPostPage({
           color: #6EE05A;
         }
         .blog-breadcrumb .current {
-          color: #555;
+          color: rgba(255,255,255,0.7);
           max-width: 300px;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -498,7 +498,11 @@ export default async function BlogPostPage({
         .blog-title {
           font-size: clamp(1.6rem, 3.5vw, 2rem);
           font-weight: 900;
-          color: #1a1a1a;
+          background: linear-gradient(135deg, #6EE05A 0%, #14b8a6 50%, #8b5cf6 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
           line-height: 1.25;
           margin: 0 0 1rem;
           letter-spacing: -0.02em;
@@ -510,19 +514,19 @@ export default async function BlogPostPage({
           align-items: center;
           gap: 0.75rem;
           font-size: 0.8125rem;
-          color: #888;
+          color: rgba(255,255,255,0.5);
           margin-bottom: 2rem;
           flex-wrap: wrap;
         }
         .blog-meta-author {
           font-weight: 600;
-          color: #555;
+          color: #ffffff;
         }
         .blog-meta-sep {
           width: 4px;
           height: 4px;
           border-radius: 50%;
-          background: #ccc;
+          background: rgba(255,255,255,0.2);
           flex-shrink: 0;
         }
 
@@ -540,14 +544,22 @@ export default async function BlogPostPage({
 
         /* ─── Article body ─── */
         .blog-article {
-          color: #555;
+          color: #ffffff;
           font-size: 1rem;
           line-height: 1.8;
+        }
+        .blog-article h1,
+        .blog-article h2,
+        .blog-article h3 {
+          background: linear-gradient(135deg, #6EE05A 0%, #14b8a6 50%, #8b5cf6 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
         }
         .blog-article h1 {
           font-size: 1.75rem;
           font-weight: 900;
-          color: #1a1a1a;
           letter-spacing: -0.02em;
           margin: 2.5rem 0 1rem;
           line-height: 1.25;
@@ -555,17 +567,15 @@ export default async function BlogPostPage({
         .blog-article h2 {
           font-size: 1.375rem;
           font-weight: 800;
-          color: #1a1a1a;
           letter-spacing: -0.01em;
           margin: 2.25rem 0 0.875rem;
           line-height: 1.3;
           padding-bottom: 0.5rem;
-          border-bottom: 2px solid #f0f0f0;
+          border-bottom: 2px solid rgba(110,224,90,0.15);
         }
         .blog-article h3 {
           font-size: 1.125rem;
           font-weight: 700;
-          color: #1a1a1a;
           margin: 1.75rem 0 0.625rem;
           line-height: 1.35;
         }
@@ -578,14 +588,14 @@ export default async function BlogPostPage({
         }
         .blog-article p {
           margin: 0 0 1.25rem;
-          color: #555;
+          color: #ffffff;
         }
         .blog-article strong {
-          color: #1a1a1a;
+          color: #6EE05A;
           font-weight: 700;
         }
         .blog-article em {
-          color: #555;
+          color: #ffffff;
           font-style: italic;
         }
         .blog-article a {
@@ -601,11 +611,11 @@ export default async function BlogPostPage({
         }
         .blog-article code {
           font-size: 0.84em;
-          background: #f3f4f6;
-          color: #d63384;
+          background: rgba(110,224,90,0.08);
+          color: #6EE05A;
           padding: 0.15em 0.5em;
           border-radius: 5px;
-          border: 1px solid #e5e7eb;
+          border: 1px solid rgba(110,224,90,0.2);
           font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
         }
 
@@ -697,29 +707,29 @@ export default async function BlogPostPage({
         }
         .blog-article li {
           margin-bottom: 0.375rem;
-          color: #555;
+          color: #ffffff;
           line-height: 1.7;
         }
         .blog-article li strong {
-          color: #1a1a1a;
+          color: #6EE05A;
         }
         .blog-article blockquote {
           border-left: 3px solid #6EE05A;
           padding-left: 1rem;
           margin: 1.5rem 0;
-          color: #888;
+          color: rgba(255,255,255,0.7);
           font-style: italic;
         }
         .blog-article hr {
           border: none;
-          border-top: 1px solid #e5e7eb;
+          border-top: 1px solid rgba(255,255,255,0.08);
           margin: 2.5rem 0;
         }
         .blog-article .table-wrap {
           overflow-x: auto;
           margin: 1.5rem 0;
           border-radius: 10px;
-          border: 1px solid #e5e7eb;
+          border: 1px solid rgba(255,255,255,0.08);
         }
         .blog-article table {
           width: 100%;
@@ -727,19 +737,19 @@ export default async function BlogPostPage({
           font-size: 0.875rem;
         }
         .blog-article th {
-          background: #f8f8f8;
-          color: #1a1a1a;
+          background: rgba(110,224,90,0.08);
+          color: #6EE05A;
           font-weight: 700;
           padding: 0.625rem 0.875rem;
-          border-bottom: 2px solid #e5e7eb;
+          border-bottom: 2px solid rgba(110,224,90,0.2);
           text-align: left;
           font-size: 0.8rem;
           letter-spacing: 0.02em;
         }
         .blog-article td {
           padding: 0.5rem 0.875rem;
-          border-bottom: 1px solid #f0f0f0;
-          color: #555;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          color: #ffffff;
           vertical-align: top;
         }
         .blog-article tr:last-child td {
@@ -753,27 +763,30 @@ export default async function BlogPostPage({
           gap: 0.5rem;
           margin-top: 2.5rem;
           padding-top: 1.5rem;
-          border-top: 1px solid #e5e7eb;
+          border-top: 1px solid rgba(255,255,255,0.08);
         }
         .blog-tag {
           font-size: 0.75rem;
-          color: #555;
-          background: #f0f0f0;
+          color: rgba(255,255,255,0.6);
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.06);
           padding: 4px 12px;
           border-radius: 6px;
           text-decoration: none;
           transition: background 0.2s, color 0.2s;
         }
         .blog-tag:hover {
-          background: #e5e5e5;
-          color: #1a1a1a;
+          background: rgba(110,224,90,0.08);
+          border-color: rgba(110,224,90,0.2);
+          color: #6EE05A;
         }
 
         /* ─── Author box ─── */
         .blog-author-box {
           margin-top: 2.5rem;
           padding: 1.75rem;
-          background: #f8f8f8;
+          background: rgba(15,17,23,0.7);
+          border: 1px solid rgba(255,255,255,0.06);
           border-radius: 14px;
           display: flex;
           gap: 1.25rem;
@@ -789,23 +802,23 @@ export default async function BlogPostPage({
           justify-content: center;
           font-size: 1.125rem;
           font-weight: 800;
-          color: #fff;
+          color: #07080C;
           flex-shrink: 0;
         }
         .blog-author-name {
           font-size: 1rem;
           font-weight: 700;
-          color: #1a1a1a;
+          color: #ffffff;
           margin: 0 0 0.125rem;
         }
         .blog-author-title {
           font-size: 0.8125rem;
-          color: #888;
+          color: rgba(255,255,255,0.5);
           margin: 0 0 0.5rem;
         }
         .blog-author-bio {
           font-size: 0.875rem;
-          color: #555;
+          color: #ffffff;
           line-height: 1.6;
           margin: 0;
         }
@@ -814,21 +827,25 @@ export default async function BlogPostPage({
         .blog-discuss {
           margin-top: 2rem;
           padding: 1.5rem;
-          background: #fff;
-          border: 1px solid #e5e7eb;
+          background: rgba(15,17,23,0.7);
+          border: 1px solid rgba(255,255,255,0.06);
           border-radius: 14px;
           text-align: center;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
         .blog-discuss h3 {
           font-size: 1.0625rem;
           font-weight: 700;
-          color: #1a1a1a;
+          background: linear-gradient(135deg, #6EE05A 0%, #14b8a6 50%, #8b5cf6 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
           margin: 0 0 0.5rem;
         }
         .blog-discuss p {
           font-size: 0.875rem;
-          color: #888;
+          color: rgba(255,255,255,0.7);
           margin: 0 0 1rem;
           line-height: 1.5;
         }
@@ -852,17 +869,17 @@ export default async function BlogPostPage({
           margin-top: 1.25rem;
         }
         .blog-related-card {
-          background: #fff;
-          border: 1px solid #e5e7eb;
+          background: rgba(15,17,23,0.7);
+          border: 1px solid rgba(255,255,255,0.06);
           border-radius: 14px;
           padding: 1.25rem;
           text-decoration: none;
           transition: box-shadow 0.25s, border-color 0.25s;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .blog-related-card:hover {
-          box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-          border-color: #6EE05A;
+          box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+          border-color: rgba(110,224,90,0.3);
         }
         .blog-related-card-cat {
           font-size: 0.625rem;
@@ -874,13 +891,13 @@ export default async function BlogPostPage({
         .blog-related-card-title {
           font-size: 0.875rem;
           font-weight: 700;
-          color: #1a1a1a;
+          color: #ffffff;
           line-height: 1.35;
           margin: 0;
         }
         .blog-related-card-date {
           font-size: 0.6875rem;
-          color: #aaa;
+          color: rgba(255,255,255,0.4);
           margin-top: 0.5rem;
         }
 

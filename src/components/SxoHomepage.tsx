@@ -305,6 +305,71 @@ export default function SxoHomepage() {
         </div>
       </section>
 
+      {/* ── .0n MARKETPLACE + UCP — NEW — Tailwind only, no inline styles ── */}
+      <section id="marketplace" className="mx-auto max-w-[900px] px-6 pb-12">
+        <div className="rounded-2xl border border-border bg-card p-8 sm:p-10">
+          <div className="text-xs font-bold uppercase tracking-widest text-primary">New — May 1, 2026</div>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
+            The <span className="text-primary">.0n Marketplace</span> — buy ready-made AI apps. Or ship yours and take 70%.
+          </h2>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
+            Built on the <strong className="text-foreground">Universal Commerce Protocol (UCP)</strong> — an open standard so any AI agent can discover, buy, and run AI software without prior integration. Works for buyers (find apps you need). Works for builders (sell apps you've built without a landing page, payment system, or onboarding flow).
+          </p>
+
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+            {/* Buyer column */}
+            <div className="rounded-xl border border-border bg-background/50 p-6">
+              <div className="text-xs font-bold uppercase tracking-widest text-primary">For buyers</div>
+              <h3 className="mt-2 text-lg font-bold text-foreground">Pay for outcomes, not subscriptions</h3>
+              <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                <li className="flex gap-2"><span className="text-primary">→</span><span>HIPAA Compliance Scan — $147 (15-min report, 63 checks)</span></li>
+                <li className="flex gap-2"><span className="text-primary">→</span><span>CRO9 SEO Audit — $297 (full SXO audit)</span></li>
+                <li className="flex gap-2"><span className="text-primary">→</span><span>AI Blog Post — $97 (1,500+ words, SEO-optimized)</span></li>
+                <li className="flex gap-2"><span className="text-primary">→</span><span>CRM Account Setup — $497 (pipelines, fields, automations)</span></li>
+                <li className="flex gap-2"><span className="text-primary">→</span><span>WordPress AI Management — $297/mo (recurring)</span></li>
+                <li className="flex gap-2"><span className="text-primary">→</span><span>Custom AI Automation — from $997 (describe it, we build)</span></li>
+              </ul>
+              <a href="https://0ncore.com/dashboard/marketplace" className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:underline">
+                Browse marketplace <span aria-hidden>→</span>
+              </a>
+            </div>
+
+            {/* Vendor column */}
+            <div className="rounded-xl border border-primary/40 bg-primary/[0.03] p-6">
+              <div className="text-xs font-bold uppercase tracking-widest text-primary">For builders</div>
+              <h3 className="mt-2 text-lg font-bold text-foreground">Stop marketing. Start shipping.</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Build once. Export as a <code className="rounded bg-foreground/[0.06] px-1 py-0.5 text-xs text-primary">.0n</code> file. Upload. Customers install. Stripe handles payment. Vendor takes <strong className="text-foreground">70% revenue share</strong>. Payouts via Stripe Connect.
+              </p>
+              <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+                <div className="rounded-lg bg-background/60 px-3 py-2 text-muted-foreground">No landing page</div>
+                <div className="rounded-lg bg-background/60 px-3 py-2 text-muted-foreground">No checkout integration</div>
+                <div className="rounded-lg bg-background/60 px-3 py-2 text-muted-foreground">No onboarding to build</div>
+                <div className="rounded-lg bg-background/60 px-3 py-2 text-muted-foreground">No support tickets</div>
+              </div>
+              <a href="https://0ncore.com/dashboard/marketplace/publish" className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:underline">
+                Become a vendor <span aria-hidden>→</span>
+              </a>
+            </div>
+          </div>
+
+          {/* UCP technical credibility band */}
+          <div className="mt-6 rounded-xl border border-border bg-background/40 p-5">
+            <div className="flex flex-wrap items-start gap-3">
+              <div className="flex-1 min-w-[200px]">
+                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">UCP — Universal Commerce Protocol</div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  Open standard for AI agent commerce. Discovery endpoint at <code className="rounded bg-foreground/[0.06] px-1 py-0.5 text-xs text-primary">/.well-known/ucp</code> returns merchant metadata, capabilities, and payment handlers. Any AI agent can find, buy, and run products without prior integration.
+                </p>
+              </div>
+              <a href="/blog/introducing-ucp-universal-commerce-protocol-for-ai-agents" className="rounded-md border border-border bg-background/80 px-3 py-2 text-xs font-bold text-foreground hover:border-primary/40">
+                Read the spec
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── SOCIAL GRID + CHAT PREVIEW (side by side) ── */}
       <section style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 3rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 20 }}>
@@ -389,6 +454,9 @@ export default function SxoHomepage() {
           { q: 'Is 0nMCP free?', a: 'The core server is MIT licensed and free forever. Marketplace executions cost $0.01 each. 0nCore dashboard starts at $80/mo.' },
           { q: 'How is 0nMCP different from Zapier?', a: '0nMCP runs locally with zero cloud dependency. Your AI talks directly to 99 services through natural language — no drag-and-drop, no monthly limits, no vendor lock-in.' },
           { q: 'Is 0nMCP secure?', a: '0nVault uses AES-256-GCM with hardware fingerprint binding. 4 US patents filed. Cisco called the competition a "security nightmare."' },
+          { q: 'What is the .0n Marketplace?', a: 'A two-sided marketplace built on UCP. Buyers find ready-made AI workflows (HIPAA scans, SEO audits, AI blog posts, CRM setups, custom automations). Builders ship .0n files and take 70% of every sale. Stripe Connect handles payouts.' },
+          { q: 'How do I sell my AI app on the marketplace?', a: 'Build your workflow as a .0n file (JSON describing triggers, steps, AI calls, integrations). Upload through /dashboard/marketplace/publish. Set price + revenue share. Once approved, your app appears in the catalog and any subscriber can install it. You keep 70% of every sale.' },
+          { q: 'What is UCP — the Universal Commerce Protocol?', a: 'An open discovery + checkout + fulfillment standard for AI agents. The /.well-known/ucp endpoint returns JSON describing what 0nCore sells, payment handlers, and API capabilities. Any AI agent (ChatGPT, Claude, Perplexity, custom) can find, buy, and run products without prior integration. The spec is open — competitors can adopt it.' },
         ].map(faq => (
           <div key={faq.q} style={{
             padding: 20, borderRadius: 14, marginBottom: 10,

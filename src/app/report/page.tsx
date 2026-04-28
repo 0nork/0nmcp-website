@@ -484,7 +484,7 @@ export default function ReportPage() {
             {
               title: 'GitHub',
               desc: 'Open an issue in our main repository for public reports.',
-              link: 'https://github.com/0nork/0nMCP/issues',
+              link: 'https://0ncore.com/support',
               cta: '0nork/0nMCP Issues',
             },
             {

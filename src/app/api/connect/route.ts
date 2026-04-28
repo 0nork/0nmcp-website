@@ -71,7 +71,7 @@ In the meantime, explore what we&rsquo;re building:
 </tr>
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-radius:0 0 8px 8px;">
-<a href="https://github.com/0nork/0nMCP" style="color:#6EE05A;text-decoration:none;font-size:14px;font-weight:600;">Open Source on GitHub</a>
+<a href="https://0ncore.com" style="color:#6EE05A;text-decoration:none;font-size:14px;font-weight:600;">Try 0nCore Free</a>
 <p style="color:#55556a;font-size:13px;margin:4px 0 0;">MIT licensed &mdash; free forever for the community</p>
 </td>
 </tr>
@@ -87,7 +87,7 @@ In the meantime, explore what we&rsquo;re building:
 <tr><td style="padding:24px 40px;border-top:1px solid #2a2a3a;background:#0c0c14;">
 <p style="color:#55556a;font-size:11px;line-height:1.6;margin:0;text-align:center;">
 <a href="https://www.0nmcp.com" style="color:#55556a;">0nmcp.com</a> &middot;
-<a href="https://github.com/0nork/0nMCP" style="color:#55556a;">GitHub</a> &middot;
+<a href="https://0ncore.com" style="color:#55556a;">0nCore</a> &middot;
 <a href="https://npmjs.com/package/0nmcp" style="color:#55556a;">npm</a>
 </p>
 <p style="color:#55556a;font-size:10px;line-height:1.5;margin:8px 0 0;text-align:center;">

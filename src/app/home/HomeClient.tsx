@@ -657,13 +657,12 @@ export default function HomeClient() {
                 <IconArrowRight size={16} />
               </Link>
               <Link
-                href="https://github.com/0nork/0nMCP"
+                href="https://0ncore.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cta-outline inline-flex items-center gap-2 font-semibold text-base px-8 py-4 rounded-xl no-underline border border-[var(--border)] bg-transparent text-[var(--text-primary)]"
               >
-                <IconGitHub size={18} />
-                View on GitHub
+                Try 0nCore Free
               </Link>
             </div>
 
@@ -885,7 +884,7 @@ export default function HomeClient() {
               name: 'Tier 1', price: '$0', period: 'forever',
               desc: 'Full MCP server. Self-hosted. Open source.',
               features: [`All ${STATS_DISPLAY.services} services`, `${STATS_DISPLAY.tools} tools`, 'Vault encryption', 'CLI + HTTP modes', '.0n workflow engine', 'Community support'],
-              cta: 'Get Started', ctaHref: 'https://github.com/0nork/0nMCP', featured: false,
+              cta: 'Try Free', ctaHref: 'https://0ncore.com', featured: false,
             },
             {
               name: 'Tier 2', price: '$80', period: '/mo',
@@ -1071,7 +1070,6 @@ export default function HomeClient() {
               {/* Social icons */}
               <div className="flex gap-4">
                 {[
-                  { icon: <IconGitHub size={18} />, href: 'https://github.com/0nork/0nMCP', label: 'GitHub' },
                   { icon: <IconTwitter size={18} />, href: 'https://x.com/0nmcp', label: 'X' },
                   { icon: <IconLinkedIn size={18} />, href: 'https://linkedin.com/company/rocketopp', label: 'LinkedIn' },
                   { icon: <IconDiscord size={18} />, href: '/community', label: 'Discord' },

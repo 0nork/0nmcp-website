@@ -790,8 +790,8 @@ export default function HomeRedesign() {
         {/* Footer links */}
         <div className="flex gap-6 justify-center flex-wrap mt-12 relative z-[1]">
           {[
-            { label: 'GitHub', href: 'https://github.com/0nork/0nmcp' },
-            { label: 'npm', href: 'https://www.npmjs.com/package/0nmcp' },
+            { label: 'Try 0nCore Free', href: 'https://0ncore.com' },
+            { label: 'Library', href: '/library' },
             { label: 'Docs', href: '/docs' },
             { label: 'Community', href: '/community' },
             { label: 'Blog', href: '/blog' },

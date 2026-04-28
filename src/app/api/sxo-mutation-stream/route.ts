@@ -43,7 +43,7 @@ const MUTATIONS = [
     newBluf: 'Available now on <strong>npm</strong> and <strong>GitHub</strong>. MIT licensed. The community-driven MCP server with <strong>1,183 tools</strong>, <strong>99 services</strong>, and the deepest CRM integration of any orchestrator. Cisco called the competition a "security nightmare" — we built the secure alternative.',
     changeLog: 'GitHub repository stats synced',
     newTableRows: `
-      <tr class="border-b"><td class="p-4 font-medium">Source</td><td class="p-4 text-gray-500">Closed / proprietary</td><td class="p-4 font-bold" style="color:#16a34a">Open source — github.com/0nork/0nMCP</td></tr>
+      <tr class="border-b"><td class="p-4 font-medium">Source</td><td class="p-4 text-gray-500">Closed / proprietary</td><td class="p-4 font-bold" style="color:#16a34a">MIT-licensed core · 0ncore.com</td></tr>
       <tr class="bg-gray-50 border-b"><td class="p-4 font-medium">Install</td><td class="p-4 text-gray-500">Complex setup</td><td class="p-4 font-bold" style="color:#16a34a">npx 0nmcp@latest (one command)</td></tr>
       <tr class="border-b"><td class="p-4 font-medium">Vault Security</td><td class="p-4 text-gray-500">Plain text config</td><td class="p-4 font-bold" style="color:#16a34a">0nVault — AES-256-GCM + PBKDF2 + hardware binding</td></tr>
       <tr class="bg-gray-50 border-b"><td class="p-4 font-medium">Workflow Format</td><td class="p-4 text-gray-500">Proprietary</td><td class="p-4 font-bold" style="color:#16a34a">.0n SWITCH files — portable, declarative</td></tr>

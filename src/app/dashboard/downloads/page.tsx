@@ -30,7 +30,7 @@ const DOWNLOADS: Download[] = [
     icon: 'in',
     color: '#0077b5',
     downloadUrl: null,
-    repoUrl: 'https://github.com/0nork/0n-linkedin',
+    repoUrl: 'https://0ncore.com',
     status: 'beta',
     features: [
       '8 AI message types (Auto, Gap, Elevate, Data Drop, Contrarian, Tool Response)',
@@ -53,7 +53,7 @@ const DOWNLOADS: Download[] = [
     icon: '0n',
     color: '#6EE05A',
     downloadUrl: null,
-    repoUrl: 'https://github.com/0nork/0nMCP',
+    repoUrl: 'https://0ncore.com',
     status: 'available',
     features: [
       '1,183 tools across 55 services',

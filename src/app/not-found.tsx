@@ -37,7 +37,7 @@ export default function NotFound() {
           }}>
             Get Started
           </Link>
-          <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" style={{
+          <a href="https://0ncore.com" target="_blank" rel="noopener noreferrer" style={{
             padding: '10px 24px', borderRadius: 10, background: 'var(--bg-card)',
             color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none',
             border: '1px solid #ddd',

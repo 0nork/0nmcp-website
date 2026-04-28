@@ -41,7 +41,7 @@ export default function OnStandardPage() {
     author: {
       '@type': 'Organization',
       name: '0nORK',
-      url: 'https://github.com/0nork',
+      url: 'https://0ncore.com',
     },
     publisher: {
       '@type': 'Organization',
@@ -627,7 +627,7 @@ export default function OnStandardPage() {
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
             <a
-              href="https://github.com/0nork/0n-spec"
+              href="https://0ncore.com/docs/0n-standard"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-accent no-underline"

@@ -785,12 +785,12 @@ export default function PartnersPage() {
                 Learn the .0n Standard
               </Link>
               <a
-                href="https://github.com/0nork/0nMCP"
+                href="https://0ncore.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-ghost no-underline"
               >
-                View on GitHub
+                Open 0nCore Free
               </a>
             </div>
           </div>

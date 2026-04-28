@@ -27,8 +27,8 @@ const PLUGINS = [
     price: 'Free',
     color: '#22c55e',
     features: ['SXO Scoring (8 dimensions)', 'CRM Webhook Integration', 'Meta Pixel + GA4 Tracking', 'UTM Capture → Attribution', 'Schema.org Auto-Inject', 'Canvas Template Override', 'REST API Bridge', 'JWT Auto-Setup', 'License System', 'Auto-Updates'],
-    cta: 'Download Free',
-    href: 'https://github.com/Crypto-Goatz/0ncore-wp/releases/latest',
+    cta: 'Get the plugin',
+    href: 'https://0ncore.com',
     badge: 'FREE',
   },
   {
@@ -85,7 +85,7 @@ export default function WordPressPage() {
           SXO scoring, AI content generation, CRM integration, conversion tracking, and page builder modules — one ecosystem, infinite power.
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' as const }}>
-          <a href="https://github.com/Crypto-Goatz/0ncore-wp/releases/latest" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', background: 'var(--accent, #7ed957)', color: '#0B0F19', borderRadius: 10, fontSize: 15, fontWeight: 700, textDecoration: 'none' }}>
+          <a href="https://0ncore.com" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', background: 'var(--accent, #7ed957)', color: '#0B0F19', borderRadius: 10, fontSize: 15, fontWeight: 700, textDecoration: 'none' }}>
             Download 0nCore — Free
           </a>
           <Link href="/wordpress/wpsxo" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', border: '1px solid var(--border)', borderRadius: 10, fontSize: 15, fontWeight: 600, textDecoration: 'none', color: 'var(--text-primary)' }}>
@@ -178,7 +178,7 @@ export default function WordPressPage() {
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', maxWidth: 480, margin: '0 auto 28px' }}>
             Free forever. No credit card. Install in 30 seconds. Your WordPress site has never been this powerful.
           </p>
-          <a href="https://github.com/Crypto-Goatz/0ncore-wp/releases/latest" style={{ display: 'inline-flex', padding: '16px 36px', background: 'var(--accent, #7ed957)', color: '#0B0F19', borderRadius: 10, fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>
+          <a href="https://0ncore.com" style={{ display: 'inline-flex', padding: '16px 36px', background: 'var(--accent, #7ed957)', color: '#0B0F19', borderRadius: 10, fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>
             Download 0nCore — Free
           </a>
         </div>

@@ -264,11 +264,11 @@ export default function ComparePage() {
     offers: [
       {
         '@type': 'Offer',
-        name: 'Open Source',
+        name: '0nCore Free Trial',
         price: '0',
         priceCurrency: 'USD',
-        description: 'Full MCP server. 900+ tools. Self-hosted. MIT licensed.',
-        url: 'https://github.com/0nork/0nMCP',
+        description: 'Full 0nCore dashboard. 1,500+ tools. No credit card.',
+        url: 'https://0ncore.com',
       },
       {
         '@type': 'Offer',

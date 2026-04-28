@@ -25,7 +25,7 @@ export default function TopBar() {
           ))}
         </div>
         <a
-          href="https://github.com/0nork/0nMCP"
+          href="https://0ncore.com"
           target="_blank"
           rel="noopener noreferrer"
           className="topbar-github"

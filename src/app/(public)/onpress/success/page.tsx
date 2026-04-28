@@ -12,10 +12,10 @@ export default function OnPressSuccessPage() {
         <div style={{ background: 'var(--bg-card)', border: '1px solid #1a1f2e', borderRadius: 12, padding: 24, textAlign: 'left', marginBottom: 24 }}>
           <h3 style={{ fontSize: 14, fontWeight: 700, color: '#7ed957', marginBottom: 12 }}>Next Steps:</h3>
           <ol style={{ padding: '0 0 0 20px', display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13, color: '#bbb' }}>
-            <li>Download the Figma plugin from <a href="https://github.com/Crypto-Goatz/onpress" style={{ color: '#7ed957' }}>GitHub</a></li>
-            <li>In Figma: Plugins → Development → Import from manifest</li>
-            <li>Download the WordPress plugin from <a href="https://github.com/Crypto-Goatz/onpress-wp" style={{ color: '#7ed957' }}>GitHub</a></li>
-            <li>Upload to WordPress: Plugins → Add New → Upload</li>
+            <li>Open <a href="https://0ncore.com" style={{ color: '#7ed957' }}>0nCore</a> and sign in.</li>
+            <li>Go to <strong>Downloads → OnPress</strong> for the Figma plugin and the WordPress plugin.</li>
+            <li>In Figma: Plugins → Development → Import from manifest.</li>
+            <li>In WordPress: Plugins → Add New → Upload.</li>
             <li>Start converting designs!</li>
           </ol>
         </div>

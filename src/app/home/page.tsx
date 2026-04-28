@@ -46,8 +46,9 @@ export default function HomePage() {
         url: 'https://www.0nmcp.com',
         logo: 'https://www.0nmcp.com/brand/0nmcp-logo.png',
         sameAs: [
-          'https://github.com/0nork/0nMCP',
-          'https://npmjs.com/package/0nmcp',
+          'https://0ncore.com',
+          'https://x.com/0nmcp',
+          'https://linkedin.com/company/rocketopp',
         ],
       },
       {

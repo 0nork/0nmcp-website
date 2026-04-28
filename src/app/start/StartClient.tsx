@@ -52,11 +52,11 @@ const PLATFORMS: PlatformCard[] = [
   { id: 'windsurf', name: 'Windsurf', description: 'Add to your Windsurf MCP configuration', category: 'Developer Tools', status: 'ready', color: '#06b6d4', icon: 'Ws', method: 'config', config: JSON.stringify({ mcpServers: { '0nMCP': { command: 'npx', args: ['-y', '0nmcp@latest'] } } }, null, 2) },
   { id: 'npm', name: 'npm CLI', description: 'Install globally and run from any terminal', category: 'Developer Tools', status: 'ready', color: '#CB3837', icon: 'npm', method: 'command', command: 'npm install -g 0nmcp' },
   { id: 'wordpress', name: 'WordPress / OnPress', description: 'Install the OnPress plugin for WordPress integration', category: 'Platforms', status: 'ready', color: '#21759b', icon: 'WP', method: 'link', link: 'https://wpsxo.com/onpress', linkLabel: 'Get OnPress Plugin' },
-  { id: 'wpengine', name: 'WP Engine', description: 'Auto-deploy via GitHub Actions to WP Engine', category: 'Platforms', status: 'ready', color: '#0ecad4', icon: 'WE', method: 'link', link: 'https://github.com/0nork/wpengine-deploy', linkLabel: 'View GitHub Action' },
+  { id: 'wpengine', name: 'WP Engine', description: 'Auto-deploy your 0nCore WordPress build to WP Engine', category: 'Platforms', status: 'coming-soon', color: '#0ecad4', icon: 'WE' },
   { id: 'slack', name: 'Slack', description: 'Slack bot integration with 0nMCP', category: 'Platforms', status: 'coming-soon', color: '#4A154B', icon: 'Sl' },
   { id: 'discord', name: 'Discord', description: 'Discord bot integration with 0nMCP', category: 'Platforms', status: 'coming-soon', color: '#5865F2', icon: 'Dc' },
   { id: 'crm-marketplace', name: 'CRM Marketplace', description: 'Install directly from the CRM marketplace', category: 'Platforms', status: 'coming-soon', color: '#6EE05A', icon: '0n' },
-  { id: 'chrome', name: 'Chrome Extension', description: 'Run 0nMCP tools from any browser tab', category: 'Browser', status: 'ready', color: '#4285F4', icon: 'Ch', method: 'link', link: 'https://github.com/0nork/0nmcp-chrome', linkLabel: 'View on GitHub' },
+  { id: 'chrome', name: 'Chrome Extension', description: 'Run 0nMCP tools from any browser tab — install via 0nCore', category: 'Browser', status: 'ready', color: '#4285F4', icon: 'Ch', method: 'link', link: 'https://0ncore.com', linkLabel: 'Get from 0nCore' },
   { id: 'figma', name: 'Figma', description: 'Design-to-code with OnPress', category: 'Design', status: 'coming-soon', color: '#F24E1E', icon: 'Fi' },
 ]
 
@@ -772,8 +772,8 @@ export function StartClient() {
               Get Founders Access — $50/mo
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </Link>
-            <Link href="https://github.com/0nork/0nMCP" className="on-cta on-cta-secondary" target="_blank">
-              Star on GitHub
+            <Link href="https://0ncore.com" className="on-cta on-cta-secondary" target="_blank">
+              Try 0nCore Free
             </Link>
           </div>
         </div>

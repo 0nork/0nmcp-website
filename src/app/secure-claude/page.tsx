@@ -512,12 +512,12 @@ export default function SecureClaudePage() {
               Get Full Access
             </Link>
             <a
-              href="https://github.com/0nork/0nMCP"
+              href="https://0ncore.com"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3.5 rounded-lg font-bold text-base transition-all hover:scale-105 bg-[rgba(255,255,255,0.08)] text-[var(--text-primary)] border border-[rgba(255,255,255,0.15)]"
             >
-              Star on GitHub
+              Try 0nCore Free
             </a>
           </div>
 

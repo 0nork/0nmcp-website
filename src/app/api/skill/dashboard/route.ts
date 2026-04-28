@@ -283,7 +283,7 @@ function getDashboardHtml(): string {
       <span style="color:var(--text-muted);margin:0 8px">·</span>
       <a href="https://www.0nmcp.com/forum" target="_blank">Forum</a>
       <span style="color:var(--text-muted);margin:0 8px">·</span>
-      <a href="https://github.com/0nork/0nMCP" target="_blank">GitHub</a>
+      <a href="https://0ncore.com" target="_blank">0nCore</a>
     </div>
   </div>
 </div>

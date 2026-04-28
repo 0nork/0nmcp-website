@@ -41,21 +41,30 @@ export default function ZeroNLivePage() {
 
           <div style={{ background: 'var(--bg-primary)', borderRadius: 8, padding: 20, border: '1px solid var(--border)', marginBottom: 20 }}>
             <p style={{ color: 'var(--text-muted)', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 12 }}>
-              Terminal — copy &amp; paste
+              Sign up — no install
             </p>
-            <pre style={{
-              fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#6EE05A',
-              lineHeight: 1.8, overflowX: 'auto', whiteSpace: 'pre-wrap',
-            }}>{`git clone https://github.com/Crypto-Goatz/0n-command-center.git
-cd 0n-command-center
-npm install
-cp .env.example .env
-node server.js`}</pre>
+            <a
+              href="https://0ncore.com"
+              target="_blank"
+              rel="noopener"
+              style={{
+                display: 'inline-block',
+                background: '#6EE05A',
+                color: '#0a0a0a',
+                fontWeight: 800,
+                fontSize: 14,
+                padding: '12px 24px',
+                borderRadius: 10,
+                textDecoration: 'none',
+              }}
+            >
+              Open 0nCore Free →
+            </a>
           </div>
 
           <p style={{ color: 'var(--text-muted)', fontSize: 12, lineHeight: 1.6 }}>
-            Requires <strong style={{ color: 'var(--text-primary)' }}>Node.js 18+</strong> and <strong style={{ color: 'var(--text-primary)' }}>npm</strong>.
-            Server starts at <code style={{ color: '#00d4ff', fontFamily: "'JetBrains Mono', monospace", fontSize: 11 }}>http://localhost:3030</code>
+            Sign up at <strong style={{ color: 'var(--text-primary)' }}>0ncore.com</strong> — no
+            credit card, no install. Your dashboard provisions automatically.
           </p>
         </div>
 

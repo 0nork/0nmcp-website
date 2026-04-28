@@ -4,7 +4,7 @@ import { STATS_DISPLAY } from '@/data/stats'
 export const metadata: Metadata = {
   title: 'Community -- Join the AI Orchestration Movement',
   description:
-    `Join the 0nMCP community. Contribute to the most comprehensive MCP server available. ${STATS_DISPLAY.services} services, 80+ pre-built automations, open source forever. GitHub Discussions, contribution guides, and unlock roadmap.`,
+    `Join the 0nMCP community. The most comprehensive MCP server available — ${STATS_DISPLAY.services} services, 80+ pre-built automations, MIT-licensed core. Discussions, contribution guides, and the unlock roadmap.`,
   openGraph: {
     title: 'Community -- 0nMCP | Join the AI Orchestration Movement',
     description:
@@ -218,28 +218,28 @@ export default function CommunityPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                title: 'GitHub Discussions',
-                desc: 'Ask questions, share ideas, show off what you have built, and connect with other developers.',
-                link: 'https://github.com/0nork/0nMCP/discussions',
+                title: 'Builder Forum',
+                desc: 'Ask questions, share ideas, show off what you have built, and connect with other 0nCore builders.',
+                link: 'https://0ncore.com/community',
                 cta: 'Join the conversation',
               },
               {
                 title: 'Add a Service',
                 desc: 'Drop a definition into catalog.js. Every service makes 0nMCP more useful for the entire community.',
-                link: 'https://github.com/0nork/0nMCP/blob/main/CONTRIBUTING.md',
+                link: 'https://0ncore.com/docs/contribute',
                 cta: 'Read the guide',
               },
               {
                 title: 'Report Bugs',
                 desc: 'Found something broken? Open an issue. We triage fast and fix faster.',
-                link: 'https://github.com/0nork/0nMCP/issues',
+                link: 'https://0ncore.com/support',
                 cta: 'Open an issue',
               },
               {
                 title: 'Star the Repo',
                 desc: 'It takes 2 seconds and helps more than you think. Stars unlock new capabilities on the roadmap.',
-                link: 'https://github.com/0nork/0nMCP',
-                cta: 'Star on GitHub',
+                link: 'https://0ncore.com',
+                cta: 'Try 0nCore Free',
               },
               {
                 title: 'Sponsor',
@@ -289,33 +289,33 @@ export default function CommunityPage() {
             Quick Start
           </span>
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">
-            Your First Contribution
+            Get started in four steps
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
                 step: '1',
-                title: 'Fork & Clone',
-                desc: 'Fork the repo on GitHub, then clone it locally.',
-                code: 'git clone https://github.com/YOUR_USERNAME/0nMCP.git',
+                title: 'Sign up on 0nCore',
+                desc: 'Create your free account at 0ncore.com. No credit card. Your dashboard provisions automatically.',
+                code: null,
               },
               {
                 step: '2',
-                title: 'Install Dependencies',
-                desc: 'Just one dependency. Minimal by design.',
-                code: 'cd 0nMCP && npm install',
+                title: 'Connect your services',
+                desc: 'Plug in CRM, Stripe, Slack, Supabase, OpenAI — whatever you already use. 0nCore handles the keys and tokens.',
+                code: null,
               },
               {
                 step: '3',
-                title: 'Make Your Change',
-                desc: 'Add a service to catalog.js, fix a bug, improve docs. Every tool is config-driven -- no boilerplate needed.',
+                title: 'Pick an app and run it',
+                desc: 'HIPAA Scanner, SXO Audit, AI Blog Engine, LinkedIn Posting, Lead Capture — install with a click and watch them work.',
                 code: null,
               },
               {
                 step: '4',
-                title: 'Submit a PR',
-                desc: 'Push your branch and open a pull request. We review PRs quickly and merge contributions that match quality standards.',
+                title: 'Build your own',
+                desc: 'Describe an outcome in plain English. 0nCore composes the .0n SWITCH file, runs it across every connected service, and saves it for replay.',
                 code: null,
               },
             ].map((item) => (
@@ -418,7 +418,7 @@ export default function CommunityPage() {
                 See Full Unlock Schedule
               </a>
               <a
-                href="https://github.com/0nork/0nMCP"
+                href="https://0ncore.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-ghost no-underline"
@@ -506,12 +506,12 @@ export default function CommunityPage() {
               Browse the Forum
             </a>
             <a
-              href="https://github.com/0nork/0nMCP"
+              href="https://0ncore.com"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-ghost no-underline"
             >
-              View on GitHub
+              Try 0nCore Free
             </a>
           </div>
         </div>

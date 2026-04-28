@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         free: true,
         key,
-        download: 'https://github.com/Crypto-Goatz/wp-sxo/releases/latest',
+        download: 'https://0ncore.com',
       })
     }
 

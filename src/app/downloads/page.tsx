@@ -55,7 +55,7 @@ const APPS = [
   { id: 'defender', name: '0nDefender', desc: 'Patent intelligence & competitive monitoring. Daily scans. 4 threat vectors.', icon: '0D', color: '#ef4444', badge: 'ADMIN', href: '/admin/patent-intel' },
   { id: 'cloudconvert', name: 'CloudConvert', desc: '200+ format file conversion via natural language. PDF, DOCX, MP4, PNG.', icon: 'CC', color: '#e74430', href: '/integrations' },
   { id: 'linkedin', name: 'LinkedIn Suite', desc: '50 endpoints — ads, org pages, social posting, analytics, certifications.', icon: 'LI', color: '#0A66C2', href: '/console/linkedin' },
-  { id: 'chrome', name: 'LinkedIn Reply Extension', desc: 'Chrome extension for AI-powered LinkedIn replies. 5 tones, Groq-powered, free.', icon: 'CR', color: '#333', href: 'https://github.com/0nork/0nMCP/tree/main/extensions/linkedin-reply' },
+  { id: 'chrome', name: 'LinkedIn Reply Extension', desc: 'Chrome extension for AI-powered LinkedIn replies. 5 tones, Groq-powered, free.', icon: 'CR', color: '#333', href: 'https://0ncore.com/downloads' },
   { id: 'openclaw', name: 'OpenClaw', desc: 'Personal AI assistant for file management and smart home. Note: Cisco flagged critical security vulnerabilities.', icon: 'OC', color: 'var(--text-muted)', badge: 'WARNING', href: '/compare/0nmcp-vs-openclaw', disabled: true },
 ]
 
@@ -136,11 +136,11 @@ export default function DownloadsPage() {
                     padding: '10px 24px', borderRadius: 10, background: '#6EE05A', color: '#0f172a',
                     fontWeight: 800, fontSize: 14, textDecoration: 'none',
                   }}>Get 0nGPT →</Link>
-                  <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{
+                  <Link href="https://0ncore.com" target="_blank" rel="noopener" style={{
                     padding: '10px 24px', borderRadius: 10, background: 'var(--border)',
                     color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none',
                     border: '1px solid var(--border-hover)',
-                  }}>View Source</Link>
+                  }}>Try 0nCore</Link>
                 </div>
               </div>
             </div>
@@ -254,7 +254,7 @@ export default function DownloadsPage() {
           <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Build Your Own Integration</h2>
           <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 20 }}>0nMCP is open source, MIT licensed. Build anything.</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
-            <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{ padding: '10px 24px', borderRadius: 10, background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}>GitHub</Link>
+            <Link href="https://0ncore.com" target="_blank" rel="noopener" style={{ padding: '10px 24px', borderRadius: 10, background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}>0nCore</Link>
             <Link href="/signup" style={{ padding: '10px 24px', borderRadius: 10, background: '#6EE05A', color: 'var(--text-primary)', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}>Request Access</Link>
           </div>
         </div>

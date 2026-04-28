@@ -718,9 +718,8 @@ for (const block of message.content) {
               <h2>Ready to connect everything?</h2>
               <p>1,589 tools. 102 services. One config line. Zero API keys.</p>
               <div className="ci-cta-buttons">
-                <a href="/install" className="ci-cta-btn ci-cta-primary">All Platforms</a>
-                <a href="https://www.npmjs.com/package/0nmcp" target="_blank" rel="noopener noreferrer" className="ci-cta-btn ci-cta-secondary">npm Package</a>
-                <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener noreferrer" className="ci-cta-btn ci-cta-secondary">GitHub</a>
+                <a href="https://0ncore.com" target="_blank" rel="noopener noreferrer" className="ci-cta-btn ci-cta-primary">Try 0nCore Free</a>
+                <a href="/install" className="ci-cta-btn ci-cta-secondary">All Platforms</a>
               </div>
             </div>
           </section>

@@ -26,7 +26,7 @@ export default function FooterSimple() {
           {[
             { label: 'Privacy', href: '/privacy' },
             { label: 'Terms', href: '/terms' },
-            { label: 'GitHub', href: 'https://github.com/0nork/0nMCP' },
+            { label: 'Try Free', href: 'https://0ncore.com' },
           ].map(link => (
             <Link key={link.label} href={link.href} style={{
               fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)',

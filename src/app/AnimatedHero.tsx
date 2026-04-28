@@ -278,7 +278,7 @@ export default function AnimatedHero() {
           Get Started
         </Link>
         <Link
-          href="https://github.com/0nork/0nMCP"
+          href="https://0ncore.com"
           target="_blank"
           rel="noopener"
           style={{
@@ -293,7 +293,7 @@ export default function AnimatedHero() {
             transition: 'transform 0.2s, background 0.2s',
           }}
         >
-          View on GitHub
+          Try 0nCore Free
         </Link>
       </div>
 

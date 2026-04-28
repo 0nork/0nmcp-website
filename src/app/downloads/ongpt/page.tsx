@@ -111,7 +111,7 @@ export default function OnGptPage() {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
             <Link href="/signup" style={{ padding: '12px 28px', borderRadius: 10, background: 'var(--bg-card)', color: '#10a37f', fontWeight: 800, fontSize: 14, textDecoration: 'none' }}>Request Access</Link>
-            <Link href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener" style={{ padding: '12px 28px', borderRadius: 10, background: 'var(--border-hover)', color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)' }}>View Source</Link>
+            <Link href="https://0ncore.com" target="_blank" rel="noopener" style={{ padding: '12px 28px', borderRadius: 10, background: 'var(--border-hover)', color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.2)' }}>Try 0nCore</Link>
           </div>
         </div>
       </div>

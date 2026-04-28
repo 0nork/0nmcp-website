@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -26,6 +27,22 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { STATS_DISPLAY } from '@/data/stats'
 import ServerPipeline from '@/components/ServerPipeline'
+import Reveal from '@/components/Reveal'
+import RequestAccessForm from '@/components/RequestAccessForm'
+
+// AI client + integration logos shown in trust strip
+const TRUST_LOGOS = [
+  { name: 'Anthropic', src: '/logos/anthropic.svg' },
+  { name: 'OpenAI', src: '/logos/openai.svg' },
+  { name: 'Stripe', src: '/logos/stripe.svg' },
+  { name: 'GitHub', src: '/logos/github.svg' },
+  { name: 'Slack', src: '/logos/slack.svg' },
+  { name: 'Supabase', src: '/logos/supabase.svg' },
+  { name: 'Notion', src: '/logos/notion.svg' },
+  { name: 'Airtable', src: '/logos/airtable.svg' },
+  { name: 'Shopify', src: '/logos/shopify.svg' },
+  { name: 'Calendly', src: '/logos/calendly.svg' },
+]
 
 // ─── Comparison data ───────────────────────────────────────────────
 const COMPARISON: Record<
@@ -203,7 +220,7 @@ export default function Homepage() {
 
         <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 pt-28 pb-20 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:pt-36 lg:pb-32">
           {/* ── LEFT: text + CTAs ── */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
+          <Reveal direction="up" delay={0} className="lg:col-span-7 flex flex-col justify-center">
             <div className="mb-6 inline-flex items-center gap-2">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6EE05A] opacity-75" />
@@ -255,16 +272,42 @@ export default function Homepage() {
                 works with Claude, Cursor, Windsurf, Gemini, VS Code, Zed
               </span>
             </div>
-          </div>
+          </Reveal>
 
           {/* ── RIGHT: animated pipeline ── */}
-          <div className="lg:col-span-5 flex items-center justify-center">
+          <Reveal direction="left" delay={150} className="lg:col-span-5 flex items-center justify-center">
             <div className="relative w-full max-w-[600px]">
               <ServerPipeline />
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
+
+      {/* ═══ TRUST LOGO STRIP ═══════════════════════════════════════ */}
+      <Reveal>
+        <section className="border-t border-border bg-card/20">
+          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <p className="mb-6 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              Connects to the tools you already use
+            </p>
+            <div className="grid grid-cols-5 items-center justify-items-center gap-x-8 gap-y-6 sm:grid-cols-10">
+              {TRUST_LOGOS.map((logo, i) => (
+                <Reveal key={logo.name} delay={i * 50} direction="up">
+                  <div className="grayscale opacity-60 transition hover:opacity-100 hover:grayscale-0">
+                    <Image
+                      src={logo.src}
+                      alt={logo.name}
+                      width={80}
+                      height={28}
+                      className="h-7 w-auto object-contain"
+                    />
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
 
       {/* ═══ STATS BAR ══════════════════════════════════════════════ */}
       <section className="border-y border-border bg-card/40">
@@ -277,13 +320,13 @@ export default function Homepage() {
             { v: 'MIT', l: 'License' },
             { v: STATS_DISPLAY.ai_platforms, l: 'AI Platforms' },
             { v: STATS_DISPLAY.patents, l: 'Patents' },
-          ].map((s) => (
-            <div key={s.l} className="bg-card/80 px-4 py-6 text-center">
+          ].map((s, i) => (
+            <Reveal key={s.l} delay={i * 60} direction="up" className="bg-card/80 px-4 py-6 text-center">
               <div className="font-mono text-2xl font-black text-[#6EE05A] tabular-nums">{s.v}</div>
               <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 {s.l}
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -306,23 +349,22 @@ export default function Homepage() {
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map((f) => {
+          {FEATURES.map((f, i) => {
             const Icon = f.icon
             return (
-              <Card
-                key={f.title}
-                className="border-border/60 bg-card/60 backdrop-blur transition-colors hover:border-[#6EE05A]/30 hover:bg-card/80"
-              >
-                <CardHeader>
-                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#6EE05A]/10 ring-1 ring-[#6EE05A]/20">
-                    <Icon className="h-5 w-5 text-[#6EE05A]" />
-                  </div>
-                  <CardTitle className="text-lg text-white">{f.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-white/70">{f.desc}</p>
-                </CardContent>
-              </Card>
+              <Reveal key={f.title} delay={i * 80} direction="up">
+                <Card className="h-full border-border/60 bg-card/60 backdrop-blur transition-colors hover:border-[#6EE05A]/30 hover:bg-card/80">
+                  <CardHeader>
+                    <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#6EE05A]/10 ring-1 ring-[#6EE05A]/20">
+                      <Icon className="h-5 w-5 text-[#6EE05A]" />
+                    </div>
+                    <CardTitle className="text-lg text-white">{f.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm leading-relaxed text-white/70">{f.desc}</p>
+                  </CardContent>
+                </Card>
+              </Reveal>
             )
           })}
         </div>
@@ -347,20 +389,22 @@ export default function Homepage() {
           </div>
 
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            {PILLARS.map((p) => {
+            {PILLARS.map((p, i) => {
               const Icon = p.icon
               return (
-                <Card key={p.label} className={`border ${p.border} ${p.bg} backdrop-blur`}>
-                  <CardHeader>
-                    <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ring-1 ${p.border} ${p.bg}`}>
-                      <Icon className={`h-6 w-6 ${p.color}`} />
-                    </div>
-                    <CardTitle className={`mt-3 text-2xl ${p.color}`}>{p.label}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm leading-relaxed text-white/75">{p.desc}</p>
-                  </CardContent>
-                </Card>
+                <Reveal key={p.label} delay={i * 120} direction="up">
+                  <Card className={`h-full border ${p.border} ${p.bg} backdrop-blur`}>
+                    <CardHeader>
+                      <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ring-1 ${p.border} ${p.bg}`}>
+                        <Icon className={`h-6 w-6 ${p.color}`} />
+                      </div>
+                      <CardTitle className={`mt-3 text-2xl ${p.color}`}>{p.label}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm leading-relaxed text-white/75">{p.desc}</p>
+                    </CardContent>
+                  </Card>
+                </Reveal>
               )
             })}
           </div>
@@ -442,20 +486,66 @@ export default function Homepage() {
           </div>
 
           <div className="relative mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((s) => (
-              <Card key={s.n} className="relative border-border/60 bg-card/60 backdrop-blur">
-                <CardHeader>
-                  <div className="font-mono text-3xl font-black text-[#6EE05A]/30">{s.n}</div>
-                  <CardTitle className="text-xl text-white">{s.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-white/70">{s.desc}</p>
-                </CardContent>
-              </Card>
+            {STEPS.map((s, i) => (
+              <Reveal key={s.n} delay={i * 100} direction="up">
+                <Card className="relative h-full border-border/60 bg-card/60 backdrop-blur">
+                  <CardHeader>
+                    <div className="font-mono text-3xl font-black text-[#6EE05A]/30">{s.n}</div>
+                    <CardTitle className="text-xl text-white">{s.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm leading-relaxed text-white/70">{s.desc}</p>
+                  </CardContent>
+                </Card>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
+
+      {/* ═══ UI SCREENSHOT SHOWCASE ═════════════════════════════════ */}
+      <Reveal direction="up">
+        <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-1/3 h-[300px] bg-gradient-to-r from-transparent via-[#6EE05A]/8 to-transparent blur-3xl"
+          />
+          <div className="relative mx-auto max-w-3xl text-center">
+            <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest">
+              See it in action
+            </Badge>
+            <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
+              <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+                Your AI editor. Your terminal. One unified surface.
+              </span>
+            </h2>
+            <p className="mt-4 text-lg text-white/70">
+              0nMCP plugs into the editor you already use — or runs from its own dashboard. Same
+              tools, same workflows, same .0n SWITCH files.
+            </p>
+          </div>
+
+          <Reveal direction="up" delay={150}>
+            <div className="relative mx-auto mt-14 max-w-5xl">
+              {/* Soft glow under image */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-4 rounded-3xl bg-gradient-to-br from-[#6EE05A]/20 via-[#14b8a6]/10 to-[#a78bfa]/20 blur-2xl"
+              />
+              <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/80 shadow-2xl shadow-black/40 ring-1 ring-white/5">
+                <Image
+                  src="/brand/0n-console.png"
+                  alt="0nMCP console — chat, flows, vault, history"
+                  width={1600}
+                  height={1000}
+                  priority={false}
+                  className="h-auto w-full"
+                />
+              </div>
+            </div>
+          </Reveal>
+        </section>
+      </Reveal>
 
       {/* ═══ MARKETPLACE / UCP ══════════════════════════════════════ */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
@@ -495,46 +585,90 @@ export default function Homepage() {
               { label: '70% to builder', desc: 'Stripe Connect payouts. Auto-split.' },
               { label: '11 apps live', desc: 'HIPAA, SXO, AI Blog, IndexNow, more.' },
               { label: 'No landing page', desc: 'AI agents discover via UCP manifest.' },
-            ].map((c) => (
-              <Card key={c.label} className="border-[#a78bfa]/25 bg-[#a78bfa]/5 backdrop-blur">
-                <CardHeader>
-                  <CardTitle className="text-lg text-[#a78bfa]">{c.label}</CardTitle>
-                  <CardDescription className="text-white/65">{c.desc}</CardDescription>
-                </CardHeader>
-              </Card>
+            ].map((c, i) => (
+              <Reveal key={c.label} delay={i * 100} direction="up">
+                <Card className="h-full border-[#a78bfa]/25 bg-[#a78bfa]/5 backdrop-blur">
+                  <CardHeader>
+                    <CardTitle className="text-lg text-[#a78bfa]">{c.label}</CardTitle>
+                    <CardDescription className="text-white/65">{c.desc}</CardDescription>
+                  </CardHeader>
+                </Card>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
+
+      {/* ═══ REQUEST ACCESS FORM ════════════════════════════════════ */}
+      <Reveal direction="up">
+        <section className="border-t border-border bg-card/20">
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8 lg:py-28">
+            <div>
+              <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
+                Early Access · Limited spots
+              </Badge>
+              <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
+                <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+                  Reserve your spot in the launch cohort.
+                </span>
+              </h2>
+              <p className="mt-6 text-lg leading-relaxed text-white/70">
+                We&rsquo;re onboarding a focused group ahead of public launch. You&rsquo;ll get
+                white-glove setup, direct line to the team, and lifetime founder pricing on the
+                marketplace.
+              </p>
+              <ul className="mt-6 space-y-2 text-sm text-white/75">
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#6EE05A]" />
+                  Direct provisioning into the 0nCore dashboard
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#14b8a6]" />
+                  Guided install for your AI editor + first .0n workflow
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#a78bfa]" />
+                  Private Slack channel with the founding team
+                </li>
+              </ul>
+            </div>
+            <Reveal direction="left" delay={150}>
+              <RequestAccessForm />
+            </Reveal>
+          </div>
+        </section>
+      </Reveal>
 
       {/* ═══ FAQ ═══════════════════════════════════════════════════ */}
-      <section className="border-t border-border bg-card/30">
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="text-center">
-            <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest">
-              Frequently Asked
-            </Badge>
-            <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
-              <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                Questions, answered.
-              </span>
-            </h2>
-          </div>
+      <Reveal direction="up">
+        <section className="border-t border-border bg-card/30">
+          <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+            <div className="text-center">
+              <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest">
+                Frequently Asked
+              </Badge>
+              <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
+                <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+                  Questions, answered.
+                </span>
+              </h2>
+            </div>
 
-          <Accordion type="single" collapsible className="mt-12">
-            {FAQ.map((item, i) => (
-              <AccordionItem key={item.q} value={`item-${i}`} className="border-border/60">
-                <AccordionTrigger className="text-left text-base font-semibold text-white hover:text-[#6EE05A]">
-                  {item.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm leading-relaxed text-white/70">
-                  {item.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
+            <Accordion type="single" collapsible className="mt-12">
+              {FAQ.map((item, i) => (
+                <AccordionItem key={item.q} value={`item-${i}`} className="border-border/60">
+                  <AccordionTrigger className="text-left text-base font-semibold text-white hover:text-[#6EE05A]">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm leading-relaxed text-white/70">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+      </Reveal>
 
       {/* ═══ FINAL CTA ═════════════════════════════════════════════ */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-32">

@@ -34,7 +34,7 @@ import { Slider } from '@/components/ui/slider'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { Calendar } from '@/components/ui/calendar'
 import { Separator } from '@/components/ui/separator'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { ScrollArea } from '@/components/smooth-scroll-area'
 import {
   Dialog,
   DialogContent,

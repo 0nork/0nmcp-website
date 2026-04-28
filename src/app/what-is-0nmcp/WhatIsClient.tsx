@@ -41,6 +41,7 @@ import StickyCTA from '@/components/StickyCTA'
 import CountdownToLaunch from '@/components/CountdownToLaunch'
 import AnimatedGrid from '@/components/AnimatedGrid'
 import AnimatedConnectors from '@/components/AnimatedConnectors'
+import { ScrollArea } from '@/components/smooth-scroll-area'
 
 // ─── Action cards (what 0nMCP can do) ────────────────────────────────
 const ACTIONS = [
@@ -590,7 +591,7 @@ export default function WhatIsClient() {
         <Reveal direction="up" delay={100}>
           <Card className="mt-10 border-border/60 bg-card/40 backdrop-blur">
             <CardContent className="p-0">
-              <div className="overflow-x-auto">
+              <ScrollArea horizontal className="w-full">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border/60">
@@ -619,7 +620,7 @@ export default function WhatIsClient() {
                     ))}
                   </tbody>
                 </table>
-              </div>
+              </ScrollArea>
             </CardContent>
           </Card>
         </Reveal>
@@ -955,11 +956,11 @@ function InstallCard({
       </CardHeader>
       <CardContent className="space-y-5">
         {code && (
-          <div className="overflow-x-auto rounded-xl border border-border/60 bg-[#0d1117] p-4">
+          <ScrollArea horizontal className="rounded-xl border border-border/60 bg-[#0d1117] p-4">
             <pre className="font-mono text-xs text-[#6EE05A]">
               <code>{code}</code>
             </pre>
-          </div>
+          </ScrollArea>
         )}
         <ul className="space-y-2">
           {bullets.map((b) => (

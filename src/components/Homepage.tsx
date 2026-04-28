@@ -42,6 +42,7 @@ import HeroQuickCapture from '@/components/HeroQuickCapture'
 import StickyCTA from '@/components/StickyCTA'
 import AnimatedGrid from '@/components/AnimatedGrid'
 import AnimatedConnectors from '@/components/AnimatedConnectors'
+import { ScrollArea } from '@/components/smooth-scroll-area'
 
 // AI client + integration logos shown in trust strip
 const TRUST_LOGOS = [
@@ -588,7 +589,7 @@ export default function Homepage() {
             <TabsContent key={key} value={key}>
               <Card className="border-border/60 bg-card/40 backdrop-blur">
                 <CardContent className="p-0">
-                  <div className="overflow-x-auto">
+                  <ScrollArea horizontal className="w-full">
                     <table className="w-full">
                       <thead>
                         <tr className="border-b border-border/60 text-left">
@@ -615,7 +616,7 @@ export default function Homepage() {
                         ))}
                       </tbody>
                     </table>
-                  </div>
+                  </ScrollArea>
                 </CardContent>
               </Card>
             </TabsContent>

@@ -51,15 +51,81 @@ function titleCase(slug: string): string {
     .join(' ')
 }
 
-function categoryFromFiles(files: { path: string }[] | undefined): string {
-  if (!files || files.length === 0) return ''
-  const path = files[0].path
-  // Common pattern: blocks/<category>/<name>.tsx
-  const parts = path.split('/')
-  if (parts.length >= 3 && parts[0] === 'blocks') return parts[1]
-  // Fallback for examples/, ui/, hooks/
-  if (parts.length >= 2) return parts[0]
-  return ''
+// ── 0n re-categorization for items the upstream registry leaves uncategorized
+// (registry:ui, registry:hook, registry:style — bare-file paths). We split
+// the 233 free "Other" items into 6 friendly buckets based on name and type
+// so they surface alongside the curated 39 core blocks in the library.
+
+const EFFECTS = new Set([
+  'plasma', 'noise', 'aurora', 'glitch', 'matrix', 'nebula', 'hologram',
+  'waves', 'starfield', 'particles', 'fog', 'beams', 'gradient',
+  'gradient-mesh', 'mesh-gradient', 'grid-pattern', 'dot-pattern', 'shimmer',
+  'marquee', 'ripple', 'animated-beam', 'motion-highlight', 'animated-cursor',
+  'magnetic', 'pixel-image', '3d-marquee', 'apple-hello-effect',
+])
+
+const AI_SURFACES = new Set([
+  'chatbot', 'conversation', 'message', 'prompt-input', 'chain-of-thought',
+  'reasoning', 'model-selector', 'voice-selector', 'mic-selector', 'persona',
+  'agent', 'plan', 'artifact', 'actions', 'inline-citation', 'sources',
+  'suggestion', 'tool', 'task', 'transcription', 'attachments', 'context',
+  'environment-variables', 'schema-display', 'audio-player', 'speech-input',
+  'stack-trace', 'test-results', 'web-preview', 'edge', 'node', 'queue',
+  'branch', 'checkpoint', 'commit', 'panel', 'toolbar', 'snippet',
+  'open-in-chat', 'code-block', 'code-editor', 'code-tabs', 'sandbox',
+  'terminal', 'confirmation', 'package-info', 'file-tree', 'canvas',
+  'controls',
+])
+
+const CONTROLS = new Set([
+  'icon-button', 'arrow-button', 'copy-button', 'ripple-button',
+  'loading-button', 'outline-fill-button', 'shine-button', 'gradient-button',
+  'glow-border-button', 'magnetic-button', 'color-picker', 'combobox',
+  'choicebox', 'dropzone', 'mac-os-dock', 'menu-dock', 'dock',
+  'limelight-nav', 'navbar', 'kbd',
+])
+
+function categoryFromItem(item: {
+  name: string
+  type: string
+  files?: { path: string }[]
+}): string {
+  const { name, type, files } = item
+  // Path-based first: blocks/<cat>/<name>.tsx → <cat>
+  if (files && files.length > 0) {
+    const path = files[0].path
+    const parts = path.split('/')
+    if (parts.length >= 3 && parts[0] === 'blocks') return parts[1]
+    if (parts.length === 2) return parts[0] // charts/, examples/, etc.
+  }
+  // Type + name fallback for the bare-file primitives (ui/hook/style)
+  if (type === 'registry:hook') return 'hooks'
+  if (type === 'registry:style') return 'themes'
+  if (type === 'registry:ui') {
+    if (EFFECTS.has(name)) return 'effects'
+    if (AI_SURFACES.has(name)) return 'ai-surfaces'
+    if (CONTROLS.has(name)) return 'controls'
+    if (name.endsWith('-button')) return 'controls'
+    return 'display'
+  }
+  return 'other'
+}
+
+// Friendly labels for our re-bucketed categories. Existing shadcn.io
+// category slugs (dashboard, hero, pricing…) keep their auto-titlecased name.
+const FRIENDLY_LABELS: Record<string, string> = {
+  'ai-surfaces': 'AI Surfaces',
+  effects: 'Effects',
+  controls: 'Buttons & Controls',
+  display: 'Display',
+  hooks: 'Hooks',
+  themes: 'Themes',
+  charts: 'Charts',
+  examples: 'Examples',
+}
+
+function labelFor(slug: string): string {
+  return FRIENDLY_LABELS[slug] ?? titleCase(slug)
 }
 
 export async function loadRegistry(): Promise<FullRegistry> {
@@ -90,7 +156,7 @@ export async function loadRegistry(): Promise<FullRegistry> {
     description: i.description ?? '',
     type: i.type,
     premium: i.premium ?? false,
-    category: categoryFromFiles(i.files),
+    category: categoryFromItem(i),
     deps: i.registryDependencies ?? [],
   }))
 
@@ -108,7 +174,7 @@ export async function loadRegistry(): Promise<FullRegistry> {
   const categories: CategorySummary[] = Array.from(byCat.entries())
     .map(([slug, e]) => ({
       slug,
-      label: titleCase(slug),
+      label: labelFor(slug),
       count: e.count,
       premiumCount: e.premium,
       freeCount: e.free,

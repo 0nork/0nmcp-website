@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { ExternalLink, Search, Sparkles } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
+import { ChevronLeft, ChevronRight, ExternalLink, Search, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -22,10 +23,12 @@ interface RegistryItem {
   premium: boolean
   typeLabel: string
   previewUrl: string
+  iframeUrl: string
+  ogImageUrl: string
   installCommand: string
 }
 
-const PAGE_SIZE = 60
+const PAGE_SIZE = 12 // 12 cards per page = 4 cols × 3 rows on lg
 
 export default function RegistryBrowser() {
   const [categories, setCategories] = useState<CategoryRow[]>([])
@@ -34,7 +37,9 @@ export default function RegistryBrowser() {
   const [error, setError] = useState<string | null>(null)
 
   const [openCategory, setOpenCategory] = useState<string | null>(null)
-  const [items, setItems] = useState<Record<string, RegistryItem[]>>({})
+  const [page, setPage] = useState(0)
+  const [items, setItems] = useState<RegistryItem[]>([])
+  const [totalInCategory, setTotalInCategory] = useState(0)
   const [loadingItems, setLoadingItems] = useState(false)
   const [filterText, setFilterText] = useState('')
 
@@ -64,12 +69,17 @@ export default function RegistryBrowser() {
     }
   }, [])
 
-  // Lazy-load items when a category is opened
+  // Reset page when category changes
+  useEffect(() => {
+    setPage(0)
+  }, [openCategory])
+
+  // Lazy-load page of items when category or page changes
   useEffect(() => {
     if (!openCategory) return
-    if (items[openCategory]) return
     setLoadingItems(true)
-    fetch(`/api/library/registry/category/${openCategory}?limit=${PAGE_SIZE}`)
+    const offset = page * PAGE_SIZE
+    fetch(`/api/library/registry/category/${openCategory}?limit=${PAGE_SIZE}&offset=${offset}`)
       .then((r) => r.json())
       .then((d) => {
         if (!d.ok) {
@@ -77,20 +87,24 @@ export default function RegistryBrowser() {
           setLoadingItems(false)
           return
         }
-        setItems((prev) => ({ ...prev, [openCategory]: d.items }))
+        setItems(d.items)
+        setTotalInCategory(d.total)
         setLoadingItems(false)
       })
       .catch((e) => {
         setError(String(e))
         setLoadingItems(false)
       })
-  }, [openCategory, items])
+  }, [openCategory, page])
 
   const filteredCategories = useMemo(() => {
     if (!filterText) return categories
     const f = filterText.toLowerCase()
     return categories.filter((c) => c.label.toLowerCase().includes(f) || c.slug.includes(f))
   }, [categories, filterText])
+
+  const totalPages = Math.max(1, Math.ceil(totalInCategory / PAGE_SIZE))
+  const openCategoryLabel = categories.find((c) => c.slug === openCategory)?.label
 
   if (loadingCats) {
     return (
@@ -169,70 +183,163 @@ export default function RegistryBrowser() {
         })}
       </div>
 
-      {/* ── Open category items ── */}
+      {/* ── Open category items (live previews) ── */}
       {openCategory && (
-        <Card className="border-[#6EE05A]/30 bg-card/60 backdrop-blur">
+        <Card className="border-[#6EE05A]/30 bg-card/40 backdrop-blur">
           <CardHeader>
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <CardTitle className="text-2xl">
                   <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                    {categories.find((c) => c.slug === openCategory)?.label}
+                    {openCategoryLabel}
                   </span>
                 </CardTitle>
                 <CardDescription>
-                  Showing the first {PAGE_SIZE} of{' '}
-                  {categories.find((c) => c.slug === openCategory)?.count.toLocaleString()} blocks in this category.
+                  Page {page + 1} of {totalPages} · {totalInCategory.toLocaleString()} blocks total
                 </CardDescription>
               </div>
-              <Button variant="ghost" size="sm" onClick={() => setOpenCategory(null)}>
-                Close
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page === 0 || loadingItems}
+                  onClick={() => setPage((p) => Math.max(0, p - 1))}
+                >
+                  <ChevronLeft className="mr-1 h-4 w-4" /> Prev
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page >= totalPages - 1 || loadingItems}
+                  onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                >
+                  Next <ChevronRight className="ml-1 h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => setOpenCategory(null)}>
+                  Close
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
             {loadingItems ? (
-              <div className="py-8 text-center text-sm text-muted-foreground">Loading blocks…</div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {Array.from({ length: PAGE_SIZE }).map((_, i) => (
+                  <div key={i} className="h-[260px] animate-pulse rounded-lg bg-card/60" />
+                ))}
+              </div>
             ) : (
-              <div className="grid gap-3 sm:grid-cols-2">
-                {(items[openCategory] ?? []).map((it) => (
-                  <a
-                    key={it.name}
-                    href={it.previewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex flex-col rounded-lg border border-border/60 bg-background/40 p-4 transition-colors hover:border-[#6EE05A]/30 hover:bg-background/60"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="font-bold text-white">{it.title}</p>
-                      <div className="flex shrink-0 items-center gap-1.5">
-                        {it.premium && (
-                          <Badge className="bg-[#a78bfa]/15 font-mono text-[9px] text-[#a78bfa] hover:bg-[#a78bfa]/20">
-                            <Sparkles className="mr-0.5 h-2.5 w-2.5" />
-                            Pro
-                          </Badge>
-                        )}
-                        <Badge variant="outline" className="font-mono text-[9px]">
-                          {it.typeLabel}
-                        </Badge>
-                      </div>
-                    </div>
-                    {it.description && (
-                      <p className="mt-2 line-clamp-2 text-xs text-white/65">{it.description}</p>
-                    )}
-                    <div className="mt-3 flex items-center justify-between">
-                      <code className="rounded bg-muted/40 px-2 py-1 font-mono text-[10px] text-muted-foreground">
-                        {it.name}
-                      </code>
-                      <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                    </div>
-                  </a>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {items.map((it) => (
+                  <BlockPreviewCard key={it.name} item={it} />
                 ))}
               </div>
             )}
           </CardContent>
         </Card>
       )}
+    </div>
+  )
+}
+
+// ── Single block preview card with lazy-loaded live iframe ──────────
+
+function BlockPreviewCard({ item }: { item: RegistryItem }) {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const [inView, setInView] = useState(false)
+  const [iframeReady, setIframeReady] = useState(false)
+
+  useEffect(() => {
+    if (!ref.current || inView) return
+    if (typeof IntersectionObserver === 'undefined') {
+      setInView(true)
+      return
+    }
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setInView(true)
+            obs.disconnect()
+          }
+        }
+      },
+      { rootMargin: '200px' },
+    )
+    obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [inView])
+
+  return (
+    <div
+      ref={ref}
+      className="group flex flex-col overflow-hidden rounded-lg border border-border/60 bg-background/40 transition-colors hover:border-[#6EE05A]/30"
+    >
+      {/* ── Preview pane (16:10) ── */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border/40 bg-card/40">
+        {/* OG image as instant placeholder */}
+        {!iframeReady && (
+          <Image
+            src={item.ogImageUrl}
+            alt={item.title}
+            fill
+            sizes="(max-width: 1024px) 50vw, 25vw"
+            className="object-cover"
+            unoptimized
+          />
+        )}
+        {/* Real iframe lazy-loads when in view */}
+        {inView && (
+          <iframe
+            src={item.iframeUrl}
+            title={item.title}
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin"
+            className={[
+              'absolute inset-0 h-full w-full origin-top-left scale-[0.5]',
+              'pointer-events-none', // user clicks card, not iframe
+              iframeReady ? 'opacity-100' : 'opacity-0',
+              'transition-opacity duration-500',
+            ].join(' ')}
+            style={{ width: '200%', height: '200%' }}
+            onLoad={() => setIframeReady(true)}
+          />
+        )}
+        {/* Hover overlay → opens full preview */}
+        <a
+          href={item.previewUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/70 via-black/0 to-black/0 p-3 opacity-0 transition-opacity group-hover:opacity-100"
+        >
+          <span className="inline-flex items-center gap-1 rounded-md bg-[#6EE05A] px-3 py-1.5 text-xs font-bold text-black shadow-lg">
+            Open preview <ExternalLink className="h-3 w-3" />
+          </span>
+        </a>
+      </div>
+
+      {/* ── Card body ── */}
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="flex items-start justify-between gap-2">
+          <p className="line-clamp-1 text-sm font-bold text-white">{item.title}</p>
+          <div className="flex shrink-0 items-center gap-1.5">
+            {item.premium && (
+              <Badge className="bg-[#a78bfa]/15 font-mono text-[9px] text-[#a78bfa] hover:bg-[#a78bfa]/20">
+                <Sparkles className="mr-0.5 h-2.5 w-2.5" /> Pro
+              </Badge>
+            )}
+            <Badge variant="outline" className="font-mono text-[9px]">
+              {item.typeLabel}
+            </Badge>
+          </div>
+        </div>
+        {item.description && (
+          <p className="line-clamp-2 text-xs leading-relaxed text-white/65">{item.description}</p>
+        )}
+        <code className="mt-auto truncate rounded bg-muted/40 px-2 py-1 font-mono text-[10px] text-muted-foreground">
+          {item.name}
+        </code>
+      </div>
     </div>
   )
 }

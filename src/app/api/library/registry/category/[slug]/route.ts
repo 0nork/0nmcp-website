@@ -36,6 +36,8 @@ export async function GET(
       premium: i.premium,
       typeLabel: typeLabel(i.type),
       previewUrl: shadcnPreviewUrl(i.name),
+      iframeUrl: shadcnPreviewUrl(i.name),
+      ogImageUrl: `https://www.shadcn.io/og?title=${encodeURIComponent(i.title)}&description=${encodeURIComponent(i.description.slice(0, 200))}`,
       installCommand: `npx shadcn@latest add https://www.shadcn.io/r/${i.name}.json`,
     }))
 

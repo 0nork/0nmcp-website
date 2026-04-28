@@ -40,6 +40,8 @@ import Reveal from '@/components/Reveal'
 import RequestAccessForm from '@/components/RequestAccessForm'
 import HeroQuickCapture from '@/components/HeroQuickCapture'
 import StickyCTA from '@/components/StickyCTA'
+import AnimatedGrid from '@/components/AnimatedGrid'
+import AnimatedConnectors from '@/components/AnimatedConnectors'
 
 // AI client + integration logos shown in trust strip
 const TRUST_LOGOS = [
@@ -302,15 +304,12 @@ export default function Homepage() {
     <main className="min-h-screen bg-background text-foreground">
       {/* ═══ HERO ═══════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden">
-        {/* Soft grid backdrop */}
+        {/* Live animated grid — randomized fade pattern */}
+        <AnimatedGrid />
+        {/* Soft glow blob (lightened) */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(rgba(110,224,90,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(110,224,90,0.4)_1px,transparent_1px)] [background-size:48px_48px]"
-        />
-        {/* Soft glow blob */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 -right-32 h-[600px] w-[600px] rounded-full bg-[#6EE05A]/10 blur-[120px]"
+          className="pointer-events-none absolute -top-32 -right-32 h-[600px] w-[600px] rounded-full bg-[#6EE05A]/[0.06] blur-[140px]"
         />
 
         <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 pt-28 pb-20 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:pt-36 lg:pb-32">
@@ -509,8 +508,9 @@ export default function Homepage() {
 
       {/* ═══ APPS YOU CAN BUILD ═══════════════════════════════════ */}
       <Reveal direction="up">
-        <section id="apps" className="scroll-mt-24 border-y border-border bg-card/30">
-          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <section id="apps" className="scroll-mt-24 relative overflow-hidden border-y border-border bg-card/30">
+          <AnimatedConnectors intensity={0.22} />
+          <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
             <div className="mx-auto max-w-3xl text-center">
               <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
                 Live on 0nCore · Built on 0nMCP

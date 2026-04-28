@@ -39,6 +39,8 @@ import HeroQuickCapture from '@/components/HeroQuickCapture'
 import RequestAccessForm from '@/components/RequestAccessForm'
 import StickyCTA from '@/components/StickyCTA'
 import CountdownToLaunch from '@/components/CountdownToLaunch'
+import AnimatedGrid from '@/components/AnimatedGrid'
+import AnimatedConnectors from '@/components/AnimatedConnectors'
 
 // ─── Action cards (what 0nMCP can do) ────────────────────────────────
 const ACTIONS = [
@@ -237,13 +239,10 @@ export default function WhatIsClient() {
     <main className="min-h-screen bg-background text-foreground">
       {/* ═══ HERO ═══════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden">
+        <AnimatedGrid />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(rgba(110,224,90,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(110,224,90,0.4)_1px,transparent_1px)] [background-size:48px_48px]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-[#6EE05A]/10 blur-[140px]"
+          className="pointer-events-none absolute -top-32 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-[#6EE05A]/[0.06] blur-[140px]"
         />
 
         <div className="relative mx-auto max-w-5xl px-4 pt-28 pb-16 sm:px-6 lg:px-8 lg:pt-36 lg:pb-24">
@@ -490,7 +489,8 @@ export default function WhatIsClient() {
       </section>
 
       {/* ═══ Workflow: how they work together ═════════════════════ */}
-      <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <section className="relative overflow-hidden mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <AnimatedConnectors intensity={0.28} />
         <Reveal direction="up">
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest">
@@ -635,9 +635,10 @@ export default function WhatIsClient() {
       {/* ═══ Founders cohort + countdown CTA ═════════════════════════ */}
       <section
         id="early-access"
-        className="scroll-mt-24 border-y border-border bg-gradient-to-b from-card/40 via-card/30 to-card/40"
+        className="scroll-mt-24 relative overflow-hidden border-y border-border bg-gradient-to-b from-card/40 via-card/30 to-card/40"
       >
-        <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <AnimatedGrid peakOpacity={0.12} />
+        <div className="relative mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <Reveal direction="up">
             <div className="mx-auto max-w-3xl text-center">
               <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">

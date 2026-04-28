@@ -53,7 +53,7 @@ export default function AuditClient() {
       {/* ── Hero ── */}
       <section style={{
         textAlign: 'center', padding: '6rem 1.5rem 3rem',
-        backgroundImage: "linear-gradient(180deg, rgba(8,10,15,0.55) 0%, rgba(8,10,15,0.85) 70%, rgba(8,10,15,1) 100%), url('/images/audit-hero-bg.jpg')",
+        backgroundImage: "linear-gradient(180deg, rgba(8,10,15,0.25) 0%, rgba(8,10,15,0.55) 65%, rgba(8,10,15,0.92) 100%), url('/images/audit-hero-bg.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
         backgroundRepeat: 'no-repeat',

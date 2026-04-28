@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import AnimatedGrid from '@/components/AnimatedGrid'
 
 interface Course {
   id: string
@@ -55,39 +56,42 @@ export default function LearnCatalog() {
   const displayCourses = courses.length > 0 ? courses : []
 
   return (
-    <div style={{ minHeight: '100vh', paddingTop: '5rem' }}>
+    <div style={{ minHeight: '100vh' }}>
       {/* ── Hero ── */}
-      <section style={{ textAlign: 'center', padding: '3rem 1.5rem 2rem', maxWidth: 700, margin: '0 auto' }}>
-        <span style={{
-          display: 'inline-block', padding: '4px 14px', borderRadius: 20,
-          background: '#6EE05A', color: '#0f172a', fontSize: 11,
-          fontWeight: 900, letterSpacing: '0.06em', marginBottom: 16,
-        }}>
-          LEARN 0nMCP
-        </span>
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 12 }}>
-          Master AI Orchestration
-        </h1>
-        <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 24px' }}>
-          From first install to enterprise deployment. Free courses, hands-on tutorials, and masterclasses that turn you into an AI automation expert.
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
-          <Link href="https://grid.0nmcp.com/login" style={{
-            padding: '12px 28px', borderRadius: 10,
-            background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 700, fontSize: 14,
-            textDecoration: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            transition: 'all 0.2s', display: 'inline-block',
-          }}>
-            Join the Community
-          </Link>
-          <Link href="/signup" style={{
-            padding: '12px 28px', borderRadius: 10,
-            background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 600, fontSize: 14,
-            textDecoration: 'none', border: '1px solid var(--border)',
-            transition: 'all 0.2s', display: 'inline-block',
-          }}>
-            Create Free Account
-          </Link>
+      <section className="relative overflow-hidden">
+        <AnimatedGrid />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 left-1/2 h-[480px] w-[480px] -translate-x-1/2 rounded-full bg-[#6EE05A]/[0.06] blur-[140px]"
+        />
+        <div className="relative mx-auto max-w-3xl px-4 pt-28 pb-12 text-center sm:px-6 lg:px-8 lg:pt-36 lg:pb-16">
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#6EE05A]/25 bg-[#6EE05A]/8 px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[#6EE05A]">
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#6EE05A]" />
+            Learn 0nMCP
+          </span>
+          <h1 className="text-balance text-5xl font-black tracking-tight sm:text-6xl">
+            <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+              Master AI orchestration.
+            </span>
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/75">
+            From first install to enterprise deployment. Free courses, hands-on tutorials, and
+            masterclasses that turn you into an AI automation expert.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/signup"
+              className="inline-flex items-center justify-center rounded-xl bg-[#6EE05A] px-7 py-3 text-base font-bold text-black shadow-[0_0_28px_rgba(110,224,90,0.35)] transition-transform hover:scale-[1.02]"
+            >
+              Create Free Account
+            </Link>
+            <Link
+              href="https://grid.0nmcp.com/login"
+              className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-7 py-3 text-base font-semibold text-white backdrop-blur transition-colors hover:border-[#6EE05A]/40 hover:text-[#6EE05A]"
+            >
+              Join the Community
+            </Link>
+          </div>
         </div>
       </section>
 

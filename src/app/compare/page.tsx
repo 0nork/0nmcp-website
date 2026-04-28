@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import comparisonsData from '@/data/comparisons.json'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
+import AnimatedGrid from '@/components/AnimatedGrid'
 
 export const metadata: Metadata = {
   title: '0nMCP vs Every AI Tool — Best AI Software Comparison 2026 | Claude vs GPT vs Gemini vs Zapier',
@@ -310,39 +311,56 @@ export default function ComparePage() {
       {/* ═══════════════════════════════════════════════════════
           HERO: "0nMCP vs Every AI Tool on the Planet"
           ═══════════════════════════════════════════════════════ */}
-      <section className="hero-section" style={{ minHeight: '65vh', paddingTop: '7rem' }}>
-        <div className="hero-glow" aria-hidden="true" />
-        <div className="hero-content">
-          <div className="hero-badge">
-            <span className="hero-badge-dot" />
-            <span>{comparisons.length}+ head-to-head comparisons &middot; Updated March 2026</span>
+      <section className="relative overflow-hidden">
+        <AnimatedGrid />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[#6EE05A]/[0.06] blur-[140px]"
+        />
+        <div className="relative mx-auto max-w-5xl px-4 pt-28 pb-16 text-center sm:px-6 lg:px-8 lg:pt-36 lg:pb-20">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#6EE05A]/25 bg-[#6EE05A]/8 px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-[#6EE05A]">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6EE05A] opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#6EE05A]" />
+            </span>
+            {comparisons.length}+ head-to-head comparisons · Updated 2026
           </div>
 
-          <h1 className="hero-title" style={{ fontSize: 'clamp(2rem, 6vw, 4.5rem)' }}>
-            0nMCP vs Every AI Tool<br />
-            <span className="hero-title-accent">on the Planet</span>
+          <h1 className="text-balance text-5xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+            <span className="block bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+              0nMCP vs every AI tool
+            </span>
+            <span className="block bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+              on the planet.
+            </span>
           </h1>
 
-          <p className="hero-subtitle" style={{ maxWidth: 680 }}>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/75 sm:text-xl">
             The definitive comparison resource for AI software, automation platforms, and MCP servers.{' '}
-            <strong>{STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. Free and open source.</strong>{' '}
+            <strong className="text-white">{STATS_DISPLAY.capabilities_marketing} capabilities. {STATS_DISPLAY.services_marketing} services. Free and open core.</strong>{' '}
             See exactly where 0nMCP wins, where alternatives still have an edge, and which tool is right for you.
           </p>
 
-          <div className="hero-ctas" style={{ justifyContent: 'center', marginTop: '1.5rem' }}>
-            <Link href="#mega-table" className="hero-cta-primary">
-              See the Full Comparison
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="#mega-table"
+              className="inline-flex items-center justify-center rounded-xl bg-[#6EE05A] px-7 py-3 text-base font-bold text-black shadow-[0_0_28px_rgba(110,224,90,0.35)] transition-transform hover:scale-[1.02]"
+            >
+              See the Full Comparison →
             </Link>
-            <Link href="#competitors" className="hero-cta-secondary">
+            <Link
+              href="#competitors"
+              className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-7 py-3 text-base font-semibold text-white backdrop-blur transition-colors hover:border-[#6EE05A]/40 hover:text-[#6EE05A]"
+            >
               Competitor Deep Dives
             </Link>
           </div>
 
-          <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-            <Link href="/compare/interactive" style={{ fontSize: '0.8125rem', color: 'var(--accent)', fontWeight: 600 }}>
+          <p className="mt-6 text-sm text-muted-foreground">
+            <Link href="/compare/interactive" className="font-semibold text-[#6EE05A] hover:underline">
               Try the Interactive Comparison Tool — pick 2-4 platforms and compare side by side →
             </Link>
-          </div>
+          </p>
         </div>
       </section>
 

@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {
   ArrowRight,
-  Github,
   Terminal,
   Zap,
   Shield,
@@ -13,6 +12,16 @@ import {
   Lock,
   Sparkles,
   Cpu,
+  HeartPulse,
+  LineChart,
+  PenLine,
+  Users,
+  Globe,
+  Linkedin,
+  ScrollText,
+  KeyRound,
+  Bot,
+  ClipboardList,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -35,13 +44,97 @@ const TRUST_LOGOS = [
   { name: 'Anthropic', src: '/logos/anthropic.svg' },
   { name: 'OpenAI', src: '/logos/openai.svg' },
   { name: 'Stripe', src: '/logos/stripe.svg' },
-  { name: 'GitHub', src: '/logos/github.svg' },
   { name: 'Slack', src: '/logos/slack.svg' },
   { name: 'Supabase', src: '/logos/supabase.svg' },
   { name: 'Notion', src: '/logos/notion.svg' },
   { name: 'Airtable', src: '/logos/airtable.svg' },
   { name: 'Shopify', src: '/logos/shopify.svg' },
   { name: 'Calendly', src: '/logos/calendly.svg' },
+]
+
+// Apps you can build today on 0nCore — what real subscribers run.
+// Intentionally omits the Website Factory (paid premium offering).
+const APPS = [
+  {
+    icon: HeartPulse,
+    name: 'HIPAA Compliance Scanner',
+    desc: 'Scans any healthcare site against the 2026 NPRM in 60 seconds. 63 checks across 5 weighted domains, AI-synthesized roadmap, branded PDF report.',
+    color: 'text-[#6EE05A]',
+    border: 'border-[#6EE05A]/25',
+    bg: 'bg-[#6EE05A]/5',
+  },
+  {
+    icon: LineChart,
+    name: 'SXO Audit Engine',
+    desc: 'Search Experience Optimization scoring across BLUF, Table Trap, Information Gain. Runs on any URL, returns a Living-DOM rewrite plan.',
+    color: 'text-[#14b8a6]',
+    border: 'border-[#14b8a6]/25',
+    bg: 'bg-[#14b8a6]/5',
+  },
+  {
+    icon: PenLine,
+    name: 'AI Blog Engine',
+    desc: 'Daily SXO-optimized posts to your CMS. Self-improving via the multi-AI council. Radial-burst publishes to Dev.to, LinkedIn, and your CRM.',
+    color: 'text-[#a78bfa]',
+    border: 'border-[#a78bfa]/25',
+    bg: 'bg-[#a78bfa]/5',
+  },
+  {
+    icon: Users,
+    name: 'CRM Setup Wizard',
+    desc: 'Spins up contacts, pipelines, custom fields, and 245 CRM tools in your account. No PIT, no scopes, no developer required.',
+    color: 'text-[#f59e0b]',
+    border: 'border-[#f59e0b]/25',
+    bg: 'bg-[#f59e0b]/5',
+  },
+  {
+    icon: Globe,
+    name: 'IndexNow Auto-Submitter',
+    desc: 'Daily 09:00 UTC cron. Submits every URL across your domains to Bing, Yandex, Naver, and Seznam in one pass. ~1 second per 750 URLs.',
+    color: 'text-[#6EE05A]',
+    border: 'border-[#6EE05A]/25',
+    bg: 'bg-[#6EE05A]/5',
+  },
+  {
+    icon: Linkedin,
+    name: 'LinkedIn Posting Engine',
+    desc: 'VPIS-scored content with Big Egg writing style. Schedules + drafts + posts + tracks engagement. The growth engine, automated.',
+    color: 'text-[#14b8a6]',
+    border: 'border-[#14b8a6]/25',
+    bg: 'bg-[#14b8a6]/5',
+  },
+  {
+    icon: ClipboardList,
+    name: 'Lead Capture Flow',
+    desc: 'Drop-in form on any site, posts straight to your CRM tagged + segmented + workflow-triggered. Goodbye Zapier middleware.',
+    color: 'text-[#a78bfa]',
+    border: 'border-[#a78bfa]/25',
+    bg: 'bg-[#a78bfa]/5',
+  },
+  {
+    icon: ScrollText,
+    name: 'Daily Report Generator',
+    desc: 'Pulls metrics from every connected service, runs them through the AI council, drops a branded summary in your inbox at 7am.',
+    color: 'text-[#f59e0b]',
+    border: 'border-[#f59e0b]/25',
+    bg: 'bg-[#f59e0b]/5',
+  },
+  {
+    icon: KeyRound,
+    name: 'Vault Setup',
+    desc: 'AES-256-GCM credential vault bound to your hardware fingerprint. Patent-pending Seal of Truth integrity. Multi-party escrow built in.',
+    color: 'text-[#6EE05A]',
+    border: 'border-[#6EE05A]/25',
+    bg: 'bg-[#6EE05A]/5',
+  },
+  {
+    icon: Bot,
+    name: 'Custom Voice Agent',
+    desc: 'Train a domain-specific AI agent on your knowledge base. Available as a chat widget, voice line, or API endpoint. No prompt-engineering.',
+    color: 'text-[#14b8a6]',
+    border: 'border-[#14b8a6]/25',
+    bg: 'bg-[#14b8a6]/5',
+  },
 ]
 
 // ─── Comparison data ───────────────────────────────────────────────
@@ -233,45 +326,42 @@ export default function Homepage() {
 
             <h1 className="text-balance text-5xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
               <span className="block bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                The universal AI
+                Stop building workflows.
               </span>
               <span className="block bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                API orchestrator.
+                Start describing outcomes.
               </span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
-              {STATS_DISPLAY.tools} tools across {STATS_DISPLAY.services} services. One install.
-              Zero configuration. Patent-pending Three-Level Execution. Powered by the .0n SWITCH
-              file format.
+              0nMCP is the orchestrator running underneath {STATS_DISPLAY.tools} tools across{' '}
+              {STATS_DISPLAY.services} services — CRM, payments, search, social, AI, the whole stack.
+              You describe what you want done. It runs across every connected service.
+            </p>
+
+            <p className="mt-4 max-w-2xl text-base text-white/65">
+              Use it anywhere — Claude, Cursor, your terminal. Or skip the setup entirely and
+              <span className="font-semibold text-[#6EE05A]"> run it on 0nCore</span>: no install,
+              no API keys, no code. Sign in and start building.
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
               <Button asChild size="lg" className="h-12 px-7 text-base font-bold">
-                <Link href="/start">
-                  Turn It 0n — Free
+                <a href="https://0ncore.com" target="_blank" rel="noopener">
+                  Try 0nCore — Free
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="h-12 px-7 text-base font-semibold">
-                <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener">
-                  <Github className="mr-2 h-4 w-4" />
-                  View on GitHub
                 </a>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="h-12 px-5 text-base">
-                <Link href="/docs">Read the docs</Link>
+              <Button asChild size="lg" variant="outline" className="h-12 px-7 text-base font-semibold">
+                <Link href="#apps">
+                  See what you can build
+                </Link>
               </Button>
             </div>
 
-            <div className="mt-8 flex items-center gap-2">
-              <code className="rounded-md border border-[#6EE05A]/25 bg-[#6EE05A]/8 px-3 py-1.5 font-mono text-sm text-[#6EE05A]">
-                $ npx 0nmcp@latest
-              </code>
-              <span className="text-xs text-muted-foreground font-mono">
-                works with Claude, Cursor, Windsurf, Gemini, VS Code, Zed
-              </span>
-            </div>
+            <p className="mt-8 text-xs text-muted-foreground">
+              No credit card. No code. Setup takes about 60 seconds.
+            </p>
           </Reveal>
 
           {/* ── RIGHT: animated pipeline ── */}
@@ -410,6 +500,62 @@ export default function Homepage() {
           </div>
         </div>
       </section>
+
+      {/* ═══ APPS YOU CAN BUILD ═══════════════════════════════════ */}
+      <Reveal direction="up">
+        <section id="apps" className="scroll-mt-24 border-y border-border bg-card/30">
+          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+            <div className="mx-auto max-w-3xl text-center">
+              <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
+                Live on 0nCore · Built on 0nMCP
+              </Badge>
+              <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
+                <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+                  Apps you can run right now — no code, no install.
+                </span>
+              </h2>
+              <p className="mt-4 text-lg text-white/70">
+                These are real production apps subscribers use today. Each one is a few clicks away
+                inside 0nCore. Nothing to compile. Nothing to host. Plug in your accounts and go.
+              </p>
+            </div>
+
+            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {APPS.map((a, i) => {
+                const Icon = a.icon
+                return (
+                  <Reveal key={a.name} delay={i * 60} direction="up">
+                    <Card className={`h-full border ${a.border} ${a.bg} backdrop-blur transition-colors hover:bg-card/80`}>
+                      <CardHeader className="space-y-3 pb-3">
+                        <div className={`inline-flex h-11 w-11 items-center justify-center rounded-lg ring-1 ${a.border} ${a.bg}`}>
+                          <Icon className={`h-5 w-5 ${a.color}`} />
+                        </div>
+                        <CardTitle className="text-base text-white leading-tight">{a.name}</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-xs leading-relaxed text-white/70">{a.desc}</p>
+                      </CardContent>
+                    </Card>
+                  </Reveal>
+                )
+              })}
+            </div>
+
+            <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
+              <p className="text-sm text-white/65">
+                And <span className="font-bold text-white">a lot more</span> — every app on this
+                page is one of dozens already running on 0nCore.
+              </p>
+              <Button asChild size="lg" className="h-12 px-8 text-base font-bold">
+                <a href="https://0ncore.com" target="_blank" rel="noopener">
+                  Open 0nCore Free
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+      </Reveal>
 
       {/* ═══ COMPARISON TABLE ═══════════════════════════════════════ */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
@@ -566,15 +712,13 @@ export default function Homepage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button asChild size="lg" className="h-12 px-7">
-                <Link href="/marketplace">
-                  Browse the marketplace
+                <a href="https://0ncore.com" target="_blank" rel="noopener">
+                  Open 0nCore — Free
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+                </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-12 px-7">
-                <Link href="/0n-standard">
-                  Read the .0n spec
-                </Link>
+                <Link href="/0n-standard">Read the .0n spec</Link>
               </Button>
             </div>
           </div>
@@ -690,21 +834,18 @@ export default function Homepage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className="h-12 px-8 text-base font-bold">
-                <Link href="/start">
-                  Turn It 0n — Free
+                <a href="https://0ncore.com" target="_blank" rel="noopener">
+                  Sign up free on 0nCore
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+                </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-12 px-8 text-base">
-                <a href="https://github.com/0nork/0nMCP" target="_blank" rel="noopener">
-                  <Github className="mr-2 h-4 w-4" />
-                  Star on GitHub
-                </a>
+                <Link href="#apps">See what you can build</Link>
               </Button>
             </div>
             <Separator className="my-10 bg-border/50" />
             <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              MIT licensed · 5 patents pending · 0nork / RocketOpp LLC
+              5 patents pending · MIT-licensed core · 0nork / RocketOpp LLC
             </p>
           </CardContent>
         </Card>

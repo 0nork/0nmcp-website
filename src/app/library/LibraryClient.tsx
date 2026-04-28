@@ -129,6 +129,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Toaster, toast } from 'sonner'
+import RegistryBrowser from './RegistryBrowser'
 
 // ────────────────────────────────────────────────────────────────────
 // 0n FRIENDLY NAME REGISTRY
@@ -1058,6 +1059,15 @@ export default function LibraryClient() {
                   </a>
                 </li>
               ))}
+              <li className="pt-2">
+                <a
+                  href="#registry"
+                  className="flex items-center justify-between rounded-md border border-[#a78bfa]/25 bg-[#a78bfa]/5 px-3 py-2 text-sm font-bold text-[#a78bfa] transition-colors hover:bg-[#a78bfa]/10"
+                >
+                  <span>Full Registry</span>
+                  <span className="font-mono text-[10px]">7,732</span>
+                </a>
+              </li>
             </ul>
             <Separator className="my-6" />
             <p className="px-3 text-xs leading-relaxed text-muted-foreground">
@@ -1068,6 +1078,19 @@ export default function LibraryClient() {
 
         {/* Right: live previews */}
         <div className="space-y-16 lg:col-span-9">
+          {/* Curated 39 — Core blocks with live previews */}
+          <div>
+            <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-border/60 pb-4">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
+                  Core Blocks · Curated
+                </p>
+                <h2 className="mt-1 text-3xl font-black tracking-tight text-white">
+                  The {totalBlocks} live primitives every 0n surface uses
+                </h2>
+              </div>
+            </div>
+          </div>
           {CATEGORIES.map((cat) => (
             <section key={cat.slug} id={cat.slug} className="scroll-mt-24">
               <div className="mb-6 border-b border-border/60 pb-4">
@@ -1104,6 +1127,27 @@ export default function LibraryClient() {
               </div>
             </section>
           ))}
+
+          {/* ── Full registry — 7,732 blocks across 56 categories ── */}
+          <section id="registry" className="scroll-mt-24">
+            <div className="mb-6 border-b border-border/60 pb-4">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-[#a78bfa]">
+                Full Registry · Live · 7,732 blocks
+              </p>
+              <h2 className="mt-1 text-3xl font-black tracking-tight">
+                <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+                  Every block in the wider design ecosystem.
+                </span>
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-white/65">
+                Live-pulled from the open community registry. Browse 56 categories, open one to see
+                its blocks. Each card opens the full preview in a new tab and includes the install
+                command for direct adoption.
+              </p>
+            </div>
+
+            <RegistryBrowser />
+          </section>
         </div>
       </div>
     </main>

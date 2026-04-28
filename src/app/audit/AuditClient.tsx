@@ -53,34 +53,37 @@ export default function AuditClient() {
       {/* ── Hero ── */}
       <section style={{
         textAlign: 'center', padding: '6rem 1.5rem 3rem',
-        background: 'linear-gradient(180deg, #fff 0%, #f8f9fa 100%)',
+        backgroundImage: "linear-gradient(180deg, rgba(8,10,15,0.55) 0%, rgba(8,10,15,0.85) 70%, rgba(8,10,15,1) 100%), url('/images/audit-hero-bg.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
         position: 'relative', overflow: 'hidden',
       }}>
         <div style={{
           position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)',
-          width: 600, height: 400, background: 'radial-gradient(ellipse, rgba(110,224,90,0.08), transparent 70%)',
+          width: 600, height: 400, background: 'radial-gradient(ellipse, rgba(110,224,90,0.18), transparent 70%)',
           filter: 'blur(60px)', pointerEvents: 'none',
         }} />
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 640, margin: '0 auto' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px',
-            borderRadius: 999, background: 'rgba(110,224,90,0.08)', border: '1px solid rgba(110,224,90,0.2)',
-            color: '#2d6a22', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em',
+            borderRadius: 999, background: 'rgba(110,224,90,0.12)', border: '1px solid rgba(110,224,90,0.35)',
+            color: '#a3f08e', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em',
             marginBottom: '1.25rem',
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#6EE05A' }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#6EE05A', boxShadow: '0 0 8px #6EE05A' }} />
             FREE SXO AUDIT
           </div>
 
           <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: 'var(--text-primary)',
+            fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 900, color: '#ffffff',
             lineHeight: 1.1, margin: '0 0 1rem', letterSpacing: '-0.03em',
           }}>
             How does your<br />website <span style={{ color: '#6EE05A' }}>score</span>?
           </h1>
 
-          <p style={{ fontSize: '1.0625rem', color: '#6b7280', lineHeight: 1.6, margin: '0 0 2rem' }}>
+          <p style={{ fontSize: '1.0625rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, margin: '0 0 2rem' }}>
             10 checks. 5 seconds. Speed, SEO, security, mobile, schema, and more.
             Get your SXO score with actionable fixes.
           </p>
@@ -89,8 +92,9 @@ export default function AuditClient() {
           <div style={{
             display: 'flex', gap: 8, maxWidth: 520, margin: '0 auto',
             padding: 6, borderRadius: 14,
-            background: 'var(--bg-card)', border: '1px solid var(--border)',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+            background: 'rgba(20,22,30,0.85)', border: '1px solid rgba(255,255,255,0.12)',
+            backdropFilter: 'blur(8px)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(110,224,90,0.05)',
           }}>
             <input
               value={url}
@@ -99,27 +103,27 @@ export default function AuditClient() {
               placeholder="Enter any website URL..."
               style={{
                 flex: 1, padding: '14px 18px', borderRadius: 10, border: 'none',
-                fontSize: '0.9375rem', color: 'var(--text-primary)', outline: 'none', background: 'transparent',
+                fontSize: '0.9375rem', color: '#ffffff', outline: 'none', background: 'transparent',
                 fontFamily: 'inherit',
               }}
             />
             <button onClick={runAudit} disabled={loading || !url.trim()} style={{
               padding: '14px 28px', borderRadius: 10,
-              background: loading ? '#d1d5db' : '#6EE05A', color: '#000',
+              background: loading ? '#3f4452' : '#6EE05A', color: loading ? '#9ca3af' : '#0a0a0a',
               fontSize: '0.9375rem', fontWeight: 700, border: 'none',
               cursor: loading ? 'wait' : 'pointer', fontFamily: 'inherit',
               whiteSpace: 'nowrap', transition: 'all 0.2s',
-              boxShadow: loading ? 'none' : '0 2px 12px rgba(110,224,90,0.25)',
+              boxShadow: loading ? 'none' : '0 2px 16px rgba(110,224,90,0.4)',
             }}>
               {loading ? 'Scanning...' : 'Audit'}
             </button>
           </div>
 
           {error && (
-            <p style={{ fontSize: '0.8125rem', color: '#ef4444', marginTop: 12 }}>{error}</p>
+            <p style={{ fontSize: '0.8125rem', color: '#fca5a5', marginTop: 12 }}>{error}</p>
           )}
 
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 12 }}>
+          <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.45)', marginTop: 12 }}>
             No signup required. Powered by 0nMCP.
           </p>
         </div>

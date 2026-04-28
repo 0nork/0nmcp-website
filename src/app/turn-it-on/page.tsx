@@ -6,6 +6,8 @@ import { STATS, STATS_DISPLAY } from '@/data/stats'
 import { getAllCategories, getServicesInCategory } from '@/lib/sxo-helpers'
 import ServiceLogo from '@/components/ServiceLogo'
 import TurnItOnSignup from '@/components/turn-it-on/TurnItOnSignup'
+import AnimatedGrid from '@/components/AnimatedGrid'
+import AnimatedConnectors from '@/components/AnimatedConnectors'
 
 export const metadata: Metadata = {
   title: `Turn it 0n — ${STATS_DISPLAY.services} Services, ${STATS_DISPLAY.tools} Tools | 0nMCP`,
@@ -31,64 +33,64 @@ export default function TurnItOnPage() {
   return (
     <>
       {/* Hero */}
-      <section className="py-20 md:py-28">
-        <div className="section-container text-center">
-          <div className="inline-block mb-6">
-            <span
-              className="text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full"
-              style={{
-                fontFamily: 'var(--font-mono)',
-                color: 'var(--accent)',
-                backgroundColor: 'rgba(110, 224, 90, 0.1)',
-                border: '1px solid rgba(110, 224, 90, 0.2)',
-              }}
-            >
-              Integrations
+      <section className="relative overflow-hidden">
+        <AnimatedGrid />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-[#6EE05A]/[0.06] blur-[140px]"
+        />
+        <div className="relative mx-auto max-w-5xl px-4 pt-28 pb-16 text-center sm:px-6 lg:px-8 lg:pt-36 lg:pb-20">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#6EE05A]/25 bg-[#6EE05A]/8 px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[#6EE05A]">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6EE05A] opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#6EE05A]" />
             </span>
+            Integrations
           </div>
 
-          <div className="heading-glow">
-            <h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
-              style={{ letterSpacing: '-0.03em' }}
-            >
-              <span style={{ color: 'var(--accent)' }}>{totalServices} Services</span>.{' '}
-              <span style={{ color: 'var(--accent)' }}>
-                {totalCapabilities.toLocaleString()}+ Capabilities
-              </span>
-              .
-              <br />
-              Turn it{' '}
-              <span className="glow-text" style={{ color: 'var(--accent)' }}>
-                0n
-              </span>
-              .
-            </h1>
-          </div>
+          <h1 className="text-balance text-5xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+            <span className="block bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+              {STATS_DISPLAY.services_marketing} Services.
+            </span>
+            <span className="block bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+              {STATS_DISPLAY.capabilities_marketing} Capabilities.
+            </span>
+            <span className="block text-3xl font-bold leading-snug text-white/85 sm:text-4xl lg:text-5xl mt-2">
+              Turn it 0n.
+            </span>
+          </h1>
 
-          <p
-            className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            Every service below works with 0nMCP out of the box. No monthly
-            fees, no drag-and-drop builders. Just describe what you want in
-            plain English.
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/75 sm:text-xl">
+            Every service below works with 0nMCP out of the box. No monthly fees, no drag-and-drop
+            builders. Just describe what you want in plain English.
           </p>
 
           {/* Sign up form — one question at a time */}
-          <TurnItOnSignup />
+          <div className="mt-10">
+            <TurnItOnSignup />
+          </div>
 
-          {/* Animated stats */}
-          <div className="flex flex-wrap items-center justify-center gap-8 mb-12">
-            <StatBlock value={totalServices.toString()} label="Services" />
-            <StatBlock
-              value={totalTools.toLocaleString() + '+'}
-              label="Tools"
-            />
-            <StatBlock
-              value={totalCapabilities.toLocaleString() + '+'}
-              label="Capabilities"
-            />
+          {/* Animated stats — gradient values */}
+          <div className="mt-12 grid grid-cols-3 gap-3">
+            {[
+              { v: STATS_DISPLAY.services_marketing, l: 'Services' },
+              { v: STATS_DISPLAY.capabilities_marketing, l: 'Capabilities' },
+              { v: totalTools.toLocaleString() + '+', l: 'Tools' },
+            ].map((s) => (
+              <div
+                key={s.l}
+                className="rounded-xl border border-border/60 bg-card/40 px-4 py-5 text-center backdrop-blur"
+              >
+                <div className="font-mono text-2xl font-black tabular-nums sm:text-3xl">
+                  <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
+                    {s.v}
+                  </span>
+                </div>
+                <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  {s.l}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

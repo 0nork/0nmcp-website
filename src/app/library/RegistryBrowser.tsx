@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, ExternalLink, Search, Sparkles } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ExternalLink, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -46,7 +46,7 @@ export default function RegistryBrowser() {
   // Initial load — categories
   useEffect(() => {
     let cancelled = false
-    fetch('/api/library/registry/categories')
+    fetch('/api/library/registry/categories?free=true')
       .then((r) => r.json())
       .then((d) => {
         if (cancelled) return
@@ -79,7 +79,7 @@ export default function RegistryBrowser() {
     if (!openCategory) return
     setLoadingItems(true)
     const offset = page * PAGE_SIZE
-    fetch(`/api/library/registry/category/${openCategory}?limit=${PAGE_SIZE}&offset=${offset}`)
+    fetch(`/api/library/registry/category/${openCategory}?limit=${PAGE_SIZE}&offset=${offset}&premium=false`)
       .then((r) => r.json())
       .then((d) => {
         if (!d.ok) {
@@ -126,12 +126,11 @@ export default function RegistryBrowser() {
     <div className="space-y-8">
       {/* ── Totals strip ── */}
       {totals && (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {[
-            { v: totals.items.toLocaleString(), l: 'Total Blocks' },
+            { v: totals.items.toLocaleString(), l: 'Free Blocks' },
             { v: totals.categories.toString(), l: 'Categories' },
-            { v: totals.free.toLocaleString(), l: 'Free' },
-            { v: totals.premium.toLocaleString(), l: 'Premium' },
+            { v: 'MIT', l: 'Free Forever' },
           ].map((s) => (
             <Card key={s.l} className="border-border/60 bg-card/60 text-center backdrop-blur">
               <CardContent className="py-5">
@@ -176,7 +175,7 @@ export default function RegistryBrowser() {
                 </Badge>
               </div>
               <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                {c.freeCount} free · {c.premiumCount} premium
+                {c.freeCount.toLocaleString()} free
               </p>
             </button>
           )
@@ -322,16 +321,9 @@ function BlockPreviewCard({ item }: { item: RegistryItem }) {
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
           <p className="line-clamp-1 text-sm font-bold text-white">{item.title}</p>
-          <div className="flex shrink-0 items-center gap-1.5">
-            {item.premium && (
-              <Badge className="bg-[#a78bfa]/15 font-mono text-[9px] text-[#a78bfa] hover:bg-[#a78bfa]/20">
-                <Sparkles className="mr-0.5 h-2.5 w-2.5" /> Pro
-              </Badge>
-            )}
-            <Badge variant="outline" className="font-mono text-[9px]">
-              {item.typeLabel}
-            </Badge>
-          </div>
+          <Badge variant="outline" className="shrink-0 font-mono text-[9px]">
+            {item.typeLabel}
+          </Badge>
         </div>
         {item.description && (
           <p className="line-clamp-2 text-xs leading-relaxed text-white/65">{item.description}</p>

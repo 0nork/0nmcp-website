@@ -1064,8 +1064,8 @@ export default function LibraryClient() {
                   href="#registry"
                   className="flex items-center justify-between rounded-md border border-[#a78bfa]/25 bg-[#a78bfa]/5 px-3 py-2 text-sm font-bold text-[#a78bfa] transition-colors hover:bg-[#a78bfa]/10"
                 >
-                  <span>Full Registry</span>
-                  <span className="font-mono text-[10px]">7,732</span>
+                  <span>Free Library</span>
+                  <span className="font-mono text-[10px]">1,398</span>
                 </a>
               </li>
             </ul>
@@ -1128,21 +1128,21 @@ export default function LibraryClient() {
             </section>
           ))}
 
-          {/* ── Full registry — 7,732 blocks across 56 categories ── */}
+          {/* ── Free library — 1,398 free blocks across categorized buckets ── */}
           <section id="registry" className="scroll-mt-24">
             <div className="mb-6 border-b border-border/60 pb-4">
               <p className="font-mono text-[10px] uppercase tracking-widest text-[#a78bfa]">
-                Full Registry · Live · 7,732 blocks
+                Free Library · Live · 1,398 blocks
               </p>
               <h2 className="mt-1 text-3xl font-black tracking-tight">
                 <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                  Every block in the wider design ecosystem.
+                  Every free block in the wider design ecosystem.
                 </span>
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-white/65">
-                Live-pulled from the open community registry. Browse 56 categories, open one to see
-                its blocks. Each card opens the full preview in a new tab and includes the install
-                command for direct adoption.
+                Live-pulled from the open community registry. Free, MIT-friendly building blocks
+                only — categorized for fast browsing. Each card opens the live preview and includes
+                the install command for direct adoption.
               </p>
             </div>
 

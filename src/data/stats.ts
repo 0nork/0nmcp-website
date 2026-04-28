@@ -39,6 +39,11 @@ export const STATS = {
 } as const
 
 // ─── FORMATTED (with commas for display) ─────────────────────────
+// `*_marketing` are the rounded, aspirational figures used in hero copy
+// and lead-capture surfaces ahead of the May 1st launch — gives wiggle
+// room as services + capabilities expand. Use the literal `STATS.*`
+// values in places that should stay numerically accurate (engineering
+// docs, comparison tables that quote exact counts, etc).
 export const STATS_DISPLAY = {
   tools: STATS.tools.toLocaleString(),
   services: STATS.services.toLocaleString(),
@@ -49,6 +54,11 @@ export const STATS_DISPLAY = {
   license: STATS.license,
   local_cost: STATS.local_cost,
   version: STATS.version,
+
+  // Marketing numbers — rounded up with room to grow.
+  services_marketing: '150+',
+  capabilities_marketing: '2,000+',
+  tools_marketing: '2,000+',
 } as const
 
 // ─── HERO STATS ARRAY (for stat grids) ───────────────────────────

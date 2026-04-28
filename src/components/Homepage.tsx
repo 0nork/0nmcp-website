@@ -38,6 +38,8 @@ import { STATS_DISPLAY } from '@/data/stats'
 import ServerPipeline from '@/components/ServerPipeline'
 import Reveal from '@/components/Reveal'
 import RequestAccessForm from '@/components/RequestAccessForm'
+import HeroQuickCapture from '@/components/HeroQuickCapture'
+import StickyCTA from '@/components/StickyCTA'
 
 // AI client + integration logos shown in trust strip
 const TRUST_LOGOS = [
@@ -334,8 +336,8 @@ export default function Homepage() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
-              0nMCP is the orchestrator running underneath {STATS_DISPLAY.tools} tools across{' '}
-              {STATS_DISPLAY.services} services — CRM, payments, search, social, AI, the whole stack.
+              0nMCP is the orchestrator running underneath {STATS_DISPLAY.capabilities_marketing} capabilities across{' '}
+              {STATS_DISPLAY.services_marketing} services — CRM, payments, search, social, AI, the whole stack.
               You describe what you want done. It runs across every connected service.
             </p>
 
@@ -359,8 +361,12 @@ export default function Homepage() {
               </Button>
             </div>
 
-            <p className="mt-8 text-xs text-muted-foreground">
-              No credit card. No code. Setup takes about 60 seconds.
+            {/* Inline email capture — low-friction first touch */}
+            <HeroQuickCapture />
+
+            <p className="mt-4 text-xs text-muted-foreground">
+              <span className="font-semibold text-[#6EE05A]">Founders cohort</span> closes May 1 ·
+              No credit card · 60-second setup
             </p>
           </Reveal>
 
@@ -403,8 +409,8 @@ export default function Homepage() {
       <section className="border-y border-border bg-card/40">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px overflow-hidden bg-border md:grid-cols-4 lg:grid-cols-7">
           {[
-            { v: STATS_DISPLAY.tools, l: 'Tools' },
-            { v: STATS_DISPLAY.services, l: 'Services' },
+            { v: STATS_DISPLAY.capabilities_marketing, l: 'Capabilities' },
+            { v: STATS_DISPLAY.services_marketing, l: 'Services' },
             { v: STATS_DISPLAY.categories, l: 'Categories' },
             { v: '$0', l: 'Local Use' },
             { v: 'MIT', l: 'License' },
@@ -745,36 +751,43 @@ export default function Homepage() {
 
       {/* ═══ REQUEST ACCESS FORM ════════════════════════════════════ */}
       <Reveal direction="up">
-        <section className="border-t border-border bg-card/20">
+        <section id="early-access" className="scroll-mt-24 border-t border-border bg-card/20">
           <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8 lg:py-28">
             <div>
               <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
-                Early Access · Limited spots
+                Founders Cohort · Closes May 1
               </Badge>
               <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
                 <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                  Reserve your spot in the launch cohort.
+                  Get in before public launch — keep founder pricing forever.
                 </span>
               </h2>
-              <p className="mt-6 text-lg leading-relaxed text-white/70">
-                We&rsquo;re onboarding a focused group ahead of public launch. You&rsquo;ll get
-                white-glove setup, direct line to the team, and lifetime founder pricing on the
-                marketplace.
+              <p className="mt-6 text-lg leading-relaxed text-white/75">
+                We&rsquo;re onboarding a focused group of operators, agencies, and indie builders
+                ahead of May 1. White-glove setup, a direct line to the team, and lifetime
+                founder pricing on every app in the marketplace.
               </p>
-              <ul className="mt-6 space-y-2 text-sm text-white/75">
+              <ul className="mt-6 space-y-2 text-sm text-white/80">
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#6EE05A]" />
-                  Direct provisioning into the 0nCore dashboard
+                  <span><strong className="text-white">Lifetime founder pricing</strong> — locked the day you sign up, never raises</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#14b8a6]" />
-                  Guided install for your AI editor + first .0n workflow
+                  <span><strong className="text-white">Direct provisioning</strong> into the 0nCore dashboard with all 150+ services pre-wired</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#a78bfa]" />
-                  Private Slack channel with the founding team
+                  <span><strong className="text-white">Guided first run</strong> — first .0n workflow shipped on a call with us</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
+                  <span><strong className="text-white">Private Slack</strong> with the founding team — every question, answered same day</span>
                 </li>
               </ul>
+              <p className="mt-6 text-xs font-mono uppercase tracking-widest text-muted-foreground">
+                Public launch May 1 · Founders pricing ends at launch · No credit card to reserve
+              </p>
             </div>
             <Reveal direction="left" delay={150}>
               <RequestAccessForm />
@@ -829,8 +842,8 @@ export default function Homepage() {
               </span>
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-              {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. One command. Free
-              forever.
+              {STATS_DISPLAY.capabilities_marketing} capabilities. {STATS_DISPLAY.services_marketing} services.
+              One command. Free forever.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className="h-12 px-8 text-base font-bold">
@@ -850,6 +863,9 @@ export default function Homepage() {
           </CardContent>
         </Card>
       </section>
+
+      {/* ═══ STICKY LEAD CTA ═══════════════════════════════════════ */}
+      <StickyCTA />
     </main>
   )
 }

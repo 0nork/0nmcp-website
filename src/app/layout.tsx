@@ -6,7 +6,7 @@ import { STATS } from '@/data/stats'
 import './globals.css'
 import SiteChrome from '@/components/SiteChrome'
 import Providers from '@/components/Providers'
-import OnCallLoader from '@/components/oncall/OnCallLoader'
+import { VoiceAIFloatingButton } from '@/components/voice-ai-floating'
 // ExitIntentPopup and SignupGate permanently removed — never show popups on the backend
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 
@@ -101,21 +101,15 @@ export default async function RootLayout({
       <body className="antialiased">
         <Providers>
           <SiteChrome isWeb0n={isWeb0n}>{children}</SiteChrome>
-          {!isWeb0n && <OnCallLoader />}
+          {/* Jaxx — same Voice AI widget that runs on 0ncore.com */}
+          {!isWeb0n && <VoiceAIFloatingButton />}
         </Providers>
         <GoogleAnalytics />
         <Analytics />
         <SpeedInsights />
-        {/* CRM tracking removed — keydown listener was causing backwards text in textareas */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(s,i,t){var e=new XMLHttpRequest();e.open('POST','https://www.0nmcp.com/api/t');e.setRequestHeader('Content-Type','application/json');e.send(JSON.stringify({s:s,p:location.href,r:document.referrer,d:navigator.userAgent,t:Date.now()}))})('3ed036f8-6ddc-4317-8fcb-f9692bd6ce79');`,
-          }}
-        />
-        {/* 0nAI Chat Widget — Agent Studio powered, on all public pages */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var s=document.createElement('script');s.src='https://widgets.leadconnectorhq.com/loader.js';s.setAttribute('data-resources-url','https://widgets.leadconnectorhq.com/chat-widget/loader.js');s.setAttribute('data-widget-id','nphConTwfHcVE1oA0uep');s.async=true;document.body.appendChild(s);})();`,
           }}
         />
       </body>

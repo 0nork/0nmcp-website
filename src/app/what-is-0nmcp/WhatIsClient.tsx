@@ -10,15 +10,18 @@ import {
   CreditCard,
   Database,
   Globe,
+  Linkedin,
   Lock,
   Mail,
   Megaphone,
+  MessageCircle,
   Send,
   Shield,
   Sparkles,
   Terminal,
   Users,
   Wand2,
+  Webhook,
   X,
   Zap,
 } from 'lucide-react'
@@ -32,7 +35,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Separator } from '@/components/ui/separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { STATS_DISPLAY } from '@/data/stats'
 import Reveal from '@/components/Reveal'
 import HeroQuickCapture from '@/components/HeroQuickCapture'
@@ -42,6 +44,7 @@ import CountdownToLaunch from '@/components/CountdownToLaunch'
 import AnimatedGrid from '@/components/AnimatedGrid'
 import AnimatedConnectors from '@/components/AnimatedConnectors'
 import { ScrollArea } from '@/components/smooth-scroll-area'
+import { SegmentLayout, SegmentLayoutContent } from '@/components/segment-layout'
 
 // ─── Action cards (what 0nMCP can do) ────────────────────────────────
 const ACTIONS = [
@@ -677,12 +680,12 @@ export default function WhatIsClient() {
         </div>
       </section>
 
-      {/* ═══ Install methods ════════════════════════════════════════ */}
-      <section id="install" className="scroll-mt-24 mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      {/* ═══ Install methods — segment layout ═════════════════════════ */}
+      <section id="install" className="scroll-mt-24 mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
         <Reveal direction="up">
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest">
-              Five ways to install
+              Nine ways to plug in
             </Badge>
             <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
               <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
@@ -690,58 +693,39 @@ export default function WhatIsClient() {
               </span>
             </h2>
             <p className="mt-4 text-base text-white/70">
-              Pick your AI editor or run the CLI. The same 0nMCP server works across all of them.
+              Pick your AI editor on the left or your platform on the right. The same 0nMCP server
+              powers every option.
             </p>
           </div>
         </Reveal>
 
         <Reveal direction="up" delay={100}>
-          <Tabs defaultValue="dashboard" className="mx-auto mt-12 max-w-3xl">
-            <TabsList className="grid w-full grid-cols-2 gap-1 sm:grid-cols-5">
-              <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-              <TabsTrigger value="cli">CLI · npm</TabsTrigger>
-              <TabsTrigger value="claude">Claude</TabsTrigger>
-              <TabsTrigger value="cursor">Cursor</TabsTrigger>
-              <TabsTrigger value="windsurf">Windsurf</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="dashboard">
-              <InstallCard
-                icon={Globe}
-                title="Use the 0nCore dashboard"
-                desc="The easiest path. No install, no API keys, no terminal. Sign in and connect your services from a regular web app."
-                cta={{ label: 'Open 0nCore — Free', href: 'https://0ncore.com' }}
-                code={null}
-                bullets={[
-                  'No code, no terminal, no setup',
-                  'All 150+ services pre-wired',
-                  'Browse the marketplace and install apps with one click',
-                ]}
-              />
-            </TabsContent>
-
-            <TabsContent value="cli">
-              <InstallCard
-                icon={Terminal}
-                title="Run the CLI from any terminal"
-                desc="One command installs 0nMCP globally. Connect it to any MCP-compatible AI editor."
-                cta={{ label: 'Read the install guide', href: '/install' }}
-                code="npx 0nmcp@latest"
-                bullets={[
-                  'Works on macOS, Linux, Windows',
-                  'Node 18+ recommended',
-                  'Zero config — autodiscovers your AI editor',
-                ]}
-              />
-            </TabsContent>
-
-            <TabsContent value="claude">
-              <InstallCard
-                icon={Sparkles}
-                title="Connect to Claude Desktop or Claude Code"
-                desc="Add the 0nMCP server to Claude\u2019s MCP config. Tools appear automatically inside chat."
-                cta={{ label: 'Claude install steps', href: '/install/claude' }}
-                code={`{
+          <div className="mt-14">
+            <SegmentLayout
+              defaultValue="claude"
+              leftLabel="AI Editors"
+              rightLabel="Platforms"
+              leftItems={[
+                { label: 'Claude', value: 'claude', icon: Sparkles, caption: 'Desktop · Code' },
+                { label: 'ChatGPT', value: 'gpt', icon: MessageCircle, caption: 'GPT actions' },
+                { label: 'Cursor', value: 'cursor', icon: Code2, caption: 'Composer · chat' },
+                { label: 'Gemini', value: 'gemini', icon: Wand2, caption: 'Gemini Code' },
+              ]}
+              rightItems={[
+                { label: 'WordPress', value: 'wordpress', icon: Globe, caption: 'Plugin · pattern picker' },
+                { label: 'Slack', value: 'slack', icon: MessageCircle, caption: 'Bot + slash commands' },
+                { label: 'LinkedIn', value: 'linkedin', icon: Linkedin, caption: 'VPIS engine' },
+                { label: 'NPM', value: 'npm', icon: Terminal, caption: 'CLI install' },
+                { label: 'API', value: 'api', icon: Webhook, caption: 'HTTP + webhooks' },
+              ]}
+            >
+              <SegmentLayoutContent value="claude">
+                <InstallCard
+                  icon={Sparkles}
+                  title="Claude Desktop & Claude Code"
+                  desc="Add the 0nMCP server to Claude's MCP config. Every one of our 2,000+ capabilities appears as a tool inside chat — no API key wrangling, no manual schema."
+                  cta={{ label: 'Claude install steps', href: '/install/claude' }}
+                  code={`{
   "mcpServers": {
     "0nMCP": {
       "command": "npx",
@@ -749,21 +733,39 @@ export default function WhatIsClient() {
     }
   }
 }`}
-                bullets={[
-                  'Works with Claude Desktop and Claude Code',
-                  'All 2,000+ capabilities exposed as tools',
-                  'No API keys to manage',
-                ]}
-              />
-            </TabsContent>
+                  bullets={[
+                    'Works in Claude Desktop, Claude Code, and the web app',
+                    'All 2,000+ capabilities exposed as tools',
+                    'Zero key management — credentials live in 0nVault',
+                  ]}
+                />
+              </SegmentLayoutContent>
 
-            <TabsContent value="cursor">
-              <InstallCard
-                icon={Code2}
-                title="Plug into Cursor"
-                desc="Drop the same MCP server entry into Cursor\u2019s settings. Tools available in chat + composer."
-                cta={{ label: 'Cursor install steps', href: '/install' }}
-                code={`{
+              <SegmentLayoutContent value="gpt">
+                <InstallCard
+                  icon={MessageCircle}
+                  title="ChatGPT custom GPT actions"
+                  desc="Wire 0nMCP into a custom GPT via the actions schema. ChatGPT calls our HTTP endpoint, we route through to 150+ services."
+                  cta={{ label: 'ChatGPT setup guide', href: '/install' }}
+                  code={`# Add this Action URL to your custom GPT
+https://www.0nmcp.com/api/gpt/actions/openapi.json
+
+# Auth: Bearer token from 0nCore`}
+                  bullets={[
+                    'No GPT plugin store gating — runs as a custom GPT action',
+                    'Same toolset as Claude / Cursor users',
+                    'Output streams back into the conversation',
+                  ]}
+                />
+              </SegmentLayoutContent>
+
+              <SegmentLayoutContent value="cursor">
+                <InstallCard
+                  icon={Code2}
+                  title="Cursor — Composer + chat"
+                  desc="Drop the same MCP server entry into Cursor's settings. Tools light up across chat, composer, and agent mode automatically."
+                  cta={{ label: 'Cursor install steps', href: '/install' }}
+                  code={`{
   "mcpServers": {
     "0nMCP": {
       "command": "npx",
@@ -771,29 +773,120 @@ export default function WhatIsClient() {
     }
   }
 }`}
-                bullets={[
-                  'Same config as Claude — copy/paste',
-                  'Drives the agent loop, not just chat',
-                  'Auto-reloads when you update tools',
-                ]}
-              />
-            </TabsContent>
+                  bullets={[
+                    'Same config as Claude — copy/paste',
+                    'Drives the agent loop, not just chat',
+                    'Auto-reloads when you publish new tools to the registry',
+                  ]}
+                />
+              </SegmentLayoutContent>
 
-            <TabsContent value="windsurf">
-              <InstallCard
-                icon={Wand2}
-                title="Plug into Windsurf"
-                desc="Codeium\u2019s Windsurf supports the MCP standard. Same one-line install pattern."
-                cta={{ label: 'Windsurf install steps', href: '/install' }}
-                code="windsurf mcp add 0nmcp"
-                bullets={[
-                  'Native MCP support in Windsurf',
-                  '2,000+ capabilities ready to call',
-                  'Works alongside built-in Cascade tools',
-                ]}
-              />
-            </TabsContent>
-          </Tabs>
+              <SegmentLayoutContent value="gemini">
+                <InstallCard
+                  icon={Wand2}
+                  title="Gemini Code & Google AI Studio"
+                  desc="Connect through the Gemini function-calling layer. Gemini sees every 0nMCP capability and routes calls automatically."
+                  cta={{ label: 'Gemini setup guide', href: '/install' }}
+                  code={`# Gemini Code · settings.json
+{
+  "mcpServers": {
+    "0nMCP": {
+      "command": "npx",
+      "args": ["-y", "0nmcp@latest"]
+    }
+  }
+}`}
+                  bullets={[
+                    'Native function-calling support',
+                    'Same 2,000+ capability surface as Claude / GPT',
+                    'Works in AI Studio prototypes too',
+                  ]}
+                />
+              </SegmentLayoutContent>
+
+              <SegmentLayoutContent value="wordpress">
+                <InstallCard
+                  icon={Globe}
+                  title="WordPress plugin"
+                  desc="The 0nCore WP plugin ships a pattern picker, REST bridge, CRM sync, tracking, and a built-in chat — all backed by 0nMCP. Install it like any other plugin."
+                  cta={{ label: 'Get the WP plugin', href: '/wordpress' }}
+                  code={null}
+                  bullets={[
+                    'Pattern library inside Gutenberg with live previews',
+                    'CRM webhook + UTM capture wired in',
+                    'No code — install, activate, sign into 0nCore',
+                  ]}
+                />
+              </SegmentLayoutContent>
+
+              <SegmentLayoutContent value="slack">
+                <InstallCard
+                  icon={MessageCircle}
+                  title="Slack bot + slash commands"
+                  desc="Add 0nMCP to your Slack workspace and your team gets the entire toolset behind /commands. Channel mentions trigger workflows; results stream back."
+                  cta={{ label: 'Add to Slack', href: '/install' }}
+                  code={'/0n create contact "Sarah Chen" sarah@acme.com'}
+                  bullets={[
+                    'Slash commands for any 0nMCP capability',
+                    'Channel-aware — replies post in-thread',
+                    'Workflow triggers on emoji reactions',
+                  ]}
+                />
+              </SegmentLayoutContent>
+
+              <SegmentLayoutContent value="linkedin">
+                <InstallCard
+                  icon={Linkedin}
+                  title="LinkedIn — VPIS posting engine"
+                  desc="Use 0nMCP as the brain behind your LinkedIn growth: VPIS-scored content, Big Egg writing style, scheduling, drafting, posting, and engagement tracking."
+                  cta={{ label: 'Open LinkedIn engine', href: 'https://0ncore.com' }}
+                  code={null}
+                  bullets={[
+                    'AI-drafted posts in your voice profile',
+                    'VPIS scoring per post (Value · Passion · Insight · Story)',
+                    'Engagement metrics fed back into the next cycle',
+                  ]}
+                />
+              </SegmentLayoutContent>
+
+              <SegmentLayoutContent value="npm">
+                <InstallCard
+                  icon={Terminal}
+                  title="NPM CLI — run from any terminal"
+                  desc="One command installs 0nMCP globally. From there it works as an MCP server, an HTTP server, a workflow runtime, or a CLI."
+                  cta={{ label: 'Read the install guide', href: '/install' }}
+                  code={`# Run the latest without installing
+npx 0nmcp@latest
+
+# Or install globally
+npm install -g 0nmcp`}
+                  bullets={[
+                    'macOS · Linux · Windows · Node 18+',
+                    'Zero config — autodiscovers your AI editor',
+                    'Same binary backs MCP, HTTP, and the workflow runtime',
+                  ]}
+                />
+              </SegmentLayoutContent>
+
+              <SegmentLayoutContent value="api">
+                <InstallCard
+                  icon={Webhook}
+                  title="HTTP API + webhooks"
+                  desc="Don't want an MCP client? Hit our HTTP endpoint directly with a Bearer token. Same toolset, same outputs, REST-friendly."
+                  cta={{ label: 'API reference', href: '/install' }}
+                  code={`curl -X POST https://www.0nmcp.com/api/execute \\
+  -H "Authorization: Bearer \${ONMCP_KEY}" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "tool": "crm_create_contact", "args": { … } }'`}
+                  bullets={[
+                    'Bearer-token auth, scoped per workspace',
+                    'Webhook-driven — point any service at /api/webhooks/<id>',
+                    'Streaming responses for long-running workflows',
+                  ]}
+                />
+              </SegmentLayoutContent>
+            </SegmentLayout>
+          </div>
         </Reveal>
       </section>
 

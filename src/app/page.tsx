@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
-import AnimatedHero from './AnimatedHero'
-import SxoHomepage from '@/components/SxoHomepage'
+import Homepage from '@/components/Homepage'
 
 export const metadata: Metadata = {
   title: '0nMCP — The Universal AI API Orchestrator',
@@ -28,10 +27,5 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  return (
-    <>
-      <AnimatedHero />
-      <SxoHomepage />
-    </>
-  )
+  return <Homepage />
 }

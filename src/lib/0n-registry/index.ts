@@ -17,6 +17,7 @@ import { bottomPull } from './components/bottom-pull'
 import { sideSlider } from './components/side-slider'
 import { popBubble } from './components/pop-bubble'
 import { dropPick } from './components/drop-pick'
+import { gradientHeadline } from './components/gradient-headline'
 
 export type RegistryItemType =
   | 'registry:block'
@@ -60,6 +61,7 @@ const COMPONENTS: RegistryItem[] = [
   sideSlider,
   popBubble,
   dropPick,
+  gradientHeadline,
 ]
 
 const COMPONENTS_BY_NAME = new Map(COMPONENTS.map((c) => [c.name, c]))

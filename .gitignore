@@ -16,3 +16,4 @@ out/
 .env
 .env*.local
 .env.prod
+.dispatch-cache/

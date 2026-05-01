@@ -35,7 +35,7 @@ export async function dispatch(
     case 'sms':
       return runSms(resolved, ctx)
     case 'slack':
-      return runSlack(resolved, ctx)
+      return runSlack(resolved)
     case 'tag_add':
       return runTagAdd(resolved, ctx)
     case 'webhook':

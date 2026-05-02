@@ -61,7 +61,7 @@ async function runEmail(p: Record<string, unknown>, ctx: DispatchContext): Promi
   const to = ctx.enrollment.contact_email
 
   if (provider === 'crm') {
-    const pit = pickCrmPit()
+    const pit = pickCrmPit(p, ctx.flow.default_location_id)
     if (!pit) return { ok: false, error: 'No CRM PIT available' }
     if (!ctx.enrollment.contact_id) return { ok: false, error: 'CRM email requires contact_id' }
 
@@ -108,7 +108,7 @@ async function runEmail(p: Record<string, unknown>, ctx: DispatchContext): Promi
 // ---------- sms ----------
 
 async function runSms(p: Record<string, unknown>, ctx: DispatchContext): Promise<DispatchResult> {
-  const pit = pickCrmPit()
+  const pit = pickCrmPit(p, ctx.flow.default_location_id)
   if (!pit) return { ok: false, error: 'No CRM PIT' }
   if (!ctx.enrollment.contact_id) return { ok: false, error: 'CRM SMS requires contact_id' }
 
@@ -143,7 +143,7 @@ async function runSlack(p: Record<string, unknown>): Promise<DispatchResult> {
 // ---------- tag_add ----------
 
 async function runTagAdd(p: Record<string, unknown>, ctx: DispatchContext): Promise<DispatchResult> {
-  const pit = pickCrmPit()
+  const pit = pickCrmPit(p, ctx.flow.default_location_id)
   if (!pit) return { ok: false, error: 'No CRM PIT' }
   if (!ctx.enrollment.contact_id) return { ok: false, error: 'tag_add requires contact_id' }
 
@@ -179,8 +179,42 @@ async function runWebhook(p: Record<string, unknown>): Promise<DispatchResult> {
 }
 
 // ---------- helpers ----------
+//
+// CRM PIT precedence (highest first):
+//   1. step.params.pit                            — explicit per-step override
+//   2. CRM_PIT_<LOCATION_ID>                      — per-location env var
+//   3. CRM_PITS json map                          — { "<locId>": "<pit>" }
+//   4. CRM_SXO_PIT (legacy SXO sub)
+//   5. CRM_AGENCY_PIT (cross-location agency PIT)
+//   6. CRM_PIT (master fallback)
+//
+// We need this because each CRM sub-location issues its own PIT — using
+// the SXO sub PIT against location nphConTwfHcVE1oA0uep returns 401.
 
-function pickCrmPit(): string {
+function pickCrmPit(stepParams?: Record<string, unknown>, locationId?: string | null): string {
+  // 1. Explicit per-step override
+  if (stepParams && typeof stepParams.pit === 'string' && stepParams.pit) {
+    return stepParams.pit
+  }
+
+  // 2. Per-location env var (CRM_PIT_<LOCATION_ID>, with non-alphanumeric stripped + uppercased)
+  if (locationId) {
+    const envName = `CRM_PIT_${locationId.replace(/[^A-Za-z0-9]/g, '').toUpperCase()}`
+    const fromEnv = process.env[envName]
+    if (fromEnv) return fromEnv
+  }
+
+  // 3. CRM_PITS json map
+  if (locationId && process.env.CRM_PITS) {
+    try {
+      const map = JSON.parse(process.env.CRM_PITS) as Record<string, string>
+      if (map[locationId]) return map[locationId]
+    } catch {
+      // malformed env; fall through
+    }
+  }
+
+  // 4-6. Legacy fallbacks
   return (
     process.env.CRM_SXO_PIT ||
     process.env.CRM_AGENCY_PIT ||

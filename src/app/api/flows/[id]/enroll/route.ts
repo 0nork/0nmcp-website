@@ -13,11 +13,15 @@
 
 import { NextResponse } from 'next/server'
 import { createSupabaseAdmin } from '@/lib/supabase/admin'
+import { isFlowAuthorized } from '@/lib/0nflow/auth'
 import type { EnrollmentInput, StepTemplate } from '@/lib/0nflow/types'
 
 export const runtime = 'nodejs'
 
 export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
+  const auth = isFlowAuthorized(req)
+  if (!auth.ok) return NextResponse.json({ error: 'Unauthorized', reason: auth.reason }, { status: 401 })
+
   const supabase = createSupabaseAdmin()
   if (!supabase) return NextResponse.json({ error: 'DB not configured' }, { status: 500 })
 

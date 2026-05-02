@@ -10,6 +10,7 @@
 
 import { NextResponse } from 'next/server'
 import { dispatch } from '@/lib/0nflow/dispatcher'
+import { isFlowAuthorized } from '@/lib/0nflow/auth'
 import type { FlowAction, FlowStepRow } from '@/lib/0nflow/types'
 
 export const runtime = 'nodejs'
@@ -25,6 +26,9 @@ interface OneShotBody {
 }
 
 export async function POST(req: Request) {
+  const auth = isFlowAuthorized(req)
+  if (!auth.ok) return NextResponse.json({ error: 'Unauthorized', reason: auth.reason }, { status: 401 })
+
   let body: OneShotBody
   try {
     body = (await req.json()) as OneShotBody

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#15161e"/>
+      <stop offset="100%" stop-color="#070810"/>
+    </radialGradient>
+    <radialGradient id="orb" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#fb7185" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="textGlow" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g opacity="0.05" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="112" x2="800" y2="112"/>
+    <line x1="0" y1="225" x2="800" y2="225"/>
+    <line x1="0" y1="338" x2="800" y2="338"/>
+    <line x1="200" y1="0" x2="200" y2="450"/>
+    <line x1="400" y1="0" x2="400" y2="450"/>
+    <line x1="600" y1="0" x2="600" y2="450"/>
+  </g>
+  <circle cx="560" cy="225" r="170" fill="url(#orb)"/>
+  <g filter="url(#nodeGlow)">
+    <circle cx="560" cy="100" r="6" fill="#fb7185" opacity="0.85"/>
+    <circle cx="660" cy="170" r="5" fill="#fb7185" opacity="0.7"/>
+    <circle cx="690" cy="265" r="6" fill="#fb7185" opacity="0.85"/>
+    <circle cx="610" cy="345" r="5" fill="#fb7185" opacity="0.7"/>
+    <circle cx="490" cy="345" r="6" fill="#fb7185" opacity="0.85"/>
+    <circle cx="430" cy="265" r="5" fill="#fb7185" opacity="0.7"/>
+    <circle cx="450" cy="170" r="6" fill="#fb7185" opacity="0.85"/>
+  </g>
+  <circle cx="560" cy="225" r="125" fill="none" stroke="#fb7185" stroke-width="1" opacity="0.18" stroke-dasharray="3 6"/>
+  <circle cx="560" cy="225" r="42" fill="#0a0a0f" stroke="#fb7185" stroke-width="2" opacity="0.92"/>
+  <text x="560" y="234" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" font-weight="700" fill="#fb7185" filter="url(#textGlow)">0n</text>
+  <text x="60" y="116" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#fb7185" opacity="0.85" letter-spacing="0.18em">INSIDE</text>
+  <text x="60" y="160" font-family="'Instrument Sans', sans-serif" font-size="40" font-weight="900" fill="#ffffff" letter-spacing="-1.5">HIPAA</text>
+  <text x="60" y="204" font-family="'Instrument Sans', sans-serif" font-size="40" font-weight="900" fill="#ffffff" letter-spacing="-1.5">IN</text>
+  <text x="62" y="298" font-family="'Instrument Sans', sans-serif" font-size="86" font-weight="900" fill="#fb7185" opacity="0.12" letter-spacing="-3">60s</text>
+  <text x="60" y="296" font-family="'Instrument Sans', sans-serif" font-size="86" font-weight="900" fill="#fb7185" opacity="0.92" letter-spacing="-3" filter="url(#textGlow)">60s</text>
+  <text x="60" y="340" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="rgba(255,255,255,0.78)">Inside the 0nMCP report engine</text>
+  <text x="60" y="408" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500" fill="rgba(255,255,255,0.45)" letter-spacing="0.12em">0nMCP - HIPAA Tier 4</text>
+  <rect x="640" y="408" width="118" height="22" rx="4" fill="#15161e" stroke="#fb7185" stroke-width="1" opacity="0.85"/>
+  <text x="699" y="423" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#fb7185">0nmcp.com</text>
+</svg>

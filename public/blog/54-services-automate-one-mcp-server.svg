@@ -40,11 +40,12 @@
   <circle cx="560" cy="225" r="125" fill="none" stroke="#7ed957" stroke-width="1" opacity="0.18" stroke-dasharray="3 6"/>
   <circle cx="560" cy="225" r="42" fill="#0a0a0f" stroke="#7ed957" stroke-width="2" opacity="0.92"/>
   <text x="560" y="234" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="22" font-weight="700" fill="#7ed957" filter="url(#textGlow)">0n</text>
-  <text x="60" y="116" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#7ed957" opacity="0.85" letter-spacing="0.18em">FROM</text>
-  <text x="60" y="160" font-family="'Instrument Sans', sans-serif" font-size="40" font-weight="900" fill="#ffffff" letter-spacing="-1.5">TOOLS</text>
-  <text x="62" y="298" font-family="'Instrument Sans', sans-serif" font-size="86" font-weight="900" fill="#7ed957" opacity="0.12" letter-spacing="-3">870</text>
-  <text x="60" y="296" font-family="'Instrument Sans', sans-serif" font-size="86" font-weight="900" fill="#7ed957" opacity="0.92" letter-spacing="-3" filter="url(#textGlow)">870</text>
-  <text x="60" y="340" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="rgba(255,255,255,0.78)">0nMCP v2.4 rewrites AI security</text>
+  <text x="60" y="116" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#7ed957" opacity="0.85" letter-spacing="0.18em">54</text>
+  <text x="60" y="160" font-family="'Instrument Sans', sans-serif" font-size="40" font-weight="900" fill="#ffffff" letter-spacing="-1.5">ONE</text>
+  <text x="60" y="204" font-family="'Instrument Sans', sans-serif" font-size="40" font-weight="900" fill="#ffffff" letter-spacing="-1.5">SERVER</text>
+  <text x="62" y="298" font-family="'Instrument Sans', sans-serif" font-size="86" font-weight="900" fill="#7ed957" opacity="0.12" letter-spacing="-3">54</text>
+  <text x="60" y="296" font-family="'Instrument Sans', sans-serif" font-size="86" font-weight="900" fill="#7ed957" opacity="0.92" letter-spacing="-3" filter="url(#textGlow)">54</text>
+  <text x="60" y="340" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="rgba(255,255,255,0.78)">Automate every service with one MCP</text>
   <text x="60" y="408" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500" fill="rgba(255,255,255,0.45)" letter-spacing="0.12em">0nMCP - 1,640+ tools</text>
   <rect x="640" y="408" width="118" height="22" rx="4" fill="#15161e" stroke="#7ed957" stroke-width="1" opacity="0.85"/>
   <text x="699" y="423" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#7ed957">0nmcp.com</text>

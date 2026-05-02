@@ -53,7 +53,7 @@ export default function App0nPage() {
 
       <section style={{ textAlign: 'center', padding: '3rem 0' }}>
         <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-          App0n is currently in development. Join the waitlist to get early access.
+          App0n is live as part of 0nCore. Sign up free to start building today.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/signup" className="store-cta" style={{ maxWidth: 240, background: 'linear-gradient(135deg, #3b82f6, #60a5fa)' }}>

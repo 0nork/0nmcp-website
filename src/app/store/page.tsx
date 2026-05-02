@@ -1,29 +1,5 @@
-'use client'
-
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
-
-/* ─── Countdown Hook ─── */
-
-const LAUNCH_DATE = new Date('2026-05-01T00:00:00-04:00').getTime()
-
-function useCountdown() {
-  const [now, setNow] = useState(Date.now())
-
-  useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const diff = Math.max(0, LAUNCH_DATE - now)
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
-  const minutes = Math.floor((diff / (1000 * 60)) % 60)
-  const seconds = Math.floor((diff / 1000) % 60)
-
-  return { days, hours, minutes, seconds }
-}
 
 /* ─── Product Data ─── */
 
@@ -41,27 +17,10 @@ type Product = {
 
 const products: Product[] = [
   {
-    id: 'early-access',
-    name: 'Early Access Pass',
-    price: '$50',
-    period: 'one-time',
-    desc: 'Skip the waitlist. Get guaranteed day-one access on May 1st with priority onboarding. Credited to your first month.',
-    features: [
-      'Guaranteed day-one access',
-      'Priority onboarding call',
-      '$50 credited to first month',
-      'Early access to docs & API',
-      'Founding member badge',
-      'Private Discord channel',
-    ],
-    accent: false,
-    tag: 'BEST VALUE',
-  },
-  {
     id: 'starter',
     name: '0nCore Starter',
     price: '$80',
-    period: '/mo starting May 1',
+    period: '/mo',
     desc: 'Managed dashboard with CRM integration, AI assistant, and Slack notifications. Perfect for solo operators.',
     features: [
       'All 900+ tools & 55 services',
@@ -78,7 +37,7 @@ const products: Product[] = [
     id: 'pro',
     name: '0nCore Pro',
     price: '$180',
-    period: '/mo starting May 1',
+    period: '/mo',
     desc: 'Voice AI agent, AI course generator, and multi-location CRM. For growing teams that need more power.',
     features: [
       'Everything in Starter',
@@ -94,7 +53,7 @@ const products: Product[] = [
     id: 'agency',
     name: '0nCore Agency',
     price: '$380',
-    period: '/mo starting May 1',
+    period: '/mo',
     desc: 'White-label branding, unlimited locations, and a dedicated support channel. Built for agencies.',
     features: [
       'Everything in Pro',
@@ -130,8 +89,6 @@ const products: Product[] = [
 /* ─── Component ─── */
 
 export default function StorePage() {
-  const countdown = useCountdown()
-
   return (
     <div className="homepage">
       {/* Hero */}
@@ -142,40 +99,17 @@ export default function StorePage() {
         <div className="hero-content" style={{ maxWidth: '820px' }}>
           <div className="hero-badge">
             <span className="hero-badge-dot" />
-            <span>Pre-Orders Open — Launching May 1, 2026</span>
+            <span>Live now · v4.10</span>
           </div>
 
           <h1 className="hero-title" style={{ marginBottom: '2rem' }}>
-            Pre-Order<br />
-            <span className="hero-title-accent">0nMCP Access</span>
+            0nMCP<br />
+            <span className="hero-title-accent">Get instant access</span>
           </h1>
 
-          {/* Countdown Timer */}
-          <div className="ra-countdown">
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.days).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Days</span>
-            </div>
-            <span className="ra-countdown-sep">:</span>
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.hours).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Hours</span>
-            </div>
-            <span className="ra-countdown-sep">:</span>
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.minutes).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Minutes</span>
-            </div>
-            <span className="ra-countdown-sep">:</span>
-            <div className="ra-countdown-item">
-              <span className="ra-countdown-number">{String(countdown.seconds).padStart(2, '0')}</span>
-              <span className="ra-countdown-label">Seconds</span>
-            </div>
-          </div>
-
           <p className="hero-subtitle" style={{ maxWidth: '620px', marginBottom: '1rem' }}>
-            Lock in your access now. <strong>{STATS_DISPLAY.tools} tools</strong> across <strong>{STATS_DISPLAY.services} services</strong>.
-            All pre-orders include priority onboarding and founding member perks.
+            <strong>{STATS_DISPLAY.tools} tools</strong> across <strong>{STATS_DISPLAY.services} services</strong>.
+            Live now. Free tier. Pick a plan or start building today.
           </p>
 
           {/* Trust Badge */}
@@ -297,11 +231,11 @@ export default function StorePage() {
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               <path d="M9 12l2 2 4-4" />
             </svg>
-            <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>Risk-Free Pre-Order Guarantee</span>
+            <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>30-Day Money-Back Guarantee</span>
           </div>
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
-            Changed your mind? No problem. All pre-orders are <strong style={{ color: 'var(--text-primary)' }}>100% refundable</strong> at any time before the May 1st launch.
-            No questions asked. Your payment info is secured by Stripe.
+            Not happy? Cancel within 30 days for a <strong style={{ color: 'var(--text-primary)' }}>full refund</strong>. No questions asked.
+            Your payment info is secured by Stripe.
           </p>
         </div>
       </section>
@@ -338,11 +272,11 @@ export default function StorePage() {
           <span className="hero-title-accent">commit yet?</span>
         </h2>
         <p className="final-cta-subtitle">
-          The open source core is always free. Request early access and we will keep you updated.
+          The open source core is always free. Sign up to start using it today.
         </p>
         <div className="hero-ctas" style={{ justifyContent: 'center' }}>
           <Link href="/signup" className="hero-cta-primary">
-            Request Early Access (Free)
+            Start free
           </Link>
           <Link href="https://0ncore.com" className="hero-cta-secondary" target="_blank" rel="noopener noreferrer">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" /></svg>

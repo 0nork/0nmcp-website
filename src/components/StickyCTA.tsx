@@ -46,16 +46,16 @@ export default function StickyCTA() {
         <Sparkles className="h-4 w-4 text-[#6EE05A]" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="truncate text-sm font-bold text-white">Founders cohort closes May 1.</p>
+        <p className="truncate text-sm font-bold text-white">0nCore is live.</p>
         <p className="truncate text-xs text-white/65">
-          Lifetime pricing + white-glove setup. Limited spots.
+          Free tier · 1,640+ tools · Start building in 10 minutes.
         </p>
       </div>
       <a
-        href="#early-access"
+        href="/signup"
         className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#6EE05A] px-4 py-2 text-xs font-bold text-black shadow-[0_0_18px_rgba(110,224,90,0.35)] transition-transform hover:scale-[1.04]"
       >
-        Reserve <ArrowRight className="h-3 w-3" />
+        Start free <ArrowRight className="h-3 w-3" />
       </a>
       <button
         type="button"

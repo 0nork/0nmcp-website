@@ -756,38 +756,37 @@ export default function Homepage() {
           <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8 lg:py-28">
             <div>
               <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
-                Founders Cohort · Closes May 1
+                Live now · v4.10
               </Badge>
               <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
                 <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                  Get in before public launch — keep founder pricing forever.
+                  Free to start. Production-ready in minutes.
                 </span>
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-white/75">
-                We&rsquo;re onboarding a focused group of operators, agencies, and indie builders
-                ahead of May 1. White-glove setup, a direct line to the team, and lifetime
-                founder pricing on every app in the marketplace.
+                0nCore is live. Sign up free, connect your tools, and ship your first
+                automation in under 10 minutes. Upgrade only when you need more capacity.
               </p>
               <ul className="mt-6 space-y-2 text-sm text-white/80">
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#6EE05A]" />
-                  <span><strong className="text-white">Lifetime founder pricing</strong> — locked the day you sign up, never raises</span>
+                  <span><strong className="text-white">Free tier</strong> — no credit card, generous monthly execution quota</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#14b8a6]" />
-                  <span><strong className="text-white">Direct provisioning</strong> into the 0nCore dashboard with all 150+ services pre-wired</span>
+                  <span><strong className="text-white">Instant provisioning</strong> into 0nCore with 1,640+ tools across 109 services pre-wired</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#a78bfa]" />
-                  <span><strong className="text-white">Guided first run</strong> — first .0n workflow shipped on a call with us</span>
+                  <span><strong className="text-white">Guided first run</strong> — onboarding wizard ships your first .0n workflow today</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
-                  <span><strong className="text-white">Private Slack</strong> with the founding team — every question, answered same day</span>
+                  <span><strong className="text-white">Community Slack</strong> — direct line to the team, same-day answers</span>
                 </li>
               </ul>
               <p className="mt-6 text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                Public launch May 1 · Founders pricing ends at launch · No credit card to reserve
+                Live now · No credit card to start · Cancel anytime
               </p>
             </div>
             <Reveal direction="left" delay={150}>

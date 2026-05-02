@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
 
-const TOTAL_SPOTS = 100
 const FEATURES = [
   '1,589 AI tools across 102 services',
   '7-layer encrypted credential vault',
@@ -32,7 +31,6 @@ function SignupForm() {
   const [fullName, setFullName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [spotsTaken, setSpotsTaken] = useState(0)
 
   const supabase = createSupabaseBrowser()
 
@@ -41,23 +39,7 @@ function SignupForm() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) router.push('/0nboarding')
     })
-
-    async function getSpots() {
-      try {
-        const res = await fetch('/api/spots')
-        if (res.ok) {
-          const data = await res.json()
-          setSpotsTaken(data.count || 0)
-        }
-      } catch {
-        setSpotsTaken(37)
-      }
-    }
-    getSpots()
   }, [router, supabase])
-
-  const spotsLeft = Math.max(0, TOTAL_SPOTS - spotsTaken)
-  const progressPct = Math.min(100, (spotsTaken / TOTAL_SPOTS) * 100)
 
   async function handleEmailSignup(e: React.FormEvent) {
     e.preventDefault()
@@ -92,13 +74,13 @@ function SignupForm() {
   return (
     <div className="login-split">
       {/* Left: Brand Panel */}
-      <SignupBrandPanel spotsLeft={spotsLeft} totalSpots={TOTAL_SPOTS} progressPct={progressPct} />
+      <SignupBrandPanel />
 
       {/* Right: Form Panel */}
       <div className="login-form-panel">
         <div className="login-form-container">
           <h1 className="login-heading">Create your account</h1>
-          <p className="login-subheading">Free during early access. No credit card required.</p>
+          <p className="login-subheading">Free tier. No credit card required.</p>
 
           <OAuthButtons mode="signup" />
 
@@ -177,7 +159,7 @@ function SignupForm() {
 
 /* ─── Brand Panel (left side) ──────────────────────────────────────────── */
 
-function SignupBrandPanel({ spotsLeft, totalSpots, progressPct }: { spotsLeft: number; totalSpots: number; progressPct: number }) {
+function SignupBrandPanel() {
   return (
     <div className="login-brand-panel">
       <div className="login-brand-content">
@@ -194,24 +176,9 @@ function SignupBrandPanel({ spotsLeft, totalSpots, progressPct }: { spotsLeft: n
 
         {/* Tagline */}
         <h2 className="login-brand-tagline">
-          Get early access to<br />
+          Welcome to<br />
           <span>the .0n Standard</span>
         </h2>
-
-        {/* Early Access Spots */}
-        <div className="signup-spots-card">
-          <div className="signup-spots-header">
-            <span className="signup-spots-label">Early Access</span>
-            <span className="signup-spots-count">{spotsLeft} of {totalSpots} spots left</span>
-          </div>
-          <div className="signup-spots-bar">
-            <div
-              className="signup-spots-fill"
-              data-urgency={progressPct > 80 ? 'critical' : progressPct > 50 ? 'warning' : 'normal'}
-              style={{ width: `${progressPct}%` }}
-            />
-          </div>
-        </div>
 
         {/* Feature List */}
         <div className="signup-features">

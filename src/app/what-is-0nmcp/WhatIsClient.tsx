@@ -646,34 +646,31 @@ export default function WhatIsClient() {
           <Reveal direction="up">
             <div className="mx-auto max-w-3xl text-center">
               <Badge variant="outline" className="mb-4 font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
-                Public launch · May 1, 2026
+                Live now · v4.10
               </Badge>
               <h2 className="text-balance text-4xl font-black tracking-tight sm:text-5xl">
                 <span className="bg-gradient-to-br from-[#6EE05A] via-[#14b8a6] to-[#a78bfa] bg-clip-text text-transparent">
-                  Be first in line — get your exclusive login link.
+                  Sign up free. Ship your first automation in 10 minutes.
                 </span>
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-lg text-white/75">
-                We&rsquo;re onboarding the founders cohort right now. Sign up free and you&rsquo;ll be one of the first to receive an exclusive login link the moment access opens.
+                0nCore is live. Drop your email and we&rsquo;ll send you a one-click signup link to start building today.
               </p>
             </div>
           </Reveal>
 
           <Reveal direction="up" delay={100}>
             <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-[#6EE05A]/25 bg-[#0d1117]/60 p-6 backdrop-blur sm:p-8">
-              <p className="text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Launch in
-              </p>
               <CountdownToLaunch className="mt-3" />
               <Separator className="my-6 bg-border/40" />
               <p className="text-center text-sm text-white/65">
-                Drop your email below — your invite link arrives the moment we open the doors.
+                Drop your email below — we&rsquo;ll send you a one-click signup link.
               </p>
               <div className="mt-4">
                 <RequestAccessForm />
               </div>
               <p className="mt-3 text-center text-xs text-muted-foreground">
-                No credit card. No code. Cancel anytime. Lifetime founder pricing locked in for early signups.
+                No credit card. No code. Cancel anytime.
               </p>
             </div>
           </Reveal>

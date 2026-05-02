@@ -8,25 +8,7 @@ export default function ExitIntentPopup() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const readyRef = useRef(false)
-
-  // Countdown to May 1, 2026
-  useEffect(() => {
-    const target = new Date('2026-05-01T00:00:00-04:00').getTime()
-    const tick = () => {
-      const diff = Math.max(0, target - Date.now())
-      setCountdown({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      })
-    }
-    tick()
-    const i = setInterval(tick, 1000)
-    return () => clearInterval(i)
-  }, [])
 
   // 5-second delay before arming
   useEffect(() => {
@@ -83,17 +65,6 @@ export default function ExitIntentPopup() {
   }
 
   if (!visible) return null
-
-  const timerBoxStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    background: 'rgba(245,245,245,0.7)',
-    borderRadius: 10,
-    padding: '8px 12px',
-    minWidth: 56,
-    backdropFilter: 'blur(4px)',
-  }
 
   return (
     <>
@@ -193,27 +164,8 @@ export default function ExitIntentPopup() {
                 Don&apos;t Leave Yet!
               </h2>
               <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: '0 0 20px', textAlign: 'center', lineHeight: 1.5 }}>
-                Pre-register before our May 1st launch and get 30 days free.
+                We&apos;re live. Drop your email and we&apos;ll send a free 30-day pass to test 0nMCP.
               </p>
-
-              {/* Countdown */}
-              <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 20 }}>
-                {[
-                  { value: countdown.days, label: 'Days' },
-                  { value: countdown.hours, label: 'Hours' },
-                  { value: countdown.minutes, label: 'Min' },
-                  { value: countdown.seconds, label: 'Sec' },
-                ].map(({ value, label }) => (
-                  <div key={label} style={timerBoxStyle}>
-                    <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', fontVariantNumeric: 'tabular-nums' }}>
-                      {String(value).padStart(2, '0')}
-                    </span>
-                    <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
 
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <input

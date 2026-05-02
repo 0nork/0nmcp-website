@@ -52,11 +52,11 @@ export default function Web0nPage() {
 
       <section style={{ textAlign: 'center', padding: '3rem 0' }}>
         <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-          Web0n is currently in development. Join the waitlist to get early access.
+          Web0n is live as part of 0nCore. Sign up free to start building sites today.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/signup" className="store-cta" style={{ maxWidth: 240, background: 'linear-gradient(135deg, #ff6b35, #ff9a5c)' }}>
-            Join Waitlist
+            Start free
           </Link>
           <Link href="/" className="store-cta secondary" style={{ maxWidth: 240 }}>
             Back to 0nMCP

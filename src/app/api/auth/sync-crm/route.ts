@@ -8,7 +8,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 const CRM_API = 'https://services.leadconnectorhq.com'
-const LOCATION_ID = 'nphConTwfHcVE1oA0uep'
+// Marketing sub-location every 0nmcp.com signup lands in. The agency PIT
+// retains visibility because this sub is owned by the RocketOpp agency.
+const LOCATION_ID = process.env.CRM_LOCATION_ID || 'nphConTwfHcVE1oA0uep'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -62,6 +62,9 @@ export interface BlogPost {
   title: string
   slug: string
   content: string
+  body?: string // Rendered markdown — what blog/[slug] actually displays
+  excerpt?: string
+  image?: string // Hero image path or OG-generator URL
   metaDescription: string
   targetQuery: string
   bucket: ActionBucket

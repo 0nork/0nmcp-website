@@ -3,7 +3,7 @@ import { scorePages } from '@/lib/cro9/scorer'
 import { generateBriefs } from '@/lib/cro9/brief-generator'
 import { generateBlogPost } from '@/lib/cro9/blog-generator'
 import { fetchSearchData } from '@/lib/cro9/search-console'
-import { saveDraft } from '@/lib/cro9/publisher'
+import { saveDraft, savePublished } from '@/lib/cro9/publisher'
 import { evaluateOutcomes, summarizeOutcomes } from '@/lib/cro9/outcome-evaluator'
 import { adjustWeights, normalizeWeights } from '@/lib/cro9/weight-adjuster'
 import { createSupabaseServer } from '@/lib/supabase/server'
@@ -185,15 +185,28 @@ export async function GET() {
     results.push(`Generated ${briefs.length} content briefs`)
 
     // Step 6: Auto-generate blog posts
-    results.push('[Step 6] Generating blog posts...')
-    const generatedPosts: { id: string; title: string }[] = []
+    // One-a-day rhythm: the highest-scoring brief gets PUBLISHED. The other
+    // two get saved as drafts so the editor can pick the next day's hero
+    // post (or schedule them). The cron generates 3, ships 1, queues 2.
+    results.push('[Step 6] Generating blog posts (1 publish + drafts)...')
+    const generatedPosts: { id: string; title: string; published: boolean }[] = []
 
-    for (const brief of briefs) {
+    for (let i = 0; i < briefs.length; i++) {
+      const brief = briefs[i]
+      const shouldPublish = i === 0 // Top-scoring brief auto-publishes
       try {
         const post = await generateBlogPost(brief)
-        const postId = await saveDraft(post)
-        generatedPosts.push({ id: postId, title: post.title })
-        results.push(`Generated draft: "${post.title}" (${post.wordCount} words)`)
+        if (shouldPublish) {
+          const { id, slug } = await savePublished(post)
+          generatedPosts.push({ id, title: post.title, published: true })
+          results.push(
+            `PUBLISHED: "${post.title}" (${post.wordCount} words) → /blog/${slug}`,
+          )
+        } else {
+          const postId = await saveDraft(post)
+          generatedPosts.push({ id: postId, title: post.title, published: false })
+          results.push(`Drafted: "${post.title}" (${post.wordCount} words)`)
+        }
       } catch (genError) {
         const msg =
           genError instanceof Error ? genError.message : 'Unknown error'

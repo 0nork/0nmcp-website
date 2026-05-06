@@ -97,6 +97,17 @@ export default async function RootLayout({
           rel="stylesheet"
         />
         <script src="https://api.rocketclients.com/js/external-tracking.js" data-tracking-id="tk_f9c5376df66c45e69941dd3f3bbe22a2" async />
+        {/*
+          CRO9 embed — captures pageview / scroll / click / conversion / exit-
+          intent signals back to 0ncore for the adaptive scoring engine. Domain-
+          locked server-side to 0nmcp.com — pasted on any other domain it
+          no-ops. NEXT_PUBLIC_CRO9_SITE_ID env var lets us swap the slug
+          without a redeploy if we move sites.
+        */}
+        <script
+          src={`https://www.0ncore.com/api/cro9/script/${process.env.NEXT_PUBLIC_CRO9_SITE_ID || '0nmcp_com'}.js`}
+          async
+        />
       </head>
       <body className="antialiased">
         <Providers>

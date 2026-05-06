@@ -200,6 +200,18 @@ export function generateBrief(page: ScoredPage): ContentBrief {
       ],
     },
     requiredSections: [...CONTENT_RULES.REQUIRED_SECTIONS],
+    // EVERY new post requires the full AEO stack — defaults all-on. The
+    // weight-adjuster tunes which dimensions actually move outcomes; the
+    // brief always asks for them. (Cheap to ask, expensive to omit.)
+    aeoRequirements: {
+      needsBLUF: true,
+      needsDefinition: true,
+      needsProcedure: pageType !== 'pillar', // pillars often don't fit a single procedure
+      needsComparison: page.bucket === 'STRIKING_DISTANCE' || page.bucket === 'RELEVANCE_REBUILD',
+      needsFAQ: true,
+      needsAuthorEEAT: true,
+      needsFreshness: true,
+    },
     priority,
   }
 }

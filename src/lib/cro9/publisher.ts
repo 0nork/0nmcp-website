@@ -1,5 +1,6 @@
 import { BlogPost } from './types'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { scoreAEO } from './aeo-scorer'
 
 /**
  * Generate a URL-safe slug from a title, ensuring uniqueness.
@@ -37,11 +38,55 @@ function buildRow(post: BlogPost, slug: string, opts: { publish: boolean }) {
     category: 'AI Search',
     author: 'RocketOpp',
     author_title: '0nMCP team',
-    tags: ['ai-search', 'sxo', post.bucket?.toLowerCase()].filter(Boolean),
+    tags: ['ai-search', 'sxo', 'aeo', post.bucket?.toLowerCase()].filter(Boolean),
     source: 'cro9-daily',
     status: opts.publish ? 'published' : 'draft',
     published_at: opts.publish ? now : null,
     updated_at: now,
+  }
+}
+
+/**
+ * Score a generated post on the AEO axis and persist to blog_aeo_scores.
+ * Called from saveDraft + savePublished after the row is inserted, fire-
+ * and-forget so a scoring failure never blocks publishing.
+ */
+async function scoreAndPersistAEO(postId: string, post: BlogPost) {
+  try {
+    const supabase = await createSupabaseServer()
+    if (!supabase) return
+
+    const { score, factors } = scoreAEO({
+      markdown: post.body || post.content,
+      author: 'RocketOpp',
+      authorTitle: '0nMCP team',
+      updatedAt: new Date().toISOString(),
+      hasArticle: true,
+      hasFAQ: /\b(FAQ|Frequently Asked)\b/i.test(post.body || post.content),
+      hasHowTo: /^\s*\d+\.\s+/m.test(post.body || post.content),
+      hasOrganization: true,
+    })
+
+    // Get the active weights so we tag this score with which generation it was scored under
+    const { data: w } = await supabase
+      .from('aeo_weights')
+      .select('id')
+      .eq('active', true)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    await supabase.from('blog_aeo_scores').upsert(
+      {
+        post_id: postId,
+        score,
+        factors,
+        weights_id: w?.id || null,
+      },
+      { onConflict: 'post_id' },
+    )
+  } catch (e) {
+    console.error('[publisher.aeo-score] non-fatal:', (e as Error).message)
   }
 }
 
@@ -67,10 +112,12 @@ export async function saveDraft(post: BlogPost): Promise<string> {
         .select('id')
         .single()
       if (retryError) throw new Error(`Failed to save draft: ${retryError.message}`)
+      void scoreAndPersistAEO(retryData.id, post)
       return retryData.id
     }
     throw new Error(`Failed to save draft: ${error.message}`)
   }
+  void scoreAndPersistAEO(data.id, post)
   return data.id
 }
 
@@ -101,10 +148,12 @@ export async function savePublished(post: BlogPost): Promise<{ id: string; slug:
         .select('id, slug')
         .single()
       if (retryError) throw new Error(`Failed to publish: ${retryError.message}`)
+      void scoreAndPersistAEO(retryData.id, post)
       return retryData
     }
     throw new Error(`Failed to publish: ${error.message}`)
   }
+  void scoreAndPersistAEO(data.id, post)
   return data
 }
 

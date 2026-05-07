@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
           }
         } else if (session.mode === 'subscription' && tier !== 'donation') {
           // Sponsor subscription
-          await getSupabaseAdmin().from('sponsor_subscriptions').upsert({
+          const { error: subErr } = await getSupabaseAdmin().from('sponsor_subscriptions').upsert({
             user_id: userId || null,
             email,
             stripe_customer_id: session.customer as string,
@@ -138,6 +138,7 @@ export async function POST(request: NextRequest) {
             status: 'active',
             current_period_end: null,
           }, { onConflict: 'stripe_subscription_id' })
+          if (subErr) console.error('[stripe-webhook] sponsor_subscriptions upsert failed:', subErr)
 
           if (userId) {
             await getSupabaseAdmin().from('profiles').update({

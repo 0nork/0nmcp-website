@@ -95,9 +95,8 @@ export default function MegaNav() {
 
   useEffect(() => {
     const supabase = createSupabaseBrowser()
-    if (!supabase) { setAuthReady(true); return }
-    /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user ? { email: data.user.email ?? undefined, id: data.user.id } : null)
+    if (!supabase) { setAuthReady(true); return } supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ? { email: data.session?.user.email ?? undefined, id: data.session?.user.id } : null)
       setAuthReady(true)
     })
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

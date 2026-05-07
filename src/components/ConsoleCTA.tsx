@@ -26,20 +26,18 @@ export default function ConsoleCTA() {
   // Auth detection
   useEffect(() => {
     const supabase = createSupabaseBrowser()
-    if (!supabase) { setAuthState('anonymous'); return }
-
-    /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) { setAuthState('anonymous'); return }
+    if (!supabase) { setAuthState('anonymous'); return } supabase.auth.getSession().then(({ data }) => {
+      if (!data.session?.user) { setAuthState('anonymous'); return }
 
       supabase
         .from('profiles')
         .select('plan')
-        .eq('id', data.user.id)
+        .eq('id', data.session?.user.id)
         .single()
         .then(({ data: profile }) => {
           const plan = profile?.plan || 'free'
           setAuthState(plan === 'free' ? 'free' : 'subscribed')
-        })
+    })
     })
   }, [])
 

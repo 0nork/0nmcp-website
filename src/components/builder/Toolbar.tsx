@@ -35,8 +35,8 @@ export default function Toolbar({ aiChatOpen, onToggleAIChat, terminalOpen, onTo
   useEffect(() => {
     const supabase = createSupabaseBrowser()
     if (!supabase) return
-    /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user ? { id: data.user.id } : null)
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ? { id: data.session.user.id } : null)
     })
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ? { id: session.user.id } : null)

@@ -77,8 +77,8 @@ export default function Nav() {
   useEffect(() => {
     const supabase = createSupabaseBrowser()
     if (!supabase) return
-    /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user ? { email: data.user.email ?? undefined } : null)
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ? { email: data.session.user.email ?? undefined } : null)
     })
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ? { email: session.user.email ?? undefined } : null)

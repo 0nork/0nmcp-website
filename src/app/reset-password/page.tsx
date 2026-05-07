@@ -29,7 +29,8 @@ export default function ResetPasswordPage() {
     })
 
     // Also check if we already have a session (token was already exchanged)
-    /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const user = session?.user ?? null
       if (user) setSessionReady(true)
     })
 

@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   }
 
   if (!userId) {
-    const { data } = /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ await supabase.auth.getUser()
+    const { data } = await supabase.auth.getUser()
     userId = data.user?.id ?? null
   }
 

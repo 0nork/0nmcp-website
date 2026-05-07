@@ -22,7 +22,7 @@ export async function POST() {
     return NextResponse.json({ error: 'CRM not connected — no PIT token found' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
   }

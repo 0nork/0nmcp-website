@@ -11,7 +11,7 @@ export async function GET(
     return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
   }
@@ -51,7 +51,7 @@ export async function PATCH(
     return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
   }

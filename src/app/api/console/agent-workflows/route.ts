@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ workflows: [] })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const location = request.nextUrl.searchParams.get('location')

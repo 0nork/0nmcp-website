@@ -170,7 +170,7 @@ export default function AdminDashboard() {
   const loadStats = useCallback(async () => {
     if (!supabase) return
 
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (user?.email) setAdminEmail(user.email)
 
     // Parallel stat queries

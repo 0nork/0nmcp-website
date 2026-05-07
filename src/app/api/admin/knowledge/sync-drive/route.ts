@@ -177,7 +177,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user?.email || !ADMIN_EMAILS.includes(user.email)) {
     return NextResponse.json({ error: 'Admin only' }, { status: 403 })
   }
@@ -321,7 +321,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user?.email || !ADMIN_EMAILS.includes(user.email)) {
     return NextResponse.json({ error: 'Admin only' }, { status: 403 })
   }

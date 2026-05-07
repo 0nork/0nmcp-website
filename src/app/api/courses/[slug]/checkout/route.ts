@@ -19,7 +19,7 @@ export async function POST(
   if (!supabase) return NextResponse.json({ error: 'DB not configured' }, { status: 500 })
 
   // Auth check
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Login required' }, { status: 401 })
 
   // Get course

@@ -52,7 +52,7 @@ export default function OnFlowToolbar() {
     try {
       const supabase = createSupabaseBrowser()
       if (!supabase) return
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (!user) return
 
       const workflow = exportFromOnFlow(state.steps, state.settings)

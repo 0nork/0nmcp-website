@@ -54,7 +54,7 @@ export default function WhatIfPrompt() {
       const supabase = createSupabaseBrowser()
       if (!supabase) { setError('Not authenticated'); setLoading(false); return }
 
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (!user) { setError('Please sign in first'); setLoading(false); return }
 
       // Get encrypted Anthropic key

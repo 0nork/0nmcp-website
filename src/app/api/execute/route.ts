@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   if (auth.source === 'session') {
     const supabase = await createSupabaseServer()
     if (supabase) {
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       userEmail = user?.email || undefined
     }
   }

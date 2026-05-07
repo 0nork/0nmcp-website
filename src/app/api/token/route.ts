@@ -20,7 +20,7 @@ const EXPIRY_MAP: Record<string, number | null> = {
 async function getUser() {
   const supabase = await createSupabaseServer()
   if (!supabase) return null
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   return user
 }
 

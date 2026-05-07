@@ -9,7 +9,7 @@ export async function GET() {
     const supabase = await createSupabaseServer()
     if (!supabase) return NextResponse.json({ plan: 'free' })
 
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (!user) return NextResponse.json({ plan: 'free' })
 
     // Owner bypass — permanent VIP, no billing

@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ error: 'DB unavailable' }, { status: 500 })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   let body: { session_id?: string; messages?: unknown[]; title?: string }
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ error: 'DB unavailable' }, { status: 500 })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const limit = parseInt(request.nextUrl.searchParams.get('limit') || '20')

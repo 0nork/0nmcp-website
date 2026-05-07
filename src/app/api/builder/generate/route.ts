@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
   if (!supabase) {
     return Response.json({ error: 'Auth not configured' }, { status: 503 })
   }
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
 
   if (!user) {
     return Response.json(

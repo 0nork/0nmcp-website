@@ -28,7 +28,7 @@ export default function ConsoleCTA() {
     const supabase = createSupabaseBrowser()
     if (!supabase) { setAuthState('anonymous'); return }
 
-    supabase.auth.getUser().then(({ data }) => {
+    /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ supabase.auth.getUser().then(({ data }) => {
       if (!data.user) { setAuthState('anonymous'); return }
 
       supabase

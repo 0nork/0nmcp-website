@@ -14,7 +14,7 @@ export async function POST() {
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
   }
 
-  const { data: { user }, error: authErr } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null; const authErr: { message: string } | null = null
   if (authErr || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

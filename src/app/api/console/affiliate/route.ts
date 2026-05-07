@@ -25,7 +25,7 @@ export async function GET() {
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ await supabase.auth.getUser()
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -90,7 +90,7 @@ export async function POST() {
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ await supabase.auth.getUser()
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

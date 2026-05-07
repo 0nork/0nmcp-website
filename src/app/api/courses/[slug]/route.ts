@@ -30,7 +30,7 @@ export async function GET(
     .order('order_index', { ascending: true })
 
   // Check enrollment
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   let enrollment = null
   let progress: Record<string, boolean> = {}
 

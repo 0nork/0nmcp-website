@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json({ connected: false })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.json({ connected: false }, { status: 401 })
   }

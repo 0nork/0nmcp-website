@@ -18,7 +18,7 @@ async function checkAdmin(req: NextRequest) {
   const supabase = createServerClient(supabaseUrl, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '', {
     cookies: { getAll: () => req.cookies.getAll().map(c => ({ name: c.name, value: c.value })) },
   })
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user?.email || !ADMIN_EMAILS.includes(user.email)) return null
   return admin
 }

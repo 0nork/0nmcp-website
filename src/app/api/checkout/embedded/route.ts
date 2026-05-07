@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     let stripeCustomerId: string | null = null
 
     if (supabase) {
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (user) {
         userId = user.id
         userEmail = user.email || null

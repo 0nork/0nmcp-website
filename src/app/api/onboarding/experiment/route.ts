@@ -21,7 +21,7 @@ export async function GET() {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
   const admin = getAdmin()
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
   const { step, event_type, experiment_id, variant_id, metadata, duration_ms } = await request.json()

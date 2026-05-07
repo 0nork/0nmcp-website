@@ -258,7 +258,7 @@ export async function POST(request: NextRequest) {
   let userId: string | undefined
   const supabase = await createSupabaseServer()
   if (supabase) {
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (user) userId = user.id
   }
 

@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   } else {
     const supabase = await createSupabaseServer()
     if (supabase) {
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (user?.email === 'mike@rocketopp.com') {
         isAuthorized = true
       }

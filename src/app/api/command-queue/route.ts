@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ error: 'Not configured' }, { status: 500 })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
   // Owner bypass or VIP check
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createSupabaseServer()
     if (!supabase) return NextResponse.json({ error: 'Not configured' }, { status: 500 })
 
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     userId = user.id
     isOwner = user.email === OWNER_EMAIL

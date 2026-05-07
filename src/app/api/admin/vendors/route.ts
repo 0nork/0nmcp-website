@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   try {
     const supabase = await createSupabaseServer()
     if (!supabase) return NextResponse.json({ error: 'Not configured' }, { status: 500 })
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (!user || user.email !== ADMIN_EMAIL) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
   try {
     const supabase = await createSupabaseServer()
     if (!supabase) return NextResponse.json({ error: 'Not configured' }, { status: 500 })
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (!user || user.email !== ADMIN_EMAIL) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }

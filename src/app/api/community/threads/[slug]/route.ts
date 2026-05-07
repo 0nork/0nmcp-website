@@ -39,7 +39,7 @@ export async function GET(
   let userThreadVote = 0
   let userPostVotes: Record<string, number> = {}
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (user) {
     // Thread vote
     const { data: tv } = await supabase

@@ -266,7 +266,7 @@ export async function resolveAuth(request: Request): Promise<{ userId: string; s
     const { createSupabaseServer } = await import('@/lib/supabase/server')
     const supabase = await createSupabaseServer()
     if (!supabase) return null
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (user) return { userId: user.id, source: 'session' }
   } catch { /* ignore */ }
 

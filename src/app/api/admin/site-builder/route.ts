@@ -18,7 +18,7 @@ const ADMIN_EMAILS = ['mike@rocketopp.com']
 async function requireAdmin() {
   const supabase = await createSupabaseServer()
   if (!supabase) return null
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user?.email || !ADMIN_EMAILS.includes(user.email)) return null
   return supabase
 }

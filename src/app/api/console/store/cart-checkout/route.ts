@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     return corsJson({ error: 'Not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return corsJson({ error: 'Not authenticated' }, { status: 401 })
   }

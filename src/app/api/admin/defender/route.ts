@@ -11,7 +11,7 @@ async function requireAdmin() {
     if (!supabase) return null
 
     // Try getUser first (validates JWT)
-    const { data: { user }, error } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null; const error: { message: string } | null = null
 
     // If getUser fails, try getSession as fallback (works with expired access tokens if refresh token is valid)
     if (!user || error) {

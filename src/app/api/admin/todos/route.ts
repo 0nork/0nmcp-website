@@ -13,7 +13,7 @@ function getAdmin() {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function checkAdmin(supabase: any) {
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user?.email || !ADMIN_EMAILS.includes(user.email)) return null
   return user
 }

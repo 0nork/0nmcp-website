@@ -14,7 +14,7 @@ async function getLinkedInToken() {
     { cookies: { getAll: () => cookieStore.getAll() } }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return null
 
   const admin = createClient(

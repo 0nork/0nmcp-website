@@ -14,7 +14,7 @@ export default async function GridPage() {
   const supabase = await createSupabaseServer()
   if (!supabase) redirect('/login')
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) redirect('/login?redirect=/grid')
 
   const { data: profile } = await supabase

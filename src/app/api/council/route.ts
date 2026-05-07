@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createSupabaseServer()
     if (supabase) {
-      const { data: { user: authUser } } = await supabase.auth.getUser()
+      const authUser = (await supabase.auth.getSession()).data.session?.user ?? null
       userId = authUser?.id || undefined
     }
   } catch { /* continue without auth */ }

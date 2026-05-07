@@ -292,7 +292,7 @@ export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
   let userId: string | undefined
   if (supabase) {
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (!user) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,

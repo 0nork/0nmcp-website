@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
 
   // Build consent page URL (always go through the UI)
   const consentUrl = new URL('/oauth/authorize', request.url)
@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return new Response(
       JSON.stringify({ error: 'unauthorized', message: 'Not authenticated' }),

@@ -165,7 +165,7 @@ function OnboardingInner() {
     async function load() {
       if (!supabase) { setLoading(false); return }
 
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (!user) { router.push('/login'); return }
 
       setUserId(user.id)

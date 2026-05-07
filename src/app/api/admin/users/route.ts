@@ -17,7 +17,7 @@ async function requireAdmin() {
     const supabase = await createSupabaseServer()
     if (!supabase) return null
 
-    const { data: { user }, error } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null; const error: { message: string } | null = null
 
     // Fallback to getSession if getUser fails (handles expired access tokens)
     if (!user || error) {

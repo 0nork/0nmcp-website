@@ -17,7 +17,7 @@ export async function getUserCrmConfig(
 ): Promise<CrmConfig | null> {
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = /* TODO_GETUSER_MANUAL: review this call — getSession() preferred per Rule 10a */ await supabase.auth.getUser()
   if (!user) return null
 
   const admin = createClient(

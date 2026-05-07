@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.redirect(new URL('/login', 'https://www.0nmcp.com'))
   }

@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ error: 'Auth not configured' }, { status: 500 })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user || user.email !== OWNER_EMAIL) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
   }

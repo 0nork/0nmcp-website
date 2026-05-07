@@ -22,7 +22,7 @@ export async function GET() {
     return NextResponse.json({ platforms: [] }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.json({ platforms: [] }, { status: 401 })
   }
@@ -133,7 +133,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -199,7 +199,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'Not configured' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

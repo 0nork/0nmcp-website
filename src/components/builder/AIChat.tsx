@@ -54,7 +54,7 @@ export default function AIChat({ open, onClose }: { open: boolean; onClose: () =
   async function checkAuth() {
     const supabase = createSupabaseBrowser()
     if (!supabase) { setAuthState('unauthenticated'); return }
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
 
     if (!user) {
       setAuthState('unauthenticated')

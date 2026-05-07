@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Get the authenticated user
-        const { data: { user } } = await supabase.auth.getUser()
+        const user = (await supabase.auth.getSession()).data.session?.user ?? null
         if (user) {
           const provider = user.app_metadata?.provider || 'email'
           const meta = user.user_metadata || {}

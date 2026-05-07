@@ -42,7 +42,7 @@ export default function AISettingsPage() {
 
   const checkAuth = useCallback(async () => {
     if (!supabase) { setAuthorized(false); setLoading(false); return }
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (!user || user.email !== ADMIN_EMAIL) {
       setAuthorized(false)
       setLoading(false)

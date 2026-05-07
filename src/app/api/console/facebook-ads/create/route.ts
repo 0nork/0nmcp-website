@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = (await supabase.auth.getSession()).data.session?.user ?? null
     if (!user) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },

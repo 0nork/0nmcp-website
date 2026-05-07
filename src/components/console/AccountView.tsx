@@ -468,7 +468,7 @@ export function AccountView() {
       }
 
       // Re-authenticate with current password to verify identity
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (!user?.email) {
         setPasswordMsg({ type: 'error', text: 'Unable to verify your account.' })
         return

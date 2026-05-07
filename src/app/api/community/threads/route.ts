@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
 
   // Get user's votes for these threads (if logged in)
   let userVotes: Record<string, number> = {}
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (user && data?.length) {
     const threadIds = data.map((t: { id: string }) => t.id)
     const { data: votes } = await supabase
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServer()
   if (!supabase) return NextResponse.json({ error: 'DB not configured' }, { status: 500 })
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) return NextResponse.json({ error: 'Login required' }, { status: 401 })
 
   const { title, body, group_slug } = await request.json()

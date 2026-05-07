@@ -58,7 +58,7 @@ async function authenticateRequest(request: NextRequest): Promise<string | null>
     const { createSupabaseServer } = await import('@/lib/supabase/server')
     const supabase = await createSupabaseServer()
     if (supabase) {
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (user) return user.id
     }
   } catch {

@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
   if (!user) {
     return NextResponse.redirect(new URL('/login?redirect=/console', process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'))
   }

@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 
   // Get user's purchased listing IDs
   let purchasedListingIds: string[] = []
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = (await supabase.auth.getSession()).data.session?.user ?? null
 
   if (user) {
     const { data: purchases } = await supabase

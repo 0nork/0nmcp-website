@@ -95,7 +95,7 @@ export default function TokenPage() {
 
   useEffect(() => {
     async function init() {
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = (await supabase.auth.getSession()).data.session?.user ?? null
       if (!user) {
         router.push('/login?redirect=/connect/token')
         return

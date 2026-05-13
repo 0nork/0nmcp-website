@@ -108,6 +108,17 @@ export default async function RootLayout({
           src={`https://www.0ncore.com/api/cro9/script/${process.env.NEXT_PUBLIC_CRO9_SITE_ID || '0nmcp_com'}.js`}
           async
         />
+        {/*
+          Detect & Refine tracker — Phase 1 baseline. Captures click → session
+          → engagement signals, ships to dr_clicks/dr_sessions/dr_ai_scores
+          in pwujhhmlrtxjmjzyttwn for the Groq grader. Separate product from
+          the CRO9 script above (different schema, different cron).
+        */}
+        <script
+          src="https://detect-and-refine-cryptogoatz.vercel.app/cro9.js"
+          data-account-id="0nmcp_com"
+          async
+        />
       </head>
       <body className="antialiased">
         <Providers>

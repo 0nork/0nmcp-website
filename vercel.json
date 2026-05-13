@@ -73,6 +73,28 @@
       "schedule": "* * * * *"
     }
   ],
+  "rewrites": [
+    {
+      "source": "/api/mcp",
+      "destination": "https://www.0ncore.com/api/mcp"
+    },
+    {
+      "source": "/api/mcp/:path*",
+      "destination": "https://www.0ncore.com/api/mcp/:path*"
+    },
+    {
+      "source": "/.well-known/mcp.json",
+      "destination": "https://www.0ncore.com/.well-known/mcp.json"
+    },
+    {
+      "source": "/api/auth/generate-token",
+      "destination": "https://www.0ncore.com/api/auth/generate-token"
+    },
+    {
+      "source": "/api/auth/validate-token",
+      "destination": "https://www.0ncore.com/api/auth/validate-token"
+    }
+  ],
   "redirects": [
     {
       "source": "/docs",

@@ -115,7 +115,7 @@
 | `pit-0317b406-8a47-478e-ac28-a88763a9bb3f` | Master RocketOpp PIT |
 | `pit-f5f41b5a-32e4-4aee-84f4-a130cd3aad91` | Agent Studio PIT (virtually every scope) |
 | `pit-e789d87e-bc97-429e-abc3-ff46aa47a316` | Agency PIT |
-| `pit-88608339-542e-4fb9-a621-84a1bc145e44` | Spa Ligonier PIT |
+| `pit-7379fc97-541b-49d0-864a-1dca95086534` | Spa Ligonier PIT (canonical, full caps) |
 
 **Note**: PITs are location-scoped tokens. They CANNOT create new locations. For `POST /locations/` you need the **Agency OAuth API Key** (JWT format, starts with `eyJh`).
 
@@ -251,7 +251,7 @@ User signs up (/signup or OAuth)
 - **Address**: 201 S Fairfield St, Ligonier, PA 15658
 - **Website**: https://spaligonier.com
 - **CRM Location**: `F76MNKOMQCMruMrumtdf`
-- **PIT**: `pit-88608339-542e-4fb9-a621-84a1bc145e44`
+- **PIT**: `pit-7379fc97-541b-49d0-864a-1dca95086534`
 - **Stripe Customer**: `cus_T1hliV6FX2dCHu`
 - 5,076 contacts, 20 workflows
 - web0n project linked (project ID: `1f848dce-08ab-4431-a3dd-e4b55ba05f75`, opportunity: `5RDXF9FjyoGG03uc1VaR`)

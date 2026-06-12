@@ -15,6 +15,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { resolveCrmAuth } from '@/lib/crm/resolve-mcp-auth'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -113,10 +114,12 @@ async function executeTool(name: string, args: Record<string, unknown>, token: s
 // ─── POST — MCP Protocol + Legacy Console Proxy ─────────────────────────────
 
 export async function POST(req: NextRequest) {
-  const token = req.headers.get('authorization')?.replace('Bearer ', '') || process.env.CRM_PIT || ''
-  const locationId = req.headers.get('locationid') || req.headers.get('locationId') || process.env.CRM_LOCATION_ID || ''
+  // Raw, unresolved. An 0n_ token is NOT a valid CRM API token — it identifies a
+  // 0nCore user and is exchanged for that user's CRM OAuth token at execution time.
+  const rawToken = req.headers.get('authorization')?.replace('Bearer ', '') || process.env.CRM_PIT || ''
+  const headerLocationId = req.headers.get('locationid') || req.headers.get('locationId') || process.env.CRM_LOCATION_ID || ''
 
-  if (!token) {
+  if (!rawToken) {
     return NextResponse.json({ error: 'Authorization required' }, { status: 401 })
   }
 
@@ -147,6 +150,14 @@ export async function POST(req: NextRequest) {
         case 'tools/call': {
           const toolName = params?.name || ''
           const toolArgs = params?.arguments || {}
+          const resolved = await resolveCrmAuth(rawToken, headerLocationId)
+          if (!resolved.ok) {
+            return NextResponse.json({
+              jsonrpc: '2.0', id,
+              error: { code: -32001, message: resolved.error },
+            }, { status: resolved.status })
+          }
+          const { token, locationId } = resolved.auth
           const result = await executeTool(toolName, toolArgs, token, locationId)
           return NextResponse.json({
             jsonrpc: '2.0', id,
@@ -165,6 +176,11 @@ export async function POST(req: NextRequest) {
     // ── Legacy console proxy format: { tool, params, service } ──
     const { tool, params: legacyParams = {} } = body
     if (tool) {
+      const resolved = await resolveCrmAuth(rawToken, headerLocationId)
+      if (!resolved.ok) {
+        return NextResponse.json({ error: resolved.error }, { status: resolved.status })
+      }
+      const { token, locationId } = resolved.auth
       const result = await executeTool(tool, legacyParams, token, locationId)
       return NextResponse.json({ data: result, source: 'direct' })
     }

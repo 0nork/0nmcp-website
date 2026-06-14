@@ -42,6 +42,7 @@ const MCP_TOOLS = [
   { name: 'send_email', description: 'Send an email to a contact', inputSchema: { type: 'object' as const, properties: { contactId: { type: 'string' }, subject: { type: 'string' }, htmlBody: { type: 'string' } }, required: ['contactId', 'subject', 'htmlBody'] } },
   { name: 'get_location', description: 'Get CRM location details', inputSchema: { type: 'object' as const, properties: {} } },
   { name: 'get_custom_fields', description: 'List all custom fields', inputSchema: { type: 'object' as const, properties: {} } },
+  { name: 'verify_service', description: 'Verify an API key against a service (stripe, github, sendgrid, openai, anthropic, slack, notion, airtable, resend, hubspot, vercel) and return an account summary + a .0n connection descriptor', inputSchema: { type: 'object' as const, properties: { service: { type: 'string' }, apiKey: { type: 'string' } }, required: ['service', 'apiKey'] } },
 ]
 
 // ─── CRM API caller ─────────────────────────────────────────────────────────
@@ -111,6 +112,47 @@ async function executeTool(name: string, args: Record<string, unknown>, token: s
   }
 }
 
+// ─── Path 2: verify a pasted API key against the real service API ───────────
+// Lets 0nVault (and any client) confirm a credential is live + describe the
+// account before it's sealed into a hand-off. Uses the PASSED key, not CRM auth.
+type VerifyEntry = { label: string; url: string; headers: (k: string) => Record<string, string>; pick: (d: any, status: number) => Record<string, unknown> }
+
+const VERIFY_MAP: Record<string, VerifyEntry> = {
+  stripe:    { label: 'Stripe',     url: 'https://api.stripe.com/v1/account',                 headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ account: d.id, name: d.business_profile?.name, country: d.country, email: d.email }) },
+  github:    { label: 'GitHub',     url: 'https://api.github.com/user',                       headers: (k) => ({ Authorization: `Bearer ${k}`, 'User-Agent': '0nVault' }), pick: (d) => ({ login: d.login, name: d.name, repos: d.public_repos }) },
+  sendgrid:  { label: 'SendGrid',   url: 'https://api.sendgrid.com/v3/scopes',                headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ scopes: Array.isArray(d.scopes) ? d.scopes.length : undefined }) },
+  openai:    { label: 'OpenAI',     url: 'https://api.openai.com/v1/models',                  headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ models: Array.isArray(d.data) ? d.data.length : undefined }) },
+  anthropic: { label: 'Anthropic',  url: 'https://api.anthropic.com/v1/models',               headers: (k) => ({ 'x-api-key': k, 'anthropic-version': '2023-06-01' }), pick: (d) => ({ models: Array.isArray(d.data) ? d.data.length : undefined }) },
+  slack:     { label: 'Slack',      url: 'https://slack.com/api/auth.test',                   headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ team: d.team, user: d.user, ok: d.ok }) },
+  notion:    { label: 'Notion',     url: 'https://api.notion.com/v1/users/me',                headers: (k) => ({ Authorization: `Bearer ${k}`, 'Notion-Version': '2022-06-28' }), pick: (d) => ({ name: d.name, type: d.type, bot: d.bot?.workspace_name }) },
+  airtable:  { label: 'Airtable',   url: 'https://api.airtable.com/v0/meta/whoami',           headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ user: d.id, email: d.email }) },
+  resend:    { label: 'Resend',     url: 'https://api.resend.com/domains',                    headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ domains: Array.isArray(d.data) ? d.data.length : undefined }) },
+  hubspot:   { label: 'HubSpot',    url: 'https://api.hubapi.com/account-info/v3/details',    headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ portalId: d.portalId, currency: d.companyCurrency }) },
+  vercel:    { label: 'Vercel',     url: 'https://api.vercel.com/v2/user',                    headers: (k) => ({ Authorization: `Bearer ${k}` }), pick: (d) => ({ user: d.user?.username, email: d.user?.email }) },
+}
+
+async function verifyService(args: Record<string, unknown>) {
+  const service = String(args.service || '').toLowerCase().trim()
+  const apiKey = String(args.apiKey || args.api_key || '')
+  const entry = VERIFY_MAP[service]
+  if (!entry) return { ok: false, error: `unsupported service '${service}'`, supported: Object.keys(VERIFY_MAP) }
+  if (!apiKey) return { ok: false, error: 'apiKey required' }
+  try {
+    const res = await fetch(entry.url, { headers: entry.headers(apiKey), signal: AbortSignal.timeout(12000) })
+    const data = await res.json().catch(() => ({}))
+    const live = res.ok && data?.ok !== false
+    return {
+      ok: live, service, label: entry.label, status: res.status,
+      account: live ? entry.pick(data, res.status) : undefined,
+      // a descriptors-only .0n connection stub the buyer can import (no secret)
+      connection: live ? { '0n': '1.0', kind: 'connection', service, label: entry.label, auth_type: 'api_key', verified_at: new Date().toISOString() } : undefined,
+      error: live ? undefined : (data?.error?.message || data?.message || `verify failed (${res.status})`),
+    }
+  } catch (e) {
+    return { ok: false, service, error: e instanceof Error ? e.message : 'verify failed' }
+  }
+}
+
 // ─── POST — MCP Protocol + Legacy Console Proxy ─────────────────────────────
 
 export async function POST(req: NextRequest) {
@@ -150,6 +192,11 @@ export async function POST(req: NextRequest) {
         case 'tools/call': {
           const toolName = params?.name || ''
           const toolArgs = params?.arguments || {}
+          // Path 2: verify_service uses the passed API key — no CRM auth needed.
+          if (toolName === 'verify_service') {
+            const result = await verifyService(toolArgs)
+            return NextResponse.json({ jsonrpc: '2.0', id, result: { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] } })
+          }
           const resolved = await resolveCrmAuth(rawToken, headerLocationId)
           if (!resolved.ok) {
             return NextResponse.json({

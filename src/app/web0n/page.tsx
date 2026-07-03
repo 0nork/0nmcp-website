@@ -543,7 +543,7 @@ export default function Web0nLanding() {
             src="/brand/web0n-logo.png"
             alt="web0n — Professional websites built in days"
             width={320}
-            height={105}
+            height={74}
             priority
             className="mx-auto mb-6 block relative z-[1] drop-shadow-[0_4px_24px_rgba(126,217,87,0.15)]"
           />

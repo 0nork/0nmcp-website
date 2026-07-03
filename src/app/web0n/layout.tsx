@@ -46,7 +46,7 @@ export default function Web0nLayout({ children }: { children: React.ReactNode })
             <Image
               src="/brand/web0n-logo.png"
               alt="web0n"
-              width={130}
+              width={182}
               height={42}
               priority
               style={{ display: 'block', filter: 'drop-shadow(0 2px 8px rgba(126,217,87,0.1))' }}

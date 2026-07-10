@@ -5,7 +5,7 @@ import Homepage from '@/components/Homepage'
 export const metadata: Metadata = {
   title: '0nMCP — The Universal AI API Orchestrator',
   description:
-    'The universal AI API orchestrator. 1,183+ tools across 99 services. One install. Zero config. MIT licensed. Powered by 5 patented technologies.',
+    `The universal AI API orchestrator. ${STATS_DISPLAY.tools}+ tools across ${STATS_DISPLAY.services} services. One install. Zero config. MIT licensed. Powered by 5 patented technologies.`,
   keywords: [
     '0nMCP', 'MCP server', 'AI orchestrator', 'API integration',
     'workflow automation', 'Model Context Protocol', 'AI tools',

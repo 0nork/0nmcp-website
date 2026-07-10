@@ -57,7 +57,7 @@ For organizations, Cisco flagged OpenClaw as a "shadow AI risk" — employees in
 
 ## How These Vulnerabilities Compare to 0nMCP
 
-0nMCP is a Universal AI API Orchestrator with 900+ tools across 55 services. It was designed from the ground up with security as a core architectural principle — not an afterthought. Four provisional patents protect its security mechanisms.
+0nMCP is a Universal AI API Orchestrator with 1,640+ tools across 111 services. It was designed from the ground up with security as a core architectural principle — not an afterthought. Four provisional patents protect its security mechanisms.
 
 ### Credential Storage: Encrypted vs Plaintext
 
@@ -90,9 +90,9 @@ The 0nVault stores every credential inside an AES-256-GCM encrypted container. D
 | Review process | None (malware reached #1) | All tools maintained and tested internally |
 | Supply chain risk | High — anyone can publish | Low — single trusted publisher |
 | Tamper protection | None | .FED encrypted distribution with integrity verification |
-| Tool count | ~80 community skills | 900+ curated tools |
+| Tool count | ~80 community skills | 1,640+ curated tools |
 
-Every one of 0nMCP's 900+ tools is maintained by the same team that built the platform. There is no community marketplace to exploit. No ranking system to game. No unsigned code to inject. The .FED encrypted file format (Patent #1, US Provisional #63/968,814) provides tamper-evident packaging for any tool distribution.
+Every one of 0nMCP's 1,640+ tools is maintained by the same team that built the platform. There is no community marketplace to exploit. No ranking system to game. No unsigned code to inject. The .FED encrypted file format (Patent #1, US Provisional #63/968,814) provides tamper-evident packaging for any tool distribution.
 
 ### Input Surface: Authenticated vs Open
 
@@ -148,7 +148,7 @@ Based on Cisco's published analysis, OpenClaw has significant security vulnerabi
 
 ### Can 0nMCP work inside OpenClaw?
 
-Yes. If you choose to use OpenClaw, you can add 0nMCP as an MCP server to gain access to 900+ business tools. Your credentials would still be protected by 0nVault encryption even when accessed through OpenClaw. Install with one command: `npx 0nmcp@latest`
+Yes. If you choose to use OpenClaw, you can add 0nMCP as an MCP server to gain access to 1,640+ business tools. Your credentials would still be protected by 0nVault encryption even when accessed through OpenClaw. Install with one command: `npx 0nmcp@latest`
 
 ### Is 0nMCP open source?
 
@@ -164,7 +164,7 @@ The core 0nMCP server is MIT licensed and free on npm. Install with `npm install
 
 ### How many tools does 0nMCP have?
 
-900+ tools across 55 services in 22 categories. This includes 245 CRM tools, 602 catalog API endpoints, and 50+ engine, vault, brain, and application tools. All maintained by RocketOpp LLC — no community marketplace.
+1,640+ tools across 111 services in 22 categories. This includes 245 CRM tools, 602 catalog API endpoints, and 50+ engine, vault, brain, and application tools. All maintained by RocketOpp LLC — no community marketplace.
 
 ---
 
@@ -182,11 +182,11 @@ One controls your lights. The other runs your business. Securely.
 
 **Business Dashboard:** [0ncore.com](https://0ncore.com) — starts at $80/month
 
-**Compare:** [0nMCP vs OpenClaw](https://0nmcp.com/compare/0nmcp-vs-openclaw) — 20 categories, real numbers
+**Compare:** [0nMCP vs OpenClaw](https://0nmcp.com/compare/0nmcp-vs-openclaw) — 22 categories, real numbers
 
 **GitHub:** [0nork/0nMCP](https://github.com/0nork/0nMCP) — MIT licensed, open source
 
-**npm:** [0nmcp](https://www.npmjs.com/package/0nmcp) — v2.9.1, 900+ tools
+**npm:** [0nmcp](https://www.npmjs.com/package/0nmcp) — v2.9.1, 1,640+ tools
 
 ---
 

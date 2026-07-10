@@ -201,7 +201,7 @@ const faqs = [
 ]
 
 const stats = [
-  { value: '1,554', label: 'tools' },
+  { value: '1,640+', label: 'tools' },
   { value: '96', label: 'services' },
   { value: '16', label: 'AI agent workflows' },
   { value: '18', label: 'connected services' },

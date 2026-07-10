@@ -557,7 +557,7 @@ const LOCAL_KNOWLEDGE: Record<string, string> = {
     `0nMCP supports **${STATS_DISPLAY.tools} tools** across **${STATS_DISPLAY.services} services**. Start by connecting your most-used services in the Vault.`,
 
   // Services
-  'services': '**48 Connected Services**\n\n' +
+  'services': '**111 Connected Services**\n\n' +
     '**AI**: Anthropic (Claude), OpenAI (GPT), Google (Gemini), Perplexity\n' +
     '**CRM**: CRM (245 tools), HubSpot, Salesforce\n' +
     '**Email**: SendGrid, Gmail, Outlook, Smartlead\n' +

@@ -222,7 +222,7 @@ export default function PortalShell({ account }: { account: VipAccount }) {
       </div>
 
       <footer style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-primary)', fontSize: '0.7rem' }}>
-        Powered by 0nMCP — 1,589 tools across 102 services
+        Powered by 0nMCP — 1,640+ tools across 111 services
       </footer>
     </div>
   )

@@ -35,7 +35,7 @@ export const STATS = {
   license: 'MIT',
   local_cost: '$0',
   execution_cost: '$0.01',
-  version: 'v2.9.1',
+  version: 'v4.20.0',
 } as const
 
 // ─── FORMATTED (with commas for display) ─────────────────────────
@@ -55,10 +55,11 @@ export const STATS_DISPLAY = {
   local_cost: STATS.local_cost,
   version: STATS.version,
 
-  // Marketing numbers — rounded up with room to grow.
-  services_marketing: '150+',
-  capabilities_marketing: '2,000+',
-  tools_marketing: '2,000+',
+  // Marketing numbers — kept in lock-step with the real catalog counts so
+  // every surface reads the same figure. Update services.json meta to move them.
+  services_marketing: `${STATS.services}+`,
+  capabilities_marketing: `${STATS.capabilities.toLocaleString()}+`,
+  tools_marketing: `${STATS.tools.toLocaleString()}+`,
 } as const
 
 // ─── HERO STATS ARRAY (for stat grids) ───────────────────────────

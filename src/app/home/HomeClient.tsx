@@ -975,7 +975,7 @@ export default function HomeClient() {
               name: 'Alex Chen', role: 'CTO, DataFlow', initials: 'AC',
             },
             {
-              quote: '1,000+ tools accessible from any AI platform. We went from weeks of integration work to minutes.',
+              quote: '1,640+ tools accessible from any AI platform. We went from weeks of integration work to minutes.',
               name: 'Sarah Kim', role: 'Lead Engineer, BuildCo', initials: 'SK',
             },
             {

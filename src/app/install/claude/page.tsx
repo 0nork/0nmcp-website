@@ -4,7 +4,7 @@ import ClaudeInstallClient from './ClaudeInstallClient'
 export const metadata: Metadata = {
   title: 'Install 0nMCP on Claude — Complete Guide | 0nMCP',
   description:
-    'Step-by-step guide to install 0nMCP on Claude Desktop (macOS & Windows), Claude Code CLI, Claude API, and VS Code Copilot. 1,589 tools, 102 services, no API key required.',
+    'Step-by-step guide to install 0nMCP on Claude Desktop (macOS & Windows), Claude Code CLI, Claude API, and VS Code Copilot. 1,640+ tools, 111 services, no API key required.',
   keywords: [
     'install 0nMCP Claude',
     'Claude Desktop MCP',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Install 0nMCP on Claude — Complete Guide',
     description:
-      '1,589 tools across 102 services. Install 0nMCP on Claude Desktop, Claude Code, the Claude API, or VS Code. No API key required.',
+      '1,640+ tools across 111 services. Install 0nMCP on Claude Desktop, Claude Code, the Claude API, or VS Code. No API key required.',
     url: 'https://0nmcp.com/install/claude',
     type: 'article',
   },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Install 0nMCP on Claude — Complete Guide',
     description:
-      '1,589 tools across 102 services. Install on Claude Desktop, Claude Code, the Claude API, or VS Code.',
+      '1,640+ tools across 111 services. Install on Claude Desktop, Claude Code, the Claude API, or VS Code.',
   },
   alternates: {
     canonical: 'https://0nmcp.com/install/claude',
@@ -41,7 +41,7 @@ function HowToJsonLd() {
     '@type': 'HowTo',
     name: 'Install 0nMCP on Claude',
     description:
-      'Complete guide to installing 0nMCP — a universal AI API orchestrator with 1,589 tools — on Claude Desktop, Claude Code, the Claude API, and VS Code.',
+      'Complete guide to installing 0nMCP — a universal AI API orchestrator with 1,640+ tools — on Claude Desktop, Claude Code, the Claude API, and VS Code.',
     totalTime: 'PT5M',
     supply: [
       {
@@ -155,7 +155,7 @@ function FAQJsonLd() {
         name: 'How does 0nMCP work with Claude?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: '0nMCP implements the Model Context Protocol (MCP), an open standard that lets AI assistants like Claude use external tools. When you add 0nMCP to your config, Claude can call any of the 1,589 tools to interact with external services.',
+          text: '0nMCP implements the Model Context Protocol (MCP), an open standard that lets AI assistants like Claude use external tools. When you add 0nMCP to your config, Claude can call any of the 1,640+ tools to interact with external services.',
         },
       },
       {

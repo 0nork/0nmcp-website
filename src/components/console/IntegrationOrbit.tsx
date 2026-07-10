@@ -31,7 +31,7 @@ interface IntegrationOrbitProps {
   size?: number
 }
 
-export function IntegrationOrbit({ count = '1,554', label = 'Tools Connected', size = 380 }: IntegrationOrbitProps) {
+export function IntegrationOrbit({ count = '1,640+', label = 'Tools Connected', size = 380 }: IntegrationOrbitProps) {
   const center = size / 2
   const outerRadius = size * 0.42
   const innerRadius = size * 0.26

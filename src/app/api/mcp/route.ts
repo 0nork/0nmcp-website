@@ -250,7 +250,7 @@ export async function GET() {
     protocol: 'mcp',
     transport: 'streamable_http',
     tools: MCP_TOOLS.length,
-    description: 'Universal AI API Orchestrator — 1,589 tools, 102 services. Official MCP Registry listed.',
+    description: 'Universal AI API Orchestrator — 1,640+ tools, 111 services. Official MCP Registry listed.',
     setup: {
       crm_agent_studio: {
         server_url: 'https://0nmcp.com/api/mcp',

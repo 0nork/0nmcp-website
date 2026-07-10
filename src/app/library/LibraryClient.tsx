@@ -879,7 +879,7 @@ const CATEGORIES: Category[] = [
             <Accordion type="single" collapsible className="w-[320px]">
               <AccordionItem value="a1">
                 <AccordionTrigger>Why use 0n?</AccordionTrigger>
-                <AccordionContent>One install gets you 1,562 tools across 97 services.</AccordionContent>
+                <AccordionContent>One install gets you 1,640+ tools across 111 services.</AccordionContent>
               </AccordionItem>
               <AccordionItem value="a2">
                 <AccordionTrigger>Is it free?</AccordionTrigger>

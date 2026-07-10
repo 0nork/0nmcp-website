@@ -112,7 +112,7 @@ GITHUB_TOKEN=ghp_...
             {[
               { label: 'Engines', value: '12', color: '#6EE05A', items: 'Reddit, LinkedIn, GitHub, Outreach, OAuth, Onboarding...' },
               { label: 'API Routes', value: '88+', color: '#00d4ff', items: 'Builder, connections, workflows, marketplace, admin' },
-              { label: 'Services', value: '54', color: '#a78bfa', items: 'Stripe, Gmail, Slack, Discord, CRM, OpenAI, Anthropic...' },
+              { label: 'Services', value: '111', color: '#a78bfa', items: 'Stripe, Gmail, Slack, Discord, CRM, OpenAI, Anthropic...' },
               { label: 'OAuth Providers', value: '7', color: '#f59e0b', items: 'Google, GitHub, Slack, Stripe, Zoom, HubSpot, Microsoft' },
             ].map((item) => (
               <div key={item.label} style={{
@@ -142,7 +142,7 @@ GITHUB_TOKEN=ghp_...
               { title: 'Zero-Knowledge Capability Proxy', desc: 'Credentials borrowed in-memory, wiped after each call. Never in logs, never at rest.', color: '#6EE05A' },
               { title: 'CRM Auto-Provisioning', desc: 'Register an account and get a full CRM sub-account generated automatically via API.', color: '#00d4ff' },
               { title: 'Outreach Enricher', desc: 'Upload a CSV, AI enriches each lead with location hooks, competitors, reviews, pain points. Generate email sequences.', color: '#a78bfa' },
-              { title: 'Guided Workflow Builder', desc: '5-step builder: Trigger → Action → Configure → Output → Turn it 0n. Connects to 54 services.', color: '#f59e0b' },
+              { title: 'Guided Workflow Builder', desc: '5-step builder: Trigger → Action → Configure → Output → Turn it 0n. Connects to 111 services.', color: '#f59e0b' },
               { title: 'OAuth SSO', desc: '7 providers (Google, GitHub, Slack, Stripe, Zoom, HubSpot, Microsoft). Click to connect, no API keys needed.', color: '#ff6b35' },
               { title: 'Desktop App', desc: 'macOS .app bundle. Double-click to launch, Cmd+Q to stop. Green 0n icon.', color: '#6EE05A' },
             ].map((f) => (

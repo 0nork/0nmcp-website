@@ -277,8 +277,8 @@ export default function StyleDocsPage() {
         <Demo label="Metric Cards">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: 'Total Tools', value: '1,589', change: '+47', trend: 'up', icon: Zap, color: '#6EE05A' },
-              { title: 'Services', value: '102', change: '+6', trend: 'up', icon: Link2, color: '#06B6D4' },
+              { title: 'Total Tools', value: '1,640+', change: '+47', trend: 'up', icon: Zap, color: '#6EE05A' },
+              { title: 'Services', value: '111', change: '+6', trend: 'up', icon: Link2, color: '#06B6D4' },
               { title: 'Workflows', value: '26', change: '0', trend: 'neutral', icon: BarChart3, color: '#8B5CF6' },
               { title: 'Vault Keys', value: '49', change: '-2', trend: 'down', icon: Shield, color: '#F59E0B' },
             ].map(s => (
@@ -505,14 +505,14 @@ export default function StyleDocsPage() {
 
       {/* ═══════ ORBIT WIDGET ═══════ */}
       <Section id="orbit" title="Integration Orbit" description="Rotating service icons around a central counter. Use on dashboards and landing pages.">
-        <Demo label="Default (1,554 Tools)">
+        <Demo label="Default (1,640+ Tools)">
           <div className="py-8">
             <IntegrationOrbit />
           </div>
         </Demo>
-        <Demo label="Custom (96 Services)">
+        <Demo label="Custom (111 Services)">
           <div className="py-8">
-            <IntegrationOrbit count="96" label="Services" size={300} />
+            <IntegrationOrbit count="111" label="Services" size={300} />
           </div>
         </Demo>
       </Section>

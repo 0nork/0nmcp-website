@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Install 0nMCP — 1,155 AI Tools Inside Claude in 60 Seconds'
+export const alt = 'Install 0nMCP — 1,640+ AI Tools Inside Claude in 60 Seconds'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -139,7 +139,7 @@ export default function OGImage() {
             maxWidth: 700,
           }}
         >
-          1,155 AI tools across 91 services. Inside Claude. Free.
+          1,640+ AI tools across 111 services. Inside Claude. Free.
         </div>
 
         {/* Platform pills */}

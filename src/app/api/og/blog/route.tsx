@@ -6,7 +6,7 @@ export const runtime = 'edge'
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const title = searchParams.get('title') || '0nMCP Blog'
-  const subtitle = searchParams.get('subtitle') || '945 tools · 54 services · Universal AI Orchestrator'
+  const subtitle = searchParams.get('subtitle') || '1,640+ tools · 111 services · Universal AI Orchestrator'
   const category = searchParams.get('category') || ''
 
   const categoryColors: Record<string, string> = {
@@ -188,7 +188,7 @@ export async function GET(request: NextRequest) {
               gap: '8px',
             }}
           >
-            {['945 tools', '54 services', 'MIT'].map((stat) => (
+            {['1,640+ tools', '111 services', 'MIT'].map((stat) => (
               <div
                 key={stat}
                 style={{

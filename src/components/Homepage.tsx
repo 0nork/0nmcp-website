@@ -22,6 +22,10 @@ import {
   KeyRound,
   Bot,
   ClipboardList,
+  CheckSquare,
+  Newspaper,
+  ShoppingCart,
+  Puzzle,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -35,7 +39,6 @@ import {
 } from '@/components/ui/accordion'
 import { Separator } from '@/components/ui/separator'
 import { STATS_DISPLAY } from '@/data/stats'
-import ServerPipeline from '@/components/ServerPipeline'
 import Reveal from '@/components/Reveal'
 import RequestAccessForm from '@/components/RequestAccessForm'
 import HeroQuickCapture from '@/components/HeroQuickCapture'
@@ -148,8 +151,8 @@ const COMPARISON: Record<
   { metric: string; typical: string; onmcp: string }[]
 > = {
   overview: [
-    { metric: 'Total tools', typical: '10–50', onmcp: '1,554' },
-    { metric: 'Connected services', typical: '1–5', onmcp: '96 services' },
+    { metric: 'Total tools', typical: '10–50', onmcp: '1,640+' },
+    { metric: 'Connected services', typical: '1–5', onmcp: '111 services' },
     { metric: 'Configuration', typical: 'Manual YAML/JSON', onmcp: 'Zero config' },
     { metric: 'License', typical: 'Varies', onmcp: 'MIT — free forever' },
     { metric: 'Patents pending', typical: 'None', onmcp: '5 US provisionals' },
@@ -215,7 +218,7 @@ const FEATURES = [
   },
   {
     icon: Zap,
-    title: '1,554 tools across 96 services',
+    title: '1,640+ tools across 111 services',
     desc: 'CRM, Stripe, Slack, GitHub, Supabase, Google Workspace, OpenAI, and 89 more — all callable from one MCP server.',
   },
   {
@@ -268,7 +271,7 @@ const STEPS = [
 const FAQ = [
   {
     q: 'What is 0nMCP?',
-    a: '0nMCP is a universal AI API orchestrator built on the Model Context Protocol. One install gives any AI editor (Claude, Cursor, Windsurf, etc.) access to 1,554 tools across 96 services — CRM, Stripe, Slack, GitHub, Supabase, and more. MIT licensed. Five US patents pending.',
+    a: '0nMCP is a universal AI API orchestrator built on the Model Context Protocol. One install gives any AI editor (Claude, Cursor, Windsurf, etc.) access to 1,640+ tools across 111 services — CRM, Stripe, Slack, GitHub, Supabase, and more. MIT licensed. Five US patents pending.',
   },
   {
     q: 'How do I install it?',
@@ -280,7 +283,7 @@ const FAQ = [
   },
   {
     q: 'How is this different from Zapier or n8n?',
-    a: 'Those are visual workflow builders. 0nMCP runs locally with zero cloud dependency. Your AI talks directly to 96 services through natural language — no drag-and-drop, no monthly task limits, no vendor lock-in. The .0n file format makes workflows portable across any MCP-compatible client.',
+    a: 'Those are visual workflow builders. 0nMCP runs locally with zero cloud dependency. Your AI talks directly to 111 services through natural language — no drag-and-drop, no monthly task limits, no vendor lock-in. The .0n file format makes workflows portable across any MCP-compatible client.',
   },
   {
     q: 'What is the .0n file format?',
@@ -300,12 +303,45 @@ const FAQ = [
   },
 ]
 
+// Shipped & live — the newest services + capabilities, surfaced front and center.
+const UPDATES = [
+  { tag: 'New service', icon: CheckSquare, name: 'TickTick', desc: 'Full task & to-do management — create, update, complete tasks and manage projects. OAuth2.' },
+  { tag: 'New service', icon: Newspaper, name: 'Substack', desc: 'Read any newsletter’s posts, archive, and search through one key — the public content API, normalized.' },
+  { tag: 'New service', icon: Users, name: 'CrewAI', desc: 'Multi-agent orchestration wired straight into your stack.' },
+  { tag: 'New service', icon: LineChart, name: 'Detect & Refine', desc: 'Conversion intelligence that watches your traffic and acts on it in real time.' },
+  { tag: 'New capability', icon: Boxes, name: 'App Factory', desc: 'Spin up a full working app from a single prompt — spawn, list, iterate, archive.' },
+  { tag: 'New capability', icon: ShoppingCart, name: 'UCP — Universal Commerce', desc: 'Discover and transact against .0n marketplaces: catalog, checkout, orders.' },
+  { tag: 'New capability', icon: Workflow, name: '0nFlow', desc: 'Composable workflows — create, enroll, and run flows on demand.' },
+  { tag: 'New capability', icon: Sparkles, name: 'Rocket Convert', desc: 'Forms, email, and AI copy variants plus landing-page tooling — metered end to end.' },
+  { tag: 'Ecosystem', icon: Globe, name: 'web0n + WordPress', desc: 'Describe-to-edit website builder that now edits your existing WordPress site in place.' },
+  { tag: 'Ecosystem', icon: Puzzle, name: 'Chrome Extension v5.3', desc: 'The 0n AI Command Center, right in your browser.' },
+]
+
 export default function Homepage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* ═══ HERO ═══════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden">
-        {/* Live animated grid — randomized fade pattern */}
+      <section className="relative flex min-h-[100svh] items-center overflow-hidden">
+        {/* Fullscreen Factory video background */}
+        <div aria-hidden className="absolute inset-0 z-0">
+          <video
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/videos/factory-poster.jpg"
+          >
+            <source src="/videos/factory.mp4" type="video/mp4" />
+          </video>
+          {/* readability veil */}
+          <div className="absolute inset-0 bg-background/45" />
+          {/* left-side darkening so the hero copy stays legible over motion */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/40 to-background/10" />
+          {/* clean gradient fade to black into the page content */}
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-b from-transparent to-background" />
+        </div>
+        {/* Live animated grid — subtle over the video */}
         <AnimatedGrid />
         {/* Soft glow blob (lightened) */}
         <div
@@ -313,7 +349,7 @@ export default function Homepage() {
           className="pointer-events-none absolute -top-32 -right-32 h-[600px] w-[600px] rounded-full bg-[#6EE05A]/[0.06] blur-[140px]"
         />
 
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 pt-28 pb-20 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:pt-36 lg:pb-32">
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-4 pt-28 pb-24 sm:px-6 lg:gap-8 lg:px-8 lg:pt-36 lg:pb-32">
           {/* ── LEFT: text + CTAs ── */}
           <Reveal direction="up" delay={0} className="lg:col-span-7 flex flex-col justify-center">
             <div className="mb-6 inline-flex items-center gap-2">
@@ -322,7 +358,7 @@ export default function Homepage() {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#6EE05A]" />
               </span>
               <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                Live · v{STATS_DISPLAY.version?.replace('v', '') ?? '2.9.1'} · MIT
+                Live · v{STATS_DISPLAY.version?.replace('v', '') ?? '4.20.0'} · MIT
               </span>
             </div>
 
@@ -369,15 +405,57 @@ export default function Homepage() {
               No credit card · 60-second setup
             </p>
           </Reveal>
-
-          {/* ── RIGHT: animated pipeline ── */}
-          <Reveal direction="left" delay={150} className="lg:col-span-5 flex items-center justify-center">
-            <div className="relative w-full max-w-[600px]">
-              <ServerPipeline />
-            </div>
-          </Reveal>
         </div>
       </section>
+
+      {/* ═══ WHAT'S NEW / UPDATES ═══════════════════════════════════ */}
+      <Reveal>
+        <section id="updates" className="scroll-mt-24 border-t border-border bg-card/20">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+            <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <div className="mb-3 inline-flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-[#6EE05A]" />
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
+                    What&apos;s new · v{STATS_DISPLAY.version?.replace('v', '') ?? '4.20.0'}
+                  </span>
+                </div>
+                <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Fresh in the orchestrator</h2>
+                <p className="mt-3 max-w-2xl text-base text-white/70">
+                  New services and capabilities, shipped and live — {STATS_DISPLAY.tools}+ tools across{' '}
+                  {STATS_DISPLAY.services} services and counting.
+                </p>
+              </div>
+              <Button asChild variant="outline" className="shrink-0">
+                <Link href="/capabilities">
+                  Browse all {STATS_DISPLAY.services} services
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {UPDATES.map((u, i) => (
+                <Reveal key={u.name} delay={i * 40} direction="up">
+                  <Card className="h-full border-border/60 bg-card/60 backdrop-blur transition hover:border-[#6EE05A]/40">
+                    <CardContent className="p-5">
+                      <div className="mb-3 flex items-center justify-between">
+                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#6EE05A]/10 text-[#6EE05A]">
+                          <u.icon className="h-4 w-4" />
+                        </span>
+                        <Badge variant="secondary" className="text-[10px] uppercase tracking-wide">
+                          {u.tag}
+                        </Badge>
+                      </div>
+                      <h3 className="text-sm font-bold">{u.name}</h3>
+                      <p className="mt-1.5 text-xs leading-relaxed text-white/65">{u.desc}</p>
+                    </CardContent>
+                  </Card>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
 
       {/* ═══ TRUST LOGO STRIP ═══════════════════════════════════════ */}
       <Reveal>

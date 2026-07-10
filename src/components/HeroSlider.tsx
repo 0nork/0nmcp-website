@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from 'react'
 const SLIDES = [
   {
     tag: 'Universal Orchestrator',
-    headline: '1,183 Tools. 99 Services. One Install.',
+    headline: '1,640+ Tools. 111 Services. One Install.',
     body: 'Stripe, CRM, Slack, GitHub, Supabase, LinkedIn, Shopify, OpenAI — and 91 more. Every tool your AI needs, accessible through a single MCP server.',
   },
   {

@@ -227,7 +227,7 @@ Works with Claude Desktop, Cursor, Windsurf, or any Node.js project.
 
 Technical writeup: https://0nmcp.com/secure-claude
 
-Not trying to sell anything — 0nDefender is genuinely free with no usage limits. The full 0nMCP platform (900+ API tools) has a paid tier, but the security layer is free forever.
+Not trying to sell anything — 0nDefender is genuinely free with no usage limits. The full 0nMCP platform (1,640+ API tools) has a paid tier, but the security layer is free forever.
 
 ---
 
@@ -269,7 +269,7 @@ Source: https://github.com/0nork/0nMCP
 
 On March 31, 2026, attackers published compromised versions of axios — npm's most downloaded HTTP client — containing a Remote Access Trojan hidden in a transitive dependency. The payload exfiltrated environment variables, SSH keys, and API credentials from every developer who ran `npm install`.
 
-I run an MCP server with API keys for 55 connected services. When I saw the advisory, I realized how exposed the entire AI tool ecosystem is to supply chain attacks.
+I run an MCP server with API keys for 111 connected services. When I saw the advisory, I realized how exposed the entire AI tool ecosystem is to supply chain attacks.
 
 So I built 0nDefender.
 
@@ -348,6 +348,6 @@ GitHub: [github.com/0nork/0nMCP](https://github.com/0nork/0nMCP)
 
 ---
 
-*0nMCP is an open-source universal MCP server with 900+ tools across 55 services. 0nDefender is the security layer and is free forever.*
+*0nMCP is an open-source universal MCP server with 1,640+ tools across 111 services. 0nDefender is the security layer and is free forever.*
 
 #security #npm #supplychain #javascript #mcp #ai #opensource

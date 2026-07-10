@@ -351,7 +351,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const caps = getCapabilities(service.id)
   const total = caps.asTrigger.length + caps.asAction.length
   const title = `${service.name} + CRM + AI — Connect Everything | 0nMCP`
-  const description = `Connect ${service.name} to your CRM and ${total > 0 ? total + ' automations across ' : ''}55 services. ${service.tool_count} tools. AI-powered. No code required.`
+  const description = `Connect ${service.name} to your CRM and ${total > 0 ? total + ' automations across ' : ''}111 services. ${service.tool_count} tools. AI-powered. No code required.`
 
   return {
     title,
@@ -629,7 +629,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
 
         <div className="steps-grid">
           {[
-            { num: '01', title: 'Install', desc: 'One command installs 900+ tools across 55 services.', code: 'npx 0nmcp@latest' },
+            { num: '01', title: 'Install', desc: 'One command installs 1,640+ tools across 111 services.', code: 'npx 0nmcp@latest' },
             { num: '02', title: 'Connect', desc: `Import your ${service.name} API key. Auto-detected from .env files.`, code: '0nmcp engine import' },
             { num: '03', title: 'Automate', desc: 'Tell your AI what you want. 0nMCP handles the API calls.', code: `"When ${service.name} fires, update my CRM and notify Slack"` },
           ].map((step) => (

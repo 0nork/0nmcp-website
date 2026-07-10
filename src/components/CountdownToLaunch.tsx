@@ -27,7 +27,7 @@ export default function CountdownToLaunch({ compact, className = '' }: Countdown
       <p className="font-mono text-xs uppercase tracking-widest text-[#6EE05A]">Launched</p>
       <p className="mt-1 text-2xl font-black text-white">0nCore is live.</p>
       <p className="mt-1 text-sm text-muted-foreground">
-        v4.10 · 1,640+ tools across 109 services
+        v4.10 · 1,640+ tools across 111 services
       </p>
     </div>
   )

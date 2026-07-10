@@ -8,7 +8,7 @@ category: "integration"
 tags: ["slack", "automation", "CRM", "0nMCP", "business"]
 featured: true
 ogTitle: "We Replaced 14 SaaS Tools With One Slack Command"
-ogDescription: "Score leads. Book appointments. Send invoices. Generate courses. Run your CRM. All from /0n in Slack. 900+ tools, zero tab switching."
+ogDescription: "Score leads. Book appointments. Send invoices. Generate courses. Run your CRM. All from /0n in Slack. 1,640+ tools, zero tab switching."
 ogImage: "https://0nmcp.com/blog/images/slack-0nmcp-og.png"
 twitterCard: "summary_large_image"
 ---
@@ -33,7 +33,7 @@ We fixed it.
 
 ## What /0n Does
 
-One slash command. Eleven actions. 900+ tools behind it.
+One slash command. Eleven actions. 1,640+ tools behind it.
 
 | Command | What It Does | Replaces |
 |---------|-------------|----------|
@@ -208,7 +208,7 @@ Yes. The `/0n` command works everywhere — channels, DMs, threads.
 Unlimited. Every team member in your Slack workspace can use `/0n`.
 
 ### What CRM does it connect to?
-0nCore works with the CRM (GoHighLevel-compatible) and integrates with 55 services including Stripe, SendGrid, Twilio, Google Workspace, and more.
+0nCore works with the CRM (GoHighLevel-compatible) and integrates with 111 services including Stripe, SendGrid, Twilio, Google Workspace, and more.
 
 ### Can I customize which events go to which channels?
 Yes. Configure the event bridge to route different events to different channels — leads to #leads, payments to #sales, etc.
@@ -222,7 +222,7 @@ Yes. Configure the event bridge to route different events to different channels 
 
 Your team is already in Slack. Your leads, your deals, your invoices, your appointments — they should be there too.
 
-One command. 900+ tools. Zero tab switching.
+One command. 1,640+ tools. Zero tab switching.
 
 **→ Install: [0ncore.com](https://0ncore.com)**
 **→ Start free: 14-day trial, no credit card**
@@ -230,5 +230,5 @@ One command. 900+ tools. Zero tab switching.
 
 ---
 
-*0nMCP v2.9.1 · 900+ tools · 55 services · Patent Pending*
+*0nMCP v2.9.1 · 1,640+ tools · 111 services · Patent Pending*
 *RocketOpp LLC · [0nmcp.com](https://0nmcp.com)*

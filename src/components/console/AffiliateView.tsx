@@ -70,7 +70,7 @@ export function AffiliateView() {
 
   const shareTwitter = useCallback(() => {
     if (!data) return
-    const text = encodeURIComponent(`I'm using 0nMCP to orchestrate AI across 54+ services. Join me and get started:\n\n${data.referralLink}`)
+    const text = encodeURIComponent(`I'm using 0nMCP to orchestrate AI across 111 services. Join me and get started:\n\n${data.referralLink}`)
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank')
   }, [data])
 

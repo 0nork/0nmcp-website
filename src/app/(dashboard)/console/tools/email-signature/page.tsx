@@ -33,7 +33,7 @@ const DEFAULT: SignatureData = {
   location: 'New Alexandria, PA',
   iconUrl: 'https://0nmcp.com/brand/0n-icon.jpg',
   tagline: 'Universal AI API Orchestrator  \u00b7  Pay Per Use  \u00b7  No Subscriptions',
-  badge: '870+ TOOLS',
+  badge: '1,640+ TOOLS',
   ctaText: 'Build, package & transfer complete digital businesses',
   ctaUrl: 'https://0nmcp.com',
   ctaLabel: 'Try 0nMCP Free \u2192',

@@ -3,11 +3,11 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: '0nMCP for Claude — Universal MCP Server for Claude Desktop & Claude Code | 0nMCP',
-  description: 'Add 0nMCP to Claude Desktop or Claude Code and unlock 1,554 tools across 96 services. CRM, Stripe, Slack, GitHub, and 92 more. The most comprehensive MCP server available.',
+  description: 'Add 0nMCP to Claude Desktop or Claude Code and unlock 1,640+ tools across 111 services. CRM, Stripe, Slack, GitHub, and 107 more. The most comprehensive MCP server available.',
   keywords: ['0nMCP', 'Claude', 'Anthropic', 'MCP server', 'Claude Desktop', 'Claude Code', 'AI tools', 'workflow automation'],
   openGraph: {
     title: '0nMCP for Claude',
-    description: '1,554 tools across 96 services. The most comprehensive MCP server.',
+    description: '1,640+ tools across 111 services. The most comprehensive MCP server.',
     url: 'https://0nmcp.com/integrations/claude',
   },
 }
@@ -29,7 +29,7 @@ const jsonLd = {
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'Cross-platform',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      description: 'Universal MCP server with 1,554 tools across 96 services. Works with Claude Desktop, Claude Code, and any MCP-compatible client.',
+      description: 'Universal MCP server with 1,640+ tools across 111 services. Works with Claude Desktop, Claude Code, and any MCP-compatible client.',
       url: 'https://0nmcp.com',
       downloadUrl: 'https://www.npmjs.com/package/0nmcp',
       softwareVersion: '2.9.0',
@@ -40,8 +40,8 @@ const jsonLd = {
 }
 
 const STATS = [
-  { value: '1,554', label: 'Tools' },
-  { value: '96', label: 'Services' },
+  { value: '1,640+', label: 'Tools' },
+  { value: '111', label: 'Services' },
   { value: '22', label: 'Categories' },
   { value: 'MIT', label: 'Licensed' },
   { value: 'Free', label: 'Forever' },
@@ -74,7 +74,7 @@ const SUPERPOWERS = [
   },
   {
     title: 'Multi-Step Workflows',
-    desc: 'Chain tools in a single conversation: search contact, create opportunity, send email, post to Slack. Claude orchestrates multi-step operations across any combination of 96 services.',
+    desc: 'Chain tools in a single conversation: search contact, create opportunity, send email, post to Slack. Claude orchestrates multi-step operations across any combination of 111 services.',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
@@ -130,8 +130,8 @@ const EXAMPLES = [
 ]
 
 const COMPARISON = [
-  { feature: 'Tools', onmcp: '1,554', typical: '5-20' },
-  { feature: 'Services', onmcp: '96', typical: '1-3' },
+  { feature: 'Tools', onmcp: '1,640+', typical: '5-20' },
+  { feature: 'Services', onmcp: '111', typical: '1-3' },
   { feature: 'CRM Integration', onmcp: '289 tools', typical: 'None' },
   { feature: 'Encryption', onmcp: 'AES-256-GCM', typical: 'None' },
   { feature: 'Cost', onmcp: 'Free (MIT)', typical: 'Varies' },
@@ -143,11 +143,11 @@ const COMPARISON = [
 const FAQ = [
   {
     q: 'Is it free?',
-    a: 'Yes. 0nMCP is MIT licensed and free forever. The core server with all 1,554 tools costs nothing. Premium features like hosted execution and the marketplace unlock at growth milestones.',
+    a: 'Yes. 0nMCP is MIT licensed and free forever. The core server with all 1,640+ tools costs nothing. Premium features like hosted execution and the marketplace unlock at growth milestones.',
   },
   {
     q: 'Does it work with Claude Code?',
-    a: 'Yes. Run claude mcp add 0nmcp -- npx -y 0nmcp and you are connected. Claude Code can call all 1,554 tools directly from your terminal.',
+    a: 'Yes. Run claude mcp add 0nmcp -- npx -y 0nmcp and you are connected. Claude Code can call all 1,640+ tools directly from your terminal.',
   },
   {
     q: 'How do I add my API keys?',
@@ -191,7 +191,7 @@ export default function ClaudeIntegrationPage() {
               0nMCP for <span className="text-[#a78bfa]">Claude</span>
             </h1>
             <p className="font-display text-[clamp(18px,2.5vw,24px)] text-[var(--text-secondary)] mb-10 leading-relaxed">
-              1,554 tools. 96 services. The most comprehensive MCP server ever built.
+              1,640+ tools. 111 services. The most comprehensive MCP server ever built.
             </p>
 
             {/* Stats bar */}
@@ -274,7 +274,7 @@ export default function ClaudeIntegrationPage() {
           <div className="max-w-[1100px] mx-auto">
             <h2 className="font-display text-3xl font-bold text-center mb-3">What You Get</h2>
             <p className="text-center text-[var(--text-secondary)] text-base mb-12 max-w-[600px] mx-auto">
-              96 services organized into 22 categories. Every tool available to Claude instantly.
+              111 services organized into 22 categories. Every tool available to Claude instantly.
             </p>
 
             <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
@@ -406,7 +406,7 @@ export default function ClaudeIntegrationPage() {
 }`}</pre>
                 </li>
                 <li className="text-[var(--text-secondary)] text-sm leading-[1.7]">
-                  Restart Claude Desktop. You will see 0nMCP in the MCP server list with 1,554 tools available.
+                  Restart Claude Desktop. You will see 0nMCP in the MCP server list with 1,640+ tools available.
                 </li>
               </ol>
             </div>
@@ -430,7 +430,7 @@ export default function ClaudeIntegrationPage() {
                 Turn it 0n -- Import Credentials
               </h3>
               <p className="text-[var(--text-secondary)] text-sm mb-4 leading-[1.7]">
-                After installing, import your API keys to unlock all 96 services:
+                After installing, import your API keys to unlock all 111 services:
               </p>
               <pre className="bg-[#0d0d1a] rounded-lg p-5 font-mono text-[13px] leading-[1.8] text-[#e0e0e0] overflow-auto">{`# Import credentials from .env files
 0nmcp engine import
@@ -472,7 +472,7 @@ export default function ClaudeIntegrationPage() {
               <span className="text-[#6EE05A]">Free and open source.</span>
             </h2>
             <p className="text-[var(--text-secondary)] text-base mb-9 leading-relaxed">
-              1,554 tools across 96 services. MIT licensed. Add it to Claude in under 60 seconds.
+              1,640+ tools across 111 services. MIT licensed. Add it to Claude in under 60 seconds.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a href="#install" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-[#a78bfa] text-white font-display font-bold text-base no-underline">

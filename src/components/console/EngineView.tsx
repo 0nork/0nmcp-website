@@ -4,7 +4,7 @@
  * 0nEngine — Agentic AI Builder
  *
  * Not a workflow builder. An intelligent agent factory.
- * Each agent connects to Knowledge Bases + 0nMCP's 1,229 tools.
+ * Each agent connects to Knowledge Bases + 0nMCP's 1,640+ tools.
  *
  * Flow: Create → Configure KB → Define Actions → Set Personality → Deploy
  */
@@ -207,7 +207,7 @@ export function EngineView() {
               <div className="text-center py-[60px] px-5 text-[var(--text-muted)]">
                 <Cpu size={40} className="opacity-30 mb-4 mx-auto" />
                 <p className="text-[15px] font-semibold text-[var(--text-muted)] mb-1">No agents yet</p>
-                <p className="text-xs text-[var(--text-muted)]">Create your first agentic AI — it connects to your Knowledge Base and 1,229 tools.</p>
+                <p className="text-xs text-[var(--text-muted)]">Create your first agentic AI — it connects to your Knowledge Base and 1,640+ tools.</p>
                 <button
                   onClick={() => setTab('create')}
                   className="mt-4 py-2.5 px-5 rounded-[10px] border-none text-[13px] font-bold cursor-pointer font-[inherit] transition-all duration-150 bg-[#6EE05A] text-[#0B0F19]"
@@ -277,7 +277,7 @@ export function EngineView() {
               <p className="text-xs text-[#6EE05A] font-semibold mt-0 mb-1.5">What happens when you create an agent:</p>
               <div className="text-[11px] text-[var(--text-muted)] leading-[1.8]">
                 <div className="flex items-center gap-1.5"><CheckCircle2 size={12} className="text-[#6EE05A]" /> Agent created in your CRM sub-location</div>
-                <div className="flex items-center gap-1.5"><CheckCircle2 size={12} className="text-[#6EE05A]" /> Connected to 0nMCP&apos;s 1,229 tools via MCP Server</div>
+                <div className="flex items-center gap-1.5"><CheckCircle2 size={12} className="text-[#6EE05A]" /> Connected to 0nMCP&apos;s 1,640+ tools via MCP Server</div>
                 <div className="flex items-center gap-1.5"><CheckCircle2 size={12} className="text-[#6EE05A]" /> Attach Knowledge Bases for business-specific intelligence</div>
                 <div className="flex items-center gap-1.5"><CheckCircle2 size={12} className="text-[#6EE05A]" /> Deploy to production when ready</div>
               </div>

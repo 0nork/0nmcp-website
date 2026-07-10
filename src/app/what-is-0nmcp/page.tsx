@@ -5,13 +5,13 @@ import { STATS_DISPLAY } from '@/data/stats'
 export const metadata: Metadata = {
   title: 'What Is 0nMCP? The AI Tool That Does Your Business Work For You',
   description:
-    '0nMCP gives your AI 2,000+ capabilities to take real action — send emails, charge payments, update your CRM. 0nCore is the engine. Learn how it works.',
+    '0nMCP gives your AI 1,640+ tools to take real action — send emails, charge payments, update your CRM. 0nCore is the engine. Learn how it works.',
   alternates: { canonical: 'https://www.0nmcp.com/what-is-0nmcp' },
   openGraph: {
     type: 'article',
     title: 'What Is 0nMCP? The AI Tool That Does Your Business Work For You',
     description:
-      '0nMCP gives your AI assistant 2,000+ capabilities to get real work done — email, CRM, Stripe, Supabase, and more. 0nCore is the engine.',
+      '0nMCP gives your AI assistant 1,640+ tools to get real work done — email, CRM, Stripe, Supabase, and more. 0nCore is the engine.',
     url: 'https://www.0nmcp.com/what-is-0nmcp',
     siteName: '0nMCP by RocketOpp',
     publishedTime: '2026-04-27T00:00:00Z',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: 'https://www.0nmcp.com/og/what-is-0nmcp.png',
         width: 1200,
         height: 630,
-        alt: '0nMCP — 2,000+ AI capabilities, one engine',
+        alt: '0nMCP — 1,640+ AI tools, one engine',
       },
     ],
   },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     creator: '@rocketopp',
     title: 'What Is 0nMCP? The AI Tool That Does Your Business Work For You',
     description:
-      '2,000+ capabilities. 150+ services. One AI engine. 0nMCP makes your AI actually do things — not just talk about them.',
+      '1,640+ tools. 111 services. One AI engine. 0nMCP makes your AI actually do things — not just talk about them.',
     images: ['https://www.0nmcp.com/og/what-is-0nmcp.png'],
   },
 }
@@ -55,7 +55,7 @@ export default function WhatIsPage() {
         '@type': 'Article',
         headline: 'What Is 0nMCP? The AI Tool That Does Your Business Work For You',
         description:
-          '0nMCP gives your AI assistant 2,000+ capabilities to get real work done — email, CRM, payments, databases, and more. 0nCore is the engine.',
+          '0nMCP gives your AI assistant 1,640+ tools to get real work done — email, CRM, payments, databases, and more. 0nCore is the engine.',
         author: { '@type': 'Person', name: 'Mike Mento', url: 'https://www.0nmcp.com/about' },
         datePublished: '2026-04-27',
         dateModified: '2026-04-28',
@@ -71,7 +71,7 @@ export default function WhatIsPage() {
         operatingSystem: 'Any',
         url: 'https://www.0nmcp.com',
         description:
-          '0nMCP is an AI orchestration engine with 2,000+ capabilities across 150+ services. It lets any AI assistant take real actions — send emails, manage contacts, charge payments, query databases, and more.',
+          '0nMCP is an AI orchestration engine with 1,640+ tools across 111 services. It lets any AI assistant take real actions — send emails, manage contacts, charge payments, query databases, and more.',
         offers: {
           '@type': 'Offer',
           price: '0',
@@ -82,7 +82,7 @@ export default function WhatIsPage() {
         softwareVersion: STATS_DISPLAY.version,
         downloadUrl: 'https://www.npmjs.com/package/0nmcp',
         featureList: [
-          '2,000+ capabilities across 150+ services',
+          '1,640+ tools across 111 services',
           'CRM, Stripe, email, calendar, and database integrations',
           'AI-driven workflow orchestration',
           'AES-256 encrypted vault system',

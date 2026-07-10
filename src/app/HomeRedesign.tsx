@@ -597,7 +597,7 @@ export default function HomeRedesign() {
           <div className="grid gap-[18px]" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {[
               { icon: <ZapIcon size={24} color={C.lime} />, title: 'Agentic AI', desc: "0n decides the steps so you don't have to. Describe the outcome, the AI builds the path.", accent: C.lime },
-              { icon: <ServerIcon size={24} color={C.purple} />, title: 'Live MCP Server', desc: '1,554 tools, 96 services, real-time execution. The largest MCP server ever built.', accent: C.purple },
+              { icon: <ServerIcon size={24} color={C.purple} />, title: 'Live MCP Server', desc: '1,640+ tools, 111 services, real-time execution. The largest MCP server ever built.', accent: C.purple },
               { icon: <ShieldIcon size={24} color={C.turquoise} />, title: 'Vault Encryption', desc: 'AES-256-GCM with hardware fingerprint binding. Your keys stay yours. Patent pending.', accent: C.turquoise },
               { icon: <GlobeIcon size={24} color={C.orange} />, title: 'Universal Surface', desc: 'Console, CLI, Slack, Telegram, ChatGPT. Same commands everywhere. One brain.', accent: C.orange },
             ].map(feat => (

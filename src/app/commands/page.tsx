@@ -85,7 +85,7 @@ export default function CommandsPage() {
             fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
             marginBottom: '1.5rem',
           }}>
-            96 services · 1,554 tools · one command
+            111 services · 1,640+ tools · one command
           </div>
 
           <h1 style={{
@@ -115,7 +115,7 @@ export default function CommandsPage() {
             {[
               { value: String(COMMANDS.length), label: 'commands' },
               { value: String(Object.keys(CATEGORIES).length), label: 'categories' },
-              { value: '96', label: 'services' },
+              { value: '111', label: 'services' },
               { value: String(COMMANDS.filter(c => c.isFree).length), label: 'free' },
             ].map(stat => (
               <div key={stat.label} style={{ textAlign: 'center' }}>

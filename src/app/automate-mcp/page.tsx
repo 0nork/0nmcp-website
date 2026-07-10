@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Automate MCP Server Workflows — Agentic Power with 0nMCP',
-  description: 'Build autonomous AI workflows with Pipeline, Assembly Line, and Radial Burst execution models. 945+ tools, 4 patents, zero config.',
+  description: 'Build autonomous AI workflows with Pipeline, Assembly Line, and Radial Burst execution models. 1,640+ tools, 4 patents, zero config.',
   alternates: { canonical: 'https://www.0nmcp.com/automate-mcp' },
 }
 
@@ -20,7 +20,7 @@ export default function AutomateMcpPage() {
           Automate MCP Server Workflows — Agentic Power with 0nMCP
         </h1>
         <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: 32 }}>
-          Describe outcomes in natural language. 0nMCP orchestrates complex agentic workflows across <strong>54 services</strong> using three patented execution models: Pipeline, Assembly Line, and Radial Burst. No code required.
+          Describe outcomes in natural language. 0nMCP orchestrates complex agentic workflows across <strong>111 services</strong> using three patented execution models: Pipeline, Assembly Line, and Radial Burst. No code required.
         </p>
       </div>
 

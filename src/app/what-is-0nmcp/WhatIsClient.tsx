@@ -112,7 +112,7 @@ const SERVICES = [
   { name: 'DocuSign' },
   { name: 'WordPress' },
   { name: 'Webflow' },
-  { name: '+ 130 more' },
+  { name: '+ 90 more' },
 ]
 
 // ─── 0nCore engine responsibilities ─────────────────────────────────
@@ -167,7 +167,7 @@ const AUDIENCES = [
   {
     icon: Code2,
     title: 'Developers and technical teams',
-    desc: 'Building with AI? Get a 2,000+ capability head start, ready to plug into Claude, ChatGPT, Cursor, or any MCP-compatible client.',
+    desc: 'Building with AI? Get a 1,640+ tool head start, ready to plug into Claude, ChatGPT, Cursor, or any MCP-compatible client.',
     color: 'text-[#14b8a6]',
     bg: 'bg-[#14b8a6]/5',
     border: 'border-[#14b8a6]/25',
@@ -291,6 +291,29 @@ export default function WhatIsClient() {
               </Button>
             </div>
           </Reveal>
+
+          {/* Hero video — "The Death of the Workflow" */}
+          <Reveal direction="up" delay={150} className="mt-14">
+            <div className="relative mx-auto max-w-4xl">
+              <div aria-hidden className="pointer-events-none absolute -inset-4 rounded-3xl bg-[#6EE05A]/10 blur-2xl" />
+              <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-black shadow-2xl shadow-black/50 ring-1 ring-white/5">
+                <video
+                  className="aspect-video w-full"
+                  controls
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster="/videos/death-poster.jpg"
+                >
+                  <source src="/videos/death-of-the-workflow.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <p className="mt-3 text-center font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                Watch · The Death of the Workflow
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -338,7 +361,7 @@ export default function WhatIsClient() {
             </p>
             <p>
               It&rsquo;s a software package that connects your AI assistant (like Claude or ChatGPT)
-              to over <strong className="text-white">2,000 real business capabilities</strong> across <strong className="text-white">150+ services</strong> — your email, customer list, payment system, calendar.
+              to over <strong className="text-white">1,640 tools</strong> across <strong className="text-white">111 services</strong> — your email, customer list, payment system, calendar.
             </p>
             <p>
               Before 0nMCP, AI could only give you advice. You still had to do the work.
@@ -415,7 +438,7 @@ export default function WhatIsClient() {
       <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <Reveal direction="up">
           <h3 className="text-center text-base font-mono uppercase tracking-widest text-muted-foreground">
-            Just a few of the 150+ services already wired in
+            Just a few of the 111 services already wired in
           </h3>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
             {SERVICES.map((s, i) => (
@@ -720,7 +743,7 @@ export default function WhatIsClient() {
                 <InstallCard
                   icon={Sparkles}
                   title="Claude Desktop & Claude Code"
-                  desc="Add the 0nMCP server to Claude's MCP config. Every one of our 2,000+ capabilities appears as a tool inside chat — no API key wrangling, no manual schema."
+                  desc="Add the 0nMCP server to Claude's MCP config. Every one of our 1,640+ tools appears as a tool inside chat — no API key wrangling, no manual schema."
                   cta={{ label: 'Claude install steps', href: '/install/claude' }}
                   code={`{
   "mcpServers": {
@@ -732,7 +755,7 @@ export default function WhatIsClient() {
 }`}
                   bullets={[
                     'Works in Claude Desktop, Claude Code, and the web app',
-                    'All 2,000+ capabilities exposed as tools',
+                    'All 1,640+ tools exposed as tools',
                     'Zero key management — credentials live in 0nVault',
                   ]}
                 />
@@ -742,7 +765,7 @@ export default function WhatIsClient() {
                 <InstallCard
                   icon={MessageCircle}
                   title="ChatGPT custom GPT actions"
-                  desc="Wire 0nMCP into a custom GPT via the actions schema. ChatGPT calls our HTTP endpoint, we route through to 150+ services."
+                  desc="Wire 0nMCP into a custom GPT via the actions schema. ChatGPT calls our HTTP endpoint, we route through to 111 services."
                   cta={{ label: 'ChatGPT setup guide', href: '/install' }}
                   code={`# Add this Action URL to your custom GPT
 https://www.0nmcp.com/api/gpt/actions/openapi.json
@@ -795,7 +818,7 @@ https://www.0nmcp.com/api/gpt/actions/openapi.json
 }`}
                   bullets={[
                     'Native function-calling support',
-                    'Same 2,000+ capability surface as Claude / GPT',
+                    'Same 1,640+ tool surface as Claude / GPT',
                     'Works in AI Studio prototypes too',
                   ]}
                 />
@@ -960,7 +983,7 @@ npm install -g 0nmcp`}
           <h3 className="text-xl font-bold text-white">Keep learning</h3>
           <ul className="mt-4 space-y-2.5 text-base">
             {[
-              { label: 'Browse all 150+ service integrations', href: '/turn-it-on' },
+              { label: 'Browse all 111 service integrations', href: '/turn-it-on' },
               { label: 'AI glossary — 80 terms explained in plain English', href: '/glossary' },
               { label: 'How 0nMCP compares to other tools', href: '/compare' },
               { label: 'Build your first automated workflow', href: '/builder' },

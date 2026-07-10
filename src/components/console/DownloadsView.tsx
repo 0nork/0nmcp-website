@@ -40,7 +40,7 @@ const DOWNLOADS: DownloadItem[] = [
   {
     id: '0nmcp-cli',
     name: '0nMCP CLI',
-    description: 'The core MCP server — universal AI API orchestrator with 1,183 tools across 99 services. Connect AI to everything.',
+    description: 'The core MCP server — universal AI API orchestrator with 1,640+ tools across 111 services. Connect AI to everything.',
     category: 'tools',
     badge: 'free',
     icon: <Terminal size={20} />,

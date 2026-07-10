@@ -26,7 +26,7 @@
         },
         {
           "feature": "Tool count",
-          "onmcp": "1,155 tools, 91 services",
+          "onmcp": "1,640+ tools, 111 services",
           "competitor": "7,000+ apps (basic actions)"
         },
         {
@@ -60,7 +60,7 @@
       "faq": [
         {
           "q": "Can 0nMCP replace Zapier?",
-          "a": "For most automation use cases, yes. 0nMCP covers 91 services with 1,155 tools. If you need niche app integrations that Zapier supports, you may need both."
+          "a": "For most automation use cases, yes. 0nMCP covers 111 services with 1,640+ tools. If you need niche app integrations that Zapier supports, you may need both."
         },
         {
           "q": "Is 0nMCP harder to use than Zapier?",
@@ -126,7 +126,7 @@
       "faq": [
         {
           "q": "Is Make more powerful than 0nMCP?",
-          "a": "Make has more app integrations (1,800+), but 0nMCP has deeper tool coverage per service (1,155 tools vs basic CRUD operations) and AI-driven orchestration that handles complexity automatically."
+          "a": "Make has more app integrations (1,800+), but 0nMCP has deeper tool coverage per service (1,640+ tools vs basic CRUD operations) and AI-driven orchestration that handles complexity automatically."
         },
         {
           "q": "Can I migrate from Make to 0nMCP?",
@@ -173,7 +173,7 @@
         },
         {
           "feature": "Tool depth",
-          "onmcp": "1,155 tools with deep API coverage",
+          "onmcp": "1,640+ tools with deep API coverage",
           "competitor": "400+ integrations, basic operations"
         },
         {
@@ -214,7 +214,7 @@
       "key_differences": [
         {
           "feature": "Ecosystem",
-          "onmcp": "Platform-agnostic, 91 services",
+          "onmcp": "Platform-agnostic, 111 services",
           "competitor": "Microsoft-centric with connectors"
         },
         {
@@ -273,8 +273,8 @@
     {
       "slug": "0nmcp-vs-ifttt",
       "competitor": "IFTTT",
-      "tagline": "1,155-tool AI orchestrator vs simple if-this-then-that",
-      "description": "IFTTT pioneered simple automation with its if-this-then-that model. 0nMCP goes far beyond single trigger-action pairs with AI-driven multi-step orchestration across 91 services.",
+      "tagline": "1,640+-tool AI orchestrator vs simple if-this-then-that",
+      "description": "IFTTT pioneered simple automation with its if-this-then-that model. 0nMCP goes far beyond single trigger-action pairs with AI-driven multi-step orchestration across 111 services.",
       "competitor_summary": "IFTTT (If This Then That) is the simplest automation platform, connecting services with single trigger-action pairs called Applets. It's designed for consumers and smart home automation.",
       "pricing_compare": "IFTTT offers 2 free Applets, then $3.49/mo for unlimited. 0nMCP is free for unlimited local use with far more capability per automation.",
       "key_differences": [
@@ -290,7 +290,7 @@
         },
         {
           "feature": "Tool depth",
-          "onmcp": "1,155 tools with full API coverage",
+          "onmcp": "1,640+ tools with full API coverage",
           "competitor": "Basic actions per service"
         },
         {
@@ -432,7 +432,7 @@
         },
         {
           "feature": "Tool depth",
-          "onmcp": "1,155 tools, deep API coverage",
+          "onmcp": "1,640+ tools, deep API coverage",
           "competitor": "Growing piece library"
         },
         {
@@ -464,7 +464,7 @@
         },
         {
           "q": "Which has more integrations?",
-          "a": "0nMCP has deeper coverage per service (1,155 tools across 91 services). Activepieces has a wider but shallower integration library that's growing rapidly."
+          "a": "0nMCP has deeper coverage per service (1,640+ tools across 111 services). Activepieces has a wider but shallower integration library that's growing rapidly."
         }
       ]
     },
@@ -530,7 +530,7 @@
         },
         {
           "q": "How many services does each support?",
-          "a": "Workato has 1,200+ connectors with varying depth. 0nMCP covers 91 services with 1,155 deep tools. Quality over quantity \u2014 0nMCP's per-service coverage is significantly deeper."
+          "a": "Workato has 1,200+ connectors with varying depth. 0nMCP covers 111 services with 1,640+ deep tools. Quality over quantity \u2014 0nMCP's per-service coverage is significantly deeper."
         }
       ]
     },
@@ -559,7 +559,7 @@
         },
         {
           "feature": "Universal connector",
-          "onmcp": "91 services, extensible",
+          "onmcp": "111 services, extensible",
           "competitor": "Connect to any API visually"
         },
         {
@@ -670,7 +670,7 @@
       "slug": "0nmcp-vs-langchain",
       "competitor": "LangChain",
       "tagline": "Ready-to-use MCP server vs AI framework",
-      "description": "LangChain is a framework for building AI applications. 0nMCP is a ready-to-use MCP server with 1,155 pre-built tools. LangChain requires you to build; 0nMCP works out of the box.",
+      "description": "LangChain is a framework for building AI applications. 0nMCP is a ready-to-use MCP server with 1,640+ pre-built tools. LangChain requires you to build; 0nMCP works out of the box.",
       "competitor_summary": "LangChain is a popular open-source framework for building applications powered by language models. It provides abstractions for chains, agents, memory, and tool use, requiring developers to assemble components.",
       "pricing_compare": "Both are open source. LangChain requires significant development time to build what 0nMCP provides out of the box. LangSmith (monitoring) starts at $39/mo.",
       "key_differences": [
@@ -686,7 +686,7 @@
         },
         {
           "feature": "Tools included",
-          "onmcp": "1,155 pre-built tools",
+          "onmcp": "1,640+ pre-built tools",
           "competitor": "Build or import your own"
         },
         {
@@ -724,7 +724,7 @@
         },
         {
           "q": "Can LangChain use 0nMCP tools?",
-          "a": "Yes. LangChain applications can connect to 0nMCP's HTTP server or use it as an MCP server, getting instant access to 1,155 tools without building custom integrations."
+          "a": "Yes. LangChain applications can connect to 0nMCP's HTTP server or use it as an MCP server, getting instant access to 1,640+ tools without building custom integrations."
         },
         {
           "q": "Which should I choose?",
@@ -802,13 +802,13 @@
       "slug": "0nmcp-vs-openclaw",
       "competitor": "OpenClaw",
       "tagline": "Your AI controls your lights. Ours runs your business.",
-      "description": "OpenClaw is an open-source personal AI assistant that manages files, controls smart homes, and automates personal computing tasks. It was recently flagged by Cisco as a 'security nightmare' for leaked credentials and malicious community skills. 0nMCP is a business AI operating system with 900+ tools, patented encryption (0nVault), CRM integration, voice AI, and revenue-generating automations.",
+      "description": "OpenClaw is an open-source personal AI assistant that manages files, controls smart homes, and automates personal computing tasks. It was recently flagged by Cisco as a 'security nightmare' for leaked credentials and malicious community skills. 0nMCP is a business AI operating system with 1,640+ tools, patented encryption (0nVault), CRM integration, voice AI, and revenue-generating automations.",
       "competitor_summary": "OpenClaw is a locally-running AI assistant with ~80 skills for personal computing: file management, browser control, smart home, chat apps. Open source and free, but flagged by Cisco's security research team for critical vulnerabilities including leaked API keys, malicious community skills, prompt injection attacks, and zero built-in encryption. Has no business tools, no CRM, no payments, no voice AI.",
       "pricing_compare": "OpenClaw is free and open source (BYO API keys). 0nMCP core is also free and open source. 0nCore (the business dashboard) starts at $80/mo with everything included.",
       "key_differences": [
         {
           "feature": "Total tools",
-          "onmcp": "900+ tools across 55 services",
+          "onmcp": "1,640+ tools across 111 services",
           "competitor": "~80 skills and plugins"
         },
         {
@@ -912,7 +912,7 @@
       "faq": [
         {
           "q": "Can 0nMCP work inside OpenClaw?",
-          "a": "Yes. Add 0nMCP as an MCP server in OpenClaw and you get 900+ business tools on top of your existing setup. One line: npx 0nmcp@latest"
+          "a": "Yes. Add 0nMCP as an MCP server in OpenClaw and you get 1,640+ business tools on top of your existing setup. One line: npx 0nmcp@latest"
         },
         {
           "q": "Does OpenClaw have CRM integration?",

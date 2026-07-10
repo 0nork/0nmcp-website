@@ -4,7 +4,7 @@
  * Pure SVG with SMIL animation. Shows the full request lifecycle:
  *   AI clients → MCP transport → 0nMCP core (hex) →
  *   Three-Level Execution lanes (Pipeline / Assembly Line / Radial Burst) →
- *   Vault encryption → Service grid (96 services).
+ *   Vault encryption → Service grid (111 services).
  *
  * No CSS animations, no inline styles. Drop-in <ServerPipeline /> on dark bg.
  */
@@ -211,11 +211,11 @@ export default function ServerPipeline() {
       <g>
         <rect x="40" y="220" width="80" height="22" rx="4" fill="rgba(110,224,90,0.08)" stroke="rgba(110,224,90,0.2)" strokeWidth="0.8" />
         <text x="80" y="235" textAnchor="middle" fill={ACCENT} fontSize="10" fontFamily="monospace" fontWeight="700">
-          1,554 tools
+          1,640+ tools
         </text>
         <rect x="480" y="220" width="80" height="22" rx="4" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.2)" strokeWidth="0.8" />
         <text x="520" y="235" textAnchor="middle" fill={CYAN} fontSize="10" fontFamily="monospace" fontWeight="700">
-          96 services
+          111 services
         </text>
         <rect x="40" y="260" width="80" height="22" rx="4" fill="rgba(139,92,246,0.08)" stroke="rgba(139,92,246,0.2)" strokeWidth="0.8" />
         <text x="80" y="275" textAnchor="middle" fill={PURPLE} fontSize="10" fontFamily="monospace" fontWeight="700">
@@ -384,7 +384,7 @@ export default function ServerPipeline() {
       {/* ─── 6. SERVICE OUTPUT GRID ─────────────────────────────────── */}
       <g>
         <text x="300" y="558" textAnchor="middle" fill="#475569" fontSize="9" fontFamily="monospace" letterSpacing="2">
-          ROUTED TO 96 SERVICES (sample)
+          ROUTED TO 111 SERVICES (sample)
         </text>
         {SERVICES.map((s, i) => {
           const col = i % 6

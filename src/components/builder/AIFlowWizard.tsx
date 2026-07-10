@@ -426,7 +426,7 @@ export default function AIFlowWizard({ open, onClose, onSubmit }: AIFlowWizardPr
             <div style={{ fontSize: 14, color: '#c8ccd2', lineHeight: 1.6 }}>
               {generating && 'Generating your workflow...'}
               {!generating && step === 0 && "What would you like to automate? Describe your workflow in plain English and I'll build it for you."}
-              {!generating && step === 1 && "Which services should be connected? I can integrate any of the 99 services in your 0nMCP installation."}
+              {!generating && step === 1 && "Which services should be connected? I can integrate any of the 111 services in your 0nMCP installation."}
               {!generating && step === 2 && "Do you need any conditional logic? Branches, loops, error handling, or time delays?"}
               {!generating && step === 3 && workflowSteps.length > 0 && `Generated ${workflowSteps.length} step${workflowSteps.length > 1 ? 's' : ''}. Review below, then hit Run Workflow to execute.`}
               {!generating && step === 3 && workflowSteps.length === 0 && "Here's your workflow. Review the steps and connections, then make any adjustments."}

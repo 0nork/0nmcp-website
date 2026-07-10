@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Universal Capability Routing — 0nMCP',
   description:
-    'One command. Any service. 60 capabilities across 30 categories with 222 provider options. Say "send an email" and 0nMCP picks the right service for you.',
+    'One command. Any service. 60 capabilities across 22 categories with 222 provider options. Say "send an email" and 0nMCP picks the right service for you.',
   keywords: [
     '0nMCP',
     'capability routing',
@@ -272,7 +272,7 @@ export default function CapabilitiesPage() {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Universal Capability Routing — 0nMCP',
-    description: 'One command. Any service. 60 capabilities across 30 categories with 222 provider options.',
+    description: 'One command. Any service. 60 capabilities across 22 categories with 222 provider options.',
     url: 'https://www.0nmcp.com/capabilities',
     isPartOf: { '@type': 'WebSite', name: '0nMCP', url: 'https://www.0nmcp.com' },
   }
@@ -334,12 +334,12 @@ export default function CapabilitiesPage() {
             </div>
             <div className="stat-divider" />
             <div className="stat-item">
-              <span className="stat-value">95</span>
+              <span className="stat-value">111</span>
               <span className="stat-label">Services</span>
             </div>
             <div className="stat-divider" />
             <div className="stat-item">
-              <span className="stat-value">30</span>
+              <span className="stat-value">22</span>
               <span className="stat-label">Categories</span>
             </div>
           </div>

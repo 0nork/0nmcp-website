@@ -22,7 +22,7 @@ const GROQ_MODEL = 'llama-3.3-70b-versatile'
 const MAX_TOKENS = 1024
 const SITE_URL = 'https://0nmcp.com'
 
-const GENERIC_SYSTEM_PROMPT = `You are 0nGram, the Telegram interface for 0nMCP — a universal AI orchestration platform with 900+ tools across 54 services.
+const GENERIC_SYSTEM_PROMPT = `You are 0nGram, the Telegram interface for 0nMCP — a universal AI orchestration platform with 1,640+ tools across 111 services.
 
 0nMCP connects to CRM, Stripe, SendGrid, Slack, Discord, Twilio, GitHub, Shopify, OpenAI, Anthropic, Google services, Airtable, Notion, MongoDB, Supabase, and 40+ more services through a single unified API.
 
@@ -194,7 +194,7 @@ async function handleStart(msg: TelegramMessage): Promise<string> {
   const name = msg.from?.first_name || 'there'
   return `Welcome to *0nGram*, ${name}! 🔌
 
-I'm the Telegram interface for *0nMCP* — the universal AI orchestration platform with 900+ tools across 54 services.
+I'm the Telegram interface for *0nMCP* — the universal AI orchestration platform with 1,640+ tools across 111 services.
 
 *What I can do:*
 - Answer questions about 0nMCP, workflows, and automation

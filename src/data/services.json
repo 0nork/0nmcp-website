@@ -1,12 +1,12 @@
 {
   "meta": {
     "version": "5.0.0",
-    "generated": "2026-03-17",
-    "source": "0nMCP v2.5.0 catalog.js + crm/ + vault/ + engine/ + deed/ + mcp-server/",
-    "total_services": 102,
-    "total_tools": 1589,
-    "catalog_tools": 1198,
-    "crm_module_tools": 245,
+    "generated": "2026-07-10",
+    "source": "0nMCP v4.20.0 catalog.js + crm/ + vault/ + engine/ + deed/ + app/",
+    "total_services": 111,
+    "total_tools": 1640,
+    "catalog_tools": 1035,
+    "crm_module_tools": 576,
     "vault_tools": 4,
     "vault_container_tools": 8,
     "deed_tools": 6,

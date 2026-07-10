@@ -7,7 +7,7 @@ import AnimatedGrid from '@/components/AnimatedGrid'
 export const metadata: Metadata = {
   title: '0nMCP vs Every AI Tool — Best AI Software Comparison 2026 | Claude vs GPT vs Gemini vs Zapier',
   description:
-    'The definitive AI tool comparison for 2026. Compare 0nMCP against Claude, GPT, Gemini, Zapier, Make, n8n, OpenClaw, and 13+ platforms. 900+ tools, 55 services, free and open source. Feature tables, pricing, and honest assessments.',
+    'The definitive AI tool comparison for 2026. Compare 0nMCP against Claude, GPT, Gemini, Zapier, Make, n8n, OpenClaw, and 13+ platforms. 1,640+ tools, 111 services, free and open source. Feature tables, pricing, and honest assessments.',
   keywords: [
     'best AI software',
     'compare AI assistants',
@@ -62,8 +62,8 @@ const COMP_COLORS: Record<string, string> = {
 
 // ─── Massive comparison table data ──────────────────────────────
 const MEGA_TABLE = [
-  { dim: 'Total Tools', onmcp: '900+', claude: '~20', gpt: '~15', gemini: '~10', zapier: '7,000+ apps', make: '1,500+ apps', n8n: '400+ nodes', openclaw: '~50' },
-  { dim: 'Built-in Services', onmcp: '55', claude: '1 (Anthropic)', gpt: '1 (OpenAI)', gemini: '1 (Google)', zapier: 'Via connectors', make: 'Via modules', n8n: 'Via nodes', openclaw: '~10' },
+  { dim: 'Total Tools', onmcp: '1,640+', claude: '~20', gpt: '~15', gemini: '~10', zapier: '7,000+ apps', make: '1,500+ apps', n8n: '400+ nodes', openclaw: '~50' },
+  { dim: 'Built-in Services', onmcp: '111', claude: '1 (Anthropic)', gpt: '1 (OpenAI)', gemini: '1 (Google)', zapier: 'Via connectors', make: 'Via modules', n8n: 'Via nodes', openclaw: '~10' },
   { dim: 'Self-Hosted', onmcp: 'Yes (local-first)', claude: 'No', gpt: 'No', gemini: 'No', zapier: 'No', make: 'No', n8n: 'Yes', openclaw: 'Partial' },
   { dim: 'AI-Native Orchestration', onmcp: 'Yes (describe outcomes)', claude: 'Chat only', gpt: 'Chat only', gemini: 'Chat only', zapier: 'No (visual builder)', make: 'No (visual builder)', n8n: 'No (visual builder)', openclaw: 'Partial' },
   { dim: 'MCP Protocol Support', onmcp: 'Native (built on MCP)', claude: 'Client only', gpt: 'No', gemini: 'No', zapier: 'No', make: 'No', n8n: 'No', openclaw: 'Yes' },
@@ -89,10 +89,10 @@ const COMPETITORS = [
     slug: null,
     tagline: 'The AI model 0nMCP supercharges',
     whatTheyDo: 'Claude is Anthropic\'s frontier AI assistant, known for strong reasoning, long-context understanding, and safety-focused design. It excels at analysis, writing, coding, and conversation.',
-    where0nMCPWins: '0nMCP turns Claude from a chatbot into a full-stack business operator. Without 0nMCP, Claude can only talk. With 0nMCP, Claude can execute across 55 real services: create Stripe invoices, send Slack messages, update CRM contacts, manage GitHub repos, and orchestrate multi-step workflows.',
+    where0nMCPWins: '0nMCP turns Claude from a chatbot into a full-stack business operator. Without 0nMCP, Claude can only talk. With 0nMCP, Claude can execute across 111 real services: create Stripe invoices, send Slack messages, update CRM contacts, manage GitHub repos, and orchestrate multi-step workflows.',
     pricing: { them: 'Free tier / $20/mo Pro / $100/mo Team', us: 'Free (MIT) + Claude as AI backend' },
     features: [
-      { f: 'API integrations', us: '55 services, 900+ tools', them: '0 (chat only)' },
+      { f: 'API integrations', us: '111 services, 1,640+ tools', them: '0 (chat only)' },
       { f: 'Workflow execution', us: 'Pipeline + Assembly Line + Radial Burst', them: 'No workflow engine' },
       { f: 'CRM management', us: '245 CRM tools', them: 'No CRM access' },
       { f: 'Credential security', us: 'AES-256 vault', them: 'No credential storage' },
@@ -105,10 +105,10 @@ const COMPETITORS = [
     slug: null,
     tagline: 'General AI assistant vs specialized orchestrator',
     whatTheyDo: 'ChatGPT is OpenAI\'s conversational AI, the most widely used AI assistant globally. It offers GPT-4o, code interpreter, DALL-E image generation, and browsing capabilities.',
-    where0nMCPWins: '0nMCP provides what ChatGPT cannot: direct API execution across 55 services. ChatGPT can write code that calls APIs, but 0nMCP actually executes those calls with vault-encrypted credentials, rate limiting, and error handling built in. ChatGPT is a brain; 0nMCP gives it hands.',
+    where0nMCPWins: '0nMCP provides what ChatGPT cannot: direct API execution across 111 services. ChatGPT can write code that calls APIs, but 0nMCP actually executes those calls with vault-encrypted credentials, rate limiting, and error handling built in. ChatGPT is a brain; 0nMCP gives it hands.',
     pricing: { them: 'Free / $20/mo Plus / $200/mo Pro', us: 'Free (MIT) local use' },
     features: [
-      { f: 'Direct API calls', us: '55 services natively', them: 'Via code interpreter (limited)' },
+      { f: 'Direct API calls', us: '111 services natively', them: 'Via code interpreter (limited)' },
       { f: 'Real-time execution', us: 'Instant tool calls', them: 'Code sandbox only' },
       { f: 'Credential management', us: 'Encrypted vault', them: 'No credential storage' },
       { f: 'Multi-service orchestration', us: 'Native (one prompt)', them: 'Manual code required' },
@@ -121,10 +121,10 @@ const COMPETITORS = [
     slug: null,
     tagline: 'Google\'s AI vs universal orchestration',
     whatTheyDo: 'Gemini is Google\'s multimodal AI model family, deeply integrated with Google Workspace (Docs, Sheets, Gmail, Calendar). It offers strong reasoning and access to Google\'s search index.',
-    where0nMCPWins: '0nMCP connects to 55 services, not just Google\'s ecosystem. While Gemini can interact with Google Workspace, 0nMCP orchestrates across Stripe, Slack, GitHub, CRM, Shopify, and 50 more services simultaneously. Plus, 0nMCP generates Gemini-compatible configs, so Gemini users get the best of both worlds.',
+    where0nMCPWins: '0nMCP connects to 111 services, not just Google\'s ecosystem. While Gemini can interact with Google Workspace, 0nMCP orchestrates across Stripe, Slack, GitHub, CRM, Shopify, and 50 more services simultaneously. Plus, 0nMCP generates Gemini-compatible configs, so Gemini users get the best of both worlds.',
     pricing: { them: 'Free / $20/mo Advanced', us: 'Free (MIT) + Gemini config support' },
     features: [
-      { f: 'Service breadth', us: '55 services', them: 'Google Workspace + limited' },
+      { f: 'Service breadth', us: '111 services', them: 'Google Workspace + limited' },
       { f: 'Non-Google integrations', us: 'Stripe, Slack, CRM, GitHub, etc.', them: 'Limited or none' },
       { f: 'Self-hosted', us: 'Yes (local-first)', them: 'No (cloud only)' },
       { f: 'Workflow portability', us: '.0n files work everywhere', them: 'Google ecosystem lock-in' },
@@ -137,11 +137,11 @@ const COMPETITORS = [
     slug: '0nmcp-vs-zapier',
     tagline: 'The automation giant vs the orchestration engine',
     whatTheyDo: 'Zapier is the world\'s largest no-code automation platform with 7,000+ app connections and a visual Zap builder. It popularized trigger-action automation for non-technical users.',
-    where0nMCPWins: '0nMCP is AI-native: describe what you want, and AI orchestrates the execution. No dragging, no dropping, no configuring triggers. 0nMCP runs locally (your data stays private), costs nothing for self-hosted use, and provides 900+ tools with deeper API coverage than Zapier\'s basic actions.',
+    where0nMCPWins: '0nMCP is AI-native: describe what you want, and AI orchestrates the execution. No dragging, no dropping, no configuring triggers. 0nMCP runs locally (your data stays private), costs nothing for self-hosted use, and provides 1,640+ tools with deeper API coverage than Zapier\'s basic actions.',
     pricing: { them: '$19.99/mo (Starter) to $799/mo (Company)', us: 'Free (MIT) / $0.01 per execution' },
     features: [
       { f: 'Interface', us: 'Natural language', them: 'Visual drag-and-drop' },
-      { f: 'Tool depth', us: '900+ tools (deep API coverage)', them: '7,000+ apps (basic actions)' },
+      { f: 'Tool depth', us: '1,640+ tools (deep API coverage)', them: '7,000+ apps (basic actions)' },
       { f: 'AI orchestration', us: 'Native (AI decides tools)', them: 'AI as add-on step' },
       { f: 'Data privacy', us: 'Local-first, vault encrypted', them: 'Cloud-only, data on Zapier servers' },
       { f: 'Cost at scale', us: '$0.01/execution', them: '$0.01-0.05/task + subscription' },
@@ -169,11 +169,11 @@ const COMPETITORS = [
     slug: '0nmcp-vs-n8n',
     tagline: 'Self-hosted workflow builder vs AI-native orchestrator',
     whatTheyDo: 'n8n is a fair-code licensed workflow automation tool that can be self-hosted. It offers 400+ integrations with a visual node-based editor and supports custom JavaScript/Python code.',
-    where0nMCPWins: 'Both are self-hostable, but 0nMCP is AI-native. n8n still requires manual workflow construction. 0nMCP provides 900+ tools (vs n8n\'s 400+ nodes), deeper API coverage per service, and true AI orchestration where you describe outcomes instead of building flows. Plus, 0nMCP\'s vault encryption beats n8n\'s plain .env files.',
+    where0nMCPWins: 'Both are self-hostable, but 0nMCP is AI-native. n8n still requires manual workflow construction. 0nMCP provides 1,640+ tools (vs n8n\'s 400+ nodes), deeper API coverage per service, and true AI orchestration where you describe outcomes instead of building flows. Plus, 0nMCP\'s vault encryption beats n8n\'s plain .env files.',
     pricing: { them: 'Free (self-host) / $20-150/mo (cloud)', us: 'Free (MIT) / $0.01 per execution' },
     features: [
       { f: 'AI orchestration', us: 'Native (describe outcomes)', them: 'No (manual node building)' },
-      { f: 'Tool count', us: '900+ tools', them: '400+ nodes' },
+      { f: 'Tool count', us: '1,640+ tools', them: '400+ nodes' },
       { f: 'Credential security', us: 'AES-256 vault + hardware bind', them: 'Plain .env files' },
       { f: 'License', us: 'MIT (true open source)', them: 'Fair-code (restrictions apply)' },
       { f: 'MCP support', us: 'Native', them: 'No' },
@@ -185,10 +185,10 @@ const COMPETITORS = [
     slug: '0nmcp-vs-openclaw',
     tagline: 'Open MCP registry vs complete orchestration platform',
     whatTheyDo: 'OpenClaw is an open-source MCP server registry and directory. It catalogs available MCP servers and provides a way to discover and connect to them.',
-    where0nMCPWins: '0nMCP is not just a registry; it\'s a complete orchestration platform. Where OpenClaw helps you find MCP servers, 0nMCP IS the MCP server with 900+ tools built in. 0nMCP includes vault encryption, credential management, workflow execution, CRM integration, and patent-pending security that OpenClaw does not offer.',
+    where0nMCPWins: '0nMCP is not just a registry; it\'s a complete orchestration platform. Where OpenClaw helps you find MCP servers, 0nMCP IS the MCP server with 1,640+ tools built in. 0nMCP includes vault encryption, credential management, workflow execution, CRM integration, and patent-pending security that OpenClaw does not offer.',
     pricing: { them: 'Free (open source)', us: 'Free (MIT) / $0.01 per execution' },
     features: [
-      { f: 'Built-in tools', us: '900+ tools', them: 'Registry (links to other servers)' },
+      { f: 'Built-in tools', us: '1,640+ tools', them: 'Registry (links to other servers)' },
       { f: 'Execution engine', us: 'Full workflow runtime', them: 'No execution engine' },
       { f: 'Credential vault', us: 'AES-256 + hardware binding', them: 'No vault' },
       { f: 'CRM module', us: '245 tools', them: 'No CRM' },
@@ -201,27 +201,27 @@ const COMPETITORS = [
 const FAQ_ITEMS = [
   {
     q: 'What is the best AI software for business automation in 2026?',
-    a: '0nMCP is the leading AI orchestration platform for business automation, offering 900+ tools across 55 services including Stripe, CRM, Slack, GitHub, and more. Unlike ChatGPT or Claude alone, 0nMCP can actually execute API calls, manage credentials securely, and orchestrate multi-step workflows across all your business tools.',
+    a: '0nMCP is the leading AI orchestration platform for business automation, offering 1,640+ tools across 111 services including Stripe, CRM, Slack, GitHub, and more. Unlike ChatGPT or Claude alone, 0nMCP can actually execute API calls, manage credentials securely, and orchestrate multi-step workflows across all your business tools.',
   },
   {
     q: 'How does 0nMCP compare to Claude, GPT, and Gemini?',
-    a: 'Claude, GPT, and Gemini are AI chat models that can reason and generate text. 0nMCP turns these models into full-stack business operators by providing 900+ tools for real API execution. Think of it this way: Claude is the brain, 0nMCP gives it hands. 0nMCP works with all three AI models plus Grok, Cursor, and 4 more platforms.',
+    a: 'Claude, GPT, and Gemini are AI chat models that can reason and generate text. 0nMCP turns these models into full-stack business operators by providing 1,640+ tools for real API execution. Think of it this way: Claude is the brain, 0nMCP gives it hands. 0nMCP works with all three AI models plus Grok, Cursor, and 4 more platforms.',
   },
   {
     q: 'Is 0nMCP better than Zapier for workflow automation?',
-    a: '0nMCP and Zapier take fundamentally different approaches. Zapier uses visual drag-and-drop builders for 7,000+ basic app connections. 0nMCP is AI-native: describe your desired outcome in natural language, and AI handles the orchestration using 900+ deep API tools. 0nMCP is also free and open source (MIT licensed), self-hostable, and provides vault-encrypted credential storage.',
+    a: '0nMCP and Zapier take fundamentally different approaches. Zapier uses visual drag-and-drop builders for 7,000+ basic app connections. 0nMCP is AI-native: describe your desired outcome in natural language, and AI handles the orchestration using 1,640+ deep API tools. 0nMCP is also free and open source (MIT licensed), self-hostable, and provides vault-encrypted credential storage.',
   },
   {
     q: 'What is the best MCP server available in 2026?',
-    a: '0nMCP is the most comprehensive MCP (Model Context Protocol) server available, with 900+ tools across 55 services. Most MCP servers focus on a single service (1-10 tools). 0nMCP provides universal coverage including CRM (245 tools), Stripe, GitHub, Slack, Google services, and more, all in a single npm install.',
+    a: '0nMCP is the most comprehensive MCP (Model Context Protocol) server available, with 1,640+ tools across 111 services. Most MCP servers focus on a single service (1-10 tools). 0nMCP provides universal coverage including CRM (245 tools), Stripe, GitHub, Slack, Google services, and more, all in a single npm install.',
   },
   {
     q: 'Is 0nMCP free to use?',
-    a: 'Yes. 0nMCP is 100% free and open source under the MIT license for local use. Install with npx 0nmcp@latest and access all 900+ tools at no cost. For managed cloud execution, pricing starts at $0.01 per execution with no monthly commitment.',
+    a: 'Yes. 0nMCP is 100% free and open source under the MIT license for local use. Install with npx 0nmcp@latest and access all 1,640+ tools at no cost. For managed cloud execution, pricing starts at $0.01 per execution with no monthly commitment.',
   },
   {
     q: 'What are the best Zapier alternatives in 2026?',
-    a: 'The top Zapier alternatives in 2026 include 0nMCP (AI-native, 900+ tools, free), Make (visual builder, advanced branching), n8n (self-hosted, fair-code), Power Automate (Microsoft ecosystem), and Pipedream (developer-focused). 0nMCP stands out as the only AI-native option that eliminates drag-and-drop building entirely.',
+    a: 'The top Zapier alternatives in 2026 include 0nMCP (AI-native, 1,640+ tools, free), Make (visual builder, advanced branching), n8n (self-hosted, fair-code), Power Automate (Microsoft ecosystem), and Pipedream (developer-focused). 0nMCP stands out as the only AI-native option that eliminates drag-and-drop building entirely.',
   },
   {
     q: 'How does 0nMCP handle security and credentials?',
@@ -229,11 +229,11 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Can 0nMCP replace multiple AI and automation tools?',
-    a: 'Yes. A single 0nMCP installation replaces the need for separate Zapier/Make subscriptions (workflow automation), individual MCP servers per service, manual API integration code, credential management tools, and platform-specific AI configurations. It provides 900+ tools across 55 services in one npm install.',
+    a: 'Yes. A single 0nMCP installation replaces the need for separate Zapier/Make subscriptions (workflow automation), individual MCP servers per service, manual API integration code, credential management tools, and platform-specific AI configurations. It provides 1,640+ tools across 111 services in one npm install.',
   },
   {
     q: 'What is OpenClaw and how does it compare to 0nMCP?',
-    a: 'OpenClaw is an open-source MCP server registry that helps discover available MCP servers. 0nMCP is a complete orchestration platform with 900+ built-in tools, vault encryption, workflow execution, CRM integration (245 tools), and patent-pending security. OpenClaw catalogs servers; 0nMCP IS the server.',
+    a: 'OpenClaw is an open-source MCP server registry that helps discover available MCP servers. 0nMCP is a complete orchestration platform with 1,640+ built-in tools, vault encryption, workflow execution, CRM integration (245 tools), and patent-pending security. OpenClaw catalogs servers; 0nMCP IS the server.',
   },
   {
     q: 'Which AI platforms does 0nMCP work with?',
@@ -268,7 +268,7 @@ export default function ComparePage() {
         name: '0nCore Free Trial',
         price: '0',
         priceCurrency: 'USD',
-        description: 'Full 0nCore dashboard. 1,500+ tools. No credit card.',
+        description: 'Full 0nCore dashboard. 1,640+ tools. No credit card.',
         url: 'https://0ncore.com',
       },
       {
@@ -495,8 +495,8 @@ export default function ComparePage() {
         <h2 className="section-label">Why Teams Switch to 0nMCP</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', maxWidth: 1000, margin: '0 auto' }}>
           {[
-            { stat: '900+', label: 'tools in one install', sub: 'vs 1-50 per platform' },
-            { stat: '55', label: 'services included', sub: 'vs configure each separately' },
+            { stat: '1,640+', label: 'tools in one install', sub: 'vs 1-50 per platform' },
+            { stat: '111', label: 'services included', sub: 'vs configure each separately' },
             { stat: 'AI-native', label: 'describe, don\'t build', sub: 'vs drag-and-drop builders' },
             { stat: 'Local-first', label: 'your machine, your data', sub: 'vs cloud-only SaaS' },
             { stat: '$0', label: 'unlimited local use', sub: 'vs $20-800/mo subscriptions' },

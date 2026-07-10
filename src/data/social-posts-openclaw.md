@@ -14,7 +14,7 @@ I built something different.
 
 0nMCP encrypts every credential with AES-256-GCM + hardware fingerprint binding. No shell access. No community malware marketplace. No messaging app attack surface.
 
-900+ tools. 55 services. 4 patents pending. Zero security nightmares.
+1,640+ tools. 111 services. 4 patents pending. Zero security nightmares.
 
 → Free: npx 0nmcp@latest
 → Dashboard: 0ncore.com
@@ -30,7 +30,7 @@ Your AI assistant controls your Spotify.
 Mine runs my business.
 
 OpenClaw: ~80 skills. File management. Smart home. Browser automation.
-0nMCP: 900+ tools. CRM. Voice AI. Lead scoring. Invoice processing. Course generation.
+0nMCP: 1,640+ tools. CRM. Voice AI. Lead scoring. Invoice processing. Course generation.
 
 Real comparison:
 - CRM integration: OpenClaw = none. 0nMCP = 245 tools + marketplace app.
@@ -63,7 +63,7 @@ But here's what I need my AI to do:
 
 One command: npx 0nmcp@latest
 
-900+ tools. 55 services. Works in Claude Desktop, Cursor, VS Code, Windsurf, Gemini.
+1,640+ tools. 111 services. Works in Claude Desktop, Cursor, VS Code, Windsurf, Gemini.
 
 And unlike OpenClaw, my credentials are encrypted with AES-256-GCM — not sitting in a plaintext config file.
 
@@ -84,7 +84,7 @@ And unlike OpenClaw, my credentials are encrypted with AES-256-GCM — not sitti
 
 2/ OpenClaw's #1 ranked community skill was MALWARE. "What Would Elon Do?" silently exfiltrated data via curl commands.
 
-0nMCP: 900+ tools, all maintained by one team. No community marketplace. No unsigned code.
+0nMCP: 1,640+ tools, all maintained by one team. No community marketplace. No unsigned code.
 
 3/ OpenClaw has FULL SHELL ACCESS. It can read, write, and execute anything on your machine.
 
@@ -97,7 +97,7 @@ And unlike OpenClaw, my credentials are encrypted with AES-256-GCM — not sitti
 5/ But security aside — what does it actually DO?
 
 OpenClaw: ~80 skills. Files. Lights. Browser.
-0nMCP: 900+ tools. CRM. Voice AI. Invoices. Courses. Lead scoring. Email campaigns.
+0nMCP: 1,640+ tools. CRM. Voice AI. Invoices. Courses. Lead scoring. Email campaigns.
 
 One controls your computer. The other runs your business.
 
@@ -126,7 +126,7 @@ I built 0nMCP specifically to solve these problems:
 **Security:**
 - AES-256-GCM encrypted credential vault with hardware fingerprint binding
 - Sandboxed MCP protocol — no shell access, no file system access
-- 900+ curated tools (no community marketplace to compromise)
+- 1,640+ curated tools (no community marketplace to compromise)
 - Authenticated clients only (Claude Desktop, Cursor, VS Code)
 
 **But it's not just secure — it does MORE:**
@@ -139,7 +139,7 @@ I built 0nMCP specifically to solve these problems:
 
 Free and open source: `npx 0nmcp@latest`
 
-Works inside OpenClaw too — add it as an MCP server and get 900+ business tools.
+Works inside OpenClaw too — add it as an MCP server and get 1,640+ business tools.
 
 Comparison: 0nmcp.com/compare/0nmcp-vs-openclaw
 
@@ -149,7 +149,7 @@ Happy to answer questions about the security architecture or anything else.
 
 ## Reddit Post — r/mcp
 
-**Title: 0nMCP v2.9.1 — 900+ tools, 55 services, CRM marketplace app (the secure OpenClaw alternative)**
+**Title: 0nMCP v2.9.1 — 1,640+ tools, 111 services, CRM marketplace app (the secure OpenClaw alternative)**
 
 Just shipped v2.9.1 of 0nMCP.
 
@@ -161,7 +161,7 @@ Just shipped v2.9.1 of 0nMCP.
 - .0n workflow generation from natural language
 
 **By the numbers:**
-- 900+ tools across 55 services
+- 1,640+ tools across 111 services
 - 245 CRM tools
 - 22 categories
 - 4 provisional patents
@@ -190,7 +190,7 @@ This isn't a theoretical vulnerability. The MOST POPULAR skill was actively mali
 
 This is a fundamental problem with open AI skill marketplaces. The incentive structure rewards popularity, not security. And gaming popularity is trivial.
 
-The alternative approach: curated tool catalogs where every tool is maintained, tested, and signed by the platform operator. That's what 0nMCP does — 900+ tools, all maintained by one team, no community marketplace.
+The alternative approach: curated tool catalogs where every tool is maintained, tested, and signed by the platform operator. That's what 0nMCP does — 1,640+ tools, all maintained by one team, no community marketplace.
 
 Combined with encrypted credential storage (AES-256-GCM, not plaintext) and sandboxed execution (MCP protocol, no shell access), you get AI automation without the supply chain nightmare.
 
@@ -202,15 +202,15 @@ Comparison: 0nmcp.com/compare/0nmcp-vs-openclaw
 
 ## Hacker News — Show HN
 
-**Title: Show HN: 0nMCP – Secure AI API orchestrator with 900+ tools (the OpenClaw alternative)**
+**Title: Show HN: 0nMCP – Secure AI API orchestrator with 1,640+ tools (the OpenClaw alternative)**
 
 After Cisco's security analysis of OpenClaw (plaintext creds, malicious community skills, shell access), I shipped the alternative I've been building.
 
-0nMCP is an MCP server with 900+ tools across 55 services. Key differences from OpenClaw:
+0nMCP is an MCP server with 1,640+ tools across 111 services. Key differences from OpenClaw:
 
 - AES-256-GCM encrypted credential vault (not plaintext config files)
 - MCP protocol sandbox (no shell commands, no file access)
-- 900+ curated tools (no community marketplace to compromise)
+- 1,640+ curated tools (no community marketplace to compromise)
 - 245 CRM tools, Voice AI, course generator, lead scoring
 - Multi-AI Council (5 providers simultaneously)
 - 4 provisional patents on the architecture
@@ -227,7 +227,7 @@ Comparison: 0nmcp.com/compare/0nmcp-vs-openclaw
 
 ## Dev.to Article Outline
 
-**Title: I Built the Secure Alternative to OpenClaw — 900+ Tools, AES-256 Encryption, Zero Shell Access**
+**Title: I Built the Secure Alternative to OpenClaw — 1,640+ Tools, AES-256 Encryption, Zero Shell Access**
 
 Sections:
 1. The Cisco findings (summary with link)
@@ -235,6 +235,6 @@ Sections:
 3. The 0nVault architecture (technical deep-dive)
 4. MCP protocol sandboxing vs shell execution
 5. Curated tools vs community marketplaces
-6. Install guide (5 minutes to 900+ tools)
+6. Install guide (5 minutes to 1,640+ tools)
 7. Full comparison table
 8. FAQ

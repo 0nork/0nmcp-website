@@ -48,7 +48,7 @@ const CLAUDE_MD_TEMPLATE = `# Project Configuration
 This project uses 0nMCP for AI-powered API orchestration.
 
 ### Available Tools
-- 1,589 tools across 102 services
+- 1,640+ tools across 111 services
 - CRM, Stripe, SendGrid, Slack, Discord, GitHub, Shopify, and 95 more
 - No API key required for local use
 
@@ -326,7 +326,7 @@ export default function ClaudeInstallClient() {
             Install <span className="ci-highlight">0nMCP</span> on Claude
           </h1>
           <p className="ci-hero-subtitle">
-            Complete guide to connecting 1,589 tools across 102 services to Claude Desktop, Claude Code, the Claude API, and VS Code.
+            Complete guide to connecting 1,640+ tools across 111 services to Claude Desktop, Claude Code, the Claude API, and VS Code.
           </p>
           <p className="ci-hero-note">
             No API key required. 0nMCP provides the tools — Claude provides the intelligence.
@@ -334,11 +334,11 @@ export default function ClaudeInstallClient() {
 
           <div className="ci-hero-stats">
             <div className="ci-stat">
-              <span className="ci-stat-value">1,589</span>
+              <span className="ci-stat-value">1,640+</span>
               <span className="ci-stat-label">Tools</span>
             </div>
             <div className="ci-stat">
-              <span className="ci-stat-value">102</span>
+              <span className="ci-stat-value">111</span>
               <span className="ci-stat-label">Services</span>
             </div>
             <div className="ci-stat">
@@ -554,13 +554,13 @@ export default function ClaudeInstallClient() {
               <Step number={1} title="Start 0nMCP as an HTTP server">
                 <p>Run the 0nMCP server on a port of your choice:</p>
                 <CodeBlock code="npx 0nmcp serve --port 3100" language="bash" />
-                <p>This starts an Express server that exposes all 1,589 tools via REST endpoints.</p>
+                <p>This starts an Express server that exposes all 1,640+ tools via REST endpoints.</p>
               </Step>
 
               <Step number={2} title="List available tools">
                 <p>Query the tool catalog from your application:</p>
                 <CodeBlock code={`curl http://localhost:3100/api/tools | jq '.tools | length'
-# Returns: 1589`} language="bash" />
+# Returns: 1640`} language="bash" />
               </Step>
 
               <Step number={3} title="Execute a tool">
@@ -670,7 +670,7 @@ for (const block of message.content) {
               </FAQItem>
 
               <FAQItem question="How does 0nMCP work with Claude?">
-                <p>0nMCP implements the <strong>Model Context Protocol (MCP)</strong> — an open standard that lets AI assistants like Claude use external tools. When you add 0nMCP to your config, Claude can call any of the 1,589 tools to interact with external services on your behalf.</p>
+                <p>0nMCP implements the <strong>Model Context Protocol (MCP)</strong> — an open standard that lets AI assistants like Claude use external tools. When you add 0nMCP to your config, Claude can call any of the 1,640+ tools to interact with external services on your behalf.</p>
               </FAQItem>
 
               <FAQItem question="What if I already have other MCP servers configured?">
@@ -703,7 +703,7 @@ for (const block of message.content) {
               </FAQItem>
 
               <FAQItem question="What services does 0nMCP support?">
-                <p>0nMCP supports 102 services including: CRM, Stripe, SendGrid, Resend, Slack, Discord, Twilio, GitHub, Shopify, OpenAI, Anthropic, Gmail, Google Sheets, Google Drive, Google Calendar, Google Ads, Airtable, Notion, MongoDB, Supabase, Zendesk, Jira, HubSpot, Mailchimp, Calendly, Zoom, Linear, and many more. See the <a href="/integrations">full list</a>.</p>
+                <p>0nMCP supports 111 services including: CRM, Stripe, SendGrid, Resend, Slack, Discord, Twilio, GitHub, Shopify, OpenAI, Anthropic, Gmail, Google Sheets, Google Drive, Google Calendar, Google Ads, Airtable, Notion, MongoDB, Supabase, Zendesk, Jira, HubSpot, Mailchimp, Calendly, Zoom, Linear, and many more. See the <a href="/integrations">full list</a>.</p>
               </FAQItem>
 
               <FAQItem question="How do I update 0nMCP?">
@@ -716,7 +716,7 @@ for (const block of message.content) {
           <section className="ci-cta-section">
             <div className="ci-cta-inner">
               <h2>Ready to connect everything?</h2>
-              <p>1,589 tools. 102 services. One config line. Zero API keys.</p>
+              <p>1,640+ tools. 111 services. One config line. Zero API keys.</p>
               <div className="ci-cta-buttons">
                 <a href="https://0ncore.com" target="_blank" rel="noopener noreferrer" className="ci-cta-btn ci-cta-primary">Try 0nCore Free</a>
                 <a href="/install" className="ci-cta-btn ci-cta-secondary">All Platforms</a>

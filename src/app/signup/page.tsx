@@ -8,7 +8,7 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
 
 const FEATURES = [
-  '1,589 AI tools across 102 services',
+  '1,640+ AI tools across 111 services',
   '7-layer encrypted credential vault',
   'Cross-platform brain — works on Claude, GPT, Gemini',
   'Pipeline, Assembly Line & Radial Burst workflows',

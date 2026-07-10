@@ -289,7 +289,7 @@ export default function ChatGPTIntegrationPage() {
         >
           {[
             { value: '16', label: 'Tools' },
-            { value: '96', label: 'Services' },
+            { value: '111', label: 'Services' },
             { value: 'CRM + Stripe + Slack', label: 'Core Stack' },
             { value: 'Free', label: 'To Install' },
           ].map((stat) => (

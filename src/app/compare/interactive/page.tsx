@@ -145,7 +145,7 @@ const COMPETITORS: Competitor[] = [
     color: '#6EE05A',
     logo: <Logo0nMCP />,
     data: {
-      'Total tools / integrations': '900+ tools, 55 services',
+      'Total tools / integrations': '1,640+ tools, 111 services',
       'Pricing (free tier)': 'Free forever (MIT) / $80/mo managed',
       'AI platforms supported': 'Claude, Gemini, Grok, Cursor, Windsurf, VS Code, OpenAI (7+)',
       'CRM integration': '245 tools across 12 modules (deepest in market)',
@@ -480,7 +480,7 @@ const COMPETITORS: Competitor[] = [
 /* ─── Helper: check if 0nMCP wins a dimension ─── */
 function is0nMCPAdvantage(dimension: string, value: string): boolean {
   const v = value.toLowerCase()
-  return v.includes('900+') || v.includes('patent') || v.includes('aes-256') || v.includes('.0n') || v.includes('245 tools') || v.includes('free forever')
+  return v.includes('1,640+') || v.includes('patent') || v.includes('aes-256') || v.includes('.0n') || v.includes('245 tools') || v.includes('free forever')
 }
 
 function isWeakValue(value: string): boolean {
@@ -741,7 +741,7 @@ export default function InteractiveComparePage() {
           <span className="hero-title-accent">difference?</span>
         </h2>
         <p className="final-cta-subtitle">
-          900+ tools. 55 services. One install. Free and open source.
+          1,640+ tools. 111 services. One install. Free and open source.
         </p>
         <div className="hero-ctas" style={{ justifyContent: 'center' }}>
           <Link href="/signup" className="hero-cta-primary">

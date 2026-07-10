@@ -23,7 +23,7 @@ const products: Product[] = [
     period: '/mo',
     desc: 'Managed dashboard with CRM integration, AI assistant, and Slack notifications. Perfect for solo operators.',
     features: [
-      'All 900+ tools & 55 services',
+      'All 1,640+ tools & 111 services',
       'Web dashboard',
       'CRM integration (245 tools)',
       'AI assistant',

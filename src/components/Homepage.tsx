@@ -321,11 +321,11 @@ export default function Homepage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* ═══ HERO ═══════════════════════════════════════════════════ */}
-      <section className="relative flex min-h-[100svh] items-center overflow-hidden">
-        {/* Fullscreen Factory video background */}
-        <div aria-hidden className="absolute inset-0 z-0">
+      <section className="relative overflow-hidden">
+        {/* Factory video — plays on the FRONT of the hero (foreground band) */}
+        <div className="relative w-full">
           <video
-            className="h-full w-full object-cover"
+            className="h-[42vh] w-full object-cover sm:h-[52vh]"
             autoPlay
             muted
             loop
@@ -334,12 +334,8 @@ export default function Homepage() {
           >
             <source src="/videos/factory.mp4" type="video/mp4" />
           </video>
-          {/* readability veil */}
-          <div className="absolute inset-0 bg-background/45" />
-          {/* left-side darkening so the hero copy stays legible over motion */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/40 to-background/10" />
-          {/* clean gradient fade to black into the page content */}
-          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-b from-transparent to-background" />
+          {/* fade the bottom of the video cleanly into the page */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-background" />
         </div>
         {/* Live animated grid — subtle over the video */}
         <AnimatedGrid />
@@ -349,7 +345,7 @@ export default function Homepage() {
           className="pointer-events-none absolute -top-32 -right-32 h-[600px] w-[600px] rounded-full bg-[#6EE05A]/[0.06] blur-[140px]"
         />
 
-        <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-4 pt-28 pb-24 sm:px-6 lg:gap-8 lg:px-8 lg:pt-36 lg:pb-32">
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-4 pt-14 pb-24 sm:px-6 lg:gap-8 lg:px-8 lg:pt-16 lg:pb-28">
           {/* ── LEFT: text + CTAs ── */}
           <Reveal direction="up" delay={0} className="lg:col-span-7 flex flex-col justify-center">
             <div className="mb-6 inline-flex items-center gap-2">

@@ -2463,7 +2463,15 @@ a:hover {
   flex: 1; display: flex; align-items: center; justify-content: center;
   background: #f4efe6; padding: 2.5rem;
 }
-.login-on-form-inner { width: 100%; max-width: 400px; }
+.login-on-form-inner {
+  width: 100%; max-width: 400px;
+  /* Scope a light palette here so shared components (OAuthButtons) that read theme
+     vars render dark text on cream instead of the dark-theme light text. */
+  --text-primary: #1a2c27;
+  --text-secondary: #5b6b62;
+  --text-muted: #8a978d;
+  --border: #e4dccf;
+}
 @media (min-width: 1024px) { .login-on-brand { display: flex; } }
 @media (max-width: 1023px) {
   .login-on-split { flex-direction: column; }

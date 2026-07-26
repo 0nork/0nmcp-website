@@ -180,9 +180,9 @@ function BrandPanel() {
   return (
     <div className="login-on-brand">
       <div className="login-on-brand-inner">
-        {/* Logo */}
-        <div className="mb-9">
-          <Image src="/brand/on-white.png" alt="0nMCP" width={74} height={74} className="object-contain" priority />
+        {/* Logo — on a white chip so the color wordmark reads on the green panel */}
+        <div className="mb-9 inline-flex rounded-2xl bg-white px-5 py-3.5 shadow-lg">
+          <Image src="/brand/0nmcp-logo.png" alt="0nMCP" width={170} height={41} className="object-contain h-9 w-auto" priority />
         </div>
 
         {/* Tagline */}

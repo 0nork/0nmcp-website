@@ -384,6 +384,20 @@ export default async function BlogPostPage({
     ],
   }
 
+  // FAQPage schema — rich-result eligible when the post ships a `faq` array.
+  const faqItems = (post as unknown as { faq?: { q: string; a: string }[] }).faq
+  const faqJsonLd = faqItems && faqItems.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }
+    : null
+
   return (
     <>
       <ReadingProgressBar />
@@ -397,6 +411,12 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <style>{`
         .blog-layout {

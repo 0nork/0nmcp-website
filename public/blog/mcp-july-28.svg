@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0a0d12"/><stop offset="0.55" stop-color="#0d1117"/><stop offset="1" stop-color="#0a1410"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(930 300) rotate(90) scale(360)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6EE05A" stop-opacity="0.30"/><stop offset="0.5" stop-color="#0891b2" stop-opacity="0.12"/><stop offset="1" stop-color="#6EE05A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8bf06f"/><stop offset="1" stop-color="#3fbf4f"/></linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6EE05A" stop-opacity="0.9"/><stop offset="1" stop-color="#0891b2" stop-opacity="0.5"/></linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7"/></filter>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r="1.2" fill="#ffffff" fill-opacity="0.05"/></pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#line)"/>
+
+  <!-- brand -->
+  <g transform="translate(64 56)">
+    <circle cx="16" cy="16" r="16" fill="url(#green)"/>
+    <path d="M16 7 V17 M10.7 10.7 a7.5 7.5 0 1 0 10.6 0" stroke="#0a0d12" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+    <text x="42" y="22" font-family="Inter, system-ui, sans-serif" font-size="21" font-weight="800" fill="#f0f4f8" letter-spacing="-0.3">0nMCP</text>
+  </g>
+
+  <!-- right-side stateless network: scattered nodes, one hot -->
+  <g stroke-linecap="round">
+    <g stroke="#2a3340" stroke-width="1.4" opacity="0.9">
+      <line x1="905" y1="150" x2="1035" y2="235"/><line x1="1035" y1="235" x2="965" y2="360"/>
+      <line x1="965" y1="360" x2="1085" y2="420"/><line x1="905" y1="150" x2="965" y2="360"/>
+      <line x1="820" y1="300" x2="965" y2="360"/><line x1="820" y1="300" x2="905" y2="150"/>
+      <line x1="1035" y1="235" x2="1120" y2="150"/><line x1="965" y1="360" x2="900" y2="470"/>
+    </g>
+    <g stroke="url(#line)" stroke-width="2.4"><line x1="820" y1="300" x2="965" y2="360"/><line x1="965" y1="360" x2="1035" y2="235"/></g>
+  </g>
+  <g>
+    <circle cx="965" cy="360" r="30" fill="#6EE05A" opacity="0.25" filter="url(#soft)"/>
+    <circle cx="965" cy="360" r="15" fill="url(#green)"/>
+    <path d="M965 352 V361 M960.5 355 a6 6 0 1 0 9 0" stroke="#0a0d12" stroke-width="2.1" stroke-linecap="round" fill="none"/>
+    <g fill="#5a6675">
+      <circle cx="905" cy="150" r="8"/><circle cx="1035" cy="235" r="9"/><circle cx="1085" cy="420" r="7"/>
+      <circle cx="820" cy="300" r="7"/><circle cx="1120" cy="150" r="6"/><circle cx="900" cy="470" r="6"/>
+    </g>
+  </g>
+
+  <!-- headline -->
+  <g font-family="Inter, system-ui, sans-serif">
+    <text x="64" y="212" font-size="19" font-weight="800" fill="#6EE05A" letter-spacing="4">MODEL CONTEXT PROTOCOL</text>
+    <text x="60" y="300" font-size="96" font-weight="900" fill="#f0f4f8" letter-spacing="-3">The protocol,</text>
+    <text x="60" y="396" font-size="96" font-weight="900" letter-spacing="-3" fill="url(#green)">rewritten.</text>
+
+    <!-- date pill -->
+    <g transform="translate(64 430)">
+      <rect x="0" y="0" width="250" height="46" rx="23" fill="#6EE05A" fill-opacity="0.12" stroke="#6EE05A" stroke-opacity="0.5"/>
+      <circle cx="26" cy="23" r="5" fill="#6EE05A"/>
+      <text x="44" y="30" font-size="20" font-weight="800" fill="#a7f3a0" letter-spacing="1">JULY 28 · 2026</text>
+    </g>
+
+    <text x="64" y="530" font-size="24" font-weight="500" fill="#9fb0cc">The largest breaking change in MCP&#39;s history.</text>
+    <text x="64" y="564" font-size="24" font-weight="700" fill="#cfe9d8">Stateless. Cacheable. Billable.</text>
+  </g>
+</svg>

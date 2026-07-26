@@ -2444,6 +2444,33 @@ a:hover {
 }
 
 /* ============================================
+   0nTASK-STYLE LOGIN (login-on-*) — cream/green
+   ============================================ */
+.login-on-split { display: flex; min-height: 100vh; }
+.login-on-brand {
+  flex: 1; display: none; position: relative; padding: 3.5rem;
+  align-items: center; justify-content: center; overflow: hidden;
+  background: linear-gradient(155deg, #16a34a 0%, #0e8a6f 52%, #0891b2 100%);
+}
+.login-on-brand::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(600px 300px at 82% 12%, rgba(255,255,255,0.14), transparent 60%),
+    radial-gradient(520px 320px at 8% 92%, rgba(0,0,0,0.12), transparent 60%);
+}
+.login-on-brand-inner { position: relative; z-index: 1; max-width: 460px; }
+.login-on-form {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  background: #f4efe6; padding: 2.5rem;
+}
+.login-on-form-inner { width: 100%; max-width: 400px; }
+@media (min-width: 1024px) { .login-on-brand { display: flex; } }
+@media (max-width: 1023px) {
+  .login-on-split { flex-direction: column; }
+  .login-on-form { min-height: 100vh; }
+}
+
+/* ============================================
    Account Page
    ============================================ */
 

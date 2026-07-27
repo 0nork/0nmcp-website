@@ -144,7 +144,13 @@ export default function VaultDoor() {
               {busy ? <><Loader2 className="h-4 w-4 animate-spin" /> Verifying…</> : <>Unlock <ArrowRight className="h-4 w-4" /></>}
             </button>
           </form>
-          <p className="mt-4 text-xs text-[#6b7c9c]">Not you? <a href="/api/auth/logout" className="font-semibold text-[#9fb0cc] hover:text-[#6EE05A]">Sign out</a></p>
+          <p className="mt-4 text-xs text-[#6b7c9c]">Not you?{' '}
+            <button
+              type="button"
+              onClick={async () => { await fetch('/api/auth/signout', { method: 'POST', credentials: 'same-origin' }).catch(() => {}); window.location.href = '/login?next=/hub' }}
+              className="font-semibold text-[#9fb0cc] hover:text-[#6EE05A]"
+            >Sign out</button>
+          </p>
         </div>
       </div>
     )

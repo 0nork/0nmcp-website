@@ -20,6 +20,11 @@ const ACCESS_TTL_MS  = 60 * 60 * 1000        // 1 hour
 const REFRESH_TTL_MS = 30 * 24 * 60 * 60 * 1000  // 30 days
 
 export const ALLOWED_SCOPES = [
+  // Identity — "Login with 0n" (OIDC-style)
+  'openid',
+  'profile',
+  'email',
+  // Capability
   'vault:read',
   'vault:write',
   'runs:read',

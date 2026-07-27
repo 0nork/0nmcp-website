@@ -12,7 +12,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
-import { pbkdf2Sync, createDecipheriv } from 'crypto'
+import { pbkdf2Sync, createDecipheriv, createCipheriv, randomBytes } from 'crypto'
 
 const ITERATIONS = 100_000
 
@@ -109,6 +109,34 @@ export async function getServiceCredential(
  * Check which services a user has vault entries for (without decrypting).
  * Used by the integrations status endpoint.
  */
+/**
+ * Server-side encrypt in the same format the client/serverDecrypt expect:
+ * PBKDF2-SHA256(userId, salt) → AES-256-GCM → ciphertext || authTag (base64).
+ */
+function serverEncrypt(userId: string, plaintext: string): { encrypted_key: string; iv: string; salt: string } {
+  const salt = randomBytes(16)
+  const iv = randomBytes(12)
+  const key = pbkdf2Sync(userId, salt, ITERATIONS, 32, 'sha256')
+  const cipher = createCipheriv('aes-256-gcm', key, iv)
+  const ciphertext = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()])
+  const authTag = cipher.getAuthTag()
+  return {
+    encrypted_key: Buffer.concat([ciphertext, authTag]).toString('base64'),
+    iv: iv.toString('base64'),
+    salt: salt.toString('base64'),
+  }
+}
+
+/** Store (or replace) one service's credentials in the user's vault, encrypted. */
+export async function storeUserCredential(userId: string, service: string, creds: Record<string, string>): Promise<void> {
+  const admin = getAdmin()
+  const enc = serverEncrypt(userId, JSON.stringify(creds))
+  await admin.from('user_vaults').upsert(
+    { user_id: userId, service_name: service, ...enc, updated_at: new Date().toISOString() },
+    { onConflict: 'user_id,service_name' }
+  )
+}
+
 export async function getUserVaultServices(userId: string): Promise<string[]> {
   const admin = getAdmin()
 

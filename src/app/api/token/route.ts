@@ -7,6 +7,7 @@ import {
   revokeScopedToken,
   listScopedTokens,
 } from '@/lib/token-auth'
+import { getUserVaultServices } from '@/lib/vault-bridge'
 
 const EXPIRY_MAP: Record<string, number | null> = {
   '1h': 60 * 60 * 1000,
@@ -27,9 +28,17 @@ async function getUser() {
 /**
  * GET /api/token — List all tokens for the authenticated user
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
   const user = await getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  // ?full=1 → reveal the full master token + connected services for the Vault page (owner-only).
+  if (new URL(request.url).searchParams.get('full') === '1') {
+    let master = await getTokenForUser(user.id)
+    if (!master?.token) { await regenerateToken(user.id); master = await getTokenForUser(user.id) }
+    const connectedServices = await getUserVaultServices(user.id).catch(() => [])
+    return NextResponse.json({ token: master?.token || null, connectedServices })
+  }
 
   // Get master token
   const master = await getTokenForUser(user.id)

@@ -89,11 +89,24 @@ export default function OAuthButtons({ mode = 'signin', redirectTo = '/0nboardin
           onMouseLeave={(e) => { e.currentTarget.style.background = bg }}
         >
           {loadingProvider === (provider as string) ? (
-            <span className="signup-spinner" />
+            <>
+              <span className="signup-spinner" />
+              {provider !== 'google' && <>{verb} with {label}</>}
+            </>
+          ) : provider === 'google' ? (
+            <>
+              <span style={{ display: 'inline-flex', height: '20px', width: '20px', alignItems: 'center', justifyContent: 'center', borderRadius: '6px', background: '#ff6b35', color: '#fff', fontSize: '10px', fontWeight: 800, lineHeight: 1 }}>0n</span>
+              <span>Continue with 0n</span>
+              <span aria-hidden="true" style={{ opacity: 0.4 }}>·</span>
+              <span style={{ fontSize: '0.75rem', opacity: 0.65 }}>powered by</span>
+              <GoogleIcon />
+            </>
           ) : (
-            <Icon />
+            <>
+              <Icon />
+              {verb} with {label}
+            </>
           )}
-          {verb} with {label}
         </button>
       ))}
     </div>

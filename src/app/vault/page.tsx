@@ -11,8 +11,29 @@ import APPS from '@/data/apps.json'
 type App = { slug: string; name: string; domain: string; category: string; desc: string }
 const SRC = [(d: string) => `https://unavatar.io/${d}?fallback=false`, (d: string) => `https://icons.duckduckgo.com/ip3/${d}.ico`]
 
+// 0n-family apps carry the real 0n brand mark, not a fetched favicon (they'd all
+// resolve to the same 0ncore.com favicon otherwise). Per-product icons where we
+// have them; the green 0n mark for the rest of the family.
+const ON_DOMAINS = ['0ncore.com', '0nmcp.com', '0ntask.com', 'cro9.com', 'web0n.com', 'social0n.com', 'verifiedsxo.com']
+const ON_ICON: Record<string, string> = {
+  '0ntask.com': '/brand/0n-task.png',
+  'web0n.com': '/brand/web0n-icon.jpg',
+  '0nmcp.com': '/brand/0nmcp-logo.png',
+  '0ncore.com': '/brand/icon-green.png',
+}
+const onIconFor = (app: App): string | null => {
+  if (ON_ICON[app.domain]) return ON_ICON[app.domain]
+  if (ON_DOMAINS.some((d) => (app.domain || '').includes(d))) return '/brand/icon-green.png'
+  return null
+}
+
 function Logo({ app }: { app: App }) {
   const [i, setI] = useState(0)
+  const onIcon = onIconFor(app)
+  if (onIcon) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={onIcon} alt="" width={40} height={40} loading="lazy" className="h-10 w-10 rounded-[10px] border border-white/10 bg-[#0d1117] object-contain p-1" />
+  }
   if (i >= SRC.length || !app.domain) {
     return <div className="grid h-10 w-10 place-items-center rounded-[10px] bg-[#6EE05A]/20 text-sm font-extrabold text-[#6EE05A]">{app.name.charAt(0).toUpperCase()}</div>
   }

@@ -13,6 +13,7 @@ const footerColumns = [
       { label: 'Marketplace', href: '/marketplace' },
       { label: 'Compare', href: '/compare' },
       { label: 'Examples', href: '/examples' },
+      { label: '0nTask — AI task management', href: 'https://www.0ntask.com', external: true },
     ],
   },
   {

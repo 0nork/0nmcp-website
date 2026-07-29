@@ -1,8 +1,9 @@
 'use client'
 
 // 0nVault — the keystone. Connect any of the 113 apps here (stored encrypted),
-// then copy your one-time 0nVault token to light everything up in 0nTask + the
-// Chrome extension. Tailwind only, Lucide only (repo rules).
+// then copy your one 0n token to light everything up in 0nTask + the Chrome
+// extension. Chromeless, responsive app shell — matches 0ncore.com/hub.
+// Tailwind only, Lucide only (repo rules).
 import { useEffect, useMemo, useState } from 'react'
 import { Search, Check, Plus, Copy, ShieldCheck, Loader2, KeyRound, X, ExternalLink } from 'lucide-react'
 import APPS from '@/data/apps.json'
@@ -22,8 +23,8 @@ function VaultWordmark({ className = '' }: { className?: string }) {
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/brand/icon-green.png" alt="0nVault" width={40} height={40} className="h-10 w-10 object-contain" />
-      <span className="text-[26px] font-black leading-none tracking-tight">
+      <img src="/brand/icon-green.png" alt="0nVault" width={36} height={36} className="h-9 w-9 object-contain" />
+      <span className="text-[22px] font-black leading-none tracking-tight">
         <span className="text-[#9aa3ad]">0n</span><span className="text-[#6EE05A]">VAULT</span>
       </span>
     </div>
@@ -51,7 +52,7 @@ export default function VaultPage() {
       .catch(() => setAuthed(false))
     // OAuth return (?slack=connected|denied|error)
     const s = new URLSearchParams(window.location.search).get('slack')
-    if (s === 'connected') { setConnected((c) => new Set(c).add('slack')); setFlash('✅ Slack connected — your workspace is in your vault.') }
+    if (s === 'connected') { setConnected((c) => new Set(c).add('slack')); setFlash('Slack connected — your workspace is in your vault.') }
     else if (s === 'denied') setFlash('Slack connection was cancelled.')
     else if (s === 'error') setFlash('Slack connection failed — try again.')
     if (s) window.history.replaceState({}, '', '/vault')
@@ -84,89 +85,97 @@ export default function VaultPage() {
     else setMErr(d.error || 'Could not save')
   }
 
+  // ---- Signed-out gate — full-screen, matches the hub's locked screen ----
   if (authed === false) {
     return (
-      <div className="mx-auto grid min-h-[78vh] max-w-md place-items-center px-5 text-center">
+      <div className="fixed inset-0 z-[100] grid place-items-center bg-[#0d1117] px-5 text-center text-white">
         <div>
           <VaultWordmark className="justify-center" />
-          <h1 className="mt-6 text-2xl font-black text-[#f0f4f8]">Sign in to your 0n account</h1>
+          <h1 className="mt-8 text-2xl font-black">Sign in to your 0n account</h1>
           <p className="mx-auto mt-2 max-w-xs text-[#9fb0cc]">0nVault is your single sign-on for the whole 0n ecosystem. Log in once to get the token that connects every 0n product.</p>
-          <a href="/login?next=/vault" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#6EE05A] px-6 py-3 text-sm font-bold text-[#0d1117] transition-opacity hover:opacity-90">Sign in</a>
+          <a href="/login?next=/vault" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#6EE05A] px-7 py-3 text-sm font-bold text-[#0d1117] transition-opacity hover:opacity-90">Sign in</a>
           <p className="mt-3 text-xs text-[#6b7c9c]">No account? <a href="/signup?next=/vault" className="font-semibold text-[#6EE05A] hover:underline">Create one free</a></p>
         </div>
       </div>
     )
   }
 
+  // ---- The vault app — chromeless full-screen, responsive (mobile → desktop) ----
   return (
-    <div className="mx-auto max-w-6xl px-5 py-10">
-      <div className="mb-1.5"><VaultWordmark /></div>
-      <p className="mb-6 text-[#9fb0cc]">Your single sign-on for the 0n ecosystem. Connect an app once — it&apos;s stored encrypted here and works across every 0n product with one token.</p>
+    <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#0d1117] text-white">
+      <div className="mx-auto max-w-5xl px-5 pb-24 pt-[max(1.25rem,env(safe-area-inset-top))] md:px-8 md:pb-12 md:pt-8">
+        {/* header */}
+        <header className="mb-5 flex items-center justify-between">
+          <a href="/hub" aria-label="0nVault"><VaultWordmark /></a>
+          <a href="/hub" className="rounded-full border border-white/10 px-3.5 py-1.5 text-xs font-semibold text-white/60 transition hover:text-white">Done</a>
+        </header>
 
-      {flash && (
-        <div className="mb-6 flex items-center gap-3 rounded-xl border border-[#6EE05A]/30 bg-[#6EE05A]/[0.08] px-4 py-3 text-sm text-[#6EE05A]">
-          <Check className="h-4 w-4 shrink-0" /><span className="flex-1">{flash}</span>
-          <button onClick={() => setFlash('')}><X className="h-4 w-4" /></button>
+        <p className="mb-6 text-sm leading-relaxed text-[#9fb0cc]">Connect an app once — it&apos;s stored encrypted here and works across every 0n product with one token.</p>
+
+        {flash && (
+          <div className="mb-6 flex items-center gap-3 rounded-2xl border border-[#6EE05A]/30 bg-[#6EE05A]/[0.08] px-4 py-3 text-sm text-[#6EE05A]">
+            <Check className="h-4 w-4 shrink-0" /><span className="flex-1">{flash}</span>
+            <button onClick={() => setFlash('')} aria-label="Dismiss"><X className="h-4 w-4" /></button>
+          </div>
+        )}
+
+        {/* token card — tap to copy (hub style) */}
+        <button onClick={copy} disabled={!token} className="mb-6 w-full rounded-2xl border border-[#6EE05A]/25 bg-[#6EE05A]/[0.06] p-4 text-left transition active:scale-[0.99] disabled:opacity-60">
+          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#6EE05A]"><KeyRound className="h-3.5 w-3.5" /> Your 0n key · one for every product</div>
+          <div className="mt-2 flex items-center gap-3">
+            <code className="min-w-0 flex-1 truncate font-mono text-sm text-white/85">{authed === null ? 'Loading…' : token || 'No token yet'}</code>
+            <span className="flex shrink-0 items-center gap-1 rounded-lg bg-[#6EE05A] px-3 py-1.5 text-xs font-bold text-[#0d1117]">
+              {copied ? <><Check className="h-3.5 w-3.5" /> Copied</> : <><Copy className="h-3.5 w-3.5" /> Copy</>}
+            </span>
+          </div>
+          <p className="mt-2 text-xs leading-relaxed text-white/45">Paste into <b className="text-white/70">0nTask → Apps → Sync</b> or the <b className="text-white/70">Chrome extension</b> to light up everything you connect here. Tap to copy.</p>
+        </button>
+
+        {/* Apps (native) vs Integrations (all) */}
+        <div className="mb-4 inline-flex rounded-xl border border-white/10 bg-white/[0.04] p-1">
+          <button onClick={() => { setView('apps'); setCat('All') }} className={`rounded-lg px-4 py-1.5 text-[13px] font-bold transition ${view === 'apps' ? 'bg-[#6EE05A] text-[#0d1117]' : 'text-[#9fb0cc] hover:text-white'}`}>Apps <span className="opacity-70">· {NATIVE.size}</span></button>
+          <button onClick={() => { setView('integrations'); setCat('All') }} className={`rounded-lg px-4 py-1.5 text-[13px] font-bold transition ${view === 'integrations' ? 'bg-[#6EE05A] text-[#0d1117]' : 'text-[#9fb0cc] hover:text-white'}`}>Integrations <span className="opacity-70">· {apps.length}</span></button>
         </div>
-      )}
 
-      {/* token card */}
-      <div className="mb-8 rounded-2xl border border-[#6EE05A]/30 bg-gradient-to-br from-[#6EE05A]/[0.07] to-transparent p-5">
-        <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#6EE05A]"><KeyRound className="h-3.5 w-3.5" /> Your 0n token · one key for every 0n product</div>
-        <div className="flex flex-wrap items-center gap-3">
-          <code className="min-w-0 flex-1 truncate rounded-xl border border-white/10 bg-[#0d1117] px-4 py-3 font-mono text-sm text-[#f0f4f8]">{authed === null ? 'Loading…' : token || 'No token yet'}</code>
-          <button onClick={copy} disabled={!token} className="flex items-center gap-2 rounded-xl bg-[#6EE05A] px-4 py-3 text-sm font-bold text-[#0d1117] disabled:opacity-40">
-            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} {copied ? 'Copied' : 'Copy'}
-          </button>
-        </div>
-        <p className="mt-2.5 text-[13px] text-[#9fb0cc]">Paste this into any 0n product — <b className="text-[#f0f4f8]">0nTask → Apps → Sync</b>, the <b className="text-[#f0f4f8]">Chrome extension</b>, and more — to sign in and light up everything you&apos;ve connected here. One account, one token, everywhere.</p>
-      </div>
-
-      {/* Apps (native) vs Integrations (all) */}
-      <div className="mb-4 inline-flex rounded-xl border border-white/10 bg-[#161b22] p-1">
-        <button onClick={() => { setView('apps'); setCat('All') }} className={`rounded-lg px-4 py-1.5 text-[13px] font-bold ${view === 'apps' ? 'bg-[#6EE05A] text-[#0d1117]' : 'text-[#9fb0cc] hover:text-[#f0f4f8]'}`}>Apps <span className="opacity-70">· {NATIVE.size}</span></button>
-        <button onClick={() => { setView('integrations'); setCat('All') }} className={`rounded-lg px-4 py-1.5 text-[13px] font-bold ${view === 'integrations' ? 'bg-[#6EE05A] text-[#0d1117]' : 'text-[#9fb0cc] hover:text-[#f0f4f8]'}`}>Integrations <span className="opacity-70">· {apps.length}</span></button>
-      </div>
-      <p className="mb-4 text-[13px] text-[#6b7c9c]">{view === 'apps' ? 'Fully-wired apps — connect with one click (OAuth) or a key.' : 'The full 0nMCP catalog. Connect any with an API key; native OAuth is rolling out.'}</p>
-
-      {/* controls */}
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        <div className="relative min-w-[220px] flex-1">
+        {/* search */}
+        <div className="relative mb-3">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6b7c9c]" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search…" className="w-full rounded-xl border border-white/10 bg-[#161b22] py-2.5 pl-9 pr-3 text-sm text-[#f0f4f8] placeholder:text-[#6b7c9c] focus:outline-none focus:ring-1 focus:ring-[#6EE05A]" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search apps…" className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-3 pl-9 pr-3 text-sm text-white placeholder:text-[#6b7c9c] focus:outline-none focus:ring-1 focus:ring-[#6EE05A]" />
         </div>
-      </div>
-      <div className="mb-5 flex flex-wrap gap-1.5">
-        {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={`rounded-full px-3 py-1 text-xs font-semibold ${cat === c ? 'bg-[#6EE05A] text-[#0d1117]' : 'border border-white/10 bg-[#161b22] text-[#9fb0cc] hover:bg-[#1c2430]'}`}>{c}</button>)}
-      </div>
 
-      {/* grid */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {shown.map((a) => {
-          const on = connected.has(a.slug)
-          return (
-            <div key={a.slug} className={`flex items-center gap-3 rounded-2xl border bg-[#161b22] p-3.5 ${on ? 'border-[#6EE05A]/40' : 'border-white/10 hover:border-white/20'}`}>
-              <Logo app={a} />
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5"><span className="truncate text-[14px] font-bold text-[#f0f4f8]">{a.name}</span>{on && <Check className="h-3.5 w-3.5 shrink-0 text-[#6EE05A]" />}</div>
-                <div className="flex items-center gap-1.5 truncate text-[11.5px] text-[#6b7c9c]">{a.category}{OAUTH[a.slug] && <span className="rounded bg-[#6EE05A]/15 px-1.5 py-px text-[9px] font-bold uppercase tracking-wide text-[#6EE05A]">1-click</span>}</div>
+        {/* categories — horizontal scroll on mobile */}
+        <div className="mb-5 -mx-5 flex gap-1.5 overflow-x-auto px-5 pb-1 md:mx-0 md:flex-wrap md:px-0">
+          {cats.map((c) => <button key={c} onClick={() => setCat(c)} className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold transition ${cat === c ? 'bg-[#6EE05A] text-[#0d1117]' : 'border border-white/10 bg-white/[0.04] text-[#9fb0cc] hover:text-white'}`}>{c}</button>)}
+        </div>
+
+        {/* grid — responsive */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((a) => {
+            const on = connected.has(a.slug)
+            return (
+              <div key={a.slug} className={`flex items-center gap-3 rounded-2xl border p-3.5 transition ${on ? 'border-[#6EE05A]/40 bg-[#6EE05A]/[0.05]' : 'border-white/10 bg-white/[0.04] hover:border-white/20'}`}>
+                <Logo app={a} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5"><span className="truncate text-[14px] font-bold text-white">{a.name}</span>{on && <Check className="h-3.5 w-3.5 shrink-0 text-[#6EE05A]" />}</div>
+                  <div className="flex items-center gap-1.5 truncate text-[11.5px] text-[#6b7c9c]">{a.category}{OAUTH[a.slug] && <span className="rounded bg-[#6EE05A]/15 px-1.5 py-px text-[9px] font-bold uppercase tracking-wide text-[#6EE05A]">1-click</span>}</div>
+                </div>
+                <button onClick={() => onConnect(a)} className={`shrink-0 rounded-lg px-3 py-1.5 text-[12px] font-bold transition active:scale-95 ${on ? 'bg-[#6EE05A]/15 text-[#6EE05A]' : 'bg-[#6EE05A] text-[#0d1117]'}`}>
+                  {on ? 'Connected' : <span className="flex items-center gap-1"><Plus className="h-3 w-3" />Connect</span>}
+                </button>
               </div>
-              <button onClick={() => onConnect(a)} className={`shrink-0 rounded-lg px-3 py-1.5 text-[12px] font-bold ${on ? 'bg-[#6EE05A]/15 text-[#6EE05A]' : 'bg-[#6EE05A] text-[#0d1117]'}`}>
-                {on ? 'Connected' : <span className="flex items-center gap-1"><Plus className="h-3 w-3" />Connect</span>}
-              </button>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
 
       {/* connect modal */}
       {modal && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4" onClick={() => setModal(null)}>
+        <div className="fixed inset-0 z-[110] grid place-items-center bg-black/60 p-4" onClick={() => setModal(null)}>
           <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#161b22] p-6" onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center gap-3">
               <Logo app={modal} />
               <div className="flex-1"><div className="text-lg font-black text-[#f0f4f8]">Connect {modal.name}</div><div className="text-xs text-[#6b7c9c]">{modal.category}</div></div>
-              <button onClick={() => setModal(null)}><X className="h-4 w-4 text-[#6b7c9c]" /></button>
+              <button onClick={() => setModal(null)} aria-label="Close"><X className="h-4 w-4 text-[#6b7c9c]" /></button>
             </div>
             <label className="text-[11px] font-bold uppercase tracking-wider text-[#9fb0cc]">API key / token</label>
             <input value={keyval} onChange={(e) => { setKeyval(e.target.value); setMErr('') }} placeholder="Paste your key…" className="mt-1.5 w-full rounded-xl border border-white/10 bg-[#0d1117] px-3.5 py-3 font-mono text-[13px] text-[#f0f4f8] focus:outline-none focus:ring-1 focus:ring-[#6EE05A]" />

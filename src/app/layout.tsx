@@ -109,6 +109,32 @@ export default async function RootLayout({
           async
         />
         {/*
+          CRO9 analytics — the real one.
+
+          0nmcp.com already ran three tracking scripts and NONE of them reached the
+          CRO9 dashboard, because they feed different products and different
+          databases:
+            - 0ncore.com/api/cro9/script/…  → 0nCore adaptive scoring
+            - detect-and-refine…/cro9.js     → dr_* tables (Detect & Refine)
+            - the inline /api/t beacon below → tracking_events (this site's OWN
+              first-party reporting feature, surfaced in the console)
+
+          The CRO9 product reads cro9_events on rtwtaisjtvdajrdyivkn, where this
+          domain had no site record and zero events. This script is what puts
+          0nmcp.com in the CRO9 dashboard alongside the other properties, with the
+          AI referral segmentation.
+
+          The other three are deliberately LEFT ALONE — each belongs to a separate
+          product, and removing any of them is a product decision, not a cleanup.
+        */}
+        <script
+          src="https://www.cro9.com/cro9-tracker.js"
+          data-api-key="cro9_917d980d731b08b465dab5ed18df18d542727963bfa00d17"
+          data-endpoint="https://www.cro9.com/api/track/collect"
+          data-consent-mode="gdpr"
+          async
+        />
+        {/*
           Detect & Refine tracker — Phase 1 baseline. Captures click → session
           → engagement signals, ships to dr_clicks/dr_sessions/dr_ai_scores
           in pwujhhmlrtxjmjzyttwn for the Groq grader. Separate product from

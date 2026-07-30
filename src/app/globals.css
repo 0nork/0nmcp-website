@@ -11,6 +11,12 @@
 
 /* ── shadcn/ui Theme Tokens ── */
 @theme inline {
+  /* Page shell: 1280px -> 1600px. Drives every max-w-7xl wrapper site-wide
+     (26 of them) from one place, so the shell width is a token rather than a
+     find-and-replace. Interior prose columns (max-w-3xl / max-w-2xl) are left
+     alone on purpose — widening those would push line length past readable. */
+  --container-7xl: 100rem;
+
   --color-background: #0d1117;
   --color-foreground: #f0f4f8;
   --color-card: #161b22;
@@ -620,11 +626,22 @@ a:hover {
    ============================================ */
 
 .section-container {
-  max-width: 72rem; /* max-w-6xl */
+  max-width: 100rem; /* was 72rem — matches --container-7xl so the footer lines
+                        up with the page shell instead of ending 448px short */
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+}
+
+/* Wider gutters once there is room, so 1600px of content does not run to the
+   edge of the glass on a large display. */
+@media (min-width: 1280px) {
+  .max-w-7xl,
+  .section-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 .glow-box {

@@ -1,12 +1,43 @@
 'use client'
 
 import { type ReactNode } from 'react'
-import { StatusDot } from './StatusDot'
 import {
-  MessageSquare, KeyRound, Sparkles, Blocks,
-  ShoppingBag, Brain, Link2,
+  Activity,
+  ArrowRight,
+  Blocks,
+  Brain,
+  KeyRound,
+  Link2,
+  MessageSquare,
+  ShoppingBag,
+  Sparkles,
 } from 'lucide-react'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
+
+/**
+ * The 0nMCP dashboard, rebuilt in web0n's visual language.
+ *
+ * WHY IT LOOKS DIFFERENT NOW: the old version was a dark grid of seven equally
+ * weighted, differently coloured tiles. Seven equal choices is not a dashboard, it
+ * is a menu — nothing tells you what matters, so every visit starts with a
+ * decision instead of an answer.
+ *
+ * web0n solves that, and this copies its pattern:
+ *   - Black chrome, LIGHT content. That contrast IS the layout, and 0nMCP's shell
+ *     is already dark, so the content surface goes light to match.
+ *   - ONE hero card for the thing that actually matters. In web0n it is your
+ *     website; here it is whether 0nMCP is running and what it can reach.
+ *   - Then "What would you like to do?" — calm, equal-weight cards, muted until
+ *     hovered, rather than seven competing colours.
+ *   - Plain-English copy. web0n says "Your website, in one calm place", not
+ *     "Manage API keys".
+ *
+ * Tailwind only. The previous file was built from inline style objects, which
+ * breaks the house rule and made every spacing value a one-off.
+ *
+ * Props are unchanged on purpose, so this drops into the 1,099-line console page
+ * without touching it.
+ */
 
 interface DashboardViewProps {
   mcpOnline: boolean
@@ -27,23 +58,23 @@ interface DashboardViewProps {
   onNavigate?: (view: string) => void
 }
 
-interface QuickAction {
-  key: string
-  label: string
-  desc: string
-  icon: ReactNode
-  color: string
-}
-
-const ACTIONS: QuickAction[] = [
-  { key: 'chat', label: 'Chat', desc: 'Talk to AI assistant', icon: <MessageSquare size={20} />, color: '#a78bfa' },
-  { key: 'credentials', label: 'Vault', desc: 'Manage API keys', icon: <KeyRound size={20} />, color: '#6EE05A' },
-  { key: 'integrations', label: 'Integrations', desc: 'Connect services', icon: <Link2 size={20} />, color: '#00d4ff' },
-  { key: 'flows', label: 'Create', desc: 'Build a workflow', icon: <Sparkles size={20} />, color: '#ff6b35' },
-  { key: 'builder', label: 'Builder', desc: 'Visual editor', icon: <Blocks size={20} />, color: '#a78bfa' },
-  { key: 'store', label: 'Store', desc: 'Browse marketplace', icon: <ShoppingBag size={20} />, color: '#ff6b35' },
-  { key: 'training', label: 'Brain', desc: 'AI training', icon: <Brain size={20} />, color: '#a78bfa' },
+const ACTIONS: { key: string; title: string; body: string; icon: ReactNode }[] = [
+  { key: 'chat', title: 'Ask it something', body: 'Describe what you want and it does the work.', icon: <MessageSquare className="h-5 w-5" /> },
+  { key: 'flows', title: 'Build a flow', body: 'Chain steps together and let them run on their own.', icon: <Sparkles className="h-5 w-5" /> },
+  { key: 'integrations', title: 'Connect an app', body: 'Slack, Google, your CRM — connect once, use everywhere.', icon: <Link2 className="h-5 w-5" /> },
+  { key: 'credentials', title: 'Your vault', body: 'Every key you have stored, encrypted and in one place.', icon: <KeyRound className="h-5 w-5" /> },
+  { key: 'builder', title: 'Visual builder', body: 'Lay something out without writing code.', icon: <Blocks className="h-5 w-5" /> },
+  { key: 'store', title: 'Browse the store', body: 'Ready-made flows and add-ons you can drop in.', icon: <ShoppingBag className="h-5 w-5" /> },
+  { key: 'training', title: 'Train the brain', body: 'Teach it how your business actually works.', icon: <Brain className="h-5 w-5" /> },
 ]
+
+function timeAgo(ts: number): string {
+  const s = Math.max(0, Math.floor((Date.now() - ts) / 1000))
+  if (s < 60) return 'just now'
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`
+  return `${Math.floor(s / 86400)}d ago`
+}
 
 export function DashboardView({
   mcpOnline,
@@ -56,248 +87,173 @@ export function DashboardView({
   recentHistory,
   onNavigate,
 }: DashboardViewProps) {
+  const tools = mcpHealth?.tools ?? STATS.tools ?? null
+  const services = mcpHealth?.services?.length ?? null
+
   return (
-    <div style={{ padding: '2rem 2rem 3rem', maxWidth: 960, margin: '0 auto', width: '100%' }}>
-      {/* Welcome */}
-      <div style={{ marginBottom: '2.5rem' }}>
-        <h1 style={{
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          color: '#e2e2e8',
-          margin: '0 0 0.375rem 0',
-          fontFamily: 'var(--font-display)',
-        }}>
-          Command Center
-        </h1>
-        <p style={{ fontSize: '0.875rem', color: '#68687a', margin: 0, lineHeight: 1.5 }}>
-          {mcpOnline
-            ? `${mcpHealth?.tools || STATS.tools} tools across ${STATS_DISPLAY.services} services — ready to go.`
-            : 'Connect 0nMCP to unlock your full workspace.'}
-        </p>
-      </div>
-
-      {/* Stats */}
-      <div className="dash-stats" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '0.75rem',
-        marginBottom: '2.5rem',
-      }}>
-        {[
-          {
-            label: '0nMCP',
-            value: mcpOnline ? (mcpHealth?.mode === 'local' ? 'Local' : 'Cloud') : 'Offline',
-            color: mcpOnline ? '#6EE05A' : '#4a4a5a',
-            dot: true,
-          },
-          { label: 'Vault Keys', value: String(connectedCount), color: '#6EE05A' },
-          { label: 'Messages', value: String(messageCount), color: '#a78bfa' },
-          { label: 'Workflows', value: String(flowCount), color: '#00d4ff' },
-        ].map(stat => (
-          <div key={stat.label} style={{
-            padding: '1.125rem 1.25rem',
-            borderRadius: 12,
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid var(--border)',
-          }}>
-            <div style={{
-              fontSize: '0.65rem',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              color: 'var(--text-muted)',
-              marginBottom: 8,
-            }}>
-              {stat.label}
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {stat.dot && <StatusDot status={mcpOnline ? 'online' : 'offline'} />}
-              <span style={{
-                fontSize: '1.375rem',
-                fontWeight: 700,
-                color: stat.color,
-                fontFamily: 'var(--font-mono)',
-                lineHeight: 1,
-              }}>
-                {stat.value}
-              </span>
-            </div>
+    <div className="min-h-full bg-neutral-50">
+      <div className="mx-auto w-full max-w-5xl px-6 py-8">
+        <div className="space-y-9">
+          {/* ── Greeting ── */}
+          <div>
+            <h1 className="text-2xl font-semibold text-neutral-900">Your command centre</h1>
+            <p className="mt-1 text-neutral-500">
+              Everything you have connected, in one calm place. Ask for an outcome and it does the work.
+            </p>
           </div>
-        ))}
-      </div>
 
-      {/* Quick Actions */}
-      <div style={{ marginBottom: '2.5rem' }}>
-        <h2 style={{
-          fontSize: '0.7rem',
-          fontWeight: 700,
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          color: '#4a4a5a',
-          marginBottom: '0.875rem',
-        }}>
-          Quick Actions
-        </h2>
-        <div className="dash-actions" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '0.75rem',
-        }}>
-          {ACTIONS.map(action => (
-            <button
-              key={action.key}
-              onClick={() => onNavigate?.(action.key)}
-              style={{
-                padding: '1.25rem',
-                borderRadius: 12,
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid var(--border)',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontFamily: 'inherit',
-                transition: 'all 0.15s ease',
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: 14,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = `${action.color}30`
-                e.currentTarget.style.background = `${action.color}06`
-                e.currentTarget.style.transform = 'translateY(-1px)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border)'
-                e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
-                e.currentTarget.style.transform = 'translateY(0)'
-              }}
-            >
-              <div style={{
-                width: 40, height: 40, borderRadius: 10,
-                background: `${action.color}0c`,
-                border: `1px solid ${action.color}18`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: action.color,
-                flexShrink: 0,
-              }}>
-                {action.icon}
-              </div>
-              <div>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#e2e2e8', marginBottom: 3 }}>
-                  {action.label}
+          {/* ── The one thing that matters: is it running, and what can it reach? ── */}
+          <div className="overflow-hidden rounded-3xl border border-neutral-200/70 bg-white shadow-sm">
+            <div className="flex flex-col gap-6 p-7 sm:flex-row sm:items-center">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`h-2 w-2 rounded-full ${mcpOnline ? 'bg-emerald-500' : 'bg-neutral-300'}`}
+                    aria-hidden
+                  />
+                  <span className="text-xs font-medium uppercase tracking-wide text-neutral-400">
+                    0nMCP · {mcpOnline ? 'online' : 'offline'}
+                  </span>
                 </div>
-                <div style={{ fontSize: '0.75rem', color: '#68687a', lineHeight: 1.4 }}>
-                  {action.desc}
+
+                <h2 className="mt-2 text-xl font-semibold text-neutral-900">
+                  {mcpOnline
+                    ? connectedCount > 0
+                      ? `${connectedCount} ${connectedCount === 1 ? 'app is' : 'apps are'} connected and ready`
+                      : 'Running — nothing connected yet'
+                    : 'Not reachable right now'}
+                </h2>
+
+                <p className="mt-1 text-sm text-neutral-500">
+                  {mcpOnline
+                    ? connectedCount > 0
+                      ? 'Anything you ask can use these. Connect more to widen what it can do.'
+                      : 'Connect your first app and it can start doing real work for you.'
+                    : 'Nothing is lost. It picks up where it left off once it is back.'}
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  <button
+                    onClick={() => onNavigate?.('chat')}
+                    className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+                  >
+                    <MessageSquare className="h-4 w-4" /> Ask it something
+                  </button>
+                  <button
+                    onClick={() => onNavigate?.('integrations')}
+                    className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-50"
+                  >
+                    {connectedCount > 0 ? 'Connect another app' : 'Connect your first app'}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               </div>
-            </button>
-          ))}
-        </div>
-      </div>
 
-      {/* Connected Services */}
-      {connectedServices.length > 0 && (
-        <div style={{ marginBottom: '2.5rem' }}>
-          <h2 style={{
-            fontSize: '0.7rem',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            color: '#4a4a5a',
-            marginBottom: '0.875rem',
-          }}>
-            Connected Services
-          </h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-            {connectedServices.map(name => (
-              <span key={name} style={{
-                fontSize: '0.7rem',
-                fontWeight: 500,
-                padding: '0.3rem 0.625rem',
-                borderRadius: 6,
-                background: 'rgba(255,255,255,0.025)',
-                border: '1px solid var(--border)',
-                color: '#808090',
-              }}>
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Recent Activity */}
-      <div>
-        <h2 style={{
-          fontSize: '0.7rem',
-          fontWeight: 700,
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          color: '#4a4a5a',
-          marginBottom: '0.875rem',
-        }}>
-          Recent Activity
-        </h2>
-        <div style={{
-          borderRadius: 12,
-          background: 'rgba(255,255,255,0.02)',
-          border: '1px solid var(--border)',
-          overflow: 'hidden',
-        }}>
-          {recentHistory.length > 0 ? recentHistory.slice(0, 8).map((entry, i) => (
-            <div key={entry.id} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              padding: '0.75rem 1.125rem',
-              borderBottom: i < Math.min(recentHistory.length, 8) - 1 ? '1px solid var(--bg-card)' : 'none',
-            }}>
-              <div style={{
-                width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
-                background: entry.type === 'error' ? '#ef4444' : entry.type === 'workflow' ? '#00d4ff' : '#6EE05A',
-              }} />
-              <span style={{
-                flex: 1,
-                fontSize: '0.8rem',
-                color: 'var(--text-secondary)',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}>
-                {entry.detail}
-              </span>
-              <span style={{
-                fontSize: '0.675rem',
-                color: '#4a4a5a',
-                flexShrink: 0,
-                fontFamily: 'var(--font-mono)',
-              }}>
-                {new Date(entry.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </span>
+              {/* Capability, stated plainly rather than as a wall of counters. */}
+              <dl className="grid shrink-0 grid-cols-3 gap-4 sm:w-64">
+                <Metric label="Apps" value={connectedCount} />
+                <Metric label="Flows" value={flowCount} />
+                <Metric label="Tools" value={tools ?? '—'} />
+              </dl>
             </div>
-          )) : (
-            <div style={{
-              padding: '2.5rem 1.5rem',
-              textAlign: 'center',
-              color: '#4a4a5a',
-              fontSize: '0.8rem',
-              lineHeight: 1.6,
-            }}>
-              No activity yet. Start by connecting a service or chatting with the AI.
+
+            {(services || mcpHealth?.version || STATS_DISPLAY?.services) && (
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-neutral-200/70 bg-neutral-50/60 px-7 py-3 text-xs text-neutral-500">
+                <span>{services ?? STATS_DISPLAY?.services} services reachable</span>
+                {mcpHealth?.version ? <span>v{mcpHealth.version}</span> : null}
+                {mcpHealth?.mode ? <span className="capitalize">{mcpHealth.mode} mode</span> : null}
+              </div>
+            )}
+          </div>
+
+          {/* ── Connected apps ── */}
+          {connectedServices.length > 0 && (
+            <div>
+              <p className="mb-3 text-sm font-medium text-neutral-500">Connected</p>
+              <div className="flex flex-wrap gap-2">
+                {connectedServices.slice(0, 18).map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => onNavigate?.('credentials')}
+                    className="rounded-full border border-neutral-200/70 bg-white px-3.5 py-1.5 text-xs font-medium capitalize text-neutral-700 shadow-sm transition hover:border-neutral-300"
+                  >
+                    {s.replace(/_/g, ' ')}
+                  </button>
+                ))}
+                {connectedServices.length > 18 && (
+                  <span className="px-2 py-1.5 text-xs text-neutral-400">
+                    +{connectedServices.length - 18} more
+                  </span>
+                )}
+              </div>
             </div>
           )}
+
+          {/* ── What would you like to do? ── */}
+          <div>
+            <p className="mb-3 text-sm font-medium text-neutral-500">What would you like to do?</p>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {ACTIONS.map((a) => (
+                <button
+                  key={a.key}
+                  onClick={() => onNavigate?.(a.key)}
+                  className="group flex flex-col rounded-2xl border border-neutral-200/70 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-100 text-neutral-700 transition group-hover:bg-neutral-900 group-hover:text-white">
+                    {a.icon}
+                  </span>
+                  <span className="mt-4 text-sm font-semibold text-neutral-900">{a.title}</span>
+                  <span className="mt-1 text-xs leading-relaxed text-neutral-500">{a.body}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Recent activity ── */}
+          <div>
+            <p className="mb-3 text-sm font-medium text-neutral-500">Recent activity</p>
+            {recentHistory.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-neutral-300 bg-white p-8 text-center">
+                <Activity className="mx-auto h-5 w-5 text-neutral-300" />
+                <p className="mt-3 text-sm text-neutral-500">Nothing has run yet.</p>
+                <button
+                  onClick={() => onNavigate?.('chat')}
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-neutral-900 hover:underline"
+                >
+                  Ask it to do something <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="divide-y divide-neutral-200/70 overflow-hidden rounded-2xl border border-neutral-200/70 bg-white shadow-sm">
+                {recentHistory.slice(0, 8).map((h) => (
+                  <div key={h.id} className="flex items-center gap-4 px-5 py-3">
+                    <span className="shrink-0 rounded-md bg-neutral-100 px-2 py-0.5 text-[11px] font-medium capitalize text-neutral-600">
+                      {h.type}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-sm text-neutral-700">{h.detail}</span>
+                    <span className="shrink-0 text-xs text-neutral-400">{timeAgo(h.ts)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            {(historyCount > 8 || messageCount > 0) && (
+              <p className="mt-3 text-xs text-neutral-400">
+                {historyCount} events recorded
+                {messageCount > 0 ? ` · ${messageCount} messages this session` : ''}
+              </p>
+            )}
+          </div>
         </div>
       </div>
+    </div>
+  )
+}
 
-      <style>{`
-        @media (max-width: 768px) {
-          .dash-stats { grid-template-columns: repeat(2, 1fr) !important; }
-          .dash-actions { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 480px) {
-          .dash-stats { grid-template-columns: 1fr !important; }
-          .dash-actions { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+function Metric({ label, value }: { label: string; value: number | string }) {
+  return (
+    <div>
+      <dt className="text-xs text-neutral-400">{label}</dt>
+      <dd className="mt-0.5 text-2xl font-semibold tabular-nums text-neutral-900">{value}</dd>
     </div>
   )
 }

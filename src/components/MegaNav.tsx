@@ -46,6 +46,22 @@ const MENU: Record<string, MenuSection> = {
       href: '/start',
     },
   },
+  apps: {
+    label: '0n Apps',
+    columns: [
+      {
+        title: 'Apps built on 0nMCP',
+        links: [
+          { label: 'All 0n Apps', href: '/ecosystem', bold: true },
+          { label: '0nTask — MCP task manager', href: '/ecosystem/0ntask' },
+        ],
+      },
+    ],
+    featured: {
+      title: 'Every 0n app runs on 0nMCP — same tools, same orchestration layer',
+      href: '/ecosystem',
+    },
+  },
   resources: {
     label: 'Resources',
     columns: [

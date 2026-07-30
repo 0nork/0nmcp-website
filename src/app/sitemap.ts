@@ -5,6 +5,7 @@ import capabilitiesData from '@/data/capabilities.json'
 import glossaryData from '@/data/glossary.json'
 import comparisonsData from '@/data/comparisons.json'
 import blogData from '@/data/blog-posts.json'
+import { ECOSYSTEM_APPS } from '@/lib/ecosystem'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
@@ -22,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages
   const staticPages = [
     '',
+    '/ecosystem',
     '/0n-standard',
     '/community',
     '/sponsor',
@@ -206,8 +208,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // 0n Apps — one entry per registered app in lib/ecosystem
+  const ecosystemPages = ECOSYSTEM_APPS.map((app) => ({
+    url: `${base}/ecosystem/${app.slug}`,
+    lastModified: new Date(app.lastUpdated),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }))
+
   return [
     ...staticPages,
+    ...ecosystemPages,
     ...blogPages,
     ...servicePages,
     ...capabilityPages,

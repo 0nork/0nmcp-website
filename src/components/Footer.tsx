@@ -20,7 +20,9 @@ const footerColumns = [
     links: [
       { label: 'RocketOpp — custom AI development', href: 'https://rocketopp.com', external: true },
       { label: '0nCore — AI command center', href: 'https://0ncore.com', external: true },
-      { label: '0nTask — AI task management', href: 'https://www.0ntask.com', external: true },
+      // Points at our own page first so link equity lands here and forwards on,
+      // rather than passing straight out to the product domain.
+      { label: '0nTask — MCP task manager', href: '/ecosystem/0ntask' },
       { label: 'CRO9 — conversion optimization', href: 'https://www.cro9.com', external: true },
       { label: 'web0n — AI website builder', href: 'https://web0n.com', external: true },
       { label: 'social0n — AI social content', href: 'https://social0n.com', external: true },

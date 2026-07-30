@@ -2,6 +2,7 @@
 // store it (encrypted) in the user's 0nVault. Their Slack, their token.
 import { NextRequest, NextResponse } from 'next/server'
 import { storeUserCredential } from '@/lib/vault-bridge'
+import { SLACK_REDIRECT_URI } from '@/lib/slack-oauth'
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.0nmcp.com'
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -13,7 +14,7 @@ export async function GET(request: NextRequest) {
       client_id: process.env.SLACK_CLIENT_ID!,
       client_secret: process.env.SLACK_CLIENT_SECRET!,
       code,
-      redirect_uri: `${SITE}/api/connect/slack/callback`,
+      redirect_uri: SLACK_REDIRECT_URI,
     })
     const d = await fetch('https://slack.com/api/oauth.v2.access', {
       method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body,

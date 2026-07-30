@@ -1,106 +1,138 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
-import { ECOSYSTEM_APPS } from '@/lib/ecosystem'
+import { ECOSYSTEM_APPS } from '@/lib/ecosystem';
+import { SITE_URL } from '@/lib/cro9';
 
-export const dynamic = 'force-static'
-
-const SITE = 'https://www.0nmcp.com'
-
-const TITLE = '0n Apps — Products Built on 0nMCP'
-const DESCRIPTION =
-  'The 0n Apps run on 0nMCP: 1,640+ tools across 109 services. Each app is a purpose-built surface on top of the same orchestration layer.'
-
+/**
+ * /ecosystem — the hub page.
+ *
+ * SXO ROLE: this page is the authority collector. Every app page links up to
+ * it, it links down to every app page, and it targets the category-level
+ * queries the individual app pages cannot ("apps built on MCP", "MCP app
+ * ecosystem"). Ship it at the same time as the first app page — a child route
+ * with no parent is a crawl dead-end.
+ */
 export const metadata: Metadata = {
-  title: `${TITLE} | 0nMCP`,
-  description: DESCRIPTION,
-  alternates: { canonical: `${SITE}/ecosystem` },
+  // layout.tsx uses a static title, so the brand suffix is added here.
+  title: 'The 0n Apps — Apps Built on 0nMCP | 0nMCP',
+  description:
+    'Every app in the 0n ecosystem runs on 0nMCP — 1,640+ tools across 111 services, one identity, one encrypted vault. Explore 0nTask and the rest. Start free.',
+  alternates: { canonical: `${SITE_URL}/ecosystem` },
+  robots: { index: true, follow: true },
   openGraph: {
-    title: `${TITLE} | 0nMCP`,
-    description: DESCRIPTION,
-    url: `${SITE}/ecosystem`,
     type: 'website',
+    url: `${SITE_URL}/ecosystem`,
+    siteName: '0nMCP',
+    locale: 'en_US',
+    title: 'The 0n Apps — Apps Built on 0nMCP',
+    description:
+      'Every app in the 0n ecosystem runs on 0nMCP — 1,640+ tools across 111 services, one identity, one encrypted vault.',
+    images: [{ url: `${SITE_URL}/ecosystem/opengraph-image.png`, width: 1200, height: 630 }],
   },
-  twitter: { card: 'summary_large_image', title: `${TITLE} | 0nMCP`, description: DESCRIPTION },
-}
+  twitter: { card: 'summary_large_image' },
+};
 
-export default function EcosystemHub() {
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: TITLE,
-      description: DESCRIPTION,
-      url: `${SITE}/ecosystem`,
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'ItemList',
-      name: '0n Apps built on 0nMCP',
-      itemListElement: ECOSYSTEM_APPS.map((a, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        name: a.name,
-        url: `${SITE}/ecosystem/${a.slug}`,
-      })),
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE },
-        { '@type': 'ListItem', position: 2, name: '0n Apps', item: `${SITE}/ecosystem` },
-      ],
-    },
-  ]
+export default function EcosystemIndexPage() {
+  const itemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Apps built on 0nMCP',
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    numberOfItems: ECOSYSTEM_APPS.length,
+    itemListElement: ECOSYSTEM_APPS.map((app, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${SITE_URL}/ecosystem/${app.slug}`,
+      name: app.name,
+      description: app.metaDescription,
+    })),
+  };
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: '0n Apps', item: `${SITE_URL}/ecosystem` },
+    ],
+  };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
 
-      <main className="mx-auto max-w-4xl px-5 py-16 sm:py-20">
-        <nav aria-label="Breadcrumb" className="mb-6 text-xs font-semibold text-white/40">
-          <Link href="/" className="hover:text-white/70">Home</Link>
-          <span className="mx-2">/</span>
-          <span className="text-white/70">0n Apps</span>
+      <div className="mx-auto max-w-5xl px-5 pb-24 sm:px-8">
+        <nav aria-label="Breadcrumb" className="py-6 text-sm text-neutral-400">
+          <ol className="flex items-center gap-2">
+            <li>
+              <Link href="/" className="hover:text-white">
+                0nMCP
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="text-white">
+              0n Apps
+            </li>
+          </ol>
         </nav>
 
-        <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">0n Apps</h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/65">
-          Every 0n app runs on 0nMCP — the same orchestration layer, the same{' '}
-          <Link href="/integrations" className="font-semibold text-violet-300 hover:underline">
-            1,640+ tools across 109 services
-          </Link>
-          . Each one is a purpose-built surface on top of it rather than a separate stack.
-        </p>
+        <header className="border-b border-white/10 pb-12">
+          <h1 className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
+            Apps built on 0nMCP
+          </h1>
+          <p className="mt-5 max-w-3xl text-pretty text-lg leading-relaxed text-neutral-300">
+            0nMCP is the orchestration layer — 1,640+ tools across 111 services behind one protocol.
+            These are the products built on top of it. One identity, one encrypted vault, and every
+            integration shared across all of them.
+          </p>
+        </header>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {ECOSYSTEM_APPS.map((a) => (
-            <Link
-              key={a.slug}
-              href={`/ecosystem/${a.slug}`}
-              className="group rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors hover:border-violet-500/35"
-            >
-              <h2 className="flex items-center justify-between font-bold text-white">
-                {a.name}
-                <ArrowRight className="h-4 w-4 text-violet-300 opacity-0 transition-opacity group-hover:opacity-100" />
-              </h2>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-violet-300/70">
-                {a.primaryKeyword}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">{a.tagline}</p>
-            </Link>
-          ))}
-        </div>
-
-        <p className="mt-10 text-sm text-white/45">
-          More apps are being added. Each gets a full page here as it ships.
-        </p>
-      </main>
+        <section aria-labelledby="apps" className="py-12">
+          <h2 id="apps" className="sr-only">
+            App directory
+          </h2>
+          <ul className="grid gap-6">
+            {ECOSYSTEM_APPS.map((app) => (
+              <li key={app.slug}>
+                <Link
+                  href={`/ecosystem/${app.slug}`}
+                  className="block rounded-xl border border-white/10 bg-white/[0.03] p-7 transition hover:border-emerald-500/40 hover:bg-white/[0.06]"
+                >
+                  <p className="text-xs font-medium uppercase tracking-wider text-emerald-300">
+                    {app.category}
+                  </p>
+                  <h3 className="mt-2 flex items-center gap-2 text-2xl font-semibold">
+                    {app.name}
+                    <ArrowRight className="h-5 w-5 text-neutral-500" aria-hidden="true" />
+                  </h3>
+                  <p className="mt-3 max-w-3xl text-pretty leading-relaxed text-neutral-300">
+                    {app.deck}
+                  </p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {app.chips.slice(0, 4).map((chip) => (
+                      <li
+                        key={chip}
+                        className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs text-neutral-400"
+                      >
+                        {chip}
+                      </li>
+                    ))}
+                  </ul>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
     </>
-  )
+  );
 }

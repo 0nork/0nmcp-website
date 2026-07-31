@@ -57,6 +57,7 @@ const MENU: Record<string, MenuSection> = {
           { label: 'web0n — AI website builder', href: '/ecosystem/web0n' },
           { label: 'CRO9 — conversion & AI-visibility analytics', href: '/ecosystem/cro9' },
           { label: 'social0n — AI social posting', href: '/ecosystem/social0n' },
+          { label: 'app0n — coming soon', href: '/ecosystem/app0n' },
         ],
       },
     ],

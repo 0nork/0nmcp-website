@@ -54,6 +54,9 @@ const MENU: Record<string, MenuSection> = {
         links: [
           { label: 'All 0n Apps', href: '/ecosystem', bold: true },
           { label: '0nTask — MCP task manager', href: '/ecosystem/0ntask' },
+          { label: 'web0n — AI website builder', href: '/ecosystem/web0n' },
+          { label: 'CRO9 — conversion & AI-visibility analytics', href: '/ecosystem/cro9' },
+          { label: 'social0n — AI social posting', href: '/ecosystem/social0n' },
         ],
       },
     ],

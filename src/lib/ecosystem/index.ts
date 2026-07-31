@@ -1,5 +1,8 @@
 import type { EcosystemApp } from './types';
 import { ontask } from './0ntask';
+import { web0n } from './web0n';
+import { cro9 } from './cro9';
+import { social0n } from './social0n';
 
 /**
  * The 0n ecosystem registry.
@@ -16,10 +19,11 @@ import { ontask } from './0ntask';
  */
 export const ECOSYSTEM_APPS: EcosystemApp[] = [
   ontask,
-  // web0n,
-  // social0n,
-  // cro9,
+  web0n,
+  cro9,
+  social0n,
   // 0ncore,
+  // app0n,
 ];
 
 export function getApp(slug: string): EcosystemApp | undefined {

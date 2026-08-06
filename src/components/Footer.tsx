@@ -183,6 +183,23 @@ export default function Footer() {
             <Link href="/privacy" style={{ color: 'var(--text-muted)' }} className="hover:underline">Privacy Policy</Link>
             <span>&middot;</span>
             <Link href="/legal" style={{ color: 'var(--text-muted)' }} className="hover:underline">Legal</Link>
+            <span>&middot;</span>
+            <span>Source-available &middot; BSL-1.1</span>
+            <span>&middot;</span>
+            <a
+              href="https://socket.dev/npm/package/0nmcp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center"
+              aria-label="Socket.dev security report for the 0nmcp npm package"
+            >
+              {/* Live Socket.dev supply-chain score for the published package. */}
+              <img
+                src="https://badge.socket.dev/npm/package/0nmcp/4.22.0"
+                alt="Socket security report for 0nmcp"
+                style={{ height: 18 }}
+              />
+            </a>
           </p>
           <p
             className="text-xs"

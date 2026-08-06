@@ -147,7 +147,7 @@ function FAQJsonLd() {
         name: 'Is 0nMCP free?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes. 0nMCP is source-available under BSL-1.1 and free for local use. The npm package 0nmcp is free to install and run.',
+          text: 'Yes. 0nMCP is source-available under BSL-1.1 and free to use. The npm package 0nmcp is free to install and run.',
         },
       },
       {

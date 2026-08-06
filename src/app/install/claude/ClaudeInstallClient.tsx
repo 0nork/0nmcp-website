@@ -666,7 +666,7 @@ for (const block of message.content) {
               </FAQItem>
 
               <FAQItem question="Is 0nMCP free?">
-                <p>Yes. 0nMCP is source-available under BSL-1.1 and free for local use. The npm package <code>0nmcp</code> is free to install and run. Premium features like hosted execution and the marketplace are available at <a href="https://0nmcp.com/pricing">0nmcp.com/pricing</a>.</p>
+                <p>Yes. 0nMCP is source-available under BSL-1.1 and free to use. The npm package <code>0nmcp</code> is free to install and run. Premium features like hosted execution and the marketplace are available at <a href="https://0nmcp.com/pricing">0nmcp.com/pricing</a>.</p>
               </FAQItem>
 
               <FAQItem question="How does 0nMCP work with Claude?">

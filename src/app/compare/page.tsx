@@ -90,7 +90,7 @@ const COMPETITORS = [
     tagline: 'The AI model 0nMCP supercharges',
     whatTheyDo: 'Claude is Anthropic\'s frontier AI assistant, known for strong reasoning, long-context understanding, and safety-focused design. It excels at analysis, writing, coding, and conversation.',
     where0nMCPWins: '0nMCP turns Claude from a chatbot into a full-stack business operator. Without 0nMCP, Claude can only talk. With 0nMCP, Claude can execute across 111 real services: create Stripe invoices, send Slack messages, update CRM contacts, manage GitHub repos, and orchestrate multi-step workflows.',
-    pricing: { them: 'Free tier / $20/mo Pro / $100/mo Team', us: 'Free for local use + Claude as AI backend' },
+    pricing: { them: 'Free tier / $20/mo Pro / $100/mo Team', us: 'Free + Claude as AI backend' },
     features: [
       { f: 'API integrations', us: '106 services, 1,598+ tools', them: '0 (chat only)' },
       { f: 'Workflow execution', us: 'Pipeline + Assembly Line + Radial Burst', them: 'No workflow engine' },
@@ -106,7 +106,7 @@ const COMPETITORS = [
     tagline: 'General AI assistant vs specialized orchestrator',
     whatTheyDo: 'ChatGPT is OpenAI\'s conversational AI, the most widely used AI assistant globally. It offers GPT-4o, code interpreter, DALL-E image generation, and browsing capabilities.',
     where0nMCPWins: '0nMCP provides what ChatGPT cannot: direct API execution across 106 services. ChatGPT can write code that calls APIs, but 0nMCP actually executes those calls with vault-encrypted credentials, rate limiting, and error handling built in. ChatGPT is a brain; 0nMCP gives it hands.',
-    pricing: { them: 'Free / $20/mo Plus / $200/mo Pro', us: 'Free for local use local use' },
+    pricing: { them: 'Free / $20/mo Plus / $200/mo Pro', us: 'Free' },
     features: [
       { f: 'Direct API calls', us: '106 services natively', them: 'Via code interpreter (limited)' },
       { f: 'Real-time execution', us: 'Instant tool calls', them: 'Code sandbox only' },
@@ -122,7 +122,7 @@ const COMPETITORS = [
     tagline: 'Google\'s AI vs universal orchestration',
     whatTheyDo: 'Gemini is Google\'s multimodal AI model family, deeply integrated with Google Workspace (Docs, Sheets, Gmail, Calendar). It offers strong reasoning and access to Google\'s search index.',
     where0nMCPWins: '0nMCP connects to 106 services, not just Google\'s ecosystem. While Gemini can interact with Google Workspace, 0nMCP orchestrates across Stripe, Slack, GitHub, CRM, Shopify, and 50 more services simultaneously. Plus, 0nMCP generates Gemini-compatible configs, so Gemini users get the best of both worlds.',
-    pricing: { them: 'Free / $20/mo Advanced', us: 'Free for local use + Gemini config support' },
+    pricing: { them: 'Free / $20/mo Advanced', us: 'Free + Gemini config support' },
     features: [
       { f: 'Service breadth', us: '106 services', them: 'Google Workspace + limited' },
       { f: 'Non-Google integrations', us: 'Stripe, Slack, CRM, GitHub, etc.', them: 'Limited or none' },
@@ -138,7 +138,7 @@ const COMPETITORS = [
     tagline: 'The automation giant vs the orchestration engine',
     whatTheyDo: 'Zapier is the world\'s largest no-code automation platform with 7,000+ app connections and a visual Zap builder. It popularized trigger-action automation for non-technical users.',
     where0nMCPWins: '0nMCP is AI-native: describe what you want, and AI orchestrates the execution. No dragging, no dropping, no configuring triggers. 0nMCP runs locally (your data stays private), costs nothing for self-hosted use, and provides 1,598+ tools with deeper API coverage than Zapier\'s basic actions.',
-    pricing: { them: '$19.99/mo (Starter) to $799/mo (Company)', us: 'Free for local use / $0.01 per execution' },
+    pricing: { them: '$19.99/mo (Starter) to $799/mo (Company)', us: 'Free / $0.01 per execution' },
     features: [
       { f: 'Interface', us: 'Natural language', them: 'Visual drag-and-drop' },
       { f: 'Tool depth', us: '1,598+ tools (deep API coverage)', them: '7,000+ apps (basic actions)' },
@@ -154,7 +154,7 @@ const COMPETITORS = [
     tagline: 'Visual scenarios vs AI-driven orchestration',
     whatTheyDo: 'Make (formerly Integromat) offers visual scenario building with advanced branching, error handling, and data transformation. It\'s popular with power users who outgrow Zapier.',
     where0nMCPWins: '0nMCP eliminates the need for visual builders entirely. Instead of spending hours designing scenario flows, describe your outcome and let AI handle the orchestration. 0nMCP\'s three-level execution model (Pipeline, Assembly Line, Radial Burst) handles complex parallel workflows that Make\'s sequential model struggles with.',
-    pricing: { them: '$9/mo (Core) to $299/mo (Teams)', us: 'Free for local use / $0.01 per execution' },
+    pricing: { them: '$9/mo (Core) to $299/mo (Teams)', us: 'Free / $0.01 per execution' },
     features: [
       { f: 'Parallel execution', us: 'Radial Burst (true parallel)', them: 'Limited branching' },
       { f: 'Setup time', us: '1 command install', them: 'Hours of scenario building' },
@@ -170,7 +170,7 @@ const COMPETITORS = [
     tagline: 'Self-hosted workflow builder vs AI-native orchestrator',
     whatTheyDo: 'n8n is a fair-code licensed workflow automation tool that can be self-hosted. It offers 400+ integrations with a visual node-based editor and supports custom JavaScript/Python code.',
     where0nMCPWins: 'Both are self-hostable, but 0nMCP is AI-native. n8n still requires manual workflow construction. 0nMCP provides 1,598+ tools (vs n8n\'s 400+ nodes), deeper API coverage per service, and true AI orchestration where you describe outcomes instead of building flows. Plus, 0nMCP\'s vault encryption beats n8n\'s plain .env files.',
-    pricing: { them: 'Free (self-host) / $20-150/mo (cloud)', us: 'Free for local use / $0.01 per execution' },
+    pricing: { them: 'Free (self-host) / $20-150/mo (cloud)', us: 'Free / $0.01 per execution' },
     features: [
       { f: 'AI orchestration', us: 'Native (describe outcomes)', them: 'No (manual node building)' },
       { f: 'Tool count', us: '1,598+ tools', them: '400+ nodes' },
@@ -186,7 +186,7 @@ const COMPETITORS = [
     tagline: 'Open MCP registry vs complete orchestration platform',
     whatTheyDo: 'OpenClaw is an open-source MCP server registry and directory. It catalogs available MCP servers and provides a way to discover and connect to them.',
     where0nMCPWins: '0nMCP is not just a registry; it\'s a complete orchestration platform. Where OpenClaw helps you find MCP servers, 0nMCP IS the MCP server with 1,598+ tools built in. 0nMCP includes vault encryption, credential management, workflow execution, CRM integration, and patent-pending security that OpenClaw does not offer.',
-    pricing: { them: 'Free (open source)', us: 'Free for local use / $0.01 per execution' },
+    pricing: { them: 'Free (open source)', us: 'Free / $0.01 per execution' },
     features: [
       { f: 'Built-in tools', us: '1,598+ tools', them: 'Registry (links to other servers)' },
       { f: 'Execution engine', us: 'Full workflow runtime', them: 'No execution engine' },
@@ -217,7 +217,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is 0nMCP free to use?',
-    a: 'Yes. 0nMCP is 100% free and open source under the MIT license for local use. Install with npx 0nmcp@latest and access all 1,598+ tools at no cost. For managed cloud execution, pricing starts at $0.01 per execution with no monthly commitment.',
+    a: 'Yes. 0nMCP is free to use — free to join, free to run locally, with free API runs on the free account. Install with npx 0nmcp@latest and access all 1,598+ tools at no cost. The core is source-available under BSL-1.1. For managed cloud execution, pricing starts at $0.01 per execution with no monthly commitment.',
   },
   {
     q: 'What are the best Zapier alternatives in 2026?',

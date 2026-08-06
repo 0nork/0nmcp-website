@@ -134,7 +134,7 @@ const COMPARISON = [
   { feature: 'Services', onmcp: '111', typical: '1-3' },
   { feature: 'CRM Integration', onmcp: '289 tools', typical: 'None' },
   { feature: 'Encryption', onmcp: 'AES-256-GCM', typical: 'None' },
-  { feature: 'Cost', onmcp: 'Free for local use', typical: 'Varies' },
+  { feature: 'Cost', onmcp: 'Free', typical: 'Varies' },
   { feature: 'Patents', onmcp: '5 pending', typical: '0' },
   { feature: 'Portable Workflows', onmcp: '.0n SWITCH files', typical: 'No' },
   { feature: 'AI Model Support', onmcp: '5 models', typical: '1' },

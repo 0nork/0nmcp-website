@@ -664,7 +664,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
             { q: `How do I connect ${service.name} to my CRM?`, a: `Install 0nMCP (npx 0nmcp@latest), import your ${service.name} API key, and import your CRM credentials. 0nMCP bridges them — ${service.name} events trigger CRM actions and vice versa. 245 CRM tools + ${service.tool_count} ${service.name} tools = unlimited automations.` },
             { q: `What can I automate with ${service.name}?`, a: `0nMCP provides ${service.tool_count} ${service.name} tools and ${totalCaps} pre-built automations. Connect to ${connected.length} other services including CRM, Stripe, Slack, and more. Describe what you want in natural language — 0nMCP handles the API calls.` },
             { q: 'Is this free?', a: '0nMCP is source-available (BSL-1.1). Local use is completely free. The managed 0nCore platform starts at $80/mo with CRM integration, AI assistant, and web dashboard.' },
-            { q: `Does this replace Zapier for ${service.name}?`, a: `Yes. Zapier connects apps to apps with predefined triggers. 0nMCP connects apps to AI — describe any workflow in natural language and it executes. No "zap" templates needed. Plus, 0nMCP is free for local use vs Zapier's $20+/mo.` },
+            { q: `Does this replace Zapier for ${service.name}?`, a: `Yes. Zapier connects apps to apps with predefined triggers. 0nMCP connects apps to AI — describe any workflow in natural language and it executes. No "zap" templates needed. Plus, 0nMCP is free to use vs Zapier's $20+/mo.` },
           ].map((item) => (
             <details key={item.q} className="faq-item">
               <summary className="faq-question">{item.q}</summary>

@@ -220,7 +220,7 @@ const FAQ = [
   },
   {
     q: 'What does this cost?',
-    a: 'The orchestrator is source-available (BSL-1.1); free for local use. Some marketplace apps cost ~$0.01 per execution. The 0nCore dashboard subscription starts at $80/mo for everything bundled — voice AI, course generator, all 106 services pre-wired.',
+    a: 'The orchestrator is source-available (BSL-1.1); free to use. Some marketplace apps cost ~$0.01 per execution. The 0nCore dashboard subscription starts at $80/mo for everything bundled — voice AI, course generator, all 106 services pre-wired.',
   },
   {
     q: 'Is my data private?',

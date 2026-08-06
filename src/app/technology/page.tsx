@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Our Technology — 4 Patents Powering the Future of AI Orchestration | 0nMCP',
-  description: 'Explore the patented technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation. 4 US patent applications filed.',
+  description: 'Explore the patent-pending technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation. 4 US patent applications filed.',
   openGraph: {
     title: 'Our Technology — 4 Patents Powering the Future of AI Orchestration',
     description: 'From encrypted vaults to multi-AI reasoning engines — discover the patented innovations that make 0nMCP the most advanced AI orchestration platform.',
@@ -64,7 +64,7 @@ export default function TechnologyPage() {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Our Technology — 4 Patents Powering 0nMCP',
-    description: 'Explore the patented technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation.',
+    description: 'Explore the patent-pending technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation.',
     url: 'https://www.0nmcp.com/technology',
     mainEntity: {
       '@type': 'ItemList',
@@ -102,12 +102,12 @@ export default function TechnologyPage() {
       {
         '@type': 'Question',
         name: 'What makes 0nMCP different from other AI platforms?',
-        acceptedAnswer: { '@type': 'Answer', text: '0nMCP is built on patented technology. Our Seal of Truth provides tamper-proof data verification, 0nVault offers military-grade encryption with 7 semantic layers, 0nPlex uses 7 competing AI personas for superior answers, and 0nCore adapts content to match your authentic voice. No other platform has this combination.' },
+        acceptedAnswer: { '@type': 'Answer', text: '0nMCP is built on patent-pending technology. Our Seal of Truth provides tamper-proof data verification, 0nVault offers military-grade encryption with 7 semantic layers, 0nPlex uses 7 competing AI personas for superior answers, and 0nCore adapts content to match your authentic voice. No other platform has this combination.' },
       },
       {
         '@type': 'Question',
-        name: 'Is the patented technology included for free?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Yes. All patented technology is included with every 0nMCP account. The platform is free to start with pay-as-you-scale pricing. The technology is MIT-licensed for open-source use.' },
+        name: 'Is the patent-pending technology included for free?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. All patent-pending technology is included with every 0nMCP account. The platform is free to start with pay-as-you-scale pricing. The core is source-available under BSL-1.1; local use is free, commercial hosting requires a license.' },
       },
       {
         '@type': 'Question',
@@ -250,9 +250,9 @@ export default function TechnologyPage() {
           </h2>
           <div className="space-y-4">
             {[
-              { q: 'Do I need a special plan to use patented features?', a: 'No. All patented technology is included with every 0nMCP account, including the free tier. There are no enterprise gates or premium-only features.' },
+              { q: 'Do I need a special plan to use patented features?', a: 'No. All patent-pending technology is included with every 0nMCP account, including the free tier. There are no enterprise gates or premium-only features.' },
               { q: 'Are these real patents?', a: 'Yes. All 4 are filed with the United States Patent and Trademark Office (USPTO) as provisional patent applications under 35 USC 111(b). They are assigned to RocketOpp LLC.' },
-              { q: 'Can I use these technologies in my own projects?', a: 'Absolutely. 0nMCP is MIT-licensed. You can use the platform and its patented technology in your commercial projects. The patents protect our unique implementations from being copied by competitors.' },
+              { q: 'Can I use these technologies in my own projects?', a: 'Absolutely. 0nMCP is source-available (BSL-1.1). You can use the platform and its patent-pending technology in your commercial projects. The patents protect our unique implementations from being copied by competitors.' },
               { q: 'How does 0nPlex make AI responses better?', a: '0nPlex sends every question to 7 different AI "personalities" — an Empiricist, Behavioralist, Systems Architect, Ethicist, Pragmatist, Adversary, and Visionary. Each brings a unique perspective, then the best ideas are combined into one superior answer.' },
             ].map((faq) => (
               <details

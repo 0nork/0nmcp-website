@@ -177,7 +177,7 @@ export default function PatentPage() {
           <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
             Patent Pending. The technologies described are protected under US Patent Applications #63/968,814, #63/990,046,
             #64/006,268, and #64/006,282. Unauthorized use, reproduction, or implementation of these patented
-            innovations may constitute patent infringement. The 0nMCP software itself is released under the MIT license;
+            innovations may constitute patent infringement. The 0nMCP software itself is released under the Business Source License 1.1;
             the patents cover specific innovations in encrypted container architecture, multi-party escrow protocols,
             content-addressed integrity verification, multi-persona AI reasoning, and adaptive content generation systems described herein.
           </p>
@@ -185,7 +185,7 @@ export default function PatentPage() {
 
         {/* CTA */}
         <div className="rounded-xl p-6 text-center" style={{ background: 'rgba(255,107,53,0.05)', border: '1px solid rgba(255,107,53,0.15)' }}>
-          <p className="text-base font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Explore all patented technology</p>
+          <p className="text-base font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Explore all patent-pending technology</p>
           <p className="text-xs mb-4" style={{ color: 'var(--text-secondary)' }}>See how 4 patent-pending innovations power your AI orchestration stack — explained in plain English.</p>
           <Link
             href="/technology"

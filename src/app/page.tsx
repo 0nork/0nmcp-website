@@ -5,14 +5,14 @@ import Homepage from '@/components/Homepage'
 export const metadata: Metadata = {
   title: '0nMCP — The Universal AI API Orchestrator',
   description:
-    `The universal AI API orchestrator. ${STATS_DISPLAY.tools}+ tools across ${STATS_DISPLAY.services} services. One install. Zero config. MIT licensed. Powered by 5 patented technologies.`,
+    `The universal AI API orchestrator. ${STATS_DISPLAY.tools}+ tools across ${STATS_DISPLAY.services} services. One install. Zero config. Source-available. Powered by 5 patent-pending technologies.`,
   keywords: [
     '0nMCP', 'MCP server', 'AI orchestrator', 'API integration',
     'workflow automation', 'Model Context Protocol', 'AI tools',
   ],
   openGraph: {
     title: '0nMCP — The Universal AI API Orchestrator',
-    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. MIT licensed.`,
+    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. Source-available.`,
     url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: '0nMCP — The Universal AI API Orchestrator',
-    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. MIT licensed.`,
+    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. Source-available.`,
   },
   alternates: { canonical: 'https://www.0nmcp.com' },
 }

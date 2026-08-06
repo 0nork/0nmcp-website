@@ -85,7 +85,7 @@ export default function CommandsPage() {
             fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
             marginBottom: '1.5rem',
           }}>
-            111 services · 1,640+ tools · one command
+            106 services · 1,598+ tools · one command
           </div>
 
           <h1 style={{

@@ -197,7 +197,7 @@ export default function IntegrationsPage(): ReactNode {
             Ready to connect <span style={{ color: '#6EE05A' }}>everything</span>?
           </h2>
           <p style={{ fontSize: '0.875rem', color: 'var(--0n-text2)', margin: '0 0 1.5rem', maxWidth: 400, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
-            {STATS_DISPLAY.tools} tools. {allServices.length} services. One install. MIT licensed.
+            {STATS_DISPLAY.tools} tools. {allServices.length} services. One install. Source-available.
           </p>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/start" style={{ padding: '10px 24px', borderRadius: 10, background: '#6EE05A', color: '#000', fontSize: '0.875rem', fontWeight: 700, textDecoration: 'none', boxShadow: '0 2px 12px rgba(110,224,90,0.25)' }}>

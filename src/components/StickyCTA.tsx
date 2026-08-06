@@ -48,7 +48,7 @@ export default function StickyCTA() {
       <div className="flex-1 min-w-0">
         <p className="truncate text-sm font-bold text-white">0nCore is live.</p>
         <p className="truncate text-xs text-white/65">
-          Free tier · 1,640+ tools · Start building in 10 minutes.
+          Free tier · 1,598+ tools · Start building in 10 minutes.
         </p>
       </div>
       <a

@@ -72,7 +72,7 @@ In the meantime, explore what we&rsquo;re building:
 <tr>
 <td style="padding:12px 16px;background:#16161f;border-radius:0 0 8px 8px;">
 <a href="https://0ncore.com" style="color:#6EE05A;text-decoration:none;font-size:14px;font-weight:600;">Try 0nCore Free</a>
-<p style="color:#55556a;font-size:13px;margin:4px 0 0;">MIT licensed &mdash; free forever for the community</p>
+<p style="color:#55556a;font-size:13px;margin:4px 0 0;">Source-available &mdash; free forever for the community</p>
 </td>
 </tr>
 </table>

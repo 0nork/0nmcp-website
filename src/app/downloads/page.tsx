@@ -252,7 +252,7 @@ export default function DownloadsPage() {
         {/* ── CTA ── */}
         <div style={{ borderRadius: 16, padding: '2.5rem 2rem', textAlign: 'center', background: 'var(--bg-card)', color: 'var(--text-primary)', boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}>
           <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Build Your Own Integration</h2>
-          <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 20 }}>0nMCP is open source, MIT licensed. Build anything.</p>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 20 }}>0nMCP is open source, Source-available. Build anything.</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
             <Link href="https://0ncore.com" target="_blank" rel="noopener" style={{ padding: '10px 24px', borderRadius: 10, background: 'var(--bg-card)', color: 'var(--text-primary)', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}>0nCore</Link>
             <Link href="/signup" style={{ padding: '10px 24px', borderRadius: 10, background: '#6EE05A', color: 'var(--text-primary)', fontWeight: 700, fontSize: 13, textDecoration: 'none' }}>Request Access</Link>

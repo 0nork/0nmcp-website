@@ -17,7 +17,7 @@ const PRODUCTS = [
   { name: 'web0n', tag: 'web0n.com', desc: 'Self-serve AI website builder.', url: 'https://web0n.com', icon: Globe, tile: 'bg-[#0891b2]/15 text-[#0891b2]', status: 'sso' as const },
   { name: 'CRO9', tag: 'cro9.com', desc: 'Conversion analytics that acts on itself.', url: 'https://www.cro9.com', icon: Gauge, tile: 'bg-[#22d3ee]/15 text-[#22d3ee]', status: 'live' as const },
   { name: 'social0n', tag: 'social0n.com', desc: 'AI social content on autopilot.', url: 'https://social0n.com', icon: Share2, tile: 'bg-[#7c3aed]/15 text-[#7c3aed]', status: 'soon' as const },
-  { name: '0nMCP', tag: '0nmcp.com', desc: 'The orchestrator — 1,640 tools, 109 services.', url: 'https://www.0nmcp.com', icon: Boxes, tile: 'bg-[#6EE05A]/15 text-[#6EE05A]', status: 'live' as const },
+  { name: '0nMCP', tag: '0nmcp.com', desc: 'The orchestrator — 1,598 tools, 109 services.', url: 'https://www.0nmcp.com', icon: Boxes, tile: 'bg-[#6EE05A]/15 text-[#6EE05A]', status: 'live' as const },
   { name: '0nCore', tag: '0ncore.com', desc: 'Your customer portal & command deck.', url: 'https://0ncore.com', icon: LayoutGrid, tile: 'bg-[#f59e0b]/15 text-[#f59e0b]', status: 'live' as const },
 ]
 

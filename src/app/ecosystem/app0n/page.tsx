@@ -73,7 +73,7 @@ export default function App0nComingSoon() {
 
         <p className="mt-5 text-xl leading-relaxed text-white/70">
           app0n is an AI app builder being built on 0nMCP — so anything it makes can reach the
-          111 services you have already connected, rather than starting from an empty integration
+          106 services you have already connected, rather than starting from an empty integration
           list.
         </p>
 

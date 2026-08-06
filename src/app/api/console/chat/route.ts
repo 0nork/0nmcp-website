@@ -618,7 +618,7 @@ const LOCAL_KNOWLEDGE: Record<string, string> = {
     '- **Patent Pending**: US Provisional #63/990,046 (Vault Container)\n' +
     '- **.0n Standard**: Universal portable config format\n' +
     '- **BYOK**: Bring your own API keys\n' +
-    '- **Open Source**: MIT licensed, npm install `0nmcp`\n\n' +
+    '- **Open Source**: Source-available, npm install `0nmcp`\n\n' +
     'Install: `npm install -g 0nmcp`\n' +
     'Run: `0nmcp serve` for HTTP mode, `0nmcp` for MCP stdio mode.',
 }

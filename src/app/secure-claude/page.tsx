@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: 'Is 0nDefender really free?',
-    a: 'Yes, completely free. 0nDefender is MIT licensed and ships as part of 0nMCP. No sign-up required. No credit card. No usage limits. Run npx 0nmcp@latest and you are protected.',
+    a: 'Yes, completely free. 0nDefender is Source-available and ships as part of 0nMCP. No sign-up required. No credit card. No usage limits. Run npx 0nmcp@latest and you are protected.',
   },
   {
     q: 'Does it slow down npm install?',
@@ -174,7 +174,7 @@ export default function SecureClaudePage() {
     url: 'https://www.0nmcp.com/secure-claude',
     downloadUrl: 'https://www.npmjs.com/package/0nmcp',
     softwareVersion: '2.9.0',
-    license: 'https://opensource.org/licenses/MIT',
+    license: 'https://github.com/0nork/0nMCP/blob/main/LICENSE',
   }
 
   const breadcrumbJsonLd = {
@@ -311,7 +311,7 @@ export default function SecureClaudePage() {
               4 Security Layers. Zero Cost.
             </h2>
             <p className="text-lg text-[var(--text-muted)]">
-              Every layer ships free with 0nMCP. MIT licensed. No sign-up required.
+              Every layer ships free with 0nMCP. Source-available. No sign-up required.
             </p>
           </div>
 
@@ -522,7 +522,7 @@ export default function SecureClaudePage() {
           </div>
 
           <p className="text-xs mt-8 text-[var(--text-muted)]">
-            0nMCP is open source (MIT). 0nDefender is included. 5 provisional patent applications covering 15+ distinct inventions filed with USPTO.
+            0nMCP is source-available (BSL-1.1). 0nDefender is included. 5 provisional patent applications covering 15+ distinct inventions filed with USPTO.
             <br />
             RocketOpp LLC &middot; {new Date().getFullYear()}
           </p>

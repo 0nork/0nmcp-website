@@ -32,10 +32,10 @@ export const STATS = {
   // Platform constants
   patents: 5,
   ai_platforms: 7,
-  license: 'MIT',
+  license: 'BSL-1.1',
   local_cost: '$0',
   execution_cost: '$0.01',
-  version: 'v4.20.0',
+  version: 'v4.22.0',
 } as const
 
 // ─── FORMATTED (with commas for display) ─────────────────────────

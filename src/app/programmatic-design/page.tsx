@@ -61,7 +61,7 @@ export default function ProgrammaticDesignPage() {
             {[
               { v: summary.totals.items.toString(), l: 'Components' },
               { v: summary.totals.categories.toString(), l: 'Categories' },
-              { v: 'MIT', l: 'Free Forever' },
+              { v: 'BSL-1.1', l: 'Free to Self-Host' },
             ].map((s) => (
               <div key={s.l} className="rounded-lg border border-border/60 bg-card/60 px-4 py-3 text-center">
                 <div className="font-mono text-2xl font-black text-[#6EE05A] tabular-nums">{s.v}</div>

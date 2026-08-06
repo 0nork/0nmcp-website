@@ -249,7 +249,7 @@ export default function AnimatedHero() {
           <span style={{ color: '#7ed957' }}>5</span> patents
         </span>
         <span style={{ color: 'var(--border-hover)' }}>|</span>
-        <span>MIT licensed</span>
+        <span>Source-available</span>
       </div>
 
       {/* CTAs */}

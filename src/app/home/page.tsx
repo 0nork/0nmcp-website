@@ -5,7 +5,7 @@ import HomeClient from './HomeClient'
 export const metadata: Metadata = {
   title: '0nMCP — Connect Your AI to Everything',
   description:
-    '1,640+ tools across 111 services. The universal MCP server that connects AI to everything. One install. Every AI platform. 5 patents pending. MIT licensed.',
+    '1,598+ tools across 106 services. The universal MCP server that connects AI to everything. One install. Every AI platform. 5 patents pending. Source-available.',
   keywords: [
     '0nMCP',
     'MCP server',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '0nMCP — Connect Your AI to Everything',
     description:
-      '1,640+ tools. 111 services. One command. Works with Claude, Gemini, Grok, Cursor, and every MCP-compatible AI.',
+      '1,598+ tools. 106 services. One command. Works with Claude, Gemini, Grok, Cursor, and every MCP-compatible AI.',
     url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '0nMCP — Connect Your AI to Everything',
     description:
-      '1,640+ tools. 111 services. One command. Works with Claude, Gemini, Grok, Cursor, and every MCP-compatible AI.',
+      '1,598+ tools. 106 services. One command. Works with Claude, Gemini, Grok, Cursor, and every MCP-compatible AI.',
   },
   alternates: { canonical: 'https://www.0nmcp.com' },
 }
@@ -56,7 +56,7 @@ export default function HomePage() {
         name: '0nMCP',
         url: 'https://www.0nmcp.com',
         description:
-          'The universal AI API orchestrator. 1,640+ tools across 111 services.',
+          'The universal AI API orchestrator. 1,598+ tools across 106 services.',
       },
       {
         '@type': 'SoftwareApplication',
@@ -69,7 +69,7 @@ export default function HomePage() {
           priceCurrency: 'USD',
         },
         description:
-          'Universal AI API Orchestrator connecting 1,640+ tools across 111 services with 5 patents pending.',
+          'Universal AI API Orchestrator connecting 1,598+ tools across 106 services with 5 patents pending.',
       },
       {
         '@type': 'FAQPage',
@@ -79,7 +79,7 @@ export default function HomePage() {
             name: 'What is 0nMCP?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: '0nMCP is the Universal AI API Orchestrator -- the most comprehensive MCP Server connecting 1,640+ tools and 111 services with zero configuration.',
+              text: '0nMCP is the Universal AI API Orchestrator -- the most comprehensive MCP Server connecting 1,598+ tools and 106 services with zero configuration.',
             },
           },
           {
@@ -95,7 +95,7 @@ export default function HomePage() {
             name: 'Is 0nMCP free?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'The core 0nMCP server is MIT licensed and free forever. Managed platform plans start at $80/mo.',
+              text: 'The core 0nMCP server is Source-available and free forever. Managed platform plans start at $80/mo.',
             },
           },
           {

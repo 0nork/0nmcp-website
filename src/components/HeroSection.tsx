@@ -187,9 +187,9 @@ export default function HeroSection() {
           {[
             { label: 'AES-256 Encrypted', color: '#6EE05A' },
             { label: 'HMAC Signed', color: '#00d4ff' },
-            { label: 'MIT Licensed', color: '#a78bfa' },
+            { label: 'Source-Available', color: '#a78bfa' },
             { label: 'Patent Pending', color: '#ff6b35' },
-            { label: 'Free Forever', color: '#6EE05A' },
+            { label: 'Free to Self-Host', color: '#6EE05A' },
           ].map((t) => (
             <span key={t.label} className="hero-trust-item">
               <span

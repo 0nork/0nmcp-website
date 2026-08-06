@@ -879,11 +879,11 @@ const CATEGORIES: Category[] = [
             <Accordion type="single" collapsible className="w-[320px]">
               <AccordionItem value="a1">
                 <AccordionTrigger>Why use 0n?</AccordionTrigger>
-                <AccordionContent>One install gets you 1,640+ tools across 111 services.</AccordionContent>
+                <AccordionContent>One install gets you 1,598+ tools across 106 services.</AccordionContent>
               </AccordionItem>
               <AccordionItem value="a2">
                 <AccordionTrigger>Is it free?</AccordionTrigger>
-                <AccordionContent>The core orchestrator is MIT licensed and free forever.</AccordionContent>
+                <AccordionContent>The core orchestrator is Source-available and free forever.</AccordionContent>
               </AccordionItem>
             </Accordion>
           </PreviewBox>

@@ -5,7 +5,7 @@
  * Agents live inside CRM sub-locations and can access:
  *   - Knowledge Base (per-location, personalized)
  *   - Web Search
- *   - MCP Server (connects to 0nMCP for 1,640+ tools)
+ *   - MCP Server (connects to 0nMCP for 1,598+ tools)
  *
  * Env vars:
  *   CRM_AGENT_STUDIO_KEY          — Agency PIT with Agent Studio scopes

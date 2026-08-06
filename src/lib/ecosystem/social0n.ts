@@ -92,7 +92,7 @@ export const social0n: EcosystemApp = {
   ],
 
   crossLinks: [
-    { label: '0nMCP — the orchestrator underneath', href: '/', note: 'One connection, 111 services.', external: false },
+    { label: '0nMCP — the orchestrator underneath', href: '/', note: 'One connection, 106 services.', external: false },
     { label: '0nTask — the shared task list', href: '/ecosystem/0ntask', note: 'Where the work lives.', external: false },
     { label: 'web0n — the site you are promoting', href: '/ecosystem/web0n', note: 'AI-built, edited by asking.', external: false },
   ],

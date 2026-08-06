@@ -145,13 +145,13 @@ const COMPETITORS: Competitor[] = [
     color: '#6EE05A',
     logo: <Logo0nMCP />,
     data: {
-      'Total tools / integrations': '1,640+ tools, 111 services',
-      'Pricing (free tier)': 'Free forever (MIT) / $80/mo managed',
+      'Total tools / integrations': '1,598+ tools, 106 services',
+      'Pricing (free tier)': 'Free forever (BSL-1.1) / $80/mo managed',
       'AI platforms supported': 'Claude, Gemini, Grok, Cursor, Windsurf, VS Code, OpenAI (7+)',
       'CRM integration': '245 tools across 12 modules (deepest in market)',
       'Security (vault / encryption)': 'AES-256-GCM + hardware binding + Argon2id (patent-pending)',
       'Portability (.0n files)': 'Universal .0n format works on any machine / platform',
-      'Open source': 'Yes (MIT license)',
+      'Open source': 'Source-available (BSL-1.1)',
       'Self-hosted option': 'Yes (local-first by default)',
       'Voice AI': 'Yes (0nCore Pro+)',
       'Course generation': 'Yes (AI-powered course builder)',
@@ -463,7 +463,7 @@ const COMPETITORS: Competitor[] = [
       'CRM integration': 'No built-in CRM',
       'Security (vault / encryption)': 'Developer responsibility',
       'Portability (.0n files)': 'Python/JS code (dev-only)',
-      'Open source': 'Yes (MIT)',
+      'Open source': 'Source-available',
       'Self-hosted option': 'Yes (code library)',
       'Voice AI': 'No',
       'Course generation': 'No',
@@ -480,7 +480,7 @@ const COMPETITORS: Competitor[] = [
 /* ─── Helper: check if 0nMCP wins a dimension ─── */
 function is0nMCPAdvantage(dimension: string, value: string): boolean {
   const v = value.toLowerCase()
-  return v.includes('1,640+') || v.includes('patent') || v.includes('aes-256') || v.includes('.0n') || v.includes('245 tools') || v.includes('free forever')
+  return v.includes('1,598+') || v.includes('patent') || v.includes('aes-256') || v.includes('.0n') || v.includes('245 tools') || v.includes('free forever')
 }
 
 function isWeakValue(value: string): boolean {
@@ -741,7 +741,7 @@ export default function InteractiveComparePage() {
           <span className="hero-title-accent">difference?</span>
         </h2>
         <p className="final-cta-subtitle">
-          1,640+ tools. 111 services. One install. Free and open source.
+          1,598+ tools. 106 services. One install. Free and open source.
         </p>
         <div className="hero-ctas" style={{ justifyContent: 'center' }}>
           <Link href="/signup" className="hero-cta-primary">

@@ -3,8 +3,8 @@ import OrchestratorForge from '@/components/OrchestratorForge'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'MCP Server Integration with 0nMCP — Zero Config, 1,640+ Tools',
-  description: 'Integrate 1,640+ tools across 111 services into any AI model with zero configuration. The most comprehensive MCP server for business automation.',
+  title: 'MCP Server Integration with 0nMCP — Zero Config, 1,598+ Tools',
+  description: 'Integrate 1,598+ tools across 106 services into any AI model with zero configuration. The most comprehensive MCP server for business automation.',
   alternates: { canonical: 'https://www.0nmcp.com/mcp-integration' },
 }
 
@@ -17,10 +17,10 @@ export default function McpIntegrationPage() {
         </nav>
 
         <h1 style={{ fontSize: 36, fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 12 }}>
-          MCP Server Integration with 0nMCP — Zero Config, 1,640+ Tools
+          MCP Server Integration with 0nMCP — Zero Config, 1,598+ Tools
         </h1>
         <p style={{ fontSize: 17, color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: 32 }}>
-          Connect any AI model to <strong>111 services</strong> through the Model Context Protocol. Stripe, CRM, Slack, GitHub, Supabase — all accessible with <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: 4 }}>npx 0nmcp@latest</code>. Powered by 4 patented technologies. MIT licensed. Open source.
+          Connect any AI model to <strong>106 services</strong> through the Model Context Protocol. Stripe, CRM, Slack, GitHub, Supabase — all accessible with <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: 4 }}>npx 0nmcp@latest</code>. Powered by 4 patent-pending technologies. Source-available. Open source.
         </p>
       </div>
 

@@ -28,7 +28,7 @@ const PLATFORMS = [
     key: 'claude',
     name: '0nClaude',
     subtitle: 'Claude Desktop / Claude Code',
-    desc: '1,640+ tools inside Claude',
+    desc: '1,598+ tools inside Claude',
     color: '#d4a27f',
     logo: '/brand/logos/anthropic.svg',
   },
@@ -44,7 +44,7 @@ const PLATFORMS = [
     key: 'gpt',
     name: '0nGPT',
     subtitle: 'ChatGPT',
-    desc: 'GPT action with 111 services',
+    desc: 'GPT action with 106 services',
     color: '#10a37f',
     logo: '/brand/logos/openai.svg',
   },
@@ -426,7 +426,7 @@ export default function SetupWizard({ onComplete, onSkip, embedded = false }: Se
         </div>
       </div>
       <h1 style={styles.heading}>Let&apos;s set up 0nMCP</h1>
-      <p style={styles.subtitle}>1,640+ tools. 111 services. Pick where you want to use them.</p>
+      <p style={styles.subtitle}>1,598+ tools. 106 services. Pick where you want to use them.</p>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2.5rem' }}>
         <button onClick={nextStep} style={styles.nextBtn}>
           Let&apos;s Go <ArrowRight />

@@ -23,7 +23,7 @@ const products: Product[] = [
     period: '/mo',
     desc: 'Managed dashboard with CRM integration, AI assistant, and Slack notifications. Perfect for solo operators.',
     features: [
-      'All 1,640+ tools & 111 services',
+      'All 1,598+ tools & 106 services',
       'Web dashboard',
       'CRM integration (245 tools)',
       'AI assistant',
@@ -159,7 +159,7 @@ export default function StorePage() {
           </div>
           <div className="stat-divider" />
           <div className="stat-item">
-            <span className="stat-value">MIT</span>
+            <span className="stat-value">BSL-1.1</span>
             <span className="stat-label">Licensed</span>
           </div>
         </div>

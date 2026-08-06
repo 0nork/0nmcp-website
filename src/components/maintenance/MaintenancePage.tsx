@@ -176,7 +176,7 @@ export default function MaintenancePage() {
           Building Something Extraordinary
         </h2>
         <p style={{ fontSize: 14, color: t.text2, textAlign: 'center', marginTop: 8, maxWidth: 380, lineHeight: 1.6 }}>
-          1,640+ AI tools. 111 services. One platform. We're putting the final touches on the most powerful AI orchestrator ever built.
+          1,598+ AI tools. 106 services. One platform. We're putting the final touches on the most powerful AI orchestrator ever built.
         </p>
 
         {/* Countdown */}

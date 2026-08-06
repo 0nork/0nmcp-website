@@ -66,7 +66,7 @@ const TRUST_SIGNALS = [
   { value: STATS_DISPLAY.tools, label: 'Tools', icon: '///' },
   { value: STATS_DISPLAY.services, label: 'Services', icon: '::' },
   { value: STATS_DISPLAY.patents, label: 'Patents Filed', icon: '[]' },
-  { value: 'MIT', label: 'Licensed', icon: '<>' },
+  { value: 'BSL-1.1', label: 'Licensed', icon: '<>' },
   { value: '$0', label: 'Local Use', icon: '--' },
 ]
 
@@ -890,7 +890,7 @@ export function StartClient() {
             { icon: '\uD83E\uDDE0', title: 'AI-Native Orchestration', desc: 'Describe outcomes, not steps. 0nMCP figures out which tools to use, which APIs to call, and how to chain them together.' },
             { icon: '\uD83D\uDCE6', title: 'Portable .0n Files', desc: 'SWITCH files replace brittle workflows. Share automations as portable .0n files that run anywhere 0nMCP is installed.' },
             { icon: '\uD83C\uDFE2', title: 'Business Deed Transfer', desc: 'Patent-pending technology. Package an entire business into an encrypted container and transfer it to a new owner in minutes.' },
-            { icon: '\u2764\uFE0F', title: 'Free & Open Source', desc: `MIT licensed. ${STATS_DISPLAY.tools} tools. Unlimited local use. No vendor lock-in. Your data stays yours.` },
+            { icon: '\u2764\uFE0F', title: 'Free & Open Source', desc: `Source-available. ${STATS_DISPLAY.tools} tools. Unlimited local use. No vendor lock-in. Your data stays yours.` },
           ].map(w => (
             <div className="on-why-card" key={w.title}>
               <div className="on-why-icon">{w.icon}</div>
@@ -909,7 +909,7 @@ export function StartClient() {
           Ready to turn it <span style={{ color: 'var(--0n-accent)' }}>0n</span>?
         </h2>
         <p style={{ fontSize: '1.0625rem', color: 'var(--0n-text-secondary)', margin: '0 auto 2rem', maxWidth: '480px', lineHeight: 1.65 }}>
-          {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. {STATS_DISPLAY.patents} patents. MIT licensed.
+          {STATS_DISPLAY.tools} tools. {STATS_DISPLAY.services} services. {STATS_DISPLAY.patents} patents. Source-available.
           The universal AI orchestrator — install once, use everywhere.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>

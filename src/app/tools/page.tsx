@@ -3,10 +3,10 @@ import Link from 'next/link'
 import servicesData from '@/data/services.json'
 
 export const metadata: Metadata = {
-  title: 'Tool Reference — 1,640+ AI Tools Explained | 0nMCP',
-  description: 'Browse all 0nMCP tools organized by category. Learn what each tool does with step-by-step how-to documentation for 111 services.',
+  title: 'Tool Reference — 1,598+ AI Tools Explained | 0nMCP',
+  description: 'Browse all 0nMCP tools organized by category. Learn what each tool does with step-by-step how-to documentation for 106 services.',
   openGraph: {
-    title: 'Tool Reference — 1,640+ AI Tools Explained | 0nMCP',
+    title: 'Tool Reference — 1,598+ AI Tools Explained | 0nMCP',
     description: 'Step-by-step how-to docs for every tool in the 0nMCP ecosystem.',
     url: 'https://www.0nmcp.com/tools',
   },
@@ -30,7 +30,7 @@ export default function ToolsPage() {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: '0nMCP Tool Reference',
-    description: 'Complete tool reference for 111 services with 1,640+ tools.',
+    description: 'Complete tool reference for 106 services with 1,598+ tools.',
     url: 'https://www.0nmcp.com/tools',
     numberOfItems: services.length,
   }

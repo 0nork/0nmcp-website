@@ -607,7 +607,7 @@ export default function HomeClient() {
         >
           {/* Left: Text */}
           <div className="relative z-[1]">
-            <PillBadge>Open Source -- MIT Licensed</PillBadge>
+            <PillBadge>Source-Available -- BSL-1.1</PillBadge>
 
             <h1
               className="text-[clamp(40px,5.5vw,72px)] font-black leading-[1.05] tracking-[-0.03em] mb-6 text-[var(--text-primary)]"
@@ -630,7 +630,7 @@ export default function HomeClient() {
                 { value: STATS.tools, label: 'TOOLS', color: 'var(--accent)' },
                 { value: STATS.services, label: 'SERVICES', color: 'var(--color-cyan)' },
                 { value: STATS.patents, label: 'PATENTS', color: 'var(--color-purple)' },
-                { valueStr: 'MIT', label: 'LICENSED', color: 'var(--color-amber)' },
+                { valueStr: 'BSL-1.1', label: 'LICENSED', color: 'var(--color-amber)' },
               ].map((stat) => (
                 <div key={stat.label} className="text-left">
                   <div
@@ -975,7 +975,7 @@ export default function HomeClient() {
               name: 'Alex Chen', role: 'CTO, DataFlow', initials: 'AC',
             },
             {
-              quote: '1,640+ tools accessible from any AI platform. We went from weeks of integration work to minutes.',
+              quote: '1,598+ tools accessible from any AI platform. We went from weeks of integration work to minutes.',
               name: 'Sarah Kim', role: 'Lead Engineer, BuildCo', initials: 'SK',
             },
             {

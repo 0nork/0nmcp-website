@@ -496,7 +496,7 @@ export default function ROICalculator() {
             },
             {
               q: 'What exactly does 0nMCP automate?',
-              a: 'Client onboarding sequences, automated reporting pipelines, lead scoring and follow-up workflows, social media scheduling, email campaign triggers, and invoice generation. All powered by 1,640+ tools across 111 services — CRM, Stripe, email, social, databases, and more.',
+              a: 'Client onboarding sequences, automated reporting pipelines, lead scoring and follow-up workflows, social media scheduling, email campaign triggers, and invoice generation. All powered by 1,598+ tools across 106 services — CRM, Stripe, email, social, databases, and more.',
             },
             {
               q: 'How long does it take to set up?',

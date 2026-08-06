@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   // layout.tsx uses a static title, so the brand suffix is added here.
   title: 'The 0n Apps — Apps Built on 0nMCP | 0nMCP',
   description:
-    'Every app in the 0n ecosystem runs on 0nMCP — 1,640+ tools across 111 services, one identity, one encrypted vault. Explore 0nTask and the rest. Start free.',
+    'Every app in the 0n ecosystem runs on 0nMCP — 1,598+ tools across 106 services, one identity, one encrypted vault. Explore 0nTask and the rest. Start free.',
   alternates: { canonical: `${SITE_URL}/ecosystem` },
   robots: { index: true, follow: true },
   openGraph: {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     title: 'The 0n Apps — Apps Built on 0nMCP',
     description:
-      'Every app in the 0n ecosystem runs on 0nMCP — 1,640+ tools across 111 services, one identity, one encrypted vault.',
+      'Every app in the 0n ecosystem runs on 0nMCP — 1,598+ tools across 106 services, one identity, one encrypted vault.',
     images: [{ url: `${SITE_URL}/ecosystem/opengraph-image.png`, width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
@@ -90,7 +90,7 @@ export default function EcosystemIndexPage() {
             Apps built on 0nMCP
           </h1>
           <p className="mt-5 max-w-3xl text-pretty text-lg leading-relaxed text-neutral-300">
-            0nMCP is the orchestration layer — 1,640+ tools across 111 services behind one protocol.
+            0nMCP is the orchestration layer — 1,598+ tools across 106 services behind one protocol.
             These are the products built on top of it. One identity, one encrypted vault, and every
             integration shared across all of them.
           </p>

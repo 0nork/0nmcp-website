@@ -255,7 +255,7 @@ export default function OrchestratorForge() {
               margin: '0 auto',
               lineHeight: 1.6,
             }}>
-              Watch 1,640+ tools come alive. See patented orchestration in action. Then get this power for yourself.
+              Watch 1,598+ tools come alive. See patented orchestration in action. Then get this power for yourself.
             </p>
           </div>
 
@@ -293,7 +293,7 @@ export default function OrchestratorForge() {
                   e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,0,0,0.3), 0 0 20px rgba(110,224,90,0.2)'
                 }}
               >
-                Connect Your AI to 1,640+ Tools
+                Connect Your AI to 1,598+ Tools
                 <span style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -314,7 +314,7 @@ export default function OrchestratorForge() {
                 marginTop: 20,
                 letterSpacing: '0.03em',
               }}>
-                Zero config. Patented security. MIT licensed.
+                Zero config. Patented security. Source-available.
               </p>
             </div>
           )}
@@ -501,7 +501,7 @@ export default function OrchestratorForge() {
                     margin: 0,
                   }}>
                     {toolCount >= 995 ? (
-                      <>1,640+ tools ready</>
+                      <>1,598+ tools ready</>
                     ) : (
                       <>Connecting... {toolCount} tools</>
                     )}

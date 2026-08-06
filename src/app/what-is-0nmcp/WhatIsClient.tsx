@@ -167,7 +167,7 @@ const AUDIENCES = [
   {
     icon: Code2,
     title: 'Developers and technical teams',
-    desc: 'Building with AI? Get a 1,640+ tool head start, ready to plug into Claude, ChatGPT, Cursor, or any MCP-compatible client.',
+    desc: 'Building with AI? Get a 1,598+ tool head start, ready to plug into Claude, ChatGPT, Cursor, or any MCP-compatible client.',
     color: 'text-[#14b8a6]',
     bg: 'bg-[#14b8a6]/5',
     border: 'border-[#14b8a6]/25',
@@ -361,7 +361,7 @@ export default function WhatIsClient() {
             </p>
             <p>
               It&rsquo;s a software package that connects your AI assistant (like Claude or ChatGPT)
-              to over <strong className="text-white">1,640 tools</strong> across <strong className="text-white">111 services</strong> — your email, customer list, payment system, calendar.
+              to over <strong className="text-white">1,598 tools</strong> across <strong className="text-white">106 services</strong> — your email, customer list, payment system, calendar.
             </p>
             <p>
               Before 0nMCP, AI could only give you advice. You still had to do the work.
@@ -438,7 +438,7 @@ export default function WhatIsClient() {
       <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <Reveal direction="up">
           <h3 className="text-center text-base font-mono uppercase tracking-widest text-muted-foreground">
-            Just a few of the 111 services already wired in
+            Just a few of the 106 services already wired in
           </h3>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
             {SERVICES.map((s, i) => (
@@ -743,7 +743,7 @@ export default function WhatIsClient() {
                 <InstallCard
                   icon={Sparkles}
                   title="Claude Desktop & Claude Code"
-                  desc="Add the 0nMCP server to Claude's MCP config. Every one of our 1,640+ tools appears as a tool inside chat — no API key wrangling, no manual schema."
+                  desc="Add the 0nMCP server to Claude's MCP config. Every one of our 1,598+ tools appears as a tool inside chat — no API key wrangling, no manual schema."
                   cta={{ label: 'Claude install steps', href: '/install/claude' }}
                   code={`{
   "mcpServers": {
@@ -755,7 +755,7 @@ export default function WhatIsClient() {
 }`}
                   bullets={[
                     'Works in Claude Desktop, Claude Code, and the web app',
-                    'All 1,640+ tools exposed as tools',
+                    'All 1,598+ tools exposed as tools',
                     'Zero key management — credentials live in 0nVault',
                   ]}
                 />
@@ -765,7 +765,7 @@ export default function WhatIsClient() {
                 <InstallCard
                   icon={MessageCircle}
                   title="ChatGPT custom GPT actions"
-                  desc="Wire 0nMCP into a custom GPT via the actions schema. ChatGPT calls our HTTP endpoint, we route through to 111 services."
+                  desc="Wire 0nMCP into a custom GPT via the actions schema. ChatGPT calls our HTTP endpoint, we route through to 106 services."
                   cta={{ label: 'ChatGPT setup guide', href: '/install' }}
                   code={`# Add this Action URL to your custom GPT
 https://www.0nmcp.com/api/gpt/actions/openapi.json
@@ -818,7 +818,7 @@ https://www.0nmcp.com/api/gpt/actions/openapi.json
 }`}
                   bullets={[
                     'Native function-calling support',
-                    'Same 1,640+ tool surface as Claude / GPT',
+                    'Same 1,598+ tool surface as Claude / GPT',
                     'Works in AI Studio prototypes too',
                   ]}
                 />

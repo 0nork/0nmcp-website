@@ -130,7 +130,7 @@ export default function RegistryBrowser() {
           {[
             { v: totals.items.toLocaleString(), l: 'Free Blocks' },
             { v: totals.categories.toString(), l: 'Categories' },
-            { v: 'MIT', l: 'Free Forever' },
+            { v: 'BSL-1.1', l: 'Free to Self-Host' },
           ].map((s) => (
             <Card key={s.l} className="border-border/60 bg-card/60 text-center backdrop-blur">
               <CardContent className="py-5">

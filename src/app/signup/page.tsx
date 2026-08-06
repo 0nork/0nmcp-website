@@ -8,7 +8,7 @@ import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
 
 const FEATURES = [
-  '1,640+ AI tools across 111 services',
+  '1,598+ AI tools across 106 services',
   '7-layer encrypted credential vault',
   'Works on Claude, GPT & Gemini',
   'Pipeline, Assembly Line & Radial Burst',
@@ -160,7 +160,7 @@ function BrandPanel() {
 
         <div className="flex items-center gap-1.5">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" className="opacity-80"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span className="text-[0.72rem] text-white/70">Patents pending &middot; MIT licensed &middot; Built by RocketOpp LLC</span>
+          <span className="text-[0.72rem] text-white/70">Patents pending &middot; Source-available &middot; Built by RocketOpp LLC</span>
         </div>
       </div>
     </div>

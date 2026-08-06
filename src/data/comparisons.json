@@ -26,7 +26,7 @@
         },
         {
           "feature": "Tool count",
-          "onmcp": "1,640+ tools, 111 services",
+          "onmcp": "1,598+ tools, 106 services",
           "competitor": "7,000+ apps (basic actions)"
         },
         {
@@ -60,7 +60,7 @@
       "faq": [
         {
           "q": "Can 0nMCP replace Zapier?",
-          "a": "For most automation use cases, yes. 0nMCP covers 111 services with 1,640+ tools. If you need niche app integrations that Zapier supports, you may need both."
+          "a": "For most automation use cases, yes. 0nMCP covers 106 services with 1,598+ tools. If you need niche app integrations that Zapier supports, you may need both."
         },
         {
           "q": "Is 0nMCP harder to use than Zapier?",
@@ -112,7 +112,7 @@
         },
         {
           "feature": "Open source",
-          "onmcp": "Yes \u2014 MIT licensed",
+          "onmcp": "Yes \u2014 Source-available",
           "competitor": "No \u2014 proprietary"
         },
         {
@@ -126,7 +126,7 @@
       "faq": [
         {
           "q": "Is Make more powerful than 0nMCP?",
-          "a": "Make has more app integrations (1,800+), but 0nMCP has deeper tool coverage per service (1,640+ tools vs basic CRUD operations) and AI-driven orchestration that handles complexity automatically."
+          "a": "Make has more app integrations (1,800+), but 0nMCP has deeper tool coverage per service (1,598+ tools vs basic CRUD operations) and AI-driven orchestration that handles complexity automatically."
         },
         {
           "q": "Can I migrate from Make to 0nMCP?",
@@ -144,7 +144,7 @@
       "tagline": "AI-native MCP server vs self-hosted workflow automation",
       "description": "n8n is the leading open-source workflow automation tool with a visual editor. 0nMCP is an AI-native MCP server \u2014 both are self-hostable, but 0nMCP is designed for AI agents while n8n is designed for human operators.",
       "competitor_summary": "n8n is a fair-code workflow automation tool with 400+ integrations and a visual node editor. It can be self-hosted or used as a cloud service, making it popular with developers who want control over their automation infrastructure.",
-      "pricing_compare": "n8n is free to self-host (fair-code license) with cloud plans starting at $20/mo. 0nMCP is MIT licensed (truly open source) and free for all local use.",
+      "pricing_compare": "n8n is free to self-host (fair-code license) with cloud plans starting at $20/mo. 0nMCP is Source-available (truly open source) and free for all local use.",
       "key_differences": [
         {
           "feature": "Primary user",
@@ -173,7 +173,7 @@
         },
         {
           "feature": "Tool depth",
-          "onmcp": "1,640+ tools with deep API coverage",
+          "onmcp": "1,598+ tools with deep API coverage",
           "competitor": "400+ integrations, basic operations"
         },
         {
@@ -214,7 +214,7 @@
       "key_differences": [
         {
           "feature": "Ecosystem",
-          "onmcp": "Platform-agnostic, 111 services",
+          "onmcp": "Platform-agnostic, 106 services",
           "competitor": "Microsoft-centric with connectors"
         },
         {
@@ -229,7 +229,7 @@
         },
         {
           "feature": "Self-hosted",
-          "onmcp": "Yes \u2014 MIT licensed",
+          "onmcp": "Yes \u2014 Source-available",
           "competitor": "Cloud only (desktop agent available)"
         },
         {
@@ -273,8 +273,8 @@
     {
       "slug": "0nmcp-vs-ifttt",
       "competitor": "IFTTT",
-      "tagline": "1,640+-tool AI orchestrator vs simple if-this-then-that",
-      "description": "IFTTT pioneered simple automation with its if-this-then-that model. 0nMCP goes far beyond single trigger-action pairs with AI-driven multi-step orchestration across 111 services.",
+      "tagline": "1,598+-tool AI orchestrator vs simple if-this-then-that",
+      "description": "IFTTT pioneered simple automation with its if-this-then-that model. 0nMCP goes far beyond single trigger-action pairs with AI-driven multi-step orchestration across 106 services.",
       "competitor_summary": "IFTTT (If This Then That) is the simplest automation platform, connecting services with single trigger-action pairs called Applets. It's designed for consumers and smart home automation.",
       "pricing_compare": "IFTTT offers 2 free Applets, then $3.49/mo for unlimited. 0nMCP is free for unlimited local use with far more capability per automation.",
       "key_differences": [
@@ -290,7 +290,7 @@
         },
         {
           "feature": "Tool depth",
-          "onmcp": "1,640+ tools with full API coverage",
+          "onmcp": "1,598+ tools with full API coverage",
           "competitor": "Basic actions per service"
         },
         {
@@ -315,7 +315,7 @@
         },
         {
           "feature": "Open source",
-          "onmcp": "Yes \u2014 MIT licensed",
+          "onmcp": "Yes \u2014 Source-available",
           "competitor": "No \u2014 proprietary"
         }
       ],
@@ -381,7 +381,7 @@
         },
         {
           "feature": "Open source",
-          "onmcp": "MIT licensed",
+          "onmcp": "Source-available",
           "competitor": "Source available (not OSS)"
         }
       ],
@@ -432,7 +432,7 @@
         },
         {
           "feature": "Tool depth",
-          "onmcp": "1,640+ tools, deep API coverage",
+          "onmcp": "1,598+ tools, deep API coverage",
           "competitor": "Growing piece library"
         },
         {
@@ -464,7 +464,7 @@
         },
         {
           "q": "Which has more integrations?",
-          "a": "0nMCP has deeper coverage per service (1,640+ tools across 111 services). Activepieces has a wider but shallower integration library that's growing rapidly."
+          "a": "0nMCP has deeper coverage per service (1,598+ tools across 106 services). Activepieces has a wider but shallower integration library that's growing rapidly."
         }
       ]
     },
@@ -474,7 +474,7 @@
       "tagline": "Open source AI orchestrator vs enterprise iPaaS",
       "description": "Workato is an enterprise-grade iPaaS with complex workflow capabilities. 0nMCP delivers similar orchestration power through AI-native design at a fraction of the cost \u2014 open source and free for local use.",
       "competitor_summary": "Workato is an enterprise integration and automation platform with 1,200+ connectors, complex recipe logic, and enterprise security features. It targets large organizations with dedicated IT teams.",
-      "pricing_compare": "Workato pricing starts at ~$10,000/year for enterprise plans. 0nMCP is free for local use, MIT licensed, with no enterprise tax.",
+      "pricing_compare": "Workato pricing starts at ~$10,000/year for enterprise plans. 0nMCP is free for local use, Source-available, with no enterprise tax.",
       "key_differences": [
         {
           "feature": "Target market",
@@ -498,7 +498,7 @@
         },
         {
           "feature": "Open source",
-          "onmcp": "Yes \u2014 MIT licensed",
+          "onmcp": "Yes \u2014 Source-available",
           "competitor": "No \u2014 proprietary"
         },
         {
@@ -530,7 +530,7 @@
         },
         {
           "q": "How many services does each support?",
-          "a": "Workato has 1,200+ connectors with varying depth. 0nMCP covers 111 services with 1,640+ deep tools. Quality over quantity \u2014 0nMCP's per-service coverage is significantly deeper."
+          "a": "Workato has 1,200+ connectors with varying depth. 0nMCP covers 106 services with 1,598+ deep tools. Quality over quantity \u2014 0nMCP's per-service coverage is significantly deeper."
         }
       ]
     },
@@ -559,12 +559,12 @@
         },
         {
           "feature": "Universal connector",
-          "onmcp": "111 services, extensible",
+          "onmcp": "106 services, extensible",
           "competitor": "Connect to any API visually"
         },
         {
           "feature": "Open source",
-          "onmcp": "MIT licensed",
+          "onmcp": "Source-available",
           "competitor": "Proprietary"
         },
         {
@@ -606,7 +606,7 @@
       "tagline": "AI MCP orchestrator vs developer workflow engine",
       "description": "Windmill is a developer-first workflow engine supporting multiple languages. 0nMCP takes a different approach \u2014 rather than writing scripts, AI agents orchestrate services directly through MCP.",
       "competitor_summary": "Windmill is an open-source developer platform for building internal tools, workflows, and scripts. It supports TypeScript, Python, Go, Bash, and SQL with a focus on developer productivity.",
-      "pricing_compare": "Windmill is free to self-host with a cloud plan starting at $10/mo. 0nMCP is MIT licensed and free for all local use.",
+      "pricing_compare": "Windmill is free to self-host with a cloud plan starting at $10/mo. 0nMCP is Source-available and free for all local use.",
       "key_differences": [
         {
           "feature": "Focus",
@@ -670,7 +670,7 @@
       "slug": "0nmcp-vs-langchain",
       "competitor": "LangChain",
       "tagline": "Ready-to-use MCP server vs AI framework",
-      "description": "LangChain is a framework for building AI applications. 0nMCP is a ready-to-use MCP server with 1,640+ pre-built tools. LangChain requires you to build; 0nMCP works out of the box.",
+      "description": "LangChain is a framework for building AI applications. 0nMCP is a ready-to-use MCP server with 1,598+ pre-built tools. LangChain requires you to build; 0nMCP works out of the box.",
       "competitor_summary": "LangChain is a popular open-source framework for building applications powered by language models. It provides abstractions for chains, agents, memory, and tool use, requiring developers to assemble components.",
       "pricing_compare": "Both are open source. LangChain requires significant development time to build what 0nMCP provides out of the box. LangSmith (monitoring) starts at $39/mo.",
       "key_differences": [
@@ -686,7 +686,7 @@
         },
         {
           "feature": "Tools included",
-          "onmcp": "1,640+ pre-built tools",
+          "onmcp": "1,598+ pre-built tools",
           "competitor": "Build or import your own"
         },
         {
@@ -724,7 +724,7 @@
         },
         {
           "q": "Can LangChain use 0nMCP tools?",
-          "a": "Yes. LangChain applications can connect to 0nMCP's HTTP server or use it as an MCP server, getting instant access to 1,640+ tools without building custom integrations."
+          "a": "Yes. LangChain applications can connect to 0nMCP's HTTP server or use it as an MCP server, getting instant access to 1,598+ tools without building custom integrations."
         },
         {
           "q": "Which should I choose?",
@@ -738,7 +738,7 @@
       "tagline": "Open source AI orchestrator vs human-in-the-loop automation",
       "description": "Relay.app combines automation with human approval steps. 0nMCP is fully AI-driven but supports human-in-the-loop via its workflow engine \u2014 and it's open source.",
       "competitor_summary": "Relay.app is a modern automation platform that emphasizes human-in-the-loop workflows. It combines AI assistance with mandatory human approval steps for sensitive operations.",
-      "pricing_compare": "Relay.app starts free then $9.99/mo. 0nMCP is MIT licensed and free for all local execution.",
+      "pricing_compare": "Relay.app starts free then $9.99/mo. 0nMCP is Source-available and free for all local execution.",
       "key_differences": [
         {
           "feature": "Philosophy",
@@ -762,7 +762,7 @@
         },
         {
           "feature": "Open source",
-          "onmcp": "MIT licensed",
+          "onmcp": "Source-available",
           "competitor": "Proprietary"
         },
         {
@@ -802,13 +802,13 @@
       "slug": "0nmcp-vs-openclaw",
       "competitor": "OpenClaw",
       "tagline": "Your AI controls your lights. Ours runs your business.",
-      "description": "OpenClaw is an open-source personal AI assistant that manages files, controls smart homes, and automates personal computing tasks. It was recently flagged by Cisco as a 'security nightmare' for leaked credentials and malicious community skills. 0nMCP is a business AI operating system with 1,640+ tools, patented encryption (0nVault), CRM integration, voice AI, and revenue-generating automations.",
+      "description": "OpenClaw is an open-source personal AI assistant that manages files, controls smart homes, and automates personal computing tasks. It was recently flagged by Cisco as a 'security nightmare' for leaked credentials and malicious community skills. 0nMCP is a business AI operating system with 1,598+ tools, patented encryption (0nVault), CRM integration, voice AI, and revenue-generating automations.",
       "competitor_summary": "OpenClaw is a locally-running AI assistant with ~80 skills for personal computing: file management, browser control, smart home, chat apps. Open source and free, but flagged by Cisco's security research team for critical vulnerabilities including leaked API keys, malicious community skills, prompt injection attacks, and zero built-in encryption. Has no business tools, no CRM, no payments, no voice AI.",
       "pricing_compare": "OpenClaw is free and open source (BYO API keys). 0nMCP core is also free and open source. 0nCore (the business dashboard) starts at $80/mo with everything included.",
       "key_differences": [
         {
           "feature": "Total tools",
-          "onmcp": "1,640+ tools across 111 services",
+          "onmcp": "1,598+ tools across 106 services",
           "competitor": "~80 skills and plugins"
         },
         {
@@ -912,7 +912,7 @@
       "faq": [
         {
           "q": "Can 0nMCP work inside OpenClaw?",
-          "a": "Yes. Add 0nMCP as an MCP server in OpenClaw and you get 1,640+ business tools on top of your existing setup. One line: npx 0nmcp@latest"
+          "a": "Yes. Add 0nMCP as an MCP server in OpenClaw and you get 1,598+ business tools on top of your existing setup. One line: npx 0nmcp@latest"
         },
         {
           "q": "Does OpenClaw have CRM integration?",
@@ -920,7 +920,7 @@
         },
         {
           "q": "Is 0nMCP open source like OpenClaw?",
-          "a": "Yes. The core 0nMCP server is MIT licensed and free on npm. 0nCore (the business dashboard) is a commercial product starting at $80/mo."
+          "a": "Yes. The core 0nMCP server is Source-available and free on npm. 0nCore (the business dashboard) is a commercial product starting at $80/mo."
         },
         {
           "q": "Which should I use?",

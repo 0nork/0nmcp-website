@@ -45,7 +45,7 @@ const DOWNLOADS: Download[] = [
   {
     id: '0nmcp-cli',
     name: '0nMCP CLI',
-    description: 'Universal AI API Orchestrator. 1,640+ tools across 111 services. Run workflows, manage credentials, execute tasks from your terminal.',
+    description: 'Universal AI API Orchestrator. 1,598+ tools across 106 services. Run workflows, manage credentials, execute tasks from your terminal.',
     version: '2.6.0',
     category: 'cli',
     platform: 'macOS / Linux / Windows',
@@ -56,7 +56,7 @@ const DOWNLOADS: Download[] = [
     repoUrl: 'https://0ncore.com',
     status: 'available',
     features: [
-      '1,640+ tools across 111 services',
+      '1,598+ tools across 106 services',
       'MCP protocol (works with Claude, Cursor, Windsurf)',
       'Encrypted vault (AES-256-GCM)',
       '.0n workflow runtime',
@@ -310,7 +310,7 @@ export default function DownloadsPage() {
 
       {/* Footer */}
       <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.75rem', color: 'var(--jp-text-muted)' }}>
-        All downloads are open source under MIT license \u2014 built by RocketOpp LLC
+        All downloads are source-available under BSL-1.1 \u2014 built by RocketOpp LLC
       </div>
     </div>
   )

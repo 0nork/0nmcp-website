@@ -108,7 +108,7 @@ const PRODUCT_CONTEXT = `
 One npm install, one config file, zero boilerplate.
 
 Key facts:
-- npm package: 0nmcp (MIT licensed, free, open source)
+- npm package: 0nmcp (Source-available, free, open source)
 - GitHub: github.com/0nork/0nMCP
 - Website: 0nmcp.com
 - App: app.0nmcp.com

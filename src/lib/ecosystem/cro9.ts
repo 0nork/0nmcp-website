@@ -100,7 +100,7 @@ export const cro9: EcosystemApp = {
   ],
 
   crossLinks: [
-    { label: '0nMCP — the orchestrator underneath', href: '/', note: 'One connection, 111 services.', external: false },
+    { label: '0nMCP — the orchestrator underneath', href: '/', note: 'One connection, 106 services.', external: false },
     { label: 'web0n — build the site it measures', href: '/ecosystem/web0n', note: 'AI-built sites, edited by asking.', external: false },
     { label: '0nTask — turn findings into work', href: '/ecosystem/0ntask', note: 'The shared list for humans and agents.', external: false },
     { label: 'cro9.com — run the free scan', href: 'https://www.cro9.com/scan', note: '33 checks, no account.', external: true },

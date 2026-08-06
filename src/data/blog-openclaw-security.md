@@ -32,7 +32,7 @@ Patent pending: US Provisional #63/990,046.
 - Command injection through bash
 - Tool poisoning with embedded payloads
 
-**0nMCP**: No community skill marketplace. All 1,640+ tools are maintained, tested, and signed by RocketOpp LLC. Every tool is a documented API endpoint with defined inputs and outputs. No arbitrary code execution. No unsigned community packages.
+**0nMCP**: No community skill marketplace. All 1,598+ tools are maintained, tested, and signed by RocketOpp LLC. Every tool is a documented API endpoint with defined inputs and outputs. No arbitrary code execution. No unsigned community packages.
 
 The .FED encrypted distribution format (Patent #1) provides tamper-evident packaging for any skill distribution — if someone modifies a skill, the signature breaks.
 
@@ -64,7 +64,7 @@ The .FED encrypted distribution format (Patent #1) provides tamper-evident packa
 
 **OpenClaw**: Popular skills get more installs, creating incentive for malicious actors to game the ranking system. The Cisco article proves this happened — a malicious skill reached #1.
 
-**0nMCP**: 1,640+ tools maintained by one team. Published on npm with integrity checksums. Version-locked installs. No community marketplace to game. The entire tool catalog is auditable in the open-source repository.
+**0nMCP**: 1,598+ tools maintained by one team. Published on npm with integrity checksums. Version-locked installs. No community marketplace to game. The entire tool catalog is auditable in the open-source repository.
 
 ---
 

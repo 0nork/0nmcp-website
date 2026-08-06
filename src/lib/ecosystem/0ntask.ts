@@ -28,7 +28,7 @@ export const ontask: EcosystemApp = {
   // ── SXO meta ──────────────────────────────────────────────────────────
   metaTitle: '0nTask — The AI Task Manager Built on 0nMCP',
   metaDescription:
-    '0nTask is the AI task manager where you, your AI agents, and your automations share one list. Built on 0nMCP — 1,640+ tools, 111 services. Start free.',
+    '0nTask is the AI task manager where you, your AI agents, and your automations share one list. Built on 0nMCP — 1,598+ tools, 106 services. Start free.',
   primaryKeyword: 'MCP task manager',
   secondaryKeywords: [
     'AI task manager',
@@ -44,7 +44,7 @@ export const ontask: EcosystemApp = {
   // ── Above the fold ────────────────────────────────────────────────────
   h1: '0nTask: the MCP task manager for humans and AI agents',
   deck:
-    'One list. You, your AI, and your automations all work from it — and everything they touch runs through 0nMCP. 1,640+ tools across 111 services, connected once.',
+    'One list. You, your AI, and your automations all work from it — and everything they touch runs through 0nMCP. 1,598+ tools across 106 services, connected once.',
   chips: [
     'Free forever tier',
     'No credit card',
@@ -64,7 +64,7 @@ export const ontask: EcosystemApp = {
   whyMcp: [
     'Every action 0nTask takes outside itself goes through 0nMCP. That is not an implementation detail — it is the whole reason 0nTask can do things other AI task apps cannot.',
     'Most "AI-powered" productivity tools ship a handful of hand-built integrations. Each one is bespoke code, each one breaks when the upstream API changes, and each one is a separate OAuth screen the user has to survive. Adding the eleventh integration costs as much as the first ten. That is why the category tops out around a dozen connectors and calls it a platform.',
-    '0nMCP inverts that. It is a universal orchestration layer exposing 1,640+ tools across 111 services behind one protocol, one credential model, and one permission surface. 0nTask does not integrate with Slack, Stripe, and Gmail individually — it speaks 0nMCP, and 0nMCP already speaks all of them. When 0nMCP adds a service, every app in the ecosystem inherits it without shipping a line of code.',
+    '0nMCP inverts that. It is a universal orchestration layer exposing 1,598+ tools across 106 services behind one protocol, one credential model, and one permission surface. 0nTask does not integrate with Slack, Stripe, and Gmail individually — it speaks 0nMCP, and 0nMCP already speaks all of them. When 0nMCP adds a service, every app in the ecosystem inherits it without shipping a line of code.',
     'For you that means connect once, in the encrypted 0nVault, and every tool is available to every task — and to every AI agent working that task. For us it means the integration count is not a roadmap item. It is a dependency.',
   ],
 
@@ -144,7 +144,7 @@ export const ontask: EcosystemApp = {
       },
       {
         dimension: 'Integration model',
-        ours: 'One protocol (0nMCP) — 1,640+ tools across 111 services, authorized once',
+        ours: 'One protocol (0nMCP) — 1,598+ tools across 106 services, authorized once',
         theirs: 'A short list of hand-built connectors, each with its own OAuth flow',
       },
       {
@@ -253,7 +253,7 @@ export const ontask: EcosystemApp = {
     {
       who: 'Developers and AI builders',
       why:
-        'You already know what MCP is worth. 0nTask is the reference application for what 0nMCP orchestration looks like when a real product depends on it — 1,640+ tools reachable from a task, with one credential model behind them.',
+        'You already know what MCP is worth. 0nTask is the reference application for what 0nMCP orchestration looks like when a real product depends on it — 1,598+ tools reachable from a task, with one credential model behind them.',
     },
   ],
 
@@ -281,12 +281,12 @@ export const ontask: EcosystemApp = {
     {
       question: 'How is 0nTask different from Todoist, Asana, or ClickUp?',
       answer:
-        'Those apps assume a human will open them and check a box. 0nTask assumes some of the workers reading the list are AI agents and automations. The functional difference is the integration model: 0nTask reaches 1,640+ tools across 111 services through the 0nMCP protocol with one authorization, rather than maintaining a short list of hand-built connectors.',
+        'Those apps assume a human will open them and check a box. 0nTask assumes some of the workers reading the list are AI agents and automations. The functional difference is the integration model: 0nTask reaches 1,598+ tools across 106 services through the 0nMCP protocol with one authorization, rather than maintaining a short list of hand-built connectors.',
     },
     {
       question: 'What is 0nMCP and why does 0nTask need it?',
       answer:
-        '0nMCP is a universal AI orchestration layer that exposes 1,640+ tools across 111 services behind a single protocol. 0nTask routes every external action through it, which is why 0nTask can act across your whole stack without building and maintaining each integration itself. When 0nMCP adds a service, 0nTask inherits it.',
+        '0nMCP is a universal AI orchestration layer that exposes 1,598+ tools across 106 services behind a single protocol. 0nTask routes every external action through it, which is why 0nTask can act across your whole stack without building and maintaining each integration itself. When 0nMCP adds a service, 0nTask inherits it.',
     },
     {
       question: 'Which apps does 0nTask connect to?',
@@ -323,9 +323,9 @@ export const ontask: EcosystemApp = {
   // ── Cross-linking ─────────────────────────────────────────────────────
   crossLinks: [
     {
-      label: 'Browse all 111 services on 0nMCP',
+      label: 'Browse all 106 services on 0nMCP',
       href: '/capabilities',
-      note: 'The full tool catalog 0nTask draws from — 1,640+ tools, one protocol.',
+      note: 'The full tool catalog 0nTask draws from — 1,598+ tools, one protocol.',
       external: false,
     },
     {

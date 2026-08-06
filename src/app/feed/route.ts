@@ -5,7 +5,7 @@ export const revalidate = 3600 // 1 hour
 
 const SITE_URL = 'https://www.0nmcp.com'
 const SITE_TITLE = '0nMCP — Universal AI API Orchestrator'
-const SITE_DESCRIPTION = 'The most comprehensive MCP server available. 1,640+ tools across 111 services. Connect any AI to any API.'
+const SITE_DESCRIPTION = 'The most comprehensive MCP server available. 1,598+ tools across 106 services. Connect any AI to any API.'
 
 export async function GET() {
   const supabase = createClient(

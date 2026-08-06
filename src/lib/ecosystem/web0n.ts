@@ -101,7 +101,7 @@ export const web0n: EcosystemApp = {
   ],
 
   crossLinks: [
-    { label: '0nMCP — the orchestrator underneath', href: '/', note: 'One connection, 111 services.', external: false },
+    { label: '0nMCP — the orchestrator underneath', href: '/', note: 'One connection, 106 services.', external: false },
     { label: 'CRO9 — see what visitors actually do', href: '/ecosystem/cro9', note: 'Behavioural analytics for the site you just built.', external: false },
     { label: '0nTask — the shared task list', href: '/ecosystem/0ntask', note: 'Turn site enquiries into tracked work.', external: false },
     { label: 'web0n.com', href: 'https://web0n.com', note: 'Build a site now.', external: true },

@@ -57,7 +57,7 @@
       },
       {
         "q": "Is 0nVault open source?",
-        "a": "The 0nVault specification and reference implementation are part of the 0nMCP ecosystem (MIT licensed). The patent-pending innovations (container format, semantic layers, escrow protocol) are protected under US Patent Application #63/990,046."
+        "a": "The 0nVault specification and reference implementation are part of the 0nMCP ecosystem (Source-available). The patent-pending innovations (container format, semantic layers, escrow protocol) are protected under US Patent Application #63/990,046."
       },
       {
         "q": "What encryption does 0nVault use?",

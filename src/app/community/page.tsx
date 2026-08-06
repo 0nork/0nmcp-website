@@ -4,7 +4,7 @@ import { STATS_DISPLAY } from '@/data/stats'
 export const metadata: Metadata = {
   title: 'Community -- Join the AI Orchestration Movement',
   description:
-    `Join the 0nMCP community. The most comprehensive MCP server available — ${STATS_DISPLAY.services} services, 80+ pre-built automations, MIT-licensed core. Discussions, contribution guides, and the unlock roadmap.`,
+    `Join the 0nMCP community. The most comprehensive MCP server available — ${STATS_DISPLAY.services} services, 80+ pre-built automations, source-available core. Discussions, contribution guides, and the unlock roadmap.`,
   openGraph: {
     title: 'Community -- 0nMCP | Join the AI Orchestration Movement',
     description:
@@ -449,7 +449,7 @@ export default function CommunityPage() {
             {[
               {
                 title: 'Free and Open Source Forever',
-                desc: 'AI orchestration is infrastructure. It should be accessible to every developer, not locked behind enterprise paywalls or monthly subscriptions. MIT licensed, always.',
+                desc: 'AI orchestration is infrastructure. It should be accessible to every developer, not locked behind enterprise paywalls or monthly subscriptions. Source-available, always.',
               },
               {
                 title: 'Ship Weekly',

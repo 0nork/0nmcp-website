@@ -9,7 +9,7 @@ const BRAND = {
   websiteUrl: 'https://www.0nmcp.com',
   websiteName: '0nMCP',
   businessDescription:
-    `0nMCP is a universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. It connects Claude, Slack, Stripe, GitHub, and dozens of other services through one MCP server. Open source, MIT licensed, available on npm.`,
+    `0nMCP is a universal AI API orchestrator with ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. It connects Claude, Slack, Stripe, GitHub, and dozens of other services through one MCP server. Open source, Source-available, available on npm.`,
 }
 
 // GET: Fetch stats and recent activity

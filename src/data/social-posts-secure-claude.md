@@ -8,7 +8,7 @@ We built a free tool that would have blocked it before it ran.
 
 0nDefender — 4 security layers for your Claude Desktop MCP server.
 
-Free. Open source. MIT licensed.
+Free. Open source. Source-available.
 
 npx 0nmcp@latest
 
@@ -100,7 +100,7 @@ We built 0nDefender — a free, open-source security tool that would have blocke
 -> 0nVaultGuard: health-checks API keys every 12 hours
 -> 0nAlert: real-time notifications via email/Slack/Discord
 
-It ships free with 0nMCP. MIT licensed. No sign-up. No credit card.
+It ships free with 0nMCP. Source-available. No sign-up. No credit card.
 
 npx 0nmcp@latest
 
@@ -132,7 +132,7 @@ We need tools that enforce security at the package level, the credential level, 
 
 0nDefender is our answer. 4 security layers. Preinstall hooks that block attacks before they execute. Credential health monitoring. Supply chain scanning. Real-time alerts.
 
-Free. Open source. MIT licensed.
+Free. Open source. Source-available.
 
 Because security should never be a premium feature.
 
@@ -189,7 +189,7 @@ Add preinstall hook to any project:
 }
 ```
 
-MIT licensed. No sign-up. No telemetry. No catch.
+Source-available. No sign-up. No telemetry. No catch.
 
 Full writeup with technical details on how the axios attack worked and how each layer would have caught it: https://0nmcp.com/secure-claude
 
@@ -227,7 +227,7 @@ Works with Claude Desktop, Cursor, Windsurf, or any Node.js project.
 
 Technical writeup: https://0nmcp.com/secure-claude
 
-Not trying to sell anything — 0nDefender is genuinely free with no usage limits. The full 0nMCP platform (1,640+ API tools) has a paid tier, but the security layer is free forever.
+Not trying to sell anything — 0nDefender is genuinely free with no usage limits. The full 0nMCP platform (1,598+ API tools) has a paid tier, but the security layer is free forever.
 
 ---
 
@@ -253,7 +253,7 @@ Install: npm install -g 0nmcp
 
 Preinstall hook: "preinstall": "npx 0nmcp@latest defender scan --lockfile"
 
-MIT licensed. No telemetry. Free.
+Source-available. No telemetry. Free.
 
 Technical writeup with full attack timeline and layer-by-layer analysis: https://0nmcp.com/secure-claude
 
@@ -340,7 +340,7 @@ Add to Claude Desktop:
 }
 ```
 
-MIT licensed. No sign-up. No credit card. No usage limits.
+Source-available. No sign-up. No credit card. No usage limits.
 
 Full technical writeup with the complete attack timeline: [0nmcp.com/secure-claude](https://0nmcp.com/secure-claude)
 
@@ -348,6 +348,6 @@ GitHub: [github.com/0nork/0nMCP](https://github.com/0nork/0nMCP)
 
 ---
 
-*0nMCP is an open-source universal MCP server with 1,640+ tools across 111 services. 0nDefender is the security layer and is free forever.*
+*0nMCP is an open-source universal MCP server with 1,598+ tools across 106 services. 0nDefender is the security layer and is free forever.*
 
 #security #npm #supplychain #javascript #mcp #ai #opensource

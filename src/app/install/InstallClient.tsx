@@ -43,7 +43,7 @@ const OPTIONS: InstallOption[] = [
     caption: 'Desktop · Code',
     icon: Sparkles,
     title: 'Claude Desktop & Claude Code',
-    desc: "Add the 0nMCP server to Claude's MCP config. Every one of our 1,640+ tools appears as a tool inside chat — no API key wrangling, no manual schema.",
+    desc: "Add the 0nMCP server to Claude's MCP config. Every one of our 1,598+ tools appears as a tool inside chat — no API key wrangling, no manual schema.",
     cta: { label: 'Open the Claude deep-dive', href: '/install/claude' },
     code: `{
   "mcpServers": {
@@ -55,7 +55,7 @@ const OPTIONS: InstallOption[] = [
 }`,
     bullets: [
       'Works in Claude Desktop, Claude Code, and the web app',
-      'All 1,640+ tools exposed as tools',
+      'All 1,598+ tools exposed as tools',
       'Zero key management — credentials live in 0nVault',
     ],
   },
@@ -65,7 +65,7 @@ const OPTIONS: InstallOption[] = [
     caption: 'GPT actions',
     icon: MessageCircle,
     title: 'ChatGPT custom GPT actions',
-    desc: 'Wire 0nMCP into a custom GPT via the actions schema. ChatGPT calls our HTTP endpoint, we route through to 111 services.',
+    desc: 'Wire 0nMCP into a custom GPT via the actions schema. ChatGPT calls our HTTP endpoint, we route through to 106 services.',
     cta: { label: 'Get the actions URL', href: 'https://0ncore.com' },
     code: `# Custom GPT → Configure → Actions
 Schema URL:  https://www.0nmcp.com/api/gpt/actions/openapi.json
@@ -220,7 +220,7 @@ const FAQ = [
   },
   {
     q: 'What does this cost?',
-    a: 'The orchestrator is MIT-licensed and free forever. Some marketplace apps cost ~$0.01 per execution. The 0nCore dashboard subscription starts at $80/mo for everything bundled — voice AI, course generator, all 111 services pre-wired.',
+    a: 'The orchestrator is source-available (BSL-1.1); free for local use. Some marketplace apps cost ~$0.01 per execution. The 0nCore dashboard subscription starts at $80/mo for everything bundled — voice AI, course generator, all 106 services pre-wired.',
   },
   {
     q: 'Is my data private?',
@@ -287,8 +287,8 @@ export default function InstallClient() {
             <span className="mt-1 block text-primary">in 60 seconds.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            Pick your AI editor or your platform. Same orchestrator, same 1,640+ tools,
-            same 111 services — everywhere you build.
+            Pick your AI editor or your platform. Same orchestrator, same 1,598+ tools,
+            same 106 services — everywhere you build.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Button asChild size="lg" className="h-12 px-7 text-base font-bold">
@@ -399,7 +399,7 @@ export default function InstallClient() {
             </div>
             <Separator className="my-10" />
             <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              5 patents pending · MIT-licensed core · 0nork / RocketOpp LLC
+              5 patents pending · source-available core · 0nork / RocketOpp LLC
             </p>
           </CardContent>
         </Card>

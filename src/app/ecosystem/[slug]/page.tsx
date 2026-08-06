@@ -91,7 +91,7 @@ function buildJsonLd(app: EcosystemApp) {
       url: SITE_URL,
       applicationCategory: 'DeveloperApplication',
       description:
-        'Universal AI orchestration layer exposing 1,640+ tools across 111 services behind one protocol.',
+        'Universal AI orchestration layer exposing 1,598+ tools across 106 services behind one protocol.',
     },
     offers: {
       '@type': 'AggregateOffer',
@@ -299,7 +299,7 @@ export default async function EcosystemAppPage({
               href="/capabilities"
               className="inline-flex items-center gap-2 text-emerald-300 underline decoration-emerald-500/40 underline-offset-4 hover:decoration-emerald-400"
             >
-              Browse all 111 services
+              Browse all 106 services
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link
@@ -382,7 +382,7 @@ export default async function EcosystemAppPage({
               </li>
             ))}
             <li className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-sm text-emerald-300">
-              <Link href="/integrations">+ all 111 services →</Link>
+              <Link href="/integrations">+ all 106 services →</Link>
             </li>
           </ul>
         </section>

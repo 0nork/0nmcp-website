@@ -424,12 +424,12 @@ export default function LegalPage() {
             style={{ color: 'var(--text-secondary)' }}
           >
             Certain 0n ecosystem software is released under the{' '}
-            <strong style={{ color: 'var(--text-primary)' }}>MIT License</strong>.
+            <strong style={{ color: 'var(--text-primary)' }}>BSL-1.1 License</strong>.
             This license grants permissions related to the{' '}
             <strong style={{ color: 'var(--text-primary)' }}>
               source code only
             </strong>
-            . The MIT License explicitly does{' '}
+            . The BSL-1.1 License explicitly does{' '}
             <strong style={{ color: 'var(--text-primary)' }}>not</strong> grant
             any rights to:
           </p>
@@ -461,7 +461,7 @@ export default function LegalPage() {
               className="text-sm leading-relaxed"
               style={{ color: 'var(--text-secondary)' }}
             >
-              The MIT License permits you to use, copy, modify, and distribute
+              The BSL-1.1 License permits you to use, copy, modify, and distribute
               the software code. It does{' '}
               <strong style={{ color: 'var(--text-primary)' }}>not</strong>{' '}
               permit you to use the{' '}

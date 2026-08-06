@@ -18,8 +18,8 @@ Here's the comparison. No spin. Just numbers.
 
 | Capability | OpenClaw | 0nMCP |
 |-----------|----------|-------|
-| Total tools | ~80 skills | **1,640+** |
-| Connected services | ~50 plugins | **111 services** |
+| Total tools | ~80 skills | **1,598+** |
+| Connected services | ~50 plugins | **106 services** |
 | CRM integration | ❌ None (requested by users) | ✅ **Full — 245 CRM tools, marketplace app** |
 | Workflow engine | ❌ Basic scripts | ✅ **.0n SWITCH files — complete automation language** |
 | Voice AI | ❌ Text-to-speech only | ✅ **Native voice AI agents with call handling** |
@@ -85,7 +85,7 @@ OpenClaw uses whatever single model you configure.
 
 ### 3. .0n Workflow Engine
 
-The `.0n` file format is a universal automation language. Describe what you want in English → AI generates a complete `.0n` SWITCH file with triggers, steps, conditions, timing, and variable resolution → the engine executes it across 111 services.
+The `.0n` file format is a universal automation language. Describe what you want in English → AI generates a complete `.0n` SWITCH file with triggers, steps, conditions, timing, and variable resolution → the engine executes it across 106 services.
 
 ```
 "When someone fills out my contact form, score them,
@@ -136,9 +136,9 @@ npm install -g open-claw
 npx 0nmcp@latest
 ```
 
-One command. No config. No API keys to paste. Connects to Claude Desktop, Cursor, VS Code, Windsurf, Gemini — any MCP-compatible client. 1,640+ tools available in 10 seconds.
+One command. No config. No API keys to paste. Connects to Claude Desktop, Cursor, VS Code, Windsurf, Gemini — any MCP-compatible client. 1,598+ tools available in 10 seconds.
 
-And yes — **0nMCP works inside OpenClaw too.** If you're already using OpenClaw, add 0nMCP as an MCP server and you get 1,640+ business tools on top of your existing setup. We're not asking you to switch. We're asking you to upgrade.
+And yes — **0nMCP works inside OpenClaw too.** If you're already using OpenClaw, add 0nMCP as an MCP server and you get 1,598+ business tools on top of your existing setup. We're not asking you to switch. We're asking you to upgrade.
 
 ---
 
@@ -150,7 +150,7 @@ And yes — **0nMCP works inside OpenClaw too.** If you're already using OpenCla
 
 | Tier | Price | What You Get |
 |------|-------|-------------|
-| **0nMCP (npm)** | Free | 1,640+ tools, 111 services, MCP server |
+| **0nMCP (npm)** | Free | 1,598+ tools, 106 services, MCP server |
 | **0nCore Starter** | $80/mo | Full CRM dashboard, 5 automations, AI agent |
 | **0nCore Pro** | $180/mo | Voice AI, 25 automations, 10K contacts |
 | **0nCore Agency** | $380/mo | White-label, unlimited, API access |
@@ -185,7 +185,7 @@ OpenClaw is a personal AI assistant for your computer.
 
 One controls your lights. The other runs your business.
 
-**1,640+ tools. 111 services. 5 AI models. 4 patents pending. One brain.**
+**1,598+ tools. 106 services. 5 AI models. 4 patents pending. One brain.**
 
 Stop building workflows. Start describing outcomes.
 

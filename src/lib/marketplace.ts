@@ -5,7 +5,7 @@
  * and dynamic field definitions for the CRM app store listing.
  *
  * App provides:
- * - Actions: "Execute Tool" (1,640+ tools across 111 services), "Run Workflow"
+ * - Actions: "Execute Tool" (1,598+ tools across 106 services), "Run Workflow"
  * - Triggers: "Tool Executed", "Workflow Completed"
  */
 

@@ -37,7 +37,7 @@ export default function SecurityPage() {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'USD',
-      description: 'Included with 0nMCP (MIT licensed). Patent-pending technology.',
+      description: 'Included with 0nMCP (Source-available). Patent-pending technology.',
     },
   }
 
@@ -165,7 +165,7 @@ export default function SecurityPage() {
             <br />
             #64/006,268 — 0nPlex Multi-AI Reasoning (Mar 2026) | #64/006,282 — 0nCore Adaptive Content (Mar 2026)
             <br />
-            <Link href="/technology" className="underline mt-1 inline-block" style={{ color: 'var(--accent)' }}>View all patented technology &rarr;</Link>
+            <Link href="/technology" className="underline mt-1 inline-block" style={{ color: 'var(--accent)' }}>View all patent-pending technology &rarr;</Link>
           </p>
         </div>
 

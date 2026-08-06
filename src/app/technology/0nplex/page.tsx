@@ -204,7 +204,7 @@ export default function PlexPage() {
             </Link>
             <Link href="/integrations" className="rounded-xl p-5 no-underline group bg-[var(--bg-card)] border border-[var(--border)]">
               <h3 className="font-bold text-sm mb-1 group-hover:underline text-[var(--accent)]">Integrations</h3>
-              <p className="text-xs text-[var(--text-muted)]">See all 111 services that 0nPlex can orchestrate</p>
+              <p className="text-xs text-[var(--text-muted)]">See all 106 services that 0nPlex can orchestrate</p>
             </Link>
           </div>
         </section>

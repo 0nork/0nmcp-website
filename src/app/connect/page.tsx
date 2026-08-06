@@ -131,7 +131,7 @@ export default function ConnectPage() {
                 <div className="connect-stat-label">Patents Filed</div>
               </div>
               <div className="connect-stat">
-                <div className="connect-stat-value">MIT</div>
+                <div className="connect-stat-value">BSL-1.1</div>
                 <div className="connect-stat-label">Open Source License</div>
               </div>
             </div>

@@ -63,8 +63,8 @@ export default function OnEnginePage() {
           fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: 'rgba(255,255,255,0.5)',
           maxWidth: '560px', margin: '0 auto 2.5rem', lineHeight: 1.7, position: 'relative',
         }}>
-          Build AI agents that think, decide, and take action across 1,640+ tools
-          and 111 services. Not workflows. Not chatbots. <strong style={{ color: 'rgba(255,255,255,0.8)' }}>Real execution.</strong>
+          Build AI agents that think, decide, and take action across 1,598+ tools
+          and 106 services. Not workflows. Not chatbots. <strong style={{ color: 'rgba(255,255,255,0.8)' }}>Real execution.</strong>
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', position: 'relative' }}>
@@ -123,7 +123,7 @@ export default function OnEnginePage() {
       <section style={{ padding: '4rem 2rem', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
           {[
-            { num: '1,640+', label: 'Tools Ready', desc: 'Every API call pre-built and tested' },
+            { num: '1,598+', label: 'Tools Ready', desc: 'Every API call pre-built and tested' },
             { num: '111', label: 'Services Connected', desc: 'CRM, Stripe, Slack, GitHub, and 100 more' },
             { num: '303', label: 'CRM Tools', desc: 'The deepest CRM integration anywhere' },
             { num: '< 3s', label: 'Deploy Time', desc: 'Describe it. Jaxx builds it. Done.' },

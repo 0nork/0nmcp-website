@@ -1,6 +1,6 @@
 # LinkedIn Meets 0nMCP: 50 Tools, Full Ad Management, and Industry-First Certifications
 
-*0nMCP v2.9.1 · 1,640+ tools · 111 services · Patent Pending*
+*0nMCP v2.9.1 · 1,598+ tools · 106 services · Patent Pending*
 *RocketOpp LLC · [0nmcp.com](https://0nmcp.com)*
 
 ---
@@ -174,7 +174,7 @@ We built a certification system that adds credentials directly to LinkedIn profi
 
 | Certification | What It Proves |
 |--------------|----------------|
-| **0nMCP Certified Operator** | Can configure and run the MCP server across all 111 services |
+| **0nMCP Certified Operator** | Can configure and run the MCP server across all 106 services |
 | **0nVault Security Specialist** | Understands AES-256-GCM encryption, vault containers, escrow flows |
 | **SWITCH File Architect** | Can design and deploy .0n workflow automations |
 | **CRM Automation Expert** | Proficient with all 245 CRM tools and pipeline management |
@@ -217,13 +217,13 @@ We're not paying for LinkedIn ads to build awareness. We're building a credentia
 
 LinkedIn is the #1 B2B platform. 930 million members. 4 out of 5 members drive business decisions. The average LinkedIn user spends 7 minutes per session — and unlike Twitter/X where people doomscroll, LinkedIn users are there with intent. They're looking for solutions, partners, and vendors.
 
-0nMCP is the #1 MCP server. 1,640+ tools. 111 services. 4 patents pending. The integration was inevitable.
+0nMCP is the #1 MCP server. 1,598+ tools. 106 services. 4 patents pending. The integration was inevitable.
 
 But here's what makes this different: **no other MCP server has LinkedIn ads management.** No other AI orchestrator can create a LinkedIn campaign, generate creatives, track conversions, and sync leads to a CRM pipeline — all from a single natural language command.
 
 The other MCP servers have "LinkedIn posting." We have 50 endpoints covering the full API surface. That's the difference between a demo and a product.
 
-This is what "universal orchestrator" actually means. Not 10 tools with a nice landing page. 1,640+ tools that actually work, actually connect, and actually execute across the platforms where business happens.
+This is what "universal orchestrator" actually means. Not 10 tools with a nice landing page. 1,598+ tools that actually work, actually connect, and actually execute across the platforms where business happens.
 
 ---
 
@@ -233,7 +233,7 @@ Let me be direct about something.
 
 0nMCP is not funded. We have not taken a single dollar of venture capital. No seed round. No angels. No accelerator. No strategic investors whispering about "growth at all costs."
 
-RocketOpp LLC built every one of these 1,640+ tools, every patent filing, every encryption system, every integration — with our own revenue, our own time, and our own conviction that this needed to exist.
+RocketOpp LLC built every one of these 1,598+ tools, every patent filing, every encryption system, every integration — with our own revenue, our own time, and our own conviction that this needed to exist.
 
 It's us against the world. And we're winning.
 
@@ -243,12 +243,12 @@ Here's what that gets you:
 
 - **Founders Badge** — permanent badge on your profile and in the community
 - **Day 1 access** to 0nCore when it launches (the full business dashboard)
-- **All 1,640+ tools** with priority execution
+- **All 1,598+ tools** with priority execution
 - **Direct Slack channel** with the founding team
 - **Lifetime pricing lock** — your rate never goes up
 - **Early access** to every new integration, including LinkedIn Ads, Voice AI, and the Multi-AI Council
 
-We're keeping the initial user base intentionally small. Not because of artificial scarcity — because of responsible engineering. Every user's AI workflows run on 0nAI infrastructure. Every execution consumes compute. Every concurrent request hits rate limits across 111 services.
+We're keeping the initial user base intentionally small. Not because of artificial scarcity — because of responsible engineering. Every user's AI workflows run on 0nAI infrastructure. Every execution consumes compute. Every concurrent request hits rate limits across 106 services.
 
 We'd rather have 200 users with a flawless experience than 10,000 users with a degraded one. Once we hit capacity, the door closes until infrastructure catches up. We're not going to oversell and underdeliver — that's what funded companies do when they're chasing metrics for their board.
 

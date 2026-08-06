@@ -1283,7 +1283,7 @@ export default async function BlogPostPage({
               <p className="blog-author-name">{post.author}</p>
               <p className="blog-author-title">Founder, RocketOpp LLC</p>
               <p className="blog-author-bio">
-                Building 0nMCP — the universal AI orchestrator with 1,640+ tools across 111 services.
+                Building 0nMCP — the universal AI orchestrator with 1,598+ tools across 106 services.
                 Turning complex business operations into single commands.
               </p>
             </div>

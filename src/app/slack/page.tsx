@@ -160,7 +160,7 @@ export default async function SlackPage({
 
         {/* Footer */}
         <p className="text-sm text-[var(--text-muted)]">
-          0nMCP is MIT licensed. 5 patents pending.{' '}
+          0nMCP is Source-available. 5 patents pending.{' '}
           <a href="https://www.0nmcp.com" className="text-[var(--accent)] hover:underline">
             Learn more
           </a>

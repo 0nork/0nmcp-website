@@ -216,7 +216,7 @@ function BrandPanel() {
         {/* Trust */}
         <div className="flex items-center gap-1.5">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" className="opacity-80"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span className="text-[0.72rem] text-white/70">AES-256 encrypted &middot; patents pending &middot; MIT licensed</span>
+          <span className="text-[0.72rem] text-white/70">AES-256 encrypted &middot; patents pending &middot; Source-available</span>
         </div>
       </div>
     </div>

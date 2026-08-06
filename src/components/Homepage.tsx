@@ -151,10 +151,10 @@ const COMPARISON: Record<
   { metric: string; typical: string; onmcp: string }[]
 > = {
   overview: [
-    { metric: 'Total tools', typical: '10–50', onmcp: '1,640+' },
-    { metric: 'Connected services', typical: '1–5', onmcp: '111 services' },
+    { metric: 'Total tools', typical: '10–50', onmcp: '1,598+' },
+    { metric: 'Connected services', typical: '1–5', onmcp: '106 services' },
     { metric: 'Configuration', typical: 'Manual YAML/JSON', onmcp: 'Zero config' },
-    { metric: 'License', typical: 'Varies', onmcp: 'MIT — free forever' },
+    { metric: 'License', typical: 'Varies', onmcp: 'Source-available (BSL-1.1)' },
     { metric: 'Patents pending', typical: 'None', onmcp: '5 US provisionals' },
   ],
   crm: [
@@ -218,7 +218,7 @@ const FEATURES = [
   },
   {
     icon: Zap,
-    title: '1,640+ tools across 111 services',
+    title: '1,598+ tools across 106 services',
     desc: 'CRM, Stripe, Slack, GitHub, Supabase, Google Workspace, OpenAI, and 89 more — all callable from one MCP server.',
   },
   {
@@ -238,7 +238,7 @@ const FEATURES = [
   },
   {
     icon: Sparkles,
-    title: 'MIT licensed core',
+    title: 'Source-available core',
     desc: 'Free forever. Self-host. Fork it. The marketplace is optional — the orchestrator is yours.',
   },
 ]
@@ -271,7 +271,7 @@ const STEPS = [
 const FAQ = [
   {
     q: 'What is 0nMCP?',
-    a: '0nMCP is a universal AI API orchestrator built on the Model Context Protocol. One install gives any AI editor (Claude, Cursor, Windsurf, etc.) access to 1,640+ tools across 111 services — CRM, Stripe, Slack, GitHub, Supabase, and more. MIT licensed. Five US patents pending.',
+    a: '0nMCP is a universal AI API orchestrator built on the Model Context Protocol. One install gives any AI editor (Claude, Cursor, Windsurf, etc.) access to 1,598+ tools across 106 services — CRM, Stripe, Slack, GitHub, Supabase, and more. Source-available. Five US patents pending.',
   },
   {
     q: 'How do I install it?',
@@ -279,11 +279,11 @@ const FAQ = [
   },
   {
     q: 'Is 0nMCP free?',
-    a: 'The core orchestrator is MIT licensed and free forever. You can self-host it with no cost. Marketplace executions cost $0.01 each, and the 0nCore dashboard starts at $80/mo.',
+    a: 'The core orchestrator is Source-available and free forever. You can self-host it with no cost. Marketplace executions cost $0.01 each, and the 0nCore dashboard starts at $80/mo.',
   },
   {
     q: 'How is this different from Zapier or n8n?',
-    a: 'Those are visual workflow builders. 0nMCP runs locally with zero cloud dependency. Your AI talks directly to 111 services through natural language — no drag-and-drop, no monthly task limits, no vendor lock-in. The .0n file format makes workflows portable across any MCP-compatible client.',
+    a: 'Those are visual workflow builders. 0nMCP runs locally with zero cloud dependency. Your AI talks directly to 106 services through natural language — no drag-and-drop, no monthly task limits, no vendor lock-in. The .0n file format makes workflows portable across any MCP-compatible client.',
   },
   {
     q: 'What is the .0n file format?',
@@ -354,7 +354,7 @@ export default function Homepage() {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#6EE05A]" />
               </span>
               <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                Live · v{STATS_DISPLAY.version?.replace('v', '') ?? '4.20.0'} · MIT
+                Live · v{STATS_DISPLAY.version?.replace('v', '') ?? '4.22.0'} · BSL-1.1
               </span>
             </div>
 
@@ -413,7 +413,7 @@ export default function Homepage() {
                 <div className="mb-3 inline-flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-[#6EE05A]" />
                   <span className="font-mono text-[10px] uppercase tracking-widest text-[#6EE05A]">
-                    What&apos;s new · v{STATS_DISPLAY.version?.replace('v', '') ?? '4.20.0'}
+                    What&apos;s new · v{STATS_DISPLAY.version?.replace('v', '') ?? '4.22.0'}
                   </span>
                 </div>
                 <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Fresh in the orchestrator</h2>
@@ -487,7 +487,7 @@ export default function Homepage() {
             { v: STATS_DISPLAY.services_marketing, l: 'Services' },
             { v: STATS_DISPLAY.categories, l: 'Categories' },
             { v: '$0', l: 'Local Use' },
-            { v: 'MIT', l: 'License' },
+            { v: 'BSL-1.1', l: 'License' },
             { v: STATS_DISPLAY.ai_platforms, l: 'AI Platforms' },
             { v: STATS_DISPLAY.patents, l: 'Patents' },
           ].map((s, i) => (
@@ -806,7 +806,7 @@ export default function Homepage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              { label: 'Open spec', desc: 'MIT licensed. Competitors can adopt it.' },
+              { label: 'Open spec', desc: 'Source-available. Competitors can adopt it.' },
               { label: '70% to builder', desc: 'Stripe Connect payouts. Auto-split.' },
               { label: '11 apps live', desc: 'HIPAA, SXO, AI Blog, IndexNow, more.' },
               { label: 'No landing page', desc: 'AI agents discover via UCP manifest.' },
@@ -848,7 +848,7 @@ export default function Homepage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#14b8a6]" />
-                  <span><strong className="text-white">Instant provisioning</strong> into 0nCore with 1,640+ tools across 109 services pre-wired</span>
+                  <span><strong className="text-white">Instant provisioning</strong> into 0nCore with 1,598+ tools across 109 services pre-wired</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#a78bfa]" />
@@ -932,7 +932,7 @@ export default function Homepage() {
             </div>
             <Separator className="my-10 bg-border/50" />
             <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              5 patents pending · MIT-licensed core · 0nork / RocketOpp LLC
+              5 patents pending · source-available core · 0nork / RocketOpp LLC
             </p>
           </CardContent>
         </Card>

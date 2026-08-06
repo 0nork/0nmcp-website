@@ -26,18 +26,6 @@ function applySessionCookies(request: NextRequest, response: NextResponse): Next
   return response
 }
 
-async function getUser(request: NextRequest) {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null
-  const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    cookies: {
-      getAll() { return request.cookies.getAll() },
-      setAll() {},
-    },
-  })
-  const { data: { user } } = await supabase.auth.getUser()
-  return user
-}
-
 export async function middleware(request: NextRequest) {
   const hostname = request.headers.get('host')?.split(':')[0] || ''
 

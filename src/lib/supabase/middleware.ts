@@ -1,6 +1,29 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+/**
+ * The user resolved during the LAST updateSession call, per request.
+ *
+ * WHY THIS EXISTS. updateSession already calls supabase.auth.getUser(), which
+ * makes a network call that rotates the refresh token. Callers were then
+ * building a SECOND client and calling getUser() again on the same request —
+ * two rotations racing each other. The loser sees an already-used refresh token
+ * and returns null, the route decides the user is signed out, and bounces to
+ * /login. Because /login redirects an authenticated user to /dashboard, and
+ * /dashboard redirects to /console, the visible symptom is "every click throws
+ * me back to the console" rather than anything that looks like a logout.
+ *
+ * Keyed by the request object so concurrent requests cannot read each other's
+ * user, and weak so nothing is retained after the request is collected.
+ */
+type SessionUser = { id: string; email?: string | null } | null
+const userByRequest = new WeakMap<NextRequest, { user: SessionUser }>()
+
+/** The user updateSession already fetched. Never triggers a second refresh. */
+export function resolvedUser(request: NextRequest): SessionUser {
+  return userByRequest.get(request)?.user ?? null
+}
+
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
@@ -44,6 +67,9 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  // Hand this to the caller instead of letting it fetch again.
+  userByRequest.set(request, { user: (user as SessionUser) ?? null })
 
   // Admin routes — restricted to admin emails or is_admin flag in DB
   const ADMIN_EMAILS = ['mike@rocketopp.com']

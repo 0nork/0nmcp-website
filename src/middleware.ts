@@ -73,12 +73,13 @@ export async function middleware(request: NextRequest) {
 
   // ── Login / Signup — redirect to /dashboard if already authenticated ──
   if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup') {
-    const user = await getUser(request)
-    if (user) {
+    // Refresh first, then read the user it resolved — one fetch, not two.
+    const { updateSession, resolvedUser } = await import('@/lib/supabase/middleware')
+    const response = await updateSession(request)
+    if (resolvedUser(request)) {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
-    const { updateSession } = await import('@/lib/supabase/middleware')
-    return updateSession(request)
+    return response
   }
 
   // Dashboard — login required
@@ -86,14 +87,12 @@ export async function middleware(request: NextRequest) {
     const { updateSession } = await import('@/lib/supabase/middleware')
     const response = await updateSession(request)
 
-    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-      const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        cookies: {
-          getAll() { return request.cookies.getAll() },
-          setAll(cookiesToSet) { cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) },
-        },
-      })
-      const { data: { user } } = await supabase.auth.getUser()
+    // The user updateSession already resolved. A second getUser() here
+    // would rotate the refresh token a second time on the same request and
+    // race the first — the loser returns null and bounces a signed-in user.
+    {
+      const { resolvedUser } = await import('@/lib/supabase/middleware')
+      const user = resolvedUser(request)
       if (!user) {
         return NextResponse.redirect(new URL('/login?redirect=/dashboard', request.url))
       }
@@ -106,14 +105,12 @@ export async function middleware(request: NextRequest) {
     const { updateSession } = await import('@/lib/supabase/middleware')
     const response = await updateSession(request)
 
-    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-      const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        cookies: {
-          getAll() { return request.cookies.getAll() },
-          setAll(cookiesToSet) { cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) },
-        },
-      })
-      const { data: { user } } = await supabase.auth.getUser()
+    // The user updateSession already resolved. A second getUser() here
+    // would rotate the refresh token a second time on the same request and
+    // race the first — the loser returns null and bounces a signed-in user.
+    {
+      const { resolvedUser } = await import('@/lib/supabase/middleware')
+      const user = resolvedUser(request)
       if (!user) {
         return NextResponse.redirect(new URL(`/login?redirect=${request.nextUrl.pathname}`, request.url))
       }
@@ -126,18 +123,22 @@ export async function middleware(request: NextRequest) {
     const { updateSession } = await import('@/lib/supabase/middleware')
     const response = await updateSession(request)
 
-    // Check subscription after session refresh
+    // Check subscription after session refresh. Reuse the user updateSession
+    // already resolved — a second getUser() rotates the refresh token again on
+    // the same request and races the first.
     if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const { resolvedUser } = await import('@/lib/supabase/middleware')
+      const user = resolvedUser(request)
+      if (!user) {
+        return NextResponse.redirect(new URL('/login?redirect=/grid', request.url))
+      }
+      // A client for the profile READ only — no getUser, so no second refresh.
       const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
         cookies: {
           getAll() { return request.cookies.getAll() },
           setAll(cookiesToSet) { cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options)) },
         },
       })
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        return NextResponse.redirect(new URL('/login?redirect=/grid', request.url))
-      }
       const { data: profile } = await supabase
         .from('profiles')
         .select('plan')

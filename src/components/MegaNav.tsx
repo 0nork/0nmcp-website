@@ -14,6 +14,15 @@ type MenuSection = {
   href?: string
   columns: { title?: string; links: MenuLink[] }[]
   featured?: { title: string; href: string; image?: string }
+  /**
+   * Fill the empty grid cell with the .0n mark.
+   *
+   * The dropdown grid is a fixed 1fr 1fr 1.2fr. A section with one column of
+   * links leaves the middle cell blank, which reads as a rendering fault rather
+   * than as space. Opt-in rather than inferred from columns.length, so the
+   * choice is visible where the menu is defined.
+   */
+  mark?: boolean
 }
 
 const MENU: Record<string, MenuSection> = {
@@ -61,6 +70,7 @@ const MENU: Record<string, MenuSection> = {
         ],
       },
     ],
+    mark: true,
     featured: {
       title: 'Every 0n app runs on 0nMCP — same tools, same orchestration layer',
       href: '/ecosystem',
@@ -212,6 +222,16 @@ export default function MegaNav() {
                 ))}
               </div>
             ))}
+            {section.mark && (
+              /* The mark is decoration, so it is hidden from assistive tech —
+                 every link it sits beside is already in the list. */
+              <div className="mn-mark" aria-hidden="true">
+                <span className="mn-mark-halo" />
+                <span className="mn-mark-ring" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/0n-icon.png" alt="" className="mn-mark-img" />
+              </div>
+            )}
             {section.featured && (
               <div className="mn-featured">
                 <Link href={section.featured.href} className="mn-featured-card no-underline" onClick={() => setOpenMenu(null)}>

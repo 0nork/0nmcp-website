@@ -5518,6 +5518,63 @@ code, pre, .font-mono {
 .mn-item:hover { color: var(--text-primary); }
 .mn-item-bold { font-weight: 600; color: var(--text-primary); }
 
+/* ── The .0n mark in the mega menu ────────────────────────────────────────────
+   Fills the empty grid cell on a one-column section. Three layers, each doing a
+   different job: a soft radial halo for depth, a slow conic sweep so the cell
+   is alive without demanding attention, and the mark itself breathing.
+
+   IT IS BEHIND THE MENU'S CONTENT AND IGNORES THE POINTER. A decorative panel
+   that eats clicks in a navigation dropdown is worse than an empty cell.
+
+   Everything animated is transform and opacity, and all of it stops under
+   prefers-reduced-motion — a nav that pulses at someone who asked for stillness
+   is the most annoying possible place to ignore that setting. */
+.mn-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.mn-mark-halo {
+  position: absolute;
+  width: 190px; height: 190px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(110,224,90,0.22) 0%, rgba(110,224,90,0.06) 45%, rgba(110,224,90,0) 70%);
+  animation: mnMarkBreathe 6s ease-in-out infinite;
+}
+.mn-mark-ring {
+  position: absolute;
+  width: 172px; height: 172px;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, rgba(110,224,90,0) 0deg, rgba(110,224,90,0.30) 90deg, rgba(0,194,199,0.22) 190deg, rgba(110,224,90,0) 320deg);
+  /* A ring, not a disc — masked to a 1.5px edge so it reads as a sweep around
+     the mark rather than a coloured plate behind it. */
+  mask: radial-gradient(circle, transparent 0 60px, #000 61.5px);
+  -webkit-mask: radial-gradient(circle, transparent 0 60px, #000 61.5px);
+  animation: mnMarkSpin 14s linear infinite;
+  opacity: 0.75;
+}
+.mn-mark-img {
+  position: relative;
+  width: 84px; height: auto;
+  filter: drop-shadow(0 0 18px rgba(110,224,90,0.35));
+  animation: mnMarkFloat 6s ease-in-out infinite;
+}
+@keyframes mnMarkBreathe {
+  0%, 100% { transform: scale(1);    opacity: 0.85; }
+  50%      { transform: scale(1.09); opacity: 1; }
+}
+@keyframes mnMarkSpin { to { transform: rotate(360deg); } }
+@keyframes mnMarkFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mn-mark-halo, .mn-mark-ring, .mn-mark-img { animation: none; }
+}
+
 /* Featured card */
 .mn-featured {
   border-left: 1px solid var(--border); padding-left: 1.5rem;

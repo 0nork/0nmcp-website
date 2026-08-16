@@ -122,7 +122,7 @@ export default function AgencyHomepage() {
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <Link
                 href="/partners"
-                className="group inline-flex items-center gap-2 rounded-full bg-[#6EE05A] px-7 py-3.5 text-[15px] font-bold text-[#0d1117] transition-transform hover:scale-[1.03]"
+                className="btn-green group inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-bold"
               >
                 Get unstuck — talk to a US partner
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -361,7 +361,7 @@ export default function AgencyHomepage() {
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               <Link
                 href="/partners"
-                className="group inline-flex items-center gap-2 rounded-full bg-[#6EE05A] px-8 py-4 text-[15px] font-bold text-[#0d1117] transition-transform hover:scale-[1.03]"
+                className="btn-green group inline-flex items-center gap-2 rounded-full px-8 py-4 text-[15px] font-bold"
               >
                 Book a US-based consult
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

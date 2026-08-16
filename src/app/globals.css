@@ -581,14 +581,23 @@ code, pre, .font-mono {
   font-family: var(--font-mono);
 }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
+/* IN @layer base, AND THAT MATTERS. This rule was unlayered, and in Tailwind v4
+   unlayered CSS beats everything inside @layer utilities regardless of
+   specificity — so `text-white` or `text-[#0d1117]` on ANY anchor was silently
+   overridden back to green. On the homepage that painted the primary CTA's
+   label #6EE05A on a #6EE05A pill: a button with invisible text. Inside the
+   base layer the default still applies to plain links, and a utility wins the
+   moment someone sets one. */
+@layer base {
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
 
-a:hover {
-  color: var(--accent-dim);
+  a:hover {
+    color: var(--accent-dim);
+  }
 }
 
 /* ============================================
@@ -9462,4 +9471,60 @@ nav[aria-label="Breadcrumb"] a:hover {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+
+/* ══ GREEN BUTTONS — the 0nmcp.com rule ═══════════════════════════════════════
+   WHITE TEXT, ALWAYS. Green buttons carry white labels across the whole site.
+   The near-black ink that was here reads as a hole in the pill at a glance, and
+   on the darker green states it fails contrast outright.
+
+   HOVER IS A GLOW, NOT A COLOUR CHANGE. The button does not repaint on hover —
+   a soft green halo grows outward and settles. Swapping the fill makes a button
+   feel like it changed identity under the cursor; a glow reads as the same
+   object responding, which is what a hover state is for.
+
+   The halo is a ::after pseudo-element rather than a box-shadow so it can SCALE.
+   Growth is the effect; a shadow can only fade, and "growing" was the ask.
+   Both properties composite on the GPU, so it stays cheap.
+   ══════════════════════════════════════════════════════════════════════════ */
+.btn-green {
+  position: relative;
+  isolation: isolate;
+  color: #ffffff;
+  background-color: var(--accent);
+  transition: transform .35s cubic-bezier(.16,1,.3,1), background-color .35s ease;
+}
+.btn-green:hover,
+.btn-green:focus-visible {
+  color: #ffffff;
+  background-color: var(--accent);
+}
+.btn-green::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--accent);
+  opacity: 0;
+  transform: scale(1);
+  filter: blur(18px);
+  /* Slow in, slower out — the ask was a glow that fades gently into place
+     rather than a switch that snaps. */
+  transition: opacity .55s ease, transform .55s cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+.btn-green:hover::after,
+.btn-green:focus-visible::after {
+  opacity: .55;
+  transform: scale(1.18);
+}
+.btn-green:active { transform: scale(.985); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-green,
+  .btn-green::after { transition: none; }
+  .btn-green:hover::after,
+  .btn-green:focus-visible::after { transform: scale(1); opacity: .4; }
 }

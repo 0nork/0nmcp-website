@@ -5,7 +5,8 @@ import {
   ShieldCheck, Sparkles, Timer, Wrench, XCircle,
 } from 'lucide-react'
 import { STATS_DISPLAY } from '@/data/stats'
-import FlyIn, { STEP } from '@/components/FlyIn'
+import FlyIn from '@/components/FlyIn'
+import { STEP } from '@/components/fly-steps'
 import EngineCore from '@/components/EngineCore'
 
 /**

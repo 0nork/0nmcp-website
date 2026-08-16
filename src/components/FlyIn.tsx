@@ -113,23 +113,6 @@ export default function FlyIn({
   )
 }
 
-/** Pre-baked stagger steps. Arbitrary values must be literal for Tailwind's
- *  scanner to emit them — a computed `[transition-delay:${n}ms]` produces no
- *  class at all, which is the silent way this pattern fails. */
-export const STEP = [
-  '[transition-delay:0ms]',
-  '[transition-delay:70ms]',
-  '[transition-delay:140ms]',
-  '[transition-delay:210ms]',
-  '[transition-delay:280ms]',
-  '[transition-delay:350ms]',
-  '[transition-delay:420ms]',
-  '[transition-delay:490ms]',
-  '[transition-delay:560ms]',
-  '[transition-delay:630ms]',
-  '[transition-delay:700ms]',
-  '[transition-delay:770ms]',
-]
-
-/** Alternating tilt so a grid arrives from both sides rather than marching. */
-export const TILT: FlyDirection[] = ['tilt-left', 'tilt-right']
+/* STEP and TILT moved to ./fly-steps — a plain array exported from a 'use
+   client' module reads as undefined in a server component, which silently
+   removed every stagger delay on the homepage. See fly-steps.ts. */

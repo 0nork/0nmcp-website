@@ -1,18 +1,25 @@
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
-import Homepage from '@/components/Homepage'
+import AgencyHomepage from '@/components/AgencyHomepage'
 
 export const metadata: Metadata = {
-  title: '0nMCP — The Universal AI API Orchestrator',
+  title: 'White-Label AI for Agencies — US-Based Agency CRM & Copilot | 0nMCP',
   description:
-    `The universal AI API orchestrator. ${STATS_DISPLAY.tools}+ tools across ${STATS_DISPLAY.services} services. One install. Zero config. Source-available. Powered by 5 patent-pending technologies.`,
+    `The white-label AI engine behind the agency stack. Agency copilot, US-based agency CRM and client portals on one connection to ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. Stalled build? A US-based partner finishes it, under your brand.`,
+  // Written for the agency owner with a half-built app, not for someone
+  // shopping for an MCP server. The old set ranked us against developer tools
+  // and never against the phrase this buyer actually types.
   keywords: [
-    '0nMCP', 'MCP server', 'AI orchestrator', 'API integration',
-    'workflow automation', 'Model Context Protocol', 'AI tools',
+    'white label AI for agencies', 'white label agency AI platform',
+    'US based agency CRM', 'agency copilot', 'AI copilot for agencies',
+    'marketing agency consultant', 'marketing agency AI consultant',
+    'US based development partner', 'finish my half built app',
+    'agency automation platform', 'white label client portal',
+    'AI infrastructure for agencies', '0nMCP', 'MCP server',
   ],
   openGraph: {
-    title: '0nMCP — The Universal AI API Orchestrator',
-    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. Source-available.`,
+    title: 'White-Label AI for Agencies — US-Based Agency CRM & Copilot | 0nMCP',
+    description: `Your app is half built. Your developer stopped replying. We are the US-based engine that finishes it — white-labelled, under your brand.`,
     url: 'https://www.0nmcp.com',
     siteName: '0nMCP',
     type: 'website',
@@ -20,8 +27,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '0nMCP — The Universal AI API Orchestrator',
-    description: `${STATS_DISPLAY.tools} tools. ${STATS_DISPLAY.services} services. One command. Source-available.`,
+    title: 'White-Label AI for Agencies — US-Based Agency CRM & Copilot | 0nMCP',
+    description: `Your app is half built. Your developer stopped replying. We are the US-based engine that finishes it — white-labelled, under your brand.`,
   },
   alternates: { canonical: 'https://www.0nmcp.com' },
 }
@@ -41,28 +48,36 @@ export const metadata: Metadata = {
  */
 const FAQS = [
   {
-    q: 'What is 0nMCP?',
-    a: `0nMCP is a universal AI API orchestrator — a single Model Context Protocol server that gives any AI assistant access to ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services, from one install with no per-service integration work.`,
+    q: 'What does 0nMCP actually do for an agency?',
+    a: `It is the engine your agency products run on. One connection reaches ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services — CRM, Stripe, Google, Slack, Shopify and more — so an agency copilot, a white-label CRM and client portals all work without you building and maintaining ${STATS_DISPLAY.services} separate integrations.`,
   },
   {
-    q: 'What is the Model Context Protocol?',
-    a: 'The Model Context Protocol (MCP) is an open standard that lets AI assistants call external tools and data sources through a consistent interface, instead of each application building its own bespoke integration for every service.',
+    q: 'Is this white-label? Will my clients know you exist?',
+    a: 'It is white-label end to end, and no. You resell the stack under your own brand, your own domain and your own pricing, and you keep the client relationship. We never sell to your clients.',
   },
   {
-    q: 'How many services does 0nMCP connect to?',
-    a: `${STATS_DISPLAY.services} services and ${STATS_DISPLAY.tools} tools — CRM, Stripe, Slack, Google Workspace, GitHub, Shopify, Supabase and more — all reachable through one connection.`,
+    q: 'Are you US-based?',
+    a: 'Yes. RocketOpp LLC is a registered US company based in Pennsylvania, working Eastern time. You get an owner on the phone rather than a ticket queue or a rotating offshore account manager.',
   },
   {
-    q: 'Do I need to write code to use it?',
-    a: 'No. You install 0nMCP once, connect the services you use, and then describe what you want in plain English. It handles the API calls.',
+    q: 'My app is half built and my developer disappeared. Can you finish it?',
+    a: 'That is the most common reason agencies come to us. We start by reading what actually exists — repo, dashboard, whatever there is — and give you an honest inventory plus an ordered list of what is left with real dates. Most of what a stalled build needs already exists on the engine, so the remaining work is usually connecting rather than rebuilding.',
   },
   {
-    q: 'Is 0nMCP free?',
-    a: 'There is a free tier, and the core is open source. Paid plans add higher limits and the managed products built on top of it.',
+    q: 'What is the Agency Copilot?',
+    a: 'A command surface where your operators describe an outcome in plain English and it happens across every client account — under your logo. Nothing runs before someone approves it, and every action leaves a receipt in plain English.',
+  },
+  {
+    q: 'What is included in the US-based agency CRM?',
+    a: 'Contacts, pipelines, conversations, calendars and billing — the full operating layer, white-labelled, with the AI already wired in rather than bolted on afterwards.',
+  },
+  {
+    q: 'Do you do consulting, or only software?',
+    a: 'Both. Marketing agency consulting is part of the engagement, because deciding what to build is usually worth more than building it. If we think you should not build something, we say so.',
   },
   {
     q: 'Where are my API keys stored?',
-    a: 'In the 0nVault — encrypted at rest, under your own account. You connect a service once and every 0n product can use it without the key being copied anywhere else.',
+    a: 'In the 0nVault — encrypted at rest under your own account. You connect a service once and every product you build can use it without the key being copied anywhere else.',
   },
 ]
 
@@ -76,8 +91,24 @@ const JSON_LD = {
       legalName: 'RocketOpp LLC',
       url: 'https://www.0nmcp.com',
       logo: 'https://www.0nmcp.com/og-image.png',
-      description: `The universal AI API orchestrator — ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services.`,
+      description: `The white-label AI engine behind the agency stack — an agency copilot, a US-based agency CRM and client portals on one connection to ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services.`,
+      // Stated in the schema, not only in the copy. "US-based" is the claim this
+      // buyer has been burned on, and an engine that can read the country off
+      // the organization is more use than a flag icon on the page.
+      address: { '@type': 'PostalAddress', addressCountry: 'US', addressRegion: 'PA' },
+      areaServed: { '@type': 'Country', name: 'United States' },
       sameAs: ['https://github.com/0nork', 'https://www.npmjs.com/package/0nmcp'],
+    },
+    {
+      '@type': 'Service',
+      '@id': 'https://www.0nmcp.com/#agency-service',
+      name: 'White-label AI platform for agencies',
+      serviceType: 'White-label AI infrastructure, agency copilot and US-based agency CRM',
+      provider: { '@id': 'https://www.0nmcp.com/#organization' },
+      areaServed: { '@type': 'Country', name: 'United States' },
+      audience: { '@type': 'Audience', audienceType: 'Marketing agencies' },
+      description:
+        'White-label AI infrastructure for marketing agencies: an agency copilot, a US-based agency CRM, client portals, and consulting to finish stalled or half-built applications under the agency own brand.',
     },
     {
       '@type': 'WebSite',
@@ -123,15 +154,17 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
       />
-      <Homepage />
-      {/* Visible counterpart to the FAQPage schema above. */}
-      <section className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className="text-2xl font-bold tracking-tight">Frequently asked questions</h2>
+      <AgencyHomepage />
+      {/* Visible counterpart to the FAQPage schema above. An engine will not
+          cite an answer it cannot see, and a FAQPage block with no rendered
+          counterpart is the exact pattern that gets discounted. */}
+      <section className="mx-auto max-w-3xl px-6 py-20">
+        <h2 className="text-3xl font-black tracking-tight text-[#f0f4f8]">Frequently asked questions</h2>
         <div className="mt-6 space-y-3">
           {FAQS.map((f) => (
-            <details key={f.q} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-              <summary className="cursor-pointer list-none font-semibold">{f.q}</summary>
-              <p className="mt-2 leading-relaxed text-white/70">{f.a}</p>
+            <details key={f.q} className="group rounded-2xl border border-[#30363d] bg-white/[0.02] p-5 transition-colors hover:border-[#6EE05A]/40">
+              <summary className="cursor-pointer list-none font-semibold text-[#f0f4f8] marker:hidden">{f.q}</summary>
+              <p className="mt-3 leading-relaxed text-[#8b949e]">{f.a}</p>
             </details>
           ))}
         </div>

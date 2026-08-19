@@ -58,9 +58,12 @@ jobs:
           fi
 
       - name: Install Vercel CLI
-        # Pinned to a major for the same reason as pnpm above — an unpinned
-        # toolchain version inside a deploy route is an outage waiting on a date.
-        run: npm install --global vercel@59
+        # PINNED TO 58.3.0 — the exact CLI that produced this repo's last green
+        # deploy (2026-07-29). Not merely "a major": 59.x fails the prebuilt
+        # upload here with `ENOENT ... @opentelemetry/api/build/src/api/diag.js`,
+        # a file Next's tracing lists and the packer then cannot stat. `latest`
+        # was the second delay fuse in this route, hiding behind the first.
+        run: npm install --global vercel@58.3.0
 
       - name: Pull Vercel project config + env
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}

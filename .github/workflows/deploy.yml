@@ -38,10 +38,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          # Node 22, not 20. The pnpm the corepack step pulls needs node:sqlite,
-          # which does not exist before 22 — that mismatch is what killed every
-          # deploy of this repo from 2026-07-31 to 2026-08-19 (law #8).
-          node-version: 22
+          # Back to 20, the version that was green through 2026-07-29. It was
+          # only raised to satisfy pnpm, and pnpm is no longer in this route —
+          # see the lockfile note below.
+          node-version: 20
 
       - name: Enable corepack (pnpm/yarn support)
         run: |

@@ -17,4 +17,3 @@ out/
 .env*.local
 .env.prod
 .dispatch-cache/
-package-lock.json

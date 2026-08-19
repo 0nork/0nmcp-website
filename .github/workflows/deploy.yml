@@ -38,13 +38,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # Node 22, not 20. The pnpm the corepack step pulls needs node:sqlite,
+          # which does not exist before 22 — that mismatch is what killed every
+          # deploy of this repo from 2026-07-31 to 2026-08-19 (law #8).
+          node-version: 22
 
       - name: Enable corepack (pnpm/yarn support)
         run: |
           corepack enable
           if [ "${{ steps.pm.outputs.name }}" = "pnpm" ]; then
-            corepack prepare pnpm@latest --activate
+            # PINNED. `pnpm@latest` here is an outage with a delay fuse: nothing in
+            # this repo changed, `latest` moved to pnpm 11, and 21 days of pushes
+            # deployed nothing. Same incident that took rocketopp-live out for 17.
+            corepack prepare pnpm@10.15.0 --activate
             pnpm --version
           elif [ "${{ steps.pm.outputs.name }}" = "yarn" ]; then
             corepack prepare yarn@stable --activate
@@ -52,7 +58,9 @@ jobs:
           fi
 
       - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+        # Pinned to a major for the same reason as pnpm above — an unpinned
+        # toolchain version inside a deploy route is an outage waiting on a date.
+        run: npm install --global vercel@59
 
       - name: Pull Vercel project config + env
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}

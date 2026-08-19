@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
       const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: { Authorization: `Bearer ${groqKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: MAX_TOKENS, messages: groqMessages }),
+        body: JSON.stringify({ model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b', reasoning_effort: 'low', max_tokens: MAX_TOKENS, messages: groqMessages }),
         signal: AbortSignal.timeout(30000),
       }).catch(() => null)
 

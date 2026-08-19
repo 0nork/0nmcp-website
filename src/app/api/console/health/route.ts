@@ -85,7 +85,7 @@ function buildTest(provider: AIProviderId, key: string): (() => Promise<Response
       const models: Record<string, string> = {
         openai: 'gpt-4o-mini',
         openrouter: 'anthropic/claude-3-5-haiku',
-        groq: 'llama-3.1-8b-instant',
+        groq: process.env.GROQ_MODEL_FAST || 'openai/gpt-oss-20b',
         deepseek: 'deepseek-chat',
         perplexity: 'sonar',
         mistral: 'mistral-small-latest',

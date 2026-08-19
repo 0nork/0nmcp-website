@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
       groq: {
         url: 'https://api.groq.com/openai/v1/chat/completions',
         headers: { 'Authorization': `Bearer ${clientApiKey}` },
-        bodyFn: () => JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 8192, stream: true, messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages] }),
+        bodyFn: () => JSON.stringify({ model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b', reasoning_effort: 'low', max_tokens: 8192, stream: true, messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages] }),
       },
     }
 

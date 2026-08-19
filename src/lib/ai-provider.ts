@@ -53,8 +53,8 @@ const PROVIDERS: Record<AIProviderId, ProviderConfig> = {
     name: 'Groq',
     envKeys: ['GROQ_API_KEY'],
     baseUrl: 'https://api.groq.com/openai/v1/chat/completions',
-    defaultModel: 'llama-3.3-70b-versatile',
-    defaultChatModel: 'llama-3.3-70b-versatile',
+    defaultModel: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
+    defaultChatModel: process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
     format: 'openai',
   },
   deepseek: {

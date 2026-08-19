@@ -209,7 +209,7 @@ ${assignmentLine}
           method: 'POST',
           headers: { Authorization: `Bearer ${groqKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            model: 'llama-3.3-70b-versatile',
+            model: process.env.GROQ_MODEL || 'openai/gpt-oss-120b', reasoning_effort: 'low',
             messages: [
               { role: 'system', content: 'You are an expert course creator. Return ONLY valid JSON. No markdown fences.' },
               { role: 'user', content: groqPrompt },
@@ -227,7 +227,7 @@ ${assignmentLine}
           const parsed = JSON.parse(text) as CourseStructure
           if (parsed.title && parsed.modules?.length) {
             structure = parsed
-            model = 'groq-llama-3.3-70b'
+            model = 'groq-gpt-oss-120b'
 
             // Update draft and return
             const totalLessons = structure.modules.reduce((sum, m) => sum + m.lessons.length, 0)

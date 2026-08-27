@@ -18,7 +18,7 @@ const MUTATIONS = [
       <tr class="border-b"><td class="p-4 font-medium">Tools</td><td class="p-4 text-gray-500">10-50 typical</td><td class="p-4 font-bold" style="color:#16a34a">1,598+ tools</td></tr>
       <tr class="bg-gray-50 border-b"><td class="p-4 font-medium">Services</td><td class="p-4 text-gray-500">1-5 typical</td><td class="p-4 font-bold" style="color:#16a34a">106 services</td></tr>
       <tr class="border-b"><td class="p-4 font-medium">Config</td><td class="p-4 text-gray-500">Manual YAML/JSON</td><td class="p-4 font-bold" style="color:#16a34a">Zero config — npx 0nmcp@latest</td></tr>
-      <tr class="bg-gray-50 border-b"><td class="p-4 font-medium">Security</td><td class="p-4 text-gray-500">Plain text keys</td><td class="p-4 font-bold" style="color:#16a34a">AES-256-GCM + hardware fingerprint (patented)</td></tr>
+      <tr class="bg-gray-50 border-b"><td class="p-4 font-medium">Security</td><td class="p-4 text-gray-500">Plain text keys</td><td class="p-4 font-bold" style="color:#16a34a">AES-256-GCM + hardware fingerprint (patent pending)</td></tr>
       <tr class="border-b"><td class="p-4 font-medium">License</td><td class="p-4 text-gray-500">Varies</td><td class="p-4 font-bold" style="color:#16a34a">Source-available (BSL-1.1)</td></tr>
     `,
   },

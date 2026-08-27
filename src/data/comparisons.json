@@ -802,7 +802,7 @@
       "slug": "0nmcp-vs-openclaw",
       "competitor": "OpenClaw",
       "tagline": "Your AI controls your lights. Ours runs your business.",
-      "description": "OpenClaw is an open-source personal AI assistant that manages files, controls smart homes, and automates personal computing tasks. It was recently flagged by Cisco as a 'security nightmare' for leaked credentials and malicious community skills. 0nMCP is a business AI operating system with 1,598+ tools, patented encryption (0nVault), CRM integration, voice AI, and revenue-generating automations.",
+      "description": "OpenClaw is an open-source personal AI assistant that manages files, controls smart homes, and automates personal computing tasks. It was recently flagged by Cisco as a 'security nightmare' for leaked credentials and malicious community skills. 0nMCP is a business AI operating system with 1,598+ tools, patent-pending encryption (0nVault), CRM integration, voice AI, and revenue-generating automations.",
       "competitor_summary": "OpenClaw is a locally-running AI assistant with ~80 skills for personal computing: file management, browser control, smart home, chat apps. Open source and free, but flagged by Cisco's security research team for critical vulnerabilities including leaked API keys, malicious community skills, prompt injection attacks, and zero built-in encryption. Has no business tools, no CRM, no payments, no voice AI.",
       "pricing_compare": "OpenClaw is free and open source (BYO API keys). 0nMCP core is also free and open source. 0nCore (the business dashboard) starts at $80/mo with everything included.",
       "key_differences": [

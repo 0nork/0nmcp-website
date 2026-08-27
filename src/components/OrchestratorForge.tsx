@@ -255,7 +255,7 @@ export default function OrchestratorForge() {
               margin: '0 auto',
               lineHeight: 1.6,
             }}>
-              Watch 1,598+ tools come alive. See patented orchestration in action. Then get this power for yourself.
+              Watch 1,598+ tools come alive. See patent-pending orchestration in action. Then get this power for yourself.
             </p>
           </div>
 
@@ -314,7 +314,7 @@ export default function OrchestratorForge() {
                 marginTop: 20,
                 letterSpacing: '0.03em',
               }}>
-                Zero config. Patented security. Source-available.
+                Zero config. Patent-pending security. Source-available.
               </p>
             </div>
           )}

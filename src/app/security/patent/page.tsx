@@ -176,7 +176,7 @@ export default function PatentPage() {
           <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--text-muted)' }}>Legal Notice</h3>
           <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
             Patent Pending. The technologies described are protected under US Patent Applications #63/968,814, #63/990,046,
-            #64/006,268, and #64/006,282. Unauthorized use, reproduction, or implementation of these patented
+            #64/006,268, and #64/006,282. Unauthorized use, reproduction, or implementation of these patent-pending
             innovations may constitute patent infringement. The 0nMCP software itself is released under the Business Source License 1.1;
             the patents cover specific innovations in encrypted container architecture, multi-party escrow protocols,
             content-addressed integrity verification, multi-persona AI reasoning, and adaptive content generation systems described herein.

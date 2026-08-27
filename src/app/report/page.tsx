@@ -45,7 +45,7 @@ const infringementTypes = [
   },
   {
     title: 'Patent Infringement',
-    desc: 'Implementing the patented Three-Level Execution Hierarchy or MCP Federation architecture without license.',
+    desc: 'Implementing the patent-pending Three-Level Execution Hierarchy or MCP Federation architecture without license.',
     example: 'A competing product using Pipeline, Assembly Line, Radial Burst terminology',
   },
   {

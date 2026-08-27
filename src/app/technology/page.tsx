@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Explore the patent-pending technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation. 4 US patent applications filed.',
   openGraph: {
     title: 'Our Technology — 4 Patents Powering the Future of AI Orchestration',
-    description: 'From encrypted vaults to multi-AI reasoning engines — discover the patented innovations that make 0nMCP the most advanced AI orchestration platform.',
+    description: 'From encrypted vaults to multi-AI reasoning engines — discover the patent-pending innovations that make 0nMCP the most advanced AI orchestration platform.',
     url: 'https://www.0nmcp.com/technology',
   },
   alternates: { canonical: 'https://www.0nmcp.com/technology' },
@@ -199,7 +199,7 @@ export default function TechnologyPage() {
             {[
               { title: 'Protection', desc: 'These aren\'t buzzwords — they\'re legally protected innovations. Our technology is defensible and unique in the market.' },
               { title: 'Quality', desc: 'Patents require proving novelty. Every system described here solves a problem no one else has solved the same way.' },
-              { title: 'Included', desc: 'You don\'t pay extra for patented tech. Every 0nMCP user gets the full power of all 4 innovations, starting day one.' },
+              { title: 'Included', desc: 'You don\'t pay extra for patent-pending tech. Every 0nMCP user gets the full power of all 4 innovations, starting day one.' },
             ].map((item) => (
               <div
                 key={item.title}
@@ -250,7 +250,7 @@ export default function TechnologyPage() {
           </h2>
           <div className="space-y-4">
             {[
-              { q: 'Do I need a special plan to use patented features?', a: 'No. All patent-pending technology is included with every 0nMCP account, including the free tier. There are no enterprise gates or premium-only features.' },
+              { q: 'Do I need a special plan to use patent-pending features?', a: 'No. All patent-pending technology is included with every 0nMCP account, including the free tier. There are no enterprise gates or premium-only features.' },
               { q: 'Are these real patents?', a: 'Yes. All 4 are filed with the United States Patent and Trademark Office (USPTO) as provisional patent applications under 35 USC 111(b). They are assigned to RocketOpp LLC.' },
               { q: 'Can I use these technologies in my own projects?', a: 'Absolutely. 0nMCP is source-available (BSL-1.1). You can use the platform and its patent-pending technology in your commercial projects. The patents protect our unique implementations from being copied by competitors.' },
               { q: 'How does 0nPlex make AI responses better?', a: '0nPlex sends every question to 7 different AI "personalities" — an Empiricist, Behavioralist, Systems Architect, Ethicist, Pragmatist, Adversary, and Visionary. Each brings a unique perspective, then the best ideas are combined into one superior answer.' },
@@ -276,7 +276,7 @@ export default function TechnologyPage() {
         {/* CTA */}
         <section className="text-center rounded-2xl p-8 md:p-12" style={{ background: 'linear-gradient(135deg, rgba(126,217,87,0.08), rgba(0,212,255,0.06))', border: '1px solid rgba(126,217,87,0.15)' }}>
           <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
-            Ready to use patented AI technology?
+            Ready to use patent-pending AI technology?
           </h2>
           <p className="text-sm mb-6 max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>
             Join thousands of developers and businesses using 0nMCP to orchestrate AI workflows with patent-protected technology. Free to start.

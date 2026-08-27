@@ -3808,14 +3808,6 @@
           "name": "List Campaigns"
         },
         {
-          "id": "crm_list_courses_exporters",
-          "name": "List Courses Exporters"
-        },
-        {
-          "id": "crm_import_courses",
-          "name": "Import Courses"
-        },
-        {
           "id": "crm_saas_get_locations",
           "name": "Saas Get Locations"
         },

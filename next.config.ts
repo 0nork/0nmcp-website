@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
       { source: '/turn-it-on/gohighlevel', destination: '/turn-it-on/0nmcp-crm', permanent: true },
       { source: '/integrations/gohighlevel', destination: '/integrations/0nmcp-crm', permanent: true },
       { source: '/tools/gohighlevel', destination: '/tools/0nmcp-crm', permanent: true },
+
+      // `listkit` was published as a connector with four tool ids that exist
+      // nowhere in the orchestrator — `service: "listkit"` throws
+      // `Unknown service: listkit` in WorkflowRunner._executeService, and
+      // 0nMCP/workflow.js says why in its own words: "ListKit has no API". It is
+      // a partner data source, not an integration, so the three service pages
+      // point at the partner listing that describes it truthfully.
+      { source: '/turn-it-on/listkit', destination: '/partners', permanent: true },
+      { source: '/integrations/listkit', destination: '/partners', permanent: true },
+      { source: '/tools/listkit', destination: '/partners', permanent: true },
     ]
   },
 

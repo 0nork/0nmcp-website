@@ -3,7 +3,18 @@ import { createSupabaseServer } from '@/lib/supabase/server'
 import { callAIChat } from '@/lib/ai-provider'
 import servicesData from '@/data/services.json'
 
+// ONLY WHAT THE ORCHESTRATOR CAN ACTUALLY RUN.
+// This string IS the model's world: it will not name a service it cannot see
+// here, and it will name any service it can. Until 2026-08-27 it was every row
+// in services.json, including `listkit` (no catalog entry, no API upstream) and
+// `twitter_ads` (registered as `x_ads`) — so the builder could hand a customer a
+// workflow whose first step dies with `Unknown service: listkit` in
+// WorkflowRunner._executeService, with nothing on the page to warn them.
+// `executable` is derived from catalog.js by 0n-bridge/tools/services-sync.mjs
+// and re-derived daily by fleet-sweep check 20, so this filter cannot go stale
+// silently the way the hand-kept list did.
 const SERVICE_CATALOG = servicesData.services
+  .filter((s) => s.executable !== false && s.kind !== 'builder_primitive')
   .map((s) => {
     const tools = 'tools' in s && Array.isArray(s.tools)
       ? s.tools.map((t: { id: string }) => t.id).join(', ')
@@ -12,65 +23,75 @@ const SERVICE_CATALOG = servicesData.services
   })
   .join('\n')
 
+// Control flow is not a connector. These dispatch through `"service": "internal"`
+// to INTERNAL_ACTIONS in 0nMCP/workflow.js — the list is exactly those six, and
+// naming anything else there throws `Unknown internal action`.
+const INTERNAL_ACTIONS = 'lookup, set, transform, compute, condition, map'
+
 const SYSTEM_PROMPT = `You are the 0nMCP Workflow Builder AI. You generate valid .0n workflow files from natural language descriptions.
 
-## .0n File Format (version 0.2)
+## .0n File Format
 
-A .0n file is a JSON object with this structure:
+This is the format 0nMCP's WorkflowRunner actually executes and that 0n-spec's
+workflow schema validates. Field names are not interchangeable — a step keyed
+\`mcp_server\`/\`tool\`/\`inputs\` is read as having no service at all and fails with
+\`Unknown service: undefined\`.
+
 {
-  "name": "kebab-case-name",
-  "version": "0.2",
-  "description": "What this workflow does",
-  "author": "Author name",
-  "env": { "KEY": "{{env.KEY}}" },
-  "variables": { "var_name": "default_value" },
-  "on_complete": "log" | "notify" | "webhook",
-  "metadata": {
-    "pipeline": "pipeline-name",
-    "environment": "production",
-    "tags": ["tag1", "tag2"]
+  "$0n": {
+    "type": "workflow",
+    "version": "1.0.0",
+    "name": "kebab-case-name",
+    "description": "What this workflow does"
+  },
+  "execution_pattern": "pipeline" | "assembly_line" | "radial_burst",
+  "trigger": { "type": "manual" | "schedule" | "webhook" | "event", "config": {} },
+  "inputs": {
+    "input_name": { "type": "string", "required": true, "description": "..." }
   },
   "steps": [
     {
-      "id": "unique-step-id",
-      "name": "Service Display Name",
-      "mcp_server": "service_id",
-      "tool": "tool_id",
-      "inputs": { "param": "value or {{template}}" },
-      "outputs": { "key": "{{step.output.field}}" },
-      "depends_on": ["other-step-id"],
-      "condition": "optional condition expression",
-      "on_fail": "halt" | "skip" | "retry:1" | "retry:2" | "retry:3",
-      "timeout": 30000,
-      "parallel_group": "group-name"
+      "id": "snake_case_id",
+      "name": "Human readable step name",
+      "service": "service_id",
+      "action": "tool_id",
+      "params": { "param": "value or {{template}}" },
+      "conditions": ["{{steps.other_step.status}}"],
+      "error_handling": { "on_error": "stop" | "continue" | "retry", "retries": 3, "backoff_ms": 1000 }
     }
-  ]
+  ],
+  "error_handling": { "on_error": "stop" | "continue" | "retry" },
+  "outputs": { "result_name": "{{steps.step_id.field}}" }
 }
 
 ## Template Variables
+Resolved against exactly three roots — nothing else exists at run time:
+- {{inputs.name}} — a value declared in the workflow's \`inputs\` block
+- {{steps.step_id.field}} — output of an earlier step, keyed by that step's \`id\`
 - {{env.VAR}} — environment variable
-- {{variables.name}} — workflow variable
-- {{step.step-id.output.field}} — output from a previous step
-- {{system.date}} — current date
 
-## Three-Level Execution Hierarchy (Patent Pending)
-1. PIPELINE — sequential phases (steps with depends_on chains)
-2. ASSEMBLY LINE — ordered moments within a phase
-3. RADIAL BURST — parallel actions (steps sharing a parallel_group, all depending on the same parent)
+## Execution Order
+Steps run **sequentially, in array order**. There is no \`depends_on\` and no
+\`parallel_group\` — order the array to express the dependency. \`execution_pattern\`
+describes the shape of the workflow (Three-Level Execution Hierarchy, patent
+pending); it does not reorder steps.
 
 ## Available Services (service_id|Name|Icon: tool_ids)
 ${SERVICE_CATALOG}
 
+## Control Flow (no connector, no credentials)
+Use \`"service": "internal"\` with one of these actions: ${INTERNAL_ACTIONS}
+
 ## Rules
 1. ALWAYS output a complete, valid .0n JSON object inside a \`\`\`json code fence
-2. Use REAL service IDs and tool IDs from the catalog above
-3. Create proper depends_on chains — no orphaned steps except the first
-4. Use parallel_group for steps that should execute simultaneously (Radial Burst)
-5. Include env vars for any API keys or secrets needed
-6. Use meaningful step IDs (kebab-case, descriptive)
-7. Include inputs and outputs with template variables where appropriate
+2. ALWAYS include the \`$0n\` header with \`"type": "workflow"\` — a file without it is rejected before any step runs
+3. Use \`service\` and \`action\`, never \`mcp_server\` or \`tool\`. Use \`params\`, never \`inputs\`, on a step
+4. Only use service ids and tool ids from the catalog above, or \`internal\` with one of the actions listed. Never invent one — an unknown id fails at run time with \`Unknown service\`
+5. Step ids are snake_case and must match ^[a-z][a-z0-9_]*$
+6. Order steps so that any step referencing {{steps.x.…}} comes after step x
+7. Declare anything the user must supply in the top-level \`inputs\` block; use {{env.VAR}} for API keys and secrets
 8. Generate 5-25 steps depending on complexity
-9. Always include description and metadata with relevant tags
+9. Always include a description in \`$0n\` and a \`trigger\`
 10. Respond conversationally first, then provide the .0n file in a json code fence`
 
 export async function POST(request: NextRequest) {

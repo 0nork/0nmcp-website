@@ -3,9 +3,9 @@
     "version": "5.0.0",
     "generated": "2026-08-06",
     "source": "0nMCP v4.22.0 catalog.js + crm/ + vault/ + engine/ + deed/ + app/",
-    "total_services": 98,
-    "total_tools": 1598,
-    "catalog_tools": 1324,
+    "total_services": 97,
+    "total_tools": 1630,
+    "catalog_tools": 1356,
     "crm_module_tools": 245,
     "vault_tools": 4,
     "vault_container_tools": 8,
@@ -13,10 +13,14 @@
     "engine_tools": 6,
     "app_tools": 5,
     "total_capabilities": 2160,
-    "categories": 25,
+    "categories": 22,
     "schema": "0n-services-v4",
     "mcp_server_tools": 16,
-    "services_counted_from": "services[] length, derived at edit time"
+    "services_counted_from": "tools/services-sync.mjs — derived from 0nMCP catalog.js, guarded by fleet-sweep check 20",
+    "connector_services": 90,
+    "builder_primitives": 7,
+    "catalog_services_available": 113,
+    "derived_at": "2026-08-27"
   },
   "categories": [
     {
@@ -299,7 +303,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "builder_primitive",
+      "executable": true
     },
     {
       "id": "schedule",
@@ -427,7 +433,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "builder_primitive",
+      "executable": true
     },
     {
       "id": "condition",
@@ -574,7 +582,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "builder_primitive",
+      "executable": true
     },
     {
       "id": "loop",
@@ -692,7 +702,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "builder_primitive",
+      "executable": true
     },
     {
       "id": "transform",
@@ -833,7 +845,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "builder_primitive",
+      "executable": true
     },
     {
       "id": "trigger",
@@ -939,7 +953,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "builder_primitive",
+      "executable": true
     },
     {
       "id": "error_handling",
@@ -1062,7 +1078,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "builder_primitive",
+      "executable": true
     },
     {
       "id": "gmail",
@@ -1190,7 +1208,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "slack",
@@ -1267,7 +1287,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "google_calendar",
@@ -1352,7 +1374,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "google_sheets",
@@ -1452,7 +1476,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "google_drive",
@@ -1564,7 +1590,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "zoom",
@@ -1677,7 +1705,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "microsoft",
@@ -1815,7 +1845,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "notion",
@@ -1898,7 +1930,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "discord",
@@ -1962,7 +1996,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "twilio",
@@ -2032,7 +2068,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "mailchimp",
@@ -2153,7 +2191,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "sendgrid",
@@ -2238,7 +2278,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "resend",
@@ -2641,7 +2683,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "stripe",
@@ -2763,7 +2807,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "shopify",
@@ -2854,7 +2900,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "crm",
@@ -3869,7 +3917,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "hubspot",
@@ -3960,7 +4010,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "airtable",
@@ -4045,7 +4097,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "calendly",
@@ -4116,7 +4170,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "linear",
@@ -4173,7 +4229,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "jira",
@@ -4295,7 +4353,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "zendesk",
@@ -4417,7 +4477,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "openai",
@@ -4494,7 +4556,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "github",
@@ -4578,7 +4642,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "supabase",
@@ -4670,7 +4736,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "mongodb",
@@ -4772,7 +4840,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "quickbooks",
@@ -4920,7 +4990,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "asana",
@@ -5053,7 +5125,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "intercom",
@@ -5186,7 +5260,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "dropbox",
@@ -5309,7 +5385,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "whatsapp",
@@ -5431,7 +5509,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "instagram",
@@ -5547,7 +5627,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "twitter",
@@ -5669,7 +5751,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "tiktok",
@@ -5775,7 +5859,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "linkedin",
@@ -5882,7 +5968,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "reddit",
@@ -6007,7 +6095,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "google_ads",
@@ -6135,7 +6225,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "facebook_ads",
@@ -6258,7 +6350,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "tiktok_ads",
@@ -6381,10 +6475,12 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
-      "id": "twitter_ads",
+      "id": "x_ads",
       "name": "X Ads (Twitter Ads)",
       "slug": "x-ads",
       "icon": "🐦",
@@ -6404,52 +6500,52 @@
       "tool_count": 10,
       "tools": [
         {
-          "id": "twitter_ads_list_campaigns",
+          "id": "x_ads_list_campaigns",
           "name": "List Campaigns",
           "description": "List all ad campaigns."
         },
         {
-          "id": "twitter_ads_create_campaign",
+          "id": "x_ads_create_campaign",
           "name": "Create Campaign",
           "description": "Create a new ad campaign."
         },
         {
-          "id": "twitter_ads_update_campaign",
+          "id": "x_ads_update_campaign",
           "name": "Update Campaign",
           "description": "Update an existing campaign."
         },
         {
-          "id": "twitter_ads_list_line_items",
+          "id": "x_ads_list_line_items",
           "name": "List Line Items",
           "description": "List line items in a campaign."
         },
         {
-          "id": "twitter_ads_create_line_item",
+          "id": "x_ads_create_line_item",
           "name": "Create Line Item",
           "description": "Create a new line item."
         },
         {
-          "id": "twitter_ads_list_promoted_tweets",
+          "id": "x_ads_list_promoted_tweets",
           "name": "List Promoted Tweets",
           "description": "List promoted tweets."
         },
         {
-          "id": "twitter_ads_create_promoted_tweet",
+          "id": "x_ads_create_promoted_tweet",
           "name": "Create Promoted Tweet",
           "description": "Promote a tweet."
         },
         {
-          "id": "twitter_ads_get_analytics",
+          "id": "x_ads_get_analytics",
           "name": "Get Analytics",
           "description": "Get campaign performance analytics."
         },
         {
-          "id": "twitter_ads_list_audiences",
+          "id": "x_ads_list_audiences",
           "name": "List Audiences",
           "description": "List tailored audiences."
         },
         {
-          "id": "twitter_ads_create_audience",
+          "id": "x_ads_create_audience",
           "name": "Create Audience",
           "description": "Create a tailored audience."
         }
@@ -6494,7 +6590,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "linkedin_ads",
@@ -6612,7 +6710,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "instagram_ads",
@@ -6729,7 +6829,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "plaid",
@@ -6845,7 +6947,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "square",
@@ -6973,7 +7077,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "smartlead",
@@ -7096,7 +7202,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "zapier",
@@ -7197,7 +7305,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "mulesoft",
@@ -7308,7 +7418,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "azure",
@@ -7430,7 +7542,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "pipedrive",
@@ -7563,7 +7677,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "cohere",
@@ -7633,7 +7749,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "mistral",
@@ -7703,7 +7821,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "replicate",
@@ -7775,7 +7895,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "stability",
@@ -7847,7 +7969,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "elevenlabs",
@@ -7917,7 +8041,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "deepgram",
@@ -7989,7 +8115,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "groq",
@@ -8061,7 +8189,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "planetscale",
@@ -8132,7 +8262,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "neon",
@@ -8202,7 +8334,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "turso",
@@ -8272,7 +8406,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "cockroachdb",
@@ -8342,7 +8478,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "telegram",
@@ -8412,7 +8550,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "postmark",
@@ -8484,7 +8624,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "mailgun",
@@ -8556,7 +8698,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "convertkit",
@@ -8627,7 +8771,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "brevo",
@@ -8698,7 +8844,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "activecampaign",
@@ -8769,7 +8917,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "lemlist",
@@ -8841,7 +8991,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "cloudflare",
@@ -8911,7 +9063,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "netlify",
@@ -8981,7 +9135,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "railway",
@@ -9051,7 +9207,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "render",
@@ -9121,7 +9279,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "aws",
@@ -9193,7 +9353,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "gcloud",
@@ -9265,7 +9427,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "webflow",
@@ -9335,7 +9499,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "pinterest",
@@ -9405,7 +9571,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "youtube",
@@ -9477,7 +9645,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "twitch",
@@ -9549,7 +9719,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "xero",
@@ -9619,7 +9791,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "wave",
@@ -9690,7 +9864,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "monday",
@@ -9761,7 +9937,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "figma",
@@ -10042,7 +10220,9 @@
           "Email",
           "CRM timeline"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "typeform",
@@ -10112,7 +10292,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "loom",
@@ -10184,7 +10366,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "freshdesk",
@@ -10255,7 +10439,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "woocommerce",
@@ -10325,7 +10511,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "bigcommerce",
@@ -10395,7 +10583,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "make",
@@ -10467,7 +10657,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "wordpress",
@@ -10537,7 +10729,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "docusign",
@@ -10607,7 +10801,9 @@
           "Email",
           "Slack"
         ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     },
     {
       "id": "trello",
@@ -10677,87 +10873,9 @@
           "Email",
           "Slack"
         ]
-      }
-    },
-    {
-      "id": "listkit",
-      "name": "ListKit",
-      "slug": "listkit",
-      "icon": "🎯",
-      "category_id": "crm_sales",
-      "display_order": 52,
-      "status": "live",
-      "federation_source": "partner",
-      "auth_type": "csv_export",
-      "description_short": "B2B lead generation — 731M+ contacts, triple-verified emails, intent data.",
-      "description_long": "ListKit is a B2B lead generation platform with 731M+ contacts, triple-verified email addresses, AI company search, and buyer intent signals. Leads export via CSV or Zapier webhook into 0nMCP, where the conversion layer automatically scores, enriches, and routes them into your CRM pipeline. No API needed — 0nMCP handles the translation.",
-      "sxo_keywords": [
-        "listkit integration",
-        "b2b lead generation automation",
-        "listkit 0nmcp",
-        "lead import automation",
-        "triple verified leads"
-      ],
-      "tool_count": 4,
-      "tools_summary": "ListKit leads flow through the 0nMCP conversion layer using partner aliases: leads.import, leads.enrich, leads.score, leads.pipeline.",
-      "tools": [
-        {
-          "id": "listkit_import_leads",
-          "name": "Import Leads",
-          "description": "Import ListKit CSV export or webhook payload into 0nMCP, auto-mapping columns to contact fields."
-        },
-        {
-          "id": "listkit_score_lead",
-          "name": "Score Lead",
-          "description": "Score a ListKit lead based on data completeness, intent signals, and company tier."
-        },
-        {
-          "id": "listkit_create_contact",
-          "name": "Create CRM Contact",
-          "description": "Create a CRM contact from ListKit lead data with auto-tagging and source attribution."
-        },
-        {
-          "id": "listkit_pipeline_place",
-          "name": "Pipeline Placement",
-          "description": "Create a pipeline opportunity from a scored ListKit lead with auto-enriched stage and pipeline IDs."
-        }
-      ],
-      "logo": "/logos/listkit.svg",
-      "howTo": {
-        "selections": [
-          "Import Leads",
-          "Score Lead",
-          "Create CRM Contact",
-          "Pipeline Placement"
-        ],
-        "triggers": [
-          "Create CRM Contact event",
-          "Pipeline Placement event"
-        ],
-        "actions": [
-          "Import Leads",
-          "Score Lead",
-          "Create CRM Contact",
-          "Pipeline Placement"
-        ],
-        "outcomes": [
-          "Contact updated",
-          "Deal created",
-          "Pipeline moved"
-        ],
-        "frequency": [
-          "On event",
-          "Manual",
-          "Scheduled",
-          "Daily sync"
-        ],
-        "notifications": [
-          "Console log",
-          "Webhook",
-          "Email",
-          "Slack"
-        ]
-      }
+      },
+      "kind": "connector",
+      "executable": true
     }
   ]
 }

@@ -7,6 +7,18 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
 
+/** Same-origin path + query, or the console. Never another host, never absolute. */
+function safeNext(raw: string): string {
+  try {
+    const base = typeof window === 'undefined' ? 'https://www.0nmcp.com' : window.location.origin
+    const u = new URL(raw, base)
+    if (typeof window !== 'undefined' && u.origin !== window.location.origin) return '/console'
+    return `${u.pathname}${u.search}${u.hash}` || '/console'
+  } catch {
+    return '/console'
+  }
+}
+
 export default function LoginPage() {
   return (
     <Suspense>
@@ -18,7 +30,18 @@ export default function LoginPage() {
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') || searchParams.get('next') || '/console'
+  const rawRedirect = searchParams.get('redirect') || searchParams.get('next') || '/console'
+  /*
+    `next` arrives from a query string, so it is attacker-controllable in the
+    general case: following it to another origin would be an open redirect, and
+    an OAuth login screen is exactly where that gets exploited.
+
+    It is also the source of a live bug — an ABSOLUTE url handed to router.push
+    is treated as a path and gets the origin prepended, which is how a working
+    OAuth flow ended at `www.0nmcp.comhttps`. Normalising to a same-origin
+    path + query fixes both at once.
+  */
+  const redirect = safeNext(rawRedirect)
   const errorParam = searchParams.get('error')
 
   const [email, setEmail] = useState('')

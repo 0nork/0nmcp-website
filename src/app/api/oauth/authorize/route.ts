@@ -77,7 +77,17 @@ export async function GET(request: NextRequest) {
   // If not logged in, send to login first, return here after
   if (!user) {
     const loginUrl = new URL('/login', request.url)
-    loginUrl.searchParams.set('next', consentUrl.toString())
+    /*
+      RELATIVE, not absolute. The login page finishes with router.push(next), and
+      Next's App Router treats an absolute URL there as a PATH — it prepends the
+      origin, producing `https://www.0nmcp.com/https://www.0nmcp.com/oauth/...`,
+      which the browser then mangles into a hostname that does not resolve.
+      Observed 2026-08-27: DNS_PROBE_FINISHED_BAD_CONFIG on `www.0nmcp.comhttps`.
+
+      Path + query only. The login page also refuses any cross-origin `next`, so
+      this is belt and braces rather than the only guard.
+    */
+    loginUrl.searchParams.set('next', consentUrl.pathname + consentUrl.search)
     return NextResponse.redirect(loginUrl)
   }
 

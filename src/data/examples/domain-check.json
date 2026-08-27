@@ -1,0 +1,36 @@
+{
+  "$0n": { "type": "workflow", "version": "1.0", "name": "domain-check" },
+  "description": "Quick domain availability check, with alternatives generated only when the domain is taken.",
+  "inputs": {
+    "client_domain": { "required": true, "description": "Domain to check, e.g. acme.com" },
+    "client_name": { "required": true, "description": "Brand name used to seed suggestions" }
+  },
+  "steps": [
+    {
+      "id": "check",
+      "service": "godaddy",
+      "action": "check_availability",
+      "params": { "domain": "{{inputs.client_domain}}" },
+      "error_handling": { "on_error": "stop" }
+    },
+    {
+      "id": "unavailable",
+      "service": "internal",
+      "action": "compute",
+      "params": { "expression": "({{steps.check.available}} ? 0 : 1)" }
+    },
+    {
+      "id": "suggest",
+      "service": "godaddy",
+      "action": "suggest_domains",
+      "conditions": "{{steps.unavailable.value}}",
+      "params": { "query": "{{inputs.client_name}}", "limit": 20 },
+      "error_handling": { "on_error": "continue" }
+    }
+  ],
+  "outputs": {
+    "available": "{{steps.check.available}}",
+    "price": "{{steps.check.price}}",
+    "suggestions": "{{steps.suggest.domains}}"
+  }
+}

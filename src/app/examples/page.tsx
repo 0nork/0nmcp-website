@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
 import { STATS_DISPLAY } from '@/data/stats'
+import domainCheck from '@/data/examples/domain-check.json'
+import clientOnboard from '@/data/examples/client-onboard.json'
+import websiteFactory from '@/data/examples/website-factory.json'
 
 export const metadata: Metadata = {
   title: 'Examples — Real .0n Workflow Files | 0nMCP',
@@ -16,423 +19,66 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.0nmcp.com/examples' },
 }
 
+/**
+ * The workflow JSON is the single source: the page renders it, the visitor copies it,
+ * and tools/examples-validate.mjs runs the same files against the live WorkflowRunner.
+ * Step counts and service chips are DERIVED — the previous hand-maintained copies
+ * advertised Vercel, Gamma and ZoomInfo, none of which the orchestrator can run.
+ */
+const SERVICE_LABELS: Record<string, string> = {
+  godaddy: 'GoDaddy',
+  stripe: 'Stripe',
+  netlify: 'Netlify',
+  notion: 'Notion',
+  hubspot: 'HubSpot',
+  slack: 'Slack',
+  n8n: 'n8n',
+}
+
+type Workflow = { steps: { id: string; service: string; action: string }[] }
+
+function describe(wf: Workflow) {
+  const services = [...new Set(wf.steps.map((s) => s.service).filter((s) => s !== 'internal'))]
+  return {
+    steps: wf.steps.length,
+    services: services.map((s) => SERVICE_LABELS[s] ?? s),
+    code: JSON.stringify(wf, null, 2),
+  }
+}
+
 const examples = [
   {
     id: 'domain-check',
     name: 'Domain Check',
     file: 'domain-check.0n',
     description:
-      'Quick domain availability check with auto-suggestions if unavailable.',
-    steps: 2,
-    services: ['GoDaddy'],
+      'Quick domain availability check, with alternatives generated only when the domain is taken.',
     tags: ['domain', 'quick-check'],
     tier: 'starter',
     time: '~5 seconds',
-    code: `{
-  "version": "0.2",
-  "name": "domain-check",
-  "description": "Quick domain availability check with auto-suggestions if unavailable",
-  "author": "mike@rocketopp.com",
-
-  "variables": {
-    "client_domain": "",
-    "client_name": ""
-  },
-
-  "steps": [
-    {
-      "id": "step_001",
-      "name": "Check Primary Domain",
-      "mcp_server": "godaddy",
-      "tool": "domains_check_availability",
-      "inputs": {
-        "domains": "{{variables.client_domain}}"
-      },
-      "outputs": {
-        "domain_available": "$.available",
-        "domain_price": "$.price"
-      },
-      "on_fail": "halt",
-      "timeout_seconds": 30
-    },
-    {
-      "id": "step_002",
-      "name": "Suggest Alternatives",
-      "mcp_server": "godaddy",
-      "tool": "domains_suggest",
-      "condition": "{{step_001.outputs.domain_available}} == false",
-      "inputs": {
-        "query": "{{variables.client_name}}",
-        "limit": 20
-      },
-      "outputs": {
-        "suggestions": "$.domains"
-      },
-      "on_fail": "skip",
-      "timeout_seconds": 30
-    }
-  ],
-
-  "metadata": {
-    "pipeline": "website-factory",
-    "environment": "production",
-    "tags": ["domain", "quick-check"]
-  }
-}`,
+    ...describe(domainCheck as Workflow),
   },
   {
     id: 'client-onboard',
     name: 'Client Onboarding',
     file: 'client-onboard.0n',
     description:
-      'Client onboarding pipeline: Stripe billing setup + Vercel deployment check + welcome deck + CRM workflow.',
-    steps: 7,
-    services: ['Vercel', 'Stripe', 'Gamma', 'n8n'],
+      'Client onboarding pipeline: verify the live site, set up Stripe billing, publish a welcome doc, then hand off to the CRM.',
     tags: ['onboarding', 'billing', 'crm'],
     tier: 'pro',
     time: '~2 minutes',
-    code: `{
-  "version": "0.2",
-  "name": "client-onboard",
-  "description": "Client onboarding pipeline: Stripe billing setup + Vercel deployment check + welcome deck + n8n CRM workflow",
-  "author": "mike@rocketopp.com",
-
-  "env": {
-    "VERCEL_TEAM_ID": "$env.VERCEL_TEAM_ID",
-    "N8N_WEBHOOK_BASE": "$env.N8N_WEBHOOK_BASE"
-  },
-
-  "variables": {
-    "client_name": "",
-    "client_email": "",
-    "client_domain": "",
-    "vercel_project_id": "",
-    "monthly_price": 299,
-    "industry": "",
-    "service_area": ""
-  },
-
-  "steps": [
-    {
-      "id": "step_001",
-      "name": "Verify Vercel Deployment",
-      "mcp_server": "vercel",
-      "tool": "get_project",
-      "inputs": {
-        "projectId": "{{variables.vercel_project_id}}",
-        "teamId": "{{env.VERCEL_TEAM_ID}}"
-      },
-      "outputs": {
-        "project_name": "$.name",
-        "production_url": "$.targets.production.url",
-        "framework": "$.framework"
-      },
-      "on_fail": "halt",
-      "timeout_seconds": 30
-    },
-    {
-      "id": "step_002",
-      "name": "Create Stripe Customer",
-      "mcp_server": "stripe",
-      "tool": "create_customer",
-      "inputs": {
-        "name": "{{variables.client_name}}",
-        "email": "{{variables.client_email}}",
-        "metadata": {
-          "domain": "{{variables.client_domain}}",
-          "pipeline": "client-onboard"
-        }
-      },
-      "outputs": { "customer_id": "$.id" },
-      "on_fail": "halt",
-      "parallel_group": "setup"
-    },
-    {
-      "id": "step_003",
-      "name": "Create Subscription Product",
-      "mcp_server": "stripe",
-      "tool": "create_product",
-      "inputs": {
-        "name": "{{variables.client_name}} - Website Package",
-        "description": "Monthly website hosting, management, and optimization"
-      },
-      "outputs": { "product_id": "$.id" },
-      "on_fail": "halt",
-      "parallel_group": "setup"
-    },
-    {
-      "id": "step_004",
-      "name": "Create Monthly Price",
-      "mcp_server": "stripe",
-      "tool": "create_price",
-      "depends_on": ["step_003"],
-      "inputs": {
-        "product": "{{step_003.outputs.product_id}}",
-        "unit_amount": "{{variables.monthly_price}}00",
-        "currency": "usd",
-        "recurring": { "interval": "month" }
-      },
-      "outputs": { "price_id": "$.id" }
-    },
-    {
-      "id": "step_005",
-      "name": "Create Subscription",
-      "mcp_server": "stripe",
-      "tool": "create_subscription",
-      "depends_on": ["step_002", "step_004"],
-      "inputs": {
-        "customer": "{{step_002.outputs.customer_id}}",
-        "items": [{ "price": "{{step_004.outputs.price_id}}" }],
-        "collection_method": "send_invoice",
-        "days_until_due": 30
-      },
-      "outputs": {
-        "subscription_id": "$.id",
-        "subscription_status": "$.status"
-      }
-    },
-    {
-      "id": "step_006",
-      "name": "Generate Welcome Presentation",
-      "mcp_server": "gamma",
-      "tool": "generate",
-      "depends_on": ["step_001"],
-      "inputs": {
-        "inputText": "Welcome aboard {{variables.client_name}}! Your site at {{step_001.outputs.production_url}} is live.",
-        "format": "presentation",
-        "numCards": 6
-      },
-      "outputs": { "deck_url": "$.url" },
-      "on_fail": "skip"
-    },
-    {
-      "id": "step_007",
-      "name": "Trigger CRM Onboarding",
-      "mcp_server": "n8n",
-      "tool": "execute_workflow",
-      "depends_on": ["step_005", "step_006"],
-      "inputs": {
-        "workflowId": "client-onboarding-crm",
-        "inputs": {
-          "type": "webhook",
-          "webhookData": {
-            "method": "POST",
-            "body": {
-              "client_name": "{{variables.client_name}}",
-              "stripe_customer_id": "{{step_002.outputs.customer_id}}",
-              "welcome_deck": "{{step_006.outputs.deck_url}}"
-            }
-          }
-        }
-      },
-      "on_fail": "retry:2"
-    }
-  ],
-
-  "on_complete": {
-    "notify": "slack:#client-onboarding",
-    "log": true
-  },
-
-  "metadata": {
-    "pipeline": "client-onboard",
-    "cro9_analytics": true,
-    "sxo_optimized": true,
-    "tags": ["onboarding", "billing", "crm"]
-  }
-}`,
+    ...describe(clientOnboard as Workflow),
   },
   {
     id: 'website-factory',
     name: 'Website Factory',
     file: 'website-factory.0n',
     description:
-      'Full website factory pipeline: domain check, site deploy, DNS config, Stripe billing, analytics setup, client deck generation.',
-    steps: 9,
-    services: ['GoDaddy', 'ZoomInfo', 'Vercel', 'Stripe', 'Gamma', 'n8n'],
+      'Full website factory: domain check, CRM enrichment, site deploy, Stripe billing, client deck, CRM handoff, team notification.',
     tags: ['client-site', 'full-pipeline', 'auto-billing'],
     tier: 'burst',
     time: '~4 minutes',
-    code: `{
-  "version": "0.2",
-  "name": "website-factory-full",
-  "description": "Full RocketOpp website factory pipeline: domain check > site deploy > DNS config > Stripe billing > analytics setup > client deck generation",
-  "author": "mike@rocketopp.com",
-
-  "env": {
-    "VERCEL_TEAM_ID": "$env.VERCEL_TEAM_ID",
-    "SUPABASE_PROJECT_URL": "$env.SUPABASE_PROJECT_URL",
-    "ANALYTICS_ENDPOINT": "$env.ANALYTICS_ENDPOINT",
-    "N8N_WEBHOOK_BASE": "$env.N8N_WEBHOOK_BASE"
-  },
-
-  "variables": {
-    "client_name": "",
-    "client_domain": "",
-    "client_email": "",
-    "brand_primary_color": "#1a1a2e",
-    "brand_accent_color": "#0f3460",
-    "template_id": "nextjs-rocketopp-starter",
-    "industry": "",
-    "service_area": "",
-    "monthly_price": 299
-  },
-
-  "steps": [
-    {
-      "id": "step_001",
-      "name": "Check Domain Availability",
-      "mcp_server": "godaddy",
-      "tool": "domains_check_availability",
-      "inputs": { "domains": "{{variables.client_domain}}" },
-      "outputs": {
-        "domain_available": "$.available",
-        "domain_price": "$.price"
-      },
-      "on_fail": "halt"
-    },
-    {
-      "id": "step_002",
-      "name": "Generate Domain Alternatives",
-      "mcp_server": "godaddy",
-      "tool": "domains_suggest",
-      "condition": "{{step_001.outputs.domain_available}} == false",
-      "inputs": {
-        "query": "{{variables.client_name}} {{variables.industry}}",
-        "limit": 10
-      },
-      "on_fail": "skip"
-    },
-    {
-      "id": "step_003",
-      "name": "Enrich Client Data",
-      "mcp_server": "zoominfo",
-      "tool": "search_company",
-      "inputs": {
-        "company_name": "{{variables.client_name}}",
-        "location": "{{variables.service_area}}"
-      },
-      "on_fail": "skip",
-      "parallel_group": "research"
-    },
-    {
-      "id": "step_004",
-      "name": "Deploy Next.js Site to Vercel",
-      "mcp_server": "vercel",
-      "tool": "deploy_to_vercel",
-      "depends_on": ["step_001"],
-      "condition": "{{step_001.outputs.domain_available}} == true",
-      "outputs": {
-        "deployment_url": "$.url",
-        "project_id": "$.projectId"
-      },
-      "on_fail": "retry:3",
-      "timeout_seconds": 180
-    },
-    {
-      "id": "step_005",
-      "name": "Configure Environment Variables",
-      "mcp_server": "n8n",
-      "tool": "execute_workflow",
-      "depends_on": ["step_004"],
-      "inputs": {
-        "workflowId": "vercel-env-setup",
-        "inputs": {
-          "type": "webhook",
-          "webhookData": {
-            "body": {
-              "project_id": "{{step_004.outputs.project_id}}",
-              "env_vars": {
-                "NEXT_PUBLIC_CRO9_ENABLED": "true",
-                "NEXT_PUBLIC_BRAND_PRIMARY": "{{variables.brand_primary_color}}",
-                "NEXT_PUBLIC_BRAND_ACCENT": "{{variables.brand_accent_color}}"
-              }
-            }
-          }
-        }
-      },
-      "on_fail": "retry:2"
-    },
-    {
-      "id": "step_006",
-      "name": "Create Stripe Product",
-      "mcp_server": "stripe",
-      "tool": "create_product",
-      "depends_on": ["step_004"],
-      "inputs": {
-        "name": "{{variables.client_name}} - Website Management",
-        "metadata": {
-          "client_domain": "{{variables.client_domain}}",
-          "pipeline": "website-factory"
-        }
-      },
-      "outputs": { "product_id": "$.id" },
-      "parallel_group": "billing"
-    },
-    {
-      "id": "step_007",
-      "name": "Create Stripe Price",
-      "mcp_server": "stripe",
-      "tool": "create_price",
-      "depends_on": ["step_006"],
-      "inputs": {
-        "product": "{{step_006.outputs.product_id}}",
-        "unit_amount": "{{variables.monthly_price}}00",
-        "currency": "usd",
-        "recurring": { "interval": "month" }
-      },
-      "outputs": { "price_id": "$.id" }
-    },
-    {
-      "id": "step_008",
-      "name": "Generate Client Welcome Deck",
-      "mcp_server": "gamma",
-      "tool": "generate",
-      "depends_on": ["step_004", "step_006"],
-      "inputs": {
-        "inputText": "Client welcome presentation for {{variables.client_name}}. Site: {{step_004.outputs.deployment_url}}. Features: CRO9 analytics, SXO optimization, monthly reports.",
-        "format": "presentation",
-        "numCards": 8
-      },
-      "outputs": { "deck_url": "$.url" },
-      "on_fail": "skip"
-    },
-    {
-      "id": "step_009",
-      "name": "Trigger Client Onboarding",
-      "mcp_server": "n8n",
-      "tool": "execute_workflow",
-      "depends_on": ["step_004", "step_007", "step_008"],
-      "inputs": {
-        "workflowId": "client-onboarding-master",
-        "inputs": {
-          "type": "webhook",
-          "webhookData": {
-            "body": {
-              "client_name": "{{variables.client_name}}",
-              "deployment_url": "{{step_004.outputs.deployment_url}}",
-              "stripe_price_id": "{{step_007.outputs.price_id}}",
-              "welcome_deck_url": "{{step_008.outputs.deck_url}}"
-            }
-          }
-        }
-      },
-      "on_fail": "retry:2"
-    }
-  ],
-
-  "on_complete": {
-    "notify": "slack:#website-factory-deployments",
-    "log": true
-  },
-
-  "metadata": {
-    "pipeline": "website-factory",
-    "cro9_analytics": true,
-    "sxo_optimized": true,
-    "tags": ["client-site", "full-pipeline", "auto-billing"]
-  }
-}`,
+    ...describe(websiteFactory as Workflow),
   },
 ]
 
@@ -502,7 +148,7 @@ export default function ExamplesPage() {
                 className="font-mono text-xs uppercase tracking-[0.15em] block mb-2"
                 style={{ color: 'var(--accent)' }}
               >
-                .0n Schema v0.2
+                .0n Schema v1.0
               </span>
               <h2 className="text-xl font-bold">File Anatomy</h2>
             </div>
@@ -515,14 +161,16 @@ export default function ExamplesPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {[
-              { field: 'version', desc: 'Schema version' },
-              { field: 'variables', desc: 'Runtime inputs' },
-              { field: 'steps[]', desc: 'Execution steps' },
-              { field: 'depends_on', desc: 'Step dependencies' },
-              { field: 'on_fail', desc: 'Error strategy' },
-              { field: 'metadata', desc: 'Pipeline tags' },
+              { field: '$0n', desc: 'Envelope: type + version' },
+              { field: 'inputs', desc: 'Declared runtime inputs' },
+              { field: 'steps[]', desc: 'Runs in array order' },
+              { field: 'service / action', desc: 'What to call' },
+              { field: 'params', desc: 'Arguments for the call' },
+              { field: 'conditions', desc: 'Bare {{ref}} gate' },
+              { field: 'error_handling', desc: 'stop | continue | retry' },
+              { field: 'outputs', desc: 'Workflow return map' },
             ].map((item) => (
               <div
                 key={item.field}

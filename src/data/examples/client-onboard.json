@@ -1,0 +1,108 @@
+{
+  "$0n": { "type": "workflow", "version": "1.0", "name": "client-onboard" },
+  "description": "Client onboarding pipeline: verify the live site, set up Stripe billing, publish a welcome doc, then hand off to the CRM.",
+  "inputs": {
+    "client_name": { "required": true },
+    "client_email": { "required": true },
+    "client_domain": { "required": true },
+    "netlify_site_id": { "required": true, "description": "Site whose deploy we verify before billing" },
+    "notion_parent_id": { "required": true, "description": "Notion database the welcome doc is created in" },
+    "crm_workflow_id": { "required": true, "description": "n8n workflow that runs CRM onboarding" },
+    "monthly_price": { "required": false, "description": "Whole dollars, e.g. 299" }
+  },
+  "steps": [
+    {
+      "id": "site",
+      "service": "netlify",
+      "action": "get_site",
+      "params": { "site_id": "{{inputs.netlify_site_id}}" },
+      "error_handling": { "on_error": "stop" }
+    },
+    {
+      "id": "customer",
+      "service": "stripe",
+      "action": "create_customer",
+      "params": {
+        "name": "{{inputs.client_name}}",
+        "email": "{{inputs.client_email}}",
+        "description": "{{inputs.client_domain}} — client-onboard"
+      },
+      "error_handling": { "on_error": "stop" }
+    },
+    {
+      "id": "product",
+      "service": "stripe",
+      "action": "create_product",
+      "params": {
+        "name": "{{inputs.client_name}} — Website Package",
+        "description": "Monthly website hosting, management, and optimization"
+      },
+      "error_handling": { "on_error": "stop" }
+    },
+    {
+      "id": "amount",
+      "service": "internal",
+      "action": "compute",
+      "params": { "expression": "{{inputs.monthly_price}} * 100" }
+    },
+    {
+      "id": "price",
+      "service": "stripe",
+      "action": "create_price",
+      "params": {
+        "product": "{{steps.product.id}}",
+        "unit_amount": "{{steps.amount.value}}",
+        "currency": "usd",
+        "recurring": { "interval": "month" }
+      }
+    },
+    {
+      "id": "subscription",
+      "service": "stripe",
+      "action": "create_subscription",
+      "params": {
+        "customer": "{{steps.customer.id}}",
+        "items": [{ "price": "{{steps.price.id}}" }],
+        "collection_method": "send_invoice",
+        "days_until_due": 30
+      }
+    },
+    {
+      "id": "welcome_doc",
+      "service": "notion",
+      "action": "create_page",
+      "params": {
+        "parent": { "database_id": "{{inputs.notion_parent_id}}" },
+        "properties": {
+          "title": [
+            {
+              "text": {
+                "content": "Welcome aboard, {{inputs.client_name}} — {{steps.site.ssl_url}} is live"
+              }
+            }
+          ]
+        }
+      },
+      "error_handling": { "on_error": "continue" }
+    },
+    {
+      "id": "crm",
+      "service": "n8n",
+      "action": "execute_workflow",
+      "params": {
+        "workflowId": "{{inputs.crm_workflow_id}}",
+        "client_name": "{{inputs.client_name}}",
+        "stripe_customer_id": "{{steps.customer.id}}",
+        "subscription_id": "{{steps.subscription.id}}",
+        "welcome_doc_url": "{{steps.welcome_doc.url}}"
+      },
+      "error_handling": { "on_error": "retry", "retries": 2, "backoff_ms": 1000 }
+    }
+  ],
+  "outputs": {
+    "customer_id": "{{steps.customer.id}}",
+    "subscription_id": "{{steps.subscription.id}}",
+    "subscription_status": "{{steps.subscription.status}}",
+    "welcome_doc_url": "{{steps.welcome_doc.url}}"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "$0n": { "type": "workflow", "version": "1.0", "name": "website-factory" },
+  "description": "Full website factory: domain check, CRM enrichment, site deploy, Stripe billing, client deck, CRM handoff, team notification.",
+  "inputs": {
+    "client_name": { "required": true },
+    "client_domain": { "required": true },
+    "industry": { "required": false },
+    "notion_parent_id": { "required": true },
+    "crm_workflow_id": { "required": true },
+    "slack_channel": { "required": true, "description": "Channel id or #name for the completion notice" },
+    "monthly_price": { "required": false, "description": "Whole dollars, e.g. 299" }
+  },
+  "steps": [
+    {
+      "id": "check",
+      "service": "godaddy",
+      "action": "check_availability",
+      "params": { "domain": "{{inputs.client_domain}}" },
+      "error_handling": { "on_error": "stop" }
+    },
+    {
+      "id": "unavailable",
+      "service": "internal",
+      "action": "compute",
+      "params": { "expression": "({{steps.check.available}} ? 0 : 1)" }
+    },
+    {
+      "id": "suggest",
+      "service": "godaddy",
+      "action": "suggest_domains",
+      "conditions": "{{steps.unavailable.value}}",
+      "params": { "query": "{{inputs.client_name}} {{inputs.industry}}", "limit": 10 },
+      "error_handling": { "on_error": "continue" }
+    },
+    {
+      "id": "enrich",
+      "service": "hubspot",
+      "action": "search_contacts",
+      "params": {
+        "filterGroups": [
+          {
+            "filters": [
+              { "propertyName": "company", "operator": "EQ", "value": "{{inputs.client_name}}" }
+            ]
+          }
+        ]
+      },
+      "error_handling": { "on_error": "continue" }
+    },
+    {
+      "id": "deploy",
+      "service": "netlify",
+      "action": "create_site",
+      "conditions": "{{steps.check.available}}",
+      "params": {
+        "name": "{{inputs.client_name}}",
+        "custom_domain": "{{inputs.client_domain}}"
+      },
+      "error_handling": { "on_error": "retry", "retries": 3, "backoff_ms": 2000 }
+    },
+    {
+      "id": "product",
+      "service": "stripe",
+      "action": "create_product",
+      "params": {
+        "name": "{{inputs.client_name}} — Website Management",
+        "description": "Managed hosting, analytics, and optimization for {{inputs.client_domain}}"
+      }
+    },
+    {
+      "id": "amount",
+      "service": "internal",
+      "action": "compute",
+      "params": { "expression": "{{inputs.monthly_price}} * 100" }
+    },
+    {
+      "id": "price",
+      "service": "stripe",
+      "action": "create_price",
+      "params": {
+        "product": "{{steps.product.id}}",
+        "unit_amount": "{{steps.amount.value}}",
+        "currency": "usd",
+        "recurring": { "interval": "month" }
+      }
+    },
+    {
+      "id": "deck",
+      "service": "notion",
+      "action": "create_page",
+      "params": {
+        "parent": { "database_id": "{{inputs.notion_parent_id}}" },
+        "properties": {
+          "title": [
+            {
+              "text": {
+                "content": "{{inputs.client_name}} — launch brief for {{steps.deploy.ssl_url}}"
+              }
+            }
+          ]
+        }
+      },
+      "error_handling": { "on_error": "continue" }
+    },
+    {
+      "id": "crm",
+      "service": "n8n",
+      "action": "execute_workflow",
+      "params": {
+        "workflowId": "{{inputs.crm_workflow_id}}",
+        "client_name": "{{inputs.client_name}}",
+        "deployment_url": "{{steps.deploy.ssl_url}}",
+        "stripe_price_id": "{{steps.price.id}}",
+        "deck_url": "{{steps.deck.url}}"
+      },
+      "error_handling": { "on_error": "retry", "retries": 2, "backoff_ms": 1000 }
+    },
+    {
+      "id": "notify",
+      "service": "slack",
+      "action": "send_message",
+      "params": {
+        "channel": "{{inputs.slack_channel}}",
+        "text": "Website factory finished for {{inputs.client_name}} — {{steps.deploy.ssl_url}}"
+      },
+      "error_handling": { "on_error": "continue" }
+    }
+  ],
+  "outputs": {
+    "domain_available": "{{steps.check.available}}",
+    "deployment_url": "{{steps.deploy.ssl_url}}",
+    "stripe_price_id": "{{steps.price.id}}",
+    "deck_url": "{{steps.deck.url}}"
+  }
+}

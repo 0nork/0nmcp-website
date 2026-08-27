@@ -1,6 +1,6 @@
 # Is OpenClaw Safe? What Cisco Found — And the Secure Alternative
 
-**BLUF (Bottom Line Up Front):** Cisco's security research team identified critical vulnerabilities in OpenClaw including plaintext API key storage, malicious community skills, shell command execution, and messaging app prompt injection. If you're evaluating AI assistants for business use, there is a patent-protected alternative with built-in encryption, sandboxed execution, and zero community malware risk.
+**BLUF (Bottom Line Up Front):** Cisco's security research team identified critical vulnerabilities in OpenClaw including plaintext API key storage, malicious community skills, shell command execution, and messaging app prompt injection. If you're evaluating AI assistants for business use, there is a patent-pending alternative with built-in encryption, sandboxed execution, and zero community malware risk.
 
 ---
 
@@ -57,7 +57,7 @@ For organizations, Cisco flagged OpenClaw as a "shadow AI risk" — employees in
 
 ## How These Vulnerabilities Compare to 0nMCP
 
-0nMCP is a Universal AI API Orchestrator with 1,598+ tools across 106 services. It was designed from the ground up with security as a core architectural principle — not an afterthought. Four provisional patents protect its security mechanisms.
+0nMCP is a Universal AI API Orchestrator with 1,598+ tools across 106 services. It was designed from the ground up with security as a core architectural principle — not an afterthought. Four provisional patent applications cover its security mechanisms.
 
 ### Credential Storage: Encrypted vs Plaintext
 

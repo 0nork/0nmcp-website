@@ -219,7 +219,7 @@ export default function ServerPipeline() {
         </text>
         <rect x="40" y="260" width="80" height="22" rx="4" fill="rgba(139,92,246,0.08)" stroke="rgba(139,92,246,0.2)" strokeWidth="0.8" />
         <text x="80" y="275" textAnchor="middle" fill={PURPLE} fontSize="10" fontFamily="monospace" fontWeight="700">
-          5 patents
+          5 pat. pending
         </text>
         <rect x="480" y="260" width="80" height="22" rx="4" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.2)" strokeWidth="0.8" />
         <text x="520" y="275" textAnchor="middle" fill={AMBER} fontSize="10" fontFamily="monospace" fontWeight="700">

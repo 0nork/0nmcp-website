@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Our Technology — 4 Patents Powering the Future of AI Orchestration | 0nMCP',
+  title: 'Our Technology — 4 Patent-Pending Innovations Powering the Future of AI Orchestration | 0nMCP',
   description: 'Explore the patent-pending technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation. 4 US patent applications filed.',
   openGraph: {
-    title: 'Our Technology — 4 Patents Powering the Future of AI Orchestration',
+    title: 'Our Technology — 4 Patent-Pending Innovations Powering the Future of AI Orchestration',
     description: 'From encrypted vaults to multi-AI reasoning engines — discover the patent-pending innovations that make 0nMCP the most advanced AI orchestration platform.',
     url: 'https://www.0nmcp.com/technology',
   },
@@ -63,7 +63,7 @@ export default function TechnologyPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Our Technology — 4 Patents Powering 0nMCP',
+    name: 'Our Technology — 4 Patent-Pending Innovations Powering 0nMCP',
     description: 'Explore the patent-pending technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation.',
     url: 'https://www.0nmcp.com/technology',
     mainEntity: {
@@ -96,8 +96,8 @@ export default function TechnologyPage() {
     mainEntity: [
       {
         '@type': 'Question',
-        name: 'How many patents does 0nMCP have?',
-        acceptedAnswer: { '@type': 'Answer', text: '0nMCP has 4 US patent applications filed, covering data verification (Seal of Truth), encrypted containers (0nVault), multi-AI reasoning (0nPlex), and adaptive content generation (0nCore). All patents are assigned to RocketOpp LLC.' },
+        name: 'How many patent applications does 0nMCP have?',
+        acceptedAnswer: { '@type': 'Answer', text: '0nMCP has 4 US patent applications filed, covering data verification (Seal of Truth), encrypted containers (0nVault), multi-AI reasoning (0nPlex), and adaptive content generation (0nCore). All four applications are assigned to RocketOpp LLC.' },
       },
       {
         '@type': 'Question',
@@ -112,7 +112,7 @@ export default function TechnologyPage() {
       {
         '@type': 'Question',
         name: 'Who invented the technology behind 0nMCP?',
-        acceptedAnswer: { '@type': 'Answer', text: 'All 4 patents were invented by Michael A. Mento Jr. and are assigned to RocketOpp LLC. The patents cover breakthroughs in AI orchestration, encrypted data containers, multi-model reasoning, and adaptive content generation.' },
+        acceptedAnswer: { '@type': 'Answer', text: 'All 4 patent-pending inventions are credited to Michael A. Mento Jr., and the applications are assigned to RocketOpp LLC. They cover AI orchestration, encrypted data containers, multi-model reasoning, and adaptive content generation.' },
       },
     ],
   }
@@ -251,8 +251,8 @@ export default function TechnologyPage() {
           <div className="space-y-4">
             {[
               { q: 'Do I need a special plan to use patent-pending features?', a: 'No. All patent-pending technology is included with every 0nMCP account, including the free tier. There are no enterprise gates or premium-only features.' },
-              { q: 'Are these real patents?', a: 'Yes. All 4 are filed with the United States Patent and Trademark Office (USPTO) as provisional patent applications under 35 USC 111(b). They are assigned to RocketOpp LLC.' },
-              { q: 'Can I use these technologies in my own projects?', a: 'Absolutely. 0nMCP is source-available (BSL-1.1). You can use the platform and its patent-pending technology in your commercial projects. The patents protect our unique implementations from being copied by competitors.' },
+              { q: 'Are these real patent filings?', a: 'Yes. All 4 are filed with the United States Patent and Trademark Office (USPTO) as provisional patent applications under 35 USC 111(b). They are assigned to RocketOpp LLC.' },
+              { q: 'Can I use these technologies in my own projects?', a: 'Absolutely. 0nMCP is source-available (BSL-1.1). You can use the platform and its patent-pending technology in your commercial projects. Our filings are intended to protect those implementations from being copied by competitors.' },
               { q: 'How does 0nPlex make AI responses better?', a: '0nPlex sends every question to 7 different AI "personalities" — an Empiricist, Behavioralist, Systems Architect, Ethicist, Pragmatist, Adversary, and Visionary. Each brings a unique perspective, then the best ideas are combined into one superior answer.' },
             ].map((faq) => (
               <details
@@ -279,7 +279,7 @@ export default function TechnologyPage() {
             Ready to use patent-pending AI technology?
           </h2>
           <p className="text-sm mb-6 max-w-lg mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            Join thousands of developers and businesses using 0nMCP to orchestrate AI workflows with patent-protected technology. Free to start.
+            Join thousands of developers and businesses using 0nMCP to orchestrate AI workflows with patent-pending technology. Free to start.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/signup" className="btn-accent no-underline px-6 py-2.5 rounded-xl font-bold text-sm">

@@ -173,7 +173,7 @@ And yes — **0nMCP works inside OpenClaw too.** If you're already using OpenCla
 - You want AI that generates revenue, not convenience
 - You want one system that replaces 15 SaaS subscriptions
 - You want enterprise-grade encryption on your credentials
-- You want patent-protected technology backing your stack
+- You want patent-pending technology backing your stack
 
 ---
 

@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Automate MCP Server Workflows — Agentic Power with 0nMCP',
-  description: 'Build autonomous AI workflows with Pipeline, Assembly Line, and Radial Burst execution models. 1,598+ tools, 4 patents, zero config.',
+  description: 'Build autonomous AI workflows with Pipeline, Assembly Line, and Radial Burst execution models. 1,598+ tools, 4 US patent applications filed, zero config.',
   alternates: { canonical: 'https://www.0nmcp.com/automate-mcp' },
 }
 
@@ -33,14 +33,10 @@ export default function AutomateMcpPage() {
             { name: 'Assembly Line', desc: 'Parallel with dependencies — independent steps run simultaneously. Multi-service orchestration.', icon: '⇉' },
             { name: 'Radial Burst', desc: 'Fan-out — one trigger spawns N parallel ops. Broadcast, bulk updates, multi-channel campaigns.', icon: '✦' },
           ].map(m => (
-            <div key={m.name} style={{
+            <div key={m.name} className="hover-lift" style={{
               padding: 24, borderRadius: 14, background: 'var(--bg-card)',
               border: '1px solid var(--border)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-              transition: 'box-shadow 0.2s, transform 0.2s',
-            }}
-              onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-              onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => { e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; e.currentTarget.style.transform = 'translateY(0)' }}
-            >
+            }}>
               <div style={{ fontSize: 28, marginBottom: 8 }}>{m.icon}</div>
               <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>{m.name}</div>
               <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>{m.desc}</div>

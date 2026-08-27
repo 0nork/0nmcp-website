@@ -26,7 +26,7 @@ const MUTATIONS = [
     requiresUpdate: true,
     newTitle: '0nMCP MCP Server — Automate 111 Services With One Install',
     newH1: 'Automate MCP Server Integration — 0nMCP',
-    newBluf: 'Stop wiring APIs manually. 0nMCP gives your AI access to <strong>Stripe, CRM, Slack, GitHub, Supabase</strong>, and 106 more services through a single MCP server. <strong>4 patents filed.</strong> Used by agencies generating real revenue with AI automation.',
+    newBluf: 'Stop wiring APIs manually. 0nMCP gives your AI access to <strong>Stripe, CRM, Slack, GitHub, Supabase</strong>, and 106 more services through a single MCP server. <strong>4 US patent applications filed.</strong> Used by agencies generating real revenue with AI automation.',
     changeLog: 'Integration metrics refreshed from production telemetry',
     newTableRows: `
       <tr class="border-b"><td class="p-4 font-medium">CRM Tools</td><td class="p-4 text-gray-500">0 (not supported)</td><td class="p-4 font-bold" style="color:#16a34a">245 CRM tools — contacts, calendars, invoices, pipelines</td></tr>

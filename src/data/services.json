@@ -3,7 +3,7 @@
     "version": "5.0.0",
     "generated": "2026-08-06",
     "source": "0nMCP v4.22.0 catalog.js + crm/ + vault/ + engine/ + deed/ + app/",
-    "total_services": 106,
+    "total_services": 98,
     "total_tools": 1598,
     "catalog_tools": 1324,
     "crm_module_tools": 245,
@@ -15,7 +15,8 @@
     "total_capabilities": 2160,
     "categories": 25,
     "schema": "0n-services-v4",
-    "mcp_server_tools": 16
+    "mcp_server_tools": 16,
+    "services_counted_from": "services[] length, derived at edit time"
   },
   "categories": [
     {
@@ -7544,77 +7545,6 @@
           "Update Deal",
           "Create Person",
           "List Persons"
-        ],
-        "outcomes": [
-          "Contact updated",
-          "Deal created",
-          "Pipeline moved"
-        ],
-        "frequency": [
-          "On event",
-          "Manual",
-          "Scheduled",
-          "Daily sync"
-        ],
-        "notifications": [
-          "Console log",
-          "Webhook",
-          "Email",
-          "Slack"
-        ]
-      }
-    },
-    {
-      "id": "gohighlevel",
-      "name": "GoHighLevel",
-      "slug": "gohighlevel",
-      "icon": "📇",
-      "category_id": "crm_sales",
-      "display_order": 53,
-      "status": "live",
-      "federation_source": "catalog",
-      "auth_type": "api_key",
-      "description_short": "All-in-one CRM — contacts, pipelines, funnels, and marketing automation.",
-      "description_long": "Connect GoHighLevel to 0nMCP to manage contacts, create and track pipelines, build funnels, send SMS and email campaigns, manage calendars, and automate your entire sales and marketing workflow.",
-      "sxo_keywords": [
-        "gohighlevel automation",
-        "gohighlevel integration",
-        "crm automation",
-        "gohighlevel api"
-      ],
-      "tool_count": 8,
-      "tools": [
-        {
-          "id": "gohighlevel_create_contact",
-          "name": "Create Contact",
-          "description": "Create a new contact in GoHighLevel."
-        },
-        {
-          "id": "gohighlevel_list_contacts",
-          "name": "List Contacts",
-          "description": "List all contacts."
-        },
-        {
-          "id": "gohighlevel_create_opportunity",
-          "name": "Create Opportunity",
-          "description": "Create a new pipeline opportunity."
-        }
-      ],
-      "logo": "/logos/gohighlevel.svg",
-      "howTo": {
-        "selections": [
-          "Create Contact",
-          "List Contacts",
-          "Create Opportunity"
-        ],
-        "triggers": [
-          "Create Contact event",
-          "Create Opportunity event"
-        ],
-        "actions": [
-          "Create Contact",
-          "List Contacts",
-          "Create Opportunity"
         ],
         "outcomes": [
           "Contact updated",

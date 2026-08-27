@@ -387,13 +387,6 @@ const LinkedIn = ({ size = 20, className }: P) => (
 
 /* ── New expanded service logos ── */
 
-const GoHighLevel = ({ size = 20, className }: P) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-    <rect width="24" height="24" rx="4" fill="#38b2ac" />
-    <text x="12" y="15.5" textAnchor="middle" fill="#fff" fontSize="8" fontWeight="bold" fontFamily="Arial,sans-serif">GHL</text>
-  </svg>
-)
-
 const Cohere = ({ size = 20, className }: P) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
     <rect width="24" height="24" rx="4" fill="#39594D" />
@@ -729,7 +722,6 @@ export const SERVICE_LOGOS: Record<string, React.FC<P>> = {
   'x-ads': XTwitter,
   'linkedin-ads': LinkedIn,
   'instagram-ads': Instagram,
-  gohighlevel: GoHighLevel,
   cohere: Cohere,
   mistral: Mistral,
   replicate: Replicate,
@@ -828,7 +820,6 @@ export const ALL_SERVICES = [
   { id: 'deed', name: 'Digital Deed', category: '0n Platform', color: '#a78bfa' },
   { id: 'engine', name: '0n Engine', category: '0n Platform', color: '#ff6b35' },
   { id: 'app-builder', name: 'App Builder', category: '0n Platform', color: '#6EE05A' },
-  { id: 'gohighlevel', name: 'GoHighLevel', category: 'CRM', color: '#38b2ac' },
   { id: 'cohere', name: 'Cohere', category: 'AI', color: '#39594D' },
   { id: 'mistral', name: 'Mistral', category: 'AI', color: '#F97316' },
   { id: 'replicate', name: 'Replicate', category: 'AI', color: '#000000' },

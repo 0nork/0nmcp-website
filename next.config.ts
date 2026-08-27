@@ -4,6 +4,17 @@ import { withSentryConfig } from '@sentry/nextjs'
 const nextConfig: NextConfig = {
   trailingSlash: false,
 
+  // The `gohighlevel` service entry was a duplicate of `crm` (slug 0nmcp-crm) that
+  // published a forbidden vendor brand name on three indexed pages. Entry deleted;
+  // these 301s move the link equity to the surviving CRM pages instead of 404ing.
+  async redirects() {
+    return [
+      { source: '/turn-it-on/gohighlevel', destination: '/turn-it-on/0nmcp-crm', permanent: true },
+      { source: '/integrations/gohighlevel', destination: '/integrations/0nmcp-crm', permanent: true },
+      { source: '/tools/gohighlevel', destination: '/tools/0nmcp-crm', permanent: true },
+    ]
+  },
+
   async rewrites() {
     return [
       {

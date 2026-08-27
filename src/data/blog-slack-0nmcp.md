@@ -208,7 +208,7 @@ Yes. The `/0n` command works everywhere — channels, DMs, threads.
 Unlimited. Every team member in your Slack workspace can use `/0n`.
 
 ### What CRM does it connect to?
-0nCore works with the CRM (GoHighLevel-compatible) and integrates with 106 services including Stripe, SendGrid, Twilio, Google Workspace, and more.
+0nCore works with the CRM (agency-CRM compatible) and integrates with 106 services including Stripe, SendGrid, Twilio, Google Workspace, and more.
 
 ### Can I customize which events go to which channels?
 Yes. Configure the event bridge to route different events to different channels — leads to #leads, payments to #sales, etc.

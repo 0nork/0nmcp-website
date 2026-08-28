@@ -17,7 +17,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // ==================== Config ====================
 
-const SUPABASE_URL = 'https://yaehbwimocvvnnlojkxe.supabase.co'
+// Was hardcoded to 'yaehbwimocvvnnlojkxe' — a Supabase project that has
+// been DELETED — while this repo's runtime, and seed-wave4.mjs beside it, use
+// pwujhhmlrtxjmjzyttwn. Two seeders for one site pointed at two databases and
+// one of them no longer existed (measured 2026-08-28).
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://pwujhhmlrtxjmjzyttwn.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhZWhid2ltb2N2dm5ubG9qa3hlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDU2MDUwOSwiZXhwIjoyMDg2MTM2NTA5fQ.XPpbmQZmqjMe7GheA6HBbyfuqQy9KxdT7DqdjBYrKlI'
 const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 

@@ -166,24 +166,43 @@ export async function createBillingPortal(stripeCustomerId: string, returnUrl: s
 /**
  * Count a user's executions in the current calendar month.
  * Uses service role to bypass RLS.
+ *
+ * THIS GATE FAILED OPEN (fixed 2026-08-30). It dropped `error` and returned
+ * `count || 0`, and `api/console/execute` reads it as
+ * `monthlyCount >= FREE_TIER_MONTHLY_LIMIT`. A supabase-js head-count that
+ * fails returns `{ count: null, error }`, so ANY read failure — dead project,
+ * network blip, RLS change, missing env — became 0 used, which is never at the
+ * limit: unlimited free executions of a BILLED 0nMCP run, HTTP 200, nothing
+ * logged. The two missing-env early returns had the same effect for free.
+ *
+ * A quota gate must fail CLOSED and must say WHICH state it is in. `null` is
+ * "we could not check" and is not the same value as 0.
  */
-export async function getMonthlyExecutionCount(userId: string): Promise<number> {
+export async function getMonthlyExecutionCount(userId: string): Promise<number | null> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) return 0
+  if (!url || !key) {
+    console.error('[billing] getMonthlyExecutionCount: Supabase env missing — cannot count usage')
+    return null
+  }
 
   const admin = createClient(url, key)
   const startOfMonth = new Date()
   startOfMonth.setDate(1)
   startOfMonth.setHours(0, 0, 0, 0)
 
-  const { count } = await admin
+  const { count, error } = await admin
     .from('console_executions')
     .select('id', { count: 'exact', head: true })
     .eq('user_id', userId)
     .gte('created_at', startOfMonth.toISOString())
 
-  return count || 0
+  // The platform's own words, because a generic catch is how an outage hides.
+  if (error) {
+    console.error('[billing] getMonthlyExecutionCount failed:', error.message, error.details ?? '')
+    return null
+  }
+  return count ?? 0
 }
 
 export { METERED_PRICE_ID, METER_EVENT_NAME }

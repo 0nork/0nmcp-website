@@ -41,6 +41,11 @@ export async function GET() {
   }
 
   const used = await getMonthlyExecutionCount(user.id)
+  // A usage page that prints "0 used" when the count could not be read is the
+  // display half of the same falsehood the gate had.
+  if (used === null) {
+    return NextResponse.json({ error: 'usage_check_failed', message: 'Usage could not be read' }, { status: 503 })
+  }
 
   if (isPaid) {
     return NextResponse.json({

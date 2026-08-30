@@ -79,6 +79,16 @@ export async function POST(request: NextRequest) {
     // Free tier check — 20 executions per calendar month
     if (!isPaidUser) {
       const monthlyCount = await getMonthlyExecutionCount(user.id)
+      // null is "we could not count", NOT zero. Treating it as zero is what
+      // made this cap unlimited on any read failure (see billing.ts). A gate
+      // that cannot read its own counter must refuse, and must say so — a 503
+      // is recoverable and visible; a silent free run is neither.
+      if (monthlyCount === null) {
+        return NextResponse.json(
+          { status: 'usage_check_failed', message: 'We could not verify your monthly usage. Please try again shortly.' },
+          { status: 503 }
+        )
+      }
       if (monthlyCount >= FREE_TIER_MONTHLY_LIMIT) {
         return NextResponse.json(
           {

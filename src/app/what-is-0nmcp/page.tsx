@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import WhatIsClient from './WhatIsClient'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'What Is 0nMCP? The AI Tool That Does Your Business Work For You',
   description:
     '0nMCP gives your AI 1,598+ tools to take real action — send emails, charge payments, update your CRM. 0nCore is the engine. Learn how it works.',
@@ -170,4 +171,8 @@ export default function WhatIsPage() {
       <WhatIsClient />
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/what-is-0nmcp', metadataBase)
 }

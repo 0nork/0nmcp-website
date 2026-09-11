@@ -1,3 +1,5 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
+import type { Metadata } from 'next'
 // app/install/error/page.tsx
 
 export default async function InstallError({
@@ -22,4 +24,8 @@ export default async function InstallError({
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/install/error', {})
 }

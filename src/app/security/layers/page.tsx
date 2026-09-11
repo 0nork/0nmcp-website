@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '7 Semantic Layers — 0nVault Independent Encryption',
   description: 'Workflows, credentials, env vars, MCP configs, site profiles, AI brain, and audit trail -- each encrypted independently with AES-256-GCM. Credentials use double-encryption with Argon2id.',
   openGraph: {
@@ -149,4 +150,8 @@ export default function LayersPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/security/layers', metadataBase)
 }

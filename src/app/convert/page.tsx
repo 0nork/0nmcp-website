@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Brain Transplant — Convert Any AI to .0n | 0nMCP',
   description: 'Migrate your AI workflows from OpenAI, Gemini, OpenClaw, and Claude Code to the universal .0n standard. Free extraction guides + instant conversion.',
   keywords: ['convert AI workflows', 'AI migration tool', 'brain transplant AI', '.0n converter', 'migrate AI assistant', 'OpenAI to MCP', 'Gemini to MCP', 'AI workflow converter'],
@@ -264,4 +265,8 @@ export default function ConvertHub() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/convert', metadataBase)
 }

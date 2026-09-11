@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nPlex — 7 AI Experts Debate Every Answer | 0nMCP Patent #64/006,268',
   description: '0nPlex sends every question to 7 AI personalities with different perspectives. They debate, challenge, and refine responses until you get the best possible answer. US Patent Application #64/006,268.',
   openGraph: {
@@ -221,4 +222,8 @@ export default function PlexPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/technology/0nplex', metadataBase)
 }

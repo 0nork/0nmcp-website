@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Our Technology — 4 Patent-Pending Innovations Powering the Future of AI Orchestration | 0nMCP',
   description: 'Explore the patent-pending technology behind 0nMCP: tamper-proof data verification, encrypted digital vaults, multi-AI reasoning, and adaptive content generation. 4 US patent applications filed.',
   openGraph: {
@@ -293,4 +294,8 @@ export default function TechnologyPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/technology', metadataBase)
 }

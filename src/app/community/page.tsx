@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Community -- Join the AI Orchestration Movement',
   description:
     `Join the 0nMCP community. The most comprehensive MCP server available — ${STATS_DISPLAY.services} services, 80+ pre-built automations, source-available core. Discussions, contribution guides, and the unlock roadmap.`,
@@ -518,4 +519,8 @@ export default function CommunityPage() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/community', metadataBase)
 }

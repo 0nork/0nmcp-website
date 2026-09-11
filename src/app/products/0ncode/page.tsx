@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nCode — AI Code Snippet Designer | Generate Beautiful UI from Chat | 0nMCP',
   description: 'Design stunning code snippets and UI components from natural language. 3 design variations per prompt, real-time streaming, export production-ready HTML/CSS. Powered by AI.',
   keywords: ['0nCode', 'AI code generator', 'UI designer', 'code snippets', 'HTML generator', 'CSS generator', 'AI design'],
@@ -428,4 +429,8 @@ export default function OnCodeProductPage() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/products/0ncode', metadataBase)
 }

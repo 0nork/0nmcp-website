@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import SpaAuthForm from './SpaAuthForm'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'The Spa in Ligonier — VIP Portal',
   description: 'Access your personalized spa management dashboard. Automated appointments, client retention, AI booking assistant.',
 }
@@ -189,4 +190,8 @@ export default function SpaVipPage() {
       </div>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/vip/spa', metadataBase)
 }

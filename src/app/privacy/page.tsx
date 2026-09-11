@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Privacy Policy — 0nMCP by RocketOpp LLC',
   description: 'Privacy policy for 0nmcp.com. How we collect, use, and protect your data.',
   alternates: { canonical: 'https://www.0nmcp.com/privacy' },
@@ -203,4 +204,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       <div className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{children}</div>
     </section>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/privacy', metadataBase)
 }

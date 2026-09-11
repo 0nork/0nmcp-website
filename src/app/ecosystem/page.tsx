@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
@@ -14,7 +15,7 @@ import { SITE_URL } from '@/lib/cro9';
  * ecosystem"). Ship it at the same time as the first app page — a child route
  * with no parent is a crawl dead-end.
  */
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   // layout.tsx uses a static title, so the brand suffix is added here.
   title: 'The 0n Apps — Apps Built on 0nMCP | 0nMCP',
   description:
@@ -135,4 +136,8 @@ export default function EcosystemIndexPage() {
       </div>
     </>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/ecosystem', metadataBase)
 }

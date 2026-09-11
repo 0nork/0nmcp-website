@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nMCP for Claude — Universal MCP Server for Claude Desktop & Claude Code | 0nMCP',
   description: 'Add 0nMCP to Claude Desktop or Claude Code and unlock 1,598+ tools across 106 services. CRM, Stripe, Slack, GitHub, and 107 more. The most comprehensive MCP server available.',
   keywords: ['0nMCP', 'Claude', 'Anthropic', 'MCP server', 'Claude Desktop', 'Claude Code', 'AI tools', 'workflow automation'],
@@ -494,4 +495,8 @@ export default function ClaudeIntegrationPage() {
       </main>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/integrations/claude', metadataBase)
 }

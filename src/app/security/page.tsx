@@ -1,9 +1,10 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
 import { STATS } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nVault Security System — Patent-Pending Encrypted AI Orchestration',
   description: '0nVault: 7 semantic layers, AES-256-GCM encryption, Ed25519 signatures, SHA3-256 integrity seals, multi-party escrow, and secure transfer. Patent-pending technology for AI orchestration security.',
   openGraph: {
@@ -205,4 +206,8 @@ export default function SecurityPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/security', metadataBase)
 }

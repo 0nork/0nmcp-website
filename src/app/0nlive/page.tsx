@@ -1,6 +1,7 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0n Command Center — Live Access',
   description: 'Download and install the 0n Command Center. 12 engines, 88 API routes, AI-powered outreach, CRM auto-provisioning.',
   robots: { index: false, follow: false },
@@ -188,4 +189,8 @@ GITHUB_TOKEN=ghp_...
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/0nlive', metadataBase)
 }

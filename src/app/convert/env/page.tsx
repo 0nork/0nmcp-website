@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import EnvConverterClient from './EnvConverterClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Convert .env to .0n — Free Encrypted Config Migration | 0nMCP',
   description: 'Paste your .env file and get military-grade encrypted .0n files. Auto-detects 20+ services. Your keys never leave your browser.',
   keywords: ['.env security', 'API key encryption', 'config migration', '.0n standard', 'secret management', '0nMCP'],
@@ -17,4 +18,8 @@ export const metadata: Metadata = {
 
 export default function ConvertEnvPage() {
   return <EnvConverterClient />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/convert/env', metadataBase)
 }

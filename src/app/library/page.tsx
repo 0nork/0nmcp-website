@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import LibraryClient from './LibraryClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'The 0n Component Library — every building block in the system',
   description:
     'Browse every building block in the 0n design system. Curated names, live previews, one consistent surface across every 0n product.',
@@ -16,4 +17,8 @@ export const metadata: Metadata = {
 
 export default function LibraryPage() {
   return <LibraryClient />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/library', metadataBase)
 }

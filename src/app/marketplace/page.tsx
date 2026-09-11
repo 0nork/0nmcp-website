@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import { Metadata } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import MarketplaceBrowser from '@/components/marketplace/MarketplaceBrowser'
@@ -7,7 +8,7 @@ import { STATS_DISPLAY } from '@/data/stats'
 
 export const revalidate = 3600
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Marketplace — Browse .0n Workflows & Automations | 0nMCP',
   description:
     `Discover pre-built .0n SWITCH files for ${STATS_DISPLAY.services} services and ${STATS_DISPLAY.capabilities} capabilities. Browse, filter by service or capability, and install automation workflows instantly.`,
@@ -179,4 +180,8 @@ export default async function MarketplacePage() {
       </div>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/marketplace', metadataBase)
 }

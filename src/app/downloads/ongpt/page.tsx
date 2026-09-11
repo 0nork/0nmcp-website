@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nGPT — Use 0nMCP Inside ChatGPT',
   description: `${STATS_DISPLAY.tools} MCP tools inside ChatGPT. OAuth 2.1 with PKCE, branded widget, full tool execution. The first 0nMCP app integration.`,
   alternates: { canonical: 'https://www.0nmcp.com/downloads/ongpt' },
@@ -117,4 +118,8 @@ export default function OnGptPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/downloads/ongpt', metadataBase)
 }

@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
 import GoClient from './GoClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: `0nMCP — The AI Operating System for Business | ${STATS_DISPLAY.tools} Tools, ${STATS_DISPLAY.services} Services, One Command`,
   description:
     'Stop switching between 15 apps. 0nMCP connects your CRM, email, payments, social media, and 44 other services into one AI-powered platform. Describe what you want. AI does it. Patent pending encryption. Free to start.',
@@ -76,4 +77,8 @@ export default function GoPage() {
       <GoClient />
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/go', metadataBase)
 }

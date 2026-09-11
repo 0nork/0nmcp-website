@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nFAM — VIP Access to 0nMCP | Full Access, Zero Cost',
   description:
     'Join the 0nFAM — the inner circle of 0nMCP. Full console access, CRM sub-account, all add-ons, AI agent, lifetime membership. By invitation only.',
@@ -919,4 +920,8 @@ export default function VIPPage() {
       </div>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/vip', metadataBase)
 }

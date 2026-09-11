@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Patent-Pending Technology — US Application #63/990,046',
   description: 'US Patent Application #63/990,046: Encrypted Semantic Container System for AI Orchestration. Filed February 24, 2026 by Michael A Mento Jr. Prior patent #63/968,814 (Seal of Truth).',
   openGraph: {
@@ -208,4 +209,8 @@ export default function PatentPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/security/patent', metadataBase)
 }

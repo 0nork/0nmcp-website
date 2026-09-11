@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import OrchestratorForge from '@/components/OrchestratorForge'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'MCP Server Integration with 0nMCP — Zero Config, 1,598+ Tools',
   description: 'Integrate 1,598+ tools across 106 services into any AI model with zero configuration. The most comprehensive MCP server for business automation.',
   alternates: { canonical: 'https://www.0nmcp.com/mcp-integration' },
@@ -45,4 +46,8 @@ export default function McpIntegrationPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/mcp-integration', metadataBase)
 }

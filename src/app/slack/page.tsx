@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 /**
  * /slack — Add to Slack landing page
  *
@@ -10,7 +11,7 @@
 
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nMCP for Slack -- Universal AI Orchestrator in Your Workspace',
   description:
     'Install 0nMCP in your Slack workspace. Run AI workflows, manage integrations, and orchestrate APIs -- all from Slack.',
@@ -168,4 +169,8 @@ export default async function SlackPage({
       </div>
     </main>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/slack', metadataBase)
 }

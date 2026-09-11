@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft, Clock, Smartphone } from 'lucide-react'
@@ -23,7 +24,7 @@ const title = 'app0n — Coming Soon | 0nMCP'
 const description =
   'app0n is an AI app builder in development, built on 0nMCP. Join the list to hear when it opens, or ask about early investment.'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title,
   description,
   alternates: { canonical: `${SITE}/ecosystem/app0n` },
@@ -122,4 +123,8 @@ export default function App0nComingSoon() {
       </div>
     </main>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/ecosystem/app0n', metadataBase)
 }

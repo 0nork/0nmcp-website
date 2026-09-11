@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'WordPress Plugins by 0nCore | SXO Content Engine + AI Tools',
   description: 'The WordPress plugin ecosystem built with 0n technology. SXO scoring, AI content generation, CRM integration, conversion tracking, and page builder modules. Free core plugin + premium add-ons.',
   openGraph: {
@@ -185,4 +186,8 @@ export default function WordPressPage() {
       </section>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/wordpress', metadataBase)
 }

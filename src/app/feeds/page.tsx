@@ -1,6 +1,7 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'RSS Feeds — 0nMCP',
   description:
     'Subscribe to 0nMCP RSS feeds for blog updates, changelogs, and white-label SXO content you can drop into your own blog.',
@@ -257,4 +258,8 @@ export default function FeedsPage() {
       </div>
     </main>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/feeds', metadataBase)
 }

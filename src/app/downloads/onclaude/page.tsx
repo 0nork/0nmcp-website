@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nClaude — The Premium Claude Experience',
   description: `Connect your Vault to Claude Desktop or Claude Code. ${STATS_DISPLAY.tools} tools, Knowledge Layer, and business context — loaded automatically.`,
   alternates: { canonical: 'https://www.0nmcp.com/downloads/onclaude' },
@@ -195,4 +196,8 @@ export default function OnClaudePage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/downloads/onclaude', metadataBase)
 }

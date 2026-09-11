@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import AuditClient from './AuditClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Free AI Website Audit — SXO Score in 5 Seconds | 0nMCP',
   description: 'Instant website audit: speed, SEO, security, mobile, schema, Open Graph. Get your SXO score with actionable fixes. Free, no signup required.',
   keywords: ['website audit', 'SEO audit', 'site speed test', 'SXO audit', 'free website checker', 'security headers check', 'schema validation', 'Open Graph checker'],
@@ -15,4 +16,8 @@ export const metadata: Metadata = {
 
 export default function AuditPage() {
   return <AuditClient />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/audit', metadataBase)
 }

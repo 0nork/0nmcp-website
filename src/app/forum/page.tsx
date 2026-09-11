@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { createClient } from '@supabase/supabase-js'
@@ -11,7 +12,7 @@ function getAdmin() {
   return createClient(supabaseUrl, serviceRoleKey)
 }
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nboard — MCP & Agentic AI Community',
   description: 'The hub for MCP server development, agentic AI workflows, AI orchestration, generative AI tools, and autonomous agent discussions. Join the 0nMCP community.',
   keywords: ['MCP server', 'agentic AI', 'AI orchestration', 'generative AI', 'autonomous agents', 'model context protocol', 'AI workflow automation', '0nMCP', '0nboard'],
@@ -111,4 +112,8 @@ export default function ForumPage() {
       <ForumContent />
     </Suspense>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/forum', metadataBase)
 }

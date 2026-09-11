@@ -1,3 +1,5 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
@@ -286,4 +288,8 @@ export default function StorePage() {
       </section>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/store', {})
 }

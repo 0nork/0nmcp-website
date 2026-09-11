@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import LearnCatalog from './LearnCatalog'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Learn — Master AI Orchestration with 0nMCP',
   description: 'Free courses on 0nMCP, the .0n Standard, workflows, vault, engine, CRM integration, and more. From beginner to enterprise.',
   openGraph: {
@@ -14,4 +15,8 @@ export const metadata: Metadata = {
 
 export default function LearnPage() {
   return <LearnCatalog />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/learn', metadataBase)
 }

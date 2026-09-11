@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Secure Your Claude Desktop in 60 Seconds — Free | 0nMCP',
   description:
     'The March 2026 supply chain attack compromised thousands of developers. Don\'t be next. 0nDefender protects your MCP server with 4 security layers — completely free.',
@@ -538,4 +539,8 @@ export default function SecureClaudePage() {
       `}} />
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/secure-claude', metadataBase)
 }

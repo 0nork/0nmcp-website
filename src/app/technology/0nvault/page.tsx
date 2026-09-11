@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nVault — Encrypted Digital Safe With 7 Compartments | 0nMCP Patent #63/990,046',
   description: '0nVault is an encrypted digital safe with 7 independent compartments. Store credentials, workflows, and business assets — share specific keys with specific people. US Patent Application #63/990,046.',
   openGraph: {
@@ -203,4 +204,8 @@ export default function VaultPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/technology/0nvault', metadataBase)
 }

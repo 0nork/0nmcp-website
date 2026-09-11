@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
 import { SkillInstallClient } from './client'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Add 0nMCP to Claude | 0nMCP',
   description: `Add 0nMCP to any Claude app in seconds. ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services — your Vault, workflows, and AI brain, right inside Claude.`,
   openGraph: {
@@ -14,4 +15,8 @@ export const metadata: Metadata = {
 
 export default function SkillInstallPage() {
   return <SkillInstallClient />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/install/skill', metadataBase)
 }

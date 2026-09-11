@@ -1,10 +1,11 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import comparisonsData from '@/data/comparisons.json'
 import { STATS, STATS_DISPLAY } from '@/data/stats'
 import AnimatedGrid from '@/components/AnimatedGrid'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nMCP vs Every AI Tool — Best AI Software Comparison 2026 | Claude vs GPT vs Gemini vs Zapier',
   description:
     'The definitive AI tool comparison for 2026. Compare 0nMCP against Claude, GPT, Gemini, Zapier, Make, n8n, OpenClaw, and 13+ platforms. 1,598+ tools, 106 services, free and open source. Feature tables, pricing, and honest assessments.',
@@ -853,4 +854,8 @@ export default function ComparePage() {
       </section>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/compare', metadataBase)
 }

@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import OrchestratorForge from '@/components/OrchestratorForge'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Automate MCP Server Workflows — Agentic Power with 0nMCP',
   description: 'Build autonomous AI workflows with Pipeline, Assembly Line, and Radial Burst execution models. 1,598+ tools, 4 US patent applications filed, zero config.',
   alternates: { canonical: 'https://www.0nmcp.com/automate-mcp' },
@@ -59,4 +60,8 @@ export default function AutomateMcpPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/automate-mcp', metadataBase)
 }

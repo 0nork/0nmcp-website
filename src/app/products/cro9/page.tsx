@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'CRO9 — Self-Learning SEO Engine | 0n Network',
   description: 'AI-powered SEO optimization that learns and adapts. CRO9 pulls Search Console data, scores pages with adaptive weights, generates content briefs, and auto-adjusts strategy daily.',
   openGraph: {
@@ -301,4 +302,8 @@ export default function CRO9Page() {
       </section>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/products/cro9', metadataBase)
 }

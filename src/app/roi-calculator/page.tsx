@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import ROICalculator from '@/components/ROICalculator'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'ROI Calculator — How Much Can Your Agency Save? | 0nMCP',
   description: 'Calculate your agency automation ROI in 60 seconds. See how much time and money you save by automating client onboarding, reporting, lead follow-up, social media, email campaigns, and billing.',
   keywords: ['ROI calculator', 'automation ROI', 'agency automation', 'AI automation cost savings', '0nMCP', 'workflow automation'],
@@ -110,4 +111,8 @@ export default function ROICalculatorPage() {
       <ROICalculator />
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/roi-calculator', metadataBase)
 }

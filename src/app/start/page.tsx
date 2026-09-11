@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
 import { StartClient } from './StartClient'
@@ -5,7 +6,7 @@ import { StartClient } from './StartClient'
 const title = `Turn It 0n — Install 0nMCP on ${STATS_DISPLAY.services}+ Platforms`
 const description = `Install 0nMCP and get ${STATS_DISPLAY.tools} AI tools everywhere you work. Claude, Cursor, VS Code, WordPress, npm, Chrome, and more. $50 Founders Access.`
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title,
   description,
   keywords: [
@@ -30,4 +31,8 @@ export const metadata: Metadata = {
 
 export default function StartPage() {
   return <StartClient />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/start', metadataBase)
 }

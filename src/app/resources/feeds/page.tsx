@@ -1,3 +1,5 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
+import type { Metadata } from 'next'
 import blogData from '@/data/blog-posts.json'
 
 const CATEGORIES = [
@@ -152,4 +154,8 @@ export default function FeedsPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/resources/feeds', {})
 }

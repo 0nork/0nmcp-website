@@ -1,9 +1,10 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import { Metadata } from 'next'
 import { STATS } from '@/data/stats'
 import servicesData from '@/data/services.json'
 import { ServicesClient } from './ServicesClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: `${STATS.services} Connected Services — ${STATS.tools} Tools | 0nMCP`,
   description: `Connect to ${STATS.services} services with ${STATS.tools} tools and ${STATS.capabilities} pre-built capabilities. One MCP server that connects to everything — Stripe, Gmail, Slack, CRM, AI, databases, and more.`,
   openGraph: {
@@ -43,4 +44,8 @@ export default function ServicesPage() {
       allServices={services}
     />
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/services', metadataBase)
 }

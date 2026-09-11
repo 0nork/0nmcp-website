@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Seal of Truth — Tamper-Proof Data Verification | 0nMCP Patent #63/968,814',
   description: 'The Seal of Truth creates a unique digital fingerprint of your data using SHA3-256 cryptography. If anyone changes even one character, you\'ll know instantly. US Patent Application #63/968,814.',
   openGraph: {
@@ -178,4 +179,8 @@ export default function SealOfTruthPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/technology/seal-of-truth', metadataBase)
 }

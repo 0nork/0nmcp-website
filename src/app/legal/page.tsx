@@ -1,6 +1,7 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Legal Notice -- Trademark, Patent & Intellectual Property Policy',
   description:
     'Legal notice, trademark policy, patent information, and intellectual property enforcement for 0nMCP, 0nORK, and the 0n ecosystem. RocketOpp, LLC actively enforces its IP rights.',
@@ -633,4 +634,8 @@ export default function LegalPage() {
       </div>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/legal', metadataBase)
 }

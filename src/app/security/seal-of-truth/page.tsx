@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Seal of Truth — SHA3-256 Integrity Verification for 0nVault',
   description: 'Tamper-proof integrity verification using SHA3-256 content-addressed hashing. Verify any .0nv container without decrypting it. Prior patent #63/968,814.',
   openGraph: {
@@ -148,4 +149,8 @@ export default function SealOfTruthPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/security/seal-of-truth', metadataBase)
 }

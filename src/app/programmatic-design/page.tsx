@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Copy, ExternalLink, Sparkles, Terminal } from 'lucide-react'
@@ -8,7 +9,7 @@ import { Separator } from '@/components/ui/separator'
 import { toPublicSummary } from '@/lib/0n-registry'
 import CopyButton from './CopyButton'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0n Programmatic Website Design Components',
   description:
     'Pre-composed, shadcn-installable components from the 0n design system. One install command, your AI editor drops the source straight into the project.',
@@ -176,4 +177,8 @@ export default function ProgrammaticDesignPage() {
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/programmatic-design', metadataBase)
 }

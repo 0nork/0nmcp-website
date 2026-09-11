@@ -1,10 +1,12 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { createSupabaseServer } from '@/lib/supabase/server'
 import GridEmbed from './GridEmbed'
 
 const GRID_URL = 'https://grid.0nmcp.com/communities/groups/the-0nboard/home'
 
-export const metadata = {
+const metadataBase = {
   title: 'Grid | 0nMCP',
   description: 'The 0nBoard — community for 0nMCP builders',
   robots: { index: false, follow: false },
@@ -31,4 +33,8 @@ export default async function GridPage() {
 
   // Show Grid for all paid users — CRM setup is optional enhancement
   return <GridEmbed gridUrl={GRID_URL} hasCrmSetup={true} />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/grid', metadataBase)
 }

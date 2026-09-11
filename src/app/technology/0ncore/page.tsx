@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nCore — AI That Writes in YOUR Voice | 0nMCP Patent #64/006,282',
   description: '0nCore learns your industry, your style, and your language — then generates content that sounds authentically like you. Adaptive content generation with conversion optimization. US Patent Application #64/006,282.',
   openGraph: {
@@ -275,4 +276,8 @@ export default function CorePage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/technology/0ncore', metadataBase)
 }

@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Partners & Apps — 0nMCP Ecosystem | Featured Businesses Powered by AI',
   description:
     'Explore the 0nMCP ecosystem. 0nCore apps, Rocket+ mods, partner integrations, and featured businesses using 0nMCP to automate operations and grow revenue.',
@@ -912,4 +913,8 @@ function AppCardComponent({ app }: { app: AppCard }) {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/partners', metadataBase)
 }

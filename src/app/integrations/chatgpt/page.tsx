@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nMCP for ChatGPT — 16 AI Tools Inside OpenAI | 0nMCP',
   description:
     'Install 0nMCP in ChatGPT and get 16 tools: CRM contacts, Stripe payments, Slack messaging, AI brain, website builder, and pipeline execution. One token to connect. Free.',
@@ -731,4 +732,8 @@ export default function ChatGPTIntegrationPage() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/integrations/chatgpt', metadataBase)
 }

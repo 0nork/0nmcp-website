@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Multi-Party Escrow — X25519 ECDH Key Agreement for 0nVault',
   description: 'Share encrypted .0nv containers with up to 8 parties using X25519 ECDH key agreement. Granular per-layer access control with cryptographic enforcement.',
   openGraph: {
@@ -183,4 +184,8 @@ export default function EscrowPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/security/escrow', metadataBase)
 }

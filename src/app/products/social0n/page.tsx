@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Social0n — AI-Powered Social Media Automation | 0n Network',
   description: 'Automate your social media presence with AI. Schedule, generate, and publish content across every platform from one command.',
   openGraph: {
@@ -65,4 +66,8 @@ export default function Social0nPage() {
       </section>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/products/social0n', metadataBase)
 }

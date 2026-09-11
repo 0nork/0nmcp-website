@@ -1,6 +1,7 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'The .0n Standard -- Universal Configuration for AI Orchestration',
   description:
     'The .0n Standard is the universal configuration format for AI orchestration. Like .env for environment variables, .0n is for AI config. One format, every client, zero fragmentation.',
@@ -647,4 +648,8 @@ export default function OnStandardPage() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/0n-standard', metadataBase)
 }

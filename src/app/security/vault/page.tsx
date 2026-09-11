@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nVault Container System — .0nv Binary Format',
   description: 'The .0nv container format bundles encrypted semantic layers, digital signatures, integrity seals, and transfer logs into a single portable binary file for AI orchestration.',
   openGraph: {
@@ -161,4 +162,8 @@ export default function VaultPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/security/vault', metadataBase)
 }

@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import servicesData from '@/data/services.json'
@@ -9,7 +10,7 @@ import TurnItOnSignup from '@/components/turn-it-on/TurnItOnSignup'
 import AnimatedGrid from '@/components/AnimatedGrid'
 import AnimatedConnectors from '@/components/AnimatedConnectors'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: `Turn it 0n — ${STATS_DISPLAY.services} Services, ${STATS_DISPLAY.tools} Tools | 0nMCP`,
   description:
     `Connect ${STATS_DISPLAY.services} services with ${STATS_DISPLAY.tools} tools and 80 pre-built automations. Gmail, Slack, Stripe, Shopify, HubSpot, and more — all orchestrated by a single AI command. No monthly fees.`,
@@ -254,4 +255,8 @@ function StatusBadge({ status }: { status: string }) {
       {isLive ? 'live' : 'federated'}
     </span>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/turn-it-on', metadataBase)
 }

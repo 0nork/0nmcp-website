@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,7 +8,7 @@ import ExitIntent from '@/components/web0n/ExitIntent'
 import { ScrollReveal, CountUp, RotatingText } from '@/components/web0n/Interactives'
 import GlassTiltCard from '@/components/web0n/GlassTiltCard'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'web0n — Professional Business Websites Built in 5-7 Days | $1,997 Flat Rate',
   description:
     'Get a stunning 5-page business website with CRM, online booking, contact forms, SEO, and mobile-responsive design. Human-built, AI-powered. Live in 5-7 business days. $1,997 flat — no monthly fees for the build.',
@@ -1015,4 +1016,8 @@ export default function Web0nLanding() {
       <ExitIntent />
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/web0n', metadataBase)
 }

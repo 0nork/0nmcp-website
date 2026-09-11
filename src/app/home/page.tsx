@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
 import HomeClient from './HomeClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nMCP — Connect Your AI to Everything',
   description:
     '1,598+ tools across 106 services. The universal MCP server that connects AI to everything. One install. Every AI platform. 5 patents pending. Source-available.',
@@ -136,4 +137,8 @@ export default function HomePage() {
       <HomeClient />
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/home', metadataBase)
 }

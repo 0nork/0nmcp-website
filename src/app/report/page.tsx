@@ -1,6 +1,7 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title:
     'Report Infringement -- Brand Impersonation & IP Violation Reporting',
   description:
@@ -526,4 +527,8 @@ export default function ReportPage() {
       </div>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/report', metadataBase)
 }

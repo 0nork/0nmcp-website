@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import ClaudeInstallClient from './ClaudeInstallClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Install 0nMCP on Claude — Complete Guide | 0nMCP',
   description:
     'Step-by-step guide to install 0nMCP on Claude Desktop (macOS & Windows), Claude Code CLI, Claude API, and VS Code Copilot. 1,598+ tools, 106 services, no API key required.',
@@ -202,4 +203,8 @@ export default function ClaudeInstallPage() {
       <ClaudeInstallClient />
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/install/claude', metadataBase)
 }

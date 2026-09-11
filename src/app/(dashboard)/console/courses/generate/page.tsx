@@ -1,12 +1,12 @@
-'use client'
-import CourseGenerator from '@/components/add0n/CourseGenerator'
+import type { Metadata } from 'next'
+import { withCro9Meta } from '@/lib/cro9-meta'
+import PageClient from './page-client'
 
-export default function CourseGeneratorPage() {
-  // In production, ssoToken comes from the URL params (CRM iframe)
-  // For dashboard access, use a placeholder that the API handles
-  return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
-      <CourseGenerator ssoToken="" locationId="" />
-    </div>
-  )
+/** Server shell so CRO9's approved meta can render; the page itself is unchanged in ./page-client.tsx */
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/console/courses/generate', {})
+}
+
+export default function Page() {
+  return <PageClient />
 }

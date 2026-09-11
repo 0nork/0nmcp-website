@@ -1,9 +1,10 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import SponsorClient from './SponsorClient'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Sponsor 0nMCP -- Fund Open Source AI Orchestration',
   description:
     `Support 0nMCP development. Your sponsorship keeps the universal AI API orchestrator free and open source. ${STATS_DISPLAY.services} services, ${STATS_DISPLAY.tools}+ tools. Fund the future of AI orchestration.`,
@@ -29,4 +30,8 @@ export default function SponsorPage() {
       <SponsorClient />
     </Suspense>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/sponsor', metadataBase)
 }

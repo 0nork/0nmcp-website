@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
 import AgencyHomepage from '@/components/AgencyHomepage'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'White-Label AI for Agencies — US-Based Agency CRM & Copilot | 0nMCP',
   description:
     `The white-label AI engine behind the agency stack. Agency copilot, US-based agency CRM and client portals on one connection to ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. Stalled build? A US-based partner finishes it, under your brand.`,
@@ -171,4 +172,8 @@ export default function Home() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/', metadataBase)
 }

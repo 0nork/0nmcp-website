@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import servicesData from '@/data/services.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Tool Reference — 1,598+ AI Tools Explained | 0nMCP',
   description: 'Browse all 0nMCP tools organized by category. Learn what each tool does with step-by-step how-to documentation for 106 services.',
   openGraph: {
@@ -127,4 +128,8 @@ export default function ToolsPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/tools', metadataBase)
 }

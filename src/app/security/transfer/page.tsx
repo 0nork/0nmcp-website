@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import securityData from '@/data/security.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Secure Transfer Protocol — Replay Prevention & Chain of Custody',
   description: 'Transfer .0nv containers with cryptographic chain of custody, replay prevention, transfer ID tracking, and Ed25519 sender verification.',
   openGraph: {
@@ -133,4 +134,8 @@ export default function TransferPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/security/transfer', metadataBase)
 }

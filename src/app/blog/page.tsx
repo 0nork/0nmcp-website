@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
@@ -51,7 +52,7 @@ async function getAllPosts(): Promise<BlogPost[]> {
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Blog — 0nMCP',
   description:
     `Release notes, tutorials, and deep-dives from the team building 0nMCP. ${STATS_DISPLAY.tools} tools, ${STATS_DISPLAY.services} services, and growing.`,
@@ -378,4 +379,8 @@ export default async function BlogPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/blog', metadataBase)
 }

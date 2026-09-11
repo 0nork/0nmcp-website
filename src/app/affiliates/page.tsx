@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Affiliate Program — 0nMCP | Earn 30% Recurring Commission',
   description: 'Join the 0nMCP affiliate program. Earn 30% recurring commission on every customer you refer. No cap. Paid monthly. Join free.',
   openGraph: {
@@ -222,4 +223,8 @@ export default function AffiliatesPage() {
       </section>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/affiliates', metadataBase)
 }

@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nork Mini — Desktop Buddy & Command Widget | 0nMCP Store',
   description:
     'Your AI-powered desktop companion. Connect 10 services, manage credentials, build workflows, and chat with AI — all from a sleek sidebar widget.',
@@ -174,4 +175,8 @@ export default function OnorkMiniStorePage() {
       </section>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/store/onork-mini', metadataBase)
 }

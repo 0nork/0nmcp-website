@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { STATS_DISPLAY } from '@/data/stats'
 import { SubscribeClient } from './SubscribeClient'
@@ -5,7 +6,7 @@ import { SubscribeClient } from './SubscribeClient'
 const title = 'Subscribe to 0nMCP — Free, Founders, or Builder'
 const description = `Get ${STATS_DISPLAY.tools} AI tools, ${STATS_DISPLAY.services} services, encrypted vault, and AI chat. Free tier available. $50 Founders Access with lifetime badge.`
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title,
   description,
   keywords: [
@@ -30,4 +31,8 @@ export const metadata: Metadata = {
 
 export default function SubscribePage() {
   return <SubscribeClient />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/subscribe', metadataBase)
 }

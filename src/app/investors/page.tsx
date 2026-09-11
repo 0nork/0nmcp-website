@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import NDAClient from './NDAClient'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Investor Portal — 0nMCP',
   description:
     'Access confidential investor materials for 0nMCP / RocketOpp LLC. NDA required.',
@@ -23,4 +24,8 @@ export default function InvestorsPage() {
       <NDAClient />
     </Suspense>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/investors', metadataBase)
 }

@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: '0nGram — 0n Inside Telegram',
   description: `Full AI command center inside Telegram. Mini App dashboard, AI chat bot, inline queries, Telegram Stars payments. ${STATS_DISPLAY.tools} tools for 500M+ mini app users.`,
   alternates: { canonical: 'https://www.0nmcp.com/downloads/ongram' },
@@ -232,4 +233,8 @@ export default function OnGramPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/downloads/ongram', metadataBase)
 }

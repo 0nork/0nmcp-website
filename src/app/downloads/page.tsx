@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Downloads & Installs — Get 0nMCP Everywhere',
   description: `Install 0nMCP anywhere. ${STATS_DISPLAY.tools} tools across ${STATS_DISPLAY.services} services. CLI, Claude Desktop, ChatGPT, Cursor, VS Code, and more.`,
   openGraph: {
@@ -261,4 +262,8 @@ export default function DownloadsPage() {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/downloads', metadataBase)
 }

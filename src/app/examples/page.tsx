@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import CopyButton from '@/components/CopyButton'
@@ -6,7 +7,7 @@ import domainCheck from '@/data/examples/domain-check.json'
 import clientOnboard from '@/data/examples/client-onboard.json'
 import websiteFactory from '@/data/examples/website-factory.json'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Examples — Real .0n Workflow Files | 0nMCP',
   description:
     'Production-ready .0n workflow examples: client onboarding pipelines, domain availability checks, and full website factory automation. Copy, customize, and run with 0nMCP.',
@@ -463,4 +464,8 @@ function StatBlock({ value, label }: { value: string; label: string }) {
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/examples', metadataBase)
 }

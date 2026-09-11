@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Convert Google Gemini Gems & ADK Agents to .0n | 0nMCP',
   description: 'Migrate from Google Gemini, AI Studio, and ADK agents to the universal .0n standard. Free step-by-step export guide + instant conversion to portable workflows.',
   keywords: ['convert Gemini Gem', 'Google AI Studio export', 'migrate from Gemini', 'Google ADK conversion', 'Gemini to MCP', 'Gemini to .0n', 'Google AI migration', 'Vertex AI convert'],
@@ -281,4 +282,8 @@ export default function ConvertGemini() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/convert/gemini', metadataBase)
 }

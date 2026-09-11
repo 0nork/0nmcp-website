@@ -1,3 +1,4 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, BookOpen } from 'lucide-react'
@@ -9,7 +10,7 @@ import Reveal from '@/components/Reveal'
 import AnimatedGrid from '@/components/AnimatedGrid'
 import AnimatedConnectors from '@/components/AnimatedConnectors'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'AI Orchestration Glossary — 0nMCP',
   description:
     'Complete glossary of AI orchestration, MCP, automation, and API integration terminology. 80+ terms defined for developers, AI engineers, and automation professionals.',
@@ -203,4 +204,8 @@ export default function GlossaryPage() {
       </section>
     </main>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/glossary', metadataBase)
 }

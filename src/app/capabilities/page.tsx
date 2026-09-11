@@ -1,7 +1,8 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Universal Capability Routing — 0nMCP',
   description:
     'One command. Any service. 60 capabilities across 22 categories with 222 provider options. Say "send an email" and 0nMCP picks the right service for you.',
@@ -610,4 +611,8 @@ export default function CapabilitiesPage() {
       </div>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/capabilities', metadataBase)
 }

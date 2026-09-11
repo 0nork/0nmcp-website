@@ -1,10 +1,12 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
+import type { Metadata } from 'next'
 // app/install/success/page.tsx
 // Handles both Add0n OAuth install success and existing 0nMCP marketplace install success
 
 import Link from 'next/link'
 import { STATS } from '@/data/stats'
 
-export const metadata = {
+const metadataBase = {
   title: `Installed! | 0nMCP`,
 }
 
@@ -92,4 +94,8 @@ export default async function InstallSuccessPage({
       </div>
     </div>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/install/success', metadataBase)
 }

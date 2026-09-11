@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Convert OpenClaw Agents to .0n Workflows | 0nMCP',
   description: 'Migrate from OpenClaw to the universal .0n standard. Convert manifests, Claw configs, and MCP bridge setups to portable workflows. Free export guide + instant conversion.',
   keywords: ['convert OpenClaw', 'OpenClaw to .0n', 'OpenClaw MCP migration', 'OpenClaw converter', 'migrate from OpenClaw', 'Claw config export', 'OpenClaw alternative'],
@@ -279,4 +280,8 @@ export default function ConvertOpenClaw() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/convert/openclaw', metadataBase)
 }

@@ -1,8 +1,9 @@
+import { withCro9Meta } from '@/lib/cro9-meta'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { STATS_DISPLAY } from '@/data/stats'
 
-export const metadata: Metadata = {
+const metadataBase: Metadata = {
   title: 'Convert OpenAI GPTs & Assistants to .0n Workflows | 0nMCP',
   description: 'Migrate from OpenAI ChatGPT, GPTs, and Assistants to the universal .0n standard. Free step-by-step export guide + instant conversion. No vendor lock-in.',
   keywords: ['convert OpenAI GPT', 'export OpenAI assistant', 'migrate from ChatGPT', 'OpenAI to MCP', 'GPT to .0n', 'OpenAI migration', 'export custom GPT', 'ChatGPT alternative'],
@@ -280,4 +281,8 @@ export default function ConvertOpenAI() {
       </section>
     </>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withCro9Meta('/convert/openai', metadataBase)
 }

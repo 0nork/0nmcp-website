@@ -1,150 +1,111 @@
 /**
- * Vault Bridge — decrypts user credentials server-side for execution.
+ * 0nVault bridge — a thin client of THE vault (0n3).
  *
- * The execution engine needs API keys to call services. Keys are stored
- * encrypted in user_vaults. This bridge:
- * 1. Fetches the user's encrypted vault entries
- * 2. Decrypts them server-side using Node.js crypto
- * 3. Returns a credentials map: { stripe: { api_key: "sk-..." }, slack: { bot_token: "xoxb-..." } }
- * 4. Credentials are held in memory only for the duration of the request
+ * Until 2026-09-13 this file was its own vault: `user_vaults`, AES keyed by a
+ * PBKDF2 of the user's id (so any server could decrypt), plus a Google
+ * callback that wrote base64 plaintext with an "oauth" marker. That table was
+ * one of five credential stores in the ecosystem. It is now empty and unused.
  *
- * SECURITY: This module must NEVER log, expose, or persist decrypted keys.
+ * Every function below keeps its signature (23 callers) and speaks to 0n3:
+ *   ON3_URL              https://0n3.app
+ *   ON3_INTERNAL_SECRET  lets a first-party app read one record's secret for the user it acts for
+ * The user is identified by their own 0n_ token (profiles.access_token). If a
+ * profile has no token yet, one is minted — same generator as /api/token.
  */
-
 import { createClient } from '@supabase/supabase-js'
-import { pbkdf2Sync, createDecipheriv, createCipheriv, randomBytes } from 'crypto'
-
-const ITERATIONS = 100_000
-
-/**
- * Server-side decryption matching the client-side WebCrypto format.
- *
- * WebCrypto AES-256-GCM encrypt() returns: ciphertext || authTag (16 bytes).
- * Node.js crypto requires them separated via setAuthTag().
- * Key derivation: PBKDF2-SHA-256, 256-bit, same as vault-crypto.ts client.
- */
-function serverDecrypt(userId: string, encryptedB64: string, ivB64: string, saltB64: string): string {
-  const salt = Buffer.from(saltB64, 'base64')
-  const iv = Buffer.from(ivB64, 'base64')
-  const encrypted = Buffer.from(encryptedB64, 'base64')
-
-  // Derive key identically to client: PBKDF2-SHA256, 256-bit
-  const key = pbkdf2Sync(userId, salt, ITERATIONS, 32, 'sha256')
-
-  // AES-256-GCM — WebCrypto appends 16-byte auth tag to ciphertext
-  const authTag = encrypted.subarray(encrypted.length - 16)
-  const ciphertext = encrypted.subarray(0, encrypted.length - 16)
-
-  const decipher = createDecipheriv('aes-256-gcm', key, iv)
-  decipher.setAuthTag(authTag)
-
-  let decrypted = decipher.update(ciphertext, undefined, 'utf8')
-  decrypted += decipher.final('utf8')
-
-  return decrypted
-}
+import { regenerateToken } from '@/lib/token-auth'
 
 export interface UserCredentials {
   [service: string]: Record<string, string>
 }
 
+const base = () => (process.env.ON3_URL || 'https://0n3.app').replace(/\/$/, '')
+
 function getAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  )
+  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 }
 
-/**
- * Get decrypted credentials for a user.
- * Only call this server-side (API routes).
- */
-export async function getUserCredentials(userId: string): Promise<UserCredentials> {
-  const admin = getAdmin()
-
-  const { data: rows, error } = await admin
-    .from('user_vaults')
-    .select('service_name, encrypted_key, iv, salt')
-    .eq('user_id', userId)
-
-  if (error || !rows || rows.length === 0) return {}
-
-  const creds: UserCredentials = {}
-
-  for (const row of rows) {
-    const serviceName = row.service_name
-    const encryptedData = row.encrypted_key
-    if (!serviceName || !encryptedData || !row.iv || !row.salt) continue
-
-    try {
-      const plaintext = serverDecrypt(userId, encryptedData, row.iv, row.salt)
-      try {
-        const parsed = JSON.parse(plaintext)
-        creds[serviceName] = typeof parsed === 'object' && parsed !== null ? parsed : { api_key: plaintext }
-      } catch {
-        creds[serviceName] = { api_key: plaintext }
-      }
-    } catch {
-      // Decryption failed — skip this entry silently
-      // Do NOT log the error details as they may leak key metadata
-    }
-  }
-
-  return creds
+/** The user's own 0n token — the only identity 0n3 accepts. */
+export async function userToken(userId: string): Promise<string | null> {
+  const { data } = await getAdmin().from('profiles').select('access_token').eq('id', userId).maybeSingle()
+  if (data?.access_token) return data.access_token
+  try { return await regenerateToken(userId) } catch { return null }
 }
 
-/**
- * Get a specific credential for a service.
- */
-export async function getServiceCredential(
-  userId: string,
-  service: string,
-  key: string = 'api_key'
-): Promise<string | null> {
-  const creds = await getUserCredentials(userId)
-  return creds[service]?.[key] || null
+async function call(userId: string, path: string, init: RequestInit & { internal?: boolean } = {}): Promise<{ ok: boolean; status: number; body: any }> {
+  const token = await userToken(userId)
+  if (!token) return { ok: false, status: 401, body: { error: 'no 0n token for this account' } }
+  const headers: Record<string, string> = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+  if (init.internal) headers['X-0n3-Internal'] = process.env.ON3_INTERNAL_SECRET || ''
+  const r = await fetch(`${base()}${path}`, { ...init, headers, cache: 'no-store' })
+  const body = await r.json().catch(() => ({}))
+  return { ok: r.ok, status: r.status, body }
 }
 
-/**
- * Check which services a user has vault entries for (without decrypting).
- * Used by the integrations status endpoint.
- */
-/**
- * Server-side encrypt in the same format the client/serverDecrypt expect:
- * PBKDF2-SHA256(userId, salt) → AES-256-GCM → ciphertext || authTag (base64).
- */
-function serverEncrypt(userId: string, plaintext: string): { encrypted_key: string; iv: string; salt: string } {
-  const salt = randomBytes(16)
-  const iv = randomBytes(12)
-  const key = pbkdf2Sync(userId, salt, ITERATIONS, 32, 'sha256')
-  const cipher = createCipheriv('aes-256-gcm', key, iv)
-  const ciphertext = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()])
-  const authTag = cipher.getAuthTag()
-  return {
-    encrypted_key: Buffer.concat([ciphertext, authTag]).toString('base64'),
-    iv: iv.toString('base64'),
-    salt: salt.toString('base64'),
-  }
-}
-
-/** Store (or replace) one service's credentials in the user's vault, encrypted. */
-export async function storeUserCredential(userId: string, service: string, creds: Record<string, string>): Promise<void> {
-  const admin = getAdmin()
-  const enc = serverEncrypt(userId, JSON.stringify(creds))
-  await admin.from('user_vaults').upsert(
-    { user_id: userId, service_name: service, ...enc, updated_at: new Date().toISOString() },
-    { onConflict: 'user_id,service_name' }
-  )
-}
-
+/** Service names this user has connected (never secrets). */
 export async function getUserVaultServices(userId: string): Promise<string[]> {
-  const admin = getAdmin()
+  const r = await call(userId, '/vault')
+  if (!r.ok) return []
+  return Array.from(new Set(((r.body.records || []) as { service: string }[]).map((x) => x.service).filter(Boolean)))
+}
 
-  const { data: rows, error } = await admin
-    .from('user_vaults')
-    .select('service_name')
-    .eq('user_id', userId)
+/** Full non-secret records, for UIs that show labels / environments / meta. */
+export async function getUserVaultRecords(userId: string): Promise<any[]> {
+  const r = await call(userId, '/vault')
+  return r.ok ? (r.body.records || []) : []
+}
 
-  if (error || !rows) return []
-  return rows.map(r => r.service_name).filter(Boolean)
+/** One service's credentials for server-side use by THIS app on the user's behalf. */
+export async function getServiceCredentials(userId: string, service: string, label?: string): Promise<Record<string, string> | null> {
+  const q = label ? `?label=${encodeURIComponent(label)}` : ''
+  const r = await call(userId, `/vault/${encodeURIComponent(service)}/secret${q}`, { internal: true })
+  if (!r.ok) return null
+  const creds = r.body?.record?.auth?.credentials
+  return creds && typeof creds === 'object' ? creds : null
+}
+
+export async function getServiceCredential(userId: string, service: string, key: string = 'api_key'): Promise<string | null> {
+  const creds = await getServiceCredentials(userId, service)
+  if (!creds) return null
+  // Old callers ask for `api_key`; records written from the vault page use `apiKey`. Answer either.
+  return creds[key] ?? creds[key === 'api_key' ? 'apiKey' : key === 'apiKey' ? 'api_key' : key] ?? null
+}
+
+/** Every connected service's credentials at once (legacy shape). Prefer getServiceCredentials(). */
+export async function getUserCredentials(userId: string): Promise<UserCredentials> {
+  const services = await getUserVaultServices(userId)
+  const out: UserCredentials = {}
+  for (const s of services) {
+    const c = await getServiceCredentials(userId, s)
+    if (c) out[s] = c
+  }
+  return out
+}
+
+/** Store or replace one service's credentials as a .0n connection record. */
+export async function storeUserCredential(userId: string, service: string, creds: Record<string, string>, extra: { name?: string; meta?: Record<string, unknown>; environment?: string } = {}): Promise<void> {
+  const now = new Date().toISOString()
+  const envelope = {
+    $0n: { type: 'connection', version: '2.1.1', name: extra.name || service, created: now, updated: now },
+    service,
+    environment: extra.environment || 'production',
+    auth: { type: authTypeFor(creds), credentials: creds },
+    options: {},
+    meta: extra.meta || {},
+  }
+  const r = await call(userId, `/vault/${encodeURIComponent(service)}`, { method: 'PUT', body: JSON.stringify(envelope) })
+  if (!r.ok) throw new Error(r.body?.error || `vault put failed (${r.status})`)
+}
+
+export async function removeUserCredential(userId: string, service: string, label?: string): Promise<void> {
+  const q = label ? `?label=${encodeURIComponent(label)}` : ''
+  await call(userId, `/vault/${encodeURIComponent(service)}${q}`, { method: 'DELETE' })
+}
+
+function authTypeFor(c: Record<string, string>): string {
+  if (c.access_token !== undefined) return 'oauth'
+  if (c.apiKey !== undefined || c.api_key !== undefined) return 'api_key'
+  if (c.botToken !== undefined) return 'bot_token'
+  if (c.token !== undefined) return 'token'
+  return 'custom'
 }

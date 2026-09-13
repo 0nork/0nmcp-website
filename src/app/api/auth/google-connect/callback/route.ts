@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { storeUserCredential } from '@/lib/vault-bridge'
 import { createClient } from '@supabase/supabase-js'
 import { exchangeGoogleCode, storeGoogleTokens } from '@/lib/google-auth'
 import { getGrantedServices } from '@/lib/google-scopes'
@@ -70,36 +71,8 @@ export async function GET(request: NextRequest) {
             refresh_token: tokens.refresh_token,
           }
 
-          // Encrypt using the same vault crypto pattern
-          const plaintext = JSON.stringify(credData)
-
-          // Use a simpler server-side encryption for auto-populated entries
-          // The vault crypto uses Web Crypto API which needs userId as key derivation
-          // We'll store with a marker so the client knows it's OAuth-populated
-          const { data: existing } = await admin
-            .from('user_vaults')
-            .select('id')
-            .eq('user_id', state)
-            .eq('service_name', serviceKey)
-            .single()
-
-          if (existing) {
-            // Don't overwrite manually configured credentials
-            continue
-          }
-
-          // Insert with a special marker — client-side vault will pick these up
-          // We store the OAuth data as base64-encoded JSON (not encrypted with user key
-          // since we don't have it server-side; the client will re-encrypt on next load)
-          const b64 = Buffer.from(plaintext).toString('base64')
-          await admin.from('user_vaults').insert({
-            user_id: state,
-            service_name: serviceKey,
-            encrypted_key: b64,
-            iv: 'google-oauth',  // marker for OAuth-populated entries
-            salt: 'google-oauth',
-            key_hint: 'oauth',
-          })
+          // One vault: the record goes to 0n3 as a .0n connection (encrypted there), never as base64 in a table.
+          await storeUserCredential(state, serviceKey, credData as Record<string, string>, { name: `${serviceKey} (Google OAuth)`, meta: { provider: 'google', scopes: tokens.scope || '' } })
         } catch {
           // Non-fatal — continue with other services
         }

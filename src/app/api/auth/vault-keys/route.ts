@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getServiceCredentials } from '@/lib/vault-bridge'
 import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic'
@@ -43,33 +44,14 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401, headers: corsHeaders })
   }
 
-  // Fetch vault keys using service role (bypasses RLS)
-  const admin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  )
-
-  const { data: vaults } = await admin
-    .from('user_vaults')
-    .select('service_name, key_hint, encrypted_key')
-    .eq('user_id', user.id)
-
-  // Build key map — only return keys the extension needs for AI providers
+  // The vault is 0n3 now: ask it, on this user's behalf, for the AI-provider records only.
   const aiProviders = ['openai', 'anthropic', 'gemini', 'xai', 'grok']
   const keys: Record<string, string> = {}
-
-  for (const vault of vaults || []) {
-    const service = vault.service_name?.toLowerCase()
-    if (aiProviders.includes(service)) {
-      try {
-        // encrypted_key stores the JSON credentials
-        const creds = JSON.parse(vault.encrypted_key)
-        keys[service] = creds.apiKey || creds.api_key || creds.access_token || Object.values(creds)[0] as string || ''
-      } catch {
-        // Not JSON — raw key
-        keys[service] = vault.encrypted_key || ''
-      }
-    }
+  for (const service of aiProviders) {
+    const creds = await getServiceCredentials(user.id, service)
+    if (!creds) continue
+    const v = creds.apiKey || creds.api_key || creds.access_token || (Object.values(creds)[0] as string) || ''
+    if (v) keys[service] = v
   }
 
   return NextResponse.json({

@@ -115,6 +115,8 @@ function SignupForm() {
             >
               {loading ? 'Creating account...' : 'Claim Your Spot'}
             </button>
+            {/* Honest about the brake on sign-ups (Mike, 2026-09-13). */}
+            <p className="text-center text-[0.75rem] text-[#8a978d] mt-3">During peak promotions, registrations may briefly pause when sign-up volume exceeds what we can safely onboard at once. If that happens, try again in a few minutes — nothing you entered is lost.</p>
           </form>
 
           <p className="text-center text-[0.8rem] text-[#8a978d] mt-5">

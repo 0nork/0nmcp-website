@@ -158,7 +158,17 @@ async function verifyService(args: Record<string, unknown>) {
 export async function POST(req: NextRequest) {
   // Raw, unresolved. An 0n_ token is NOT a valid CRM API token — it identifies a
   // 0nCore user and is exchanged for that user's CRM OAuth token at execution time.
-  const rawToken = req.headers.get('authorization')?.replace('Bearer ', '') || process.env.CRM_PIT || ''
+  // NO ENVIRONMENT FALLBACK. Until 2026-09-14 a missing bearer silently became the
+  // house PIT, so anyone who could POST JSON here read and wrote the master
+  // location's contacts — the same hole as the deleted worker. A credential is
+  // presented or the call is refused, and the refusal names the OAuth door.
+  const rawToken = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '').trim()
+  if (!rawToken) {
+    return NextResponse.json(
+      { jsonrpc: '2.0', id: null, error: { code: -32001, message: 'Sign in with your 0n account: send Authorization: Bearer <your 0n token> (0n3.app/tokens), or connect through OAuth at https://0n3.app/mcp.' } },
+      { status: 401, headers: { 'WWW-Authenticate': 'Bearer resource_metadata="https://0n3.app/.well-known/oauth-protected-resource"' } },
+    )
+  }
   const headerLocationId = req.headers.get('locationid') || req.headers.get('locationId') || process.env.CRM_LOCATION_ID || ''
 
   if (!rawToken) {

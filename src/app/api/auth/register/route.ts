@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { verifyCaptcha } from '@/lib/security/captcha'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,14 +15,26 @@ export async function OPTIONS() {
 }
 
 export async function POST(request: Request) {
-  let body: { name?: string; email?: string; password?: string }
+  let body: { name?: string; email?: string; password?: string; captchaToken?: string }
   try { body = await request.json() } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400, headers: corsHeaders })
   }
 
-  const { name, email, password } = body
+  const { name, email, password, captchaToken } = body
   if (!email || !password) {
     return NextResponse.json({ error: 'Email and password required' }, { status: 400, headers: corsHeaders })
+  }
+
+  /*
+    THE HUMAN CHECK (Mike, 2026-09-15). This route answers a CORS wildcard with
+    no throttle, and it creates a row in the `profiles` table 0nCore reads, so
+    it is the cheapest open door in the estate. Unconfigured deployments skip
+    the check rather than refuse everyone — see src/lib/security/captcha.ts.
+  */
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || null
+  const cap = await verifyCaptcha(captchaToken, ip)
+  if (!cap.ok) {
+    return NextResponse.json({ error: cap.reason, captcha: 'failed' }, { status: 400, headers: corsHeaders })
   }
 
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)

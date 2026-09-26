@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createSupabaseBrowser } from '@/lib/supabase/client'
 import OAuthButtons from '@/components/OAuthButtons'
+import HCaptchaBox, { type HCaptchaHandle } from '@/components/HCaptchaBox'
 
 /** Same-origin path + query, or the console. Never another host, never absolute. */
 function safeNext(raw: string): string {
@@ -62,13 +63,18 @@ function LoginForm() {
     }
   }, [])
 
+  // The shared auth project refuses a password grant without a captcha token (see HCaptchaBox).
+  const [captcha, setCaptcha] = useState<{ token: string | null; configured: boolean }>({ token: null, configured: true })
+  const captchaRef = useRef<HCaptchaHandle>(null)
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     if (!supabase) { setError('Auth not configured.'); return }
+    if (captcha.configured && !captcha.token) { setError('Tick the captcha first.'); return }
     setLoading(true)
-    const { error: err } = await supabase.auth.signInWithPassword({ email, password })
-    if (err) { setError(err.message); setLoading(false); return }
+    const { error: err } = await supabase.auth.signInWithPassword({ email, password, ...(captcha.token ? { options: { captchaToken: captcha.token } } : {}) })
+    if (err) { setError(err.message); setLoading(false); captchaRef.current?.reset(); return }
     router.push(redirect)
     router.refresh()
   }
@@ -164,6 +170,7 @@ function LoginForm() {
                 className="w-full px-4 py-3 rounded-[10px] bg-white border border-[#e4dccf] text-[#1a2c27] text-sm outline-none font-[inherit] transition-colors focus:border-[#16a34a] focus:ring-2 focus:ring-[rgba(22,163,74,0.15)] placeholder:text-[#8a978d]"
               />
             </div>
+            <HCaptchaBox ref={captchaRef} onToken={(token, meta) => setCaptcha({ token, configured: meta.configured })} className="flex justify-center min-h-[78px]" />
             <button
               type="submit"
               disabled={loading}

@@ -169,6 +169,20 @@ export async function POST(req: NextRequest) {
       { status: 401, headers: { 'WWW-Authenticate': 'Bearer resource_metadata="https://0n3.app/.well-known/oauth-protected-resource"' } },
     )
   }
+  // 0n3 IS the runtime (2026-10-23). A 0n_ token is a 0n account: carry the call to 0n3's MCP endpoint untouched, so an
+  // older config pointing at 0nmcp.com/api/mcp keeps working and sees every tool 0n3 has. PIT + locationId stays here.
+  if (/^0n_/.test(rawToken)) {
+    try {
+      const fwd: Record<string, string> = {}
+      for (const h of ['authorization', 'content-type', 'accept', 'mcp-session-id', 'mcp-protocol-version', 'last-event-id']) { const v = req.headers.get(h); if (v) fwd[h] = v }
+      const up = await fetch(process.env.ON3_MCP_URL || 'https://0n3.app/mcp', { method: 'POST', headers: fwd, body: await req.arrayBuffer() })
+      const out = new Headers({ 'x-0n-served-by': '0n3' })
+      for (const h of ['content-type', 'mcp-session-id', 'mcp-protocol-version', 'www-authenticate']) { const v = up.headers.get(h); if (v) out.set(h, v) }
+      return new Response(up.body, { status: up.status, headers: out })
+    } catch (e: any) {
+      return NextResponse.json({ jsonrpc: '2.0', id: null, error: { code: -32603, message: `0n3 did not answer: ${e.message}` } }, { status: 502 })
+    }
+  }
   const headerLocationId = req.headers.get('locationid') || req.headers.get('locationId') || process.env.CRM_LOCATION_ID || ''
 
   if (!rawToken) {
@@ -256,12 +270,14 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     name: '0nMCP',
-    version: '3.0.1',
+    version: '5.0.0',
     protocol: 'mcp',
     transport: 'streamable_http',
     tools: MCP_TOOLS.length,
-    description: 'Universal AI API Orchestrator — 1,598+ tools, 106 services. Official MCP Registry listed.',
+    description: 'The 0n runtime is 0n3. Calls with a 0n token are served by https://0n3.app/mcp (one identity, the hosted vault, the full catalog and the CRM tool factory); PIT + locationId calls are served here.',
+    successor: { url: 'https://0n3.app/mcp', tokens: 'https://0n3.app/tokens', install: 'https://0n3.app/install', npm: 'npx 0nmcp (5.x) or npx 0n3' },
     setup: {
+      any_mcp_client: { mcpServers: { '0n3': { url: 'https://0n3.app/mcp', headers: { Authorization: 'Bearer {0n_token}' } } } },
       crm_agent_studio: {
         server_url: 'https://0nmcp.com/api/mcp',
         server_label: '0nMCP',

@@ -1,6 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import AnnounceBar from "@/components/AnnounceBar"
 import MegaNav from '@/components/MegaNav'
 import Footer from '@/components/Footer'
 import FooterSimple from '@/components/FooterSimple'
@@ -35,7 +36,7 @@ export default function SiteChrome({ children, isWeb0n }: { children: React.Reac
   return (
     <>
       <MegaNav />
-      <main className="relative z-[1] pt-[72px]">{children}</main>
+      <main className="relative z-[1] pt-[72px]"><AnnounceBar />{children}</main>
       {showCTA && <ConsoleCTA />}
       {isLandingPage ? <FooterSimple /> : <Footer />}
     </>

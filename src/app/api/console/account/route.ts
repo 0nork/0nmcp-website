@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabase/server'
+import { createSupabaseAdmin } from '@/lib/supabase/admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,9 +21,13 @@ export async function GET() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('*')
+    // Named columns (2026-10-29): the browser/user roles can no longer read secret columns, so `*` is refused.
+    .select('full_name, company, role, bio, avatar_url, created_at, stripe_customer_id, crm_location_id')
     .eq('id', user.id)
     .single()
+  // The person's OWN master token, read with the server key for the id the session just proved — never via the public key.
+  const admin = createSupabaseAdmin()
+  const { data: own } = admin ? await admin.from('profiles').select('access_token').eq('id', user.id).single() : { data: null }
 
   return NextResponse.json({
     id: user.id,
@@ -34,8 +39,8 @@ export async function GET() {
     avatar_url: profile?.avatar_url || null,
     created_at: profile?.created_at || user.created_at,
     stripe_customer_id: profile?.stripe_customer_id || null,
-    preferences: profile?.preferences || {},
-    access_token: profile?.access_token || null,
+    preferences: {},
+    access_token: own?.access_token || null,
     crm_location_id: profile?.crm_location_id || null,
   })
 }

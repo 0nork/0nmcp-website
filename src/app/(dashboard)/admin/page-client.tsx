@@ -179,7 +179,7 @@ export default function AdminDashboard() {
       seedsRes, pConvosThreads, pConvosReplies, recentRes,
       recentThreadsRes,
     ] = await Promise.all([
-      supabase.from('profiles').select('*', { count: 'exact', head: true }),
+      supabase.from('profiles').select('id', { count: 'exact', head: true }),
       supabase.from('community_personas').select('*', { count: 'exact', head: true }),
       supabase.from('community_threads').select('*', { count: 'exact', head: true }),
       supabase.from('community_posts').select('*', { count: 'exact', head: true }),
@@ -187,7 +187,7 @@ export default function AdminDashboard() {
       supabase.from('persona_conversations').select('*', { count: 'exact', head: true }).eq('action', 'created_thread'),
       supabase.from('persona_conversations').select('*', { count: 'exact', head: true }).eq('action', 'replied'),
       // Recent signups (last 7 days)
-      supabase.from('profiles').select('*', { count: 'exact', head: true })
+      supabase.from('profiles').select('id', { count: 'exact', head: true })
         .gte('created_at', new Date(Date.now() - 7 * 86400000).toISOString()),
       // Recent threads
       supabase.from('community_threads')

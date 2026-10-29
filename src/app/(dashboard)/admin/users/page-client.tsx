@@ -60,10 +60,10 @@ export default function UserManagementPage() {
         .select('id, email, full_name, username, avatar_url, bio, karma, reputation_level, is_persona, onboarding_completed, created_at, default_ai_providers')
         .order('created_at', { ascending: false })
         .limit(100),
-      supabase.from('profiles').select('*', { count: 'exact', head: true }),
-      supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('is_persona', true),
-      supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('onboarding_completed', true),
-      supabase.from('profiles').select('*', { count: 'exact', head: true })
+      supabase.from('profiles').select('id', { count: 'exact', head: true }),
+      supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('is_persona', true),
+      supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('onboarding_completed', true),
+      supabase.from('profiles').select('id', { count: 'exact', head: true })
         .gte('created_at', new Date(Date.now() - 7 * 86400000).toISOString()),
     ])
 

@@ -7,7 +7,7 @@ export async function GET() {
     if (!supabase) return NextResponse.json({ count: 0, total: 100 })
     const { count } = await supabase
       .from('profiles')
-      .select('*', { count: 'exact', head: true })
+      .select('id', { count: 'exact', head: true })
 
     return NextResponse.json({ count: count || 0, total: 100 })
   } catch {
